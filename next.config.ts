@@ -12,13 +12,13 @@ const nextConfig: NextConfig = {
     // necesarios para Next.js sin nonce middleware.
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.vercel-scripts.com https://vercel.live https://*.googletagmanager.com https://*.google-analytics.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com https://*.facebook.net https://connect.facebook.net https://www.clarity.ms https://*.clarity.ms https://snap.licdn.com https://player.vimeo.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.vercel-scripts.com https://vercel.live https://*.googletagmanager.com https://*.google-analytics.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com https://*.facebook.net https://connect.facebook.net https://www.clarity.ms https://*.clarity.ms https://snap.licdn.com https://player.vimeo.com https://app.cal.com https://*.cal.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "img-src 'self' data: blob: https:",
       "media-src 'self' https://*.vimeo.com",
       "connect-src 'self' https: wss:",
-      "frame-src 'self' https://player.vimeo.com https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com https://td.doubleclick.net https://*.calendly.com",
+      "frame-src 'self' https://player.vimeo.com https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com https://td.doubleclick.net https://*.calendly.com https://app.cal.com https://*.cal.com",
       "frame-ancestors 'self'",
       "base-uri 'self'",
       "form-action 'self'",
