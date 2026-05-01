@@ -959,6 +959,8 @@ function StepCalCom({
     onBookedRef.current = onBooked;
   });
 
+  const [calLoaded, setCalLoaded] = useState(false);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     const w = window as unknown as {
@@ -1039,6 +1041,17 @@ function StepCalCom({
       });
       w.__clineraCalListener = true;
     }
+
+    // Skeleton loader: ocultarlo cuando Cal avise que el iframe quedo listo.
+    Cal.ns!.ventas("on", {
+      action: "linkReady",
+      callback: () => setCalLoaded(true),
+    });
+
+    // Fallback: si linkReady no llega en 6s (cambio de API, conexion lenta),
+    // ocultamos igual para no dejar al usuario mirando un skeleton perpetuo.
+    const fallback = window.setTimeout(() => setCalLoaded(true), 6000);
+    return () => window.clearTimeout(fallback);
   }, [form.nombre, form.email, form.clinica, form.phone, form.prefix, challenge]);
 
   return (
@@ -1055,15 +1068,150 @@ function StepCalCom({
         sub="Selecciona el día y hora que mejor te acomode. Recibirás la confirmación por email."
       />
       <div
-        id="my-cal-inline-ventas"
-        className="ventas-cal-embed"
         style={{
+          position: "relative",
           width: "100%",
           minHeight: 620,
-          overflow: "auto",
-          borderRadius: 12,
         }}
-      />
+      >
+        <div
+          id="my-cal-inline-ventas"
+          className="ventas-cal-embed"
+          style={{
+            width: "100%",
+            minHeight: 620,
+            overflow: "auto",
+            borderRadius: 12,
+          }}
+        />
+        {!calLoaded && (
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              inset: 0,
+              borderRadius: 12,
+              background: "linear-gradient(135deg,#F4F8FF 0%,#FAF5FF 100%)",
+              border: "1px solid rgba(124,58,237,.08)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 24,
+              padding: 32,
+              animation: "calOverlayFade 220ms ease",
+            }}
+          >
+            <div className="cal-skeleton-grid" aria-hidden="true">
+              {Array.from({ length: 35 }).map((_, i) => (
+                <span key={i} className="cal-skeleton-cell" />
+              ))}
+            </div>
+            <div
+              role="status"
+              aria-live="polite"
+              style={{
+                fontFamily: "Inter, system-ui, sans-serif",
+                fontSize: 14,
+                fontWeight: 500,
+                letterSpacing: "-0.01em",
+                color: "#4B5563",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <span
+                aria-hidden="true"
+                style={{
+                  width: 14,
+                  height: 14,
+                  borderRadius: "50%",
+                  border: "2px solid rgba(124,58,237,.18)",
+                  borderTopColor: "#7C3AED",
+                  animation: "calSpin 0.8s linear infinite",
+                }}
+              />
+              Cargando tu calendario<span className="cal-loading-dots" />
+            </div>
+          </div>
+        )}
+        <style jsx>{`
+          .cal-skeleton-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            width: 100%;
+            max-width: 420px;
+          }
+          .cal-skeleton-cell {
+            aspect-ratio: 1 / 1;
+            border-radius: 8px;
+            background: linear-gradient(
+              90deg,
+              rgba(124, 58, 237, 0.06) 0%,
+              rgba(217, 70, 239, 0.1) 50%,
+              rgba(124, 58, 237, 0.06) 100%
+            );
+            background-size: 200% 100%;
+            animation: calShimmer 1.4s ease-in-out infinite;
+          }
+          .cal-skeleton-cell:nth-child(7n) {
+            animation-delay: 0.05s;
+          }
+          .cal-skeleton-cell:nth-child(3n) {
+            animation-delay: 0.1s;
+          }
+          .cal-loading-dots::after {
+            display: inline-block;
+            width: 1.4em;
+            text-align: left;
+            content: "";
+            animation: calDots 1.2s steps(4, end) infinite;
+          }
+          @keyframes calShimmer {
+            0% {
+              background-position: 200% 0;
+            }
+            100% {
+              background-position: -200% 0;
+            }
+          }
+          @keyframes calSpin {
+            to {
+              transform: rotate(360deg);
+            }
+          }
+          @keyframes calDots {
+            0% {
+              content: "";
+            }
+            25% {
+              content: ".";
+            }
+            50% {
+              content: "..";
+            }
+            75% {
+              content: "...";
+            }
+          }
+          @keyframes calOverlayFade {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .cal-skeleton-cell,
+            .cal-loading-dots::after {
+              animation: none;
+            }
+          }
+        `}</style>
+      </div>
       <FormNote>
         <strong>Sin compromiso</strong> · 30 min por videollamada
       </FormNote>
