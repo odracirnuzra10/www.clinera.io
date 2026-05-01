@@ -6,19 +6,86 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   async headers() {
-    // CSP — permite los scripts/iframes que el sitio usa hoy:
-    // GTM, GA, Meta Pixel, Microsoft Clarity, Vercel scripts, YouTube, Vimeo,
-    // Google Fonts, Linkedin Insight Tag. 'unsafe-inline' / 'unsafe-eval' son
-    // necesarios para Next.js sin nonce middleware.
+    // CSP — allowlist permanente de los terceros que el stack usa o puede
+    // usar a futuro. Si se integra un vendor nuevo que no esta abajo, hay
+    // que agregarlo aca antes de pushear, o el browser lo bloquea.
+    // 'unsafe-inline' / 'unsafe-eval' son necesarios para Next.js sin
+    // nonce middleware.
+    //
+    // ┌──────────────────────────────────────────────────────────────────┐
+    // │ ALLOWLIST DE TERCEROS — preautorizados                          │
+    // ├──────────────────────────────────────────────────────────────────┤
+    // │ Vendor              │ Directiva(s)                               │
+    // │ ──────────────────  │ ─────────────────────────────────────────  │
+    // │ GTM                 │ script-src                                 │
+    // │ Google Analytics    │ script-src + img-src + connect-src         │
+    // │ Meta Pixel / CAPI   │ script-src + img-src                       │
+    // │ Microsoft Clarity   │ script-src + connect-src                   │
+    // │ Hotjar              │ script-src + frame-src + connect-src       │
+    // │ LinkedIn Insight    │ script-src                                 │
+    // │ Stripe              │ script-src + frame-src (js.stripe.com)     │
+    // │ Cal.com             │ script-src + frame-src (app.cal.com)       │
+    // │ Calendly            │ script-src + frame-src (*.calendly.com)    │
+    // │ SavvyCal            │ script-src + frame-src (embed.savvycal.com)│
+    // │ Google Calendar     │ frame-src              (calendar.google)   │
+    // │ Vimeo               │ script-src + frame-src + media-src         │
+    // │ YouTube             │ frame-src                                  │
+    // │ Google Fonts        │ style-src + font-src                       │
+    // │ app.clinera.io      │ script-src + frame-src + connect-src       │
+    // │ n8n / Make / Zapier │ connect-src (cubierto por https: wildcard) │
+    // └──────────────────────────────────────────────────────────────────┘
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.vercel-scripts.com https://vercel.live https://*.googletagmanager.com https://*.google-analytics.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com https://*.facebook.net https://connect.facebook.net https://www.clarity.ms https://*.clarity.ms https://snap.licdn.com https://player.vimeo.com https://app.cal.com https://*.cal.com",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      [
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+        // Vercel infra
+        "https://*.vercel-scripts.com https://vercel.live",
+        // GTM + GA + Google
+        "https://*.googletagmanager.com https://*.google-analytics.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com",
+        // Meta Pixel
+        "https://*.facebook.net https://connect.facebook.net",
+        // Microsoft Clarity
+        "https://www.clarity.ms https://*.clarity.ms",
+        // Hotjar
+        "https://*.hotjar.com https://*.hotjar.io",
+        // LinkedIn Insight Tag
+        "https://snap.licdn.com",
+        // Vimeo player
+        "https://player.vimeo.com",
+        // Stripe
+        "https://js.stripe.com",
+        // Cal.com inline embed
+        "https://app.cal.com https://*.cal.com",
+        // Calendly inline embed
+        "https://assets.calendly.com https://*.calendly.com",
+        // SavvyCal embed
+        "https://embed.savvycal.com https://*.savvycal.com",
+        // App propia (Clinera dashboard)
+        "https://app.clinera.io",
+      ].join(" "),
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "img-src 'self' data: blob: https:",
       "media-src 'self' https://*.vimeo.com",
       "connect-src 'self' https: wss:",
-      "frame-src 'self' https://player.vimeo.com https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com https://td.doubleclick.net https://*.calendly.com https://app.cal.com https://*.cal.com",
+      [
+        "frame-src 'self'",
+        // Video
+        "https://player.vimeo.com https://www.youtube.com https://www.youtube-nocookie.com",
+        // Google (reCAPTCHA / DoubleClick)
+        "https://www.google.com https://td.doubleclick.net",
+        // Hotjar surveys
+        "https://*.hotjar.com",
+        // Stripe checkout
+        "https://js.stripe.com https://hooks.stripe.com https://*.stripe.com",
+        // Schedulers
+        "https://app.cal.com https://*.cal.com",
+        "https://*.calendly.com",
+        "https://embed.savvycal.com https://*.savvycal.com",
+        "https://calendar.google.com",
+        // App propia
+        "https://app.clinera.io",
+      ].join(" "),
       "frame-ancestors 'self'",
       "base-uri 'self'",
       "form-action 'self'",
