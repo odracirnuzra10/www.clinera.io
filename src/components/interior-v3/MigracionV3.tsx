@@ -70,6 +70,7 @@ export default function MigracionV3() {
       <ProcessSection />
       <NewFeatureSection />
       <Faq />
+      <KeepYourSystemSection />
       <FinalCTA />
     </>
   );
@@ -78,7 +79,7 @@ export default function MigracionV3() {
 /* -------------------------------- HERO -------------------------------- */
 function Hero() {
   return (
-    <section style={{ position: "relative", padding: "80px 80px 40px", overflow: "hidden" }}>
+    <section id="hero" style={{ position: "relative", padding: "80px 80px 40px", overflow: "hidden" }}>
       <div
         style={{
           position: "absolute",
@@ -1338,6 +1339,294 @@ function Faq() {
         </div>
       </div>
     </section>
+  );
+}
+
+/* ----------------------- KEEP YOUR SYSTEM (Modo Por Link) ----------------------- */
+function KeepYourSystemSection() {
+  return (
+    <section
+      style={{
+        position: "relative",
+        padding: "80px 80px 88px",
+        background: "#FBF6EE",
+        borderTop: "1px solid #F0E4D2",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "radial-gradient(ellipse 50% 60% at 90% 0%, rgba(34,211,238,.10) 0%, transparent 60%)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        className="mig-keep"
+        style={{
+          maxWidth: 1100,
+          margin: "0 auto",
+          position: "relative",
+          zIndex: 1,
+          display: "grid",
+          gridTemplateColumns: "minmax(0, 1.05fr) minmax(0, 1fr)",
+          gap: 56,
+          alignItems: "center",
+        }}
+      >
+        <div className="reveal">
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "0.16em",
+              textTransform: "uppercase",
+              color: "#0E7490",
+              padding: "6px 12px",
+              borderRadius: 999,
+              background: "rgba(34,211,238,.10)",
+              border: "1px solid rgba(14,116,144,.18)",
+              marginBottom: 18,
+            }}
+          >
+            Alternativa
+          </span>
+          <h2
+            className="mig-h2"
+            style={{
+              fontFamily: "Inter",
+              fontSize: 40,
+              fontWeight: 700,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.06,
+              margin: "0 0 14px",
+              color: "#0A0A0A",
+            }}
+          >
+            ¿Aún así prefieres mantener tu sistema actual?
+          </h2>
+          <p
+            style={{
+              fontFamily: "Inter",
+              fontSize: 17,
+              color: "#4B5563",
+              lineHeight: 1.6,
+              margin: "0 0 20px",
+              maxWidth: 560,
+            }}
+          >
+            Lo respetamos. Clinera puede trabajar sobre tu AgendaPro / Reservo / Medilink usando un <strong style={{ color: "#0A0A0A", fontWeight: 600 }}>link de agendamiento</strong> — AURA conversa igual con el paciente, le entrega el link y la cita queda en tu sistema actual sin fricción.
+          </p>
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              margin: "0 0 28px",
+              display: "grid",
+              gap: 10,
+            }}
+          >
+            {[
+              { t: "AURA atiende WhatsApp 24/7", d: "Misma conversación natural, mismo tono de tu equipo" },
+              { t: "El paciente recibe un link", d: "Reserva en tu sistema actual sin abandonar la conversación" },
+              { t: "Tu setup queda igual", d: "No movemos nada de AgendaPro / Reservo / Medilink" },
+            ].map((b) => (
+              <li
+                key={b.t}
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 10,
+                  fontFamily: "Inter",
+                  fontSize: 14.5,
+                  color: "#0A0A0A",
+                  lineHeight: 1.5,
+                }}
+              >
+                <span
+                  aria-hidden
+                  style={{
+                    flexShrink: 0,
+                    marginTop: 7,
+                    width: 6,
+                    height: 6,
+                    borderRadius: "50%",
+                    background: "#22D3EE",
+                  }}
+                />
+                <span>
+                  <strong style={{ fontWeight: 600 }}>{b.t}.</strong>{" "}
+                  <span style={{ color: "#4B5563" }}>{b.d}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p
+            style={{
+              fontFamily: "Inter",
+              fontSize: 13.5,
+              color: "#7C5C2C",
+              lineHeight: 1.55,
+              margin: "0 0 24px",
+              padding: "12px 14px",
+              background: "rgba(217,168,77,.10)",
+              border: "1px solid rgba(217,168,77,.25)",
+              borderRadius: 10,
+              maxWidth: 560,
+            }}
+          >
+            <strong style={{ fontWeight: 600 }}>El trade-off honesto:</strong> AURA no ve la cita confirmada,
+            entonces pierdes atribución de campañas y trazabilidad campaña → cita → venta.
+            Si te importa medir el ROI de tus anuncios, conviene migrar.
+          </p>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <CtaPrimary
+              as={Link}
+              href="/hablar-con-ventas"
+              style={{
+                background: "linear-gradient(135deg,#0E7490 0%,#0891B2 50%,#22D3EE 100%)",
+                boxShadow:
+                  "0 12px 32px -8px rgba(14,116,144,.35),0 4px 12px -2px rgba(34,211,238,.22)",
+              }}
+            >
+              Quiero AURA con mi sistema actual
+            </CtaPrimary>
+            <CtaSecondary as={Link} href="#hero" style={{ background: "transparent" }}>
+              Ver beneficios de migrar
+            </CtaSecondary>
+          </div>
+        </div>
+
+        <div
+          className="reveal mig-keep-card"
+          style={{
+            position: "relative",
+            background: "#fff",
+            border: "1px solid #EFE4D0",
+            borderRadius: 20,
+            padding: 22,
+            boxShadow: "0 24px 60px -20px rgba(60,40,10,.18)",
+            display: "flex",
+            flexDirection: "column",
+            gap: 12,
+            fontFamily: "Inter",
+          }}
+        >
+          <span
+            style={{
+              alignSelf: "flex-start",
+              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontSize: 10.5,
+              fontWeight: 600,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "#6B7280",
+              padding: "5px 10px",
+              borderRadius: 999,
+              background: "#F4EFE6",
+              border: "1px solid #E5DAC1",
+            }}
+          >
+            Modo · Por link
+          </span>
+          <ChatBubble side="in">Hola, quería hora con la Dra. Meza</ChatBubble>
+          <ChatBubble side="out">¡Hola! Soy AURA. Para registrarte, ¿me das tu nombre y RUT?</ChatBubble>
+          <ChatBubble side="in">Carla Pérez · 17.xxx.xxx-3</ChatBubble>
+          <ChatBubble side="out">Perfecto Carla. Aquí tienes el link para reservar tu hora:</ChatBubble>
+          <a
+            href="#"
+            onClick={(e) => e.preventDefault()}
+            style={{
+              alignSelf: "flex-end",
+              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontSize: 12.5,
+              fontWeight: 500,
+              color: "#0E7490",
+              background: "rgba(34,211,238,.08)",
+              border: "1px solid rgba(34,211,238,.22)",
+              borderRadius: 10,
+              padding: "8px 12px",
+              textDecoration: "none",
+              maxWidth: "85%",
+            }}
+          >
+            🔗 reservo.cl/clinica-meza/2026-04-30
+          </a>
+          <ChatBubble side="in">Ya agendé ✓</ChatBubble>
+          <div
+            style={{
+              marginTop: 6,
+              padding: "12px 14px",
+              borderRadius: 12,
+              background: "#F8F4EC",
+              border: "1px solid #EFE4D0",
+              display: "flex",
+              alignItems: "flex-start",
+              gap: 10,
+              fontSize: 12.5,
+              color: "#4B5563",
+              lineHeight: 1.5,
+            }}
+          >
+            <span
+              aria-hidden
+              style={{
+                flexShrink: 0,
+                marginTop: 1,
+                fontSize: 14,
+              }}
+            >
+              ↗
+            </span>
+            <span>
+              <strong style={{ color: "#0A0A0A", fontWeight: 600 }}>
+                Cita queda en tu sistema actual
+              </strong>
+              {" — "}AURA no la ve, pero el paciente quedó atendido sin fricción.
+            </span>
+          </div>
+        </div>
+      </div>
+      <style jsx>{`
+        @media (max-width: 980px) {
+          :global(.mig-keep) {
+            grid-template-columns: 1fr !important;
+            gap: 40px !important;
+          }
+          :global(.mig-keep-card) {
+            order: -1;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+function ChatBubble({ side, children }: { side: "in" | "out"; children: ReactNode }) {
+  const isOut = side === "out";
+  return (
+    <div
+      style={{
+        alignSelf: isOut ? "flex-end" : "flex-start",
+        maxWidth: "82%",
+        background: isOut ? "#1F2937" : "#F3F4F6",
+        color: isOut ? "#fff" : "#0A0A0A",
+        padding: "9px 13px",
+        borderRadius: 14,
+        fontSize: 13.5,
+        lineHeight: 1.4,
+        letterSpacing: "-0.005em",
+      }}
+    >
+      {children}
+    </div>
   );
 }
 
