@@ -5,6 +5,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
 import PostCTA from "@/components/blog/PostCTA";
+import VimeoEmbed from "@/components/blog/VimeoEmbed";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   blogPostingSchema,
@@ -175,7 +176,10 @@ export default async function BlogPostPage({
 
           {/* MDX content */}
           <article className={styles.richContent}>
-            <MDXRemote source={post.content} />
+            <MDXRemote
+              source={post.content}
+              components={{ VimeoEmbed }}
+            />
           </article>
 
           {/* FAQ inline si está en frontmatter */}
