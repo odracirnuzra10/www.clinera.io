@@ -68,6 +68,7 @@ export default function MigracionV3() {
       <CompareSection />
       <ReasonsSection />
       <ProcessSection />
+      <NewFeatureSection />
       <Faq />
       <FinalCTA />
     </>
@@ -889,7 +890,7 @@ function ReasonsSection() {
 
 /* ----------------------------- PROCESS ---------------------------- */
 function ProcessSection() {
-  const steps = [
+  const steps: { n: string; t: string; d: string; link?: { href: string; label: string } }[] = [
     {
       n: "01",
       t: "Diagnóstico de 30 min",
@@ -898,7 +899,8 @@ function ProcessSection() {
     {
       n: "02",
       t: "Importamos tu base sin perder un paciente",
-      d: "Migramos pacientes, citas futuras, fichas y catálogo de servicios desde AgendaPro / Reservo / Medilink. La fase corre en paralelo para que no pares de atender.",
+      d: "Migramos pacientes, citas futuras, fichas y catálogo de tratamientos desde AgendaPro / Reservo / Medilink. La fase corre en paralelo para que no pares de atender.",
+      link: { href: "/blog/importacion-masiva-tratamientos", label: "Cómo importamos tu catálogo →" },
     },
     {
       n: "03",
@@ -993,6 +995,22 @@ function ProcessSection() {
               <p style={{ fontFamily: "Inter", fontSize: 13.5, color: "#4B5563", lineHeight: 1.5, margin: 0 }}>
                 {s.d}
               </p>
+              {s.link && (
+                <Link
+                  href={s.link.href}
+                  style={{
+                    fontFamily: "Inter",
+                    fontSize: 12.5,
+                    fontWeight: 600,
+                    color: "#7C3AED",
+                    textDecoration: "none",
+                    letterSpacing: "-0.005em",
+                    marginTop: 4,
+                  }}
+                >
+                  {s.link.label}
+                </Link>
+              )}
               {i < steps.length - 1 && (
                 <span
                   className="mig-process-arrow"
@@ -1022,6 +1040,203 @@ function ProcessSection() {
         }
         @media (max-width: 560px) {
           :global(.mig-process-grid) { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+/* ------------------------ NEW FEATURE BANNER ----------------------- */
+function NewFeatureSection() {
+  return (
+    <section
+      style={{
+        position: "relative",
+        padding: "88px 80px",
+        overflow: "hidden",
+        borderTop: "1px solid #F0F0F0",
+      }}
+    >
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "radial-gradient(ellipse 70% 60% at 80% 0%, rgba(217,70,239,.16) 0%, rgba(124,58,237,.08) 40%, transparent 70%),radial-gradient(ellipse 60% 70% at 10% 100%, rgba(59,130,246,.12) 0%, transparent 60%)",
+          zIndex: 0,
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        className="mig-newfeat"
+        style={{
+          maxWidth: 1180,
+          margin: "0 auto",
+          position: "relative",
+          zIndex: 1,
+          display: "grid",
+          gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1.05fr)",
+          gap: 56,
+          alignItems: "center",
+        }}
+      >
+        <div className="reveal">
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "0.16em",
+              textTransform: "uppercase",
+              color: "#D946EF",
+              padding: "6px 12px",
+              borderRadius: 999,
+              background: "rgba(217,70,239,.08)",
+              border: "1px solid rgba(217,70,239,.22)",
+              marginBottom: 18,
+            }}
+          >
+            <span
+              aria-hidden
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: "#D946EF",
+                boxShadow: "0 0 0 0 rgba(217,70,239,.6)",
+                animation: "migPulse 1.6s ease-out infinite",
+              }}
+            />
+            Nuevo · Abril 2026
+          </span>
+          <h2
+            className="mig-h2"
+            style={{
+              fontFamily: "Inter",
+              fontSize: 40,
+              fontWeight: 700,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.06,
+              margin: "0 0 14px",
+              color: "#0A0A0A",
+            }}
+          >
+            Tu catálogo de tratamientos,{" "}
+            <em
+              style={{
+                fontStyle: "normal",
+                background: GRAD,
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+              }}
+            >
+              importado en minutos
+            </em>
+            .
+          </h2>
+          <p
+            style={{
+              fontFamily: "Inter",
+              fontSize: 17,
+              color: "#4B5563",
+              lineHeight: 1.55,
+              margin: "0 0 22px",
+              maxWidth: 520,
+            }}
+          >
+            Lo que faltaba para cerrar la migración. Pacientes y tratamientos ahora se importan en el mismo flujo — y tu equipo empieza a atender desde Clinera el día 1.
+          </p>
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              margin: "0 0 28px",
+              display: "grid",
+              gap: 10,
+            }}
+          >
+            {[
+              { t: "Más rápido", d: "100 tratamientos en 2 minutos vs 3–5 horas a mano" },
+              { t: "Más seguro", d: "Validación automática de columnas, sin typos en precios" },
+              { t: "Más control", d: "Cada tratamiento queda editable después de la importación" },
+            ].map((b) => (
+              <li
+                key={b.t}
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 10,
+                  fontFamily: "Inter",
+                  fontSize: 14.5,
+                  color: "#0A0A0A",
+                  lineHeight: 1.5,
+                }}
+              >
+                <span
+                  aria-hidden
+                  style={{
+                    flexShrink: 0,
+                    marginTop: 7,
+                    width: 6,
+                    height: 6,
+                    borderRadius: "50%",
+                    background: GRAD,
+                  }}
+                />
+                <span>
+                  <strong style={{ fontWeight: 600 }}>{b.t}.</strong>{" "}
+                  <span style={{ color: "#4B5563" }}>{b.d}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <CtaPrimary as={Link} href="/blog/importacion-masiva-tratamientos">
+              Leer el artículo completo →
+            </CtaPrimary>
+            <CtaSecondary as={Link} href="/hablar-con-ventas">
+              Hablar con migración
+            </CtaSecondary>
+          </div>
+        </div>
+
+        <div
+          className="reveal"
+          style={{
+            position: "relative",
+            borderRadius: 20,
+            overflow: "hidden",
+            boxShadow:
+              "0 24px 60px -16px rgba(124,58,237,.28),0 8px 24px -8px rgba(217,70,239,.18)",
+            border: "1px solid rgba(124,58,237,.12)",
+            background: "#fff",
+            aspectRatio: "16 / 10",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/blog/import-tratamientos.png"
+            alt="Importa todos tus tratamientos en minutos, no en horas"
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+        </div>
+      </div>
+      <style jsx>{`
+        @keyframes migPulse {
+          0% { box-shadow: 0 0 0 0 rgba(217,70,239,.5); }
+          70% { box-shadow: 0 0 0 8px rgba(217,70,239,0); }
+          100% { box-shadow: 0 0 0 0 rgba(217,70,239,0); }
+        }
+        @media (max-width: 980px) {
+          :global(.mig-newfeat) {
+            grid-template-columns: 1fr !important;
+            gap: 40px !important;
+          }
         }
       `}</style>
     </section>

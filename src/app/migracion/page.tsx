@@ -6,13 +6,15 @@ import MigracionV3 from "@/components/interior-v3/MigracionV3";
 export const metadata: Metadata = {
   title: "Migración a Clinera | Cambia AgendaPro / Reservo / Medilink + Vambe por una sola plataforma",
   description:
-    "Migra desde AgendaPro, Reservo o Medilink + Vambe.ai a Clinera. Una sola plataforma con agenda, agente IA, ficha clínica y atribución de campañas. Ahorra USD 600+/mes y conecta el ciclo completo del paciente.",
+    "Migra desde AgendaPro, Reservo o Medilink + Vambe.ai a Clinera. Importación masiva de pacientes y tratamientos, agenda con agente IA, ficha clínica y atribución de campañas. Ahorra USD 600+/mes y conecta el ciclo completo del paciente.",
   keywords: [
     "migrar a clinera",
     "alternativa AgendaPro",
     "alternativa Reservo",
     "alternativa Medilink",
     "alternativa Vambe.ai",
+    "importación masiva tratamientos",
+    "importar pacientes clínica",
     "agenda médica con IA",
     "agente IA WhatsApp clínicas",
     "migración software clínica",

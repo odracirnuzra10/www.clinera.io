@@ -1,0 +1,96 @@
+---
+title: "Importación masiva de tratamientos: tu catálogo migrado en minutos"
+description: "Sube tu catálogo completo de tratamientos a Clinera con un CSV. La pieza que faltaba para que migrar desde AgendaPro, Reservo o Medilink se haga en menos de una hora."
+slug: importacion-masiva-tratamientos
+publishedAt: "2026-04-30"
+category: "Configuración"
+tags: ["operaciones", "migracion"]
+heroImage: "/images/blog/import-tratamientos.png"
+author: "Ricardo Oyarzún"
+wordsApprox: 1100
+faq:
+  - q: "¿Qué formato de archivo necesito?"
+    a: "Un CSV con columnas: nombre, precio, sesiones, duración (min), profesionales y estado. Si exportás desde AgendaPro, Reservo o Medilink, el archivo viene casi listo. Si las columnas difieren, nuestro equipo te ayuda a mapearlas durante el diagnóstico."
+  - q: "¿Puedo editar los tratamientos después de importarlos?"
+    a: "Sí. Cada tratamiento queda editable individualmente desde Configuración → Tratamientos: precio, duración, profesionales asignados, estado activo/inactivo, descripción y si se muestra en la landing pública."
+  - q: "¿Funciona si tengo paquetes multi-sesión, como 6 sesiones de depilación?"
+    a: "Sí. La columna 'sesiones' del CSV soporta cualquier número. Clinera trata cada sesión como un evento agendable y descuenta del paquete del paciente automáticamente."
+  - q: "¿Y los tratamientos que ya cargué manualmente?"
+    a: "La importación es aditiva: no borra ni reemplaza lo existente. Si querés empezar limpio, mové los manuales a Papelera antes de importar."
+  - q: "¿Cómo se relaciona con la importación de pacientes?"
+    a: "Son dos pasos del mismo onboarding. La importación de pacientes está disponible desde noviembre 2025 y la de tratamientos desde abril 2026. Cuando tu equipo agenda una cita, ambos catálogos están listos y se cruzan automáticamente."
+---
+
+## El cuello de botella escondido de toda migración
+
+Cuando una clínica decide cambiarse a Clinera desde AgendaPro, Reservo o Medilink, la conversación de migración suele empezar por lo grande: pacientes, fichas, citas futuras, integraciones de WhatsApp y publicidad. Esos puntos los resolvemos en paralelo en menos de una semana.
+
+Pero había una pieza chica que se nos escapaba: el **catálogo de tratamientos**. La directora de la clínica nos avisaba el martes que migrábamos el lunes siguiente, y el sábado por la noche estaba todavía cargando 80, 120, 150 tratamientos a mano — uno por uno, copiando precios desde Excel, anotando duraciones, marcando profesionales asignados. Una tarde entera de trabajo manual antes de poder atender el primer paciente en Clinera.
+
+Eso se acabó. Desde abril 2026, **el catálogo completo se importa con un clic**.
+
+## Qué hace exactamente la importación masiva
+
+Es un upload de CSV. Subís un archivo con tus tratamientos, Clinera valida cada fila, te muestra un preview y los crea de una sola vez en tu cuenta. El sistema acepta las columnas que ya estás usando en otra herramienta:
+
+- **nombre** — del tratamiento (ej: "Sesión de Botox (Frente)")
+- **precio** — en CLP, ARS, MXN, COP, USD, según tu cuenta
+- **sesiones** — cuántas sesiones incluye el paquete (1 para tratamientos únicos)
+- **duración** — minutos por sesión
+- **profesionales** — IDs separados por coma (opcional)
+- **estado** — activo / inactivo
+
+Cuando termina, ves un confirmation banner: "Importación completada · 128 tratamientos importados · Todo sincronizado correctamente." Cada tratamiento queda editable desde **Configuración → Tratamientos** como si lo hubieras cargado manualmente.
+
+## Mirá cómo se hace en 90 segundos
+
+<div style={{padding:"62.5% 0 0 0", position:"relative", margin: "32px 0", borderRadius: 12, overflow: "hidden", background: "#0A0A0A"}}>
+  <iframe
+    src="https://player.vimeo.com/video/1188422850?badge=0&autopause=0&player_id=0&app_id=58479"
+    frameBorder="0"
+    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+    referrerPolicy="strict-origin-when-cross-origin"
+    style={{position:"absolute", top:0, left:0, width:"100%", height:"100%"}}
+    title="Carga Masiva de Tratamientos"
+  />
+</div>
+
+## Antes vs ahora
+
+| | Antes | Ahora |
+|---|---|---|
+| **Tiempo para 100 tratamientos** | 3–5 horas | 2 minutos |
+| **Riesgo de typos en precios** | Alto (carga manual una por una) | Bajo (validación automática) |
+| **Quién lo hace** | El admin o la directora durante un fin de semana | Nuestro equipo durante el diagnóstico |
+| **Cuándo está listo para atender** | Recién cuando termina la carga | Antes de ver al primer paciente |
+
+## Casos de uso por tipo de clínica
+
+**Clínica estética.** Catálogos largos: depilación láser por zona, botox por área, ácido hialurónico por mililitro, paquetes de 6 sesiones, promociones de temporada. La importación masiva los carga todos con sus duraciones y precios diferenciados, incluyendo paquetes multi-sesión que Clinera tracking automáticamente para descontar del paciente.
+
+**Clínica médica general.** Consultas, ECG, pruebas de esfuerzo, infiltraciones, controles. Catálogos más cortos pero con varios profesionales asignados a cada tratamiento. El CSV permite mapear quién atiende qué desde el mismo archivo.
+
+**Multi-sucursal.** Mismo catálogo base con ajuste de precio por sede. Importás una vez, después clonás el catálogo a cada sucursal y editás solamente los precios que cambian.
+
+## Cómo se conecta con la importación de pacientes
+
+Acá es donde el feature deja de ser un upload de CSV y pasa a ser parte de algo más grande.
+
+Desde **noviembre 2025**, Clinera ya importa pacientes: nombre, RUT/DNI, contacto, historial de citas, fichas, todo. Lo que no teníamos hasta ahora era el otro lado del cruce: el catálogo. Cuando una clínica importaba 3.000 pacientes y empezaba a agendar, la recepcionista entraba al sistema y no encontraba los tratamientos. Tocaba pausar la migración.
+
+Con la importación masiva de tratamientos cerrado, **el onboarding completo es importar dos archivos**. Pacientes en uno, tratamientos en otro. Cuando la recepción agenda una cita, los dos catálogos están listos y se cruzan: paciente Juan Pérez → Sesión de Botox (Frente) → 30 min con Dra. Stefani → confirmación automática a su WhatsApp.
+
+Eso es lo que prometemos cuando decimos "migración guiada en menos de una hora". Hasta abril, era una promesa con un asterisco. Ahora se cumple sin asterisco.
+
+## Cómo activarla
+
+Si ya sos cliente de Clinera, está disponible en tu cuenta:
+
+1. Entrá a **Configuración → Tratamientos**
+2. En el header del catálogo, vas a ver el botón **Importar** al lado de "+ Nuevo Tratamiento"
+3. Subí tu CSV (formato standard o el que usás en AgendaPro / Reservo / Medilink)
+4. Revisá el preview, confirmá y listo
+
+Si todavía no sos cliente y estás evaluando migrar, el equipo de migración lo corre por vos durante el diagnóstico. Reservás 30 minutos, nos pasás tus archivos y dejamos tu Clinera con pacientes y tratamientos importados antes de que empieces la primera consulta.
+
+Esta funcionalidad se suma a un onboarding cada vez más cerrado: pacientes, fichas, citas, tratamientos, integraciones de marketing y agente IA. Cuanto menos te toque cargar a vos, antes empezás a usar la herramienta para lo que importa — atender.
