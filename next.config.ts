@@ -146,6 +146,10 @@ const nextConfig: NextConfig = {
         source: '/test-prompt',
         destination: '/test-prompt/index.html',
       },
+      {
+        source: '/workers',
+        destination: '/workers/index.html',
+      },
     ];
   },
   async redirects() {
