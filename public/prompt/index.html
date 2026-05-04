@@ -649,25 +649,33 @@
   .mig-text .tag.magenta{ border-color: rgba(200,80,192,.4); color: var(--magenta); }
 
   /* === 09 Video === */
+  .video-slide .slide-inner{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
   .video-h{
-    font-size: clamp(40px, 6vw, 72px);
+    font-size: clamp(32px, 4.4vw, 52px);
     font-weight: 800;
     letter-spacing: -0.035em;
-    line-height: 1;
-    margin: 0 0 12px 0;
+    line-height: 1.05;
+    margin: 0 0 10px 0;
+    max-width: 760px;
   }
   .video-lead{
-    font-size: clamp(17px, 1.4vw, 20px);
+    font-size: clamp(15px, 1.2vw, 17px);
     color: var(--muted);
-    max-width: 620px;
+    max-width: 560px;
     line-height: 1.55;
-    margin: 0 0 32px 0;
+    margin: 0 0 28px 0;
   }
   .video-wrap{
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 10;
-    max-width: 980px;
+    aspect-ratio: 16 / 9;
+    max-width: 940px;
+    margin: 0 auto;
     border-radius: var(--radius);
     overflow: hidden;
     background: #0B0B0F;
@@ -972,10 +980,10 @@
   </section>
 
   <!-- 09 — Video -->
-  <section class="slide" id="slide8">
+  <section class="slide video-slide" id="slide8">
     <div class="slide-inner">
-      <div class="kicker"><span class="pip"></span>Tutorial completo</div>
-      <h2 class="video-h">Cómo editar el<br/>agente en Clinera.</h2>
+      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Tutorial completo</div>
+      <h2 class="video-h">Cómo editar el agente en Clinera.</h2>
       <p class="video-lead">Recorrido en pantalla del nuevo harness. Verlo antes de empezar a migrar.</p>
       <div class="video-wrap">
         <iframe src="https://player.vimeo.com/video/1172555837?badge=0&autopause=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Cómo editar el Agente IA de Clinera"></iframe>
