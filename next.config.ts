@@ -159,13 +159,23 @@ const nextConfig: NextConfig = {
         destination: '/update/index.html',
       },
       {
-        source: '/cdk',
-        destination: '/cdk/index.html',
+        source: '/ckd',
+        destination: '/ckd/index.html',
       },
     ];
   },
   async redirects() {
     return [
+      {
+        source: '/cdk',
+        destination: '/ckd',
+        permanent: true,
+      },
+      {
+        source: '/cdk/:path*',
+        destination: '/ckd/:path*',
+        permanent: true,
+      },
       {
         source: '/software',
         destination: '/funciones',
