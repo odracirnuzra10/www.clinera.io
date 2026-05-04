@@ -158,6 +158,10 @@ const nextConfig: NextConfig = {
         source: '/update',
         destination: '/update/index.html',
       },
+      {
+        source: '/cdk',
+        destination: '/cdk/index.html',
+      },
     ];
   },
   async redirects() {
