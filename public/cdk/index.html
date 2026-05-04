@@ -302,10 +302,16 @@
   .hero-image{
     aspect-ratio: 4 / 5;
     background: var(--blue-mist);
-    border: 1px solid var(--gray-soft);
     border-radius: 4px;
     position: relative;
     overflow: hidden;
+  }
+  .hero-image img{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .hero-image::before{
     content: '';
@@ -315,32 +321,24 @@
     background: var(--gold);
     transform: rotate(-32deg);
     transform-origin: right center;
+    z-index: 2;
   }
   .hero-image::after{
-    content: 'CKD · Las Condes';
+    content: 'Equipo CKD · Santiago';
     position: absolute;
-    bottom: 24px; left: 28px;
+    bottom: 20px; left: 24px;
     font-family: var(--sans);
     font-weight: 500;
     font-size: 11px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--navy);
-    opacity: 0.5;
-  }
-  .hero-image-inner{
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-  }
-  .hero-image-inner svg{
-    width: 60%;
-    height: auto;
-    opacity: 0.18;
-    color: var(--navy);
+    color: var(--white);
+    background: rgba(10,37,64,0.72);
+    padding: 8px 14px;
+    border-radius: 2px;
+    z-index: 2;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 
   /* === Differentiators === */
@@ -490,28 +488,18 @@
     border-radius: 4px;
     position: relative;
     overflow: hidden;
-    filter: grayscale(1);
+    filter: grayscale(1) contrast(1.02);
+    transition: filter 400ms ease;
   }
-  .team-initials{
+  .team-card:hover .team-photo{
+    filter: grayscale(0.4) contrast(1.02);
+  }
+  .team-photo img{
     position: absolute;
     inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--serif);
-    font-weight: 400;
-    font-size: 64px;
-    color: var(--navy);
-    letter-spacing: -0.02em;
-    opacity: 0.45;
-  }
-  .team-photo::after{
-    content: '';
-    position: absolute;
-    bottom: 16px; left: 16px;
-    width: 28px; height: 1px;
-    background: var(--navy);
-    opacity: 0.4;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .team-name{
     font-family: var(--serif);
@@ -594,18 +582,30 @@
     background: var(--blue-mist);
     position: relative;
     border-bottom: 1px solid var(--gray-soft);
+    overflow: hidden;
+  }
+  .loc-image img{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .loc-image::after{
     content: attr(data-label);
     position: absolute;
-    bottom: 18px; left: 22px;
+    bottom: 16px; left: 18px;
     font-family: var(--sans);
     font-weight: 500;
     font-size: 11px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--navy);
-    opacity: 0.5;
+    color: var(--white);
+    background: rgba(10,37,64,0.72);
+    padding: 6px 12px;
+    border-radius: 2px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
   .loc-body{ padding: 36px 36px 40px; }
   .loc-body h3{ margin-bottom: 24px; }
@@ -852,22 +852,8 @@
         <a href="#especialidades" class="btn btn-secondary">Conocer especialidades</a>
       </div>
     </div>
-    <div class="hero-image reveal" aria-hidden="true">
-      <div class="hero-image-inner">
-        <!-- Editorial line illustration: minimal architectural lines suggesting a clinic interior -->
-        <svg viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="0.75">
-          <line x1="20" y1="40" x2="220" y2="40"/>
-          <line x1="20" y1="40" x2="20" y2="280"/>
-          <line x1="220" y1="40" x2="220" y2="280"/>
-          <line x1="20" y1="280" x2="220" y2="280"/>
-          <line x1="60" y1="80" x2="180" y2="80"/>
-          <line x1="60" y1="80" x2="60" y2="240"/>
-          <line x1="180" y1="80" x2="180" y2="240"/>
-          <line x1="60" y1="240" x2="180" y2="240"/>
-          <line x1="120" y1="80" x2="120" y2="240"/>
-          <line x1="60" y1="160" x2="180" y2="160"/>
-        </svg>
-      </div>
+    <div class="hero-image reveal">
+      <img src="/cdk/images/hero-equipo.jpg" alt="Equipo de Clínica CKD" loading="eager" decoding="async" />
     </div>
   </div>
 </section>
@@ -1010,7 +996,7 @@
     <div class="team-grid">
 
       <article class="team-card reveal">
-        <div class="team-photo"><div class="team-initials">SC</div></div>
+        <div class="team-photo"><img src="/cdk/images/dr-sebastian-correa.jpg" alt="Dr. Sebastián Correa" loading="lazy" decoding="async" /></div>
         <div>
           <div class="team-spec">Director clínico · Periodoncia</div>
           <div class="team-name" style="margin-top: 8px;">Dr. Sebastián Correa</div>
@@ -1019,7 +1005,7 @@
       </article>
 
       <article class="team-card reveal">
-        <div class="team-photo"><div class="team-initials">CE</div></div>
+        <div class="team-photo"><img src="/cdk/images/dra-catalina-errazuriz.jpg" alt="Dra. Catalina Errázuriz" loading="lazy" decoding="async" /></div>
         <div>
           <div class="team-spec">Implantología · Rehabilitación oral</div>
           <div class="team-name" style="margin-top: 8px;">Dra. Catalina Errázuriz</div>
@@ -1028,7 +1014,7 @@
       </article>
 
       <article class="team-card reveal">
-        <div class="team-photo"><div class="team-initials">FL</div></div>
+        <div class="team-photo"><img src="/cdk/images/dr-felipe-larrain.jpg" alt="Dr. Felipe Larraín" loading="lazy" decoding="async" /></div>
         <div>
           <div class="team-spec">Ortodoncia · Ortopedia</div>
           <div class="team-name" style="margin-top: 8px;">Dr. Felipe Larraín</div>
@@ -1037,7 +1023,7 @@
       </article>
 
       <article class="team-card reveal">
-        <div class="team-photo"><div class="team-initials">AV</div></div>
+        <div class="team-photo"><img src="/cdk/images/dra-antonia-vidal.jpg" alt="Dra. Antonia Vidal" loading="lazy" decoding="async" /></div>
         <div>
           <div class="team-spec">Endodoncia avanzada</div>
           <div class="team-name" style="margin-top: 8px;">Dra. Antonia Vidal</div>
@@ -1088,7 +1074,7 @@
     <div class="loc-grid">
 
       <article class="loc-card reveal">
-        <div class="loc-image" data-label="Vitacura · 2018"></div>
+        <div class="loc-image" data-label="Vitacura · 2018"><img src="/cdk/images/sucursal-vitacura.jpg" alt="Sucursal Vitacura — Clínica CKD" loading="lazy" decoding="async" /></div>
         <div class="loc-body">
           <h3 class="h3">Sucursal Vitacura</h3>
           <ul class="loc-list">
@@ -1114,7 +1100,7 @@
       </article>
 
       <article class="loc-card reveal">
-        <div class="loc-image" data-label="Las Condes · 2022"></div>
+        <div class="loc-image" data-label="Las Condes · 2022"><img src="/cdk/images/sucursal-las-condes.jpg" alt="Sucursal Las Condes — Clínica CKD" loading="lazy" decoding="async" /></div>
         <div class="loc-body">
           <h3 class="h3">Sucursal Las Condes</h3>
           <ul class="loc-list">
