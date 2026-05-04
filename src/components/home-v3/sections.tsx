@@ -593,101 +593,1202 @@ export function Logos() {
    ============================================================ */
 export function Features() {
   return (
-    <section
-      id="producto"
-      style={{ padding: "112px 80px 40px", borderTop: "1px solid #F0F0F0", background: "#fff" }}
-    >
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div className="reveal" style={{ maxWidth: 720, marginBottom: 56 }}>
-          <Eyebrow>La solución</Eyebrow>
-          <h2
-            className="home-h2-big"
-            style={{
-              fontFamily: "Inter",
-              fontSize: 52,
-              fontWeight: 700,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.04,
-              margin: "14px 0 0",
-              color: "#0A0A0A",
-            }}
-          >
-            Una IA que conoce{" "}
-            <span
+    <>
+      {/* Section intro */}
+      <section
+        id="producto"
+        style={{ padding: "112px 80px 40px", borderTop: "1px solid #F0F0F0", background: "#fff" }}
+      >
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div className="reveal" style={{ maxWidth: 760 }}>
+            <Eyebrow>El equipo IA</Eyebrow>
+            <h2
+              className="home-h2-big"
               style={{
-                background: GRAD,
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                color: "transparent",
+                fontFamily: "Inter",
+                fontSize: 52,
+                fontWeight: 700,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.04,
+                margin: "14px 0 0",
+                color: "#0A0A0A",
               }}
             >
-              a cada paciente
-            </span>{" "}
-            como tu mejor recepcionista.
-          </h2>
-          <p
+              Tres agentes IA que{" "}
+              <span
+                style={{
+                  background: GRAD,
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                }}
+              >
+                operan tu clínica
+              </span>{" "}
+              como tu mejor recepcionista.
+            </h2>
+            <p
+              style={{
+                fontFamily: "Inter",
+                fontSize: 19,
+                color: "#4B5563",
+                marginTop: 18,
+                lineHeight: 1.55,
+                maxWidth: 660,
+              }}
+            >
+              AURA escribe por WhatsApp. CAMILA llama por teléfono. LIA decide qué hacer y por dónde.
+              Misma memoria del paciente, distinto canal.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* AURA */}
+      <AgentSection
+        id="aura"
+        num="01"
+        role="WhatsApp IA"
+        name="AURA"
+        accent="#7C3AED"
+        accentSoft="rgba(124,58,237,0.08)"
+        accentBorder="#DDD6FE"
+        nameGrad
+        status={{ kind: "live", label: "Activa ahora" }}
+        bg="#fff"
+        intro="Atiende a tus pacientes por WhatsApp 24/7. Califica, agenda, confirma, recuerda y reactiva — siempre en tu voz."
+        features={[
+          {
+            eyebrow: "Agendamiento sin colisiones",
+            title: "Conectada a tu agenda, en tiempo real.",
+            body: "AURA lee tu agenda al instante: sabe qué horas hay libres, qué profesional cubre cada tratamiento y respeta los tiempos clínicos. Reserva, reagenda y bloquea cupos sin pisarse con nadie.",
+            bullets: [
+              "Sincroniza con Google Calendar, AgendaPro y Medilink",
+              "Respeta tiempos por tipo de tratamiento",
+              "Reagenda con un tap, sin llamada ni email",
+            ],
+            mockup: <AgendaMockup />,
+          },
+          {
+            eyebrow: "Contexto real · Base de datos",
+            title: "Responde con el historial de cada paciente.",
+            body: "Antes de contestar, AURA consulta tu base de datos. Sabe quién es quién, qué tratamientos lleva, cuándo fue su última visita y qué precio le corresponde hoy.",
+            bullets: [
+              "Reconoce al paciente por teléfono o RUT",
+              "Recuerda tratamientos, alergias y observaciones",
+              "Aplica precios, promos y descuentos vigentes",
+            ],
+            mockup: <ContextMockup />,
+          },
+          {
+            eyebrow: "Recuperación automática",
+            title: "Tus pacientes inactivos vuelven solos.",
+            body: "AURA detecta a quien no ha vuelto en 60, 90 o 180 días y los reactiva con un mensaje personalizado. Lo que antes se perdía, ahora llena los cupos que te sobran.",
+            bullets: [
+              "Segmentación por tratamiento y tiempo",
+              "Mensajes con tu voz, no plantillas genéricas",
+              "Dashboard con recuperaciones del mes",
+            ],
+            mockup: <RecoveryMockup />,
+          },
+        ]}
+      />
+
+      {/* CAMILA */}
+      <AgentSection
+        id="camila"
+        num="02"
+        role="Llamadas IA"
+        name="CAMILA"
+        accent="#0891B2"
+        accentSoft="rgba(8,145,178,0.08)"
+        accentBorder="#A5F3FC"
+        status={{ kind: "soon", label: "Próximamente · junio" }}
+        bg="#FAFBFC"
+        intro="Habla por teléfono con la voz de tu clínica. Confirma, llama a quien no respondió por chat y atiende urgencias de cupo cuando el chat no alcanza."
+        features={[
+          {
+            eyebrow: "Confirmaciones por voz",
+            title: "Llama, confirma y baja tu tasa de no-show.",
+            body: "Lo mismo que AURA, pero hablando. CAMILA llama el día antes, confirma o reagenda y deja constancia en la ficha — todo con la voz y el tono de tu clínica.",
+            bullets: [
+              "Confirmación 24h y 2h antes de la cita",
+              "Si no contesta, deja mensaje de voz y agenda reintento",
+              "Actualiza estado en agenda automáticamente",
+            ],
+            mockup: <CamilaCallMockup />,
+          },
+          {
+            eyebrow: "Voz cuando el chat no alcanza",
+            title: "Devuelve llamadas a quien no responde por WhatsApp.",
+            body: "Cuando AURA escribe y el paciente no contesta — o hay una urgencia de cupo — CAMILA levanta el teléfono. Misma memoria del paciente, distinto canal.",
+            bullets: [
+              "Trigger por silencio en chat o cupo libre de última hora",
+              "Pacientes premium o de alto LTV reciben llamada antes que mensaje",
+              "Si el caso lo amerita, transfiere a humano en vivo",
+            ],
+            mockup: <CamilaSilenceMockup />,
+          },
+          {
+            eyebrow: "Tono propio · español LATAM",
+            title: "Habla con la voz que tu clínica merece.",
+            body: "CAMILA no suena a robot. Configurás género, ritmo y tono — formal, cercano, médico — y entrena con tus llamadas reales para hablar como hablás.",
+            bullets: [
+              "Voz natural en español chileno, mexicano y LATAM",
+              "Aprende tus modismos, precios y promos vigentes",
+              "Traspasa a humano ante urgencias o reclamos reales",
+            ],
+            mockup: <CamilaVoiceMockup />,
+          },
+        ]}
+      />
+
+      {/* LIA */}
+      <AgentSection
+        id="lia"
+        num="03"
+        role="Cerebro operacional"
+        name="LIA"
+        accent="#0A0A0A"
+        accentSoft="#F3F4F6"
+        accentBorder="#E5E7EB"
+        status={{ kind: "dev", label: "En desarrollo" }}
+        bg="#fff"
+        intro="No habla con tus pacientes. Decide. Detecta huecos en agenda, cancelaciones, leads tibios y pacientes dormidos — y le ordena a AURA o a CAMILA contactar a quien corresponde."
+        features={[
+          {
+            eyebrow: "Inteligencia operativa",
+            title: "Encuentra los huecos antes que tú.",
+            body: "LIA mira tu agenda 24/7 y detecta huecos, cancelaciones, leads tibios y pacientes dormidos. No habla con nadie — solo decide.",
+            bullets: [
+              "Cron permanente sobre agenda y base de datos",
+              "Detecta cancelaciones de última hora y leads sin respuesta",
+              "Prioriza por LTV, urgencia y probabilidad de cierre",
+            ],
+            mockup: <LiaGapsMockup />,
+          },
+          {
+            eyebrow: "Cero pisadas · canal correcto",
+            title: "Decide quién contacta y por qué canal.",
+            body: "Por cada hueco detectado, LIA elige al mejor candidato y al canal con mayor probabilidad de respuesta. AURA escribe; CAMILA llama. LIA decide.",
+            bullets: [
+              "Misma memoria del paciente compartida con AURA y CAMILA",
+              "Selecciona canal según historial de respuesta y urgencia",
+              "Si nadie contesta, escala al siguiente candidato",
+            ],
+            mockup: <LiaDecisionMockup />,
+          },
+          {
+            eyebrow: "Recuperación end-to-end",
+            title: "Levanta lo que se estaba perdiendo.",
+            body: "Leads tibios, pacientes dormidos, cobros pendientes — LIA arma cohortes y le ordena a AURA o a CAMILA recuperar a quien corresponde, cuándo corresponde.",
+            bullets: [
+              "Detecta leads tibios que se quedaron en evaluación",
+              "Reactiva pacientes dormidos a 60, 90 o 180 días",
+              "Reportes semanales con cohortes y resultados",
+            ],
+            mockup: <LiaFunnelMockup />,
+          },
+        ]}
+      />
+    </>
+  );
+}
+
+/* ============================================================
+   AGENT SECTION — photo + 3 cycling features
+   ============================================================ */
+type AgentFeature = {
+  eyebrow: string;
+  title: string;
+  body: string;
+  bullets: string[];
+  mockup: ReactNode;
+};
+
+function AgentSection({
+  id,
+  num,
+  role,
+  name,
+  accent,
+  accentSoft,
+  accentBorder,
+  nameGrad,
+  status,
+  bg,
+  intro,
+  features,
+}: {
+  id: "aura" | "camila" | "lia";
+  num: string;
+  role: string;
+  name: string;
+  accent: string;
+  accentSoft: string;
+  accentBorder: string;
+  nameGrad?: boolean;
+  status: { kind: "live" | "soon" | "dev"; label: string };
+  bg: string;
+  intro: string;
+  features: AgentFeature[];
+}) {
+  const [idx, setIdx] = useState(0);
+  const [imgOk, setImgOk] = useState(true);
+  const f = features[idx];
+
+  const statusColors =
+    status.kind === "live"
+      ? { bg: "rgba(16,185,129,0.06)", bd: "#A7F3D0", fg: "#047857", dot: "#10B981" }
+      : status.kind === "soon"
+      ? { bg: "rgba(245,158,11,0.07)", bd: "#FDE68A", fg: "#B45309", dot: "#F59E0B" }
+      : { bg: "rgba(124,58,237,0.06)", bd: "#DDD6FE", fg: "#7C3AED", dot: "#7C3AED" };
+
+  return (
+    <section
+      id={id}
+      className="agent-sec"
+      style={{
+        padding: "96px 80px",
+        background: bg,
+        borderTop: "1px solid #F0F0F0",
+      }}
+    >
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div
+          className="agent-grid reveal"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "0.78fr 1.22fr",
+            gap: 64,
+            alignItems: "flex-start",
+          }}
+        >
+          {/* LEFT: portrait + identity */}
+          <div className="agent-portrait-col" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <div
+              className="agent-portrait"
+              style={{
+                position: "relative",
+                aspectRatio: "4 / 5",
+                borderRadius: 18,
+                overflow: "hidden",
+                background: `radial-gradient(circle at 30% 22%, rgba(255,255,255,0.22), transparent 55%), linear-gradient(160deg, ${accent}, ${mix(accent, "#0A0A0A", 0.55)})`,
+                boxShadow: "0 32px 80px -32px rgba(10,10,10,0.35), 0 1px 0 rgba(10,10,10,0.04)",
+              }}
+            >
+              {imgOk && (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={`/agents/${id}.png`}
+                  alt={`${name} · agente IA`}
+                  onError={() => setImgOk(false)}
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    objectPosition: "center top",
+                  }}
+                />
+              )}
+              {!imgOk && (
+                <span
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: "Inter",
+                    fontWeight: 800,
+                    fontSize: "clamp(120px, 16vw, 210px)",
+                    color: "#fff",
+                    opacity: 0.92,
+                    letterSpacing: "-0.06em",
+                    lineHeight: 1,
+                    textShadow: "0 8px 40px rgba(0,0,0,0.18)",
+                  }}
+                >
+                  {name[0]}
+                </span>
+              )}
+              {/* Corner C badge (Clinera mark) */}
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  bottom: 16,
+                  right: 16,
+                  width: 40,
+                  height: 40,
+                  borderRadius: 999,
+                  background: "rgba(255,255,255,0.16)",
+                  border: "1px solid rgba(255,255,255,0.24)",
+                  backdropFilter: "blur(8px)",
+                  WebkitBackdropFilter: "blur(8px)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                  fontFamily: "Inter",
+                  fontWeight: 700,
+                  fontSize: 16,
+                  letterSpacing: "-0.02em",
+                  zIndex: 2,
+                }}
+              >
+                C
+              </div>
+              {/* Channel chip top-right */}
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  top: 16,
+                  right: 16,
+                  width: 40,
+                  height: 40,
+                  borderRadius: 999,
+                  background: "rgba(255,255,255,0.95)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: accent,
+                  boxShadow: "0 8px 24px -8px rgba(0,0,0,0.25)",
+                  zIndex: 2,
+                }}
+              >
+                <ChannelIcon agent={id} />
+              </div>
+            </div>
+            <div className="agent-id" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <Mono style={{ color: "#6B7280" }}>
+                <span style={{ color: "#0A0A0A", fontWeight: 500 }}>{num}</span> · {role}
+              </Mono>
+              <h3
+                style={{
+                  fontFamily: "Inter",
+                  fontWeight: 800,
+                  fontSize: "clamp(48px, 5.5vw, 72px)",
+                  letterSpacing: "-0.04em",
+                  lineHeight: 0.95,
+                  margin: 0,
+                  color: "#0A0A0A",
+                  ...(nameGrad
+                    ? {
+                        background: GRAD,
+                        WebkitBackgroundClip: "text",
+                        backgroundClip: "text",
+                        color: "transparent",
+                      }
+                    : {}),
+                }}
+              >
+                {name}
+              </h3>
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  fontSize: 11,
+                  fontWeight: 500,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  padding: "6px 12px",
+                  borderRadius: 999,
+                  alignSelf: "flex-start",
+                  border: `1px solid ${statusColors.bd}`,
+                  background: statusColors.bg,
+                  color: statusColors.fg,
+                }}
+              >
+                <span
+                  className={status.kind === "live" || status.kind === "dev" ? "live-dot" : ""}
+                  style={{
+                    width: 7,
+                    height: 7,
+                    borderRadius: 999,
+                    background: statusColors.dot,
+                  }}
+                />
+                {status.label}
+              </span>
+              <p
+                style={{
+                  fontFamily: "Inter",
+                  fontSize: 14.5,
+                  lineHeight: 1.55,
+                  color: "#4B5563",
+                  margin: "8px 0 0",
+                  maxWidth: 320,
+                }}
+              >
+                {intro}
+              </p>
+            </div>
+          </div>
+
+          {/* RIGHT: cycling features */}
+          <div className="agent-features-col" style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 18,
+                marginBottom: 20,
+              }}
+            >
+              <Mono style={{ color: "#9CA3AF" }}>
+                <span style={{ color: "#0A0A0A", fontWeight: 500 }}>
+                  {String(idx + 1).padStart(2, "0")}
+                </span>{" "}
+                / 03 · Funciones
+              </Mono>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                {features.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setIdx(i)}
+                    aria-label={`Función ${i + 1}`}
+                    style={{
+                      cursor: "pointer",
+                      border: 0,
+                      padding: 0,
+                      background: i === idx ? accent : "#E5E7EB",
+                      width: i === idx ? 36 : 28,
+                      height: 2,
+                      borderRadius: 1,
+                      transition: "background 250ms ease, width 250ms ease",
+                    }}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => setIdx((idx + 1) % features.length)}
+                style={{
+                  marginLeft: "auto",
+                  border: `1px solid ${accentBorder}`,
+                  background: "#fff",
+                  color: accent,
+                  padding: "8px 14px",
+                  borderRadius: 999,
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  fontSize: 11,
+                  fontWeight: 500,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  cursor: "pointer",
+                  transition: "background 200ms ease, color 200ms ease",
+                }}
+                className="next-feat-btn"
+              >
+                Siguiente →
+              </button>
+            </div>
+
+            {/* Stage */}
+            <div
+              key={`${id}-${idx}`}
+              className="msg-in"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 0.95fr",
+                gap: 36,
+                alignItems: "flex-start",
+              }}
+            >
+              <div className="feat-text">
+                <Eyebrow style={{ color: accent }}>{f.eyebrow}</Eyebrow>
+                <h4
+                  style={{
+                    fontFamily: "Inter",
+                    fontSize: 36,
+                    fontWeight: 700,
+                    letterSpacing: "-0.025em",
+                    lineHeight: 1.1,
+                    margin: "12px 0 14px",
+                    color: "#0A0A0A",
+                  }}
+                >
+                  {f.title}
+                </h4>
+                <p
+                  style={{
+                    fontFamily: "Inter",
+                    fontSize: 16,
+                    lineHeight: 1.6,
+                    color: "#4B5563",
+                    margin: "0 0 22px",
+                    maxWidth: 480,
+                  }}
+                >
+                  {f.body}
+                </p>
+                <ul
+                  style={{
+                    listStyle: "none",
+                    padding: 0,
+                    margin: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                  }}
+                >
+                  {f.bullets.map((b, i) => (
+                    <li
+                      key={i}
+                      style={{
+                        display: "flex",
+                        gap: 10,
+                        alignItems: "flex-start",
+                        fontFamily: "Inter",
+                        fontSize: 14.5,
+                        color: "#0A0A0A",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      <span
+                        style={{
+                          flex: "0 0 18px",
+                          width: 18,
+                          height: 18,
+                          borderRadius: 999,
+                          background: accentSoft,
+                          border: `1px solid ${accentBorder}`,
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          marginTop: 2,
+                        }}
+                      >
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M5 12l5 5L20 7" />
+                        </svg>
+                      </span>
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="feat-mockup">{f.mockup}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .next-feat-btn:hover {
+          background: ${accent};
+          color: #fff;
+        }
+      `}</style>
+      <style jsx>{`
+        @media (max-width: 1100px) {
+          :global(.agent-sec) { padding: 80px 32px !important; }
+          :global(.agent-grid) {
+            grid-template-columns: 1fr !important;
+            gap: 36px !important;
+          }
+          :global(.agent-portrait) { aspect-ratio: 16 / 10 !important; max-height: 320px; }
+        }
+        @media (max-width: 760px) {
+          :global(.agent-sec) { padding: 64px 28px !important; }
+          :global(.agent-features-col > div:nth-child(2)) {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+/* Quick color mix util (k = 0..1 toward target) */
+function mix(hex: string, target: string, k: number) {
+  const h = (c: string) => {
+    const x = c.replace("#", "");
+    return [parseInt(x.slice(0, 2), 16), parseInt(x.slice(2, 4), 16), parseInt(x.slice(4, 6), 16)];
+  };
+  const a = h(hex);
+  const b = h(target);
+  const out = a.map((v, i) => Math.round(v * (1 - k) + b[i] * k));
+  return `rgb(${out[0]},${out[1]},${out[2]})`;
+}
+
+function ChannelIcon({ agent }: { agent: "aura" | "camila" | "lia" }) {
+  const props = {
+    width: 22,
+    height: 22,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+  if (agent === "aura") {
+    return (
+      <svg {...props}>
+        <path d="M3 21l1.65-3.8A9 9 0 1 1 12 20c-1.7 0-3.3-.4-4.7-1.2L3 21z" />
+      </svg>
+    );
+  }
+  if (agent === "camila") {
+    return (
+      <svg {...props}>
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13 1 .35 1.96.66 2.86a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.31 1.86.53 2.86.66A2 2 0 0 1 22 16.92z" />
+      </svg>
+    );
+  }
+  return (
+    <svg {...props}>
+      <circle cx="12" cy="12" r="3" />
+      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+    </svg>
+  );
+}
+
+/* ============================================================
+   CAMILA mockups
+   ============================================================ */
+function CamilaCallMockup() {
+  return (
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: 20,
+        boxShadow: "0 24px 64px rgba(0,0,0,.06)",
+        border: "1px solid #F0F0F0",
+        padding: 22,
+      }}
+    >
+      <Mono style={{ color: "#6B7280", marginBottom: 14, display: "block" }}>
+        CAMILA · Llamada saliente
+      </Mono>
+      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
+        <div
+          style={{
+            width: 46,
+            height: 46,
+            borderRadius: 999,
+            background: "rgba(8,145,178,0.10)",
+            color: "#0891B2",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          aria-hidden="true"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13 1 .35 1.96.66 2.86a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.31 1.86.53 2.86.66A2 2 0 0 1 22 16.92z" />
+          </svg>
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 600, color: "#0A0A0A", letterSpacing: "-0.005em" }}>
+            Diego López
+          </div>
+          <div
             style={{
-              fontFamily: "Inter",
-              fontSize: 19,
-              color: "#4B5563",
-              marginTop: 18,
-              lineHeight: 1.55,
+              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontSize: 11,
+              color: "#6B7280",
+              letterSpacing: "0.04em",
+              marginTop: 2,
             }}
           >
-            AURA se conecta a tu base de datos y a tu agenda en tiempo real. Cada respuesta sale
-            con contexto real: historial, tratamientos, precios vigentes y horas disponibles ahora
-            mismo.
-          </p>
+            Confirmando consulta · 16:00 · 00:42
+          </div>
         </div>
-
-        <FeatureRow
-          eyebrow="Agenda inteligente"
-          title="Conectada a tu agenda, sin colisiones."
-          body="AURA lee tu agenda al instante: sabe qué horas hay libres, qué profesional está disponible y qué servicios ofreces. Agenda, reagenda y bloquea cupos sin conflictos."
-          bullets={[
-            "Sincroniza con Google Calendar, AgendaPro, Medilink",
-            "Respeta tiempos por tipo de tratamiento",
-            "Reagendo con un tap, sin llamada ni email",
-          ]}
-          mockup={<AgendaMockup />}
-        />
-        <FeatureRow
-          reverse
-          eyebrow="Contexto real · Base de datos"
-          title="Responde con el historial de cada paciente."
-          body="AURA consulta tu base de datos en tiempo real antes de responder. Sabe quién es quién, qué tratamientos lleva, cuándo fue su última visita y qué precio le corresponde."
-          bullets={[
-            "Reconoce al paciente por teléfono o RUT",
-            "Recuerda tratamientos, alergias y observaciones",
-            "Aplica precios, promos y descuentos vigentes",
-          ]}
-          mockup={<ContextMockup />}
-        />
-        <FeatureRow
-          eyebrow="AURA · WhatsApp 24/7"
-          title="Habla como tu clínica, no como un bot."
-          body="AURA aprende el tono, los modismos y la forma de hablar de tu equipo. Responde con tu voz — ya sea formal de consulta médica, cercana de estética o coloquial chileno — y entiende audios y textos en español LATAM."
-          bullets={[
-            "Entiende audios y texto en español chileno, mexicano y LATAM",
-            "Traspasa a humano ante urgencias o reclamos reales",
-            "Aprende tus modismos, tus precios y tus promos vigentes",
-          ]}
-          mockup={<AuraMockup />}
-        />
-        <FeatureRow
-          reverse
-          eyebrow="Recuperación automática"
-          title="Tus pacientes inactivos vuelven solos."
-          body="Clinera detecta a quién no ha vuelto en 60, 90 o 180 días y los reactiva con un mensaje personalizado. Lo que antes se perdía, ahora llena los cupos que te sobran."
-          bullets={[
-            "Segmentación por tratamiento y tiempo",
-            "Mensajes con tu voz, no plantillas genéricas",
-            "Dashboard con recuperaciones del mes",
-          ]}
-          mockup={<RecoveryMockup />}
-        />
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 3, height: 18 }}>
+          {[6, 12, 8, 14, 9, 13, 7].map((h, i) => (
+            <span
+              key={i}
+              style={{
+                width: 2.5,
+                height: h,
+                background: "#0891B2",
+                borderRadius: 2,
+                opacity: 0.55,
+              }}
+            />
+          ))}
+        </div>
       </div>
-    </section>
+      <div
+        style={{
+          background: "#0A0A0A",
+          color: "#fff",
+          borderRadius: 12,
+          padding: "12px 14px",
+          fontFamily: "Inter",
+          fontSize: 13.5,
+          lineHeight: 1.55,
+        }}
+      >
+        <Mono style={{ color: "rgba(255,255,255,0.55)", marginBottom: 8, display: "block" }}>
+          Transcripción en vivo
+        </Mono>
+        Hola Diego, te llamo de Clínica Meza. Mañana tienes consulta a las <b style={{ color: "#fff" }}>16:00</b>. ¿La confirmas, o prefieres que la movamos?
+      </div>
+    </div>
+  );
+}
+
+function CamilaSilenceMockup() {
+  const events = [
+    { t: "10:42", who: "AURA", txt: "Mensaje enviado a María R.", muted: true },
+    { t: "12:08", who: "AURA", txt: "Reintento. Sin respuesta.", muted: true },
+    { t: "12:30", who: "LIA", txt: "Trigger: silencio chat 1h47 + cupo libre 16:00", flag: true },
+    { t: "12:31", who: "CAMILA", txt: "Llamada saliente — María R.", action: true },
+  ];
+  return (
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: 20,
+        boxShadow: "0 24px 64px rgba(0,0,0,.06)",
+        border: "1px solid #F0F0F0",
+        padding: 22,
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <Mono>Línea de tiempo · paciente María R.</Mono>
+        <span
+          style={{
+            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontSize: 10,
+            color: "#0891B2",
+            background: "rgba(8,145,178,0.08)",
+            padding: "3px 8px",
+            borderRadius: 999,
+            border: "1px solid #A5F3FC",
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+          }}
+        >
+          LTV alto
+        </span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        {events.map((e, i) => (
+          <div
+            key={i}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "44px 70px 1fr",
+              gap: 10,
+              alignItems: "center",
+              padding: "10px 12px",
+              borderRadius: 10,
+              background: e.action ? "rgba(8,145,178,0.06)" : e.flag ? "#FAFAFA" : "transparent",
+              border: e.action ? "1px solid #A5F3FC" : e.flag ? "1px dashed #E5E7EB" : "0",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: 11,
+                color: "#9CA3AF",
+              }}
+            >
+              {e.t}
+            </span>
+            <span
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: 10,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                fontWeight: 500,
+                color:
+                  e.who === "AURA" ? "#7C3AED" : e.who === "LIA" ? "#0A0A0A" : "#0891B2",
+              }}
+            >
+              {e.who}
+            </span>
+            <span
+              style={{
+                fontFamily: "Inter",
+                fontSize: 13.5,
+                color: e.muted ? "#6B7280" : "#0A0A0A",
+                fontWeight: e.action ? 600 : 400,
+                letterSpacing: "-0.005em",
+                lineHeight: 1.4,
+              }}
+            >
+              {e.txt}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CamilaVoiceMockup() {
+  const sliders = [
+    { l: "Tono", v: "Cercano", w: 64 },
+    { l: "Ritmo", v: "Natural", w: 48 },
+    { l: "Acento", v: "CL · neutro", w: 30 },
+    { l: "Formalidad", v: "Médico", w: 72 },
+  ];
+  return (
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: 20,
+        boxShadow: "0 24px 64px rgba(0,0,0,.06)",
+        border: "1px solid #F0F0F0",
+        padding: 22,
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+        <Mono>Configuración de voz · CAMILA</Mono>
+        <span
+          style={{
+            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontSize: 10,
+            color: "#0891B2",
+            letterSpacing: "0.08em",
+          }}
+        >
+          ◆ entrenando con tus llamadas
+        </span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+        {sliders.map((s) => (
+          <div
+            key={s.l}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "100px 1fr 110px",
+              gap: 16,
+              alignItems: "center",
+            }}
+          >
+            <Mono style={{ color: "#6B7280" }}>{s.l}</Mono>
+            <div style={{ position: "relative", height: 4, background: "#E5E7EB", borderRadius: 2 }}>
+              <div
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: `${s.w}%`,
+                  background: "#0891B2",
+                  borderRadius: 2,
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  width: 12,
+                  height: 12,
+                  borderRadius: 999,
+                  background: "#0891B2",
+                  top: "50%",
+                  left: `${s.w}%`,
+                  transform: "translate(-50%, -50%)",
+                  boxShadow: "0 0 0 4px rgba(8,145,178,0.16)",
+                }}
+              />
+            </div>
+            <span
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: 12,
+                color: "#0A0A0A",
+                fontWeight: 500,
+                textAlign: "right",
+              }}
+            >
+              {s.v}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   LIA mockups
+   ============================================================ */
+function LiaGapsMockup() {
+  const rows = [
+    { t: "15:00", n: "Antonia Ríos", tag: "Conf." },
+    { t: "16:00", n: "Hueco · cancelación 10:42", gap: true },
+    { t: "17:00", n: "Hueco · sin agendar", gap: true },
+    { t: "18:00", n: "Vicente Soto", tag: "Conf." },
+  ];
+  return (
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: 20,
+        boxShadow: "0 24px 64px rgba(0,0,0,.06)",
+        border: "1px solid #F0F0F0",
+        padding: 22,
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+        <Mono>Hoy · Dra. Meza</Mono>
+        <span
+          style={{
+            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontSize: 10.5,
+            color: "#F59E0B",
+            background: "rgba(245,158,11,0.08)",
+            padding: "3px 8px",
+            borderRadius: 999,
+            border: "1px solid #FDE68A",
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+          }}
+        >
+          2 huecos detectados
+        </span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        {rows.map((r, i) => (
+          <div
+            key={i}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              padding: "10px 12px",
+              borderRadius: 10,
+              background: r.gap ? "rgba(245,158,11,0.06)" : "#FAFAFA",
+              border: r.gap ? "1px dashed #FDE68A" : "1px solid #F0F0F0",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: 12,
+                color: "#6B7280",
+                width: 44,
+              }}
+            >
+              {r.t}
+            </span>
+            <span
+              style={{
+                flex: 1,
+                fontFamily: "Inter",
+                fontSize: 13.5,
+                color: r.gap ? "#B45309" : "#0A0A0A",
+                fontStyle: r.gap ? "italic" : "normal",
+                fontWeight: 500,
+              }}
+            >
+              {r.n}
+            </span>
+            <span
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: 10,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: r.gap ? "#B45309" : "#6B7280",
+                background: r.gap ? "rgba(245,158,11,0.12)" : "#F3F4F6",
+                padding: "3px 8px",
+                borderRadius: 999,
+                border: r.gap ? "1px solid #FDE68A" : "1px solid #E5E7EB",
+              }}
+            >
+              {r.gap ? "Detectado" : r.tag}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LiaDecisionMockup() {
+  const steps = [
+    { num: "01", txt: "Hueco 17:00 detectado · 30 min libres", end: "→" },
+    { num: "02", txt: "Mejor candidata: María R. · LTV $480k · sin respuesta a 2 chats", end: "→" },
+    { num: "03", txt: "Acción: llamada ahora + fallback a chat", tag: "CAMILA", action: true },
+  ];
+  return (
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: 20,
+        boxShadow: "0 24px 64px rgba(0,0,0,.06)",
+        border: "1px solid #F0F0F0",
+        padding: 22,
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+        <Mono>LIA · Plan de contacto</Mono>
+        <span
+          style={{
+            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontSize: 10.5,
+            color: "#10B981",
+          }}
+        >
+          ● procesando
+        </span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {steps.map((s, i) => (
+          <div
+            key={i}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "32px 1fr auto",
+              gap: 12,
+              alignItems: "center",
+              padding: "12px 14px",
+              borderRadius: 10,
+              background: s.action ? "rgba(8,145,178,0.06)" : "#FAFAFA",
+              border: s.action ? "1px solid #A5F3FC" : "1px solid #F0F0F0",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: 11,
+                color: "#9CA3AF",
+                fontWeight: 500,
+                letterSpacing: "0.06em",
+              }}
+            >
+              {s.num}
+            </span>
+            <span
+              style={{
+                fontFamily: "Inter",
+                fontSize: 13.5,
+                color: "#0A0A0A",
+                fontWeight: s.action ? 600 : 400,
+                lineHeight: 1.4,
+              }}
+            >
+              {s.txt}
+            </span>
+            {s.tag ? (
+              <span
+                style={{
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  fontSize: 10,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  fontWeight: 500,
+                  padding: "4px 9px",
+                  borderRadius: 999,
+                  background: "#fff",
+                  color: "#0891B2",
+                  border: "1px solid #A5F3FC",
+                }}
+              >
+                {s.tag}
+              </span>
+            ) : (
+              <span style={{ color: "#7C3AED", fontSize: 14, fontWeight: 600 }}>{s.end}</span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LiaFunnelMockup() {
+  const stages = [
+    { n: "Leads totales", v: "847", pct: 100 },
+    { n: "Evaluación agendada", v: "312", pct: 36.8 },
+    { n: "Agendaron sin comprar — LIA reactiva", v: "181", pct: 21.4, target: true },
+    { n: "Cerrados esta semana", v: "47", pct: 5.5 },
+  ];
+  return (
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: 20,
+        boxShadow: "0 24px 64px rgba(0,0,0,.06)",
+        border: "1px solid #F0F0F0",
+        padding: 22,
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+        <Mono>Embudo activo · esta semana</Mono>
+        <span
+          style={{
+            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontSize: 10.5,
+            color: "#7C3AED",
+          }}
+        >
+          ▲ +12% vs semana pasada
+        </span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        {stages.map((s, i) => (
+          <div
+            key={i}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr auto",
+              gap: 12,
+              alignItems: "center",
+              padding: "10px 14px",
+              borderRadius: 10,
+              background: s.target ? "rgba(124,58,237,0.05)" : "#fff",
+              border: s.target ? "1px solid #DDD6FE" : "1px solid #F0F0F0",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "Inter",
+                fontSize: 13.5,
+                color: s.target ? "#0A0A0A" : "#374151",
+                fontWeight: s.target ? 600 : 500,
+                letterSpacing: "-0.005em",
+              }}
+            >
+              {s.n}
+            </span>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+              <span
+                style={{
+                  fontFamily: "Inter",
+                  fontSize: 18,
+                  fontWeight: 800,
+                  letterSpacing: "-0.02em",
+                  color: s.target ? "#7C3AED" : "#0A0A0A",
+                }}
+              >
+                {s.v}
+              </span>
+              <span
+                style={{
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  fontSize: 10.5,
+                  color: "#9CA3AF",
+                  width: 48,
+                  textAlign: "right",
+                }}
+              >
+                {s.pct}%
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
