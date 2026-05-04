@@ -1114,20 +1114,48 @@
   .ag-c.free{ background: #ECFDF5; color: #065F46; border-color: #A7F3D0; }
   .ag-c.block{ background: #F8FAFC; color: #6B7280; border-style: dashed; }
 
-  /* Ficha mock */
-  .ficha-mock{ flex-wrap: nowrap; }
-  .fm-avatar{
-    width: 36px; height: 36px; border-radius: 999px;
-    background: linear-gradient(135deg,#3B82F6 0%,#7C3AED 50%,#D946EF 100%);
-    color: #fff;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-family: var(--sans); font-weight: 700; font-size: 13px;
-    flex-shrink: 0;
+  /* Vault compliance mock */
+  .vault-mock{ flex-direction: column; align-items: stretch; gap: 8px; flex-wrap: nowrap; }
+  .vault-head{
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6B7280;
   }
-  .fm-body{ display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
-  .fm-name{ font-family: var(--sans); font-size: 12.5px; font-weight: 700; color: var(--ink); }
-  .fm-line{ font-family: var(--sans); font-size: 11px; color: #6B7280; line-height: 1.3; }
-  .fm-lock{ font-size: 14px; opacity: .55; }
+  .vault-lock{ font-size: 12px; }
+  .vault-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+  }
+  .vault-chip{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(124,58,237,.06);
+    border: 1px solid #DDD6FE;
+    border-radius: 8px;
+    padding: 5px 9px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+  .vault-check{
+    flex-shrink: 0;
+    width: 13px; height: 13px;
+    border-radius: 999px;
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    color: #10B981;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+  }
 
   /* Funnel mock */
   .funnel-mock{ flex-direction: column; align-items: stretch; gap: 8px; }
@@ -1344,18 +1372,18 @@
         <article class="ext reveal" id="ex3">
           <header class="ext-head">
             <span class="ext-num">03</span>
-            <span class="ext-tag">Ficha clínica</span>
+            <span class="ext-tag">Ficha clínica · Clinera Vault</span>
           </header>
-          <h3 class="ext-title">100% personalizable, con respaldo legal.</h3>
-          <p class="ext-desc">Dental, médica, estética, veterinaria o psicológica. Cifrado en Clinera Vault — Ley 20.584.</p>
-          <div class="ext-mock ficha-mock" aria-hidden="true">
-            <div class="fm-avatar">CP</div>
-            <div class="fm-body">
-              <span class="fm-name">Carla Pérez · 34 años</span>
-              <span class="fm-line">Limpieza facial · 02 jul</span>
-              <span class="fm-line">Plan: 6 sesiones · sesión 3/6</span>
+          <h3 class="ext-title">100% personalizable, con respaldo legal cifrado.</h3>
+          <p class="ext-desc">Dental, médica, estética, veterinaria o psicológica. Clinera Vault cumple la normativa chilena de salud y protección de datos.</p>
+          <div class="ext-mock vault-mock" aria-hidden="true">
+            <span class="vault-head"><span class="vault-lock">🔒</span> Clinera Vault cumple</span>
+            <div class="vault-grid">
+              <span class="vault-chip"><span class="vault-check">✓</span> Ley N° 20.584</span>
+              <span class="vault-chip"><span class="vault-check">✓</span> Ley N° 19.628</span>
+              <span class="vault-chip"><span class="vault-check">✓</span> D.S. N° 41/2012 MINSAL</span>
+              <span class="vault-chip"><span class="vault-check">✓</span> Ley N° 21.668</span>
             </div>
-            <span class="fm-lock">🔒</span>
           </div>
         </article>
 
