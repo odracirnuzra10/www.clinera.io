@@ -990,7 +990,240 @@
     .emp-right{ width: 100%; }
     .bubble{ max-width: 100%; }
   }
-</style>
+
+  /* === Slide: Lo demás de Clinera === */
+  .slide-extras .slide-inner{ max-width: 1180px; }
+  .extras-head{ margin-bottom: 36px; max-width: 720px; }
+  .extras-title{
+    font-family: var(--sans);
+    font-size: clamp(36px, 4.4vw, 60px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    color: var(--ink);
+    margin: 14px 0 14px;
+  }
+  .extras-sub{
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.55;
+    color: #4B5563;
+    margin: 0;
+    max-width: 640px;
+  }
+  .extras-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 14px;
+  }
+  .extras-grid .ext:nth-child(4){ grid-column: span 2; }
+  .ext{
+    background: #fff;
+    border: 1px solid #EEECEA;
+    border-radius: 16px;
+    padding: 18px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.03);
+    min-height: 240px;
+  }
+  .ext-head{ display: flex; align-items: center; gap: 10px; }
+  .ext-num{
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--violet);
+  }
+  .ext-tag{
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6B7280;
+    background: #FAFAFA;
+    border: 1px solid #EEECEA;
+    padding: 3px 8px;
+    border-radius: 999px;
+  }
+  .ext-title{
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    line-height: 1.25;
+    color: var(--ink);
+    margin: 4px 0 0;
+  }
+  .ext-desc{
+    font-family: var(--sans);
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: #4B5563;
+    margin: 0;
+  }
+  .ext-mock{
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px dashed #EEECEA;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-height: 56px;
+  }
+
+  /* Auto flow */
+  .afn{
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #EEECEA;
+    background: #fff;
+    white-space: nowrap;
+  }
+  .afn.purple{ color: var(--violet); border-color: #DDD6FE; background: rgba(124,58,237,.06); }
+  .afn.yellow{ color: #B45309; border-color: #FDE68A; background: #FEF3C7; }
+  .afn.blue{ color: #1D4ED8; border-color: #BFDBFE; background: #DBEAFE; }
+  .afa{ color: #9CA3AF; font-family: var(--mono); font-size: 12px; }
+
+  /* Agenda mock */
+  .agenda-mock{ flex-direction: column; align-items: stretch; gap: 4px; }
+  .ag-row{ display: flex; align-items: center; gap: 10px; }
+  .ag-h{
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: #6B7280;
+    width: 42px;
+  }
+  .ag-c{
+    flex: 1;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    padding: 4px 9px;
+    border-radius: 6px;
+    border: 1px solid #EEECEA;
+  }
+  .ag-c.booked{ background: rgba(124,58,237,.06); color: var(--violet); border-color: #DDD6FE; }
+  .ag-c.free{ background: #ECFDF5; color: #065F46; border-color: #A7F3D0; }
+  .ag-c.block{ background: #F8FAFC; color: #6B7280; border-style: dashed; }
+
+  /* Ficha mock */
+  .ficha-mock{ flex-wrap: nowrap; }
+  .fm-avatar{
+    width: 36px; height: 36px; border-radius: 999px;
+    background: linear-gradient(135deg,#3B82F6 0%,#7C3AED 50%,#D946EF 100%);
+    color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--sans); font-weight: 700; font-size: 13px;
+    flex-shrink: 0;
+  }
+  .fm-body{ display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+  .fm-name{ font-family: var(--sans); font-size: 12.5px; font-weight: 700; color: var(--ink); }
+  .fm-line{ font-family: var(--sans); font-size: 11px; color: #6B7280; line-height: 1.3; }
+  .fm-lock{ font-size: 14px; opacity: .55; }
+
+  /* Funnel mock */
+  .funnel-mock{ flex-direction: column; align-items: stretch; gap: 8px; }
+  .fn-stages{ display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+  .fn-st{
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px solid #EEECEA;
+    color: #6B7280;
+    background: #fff;
+    white-space: nowrap;
+  }
+  .fn-st.active{
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+  .fn-arr{ color: #9CA3AF; font-size: 11px; }
+  .fn-send{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    border-radius: 8px;
+    padding: 6px 10px;
+  }
+  .fn-send-d{
+    width: 7px; height: 7px; border-radius: 999px;
+    background: #10B981;
+    box-shadow: 0 0 0 0 rgba(16,185,129,.5);
+    animation: fnPulse 1.6s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes fnPulse{
+    0%,100%{ box-shadow: 0 0 0 0 rgba(16,185,129,.4); }
+    50%{ box-shadow: 0 0 0 6px rgba(16,185,129,0); }
+  }
+  .fn-send-text{
+    font-family: var(--sans);
+    font-size: 12px;
+    color: #065F46;
+    flex: 1;
+  }
+  .fn-send-text strong{ font-weight: 700; }
+  .fn-send-bar{
+    flex: 0 0 60px;
+    height: 4px;
+    background: #fff;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .fn-send-fill{
+    display: block;
+    height: 100%;
+    width: 65%;
+    background: linear-gradient(90deg,#10B981,#34D399);
+  }
+
+  /* Atribución mock */
+  .attr-mock{ flex-direction: column; align-items: stretch; gap: 5px; }
+  .at-row{
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--sans);
+    font-size: 11.5px;
+  }
+  .at-src{
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 3px 7px;
+    border-radius: 6px;
+    border: 1px solid #EEECEA;
+    flex-shrink: 0;
+  }
+  .at-src.meta{ color: #1877F2; background: #EFF6FF; border-color: #DBEAFE; }
+  .at-src.google{ color: #1A73E8; background: #fff; border-color: #DBEAFE; }
+  .at-src.organic{ color: #6B7280; background: #FAFAFA; }
+  .at-name{ flex: 1; color: var(--ink); }
+  .at-sales{ font-family: var(--mono); font-weight: 700; color: var(--ink); }
+
+  @media (max-width: 1100px){
+    .extras-grid{ grid-template-columns: repeat(2, 1fr); }
+    .extras-grid .ext:nth-child(4){ grid-column: span 1; }
+  }
+  @media (max-width: 720px){
+    .extras-grid{ grid-template-columns: 1fr; }
+    .extras-title{ font-size: 30px; }
+  }
+
+  </style>
 </head>
 <body>
 
@@ -1065,8 +1298,125 @@
     </div>
   </section>
 
-  <!-- 04 — CAMILA -->
-  <section class="slide" id="slide3" style="--accent: var(--cyan);">
+  <!-- 04 — Lo demás de Clinera -->
+  <section class="slide slide-extras" id="slide3">
+    <div class="slide-inner">
+      <div class="extras-head reveal" id="ex-head">
+        <span class="role"><span class="pip"></span><span><span class="num">02</span> · Lo demás de Clinera</span></span>
+        <h2 class="extras-title">Y todo lo que rodea a AURA.</h2>
+        <p class="extras-sub">Recordatorios, agenda, ficha clínica, marketing y atribución — todo conectado al agente IA, en un solo lugar.</p>
+      </div>
+
+      <div class="extras-grid">
+        <!-- 01 Automatizaciones -->
+        <article class="ext reveal" id="ex1">
+          <header class="ext-head">
+            <span class="ext-num">01</span>
+            <span class="ext-tag">Automatizaciones</span>
+          </header>
+          <h3 class="ext-title">Recordatorios y confirmaciones drag-and-drop.</h3>
+          <p class="ext-desc">Diseña tu flujo de recordatorios sin código. Cita agendada → espera → WhatsApp.</p>
+          <div class="ext-mock auto-flow" aria-hidden="true">
+            <span class="afn purple">Cita agendada</span>
+            <span class="afa">→</span>
+            <span class="afn yellow">Esperar 1 min</span>
+            <span class="afa">→</span>
+            <span class="afn blue">Enviar WhatsApp</span>
+          </div>
+        </article>
+
+        <!-- 02 Agenda -->
+        <article class="ext reveal" id="ex2">
+          <header class="ext-head">
+            <span class="ext-num">02</span>
+            <span class="ext-tag">Agenda médica</span>
+          </header>
+          <h3 class="ext-title">Por profesional, en tiempo real.</h3>
+          <p class="ext-desc">AURA lee los huecos disponibles según tratamiento, especialidad y profesional antes de ofrecer hora.</p>
+          <div class="ext-mock agenda-mock" aria-hidden="true">
+            <div class="ag-row"><span class="ag-h">10:00</span><span class="ag-c booked">Carla P. · Limpieza</span></div>
+            <div class="ag-row"><span class="ag-h">11:30</span><span class="ag-c free">Disponible</span></div>
+            <div class="ag-row"><span class="ag-h">13:00</span><span class="ag-c block">Bloqueo · almuerzo</span></div>
+          </div>
+        </article>
+
+        <!-- 03 Ficha clinica -->
+        <article class="ext reveal" id="ex3">
+          <header class="ext-head">
+            <span class="ext-num">03</span>
+            <span class="ext-tag">Ficha clínica</span>
+          </header>
+          <h3 class="ext-title">100% personalizable, con respaldo legal.</h3>
+          <p class="ext-desc">Dental, médica, estética, veterinaria o psicológica. Cifrado en Clinera Vault — Ley 20.584.</p>
+          <div class="ext-mock ficha-mock" aria-hidden="true">
+            <div class="fm-avatar">CP</div>
+            <div class="fm-body">
+              <span class="fm-name">Carla Pérez · 34 años</span>
+              <span class="fm-line">Limpieza facial · 02 jul</span>
+              <span class="fm-line">Plan: 6 sesiones · sesión 3/6</span>
+            </div>
+            <span class="fm-lock">🔒</span>
+          </div>
+        </article>
+
+        <!-- 04 WhatsApp Marketing -->
+        <article class="ext reveal" id="ex4">
+          <header class="ext-head">
+            <span class="ext-num">04</span>
+            <span class="ext-tag">WhatsApp marketing</span>
+          </header>
+          <h3 class="ext-title">Difusiones masivas que reactivan pacientes dormidos.</h3>
+          <p class="ext-desc">Filtra por etapa de embudo y envía un mensaje certero — sin sacar la base a Excel.</p>
+          <div class="ext-mock funnel-mock" aria-hidden="true">
+            <div class="fn-stages">
+              <span class="fn-st">Lead</span>
+              <span class="fn-arr">→</span>
+              <span class="fn-st">Pre-SQL</span>
+              <span class="fn-arr">→</span>
+              <span class="fn-st active">Agendaron sin comprar</span>
+              <span class="fn-arr">→</span>
+              <span class="fn-st">Compró</span>
+            </div>
+            <div class="fn-send">
+              <span class="fn-send-d"></span>
+              <span class="fn-send-text">Enviando difusión a <strong>181 contactos</strong></span>
+              <span class="fn-send-bar"><span class="fn-send-fill"></span></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 05 Atribucion -->
+        <article class="ext reveal" id="ex5">
+          <header class="ext-head">
+            <span class="ext-num">05</span>
+            <span class="ext-tag">Panel de ventas</span>
+          </header>
+          <h3 class="ext-title">Atribución real Meta + Google → cita → venta.</h3>
+          <p class="ext-desc">Cada paciente ya tiene la campaña que lo trajo. Sabes qué anuncio compró, no solo cuál clickeó.</p>
+          <div class="ext-mock attr-mock" aria-hidden="true">
+            <div class="at-row">
+              <span class="at-src meta">Meta</span>
+              <span class="at-name">Primera visita LATAM</span>
+              <span class="at-sales">$ 6.2M</span>
+            </div>
+            <div class="at-row">
+              <span class="at-src google">Google</span>
+              <span class="at-name">Search marca</span>
+              <span class="at-sales">$ 4.8M</span>
+            </div>
+            <div class="at-row">
+              <span class="at-src organic">Org.</span>
+              <span class="at-name">Referidos</span>
+              <span class="at-sales">$ 3.9M</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — CAMILA -->
+  <section class="slide" id="slide4" style="--accent: var(--cyan);">
     <div class="slide-inner emp">
       <div class="emp-left">
         <div class="role reveal" id="camila-k">
@@ -1092,8 +1442,8 @@
     </div>
   </section>
 
-  <!-- 05 — LIA -->
-  <section class="slide" id="slide4" style="--accent: var(--ink);">
+  <!-- 06 — LIA -->
+  <section class="slide" id="slide5" style="--accent: var(--ink);">
     <div class="slide-inner emp">
       <div class="emp-left">
         <div class="role reveal" id="lia-k">
@@ -1118,8 +1468,8 @@
     </div>
   </section>
 
-  <!-- 06 — KIMI -->
-  <section class="slide" id="slide5" style="--accent: var(--magenta);">
+  <!-- 07 — KIMI -->
+  <section class="slide" id="slide6" style="--accent: var(--magenta);">
     <div class="slide-inner emp">
       <div class="emp-left">
         <div class="role reveal" id="kimi-k">
@@ -1144,8 +1494,8 @@
     </div>
   </section>
 
-  <!-- 07 — Cómo se coordinan -->
-  <section class="slide" id="slide6">
+  <!-- 08 — Cómo se coordinan -->
+  <section class="slide" id="slide7">
     <div class="slide-inner">
       <div class="kicker"><span class="pip"></span>Cómo se coordinan</div>
       <h2 class="flow-h">Una sola clínica. <br/>Cuatro roles. Cero pisadas.</h2>
@@ -1171,8 +1521,8 @@
     </div>
   </section>
 
-  <!-- 08 — Equipo grid -->
-  <section class="slide" id="slide7">
+  <!-- 09 — Equipo grid -->
+  <section class="slide" id="slide8">
     <div class="slide-inner">
       <div class="kicker"><span class="pip"></span>El equipo</div>
       <h2 class="team-h">Cuatro empleadas. <br/>Una sola clínica.</h2>
@@ -1206,8 +1556,8 @@
     </div>
   </section>
 
-  <!-- 09 — Roadmap (próximas empleadas) -->
-  <section class="slide slide-roadmap" id="slide8">
+  <!-- 10 — Roadmap (próximas empleadas) -->
+  <section class="slide slide-roadmap" id="slide9">
     <div class="slide-inner roadmap">
       <div class="kicker"><span class="pip"></span>Roadmap · próximas empleadas</div>
       <h2 class="roadmap-h">Y dos más vienen <span class="em">en camino</span>.</h2>
@@ -1242,8 +1592,8 @@
     </div>
   </section>
 
-  <!-- 10 — Planes evolución -->
-  <section class="slide" id="slide9">
+  <!-- 11 — Planes evolución -->
+  <section class="slide" id="slide10">
     <div class="slide-inner">
       <div class="kicker"><span class="pip"></span>Planes · evolución</div>
       <h2 class="plans-h">Antes pagabas por software.<br/>Ahora pagas por <span class="em">empleadas</span>.</h2>
@@ -1333,8 +1683,8 @@
     </div>
   </section>
 
-  <!-- 11 — Cierre -->
-  <section class="slide" id="slide10">
+  <!-- 12 — Cierre -->
+  <section class="slide" id="slide11">
     <div class="slide-inner close">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>El equipo</div>
       <p class="close-line">
@@ -1354,7 +1704,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 11;
+  const TOTAL_SLIDES = 12;
   let currentSlide = 0;
   let currentSubStep = 0;
   let isAnimating = false;
@@ -1363,14 +1713,15 @@
     0: 1,  // portada
     1: 2,  // manifiesto
     2: 4,  // AURA
-    3: 4,  // CAMILA
-    4: 4,  // LIA
-    5: 4,  // KIMI
-    6: 4,  // flow
-    7: 4,  // equipo
-    8: 2,  // roadmap (Ricardo -> Mitzi)
-    9: 2,  // planes (hoy -> proximos)
-    10: 1  // cierre
+    3: 6,  // extras (head + 5 cards)
+    4: 4,  // CAMILA
+    5: 4,  // LIA
+    6: 4,  // KIMI
+    7: 4,  // flow
+    8: 4,  // equipo
+    9: 2,  // roadmap
+    10: 2, // planes
+    11: 1  // cierre
   };
 
   function $(id){ return document.getElementById(id); }
@@ -1440,41 +1791,49 @@
         else if (step === 2) showEls(['aura-b']);
         else if (step === 3) showEls(['aura-m']);
         break;
-      case 3: // CAMILA
+      case 3: // Extras (Lo demás de Clinera)
+        if (step === 0) showEls(['ex-head']);
+        else if (step === 1) showEls(['ex1']);
+        else if (step === 2) showEls(['ex2']);
+        else if (step === 3) showEls(['ex3']);
+        else if (step === 4) showEls(['ex4']);
+        else if (step === 5) showEls(['ex5']);
+        break;
+      case 4: // CAMILA
         if (step === 0) showEls(['camila-k', 'camila-line-acc', 'camila-n'], 100);
         else if (step === 1) showEls(['camila-l']);
         else if (step === 2) showEls(['camila-b']);
         else if (step === 3) showEls(['camila-m']);
         break;
-      case 4: // LIA
+      case 5: // LIA
         if (step === 0) showEls(['lia-k', 'lia-line-acc', 'lia-n'], 100);
         else if (step === 1) showEls(['lia-l']);
         else if (step === 2) showEls(['lia-b']);
         else if (step === 3) showEls(['lia-m']);
         break;
-      case 5: // KIMI
+      case 6: // KIMI
         if (step === 0) showEls(['kimi-k', 'kimi-line-acc', 'kimi-n'], 100);
         else if (step === 1) showEls(['kimi-l']);
         else if (step === 2) showEls(['kimi-b']);
         else if (step === 3) showEls(['kimi-m']);
         break;
-      case 6: // flow
+      case 7: // flow
         if (step === 0) showEls(['flow-1']);
         else if (step === 1) showEls(['flow-2']);
         else if (step === 2) showEls(['flow-3']);
         else if (step === 3) showEls(['flow-4']);
         break;
-      case 7: // equipo
+      case 8: // equipo
         if (step === 0) showEls(['tc1']);
         else if (step === 1) showEls(['tc2']);
         else if (step === 2) showEls(['tc3']);
         else if (step === 3) showEls(['tc4']);
         break;
-      case 8: // roadmap
+      case 9: // roadmap
         if (step === 0) showEls(['rm-ricardo']);
         else if (step === 1) showEls(['rm-mitzi']);
         break;
-      case 9: // planes
+      case 10: // planes
         if (step === 0) showEls(['plans-now']);
         else if (step === 1) showEls(['plans-next']);
         break;
