@@ -154,6 +154,10 @@ const nextConfig: NextConfig = {
         source: '/prompt',
         destination: '/prompt/index.html',
       },
+      {
+        source: '/update',
+        destination: '/update/index.html',
+      },
     ];
   },
   async redirects() {
