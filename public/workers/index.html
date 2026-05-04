@@ -613,7 +613,148 @@
   .team-card.lia{ border-top: 3px solid var(--ink); }
   .team-card.kimi{ border-top: 3px solid var(--magenta); }
 
-  /* === 09 Planes evolución === */
+  /* === 09 Próximas empleadas (roadmap dark) === */
+  .slide.slide-roadmap{
+    background: #0B0B0F;
+  }
+  .roadmap{
+    color: #fff;
+  }
+  .roadmap .kicker{
+    color: rgba(255,255,255,.5);
+  }
+  .roadmap .kicker .pip{
+    background: var(--magenta);
+  }
+  .roadmap .roadmap-h{
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    margin: 0 0 12px 0;
+    color: #fff;
+  }
+  .roadmap .roadmap-h .em{
+    background: linear-gradient(90deg, var(--cyan), var(--violet) 55%, var(--magenta));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .roadmap .roadmap-lead{
+    font-size: clamp(17px, 1.4vw, 20px);
+    color: rgba(255,255,255,.55);
+    max-width: 620px;
+    line-height: 1.55;
+    margin: 0 0 48px 0;
+  }
+  .roadmap-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .roadmap-card{
+    background: rgba(255,255,255,.025);
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: var(--radius);
+    padding: 28px 28px 30px;
+    display:flex; flex-direction:column;
+    gap: 14px;
+    min-height: 280px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .roadmap-card::before{
+    content: '';
+    position: absolute;
+    inset: -1px -1px auto -1px;
+    height: 2px;
+    background: var(--accent-rm, var(--violet));
+    opacity: 0.7;
+  }
+  .roadmap-card .badge{
+    align-self: flex-start;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.18);
+    color: rgba(255,255,255,.7);
+    background: rgba(255,255,255,.04);
+    display:inline-flex; align-items:center; gap: 6px;
+  }
+  .roadmap-card .badge .pip{
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent-rm, var(--violet));
+    animation: rmPulse 2s ease-in-out infinite;
+  }
+  @keyframes rmPulse{
+    0%,100%{ opacity: 0.5; transform: scale(1); }
+    50%{ opacity: 1; transform: scale(1.2); }
+  }
+  .roadmap-card .role{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.55);
+  }
+  .roadmap-card .name{
+    font-size: clamp(56px, 7vw, 96px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    color: #fff;
+    margin: 0;
+  }
+  .roadmap-card.amber .name{
+    background: linear-gradient(135deg, #FFB347 0%, #FF7E5F 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .roadmap-card.lime .name{
+    background: linear-gradient(135deg, #A4E25E 0%, #34D399 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .roadmap-card .desc{
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(255,255,255,.78);
+    font-weight: 400;
+    margin-top: 4px;
+  }
+  .roadmap-card .desc strong{
+    color: #fff;
+    font-weight: 600;
+  }
+  .roadmap-card .meta{
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    display:flex; flex-wrap:wrap; gap: 18px;
+  }
+  .roadmap-card .meta .item{
+    display:flex; flex-direction:column; gap: 4px;
+  }
+  .roadmap-card .meta .k{
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.45);
+  }
+  .roadmap-card .meta .v{
+    font-size: 13px;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+
+  /* === 10 Planes evolución === */
   .plans-h{
     font-size: clamp(40px, 6vw, 80px);
     font-weight: 800;
@@ -841,6 +982,8 @@
     .flow-row{ grid-template-columns: 1fr; gap: 8px; }
     .meta-grid{ grid-template-columns: 1fr 1fr 1fr; }
     .plans-grid{ grid-template-columns: 1fr; gap: 32px; }
+    .roadmap-grid{ grid-template-columns: 1fr; gap: 14px; }
+    .roadmap-card{ min-height: 220px; padding: 24px 22px 26px; }
   }
   @media (max-width: 520px){
     .meta-tag{ display: none; }
@@ -853,10 +996,10 @@
 
 <div class="hud">
   <div class="brand">clinera<span class="dot"></span>io</div>
-  <div class="meta-tag">Equipo IA · 4 empleadas</div>
+  <div class="meta-tag">Equipo IA · 4 ahora · 2 pronto</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 10</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 11</div>
 <div class="hint">
   Click o <span class="arrow">→</span> para continuar
 </div>
@@ -1063,8 +1206,44 @@
     </div>
   </section>
 
-  <!-- 09 — Planes evolución -->
-  <section class="slide" id="slide8">
+  <!-- 09 — Roadmap (próximas empleadas) -->
+  <section class="slide slide-roadmap" id="slide8">
+    <div class="slide-inner roadmap">
+      <div class="kicker"><span class="pip"></span>Roadmap · próximas empleadas</div>
+      <h2 class="roadmap-h">Y dos más vienen <span class="em">en camino</span>.</h2>
+      <p class="roadmap-lead">Las áreas que aún operás manualmente: <strong style="color:rgba(255,255,255,.85);font-weight:500;">marketing y cobranza</strong>. Cubiertas el próximo trimestre.</p>
+      <div class="roadmap-grid">
+
+        <div class="roadmap-card amber reveal" id="rm-ricardo" style="--accent-rm:#FFB347;">
+          <div class="badge"><span class="pip"></span>Próximamente · Q4 2026</div>
+          <div class="role">Marketero IA · 05</div>
+          <h3 class="name">RICARDO</h3>
+          <p class="desc">Configura, lanza y optimiza tus campañas de <strong>Meta y Google Ads</strong> vía MCP — con criterio de adquisición, no de copia y pega.</p>
+          <div class="meta">
+            <div class="item"><span class="k">Canal</span><span class="v">MCP · Ads APIs</span></div>
+            <div class="item"><span class="k">Trigger</span><span class="v">CPL alto · Presupuesto</span></div>
+            <div class="item"><span class="k">Plan</span><span class="v">Advanced+</span></div>
+          </div>
+        </div>
+
+        <div class="roadmap-card lime reveal" id="rm-mitzi" style="--accent-rm:#A4E25E;">
+          <div class="badge"><span class="pip"></span>Próximamente · Q4 2026</div>
+          <div class="role">Cobranzas IA · 06</div>
+          <h3 class="name">MITZI</h3>
+          <p class="desc">Verifica saldos pendientes y los recupera por <strong>WhatsApp y llamada</strong>. Si el paciente no responde por chat, MITZI levanta el teléfono.</p>
+          <div class="meta">
+            <div class="item"><span class="k">Canal</span><span class="v">Texto + Voz</span></div>
+            <div class="item"><span class="k">Trigger</span><span class="v">Saldo > 7 días</span></div>
+            <div class="item"><span class="k">Plan</span><span class="v">Advanced Voice+</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 — Planes evolución -->
+  <section class="slide" id="slide9">
     <div class="slide-inner">
       <div class="kicker"><span class="pip"></span>Planes · evolución</div>
       <h2 class="plans-h">Antes pagabas por software.<br/>Ahora pagas por <span class="em">empleadas</span>.</h2>
@@ -1154,8 +1333,8 @@
     </div>
   </section>
 
-  <!-- 10 — Cierre -->
-  <section class="slide" id="slide9">
+  <!-- 11 — Cierre -->
+  <section class="slide" id="slide10">
     <div class="slide-inner close">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>El equipo</div>
       <p class="close-line">
@@ -1175,22 +1354,23 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 10;
+  const TOTAL_SLIDES = 11;
   let currentSlide = 0;
   let currentSubStep = 0;
   let isAnimating = false;
 
   const subSteps = {
-    0: 1, // portada
-    1: 2, // manifiesto
-    2: 4, // AURA
-    3: 4, // CAMILA
-    4: 4, // LIA
-    5: 4, // KIMI
-    6: 4, // flow
-    7: 4, // equipo
-    8: 2, // planes (hoy -> proximos)
-    9: 1  // cierre
+    0: 1,  // portada
+    1: 2,  // manifiesto
+    2: 4,  // AURA
+    3: 4,  // CAMILA
+    4: 4,  // LIA
+    5: 4,  // KIMI
+    6: 4,  // flow
+    7: 4,  // equipo
+    8: 2,  // roadmap (Ricardo -> Mitzi)
+    9: 2,  // planes (hoy -> proximos)
+    10: 1  // cierre
   };
 
   function $(id){ return document.getElementById(id); }
@@ -1290,7 +1470,11 @@
         else if (step === 2) showEls(['tc3']);
         else if (step === 3) showEls(['tc4']);
         break;
-      case 8: // planes
+      case 8: // roadmap
+        if (step === 0) showEls(['rm-ricardo']);
+        else if (step === 1) showEls(['rm-mitzi']);
+        break;
+      case 9: // planes
         if (step === 0) showEls(['plans-now']);
         else if (step === 1) showEls(['plans-next']);
         break;
