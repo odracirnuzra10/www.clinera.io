@@ -1,0 +1,1155 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Nuevo prompt de Clinera — 3 cuadros, 3 controles · Guía para el equipo</title>
+<meta name="description" content="Cómo migrar el prompt de un cliente al nuevo harness de Clinera: Saludo, Calificación, Propuesta + Prohibiciones, Reglas Duras y Promociones. Guía operativa para el equipo." />
+<meta name="keywords" content="Clinera, prompt, harness, agente IA, AURA, migración prompt, saludo calificación propuesta, prohibiciones, reglas duras" />
+<meta name="author" content="Clinera.io" />
+<meta name="robots" content="noindex,follow" />
+<meta name="theme-color" content="#7C3AED" />
+<link rel="canonical" href="https://clinera.io/prompt" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Clinera.io" />
+<meta property="og:locale" content="es_CL" />
+<meta property="og:title" content="Nuevo prompt de Clinera — 3 cuadros, 3 controles" />
+<meta property="og:description" content="Guía operativa para el equipo: cómo ayudar al cliente a migrar su prompt al nuevo harness." />
+<meta property="og:url" content="https://clinera.io/prompt" />
+<meta property="og:image" content="https://clinera.io/images/og-banner.png" />
+
+<link rel="icon" type="image/png" href="/icon.png" />
+<link rel="apple-touch-icon" href="/apple-icon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --bg: #FAFAFA;
+    --ink: #0B0B0F;
+    --ink-2: #1A1A22;
+    --muted: #6B6B75;
+    --muted-2: #9A9AA3;
+    --line: #E6E6EA;
+    --line-2: #EFEFF2;
+    --card: #FFFFFF;
+    --cyan: #009FE3;
+    --violet: #7C3AED;
+    --magenta: #C850C0;
+    --amber: #F59E0B;
+    --accent: var(--violet);
+    --radius: 14px;
+    --mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  html{ background: var(--bg); }
+  body{
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  /* === HUD === */
+  .hud{
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 30;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 22px 32px;
+    pointer-events: none;
+  }
+  .brand{
+    font-family: var(--sans);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-size: 18px;
+    color: var(--ink);
+    display:flex; align-items:center; gap: 6px;
+  }
+  .brand .dot{
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--violet);
+    display:inline-block;
+    transform: translateY(-1px);
+  }
+  .meta-tag{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display:flex; align-items:center; gap: 8px;
+  }
+  .meta-tag::before{
+    content:'';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--violet);
+  }
+
+  .progress-track{
+    position: fixed;
+    left: 0; right: 0;
+    bottom: 0;
+    height: 2px;
+    background: transparent;
+    z-index: 20;
+  }
+  .progress-bar{
+    height: 100%;
+    width: 0%;
+    background: var(--ink);
+    transition: width 600ms cubic-bezier(.6,.1,.2,1);
+  }
+
+  .step-counter{
+    position: fixed;
+    bottom: 22px; left: 32px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted-2);
+    z-index: 30;
+  }
+  .step-counter .current{ color: var(--ink); font-weight: 500; }
+
+  .hint{
+    position: fixed;
+    bottom: 22px; right: 32px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted-2);
+    z-index: 30;
+    text-transform: uppercase;
+    display:flex; align-items:center; gap: 10px;
+  }
+  .hint .arrow{
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size: 10px;
+    color: var(--ink);
+  }
+
+  /* === Slides === */
+  .stage{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+  }
+  .slide{
+    position: absolute;
+    inset: 0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 350ms cubic-bezier(.6,.1,.2,1), transform 350ms cubic-bezier(.6,.1,.2,1);
+    padding: 120px 8vw 80px;
+  }
+  .slide.active{
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .slide.exit{
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  .slide-inner{
+    width: 100%;
+    max-width: 1080px;
+  }
+
+  .reveal{
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 600ms cubic-bezier(.6,.1,.2,1), transform 600ms cubic-bezier(.6,.1,.2,1);
+  }
+  .reveal.visible{
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .kicker{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display:inline-flex; align-items:center; gap: 8px;
+    margin-bottom: 32px;
+  }
+  .kicker .pip{
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--violet);
+  }
+
+  /* === 01 Cover === */
+  .cover{ text-align:center; }
+  .cover-title{
+    font-family: var(--sans);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    font-size: clamp(48px, 8vw, 116px);
+    color: var(--ink);
+    margin: 0 0 28px 0;
+  }
+  .cover-title .grad{
+    background: linear-gradient(90deg, var(--cyan), var(--violet) 55%, var(--magenta));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .cover-sub{
+    font-size: clamp(18px, 1.5vw, 22px);
+    color: var(--muted);
+    max-width: 620px;
+    margin: 0 auto 56px;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+  .cover-cta{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--violet);
+    display:inline-flex; align-items:center; gap: 12px;
+  }
+  .cover-cta .pip{
+    width: 7px; height: 7px;
+    border-radius:50%;
+    background: var(--violet);
+  }
+
+  /* === 02 Shift === */
+  .shift{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 56px;
+    text-align: left;
+  }
+  .shift-h{
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    margin: 0 0 8px 0;
+  }
+  .shift-h .em{
+    background: linear-gradient(90deg, var(--cyan), var(--violet) 55%, var(--magenta));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .shift-lead{
+    font-size: clamp(17px, 1.4vw, 20px);
+    color: var(--muted);
+    max-width: 620px;
+    line-height: 1.55;
+    margin: 0 0 32px 0;
+  }
+  .shift-row{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 16px;
+  }
+  .shift-card{
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--card);
+    padding: 28px 28px 32px;
+  }
+  .shift-card .label{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin-bottom: 16px;
+  }
+  .shift-card.before{ background: #F3F3F5; border-color: var(--line); }
+  .shift-card.before .label{ color: var(--muted); }
+  .shift-card.before .body{ color: var(--muted); }
+  .shift-card .body{
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .shift-card.after{
+    border-color: var(--ink);
+    background: var(--ink);
+    color: #fff;
+  }
+  .shift-card.after .label{ color: rgba(255,255,255,.5); }
+  .shift-card.after .body{ color: #fff; }
+  .shift-card .body strong{ font-weight: 600; }
+
+  /* === 03 Anatomía (6 bloques grid) === */
+  .anat-h{
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    margin: 0 0 12px 0;
+  }
+  .anat-lead{
+    font-size: clamp(17px, 1.4vw, 20px);
+    color: var(--muted);
+    max-width: 620px;
+    line-height: 1.55;
+    margin: 0 0 40px 0;
+  }
+  .anat-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .anat-card{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 22px 22px;
+    display:flex; flex-direction:column; gap: 10px;
+    min-height: 152px;
+    position: relative;
+  }
+  .anat-card::before{
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 36px; height: 2px;
+    border-radius: 0 2px 2px 0;
+  }
+  .anat-card.cyan::before{ background: var(--cyan); }
+  .anat-card.violet::before{ background: var(--violet); }
+  .anat-card.magenta::before{ background: var(--magenta); }
+  .anat-card.ink::before{ background: var(--ink); }
+  .anat-card.amber::before{ background: var(--amber); }
+  .anat-card .num{
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+  }
+  .anat-card .name{
+    font-family: var(--sans);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1.05;
+  }
+  .anat-card .desc{
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--ink-2);
+    margin-top: auto;
+  }
+  .anat-card .badge-section{
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    align-self: flex-start;
+    margin-top: 6px;
+  }
+
+  /* === 04-06 Cuadro slides === */
+  .cuadro{
+    display:grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .cuadro-left .role{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+    display: inline-flex; align-items:center; gap: 10px;
+  }
+  .cuadro-left .role .num{ color: var(--ink); font-weight: 500; }
+  .cuadro-left .role .pip{
+    width: 6px; height: 6px;
+    border-radius:50%;
+    background: var(--accent);
+  }
+  .cuadro-accent-line{
+    width: 56px; height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin-bottom: 18px;
+  }
+  .cuadro-name{
+    font-size: clamp(64px, 8vw, 116px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    color: var(--ink);
+    margin: 0 0 20px 0;
+  }
+  .cuadro-line{
+    font-size: clamp(18px, 1.4vw, 22px);
+    color: var(--ink-2);
+    max-width: 460px;
+    line-height: 1.45;
+    font-weight: 400;
+  }
+  .cuadro-line strong{ font-weight: 600; color: var(--ink); }
+
+  .cuadro-right{
+    display:flex; flex-direction:column; gap: 18px;
+    align-items: flex-start;
+  }
+  .bubble{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 18px 20px;
+    max-width: 380px;
+    font-size: 15.5px;
+    line-height: 1.5;
+    color: var(--ink);
+    position: relative;
+    box-shadow: 0 1px 0 rgba(11,11,15,.02);
+  }
+  .bubble .who{
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .meta-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 18px;
+    border-top: 1px solid var(--line);
+    width: 100%;
+    max-width: 460px;
+  }
+  .meta-grid .cell{
+    padding: 14px 16px 14px 0;
+    border-right: 1px solid var(--line);
+  }
+  .meta-grid .cell:last-child{ border-right: 0; padding-right: 0; }
+  .meta-grid .k{
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin-bottom: 6px;
+  }
+  .meta-grid .v{
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+    line-height: 1.3;
+  }
+
+  /* === 07 Casos especiales === */
+  .casos-h{
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    margin: 0 0 12px 0;
+  }
+  .casos-lead{
+    font-size: clamp(17px, 1.4vw, 20px);
+    color: var(--muted);
+    max-width: 640px;
+    line-height: 1.55;
+    margin: 0 0 40px 0;
+  }
+  .casos-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .caso-card{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px 28px 26px;
+    display:flex; flex-direction:column; gap: 14px;
+    position: relative;
+  }
+  .caso-card::before{
+    content: '';
+    position: absolute; inset: -1px -1px auto -1px;
+    height: 2px; background: var(--amber);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .caso-tag{
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--amber);
+    align-self: flex-start;
+    background: rgba(245,158,11,.08);
+    border: 1px solid rgba(245,158,11,.25);
+    padding: 4px 10px;
+    border-radius: 999px;
+    display:inline-flex; align-items:center; gap: 6px;
+  }
+  .caso-tag .pip{
+    width: 5px; height: 5px;
+    border-radius: 999px;
+    background: var(--amber);
+  }
+  .caso-title{
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .caso-steps{
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 0;
+    display:flex; flex-direction:column; gap: 10px;
+  }
+  .caso-steps li{
+    display:grid;
+    grid-template-columns: 22px 1fr;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+  .caso-steps li .n{
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--violet);
+    background: rgba(124,58,237,.08);
+    border-radius: 6px;
+    text-align: center;
+    line-height: 22px;
+    height: 22px;
+  }
+  .caso-steps li .conf{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  .caso-result{
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--line-2);
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .caso-result strong{ color: var(--ink); font-weight: 600; }
+
+  /* === 08 Migración 4 pasos === */
+  .mig-h{
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    margin: 0 0 12px 0;
+  }
+  .mig-lead{
+    font-size: clamp(17px, 1.4vw, 20px);
+    color: var(--muted);
+    max-width: 620px;
+    line-height: 1.55;
+    margin: 0 0 40px 0;
+  }
+  .mig-flow{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .mig-row{
+    display:grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+    align-items:start;
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+  }
+  .mig-row:last-child{ border-bottom: 1px solid var(--line); }
+  .mig-step{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .mig-step .num{ color: var(--ink); font-weight: 500; }
+  .mig-step .arrow{ color: var(--violet); margin: 0 6px; }
+  .mig-text{
+    font-size: 18px;
+    line-height: 1.45;
+    color: var(--ink-2);
+    font-weight: 400;
+  }
+  .mig-text b{ font-weight: 600; color: var(--ink); }
+  .mig-text .tag{
+    display:inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    margin: 0 2px;
+    background: #fff;
+  }
+  .mig-text .tag.cyan{ border-color: rgba(0,159,227,.4); color: var(--cyan); }
+  .mig-text .tag.violet{ border-color: rgba(124,58,237,.4); color: var(--violet); }
+  .mig-text .tag.magenta{ border-color: rgba(200,80,192,.4); color: var(--magenta); }
+
+  /* === 09 Video === */
+  .video-h{
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    margin: 0 0 12px 0;
+  }
+  .video-lead{
+    font-size: clamp(17px, 1.4vw, 20px);
+    color: var(--muted);
+    max-width: 620px;
+    line-height: 1.55;
+    margin: 0 0 32px 0;
+  }
+  .video-wrap{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    max-width: 980px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #0B0B0F;
+    box-shadow: 0 24px 48px -16px rgba(15,15,20,.35);
+  }
+  .video-wrap iframe{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* === 10 Cierre === */
+  .close{ text-align:center; }
+  .close-line{
+    font-size: clamp(22px, 2.6vw, 32px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.45;
+    color: var(--ink);
+    max-width: 880px;
+    margin: 0 auto 32px;
+  }
+  .close-line .em{
+    background: linear-gradient(90deg, var(--cyan), var(--violet) 55%, var(--magenta));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+  }
+  .close-line .ink{ color: var(--ink); font-weight: 700; }
+  .close-h{
+    font-size: clamp(40px, 6vw, 84px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin: 32px 0 24px;
+  }
+  .close-cta{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--violet);
+    display:inline-flex; align-items:center; gap: 12px;
+    text-decoration: none;
+    border: 1px solid var(--line);
+    padding: 14px 22px;
+    border-radius: 999px;
+    background: #fff;
+    transition: transform .2s ease, border-color .2s ease;
+  }
+  .close-cta:hover{
+    transform: translateY(-1px);
+    border-color: var(--violet);
+  }
+
+  /* === Responsive === */
+  @media (max-width: 860px){
+    .hud{ padding: 18px 20px; }
+    .step-counter{ left: 20px; }
+    .hint{ right: 20px; }
+    .slide{ padding: 96px 6vw 72px; }
+    .cuadro{ grid-template-columns: 1fr; gap: 32px; }
+    .cuadro-name{ font-size: clamp(56px, 14vw, 88px); }
+    .shift-row{ grid-template-columns: 1fr; }
+    .anat-grid{ grid-template-columns: 1fr 1fr; }
+    .casos-grid{ grid-template-columns: 1fr; }
+    .mig-row{ grid-template-columns: 1fr; gap: 8px; }
+    .meta-grid{ grid-template-columns: 1fr 1fr 1fr; }
+  }
+  @media (max-width: 520px){
+    .meta-tag{ display: none; }
+    .cuadro-right{ width: 100%; }
+    .bubble{ max-width: 100%; }
+    .anat-grid{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hud">
+  <div class="brand">clinera<span class="dot"></span>io</div>
+  <div class="meta-tag">Prompt · 3 cuadros · 3 controles</div>
+</div>
+
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 10</div>
+<div class="hint">
+  Click o <span class="arrow">→</span> para continuar
+</div>
+
+<div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+
+<div class="stage" id="stage">
+
+  <!-- 01 — Portada -->
+  <section class="slide active" id="slide0">
+    <div class="slide-inner cover">
+      <div class="kicker"><span class="pip"></span>Guía operativa · Equipo Clinera · 2026</div>
+      <h1 class="cover-title">El nuevo<br/><span class="grad">prompt de Clinera</span>.</h1>
+      <p class="cover-sub">3 cuadros, 3 controles. Más simple, más afilado, más operativo.</p>
+      <div class="cover-cta"><span class="pip"></span>Click para comenzar →</div>
+    </div>
+  </section>
+
+  <!-- 02 — Shift -->
+  <section class="slide" id="slide1">
+    <div class="slide-inner shift">
+      <div>
+        <div class="kicker"><span class="pip"></span>El cambio</div>
+        <h2 class="shift-h">De un bloque<br/>a <span class="em">tres cuadros</span>.</h2>
+        <p class="shift-lead">Con el harness anterior, los prompts largos en un solo bloque funcionaban. Con el nuevo, el agente rinde mejor cuando el contenido está bien repartido.</p>
+      </div>
+      <div class="shift-row">
+        <div class="shift-card before reveal" id="shift-before">
+          <div class="label">Antes</div>
+          <div class="body">Un solo bloque largo. Difícil de mantener, difícil de migrar, fácil de romper.</div>
+        </div>
+        <div class="shift-card after reveal" id="shift-after">
+          <div class="label">Ahora</div>
+          <div class="body"><strong>3 cuadros</strong> para la conversación + <strong>3 controles</strong> para la operación.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — Anatomía -->
+  <section class="slide" id="slide2">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Anatomía del prompt</div>
+      <h2 class="anat-h">Seis bloques. <br/>Cero ambigüedad.</h2>
+      <p class="anat-lead">Tres definen <strong style="color:var(--ink);font-weight:600;">cómo conversa</strong> el agente. Tres definen <strong style="color:var(--ink);font-weight:600;">qué puede y qué no</strong>.</p>
+      <div class="anat-grid">
+        <div class="anat-card cyan reveal" id="an1">
+          <span class="num">01 · Cuadro</span>
+          <div class="name">Saludo</div>
+          <div class="desc">Cómo abre la conversación.</div>
+        </div>
+        <div class="anat-card violet reveal" id="an2">
+          <span class="num">02 · Cuadro</span>
+          <div class="name">Calificación</div>
+          <div class="desc">Cómo diagnostica al lead.</div>
+        </div>
+        <div class="anat-card magenta reveal" id="an3">
+          <span class="num">03 · Cuadro</span>
+          <div class="name">Propuesta</div>
+          <div class="desc">Cómo cierra y propone el siguiente paso.</div>
+        </div>
+        <div class="anat-card ink reveal" id="an4">
+          <span class="num">04 · Control</span>
+          <div class="name">Prohibiciones</div>
+          <div class="desc">Lo que la IA <strong>no debe</strong> hacer.</div>
+        </div>
+        <div class="anat-card ink reveal" id="an5">
+          <span class="num">05 · Control</span>
+          <div class="name">Reglas duras</div>
+          <div class="desc">Instrucciones críticas inviolables.</div>
+        </div>
+        <div class="anat-card ink reveal" id="an6">
+          <span class="num">06 · Control</span>
+          <div class="name">Promociones</div>
+          <div class="desc">Campañas y ofertas activas.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 — SALUDO -->
+  <section class="slide" id="slide3" style="--accent: var(--cyan);">
+    <div class="slide-inner cuadro">
+      <div class="cuadro-left">
+        <div class="role reveal" id="sal-k">
+          <span class="pip"></span>
+          <span><span class="num">01</span> · Cuadro de 03</span>
+        </div>
+        <div class="cuadro-accent-line reveal" id="sal-acc"></div>
+        <h2 class="cuadro-name reveal" id="sal-n">SALUDO</h2>
+        <p class="cuadro-line reveal" id="sal-l">Cómo abre la conversación el agente. Define el tono, el nombre y la <strong>primera impresión</strong>.</p>
+      </div>
+      <div class="cuadro-right">
+        <div class="bubble reveal" id="sal-b">
+          <span class="who">Ejemplo · Saludo</span>
+          ¡Hola! Soy AURA del equipo de Clínica Estética Dra. Meza. ¿En qué puedo ayudarte hoy? 😊
+        </div>
+        <div class="meta-grid reveal" id="sal-m">
+          <div class="cell"><div class="k">Posición</div><div class="v">Inicio</div></div>
+          <div class="cell"><div class="k">Largo ideal</div><div class="v">1–2 líneas</div></div>
+          <div class="cell"><div class="k">Tip</div><div class="v">Personalidad de la clínica</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — CALIFICACIÓN -->
+  <section class="slide" id="slide4" style="--accent: var(--violet);">
+    <div class="slide-inner cuadro">
+      <div class="cuadro-left">
+        <div class="role reveal" id="cal-k">
+          <span class="pip"></span>
+          <span><span class="num">02</span> · Cuadro de 03</span>
+        </div>
+        <div class="cuadro-accent-line reveal" id="cal-acc"></div>
+        <h2 class="cuadro-name reveal" id="cal-n">CALIFICACIÓN</h2>
+        <p class="cuadro-line reveal" id="cal-l">Cómo diagnostica al paciente o lead. Las <strong>preguntas clave</strong> que separan al cliente bueno del curioso.</p>
+      </div>
+      <div class="cuadro-right">
+        <div class="bubble reveal" id="cal-b">
+          <span class="who">Ejemplo · Calificación</span>
+          Para recomendarte lo mejor: ¿qué te gustaría mejorar? ¿Has hecho algún tratamiento similar antes? ¿Tienes una fecha en mente?
+        </div>
+        <div class="meta-grid reveal" id="cal-m">
+          <div class="cell"><div class="k">Posición</div><div class="v">Medio</div></div>
+          <div class="cell"><div class="k">Largo ideal</div><div class="v">3–5 preguntas</div></div>
+          <div class="cell"><div class="k">Tip</div><div class="v">Una pregunta por turno</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — PROPUESTA -->
+  <section class="slide" id="slide5" style="--accent: var(--magenta);">
+    <div class="slide-inner cuadro">
+      <div class="cuadro-left">
+        <div class="role reveal" id="pro-k">
+          <span class="pip"></span>
+          <span><span class="num">03</span> · Cuadro de 03</span>
+        </div>
+        <div class="cuadro-accent-line reveal" id="pro-acc"></div>
+        <h2 class="cuadro-name reveal" id="pro-n">PROPUESTA</h2>
+        <p class="cuadro-line reveal" id="pro-l">Cómo cierra y propone el siguiente paso. <strong>Un solo CTA</strong> claro por mensaje, sin opciones diluidas.</p>
+      </div>
+      <div class="cuadro-right">
+        <div class="bubble reveal" id="pro-b">
+          <span class="who">Ejemplo · Propuesta</span>
+          Perfecto Camila. Para tu caso recomendaría evaluación con la Dra. Meza. Tengo cupo el martes a las 11:00. ¿Te lo agendo?
+        </div>
+        <div class="meta-grid reveal" id="pro-m">
+          <div class="cell"><div class="k">Posición</div><div class="v">Cierre</div></div>
+          <div class="cell"><div class="k">Largo ideal</div><div class="v">CTA único</div></div>
+          <div class="cell"><div class="k">Tip</div><div class="v">Una acción por turno</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 — Casos especiales -->
+  <section class="slide" id="slide6">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Casos especiales · atención del equipo</div>
+      <h2 class="casos-h">Dos situaciones que vas a ver mucho.</h2>
+      <p class="casos-lead">Si el cliente pide alguna de estas, configurá exacto como aparece abajo.</p>
+      <div class="casos-grid">
+        <div class="caso-card reveal" id="caso-1">
+          <span class="caso-tag"><span class="pip"></span>Caso 01</span>
+          <h3 class="caso-title">El cliente NO quiere que la IA agende.</h3>
+          <ol class="caso-steps">
+            <li><span class="n">1</span><span>Marcar la opción <span class="conf">AUTOMÁTICO</span></span></li>
+            <li><span class="n">2</span><span>En <span class="conf">Prohibiciones</span> agregar: "Prohibido agendar"</span></li>
+            <li><span class="n">3</span><span>En <span class="conf">Reglas Duras</span> agregar: "El agendamiento lo hará manualmente un humano"</span></li>
+          </ol>
+          <p class="caso-result"><strong>Resultado:</strong> la IA responde, califica y da info — pero el agendamiento queda 100% en manos del humano.</p>
+        </div>
+        <div class="caso-card reveal" id="caso-2">
+          <span class="caso-tag"><span class="pip"></span>Caso 02</span>
+          <h3 class="caso-title">El nickname del paciente no es un nombre real.</h3>
+          <ol class="caso-steps">
+            <li><span class="n">1</span><span>Ejemplos: <span class="conf">"Mi Amor"</span> · <span class="conf">"Casa"</span> · <span class="conf">"Trabajo"</span> · <span class="conf">"AAAA Cliente VIP"</span> · emojis</span></li>
+            <li><span class="n">2</span><span>En <span class="conf">Prohibiciones</span> agregar: "Si el nickname del contacto no es un nombre real (apodos, etiquetas, emojis o palabras genéricas), prohibido usarlo en la respuesta. Solo usar el nombre cuando sea un nombre real de persona."</span></li>
+          </ol>
+          <p class="caso-result"><strong>Resultado:</strong> la IA personaliza con el nombre solo cuando es un nombre real; en el resto responde sin nombrar al paciente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 — Migración 4 pasos -->
+  <section class="slide" id="slide7">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Cómo migrás un cliente</div>
+      <h2 class="mig-h">Cuatro pasos. Sin mailing.<br/>Cliente por cliente.</h2>
+      <p class="mig-lead">Es contacto personal. Cada cliente queda operativo en la nueva modalidad antes de cerrarse el sprint.</p>
+      <div class="mig-flow">
+        <div class="mig-row reveal" id="mig-1">
+          <div class="mig-step"><span class="num">01</span> <span class="arrow">→</span> Detección</div>
+          <div class="mig-text">Identificá al cliente asignado y abrí su prompt actual. Leélo entero antes de tocarlo.</div>
+        </div>
+        <div class="mig-row reveal" id="mig-2">
+          <div class="mig-step"><span class="num">02</span> <span class="arrow">→</span> Adaptación</div>
+          <div class="mig-text">Repartí el contenido en los 3 cuadros: <span class="tag cyan">Saludo</span> <span class="tag violet">Calificación</span> <span class="tag magenta">Propuesta</span>. Lo que sobre va a Prohibiciones, Reglas Duras o Promociones.</div>
+        </div>
+        <div class="mig-row reveal" id="mig-3">
+          <div class="mig-step"><span class="num">03</span> <span class="arrow">→</span> Limpieza</div>
+          <div class="mig-text">Aprovechá la migración para <b>sacar lo que ya no sirve</b>. Cuanto más limpio el prompt, mejor responde el agente.</div>
+        </div>
+        <div class="mig-row reveal" id="mig-4">
+          <div class="mig-step"><span class="num">04</span> <span class="arrow">→</span> Validación</div>
+          <div class="mig-text">Probá con <b>2–3 mensajes reales</b> antes de dejarlo activo. Si responde como esperabas, listo.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 — Video -->
+  <section class="slide" id="slide8">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Tutorial completo</div>
+      <h2 class="video-h">Cómo editar el<br/>agente en Clinera.</h2>
+      <p class="video-lead">Recorrido en pantalla del nuevo harness. Verlo antes de empezar a migrar.</p>
+      <div class="video-wrap">
+        <iframe src="https://player.vimeo.com/video/1172555837?badge=0&autopause=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Cómo editar el Agente IA de Clinera"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 — Cierre -->
+  <section class="slide" id="slide9">
+    <div class="slide-inner close">
+      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Lo que tiene que quedar claro</div>
+      <p class="close-line">
+        <span class="em">Saludo</span> · <span class="em">Calificación</span> · <span class="em">Propuesta</span><br/>
+        <span style="color:var(--muted);">+</span><br/>
+        <span class="ink">Prohibiciones</span> · <span class="ink">Reglas Duras</span> · <span class="ink">Promociones</span>
+      </p>
+      <h2 class="close-h">Si respetás los seis,<br/>el cliente queda operativo.</h2>
+      <a class="close-cta" href="https://clinera.io/workers" target="_self">
+        <span class="pip" style="width:7px;height:7px;border-radius:50%;background:var(--violet);"></span>
+        Conoce al equipo IA →
+      </a>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const TOTAL_SLIDES = 10;
+  let currentSlide = 0;
+  let currentSubStep = 0;
+  let isAnimating = false;
+
+  const subSteps = {
+    0: 1, // portada
+    1: 2, // manifiesto (antes -> ahora)
+    2: 6, // anatomia (6 bloques)
+    3: 4, // SALUDO
+    4: 4, // CALIFICACION
+    5: 4, // PROPUESTA
+    6: 2, // casos especiales (caso 1 -> caso 2)
+    7: 4, // migracion (4 pasos)
+    8: 1, // video
+    9: 1  // cierre
+  };
+
+  function $(id){ return document.getElementById(id); }
+
+  function updateProgress(){
+    const pct = (currentSlide / (TOTAL_SLIDES - 1)) * 100;
+    $('progressBar').style.width = pct + '%';
+    const num = String(currentSlide + 1).padStart(2,'0');
+    const total = String(TOTAL_SLIDES).padStart(2,'0');
+    $('stepCounter').innerHTML = '<span class="current">' + num + '</span> / ' + total;
+  }
+
+  function goToSlide(n){
+    if (n < 0 || n >= TOTAL_SLIDES || isAnimating) return;
+    isAnimating = true;
+    const oldSlide = $('slide' + currentSlide);
+    const newSlide = $('slide' + n);
+    oldSlide.classList.remove('active');
+    oldSlide.classList.add('exit');
+    setTimeout(function(){
+      oldSlide.classList.remove('exit');
+      newSlide.classList.add('active');
+      currentSlide = n;
+      currentSubStep = 0;
+      updateProgress();
+      resetSlideAnimations(n);
+      setTimeout(function(){ isAnimating = false; }, 200);
+    }, 300);
+  }
+
+  function resetSlideAnimations(n){
+    const slide = $('slide' + n);
+    if (!slide) return;
+    slide.querySelectorAll('.visible').forEach(function(el){ el.classList.remove('visible'); });
+  }
+
+  function showEls(ids, stagger){
+    stagger = stagger || 70;
+    ids.forEach(function(id, i){
+      setTimeout(function(){
+        const el = $(id);
+        if (el) el.classList.add('visible');
+      }, i * stagger);
+    });
+  }
+
+  function advanceSubStep(){
+    if (isAnimating) return;
+    const maxSub = subSteps[currentSlide];
+    if (currentSubStep >= maxSub){
+      goToSlide(currentSlide + 1);
+      return;
+    }
+    animateSubStep(currentSlide, currentSubStep);
+    currentSubStep++;
+  }
+
+  function animateSubStep(slide, step){
+    switch(slide){
+      case 1: // shift
+        if (step === 0) showEls(['shift-before']);
+        else if (step === 1) showEls(['shift-after']);
+        break;
+      case 2: // anatomia
+        if (step === 0) showEls(['an1']);
+        else if (step === 1) showEls(['an2']);
+        else if (step === 2) showEls(['an3']);
+        else if (step === 3) showEls(['an4']);
+        else if (step === 4) showEls(['an5']);
+        else if (step === 5) showEls(['an6']);
+        break;
+      case 3: // SALUDO
+        if (step === 0) showEls(['sal-k', 'sal-acc', 'sal-n'], 100);
+        else if (step === 1) showEls(['sal-l']);
+        else if (step === 2) showEls(['sal-b']);
+        else if (step === 3) showEls(['sal-m']);
+        break;
+      case 4: // CALIFICACION
+        if (step === 0) showEls(['cal-k', 'cal-acc', 'cal-n'], 100);
+        else if (step === 1) showEls(['cal-l']);
+        else if (step === 2) showEls(['cal-b']);
+        else if (step === 3) showEls(['cal-m']);
+        break;
+      case 5: // PROPUESTA
+        if (step === 0) showEls(['pro-k', 'pro-acc', 'pro-n'], 100);
+        else if (step === 1) showEls(['pro-l']);
+        else if (step === 2) showEls(['pro-b']);
+        else if (step === 3) showEls(['pro-m']);
+        break;
+      case 6: // casos
+        if (step === 0) showEls(['caso-1']);
+        else if (step === 1) showEls(['caso-2']);
+        break;
+      case 7: // migracion
+        if (step === 0) showEls(['mig-1']);
+        else if (step === 1) showEls(['mig-2']);
+        else if (step === 2) showEls(['mig-3']);
+        else if (step === 3) showEls(['mig-4']);
+        break;
+    }
+  }
+
+  document.addEventListener('click', function(e){
+    if (e.target.closest('a')) return;
+    if (e.target.closest('iframe')) return;
+    advanceSubStep();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter'){
+      e.preventDefault();
+      advanceSubStep();
+    }
+    if (e.key === 'ArrowLeft'){
+      e.preventDefault();
+      if (currentSlide > 0) goToSlide(currentSlide - 1);
+    }
+  });
+
+  let touchStartX = 0;
+  let touchEndX = 0;
+  document.addEventListener('touchstart', function(e){ touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+  document.addEventListener('touchend', function(e){
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) < 50) return;
+    if (diff > 0) advanceSubStep();
+    else if (currentSlide > 0) goToSlide(currentSlide - 1);
+  }, { passive: true });
+
+  updateProgress();
+</script>
+
+</body>
+</html>
