@@ -1801,80 +1801,82 @@
   }
 
   /* === Pricing slide === */
-  .pricing-slide-inner{ max-width: 1200px; margin: 0 auto; }
+  .pricing-slide-inner{ max-width: 1080px; margin: 0 auto; }
+  .pricing-slide-inner .h-display{ font-size: clamp(32px, 4.4vw, 56px); margin-bottom: 10px; }
+  .pricing-slide-inner .lead{ margin-bottom: 22px; font-size: clamp(14px, 1.1vw, 16px); }
   .pricing-grid{
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 22px;
-    margin-top: 36px;
+    gap: 16px;
+    margin-top: 22px;
   }
   .price-card{
     position: relative;
     background: #fff;
     border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 28px 24px 24px;
+    border-radius: 14px;
+    padding: 20px 18px 18px;
     display:flex; flex-direction:column;
-    box-shadow: 0 12px 40px -22px rgba(11,11,15,.1);
+    box-shadow: 0 10px 32px -22px rgba(11,11,15,.1);
   }
   .price-card.popular{
     border-color: var(--violet);
-    box-shadow: 0 20px 50px -20px rgba(124,58,237,.32);
+    box-shadow: 0 16px 42px -22px rgba(124,58,237,.3);
   }
   .price-card .popular-tag{
     position: absolute;
-    top: -14px; left: 50%;
+    top: -11px; left: 50%;
     transform: translateX(-50%);
     background: linear-gradient(90deg, var(--violet), var(--magenta));
     color: #fff;
     font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.16em;
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    padding: 6px 14px;
+    padding: 4px 11px;
     border-radius: 999px;
     font-weight: 600;
   }
   .price-card .plan-name{
-    font-size: 22px;
+    font-size: 17px;
     font-weight: 700;
     letter-spacing: -0.02em;
-    margin: 0 0 8px;
+    margin: 0 0 4px;
   }
   .price-card .plan-price{
-    display:flex; align-items:flex-end; gap: 4px;
-    margin-bottom: 12px;
+    display:flex; align-items:flex-end; gap: 3px;
+    margin-bottom: 8px;
   }
   .price-card .plan-price .amt{
-    font-size: 56px;
+    font-size: 38px;
     font-weight: 800;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.035em;
     line-height: 1;
   }
   .price-card .plan-price .per{
-    font-size: 15px;
+    font-size: 13px;
     color: var(--muted);
-    margin-bottom: 8px;
+    margin-bottom: 5px;
   }
   .price-card .plan-desc{
-    font-size: 13.5px;
+    font-size: 12.5px;
     color: var(--muted);
-    line-height: 1.5;
-    margin: 0 0 18px;
-    min-height: 42px;
+    line-height: 1.45;
+    margin: 0 0 12px;
+    min-height: 0;
   }
   .price-tags{
-    display:flex; gap: 8px; flex-wrap: wrap;
-    margin-bottom: 18px;
+    display:flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 12px;
   }
   .price-tag{
-    display:inline-flex; align-items:center; gap: 6px;
-    padding: 5px 10px;
+    display:inline-flex; align-items:center; gap: 5px;
+    padding: 3px 8px;
     border-radius: 999px;
     background: rgba(16,185,129,.08);
     color: var(--green);
     font-family: var(--mono);
-    font-size: 10.5px;
+    font-size: 9.5px;
     letter-spacing: 0.04em;
   }
   .price-tag.off{
@@ -1890,26 +1892,26 @@
   .price-divider{
     border: 0;
     border-top: 1px solid var(--line-2);
-    margin: 6px 0 16px;
+    margin: 4px 0 10px;
   }
   .price-includes{
     font-family: var(--mono);
-    font-size: 10.5px;
+    font-size: 9.5px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted-2);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
   .price-features{
     list-style: none;
-    margin: 0 0 22px; padding: 0;
-    display:flex; flex-direction:column; gap: 9px;
+    margin: 0 0 14px; padding: 0;
+    display:flex; flex-direction:column; gap: 6px;
   }
   .price-features li{
-    display:flex; align-items:flex-start; gap: 10px;
-    font-size: 13.5px;
+    display:flex; align-items:flex-start; gap: 8px;
+    font-size: 12.5px;
     color: var(--ink-2);
-    line-height: 1.4;
+    line-height: 1.35;
   }
   .price-features li::before{
     content: '✓';
@@ -1919,16 +1921,16 @@
     margin-top: 1px;
   }
   .price-actions{
-    display:flex; flex-direction:column; gap: 8px;
+    display:flex; flex-direction:column; gap: 6px;
     margin-top: auto;
   }
   .price-btn{
     display:block;
     text-align:center;
-    padding: 12px 16px;
+    padding: 9px 14px;
     border-radius: 999px;
     text-decoration: none;
-    font-size: 13.5px;
+    font-size: 12.5px;
     font-weight: 500;
     letter-spacing: -0.005em;
     border: 1px solid var(--ink);
