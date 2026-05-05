@@ -597,7 +597,7 @@ export function Features() {
       {/* Section intro */}
       <section
         id="producto"
-        style={{ padding: "112px 80px 40px", borderTop: "1px solid #F0F0F0", background: "#fff" }}
+        style={{ padding: "128px 80px 80px", borderTop: "1px solid #F0F0F0", background: "#fff" }}
       >
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div className="reveal" style={{ maxWidth: 760 }}>
@@ -663,26 +663,26 @@ export function Features() {
           {
             tabLabel: "Agenda",
             tabIcon: <IconCalendar />,
-            eyebrow: "Agendamiento sin colisiones",
-            title: "Conectada a tu agenda, en tiempo real.",
-            body: "AURA lee tu agenda al instante: sabe qué horas hay libres, qué profesional cubre cada tratamiento y respeta los tiempos clínicos. Reserva, reagenda y bloquea cupos sin pisarse con nadie.",
+            eyebrow: "Agenda sin colisiones",
+            title: "Conecta tu agenda. Reserva sola.",
+            body: "Lee tu calendario al instante. Agenda y reagenda sin pisarse con nadie.",
             bullets: [
-              "Sincroniza con Google Calendar, AgendaPro y Medilink",
-              "Respeta tiempos por tipo de tratamiento",
-              "Reagenda con un tap, sin llamada ni email",
+              "Sincroniza con Google Calendar y AgendaPro",
+              "Respeta tiempos por tratamiento",
+              "Reagenda con un tap",
             ],
             mockup: <AgendaMockup />,
           },
           {
             tabLabel: "Contexto",
             tabIcon: <IconDatabase />,
-            eyebrow: "Contexto real · Base de datos",
-            title: "Responde con el historial de cada paciente.",
-            body: "Antes de contestar, AURA consulta tu base de datos. Sabe quién es quién, qué tratamientos lleva, cuándo fue su última visita y qué precio le corresponde hoy.",
+            eyebrow: "Contexto real",
+            title: "Conoce a cada paciente.",
+            body: "Antes de responder, consulta tu base de datos: historial, alergias y precios vigentes.",
             bullets: [
-              "Reconoce al paciente por teléfono o RUT",
-              "Recuerda tratamientos, alergias y observaciones",
-              "Aplica precios, promos y descuentos vigentes",
+              "Reconoce por teléfono o RUT",
+              "Recuerda tratamientos y alergias",
+              "Aplica precios y promos del día",
             ],
             mockup: <ContextMockup />,
           },
@@ -690,12 +690,12 @@ export function Features() {
             tabLabel: "Reactiva",
             tabIcon: <IconRefresh />,
             eyebrow: "Recuperación automática",
-            title: "Tus pacientes inactivos vuelven solos.",
-            body: "AURA detecta a quien no ha vuelto en 60, 90 o 180 días y los reactiva con un mensaje personalizado. Lo que antes se perdía, ahora llena los cupos que te sobran.",
+            title: "Pacientes dormidos vuelven solos.",
+            body: "Detecta a quien no ha vuelto en 60, 90 o 180 días y lo reactiva con un mensaje personal.",
             bullets: [
-              "Segmentación por tratamiento y tiempo",
-              "Mensajes con tu voz, no plantillas genéricas",
-              "Dashboard con recuperaciones del mes",
+              "Segmenta por tratamiento y tiempo",
+              "Tu voz, no plantillas genéricas",
+              "Dashboard con recuperaciones",
             ],
             mockup: <RecoveryMockup />,
           },
@@ -725,25 +725,25 @@ export function Features() {
             tabLabel: "Huecos",
             tabIcon: <IconScan />,
             eyebrow: "Inteligencia operativa",
-            title: "Encuentra los huecos antes que tú.",
-            body: "LIA mira tu agenda 24/7 y detecta huecos, cancelaciones, leads tibios y pacientes dormidos. No habla con nadie — solo decide.",
+            title: "Encuentra huecos antes que tú.",
+            body: "Mira tu agenda 24/7. Detecta cancelaciones, leads tibios y pacientes dormidos.",
             bullets: [
-              "Cron permanente sobre agenda y base de datos",
-              "Detecta cancelaciones de última hora y leads sin respuesta",
-              "Prioriza por LTV, urgencia y probabilidad de cierre",
+              "Cron sobre agenda y base de datos",
+              "Cancelaciones de última hora",
+              "Prioriza por LTV y urgencia",
             ],
             mockup: <LiaGapsMockup />,
           },
           {
             tabLabel: "Decide",
             tabIcon: <IconBranch />,
-            eyebrow: "Cero pisadas · canal correcto",
-            title: "Decide quién contacta y por qué canal.",
-            body: "Por cada hueco detectado, LIA elige al mejor candidato y al canal con mayor probabilidad de respuesta. AURA escribe; CAMILA llama. LIA decide.",
+            eyebrow: "Canal correcto · cero pisadas",
+            title: "Elige quién contacta y por qué canal.",
+            body: "Por cada hueco asigna al mejor candidato. AURA escribe; CAMILA llama.",
             bullets: [
-              "Misma memoria del paciente compartida con AURA y CAMILA",
-              "Selecciona canal según historial de respuesta y urgencia",
-              "Si nadie contesta, escala al siguiente candidato",
+              "Memoria del paciente compartida",
+              "Canal según historial de respuesta",
+              "Si nadie contesta, escala",
             ],
             mockup: <LiaDecisionMockup />,
           },
@@ -751,12 +751,12 @@ export function Features() {
             tabLabel: "Embudo",
             tabIcon: <IconFunnel />,
             eyebrow: "Recuperación end-to-end",
-            title: "Levanta lo que se estaba perdiendo.",
-            body: "Leads tibios, pacientes dormidos, cobros pendientes — LIA arma cohortes y le ordena a AURA o a CAMILA recuperar a quien corresponde, cuándo corresponde.",
+            title: "Levanta lo que se perdía.",
+            body: "Leads tibios, dormidos, cobros pendientes — arma cohortes y los manda a recuperar.",
             bullets: [
-              "Detecta leads tibios que se quedaron en evaluación",
-              "Reactiva pacientes dormidos a 60, 90 o 180 días",
-              "Reportes semanales con cohortes y resultados",
+              "Detecta leads que no avanzaron",
+              "Reactiva a 60, 90 o 180 días",
+              "Reportes con cohortes y resultados",
             ],
             mockup: <LiaFunnelMockup />,
           },
@@ -828,7 +828,7 @@ function AgentSection({
       id={id}
       className="agent-sec"
       style={{
-        padding: "104px 80px",
+        padding: "176px 80px",
         background: bg,
         borderTop: "1px solid #F0F0F0",
       }}
@@ -905,33 +905,6 @@ function AgentSection({
                   zIndex: 1,
                 }}
               />
-              {/* Corner C badge (Clinera mark) */}
-              <div
-                aria-hidden="true"
-                style={{
-                  position: "absolute",
-                  bottom: 16,
-                  right: 16,
-                  width: 40,
-                  height: 40,
-                  borderRadius: 999,
-                  background: "rgba(255,255,255,0.16)",
-                  border: "1px solid rgba(255,255,255,0.24)",
-                  backdropFilter: "blur(8px)",
-                  WebkitBackdropFilter: "blur(8px)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#fff",
-                  fontFamily: "Inter",
-                  fontWeight: 700,
-                  fontSize: 16,
-                  letterSpacing: "-0.02em",
-                  zIndex: 2,
-                }}
-              >
-                C
-              </div>
               {/* Channel chip top-right */}
               <div
                 aria-hidden="true"
@@ -953,32 +926,33 @@ function AgentSection({
               >
                 <ChannelIcon agent={id} />
               </div>
-              {/* Stat chip top-left */}
+              {/* Stat chip bottom-left (small, out of the face) */}
               {stat && (
                 <div
                   style={{
                     position: "absolute",
-                    top: 16,
-                    left: 16,
+                    bottom: 14,
+                    left: 14,
                     background: "rgba(255,255,255,0.95)",
                     backdropFilter: "blur(8px)",
                     WebkitBackdropFilter: "blur(8px)",
-                    borderRadius: 12,
-                    padding: "10px 14px",
-                    boxShadow: "0 8px 24px -10px rgba(0,0,0,0.25)",
+                    borderRadius: 10,
+                    padding: "7px 10px",
+                    boxShadow: "0 6px 18px -8px rgba(0,0,0,0.28)",
                     border: "1px solid rgba(255,255,255,0.4)",
                     zIndex: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 2,
+                    display: "inline-flex",
+                    alignItems: "baseline",
+                    gap: 8,
+                    maxWidth: "82%",
                   }}
                 >
                   <span
                     style={{
                       fontFamily: "Inter",
-                      fontSize: 22,
+                      fontSize: 15,
                       fontWeight: 800,
-                      letterSpacing: "-0.02em",
+                      letterSpacing: "-0.015em",
                       color: accent,
                       lineHeight: 1,
                     }}
@@ -988,11 +962,10 @@ function AgentSection({
                   <span
                     style={{
                       fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                      fontSize: 9.5,
-                      letterSpacing: "0.06em",
+                      fontSize: 9,
+                      letterSpacing: "0.04em",
                       color: "#0A0A0A",
-                      lineHeight: 1.25,
-                      maxWidth: 130,
+                      lineHeight: 1.2,
                     }}
                   >
                     {stat.label}
@@ -1165,7 +1138,7 @@ function AgentSection({
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
-                gap: 36,
+                gap: 48,
                 alignItems: "flex-start",
               }}
             >
@@ -1178,7 +1151,7 @@ function AgentSection({
                     fontWeight: 700,
                     letterSpacing: "-0.025em",
                     lineHeight: 1.1,
-                    margin: "12px 0 14px",
+                    margin: "16px 0 20px",
                     color: "#0A0A0A",
                   }}
                 >
@@ -1190,7 +1163,7 @@ function AgentSection({
                     fontSize: 16,
                     lineHeight: 1.6,
                     color: "#4B5563",
-                    margin: "0 0 22px",
+                    margin: "0 0 32px",
                     maxWidth: 480,
                   }}
                 >
@@ -1203,7 +1176,7 @@ function AgentSection({
                     margin: 0,
                     display: "flex",
                     flexDirection: "column",
-                    gap: 10,
+                    gap: 14,
                   }}
                 >
                   {f.bullets.map((b, i) => (
@@ -1249,8 +1222,8 @@ function AgentSection({
             {cta && (
               <div
                 style={{
-                  marginTop: 32,
-                  paddingTop: 24,
+                  marginTop: 48,
+                  paddingTop: 32,
                   borderTop: "1px solid #F0F0F0",
                   display: "flex",
                   alignItems: "center",
@@ -1320,19 +1293,19 @@ function AgentSection({
       `}</style>
       <style jsx>{`
         @media (max-width: 1100px) {
-          :global(.agent-sec) { padding: 80px 32px !important; }
+          :global(.agent-sec) { padding: 112px 32px !important; }
           :global(.agent-grid) {
             grid-template-columns: 1fr !important;
-            gap: 36px !important;
+            gap: 48px !important;
           }
           :global(.agent-grid > div) { order: unset !important; }
-          :global(.agent-portrait) { aspect-ratio: 16 / 10 !important; max-height: 320px; }
+          :global(.agent-portrait) { aspect-ratio: 16 / 10 !important; max-height: 360px; }
         }
         @media (max-width: 760px) {
-          :global(.agent-sec) { padding: 64px 28px !important; }
+          :global(.agent-sec) { padding: 88px 28px !important; }
           :global(.agent-features-col > div:nth-child(2)) {
             grid-template-columns: 1fr !important;
-            gap: 24px !important;
+            gap: 28px !important;
           }
         }
       `}</style>
@@ -1348,7 +1321,7 @@ function CamilaPeek() {
   return (
     <section
       style={{
-        padding: "40px 80px",
+        padding: "56px 80px",
         background: "#fff",
         borderTop: "1px solid #F0F0F0",
         borderBottom: "1px solid #F0F0F0",
