@@ -654,11 +654,15 @@ export function Features() {
         accentSoft="rgba(124,58,237,0.08)"
         accentBorder="#DDD6FE"
         nameGrad
+        sectionEyebrow="El equipo IA"
         status={{ kind: "live", label: "Activa ahora" }}
+        stat={{ value: "94%", label: "confirmaciones automáticas" }}
+        cta={{ label: "Probar AURA gratis", href: "/planes" }}
         bg="#fff"
-        intro="Atiende a tus pacientes por WhatsApp 24/7. Califica, agenda, confirma, recuerda y reactiva — siempre en tu voz."
         features={[
           {
+            tabLabel: "Agenda",
+            tabIcon: <IconCalendar />,
             eyebrow: "Agendamiento sin colisiones",
             title: "Conectada a tu agenda, en tiempo real.",
             body: "AURA lee tu agenda al instante: sabe qué horas hay libres, qué profesional cubre cada tratamiento y respeta los tiempos clínicos. Reserva, reagenda y bloquea cupos sin pisarse con nadie.",
@@ -670,6 +674,8 @@ export function Features() {
             mockup: <AgendaMockup />,
           },
           {
+            tabLabel: "Contexto",
+            tabIcon: <IconDatabase />,
             eyebrow: "Contexto real · Base de datos",
             title: "Responde con el historial de cada paciente.",
             body: "Antes de contestar, AURA consulta tu base de datos. Sabe quién es quién, qué tratamientos lleva, cuándo fue su última visita y qué precio le corresponde hoy.",
@@ -681,6 +687,8 @@ export function Features() {
             mockup: <ContextMockup />,
           },
           {
+            tabLabel: "Reactiva",
+            tabIcon: <IconRefresh />,
             eyebrow: "Recuperación automática",
             title: "Tus pacientes inactivos vuelven solos.",
             body: "AURA detecta a quien no ha vuelto en 60, 90 o 180 días y los reactiva con un mensaje personalizado. Lo que antes se perdía, ahora llena los cupos que te sobran.",
@@ -694,69 +702,28 @@ export function Features() {
         ]}
       />
 
-      {/* CAMILA */}
-      <AgentSection
-        id="camila"
-        num="02"
-        role="Llamadas IA"
-        name="CAMILA"
-        accent="#0891B2"
-        accentSoft="rgba(8,145,178,0.08)"
-        accentBorder="#A5F3FC"
-        status={{ kind: "soon", label: "Próximamente · junio" }}
-        bg="#FAFBFC"
-        intro="Habla por teléfono con la voz de tu clínica. Confirma, llama a quien no respondió por chat y atiende urgencias de cupo cuando el chat no alcanza."
-        features={[
-          {
-            eyebrow: "Confirmaciones por voz",
-            title: "Llama, confirma y baja tu tasa de no-show.",
-            body: "Lo mismo que AURA, pero hablando. CAMILA llama el día antes, confirma o reagenda y deja constancia en la ficha — todo con la voz y el tono de tu clínica.",
-            bullets: [
-              "Confirmación 24h y 2h antes de la cita",
-              "Si no contesta, deja mensaje de voz y agenda reintento",
-              "Actualiza estado en agenda automáticamente",
-            ],
-            mockup: <CamilaCallMockup />,
-          },
-          {
-            eyebrow: "Voz cuando el chat no alcanza",
-            title: "Devuelve llamadas a quien no responde por WhatsApp.",
-            body: "Cuando AURA escribe y el paciente no contesta — o hay una urgencia de cupo — CAMILA levanta el teléfono. Misma memoria del paciente, distinto canal.",
-            bullets: [
-              "Trigger por silencio en chat o cupo libre de última hora",
-              "Pacientes premium o de alto LTV reciben llamada antes que mensaje",
-              "Si el caso lo amerita, transfiere a humano en vivo",
-            ],
-            mockup: <CamilaSilenceMockup />,
-          },
-          {
-            eyebrow: "Tono propio · español LATAM",
-            title: "Habla con la voz que tu clínica merece.",
-            body: "CAMILA no suena a robot. Configurás género, ritmo y tono — formal, cercano, médico — y entrena con tus llamadas reales para hablar como hablás.",
-            bullets: [
-              "Voz natural en español chileno, mexicano y LATAM",
-              "Aprende tus modismos, precios y promos vigentes",
-              "Traspasa a humano ante urgencias o reclamos reales",
-            ],
-            mockup: <CamilaVoiceMockup />,
-          },
-        ]}
-      />
+      {/* CAMILA — small teaser card between agents */}
+      <CamilaPeek />
 
       {/* LIA */}
       <AgentSection
         id="lia"
-        num="03"
+        num="02"
         role="Cerebro operacional"
         name="LIA"
         accent="#0A0A0A"
         accentSoft="#F3F4F6"
         accentBorder="#E5E7EB"
+        sectionEyebrow="El cerebro"
+        reverse
         status={{ kind: "dev", label: "En desarrollo" }}
-        bg="#fff"
-        intro="No habla con tus pacientes. Decide. Detecta huecos en agenda, cancelaciones, leads tibios y pacientes dormidos — y le ordena a AURA o a CAMILA contactar a quien corresponde."
+        stat={{ value: "+21%", label: "cupos recuperados al mes" }}
+        cta={{ label: "Anotarme a la beta de LIA", href: "/contacto" }}
+        bg="#FAFBFC"
         features={[
           {
+            tabLabel: "Huecos",
+            tabIcon: <IconScan />,
             eyebrow: "Inteligencia operativa",
             title: "Encuentra los huecos antes que tú.",
             body: "LIA mira tu agenda 24/7 y detecta huecos, cancelaciones, leads tibios y pacientes dormidos. No habla con nadie — solo decide.",
@@ -768,6 +735,8 @@ export function Features() {
             mockup: <LiaGapsMockup />,
           },
           {
+            tabLabel: "Decide",
+            tabIcon: <IconBranch />,
             eyebrow: "Cero pisadas · canal correcto",
             title: "Decide quién contacta y por qué canal.",
             body: "Por cada hueco detectado, LIA elige al mejor candidato y al canal con mayor probabilidad de respuesta. AURA escribe; CAMILA llama. LIA decide.",
@@ -779,6 +748,8 @@ export function Features() {
             mockup: <LiaDecisionMockup />,
           },
           {
+            tabLabel: "Embudo",
+            tabIcon: <IconFunnel />,
             eyebrow: "Recuperación end-to-end",
             title: "Levanta lo que se estaba perdiendo.",
             body: "Leads tibios, pacientes dormidos, cobros pendientes — LIA arma cohortes y le ordena a AURA o a CAMILA recuperar a quien corresponde, cuándo corresponde.",
@@ -804,6 +775,8 @@ type AgentFeature = {
   body: string;
   bullets: string[];
   mockup: ReactNode;
+  tabLabel: string;
+  tabIcon: ReactNode;
 };
 
 function AgentSection({
@@ -817,7 +790,10 @@ function AgentSection({
   nameGrad,
   status,
   bg,
-  intro,
+  reverse,
+  sectionEyebrow,
+  stat,
+  cta,
   features,
 }: {
   id: "aura" | "camila" | "lia";
@@ -830,7 +806,10 @@ function AgentSection({
   nameGrad?: boolean;
   status: { kind: "live" | "soon" | "dev"; label: string };
   bg: string;
-  intro: string;
+  reverse?: boolean;
+  sectionEyebrow?: string;
+  stat?: { value: string; label: string };
+  cta?: { label: string; href: string };
   features: AgentFeature[];
 }) {
   const [idx, setIdx] = useState(0);
@@ -849,25 +828,34 @@ function AgentSection({
       id={id}
       className="agent-sec"
       style={{
-        padding: "96px 80px",
+        padding: "104px 80px",
         background: bg,
         borderTop: "1px solid #F0F0F0",
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        {sectionEyebrow && (
+          <div className="reveal" style={{ marginBottom: 36, display: "flex", alignItems: "center", gap: 14 }}>
+            <Eyebrow style={{ color: accent }}>{sectionEyebrow}</Eyebrow>
+            <span style={{ height: 1, width: 56, background: accentBorder, display: "inline-block" }} />
+          </div>
+        )}
         <div
           className="agent-grid reveal"
           style={{
             display: "grid",
-            gridTemplateColumns: "0.78fr 1.22fr",
-            gap: 64,
+            gridTemplateColumns: reverse ? "1.42fr 0.58fr" : "0.58fr 1.42fr",
+            gap: 56,
             alignItems: "flex-start",
           }}
         >
-          {/* LEFT: portrait + identity */}
-          <div className="agent-portrait-col" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          {/* LEFT: portrait + identity (or features-col when reverse) */}
+          <div
+            className="agent-portrait-col"
+            style={{ display: "flex", flexDirection: "column", gap: 24, order: reverse ? 2 : 1 }}
+          >
             <div
-              className="agent-portrait"
+              className="agent-portrait agent-float"
               style={{
                 position: "relative",
                 aspectRatio: "4 / 5",
@@ -877,44 +865,46 @@ function AgentSection({
                 boxShadow: "0 32px 80px -32px rgba(10,10,10,0.35), 0 1px 0 rgba(10,10,10,0.04)",
               }}
             >
-              {imgOk && (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
-                  src={`/agents/${id}.png`}
-                  alt={`${name} · agente IA`}
-                  onError={() => setImgOk(false)}
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    objectPosition: "center top",
-                  }}
-                />
-              )}
-              {!imgOk && (
-                <span
-                  aria-hidden="true"
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontFamily: "Inter",
-                    fontWeight: 800,
-                    fontSize: "clamp(120px, 16vw, 210px)",
-                    color: "#fff",
-                    opacity: 0.92,
-                    letterSpacing: "-0.06em",
-                    lineHeight: 1,
-                    textShadow: "0 8px 40px rgba(0,0,0,0.18)",
-                  }}
-                >
-                  {name[0]}
-                </span>
-              )}
+              {/* Always-visible initial as base layer */}
+              <span
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "Inter",
+                  fontWeight: 800,
+                  fontSize: "clamp(120px, 16vw, 210px)",
+                  color: "#fff",
+                  opacity: 0.92,
+                  letterSpacing: "-0.06em",
+                  lineHeight: 1,
+                  textShadow: "0 8px 40px rgba(0,0,0,0.18)",
+                  zIndex: 0,
+                }}
+              >
+                {name[0]}
+              </span>
+              {/* Photo overlay (hidden if 404 / load error) */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`/agents/${id}.jpg`}
+                alt={`${name} · agente IA`}
+                onError={() => setImgOk(false)}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center top",
+                  opacity: imgOk ? 1 : 0,
+                  transition: "opacity 250ms ease",
+                  zIndex: 1,
+                }}
+              />
               {/* Corner C badge (Clinera mark) */}
               <div
                 aria-hidden="true"
@@ -963,6 +953,52 @@ function AgentSection({
               >
                 <ChannelIcon agent={id} />
               </div>
+              {/* Stat chip top-left */}
+              {stat && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 16,
+                    left: 16,
+                    background: "rgba(255,255,255,0.95)",
+                    backdropFilter: "blur(8px)",
+                    WebkitBackdropFilter: "blur(8px)",
+                    borderRadius: 12,
+                    padding: "10px 14px",
+                    boxShadow: "0 8px 24px -10px rgba(0,0,0,0.25)",
+                    border: "1px solid rgba(255,255,255,0.4)",
+                    zIndex: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "Inter",
+                      fontSize: 22,
+                      fontWeight: 800,
+                      letterSpacing: "-0.02em",
+                      color: accent,
+                      lineHeight: 1,
+                    }}
+                  >
+                    {stat.value}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                      fontSize: 9.5,
+                      letterSpacing: "0.06em",
+                      color: "#0A0A0A",
+                      lineHeight: 1.25,
+                      maxWidth: 130,
+                    }}
+                  >
+                    {stat.label}
+                  </span>
+                </div>
+              )}
             </div>
             <div className="agent-id" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <Mono style={{ color: "#6B7280" }}>
@@ -1018,23 +1054,14 @@ function AgentSection({
                 />
                 {status.label}
               </span>
-              <p
-                style={{
-                  fontFamily: "Inter",
-                  fontSize: 14.5,
-                  lineHeight: 1.55,
-                  color: "#4B5563",
-                  margin: "8px 0 0",
-                  maxWidth: 320,
-                }}
-              >
-                {intro}
-              </p>
             </div>
           </div>
 
-          {/* RIGHT: cycling features */}
-          <div className="agent-features-col" style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
+          {/* RIGHT: cycling features (or LEFT when reverse) */}
+          <div
+            className="agent-features-col"
+            style={{ display: "flex", flexDirection: "column", minWidth: 0, order: reverse ? 1 : 2 }}
+          >
             <div
               style={{
                 display: "flex",
@@ -1049,24 +1076,62 @@ function AgentSection({
                 </span>{" "}
                 / 03 · Funciones
               </Mono>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                {features.map((_, i) => (
+              <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                {features.map((feat, i) => (
                   <button
                     key={i}
                     type="button"
                     onClick={() => setIdx(i)}
-                    aria-label={`Función ${i + 1}`}
+                    aria-label={`Función ${i + 1}: ${feat.tabLabel}`}
+                    aria-selected={i === idx}
                     style={{
                       cursor: "pointer",
-                      border: 0,
-                      padding: 0,
-                      background: i === idx ? accent : "#E5E7EB",
-                      width: i === idx ? 36 : 28,
-                      height: 2,
-                      borderRadius: 1,
-                      transition: "background 250ms ease, width 250ms ease",
+                      border: `1px solid ${i === idx ? accent : "#E5E7EB"}`,
+                      padding: "7px 12px 7px 10px",
+                      background: i === idx ? accent : "#fff",
+                      color: i === idx ? "#fff" : "#374151",
+                      fontFamily: "Inter",
+                      fontSize: 13,
+                      fontWeight: 500,
+                      letterSpacing: "-0.005em",
+                      borderRadius: 999,
+                      transition: "background 220ms ease, color 220ms ease, border-color 220ms ease, transform 200ms ease",
+                      lineHeight: 1,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
                     }}
-                  />
+                    className="agent-tab-btn"
+                  >
+                    <span
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 16,
+                        height: 16,
+                        color: i === idx ? "#fff" : accent,
+                        opacity: i === idx ? 1 : 0.85,
+                      }}
+                      aria-hidden="true"
+                    >
+                      {feat.tabIcon}
+                    </span>
+                    <span>
+                      <span
+                        style={{
+                          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                          fontSize: 10.5,
+                          opacity: 0.7,
+                          marginRight: 6,
+                          letterSpacing: "0.06em",
+                        }}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      {feat.tabLabel}
+                    </span>
+                  </button>
                 ))}
               </div>
               <button
@@ -1099,7 +1164,7 @@ function AgentSection({
               className="msg-in"
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 0.95fr",
+                gridTemplateColumns: "1fr 1fr",
                 gap: 36,
                 alignItems: "flex-start",
               }}
@@ -1179,6 +1244,57 @@ function AgentSection({
               </div>
               <div className="feat-mockup">{f.mockup}</div>
             </div>
+
+            {/* Agent CTA */}
+            {cta && (
+              <div
+                style={{
+                  marginTop: 32,
+                  paddingTop: 24,
+                  borderTop: "1px solid #F0F0F0",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 16,
+                  flexWrap: "wrap",
+                }}
+              >
+                <Link
+                  href={cta.href}
+                  className="agent-cta"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 10,
+                    fontFamily: "Inter",
+                    fontWeight: 600,
+                    fontSize: 14,
+                    letterSpacing: "-0.005em",
+                    padding: "13px 22px",
+                    borderRadius: 999,
+                    background: accent,
+                    color: "#fff",
+                    border: `1px solid ${accent}`,
+                    transition: "transform 200ms ease, box-shadow 200ms ease",
+                  }}
+                >
+                  {cta.label} →
+                </Link>
+                <span
+                  style={{
+                    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                    fontSize: 11,
+                    color: "#9CA3AF",
+                    letterSpacing: "0.04em",
+                  }}
+                >
+                  {status.kind === "live"
+                    ? "Sin tarjeta · activá en 1 hora"
+                    : status.kind === "soon"
+                    ? "Reservá tu acceso · 0 costo extra"
+                    : "Beta privada · cupos limitados"}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -1189,6 +1305,19 @@ function AgentSection({
           color: #fff;
         }
       `}</style>
+      <style jsx global>{`
+        @keyframes agentFloat {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-6px) scale(1.012); }
+        }
+        .agent-float {
+          animation: agentFloat 6.5s ease-in-out infinite;
+          will-change: transform;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .agent-float { animation: none; }
+        }
+      `}</style>
       <style jsx>{`
         @media (max-width: 1100px) {
           :global(.agent-sec) { padding: 80px 32px !important; }
@@ -1196,6 +1325,7 @@ function AgentSection({
             grid-template-columns: 1fr !important;
             gap: 36px !important;
           }
+          :global(.agent-grid > div) { order: unset !important; }
           :global(.agent-portrait) { aspect-ratio: 16 / 10 !important; max-height: 320px; }
         }
         @media (max-width: 760px) {
@@ -1203,6 +1333,200 @@ function AgentSection({
           :global(.agent-features-col > div:nth-child(2)) {
             grid-template-columns: 1fr !important;
             gap: 24px !important;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+/* ============================================================
+   CAMILA PEEK — small "coming next" card between AURA and LIA
+   ============================================================ */
+function CamilaPeek() {
+  const [imgOk, setImgOk] = useState(true);
+  return (
+    <section
+      style={{
+        padding: "40px 80px",
+        background: "#fff",
+        borderTop: "1px solid #F0F0F0",
+        borderBottom: "1px solid #F0F0F0",
+      }}
+      className="camila-peek-sec"
+    >
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div
+          className="reveal camila-peek"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "92px 1fr auto",
+            gap: 24,
+            alignItems: "center",
+            padding: "20px 24px",
+            background: "#FAFBFC",
+            border: "1px solid #F0F0F0",
+            borderRadius: 16,
+          }}
+        >
+          {/* Mini portrait */}
+          <div
+            style={{
+              position: "relative",
+              width: 92,
+              height: 92,
+              borderRadius: 14,
+              overflow: "hidden",
+              background:
+                "radial-gradient(circle at 30% 22%, rgba(255,255,255,0.22), transparent 55%), linear-gradient(160deg, #0891B2, #0e3548)",
+              boxShadow: "0 12px 28px -14px rgba(8,145,178,0.4)",
+              flexShrink: 0,
+            }}
+          >
+            <span
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                inset: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontFamily: "Inter",
+                fontWeight: 800,
+                fontSize: 56,
+                color: "#fff",
+                opacity: 0.92,
+                letterSpacing: "-0.06em",
+                zIndex: 0,
+              }}
+            >
+              C
+            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/agents/camila.jpg"
+              alt="CAMILA"
+              onError={() => setImgOk(false)}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center top",
+                opacity: imgOk ? 1 : 0,
+                transition: "opacity 250ms ease",
+                zIndex: 1,
+              }}
+            />
+          </div>
+
+          {/* Text */}
+          <div className="camila-peek-text" style={{ minWidth: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8, flexWrap: "wrap" }}>
+              <Mono style={{ color: "#0891B2" }}>03 · Llamadas IA</Mono>
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  fontSize: 10,
+                  fontWeight: 500,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  padding: "3px 9px",
+                  borderRadius: 999,
+                  background: "rgba(245,158,11,0.07)",
+                  color: "#B45309",
+                  border: "1px solid #FDE68A",
+                }}
+              >
+                <span
+                  style={{
+                    width: 5,
+                    height: 5,
+                    borderRadius: 999,
+                    background: "#F59E0B",
+                  }}
+                />
+                Próximamente · agosto 2026
+              </span>
+            </div>
+            <div
+              style={{
+                fontFamily: "Inter",
+                fontSize: 19,
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+                color: "#0A0A0A",
+                lineHeight: 1.3,
+                marginBottom: 8,
+              }}
+            >
+              <span style={{ marginRight: 12 }}>CAMILA</span>
+              <span style={{ fontWeight: 400, color: "#4B5563", fontSize: 16 }}>
+                — Lo mismo que AURA, pero hablando por teléfono.
+              </span>
+            </div>
+            <div
+              style={{
+                fontFamily: "Inter",
+                fontSize: 13.5,
+                lineHeight: 1.5,
+                color: "#374151",
+                background: "#fff",
+                border: "1px solid #A5F3FC",
+                borderLeft: "3px solid #0891B2",
+                padding: "10px 14px",
+                borderRadius: 8,
+                maxWidth: 600,
+              }}
+            >
+              <b style={{ color: "#0A0A0A" }}>Contrata ahora y tendrás a CAMILA gratis</b> en tu plan cuando salga — sin pagar nada extra al lanzamiento.
+            </div>
+          </div>
+
+          {/* Action */}
+          <Link
+            href="/planes"
+            style={{
+              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontSize: 11,
+              fontWeight: 500,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              padding: "10px 16px",
+              borderRadius: 999,
+              background: "#0891B2",
+              color: "#fff",
+              border: "1px solid #0891B2",
+              whiteSpace: "nowrap",
+            }}
+            className="camila-peek-cta"
+          >
+            Asegurar acceso →
+          </Link>
+        </div>
+      </div>
+      <style jsx>{`
+        @media (max-width: 760px) {
+          :global(.camila-peek-sec) {
+            padding: 32px 28px !important;
+          }
+          :global(.camila-peek) {
+            grid-template-columns: 64px 1fr !important;
+            gap: 16px !important;
+            padding: 16px !important;
+          }
+          :global(.camila-peek > div:first-child) {
+            width: 64px !important;
+            height: 64px !important;
+          }
+          :global(.camila-peek-cta) {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 4px;
           }
         }
       `}</style>
@@ -1220,6 +1544,70 @@ function mix(hex: string, target: string, k: number) {
   const b = h(target);
   const out = a.map((v, i) => Math.round(v * (1 - k) + b[i] * k));
   return `rgb(${out[0]},${out[1]},${out[2]})`;
+}
+
+/* Tab icons (16px, stroke-based) */
+const tabIconProps = {
+  width: 16,
+  height: 16,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.75,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+};
+function IconCalendar() {
+  return (
+    <svg {...tabIconProps}>
+      <rect x="3" y="4" width="18" height="17" rx="2" />
+      <path d="M3 10h18M8 2v4M16 2v4" />
+    </svg>
+  );
+}
+function IconDatabase() {
+  return (
+    <svg {...tabIconProps}>
+      <ellipse cx="12" cy="5" rx="9" ry="3" />
+      <path d="M3 5v6c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+      <path d="M3 11v6c0 1.66 4 3 9 3s9-1.34 9-3v-6" />
+    </svg>
+  );
+}
+function IconRefresh() {
+  return (
+    <svg {...tabIconProps}>
+      <path d="M21 12a9 9 0 1 1-3-6.7" />
+      <polyline points="21 4 21 10 15 10" />
+    </svg>
+  );
+}
+function IconScan() {
+  return (
+    <svg {...tabIconProps}>
+      <circle cx="11" cy="11" r="7" />
+      <path d="M21 21l-5-5" />
+      <path d="M11 8v6M8 11h6" />
+    </svg>
+  );
+}
+function IconBranch() {
+  return (
+    <svg {...tabIconProps}>
+      <circle cx="6" cy="5" r="2" />
+      <circle cx="18" cy="6" r="2" />
+      <circle cx="18" cy="18" r="2" />
+      <path d="M6 7v3a3 3 0 0 0 3 3h6" />
+      <path d="M18 8v8" />
+    </svg>
+  );
+}
+function IconFunnel() {
+  return (
+    <svg {...tabIconProps}>
+      <path d="M3 4h18l-7 9v6l-4 2v-8L3 4z" />
+    </svg>
+  );
 }
 
 function ChannelIcon({ agent }: { agent: "aura" | "camila" | "lia" }) {
