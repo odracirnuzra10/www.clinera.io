@@ -23,7 +23,6 @@ const PLANS = [
     slug: "conect",
     price: "129",
     tagline: "Mensajería + clínica completa sin otro software.",
-    popular: true,
     features: [
       "500 conversaciones con IA/mes",
       "5 usuarios/profesionales",
@@ -38,6 +37,7 @@ const PLANS = [
     slug: "advanced",
     price: "179",
     tagline: "Para cadenas clínicas multi-sede.",
+    popular: true,
     features: [
       "2,000 conversaciones con IA/mes",
       "15 usuarios/profesionales",
@@ -257,7 +257,7 @@ function PlansSection() {
                         marginBottom: 14,
                       }}
                     >
-                      Más popular
+                      Recomendado · 4× IA
                     </span>
                   )}
                   <h3
