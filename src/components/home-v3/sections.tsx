@@ -3430,7 +3430,6 @@ export function Pricing() {
       name: "Conect",
       price: "$129",
       sub: "Mensajería + clínica completa sin otro software.",
-      featured: true,
       tags: [
         { t: "Mensajería con IA", ok: true },
         { t: "Módulo Clínico", ok: true },
@@ -3452,6 +3451,7 @@ export function Pricing() {
       name: "Advanced",
       price: "$179",
       sub: "Para cadenas clínicas multi-sede.",
+      featured: true,
       tags: [
         { t: "Mensajería con IA", ok: true },
         { t: "Módulo Clínico", ok: true },
@@ -3553,7 +3553,7 @@ export function Pricing() {
                     boxShadow: "0 8px 20px -4px rgba(124,58,237,.4)",
                   }}
                 >
-                  Popular
+                  Recomendado · 4× IA
                 </div>
               )}
               <div
