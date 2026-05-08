@@ -65,6 +65,7 @@ export default function DemoV3() {
       `}</style>
       <DemoHero />
       <VideoSection />
+      <CapabilitiesSection />
       <PlansSection />
       <DemoFinalCTA />
     </>
@@ -124,7 +125,7 @@ function DemoHero() {
             color: "#0A0A0A",
           }}
         >
-          Mira Clinera{" "}
+          Software médico con IA y agente IA para clínicas{" "}
           <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
             en acción
           </span>
@@ -155,28 +156,154 @@ function DemoHero() {
 function VideoSection() {
   return (
     <section style={{ padding: "40px 80px 80px", background: "#fff" }}>
-      <div
-        className="reveal"
-        style={{
-          maxWidth: 1100,
-          margin: "0 auto",
-          borderRadius: 20,
-          overflow: "hidden",
-          border: "1px solid #EEECEA",
-          boxShadow: "0 30px 80px rgba(15,10,30,.10), 0 8px 20px rgba(0,0,0,.04)",
-          background: "#0E1014",
-        }}
-      >
-        <div style={{ position: "relative", width: "100%", paddingTop: "56.25%" }}>
-          <iframe
-            src="https://player.vimeo.com/video/1180590198?h=796514cf95&badge=0&autopause=0&player_id=0&app_id=58479"
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            title="SOFTWARE DEMOSTRACION FINAL | CLINERA.IO"
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
-          />
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <div className="reveal" style={{ textAlign: "center", marginBottom: 28 }}>
+          <h2
+            style={{
+              fontFamily: "Inter",
+              fontSize: 40,
+              fontWeight: 700,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.08,
+              margin: "0 0 12px",
+              color: "#0A0A0A",
+            }}
+          >
+            Demo en vivo
+          </h2>
+          <p
+            style={{
+              fontFamily: "Inter",
+              fontSize: 17,
+              color: "#4B5563",
+              lineHeight: 1.6,
+              margin: "0 auto",
+              maxWidth: 760,
+            }}
+          >
+            Revisa cómo Clinera.io funciona como software médico con IA para clínicas, automatizando el agendamiento por WhatsApp, la gestión clínica y la atención comercial desde una sola plataforma.
+          </p>
         </div>
+        <div
+          className="reveal"
+          style={{
+            borderRadius: 20,
+            overflow: "hidden",
+            border: "1px solid #EEECEA",
+            boxShadow: "0 30px 80px rgba(15,10,30,.10), 0 8px 20px rgba(0,0,0,.04)",
+            background: "#0E1014",
+          }}
+        >
+          <div style={{ padding: "47.04% 0 0 0", position: "relative" }}>
+            <iframe
+              src="https://player.vimeo.com/video/1190537955?h=80af129fe0&badge=0&autopause=0&player_id=0&app_id=58479"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
+              title="Demo 2026 | Clinera.io"
+            />
+          </div>
+        </div>
+        <p
+          className="reveal"
+          style={{
+            fontFamily: "Inter",
+            fontSize: 16,
+            color: "#4B5563",
+            lineHeight: 1.7,
+            margin: "24px auto 0",
+            maxWidth: 860,
+            textAlign: "center",
+          }}
+        >
+          Este agente IA para clínicas ayuda a centros médicos, dentales y estéticos en LATAM a responder más rápido, confirmar citas y operar con un sistema de agendamiento inteligente que puede ser alternativa a AgendaPro, Dentalink, Medilink y DentalSoft.
+        </p>
       </div>
+    </section>
+  );
+}
+
+function CapabilitiesSection() {
+  return (
+    <section style={{ padding: "0 80px 96px", background: "#fff" }}>
+      <div
+        className="demo-capabilities-grid"
+        style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 24 }}
+      >
+        <article
+          className="reveal"
+          style={{
+            background: "#FAFAFA",
+            border: "1px solid #EEECEA",
+            borderRadius: 20,
+            padding: "32px 28px",
+          }}
+        >
+          <h2
+            style={{
+              fontFamily: "Inter",
+              fontSize: 28,
+              fontWeight: 700,
+              letterSpacing: "-0.025em",
+              lineHeight: 1.15,
+              margin: "0 0 12px",
+              color: "#0A0A0A",
+            }}
+          >
+            Agendamiento automático con IA
+          </h2>
+          <p
+            style={{
+              fontFamily: "Inter",
+              fontSize: 16,
+              color: "#4B5563",
+              lineHeight: 1.7,
+              margin: 0,
+            }}
+          >
+            Clinera automatiza reservas, recordatorios, reprogramaciones y seguimientos para que tu equipo reciba menos carga operativa y más pacientes confirmados.
+          </p>
+        </article>
+        <article
+          className="reveal"
+          style={{
+            background: "#FAFAFA",
+            border: "1px solid #EEECEA",
+            borderRadius: 20,
+            padding: "32px 28px",
+          }}
+        >
+          <h2
+            style={{
+              fontFamily: "Inter",
+              fontSize: 28,
+              fontWeight: 700,
+              letterSpacing: "-0.025em",
+              lineHeight: 1.15,
+              margin: "0 0 12px",
+              color: "#0A0A0A",
+            }}
+          >
+            Integración con WhatsApp
+          </h2>
+          <p
+            style={{
+              fontFamily: "Inter",
+              fontSize: 16,
+              color: "#4B5563",
+              lineHeight: 1.7,
+              margin: 0,
+            }}
+          >
+            El agente responde por WhatsApp con contexto, deriva cuando hace falta y mantiene la trazabilidad comercial y clínica en un CRM médico pensado para LATAM.
+          </p>
+        </article>
+      </div>
+      <style jsx>{`
+        @media (max-width: 820px) {
+          :global(.demo-capabilities-grid) { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </section>
   );
 }

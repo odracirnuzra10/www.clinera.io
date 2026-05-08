@@ -4,16 +4,82 @@ import FooterV3 from "@/components/brand-v3/Footer";
 import DemoV3 from "@/components/interior-v3/DemoV3";
 
 export const metadata: Metadata = {
-  title: "Demo Clinera — Software clínico con IA en acción",
+  title: {
+    absolute: "Demo en vivo — Clinera.io | Agente IA para clínicas con WhatsApp",
+  },
   description:
-    "Mira cómo AURA agenda pacientes por WhatsApp 24/7. Demo completo de Clinera.io: agenda, ficha clínica, confirmaciones automáticas y analytics.",
+    "Ve en acción el agente de IA para clínicas de Clinera.io. Software médico con IA para agendamiento, WhatsApp y gestión clínica. Alternativa a AgendaPro, Dentalink, Medilink y DentalSoft.",
+  keywords: [
+    "agente IA para WhatsApp",
+    "software médico con IA",
+    "software de agendamiento con IA",
+    "Clinera.io",
+    "alternativa AgendaPro",
+    "alternativa Dentalink",
+    "alternativa DentalSoft",
+    "alternativa Medilink",
+    "chatbot para clínicas",
+    "IA para clínicas",
+    "sistema de agendamiento inteligente",
+    "CRM médico LATAM",
+  ],
   alternates: { canonical: "https://clinera.io/demo" },
   openGraph: {
+    title: "Demo en vivo — Clinera.io | Agente IA para clínicas",
+    description:
+      "Software médico con IA para agendamiento automático y atención por WhatsApp. Demo interactiva.",
     url: "https://clinera.io/demo",
-    title: "Demo Clinera — Software clínico con IA en acción",
-    description: "AURA atiende WhatsApp 24/7 y llena tu agenda sola. Mira el demo.",
+    siteName: "Clinera.io",
     type: "website",
+    images: [{ url: "https://clinera.io/og-demo.png", width: 1200, height: 630 }],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Demo en vivo — Clinera.io",
+    description: "Agente IA para clínicas: WhatsApp, agendamiento y gestión con IA. Ve la demo.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+const softwareApplicationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Clinera.io",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  url: "https://clinera.io",
+  description:
+    "Agente de IA para clínicas médicas y estéticas en LATAM. Automatiza agendamiento, WhatsApp y gestión clínica. Alternativa a AgendaPro, Dentalink, Medilink y DentalSoft.",
+  offers: {
+    "@type": "Offer",
+    price: "59",
+    priceCurrency: "USD",
+    priceValidUntil: "2026-12-31",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    reviewCount: "326",
+  },
+  provider: {
+    "@type": "Organization",
+    name: "OACG Group",
+    url: "https://clinera.io",
+  },
+};
+
+const videoJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "Demo 2026 | Clinera.io",
+  description:
+    "Demostración en vivo del agente IA de Clinera.io para clínicas: agendamiento automático por WhatsApp, gestión de pacientes y automatización clínica.",
+  embedUrl: "https://player.vimeo.com/video/1190537955",
+  uploadDate: "2026-05-01",
+  thumbnailUrl: "https://clinera.io/og-demo.png",
 };
 
 export default function DemoPage() {
@@ -22,6 +88,14 @@ export default function DemoPage() {
       <NavV3 />
       <main>
         <DemoV3 />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(videoJsonLd) }}
+        />
       </main>
       <FooterV3 />
       <script
