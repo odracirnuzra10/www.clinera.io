@@ -8,6 +8,8 @@ const GRAD = "linear-gradient(135deg,#3B82F6 0%,#7C3AED 50%,#D946EF 100%)";
 const PHONE_RULES: Record<string, { name: string; len: number; placeholder: string }> = {
   "+56": { name: "Chile", len: 9, placeholder: "9 1234 5678" },
   "+52": { name: "México", len: 10, placeholder: "55 1234 5678" },
+  "+507": { name: "Panamá", len: 8, placeholder: "6123 4567" },
+  "+595": { name: "Paraguay", len: 9, placeholder: "981 234 567" },
   "+34": { name: "España", len: 9, placeholder: "612 345 678" },
   "+51": { name: "Perú", len: 9, placeholder: "912 345 678" },
 };
@@ -290,48 +292,52 @@ function TestimonialCarousel() {
             boxShadow: "0 30px 80px rgba(0,0,0,.4)",
           }}
         >
-          {SLIDES.map((sl, i) => (
-            <div
-              key={i}
-              style={{
-                position: "absolute",
-                inset: 0,
-                opacity: i === idx ? 1 : 0,
-                transform: i === idx ? "scale(1)" : "scale(.98)",
-                transition: "opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1)",
-                pointerEvents: i === idx ? "auto" : "none",
-              }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={sl.img} alt={sl.name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 22%" }} />
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(14,20,26,0) 0%, rgba(14,20,26,.2) 45%, rgba(14,20,26,.95) 88%)" }} />
-              <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "24px 26px 26px", color: "#fff" }}>
-                <div
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                    fontSize: 11,
-                    fontWeight: 600,
-                    letterSpacing: ".06em",
-                    color: "#10B981",
-                    background: "rgba(16,185,129,.14)",
-                    border: "1px solid rgba(16,185,129,.35)",
-                    padding: "5px 10px",
-                    borderRadius: 6,
-                    marginBottom: 14,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {sl.metric}
-                </div>
-                <p style={{ fontFamily: "Inter", fontSize: 20, lineHeight: 1.3, fontWeight: 500, margin: "0 0 12px", letterSpacing: "-.015em" }}>&quot;{sl.quote}&quot;</p>
-                <div style={{ fontFamily: "Inter", fontSize: 14.5, fontWeight: 600 }}>{sl.name}</div>
-                <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "rgba(255,255,255,.55)", marginTop: 2 }}>{sl.clinic}</div>
+          <div
+            key={idx}
+            style={{
+              position: "absolute",
+              inset: 0,
+              opacity: 1,
+              transform: "scale(1)",
+              transition: "opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1)",
+              pointerEvents: "auto",
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={s.img}
+              alt={s.name}
+              loading={idx === 0 ? "eager" : "lazy"}
+              decoding="async"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 22%" }}
+            />
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(14,20,26,0) 0%, rgba(14,20,26,.2) 45%, rgba(14,20,26,.95) 88%)" }} />
+            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "24px 26px 26px", color: "#fff" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  fontSize: 11,
+                  fontWeight: 600,
+                  letterSpacing: ".06em",
+                  color: "#10B981",
+                  background: "rgba(16,185,129,.14)",
+                  border: "1px solid rgba(16,185,129,.35)",
+                  padding: "5px 10px",
+                  borderRadius: 6,
+                  marginBottom: 14,
+                  textTransform: "uppercase",
+                }}
+              >
+                {s.metric}
               </div>
+              <p style={{ fontFamily: "Inter", fontSize: 20, lineHeight: 1.3, fontWeight: 500, margin: "0 0 12px", letterSpacing: "-.015em" }}>&quot;{s.quote}&quot;</p>
+              <div style={{ fontFamily: "Inter", fontSize: 14.5, fontWeight: 600 }}>{s.name}</div>
+              <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "rgba(255,255,255,.55)", marginTop: 2 }}>{s.clinic}</div>
             </div>
-          ))}
+          </div>
         </div>
         <div style={{ display: "flex", gap: 6, justifyContent: "center", marginTop: 16 }}>
           {SLIDES.map((_, i) => (
@@ -372,7 +378,13 @@ function TestimonialCarousel() {
       >
         <div style={{ flexShrink: 0, width: 72, height: 72, borderRadius: 10, overflow: "hidden", background: "#0A0A0A" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={s.img} alt={s.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 22%", transition: "opacity .4s" }} />
+          <img
+            src={s.img}
+            alt={s.name}
+            loading={idx === 0 ? "eager" : "lazy"}
+            decoding="async"
+            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 22%", transition: "opacity .4s" }}
+          />
         </div>
         <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 4 }}>
           <div
@@ -837,10 +849,14 @@ function StepContact({
       if (d.length <= 5) return d[0] + " " + d.slice(1);
       return d[0] + " " + d.slice(1, 5) + " " + d.slice(5);
     }
-    if (prefix === "+34" || prefix === "+51") {
+    if (prefix === "+34" || prefix === "+51" || prefix === "+595") {
       if (d.length <= 3) return d;
       if (d.length <= 6) return d.slice(0, 3) + " " + d.slice(3);
       return d.slice(0, 3) + " " + d.slice(3, 6) + " " + d.slice(6);
+    }
+    if (prefix === "+507") {
+      if (d.length <= 4) return d;
+      return d.slice(0, 4) + " " + d.slice(4);
     }
     if (d.length <= 2) return d;
     if (d.length <= 6) return d.slice(0, 2) + " " + d.slice(2);
@@ -910,6 +926,8 @@ function StepContact({
           >
             <option value="+56">🇨🇱 +56</option>
             <option value="+52">🇲🇽 +52</option>
+            <option value="+507">🇵🇦 +507</option>
+            <option value="+595">🇵🇾 +595</option>
             <option value="+34">🇪🇸 +34</option>
             <option value="+51">🇵🇪 +51</option>
           </select>
@@ -1377,8 +1395,9 @@ function BackBtn({ onClick }: { onClick: () => void }) {
         fontFamily: "Inter",
         fontSize: 13,
         cursor: "pointer",
-        padding: 0,
-        marginBottom: 12,
+        minHeight: 44,
+        padding: "0 2px",
+        marginBottom: 0,
       }}
     >
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -1451,6 +1470,7 @@ function SubmitBtn({ enabled, children, onClick }: { enabled: boolean; children:
       style={{
         width: "100%",
         padding: 14,
+        minHeight: 48,
         border: 0,
         borderRadius: 12,
         fontFamily: "Inter",
