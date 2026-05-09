@@ -5,13 +5,21 @@ import { useEffect, useRef, useState } from "react";
 // ============== SHARED CONSTANTS ==============
 const GRAD = "linear-gradient(135deg,#3B82F6 0%,#7C3AED 50%,#D946EF 100%)";
 
-const PHONE_RULES: Record<string, { name: string; len: number; placeholder: string }> = {
-  "+56": { name: "Chile", len: 9, placeholder: "9 1234 5678" },
-  "+52": { name: "México", len: 10, placeholder: "55 1234 5678" },
-  "+507": { name: "Panamá", len: 8, placeholder: "6123 4567" },
-  "+595": { name: "Paraguay", len: 9, placeholder: "981 234 567" },
-  "+34": { name: "España", len: 9, placeholder: "612 345 678" },
-  "+51": { name: "Perú", len: 9, placeholder: "912 345 678" },
+type PhoneRule = {
+  name: string;
+  len: number;
+  placeholder: string;
+  pattern: RegExp;
+  invalidHint: string;
+};
+
+const PHONE_RULES: Record<string, PhoneRule> = {
+  "+56": { name: "Chile", len: 9, placeholder: "9 1234 5678", pattern: /^9\d{8}$/, invalidHint: "Debe empezar con 9" },
+  "+52": { name: "México", len: 10, placeholder: "55 1234 5678", pattern: /^[2-9]\d{9}$/, invalidHint: "Debe empezar con 2-9" },
+  "+507": { name: "Panamá", len: 8, placeholder: "6123 4567", pattern: /^6\d{7}$/, invalidHint: "Debe empezar con 6" },
+  "+595": { name: "Paraguay", len: 9, placeholder: "981 234 567", pattern: /^9[2-9]\d{7}$/, invalidHint: "Debe empezar con 92-99" },
+  "+34": { name: "España", len: 9, placeholder: "612 345 678", pattern: /^[67]\d{8}$/, invalidHint: "Debe empezar con 6 o 7" },
+  "+51": { name: "Perú", len: 9, placeholder: "912 345 678", pattern: /^9\d{8}$/, invalidHint: "Debe empezar con 9" },
 };
 
 type Challenge = { id: string; emoji: string; title: string; desc: string };
@@ -837,7 +845,9 @@ function StepContact({
   const digits = form.phone.replace(/\D/g, "");
   const nameOk = form.nombre.trim().length >= 2;
   const clinicOk = form.clinica.trim().length >= 2;
-  const phoneOk = digits.length === rule.len;
+  const phoneLengthOk = digits.length === rule.len;
+  const phonePatternOk = rule.pattern.test(digits);
+  const phoneOk = phoneLengthOk && phonePatternOk;
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim());
   const allOk = nameOk && clinicOk && phoneOk && emailOk;
 
@@ -867,6 +877,7 @@ function StepContact({
     if (!digits.length) return { cls: "#6B7280", t: `Ingresa ${rule.len} dígitos (${rule.name})` };
     if (digits.length < rule.len) return { cls: "#E74C3C", t: `Faltan ${rule.len - digits.length} dígito${rule.len - digits.length === 1 ? "" : "s"} (${rule.name})` };
     if (digits.length > rule.len) return { cls: "#E74C3C", t: `Demasiados dígitos para ${rule.name}` };
+    if (!phonePatternOk) return { cls: "#E74C3C", t: `${rule.invalidHint} (${rule.name})` };
     return { cls: "#09B48A", t: `Número válido para ${rule.name}` };
   })();
 
