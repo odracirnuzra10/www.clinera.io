@@ -2754,6 +2754,14 @@ export function Integraciones() {
     { name: "MercadoPago", sub: "Pagos LATAM", emoji: "MP", color: "#00B0EE" },
     { name: "WebPay / Transbank", sub: "Pagos oficiales en Chile", emoji: "W", color: "#E30613" },
   ];
+  const automation = [
+    { name: "API/Webhooks", sub: "Eventos en tiempo real", emoji: "API", color: "#111827" },
+    { name: "n8n", sub: "Workflows avanzados", emoji: "n8n", color: "#EA4B71" },
+    { name: "Make", sub: "Automatización visual", emoji: "M", color: "#6D28D9" },
+    { name: "Zapier", sub: "Conecta tu stack no-code", emoji: "Z", color: "#FF4A00" },
+    { name: "CRMs y dashboards", sub: "HubSpot, Pipedrive, Sheets y más", emoji: "CRM", color: "#2563EB" },
+    { name: "Operaciones", sub: "Monday, Notion, Slack y sistemas internos", emoji: "OPS", color: "#10B981" },
+  ];
   // Pausado — reactivar cuando se relancen integraciones de agenda en home
   // const agendas = [
   //   { name: "AgendaPro", sub: "Integración con agenda", emoji: "AP", color: "#F97316" },
@@ -2879,6 +2887,73 @@ export function Integraciones() {
             {primary.map(tile)}
           </div>
 
+          <div style={{ textAlign: "center", marginBottom: 20 }}>
+            <Mono>API/Webhooks y automatización</Mono>
+          </div>
+          <div
+            style={{
+              background: "rgba(255,255,255,.9)",
+              border: "1px solid #EDE9FE",
+              borderRadius: 18,
+              padding: "26px",
+              boxShadow: "0 18px 50px rgba(17,24,39,.06)",
+            }}
+          >
+            <div
+              className="home-api-grid"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1.45fr",
+                gap: 24,
+                alignItems: "center",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    fontFamily: "Inter",
+                    fontSize: 24,
+                    fontWeight: 700,
+                    letterSpacing: "-0.025em",
+                    color: "#0A0A0A",
+                    marginBottom: 10,
+                  }}
+                >
+                  Conecta Clinera con tu stack actual
+                </div>
+                <p style={{ fontFamily: "Inter", fontSize: 15, color: "#4B5563", lineHeight: 1.6, margin: "0 0 16px" }}>
+                  Usa API/Webhooks para integrar Clinera con plataformas como n8n, Make y Zapier, y desde ahí
+                  conectar CRMs, planillas, dashboards, tareas, reportes y sistemas internos compatibles.
+                </p>
+                <Link
+                  href="/blog/clinera-api-webhooks-n8n-make-zapier"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    fontFamily: "Inter",
+                    fontSize: 14,
+                    fontWeight: 700,
+                    color: "#7C3AED",
+                    textDecoration: "none",
+                  }}
+                >
+                  Leer anuncio de integraciones →
+                </Link>
+              </div>
+              <div
+                className="home-integra-grid"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(2, 1fr)",
+                  gap: 12,
+                }}
+              >
+                {automation.map(tile)}
+              </div>
+            </div>
+          </div>
+
           {/* Pausado — reactivar cuando se relancen integraciones de agenda en home
           <div style={{ textAlign: "center", marginBottom: 20 }}>
             <Mono>Se integra con otras agendas</Mono>
@@ -2895,6 +2970,7 @@ export function Integraciones() {
       <style jsx>{`
         @media (max-width: 820px) {
           :global(.home-integra-grid) { grid-template-columns: repeat(2, 1fr) !important; }
+          :global(.home-api-grid) { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 500px) {
           :global(.home-integra-grid) { grid-template-columns: 1fr !important; }
