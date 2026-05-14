@@ -26,7 +26,7 @@ export default function VentasPage() {
   return (
     <>
       <h1 style={srOnly}>Agenda una reunión con el equipo de Clinera</h1>
-      <VentasLanding />
+      <VentasLanding enableMigrationQualification />
     </>
   );
 }
