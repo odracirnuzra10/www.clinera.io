@@ -96,12 +96,20 @@ function detectLeadSource(): string {
   return "organico";
 }
 
+const MIGRATION_MONDAY: Record<MigrationIntent, string | null> = {
+  no_software: "no tiene software",
+  yes_migrate: "quiere migrar",
+  maybe: "quiere evaluarlo",
+  no_migrate: null,
+};
+
 function getMigrationMeta(migrationIntent: MigrationIntent | null) {
   if (!migrationIntent) return {};
 
   return {
     migration_intent: migrationIntent,
     migration_intent_label: MIGRATION_LABELS[migrationIntent],
+    monday_initial_status: MIGRATION_MONDAY[migrationIntent] ?? "",
     lead_priority:
       migrationIntent === "no_software"
         ? "high"
