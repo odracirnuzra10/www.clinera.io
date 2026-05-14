@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 // ============== SHARED CONSTANTS ==============
@@ -30,6 +31,43 @@ const CHALLENGES: Challenge[] = [
   { id: "convertir", emoji: "🎯", title: "Convertir consultas", desc: "IA que diagnostica, muestra casos de éxito y cierra la venta." },
 ];
 
+type MigrationIntent = "no_software" | "yes_migrate" | "maybe" | "no_migrate";
+type MigrationOption = {
+  id: MigrationIntent;
+  title: string;
+  desc: string;
+  priority?: boolean;
+};
+
+const MIGRATION_OPTIONS: MigrationOption[] = [
+  {
+    id: "no_software",
+    title: "No tenemos software",
+    desc: "Buscamos implementar uno desde cero.",
+    priority: true,
+  },
+  {
+    id: "yes_migrate",
+    title: "Queremos migrar a Clinera",
+    desc: "Estamos abiertos a centralizar la operación.",
+  },
+  {
+    id: "maybe",
+    title: "Queremos evaluarlo",
+    desc: "Déjanos tus datos y revisamos compatibilidad.",
+  },
+  {
+    id: "no_migrate",
+    title: "Mantendremos nuestro software",
+    desc: "Por ahora no buscamos migrar.",
+  },
+];
+
+const MIGRATION_LABELS: Record<MigrationIntent, string> = MIGRATION_OPTIONS.reduce(
+  (acc, opt) => ({ ...acc, [opt.id]: opt.title }),
+  {} as Record<MigrationIntent, string>,
+);
+
 const WEBHOOK_URL = "https://clinerasoftware.app.n8n.cloud/webhook/088a2cfe-5c93-4a4b-a4e5-ac2617979ea5";
 const WA_NUMBER = "56985581524";
 
@@ -58,8 +96,47 @@ function detectLeadSource(): string {
   return "organico";
 }
 
+function getMigrationMeta(migrationIntent: MigrationIntent | null) {
+  if (!migrationIntent) return {};
+
+  return {
+    migration_intent: migrationIntent,
+    migration_intent_label: MIGRATION_LABELS[migrationIntent],
+    lead_priority:
+      migrationIntent === "no_software"
+        ? "high"
+        : migrationIntent === "maybe"
+          ? "manual_review"
+          : "standard",
+    calendar_access:
+      migrationIntent === "maybe"
+        ? "manual_review"
+        : migrationIntent === "no_migrate"
+          ? "not_available"
+          : "allowed",
+  };
+}
+
+function trackQualificationSelected(migrationIntent: MigrationIntent) {
+  if (typeof window === "undefined") return;
+  const meta = getMigrationMeta(migrationIntent);
+
+  if (window.dataLayer) {
+    window.dataLayer.push({ event: `qualification_selected:${migrationIntent}`, ...meta });
+    window.dataLayer.push({ event: "qualification_selected", ...meta });
+  }
+
+  if (typeof window.fbq === "function") {
+    window.fbq("trackCustom", `qualification_selected:${migrationIntent}`, meta);
+  }
+}
+
 // ============== ROOT ==============
-export default function VentasLanding() {
+export default function VentasLanding({
+  enableMigrationQualification = false,
+}: {
+  enableMigrationQualification?: boolean;
+}) {
   useEffect(() => {
     const io = new IntersectionObserver(
       (es) =>
@@ -125,13 +202,17 @@ export default function VentasLanding() {
           .ventas-field-label { margin-bottom: 4px !important; }
         }
       `}</style>
-      <ReunionHero />
+      <ReunionHero enableMigrationQualification={enableMigrationQualification} />
     </>
   );
 }
 
 // ============== HERO ==============
-function ReunionHero() {
+function ReunionHero({
+  enableMigrationQualification,
+}: {
+  enableMigrationQualification: boolean;
+}) {
   return (
     <section style={{ position: "relative", overflow: "hidden", display: "flex", alignItems: "center" }}>
       <div
@@ -260,7 +341,7 @@ function ReunionHero() {
         </div>
 
         <div className="reveal" style={{ display: "flex", minWidth: 0 }}>
-          <Wizard />
+          <Wizard enableMigrationQualification={enableMigrationQualification} />
         </div>
       </div>
     </section>
@@ -444,14 +525,25 @@ function TestimonialCarousel() {
 }
 
 // ============== WIZARD ==============
-function Wizard() {
+function Wizard({
+  enableMigrationQualification,
+}: {
+  enableMigrationQualification: boolean;
+}) {
   const [step, setStep] = useState(1);
+  const [migrationIntent, setMigrationIntent] = useState<MigrationIntent | null>(null);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [form, setForm] = useState<Form>({ nombre: "", clinica: "", prefix: "+56", phone: "", email: "" });
   const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
   const [booking, setBooking] = useState<CalBooking | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [terminalState, setTerminalState] = useState<"manual_review" | "not_compatible" | null>(null);
+  const hasQualification = enableMigrationQualification;
+  const totalSteps = hasQualification ? 4 : 3;
+  const challengeStep = hasQualification ? 2 : 1;
+  const contactStep = hasQualification ? 3 : 2;
+  const calStep = hasQualification ? 4 : 3;
 
   return (
     <div
@@ -468,56 +560,91 @@ function Wizard() {
       }}
     >
       <div className="ventas-wizard-progress" style={{ display: "flex", gap: 6, marginBottom: 24 }}>
-        {[1, 2, 3].map((n) => (
+        {Array.from({ length: totalSteps }, (_, i) => i + 1).map((n) => (
           <div key={n} style={{ flex: 1, height: 4, borderRadius: 2, background: step >= n ? "#0A0A0A" : "#EEECEA", transition: "background .4s ease" }} />
         ))}
       </div>
 
-      {!submitted && step === 1 && (
-        <StepChallenge
-          challenge={challenge}
-          setChallenge={(c) => {
-            setChallenge(c);
-            if (typeof window !== "undefined" && typeof window.fbq === "function") {
-              window.fbq("track", "ViewContent", { content_name: "Clinera Ventas", challenge: c.id });
+      {!submitted && !terminalState && hasQualification && step === 1 && (
+        <StepMigrationQualification
+          migrationIntent={migrationIntent}
+          setMigrationIntent={(intent) => {
+            setMigrationIntent(intent);
+            trackQualificationSelected(intent);
+            if (intent === "no_migrate") {
+              setTimeout(() => {
+                setStep(totalSteps);
+                setTerminalState("not_compatible");
+              }, 260);
+              return;
             }
-            setTimeout(() => setStep(2), 300);
+            setTimeout(() => setStep(challengeStep), 300);
           }}
         />
       )}
-      {!submitted && step === 2 && (
+      {!submitted && !terminalState && step === challengeStep && (
+        <StepChallenge
+          challenge={challenge}
+          label={`Paso ${challengeStep} de ${totalSteps}`}
+          setChallenge={(c) => {
+            setChallenge(c);
+            if (typeof window !== "undefined" && typeof window.fbq === "function") {
+              window.fbq("track", "ViewContent", {
+                content_name: "Clinera Ventas",
+                challenge: c.id,
+                ...(migrationIntent ? { migration_intent: migrationIntent } : {}),
+              });
+            }
+            setTimeout(() => setStep(contactStep), 300);
+          }}
+        />
+      )}
+      {!submitted && !terminalState && step === contactStep && (
         <StepContact
           form={form}
           setForm={setForm}
           errors={errors}
           setErrors={setErrors}
-          onBack={() => setStep(1)}
+          label={`Paso ${contactStep} de ${totalSteps}`}
+          onBack={() => setStep(challengeStep)}
           onNext={() => {
             if (typeof window !== "undefined" && typeof window.fbq === "function") {
-              window.fbq("track", "InitiateCheckout", { content_name: "Clinera Ventas" });
+              window.fbq("track", "InitiateCheckout", {
+                content_name: "Clinera Ventas",
+                ...(migrationIntent ? { migration_intent: migrationIntent } : {}),
+              });
             }
             // Capturar el lead en n8n en background — sin bloquear el avance al embed.
             // El fetch usa keepalive, así que se completa aunque cambie de pestaña.
-            submitPartialLead({ form, challenge }).then((ctx) => {
+            submitPartialLead({ form, challenge, migrationIntent }).then((ctx) => {
               if (ctx) setLeadCtx(ctx);
             });
-            setStep(3);
+            if (migrationIntent === "maybe") {
+              setStep(totalSteps);
+              setTerminalState("manual_review");
+              return;
+            }
+            setStep(calStep);
           }}
         />
       )}
-      {!submitted && step === 3 && (
+      {!submitted && !terminalState && step === calStep && (
         <StepCalCom
           form={form}
           challenge={challenge}
-          onBack={() => setStep(2)}
+          migrationIntent={migrationIntent}
+          label={`Paso ${calStep} de ${totalSteps}`}
+          onBack={() => setStep(contactStep)}
           onBooked={async (calBooking) => {
             setBooking(calBooking);
-            await submitBookingConfirmation({ form, challenge, leadCtx, booking: calBooking });
+            await submitBookingConfirmation({ form, challenge, migrationIntent, leadCtx, booking: calBooking });
             setSubmitted(true);
           }}
         />
       )}
-      {submitted && <StepSuccess form={form} challenge={challenge} booking={booking} />}
+      {terminalState === "manual_review" && <StepManualReviewClose />}
+      {terminalState === "not_compatible" && <StepNotCompatibleClose />}
+      {submitted && <StepSuccess form={form} challenge={challenge} booking={booking} migrationIntent={migrationIntent} />}
     </div>
   );
 }
@@ -541,9 +668,11 @@ type CalBooking = {
 async function submitPartialLead({
   form,
   challenge,
+  migrationIntent,
 }: {
   form: Form;
   challenge: Challenge | null;
+  migrationIntent?: MigrationIntent | null;
 }): Promise<{ eventId: string; leadSource: string } | null> {
   if (!challenge) return null;
 
@@ -560,6 +689,7 @@ async function submitPartialLead({
   const leadSource = detectLeadSource();
   const rule = PHONE_RULES[form.prefix];
   const digits = form.phone.replace(/\D/g, "");
+  const migrationMeta = getMigrationMeta(migrationIntent ?? null);
 
   // Fire Pixel Lead — el lead está calificado: nombre + clínica + tel + email.
   // El booking en Cal.com es un upgrade adicional, no un requisito para considerarlo lead.
@@ -574,6 +704,7 @@ async function submitPartialLead({
         booking_status: "pending",
         value: 10,
         currency: "USD",
+        ...migrationMeta,
       },
       { eventID: eventId },
     );
@@ -586,6 +717,7 @@ async function submitPartialLead({
       challenge: challenge.id,
       event_id: eventId,
       booking_status: "pending",
+      ...migrationMeta,
     });
   }
 
@@ -600,6 +732,7 @@ async function submitPartialLead({
 
     booking_status: "pending",
     lead_source: leadSource,
+    ...migrationMeta,
     challenge_id: challenge.id,
     challenge_label: challenge.title,
     nombre: form.nombre.trim(),
@@ -633,11 +766,13 @@ async function submitPartialLead({
 async function submitBookingConfirmation({
   form,
   challenge,
+  migrationIntent,
   leadCtx,
   booking,
 }: {
   form: Form;
   challenge: Challenge | null;
+  migrationIntent?: MigrationIntent | null;
   leadCtx: { eventId: string; leadSource: string } | null;
   booking: CalBooking;
 }) {
@@ -656,6 +791,7 @@ async function submitBookingConfirmation({
         content_category: "booking",
         lead_source: leadCtx?.leadSource,
         cal_booking_uid: booking?.booking?.uid,
+        ...getMigrationMeta(migrationIntent ?? null),
       },
       { eventID: confirmEventId },
     );
@@ -667,11 +803,13 @@ async function submitBookingConfirmation({
       lead_event_id: leadCtx?.eventId,
       cal_booking_uid: booking?.booking?.uid,
       cal_date: booking?.date,
+      ...getMigrationMeta(migrationIntent ?? null),
     });
   }
 
   const rule = PHONE_RULES[form.prefix];
   const digits = form.phone.replace(/\D/g, "");
+  const migrationMeta = getMigrationMeta(migrationIntent ?? null);
 
   const payload = {
     event_id: confirmEventId,
@@ -695,6 +833,7 @@ async function submitBookingConfirmation({
 
     // Datos del contacto (re-incluidos para que el segundo evento sea autosuficiente)
     lead_source: leadCtx?.leadSource ?? detectLeadSource(),
+    ...migrationMeta,
     challenge_id: challenge.id,
     challenge_label: challenge.title,
     nombre: form.nombre.trim(),
@@ -722,12 +861,151 @@ async function submitBookingConfirmation({
   }
 }
 
-// ============== STEP 1 ==============
-function StepChallenge({ challenge, setChallenge }: { challenge: Challenge | null; setChallenge: (c: Challenge) => void }) {
+// ============== STEP 1 — MIGRATION QUALIFICATION ==============
+function StepMigrationQualification({
+  migrationIntent,
+  setMigrationIntent,
+}: {
+  migrationIntent: MigrationIntent | null;
+  setMigrationIntent: (intent: MigrationIntent) => void;
+}) {
   return (
     <div>
       <StepHeader
-        label="Paso 1 de 3"
+        label="Paso 1 de 4"
+        title={
+          <>
+            Situación{" "}
+            <em style={{ fontStyle: "normal", background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
+              actual
+            </em>
+          </>
+        }
+        sub="Antes de agendar, cuéntanos si tu clínica busca implementar o migrar a Clinera."
+      />
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {MIGRATION_OPTIONS.map((opt, index) => {
+          const sel = migrationIntent === opt.id;
+          return (
+            <button
+              key={opt.id}
+              type="button"
+              onClick={() => setMigrationIntent(opt.id)}
+              className="ventas-challenge-opt"
+              style={{
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+                gap: 14,
+                padding: "14px 16px",
+                border: "1.5px solid " + (sel ? "#0A0A0A" : "#E7EBF0"),
+                borderRadius: 14,
+                cursor: "pointer",
+                background: sel ? "#FAFBFD" : "#fff",
+                textAlign: "left",
+                fontFamily: "Inter",
+                color: "#0A0A0A",
+                width: "100%",
+                overflow: "hidden",
+                transition: "all .2s",
+              }}
+            >
+              {sel && <span style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 3, background: GRAD }} />}
+              <span
+                className="ventas-challenge-icon"
+                style={{
+                  flexShrink: 0,
+                  width: 44,
+                  height: 44,
+                  borderRadius: 12,
+                  background: sel ? GRAD : "linear-gradient(135deg,#F4F8FF 0%,#FAF5FF 100%)",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: sel ? "#fff" : "#7C3AED",
+                  boxShadow: sel ? "0 6px 14px -4px rgba(124,58,237,.4)" : "none",
+                  transition: "all .25s",
+                }}
+              >
+                {index + 1}
+              </span>
+              <span style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 4 }}>
+                <span style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                  <span className="ventas-challenge-title" style={{ fontWeight: 700, fontSize: 15, letterSpacing: "-.012em" }}>{opt.title}</span>
+                  {opt.priority && (
+                    <span
+                      style={{
+                        fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                        fontSize: 9,
+                        fontWeight: 700,
+                        letterSpacing: ".08em",
+                        textTransform: "uppercase",
+                        color: "#065F46",
+                        background: "rgba(16,185,129,.10)",
+                        border: "1px solid rgba(16,185,129,.24)",
+                        borderRadius: 999,
+                        padding: "3px 7px",
+                        lineHeight: 1,
+                      }}
+                    >
+                      Atención prioritaria
+                    </span>
+                  )}
+                </span>
+                <span className="ventas-challenge-desc" style={{ fontSize: 13, color: "#6B7280", lineHeight: 1.4 }}>{opt.desc}</span>
+              </span>
+              <span
+                style={{
+                  flexShrink: 0,
+                  width: 22,
+                  height: 22,
+                  borderRadius: 999,
+                  border: "1.5px solid " + (sel ? "#0A0A0A" : "#D1D5DB"),
+                  background: sel ? "#0A0A0A" : "#fff",
+                  position: "relative",
+                  transition: "all .2s",
+                }}
+              >
+                {sel && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: 7,
+                      top: 3,
+                      width: 5,
+                      height: 10,
+                      border: "solid #fff",
+                      borderWidth: "0 2px 2px 0",
+                      transform: "rotate(45deg)",
+                    }}
+                  />
+                )}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ============== STEP 2 ==============
+function StepChallenge({
+  challenge,
+  setChallenge,
+  label = "Paso 1 de 3",
+}: {
+  challenge: Challenge | null;
+  setChallenge: (c: Challenge) => void;
+  label?: string;
+}) {
+  return (
+    <div>
+      <StepHeader
+        label={label}
         title={
           <>
             ¿Cuál es tu{" "}
@@ -831,6 +1109,7 @@ function StepContact({
   setForm,
   errors,
   setErrors,
+  label = "Paso 2 de 3",
   onBack,
   onNext,
 }: {
@@ -838,6 +1117,7 @@ function StepContact({
   setForm: (f: Form) => void;
   errors: Record<string, boolean>;
   setErrors: (e: Record<string, boolean>) => void;
+  label?: string;
   onBack: () => void;
   onNext: () => void;
 }) {
@@ -894,7 +1174,7 @@ function StepContact({
     <div>
       <BackBtn onClick={onBack} />
       <StepHeader
-        label="Paso 2 de 3"
+        label={label}
         title={
           <>
             Tus{" "}
@@ -974,11 +1254,15 @@ function StepContact({
 function StepCalCom({
   form,
   challenge,
+  migrationIntent,
+  label = "Paso 3 de 3",
   onBack,
   onBooked,
 }: {
   form: Form;
   challenge: Challenge | null;
+  migrationIntent?: MigrationIntent | null;
+  label?: string;
   onBack: () => void;
   onBooked: (b: CalBooking) => void;
 }) {
@@ -1040,6 +1324,7 @@ function StepCalCom({
 
     const notes = [
       challenge ? `Desafío: ${challenge.title}` : null,
+      migrationIntent ? `Situación: ${MIGRATION_LABELS[migrationIntent]}` : null,
       form.clinica ? `Clínica: ${form.clinica}` : null,
       form.phone ? `Teléfono: ${form.prefix} ${form.phone}` : null,
     ]
@@ -1081,13 +1366,13 @@ function StepCalCom({
     // ocultamos igual para no dejar al usuario mirando un skeleton perpetuo.
     const fallback = window.setTimeout(() => setCalLoaded(true), 6000);
     return () => window.clearTimeout(fallback);
-  }, [form.nombre, form.email, form.clinica, form.phone, form.prefix, challenge]);
+  }, [form.nombre, form.email, form.clinica, form.phone, form.prefix, challenge, migrationIntent]);
 
   return (
     <div>
       <BackBtn onClick={onBack} />
       <StepHeader
-        label="Paso 3 de 3"
+        label={label}
         title={
           <>
             Elige tu{" "}
@@ -1270,14 +1555,17 @@ function StepSuccess({
   form,
   challenge,
   booking,
+  migrationIntent,
 }: {
   form: Form;
   challenge: Challenge | null;
   booking: CalBooking | null;
+  migrationIntent?: MigrationIntent | null;
 }) {
   const bookingLabel = formatBookingDate(booking?.date);
+  const migrationLabel = migrationIntent ? MIGRATION_LABELS[migrationIntent] : "";
   const msg = encodeURIComponent(
-    `Hola Clinera, acabo de agendar una reunión comercial desde /ventas.\n\nNombre: ${form.nombre}\nClínica: ${form.clinica}\nEmail: ${form.email}\nDesafío: ${challenge?.title || ""}${bookingLabel ? `\nCuándo: ${bookingLabel}` : ""}`,
+    `Hola Clinera, acabo de agendar una reunión comercial desde /ventas.\n\nNombre: ${form.nombre}\nClínica: ${form.clinica}\nEmail: ${form.email}${migrationLabel ? `\nSituación: ${migrationLabel}` : ""}\nDesafío: ${challenge?.title || ""}${bookingLabel ? `\nCuándo: ${bookingLabel}` : ""}`,
   );
   const waUrl = `https://wa.me/${WA_NUMBER}?text=${msg}`;
 
@@ -1345,7 +1633,7 @@ function StepSuccess({
           <WhatsAppIcon size={16} />
           Confirmar por WhatsApp
         </a>
-        <a
+        <Link
           href="/"
           style={{
             display: "inline-flex",
@@ -1363,11 +1651,112 @@ function StepSuccess({
           }}
         >
           Volver al inicio
-        </a>
+        </Link>
       </div>
       <p style={{ fontFamily: "Inter", fontSize: 12.5, color: "#9CA3AF", margin: "22px auto 0", maxWidth: 340, lineHeight: 1.5 }}>
         Tu hora debe quedar confirmada por WhatsApp. Si no confirmas, liberamos el cupo para otra clínica.
       </p>
+    </div>
+  );
+}
+
+function StepManualReviewClose() {
+  return (
+    <TerminalMessage
+      tone="review"
+      title="Gracias. Revisaremos tu caso"
+      body="Gracias. Revisaremos tu caso y nuestro equipo te contactará si vemos compatibilidad."
+    />
+  );
+}
+
+function StepNotCompatibleClose() {
+  const msg = encodeURIComponent("Hola Clinera, quiero contactarlos aunque por ahora no busco migrar.");
+  const waUrl = `https://wa.me/${WA_NUMBER}?text=${msg}`;
+
+  return (
+    <TerminalMessage
+      tone="info"
+      title="Gracias por tu interés"
+      body="Actualmente Clinera está diseñado para clínicas que buscan centralizar su operación dentro del ecosistema Clinera."
+      action={
+        <a
+          href={waUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+            background: "#25D366",
+            color: "#fff",
+            padding: "12px 20px",
+            borderRadius: 12,
+            fontFamily: "Inter",
+            fontSize: 15,
+            fontWeight: 700,
+            textDecoration: "none",
+            boxShadow: "0 10px 24px -8px rgba(37,211,102,.5)",
+            marginTop: 22,
+          }}
+        >
+          <WhatsAppIcon size={16} />
+          Contactarnos por WhatsApp
+        </a>
+      }
+    />
+  );
+}
+
+function TerminalMessage({
+  tone,
+  title,
+  body,
+  action,
+}: {
+  tone: "review" | "info";
+  title: string;
+  body: string;
+  action?: React.ReactNode;
+}) {
+  const isReview = tone === "review";
+  return (
+    <div style={{ padding: "30px 0 18px", textAlign: "center" }}>
+      <div
+        style={{
+          width: 72,
+          height: 72,
+          borderRadius: 999,
+          background: isReview ? "rgba(124,58,237,.12)" : "rgba(59,130,246,.12)",
+          border: `2px solid ${isReview ? "rgba(124,58,237,.32)" : "rgba(59,130,246,.32)"}`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          margin: "0 auto 22px",
+          animation: "scaleBounce .6s ease .1s both",
+        }}
+      >
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke={isReview ? "#7C3AED" : "#3B82F6"} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+          {isReview ? (
+            <>
+              <path d="M12 8v5" />
+              <path d="M12 17h.01" />
+              <circle cx="12" cy="12" r="9" />
+            </>
+          ) : (
+            <>
+              <path d="M20 6L9 17l-5-5" />
+              <path d="M21 12a9 9 0 11-4.6-7.9" />
+            </>
+          )}
+        </svg>
+      </div>
+      <h2 style={{ fontFamily: "Inter", fontSize: 30, fontWeight: 800, letterSpacing: "-.028em", color: "#0A0A0A", margin: "0 0 10px" }}>{title}</h2>
+      <p style={{ fontFamily: "Inter", fontSize: 15, color: "#4B5563", lineHeight: 1.55, margin: "0 auto", maxWidth: 430 }}>
+        {body}
+      </p>
+      {action}
     </div>
   );
 }

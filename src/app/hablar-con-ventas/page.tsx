@@ -30,7 +30,7 @@ export default function HablarConVentasPage() {
       <NavV3 />
       <main>
         <h1 style={srOnly}>Hablemos: ¿cómo te puede ayudar Clinera?</h1>
-        <VentasLanding />
+        <VentasLanding enableMigrationQualification />
       </main>
       <FooterV3 />
     </>
