@@ -2981,6 +2981,199 @@ export function Integraciones() {
 }
 
 /* ============================================================
+   ESTUDIOS
+   ============================================================ */
+export function Estudios() {
+  const studies = [
+    {
+      tag: "Efectividad del agente",
+      stat: "100%",
+      statSub: "de agendamientos en ≤3 intentos",
+      title: "Estudio de efectividad 2026",
+      desc: "42 casos reales auditados sobre 3 clínicas en producción. 95.2% pass@1, 100% pass@3. Arquitectura, metodología y código publicados.",
+      meta: "42 casos · 14 flujos · 3 clínicas · abril 2026",
+      href: "/efectividad",
+      accent: "#7C3AED",
+      accentBg: "#F5F3FF",
+      accentBorder: "#DDD6FE",
+    },
+    {
+      tag: "Confianza y conversión",
+      stat: "+12 pp",
+      statSub: "más completaciones con timing humano",
+      title: "Estudio de confianza IA 2026",
+      desc: "A/B con 89 clínicas y +57.000 interacciones. La IA con timing humano (20–90 s) convierte un 91% frente al 79% de la respuesta instantánea.",
+      meta: "89 clínicas · 57k interacciones · feb–abr 2026",
+      href: "/blog/estudio-ia-respuesta-humana-confianza-pacientes",
+      accent: "#0369A1",
+      accentBg: "#EFF6FF",
+      accentBorder: "#BFDBFE",
+    },
+  ];
+
+  return (
+    <section
+      style={{
+        padding: "96px 80px",
+        background: "#FAFAFA",
+        borderTop: "1px solid #F0F0F0",
+      }}
+    >
+      <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+        <div className="reveal" style={{ textAlign: "center", maxWidth: 640, margin: "0 auto 52px" }}>
+          <Eyebrow>Evidencia publicada</Eyebrow>
+          <h2
+            className="home-h2-big"
+            style={{
+              fontFamily: "Inter",
+              fontSize: 44,
+              fontWeight: 700,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.05,
+              margin: "14px 0 16px",
+              color: "#0A0A0A",
+            }}
+          >
+            Estudios internos{" "}
+            <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
+              con datos reales
+            </span>
+          </h2>
+          <p style={{ fontFamily: "Inter", fontSize: 17, color: "#4B5563", lineHeight: 1.55, margin: 0 }}>
+            No promesas. Clinera publica los números de cómo funciona en producción.
+          </p>
+        </div>
+
+        <div
+          className="reveal home-estudios-grid"
+          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}
+        >
+          {studies.map((s) => (
+            <Link
+              key={s.href}
+              href={s.href}
+              style={{ textDecoration: "none" }}
+            >
+              <div
+                style={{
+                  background: "#fff",
+                  border: "1px solid #EEECEA",
+                  borderRadius: 20,
+                  padding: "32px 28px",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 20,
+                  transition: "box-shadow .2s, border-color .2s",
+                  boxSizing: "border-box",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = "0 8px 32px rgba(0,0,0,.08)";
+                  (e.currentTarget as HTMLDivElement).style.borderColor = s.accentBorder;
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
+                  (e.currentTarget as HTMLDivElement).style.borderColor = "#EEECEA";
+                }}
+              >
+                {/* Tag */}
+                <span
+                  style={{
+                    display: "inline-block",
+                    alignSelf: "flex-start",
+                    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                    fontSize: 11,
+                    fontWeight: 600,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: s.accent,
+                    background: s.accentBg,
+                    border: `1px solid ${s.accentBorder}`,
+                    padding: "4px 10px",
+                    borderRadius: 999,
+                  }}
+                >
+                  {s.tag}
+                </span>
+
+                {/* Stat */}
+                <div>
+                  <div
+                    style={{
+                      fontFamily: "Inter",
+                      fontSize: 52,
+                      fontWeight: 800,
+                      letterSpacing: "-0.04em",
+                      lineHeight: 1,
+                      color: "#0A0A0A",
+                    }}
+                  >
+                    {s.stat}
+                  </div>
+                  <div style={{ fontFamily: "Inter", fontSize: 14, color: "#6B7280", marginTop: 6 }}>
+                    {s.statSub}
+                  </div>
+                </div>
+
+                {/* Text */}
+                <div style={{ flex: 1 }}>
+                  <div
+                    style={{
+                      fontFamily: "Inter",
+                      fontSize: 19,
+                      fontWeight: 700,
+                      letterSpacing: "-0.02em",
+                      color: "#0A0A0A",
+                      marginBottom: 10,
+                    }}
+                  >
+                    {s.title}
+                  </div>
+                  <p style={{ fontFamily: "Inter", fontSize: 15, color: "#4B5563", lineHeight: 1.6, margin: 0 }}>
+                    {s.desc}
+                  </p>
+                </div>
+
+                {/* Footer */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    borderTop: "1px solid #F3F4F6",
+                    paddingTop: 16,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                      fontSize: 11,
+                      color: "#9CA3AF",
+                      letterSpacing: "0.06em",
+                    }}
+                  >
+                    {s.meta}
+                  </span>
+                  <span style={{ fontFamily: "Inter", fontSize: 14, fontWeight: 600, color: s.accent }}>
+                    Leer estudio →
+                  </span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+      <style jsx>{`
+        @media (max-width: 720px) {
+          :global(.home-estudios-grid) { grid-template-columns: 1fr !important; }
+          :global(.home-h2-big) { font-size: 34px !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+/* ============================================================
    DARK BREAK (quote)
    ============================================================ */
 export function DarkBreak() {

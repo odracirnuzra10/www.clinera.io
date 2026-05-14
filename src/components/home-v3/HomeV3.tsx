@@ -3,6 +3,7 @@
 import TrialBanner from "@/components/cro/TrialBanner";
 import {
   DarkBreak,
+  Estudios,
   Faq,
   Features,
   FinalCTA,
@@ -56,6 +57,7 @@ export default function HomeV3() {
       <Logos />
       <Features />
       <Integraciones />
+      <Estudios />
       <DarkBreak />
       <Testimonios />
       <Pricing />

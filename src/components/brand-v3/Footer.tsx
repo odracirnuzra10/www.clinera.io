@@ -20,7 +20,7 @@ const cols: Col[] = [
     l: [
       ["Calculadora de ROI", "/recursos/calculadora-roi"],
       ["Estudio de efectividad", "/efectividad"],
-      ["Recursos por ciudad", "/recursos"],
+      ["Estudio de confianza", "/blog/estudio-ia-respuesta-humana-confianza-pacientes"],
       ["Novedades Clinera", "/novedades"],
     ],
   },
