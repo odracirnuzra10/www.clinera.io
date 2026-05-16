@@ -1,0 +1,225 @@
+---
+title: "Mide tus conversiones en Meta y Google con Clinera.io"
+slug: "mide-conversiones-meta-google-clinera"
+description: "Guía paso a paso para enviar conversiones reales desde Clinera.io a Meta CAPI y Google Analytics 4. Incluye workflow n8n descargable para clínicas médicas y estéticas."
+date: "2026-05-16"
+publishedAt: "2026-05-16"
+category: "Marketing y Conversiones"
+tags: ["meta capi", "google analytics", "tracking", "clínicas", "conversiones", "n8n", "automatización"]
+author: "Clinera"
+og_image: "/og/mide-conversiones-meta-google.png"
+heroImage: "/og/mide-conversiones-meta-google.png"
+canonical: "https://clinera.io/blog/mide-conversiones-meta-google-clinera"
+wordsApprox: 2000
+---
+
+Cada peso que pones en Meta Ads o Google Ads va a un algoritmo que necesita datos para optimizar. Si solo le entregas clicks y formularios web, optimiza a ciegas: no sabe cuál lead agendó, cuál pagó, cuál hizo un tratamiento de USD 1.500 y cuál solo curioseó tu Instagram. Pagas más por cada conversión real porque el algoritmo persigue señales equivocadas. Para clínicas médicas y estéticas, el gap entre "lo que Meta mide" y "lo que pasa en tu CRM" llega al 40-60%.
+
+La solución es **medir conversiones reales desde tu servidor**, no desde el navegador del paciente. Esta guía te muestra cómo enviar agendamientos, leads y compras desde Clinera.io a Meta CAPI y Google Analytics 4 en menos de 10 minutos, con un workflow de n8n descargable.
+
+## El problema del tracking en clínicas hoy
+
+El tracking publicitario en el navegador está roto y en clínicas duele más que en otros rubros. Tres causas concretas:
+
+- **iOS 14.5 (ATT)**: cerca del 75% de los usuarios de iPhone bloquea el rastreo. En LATAM, donde Instagram es el principal canal de adquisición de clínicas estéticas, 3 de cada 4 conversiones desde iOS se pierden si solo dependes del Pixel.
+- **Bloqueadores e ITP**: Brave, Firefox, Safari y uBlock limitan el Pixel de Meta y el dataLayer de Google. La limpieza de cookies cada 7 días borra el `_fbp` y el `_ga`. Cuando el paciente vuelve, el sistema lo trata como usuario nuevo.
+- **Cookies de terceros muriendo**: Chrome avanza la deprecación gradual y para finales de 2026 dejan de funcionar. La atribución cross-site basada en cookies deja de existir.
+
+El efecto neto: si recibes 200 agendamientos al mes según tu CRM, Events Manager solo registra 80-110. Meta optimiza con esos 80-110, no con los 200 reales. Gastas más, capturas peor.
+
+La vía paralela que no depende del navegador se llama **server-side tracking**. Tu CRM ya sabe quién agendó y cuándo. Solo hace falta avisarle a Meta y Google directamente.
+
+## Qué es Meta CAPI y por qué importa para tu clínica
+
+**Meta Conversions API (CAPI)** es un endpoint al que tu servidor envía eventos de conversión directamente, sin pasar por el navegador. En lugar de "el Pixel detectó que alguien pulsó Agendar", pasa a ser "mi CRM confirma que Juan Pérez agendó una limpieza facial el martes 14:30".
+
+Comparativa Pixel solo vs Pixel + CAPI para **medir conversiones Meta en una clínica**:
+
+| Aspecto | Pixel solo | Pixel + CAPI |
+|---|---|---|
+| Match quality en iOS | 30-60% | 75-95% |
+| Eventos perdidos por bloqueadores | 20-40% | 0-5% |
+| Atribución cross-device | Débil | Fuerte |
+| Costo por conversión real | Alto y volátil | Bajo y estable |
+| EMQ Score | 3-5 / 10 | 7-9 / 10 |
+
+El **EMQ Score** (Event Match Quality) es el puntaje con que Meta decide si tu evento tiene suficiente información (email, teléfono, nombre, IP, user-agent) para identificar a la persona. Un EMQ ≥ 7 mejora el CPL entre 15-30% según los benchmarks de Meta para clínicas en LATAM 2025-2026.
+
+Con CAPI envías el **evento real de conversión**, no solo "click en botón". Cuando el paciente paga, ese momento se reporta como `Purchase` con valor monetario real, y el algoritmo aprende a buscar gente con ese perfil.
+
+## Qué es GA4 Measurement Protocol y por qué importa
+
+**Google Analytics 4 Measurement Protocol (GA4 MP)** es la versión server-side de gtag.js. Tu servidor manda eventos POST a `https://www.google-analytics.com/mp/collect` y GA4 los procesa como si vinieran del navegador, sin depender de cookies ni JavaScript.
+
+Por qué importa para una clínica:
+
+- **Atribución cross-device**: el paciente ve tu anuncio desde el móvil y agenda desde el laptop dos días después. Con cookies son dos usuarios distintos; con GA4 MP usando un `client_id` determinístico basado en el ID de contacto, son la misma persona.
+- **Datos limpios en Looker Studio**: tus dashboards dejan de mostrar 30% más sesiones que conversiones reales.
+- **Integración nativa con Google Ads**: alimenta Smart Bidding y Performance Max, igual que CAPI hace con Meta.
+- **BigQuery export**: una base limpia para modelar LTV, churn y cohortes de pacientes.
+
+Los eventos del navegador (gtag, GTM) siguen siendo útiles para UX. Pero para conversiones financieras en una clínica, necesitas la línea directa servidor a servidor.
+
+## Cómo funciona el flujo Clinera → Meta + GA4
+
+```
+┌──────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│   Clinera    │     │      n8n         │     │   Meta CAPI     │
+│  Cambio de   │ ──> │  Webhook +       │ ──> │    /events      │
+│   etapa de   │     │  hashear PII +   │     │                 │
+│   contacto   │     │  preparar GA4 ID │     │       +         │
+│              │     │                  │ ──> │   GA4 MP        │
+└──────────────┘     └──────────────────┘     │  /mp/collect    │
+                                              └─────────────────┘
+```
+
+El flujo en cuatro pasos:
+
+1. **Trigger en Clinera**: cuando un contacto cambia de etapa (Lead, Agendado, Cliente), Clinera dispara un webhook con el payload del contacto.
+2. **n8n recibe**: el primer nodo (Code) toma el JSON y lo normaliza.
+3. **Hashing**: el Code Node hashea email, teléfono, nombre y apellido con SHA-256, genera un `event_id` único para deduplicar y un `client_id` determinístico para GA4.
+4. **Envío paralelo**: dos POST simultáneos a Meta CAPI y GA4 MP. Si alguno falla, retry automático 3 veces con 2s de espera.
+
+Todo demora 500 ms a 1.5 s. Clinera recibe `{status: "ok"}` y los eventos ya están en camino.
+
+## Configuración paso a paso
+
+### Paso 1 — Obtén tus credenciales
+
+| Credencial | Dónde está |
+|---|---|
+| Meta Pixel ID | Events Manager → Settings → Dataset ID |
+| Meta Access Token | Events Manager → Settings → Conversions API → Generate Access Token |
+| GA4 Measurement ID | GA4 → Admin → Data Streams → Web → Measurement ID (`G-XXXXXXXXXX`) |
+| GA4 API Secret | GA4 → Admin → Data Streams → Web → Measurement Protocol API secrets → Create |
+
+Docs: [Meta CAPI](https://developers.facebook.com/docs/marketing-api/conversions-api) · [GA4 MP](https://developers.google.com/analytics/devguides/collection/protocol/ga4).
+
+> **Seguridad**: el Meta Access Token es permanente. Trátalo como una contraseña: no lo subas a repos públicos ni lo pegues en chats.
+
+### Paso 2 — Importa el JSON en n8n
+
+Descarga el workflow:
+
+[📥 Descargar workflow n8n (clinera-tracking-meta-ga4.json)](/downloads/clinera-tracking-meta-ga4.json)
+
+En n8n (cloud o self-hosted): crea un nuevo workflow vacío → click derecho en el canvas → **Import from File** → selecciona el JSON. Verás 7 nodos conectados: Sticky Note, Webhook, Code, dos HTTP Requests, Merge y Respond to Webhook.
+
+### Paso 3 — Reemplaza los 4 placeholders
+
+Usa Ctrl+F (Cmd+F en Mac) dentro del workflow y reemplaza estos cuatro strings:
+
+| Placeholder | Dónde aparece | Reemplaza por |
+|---|---|---|
+| `REEMPLAZA_TU_META_PIXEL_ID` | URL del nodo "Send to Meta CAPI" | Tu Pixel ID |
+| `REEMPLAZA_TU_META_ACCESS_TOKEN` | Query param `access_token` | Tu token CAPI |
+| `REEMPLAZA_TU_GA4_MEASUREMENT_ID` | URL del nodo "Send to GA4" | `G-XXXXXXXXXX` |
+| `REEMPLAZA_TU_GA4_API_SECRET` | URL del nodo "Send to GA4" | Tu API secret |
+
+Guarda con Cmd+S / Ctrl+S.
+
+### Paso 4 — Activa el workflow
+
+| Acción | Dónde | Qué esperar |
+|---|---|---|
+| Toggle "Active" | Esquina superior derecha | El workflow pasa a Active |
+| Copia "Production URL" | Webhook Trigger → URLs | `https://tu-instancia.n8n.cloud/webhook/clinera-tracking` |
+| Test | cURL contra esa URL | JSON `{status: "ok", ...}` |
+
+> **Tip**: usa la "Test URL" del webhook para enviar 1-2 eventos de prueba y revisar Executions antes de pasar a producción. Cualquier campo mal formado aparece ahí.
+
+### Paso 5 — Configura la automatización en Clinera
+
+En Clinera → Automatizaciones → Nueva automatización, crea un trigger del tipo "Cambio de etapa de contacto" con la etapa que dispare la conversión (Lead, Agendado, Cliente). Como acción, agrega un HTTP Request / Webhook saliente con método POST hacia la Production URL del Paso 4. Clinera manda el body del contacto completo por default.
+
+El workflow acepta payload con wrapper `body` o flat. Los campos que aprovecha:
+
+```json
+{
+  "contacto": {
+    "id": "123",
+    "email": "paciente@ejemplo.com",
+    "telefono": "+56912345678",
+    "nombre": "Maria",
+    "apellido": "Lopez"
+  },
+  "fbp": "fb.1.1234567890.987654321",
+  "fbc": "fb.1.1234567890.IwAR...",
+  "fbclid": "...", "gclid": "...",
+  "utm_campaign": "estetica-facial-otono",
+  "event_source_url": "https://clinera.io/agenda"
+}
+```
+
+### Paso 6 — Valida en Meta Events Manager y GA4 DebugView
+
+| Sistema | Dónde validar | Qué buscar |
+|---|---|---|
+| Meta | Events Manager → Test Events | Evento con `action_source: website` y EMQ ≥ 7 |
+| Meta | Events Manager → Overview | Eventos `received via server` aumentando |
+| GA4 | Configurar → DebugView | Evento con `user_id` y `client_id` |
+| GA4 | Informes → Tiempo real | Aparece en menos de 60 segundos |
+
+Si no aparece nada en 5 minutos, revisa Executions en n8n. Los errores más comunes: token vencido (Meta) o Measurement ID mal copiado (GA4).
+
+## Eventos que puedes enviar según el tipo de conversión
+
+Ajusta las cuatro variables al inicio del Code Node según la etapa de Clinera que dispare el workflow:
+
+| Etapa Clinera | EVENT_NAME_META | EVENT_NAME_GA4 | Cuándo usarlo |
+|---|---|---|---|
+| Lead nuevo | `Lead` | `generate_lead` | Form web, WhatsApp, llamada |
+| Cita confirmada | `Schedule` | `schedule` | Agendamiento real |
+| Asistencia | `CompleteRegistration` | `sign_up` | Paciente asistió, llenó ficha |
+| Compra | `Purchase` | `purchase` | Pagó tratamiento o plan |
+| Trial activo | `StartTrial` | `begin_trial` | SaaS — activó prueba |
+
+> **Optimización**: empieza con `Lead` o `Schedule`. Cuando Meta tenga 50+ eventos/semana, activa `Purchase` y mueve la optimización de tus ad sets a ese evento. Es ahí donde el algoritmo se afina y baja el CPL real.
+
+Si necesitas valor monetario, edita `EVENT_VALUE` con el ticket promedio (USD 60-150 típico en estética). Le da a Meta y Google una señal de cuánto pesa cada lead.
+
+## Casos de uso por tipo de clínica
+
+**Clínica estética** — La cita evaluativa (P3) es el primer momento de alta intención. Manda `Lead` cuando se agenda la evaluación y `Purchase` cuando contrata el tratamiento. Así Meta optimiza Advantage+ hacia contratación real, no hacia clicks de Instagram.
+
+**Clínica dental** — Manda `Schedule` para la primera consulta y `Purchase` cuando inicia ortodoncia o implante. Si manejas financiamiento, usa `EVENT_VALUE` igual al ticket total del plan, no la cuota mensual.
+
+**Clínica médica general** — Manda `Schedule` por cada cita agendada. Como el ticket es más bajo y la conversión rápida, es el evento principal de optimización. Si tienes paquetes preventivos anuales, dispara `Purchase` al contratarse.
+
+## Preguntas frecuentes
+
+### ¿Necesito ser técnico para implementar esto?
+
+No. El workflow viene listo. Solo necesitas pegar 4 valores (los placeholders), conectar el webhook con Clinera y validar. La versión cloud de n8n se monta en 5 minutos en [n8n.cloud](https://n8n.cloud) y el plan starter cubre miles de eventos al mes.
+
+### ¿Esto reemplaza al Meta Pixel del navegador?
+
+No, lo complementa. Lo ideal es tener ambos: Pixel en el frontend (señales tempranas como ViewContent) y CAPI server-side (conversiones confirmadas desde el CRM). Meta usa el `event_id` para deduplicar: el mismo evento mandado por Pixel y CAPI se cuenta una sola vez si comparten ID en una ventana de 7 días.
+
+### ¿Cuánto cuesta n8n y la infraestructura?
+
+n8n Cloud Starter cuesta alrededor de USD 20 al mes y cubre hasta 5.000 ejecuciones mensuales, suficiente para una clínica mediana. Si ya tienes n8n self-hosted o usas Clinera Conect (que incluye n8n integrado), el costo adicional es cero.
+
+### ¿Funciona con cualquier plan de Clinera?
+
+Sí. El requisito es tener acceso a Automatizaciones, presente desde el plan Growth en adelante. El Free Trial también incluye webhooks salientes limitados, suficiente para probar el flujo.
+
+### ¿Es compatible con Google Tag Manager?
+
+Sí, son complementarios. GTM dispara eventos desde el navegador (clicks, scrolls). El workflow de n8n dispara eventos desde el servidor. Para evitar doble conteo en GA4, usa el mismo nombre de evento y asegúrate que la fuente difiera (`source: 'clinera'` ayuda a distinguir en los informes).
+
+### ¿Cómo deduplico eventos entre Pixel y CAPI?
+
+El workflow genera un `event_id` único con el formato `clinera_{id_contacto}_{timestamp}`. Si tu Pixel también dispara el mismo evento, usa el mismo `event_id`. Práctica común: cuando el paciente confirma la cita en el sitio, JS genera el event_id y lo manda al Pixel y a Clinera (que lo reusa al disparar el webhook). Meta deduplica si encuentra dos eventos con el mismo ID en 7 días.
+
+### ¿Qué pasa si Meta o GA4 están caídos al disparar el evento?
+
+El workflow tiene retry automático: 3 reintentos con espera de 2 segundos entre cada uno. Si después sigue fallando, n8n marca la ejecución como "error" en el historial para reprocesar manualmente. Para SLA crítico conviene mandar también una copia a un log persistente (Supabase o Google Sheets) como respaldo.
+
+## Empieza ahora
+
+Más de 80 clínicas activas en LATAM (Chile, México, Perú, Colombia) operan hoy con Clinera y la mayoría tiene este flujo de tracking funcionando desde el primer mes. La diferencia entre **gastar en Meta y Google a ciegas** y saber qué campaña trajo el agendamiento que generó el tratamiento de USD 1.800.
+
+[📥 Descargar workflow n8n (clinera-tracking-meta-ga4.json)](/downloads/clinera-tracking-meta-ga4.json)
+
+¿Quieres ver Meta + GA4 + Clinera consolidados en un mismo dashboard? [Agenda una demo de 20 minutos en clinera.io](https://clinera.io).

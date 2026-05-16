@@ -1,0 +1,231 @@
+{
+  "name": "Clinera | Tracking Meta CAPI + GA4",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# Clinera | Tracking Meta CAPI + GA4\n\n**Workflow plug-and-play** para enviar conversiones de Clinera.io\nsimultaneamente a **Meta Conversions API** y **Google Analytics 4 (Measurement Protocol)**.\n\n---\n\n## 1. Reemplaza los 4 placeholders\n\nUsa Ctrl+F en el workflow y reemplaza:\n\n- `REEMPLAZA_TU_META_PIXEL_ID`        → tu Pixel ID (Events Manager)\n- `REEMPLAZA_TU_META_ACCESS_TOKEN`    → token CAPI permanente\n- `REEMPLAZA_TU_GA4_MEASUREMENT_ID`   → G-XXXXXXXXXX\n- `REEMPLAZA_TU_GA4_API_SECRET`       → Admin > Data Streams > Measurement Protocol API secrets\n\n## 2. (Opcional) Ajusta el evento\n\nEn el Code Node \"Prepare Tracking Data\":\n\n- `EVENT_NAME_META`  default: Lead    (otros: Schedule, Purchase, CompleteRegistration)\n- `EVENT_NAME_GA4`   default: generate_lead (snake_case GA4 recommended events)\n- `EVENT_VALUE`      default: 0\n- `EVENT_CURRENCY`   default: CLP\n\n## 3. Activa el workflow\n\nToggle \"Active\" arriba a la derecha. Copia la **Production URL** del Webhook Trigger.\n\n## 4. Conecta con Clinera\n\nEn Clinera > Automatizaciones, crea un trigger (ej: \"Cambio de etapa de contacto a Lead\")\ncon accion HTTP POST a la URL del webhook. Payload sugerido:\n\n```json\n{\n  \"contacto\": { \"id\": \"123\", \"email\": \"...\", \"telefono\": \"+56...\", \"nombre\": \"...\", \"apellido\": \"...\" },\n  \"fbp\": \"...\", \"fbc\": \"...\",\n  \"event_id\": \"...\",\n  \"utm_campaign\": \"...\"\n}\n```\n\nEl workflow acepta payload con o sin wrapper `body`.\n\n## 5. Valida\n\n- **Meta**: Events Manager > Test Events (manda 1 evento real)\n- **GA4**:  Configurar > DebugView (anade `debug_mode: true` al payload si quieres)\n\nDocs oficiales:\n- Meta CAPI: https://developers.facebook.com/docs/marketing-api/conversions-api\n- GA4 MP:    https://developers.google.com/analytics/devguides/collection/protocol/ga4\n",
+        "height": 620,
+        "width": 520,
+        "color": 4
+      },
+      "id": "f1a2b3c4-0001-4001-8001-000000000001",
+      "name": "Instrucciones",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1480,
+        -360
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "clinera-tracking",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "f1a2b3c4-0002-4002-8002-000000000002",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1040,
+        280
+      ],
+      "webhookId": "clinera-tracking"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ================================================================\n// CODE NODE — Prepare Tracking Data\n// Workflow: Clinera | Tracking Meta CAPI + GA4\n//\n// Recibe payload de Clinera (con o sin wrapper \"body\") y prepara:\n// 1. Payload Meta CAPI (con PII hasheado SHA-256)\n// 2. Payload GA4 Measurement Protocol (con client_id deterministico)\n// ================================================================\n\n// ============= VARIABLES EDITABLES =============\nconst EVENT_NAME_META = \"Lead\";          // Lead | Schedule | Purchase | CompleteRegistration\nconst EVENT_NAME_GA4  = \"generate_lead\"; // snake_case GA4 recommended event\nconst EVENT_VALUE     = 0;\nconst EVENT_CURRENCY  = \"CLP\";\n// ===============================================\n\nconst crypto = require('crypto');\n\n// Helper: SHA-256 hash con trim + lowercase (requerido por Meta CAPI)\nconst sha256 = (val) => {\n  if (!val) return '';\n  return crypto.createHash('sha256').update(val.toString().trim().toLowerCase()).digest('hex');\n};\n\n// Aceptar payload con wrapper \"body\" o flat\nconst raw = $input.first().json;\nconst b = raw.body || raw;\n\n// ----- Datos del contacto -----\nconst contacto = b.contacto || b.contact || {};\nconst contactoId = (contacto.id || b.contacto_id || b.id || Date.now().toString()).toString();\nconst email = (contacto.email || b.email || '').toString().trim().toLowerCase();\nconst phoneRaw = (contacto.telefono || contacto.phone || b.telefono || b.phone || '').toString();\nconst phoneDigits = phoneRaw.replace(/[^0-9]/g, '');\nconst firstName = (contacto.nombre || contacto.first_name || b.nombre || b.first_name || '').toString().trim();\nconst lastName  = (contacto.apellido || contacto.last_name || b.apellido || b.last_name || '').toString().trim();\n\n// ----- Browser tracking (opcional, si Clinera lo envia) -----\nconst fbp = b.fbp || contacto.fbp || '';\nconst fbc = b.fbc || contacto.fbc || '';\nconst userAgent = b.client_user_agent || (raw.headers && raw.headers['user-agent']) || '';\nconst ipAddress = b.client_ip_address ||\n  (raw.headers && raw.headers['x-forwarded-for'] && raw.headers['x-forwarded-for'].split(',')[0].trim()) ||\n  (raw.headers && raw.headers['x-real-ip']) || '';\n\n// ----- Atribucion -----\nconst fbclid = b.fbclid || contacto.fbclid || '';\nconst gclid  = b.gclid  || contacto.gclid  || '';\nconst sourceUrl = b.event_source_url || b.url || 'https://clinera.io';\n\n// ----- Event ID unico para deduplicacion browser + server -----\nconst eventId = b.event_id || ('clinera_' + contactoId + '_' + Date.now());\nconst eventTime = b.event_time || Math.floor(Date.now() / 1000);\n\n// ----- GA4 client_id deterministico desde contacto.id -----\n// Formato GA4 esperado: \"<random>.<timestamp>\" — usamos hash MD5 para que sea estable\nconst idHash = parseInt(crypto.createHash('md5').update(contactoId).digest('hex').slice(0, 10), 16);\nconst ga4ClientId = idHash + '.' + eventTime;\n\n// ================================================================\n// PAYLOAD META CAPI\n// ================================================================\nconst meta_payload = {\n  data: [\n    {\n      event_name: EVENT_NAME_META,\n      event_id: eventId,\n      event_time: eventTime,\n      event_source_url: sourceUrl,\n      action_source: 'website',\n      user_data: Object.assign(\n        {\n          em: email ? [sha256(email)] : [],\n          ph: phoneDigits.length > 5 ? [sha256(phoneDigits)] : [],\n          fn: firstName ? [sha256(firstName)] : [],\n          ln: lastName  ? [sha256(lastName)]  : [],\n          external_id: [sha256(contactoId)]\n        },\n        fbp ? { fbp: fbp } : {},\n        fbc ? { fbc: fbc } : {},\n        ipAddress ? { client_ip_address: ipAddress } : {},\n        userAgent ? { client_user_agent: userAgent } : {}\n      ),\n      custom_data: {\n        currency: EVENT_CURRENCY,\n        value: EVENT_VALUE,\n        content_name: EVENT_NAME_META,\n        content_category: 'Clinica'\n      }\n    }\n  ]\n};\n\n// ================================================================\n// PAYLOAD GA4 MEASUREMENT PROTOCOL\n// ================================================================\nconst ga4_payload = {\n  client_id: ga4ClientId,\n  user_id: contactoId,\n  timestamp_micros: eventTime * 1000000,\n  non_personalized_ads: false,\n  events: [\n    {\n      name: EVENT_NAME_GA4,\n      params: Object.assign(\n        {\n          currency: EVENT_CURRENCY,\n          value: EVENT_VALUE,\n          engagement_time_msec: 1,\n          session_id: eventTime.toString(),\n          source: 'clinera',\n          medium: 'crm',\n          campaign: b.utm_campaign || 'organic'\n        },\n        fbclid ? { fbclid: fbclid } : {},\n        gclid  ? { gclid: gclid }   : {}\n      )\n    }\n  ]\n};\n\n// User properties (enriquece reportes GA4)\nif (email) {\n  ga4_payload.user_properties = {\n    email_hash: { value: sha256(email) }\n  };\n}\n\nreturn [\n  {\n    json: {\n      event_id: eventId,\n      event_name_meta: EVENT_NAME_META,\n      event_name_ga4: EVENT_NAME_GA4,\n      contacto_id: contactoId,\n      meta_payload: meta_payload,\n      ga4_payload: ga4_payload\n    }\n  }\n];\n"
+      },
+      "id": "f1a2b3c4-0003-4003-8003-000000000003",
+      "name": "Prepare Tracking Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -780,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v21.0/REEMPLAZA_TU_META_PIXEL_ID/events",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "access_token",
+              "value": "REEMPLAZA_TU_META_ACCESS_TOKEN"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.meta_payload) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "f1a2b3c4-0004-4004-8004-000000000004",
+      "name": "Send to Meta CAPI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -500,
+        160
+      ],
+      "onError": "continueRegularOutput",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.google-analytics.com/mp/collect?measurement_id=REEMPLAZA_TU_GA4_MEASUREMENT_ID&api_secret=REEMPLAZA_TU_GA4_API_SECRET",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.ga4_payload) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "f1a2b3c4-0005-4005-8005-000000000005",
+      "name": "Send to GA4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -500,
+        420
+      ],
+      "onError": "continueRegularOutput",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "f1a2b3c4-0006-4006-8006-000000000006",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -220,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({status: 'ok', event_name_meta: $('Prepare Tracking Data').first().json.event_name_meta, event_name_ga4: $('Prepare Tracking Data').first().json.event_name_ga4, event_id: $('Prepare Tracking Data').first().json.event_id, meta_status: ($('Send to Meta CAPI').first().json && $('Send to Meta CAPI').first().json.events_received !== undefined) ? 'success' : 'failed', ga4_status: ($('Send to GA4').first().json && $('Send to GA4').first().json.error === undefined) ? 'success' : 'failed'}) }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "f1a2b3c4-0007-4007-8007-000000000007",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        60,
+        280
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Prepare Tracking Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Tracking Data": {
+      "main": [
+        [
+          {
+            "node": "Send to Meta CAPI",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send to GA4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to Meta CAPI": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to GA4": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "versionId": "1.0.0",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "clinera-tracking-meta-ga4",
+  "tags": []
+}
