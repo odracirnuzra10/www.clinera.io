@@ -135,11 +135,14 @@ const nextConfig: NextConfig = {
       },
       // Fuerza descarga de archivos en /downloads/* (workflows, templates, etc).
       // Sin esto, el browser intenta renderizar el JSON inline en vez de descargarlo.
+      // El nombre del archivo lo controla el atributo HTML download del <a> que
+      // dispara la descarga (ver DownloadCTA.tsx).
       {
         source: "/downloads/:path*",
         headers: [
           { key: "Content-Disposition", value: "attachment" },
           { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
         ],
       },
     ];

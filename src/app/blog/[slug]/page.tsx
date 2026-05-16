@@ -6,6 +6,7 @@ import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
 import PostCTA from "@/components/blog/PostCTA";
 import VimeoEmbed from "@/components/blog/VimeoEmbed";
+import DownloadCTA from "@/components/blog/DownloadCTA";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   blogPostingSchema,
@@ -178,7 +179,7 @@ export default async function BlogPostPage({
           <article className={styles.richContent}>
             <MDXRemote
               source={post.content}
-              components={{ VimeoEmbed }}
+              components={{ VimeoEmbed, DownloadCTA }}
             />
           </article>
 
