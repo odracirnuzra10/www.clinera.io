@@ -133,6 +133,15 @@ const nextConfig: NextConfig = {
         source: "/((?!_next/static|_next/image|favicon.ico).*)",
         headers: securityHeaders,
       },
+      // Fuerza descarga de archivos en /downloads/* (workflows, templates, etc).
+      // Sin esto, el browser intenta renderizar el JSON inline en vez de descargarlo.
+      {
+        source: "/downloads/:path*",
+        headers: [
+          { key: "Content-Disposition", value: "attachment" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+        ],
+      },
     ];
   },
   async rewrites() {
