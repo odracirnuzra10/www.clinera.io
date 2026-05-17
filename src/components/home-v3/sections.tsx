@@ -779,7 +779,7 @@ type AgentFeature = {
   tabIcon: ReactNode;
 };
 
-function AgentSection({
+export function AgentSection({
   id,
   num,
   role,
