@@ -474,6 +474,34 @@
   margin: 14px 0 0;
 }
 
+.ctaDemoLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 6px 10px 6px 8px;
+  font-family: var(--font-main);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--brand-violet);
+  text-decoration: none;
+  border-radius: 999px;
+  background: rgba(124, 58, 237, 0.06);
+  border: 1px solid rgba(124, 58, 237, 0.14);
+  width: max-content;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.ctaDemoLink:hover {
+  background: rgba(124, 58, 237, 0.1);
+  border-color: rgba(124, 58, 237, 0.28);
+  transform: translateY(-1px);
+}
+
+.ctaDemoLink svg {
+  flex-shrink: 0;
+}
+
 .ctaSecondaryLinks {
   margin-top: 28px;
   padding-top: 24px;

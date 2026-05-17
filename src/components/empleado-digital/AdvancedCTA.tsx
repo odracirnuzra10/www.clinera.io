@@ -5,6 +5,11 @@ const STRIPE_ADVANCED = "https://buy.stripe.com/4gM3cxapb9eG4cz1BF1441a";
 
 const BULLETS = [
   "2000 conversaciones/mes",
+  "Agenda médica para 15 profesionales",
+  "Ficha clínica vía Clinera Vault",
+  "Panel de ventas con trazabilidad",
+  "Memoria contextual vía LangChain",
+  "Derivación inteligente a agente humano",
   "15 usuarios",
   "Multi-sede",
   "Webhooks avanzados",
@@ -57,6 +62,19 @@ export default function AdvancedCTA() {
         <p className={styles.ctaTrust}>
           Cancela cuando quieras · Sin permanencia · Pago seguro vía Stripe
         </p>
+
+        <Link href="/demo" className={styles.ctaDemoLink}>
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M8 5v14l11-7z" />
+          </svg>
+          Ver demo en video — 2 min
+        </Link>
 
         <div className={styles.ctaSecondaryLinks}>
           <Link
