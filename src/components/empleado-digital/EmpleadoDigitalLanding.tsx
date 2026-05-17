@@ -1,6 +1,8 @@
 import HeroEquipo from "./HeroEquipo";
 import DuoAgentes from "./DuoAgentes";
 import AgentShowcase from "./AgentShowcase";
+import AuraConfirmCard from "./AuraConfirmCard";
+import LiaDetectionCard from "./LiaDetectionCard";
 import ModosAgendamiento from "./ModosAgendamiento";
 import AdvancedCTA from "./AdvancedCTA";
 import StickyAdvancedCTA from "./StickyAdvancedCTA";
@@ -18,6 +20,7 @@ export default function EmpleadoDigitalLanding() {
         body="AURA atiende WhatsApp en tiempo real. Sincroniza con tu calendario, recuerda al paciente y aplica los precios del día sin que tengas que mover un dedo."
         imageSrc="/agents/aura-fullbody.png"
         imageAlt="AURA — asistente IA de WhatsApp para clínicas"
+        floatingCard={<AuraConfirmCard />}
       />
 
       <AgentShowcase
@@ -28,6 +31,7 @@ export default function EmpleadoDigitalLanding() {
         imageSrc="/agents/lia-fullbody.png"
         imageAlt="LIA — cerebro operacional IA para clínicas"
         reverse
+        floatingCard={<LiaDetectionCard />}
       />
 
       <ModosAgendamiento />

@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import styles from "@/app/empleado-digital/empleado-digital.module.css";
 
 type Props = {
@@ -9,6 +10,8 @@ type Props = {
   imageAlt: string;
   reverse?: boolean;
   bg?: string;
+  /** Card flotante que se ancla a la esquina de la imagen del lado de la copy */
+  floatingCard?: ReactNode;
 };
 
 export default function AgentShowcase({
@@ -20,6 +23,7 @@ export default function AgentShowcase({
   imageAlt,
   reverse,
   bg,
+  floatingCard,
 }: Props) {
   return (
     <section
@@ -38,6 +42,15 @@ export default function AgentShowcase({
             loading="lazy"
             decoding="async"
           />
+          {floatingCard && (
+            <div
+              className={`${styles.showcaseFloatingCard} ${
+                reverse ? styles.showcaseFloatingCardLeft : styles.showcaseFloatingCardRight
+              }`}
+            >
+              {floatingCard}
+            </div>
+          )}
         </div>
         <div className={styles.showcaseCopy}>
           <p className={styles.showcaseEyebrow}>{eyebrow}</p>

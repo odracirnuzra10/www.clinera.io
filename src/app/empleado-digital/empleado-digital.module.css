@@ -590,6 +590,39 @@
   /* la imagen ya tiene fondo lila propio; no agregamos sombras ni frames */
 }
 
+/* Card flotante anclada a una esquina de la imagen (lado opuesto a la copy en desktop) */
+.showcaseFloatingCard {
+  position: absolute;
+  bottom: 60px;
+  z-index: 2;
+  animation: floatCardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.showcaseFloatingCardRight {
+  right: -28px;
+}
+
+.showcaseFloatingCardLeft {
+  left: -28px;
+}
+
+@keyframes floatCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcaseFloatingCard {
+    animation: none;
+  }
+}
+
 .showcaseCopy {
   display: flex;
   flex-direction: column;
@@ -645,5 +678,16 @@
   }
   .showcaseImage {
     max-width: 360px;
+  }
+  /* En mobile las cards flotantes pasan a centradas debajo de la imagen */
+  .showcaseFloatingCard,
+  .showcaseFloatingCardLeft,
+  .showcaseFloatingCardRight {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    margin-top: -28px;
+    align-self: center;
   }
 }
