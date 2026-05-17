@@ -540,3 +540,110 @@
 
 /* ============ SECCIÓN TAGLINE DEL TRÍO (entre hero y dúo) ============ */
 /* Reservado por si Ricardo pide reactivar el tagline; ahora se omite (CAMILA no aparece) */
+
+/* ============ AGENT SHOWCASE (AURA / LIA full-body) ============ */
+
+.showcase {
+  padding: 120px 24px;
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border-sterile);
+  overflow: hidden;
+}
+
+.showcase:nth-of-type(odd) {
+  background: var(--bg-ice);
+}
+
+.showcaseInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 80px;
+  align-items: center;
+}
+
+.showcaseReverse .showcaseInner {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.showcaseReverse .showcaseImageWrap {
+  order: 2;
+}
+
+.showcaseReverse .showcaseCopy {
+  order: 1;
+}
+
+.showcaseImageWrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+}
+
+.showcaseImage {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  display: block;
+  /* la imagen ya tiene fondo lila propio; no agregamos sombras ni frames */
+}
+
+.showcaseCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 520px;
+}
+
+.showcaseEyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand-cyan);
+  margin: 0;
+}
+
+.showcaseHeadline {
+  font-family: var(--font-main);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+  color: var(--ink);
+  margin: 0;
+}
+
+.showcaseBody {
+  font-family: var(--font-main);
+  font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+@media (max-width: 960px) {
+  .showcase {
+    padding: 72px 20px;
+  }
+  .showcaseInner,
+  .showcaseReverse .showcaseInner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .showcaseImageWrap,
+  .showcaseReverse .showcaseImageWrap {
+    order: 1;
+  }
+  .showcaseCopy,
+  .showcaseReverse .showcaseCopy {
+    order: 2;
+    text-align: left;
+  }
+  .showcaseImage {
+    max-width: 360px;
+  }
+}
