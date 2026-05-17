@@ -575,11 +575,9 @@
   padding: 120px 24px;
   background: var(--bg-panel);
   border-top: 1px solid var(--border-sterile);
-  overflow: hidden;
-}
-
-.showcase:nth-of-type(odd) {
-  background: var(--bg-ice);
+  overflow: visible;
+  /* nota: nth-of-type alternation removida; el bg se pasa por prop en cada
+     <AgentShowcase> para tener control fino por agente */
 }
 
 .showcaseInner {
@@ -618,20 +616,29 @@
   /* la imagen ya tiene fondo lila propio; no agregamos sombras ni frames */
 }
 
-/* Card flotante anclada a una esquina de la imagen (lado opuesto a la copy en desktop) */
+/* Card flotante — mobile-first.
+   Default (mobile/tablet): debajo de la imagen, centrada (no overflow).
+   Desktop (≥1024px): absolute en la esquina opuesta a la copy. */
 .showcaseFloatingCard {
-  position: absolute;
-  bottom: 60px;
+  position: relative;
+  margin-top: -32px;
+  align-self: center;
   z-index: 2;
   animation: floatCardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.showcaseFloatingCardRight {
-  right: -28px;
-}
-
-.showcaseFloatingCardLeft {
-  left: -28px;
+@media (min-width: 1024px) {
+  .showcaseFloatingCard {
+    position: absolute;
+    bottom: 60px;
+    margin-top: 0;
+  }
+  .showcaseFloatingCardRight {
+    right: -28px;
+  }
+  .showcaseFloatingCardLeft {
+    left: -28px;
+  }
 }
 
 @keyframes floatCardIn {
@@ -686,6 +693,20 @@
   margin: 0;
 }
 
+/* ---- Dark variant: invierte texto cuando el fondo es oscuro ---- */
+.showcaseDark .showcaseEyebrow {
+  color: #6FE5FF;
+}
+.showcaseDark .showcaseHeadline {
+  color: #FFFFFF;
+}
+.showcaseDark .showcaseBody {
+  color: rgba(255, 255, 255, 0.72);
+}
+.showcaseDark {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
 @media (max-width: 960px) {
   .showcase {
     padding: 72px 20px;
@@ -706,16 +727,5 @@
   }
   .showcaseImage {
     max-width: 360px;
-  }
-  /* En mobile las cards flotantes pasan a centradas debajo de la imagen */
-  .showcaseFloatingCard,
-  .showcaseFloatingCardLeft,
-  .showcaseFloatingCardRight {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    right: auto;
-    margin-top: -28px;
-    align-self: center;
   }
 }

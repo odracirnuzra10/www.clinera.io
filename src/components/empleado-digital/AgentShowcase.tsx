@@ -10,6 +10,8 @@ type Props = {
   imageAlt: string;
   reverse?: boolean;
   bg?: string;
+  /** true → invierte colores de texto para fondos oscuros */
+  dark?: boolean;
   /** Card flotante que se ancla a la esquina de la imagen del lado de la copy */
   floatingCard?: ReactNode;
 };
@@ -23,12 +25,19 @@ export default function AgentShowcase({
   imageAlt,
   reverse,
   bg,
+  dark,
   floatingCard,
 }: Props) {
   return (
     <section
       id={id}
-      className={`${styles.showcase} ${reverse ? styles.showcaseReverse : ""}`}
+      className={[
+        styles.showcase,
+        reverse ? styles.showcaseReverse : "",
+        dark ? styles.showcaseDark : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
       style={bg ? { background: bg } : undefined}
       aria-labelledby={`${id}-headline`}
     >

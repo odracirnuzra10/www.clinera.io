@@ -21,6 +21,7 @@ export default function EmpleadoDigitalLanding() {
         imageSrc="/agents/aura-fullbody.png"
         imageAlt="AURA — asistente IA de WhatsApp para clínicas"
         floatingCard={<AuraConfirmCard />}
+        bg="linear-gradient(180deg, #F1ECFB 0%, #F7F4FD 60%, #FAFBFC 100%)"
       />
 
       <AgentShowcase
@@ -32,6 +33,8 @@ export default function EmpleadoDigitalLanding() {
         imageAlt="LIA — cerebro operacional IA para clínicas"
         reverse
         floatingCard={<LiaDetectionCard />}
+        bg="linear-gradient(180deg, #0F1115 0%, #1A1530 60%, #14111E 100%)"
+        dark
       />
 
       <ModosAgendamiento />
