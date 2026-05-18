@@ -603,9 +603,17 @@
 
 .showcaseImageWrap {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
   position: relative;
+}
+
+@media (min-width: 1024px) {
+  .showcaseImageWrap {
+    flex-direction: row;
+    align-items: flex-end;
+  }
 }
 
 .showcaseImage {
