@@ -18,7 +18,7 @@ const MODOS: Modo[] = [
   {
     idx: "02",
     title: "Automático",
-    desc: "La IA agenda directamente en tu sistema. Precisión ~95% en casos simples; activable cuando estés listo.",
+    desc: "La IA agenda directamente en tu sistema. Activable cuando estés listo.",
     beta: true,
   },
   {
