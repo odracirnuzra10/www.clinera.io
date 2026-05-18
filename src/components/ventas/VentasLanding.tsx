@@ -23,6 +23,20 @@ const PHONE_RULES: Record<string, PhoneRule> = {
   "+51": { name: "Perú", len: 9, placeholder: "912 345 678", pattern: /^9\d{8}$/, invalidHint: "Debe empezar con 9" },
 };
 
+type LeadRole = "owner" | "admin" | "doctor" | "reception";
+const LEAD_ROLE_OPTIONS: { id: LeadRole; title: string; desc: string }[] = [
+  { id: "owner", title: "Dueño/a", desc: "Soy quien decide en la clínica." },
+  { id: "admin", title: "Administrador/a", desc: "Coordino las operaciones del día a día." },
+  { id: "doctor", title: "Doctor/a o Profesional", desc: "Atiendo pacientes y participo en decisiones." },
+  { id: "reception", title: "Recepción / Asistente", desc: "Estoy buscando información para el dueño." },
+];
+const LEAD_ROLE_LABELS: Record<LeadRole, string> = {
+  owner: "Dueño/a",
+  admin: "Administrador/a",
+  doctor: "Doctor/a o Profesional",
+  reception: "Recepción / Asistente",
+};
+
 type Challenge = { id: string; emoji: string; title: string; desc: string };
 const CHALLENGES: Challenge[] = [
   { id: "automatizar", emoji: "⚡", title: "Automatizar respuestas", desc: "WhatsApp, email y agendamiento sin intervención manual." },
@@ -541,6 +555,7 @@ function Wizard({
   const [step, setStep] = useState(1);
   const [migrationIntent, setMigrationIntent] = useState<MigrationIntent | null>(null);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
+  const [leadRole, setLeadRole] = useState<LeadRole | null>(null);
   const [form, setForm] = useState<Form>({ nombre: "", clinica: "", prefix: "+56", phone: "", email: "" });
   const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
@@ -548,10 +563,11 @@ function Wizard({
   const [submitted, setSubmitted] = useState(false);
   const [terminalState, setTerminalState] = useState<"manual_review" | "not_compatible" | null>(null);
   const hasQualification = enableMigrationQualification;
-  const totalSteps = hasQualification ? 4 : 3;
+  const totalSteps = hasQualification ? 5 : 4;
   const challengeStep = hasQualification ? 2 : 1;
-  const contactStep = hasQualification ? 3 : 2;
-  const calStep = hasQualification ? 4 : 3;
+  const roleStep = hasQualification ? 3 : 2;
+  const contactStep = hasQualification ? 4 : 3;
+  const calStep = hasQualification ? 5 : 4;
 
   return (
     <div
@@ -603,7 +619,21 @@ function Wizard({
                 ...(migrationIntent ? { migration_intent: migrationIntent } : {}),
               });
             }
-            setTimeout(() => setStep(contactStep), 300);
+            setTimeout(() => setStep(roleStep), 300);
+          }}
+        />
+      )}
+      {!submitted && !terminalState && step === roleStep && (
+        <StepRole
+          leadRole={leadRole}
+          label={`Paso ${roleStep} de ${totalSteps}`}
+          onBack={() => setStep(challengeStep)}
+          setLeadRole={(role) => {
+            setLeadRole(role);
+            if (typeof window !== "undefined" && window.dataLayer) {
+              window.dataLayer.push({ event: "ventas_select_role", lead_role: role });
+            }
+            setTimeout(() => setStep(contactStep), 280);
           }}
         />
       )}
@@ -613,8 +643,9 @@ function Wizard({
           setForm={setForm}
           errors={errors}
           setErrors={setErrors}
+          leadRole={leadRole}
           label={`Paso ${contactStep} de ${totalSteps}`}
-          onBack={() => setStep(challengeStep)}
+          onBack={() => setStep(roleStep)}
           onNext={() => {
             if (typeof window !== "undefined" && typeof window.fbq === "function") {
               window.fbq("track", "InitiateCheckout", {
@@ -624,7 +655,7 @@ function Wizard({
             }
             // Capturar el lead en n8n en background — sin bloquear el avance al embed.
             // El fetch usa keepalive, así que se completa aunque cambie de pestaña.
-            submitPartialLead({ form, challenge, migrationIntent }).then((ctx) => {
+            submitPartialLead({ form, challenge, migrationIntent, leadRole }).then((ctx) => {
               if (ctx) setLeadCtx(ctx);
             });
             if (migrationIntent === "maybe") {
@@ -645,7 +676,7 @@ function Wizard({
           onBack={() => setStep(contactStep)}
           onBooked={async (calBooking) => {
             setBooking(calBooking);
-            await submitBookingConfirmation({ form, challenge, migrationIntent, leadCtx, booking: calBooking });
+            await submitBookingConfirmation({ form, challenge, migrationIntent, leadRole, leadCtx, booking: calBooking });
             setSubmitted(true);
           }}
         />
@@ -677,10 +708,12 @@ async function submitPartialLead({
   form,
   challenge,
   migrationIntent,
+  leadRole,
 }: {
   form: Form;
   challenge: Challenge | null;
   migrationIntent?: MigrationIntent | null;
+  leadRole?: LeadRole | null;
 }): Promise<{ eventId: string; leadSource: string } | null> {
   if (!challenge) return null;
 
@@ -743,6 +776,8 @@ async function submitPartialLead({
     ...migrationMeta,
     challenge_id: challenge.id,
     challenge_label: challenge.title,
+    lead_role: leadRole ?? "",
+    solicitante: leadRole ? LEAD_ROLE_LABELS[leadRole] : "",
     nombre: form.nombre.trim(),
     nombre_clinica: form.clinica.trim(),
     celular: (form.prefix + digits).trim(),
@@ -775,12 +810,14 @@ async function submitBookingConfirmation({
   form,
   challenge,
   migrationIntent,
+  leadRole,
   leadCtx,
   booking,
 }: {
   form: Form;
   challenge: Challenge | null;
   migrationIntent?: MigrationIntent | null;
+  leadRole?: LeadRole | null;
   leadCtx: { eventId: string; leadSource: string } | null;
   booking: CalBooking;
 }) {
@@ -844,6 +881,8 @@ async function submitBookingConfirmation({
     ...migrationMeta,
     challenge_id: challenge.id,
     challenge_label: challenge.title,
+    lead_role: leadRole ?? "",
+    solicitante: leadRole ? LEAD_ROLE_LABELS[leadRole] : "",
     nombre: form.nombre.trim(),
     nombre_clinica: form.clinica.trim(),
     celular: (form.prefix + digits).trim(),
@@ -867,6 +906,121 @@ async function submitBookingConfirmation({
   } catch (e) {
     console.error("Booking confirmation webhook failed", e);
   }
+}
+
+// ============== STEP — ROLE ==============
+function StepRole({
+  leadRole,
+  setLeadRole,
+  label,
+  onBack,
+}: {
+  leadRole: LeadRole | null;
+  setLeadRole: (role: LeadRole) => void;
+  label: string;
+  onBack: () => void;
+}) {
+  return (
+    <div>
+      <BackBtn onClick={onBack} />
+      <StepHeader
+        label={label}
+        title={
+          <>
+            ¿Cuál es tu{" "}
+            <em style={{ fontStyle: "normal", background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>rol</em>{" "}
+            en la clínica?
+          </>
+        }
+        sub="Adaptamos la reunión a quien la está agendando."
+      />
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {LEAD_ROLE_OPTIONS.map((opt, index) => {
+          const sel = leadRole === opt.id;
+          return (
+            <button
+              key={opt.id}
+              type="button"
+              onClick={() => setLeadRole(opt.id)}
+              className="ventas-challenge-opt"
+              style={{
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+                gap: 14,
+                padding: "14px 16px",
+                border: "1.5px solid " + (sel ? "#0A0A0A" : "#E7EBF0"),
+                borderRadius: 14,
+                cursor: "pointer",
+                background: sel ? "#FAFBFD" : "#fff",
+                textAlign: "left",
+                fontFamily: "Inter",
+                color: "#0A0A0A",
+                width: "100%",
+                minHeight: 64,
+                overflow: "hidden",
+                transition: "all .2s",
+              }}
+            >
+              {sel && <span style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 3, background: GRAD }} />}
+              <span
+                className="ventas-challenge-icon"
+                style={{
+                  flexShrink: 0,
+                  width: 44,
+                  height: 44,
+                  borderRadius: 12,
+                  background: sel ? GRAD : "linear-gradient(135deg,#F4F8FF 0%,#FAF5FF 100%)",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: sel ? "#fff" : "#7C3AED",
+                  boxShadow: sel ? "0 6px 14px -4px rgba(124,58,237,.4)" : "none",
+                  transition: "all .25s",
+                }}
+              >
+                {index + 1}
+              </span>
+              <span style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 4 }}>
+                <span className="ventas-challenge-title" style={{ fontWeight: 700, fontSize: 15, letterSpacing: "-.012em" }}>{opt.title}</span>
+                <span className="ventas-challenge-desc" style={{ fontSize: 13, color: "#6B7280", lineHeight: 1.4 }}>{opt.desc}</span>
+              </span>
+              <span
+                style={{
+                  flexShrink: 0,
+                  width: 22,
+                  height: 22,
+                  borderRadius: 999,
+                  border: "1.5px solid " + (sel ? "#0A0A0A" : "#D1D5DB"),
+                  background: sel ? "#0A0A0A" : "#fff",
+                  position: "relative",
+                  transition: "all .2s",
+                }}
+              >
+                {sel && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: 7,
+                      top: 3,
+                      width: 5,
+                      height: 10,
+                      border: "solid #fff",
+                      borderWidth: "0 2px 2px 0",
+                      transform: "rotate(45deg)",
+                    }}
+                  />
+                )}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 // ============== STEP 1 — MIGRATION QUALIFICATION ==============
@@ -1117,6 +1271,7 @@ function StepContact({
   setForm,
   errors,
   setErrors,
+  leadRole,
   label = "Paso 2 de 3",
   onBack,
   onNext,
@@ -1125,10 +1280,16 @@ function StepContact({
   setForm: (f: Form) => void;
   errors: Record<string, boolean>;
   setErrors: (e: Record<string, boolean>) => void;
+  leadRole?: LeadRole | null;
   label?: string;
   onBack: () => void;
   onNext: () => void;
 }) {
+  const isReception = leadRole === "reception";
+  const phoneFieldLabel = isReception ? "WhatsApp del dueño o administrador" : "Tu WhatsApp personal";
+  const phoneHelper = isReception
+    ? "Necesitamos coordinar con quien toma la decisión. Pídele su número y vuelve."
+    : "Te escribimos directo a ti, no a recepción. Coordinar la demo toma 2 minutos.";
   const rule = PHONE_RULES[form.prefix];
   const digits = form.phone.replace(/\D/g, "");
   const nameOk = form.nombre.trim().length >= 2;
@@ -1199,7 +1360,7 @@ function StepContact({
       <Field label="Nombre de la clínica">
         <Input value={form.clinica} onChange={(e) => setForm({ ...form, clinica: e.target.value })} placeholder="Ej: Clínica Sonríe" autoComplete="organization" error={!!errors.clinica} />
       </Field>
-      <Field label="Celular">
+      <Field label={phoneFieldLabel}>
         <div style={{ display: "flex", gap: 8 }}>
           <select
             value={form.prefix}
@@ -1242,13 +1403,27 @@ function StepContact({
             error={!!errors.phone}
           />
         </div>
-        <div style={{ fontSize: 12, color: phoneHint.cls, marginTop: 6, letterSpacing: ".01em", fontWeight: 500 }}>{phoneHint.t}</div>
+        <div
+          style={{
+            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontSize: 11.5,
+            color: isReception ? "#B45309" : "#6B7280",
+            marginTop: 7,
+            lineHeight: 1.45,
+            letterSpacing: ".01em",
+          }}
+        >
+          {phoneHelper}
+        </div>
+        {digits.length > 0 && (
+          <div style={{ fontSize: 12, color: phoneHint.cls, marginTop: 4, letterSpacing: ".01em", fontWeight: 500 }}>{phoneHint.t}</div>
+        )}
       </Field>
       <Field label="Email">
         <Input type="email" inputMode="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="tu@clinica.cl" autoComplete="email" error={!!errors.email} />
       </Field>
       <SubmitBtn enabled={allOk} onClick={submit}>
-        Continuar
+        Agenda mi demo
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M5 12h14M12 5l7 7-7 7" />
         </svg>
