@@ -1,0 +1,150 @@
+---
+title: "WhatsApp Business App y API al mismo tiempo en tu clínica: cuándo usar cada una"
+description: "Cómo conectar WhatsApp a tu clínica con coexistencia o API dedicada, sus limitaciones reales y cuándo conviene cada modalidad. Guía honesta para clínicas LATAM."
+slug: whatsapp-business-app-y-api-al-mismo-tiempo-clinicas
+publishedAt: "2026-05-18"
+category: "WhatsApp & IA"
+tags: ["whatsapp", "operaciones", "integraciones"]
+author: Clinera
+wordsApprox: 2050
+faq:
+  - q: "¿Puedo usar el mismo número de WhatsApp en mi celular y en Clinera?"
+    a: "Sí, con la modalidad de coexistencia puedes operar el mismo número desde la WhatsApp Business App de tu celular y desde Clinera simultáneamente. Tu equipo sigue usando el celular sin cambios, mientras Clinera ve las conversaciones, dispara automatizaciones y reporta al registro del paciente. La coexistencia se activa durante el proceso de conexión y solo está disponible a través de un BSP autorizado por Meta."
+  - q: "¿Qué pasa con mi historial de WhatsApp Business si conecto la API?"
+    a: "Si eliges coexistencia, tu historial permanece intacto en la WhatsApp Business App del celular y no se migra al software. Si eliges API dedicada, tu número deja de funcionar en la app móvil pero el historial previo no se pierde — queda almacenado en el dispositivo donde estaba la app. Clinera empieza a grabar conversaciones nuevas desde el momento de la conexión, no antes."
+  - q: "¿WhatsApp puede banear mi número si uso la API con Clinera?"
+    a: "Meta bannea números cuando detecta spam, contenido prohibido o un alto índice de bloqueos por parte de los pacientes. Usar la API por sí sola no causa baneos — al contrario, una conexión vía BSP autorizado como Clinera es la forma oficialmente aprobada por Meta. Lo que sí puede causar baneo es enviar plantillas no aprobadas, mensajes masivos sin opt-in o spam comercial fuera de horario."
+  - q: "¿Cuál es la diferencia entre WhatsApp Business App, API y coexistencia?"
+    a: "La WhatsApp Business App es la aplicación móvil gratis para celulares, pensada para una persona contestando. La WhatsApp Business API es la versión enterprise sin interfaz propia, diseñada para conectarse a un software como Clinera y atender desde un equipo completo. La coexistencia es un modo híbrido que mantiene ambas activas sobre el mismo número, disponible solo a través de BSPs autorizados."
+  - q: "¿Cuánto cuesta usar WhatsApp con Clinera?"
+    a: "Clinera incluye la conexión WhatsApp en todos los planes desde Growth ($59 al mes). Los planes superiores Connect ($89) y Advanced ($149) agregan más automatizaciones, agentes IA y mayor volumen de mensajes mensuales incluidos. Meta cobra aparte por conversaciones iniciadas vía plantillas — Clinera te muestra el costo proyectado en el panel antes de mandar cualquier campaña."
+  - q: "¿Qué pasa si quiero cambiar de coexistencia a API dedicada después?"
+    a: "Puedes migrar de coexistencia a API dedicada cuando quieras sin cambiar de número. La migración la coordina el equipo de Clinera y demora entre 30 y 90 minutos. Durante ese tiempo el número queda fuera de servicio brevemente — por eso conviene hacerlo en horario de baja demanda. Después de la migración, la WhatsApp Business App deja de funcionar para ese número y todo opera desde el software."
+---
+
+> **Resumen ejecutivo**
+> Sí, puedes operar el mismo número de WhatsApp desde tu celular y desde tu software de clínica a la vez — se llama coexistencia y la habilita un BSP autorizado por Meta. No es para todas: clínicas con bajo volumen ganan con coexistencia, mientras que clínicas medianas y grandes necesitan la API dedicada para escalar.
+>
+> - Coexistencia: mantienes la app móvil y conectas Clinera al mismo número.
+> - API dedicada: el número pasa 100% al software y desbloqueas throughput, plantillas masivas y multi-agente real.
+> - Las dos modalidades están disponibles en Clinera y puedes probar 7 días sin compromiso.
+
+El 87% de las clínicas en LATAM atiende a sus pacientes por WhatsApp. El problema empieza cuando una persona ya no da abasto y necesitas que el equipo entero conteste. Ahí aparecen dos caminos: mantener tu WhatsApp Business actual conectándolo a Clinera (coexistencia), o pasar el número a la API dedicada y operar 100% desde el software.
+
+## ¿Puedo usar WhatsApp Business y la API al mismo tiempo en mi clínica?
+
+Sí, puedes operar el mismo número simultáneamente en la WhatsApp Business App de tu celular y en la WhatsApp Business API de tu software de clínica. La función se llama **coexistencia** y solo está disponible a través de un BSP (Business Solution Provider) autorizado por Meta. Clinera es BSP autorizado y conecta tu número por medio del Embedded Signup oficial de Meta, sin scripts externos ni intermediarios.
+
+Eso significa que tu equipo puede seguir contestando desde el celular como siempre, y al mismo tiempo Clinera ve esas conversaciones, dispara recordatorios automáticos, agenda con IA y reporta cada interacción al registro del paciente.
+
+## Las dos formas de conectar WhatsApp a Clinera
+
+Clinera ofrece **el Modelo Dual de WhatsApp**: coexistencia para clínicas que recién empiezan a automatizar y API dedicada para clínicas que ya tienen volumen real. La diferencia no es de calidad sino de capacidad operativa.
+
+### Coexistencia
+
+La coexistencia es la capacidad de operar el mismo número de WhatsApp desde la WhatsApp Business App móvil y desde la WhatsApp Business API simultáneamente. Tu personal sigue contestando desde su celular como siempre — todos los mensajes nuevos aparecen tanto en la app como en Clinera. No pierdes historial, no cambias de número, no migras contactos.
+
+### API dedicada
+
+La API dedicada es la modalidad en la que tu número de WhatsApp pasa 100% al servidor de la API de Meta y deja de funcionar en la app móvil. Las conversaciones, plantillas, campañas y agentes humanos viven exclusivamente dentro de Clinera. A cambio, desbloqueas velocidad de envío, plantillas oficiales aprobadas, sin restricciones de equipo y reporting completo a nivel clínica.
+
+### Tabla comparativa: coexistencia vs API dedicada
+
+| Característica | Coexistencia | API dedicada |
+|---|---|---|
+| Mantener la app móvil funcionando | Sí | No |
+| Mantener el mismo número | Sí | Sí |
+| Conservar historial de WhatsApp Business previo | Sí, en el celular | No se migra al software |
+| Velocidad máxima de envío | 5 mensajes por segundo | Hasta 80 mensajes por segundo |
+| Listas de difusión nativas de la app | Deshabilitadas | No aplican (se reemplazan por plantillas) |
+| Campañas masivas con plantillas aprobadas | Limitado | Sí, sin restricciones |
+| Bloqueo del nombre del negocio | Sí, no se puede editar | Editable en Business Manager |
+| Grupos de WhatsApp | Sí, desde la app | No disponibles |
+| Llamadas de WhatsApp | Sí, desde la app | No disponibles |
+| Recomendado para | 1–3 personas, <1.000 mensajes/día | 4+ personas, >1.000 mensajes/día |
+
+## Cuándo elegir coexistencia (clínicas pequeñas)
+
+La coexistencia es la opción correcta cuando la clínica tiene una o dos personas atendiendo WhatsApp, el volumen es menor a 1.000 mensajes diarios y el equipo prefiere seguir usando el celular como herramienta principal. Es ideal para empezar a automatizar agendamientos y recordatorios sin pedirle al equipo que cambie su rutina.
+
+**Perfil ideal:**
+
+- 1 a 3 personas atendiendo WhatsApp
+- Menos de 1.000 mensajes por día
+- Equipo cómodo con el celular, no con el computador
+- Quieres probar automatización antes de comprometerte con cambios grandes
+
+**Ejemplo 1 — Clínica estética unipersonal en regiones.** La dueña es la única que atiende, contesta entre tratamientos y no quiere depender de un computador. Conecta su número actual a Clinera por coexistencia. Sigue contestando desde el celular, pero ahora [AURA agenda automáticamente](/empleado-digital), manda recordatorios 24 horas antes y registra cada conversación en la ficha del paciente.
+
+**Ejemplo 2 — Consulta dental con secretaria que confirma por celular.** La secretaria sigue confirmando citas desde su WhatsApp Business como siempre. Clinera, en paralelo, dispara recordatorios automáticos a 48 y 24 horas, y avisa por correo al dueño cuando un paciente confirma o cancela. Cero cambio operativo para la secretaria, mucha menos no-show.
+
+## Cuándo elegir API dedicada (clínicas medianas y grandes)
+
+La API dedicada se vuelve obligatoria cuando la clínica tiene varias sucursales, un equipo de 4 personas o más atendiendo el mismo número, volumen sobre los 1.000 mensajes diarios o cuando se hacen campañas masivas de recall a la base de pacientes. La coexistencia simplemente no aguanta ese ritmo.
+
+**Perfil ideal:**
+
+- 2 o más sucursales o consultas
+- Volumen sobre 1.000 mensajes diarios
+- Equipo trabajando desde computador (call center o recepción centralizada)
+- Necesitas reportes consolidados por sucursal o por agente
+
+**Ejemplo 1 — Red de clínicas estéticas multi-sucursal.** Tres locales en Santiago atienden un solo número 1-800. Con API dedicada, cinco recepcionistas trabajan el mismo WhatsApp desde Clinera con bandeja compartida, asignación automática por tipo de tratamiento y un panel único para el director. Las campañas de recall se mandan a 4.000 pacientes en menos de dos minutos.
+
+**Ejemplo 2 — Centro médico con call center interno.** Ocho operadoras manejan agendamiento de seis especialidades. La API dedicada permite separar conversaciones por área médica, escalar a un médico cuando hace falta y mandar plantillas de preparación para exámenes con un click. La velocidad de 80 mensajes por segundo permite ráfagas de confirmación masiva sin riesgo de banneo.
+
+## Limitaciones reales de la coexistencia que debes conocer antes
+
+La coexistencia funciona, pero tiene restricciones que Meta impone y que ningún BSP puede eludir — incluyendo Clinera. Conocerlas antes te evita decisiones operativas mal calibradas.
+
+### Velocidad limitada a 5 mensajes por segundo
+
+Meta limita el envío a 5 mensajes por segundo en coexistencia. Para un recordatorio automático eso alcanza, pero si quieres mandar una promoción a 2.000 pacientes a la vez, vas a tardar 7 minutos en ráfaga sostenida — y si tu plan de mensajes mensual está al límite, Meta corta. La API dedicada llega a 80 mensajes por segundo, dieciséis veces más rápido.
+
+### Listas de difusión nativas de la app quedan deshabilitadas
+
+La función "lista de difusión" que ves dentro de la WhatsApp Business App se desactiva cuando conectas el número a la API en modo coexistencia. Las campañas tienen que salir por plantillas aprobadas desde Clinera. No es pérdida total: las plantillas tienen mejor entrega y trackeo, pero si tu equipo dependía de listas armadas a mano, hay que migrar el flujo.
+
+### El nombre del negocio queda bloqueado
+
+Una vez que activas coexistencia, no puedes editar el nombre del negocio que aparece a tus pacientes. Si tu marca está cambiando o estás en proceso de rebranding, conviene resolver eso antes de conectar. En la API dedicada puedes editarlo desde Meta Business Manager cuando quieras.
+
+### Abrir la app cada 10 a 12 días o se cae la conexión
+
+Meta exige que la WhatsApp Business App se abra al menos cada 10–12 días para mantener viva la sesión de coexistencia. Si el dueño se va de vacaciones dos semanas y nadie abre la app, la conexión con Clinera se cae y hay que re-enlazar. Es una fricción pequeña pero real.
+
+### Funciones que dejan de sincronizar
+
+Estados, "ver una sola vez", ubicación en tiempo real y los grupos de WhatsApp no se sincronizan con la API. Eso significa que si un paciente manda su ubicación al chat, llegará al celular pero no aparecerá en Clinera. Los grupos siguen funcionando solo desde el celular, no desde el software.
+
+### Casos documentados de corrupción durante el sync inicial
+
+Cuando se hace la sincronización inicial entre la app móvil y la API, hay reportes públicos de usuarios cuya app móvil quedó en estado inconsistente: chats vacíos, contactos duplicados o necesidad de reinstalar. Pasa en una minoría de casos, pero existe. Por eso Clinera recomienda hacer la conexión inicial fuera de horario punta y con backup local del celular.
+
+Si alguna de estas limitaciones afecta tu operación, la API dedicada es mejor opción que la coexistencia.
+
+## Casos de uso reales en clínicas
+
+**Caso 1 — Estética unipersonal, Temuco.** Una sola dueña, 200 mensajes al día entre consultas y agendamientos. Antes contestaba a mano entre cliente y cliente, perdía leads de Instagram en la noche. Conectó por coexistencia y mantuvo su rutina celular intacta. AURA contesta consultas frecuentes de precios, agenda directamente a la planilla y manda recordatorio 24 horas antes. La tasa de no-show bajó de 28% a 9% en dos meses.
+
+**Caso 2 — Red dental, 4 sucursales en Santiago.** Equipo de 6 personas, 3.500 mensajes diarios cruzados entre sucursales. La coexistencia se quedaba corta por la limitación de 5 mensajes por segundo. Migraron a API dedicada en Clinera. Hoy mandan campañas de recall a 8.000 pacientes en menos de 4 minutos y manejan bandeja compartida con asignación automática por sucursal. Los reportes por agente y por local se generan en un solo dashboard.
+
+**Caso 3 — Centro médico mediano, Concepción.** Empezó con coexistencia para no asustar al equipo. Tres meses después, el volumen pasó los 1.500 mensajes diarios y el límite de 5 mensajes por segundo empezó a chocar con las campañas. La migración a API dedicada se hizo en una tarde sin cambiar el número. El equipo no tuvo que reaprender — solo dejó de usar el celular para trabajo y empezó a contestar desde el computador.
+
+## Cómo conectarlo en Clinera, paso a paso
+
+Conectar tu WhatsApp a Clinera toma menos de 15 minutos y no requiere ningún conocimiento técnico. El proceso usa Embedded Signup oficial de Meta — todo se hace dentro de tu cuenta Clinera.
+
+1. **Crea tu cuenta en Clinera** y elige [el plan que te acomode](/planes). Tienes 7 días de prueba gratis sin tarjeta.
+2. **Decide modalidad**: coexistencia si quieres mantener la app móvil, API dedicada si tu número pasa 100% al software.
+3. **Conecta tu número** desde la pestaña Integraciones. Te abre el flujo oficial de Meta para verificar el número que ya usas.
+4. **Verifica con código** que llega al celular o por llamada.
+5. **Configura plantillas** y deja a AURA tomar la primera consulta para probar el flujo end-to-end.
+6. **Soporte humano de Clinera** acompaña la primera conexión por videollamada si lo necesitas.
+
+Si te interesa automatizar más allá de WhatsApp, revisa también la [integración con webhooks, n8n, Make y Zapier](/blog/clinera-api-webhooks-n8n-make-zapier) para mover datos a tu CRM o BI sin código.
+
+## Empieza con la modalidad que te acomoda hoy
+
+Si tu clínica todavía atiende WhatsApp desde el celular, parte por coexistencia y deja que la automatización corra en paralelo. Cuando el volumen apriete, migras a API dedicada sin cambiar de número ni perder configuración. Esa flexibilidad es parte de por qué Clinera funciona para clínicas de cualquier tamaño.
