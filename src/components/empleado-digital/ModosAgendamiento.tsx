@@ -4,7 +4,7 @@ type Modo = {
   idx: string;
   title: string;
   desc: string;
-  beta?: boolean;
+  tag?: string;
   featured?: boolean;
   innerEyebrow?: string;
 };
@@ -19,7 +19,7 @@ const MODOS: Modo[] = [
     idx: "02",
     title: "Automático",
     desc: "La IA agenda directamente en tu sistema. Activable cuando estés listo.",
-    beta: true,
+    tag: "RECOMENDADO",
   },
   {
     idx: "03",
@@ -50,7 +50,7 @@ export default function ModosAgendamiento() {
               <div className={styles.modoIndex}>{m.idx}</div>
               <h3 className={styles.modoTitle}>
                 {m.title}
-                {m.beta && <span className={styles.modoBetaTag}>BETA</span>}
+                {m.tag && <span className={styles.modoBetaTag}>{m.tag}</span>}
               </h3>
               <p className={styles.modoDesc}>{m.desc}</p>
               {m.innerEyebrow && (
