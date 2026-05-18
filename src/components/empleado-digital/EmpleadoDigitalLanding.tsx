@@ -1,4 +1,5 @@
 import HeroEquipo from "./HeroEquipo";
+import DemoVideo from "./DemoVideo";
 import DuoAgentes from "./DuoAgentes";
 import AgentShowcase from "./AgentShowcase";
 import AuraConfirmCard from "./AuraConfirmCard";
@@ -11,6 +12,7 @@ export default function EmpleadoDigitalLanding() {
   return (
     <>
       <HeroEquipo />
+      <DemoVideo />
       <DuoAgentes />
 
       <AgentShowcase
