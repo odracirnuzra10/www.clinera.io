@@ -1909,96 +1909,6 @@
     .roi-kpi .kpi-value{ font-size: 32px; }
   }
 
-  /* === Costos / Capacidad slide === */
-  .costos-slide-inner{ max-width: 1080px; margin: 0 auto; }
-  .costos-slide-inner .h-display{ font-size: clamp(28px, 3.8vw, 46px); margin-bottom: 10px; }
-  .costos-slide-inner .lead{ margin-bottom: 18px; font-size: clamp(14px, 1.1vw, 16px); max-width: 720px; }
-  .costos-section-label{
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: 22px 0 8px;
-    display:flex; align-items:center; gap: 8px;
-  }
-  .costos-section-label .pip{
-    display:inline-block; width: 6px; height: 6px; border-radius: 50%;
-    background: var(--violet);
-  }
-  .costos-table{
-    background: #fff;
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 10px 32px -22px rgba(11,11,15,.1);
-  }
-  .costos-modo-row{
-    display: grid;
-    grid-template-columns: 1.2fr 1.4fr 1fr;
-    gap: 16px;
-    align-items: center;
-    padding: 12px 18px;
-  }
-  .costos-cap-row{
-    display: grid;
-    grid-template-columns: 0.9fr 1fr 1fr 1fr 1fr;
-    gap: 14px;
-    align-items: center;
-    padding: 12px 18px;
-  }
-  .costos-table .head{
-    border-bottom: 1px solid var(--line-2);
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted-2);
-  }
-  .costos-table .row + .row{ border-top: 1px solid var(--line-2); }
-  .costos-table .row .label{
-    font-size: 13.5px;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .costos-table .row .model{
-    font-family: var(--mono);
-    font-size: 12.5px;
-    color: var(--muted);
-  }
-  .costos-table .row .credits{
-    font-family: var(--mono);
-    font-size: 12.5px;
-    color: var(--violet);
-    font-weight: 500;
-  }
-  .costos-table .row.featured{
-    background: rgba(124,58,237,.05);
-  }
-  .costos-table .row .num{
-    font-family: var(--mono);
-    font-size: 12.5px;
-    color: var(--ink-2);
-  }
-  .costos-table .row .num.violet{ color: var(--violet); font-weight: 500; }
-  .costos-note{
-    margin-top: 10px;
-    font-size: 12.5px;
-    color: var(--muted);
-    line-height: 1.5;
-    padding-left: 14px;
-    border-left: 2px solid var(--line-2);
-  }
-  .costos-note b{ color: var(--violet); }
-  @media (max-width: 980px){
-    .costos-modo-row{ grid-template-columns: 1fr; gap: 4px; padding: 12px 14px; }
-    .costos-cap-row{ grid-template-columns: 1fr 1fr; gap: 6px 14px; padding: 12px 14px; }
-    .costos-table .head{ display:none; }
-    .costos-table .row .label{ grid-column: 1 / -1; margin-bottom: 2px; }
-    .costos-modo-row .model::before{ content: 'Modelo · '; color: var(--muted-2); font-size: 10px; }
-    .costos-modo-row .credits::before{ content: 'Créditos · '; color: var(--muted-2); font-size: 10px; }
-  }
-
   /* === Pricing slide === */
   .pricing-slide-inner{ max-width: 1080px; margin: 0 auto; }
   .pricing-slide-inner .h-display{ font-size: clamp(32px, 4.4vw, 56px); margin-bottom: 10px; }
@@ -2946,75 +2856,8 @@
     </div>
   </section>
 
-  <!-- 06 — Costos por modo + Capacidad -->
+  <!-- 06 — Precios -->
   <section class="slide" id="slide5">
-    <div class="slide-inner costos-slide-inner">
-      <div class="kicker"><span class="pip"></span>Créditos IA</div>
-      <h2 class="h-display">Pagas por <span class="em">resultado</span>.</h2>
-      <p class="lead">Cada agendamiento descuenta créditos según el modo.</p>
-
-      <div class="costos-section-label"><span class="pip"></span>Costos finales por modo</div>
-      <div class="costos-table">
-        <div class="costos-modo-row head">
-          <div>Modo</div>
-          <div>Modelo</div>
-          <div>Créditos / agendamiento</div>
-        </div>
-        <div class="costos-modo-row row">
-          <div class="label">Enlace interno</div>
-          <div class="model">Gemini 3 Flash</div>
-          <div class="credits">40 créditos</div>
-        </div>
-        <div class="costos-modo-row row">
-          <div class="label">Enlace externo</div>
-          <div class="model">Gemini 3 Flash</div>
-          <div class="credits">40 créditos</div>
-        </div>
-        <div class="costos-modo-row row featured">
-          <div class="label">Automático</div>
-          <div class="model">Kimi K2.6</div>
-          <div class="credits">350 créditos</div>
-        </div>
-      </div>
-      <p class="costos-note">Automático consume <b>8.75×</b> más que Enlace.</p>
-
-      <div class="costos-section-label"><span class="pip"></span>Capacidad final por plan</div>
-      <div class="costos-table">
-        <div class="costos-cap-row head">
-          <div>Plan</div>
-          <div>Créditos / mes</div>
-          <div>100% Automático</div>
-          <div>100% Enlace</div>
-          <div>Mix realista 20/80</div>
-        </div>
-        <div class="costos-cap-row row">
-          <div class="label">Core</div>
-          <div class="num violet">13.000</div>
-          <div class="num">37 agend.</div>
-          <div class="num">325 agend.</div>
-          <div class="num">~267 agend.</div>
-        </div>
-        <div class="costos-cap-row row">
-          <div class="label">Conect</div>
-          <div class="num violet">18.000</div>
-          <div class="num">51 agend.</div>
-          <div class="num">450 agend.</div>
-          <div class="num">~370 agend.</div>
-        </div>
-        <div class="costos-cap-row row featured">
-          <div class="label">Advanced</div>
-          <div class="num violet">24.000</div>
-          <div class="num">68 agend.</div>
-          <div class="num">600 agend.</div>
-          <div class="num">~493 agend.</div>
-        </div>
-      </div>
-      <p class="costos-note">Mix 20/80 = 20% Automático + 80% Enlace.</p>
-    </div>
-  </section>
-
-  <!-- 07 — Precios -->
-  <section class="slide" id="slide6">
     <div class="slide-inner pricing-slide-inner">
       <div class="kicker"><span class="pip"></span>Planes · Clinera</div>
       <h2 class="h-display">Activa Clinera <span class="em">hoy</span>.</h2>
@@ -3130,8 +2973,8 @@
     </div>
   </section>
 
-  <!-- 08 — Cierre -->
-  <section class="slide" id="slide7">
+  <!-- 07 — Cierre -->
+  <section class="slide" id="slide6">
     <div class="slide-inner close">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Conoce Clinera</div>
       <p class="close-line">
@@ -3152,7 +2995,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 8;
+  const TOTAL_SLIDES = 7;
   let currentSlide = 0;
   let currentSubStep = 0;
   let isAnimating = false;
