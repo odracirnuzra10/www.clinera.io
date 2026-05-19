@@ -7,7 +7,7 @@ import TrialBanner from "@/components/cro/TrialBanner";
 export const metadata: Metadata = {
   title: "Planes y Precios — Clinera.io (desde USD 129/mes)",
   description:
-    "Core USD 129/mes (~200 conv.), Conect USD 179/mes (~400 conv. + modo automático), Advanced USD 358/mes (~1.200 conv. + modo automático). AURA agenda por WhatsApp 24/7. Sin permanencia.",
+    "Core USD 129/mes (~200 conv.), Conect USD 179/mes (~280 conv. + modo automático), Advanced USD 359/mes (~1.200 conv. + modo automático · 6× más IA). AURA agenda por WhatsApp 24/7. Sin permanencia.",
   alternates: { canonical: "https://clinera.io/planes" },
   openGraph: {
     url: "https://clinera.io/planes",
@@ -26,7 +26,7 @@ const jsonLd = {
   offers: [
     { "@type": "Offer", name: "Core",     price: "129", priceCurrency: "USD", url: "https://clinera.io/planes" },
     { "@type": "Offer", name: "Conect",   price: "179", priceCurrency: "USD", url: "https://clinera.io/planes" },
-    { "@type": "Offer", name: "Advanced", price: "358", priceCurrency: "USD", url: "https://clinera.io/planes" },
+    { "@type": "Offer", name: "Advanced", price: "359", priceCurrency: "USD", url: "https://clinera.io/planes" },
   ],
 };
 

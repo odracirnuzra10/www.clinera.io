@@ -3695,7 +3695,7 @@ export function Pricing() {
     {
       name: "Conect",
       price: "$179",
-      perAppt: "$0.45",
+      perAppt: "$0.64",
       sub: "AURA + clínica completa sin necesitar otro software.",
       tags: [
         { t: "Agente IA", ok: true },
@@ -3703,8 +3703,8 @@ export function Pricing() {
       ],
       headline: "Todo de Core, más",
       features: [
-        "26.000 créditos IA / mes",
-        "~400 conversaciones",
+        "18.000 créditos IA / mes",
+        "~280 conversaciones",
         "Con modo automático de agendamiento",
         "5 usuarios / profesionales",
       ],
@@ -3713,7 +3713,7 @@ export function Pricing() {
     },
     {
       name: "Advanced",
-      price: "$358",
+      price: "$359",
       perAppt: "$0.30",
       sub: "Para cadenas multi-sede que necesitan escala y atribución.",
       featured: true,
@@ -3724,7 +3724,7 @@ export function Pricing() {
       ],
       headline: "Todo de Conect, más",
       features: [
-        "78.000 créditos IA / mes",
+        "78.000 créditos IA / mes · 6× Core",
         "~1.200 conversaciones",
         "Con modo automático de agendamiento",
         "15 usuarios / profesionales",
@@ -3817,7 +3817,7 @@ export function Pricing() {
                     boxShadow: "0 8px 20px -4px rgba(124,58,237,.4)",
                   }}
                 >
-                  ★ Mejor valor
+                  ★ 6× más IA
                 </div>
               )}
               <div

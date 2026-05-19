@@ -24,8 +24,8 @@ const PLANS = [
     price: "179",
     tagline: "AURA + clínica completa sin necesitar otro software.",
     features: [
-      "26.000 créditos IA / mes",
-      "~400 conversaciones",
+      "18.000 créditos IA / mes",
+      "~280 conversaciones",
       "Con modo automático de agendamiento",
       "5 usuarios / profesionales",
     ],
@@ -35,11 +35,11 @@ const PLANS = [
   {
     name: "Advanced",
     slug: "advanced",
-    price: "358",
+    price: "359",
     tagline: "Para cadenas multi-sede que necesitan escala y atribución.",
     popular: true,
     features: [
-      "78.000 créditos IA / mes",
+      "78.000 créditos IA / mes · 6× Core",
       "~1.200 conversaciones",
       "Con modo automático de agendamiento",
       "15 usuarios / profesionales",
@@ -384,7 +384,7 @@ function PlansSection() {
                         marginBottom: 14,
                       }}
                     >
-                      Recomendado · mejor $/agend.
+                      Recomendado · 6× más IA
                     </span>
                   )}
                   <h3
