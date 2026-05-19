@@ -3678,7 +3678,7 @@ export function Pricing() {
     {
       name: "Core",
       price: "$129",
-      perAppt: "$0.65",
+      perAppt: "$0.13",
       sub: "AURA + WhatsApp 24/7 para clínicas que ya tienen software.",
       tags: [
         { t: "Agente IA", ok: true },
@@ -3686,7 +3686,7 @@ export function Pricing() {
       ],
       features: [
         "13.000 créditos IA / mes",
-        "~200 conversaciones",
+        "~1.000 conversaciones",
         "3 usuarios incluidos",
       ],
       models: ["Gemini 3 Flash"],
@@ -3695,7 +3695,7 @@ export function Pricing() {
     {
       name: "Conect",
       price: "$179",
-      perAppt: "$0.64",
+      perAppt: "$0.12",
       sub: "AURA + clínica completa sin necesitar otro software.",
       tags: [
         { t: "Agente IA", ok: true },
@@ -3704,7 +3704,7 @@ export function Pricing() {
       headline: "Todo de Core, más",
       features: [
         "18.000 créditos IA / mes",
-        "~280 conversaciones",
+        "~1.500 conversaciones",
         "Con modo automático de agendamiento",
         "5 usuarios / profesionales",
       ],
@@ -3714,7 +3714,7 @@ export function Pricing() {
     {
       name: "Advanced",
       price: "$359",
-      perAppt: "$0.30",
+      perAppt: "$0.08",
       sub: "Para cadenas multi-sede que necesitan escala y atribución.",
       featured: true,
       bestValue: true,
@@ -3724,8 +3724,8 @@ export function Pricing() {
       ],
       headline: "Todo de Conect, más",
       features: [
-        "78.000 créditos IA / mes · 6× Core",
-        "~1.200 conversaciones",
+        "54.000 créditos IA / mes · 4× Core",
+        "~4.500 conversaciones",
         "Con modo automático de agendamiento",
         "15 usuarios / profesionales",
       ],
@@ -3817,7 +3817,7 @@ export function Pricing() {
                     boxShadow: "0 8px 20px -4px rgba(124,58,237,.4)",
                   }}
                 >
-                  ★ 6× más IA
+                  ★ 4× más IA
                 </div>
               )}
               <div

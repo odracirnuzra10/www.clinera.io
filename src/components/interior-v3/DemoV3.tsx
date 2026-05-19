@@ -12,7 +12,7 @@ const PLANS = [
     tagline: "AURA + WhatsApp 24/7 para clínicas que ya tienen software.",
     features: [
       "13.000 créditos IA / mes",
-      "~200 conversaciones",
+      "~1.000 conversaciones",
       "3 usuarios incluidos",
     ],
     models: ["Gemini 3 Flash"],
@@ -25,7 +25,7 @@ const PLANS = [
     tagline: "AURA + clínica completa sin necesitar otro software.",
     features: [
       "18.000 créditos IA / mes",
-      "~280 conversaciones",
+      "~1.500 conversaciones",
       "Con modo automático de agendamiento",
       "5 usuarios / profesionales",
     ],
@@ -39,8 +39,8 @@ const PLANS = [
     tagline: "Para cadenas multi-sede que necesitan escala y atribución.",
     popular: true,
     features: [
-      "78.000 créditos IA / mes · 6× Core",
-      "~1.200 conversaciones",
+      "54.000 créditos IA / mes · 4× Core",
+      "~4.500 conversaciones",
       "Con modo automático de agendamiento",
       "15 usuarios / profesionales",
     ],
@@ -384,7 +384,7 @@ function PlansSection() {
                         marginBottom: 14,
                       }}
                     >
-                      Recomendado · 6× más IA
+                      Recomendado · 4× más IA
                     </span>
                   )}
                   <h3
@@ -574,7 +574,7 @@ function PlansSection() {
           style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, maxWidth: 980, margin: "48px auto 0" }}
         >
           {[
-            { price: "$15", unit: "/mes", label: "+5.000 créditos IA" },
+            { price: "$20", unit: "/mes", label: "+5.000 créditos IA" },
             { price: "$9", unit: "/mes", label: "Profesional o usuario extra" },
             { price: "$21", unit: "/mes", label: "Módulo Odontograma" },
           ].map((it) => (
