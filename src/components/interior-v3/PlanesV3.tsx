@@ -11,7 +11,7 @@ const FAQ = [
   { q: "¿Qué es un agendamiento completo?", a: "Es cuando AURA, nuestro agente IA, agenda una cita por WhatsApp sin que tu equipo intervenga: conversa con el paciente, valida disponibilidad en tu agenda y confirma la cita. Los tres planes incluyen Agente IA. La diferencia entre planes está en la cantidad de créditos al mes, los modos y modelos disponibles, y si incluye o no el Módulo Clínico (Conect y Advanced lo incluyen, Core no)." },
   { q: "¿Puedo cambiar de plan después?", a: "Sí. Puedes subir o bajar de plan en cualquier momento desde tu panel. El cambio se aplica en tu próximo ciclo de facturación." },
   { q: "¿Hay permanencia o contrato?", a: "No. Todos los planes son mes a mes. Puedes cancelar en cualquier momento sin penalizaciones." },
-  { q: "¿Qué pasa si supero el cupo de mi plan?", a: "Te avisamos al 80% y al 100% del cupo de créditos. Tu servicio no se interrumpe sin aviso. Si necesitas más, sumas un add-on de +10.000 créditos IA por $5 USD/mes (≈ ~28 agendamientos extra en modo automático o ~250 conversaciones largas) o subes de plan." },
+  { q: "¿Qué pasa si supero el cupo de mi plan?", a: "Te avisamos al 80% y al 100% del cupo de créditos. Tu servicio no se interrumpe sin aviso. Si necesitas más, sumas un add-on de +5.000 créditos IA por $15 USD/mes (≈ ~14 agendamientos completos extra o ~125 conversaciones largas) o subes de plan." },
   { q: "¿Se integra con mi software actual?", a: "Sí. Clinera se conecta vía API con Reservo, AgendaPro, Medilink, Dentalink, Sacmed y cualquier sistema que exponga una API REST o soporte MCP." },
   { q: "¿Cómo funciona la IA de mensajería?", a: "Nuestra IA responde automáticamente por WhatsApp usando memoria contextual. Agenda, confirma y responde consultas 24/7. Si necesita un humano, deriva la conversación automáticamente." },
   { q: "¿Qué es el módulo Odontograma?", a: "Es un add-on nuevo para clínicas dentales (próximamente): ficha odontológica visual interactiva por pieza dental, historial completo, integración con consentimientos y agenda. Cuesta $21 USD/mes extra sobre cualquier plan." },
@@ -284,8 +284,8 @@ function Calculator() {
 
 function Addons() {
   const items = [
-    { price: "$5",  unit: "/mes", label: "+10.000 créditos IA",        sub: "≈ ~28 agendamientos completos o ~250 conversaciones largas" },
-    { price: "$29", unit: "/mes", label: "Usuario / profesional extra", sub: "Suma asientos sin cambiar de plan" },
+    { price: "$15", unit: "/mes", label: "+5.000 créditos IA",          sub: "≈ ~14 agendamientos completos o ~125 conversaciones largas" },
+    { price: "$9",  unit: "/mes", label: "Usuario / profesional extra", sub: "Suma asientos sin cambiar de plan" },
     { price: "$21", unit: "/mes", label: "Módulo Odontograma",          sub: "Ficha odontológica visual + historial dental", isNew: true },
   ];
   return (

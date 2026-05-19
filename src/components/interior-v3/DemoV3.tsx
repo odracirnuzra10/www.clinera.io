@@ -14,9 +14,10 @@ const PLANS = [
       "13.000 créditos IA / mes",
       "~325 conversaciones largas",
       "~37 agendamientos completos",
-      "1 modo · 1 modelo IA (Gemini 3 Flash)",
+      "1 modo · 1 modelo IA",
       "3 usuarios incluidos",
     ],
+    models: ["Gemini 3 Flash"],
     stripeUrl: "https://buy.stripe.com/6oUfZj9l70IaaAX0xB1441e",
   },
   {
@@ -31,6 +32,7 @@ const PLANS = [
       "3 modos · 3 modelos IA",
       "Agenda + fichas + Clinera Vault · 5 usuarios",
     ],
+    models: ["Gemini 3 Flash", "Kimi K2.6", "Claude Sonnet 4.6"],
     stripeUrl: "https://buy.stripe.com/fZu28tcxjez04cz9471441f",
   },
   {
@@ -44,8 +46,9 @@ const PLANS = [
       "~600 conversaciones largas",
       "~68 agendamientos completos",
       "3 modos · 3 modelos IA",
-      "Multi-sede + atribución · 15 usuarios",
+      "Multi-sede · atribución · webhooks · 15 usuarios",
     ],
+    models: ["Gemini 3 Flash", "Kimi K2.6", "Claude Sonnet 4.6"],
     stripeUrl: "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g",
   },
 ];
@@ -419,7 +422,7 @@ function PlansSection() {
                       USD/mes
                     </span>
                   </div>
-                  <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+                  <ul style={{ listStyle: "none", padding: 0, margin: "0 0 16px", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
                     {plan.features.map((f) => (
                       <li
                         key={f}
@@ -455,6 +458,61 @@ function PlansSection() {
                       </li>
                     ))}
                   </ul>
+                  {plan.models && plan.models.length > 0 && (
+                    <div
+                      style={{
+                        marginBottom: 20,
+                        padding: "10px 12px",
+                        background: popular ? "rgba(255,255,255,.06)" : "#FAFAFA",
+                        border: popular ? "1px solid rgba(255,255,255,.1)" : "1px solid #E5E7EB",
+                        borderRadius: 10,
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                          fontSize: 9.5,
+                          letterSpacing: "0.12em",
+                          textTransform: "uppercase",
+                          color: popular ? "rgba(255,255,255,.55)" : "#9CA3AF",
+                          marginBottom: 8,
+                        }}
+                      >
+                        {plan.models.length === 1 ? "Modelo IA disponible" : "Modelos IA disponibles"}
+                      </div>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                        {plan.models.map((m) => (
+                          <span
+                            key={m}
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 5,
+                              padding: "4px 9px",
+                              background: popular ? "rgba(255,255,255,.1)" : "#fff",
+                              border: popular ? "1px solid rgba(255,255,255,.16)" : "1px solid #E5E7EB",
+                              borderRadius: 999,
+                              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                              fontSize: 10.5,
+                              color: popular ? "#fff" : "#0A0A0A",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            <span
+                              style={{
+                                width: 5,
+                                height: 5,
+                                borderRadius: "50%",
+                                background: "#7C3AED",
+                                display: "inline-block",
+                              }}
+                            />
+                            {m}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                   <Link
                     href="/hablar-con-ventas"
                     data-plan={plan.slug}
@@ -517,11 +575,12 @@ function PlansSection() {
 
         <div
           className="reveal demo-addons"
-          style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 20, maxWidth: 780, margin: "48px auto 0" }}
+          style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, maxWidth: 980, margin: "48px auto 0" }}
         >
           {[
-            { price: "$5", unit: "/mes", label: "+10.000 créditos IA" },
-            { price: "$29", unit: "/mes", label: "Profesional o usuario extra" },
+            { price: "$15", unit: "/mes", label: "+5.000 créditos IA" },
+            { price: "$9", unit: "/mes", label: "Profesional o usuario extra" },
+            { price: "$21", unit: "/mes", label: "Módulo Odontograma" },
           ].map((it) => (
             <div
               key={it.label}

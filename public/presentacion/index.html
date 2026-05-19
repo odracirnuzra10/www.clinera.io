@@ -2121,6 +2121,51 @@
     flex-shrink: 0;
     margin-top: 1px;
   }
+  .plan-models{
+    margin: 4px 0 12px;
+    padding: 10px 12px;
+    background: #FAFAFA;
+    border: 1px solid var(--line-2);
+    border-radius: 10px;
+  }
+  .plan-models .pm-label{
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .plan-models .pm-pills{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .plan-models .pm-pill{
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 9px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+  .plan-models .pm-pill::before{
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--violet);
+  }
+  .price-card.popular .plan-models{
+    background: rgba(124,58,237,.04);
+    border-color: rgba(124,58,237,.18);
+  }
+
   .cost-per-agend{
     display:flex; align-items:center; gap: 8px;
     padding: 10px 14px;
@@ -2994,6 +3039,12 @@
             <li>WhatsApp Business API</li>
             <li>3 usuarios</li>
           </ul>
+          <div class="plan-models">
+            <span class="pm-label">Modelo IA disponible</span>
+            <div class="pm-pills">
+              <span class="pm-pill">Gemini 3 Flash</span>
+            </div>
+          </div>
           <div class="cost-per-agend">
             <span class="cpa-label">Costo por<br/>agendamiento</span>
             <span class="cpa-value">$0,48 USD</span>
@@ -3021,6 +3072,14 @@
             <li>Agenda + fichas + Vault</li>
             <li>5 usuarios</li>
           </ul>
+          <div class="plan-models">
+            <span class="pm-label">Modelos IA disponibles</span>
+            <div class="pm-pills">
+              <span class="pm-pill">Gemini 3 Flash</span>
+              <span class="pm-pill">Kimi K2.6</span>
+              <span class="pm-pill">Claude Sonnet 4.6</span>
+            </div>
+          </div>
           <div class="cost-per-agend">
             <span class="cpa-label">Costo por<br/>agendamiento</span>
             <span class="cpa-value">$0,48 USD</span>
@@ -3046,9 +3105,17 @@
             <li>~600 conversaciones largas</li>
             <li>~68 agendamientos completos</li>
             <li>3 modos · 3 modelos IA</li>
-            <li>Multi-sede + atribución</li>
+            <li>Multi-sede · atribución · webhooks</li>
             <li>15 usuarios</li>
           </ul>
+          <div class="plan-models">
+            <span class="pm-label">Modelos IA disponibles</span>
+            <div class="pm-pills">
+              <span class="pm-pill">Gemini 3 Flash</span>
+              <span class="pm-pill">Kimi K2.6</span>
+              <span class="pm-pill">Claude Sonnet 4.6</span>
+            </div>
+          </div>
           <div class="cost-per-agend featured">
             <span class="cpa-label">Costo por<br/>agendamiento</span>
             <span class="cpa-value">$0,46 USD</span>

@@ -3690,10 +3690,11 @@ export function Pricing() {
         "13.000 créditos IA / mes",
         "~325 conversaciones largas",
         "~37 agendamientos completos",
-        "1 modo · 1 modelo IA (Gemini 3 Flash)",
+        "1 modo · 1 modelo IA",
         "WhatsApp Business API",
         "3 usuarios incluidos",
       ],
+      models: ["Gemini 3 Flash"],
       stripe: "https://buy.stripe.com/6oUfZj9l70IaaAX0xB1441e",
     },
     {
@@ -3714,6 +3715,7 @@ export function Pricing() {
         "Agenda + fichas + Clinera Vault",
         "5 usuarios / profesionales",
       ],
+      models: ["Gemini 3 Flash", "Kimi K2.6", "Claude Sonnet 4.6"],
       stripe: "https://buy.stripe.com/fZu28tcxjez04cz9471441f",
     },
     {
@@ -3733,9 +3735,10 @@ export function Pricing() {
         "~600 conversaciones largas",
         "~68 agendamientos completos",
         "3 modos · 3 modelos IA",
-        "Multi-sede + panel de atribución",
+        "Multi-sede · atribución · webhooks",
         "15 usuarios / profesionales",
       ],
+      models: ["Gemini 3 Flash", "Kimi K2.6", "Claude Sonnet 4.6"],
       stripe: "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g",
     },
   ];
@@ -3977,6 +3980,62 @@ export function Pricing() {
                     </div>
                   ))}
                 </div>
+
+                {p.models && p.models.length > 0 && (
+                  <div
+                    style={{
+                      marginTop: 16,
+                      padding: "12px 14px",
+                      background: p.featured ? "rgba(124,58,237,.04)" : "#FAFAFA",
+                      border: p.featured ? "1px solid rgba(124,58,237,.18)" : "1px solid #E5E7EB",
+                      borderRadius: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                        fontSize: 9.5,
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase",
+                        color: "#9CA3AF",
+                        marginBottom: 8,
+                      }}
+                    >
+                      {p.models.length === 1 ? "Modelo IA disponible" : "Modelos IA disponibles"}
+                    </div>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                      {p.models.map((m) => (
+                        <span
+                          key={m}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 5,
+                            padding: "4px 10px",
+                            background: "#fff",
+                            border: "1px solid #E5E7EB",
+                            borderRadius: 999,
+                            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                            fontSize: 11,
+                            color: "#0A0A0A",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          <span
+                            style={{
+                              width: 5,
+                              height: 5,
+                              borderRadius: "50%",
+                              background: "#7C3AED",
+                              display: "inline-block",
+                            }}
+                          />
+                          {m}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: "auto" }}>
