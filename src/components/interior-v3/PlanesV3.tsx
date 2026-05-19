@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-import { CtaPrimary, CtaSecondary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
+import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { FinalCTA, Pricing, useReveal } from "@/components/home-v3/sections";
 
 const FAQ = [
@@ -45,9 +44,8 @@ function PlanesHero() {
   return (
     <section
       style={{
-        padding: "96px 80px 40px",
+        padding: "56px 80px 24px",
         background: "linear-gradient(180deg,#FFFFFF 0%,#FAFAFA 100%)",
-        borderBottom: "1px solid #F0F0F0",
       }}
     >
       <div className="reveal" style={{ maxWidth: 980, margin: "0 auto", textAlign: "center" }}>
@@ -55,11 +53,11 @@ function PlanesHero() {
         <h1
           style={{
             fontFamily: "Inter",
-            fontSize: 64,
+            fontSize: 56,
             fontWeight: 700,
             letterSpacing: "-0.035em",
-            lineHeight: 1.02,
-            margin: "16px 0 16px",
+            lineHeight: 1.04,
+            margin: "14px 0 12px",
             color: "#0A0A0A",
           }}
           className="planes-hero-title"
@@ -72,27 +70,19 @@ function PlanesHero() {
         <p
           style={{
             fontFamily: "Inter",
-            fontSize: 19,
+            fontSize: 17,
             color: "#4B5563",
             lineHeight: 1.55,
-            margin: "0 auto 28px",
-            maxWidth: 680,
+            margin: "0 auto",
+            maxWidth: 600,
           }}
         >
-          Todos los planes incluyen API completa, sin permanencia. Precios en USD.
+          Sin permanencia. Precios en USD. Calcula tu plan abajo.
         </p>
-        <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-          <CtaPrimary as={Link} href="/hablar-con-ventas">
-            Hablar con ventas <span style={{ marginLeft: 2 }}>→</span>
-          </CtaPrimary>
-          <CtaSecondary as={Link} href="/reunion">
-            Agendar reunión
-          </CtaSecondary>
-        </div>
       </div>
       <style jsx>{`
         @media (max-width: 720px) {
-          :global(.planes-hero-title) { font-size: 40px !important; }
+          :global(.planes-hero-title) { font-size: 36px !important; }
         }
       `}</style>
     </section>
