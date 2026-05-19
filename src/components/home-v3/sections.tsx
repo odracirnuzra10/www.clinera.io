@@ -3680,7 +3680,7 @@ export function Pricing() {
     {
       name: "Core",
       price: "$129",
-      perAppt: "$2.87",
+      perAppt: "$8.60",
       sub: "Agente IA AURA + mensajería. Sin módulo clínico.",
       tags: [
         { t: "Agente IA", ok: true },
@@ -3688,19 +3688,19 @@ export function Pricing() {
       ],
       features: [
         "Agente IA AURA",
-        "45 agendamientos automáticos / mes",
+        "15 agendamientos automáticos / mes",
         "1.000 mensajes / mes",
         "WhatsApp API oficial",
         "Memoria contextual + derivación a humano",
         "Integración API + MCP a tu software",
         "3 usuarios incluidos",
       ],
-      stripe: "https://buy.stripe.com/00wcN79l7bmO9wT6VZ14415",
+      stripe: "https://buy.stripe.com/6oUfZj9l70IaaAX0xB1441e",
     },
     {
       name: "Conect",
-      price: "$189",
-      perAppt: "$2.91",
+      price: "$179",
+      perAppt: "$5.11",
       sub: "IA + clínica completa, todo en uno.",
       tags: [
         { t: "Agente IA", ok: true },
@@ -3708,7 +3708,7 @@ export function Pricing() {
       ],
       headline: "Todo de Core, más",
       features: [
-        "65 agendamientos automáticos / mes",
+        "35 agendamientos automáticos / mes",
         "2.000 mensajes / mes",
         "Módulo clínico completo",
         "Agenda médica + fichas + consentimientos",
@@ -3716,16 +3716,17 @@ export function Pricing() {
         "Panel ventas",
         "5 usuarios / profesionales",
       ],
-      stripe: "https://buy.stripe.com/aFa9AV8h3ez07oL2FJ14416",
+      stripe: "https://buy.stripe.com/fZu28tcxjez04cz9471441f",
     },
     {
       name: "Advanced",
-      price: "$239",
-      perAppt: "$2.66",
-      sub: "Multi-sede + IA + escala.",
+      price: "$229",
+      originalPrice: "$259",
+      perAppt: "$2.54",
+      sub: "Multi-sede + IA + escala. 3.4× más barato por agendamiento que Core.",
       featured: true,
       bestValue: true,
-      vsConect: "+25 agendamientos · +1.000 msgs · +10 usuarios · Multi-sede",
+      vsConect: "+55 agendamientos (+157%) · +1.000 msgs · +10 usuarios · Multi-sede",
       tags: [
         { t: "Agente IA", ok: true },
         { t: "Módulo Clínico", ok: true },
@@ -3740,7 +3741,7 @@ export function Pricing() {
         "Onboarding dedicado",
         "15 usuarios / profesionales",
       ],
-      stripe: "https://buy.stripe.com/4gM3cxapb9eG4cz1BF1441a",
+      stripe: "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g",
     },
   ];
 
@@ -3856,7 +3857,42 @@ export function Pricing() {
                   {p.price}
                 </div>
                 <div style={{ fontFamily: "Inter", fontSize: 14, color: "#6B7280" }}>/mes</div>
+                {p.originalPrice && (
+                  <div
+                    style={{
+                      fontFamily: "Inter",
+                      fontSize: 18,
+                      color: "#9CA3AF",
+                      textDecoration: "line-through",
+                      fontWeight: 600,
+                      letterSpacing: "-0.02em",
+                      marginLeft: 6,
+                    }}
+                  >
+                    {p.originalPrice}
+                  </div>
+                )}
               </div>
+              {p.originalPrice && (
+                <div
+                  style={{
+                    display: "inline-block",
+                    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                    fontSize: 9.5,
+                    color: "#10B981",
+                    fontWeight: 700,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    background: "rgba(16,185,129,.08)",
+                    border: "1px solid rgba(16,185,129,.25)",
+                    padding: "3px 10px",
+                    borderRadius: 999,
+                    marginBottom: 8,
+                  }}
+                >
+                  Promo este mes · ahorras $30
+                </div>
+              )}
               {p.perAppt && (
                 <div
                   style={{
