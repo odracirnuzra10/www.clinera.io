@@ -6,8 +6,8 @@ import { FinalCTA, Pricing, useReveal } from "@/components/home-v3/sections";
 
 const FAQ = [
   { q: "¿Tiene costo de implementación?", a: "No. La implementación es asistida por un humano del equipo de Clinera y tiene costo $0 en todos los planes. Setup en menos de 1 hora, sin programador: configuramos AURA con la voz de tu clínica, conectamos tu WhatsApp Business, integramos tu agenda actual y dejamos a AURA operando esa misma tarde." },
-  { q: "¿Cuántos mensajes incluye cada plan?", a: "Growth incluye 1.000 mensajes / mes (sólo mensajería, sin IA). Conect incluye 2.000 mensajes + 45 agendamientos automáticos por AURA. Advanced incluye 3.000 mensajes + 65 agendamientos automáticos. Si necesitas más, sumas un add-on." },
-  { q: "¿Qué es un agendamiento automático?", a: "Es cuando AURA, nuestro agente IA, agenda una cita por WhatsApp sin que tu equipo intervenga: conversa con el paciente, valida disponibilidad en tu agenda y confirma la cita. Conect incluye 45/mes y Advanced 65/mes. Growth no incluye IA, así que no tiene agendamientos automáticos." },
+  { q: "¿Cuántos mensajes y agendamientos incluye cada plan?", a: "Core incluye 1.000 mensajes + 45 agendamientos automáticos por AURA / mes. Conect incluye 2.000 mensajes + 65 agendamientos. Advanced incluye 3.000 mensajes + 90 agendamientos. Si necesitas más, sumas un add-on de créditos o subes de plan." },
+  { q: "¿Qué es un agendamiento automático?", a: "Es cuando AURA, nuestro agente IA, agenda una cita por WhatsApp sin que tu equipo intervenga: conversa con el paciente, valida disponibilidad en tu agenda y confirma la cita. Los tres planes incluyen Agente IA. La diferencia entre planes está en el cupo de agendamientos automáticos al mes y si incluye o no el Módulo Clínico (Conect y Advanced lo incluyen, Core no)." },
   { q: "¿Puedo cambiar de plan después?", a: "Sí. Puedes subir o bajar de plan en cualquier momento desde tu panel. El cambio se aplica en tu próximo ciclo de facturación." },
   { q: "¿Hay permanencia o contrato?", a: "No. Todos los planes son mes a mes. Puedes cancelar en cualquier momento sin penalizaciones." },
   { q: "¿Qué pasa si supero el cupo de mi plan?", a: "Te avisamos al 80% y al 100% del cupo. Tu servicio no se interrumpe sin aviso. Si necesitas más, sumas un add-on de +10.000 créditos IA por $5 USD/mes (≈ ~5 agendamientos extra o ~500 mensajes IA con AURA) o subes de plan." },
@@ -92,20 +92,20 @@ function PlanesHero() {
 
 function Calculator() {
   const PLANS = [
-    { name: "Growth",   price: 89,  appt: 0,  messages: 1000, hasIA: false },
-    { name: "Conect",   price: 129, appt: 45, messages: 2000, hasIA: true  },
-    { name: "Advanced", price: 179, appt: 65, messages: 3000, hasIA: true  },
+    { name: "Core",     price: 129, appt: 45, messages: 1000, modClinico: false },
+    { name: "Conect",   price: 189, appt: 65, messages: 2000, modClinico: true  },
+    { name: "Advanced", price: 239, appt: 90, messages: 3000, modClinico: true  },
   ];
-  const SLIDER_MAX = 100;
+  const SLIDER_MAX = 120;
   const SLIDER_STEP = 5;
 
   const [appts, setAppts] = useState<number>(20);
 
   const chosen =
-    appts === 0   ? PLANS[0] :
-    appts <= 45   ? PLANS[1] :
-    appts <= 65   ? PLANS[2] :
-                    PLANS[2];
+    appts <= 45 ? PLANS[0] :
+    appts <= 65 ? PLANS[1] :
+    appts <= 90 ? PLANS[2] :
+                  PLANS[2];
   const overAppts = Math.max(0, appts - chosen.appt);
   const fmt = (n: number) => Math.round(n).toLocaleString("es-CL");
   const pctSlider = (appts / SLIDER_MAX) * 100;
@@ -207,12 +207,10 @@ function Calculator() {
             ${chosen.price} USD / mes
           </div>
           <div style={{ fontFamily: "Inter", fontSize: 13.5, color: "#0A0A0A", lineHeight: 1.6 }}>
-            {chosen.appt > 0
-              ? <><b>{chosen.appt} agendamientos automáticos</b> · <b>{fmt(chosen.messages)} mensajes</b> / mes</>
-              : <><b>{fmt(chosen.messages)} mensajes / mes</b> · sin agendamientos automáticos</>}
+            <b>{chosen.appt} agendamientos automáticos</b> · <b>{fmt(chosen.messages)} mensajes</b> / mes
           </div>
           <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "#6B7280", marginTop: 6 }}>
-            {chosen.hasIA ? "Agente IA AURA + Módulo clínico incluidos" : "Mensajería WhatsApp sin IA"}
+            {chosen.modClinico ? "Agente IA AURA + Módulo clínico incluidos" : "Agente IA AURA · sin módulo clínico"}
           </div>
           {overAppts > 0 && (
             <div

@@ -3678,34 +3678,35 @@ export function Testimonios() {
 export function Pricing() {
   const plans = [
     {
-      name: "Growth",
-      price: "$89",
-      sub: "Mensajería WhatsApp simple. Sin IA, sin sorpresas.",
+      name: "Core",
+      price: "$129",
+      sub: "Agente IA AURA + mensajería. Sin módulo clínico.",
       tags: [
-        { t: "Agente IA", ok: false },
+        { t: "Agente IA", ok: true },
         { t: "Módulo Clínico", ok: false },
       ],
       features: [
+        "Agente IA AURA",
+        "45 agendamientos automáticos / mes",
         "1.000 mensajes / mes",
         "WhatsApp API oficial",
-        "Bandeja compartida",
-        "Derivación a humano manual",
+        "Memoria contextual + derivación a humano",
+        "Integración API + MCP a tu software",
         "3 usuarios incluidos",
       ],
       stripe: "https://buy.stripe.com/00wcN79l7bmO9wT6VZ14415",
     },
     {
       name: "Conect",
-      price: "$129",
-      sub: "IA, mensajería y clínica completa, todo en uno.",
+      price: "$189",
+      sub: "IA + clínica completa, todo en uno.",
       tags: [
         { t: "Agente IA", ok: true },
         { t: "Módulo Clínico", ok: true },
       ],
-      headline: "Todo de Growth, más",
+      headline: "Todo de Core, más",
       features: [
-        "Agente IA AURA",
-        "45 agendamientos automáticos / mes",
+        "65 agendamientos automáticos / mes",
         "2.000 mensajes / mes",
         "Módulo clínico completo",
         "Agenda médica + fichas + consentimientos",
@@ -3717,7 +3718,7 @@ export function Pricing() {
     },
     {
       name: "Advanced",
-      price: "$179",
+      price: "$239",
       sub: "Multi-sede + IA + escala.",
       featured: true,
       tags: [
@@ -3726,7 +3727,7 @@ export function Pricing() {
       ],
       headline: "Todo de Conect, más",
       features: [
-        "65 agendamientos automáticos / mes",
+        "90 agendamientos automáticos / mes",
         "3.000 mensajes / mes",
         "Multi-sede",
         "Webhooks avanzados",
