@@ -6,11 +6,11 @@ import { FinalCTA, Pricing, useReveal } from "@/components/home-v3/sections";
 
 const FAQ = [
   { q: "¿Tiene costo de implementación?", a: "No. La implementación es asistida por un humano del equipo de Clinera y tiene costo $0 en todos los planes. Setup en menos de 1 hora, sin programador: configuramos AURA con la voz de tu clínica, conectamos tu WhatsApp Business, integramos tu agenda actual y dejamos a AURA operando esa misma tarde." },
-  { q: "¿Tengo límite de mensajes con mis pacientes?", a: "En Conect y Advanced no hay límite — tu equipo puede conversar con pacientes desde la bandeja Clinera sin tope. Lo único que se pausa cuando agotas tu cupo de créditos IA es AURA (la IA respondiendo sola): tu equipo sigue contestando manualmente sin costo extra. En Growth el cupo es 500 mensajes IA/mes con AURA, porque ese plan integra con tu software actual en lugar de incluir la bandeja Clinera completa." },
-  { q: "¿Cómo se cuenta el agendamiento automático y qué es un crédito IA?", a: "Cada agendamiento automático consume aproximadamente 2.200 créditos IA — porque incluye el flujo completo: 10–12 mensajes con el paciente más llamadas a tools como agenda, ficha y confirmación. 1 mensaje suelto cuesta cerca de 200 créditos. Por eso 100.000 créditos rinden ~45 agendamientos automáticos o ~500 mensajes — y los combinas como prefieras dentro de tu pool mensual." },
+  { q: "¿Cuántos mensajes incluye cada plan?", a: "Growth incluye 1.000 mensajes / mes (sólo mensajería, sin IA). Conect incluye 2.000 mensajes + 45 agendamientos automáticos por AURA. Advanced incluye 3.000 mensajes + 65 agendamientos automáticos. Si necesitas más, sumas un add-on." },
+  { q: "¿Qué es un agendamiento automático?", a: "Es cuando AURA, nuestro agente IA, agenda una cita por WhatsApp sin que tu equipo intervenga: conversa con el paciente, valida disponibilidad en tu agenda y confirma la cita. Conect incluye 45/mes y Advanced 65/mes. Growth no incluye IA, así que no tiene agendamientos automáticos." },
   { q: "¿Puedo cambiar de plan después?", a: "Sí. Puedes subir o bajar de plan en cualquier momento desde tu panel. El cambio se aplica en tu próximo ciclo de facturación." },
   { q: "¿Hay permanencia o contrato?", a: "No. Todos los planes son mes a mes. Puedes cancelar en cualquier momento sin penalizaciones." },
-  { q: "¿Qué pasa si necesito más agendamientos?", a: "Te avisamos al 80% y al 100% del cupo. Tu servicio nunca se interrumpe sin avisarte. Si necesitas más, sumas paquetes de +10.000 créditos IA por $5 USD/mes — cada paquete son ~4 agendamientos automáticos extra (o ~50 mensajes)." },
+  { q: "¿Qué pasa si supero el cupo de mi plan?", a: "Te avisamos al 80% y al 100% del cupo. Tu servicio no se interrumpe sin aviso. Si necesitas más, sumas un add-on de +10.000 créditos IA por $5 USD/mes (≈ ~5 agendamientos extra o ~500 mensajes IA con AURA) o subes de plan." },
   { q: "¿Se integra con mi software actual?", a: "Sí. Clinera se conecta vía API con Reservo, AgendaPro, Medilink, Dentalink, Sacmed y cualquier sistema que exponga una API REST o soporte MCP." },
   { q: "¿Cómo funciona la IA de mensajería?", a: "Nuestra IA responde automáticamente por WhatsApp usando memoria contextual. Agenda, confirma y responde consultas 24/7. Si necesita un humano, deriva la conversación automáticamente." },
   { q: "¿Qué es el módulo Odontograma?", a: "Es un add-on nuevo para clínicas dentales (próximamente): ficha odontológica visual interactiva por pieza dental, historial completo, integración con consentimientos y agenda. Cuesta $21 USD/mes extra sobre cualquier plan." },
@@ -92,25 +92,21 @@ function PlanesHero() {
 
 function Calculator() {
   const PLANS = [
-    { name: "Growth",   price: 89,  credits: 100000, appt: 45 },
-    { name: "Conect",   price: 129, credits: 150000, appt: 65 },
-    { name: "Advanced", price: 179, credits: 200000, appt: 90 },
+    { name: "Growth",   price: 89,  appt: 0,  messages: 1000, hasIA: false },
+    { name: "Conect",   price: 129, appt: 45, messages: 2000, hasIA: true  },
+    { name: "Advanced", price: 179, appt: 65, messages: 3000, hasIA: true  },
   ];
-  const CR_PER_APPT = 2200;
-  const CR_PER_MSG = 200;
-  const OVERAGE_PER_10K = 5;
-  const SLIDER_MAX = 150;
+  const SLIDER_MAX = 100;
   const SLIDER_STEP = 5;
 
-  const [appts, setAppts] = useState<number>(30);
+  const [appts, setAppts] = useState<number>(20);
 
-  const usedCredits = appts * CR_PER_APPT;
-  const equivMsgs = Math.round(usedCredits / CR_PER_MSG);
-  const chosen = PLANS.find((p) => usedCredits <= p.credits) ?? PLANS[PLANS.length - 1];
-  const overCredits = Math.max(0, usedCredits - chosen.credits);
-  const overagePacks = Math.ceil(overCredits / 10000);
-  const overageCost = overagePacks * OVERAGE_PER_10K;
-  const pctOfCap = Math.min(999, Math.round((usedCredits / chosen.credits) * 100));
+  const chosen =
+    appts === 0   ? PLANS[0] :
+    appts <= 45   ? PLANS[1] :
+    appts <= 65   ? PLANS[2] :
+                    PLANS[2];
+  const overAppts = Math.max(0, appts - chosen.appt);
   const fmt = (n: number) => Math.round(n).toLocaleString("es-CL");
   const pctSlider = (appts / SLIDER_MAX) * 100;
 
@@ -179,22 +175,22 @@ function Calculator() {
 
         <div
           style={{
-            maxWidth: 460,
-            margin: "0 auto 20px",
-            padding: "24px 28px",
+            maxWidth: 480,
+            margin: "0 auto",
+            padding: "26px 28px",
             background: "linear-gradient(135deg, rgba(0,159,227,.05), rgba(124,58,237,.05), rgba(200,80,192,.04))",
             border: "1px solid #E5E7EB",
             borderRadius: 16,
             textAlign: "center",
           }}
         >
-          <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, color: "#6B7280", letterSpacing: ".12em", textTransform: "uppercase", marginBottom: 8 }}>
-            Tu uso estimado
+          <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, color: "#6B7280", letterSpacing: ".12em", textTransform: "uppercase", marginBottom: 10 }}>
+            Plan recomendado
           </div>
           <div
             style={{
               fontFamily: "Inter",
-              fontSize: 42,
+              fontSize: 38,
               fontWeight: 800,
               letterSpacing: "-0.025em",
               lineHeight: 1,
@@ -202,41 +198,27 @@ function Calculator() {
               WebkitBackgroundClip: "text",
               backgroundClip: "text",
               color: "transparent",
-              marginBottom: 8,
+              marginBottom: 4,
             }}
           >
-            {fmt(appts)}
-            <span style={{ fontSize: 14, fontWeight: 600, color: "#4B5563", WebkitTextFillColor: "#4B5563", marginLeft: 6, letterSpacing: 0 }}>agendamientos / mes</span>
+            {chosen.name}
           </div>
-          <div style={{ fontFamily: "Inter", fontSize: 13, color: "#4B5563", lineHeight: 1.5 }}>
-            ≈ <b style={{ color: "#0A0A0A" }}>{fmt(equivMsgs)} mensajes IA</b> · {fmt(usedCredits)} créditos
+          <div style={{ fontFamily: "Inter", fontSize: 16, fontWeight: 600, color: "#0A0A0A", marginBottom: 14 }}>
+            ${chosen.price} USD / mes
           </div>
-        </div>
-
-        <div style={{ textAlign: "center", paddingTop: 20, borderTop: "1px solid #F0F0F0" }}>
-          <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, color: "#6B7280", letterSpacing: ".12em", textTransform: "uppercase", marginBottom: 8 }}>
-            Plan recomendado
+          <div style={{ fontFamily: "Inter", fontSize: 13.5, color: "#0A0A0A", lineHeight: 1.6 }}>
+            {chosen.appt > 0
+              ? <><b>{chosen.appt} agendamientos automáticos</b> · <b>{fmt(chosen.messages)} mensajes</b> / mes</>
+              : <><b>{fmt(chosen.messages)} mensajes / mes</b> · sin agendamientos automáticos</>}
           </div>
-          <div style={{ fontFamily: "Inter", fontSize: 22, fontWeight: 700, color: "#0A0A0A", marginBottom: 4 }}>
-            Plan{" "}
-            <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-              {chosen.name}
-            </span>{" "}
-            · ${chosen.price} USD/mes
+          <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "#6B7280", marginTop: 6 }}>
+            {chosen.hasIA ? "Agente IA AURA + Módulo clínico incluidos" : "Mensajería WhatsApp sin IA"}
           </div>
-          <div style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280" }}>
-            Incluye ~{chosen.appt} agendamientos por AURA · ocupas {pctOfCap}% del cupo IA
-          </div>
-          <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "#10B981", marginTop: 6, fontWeight: 500 }}>
-            {chosen.name === "Growth"
-              ? "+ 500 mensajes IA al mes (vía tu software actual)"
-              : "+ Mensajería WhatsApp ilimitada con tu equipo · sin tope"}
-          </div>
-          {overCredits > 0 && (
+          {overAppts > 0 && (
             <div
               style={{
                 display: "inline-block",
-                marginTop: 12,
+                marginTop: 14,
                 padding: "8px 14px",
                 background: "rgba(245,158,11,.08)",
                 border: "1px solid rgba(245,158,11,.2)",
@@ -248,7 +230,7 @@ function Calculator() {
                 letterSpacing: ".02em",
               }}
             >
-              + {fmt(overCredits)} créditos extra → {overagePacks} pack(s) de $5 = ${overageCost} USD overage
+              + {overAppts} agendamientos extra → suma add-on de créditos IA
             </div>
           )}
         </div>
