@@ -5,15 +5,15 @@ import PlanesV3 from "@/components/interior-v3/PlanesV3";
 import TrialBanner from "@/components/cro/TrialBanner";
 
 export const metadata: Metadata = {
-  title: "Planes y Precios — Clinera.io (desde USD 89/mes)",
+  title: "Planes y Precios — Clinera.io (desde USD 129/mes)",
   description:
-    "Growth USD 89/mes, Conect USD 129/mes, Advanced USD 179/mes. IA que agenda por WhatsApp 24/7. Sin permanencia.",
+    "Core USD 129/mes, Conect USD 189/mes, Advanced USD 239/mes. IA que agenda por WhatsApp 24/7. Sin permanencia.",
   alternates: { canonical: "https://clinera.io/planes" },
   openGraph: {
     url: "https://clinera.io/planes",
     title: "Planes y Precios — Clinera.io",
     description:
-      "3 planes para clínicas en LATAM. Desde USD 89/mes, sin permanencia.",
+      "3 planes para clínicas en LATAM. Desde USD 129/mes, sin permanencia.",
     type: "website",
   },
 };
@@ -24,9 +24,9 @@ const jsonLd = {
   name: "Clinera.io",
   description: "Software de IA para clínicas",
   offers: [
-    { "@type": "Offer", name: "Growth", price: "89", priceCurrency: "USD", url: "https://clinera.io/planes" },
-    { "@type": "Offer", name: "Conect", price: "129", priceCurrency: "USD", url: "https://clinera.io/planes" },
-    { "@type": "Offer", name: "Advanced", price: "179", priceCurrency: "USD", url: "https://clinera.io/planes" },
+    { "@type": "Offer", name: "Core",     price: "129", priceCurrency: "USD", url: "https://clinera.io/planes" },
+    { "@type": "Offer", name: "Conect",   price: "189", priceCurrency: "USD", url: "https://clinera.io/planes" },
+    { "@type": "Offer", name: "Advanced", price: "239", priceCurrency: "USD", url: "https://clinera.io/planes" },
   ],
 };
 
