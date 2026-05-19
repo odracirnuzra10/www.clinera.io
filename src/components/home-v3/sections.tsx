@@ -96,7 +96,7 @@ export function Hero() {
               >
                 ✦
               </span>
-              NUEVA IA 2.0 · AURA
+              EMPLEADO DIGITAL · AURA
               <span style={{ color: "#9CA3AF" }}>·</span>
               <span style={{ color: "#10B981", textTransform: "none", letterSpacing: "0.08em" }}>
                 en vivo en Chile y México
@@ -115,7 +115,7 @@ export function Hero() {
                 color: "#0A0A0A",
               }}
             >
-              Agenda pacientes{" "}
+              Contrata un{" "}
               <span
                 style={{
                   background: GRAD,
@@ -124,10 +124,10 @@ export function Hero() {
                   color: "transparent",
                 }}
               >
-                con IA
+                empleado digital
               </span>
-              ,<br />
-              las 24 horas.
+              .<br />
+              Atiende 24/7.
             </h1>
             <p
               style={{
@@ -137,11 +137,10 @@ export function Hero() {
                 lineHeight: 1.55,
                 color: "#4B5563",
                 margin: "22px 0 0",
-                maxWidth: 560,
+                maxWidth: 580,
               }}
             >
-              Clinera responde tus WhatsApps, consulta tu agenda y tu base de datos, y confirma
-              citas por ti. Atiende mientras duermes, operas o estás con otro paciente.
+              No es un chatbot. Es un agente que <b style={{ color: "#0A0A0A" }}>ejecuta funciones</b>: crea citas, re-agenda, consulta pagos y revisa sesiones. Hace el 100% del trabajo de tu recepcionista — por WhatsApp, sin descanso.
             </p>
 
             <div style={{ display: "flex", gap: 12, marginTop: 30, flexWrap: "wrap" }}>
@@ -232,7 +231,7 @@ export function Hero() {
               <span>+2.400 citas agendadas por IA</span>
               <span style={{ color: "#9CA3AF" }}>·</span>
               <span>
-                <b style={{ color: "#0A0A0A" }}>100% en ≤3 intentos</b>
+                <b style={{ color: "#0A0A0A" }}>$229</b> vs ~$950 recepcionista
               </span>
               <Link
                 href="/efectividad"
@@ -601,7 +600,7 @@ export function Features() {
       >
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div className="reveal" style={{ maxWidth: 760 }}>
-            <Eyebrow>El equipo IA</Eyebrow>
+            <Eyebrow>Tu equipo digital</Eyebrow>
             <h2
               className="home-h2-big"
               style={{
@@ -614,7 +613,7 @@ export function Features() {
                 color: "#0A0A0A",
               }}
             >
-              Tres agentes IA que{" "}
+              Tres empleados digitales que{" "}
               <span
                 style={{
                   background: GRAD,
@@ -623,9 +622,9 @@ export function Features() {
                   color: "transparent",
                 }}
               >
-                operan tu clínica
+                ejecutan tu front-desk
               </span>{" "}
-              como tu mejor recepcionista.
+              — 24/7, sin licencias.
             </h2>
             <p
               style={{
@@ -637,8 +636,7 @@ export function Features() {
                 maxWidth: 660,
               }}
             >
-              AURA escribe por WhatsApp. CAMILA llama por teléfono. LIA decide qué hacer y por dónde.
-              Misma memoria del paciente, distinto canal.
+              AURA agenda por WhatsApp. CAMILA llama por teléfono. LIA decide qué hacer y por dónde. No responden — <b style={{ color: "#0A0A0A" }}>ejecutan</b>: crean citas, re-agendan, consultan pagos. Misma memoria del paciente, distinto canal.
             </p>
           </div>
         </div>
@@ -3780,11 +3778,10 @@ export function Pricing() {
               color: "#0A0A0A",
             }}
           >
-            Un solo precio para toda LATAM, en dólares.
+            Tu próximo empleado cuesta $229. Y trabaja 24/7.
           </h2>
           <p style={{ fontFamily: "Inter", fontSize: 17, color: "#4B5563", margin: 0, lineHeight: 1.55 }}>
-            Precios en <b>USD</b> para Chile, México y todo LATAM. Sin contratos. Sin sorpresas por
-            tipo de cambio. Cambias o cancelas cuando quieras.
+            Una recepcionista te cuesta ~$950 USD/mes en LATAM, trabaja 45 horas semana y se enferma. Un empleado digital de Clinera cuesta <b>desde $129</b>, no descansa y no escala con sueldo. Sin contratos, sin permanencia.
           </p>
         </div>
 
@@ -4248,7 +4245,7 @@ export function FinalCTA() {
               }}
               className="home-final-cta-title"
             >
-              Esta noche, AURA ya podría estar agendando pacientes por ti.
+              Contrata a AURA hoy. Esta noche ya está agendando.
             </h2>
             <p
               style={{
@@ -4260,8 +4257,7 @@ export function FinalCTA() {
                 lineHeight: 1.55,
               }}
             >
-              Habla con ventas y te mostramos cómo quedaría AURA con tu agenda, tu base de datos y
-              tus precios. 30 minutos, sin compromiso.
+              30 minutos con ventas y te mostramos cómo quedaría tu empleado digital — con tu agenda, tu base de datos y tus precios. Sin compromiso.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link
