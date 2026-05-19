@@ -3686,7 +3686,8 @@ export function Pricing() {
         { t: "Módulo Clínico", ok: false },
       ],
       features: [
-        "150 conversaciones con IA/mes",
+        "100.000 créditos IA / mes",
+        "≈ ~500 mensajes o ~45 agendamientos automáticos",
         "WhatsApp API",
         "Memoria contextual vía LangChain",
         "Derivación automática a humano",
@@ -3705,7 +3706,8 @@ export function Pricing() {
       ],
       headline: "Todo de Growth, más",
       features: [
-        "500 conversaciones/mes",
+        "150.000 créditos IA / mes",
+        "≈ ~750 mensajes o ~65 agendamientos automáticos",
         "5 usuarios",
         "Agenda médica",
         "Fichas clínicas",
@@ -3727,7 +3729,8 @@ export function Pricing() {
       ],
       headline: "Todo de Conect, más",
       features: [
-        "2000 conversaciones/mes",
+        "200.000 créditos IA / mes",
+        "≈ ~1.000 mensajes o ~90 agendamientos automáticos",
         "15 usuarios",
         "Multi-sede",
         "Webhooks avanzados",
