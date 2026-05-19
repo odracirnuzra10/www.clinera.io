@@ -212,6 +212,16 @@ function Calculator() {
           <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "#6B7280", marginTop: 6 }}>
             {chosen.modClinico ? "Agente IA AURA + Módulo clínico incluidos" : "Agente IA AURA · sin módulo clínico"}
           </div>
+          {chosen.name === "Core" && (
+            <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(16,185,129,.08)", border: "1px solid rgba(16,185,129,.25)", borderRadius: 10, fontFamily: "Inter", fontSize: 12, color: "#065F46", lineHeight: 1.5 }}>
+              <b>Con $60 más</b>, Conect te suma <b>+20 agendamientos</b> · <b>Módulo clínico completo</b> · agenda + fichas
+            </div>
+          )}
+          {chosen.name === "Conect" && (
+            <div style={{ marginTop: 14, padding: "10px 14px", background: "linear-gradient(135deg, rgba(0,159,227,.08), rgba(124,58,237,.08), rgba(200,80,192,.06))", border: "1px solid rgba(124,58,237,.3)", borderRadius: 10, fontFamily: "Inter", fontSize: 12, color: "#0A0A0A", lineHeight: 1.5 }}>
+              <b>Con $50 más</b>, Advanced te suma <b>+25 agendamientos</b> · <b>multi-sede</b> · <b>+10 usuarios</b> · soporte premium
+            </div>
+          )}
           {overAppts > 0 && (
             <div
               style={{
