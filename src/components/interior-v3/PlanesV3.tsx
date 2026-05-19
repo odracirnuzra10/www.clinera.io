@@ -6,6 +6,7 @@ import { FinalCTA, Pricing, useReveal } from "@/components/home-v3/sections";
 
 const FAQ = [
   { q: "¿Tiene costo de implementación?", a: "No. La implementación es asistida por un humano del equipo de Clinera y tiene costo $0 en todos los planes. Setup en menos de 1 hora, sin programador: configuramos AURA con la voz de tu clínica, conectamos tu WhatsApp Business, integramos tu agenda actual y dejamos a AURA operando esa misma tarde." },
+  { q: "¿Tengo límite de mensajes con mis pacientes?", a: "En Conect y Advanced no hay límite — tu equipo puede conversar con pacientes desde la bandeja Clinera sin tope. Lo único que se pausa cuando agotas tu cupo de créditos IA es AURA (la IA respondiendo sola): tu equipo sigue contestando manualmente sin costo extra. En Growth el cupo es 500 mensajes IA/mes con AURA, porque ese plan integra con tu software actual en lugar de incluir la bandeja Clinera completa." },
   { q: "¿Cómo se cuenta el agendamiento automático y qué es un crédito IA?", a: "Cada agendamiento automático consume aproximadamente 2.200 créditos IA — porque incluye el flujo completo: 10–12 mensajes con el paciente más llamadas a tools como agenda, ficha y confirmación. 1 mensaje suelto cuesta cerca de 200 créditos. Por eso 100.000 créditos rinden ~45 agendamientos automáticos o ~500 mensajes — y los combinas como prefieras dentro de tu pool mensual." },
   { q: "¿Puedo cambiar de plan después?", a: "Sí. Puedes subir o bajar de plan en cualquier momento desde tu panel. El cambio se aplica en tu próximo ciclo de facturación." },
   { q: "¿Hay permanencia o contrato?", a: "No. Todos los planes son mes a mes. Puedes cancelar en cualquier momento sin penalizaciones." },
@@ -224,7 +225,12 @@ function Calculator() {
             · ${chosen.price} USD/mes
           </div>
           <div style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280" }}>
-            Incluye hasta ~{chosen.appt} agendamientos · ocupas {pctOfCap}% del cupo
+            Incluye ~{chosen.appt} agendamientos por AURA · ocupas {pctOfCap}% del cupo IA
+          </div>
+          <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "#10B981", marginTop: 6, fontWeight: 500 }}>
+            {chosen.name === "Growth"
+              ? "+ 500 mensajes IA al mes (vía tu software actual)"
+              : "+ Mensajería WhatsApp ilimitada con tu equipo · sin tope"}
           </div>
           {overCredits > 0 && (
             <div
