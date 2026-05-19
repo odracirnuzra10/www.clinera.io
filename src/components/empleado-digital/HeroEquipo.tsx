@@ -1,7 +1,7 @@
 import WhatsAppMockup from "./WhatsAppMockup";
 import styles from "@/app/empleado-digital/empleado-digital.module.css";
 
-const STRIPE_ADVANCED = "https://buy.stripe.com/4gM3cxapb9eG4cz1BF1441a";
+const STRIPE_ADVANCED = "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g";
 
 export default function HeroEquipo() {
   return (
@@ -9,18 +9,13 @@ export default function HeroEquipo() {
       <div className={styles.heroInner}>
         <div className={styles.heroCopy}>
           <h1 id="empleado-digital-hero" className={styles.heroH1}>
-            Empleados IA para tu clínica, 24/7
+            Tu próximo empleado <span style={{ color: "#7C3AED" }}>no es humano</span>.
           </h1>
 
           <p className={styles.heroSub}>
-            <span className={styles.heroSubName} style={{ color: "#7C3AED" }}>
-              AURA
-            </span>{" "}
-            contesta WhatsApp.{" "}
-            <span className={styles.heroSubName} style={{ color: "#0A0A0A" }}>
-              LIA
-            </span>{" "}
-            decide a quién contactar y cuándo. Misma memoria del paciente, distinto canal.
+            No es un chatbot. Es un agente que <strong>ejecuta funciones</strong> — crea citas,
+            re-agenda, consulta pagos y revisa sesiones. Hace el 100% del trabajo de tu
+            recepcionista por WhatsApp, sin descanso.
           </p>
 
           <div className={styles.heroCtaRow}>
@@ -28,10 +23,10 @@ export default function HeroEquipo() {
               href={STRIPE_ADVANCED}
               className={styles.heroCta}
               data-plan="advanced"
-              data-plan-value="179"
-              data-plan-name="Advanced signup hero"
+              data-plan-value="359"
+              data-plan-name="Advanced signup hero empleado-digital"
             >
-              Contratar Advanced — USD 179/mes
+              Contratar Advanced — USD 359/mes
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path
                   d="M6 3l5 5-5 5"
@@ -46,15 +41,15 @@ export default function HeroEquipo() {
             <div className={styles.statBar} role="list">
               <span role="listitem">
                 <span className={styles.statDot} aria-hidden />
-                <strong>94%</strong> confirmaciones automáticas
+                <strong>$359</strong> vs ~$950 recepcionista
               </span>
               <span role="listitem">
-                <strong>+21%</strong> cupos recuperados/mes
+                <strong>24/7</strong> · sin licencias ni vacaciones
               </span>
             </div>
 
             <p className={styles.trustLine}>
-              Cancela cuando quieras · Sin permanencia · Pago seguro vía Stripe
+              Desde USD 129/mes · Cancela cuando quieras · Sin permanencia · Pago seguro vía Stripe
             </p>
           </div>
         </div>

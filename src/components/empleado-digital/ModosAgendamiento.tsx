@@ -13,20 +13,22 @@ const MODOS: Modo[] = [
   {
     idx: "01",
     title: "Enlace interno",
-    desc: "La IA usa el calendario nativo de Clinera. Default para clínicas que centralizan todo en un solo lugar.",
+    desc: "AURA conversa por WhatsApp y envía un link del calendario nativo de Clinera para que el paciente confirme. Incluido en todos los planes.",
+    innerEyebrow: "Core · Conect · Advanced",
   },
   {
     idx: "02",
-    title: "Automático",
-    desc: "La IA agenda directamente en tu sistema. Activable cuando estés listo.",
-    tag: "RECOMENDADO",
+    title: "Enlace externo",
+    desc: "AURA comparte tu link de agendamiento existente (Calendly, AgendaPro, Reservo, etc.). Tu agenda no se mueve. Conect y Advanced.",
+    innerEyebrow: "Conect · Advanced",
   },
   {
     idx: "03",
-    title: "Enlace externo",
-    desc: "La IA comparte tu link (Calendly, AgendaPro, Reservo, etc.). Tu agenda no se mueve.",
+    title: "Automático",
+    desc: "AURA agenda directamente en tu calendario, sin que el paciente tenga que hacer nada extra. 100% sin fricción.",
+    tag: "RECOMENDADO",
     featured: true,
-    innerEyebrow: "Para clínicas con software propio",
+    innerEyebrow: "Conect · Advanced",
   },
 ];
 
@@ -35,10 +37,13 @@ export default function ModosAgendamiento() {
     <section className={styles.modosSection} aria-labelledby="modos-h2">
       <div className={styles.modosInner}>
         <div className={styles.modosHead}>
-          <p className={styles.duoEyebrow}>Funciona con tu setup actual</p>
+          <p className={styles.duoEyebrow}>3 modos de agendamiento</p>
           <h2 id="modos-h2" className={styles.duoH2}>
-            3 formas de agendar, una sola IA
+            Una sola IA, tres formas de cerrar una cita
           </h2>
+          <p className={styles.modoSubtitle} style={{ marginTop: 14, fontSize: 16, color: "#4B5563", lineHeight: 1.55, maxWidth: 660 }}>
+            Elige el modo según tu flujo. Conect y Advanced incluyen los 3; Core viene con Enlace interno por default.
+          </p>
         </div>
 
         <div className={styles.modosGrid}>

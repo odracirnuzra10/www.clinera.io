@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-const STRIPE_ADVANCED = "https://buy.stripe.com/4gM3cxapb9eG4cz1BF1441a";
+const STRIPE_ADVANCED = "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g";
 
 export default function StickyAdvancedCTA() {
   const pathname = usePathname();
@@ -37,10 +37,10 @@ export default function StickyAdvancedCTA() {
           href={STRIPE_ADVANCED}
           className="equipo-sticky-primary"
           data-plan="advanced"
-          data-plan-value="179"
-          data-plan-name="Advanced sticky mobile"
+          data-plan-value="359"
+          data-plan-name="Advanced sticky mobile empleado-digital"
         >
-          Contratar Advanced — USD 179/mes
+          Contratar Advanced — USD 359/mes
         </a>
         <button
           onClick={dismiss}

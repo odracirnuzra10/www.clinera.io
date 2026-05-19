@@ -5,15 +5,15 @@ import EmpleadoDigitalLanding from "@/components/empleado-digital/EmpleadoDigita
 import styles from "./empleado-digital.module.css";
 
 export const metadata: Metadata = {
-  title: "Empleado Digital IA para Clínicas — AURA y LIA",
+  title: "Empleado Digital IA para Clínicas — AURA y LIA | Clinera.io",
   description:
-    "Tu equipo de empleados digitales 24/7. AURA contesta WhatsApp, LIA decide a quién contactar. Plan Advanced desde USD 179/mes. Cancela cuando quieras.",
+    "No es un chatbot. Es un empleado digital que ejecuta funciones: crea citas, re-agenda, consulta pagos, revisa sesiones. 24/7 por WhatsApp. Desde USD 129/mes. Plan Corporativo personalizado desde USD 1.500/mes.",
   alternates: { canonical: "https://clinera.io/empleado-digital" },
   openGraph: {
     url: "https://clinera.io/empleado-digital",
     title: "Empleado Digital IA para Clínicas — AURA y LIA | Clinera.io",
     description:
-      "AURA contesta WhatsApp, LIA decide a quién contactar. Plan Advanced desde USD 179/mes.",
+      "AURA ejecuta el 100% del trabajo de tu recepcionista por WhatsApp. LIA mantiene tu vacancia en 0%. Desde USD 129/mes.",
     type: "website",
     images: [
       {
@@ -29,14 +29,16 @@ export const metadata: Metadata = {
 const productJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
-  name: "Clinera.io — Plan Advanced",
+  name: "Clinera.io — Empleado digital IA para clínicas",
   description:
-    "Plan Advanced de Clinera.io. 2000 conversaciones IA/mes, 15 usuarios, multi-sede, webhooks avanzados, soporte prioritario, acceso anticipado a LIA.",
+    "Empleado digital con IA para clínicas. Ejecuta funciones (agenda, re-agenda, consulta pagos, revisa sesiones) por WhatsApp 24/7. Planes desde USD 129/mes, Corporativo personalizado desde USD 1.500/mes.",
   brand: { "@type": "Brand", name: "Clinera.io" },
   offers: {
-    "@type": "Offer",
-    price: "179",
+    "@type": "AggregateOffer",
+    lowPrice: "129",
+    highPrice: "1500",
     priceCurrency: "USD",
+    offerCount: 4,
     availability: "https://schema.org/InStock",
     url: "https://clinera.io/empleado-digital",
     seller: { "@type": "Organization", name: "Clinera.io" },
