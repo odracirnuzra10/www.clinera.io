@@ -3678,15 +3678,15 @@ export function Pricing() {
     {
       name: "Core",
       price: "$129",
-      perAppt: "$0.13",
+      perAppt: "$0.22",
       sub: "AURA + WhatsApp 24/7 para clínicas que ya tienen software.",
       tags: [
         { t: "Agente IA", ok: true },
         { t: "Módulo Clínico", ok: false },
       ],
       features: [
-        "13.000 créditos IA / mes",
-        "~1.000 atenciones",
+        "8.000 créditos IA / mes",
+        "~600 atenciones",
         "3 usuarios incluidos",
       ],
       models: ["Gemini 3 Flash"],
@@ -3695,7 +3695,7 @@ export function Pricing() {
     {
       name: "Conect",
       price: "$179",
-      perAppt: "$0.12",
+      perAppt: "$0.20",
       sub: "AURA + clínica completa sin necesitar otro software.",
       tags: [
         { t: "Agente IA", ok: true },
@@ -3703,8 +3703,8 @@ export function Pricing() {
       ],
       headline: "Todo de Core, más",
       features: [
-        "18.000 créditos IA / mes",
-        "~1.500 atenciones",
+        "12.000 créditos IA / mes",
+        "~900 atenciones",
         "Con modo automático de agendamiento",
         "5 usuarios / profesionales",
       ],
@@ -3714,7 +3714,7 @@ export function Pricing() {
     {
       name: "Advanced",
       price: "$359",
-      perAppt: "$0.08",
+      perAppt: "$0.15",
       sub: "Para cadenas multi-sede que necesitan escala y atribución.",
       featured: true,
       bestValue: true,
@@ -3724,8 +3724,8 @@ export function Pricing() {
       ],
       headline: "Todo de Conect, más",
       features: [
-        "54.000 créditos IA / mes · 4× Core",
-        "~4.500 atenciones",
+        "32.000 créditos IA / mes · 4× Core",
+        "~2.400 atenciones",
         "Con modo automático de agendamiento",
         "15 usuarios / profesionales",
       ],

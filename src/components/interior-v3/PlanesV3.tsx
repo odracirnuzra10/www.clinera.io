@@ -6,12 +6,12 @@ import { FinalCTA, Pricing, useReveal } from "@/components/home-v3/sections";
 
 const FAQ = [
   { q: "¿Tiene costo de implementación?", a: "No. La implementación es asistida por un humano del equipo de Clinera y tiene costo $0 en todos los planes. Setup en menos de 1 hora, sin programador: configuramos AURA con la voz de tu clínica, conectamos tu WhatsApp Business, integramos tu agenda actual y dejamos a AURA operando esa misma tarde." },
-  { q: "¿Cuántos créditos y atenciones incluye cada plan?", a: "Core: 13.000 créditos IA / mes — equivalen a ~1.000 atenciones. Conect: 18.000 créditos — ~1.500 atenciones, con modo automático de agendamiento. Advanced: 54.000 créditos — ~4.500 atenciones (4× la capacidad IA de Core), con modo automático. Advanced tiene el mejor costo por atención ($0,08 vs $0,12 Conect y $0,13 Core). Los números son estimados con mix realista (consultas + agendamientos + tool calls). Si necesitas más, sumas un add-on de créditos o subes de plan." },
+  { q: "¿Cuántos créditos y atenciones incluye cada plan?", a: "Core: 8.000 créditos IA / mes — equivalen a ~600 atenciones. Conect: 12.000 créditos — ~900 atenciones, con modo automático de agendamiento. Advanced: 32.000 créditos — ~2.400 atenciones (4× la capacidad IA de Core), con modo automático. Advanced tiene el mejor costo por atención ($0,15 vs $0,20 Conect y $0,22 Core). Los números son estimados con mix realista (consultas + agendamientos + tool calls) y con un margen conservador para evitar sorpresas. Si necesitas más, sumas un add-on de créditos o subes de plan." },
   { q: "¿Qué diferencia hay entre modo Enlace y modo Automático?", a: "Modo Enlace: AURA conversa por WhatsApp y envía un link para que el paciente confirme la cita. Modo Automático: AURA agenda directamente en tu calendario, sin que el paciente tenga que hacer nada extra. El modo Automático solo está disponible en Conect y Advanced — Core solo tiene Enlace. Conect y Advanced incluyen además los 3 modelos IA (Gemini 3 Flash, Kimi K2.6 y Claude Sonnet 4.6); Core solo Gemini 3 Flash." },
   { q: "¿Qué es una atención?", a: "Es una interacción completa con un paciente por WhatsApp: puede ser solo una consulta (preguntas, info, FAQ) o una conversación que termina en agendamiento (con tool calls a tu agenda y BD). Cada atención consume créditos según el modo y modelo usados — en promedio ~13 créditos por atención (mix real). Los tres planes incluyen Agente IA; la diferencia entre planes está en la cantidad de créditos al mes, si incluyen modo automático, y si incluyen o no el Módulo Clínico (Conect y Advanced lo incluyen, Core no)." },
   { q: "¿Puedo cambiar de plan después?", a: "Sí. Puedes subir o bajar de plan en cualquier momento desde tu panel. El cambio se aplica en tu próximo ciclo de facturación." },
   { q: "¿Hay permanencia o contrato?", a: "No. Todos los planes son mes a mes. Puedes cancelar en cualquier momento sin penalizaciones." },
-  { q: "¿Qué pasa si supero el cupo de mi plan?", a: "Te avisamos al 80% y al 100% del cupo de créditos. Tu servicio no se interrumpe sin aviso. Si necesitas más, sumas un add-on de +5.000 créditos IA por $20 USD/mes (≈ ~415 atenciones extra) o subes de plan." },
+  { q: "¿Qué pasa si supero el cupo de mi plan?", a: "Te avisamos al 80% y al 100% del cupo de créditos. Tu servicio no se interrumpe sin aviso. Si necesitas más, sumas un add-on de +5.000 créditos IA por $20 USD/mes (≈ ~375 atenciones extra) o subes de plan." },
   { q: "¿Se integra con mi software actual?", a: "Sí. Clinera se conecta vía API con Reservo, AgendaPro, Medilink, Dentalink, Sacmed y cualquier sistema que exponga una API REST o soporte MCP." },
   { q: "¿Cómo funciona la IA de mensajería?", a: "Nuestra IA responde automáticamente por WhatsApp usando memoria contextual. Agenda, confirma y responde consultas 24/7. Si necesita un humano, deriva la conversación automáticamente." },
   { q: "¿Qué es el módulo Odontograma?", a: "Es un add-on nuevo para clínicas dentales (próximamente): ficha odontológica visual interactiva por pieza dental, historial completo, integración con consentimientos y agenda. Cuesta $21 USD/mes extra sobre cualquier plan." },
@@ -92,7 +92,7 @@ function PlanesHero() {
 
 function Addons() {
   const items = [
-    { price: "$20", unit: "/mes", label: "+5.000 créditos IA",          sub: "≈ ~415 atenciones extra" },
+    { price: "$20", unit: "/mes", label: "+5.000 créditos IA",          sub: "≈ ~375 atenciones extra" },
     { price: "$9",  unit: "/mes", label: "Usuario / profesional extra", sub: "Suma asientos sin cambiar de plan" },
     { price: "$21", unit: "/mes", label: "Módulo Odontograma",          sub: "Ficha odontológica visual + historial dental", isNew: true },
   ];
