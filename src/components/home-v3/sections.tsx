@@ -3727,6 +3727,7 @@ export function Pricing() {
         "32.000 créditos IA / mes · 4× Core",
         "~2.400 atenciones",
         "Con modo automático de agendamiento",
+        "Webhooks + API pública",
         "15 usuarios / profesionales",
       ],
       models: ["Gemini 3 Flash", "Kimi K2.6", "Claude Sonnet 4.6"],

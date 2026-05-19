@@ -10,7 +10,7 @@ const BULLETS = [
   "3 modelos IA: Gemini 3 Flash · Kimi K2.6 · Claude Sonnet 4.6",
   "Módulo clínico completo (agenda + fichas + Vault)",
   "Multi-sede + panel de atribución",
-  "Webhooks e integraciones avanzadas",
+  "Webhooks + API pública (integraciones a medida)",
   "15 usuarios / profesionales",
   "Soporte prioritario · onboarding dedicado",
   "Acceso anticipado a LIA (0% vacancia)",
