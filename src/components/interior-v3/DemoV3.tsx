@@ -570,6 +570,142 @@ function PlansSection() {
         </div>
 
         <div
+          className="reveal demo-enterprise-card"
+          style={{
+            marginTop: 36,
+            background: "linear-gradient(135deg, #0E1014 0%, #1F1B2E 100%)",
+            borderRadius: 18,
+            padding: "32px 36px",
+            display: "grid",
+            gridTemplateColumns: "1.5fr 1fr",
+            gap: 32,
+            alignItems: "center",
+            position: "relative",
+            overflow: "hidden",
+            maxWidth: 1100,
+            marginLeft: "auto",
+            marginRight: "auto",
+            boxShadow: "0 24px 48px -16px rgba(124,58,237,.25)",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 2,
+              background: GRAD,
+            }}
+          />
+          <div>
+            <div
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: 11,
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,.6)",
+                marginBottom: 12,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <span
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: "#D946EF",
+                  display: "inline-block",
+                }}
+              />
+              Corporativo · plan personalizado
+            </div>
+            <h3
+              style={{
+                fontFamily: "Inter",
+                fontSize: 24,
+                fontWeight: 700,
+                color: "#fff",
+                letterSpacing: "-0.02em",
+                margin: "0 0 10px",
+              }}
+            >
+              Cadenas, hospitales y redes médicas
+            </h3>
+            <p
+              style={{
+                fontFamily: "Inter",
+                fontSize: 14,
+                color: "rgba(255,255,255,.75)",
+                lineHeight: 1.6,
+                margin: 0,
+                maxWidth: 460,
+              }}
+            >
+              Todo de Advanced + onboarding white-glove + SLA personalizado + integraciones a medida + soporte dedicado.
+            </p>
+          </div>
+          <div
+            className="demo-enterprise-right"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              gap: 14,
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "baseline", gap: 5 }}>
+              <span
+                style={{
+                  fontSize: 12,
+                  color: "rgba(255,255,255,.55)",
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                }}
+              >
+                Desde
+              </span>
+              <span
+                style={{
+                  fontFamily: "Inter",
+                  fontSize: 38,
+                  fontWeight: 800,
+                  color: "#fff",
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1,
+                }}
+              >
+                $1.500
+              </span>
+              <span style={{ fontSize: 14, color: "rgba(255,255,255,.55)" }}>USD/mes</span>
+            </div>
+            <Link
+              href="/hablar-con-ventas"
+              data-plan="corporativo"
+              data-plan-value="1500"
+              data-plan-name="Corporativo talk-to-sales"
+              style={{
+                background: "#fff",
+                color: "#0E1014",
+                padding: "12px 24px",
+                borderRadius: 999,
+                fontFamily: "Inter",
+                fontWeight: 600,
+                fontSize: 14,
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Hablar con ventas →
+            </Link>
+          </div>
+        </div>
+
+        <div
           className="reveal demo-addons"
           style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, maxWidth: 980, margin: "48px auto 0" }}
         >
@@ -600,6 +736,10 @@ function PlansSection() {
       <style jsx>{`
         @media (max-width: 960px) {
           :global(.demo-plans-grid) { grid-template-columns: 1fr !important; max-width: 460px; margin: 0 auto; }
+        }
+        @media (max-width: 720px) {
+          :global(.demo-enterprise-card) { grid-template-columns: 1fr !important; gap: 20px !important; padding: 24px !important; }
+          :global(.demo-enterprise-right) { align-items: flex-start !important; }
         }
         @media (max-width: 640px) {
           :global(.demo-addons) { grid-template-columns: 1fr !important; }

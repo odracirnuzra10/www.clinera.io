@@ -1800,6 +1800,108 @@
     color: var(--muted);
   }
 
+  /* === Enterprise (Corporativo) card === */
+  .enterprise-card{
+    margin-top: 28px;
+    background: linear-gradient(135deg, #0E1014 0%, #1F1B2E 100%);
+    border-radius: 14px;
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 28px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .enterprise-card::before{
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--violet), var(--magenta));
+  }
+  .enterprise-card .ent-tag{
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.55);
+    margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .enterprise-card .ent-tag::before{
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--magenta);
+  }
+  .enterprise-card .ent-name{
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin: 0 0 8px;
+  }
+  .enterprise-card .ent-desc{
+    font-size: 13px;
+    color: rgba(255,255,255,.72);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 440px;
+  }
+  .enterprise-card .ent-right{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
+  }
+  .enterprise-card .ent-price{
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+  }
+  .enterprise-card .ent-from{
+    font-size: 12px;
+    color: rgba(255,255,255,.55);
+    font-family: var(--mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .enterprise-card .ent-amt{
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: #fff;
+    line-height: 1;
+  }
+  .enterprise-card .ent-per{
+    font-size: 13px;
+    color: rgba(255,255,255,.55);
+  }
+  .enterprise-card .ent-cta{
+    background: #fff;
+    color: #0E1014;
+    padding: 11px 22px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform .2s;
+  }
+  .enterprise-card .ent-cta:hover{ transform: translateY(-1px); }
+  @media (max-width: 720px){
+    .enterprise-card{
+      grid-template-columns: 1fr;
+      gap: 18px;
+      padding: 22px;
+    }
+    .enterprise-card .ent-right{ align-items: flex-start; }
+    .enterprise-card .ent-amt{ font-size: 30px; }
+  }
+
   /* === ROI slide (Humano vs AURA) === */
   .roi-slide-inner{ max-width: 1080px; margin: 0 auto; }
   .roi-slide-inner .h-display{ font-size: clamp(32px, 4.4vw, 56px); margin-bottom: 12px; }
@@ -2962,6 +3064,22 @@
           </div>
         </div>
 
+      </div>
+
+      <div class="enterprise-card">
+        <div class="ent-left">
+          <div class="ent-tag">Corporativo · plan personalizado</div>
+          <h3 class="ent-name">Cadenas, hospitales y redes médicas</h3>
+          <p class="ent-desc">Todo de Advanced + onboarding white-glove + SLA personalizado + integraciones a medida + soporte dedicado + facturación adaptada.</p>
+        </div>
+        <div class="ent-right">
+          <div class="ent-price">
+            <span class="ent-from">Desde</span>
+            <span class="ent-amt">$1.500</span>
+            <span class="ent-per">USD/mes</span>
+          </div>
+          <a class="ent-cta" href="https://www.clinera.io/planes" target="_self">Hablar con ventas →</a>
+        </div>
       </div>
     </div>
   </section>
