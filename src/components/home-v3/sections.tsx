@@ -3686,7 +3686,7 @@ export function Pricing() {
       ],
       features: [
         "13.000 créditos IA / mes",
-        "~1.000 conversaciones",
+        "~1.000 atenciones",
         "3 usuarios incluidos",
       ],
       models: ["Gemini 3 Flash"],
@@ -3704,7 +3704,7 @@ export function Pricing() {
       headline: "Todo de Core, más",
       features: [
         "18.000 créditos IA / mes",
-        "~1.500 conversaciones",
+        "~1.500 atenciones",
         "Con modo automático de agendamiento",
         "5 usuarios / profesionales",
       ],
@@ -3725,7 +3725,7 @@ export function Pricing() {
       headline: "Todo de Conect, más",
       features: [
         "54.000 créditos IA / mes · 4× Core",
-        "~4.500 conversaciones",
+        "~4.500 atenciones",
         "Con modo automático de agendamiento",
         "15 usuarios / profesionales",
       ],
@@ -3858,7 +3858,7 @@ export function Pricing() {
                     marginBottom: 14,
                   }}
                 >
-                  {p.perAppt} por conversación
+                  {p.perAppt} por atención
                 </div>
               )}
               <div

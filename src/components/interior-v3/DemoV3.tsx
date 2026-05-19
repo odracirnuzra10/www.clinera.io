@@ -12,7 +12,7 @@ const PLANS = [
     tagline: "AURA + WhatsApp 24/7 para clínicas que ya tienen software.",
     features: [
       "13.000 créditos IA / mes",
-      "~1.000 conversaciones",
+      "~1.000 atenciones",
       "3 usuarios incluidos",
     ],
     models: ["Gemini 3 Flash"],
@@ -25,7 +25,7 @@ const PLANS = [
     tagline: "AURA + clínica completa sin necesitar otro software.",
     features: [
       "18.000 créditos IA / mes",
-      "~1.500 conversaciones",
+      "~1.500 atenciones",
       "Con modo automático de agendamiento",
       "5 usuarios / profesionales",
     ],
@@ -40,7 +40,7 @@ const PLANS = [
     popular: true,
     features: [
       "54.000 créditos IA / mes · 4× Core",
-      "~4.500 conversaciones",
+      "~4.500 atenciones",
       "Con modo automático de agendamiento",
       "15 usuarios / profesionales",
     ],
