@@ -7,7 +7,7 @@ import TrialBanner from "@/components/cro/TrialBanner";
 export const metadata: Metadata = {
   title: "Planes y Precios — Clinera.io (desde USD 129/mes)",
   description:
-    "Core USD 129/mes, Conect USD 179/mes, Advanced USD 229/mes (promo, antes $259). IA que agenda por WhatsApp 24/7. Sin permanencia.",
+    "Core USD 129/mes (~37 agend.), Conect USD 179/mes (~51 agend.), Advanced USD 229/mes (~68 agend.). AURA agenda por WhatsApp 24/7. Sin permanencia.",
   alternates: { canonical: "https://clinera.io/planes" },
   openGraph: {
     url: "https://clinera.io/planes",

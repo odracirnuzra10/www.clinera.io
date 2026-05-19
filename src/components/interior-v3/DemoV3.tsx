@@ -6,46 +6,47 @@ import { useReveal } from "@/components/home-v3/sections";
 
 const PLANS = [
   {
-    name: "Growth",
-    slug: "growth",
-    price: "89",
-    tagline: "Mensajería IA para clínicas que ya tienen software.",
+    name: "Core",
+    slug: "core",
+    price: "129",
+    tagline: "AURA + WhatsApp 24/7 para clínicas que ya tienen software.",
     features: [
-      "150 conversaciones con IA/mes",
-      "WhatsApp API",
-      "Memoria contextual vía LangChain",
+      "13.000 créditos IA / mes",
+      "~325 conversaciones largas",
+      "~37 agendamientos completos",
+      "1 modo · 1 modelo IA (Gemini 3 Flash)",
       "3 usuarios incluidos",
     ],
-    stripeUrl: "https://buy.stripe.com/00wcN79l7bmO9wT6VZ14415",
+    stripeUrl: "https://buy.stripe.com/6oUfZj9l70IaaAX0xB1441e",
   },
   {
     name: "Conect",
     slug: "conect",
-    price: "129",
-    tagline: "Mensajería + clínica completa sin otro software.",
+    price: "179",
+    tagline: "AURA + clínica completa sin necesitar otro software.",
     features: [
-      "500 conversaciones con IA/mes",
-      "5 usuarios/profesionales",
-      "Agenda médica con automatizaciones",
-      "Fichas clínicas personalizables",
-      "Panel centralizado de ventas",
+      "18.000 créditos IA / mes",
+      "~450 conversaciones largas",
+      "~51 agendamientos completos",
+      "3 modos · 3 modelos IA",
+      "Agenda + fichas + Clinera Vault · 5 usuarios",
     ],
-    stripeUrl: "https://buy.stripe.com/aFa9AV8h3ez07oL2FJ14416",
+    stripeUrl: "https://buy.stripe.com/fZu28tcxjez04cz9471441f",
   },
   {
     name: "Advanced",
     slug: "advanced",
-    price: "179",
-    tagline: "Para cadenas clínicas multi-sede.",
+    price: "229",
+    tagline: "Para cadenas multi-sede que necesitan escala y atribución.",
     popular: true,
     features: [
-      "2,000 conversaciones con IA/mes",
-      "15 usuarios/profesionales",
-      "Multi-sede",
-      "Webhooks avanzados",
-      "Soporte prioritario",
+      "24.000 créditos IA / mes",
+      "~600 conversaciones largas",
+      "~68 agendamientos completos",
+      "3 modos · 3 modelos IA",
+      "Multi-sede + atribución · 15 usuarios",
     ],
-    stripeUrl: "https://buy.stripe.com/4gM3cxapb9eG4cz1BF1441a",
+    stripeUrl: "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g",
   },
 ];
 
@@ -384,7 +385,7 @@ function PlansSection() {
                         marginBottom: 14,
                       }}
                     >
-                      Recomendado · 4× IA
+                      Recomendado · mejor $/agend.
                     </span>
                   )}
                   <h3
@@ -519,8 +520,8 @@ function PlansSection() {
           style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 20, maxWidth: 780, margin: "48px auto 0" }}
         >
           {[
-            { price: "$15", unit: "/mes", label: "+100 conversaciones con IA" },
-            { price: "$9", unit: "/mes", label: "Profesional o usuario extra" },
+            { price: "$5", unit: "/mes", label: "+10.000 créditos IA" },
+            { price: "$29", unit: "/mes", label: "Profesional o usuario extra" },
           ].map((it) => (
             <div
               key={it.label}

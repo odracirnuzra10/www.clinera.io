@@ -55,7 +55,7 @@ const softwareApplicationJsonLd = {
     "Agente de IA para clínicas médicas y estéticas en LATAM. Automatiza agendamiento, WhatsApp y gestión clínica. Alternativa a AgendaPro, Dentalink, Medilink y DentalSoft.",
   offers: {
     "@type": "Offer",
-    price: "59",
+    price: "129",
     priceCurrency: "USD",
     priceValidUntil: "2026-12-31",
   },

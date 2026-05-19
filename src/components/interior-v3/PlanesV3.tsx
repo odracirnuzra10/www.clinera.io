@@ -6,11 +6,12 @@ import { FinalCTA, Pricing, useReveal } from "@/components/home-v3/sections";
 
 const FAQ = [
   { q: "¿Tiene costo de implementación?", a: "No. La implementación es asistida por un humano del equipo de Clinera y tiene costo $0 en todos los planes. Setup en menos de 1 hora, sin programador: configuramos AURA con la voz de tu clínica, conectamos tu WhatsApp Business, integramos tu agenda actual y dejamos a AURA operando esa misma tarde." },
-  { q: "¿Cuántos mensajes y agendamientos incluye cada plan?", a: "Core incluye 1.000 mensajes + 15 agendamientos automáticos por AURA / mes. Conect incluye 2.000 mensajes + 35 agendamientos. Advanced incluye 3.000 mensajes + 90 agendamientos. Advanced tiene el mejor costo por agendamiento ($2.54 vs $8.60 en Core y $5.11 en Conect). Si necesitas más, sumas un add-on de créditos o subes de plan." },
-  { q: "¿Qué es un agendamiento automático?", a: "Es cuando AURA, nuestro agente IA, agenda una cita por WhatsApp sin que tu equipo intervenga: conversa con el paciente, valida disponibilidad en tu agenda y confirma la cita. Los tres planes incluyen Agente IA. La diferencia entre planes está en el cupo de agendamientos automáticos al mes y si incluye o no el Módulo Clínico (Conect y Advanced lo incluyen, Core no)." },
+  { q: "¿Cuántos créditos y agendamientos incluye cada plan?", a: "Core: 13.000 créditos IA / mes — equivalen a ~325 conversaciones largas o ~37 agendamientos completos en modo automático. Conect: 18.000 créditos — ~450 conversaciones o ~51 agendamientos. Advanced: 24.000 créditos — ~600 conversaciones o ~68 agendamientos. Advanced tiene el mejor costo por agendamiento ($0,46 vs $0,48 en Core y Conect). Si necesitas más, sumas un add-on de créditos o subes de plan." },
+  { q: "¿Qué diferencia hay entre modo Enlace y modo Automático?", a: "Modo Enlace (interno y externo): AURA conversa por WhatsApp y envía un link para que el paciente confirme — consume 40 créditos por agendamiento. Modo Automático: AURA agenda directamente en tu calendario, sin intervención del paciente — consume 350 créditos (8,75× más caro pero 100% sin fricción). Core viene con 1 modo (Enlace) y 1 modelo IA (Gemini 3 Flash). Conect y Advanced incluyen los 3 modos y 3 modelos (Gemini 3 Flash, Kimi K2.6 y Claude Sonnet 4.6)." },
+  { q: "¿Qué es un agendamiento completo?", a: "Es cuando AURA, nuestro agente IA, agenda una cita por WhatsApp sin que tu equipo intervenga: conversa con el paciente, valida disponibilidad en tu agenda y confirma la cita. Los tres planes incluyen Agente IA. La diferencia entre planes está en la cantidad de créditos al mes, los modos y modelos disponibles, y si incluye o no el Módulo Clínico (Conect y Advanced lo incluyen, Core no)." },
   { q: "¿Puedo cambiar de plan después?", a: "Sí. Puedes subir o bajar de plan en cualquier momento desde tu panel. El cambio se aplica en tu próximo ciclo de facturación." },
   { q: "¿Hay permanencia o contrato?", a: "No. Todos los planes son mes a mes. Puedes cancelar en cualquier momento sin penalizaciones." },
-  { q: "¿Qué pasa si supero el cupo de mi plan?", a: "Te avisamos al 80% y al 100% del cupo. Tu servicio no se interrumpe sin aviso. Si necesitas más, sumas un add-on de +10.000 créditos IA por $5 USD/mes (≈ ~5 agendamientos extra o ~500 mensajes IA con AURA) o subes de plan." },
+  { q: "¿Qué pasa si supero el cupo de mi plan?", a: "Te avisamos al 80% y al 100% del cupo de créditos. Tu servicio no se interrumpe sin aviso. Si necesitas más, sumas un add-on de +10.000 créditos IA por $5 USD/mes (≈ ~28 agendamientos extra en modo automático o ~250 conversaciones largas) o subes de plan." },
   { q: "¿Se integra con mi software actual?", a: "Sí. Clinera se conecta vía API con Reservo, AgendaPro, Medilink, Dentalink, Sacmed y cualquier sistema que exponga una API REST o soporte MCP." },
   { q: "¿Cómo funciona la IA de mensajería?", a: "Nuestra IA responde automáticamente por WhatsApp usando memoria contextual. Agenda, confirma y responde consultas 24/7. Si necesita un humano, deriva la conversación automáticamente." },
   { q: "¿Qué es el módulo Odontograma?", a: "Es un add-on nuevo para clínicas dentales (próximamente): ficha odontológica visual interactiva por pieza dental, historial completo, integración con consentimientos y agenda. Cuesta $21 USD/mes extra sobre cualquier plan." },
@@ -92,19 +93,18 @@ function PlanesHero() {
 
 function Calculator() {
   const PLANS = [
-    { name: "Core",     price: 129, appt: 15, messages: 1000, modClinico: false },
-    { name: "Conect",   price: 179, appt: 35, messages: 2000, modClinico: true  },
-    { name: "Advanced", price: 229, appt: 90, messages: 3000, modClinico: true  },
+    { name: "Core",     price: 129, appt: 37,  credits: 13000, conv: 325, modClinico: false },
+    { name: "Conect",   price: 179, appt: 51,  credits: 18000, conv: 450, modClinico: true  },
+    { name: "Advanced", price: 229, appt: 68,  credits: 24000, conv: 600, modClinico: true  },
   ];
-  const SLIDER_MAX = 120;
-  const SLIDER_STEP = 5;
+  const SLIDER_MAX = 90;
+  const SLIDER_STEP = 1;
 
-  const [appts, setAppts] = useState<number>(50);
+  const [appts, setAppts] = useState<number>(40);
 
   const chosen =
-    appts <= 15 ? PLANS[0] :
-    appts <= 35 ? PLANS[1] :
-    appts <= 90 ? PLANS[2] :
+    appts <= 37 ? PLANS[0] :
+    appts <= 51 ? PLANS[1] :
                   PLANS[2];
   const overAppts = Math.max(0, appts - chosen.appt);
   const fmt = (n: number) => Math.round(n).toLocaleString("es-CL");
@@ -132,7 +132,7 @@ function Calculator() {
             Calculadora
           </div>
           <h3 style={{ fontFamily: "Inter", fontSize: 26, fontWeight: 700, color: "#0A0A0A", letterSpacing: "-0.02em", margin: "0 0 6px" }}>
-            ¿Cuántos agendamientos al mes?
+            ¿Cuántos agendamientos completos al mes?
           </h3>
           <p style={{ fontFamily: "Inter", fontSize: 14, color: "#6B7280", margin: 0 }}>
             Mueve el slider con tu estimado. Te recomendamos el plan en vivo.
@@ -142,7 +142,7 @@ function Calculator() {
         <div style={{ maxWidth: 620, margin: "0 auto 24px", padding: "0 14px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 10 }}>
             <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, color: "#6B7280", letterSpacing: ".12em", textTransform: "uppercase" }}>
-              Agendamientos automáticos / mes
+              Agendamientos completos / mes
             </span>
             <span style={{ fontFamily: "Inter", fontSize: 22, fontWeight: 700, color: "#0A0A0A", letterSpacing: "-0.01em" }}>
               {fmt(appts)}
@@ -207,24 +207,24 @@ function Calculator() {
             ${chosen.price} USD / mes
           </div>
           <div style={{ fontFamily: "Inter", fontSize: 13.5, color: "#0A0A0A", lineHeight: 1.6 }}>
-            <b>{chosen.appt} agendamientos automáticos</b> · <b>{fmt(chosen.messages)} mensajes</b> / mes
+            <b>{fmt(chosen.credits)} créditos IA</b> · <b>~{chosen.appt} agendamientos completos</b> · <b>~{chosen.conv} conversaciones largas</b>
           </div>
           <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "#6B7280", marginTop: 6 }}>
             {chosen.modClinico ? "Agente IA AURA + Módulo clínico incluidos" : "Agente IA AURA · sin módulo clínico"}
           </div>
           {chosen.name === "Core" && (
             <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(16,185,129,.08)", border: "1px solid rgba(16,185,129,.25)", borderRadius: 10, fontFamily: "Inter", fontSize: 12, color: "#065F46", lineHeight: 1.5 }}>
-              <b>Con $50 más</b>, Conect te suma <b>+20 agendamientos</b> · <b>Módulo clínico completo</b> · agenda + fichas
+              <b>Con $50 más</b>, Conect te suma <b>+5.000 créditos</b> · <b>3 modos · 3 modelos IA</b> · <b>Módulo clínico completo</b>
             </div>
           )}
           {chosen.name === "Conect" && (
             <div style={{ marginTop: 14, padding: "10px 14px", background: "linear-gradient(135deg, rgba(0,159,227,.08), rgba(124,58,237,.08), rgba(200,80,192,.06))", border: "1px solid rgba(124,58,237,.3)", borderRadius: 10, fontFamily: "Inter", fontSize: 12, color: "#0A0A0A", lineHeight: 1.5 }}>
-              <b>Con $50 más</b>, Advanced te suma <b>+55 agendamientos (+157%)</b> · <b>multi-sede</b> · <b>+10 usuarios</b> · soporte premium · <b>$2.54 por agendamiento</b> (vs $5.11)
+              <b>Con $50 más</b>, Advanced te suma <b>+6.000 créditos</b> · <b>multi-sede</b> · <b>+10 usuarios</b> · panel de atribución · <b>$0,46 por agendamiento</b> (vs $0,48)
             </div>
           )}
           {chosen.name === "Advanced" && (
             <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(16,185,129,.08)", border: "1px solid rgba(16,185,129,.25)", borderRadius: 10, fontFamily: "Inter", fontSize: 12, color: "#065F46", lineHeight: 1.5 }}>
-              ✓ Mejor precio por agendamiento del catálogo · <b>$2.54</b> · promo este mes <b>−$30</b>
+              ✓ Mejor costo por agendamiento del catálogo · <b>$0,46 USD</b>
             </div>
           )}
           {overAppts > 0 && (
@@ -284,7 +284,7 @@ function Calculator() {
 
 function Addons() {
   const items = [
-    { price: "$5",  unit: "/mes", label: "+10.000 créditos IA",        sub: "≈ ~4 agendamientos extra · ~50 mensajes" },
+    { price: "$5",  unit: "/mes", label: "+10.000 créditos IA",        sub: "≈ ~28 agendamientos completos o ~250 conversaciones largas" },
     { price: "$29", unit: "/mes", label: "Usuario / profesional extra", sub: "Suma asientos sin cambiar de plan" },
     { price: "$21", unit: "/mes", label: "Módulo Odontograma",          sub: "Ficha odontológica visual + historial dental", isNew: true },
   ];
