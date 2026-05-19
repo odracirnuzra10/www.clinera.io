@@ -1535,32 +1535,32 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--violet);
-    margin-bottom: 14px;
+    margin-bottom: 20px;
   }
   .panel-text .panel-title{
     font-size: clamp(28px, 3vw, 40px);
     font-weight: 800;
     letter-spacing: -0.03em;
-    line-height: 1.05;
-    margin: 0 0 16px 0;
+    line-height: 1.08;
+    margin: 0 0 22px 0;
   }
   .panel-text .panel-lead{
     font-size: clamp(15px, 1.2vw, 17px);
     color: var(--muted);
-    line-height: 1.55;
-    margin: 0 0 22px 0;
+    line-height: 1.6;
+    margin: 0 0 32px 0;
     max-width: 440px;
   }
   .panel-text .panel-bullets{
     list-style: none;
     margin: 0; padding: 0;
-    display:flex; flex-direction:column; gap: 12px;
+    display:flex; flex-direction:column; gap: 18px;
   }
   .panel-text .panel-bullets li{
-    display:flex; align-items:flex-start; gap: 10px;
+    display:flex; align-items:flex-start; gap: 12px;
     font-size: 14.5px;
     color: var(--ink-2);
-    line-height: 1.45;
+    line-height: 1.5;
   }
   .panel-text .panel-bullets li::before{
     content: '✓';
@@ -1800,6 +1800,205 @@
     color: var(--muted);
   }
 
+  /* === ROI slide (Humano vs AURA) === */
+  .roi-slide-inner{ max-width: 1080px; margin: 0 auto; }
+  .roi-slide-inner .h-display{ font-size: clamp(32px, 4.4vw, 56px); margin-bottom: 12px; }
+  .roi-slide-inner .lead{ margin-bottom: 22px; font-size: clamp(14px, 1.1vw, 16px); max-width: 720px; }
+  .roi-slide-inner .h-display .em{ color: var(--violet); -webkit-text-fill-color: var(--violet); background: none; }
+  .roi-table{
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 32px -22px rgba(11,11,15,.1);
+  }
+  .roi-table-head, .roi-table-row{
+    display: grid;
+    grid-template-columns: 1.2fr 1.4fr 1.4fr;
+    gap: 16px;
+    align-items: center;
+    padding: 12px 18px;
+  }
+  .roi-table-head{
+    border-bottom: 1px solid var(--line-2);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+  }
+  .roi-table-head .roi-aura, .roi-table-row .roi-aura{ color: var(--violet); }
+  .roi-table-row + .roi-table-row{ border-top: 1px solid var(--line-2); }
+  .roi-table-row .roi-concept{
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .roi-table-row .roi-human{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .roi-table-row .roi-aura{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--violet);
+    font-weight: 500;
+  }
+  .roi-kpis{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .roi-kpi{
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 18px 16px;
+  }
+  .roi-kpi.featured{
+    background: linear-gradient(135deg, #7C3AED 0%, #9333EA 50%, #C850C0 100%);
+    border: none;
+    color: #fff;
+    box-shadow: 0 18px 42px -22px rgba(124,58,237,.45);
+  }
+  .roi-kpi .kpi-label{
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin-bottom: 8px;
+  }
+  .roi-kpi.featured .kpi-label{ color: rgba(255,255,255,.78); }
+  .roi-kpi .kpi-value{
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    color: var(--violet);
+    margin-bottom: 6px;
+  }
+  .roi-kpi.featured .kpi-value{ color: #fff; }
+  .roi-kpi .kpi-sub{
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .roi-kpi.featured .kpi-sub{ color: rgba(255,255,255,.85); }
+  .roi-quote{
+    margin-top: 22px;
+    padding-left: 14px;
+    border-left: 3px solid var(--violet);
+    font-size: clamp(18px, 2vw, 26px);
+    line-height: 1.35;
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    max-width: 920px;
+  }
+  .roi-quote .em{ color: var(--violet); }
+  @media (max-width: 980px){
+    .roi-table-head, .roi-table-row{ grid-template-columns: 1fr; gap: 4px; padding: 12px 14px; }
+    .roi-table-head{ display:none; }
+    .roi-table-row .roi-concept{ font-size: 14px; margin-bottom: 2px; }
+    .roi-table-row .roi-human::before{ content: 'Humana · '; color: var(--muted-2); }
+    .roi-table-row .roi-aura::before{ content: 'AURA · '; color: var(--muted-2); }
+    .roi-kpis{ grid-template-columns: 1fr; gap: 10px; }
+    .roi-kpi .kpi-value{ font-size: 32px; }
+  }
+
+  /* === Costos / Capacidad slide === */
+  .costos-slide-inner{ max-width: 1080px; margin: 0 auto; }
+  .costos-slide-inner .h-display{ font-size: clamp(28px, 3.8vw, 46px); margin-bottom: 10px; }
+  .costos-slide-inner .lead{ margin-bottom: 18px; font-size: clamp(14px, 1.1vw, 16px); max-width: 720px; }
+  .costos-section-label{
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 22px 0 8px;
+    display:flex; align-items:center; gap: 8px;
+  }
+  .costos-section-label .pip{
+    display:inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--violet);
+  }
+  .costos-table{
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 32px -22px rgba(11,11,15,.1);
+  }
+  .costos-modo-row{
+    display: grid;
+    grid-template-columns: 1.2fr 1.4fr 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 12px 18px;
+  }
+  .costos-cap-row{
+    display: grid;
+    grid-template-columns: 0.9fr 1fr 1fr 1fr 1fr;
+    gap: 14px;
+    align-items: center;
+    padding: 12px 18px;
+  }
+  .costos-table .head{
+    border-bottom: 1px solid var(--line-2);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+  }
+  .costos-table .row + .row{ border-top: 1px solid var(--line-2); }
+  .costos-table .row .label{
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .costos-table .row .model{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .costos-table .row .credits{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--violet);
+    font-weight: 500;
+  }
+  .costos-table .row.featured{
+    background: rgba(124,58,237,.05);
+  }
+  .costos-table .row .num{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+  .costos-table .row .num.violet{ color: var(--violet); font-weight: 500; }
+  .costos-note{
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.5;
+    padding-left: 14px;
+    border-left: 2px solid var(--line-2);
+  }
+  .costos-note b{ color: var(--violet); }
+  @media (max-width: 980px){
+    .costos-modo-row{ grid-template-columns: 1fr; gap: 4px; padding: 12px 14px; }
+    .costos-cap-row{ grid-template-columns: 1fr 1fr; gap: 6px 14px; padding: 12px 14px; }
+    .costos-table .head{ display:none; }
+    .costos-table .row .label{ grid-column: 1 / -1; margin-bottom: 2px; }
+    .costos-modo-row .model::before{ content: 'Modelo · '; color: var(--muted-2); font-size: 10px; }
+    .costos-modo-row .credits::before{ content: 'Créditos · '; color: var(--muted-2); font-size: 10px; }
+  }
+
   /* === Pricing slide === */
   .pricing-slide-inner{ max-width: 1080px; margin: 0 auto; }
   .pricing-slide-inner .h-display{ font-size: clamp(32px, 4.4vw, 56px); margin-bottom: 10px; }
@@ -1863,8 +2062,10 @@
     color: var(--muted);
     line-height: 1.45;
     margin: 0 0 12px;
-    min-height: 0;
+    min-height: 36px;
   }
+  .price-features{ min-height: 168px; }
+  .cost-per-agend{ margin-top: auto; }
   .price-tags{
     display:flex; gap: 6px; flex-wrap: wrap;
     margin-bottom: 12px;
@@ -1920,6 +2121,37 @@
     flex-shrink: 0;
     margin-top: 1px;
   }
+  .cost-per-agend{
+    display:flex; align-items:center; gap: 8px;
+    padding: 10px 14px;
+    background: rgba(124,58,237,.05);
+    border: 1px solid rgba(124,58,237,.18);
+    border-radius: 10px;
+    margin: 4px 0 14px;
+  }
+  .cost-per-agend .cpa-label{
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    line-height: 1.25;
+  }
+  .cost-per-agend .cpa-value{
+    font-weight: 700;
+    color: var(--violet);
+    font-size: 15px;
+    margin-left: auto;
+    letter-spacing: -0.01em;
+  }
+  .cost-per-agend.featured{
+    background: linear-gradient(135deg, #7C3AED 0%, #9333EA 50%, #C850C0 100%);
+    border-color: transparent;
+    box-shadow: 0 10px 28px -16px rgba(124,58,237,.5);
+  }
+  .cost-per-agend.featured .cpa-label{ color: rgba(255,255,255,.82); }
+  .cost-per-agend.featured .cpa-value{ color: #fff; font-size: 16px; }
+
   .price-actions{
     display:flex; flex-direction:column; gap: 6px;
     margin-top: auto;
@@ -2162,28 +2394,18 @@
       </div>
 
       <div class="agent-content">
-        <div class="kicker"><span class="pip"></span>El equipo IA</div>
-
-        <div class="agent-tabs">
-          <span class="step-num"><b id="aura-step">01</b> / 03 · Funciones</span>
-          <button class="agent-tab violet active" data-aura-tab="0"><span class="ic">📅</span><span class="nm-num">01</span> <span class="nm-label">Agenda</span></button>
-          <button class="agent-tab violet" data-aura-tab="1"><span class="ic">🗄</span><span class="nm-num">02</span> <span class="nm-label">Contexto</span></button>
-          <button class="agent-tab violet" data-aura-tab="2"><span class="ic">↻</span><span class="nm-num">03</span> <span class="nm-label">Reactiva</span></button>
-          <span class="agent-tab-next">Siguiente →</span>
-        </div>
+        <div class="kicker"><span class="pip"></span>AURA · Asistente IA</div>
 
         <div class="agent-panels">
-
-          <!-- AURA · Agenda -->
-          <div class="agent-panel active" data-aura-panel="0">
+          <div class="agent-panel active">
             <div class="panel-text">
-              <div class="panel-kicker">Agenda sin colisiones</div>
-              <h3 class="panel-title">Conecta tu agenda. Reserva sola.</h3>
-              <p class="panel-lead">Lee tu calendario al instante. Agenda y reagenda sin pisarse con nadie.</p>
+              <h3 class="panel-title">Hace el 100% de tu recepcionista.</h3>
+              <p class="panel-lead">Salvo servir el café. Ejecuta cada función de tu front-desk por WhatsApp, 24/7.</p>
               <ul class="panel-bullets">
-                <li>Sincroniza con Google Calendar y AgendaPro</li>
-                <li>Respeta tiempos por tratamiento</li>
-                <li>Reagenda con un tap</li>
+                <li><b>Crea, re-agenda y cancela</b> citas en tu calendario</li>
+                <li><b>Consulta</b> pagos, sesiones, historial y alergias</li>
+                <li><b>Reactiva</b> pacientes que no vuelven hace 60/90/180 días</li>
+                <li><b>Sincroniza</b> con Google Calendar, AgendaPro y similares</li>
               </ul>
             </div>
             <div class="panel-visual">
@@ -2198,77 +2420,9 @@
               <div class="pv-row"><span class="t">16:30</span><span class="nm">Ana Mena</span><span class="pl">Control</span></div>
             </div>
           </div>
-
-          <!-- AURA · Contexto -->
-          <div class="agent-panel" data-aura-panel="1">
-            <div class="panel-text">
-              <div class="panel-kicker">Contexto real</div>
-              <h3 class="panel-title">Conoce a cada paciente.</h3>
-              <p class="panel-lead">Antes de responder, consulta tu base de datos: historial, alergias y precios vigentes.</p>
-              <ul class="panel-bullets">
-                <li>Reconoce por teléfono o RUT</li>
-                <li>Recuerda tratamientos y alergias</li>
-                <li>Aplica precios y promos del día</li>
-              </ul>
-            </div>
-            <div class="panel-visual">
-              <div class="pv-head">
-                <span>Consulta en curso · AURA</span>
-                <span class="ok">leyendo BD</span>
-              </div>
-              <div class="ctx-card">
-                <div class="ctx-query">
-                  <span class="arr">→</span> <span class="fn">buscar_paciente</span>(tel:"+56 9 …")<br/>
-                  &nbsp;&nbsp;<span class="ok">✓</span>Carla Pérez · RUT 17.xxx.xxx-3<br/>
-                  &nbsp;&nbsp;<span class="ok">✓</span>Última visita: 14 ago (limpieza)<br/>
-                  &nbsp;&nbsp;<span class="ok">✓</span>Precio recurrente: $ 38.000<br/>
-                  <span class="arr">→</span> <span class="fn">horas_disponibles</span>(prof:"Meza")<br/>
-                  &nbsp;&nbsp;<span class="ok">✓</span>10:30, 15:00
-                </div>
-                <div class="ctx-reply">
-                  Hola <b>Carla</b> 👋 Tengo hora con la Dra. Meza mañana <b>10:30</b> o <b>15:00</b>. Como eres cliente frecuente, la limpieza queda en <b>$ 38.000</b>. ¿Cuál te acomoda?
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- AURA · Reactiva -->
-          <div class="agent-panel" data-aura-panel="2">
-            <div class="panel-text">
-              <div class="panel-kicker">Recuperación automática</div>
-              <h3 class="panel-title">Pacientes dormidos vuelven solos.</h3>
-              <p class="panel-lead">Detecta a quien no ha vuelto en 60, 90 o 180 días y lo reactiva con un mensaje personal.</p>
-              <ul class="panel-bullets">
-                <li>Segmenta por tratamiento y tiempo</li>
-                <li>Tu voz, no plantillas genéricas</li>
-                <li>Dashboard con recuperaciones</li>
-              </ul>
-            </div>
-            <div class="panel-visual">
-              <div class="pv-head">
-                <span>Pacientes inactivos · 90 días</span>
-                <span>+18 esta semana</span>
-              </div>
-              <div class="reactiva-stat">
-                <div class="num">342</div>
-                <div class="delta">▲ +18 esta semana</div>
-              </div>
-              <div class="reactiva-list">
-                <div class="reactiva-row"><span class="av">M</span><span class="nm">María G.<span class="sub">Sin visita desde agosto</span></span><span class="badge">Agendada</span></div>
-                <div class="reactiva-row"><span class="av">C</span><span class="nm">Carlos P.<span class="sub">Cumpleaños el 22</span></span><span class="badge">Respondió</span></div>
-                <div class="reactiva-row"><span class="av">L</span><span class="nm">Luisa R.<span class="sub">Tratamiento interrumpido</span></span><span class="badge muted">Mensaje enviado</span></div>
-              </div>
-            </div>
-          </div>
-
         </div>
 
-        <div class="agent-cta-row">
-          <a class="agent-cta violet" href="https://www.clinera.io" target="_self">Probar AURA gratis →</a>
-          <span class="agent-cta-note">Sin tarjeta · activá en 1 hora</span>
-        </div>
-
-        <div class="agent-meta" style="margin-top: 22px; flex-direction: row; align-items: center; gap: 14px;">
+        <div class="agent-meta" style="margin-top: 28px; flex-direction: row; align-items: center; gap: 14px;">
           <span class="agent-tag"><b>01</b> · WhatsApp IA</span>
           <span class="status-pill live">Activa ahora</span>
         </div>
@@ -2280,28 +2434,18 @@
   <section class="slide" id="slide2">
     <div class="slide-inner agent-slide reverse">
       <div class="agent-content">
-        <div class="kicker"><span class="pip"></span>El cerebro</div>
-
-        <div class="agent-tabs">
-          <span class="step-num"><b id="lia-step">01</b> / 03 · Funciones</span>
-          <button class="agent-tab active" data-lia-tab="0"><span class="ic">⌕</span><span class="nm-num">01</span> <span class="nm-label">Huecos</span></button>
-          <button class="agent-tab" data-lia-tab="1"><span class="ic">⎇</span><span class="nm-num">02</span> <span class="nm-label">Decide</span></button>
-          <button class="agent-tab" data-lia-tab="2"><span class="ic">▽</span><span class="nm-num">03</span> <span class="nm-label">Embudo</span></button>
-          <span class="agent-tab-next">Siguiente →</span>
-        </div>
+        <div class="kicker"><span class="pip"></span>LIA · Cerebro Operacional</div>
 
         <div class="agent-panels">
-
-          <!-- LIA · Huecos -->
-          <div class="agent-panel active" data-lia-panel="0">
+          <div class="agent-panel active">
             <div class="panel-text">
-              <div class="panel-kicker">Inteligencia operativa</div>
-              <h3 class="panel-title">Encuentra huecos antes que tú.</h3>
-              <p class="panel-lead">Mira tu agenda 24/7. Detecta cancelaciones, leads tibios y pacientes dormidos.</p>
+              <h3 class="panel-title">Llena cada hueco con el paciente idóneo.</h3>
+              <p class="panel-lead">Escanea tu agenda 24/7 y mantiene tu vacancia en 0%.</p>
               <ul class="panel-bullets">
-                <li>Cron sobre agenda y base de datos</li>
-                <li>Cancelaciones de última hora</li>
-                <li>Prioriza por LTV y urgencia</li>
+                <li><b>Detecta huecos</b> y cancelaciones al instante</li>
+                <li><b>Elige al mejor candidato</b> por LTV, urgencia e historial</li>
+                <li><b>Decide el canal</b> · AURA escribe, CAMILA llama</li>
+                <li><b>Reactiva cohortes</b> de leads tibios a 60/90/180 días</li>
               </ul>
             </div>
             <div class="panel-visual">
@@ -2315,66 +2459,9 @@
               <div class="pv-row"><span class="t">18:00</span><span class="nm">Vicente Soto</span><span class="pl">Conf.</span></div>
             </div>
           </div>
-
-          <!-- LIA · Decide -->
-          <div class="agent-panel" data-lia-panel="1">
-            <div class="panel-text">
-              <div class="panel-kicker">Canal correcto · cero pisadas</div>
-              <h3 class="panel-title">Elige quién contacta y por qué canal.</h3>
-              <p class="panel-lead">Por cada hueco asigna al mejor candidato. AURA escribe; CAMILA llama.</p>
-              <ul class="panel-bullets">
-                <li>Memoria del paciente compartida</li>
-                <li>Canal según historial de respuesta</li>
-                <li>Si nadie contesta, escala</li>
-              </ul>
-            </div>
-            <div class="panel-visual">
-              <div class="pv-head">
-                <span>LIA · plan de contacto</span>
-                <span class="ok">procesando</span>
-              </div>
-              <div class="plan-list">
-                <div class="plan-item"><span class="pn">01</span><span class="nm">Hueco 17:00 detectado · 30 min libres</span><span class="ar">→</span></div>
-                <div class="plan-item"><span class="pn">02</span><span class="nm">Mejor candidata: María R. · LTV $480k · sin respuesta a 2 chats</span><span class="ar">→</span></div>
-                <div class="plan-item highlight"><span class="pn">03</span><span class="nm">Acción: llamada ahora + fallback a chat</span><span class="agent-chip">CAMILA</span></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- LIA · Embudo -->
-          <div class="agent-panel" data-lia-panel="2">
-            <div class="panel-text">
-              <div class="panel-kicker">Recuperación end-to-end</div>
-              <h3 class="panel-title">Levanta lo que se perdía.</h3>
-              <p class="panel-lead">Leads tibios, dormidos, cobros pendientes — arma cohortes y los manda a recuperar.</p>
-              <ul class="panel-bullets">
-                <li>Detecta leads que no avanzaron</li>
-                <li>Reactiva a 60, 90 o 180 días</li>
-                <li>Reportes con cohortes y resultados</li>
-              </ul>
-            </div>
-            <div class="panel-visual">
-              <div class="pv-head">
-                <span>Embudo activo · esta semana</span>
-                <span style="color:var(--violet);">▲ +12% vs sem. pasada</span>
-              </div>
-              <div class="funnel-mini">
-                <div class="funnel-mini-row"><span>Leads totales</span><span class="num">847</span><span class="pct">100%</span></div>
-                <div class="funnel-mini-row"><span>Evaluación agendada</span><span class="num">312</span><span class="pct">36.8%</span></div>
-                <div class="funnel-mini-row target"><span>Agendaron sin comprar — LIA reactiva</span><span class="num">181</span><span class="pct">21.4%</span></div>
-                <div class="funnel-mini-row"><span>Cerrados esta semana</span><span class="num">47</span><span class="pct">5.5%</span></div>
-              </div>
-            </div>
-          </div>
-
         </div>
 
-        <div class="agent-cta-row">
-          <a class="agent-cta" href="https://www.clinera.io" target="_self">Anotarme a la beta de LIA →</a>
-          <span class="agent-cta-note">Beta privada · cupos limitados</span>
-        </div>
-
-        <div class="agent-meta" style="margin-top: 22px; flex-direction: row; align-items: center; gap: 14px;">
+        <div class="agent-meta" style="margin-top: 28px; flex-direction: row; align-items: center; gap: 14px;">
           <span class="agent-tag"><b>02</b> · Cerebro Operacional</span>
           <span class="status-pill dev">En desarrollo</span>
         </div>
@@ -2390,7 +2477,7 @@
             <span class="wm-sub">Inteligencia Operativa</span>
           </div>
         </div>
-        <div class="stat-pill"><b>+21%</b><span class="stat-sub">cupos recuperados al mes</span></div>
+        <div class="stat-pill"><b>0%</b><span class="stat-sub">vacancia · meta operativa</span></div>
       </div>
     </div>
   </section>
@@ -2400,7 +2487,7 @@
     <div class="slide-inner caps-slide-inner">
       <div class="kicker"><span class="pip"></span>Clinera · más allá de AURA</div>
       <h2 class="h-display">¿Qué <span class="em">más</span> incluye?</h2>
-      <p class="lead">Cinco capacidades que operan tu clínica end-to-end. Click en cada una para ver cómo funciona.</p>
+      <p class="lead">Cinco capacidades. Click en cada una.</p>
 
       <div class="caps-grid">
 
@@ -2742,87 +2829,233 @@
     </div>
   </section>
 
-  <!-- 05 — Precios -->
+  <!-- 05 — ROI Humano vs AURA Advanced -->
   <section class="slide" id="slide4">
+    <div class="slide-inner roi-slide-inner">
+      <div class="kicker"><span class="pip"></span>ROI · Humano vs AURA Advanced</div>
+      <h2 class="h-display">$229 vs <span class="em">$950</span>.</h2>
+      <p class="lead">Costo laboral fijo vs. costo de software variable.</p>
+
+      <div class="roi-table">
+        <div class="roi-table-head">
+          <div>Concepto</div>
+          <div>Recepcionista humana</div>
+          <div class="roi-aura">AURA Advanced</div>
+        </div>
+        <div class="roi-table-row">
+          <div class="roi-concept">Costo mensual</div>
+          <div class="roi-human">~$950 USD</div>
+          <div class="roi-aura">$229 USD</div>
+        </div>
+        <div class="roi-table-row">
+          <div class="roi-concept">Agendamientos / mes</div>
+          <div class="roi-human">100–150</div>
+          <div class="roi-aura">~493 (mix real 20/80)</div>
+        </div>
+        <div class="roi-table-row">
+          <div class="roi-concept">Horario</div>
+          <div class="roi-human">45 h / semana</div>
+          <div class="roi-aura">24 / 7 / 365</div>
+        </div>
+        <div class="roi-table-row">
+          <div class="roi-concept">Vacaciones / licencias</div>
+          <div class="roi-human">15–20 días al año sin servicio</div>
+          <div class="roi-aura">Cero</div>
+        </div>
+        <div class="roi-table-row">
+          <div class="roi-concept">Conversaciones simultáneas</div>
+          <div class="roi-human">1–2</div>
+          <div class="roi-aura">Ilimitadas</div>
+        </div>
+        <div class="roi-table-row">
+          <div class="roi-concept">Tiempo de respuesta</div>
+          <div class="roi-human">5–30 min en horario</div>
+          <div class="roi-aura">Inmediato</div>
+        </div>
+        <div class="roi-table-row">
+          <div class="roi-concept">Capacitación inicial</div>
+          <div class="roi-human">1–3 meses</div>
+          <div class="roi-aura">Configurado una vez</div>
+        </div>
+      </div>
+
+      <div class="roi-kpis">
+        <div class="roi-kpi">
+          <div class="kpi-label">Ahorro mensual</div>
+          <div class="kpi-value">~$721</div>
+          <div class="kpi-sub">USD vs. una recepcionista en Chile</div>
+        </div>
+        <div class="roi-kpi featured">
+          <div class="kpi-label">Ahorro anualizado</div>
+          <div class="kpi-value">~$8.652</div>
+          <div class="kpi-sub">USD / año por clínica</div>
+        </div>
+        <div class="roi-kpi">
+          <div class="kpi-label">Capacidad efectiva</div>
+          <div class="kpi-value">3,2×</div>
+          <div class="kpi-sub">turnos simultáneos cubiertos</div>
+        </div>
+      </div>
+
+      <p class="roi-quote">"Por $229 al mes tienes un <span class="em">empleado 24/7</span>."</p>
+    </div>
+  </section>
+
+  <!-- 06 — Costos por modo + Capacidad -->
+  <section class="slide" id="slide5">
+    <div class="slide-inner costos-slide-inner">
+      <div class="kicker"><span class="pip"></span>Créditos IA</div>
+      <h2 class="h-display">Pagas por <span class="em">resultado</span>.</h2>
+      <p class="lead">Cada agendamiento descuenta créditos según el modo.</p>
+
+      <div class="costos-section-label"><span class="pip"></span>Costos finales por modo</div>
+      <div class="costos-table">
+        <div class="costos-modo-row head">
+          <div>Modo</div>
+          <div>Modelo</div>
+          <div>Créditos / agendamiento</div>
+        </div>
+        <div class="costos-modo-row row">
+          <div class="label">Enlace interno</div>
+          <div class="model">Gemini 3 Flash</div>
+          <div class="credits">40 créditos</div>
+        </div>
+        <div class="costos-modo-row row">
+          <div class="label">Enlace externo</div>
+          <div class="model">Gemini 3 Flash</div>
+          <div class="credits">40 créditos</div>
+        </div>
+        <div class="costos-modo-row row featured">
+          <div class="label">Automático</div>
+          <div class="model">Kimi K2.6</div>
+          <div class="credits">350 créditos</div>
+        </div>
+      </div>
+      <p class="costos-note">Automático consume <b>8.75×</b> más que Enlace.</p>
+
+      <div class="costos-section-label"><span class="pip"></span>Capacidad final por plan</div>
+      <div class="costos-table">
+        <div class="costos-cap-row head">
+          <div>Plan</div>
+          <div>Créditos / mes</div>
+          <div>100% Automático</div>
+          <div>100% Enlace</div>
+          <div>Mix realista 20/80</div>
+        </div>
+        <div class="costos-cap-row row">
+          <div class="label">Core</div>
+          <div class="num violet">13.000</div>
+          <div class="num">37 agend.</div>
+          <div class="num">325 agend.</div>
+          <div class="num">~267 agend.</div>
+        </div>
+        <div class="costos-cap-row row">
+          <div class="label">Conect</div>
+          <div class="num violet">18.000</div>
+          <div class="num">51 agend.</div>
+          <div class="num">450 agend.</div>
+          <div class="num">~370 agend.</div>
+        </div>
+        <div class="costos-cap-row row featured">
+          <div class="label">Advanced</div>
+          <div class="num violet">24.000</div>
+          <div class="num">68 agend.</div>
+          <div class="num">600 agend.</div>
+          <div class="num">~493 agend.</div>
+        </div>
+      </div>
+      <p class="costos-note">Mix 20/80 = 20% Automático + 80% Enlace.</p>
+    </div>
+  </section>
+
+  <!-- 07 — Precios -->
+  <section class="slide" id="slide6">
     <div class="slide-inner pricing-slide-inner">
       <div class="kicker"><span class="pip"></span>Planes · Clinera</div>
       <h2 class="h-display">Activa Clinera <span class="em">hoy</span>.</h2>
-      <p class="lead">Tres planes. Toda la mensajería con IA, módulo clínico y atribución cuando lo necesites.</p>
+      <p class="lead">Tres planes. Sin permanencia.</p>
 
       <div class="pricing-grid">
 
         <div class="price-card">
-          <h3 class="plan-name">Growth</h3>
-          <div class="plan-price"><span class="amt">$89</span><span class="per">/mes</span></div>
-          <p class="plan-desc">Mensajería IA para clínicas que ya tienen software.</p>
+          <h3 class="plan-name">Core</h3>
+          <div class="plan-price"><span class="amt">$129</span><span class="per">/mes</span></div>
+          <p class="plan-desc">AURA + WhatsApp 24/7 para clínicas que ya tienen software.</p>
           <div class="price-tags">
-            <span class="price-tag">Mensajería con IA</span>
+            <span class="price-tag">Agente IA</span>
             <span class="price-tag off">Módulo Clínico</span>
           </div>
           <hr class="price-divider" />
-          <div class="price-includes">Incluye</div>
           <ul class="price-features">
-            <li>150 conversaciones con IA/mes</li>
-            <li>WhatsApp API</li>
-            <li>Memoria contextual vía LangChain</li>
-            <li>Derivación automática a humano</li>
-            <li>Integración vía API y MCP</li>
-            <li>3 usuarios incluidos</li>
+            <li><b>13.000 créditos IA/mes</b></li>
+            <li>~325 conversaciones largas</li>
+            <li>~37 agendamientos completos</li>
+            <li>1 modo · 1 modelo IA</li>
+            <li>WhatsApp Business API</li>
+            <li>3 usuarios</li>
           </ul>
+          <div class="cost-per-agend">
+            <span class="cpa-label">Costo por<br/>agendamiento</span>
+            <span class="cpa-value">$0,48 USD</span>
+          </div>
           <div class="price-actions">
-            <a class="price-btn" href="https://www.clinera.io" target="_self">Hablar con ventas</a>
-            <a class="price-btn secondary" href="https://www.clinera.io" target="_self">Activar plan</a>
+            <a class="price-btn" href="https://www.clinera.io/planes" target="_self">Hablar con ventas</a>
+            <a class="price-btn secondary" href="https://www.clinera.io/planes" target="_self">Activar plan</a>
           </div>
         </div>
 
         <div class="price-card">
           <h3 class="plan-name">Conect</h3>
-          <div class="plan-price"><span class="amt">$129</span><span class="per">/mes</span></div>
-          <p class="plan-desc">Mensajería + clínica completa sin otro software.</p>
+          <div class="plan-price"><span class="amt">$179</span><span class="per">/mes</span></div>
+          <p class="plan-desc">AURA + clínica completa sin necesitar otro software.</p>
           <div class="price-tags">
-            <span class="price-tag">Mensajería con IA</span>
+            <span class="price-tag">Agente IA</span>
             <span class="price-tag">Módulo Clínico</span>
           </div>
           <hr class="price-divider" />
-          <div class="price-includes">Todo de Growth, más</div>
           <ul class="price-features">
-            <li>500 conversaciones/mes</li>
+            <li><b>18.000 créditos IA/mes</b></li>
+            <li>~450 conversaciones largas</li>
+            <li>~51 agendamientos completos</li>
+            <li>3 modos · 3 modelos IA</li>
+            <li>Agenda + fichas + Vault</li>
             <li>5 usuarios</li>
-            <li>Agenda médica</li>
-            <li>Fichas clínicas</li>
-            <li>Consentimientos informados</li>
-            <li>Clinera Vault</li>
-            <li>Panel ventas</li>
-            <li>Trazabilidad campaña-cita-venta</li>
           </ul>
+          <div class="cost-per-agend">
+            <span class="cpa-label">Costo por<br/>agendamiento</span>
+            <span class="cpa-value">$0,48 USD</span>
+          </div>
           <div class="price-actions">
-            <a class="price-btn" href="https://www.clinera.io" target="_self">Hablar con ventas</a>
-            <a class="price-btn secondary" href="https://www.clinera.io" target="_self">Activar plan</a>
+            <a class="price-btn" href="https://www.clinera.io/planes" target="_self">Hablar con ventas</a>
+            <a class="price-btn secondary" href="https://www.clinera.io/planes" target="_self">Activar plan</a>
           </div>
         </div>
 
         <div class="price-card popular">
-          <span class="popular-tag">Recomendado · 4× IA</span>
+          <span class="popular-tag">Recomendado · mejor $/agend.</span>
           <h3 class="plan-name">Advanced</h3>
-          <div class="plan-price"><span class="amt">$179</span><span class="per">/mes</span></div>
-          <p class="plan-desc">Para cadenas clínicas multi-sede.</p>
+          <div class="plan-price"><span class="amt">$229</span><span class="per">/mes</span></div>
+          <p class="plan-desc">Para cadenas multi-sede que necesitan escala y atribución.</p>
           <div class="price-tags">
-            <span class="price-tag">Mensajería con IA</span>
+            <span class="price-tag">Agente IA</span>
             <span class="price-tag">Módulo Clínico</span>
           </div>
           <hr class="price-divider" />
-          <div class="price-includes">Todo de Conect, más</div>
           <ul class="price-features">
-            <li>2000 conversaciones/mes</li>
+            <li><b>24.000 créditos IA/mes</b></li>
+            <li>~600 conversaciones largas</li>
+            <li>~68 agendamientos completos</li>
+            <li>3 modos · 3 modelos IA</li>
+            <li>Multi-sede + atribución</li>
             <li>15 usuarios</li>
-            <li>Multi-sede</li>
-            <li>Webhooks avanzados</li>
-            <li>Soporte prioritario</li>
-            <li>Onboarding dedicado</li>
           </ul>
+          <div class="cost-per-agend featured">
+            <span class="cpa-label">Costo por<br/>agendamiento</span>
+            <span class="cpa-value">$0,46 USD</span>
+          </div>
           <div class="price-actions">
-            <a class="price-btn primary" href="https://www.clinera.io" target="_self">Hablar con ventas</a>
-            <a class="price-btn secondary" href="https://www.clinera.io" target="_self">Activar plan</a>
+            <a class="price-btn primary" href="https://www.clinera.io/planes" target="_self">Hablar con ventas</a>
+            <a class="price-btn secondary" href="https://www.clinera.io/planes" target="_self">Activar plan</a>
           </div>
         </div>
 
@@ -2830,8 +3063,8 @@
     </div>
   </section>
 
-  <!-- 06 — Cierre -->
-  <section class="slide" id="slide5">
+  <!-- 08 — Cierre -->
+  <section class="slide" id="slide7">
     <div class="slide-inner close">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Conoce Clinera</div>
       <p class="close-line">
@@ -2852,7 +3085,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 6;
+  const TOTAL_SLIDES = 8;
   let currentSlide = 0;
   let currentSubStep = 0;
   let isAnimating = false;
