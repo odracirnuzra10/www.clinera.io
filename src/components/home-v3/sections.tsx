@@ -231,7 +231,7 @@ export function Hero() {
               <span>+2.400 citas agendadas por IA</span>
               <span style={{ color: "#9CA3AF" }}>·</span>
               <span>
-                <b style={{ color: "#0A0A0A" }}>$229</b> vs ~$950 recepcionista
+                Desde <b style={{ color: "#0A0A0A" }}>$129</b> vs ~$950 recepcionista
               </span>
               <Link
                 href="/efectividad"
@@ -3678,7 +3678,7 @@ export function Pricing() {
     {
       name: "Core",
       price: "$129",
-      perAppt: "$0.48",
+      perAppt: "$0.65",
       sub: "AURA + WhatsApp 24/7 para clínicas que ya tienen software.",
       tags: [
         { t: "Agente IA", ok: true },
@@ -3686,10 +3686,7 @@ export function Pricing() {
       ],
       features: [
         "13.000 créditos IA / mes",
-        "~325 conversaciones largas",
-        "~37 agendamientos completos",
-        "1 modo · 1 modelo IA",
-        "WhatsApp Business API",
+        "~200 conversaciones",
         "3 usuarios incluidos",
       ],
       models: ["Gemini 3 Flash"],
@@ -3698,7 +3695,7 @@ export function Pricing() {
     {
       name: "Conect",
       price: "$179",
-      perAppt: "$0.48",
+      perAppt: "$0.45",
       sub: "AURA + clínica completa sin necesitar otro software.",
       tags: [
         { t: "Agente IA", ok: true },
@@ -3706,11 +3703,9 @@ export function Pricing() {
       ],
       headline: "Todo de Core, más",
       features: [
-        "18.000 créditos IA / mes",
-        "~450 conversaciones largas",
-        "~51 agendamientos completos",
-        "3 modos · 3 modelos IA",
-        "Agenda + fichas + Clinera Vault",
+        "26.000 créditos IA / mes",
+        "~400 conversaciones",
+        "Con modo automático de agendamiento",
         "5 usuarios / profesionales",
       ],
       models: ["Gemini 3 Flash", "Kimi K2.6", "Claude Sonnet 4.6"],
@@ -3718,8 +3713,8 @@ export function Pricing() {
     },
     {
       name: "Advanced",
-      price: "$229",
-      perAppt: "$0.46",
+      price: "$358",
+      perAppt: "$0.30",
       sub: "Para cadenas multi-sede que necesitan escala y atribución.",
       featured: true,
       bestValue: true,
@@ -3729,11 +3724,9 @@ export function Pricing() {
       ],
       headline: "Todo de Conect, más",
       features: [
-        "24.000 créditos IA / mes",
-        "~600 conversaciones largas",
-        "~68 agendamientos completos",
-        "3 modos · 3 modelos IA",
-        "Multi-sede · atribución · webhooks",
+        "78.000 créditos IA / mes",
+        "~1.200 conversaciones",
+        "Con modo automático de agendamiento",
         "15 usuarios / profesionales",
       ],
       models: ["Gemini 3 Flash", "Kimi K2.6", "Claude Sonnet 4.6"],
@@ -3778,10 +3771,10 @@ export function Pricing() {
               color: "#0A0A0A",
             }}
           >
-            Tu próximo empleado cuesta $229. Y trabaja 24/7.
+            Tu próximo empleado parte en $129. Y trabaja 24/7.
           </h2>
           <p style={{ fontFamily: "Inter", fontSize: 17, color: "#4B5563", margin: 0, lineHeight: 1.55 }}>
-            Una recepcionista te cuesta ~$950 USD/mes en LATAM, trabaja 45 horas semana y se enferma. Un empleado digital de Clinera cuesta <b>desde $129</b>, no descansa y no escala con sueldo. Sin contratos, sin permanencia.
+            Una recepcionista te cuesta ~$950 USD/mes en LATAM, trabaja 45 horas semana y se enferma. Un empleado digital de Clinera <b>parte en $129/mes</b>, no descansa y no escala con sueldo. Sin contratos, sin permanencia.
           </p>
         </div>
 
@@ -3865,7 +3858,7 @@ export function Pricing() {
                     marginBottom: 14,
                   }}
                 >
-                  {p.perAppt} por agendamiento
+                  {p.perAppt} por conversación
                 </div>
               )}
               <div
