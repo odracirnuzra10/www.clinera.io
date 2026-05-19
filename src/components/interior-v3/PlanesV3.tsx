@@ -6,10 +6,10 @@ import { FinalCTA, Pricing, useReveal } from "@/components/home-v3/sections";
 
 const FAQ = [
   { q: "¿Tiene costo de implementación?", a: "No. La implementación es asistida por un humano del equipo de Clinera y tiene costo $0 en todos los planes. Setup en menos de 1 hora, sin programador: configuramos AURA con la voz de tu clínica, conectamos tu WhatsApp Business, integramos tu agenda actual y dejamos a AURA operando esa misma tarde." },
-  { q: "¿Qué es un crédito IA y cómo se consume?", a: "Un crédito IA es la unidad básica que consume AURA. 1 mensaje IA equivale aproximadamente a 200 créditos. 1 agendamiento automático equivale a unos 2.200 créditos porque incluye 10–12 mensajes más llamadas a tools como agenda, ficha y confirmación. El cliente combina ambos libremente dentro de su pool: una clínica puede usar 100.000 créditos en 400 mensajes + 10 agendamientos, o en 30 agendamientos puros — su decisión." },
+  { q: "¿Cómo se cuenta el agendamiento automático y qué es un crédito IA?", a: "Cada agendamiento automático consume aproximadamente 2.200 créditos IA — porque incluye el flujo completo: 10–12 mensajes con el paciente más llamadas a tools como agenda, ficha y confirmación. 1 mensaje suelto cuesta cerca de 200 créditos. Por eso 100.000 créditos rinden ~45 agendamientos automáticos o ~500 mensajes — y los combinas como prefieras dentro de tu pool mensual." },
   { q: "¿Puedo cambiar de plan después?", a: "Sí. Puedes subir o bajar de plan en cualquier momento desde tu panel. El cambio se aplica en tu próximo ciclo de facturación." },
   { q: "¿Hay permanencia o contrato?", a: "No. Todos los planes son mes a mes. Puedes cancelar en cualquier momento sin penalizaciones." },
-  { q: "¿Qué pasa si supero los créditos de mi plan?", a: "Te avisamos al 80% y al 100% del cupo. Tu servicio nunca se interrumpe sin avisarte. Si necesitas más, sumas paquetes de +10.000 créditos IA por $5 USD/mes — equivalen a ~50 mensajes o ~4 agendamientos extra cada uno." },
+  { q: "¿Qué pasa si necesito más agendamientos?", a: "Te avisamos al 80% y al 100% del cupo. Tu servicio nunca se interrumpe sin avisarte. Si necesitas más, sumas paquetes de +10.000 créditos IA por $5 USD/mes — cada paquete son ~4 agendamientos automáticos extra (o ~50 mensajes)." },
   { q: "¿Se integra con mi software actual?", a: "Sí. Clinera se conecta vía API con Reservo, AgendaPro, Medilink, Dentalink, Sacmed y cualquier sistema que exponga una API REST o soporte MCP." },
   { q: "¿Cómo funciona la IA de mensajería?", a: "Nuestra IA responde automáticamente por WhatsApp usando memoria contextual. Agenda, confirma y responde consultas 24/7. Si necesita un humano, deriva la conversación automáticamente." },
   { q: "¿Qué es el módulo Odontograma?", a: "Es un add-on nuevo para clínicas dentales (próximamente): ficha odontológica visual interactiva por pieza dental, historial completo, integración con consentimientos y agenda. Cuesta $21 USD/mes extra sobre cualquier plan." },
@@ -91,38 +91,27 @@ function PlanesHero() {
 
 function Calculator() {
   const PLANS = [
-    { name: "Growth",   price: 89,  credits: 100000 },
-    { name: "Conect",   price: 129, credits: 150000 },
-    { name: "Advanced", price: 179, credits: 200000 },
+    { name: "Growth",   price: 89,  credits: 100000, appt: 45 },
+    { name: "Conect",   price: 129, credits: 150000, appt: 65 },
+    { name: "Advanced", price: 179, credits: 200000, appt: 90 },
   ];
-  const CR_PER_MSG = 200;
   const CR_PER_APPT = 2200;
+  const CR_PER_MSG = 200;
   const OVERAGE_PER_10K = 5;
+  const SLIDER_MAX = 150;
+  const SLIDER_STEP = 5;
 
-  const RANGE = {
-    msg:  { min: 0, max: 1500, step: 25, def: 400, label: "Mensajes IA / mes",            unit: "msgs",  cr: CR_PER_MSG  },
-    appt: { min: 0, max: 200,  step: 5,  def: 30,  label: "Agendamientos automáticos / mes", unit: "agend", cr: CR_PER_APPT },
-  } as const;
+  const [appts, setAppts] = useState<number>(30);
 
-  const [tab, setTab] = useState<"msg" | "appt">("msg");
-  const [val, setVal] = useState<number>(RANGE.msg.def);
-
-  const r = RANGE[tab];
-  const used = val * r.cr;
-  const chosen = PLANS.find((p) => used <= p.credits) ?? PLANS[PLANS.length - 1];
-  const overCredits = Math.max(0, used - chosen.credits);
+  const usedCredits = appts * CR_PER_APPT;
+  const equivMsgs = Math.round(usedCredits / CR_PER_MSG);
+  const chosen = PLANS.find((p) => usedCredits <= p.credits) ?? PLANS[PLANS.length - 1];
+  const overCredits = Math.max(0, usedCredits - chosen.credits);
   const overagePacks = Math.ceil(overCredits / 10000);
   const overageCost = overagePacks * OVERAGE_PER_10K;
-  const otherCount = tab === "msg" ? Math.round(used / CR_PER_APPT) : Math.round(used / CR_PER_MSG);
-  const otherUnit = tab === "msg" ? "agendamientos automáticos" : "mensajes IA";
-  const pctOfCap = Math.min(999, Math.round((used / chosen.credits) * 100));
+  const pctOfCap = Math.min(999, Math.round((usedCredits / chosen.credits) * 100));
   const fmt = (n: number) => Math.round(n).toLocaleString("es-CL");
-  const pctSlider = ((val - r.min) / (r.max - r.min)) * 100;
-
-  const onTabChange = (newTab: "msg" | "appt") => {
-    setTab(newTab);
-    setVal(RANGE[newTab].def);
-  };
+  const pctSlider = (appts / SLIDER_MAX) * 100;
 
   return (
     <section style={{ padding: "8px 80px 64px", background: "linear-gradient(180deg, #FAFAFA 0%, #FFFFFF 100%)" }}>
@@ -141,62 +130,35 @@ function Calculator() {
       >
         <div style={{ position: "absolute", top: 0, left: 32, right: 32, height: 2, background: GRAD, borderRadius: "0 0 2px 2px" }} />
 
-        <div style={{ textAlign: "center", marginBottom: 24 }}>
+        <div style={{ textAlign: "center", marginBottom: 28 }}>
           <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10.5, letterSpacing: ".14em", textTransform: "uppercase", color: "#10B981", marginBottom: 8 }}>
             Calculadora
           </div>
           <h3 style={{ fontFamily: "Inter", fontSize: 26, fontWeight: 700, color: "#0A0A0A", letterSpacing: "-0.02em", margin: "0 0 6px" }}>
-            Mira qué plan te calza.
+            ¿Cuántos agendamientos al mes?
           </h3>
           <p style={{ fontFamily: "Inter", fontSize: 14, color: "#6B7280", margin: 0 }}>
-            Elige una métrica y mueve el slider. Te recomendamos el plan en vivo.
+            Mueve el slider con tu estimado. Te recomendamos el plan en vivo.
           </p>
-        </div>
-
-        <div style={{ display: "flex", gap: 6, maxWidth: 480, margin: "0 auto 28px", background: "#F3F4F6", borderRadius: 999, padding: 4 }}>
-          {(["msg", "appt"] as const).map((t) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => onTabChange(t)}
-              style={{
-                flex: 1,
-                padding: "11px 16px",
-                border: "none",
-                background: tab === t ? GRAD : "transparent",
-                color: tab === t ? "#fff" : "#6B7280",
-                fontFamily: "Inter",
-                fontSize: 13,
-                fontWeight: 600,
-                borderRadius: 999,
-                cursor: "pointer",
-                transition: "all .25s",
-                letterSpacing: "-0.01em",
-                boxShadow: tab === t ? "0 4px 14px rgba(124,58,237,.25)" : "none",
-              }}
-            >
-              {t === "msg" ? "Mensajes IA" : "Agendamientos automáticos"}
-            </button>
-          ))}
         </div>
 
         <div style={{ maxWidth: 620, margin: "0 auto 24px", padding: "0 14px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 10 }}>
             <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, color: "#6B7280", letterSpacing: ".12em", textTransform: "uppercase" }}>
-              {r.label}
+              Agendamientos automáticos / mes
             </span>
             <span style={{ fontFamily: "Inter", fontSize: 22, fontWeight: 700, color: "#0A0A0A", letterSpacing: "-0.01em" }}>
-              {fmt(val)}
-              <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, color: "#6B7280", marginLeft: 4, letterSpacing: ".04em", textTransform: "uppercase", fontWeight: 500 }}> {r.unit}</span>
+              {fmt(appts)}
+              <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, color: "#6B7280", marginLeft: 4, letterSpacing: ".04em", textTransform: "uppercase", fontWeight: 500 }}> agend</span>
             </span>
           </div>
           <input
             type="range"
-            min={r.min}
-            max={r.max}
-            step={r.step}
-            value={val}
-            onChange={(e) => setVal(+e.target.value)}
+            min={0}
+            max={SLIDER_MAX}
+            step={SLIDER_STEP}
+            value={appts}
+            onChange={(e) => setAppts(+e.target.value)}
             className="calc-v3-slider"
             style={{
               WebkitAppearance: "none",
@@ -210,7 +172,7 @@ function Calculator() {
           />
           <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, color: "#9CA3AF", marginTop: 8, letterSpacing: ".04em" }}>
             <span>0</span>
-            <span>{fmt(r.max)}</span>
+            <span>{fmt(SLIDER_MAX)}</span>
           </div>
         </div>
 
@@ -226,7 +188,7 @@ function Calculator() {
           }}
         >
           <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, color: "#6B7280", letterSpacing: ".12em", textTransform: "uppercase", marginBottom: 8 }}>
-            Equivale a
+            Tu uso estimado
           </div>
           <div
             style={{
@@ -242,11 +204,11 @@ function Calculator() {
               marginBottom: 8,
             }}
           >
-            {fmt(used)}
-            <span style={{ fontSize: 14, fontWeight: 600, color: "#4B5563", WebkitTextFillColor: "#4B5563", marginLeft: 6, letterSpacing: 0 }}>créditos IA</span>
+            {fmt(appts)}
+            <span style={{ fontSize: 14, fontWeight: 600, color: "#4B5563", WebkitTextFillColor: "#4B5563", marginLeft: 6, letterSpacing: 0 }}>agendamientos / mes</span>
           </div>
           <div style={{ fontFamily: "Inter", fontSize: 13, color: "#4B5563", lineHeight: 1.5 }}>
-            ≈ <b style={{ color: "#0A0A0A" }}>{fmt(otherCount)} {otherUnit}</b> en su equivalente
+            ≈ <b style={{ color: "#0A0A0A" }}>{fmt(equivMsgs)} mensajes IA</b> · {fmt(usedCredits)} créditos
           </div>
         </div>
 
@@ -262,7 +224,7 @@ function Calculator() {
             · ${chosen.price} USD/mes
           </div>
           <div style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280" }}>
-            Usas {pctOfCap}% de los {fmt(chosen.credits)} créditos del plan {chosen.name}
+            Incluye hasta ~{chosen.appt} agendamientos · ocupas {pctOfCap}% del cupo
           </div>
           {overCredits > 0 && (
             <div
@@ -321,7 +283,7 @@ function Calculator() {
 
 function Addons() {
   const items = [
-    { price: "$5",  unit: "/mes", label: "+10.000 créditos IA",        sub: "≈ ~50 mensajes o ~4 agendamientos extra" },
+    { price: "$5",  unit: "/mes", label: "+10.000 créditos IA",        sub: "≈ ~4 agendamientos extra · ~50 mensajes" },
     { price: "$29", unit: "/mes", label: "Usuario / profesional extra", sub: "Suma asientos sin cambiar de plan" },
     { price: "$21", unit: "/mes", label: "Módulo Odontograma",          sub: "Ficha odontológica visual + historial dental", isNew: true },
   ];
