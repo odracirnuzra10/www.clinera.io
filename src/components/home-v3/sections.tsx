@@ -3723,10 +3723,9 @@ export function Pricing() {
       price: "$229",
       originalPrice: "$259",
       perAppt: "$2.54",
-      sub: "Multi-sede + IA + escala. 3.4× más barato por agendamiento que Core.",
+      sub: "Multi-sede + IA + escala.",
       featured: true,
       bestValue: true,
-      vsConect: "+55 agendamientos (+157%) · +1.000 msgs · +10 usuarios · Multi-sede",
       tags: [
         { t: "Agente IA", ok: true },
         { t: "Módulo Clínico", ok: true },
@@ -3873,26 +3872,6 @@ export function Pricing() {
                   </div>
                 )}
               </div>
-              {p.originalPrice && (
-                <div
-                  style={{
-                    display: "inline-block",
-                    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                    fontSize: 9.5,
-                    color: "#10B981",
-                    fontWeight: 700,
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    background: "rgba(16,185,129,.08)",
-                    border: "1px solid rgba(16,185,129,.25)",
-                    padding: "3px 10px",
-                    borderRadius: 999,
-                    marginBottom: 8,
-                  }}
-                >
-                  Promo este mes · ahorras $30
-                </div>
-              )}
               {p.perAppt && (
                 <div
                   style={{
@@ -3901,11 +3880,11 @@ export function Pricing() {
                     color: p.bestValue ? "#10B981" : "#9CA3AF",
                     fontWeight: p.bestValue ? 600 : 400,
                     letterSpacing: "0.02em",
-                    marginTop: 2,
+                    marginTop: 4,
                     marginBottom: 14,
                   }}
                 >
-                  {p.perAppt} por agendamiento{p.bestValue && " · más eficiente"}
+                  {p.perAppt} por agendamiento
                 </div>
               )}
               <div
@@ -3920,24 +3899,6 @@ export function Pricing() {
               >
                 {p.sub}
               </div>
-              {p.vsConect && (
-                <div
-                  style={{
-                    background: "linear-gradient(135deg, rgba(16,185,129,.08), rgba(124,58,237,.06))",
-                    border: "1px solid rgba(16,185,129,.25)",
-                    borderRadius: 10,
-                    padding: "10px 12px",
-                    fontFamily: "Inter",
-                    fontSize: 12,
-                    color: "#065F46",
-                    lineHeight: 1.5,
-                    marginBottom: 18,
-                  }}
-                >
-                  <span style={{ fontWeight: 700 }}>Vs Conect: </span>
-                  {p.vsConect}
-                </div>
-              )}
 
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 22 }}>
                 {p.tags.map((t, i) => (
