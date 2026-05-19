@@ -3855,21 +3855,6 @@ export function Pricing() {
                   {p.price}
                 </div>
                 <div style={{ fontFamily: "Inter", fontSize: 14, color: "#6B7280" }}>/mes</div>
-                {p.originalPrice && (
-                  <div
-                    style={{
-                      fontFamily: "Inter",
-                      fontSize: 18,
-                      color: "#9CA3AF",
-                      textDecoration: "line-through",
-                      fontWeight: 600,
-                      letterSpacing: "-0.02em",
-                      marginLeft: 6,
-                    }}
-                  >
-                    {p.originalPrice}
-                  </div>
-                )}
               </div>
               {p.perAppt && (
                 <div
