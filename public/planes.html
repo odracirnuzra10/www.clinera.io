@@ -239,6 +239,40 @@
         .faq-a { font-size: 13px; color: var(--ink-s); line-height: 1.7; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease-out; }
         .faq-item.open .faq-a { max-height: 200px; padding-top: 12px; }
         svg { display: block; }
+
+        /* Calculadora interactiva */
+        .calc-section { max-width: 920px; margin: 0 auto 60px; padding: 36px 32px 32px; background: #fff; border: 1px solid var(--border-h); border-radius: 20px; position: relative; box-shadow: 0 12px 40px rgba(17, 19, 24, 0.06); }
+        .calc-section::before { content: ''; position: absolute; top: 0; left: 32px; right: 32px; height: 2px; background: linear-gradient(90deg, #009FE3, #7C3AED, #C850C0); border-radius: 0 0 2px 2px; }
+        .calc-head { text-align: center; margin-bottom: 24px; }
+        .calc-head h3 { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.01em; }
+        .calc-head p { font-family: var(--sans); font-size: 13px; color: var(--ink-m); }
+        .calc-tabs { display: flex; gap: 6px; max-width: 480px; margin: 0 auto 32px; background: var(--bg2); border-radius: 100px; padding: 4px; }
+        .calc-tab { flex: 1; padding: 11px 16px; border: none; background: transparent; font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--ink-m); cursor: pointer; border-radius: 100px; transition: all 0.25s; letter-spacing: -0.01em; }
+        .calc-tab.active { background: linear-gradient(135deg, #009FE3, #7C3AED); color: #fff; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25); }
+        .calc-slider-wrap { max-width: 620px; margin: 0 auto 28px; padding: 0 14px; }
+        .calc-slider-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+        .calc-slider-name { font-family: var(--mono); font-size: 10px; color: var(--ink-m); letter-spacing: 0.12em; text-transform: uppercase; }
+        .calc-slider-value { font-family: var(--sans); font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+        .calc-slider-value-unit { font-family: var(--mono); font-size: 10px; color: var(--ink-m); margin-left: 4px; letter-spacing: 0.04em; text-transform: uppercase; font-weight: 500; }
+        .calc-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 100px; background: var(--bg3); outline: none; }
+        .calc-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 3px solid #7C3AED; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35); cursor: pointer; transition: transform 0.15s; }
+        .calc-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+        .calc-slider::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 3px solid #7C3AED; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35); cursor: pointer; }
+        .calc-slider-range { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10px; color: var(--ink-l); margin-top: 8px; letter-spacing: 0.04em; }
+        .calc-rate { max-width: 460px; margin: 0 auto 24px; padding: 24px 28px; background: linear-gradient(135deg, rgba(0,159,227,0.05), rgba(124,58,237,0.05), rgba(200,80,192,0.04)); border: 1px solid var(--border-h); border-radius: 16px; text-align: center; }
+        .calc-rate-label { font-family: var(--mono); font-size: 10px; color: var(--ink-m); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+        .calc-rate-value { font-family: var(--sans); font-size: 42px; font-weight: 800; letter-spacing: -0.025em; line-height: 1; background: linear-gradient(135deg, #009FE3, #7C3AED, #C850C0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
+        .calc-rate-value .creditword { font-size: 14px; font-weight: 600; color: var(--ink-s); -webkit-text-fill-color: var(--ink-s); margin-left: 4px; letter-spacing: 0; }
+        .calc-rate-sub { font-family: var(--sans); font-size: 13px; color: var(--ink-s); font-weight: 400; line-height: 1.5; }
+        .calc-rate-sub strong { color: var(--ink); font-weight: 600; }
+        .calc-result { text-align: center; padding-top: 20px; border-top: 1px solid var(--border); }
+        .calc-result-label { font-family: var(--mono); font-size: 10px; color: var(--ink-m); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+        .calc-result-plan { font-family: var(--sans); font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+        .calc-result-plan span { background: linear-gradient(135deg, #009FE3, #7C3AED, #C850C0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .calc-result-detail { font-family: var(--sans); font-size: 13px; color: var(--ink-m); font-weight: 400; }
+        .calc-result-overage { display: inline-block; margin-top: 12px; padding: 8px 14px; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); border-radius: 8px; font-family: var(--mono); font-size: 11px; color: #B45309; font-weight: 500; letter-spacing: 0.02em; }
+        .calc-result-overage.hide { display: none; }
+        @media (max-width: 600px) { .calc-section { padding: 28px 18px; } .calc-rate-value { font-size: 34px; } .calc-tab { font-size: 12px; padding: 10px 12px; } }
     </style>
 </head>
 
@@ -259,9 +293,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <main>
         <section class="pricing-section">
             <div class="container">
-                <div class="section-header text-center" style="margin-bottom: 60px;">
+                <div class="section-header text-center" style="margin-bottom: 40px;">
                     <h2 class="sect-title" style="text-align:center">Elige tu plan. Activa hoy.</h2>
-                    <p class="sect-desc" style="text-align:center;max-width:620px;margin-left:auto;margin-right:auto">Todos los planes incluyen API completa y sin permanencia. Precios en USD.</p>
+                    <p class="sect-desc" style="text-align:center;max-width:620px;margin-left:auto;margin-right:auto">Vendemos <strong style="color:var(--ink)">créditos IA</strong> con equivalencias claras. Sin permanencia. Precios en USD.</p>
+                </div>
+
+                <!-- Calculadora -->
+                <div class="calc-section">
+                    <div class="calc-head">
+                        <h3>Calculadora de plan</h3>
+                        <p>Elige una métrica y mueve el slider. Te recomendamos el plan en vivo.</p>
+                    </div>
+
+                    <div class="calc-tabs" role="tablist">
+                        <button class="calc-tab active" data-tab="msg" type="button">Mensajes IA</button>
+                        <button class="calc-tab" data-tab="appt" type="button">Agendamientos automáticos</button>
+                    </div>
+
+                    <div class="calc-slider-wrap">
+                        <div class="calc-slider-label">
+                            <span class="calc-slider-name" id="calcUnitName">Mensajes IA / mes</span>
+                            <span class="calc-slider-value"><span id="calcValueNum">400</span><span class="calc-slider-value-unit" id="calcValueUnit">msgs</span></span>
+                        </div>
+                        <input type="range" id="calcSlider" class="calc-slider" min="0" max="1500" value="400" step="25">
+                        <div class="calc-slider-range">
+                            <span>0</span>
+                            <span id="calcMax">1.500</span>
+                        </div>
+                    </div>
+
+                    <div class="calc-rate">
+                        <div class="calc-rate-label">Equivale a</div>
+                        <div class="calc-rate-value"><span id="calcCredits">80.000</span><span class="creditword">créditos IA</span></div>
+                        <div class="calc-rate-sub" id="calcEq">≈ <strong>36 agendamientos</strong> en su equivalente · pool de <strong>80.000 créditos IA</strong></div>
+                    </div>
+
+                    <div class="calc-result">
+                        <div class="calc-result-label">Plan recomendado</div>
+                        <div class="calc-result-plan">Plan <span id="calcPlanName">Growth</span> · $<span id="calcPlanPrice">89</span> USD/mes</div>
+                        <div class="calc-result-detail" id="calcPlanDetail">Usas el 80% del pool del plan</div>
+                        <div class="calc-result-overage hide" id="calcOverage"></div>
+                    </div>
                 </div>
 
                 <div class="plans-grid">
@@ -288,7 +360,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                         <div class="plan-feat-label" style="color: var(--ink-m); font-size: 11px; margin-bottom: 12px; font-weight: 700;">INCLUYE</div>
                         <ul class="plan-features" style="margin-bottom: 40px; list-style: none; padding: 0;">
-                            <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> <strong>150 conversaciones con IA/mes</strong></li>
+                            <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> <strong>100.000 créditos IA / mes</strong></li>
+                            <li style="font-size: 12px; margin-bottom: 8px; color: var(--ink-m); font-weight: 400; display: flex; align-items: center; padding-left: 18px;">≈ ~500 mensajes  o  ~45 agendamientos automáticos</li>
                             <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> WhatsApp API</li>
                             <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> Memoria contextual vía LangChain</li>
                             <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> Derivación automática a humano</li>
@@ -325,7 +398,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                         <div class="plan-feat-label" style="color: var(--ink-m); font-size: 11px; margin-bottom: 12px; font-weight: 700;">TODO DE GROWTH, MAS</div>
                         <ul class="plan-features" style="margin-bottom: 40px; list-style: none; padding: 0;">
-                            <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> <strong>500 conversaciones con IA/mes</strong></li>
+                            <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> <strong>150.000 créditos IA / mes</strong></li>
+                            <li style="font-size: 12px; margin-bottom: 8px; color: var(--ink-m); font-weight: 400; display: flex; align-items: center; padding-left: 18px;">≈ ~750 mensajes  o  ~65 agendamientos automáticos</li>
                             <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> <strong>5 usuarios/profesionales</strong></li>
                             <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> Agenda médica con automatizaciones</li>
                             <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> Fichas clínicas personalizables</li>
@@ -364,7 +438,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                         <div class="plan-feat-label" style="color: var(--ink-m); font-size: 11px; margin-bottom: 12px; font-weight: 700;">TODO DE CONECT, MAS</div>
                         <ul class="plan-features" style="margin-bottom: 40px; list-style: none; padding: 0;">
-                            <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> <strong>2,000 conversaciones con IA/mes</strong></li>
+                            <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> <strong>200.000 créditos IA / mes</strong></li>
+                            <li style="font-size: 12px; margin-bottom: 8px; color: var(--ink-m); font-weight: 400; display: flex; align-items: center; padding-left: 18px;">≈ ~1.000 mensajes  o  ~90 agendamientos automáticos</li>
                             <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> <strong>15 usuarios/profesionales</strong></li>
                             <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> <strong>Multi-sede</strong> — varias sucursales</li>
                             <li style="font-size: 13px; margin-bottom: 8px; color: var(--ink); font-weight: 500; display: flex; align-items: center;"><span style="color: #009FE3; margin-right: 8px;">•</span> Webhooks avanzados</li>
@@ -405,14 +480,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <div class="addons-label">> ADD-ONS</div>
                     <h2 class="addons-title">Escala según necesites</h2>
                     
-                    <div class="addons-grid">
+                    <div class="addons-grid" style="grid-template-columns: repeat(3, 1fr); max-width: 980px;">
                         <div class="addon-card">
-                            <div class="addon-price">$15<span>/mes</span></div>
-                            <div class="addon-name">+100 conversaciones con IA</div>
+                            <div class="addon-price">$5<span>/mes</span></div>
+                            <div class="addon-name">+10.000 créditos IA</div>
+                            <div style="font-size: 12px; color: var(--ink-m); margin-top: 8px; line-height: 1.5;">≈ ~50 mensajes o ~4 agendamientos extra</div>
                         </div>
                         <div class="addon-card">
-                            <div class="addon-price">$9<span>/mes</span></div>
-                            <div class="addon-name">Profesional o usuario extra</div>
+                            <div class="addon-price">$29<span>/mes</span></div>
+                            <div class="addon-name">Usuario / profesional extra</div>
+                            <div style="font-size: 12px; color: var(--ink-m); margin-top: 8px; line-height: 1.5;">Suma asientos sin cambiar de plan</div>
+                        </div>
+                        <div class="addon-card" style="border: 1px solid #7C3AED; position: relative;">
+                            <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #009FE3, #7C3AED, #C850C0); color: #fff; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; padding: 4px 12px; border-radius: 100px; white-space: nowrap;">NUEVO</div>
+                            <div class="addon-price">$21<span>/mes</span></div>
+                            <div class="addon-name">Módulo Odontograma</div>
+                            <div style="font-size: 12px; color: var(--ink-m); margin-top: 8px; line-height: 1.5;">Ficha odontológica visual + historial dental</div>
                         </div>
                     </div>
                 </div>
@@ -439,8 +522,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div class="faq-a">La IA detecta cuándo una conversación necesita intervención humana y la deriva automáticamente a tu equipo.</div>
                         </div>
                         <div class="faq-item" onclick="this.classList.toggle('open')">
-                            <div class="faq-q">¿Qué pasa si supero las conversaciones de mi plan?</div>
-                            <div class="faq-a">Puedes agregar paquetes de +100 conversaciones extra por $15/mes. Growth incluye 150, Conect incluye 500 y Advanced incluye 2,000 conversaciones con IA al mes.</div>
+                            <div class="faq-q">¿Qué es un crédito IA y qué pasa si supero los del plan?</div>
+                            <div class="faq-a">Un crédito IA equivale a una unidad básica de procesamiento de AURA: 1 mensaje IA ≈ 200 créditos, 1 agendamiento automático ≈ 2.200 créditos (porque incluye 10-12 mensajes + llamadas a tools). Te avisamos al 80% y al 100% del cupo. Si excedes, sumas paquetes de +10.000 créditos por $5 USD/mes (≈ 50 mensajes o 4 agendamientos extra). Nunca te bloqueamos sin avisarte.</div>
                         </div>
                         <div class="faq-item" onclick="this.classList.toggle('open')">
                             <div class="faq-q">¿Hay cláusula de permanencia?</div>
@@ -448,7 +531,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         </div>
                         <div class="faq-item" onclick="this.classList.toggle('open')">
                             <div class="faq-q">¿Cuáles son los precios de los planes?</div>
-                            <div class="faq-a">Growth cuesta $89 USD/mes (solo mensajería IA), Conect $129 USD/mes (mensajería + clínica completa) y Advanced $179 USD/mes (multi-sede con IA avanzada). Sin permanencia, cancela cuando quieras.</div>
+                            <div class="faq-a">Growth $89 USD/mes incluye 100.000 créditos IA (~500 mensajes o ~45 agendamientos). Conect $129 USD/mes incluye 150.000 créditos (~750 mensajes o ~65 agendamientos) + módulo clínico completo. Advanced $179 USD/mes incluye 200.000 créditos (~1.000 mensajes o ~90 agendamientos) + multi-sede. Sin permanencia, cancela cuando quieras.</div>
+                        </div>
+                        <div class="faq-item" onclick="this.classList.toggle('open')">
+                            <div class="faq-q">¿Qué es el módulo Odontograma?</div>
+                            <div class="faq-a">Es un add-on nuevo (próximamente) para clínicas dentales: ficha odontológica visual interactiva, historial dental por pieza, integración con consentimientos y agenda. Cuesta $21 USD/mes extra sobre cualquier plan.</div>
                         </div>
                     </div>
                 </div>
@@ -520,6 +607,100 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         if (typeof fbq !== 'undefined') {
             fbq('track', 'InitiateCheckout', { value: 12, currency: 'USD', content_name: 'Pagina Planes' });
         }
+    </script>
+
+    <!-- Calculadora interactiva: lógica -->
+    <script>
+    (function(){
+        const CALC_PLANS = [
+            { name: 'Growth',   price: 89,  credits: 100000 },
+            { name: 'Conect',   price: 129, credits: 150000 },
+            { name: 'Advanced', price: 179, credits: 200000 }
+        ];
+        const CR_PER_MSG  = 200;
+        const CR_PER_APPT = 2200;
+        const OVERAGE_PER_10K = 5;
+
+        const RANGE = {
+            msg:  { min:0, max:1500, step:25, default:400, label:'Mensajes IA / mes',           unit:'msgs',  cr: CR_PER_MSG  },
+            appt: { min:0, max:200,  step:5,  default:30,  label:'Agendamientos automáticos / mes', unit:'agend', cr: CR_PER_APPT }
+        };
+        let currentTab = 'msg';
+
+        const $ = (id) => document.getElementById(id);
+        const slider = $('calcSlider');
+        if (!slider) return; // safety: no calc on page
+        const valueNum   = $('calcValueNum');
+        const valueUnit  = $('calcValueUnit');
+        const unitName   = $('calcUnitName');
+        const maxLabel   = $('calcMax');
+        const credits    = $('calcCredits');
+        const eq         = $('calcEq');
+        const planName   = $('calcPlanName');
+        const planPrice  = $('calcPlanPrice');
+        const planDetail = $('calcPlanDetail');
+        const overage    = $('calcOverage');
+
+        const fmt = (n) => Math.round(n).toLocaleString('es-CL');
+
+        function updateCalc(){
+            const v = +slider.value;
+            const r = RANGE[currentTab];
+            valueNum.textContent  = fmt(v);
+            valueUnit.textContent = ' ' + r.unit;
+            unitName.textContent  = r.label;
+
+            const used = v * r.cr;
+            credits.textContent = fmt(used);
+
+            let chosen = CALC_PLANS[CALC_PLANS.length - 1];
+            for (const p of CALC_PLANS){
+                if (used <= p.credits){ chosen = p; break; }
+            }
+            planName.textContent  = chosen.name;
+            planPrice.textContent = chosen.price;
+
+            const pct = Math.min(999, Math.round((used / chosen.credits) * 100));
+            planDetail.textContent = `Usas ${pct}% de los ${fmt(chosen.credits)} créditos del plan ${chosen.name}`;
+
+            const otherCount = currentTab === 'msg'
+                ? Math.round(used / CR_PER_APPT)
+                : Math.round(used / CR_PER_MSG);
+            const otherUnit  = currentTab === 'msg' ? 'agendamientos automáticos' : 'mensajes IA';
+            eq.innerHTML = `≈ <strong>${fmt(otherCount)} ${otherUnit}</strong> en su equivalente · pool de <strong>${fmt(used)} créditos IA</strong>`;
+
+            const overCredits = Math.max(0, used - chosen.credits);
+            if (overCredits > 0){
+                overage.classList.remove('hide');
+                const packs = Math.ceil(overCredits / 10000);
+                const extra = packs * OVERAGE_PER_10K;
+                overage.textContent = `+ ${fmt(overCredits)} créditos extra → ${packs} pack(s) de $${OVERAGE_PER_10K} = $${extra} USD overage`;
+            } else {
+                overage.classList.add('hide');
+            }
+
+            const pctSlider = ((v - r.min) / (r.max - r.min)) * 100;
+            slider.style.background = `linear-gradient(90deg, #009FE3 0%, #7C3AED ${pctSlider}%, var(--bg3) ${pctSlider}%, var(--bg3) 100%)`;
+        }
+
+        document.querySelectorAll('.calc-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentTab = tab.dataset.tab;
+                const r = RANGE[currentTab];
+                slider.min  = r.min;
+                slider.max  = r.max;
+                slider.step = r.step;
+                slider.value = r.default;
+                maxLabel.textContent = fmt(r.max);
+                updateCalc();
+            });
+        });
+
+        slider.addEventListener('input', updateCalc);
+        updateCalc();
+    })();
     </script>
 </body>
 
