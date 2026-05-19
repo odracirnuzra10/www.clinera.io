@@ -3907,7 +3907,7 @@ export function Pricing() {
                 ))}
               </div>
 
-              <div style={{ borderTop: "1px solid #F3F2F0", paddingTop: 18, marginBottom: 20, flex: 1 }}>
+              <div style={{ borderTop: "1px solid #F3F2F0", paddingTop: 18, marginBottom: 20, flex: 1, display: "flex", flexDirection: "column" }}>
                 <div
                   style={{
                     fontFamily: "'JetBrains Mono', ui-monospace, monospace",
@@ -3960,7 +3960,7 @@ export function Pricing() {
                 {p.models && p.models.length > 0 && (
                   <div
                     style={{
-                      marginTop: 16,
+                      marginTop: "auto",
                       padding: "12px 14px",
                       background: p.featured ? "rgba(124,58,237,.04)" : "#FAFAFA",
                       border: p.featured ? "1px solid rgba(124,58,237,.18)" : "1px solid #E5E7EB",
