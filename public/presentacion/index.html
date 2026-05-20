@@ -1902,6 +1902,95 @@
     .enterprise-card .ent-amt{ font-size: 30px; }
   }
 
+  /* === Add-ons === */
+  .addons-section{
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px dashed var(--line);
+  }
+  .addons-head{ text-align: center; margin-bottom: 18px; }
+  .addons-eyebrow{
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--green);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .addons-eyebrow::before{
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+  .addons-title{
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    margin: 6px 0 0;
+  }
+  .addons-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .addon-card{
+    background: #FAFAFA;
+    border: 1px solid #EEECEA;
+    border-radius: 12px;
+    padding: 22px 22px 20px;
+    text-align: center;
+    position: relative;
+  }
+  .addon-card.is-new{ border-color: var(--violet); }
+  .addon-card .addon-badge{
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--cyan), var(--violet), var(--magenta));
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(124,58,237,.3);
+  }
+  .addon-price{
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .addon-price .per{
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+    margin-left: 4px;
+  }
+  .addon-label{
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-top: 10px;
+  }
+  .addon-sub{
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 5px;
+    line-height: 1.5;
+  }
+  @media (max-width: 720px){
+    .addons-grid{ grid-template-columns: 1fr; }
+  }
+
   /* === ROI slide (Humano vs AURA) === */
   .roi-slide-inner{ max-width: 1080px; margin: 0 auto; }
   .roi-slide-inner .h-display{ font-size: clamp(32px, 4.4vw, 56px); margin-bottom: 12px; }
@@ -2981,9 +3070,9 @@
             <li>3 usuarios</li>
           </ul>
           <div class="plan-models">
-            <span class="pm-label">Modelo IA disponible</span>
+            <span class="pm-label">Modo de agendamiento</span>
             <div class="pm-pills">
-              <span class="pm-pill">Gemini 3 Flash</span>
+              <span class="pm-pill">Eficiente</span>
             </div>
           </div>
           <div class="cost-per-agend">
@@ -3008,15 +3097,13 @@
           <ul class="price-features">
             <li><b>12.000 créditos IA/mes</b></li>
             <li>~900 atenciones</li>
-            <li>Con modo automático de agendamiento</li>
             <li>5 usuarios</li>
           </ul>
           <div class="plan-models">
-            <span class="pm-label">Modelos IA disponibles</span>
+            <span class="pm-label">Modos de agendamiento</span>
             <div class="pm-pills">
-              <span class="pm-pill">Gemini 3 Flash</span>
-              <span class="pm-pill">Kimi K2.6</span>
-              <span class="pm-pill">Claude Sonnet 4.6</span>
+              <span class="pm-pill">Eficiente</span>
+              <span class="pm-pill">Óptimo</span>
             </div>
           </div>
           <div class="cost-per-agend">
@@ -3042,16 +3129,15 @@
           <ul class="price-features">
             <li><b>32.000 créditos IA/mes · 4× Core</b></li>
             <li>~2.400 atenciones</li>
-            <li>Con modo automático de agendamiento</li>
             <li>Webhooks + API pública</li>
             <li>15 usuarios</li>
           </ul>
           <div class="plan-models">
-            <span class="pm-label">Modelos IA disponibles</span>
+            <span class="pm-label">Modos de agendamiento</span>
             <div class="pm-pills">
-              <span class="pm-pill">Gemini 3 Flash</span>
-              <span class="pm-pill">Kimi K2.6</span>
-              <span class="pm-pill">Claude Sonnet 4.6</span>
+              <span class="pm-pill">Eficiente</span>
+              <span class="pm-pill">Óptimo</span>
+              <span class="pm-pill">Agentic Flash</span>
             </div>
           </div>
           <div class="cost-per-agend featured">
@@ -3079,6 +3165,31 @@
             <span class="ent-per">USD/mes</span>
           </div>
           <a class="ent-cta" href="https://www.clinera.io/planes" target="_self">Hablar con ventas →</a>
+        </div>
+      </div>
+
+      <div class="addons-section">
+        <div class="addons-head">
+          <span class="addons-eyebrow">Add-ons</span>
+          <h3 class="addons-title">Escala cuando lo necesites.</h3>
+        </div>
+        <div class="addons-grid">
+          <div class="addon-card">
+            <div class="addon-price">$50<span class="per">/mes</span></div>
+            <div class="addon-label">+5.000 créditos IA</div>
+            <div class="addon-sub">≈ ~375 atenciones extra</div>
+          </div>
+          <div class="addon-card">
+            <div class="addon-price">$9<span class="per">/mes</span></div>
+            <div class="addon-label">Usuario / profesional extra</div>
+            <div class="addon-sub">Suma asientos sin cambiar de plan</div>
+          </div>
+          <div class="addon-card is-new">
+            <span class="addon-badge">NUEVO</span>
+            <div class="addon-price">$21<span class="per">/mes</span></div>
+            <div class="addon-label">Módulo Odontograma</div>
+            <div class="addon-sub">Ficha odontológica visual + historial dental</div>
+          </div>
         </div>
       </div>
     </div>

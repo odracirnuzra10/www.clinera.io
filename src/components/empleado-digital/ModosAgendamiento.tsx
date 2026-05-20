@@ -12,23 +12,24 @@ type Modo = {
 const MODOS: Modo[] = [
   {
     idx: "01",
-    title: "Enlace interno",
-    desc: "AURA conversa por WhatsApp y envía un link del calendario nativo de Clinera para que el paciente confirme. Incluido en todos los planes.",
-    innerEyebrow: "Core · Conect · Advanced",
+    title: "Eficiente",
+    desc: "Tu IA conversa. Tu paciente confirma con un link a tu calendario propio o al de Clinera. ~3 créditos por atención — el costo IA más bajo del mercado.",
+    innerEyebrow: "Desde Plan Core",
   },
   {
     idx: "02",
-    title: "Enlace externo",
-    desc: "AURA comparte tu link de agendamiento existente (Calendly, AgendaPro, Reservo, etc.). Tu agenda no se mueve. Conect y Advanced.",
-    innerEyebrow: "Conect · Advanced",
+    title: "Óptimo",
+    desc: "Tu IA agenda sola, sin links, sin fricción. La mejor relación capacidad agéntica / costo (~13 créditos por atención). Lo que usa la mayoría de las clínicas.",
+    tag: "RECOMENDADO",
+    featured: true,
+    innerEyebrow: "Desde Plan Conect",
   },
   {
     idx: "03",
-    title: "Automático",
-    desc: "AURA agenda directamente en tu calendario, sin que el paciente tenga que hacer nada extra. 100% sin fricción.",
-    tag: "RECOMENDADO",
-    featured: true,
-    innerEyebrow: "Conect · Advanced",
+    title: "Agentic Flash",
+    desc: "Mismo nivel agéntico que Óptimo, respuesta inmediata (289 tokens/s). Para clínicas que no toleran latencia (~28 créditos por atención).",
+    tag: "VELOCIDAD MÁX",
+    innerEyebrow: "Solo Plan Advanced",
   },
 ];
 
@@ -39,10 +40,10 @@ export default function ModosAgendamiento() {
         <div className={styles.modosHead}>
           <p className={styles.duoEyebrow}>3 modos de agendamiento</p>
           <h2 id="modos-h2" className={styles.duoH2}>
-            Una sola IA, tres formas de cerrar una cita
+            Una sola IA. Tres formas de cerrar la cita.
           </h2>
           <p className={styles.modoSubtitle} style={{ marginTop: 14, fontSize: 16, color: "#4B5563", lineHeight: 1.55, maxWidth: 660 }}>
-            Elige el modo según tu flujo. Conect y Advanced incluyen los 3; Core viene con Enlace interno por default.
+            Elige según tu volumen y velocidad de respuesta. Subes de plan, subes de modo.
           </p>
         </div>
 

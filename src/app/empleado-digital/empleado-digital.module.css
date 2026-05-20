@@ -288,7 +288,7 @@
 
 /* ---- Identidad visual por card ---- */
 
-/* 01 · Enlace interno — DEFAULT, acento cyan suave */
+/* 01 · Eficiente — base, acento cyan suave */
 .modosGrid > .modoCard:nth-child(1) {
   background: linear-gradient(180deg, rgba(0, 159, 227, 0.05) 0%, var(--bg-panel) 70%);
   border-color: rgba(0, 159, 227, 0.18);
@@ -296,32 +296,23 @@
 .modosGrid > .modoCard:nth-child(1) .modoIndex {
   color: var(--brand-cyan);
 }
-.modosGrid > .modoCard:nth-child(1)::after {
-  content: "DEFAULT";
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  color: var(--brand-cyan);
-  background: rgba(0, 159, 227, 0.08);
-  padding: 3px 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 159, 227, 0.22);
-}
 
-/* 02 · Automático — EXPERIMENTAL, acento ámbar */
-.modosGrid > .modoCard:nth-child(2) {
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.05) 0%, var(--bg-panel) 70%);
-  border-color: rgba(245, 158, 11, 0.22);
+/* 02 · Óptimo — featured (recomendado): gradient border via .modoCardFeatured */
+.modosGrid > .modoCard.modoCardFeatured:nth-child(2) {
+  background:
+    linear-gradient(var(--bg-panel), var(--bg-panel)) padding-box,
+    linear-gradient(135deg, rgba(0, 159, 227, 0.5), rgba(124, 58, 237, 0.5), rgba(200, 80, 192, 0.5)) border-box;
+  border: 1px solid transparent;
 }
 .modosGrid > .modoCard:nth-child(2) .modoIndex {
-  color: #D97706;
+  color: var(--brand-violet);
 }
 
-/* 03 · Enlace externo — featured con gradient ya está cubierto por .modoCardFeatured */
+/* 03 · Agentic Flash — premium, acento magenta + idx gradient */
+.modosGrid > .modoCard:nth-child(3) {
+  background: linear-gradient(180deg, rgba(200, 80, 192, 0.05) 0%, var(--bg-panel) 70%);
+  border-color: rgba(200, 80, 192, 0.22);
+}
 .modosGrid > .modoCard:nth-child(3) .modoIndex {
   background: linear-gradient(135deg, var(--brand-cyan), var(--brand-violet), var(--brand-magenta));
   -webkit-background-clip: text;
@@ -358,9 +349,14 @@
   letter-spacing: 0.08em;
   padding: 3px 8px;
   border-radius: 999px;
-  background: rgba(245, 158, 11, 0.1);
-  color: #B45309;
-  border: 1px solid #FDE68A;
+  background: rgba(124, 58, 237, 0.1);
+  color: var(--brand-violet);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+}
+.modosGrid > .modoCard:nth-child(3) .modoBetaTag {
+  background: linear-gradient(135deg, rgba(0, 159, 227, 0.12), rgba(124, 58, 237, 0.12), rgba(200, 80, 192, 0.12));
+  color: var(--brand-magenta);
+  border-color: rgba(200, 80, 192, 0.32);
 }
 
 .modoDesc {

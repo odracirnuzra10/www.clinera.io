@@ -1,6 +1,7 @@
 "use client";
 
 import TrialBanner from "@/components/cro/TrialBanner";
+import ModosAgendamiento from "@/components/empleado-digital/ModosAgendamiento";
 import {
   DarkBreak,
   Estudios,
@@ -56,6 +57,7 @@ export default function HomeV3() {
       <TrialBanner />
       <Logos />
       <Features />
+      <ModosAgendamiento />
       <Integraciones />
       <Estudios />
       <DarkBreak />

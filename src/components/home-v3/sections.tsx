@@ -3689,7 +3689,7 @@ export function Pricing() {
         "~600 atenciones",
         "3 usuarios incluidos",
       ],
-      models: ["Gemini 3 Flash"],
+      modos: ["Eficiente"],
       stripe: "https://buy.stripe.com/6oUfZj9l70IaaAX0xB1441e",
     },
     {
@@ -3705,10 +3705,9 @@ export function Pricing() {
       features: [
         "12.000 créditos IA / mes",
         "~900 atenciones",
-        "Con modo automático de agendamiento",
         "5 usuarios / profesionales",
       ],
-      models: ["Gemini 3 Flash", "Kimi K2.6", "Claude Sonnet 4.6"],
+      modos: ["Eficiente", "Óptimo"],
       stripe: "https://buy.stripe.com/fZu28tcxjez04cz9471441f",
     },
     {
@@ -3726,11 +3725,10 @@ export function Pricing() {
       features: [
         "32.000 créditos IA / mes · 4× Core",
         "~2.400 atenciones",
-        "Con modo automático de agendamiento",
         "Webhooks + API pública",
         "15 usuarios / profesionales",
       ],
-      models: ["Gemini 3 Flash", "Kimi K2.6", "Claude Sonnet 4.6"],
+      modos: ["Eficiente", "Óptimo", "Agentic Flash"],
       stripe: "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g",
     },
   ];
@@ -3957,7 +3955,7 @@ export function Pricing() {
                   ))}
                 </div>
 
-                {p.models && p.models.length > 0 && (
+                {p.modos && p.modos.length > 0 && (
                   <div
                     style={{
                       marginTop: 20,
@@ -3982,38 +3980,44 @@ export function Pricing() {
                         marginBottom: 8,
                       }}
                     >
-                      {p.models.length === 1 ? "Modelo IA disponible" : "Modelos IA disponibles"}
+                      {p.modos.length === 1 ? "Modo de agendamiento" : "Modos de agendamiento"}
                     </div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                      {p.models.map((m) => (
-                        <span
-                          key={m}
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: 5,
-                            padding: "4px 10px",
-                            background: "#fff",
-                            border: "1px solid #E5E7EB",
-                            borderRadius: 999,
-                            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                            fontSize: 11,
-                            color: "#0A0A0A",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
+                      {p.modos.map((m) => {
+                        const dotColor =
+                          m === "Eficiente" ? "#009FE3"
+                          : m === "Óptimo" ? "#7C3AED"
+                          : "#C850C0";
+                        return (
                           <span
+                            key={m}
                             style={{
-                              width: 5,
-                              height: 5,
-                              borderRadius: "50%",
-                              background: "#7C3AED",
-                              display: "inline-block",
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 5,
+                              padding: "4px 10px",
+                              background: "#fff",
+                              border: "1px solid #E5E7EB",
+                              borderRadius: 999,
+                              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                              fontSize: 11,
+                              color: "#0A0A0A",
+                              whiteSpace: "nowrap",
                             }}
-                          />
-                          {m}
-                        </span>
-                      ))}
+                          >
+                            <span
+                              style={{
+                                width: 5,
+                                height: 5,
+                                borderRadius: "50%",
+                                background: dotColor,
+                                display: "inline-block",
+                              }}
+                            />
+                            {m}
+                          </span>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
