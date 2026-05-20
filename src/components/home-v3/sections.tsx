@@ -3707,7 +3707,7 @@ export function Pricing() {
         "~900 atenciones",
         "5 usuarios / profesionales",
       ],
-      modos: ["Eficiente", "Óptimo"],
+      modos: ["Eficiente", "Agentic"],
       stripe: "https://buy.stripe.com/fZu28tcxjez04cz9471441f",
     },
     {
@@ -3728,7 +3728,7 @@ export function Pricing() {
         "Webhooks + API pública",
         "15 usuarios / profesionales",
       ],
-      modos: ["Eficiente", "Óptimo", "Agentic Flash"],
+      modos: ["Eficiente", "Agentic", "Agentic Flash"],
       stripe: "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g",
     },
   ];
@@ -3986,7 +3986,7 @@ export function Pricing() {
                       {p.modos.map((m) => {
                         const dotColor =
                           m === "Eficiente" ? "#009FE3"
-                          : m === "Óptimo" ? "#7C3AED"
+                          : m === "Agentic" ? "#7C3AED"
                           : "#C850C0";
                         return (
                           <span

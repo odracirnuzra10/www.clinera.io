@@ -297,7 +297,7 @@
   color: var(--brand-cyan);
 }
 
-/* 02 · Óptimo — featured (recomendado): gradient border via .modoCardFeatured */
+/* 02 · Agentic — featured (recomendado): gradient border via .modoCardFeatured */
 .modosGrid > .modoCard.modoCardFeatured:nth-child(2) {
   background:
     linear-gradient(var(--bg-panel), var(--bg-panel)) padding-box,

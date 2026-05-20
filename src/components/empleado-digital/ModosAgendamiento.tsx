@@ -18,7 +18,7 @@ const MODOS: Modo[] = [
   },
   {
     idx: "02",
-    title: "Óptimo",
+    title: "Agentic",
     desc: "Tu IA agenda sola, sin links, sin fricción. La mejor relación capacidad agéntica / costo (~13 créditos por atención). Lo que usa la mayoría de las clínicas.",
     tag: "RECOMENDADO",
     featured: true,
@@ -27,7 +27,7 @@ const MODOS: Modo[] = [
   {
     idx: "03",
     title: "Agentic Flash",
-    desc: "Mismo nivel agéntico que Óptimo, respuesta inmediata (289 tokens/s). Para clínicas que no toleran latencia (~28 créditos por atención).",
+    desc: "Mismo nivel agéntico que Agentic, respuesta inmediata (289 tokens/s). Para clínicas que no toleran latencia (~28 créditos por atención).",
     tag: "VELOCIDAD MÁX",
     innerEyebrow: "Solo Plan Advanced",
   },
