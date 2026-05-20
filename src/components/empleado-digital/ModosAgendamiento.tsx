@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "@/app/empleado-digital/empleado-digital.module.css";
 
 type Modo = {
@@ -65,6 +66,29 @@ export default function ModosAgendamiento() {
             </article>
           ))}
         </div>
+
+        <p
+          style={{
+            marginTop: 28,
+            textAlign: "center",
+            fontSize: 13,
+            color: "#6B7280",
+            lineHeight: 1.5,
+          }}
+        >
+          ¿Quieres entender qué modelo está detrás de cada modo?{" "}
+          <Link
+            href="/blog/modos-agendamiento-ia-eficiente-agentic-agentic-flash"
+            style={{
+              color: "#7C3AED",
+              textDecoration: "underline",
+              textDecorationThickness: 1,
+              textUnderlineOffset: 3,
+            }}
+          >
+            Lee el artículo técnico →
+          </Link>
+        </p>
       </div>
     </section>
   );
