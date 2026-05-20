@@ -139,11 +139,46 @@ Lo que no mejora es el costo: al ser un modelo más grande y más capaz, consume
 
 ## Comparativa rápida
 
-| Modo | Modelo | Agéntico | Tokens/seg | Créditos/atención | Plan mínimo |
-|------|--------|----------|------------|-------------------|-------------|
-| Eficiente | Gemini 3 Flash | No | ~140 | ~3 | Core |
-| Agentic | Kimi K2.6 | Sí | ~110 | ~13 | Conect |
-| Agentic Flash | Gemini 3.5 Flash | Sí | ~289 | ~28 | Advanced |
+<div style={{ overflowX: "auto", margin: "20px 0", border: "1px solid #EEECEA", borderRadius: 12 }}>
+  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 15, lineHeight: 1.5 }}>
+    <thead>
+      <tr style={{ background: "#FAFAFA", borderBottom: "1px solid #EEECEA" }}>
+        <th style={{ textAlign: "left", padding: "14px 16px", fontWeight: 600, color: "#111827", fontSize: 13, letterSpacing: "0.02em" }}>Modo</th>
+        <th style={{ textAlign: "left", padding: "14px 16px", fontWeight: 600, color: "#111827", fontSize: 13, letterSpacing: "0.02em" }}>Modelo</th>
+        <th style={{ textAlign: "center", padding: "14px 16px", fontWeight: 600, color: "#111827", fontSize: 13, letterSpacing: "0.02em" }}>Agéntico</th>
+        <th style={{ textAlign: "right", padding: "14px 16px", fontWeight: 600, color: "#111827", fontSize: 13, letterSpacing: "0.02em" }}>Tokens/seg</th>
+        <th style={{ textAlign: "right", padding: "14px 16px", fontWeight: 600, color: "#111827", fontSize: 13, letterSpacing: "0.02em" }}>Créditos/atención</th>
+        <th style={{ textAlign: "left", padding: "14px 16px", fontWeight: 600, color: "#111827", fontSize: 13, letterSpacing: "0.02em" }}>Plan mínimo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style={{ borderBottom: "1px solid #F3F2F0" }}>
+        <td style={{ padding: "14px 16px", fontWeight: 600, color: "#0A0A0A" }}>Eficiente</td>
+        <td style={{ padding: "14px 16px", color: "#374151" }}>Gemini 3 Flash</td>
+        <td style={{ padding: "14px 16px", textAlign: "center", color: "#6B7280" }}>No</td>
+        <td style={{ padding: "14px 16px", textAlign: "right", color: "#374151", fontVariantNumeric: "tabular-nums" }}>~140</td>
+        <td style={{ padding: "14px 16px", textAlign: "right", color: "#374151", fontVariantNumeric: "tabular-nums" }}>~3</td>
+        <td style={{ padding: "14px 16px", color: "#374151" }}>Core</td>
+      </tr>
+      <tr style={{ borderBottom: "1px solid #F3F2F0", background: "#FBFAFF" }}>
+        <td style={{ padding: "14px 16px", fontWeight: 600, color: "#0A0A0A" }}>Agentic</td>
+        <td style={{ padding: "14px 16px", color: "#374151" }}>Kimi K2.6</td>
+        <td style={{ padding: "14px 16px", textAlign: "center", color: "#7C3AED", fontWeight: 600 }}>Sí</td>
+        <td style={{ padding: "14px 16px", textAlign: "right", color: "#374151", fontVariantNumeric: "tabular-nums" }}>~110</td>
+        <td style={{ padding: "14px 16px", textAlign: "right", color: "#374151", fontVariantNumeric: "tabular-nums" }}>~13</td>
+        <td style={{ padding: "14px 16px", color: "#374151" }}>Conect</td>
+      </tr>
+      <tr>
+        <td style={{ padding: "14px 16px", fontWeight: 600, color: "#0A0A0A" }}>Agentic Flash</td>
+        <td style={{ padding: "14px 16px", color: "#374151" }}>Gemini 3.5 Flash</td>
+        <td style={{ padding: "14px 16px", textAlign: "center", color: "#7C3AED", fontWeight: 600 }}>Sí</td>
+        <td style={{ padding: "14px 16px", textAlign: "right", color: "#374151", fontVariantNumeric: "tabular-nums" }}>~289</td>
+        <td style={{ padding: "14px 16px", textAlign: "right", color: "#374151", fontVariantNumeric: "tabular-nums" }}>~28</td>
+        <td style={{ padding: "14px 16px", color: "#374151" }}>Advanced</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 Los créditos son estimados con mix realista (consultas + agendamientos + tool calls) y con margen conservador para evitar sorpresas a fin de mes.
 
