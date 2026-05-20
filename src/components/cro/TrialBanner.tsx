@@ -78,7 +78,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
             href="/planes"
             data-plan="conect"
             data-plan-name="Conect signup"
-            data-plan-value="129"
+            data-plan-value="179"
             style={{
               background: "linear-gradient(135deg, #7C3AED 0%, #D946EF 100%)",
               color: "#fff",
@@ -90,7 +90,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
               boxShadow: "0 10px 26px -8px rgba(124,58,237,0.45)",
             }}
           >
-            Activar Conect $129 →
+            Activar Conect $179 →
           </Link>
           <Link
             href="/hablar-con-ventas"

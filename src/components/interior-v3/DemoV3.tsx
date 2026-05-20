@@ -711,7 +711,7 @@ function PlansSection() {
           style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, maxWidth: 980, margin: "48px auto 0" }}
         >
           {[
-            { price: "$20", unit: "/mes", label: "+5.000 créditos IA" },
+            { price: "$50", unit: "/mes", label: "+5.000 créditos IA" },
             { price: "$9", unit: "/mes", label: "Profesional o usuario extra" },
             { price: "$21", unit: "/mes", label: "Módulo Odontograma" },
           ].map((it) => (

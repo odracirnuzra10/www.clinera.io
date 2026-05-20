@@ -12,7 +12,7 @@ const FAQ = [
   { q: "¿Puedo cambiar de plan después?", a: "Sí. Puedes subir o bajar de plan en cualquier momento desde tu panel. El cambio se aplica en tu próximo ciclo de facturación." },
   { q: "¿Tienen plan para cadenas grandes u hospitales?", a: "Sí, el plan Corporativo (desde USD 1.500/mes) es personalizado: créditos a medida, onboarding white-glove, SLA personalizado, integraciones a medida, soporte dedicado y facturación adaptada. Habla con ventas para armar la propuesta." },
   { q: "¿Hay permanencia o contrato?", a: "No. Todos los planes son mes a mes. Puedes cancelar en cualquier momento sin penalizaciones." },
-  { q: "¿Qué pasa si supero el cupo de mi plan?", a: "Te avisamos al 80% y al 100% del cupo de créditos. Tu servicio no se interrumpe sin aviso. Si necesitas más, sumas un add-on de +5.000 créditos IA por $20 USD/mes (≈ ~375 atenciones extra) o subes de plan." },
+  { q: "¿Qué pasa si supero el cupo de mi plan?", a: "Te avisamos al 80% y al 100% del cupo de créditos. Tu servicio no se interrumpe sin aviso. Si necesitas más, sumas un add-on de +5.000 créditos IA por $50 USD/mes (≈ ~375 atenciones extra) o subes de plan." },
   { q: "¿Se integra con mi software actual?", a: "Sí. Clinera se conecta vía API con Reservo, AgendaPro, Medilink, Dentalink, Sacmed y cualquier sistema que exponga una API REST o soporte MCP." },
   { q: "¿Cómo funciona la IA de mensajería?", a: "Nuestra IA responde automáticamente por WhatsApp usando memoria contextual. Agenda, confirma y responde consultas 24/7. Si necesita un humano, deriva la conversación automáticamente." },
   { q: "¿Qué es el módulo Odontograma?", a: "Es un add-on nuevo para clínicas dentales (próximamente): ficha odontológica visual interactiva por pieza dental, historial completo, integración con consentimientos y agenda. Cuesta $21 USD/mes extra sobre cualquier plan." },
@@ -93,7 +93,7 @@ function PlanesHero() {
 
 function Addons() {
   const items = [
-    { price: "$20", unit: "/mes", label: "+5.000 créditos IA",          sub: "≈ ~375 atenciones extra" },
+    { price: "$50", unit: "/mes", label: "+5.000 créditos IA",          sub: "≈ ~375 atenciones extra" },
     { price: "$9",  unit: "/mes", label: "Usuario / profesional extra", sub: "Suma asientos sin cambiar de plan" },
     { price: "$21", unit: "/mes", label: "Módulo Odontograma",          sub: "Ficha odontológica visual + historial dental", isNew: true },
   ];
