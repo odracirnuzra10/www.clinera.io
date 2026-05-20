@@ -9,6 +9,7 @@ import {
   GRAD,
   Mono,
 } from "@/components/brand-v3/Brand";
+import ModosAgendamiento from "@/components/empleado-digital/ModosAgendamiento";
 
 /* ============================================================
    /funciones — rediseño v3 con el lenguaje del home nuevo
@@ -67,11 +68,13 @@ export default function FuncionesV3() {
       <Hero />
       <FeatureIndex />
       <FeaturesList />
+      <ModosAgendamiento />
       <Testimonials />
       <FinalCTA />
     </>
   );
 }
+
 
 /* -------------------------------- HERO -------------------------------- */
 function Hero() {
