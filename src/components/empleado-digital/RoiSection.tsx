@@ -2,7 +2,7 @@
 
 const ROWS: Array<{ label: string; human: string; aura: string }> = [
   { label: "Costo mensual", human: "~$950 USD", aura: "$359 USD" },
-  { label: "Atenciones / mes", human: "500–1.500", aura: "~2.400" },
+  { label: "Atenciones / mes", human: "500–1.500", aura: "hasta 1.880" },
   { label: "Horario", human: "45 h / semana", aura: "24 / 7 / 365" },
   { label: "Vacaciones / licencias", human: "15–20 días al año sin servicio", aura: "Cero" },
   { label: "Atenciones simultáneas", human: "1–2", aura: "Ilimitadas" },
@@ -116,6 +116,7 @@ export default function RoiSection() {
               }}
             >
               <div
+                className="roi-cell-label"
                 style={{
                   fontFamily: "Inter",
                   fontSize: 14.5,
@@ -126,15 +127,18 @@ export default function RoiSection() {
                 {row.label}
               </div>
               <div
+                className="roi-cell-human"
                 style={{
                   fontFamily: "'JetBrains Mono', ui-monospace, monospace",
                   fontSize: 13,
                   color: "#6B7280",
                 }}
               >
+                <span className="roi-cell-tag" aria-hidden>Humano</span>
                 {row.human}
               </div>
               <div
+                className="roi-cell-aura"
                 style={{
                   fontFamily: "'JetBrains Mono', ui-monospace, monospace",
                   fontSize: 13,
@@ -142,6 +146,7 @@ export default function RoiSection() {
                   fontWeight: 500,
                 }}
               >
+                <span className="roi-cell-tag roi-cell-tag-aura" aria-hidden>AURA Advanced</span>
                 {row.aura}
               </div>
             </div>
@@ -188,7 +193,7 @@ export default function RoiSection() {
                 marginBottom: 8,
               }}
             >
-              ~$592
+              ~$591
             </div>
             <div style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280", lineHeight: 1.5 }}>
               USD vs. una recepcionista en Chile
@@ -227,7 +232,7 @@ export default function RoiSection() {
                 marginBottom: 8,
               }}
             >
-              ~$7.104
+              ~$7.092
             </div>
             <div
               style={{
@@ -271,10 +276,10 @@ export default function RoiSection() {
                 marginBottom: 8,
               }}
             >
-              3,7×
+              ~1,9×
             </div>
             <div style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280", lineHeight: 1.5 }}>
-              turnos simultáneos cubiertos
+              capacidad vs. un humano promedio
             </div>
           </div>
         </div>
@@ -300,14 +305,46 @@ export default function RoiSection() {
       </div>
 
       <style jsx>{`
+        :global(.roi-cell-tag) {
+          display: none;
+        }
         @media (max-width: 720px) {
-          :global(.roi-row-head),
-          :global(.roi-row) {
-            grid-template-columns: 1fr !important;
-            gap: 4px !important;
-          }
           :global(.roi-row-head) {
             display: none !important;
+          }
+          :global(.roi-row) {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+            padding: 18px 18px !important;
+          }
+          :global(.roi-cell-label) {
+            font-size: 13px !important;
+            color: #6B7280 !important;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+            font-weight: 600 !important;
+            margin-bottom: 2px;
+          }
+          :global(.roi-cell-human),
+          :global(.roi-cell-aura) {
+            display: grid !important;
+            grid-template-columns: 110px 1fr;
+            align-items: baseline;
+            font-size: 14.5px !important;
+            gap: 12px;
+          }
+          :global(.roi-cell-tag) {
+            display: inline-block;
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #9CA3AF;
+            font-weight: 600;
+          }
+          :global(.roi-cell-tag-aura) {
+            color: #7C3AED;
           }
           :global(.roi-kpis) {
             grid-template-columns: 1fr !important;

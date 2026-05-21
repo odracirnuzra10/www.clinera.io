@@ -18,7 +18,7 @@ const cols: Col[] = [
   {
     t: "Recursos",
     l: [
-      ["Calculadora de ROI", "/recursos/calculadora-roi"],
+      ["Calcula tu consumo", "/calculadora-de-consumo"],
       ["Estudio de efectividad", "/efectividad"],
       ["Estudio de confianza", "/blog/estudio-ia-respuesta-humana-confianza-pacientes"],
       ["Novedades Clinera", "/novedades"],

@@ -5,20 +5,20 @@ const CARDS = [
     icon: "💬",
     title: "Consulta o FAQ",
     desc: "Un paciente pregunta por precios, ubicación, horarios o servicios. AURA responde con contexto de tu clínica.",
-    creditos: "~5–8 créditos",
+    creditos: "~1–4 créditos",
   },
   {
     icon: "📅",
     title: "Agendamiento completo",
     desc: "AURA conversa, valida disponibilidad, ejecuta tool calls a tu agenda y BD, confirma la cita.",
-    creditos: "~12–15 créditos",
+    creditos: "~17 créditos",
     featured: true,
   },
   {
     icon: "🔄",
     title: "Re-agenda o reactivación",
     desc: "Mueve una cita existente, contacta a un paciente dormido, gestiona cobros pendientes.",
-    creditos: "~10–13 créditos",
+    creditos: "~17–23 créditos",
   },
 ];
 
@@ -172,9 +172,34 @@ export default function AtencionesExplainer() {
             borderLeft: "3px solid #E5E7EB",
           }}
         >
-          <strong style={{ color: "#0A0A0A" }}>1 crédito = ~$0.001 USD</strong> de costo de IA.
-          Los cupos de cada plan se calcularon con un margen conservador (-10%) para que tu
-          atención promedio no se quede corta — y nunca pases por sorpresa del cupo.
+          <strong style={{ color: "#0A0A0A" }}>Costo por atención según el plan: ~$0.19 (Advanced) · ~$0.26 (Conect) · ~$0.22 (Core).</strong>{" "}
+          Los cupos se calcularon con un margen conservador (~30%) para que tu atención
+          promedio no se quede corta — y nunca pases por sorpresa del cupo.
+        </p>
+
+        <p
+          style={{
+            marginTop: 18,
+            textAlign: "center",
+            fontFamily: "Inter",
+            fontSize: 14,
+            color: "#6B7280",
+            lineHeight: 1.5,
+          }}
+        >
+          ¿Cuánto consume tu clínica al mes?{" "}
+          <a
+            href="/calculadora-de-consumo"
+            style={{
+              color: "#7C3AED",
+              textDecoration: "underline",
+              textDecorationThickness: 1,
+              textUnderlineOffset: 3,
+              fontWeight: 600,
+            }}
+          >
+            Calcula tu plan ideal →
+          </a>
         </p>
       </div>
 

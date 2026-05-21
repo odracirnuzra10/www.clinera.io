@@ -3779,24 +3779,45 @@ export function Pricing() {
 
         <div
           className="reveal home-pricing-grid"
-          style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1.18fr",
+            gap: 20,
+            alignItems: "stretch",
+          }}
         >
           {plans.map((p) => (
             <article
               key={p.name}
+              className={p.featured ? "home-plan-card home-plan-card-featured" : "home-plan-card"}
               style={{
                 background: "#fff",
                 borderRadius: 20,
-                padding: 30,
+                padding: p.featured ? "36px 32px" : "30px",
                 border: p.featured ? "2px solid #7C3AED" : "1px solid #E5E7EB",
                 boxShadow: p.featured
-                  ? "0 28px 72px rgba(124,58,237,.16), 0 8px 20px rgba(217,70,239,.08)"
+                  ? "0 36px 80px -16px rgba(124,58,237,.30), 0 12px 28px rgba(217,70,239,.12)"
                   : "0 4px 24px rgba(0,0,0,.03)",
                 position: "relative",
                 display: "flex",
                 flexDirection: "column",
+                transform: p.featured ? "translateY(-8px)" : "none",
+                overflow: "hidden",
               }}
             >
+              {p.featured && (
+                <div
+                  aria-hidden
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 4,
+                    background: GRAD,
+                  }}
+                />
+              )}
               {p.featured && (
                 <div
                   style={{
@@ -3810,13 +3831,14 @@ export function Pricing() {
                     fontSize: 10.5,
                     letterSpacing: "0.14em",
                     textTransform: "uppercase",
-                    padding: "6px 14px",
+                    padding: "7px 16px",
                     borderRadius: 999,
-                    fontWeight: 500,
-                    boxShadow: "0 8px 20px -4px rgba(124,58,237,.4)",
+                    fontWeight: 600,
+                    boxShadow: "0 10px 24px -4px rgba(124,58,237,.45)",
+                    whiteSpace: "nowrap",
                   }}
                 >
-                  ★ 4× más IA
+                  ★ El más elegido · 4× más IA
                 </div>
               )}
               <div
@@ -4220,7 +4242,9 @@ export function Pricing() {
       </div>
       <style jsx>{`
         @media (max-width: 980px) {
-          :global(.home-pricing-grid) { grid-template-columns: 1fr !important; gap: 20px !important; }
+          :global(.home-pricing-grid) { grid-template-columns: 1fr !important; gap: 28px !important; }
+          :global(.home-plan-card) { transform: none !important; }
+          :global(.home-plan-card-featured) { order: -1; }
         }
         @media (max-width: 720px) {
           :global(.home-enterprise-card) { grid-template-columns: 1fr !important; gap: 20px !important; padding: 24px !important; }
