@@ -1,6 +1,6 @@
 ---
 title: "Los 3 modos de agendamiento con IA en Clinera: Eficiente, Agentic y Agentic Flash"
-description: "Eficiente, Agentic y Agentic Flash: qué modelo usa cada modo (Gemini 3 Flash, Kimi K2.6 y Gemini 3.5 Flash), cuántos créditos consume, qué hace cada uno y para qué tipo de clínica conviene."
+description: "Eficiente, Agentic y Agentic Flash: qué modelo usa cada modo (Gemini 3.0 Flash, Kimi K2.6 y Gemini 3.5 Flash), cuántos créditos consume, qué hace cada uno y para qué tipo de clínica conviene."
 slug: modos-agendamiento-ia-eficiente-agentic-agentic-flash
 publishedAt: "2026-05-20"
 category: "Tecnología"
@@ -10,7 +10,7 @@ author: "Equipo Clinera"
 wordsApprox: 1750
 faq:
   - q: "¿Cuál es la diferencia real entre los 3 modos?"
-    a: "Eficiente conversa por WhatsApp y entrega un link al paciente para que confirme su hora (usa Gemini 3 Flash, no agéntico). Agentic agenda directamente en tu sistema sin links ni fricción (usa Kimi K2.6, modelo orquestador de tools). Agentic Flash hace lo mismo que Agentic pero con respuesta inmediata (usa Gemini 3.5 Flash, el último modelo de Google lanzado el 19 de mayo de 2026)."
+    a: "Eficiente conversa por WhatsApp y entrega un link al paciente para que confirme su hora (usa Gemini 3.0 Flash, no agéntico). Agentic agenda directamente en tu sistema sin links ni fricción (usa Kimi K2.6, modelo orquestador de tools). Agentic Flash hace lo mismo que Agentic pero con respuesta inmediata (usa Gemini 3.5 Flash, el último modelo de Google lanzado el 19 de mayo de 2026)."
   - q: "¿Qué significa que un modelo sea agéntico?"
     a: "Un modelo agéntico no solo responde texto: ejecuta acciones reales contra tu sistema. Crear una cita, reagendarla, consultar el historial clínico de un paciente, revisar pagos pendientes o cancelar una sesión son tool calls. Agentic y Agentic Flash hacen eso solos. Eficiente no — necesita que el paciente termine el flujo en una página externa."
   - q: "¿Cuántos créditos consume cada modo por atención?"
@@ -24,7 +24,7 @@ faq:
 ## TL;DR
 
 - Clinera no usa un solo modelo de IA — usa tres modos distintos según el balance entre **costo**, **autonomía** y **velocidad** que necesite tu clínica.
-- **Eficiente** (Gemini 3 Flash, no agéntico): conversa y deja que el paciente confirme en un link de agenda. ~3 créditos por atención.
+- **Eficiente** (Gemini 3.0 Flash, no agéntico): conversa y deja que el paciente confirme en un link de agenda. ~3 créditos por atención.
 - **Agentic** (Kimi K2.6, agéntico): agenda solo, sin links ni fricción. ~13 créditos por atención. Es el modo que usa la mayoría de las clínicas.
 - **Agentic Flash** (Gemini 3.5 Flash, agéntico ultra rápido): mismo resultado funcional que Agentic pero respondiendo a **289 tokens por segundo**. ~28 créditos por atención.
 
@@ -46,9 +46,9 @@ A partir de esto, cada modo encaja en un perfil distinto.
 
 ---
 
-## Modo Eficiente — Gemini 3 Flash
+## Modo Eficiente — Gemini 3.0 Flash
 
-Es el modo más liviano del set. Usa **Gemini 3 Flash** de Google, un modelo conversacional optimizado para latencia baja y costo por token mínimo.
+Es el modo más liviano del set. Usa **Gemini 3.0 Flash** de Google, un modelo conversacional optimizado para latencia baja y costo por token mínimo.
 
 ### Qué hace
 
@@ -56,11 +56,11 @@ La IA conversa por WhatsApp con calidez humana, responde dudas frecuentes (preci
 
 El paciente abre el link, ve los horarios disponibles, elige y queda reservado. Si llega a la clínica algún imprevisto durante la conversación, la IA escala a un humano sin pelearle al protocolo.
 
-### Por qué Gemini 3 Flash
+### Por qué Gemini 3.0 Flash
 
-Gemini 3 Flash es un modelo de generación rápida diseñado por Google para casos de uso donde el volumen de tokens importa más que la complejidad de razonamiento. Sus características técnicas relevantes:
+Gemini 3.0 Flash es un modelo de generación rápida diseñado por Google para casos de uso donde el volumen de tokens importa más que la complejidad de razonamiento. Sus características técnicas relevantes:
 
-- **Throughput**: rápido pero no extremo. Suficiente para que la conversación se sienta inmediata por WhatsApp (la latencia humana percibida en chat empieza a molestar sobre ~1,5s — Gemini 3 Flash responde muy por debajo de eso).
+- **Throughput**: rápido pero no extremo. Suficiente para que la conversación se sienta inmediata por WhatsApp (la latencia humana percibida en chat empieza a molestar sobre ~1,5s — Gemini 3.0 Flash responde muy por debajo de eso).
 - **Costo por token**: bajo. Esto es lo que permite que el modo Eficiente cueste ~3 créditos por atención cuando el resto del mercado cobra entre 10 y 30 por la misma interacción.
 - **Calidad conversacional**: muy alta para diálogo cotidiano. Maneja contexto, recuerda el nombre del paciente, ajusta el tono y reconoce frustración.
 - **Limitación deliberada**: no se le activan tools de escritura. Esto baja el riesgo, baja el costo y mantiene el modelo enfocado en conversar.
@@ -121,7 +121,7 @@ Funcionalmente lo mismo que Agentic: agenda directo, sin links, con todo el set 
 
 ### Por qué Gemini 3.5 Flash
 
-Gemini 3.5 Flash es la generación nueva de los modelos Flash de Google. Comparado contra Gemini 3 Flash (el que usa Eficiente), las mejoras relevantes son:
+Gemini 3.5 Flash es la generación nueva de los modelos Flash de Google. Comparado contra Gemini 3.0 Flash (el que usa Eficiente), las mejoras relevantes son:
 
 - **Throughput de 289 tokens por segundo** medido sobre nuestras propias conversaciones en producción. Para que el número signifique algo: una respuesta promedio de IA en una conversación de agendamiento tiene 80–150 tokens. Gemini 3.5 Flash la genera en menos de medio segundo. El paciente literalmente ve aparecer la respuesta en tiempo casi real.
 - **Tool calling reforzado**: a diferencia de versiones anteriores de los Flash de Google, el 3.5 se acerca a Kimi K2.6 en confiabilidad de llamadas a funciones. Para casos de uso agénticos, esto recién se vuelve viable en esta generación.
@@ -154,7 +154,7 @@ Lo que no mejora es el costo: al ser un modelo más grande y más capaz, consume
     <tbody>
       <tr style={{ borderBottom: "1px solid #F3F2F0" }}>
         <td style={{ padding: "14px 16px", fontWeight: 600, color: "#0A0A0A" }}>Eficiente</td>
-        <td style={{ padding: "14px 16px", color: "#374151" }}>Gemini 3 Flash</td>
+        <td style={{ padding: "14px 16px", color: "#374151" }}>Gemini 3.0 Flash</td>
         <td style={{ padding: "14px 16px", textAlign: "center", color: "#6B7280" }}>No</td>
         <td style={{ padding: "14px 16px", textAlign: "right", color: "#374151", fontVariantNumeric: "tabular-nums" }}>~140</td>
         <td style={{ padding: "14px 16px", textAlign: "right", color: "#374151", fontVariantNumeric: "tabular-nums" }}>~3</td>
@@ -206,7 +206,7 @@ Cuando ves "~13 créditos por atención" en Agentic, ese número ya incluye:
 
 - Tokens de entrada (mensajes del paciente + contexto previo + system prompt + descripción de tools).
 - Tokens de salida (respuestas de la IA + argumentos de tool calls).
-- Costo del modelo en particular (Kimi K2.6 cobra distinto a Gemini 3 Flash).
+- Costo del modelo en particular (Kimi K2.6 cobra distinto a Gemini 3.0 Flash).
 - Margen operativo de Clinera.
 
 Los créditos son la unidad simple para que no tengas que entender el modelo de pricing de cada vendor. Pero por debajo, lo que pagas son tokens.

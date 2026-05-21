@@ -7,7 +7,7 @@ const BULLETS = [
   "32.000 créditos IA / mes (4× Core)",
   "~2.400 atenciones / mes",
   "3 modos de agendamiento (incluye Automático)",
-  "3 modelos IA: Gemini 3 Flash · Kimi K2.6 · Claude Sonnet 4.6",
+  "3 modelos IA: Gemini 3.0 Flash · Kimi K2.6 · Gemini 3.5 Flash",
   "Módulo clínico completo (agenda + fichas + Vault)",
   "Multi-sede + panel de atribución",
   "Webhooks + API pública (integraciones a medida)",

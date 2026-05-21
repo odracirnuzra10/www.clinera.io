@@ -167,7 +167,7 @@ export default function CalculadoraDeConsumoPage() {
             <ModeCard
               name="Eficiente"
               consumption="~4"
-              model="Gemini 3 Flash"
+              model="Gemini 3.0 Flash"
               available="Plan Core"
               description="Optimizado para tareas simples y respuestas rápidas. Ideal para confirmar citas y responder FAQ."
             />
@@ -182,7 +182,7 @@ export default function CalculadoraDeConsumoPage() {
             <ModeCard
               name="Agentic Flash"
               consumption="~36"
-              model="Gemini 3 Flash (high-speed, 289 tok/s)"
+              model="Gemini 3.5 Flash (high-speed, 289 tok/s)"
               available="Solo plan Advanced"
               description="Máxima velocidad de razonamiento. Para flujos con muchos tool calls y respuestas inmediatas a alto volumen."
             />

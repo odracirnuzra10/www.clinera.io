@@ -340,7 +340,7 @@ judge_agent ← agente juez independiente, temperatura 0
           Guardrail de repo, no de review.
         </P>
 
-        <H3>Por qué Gemini 3 Flash</H3>
+        <H3>Por qué Gemini 3.0 Flash</H3>
         <Ol>
           <li><strong>Latencia.</strong> p50 de 650–800 ms vía OpenRouter en la región que servimos.</li>
           <li><strong>Costo por token.</strong> Mejor ratio para volúmenes LATAM con calidad suficiente.</li>

@@ -15,7 +15,7 @@ const PLANS = [
       "~600 atenciones",
       "3 usuarios incluidos",
     ],
-    models: ["Gemini 3 Flash"],
+    models: ["Gemini 3.0 Flash"],
     stripeUrl: "https://buy.stripe.com/6oUfZj9l70IaaAX0xB1441e",
   },
   {
@@ -29,7 +29,7 @@ const PLANS = [
       "Con modo automático de agendamiento",
       "5 usuarios / profesionales",
     ],
-    models: ["Gemini 3 Flash", "Kimi K2.6", "Claude Sonnet 4.6"],
+    models: ["Gemini 3.0 Flash", "Kimi K2.6"],
     stripeUrl: "https://buy.stripe.com/fZu28tcxjez04cz9471441f",
   },
   {
@@ -45,7 +45,7 @@ const PLANS = [
       "Webhooks + API pública",
       "15 usuarios / profesionales",
     ],
-    models: ["Gemini 3 Flash", "Kimi K2.6", "Claude Sonnet 4.6"],
+    models: ["Gemini 3.0 Flash", "Kimi K2.6", "Gemini 3.5 Flash"],
     stripeUrl: "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g",
   },
 ];
