@@ -10,6 +10,12 @@ const ROWS: Array<{ label: string; human: string; aura: string }> = [
   { label: "Capacitación inicial", human: "1–3 meses", aura: "Configurado una vez" },
 ];
 
+const MOBILE_METRICS: Array<{ label: string; aura: string; human: string }> = [
+  { label: "Costo mensual", aura: "$359", human: "~$950 USD recepcionista humana" },
+  { label: "Disponibilidad", aura: "24 / 7 / 365", human: "45 h / semana + licencias y vacaciones" },
+  { label: "Atenciones simultáneas", aura: "Ilimitadas", human: "1 a 2 conversaciones a la vez" },
+];
+
 export default function RoiSection() {
   return (
     <section
@@ -74,6 +80,71 @@ export default function RoiSection() {
         </p>
 
         <div
+          className="roi-mobile-stats"
+          style={{
+            display: "none",
+            gridTemplateColumns: "1fr",
+            gap: 12,
+            marginBottom: 24,
+          }}
+        >
+          {MOBILE_METRICS.map((m) => (
+            <div
+              key={m.label}
+              style={{
+                background: "#fff",
+                border: "1px solid #E5E7EB",
+                borderRadius: 16,
+                padding: "22px 22px",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  fontSize: 10,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "#9CA3AF",
+                  marginBottom: 14,
+                }}
+              >
+                {m.label}
+              </div>
+              <div
+                style={{
+                  fontFamily: "Inter",
+                  fontSize: "clamp(32px, 9vw, 42px)",
+                  fontWeight: 800,
+                  letterSpacing: "-0.035em",
+                  lineHeight: 1,
+                  color: "#7C3AED",
+                  marginBottom: 16,
+                }}
+              >
+                {m.aura}
+              </div>
+              <div
+                style={{
+                  paddingTop: 12,
+                  borderTop: "1px dashed #E5E7EB",
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  fontSize: 11.5,
+                  color: "#9CA3AF",
+                  letterSpacing: "0.02em",
+                  lineHeight: 1.5,
+                }}
+              >
+                <span style={{ color: "#6B7280", fontWeight: 600, marginRight: 6 }}>
+                  Humano:
+                </span>
+                {m.human}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div
+          className="roi-table-wrap"
           style={{
             background: "#fff",
             border: "1px solid #E5E7EB",
@@ -309,42 +380,11 @@ export default function RoiSection() {
           display: none;
         }
         @media (max-width: 720px) {
-          :global(.roi-row-head) {
+          :global(.roi-table-wrap) {
             display: none !important;
           }
-          :global(.roi-row) {
-            grid-template-columns: 1fr !important;
-            gap: 10px !important;
-            padding: 18px 18px !important;
-          }
-          :global(.roi-cell-label) {
-            font-size: 13px !important;
-            color: #6B7280 !important;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-family: 'JetBrains Mono', ui-monospace, monospace !important;
-            font-weight: 600 !important;
-            margin-bottom: 2px;
-          }
-          :global(.roi-cell-human),
-          :global(.roi-cell-aura) {
+          :global(.roi-mobile-stats) {
             display: grid !important;
-            grid-template-columns: 110px 1fr;
-            align-items: baseline;
-            font-size: 14.5px !important;
-            gap: 12px;
-          }
-          :global(.roi-cell-tag) {
-            display: inline-block;
-            font-family: 'JetBrains Mono', ui-monospace, monospace;
-            font-size: 10px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #9CA3AF;
-            font-weight: 600;
-          }
-          :global(.roi-cell-tag-aura) {
-            color: #7C3AED;
           }
           :global(.roi-kpis) {
             grid-template-columns: 1fr !important;
