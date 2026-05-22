@@ -3802,7 +3802,6 @@ export function Pricing() {
                 display: "flex",
                 flexDirection: "column",
                 transform: p.featured ? "translateY(-8px)" : "none",
-                overflow: "hidden",
               }}
             >
               {p.featured && (
@@ -3815,6 +3814,7 @@ export function Pricing() {
                     right: 0,
                     height: 4,
                     background: GRAD,
+                    borderRadius: "20px 20px 0 0",
                   }}
                 />
               )}
