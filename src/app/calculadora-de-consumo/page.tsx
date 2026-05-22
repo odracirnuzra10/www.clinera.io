@@ -117,6 +117,43 @@ export default function CalculadoraDeConsumoPage() {
           </div>
         </section>
 
+        {/* ─────────────────────── VIDEO ─────────────────────── */}
+        <section
+          style={{
+            padding: "48px 24px 8px",
+            background: "#fff",
+          }}
+        >
+          <div style={{ maxWidth: 880, margin: "0 auto" }}>
+            <div
+              style={{
+                position: "relative",
+                paddingTop: "56.25%",
+                background: "#0A0A0A",
+                borderRadius: 14,
+                overflow: "hidden",
+                border: "1px solid #EEECEA",
+                boxShadow: "0 20px 50px -24px rgba(11,11,15,.18)",
+              }}
+            >
+              <iframe
+                src="https://player.vimeo.com/video/1194865669?h=3b8e51e62e&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  border: 0,
+                }}
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                title="Actualización | Clinera.io"
+              />
+            </div>
+          </div>
+        </section>
+
         {/* ─────────────────────── 01 · CONCEPTOS ─────────────────────── */}
         <NumberedSection num="01" title="Conceptos">
           <p style={paragraphStyle}>
