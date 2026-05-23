@@ -226,6 +226,11 @@ const nextConfig: NextConfig = {
         destination: '/planes',
         permanent: true,
       },
+      {
+        source: '/reunion',
+        destination: '/hablar-con-ventas',
+        permanent: true,
+      },
     ];
   },
 };

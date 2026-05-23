@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { CtaPrimary, CtaSecondary, Wordmark } from "./Brand";
+import { CtaPrimary, Wordmark } from "./Brand";
 
 export default function NavV3() {
   const [scrolled, setScrolled] = useState(false);
@@ -119,13 +119,6 @@ export default function NavV3() {
         </nav>
 
         <div className="nav-v3-actions" style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          <CtaSecondary
-            as={Link}
-            href="/reunion"
-            style={{ padding: "10px 16px", fontSize: 14 }}
-          >
-            Agendar reunión
-          </CtaSecondary>
           <CtaPrimary
             as={Link}
             href="/hablar-con-ventas"
@@ -176,14 +169,6 @@ export default function NavV3() {
             </a>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 18 }}>
-            <CtaSecondary
-              as={Link}
-              href="/reunion"
-              onClick={() => setMobileOpen(false)}
-              style={{ width: "100%", justifyContent: "center", padding: "14px 20px" }}
-            >
-              Agendar reunión
-            </CtaSecondary>
             <CtaPrimary
               as={Link}
               href="/hablar-con-ventas"
