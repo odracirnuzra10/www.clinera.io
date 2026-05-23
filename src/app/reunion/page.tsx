@@ -1,58 +1,42 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
-import CalEmbed from "./CalEmbed";
+import ReunionLanding from "@/components/reunion/ReunionLanding";
 
 export const metadata: Metadata = {
   title: "Agenda tu reunión — Clinera.io",
   description:
-    "30 minutos con el equipo comercial de Clinera. Elige el horario que te acomode y te confirmamos por email.",
-  alternates: { canonical: "https://clinera.io/reunion" },
+    "30 minutos con el equipo de Clinera. Califica tu situación y elige horario en pocos pasos. Te confirmamos por email.",
+  alternates: { canonical: "https://www.clinera.io/reunion" },
   openGraph: {
     title: "Agenda tu reunión — Clinera.io",
     description:
-      "30 min con el equipo comercial. Elige horario y te confirmamos por email.",
-    url: "https://clinera.io/reunion",
+      "30 minutos con el equipo de Clinera. Te confirmamos por email.",
+    url: "https://www.clinera.io/reunion",
     type: "website",
   },
+};
+
+const srOnly: CSSProperties = {
+  position: "absolute",
+  width: 1,
+  height: 1,
+  padding: 0,
+  margin: -1,
+  overflow: "hidden",
+  clip: "rect(0,0,0,0)",
+  whiteSpace: "nowrap",
+  borderWidth: 0,
 };
 
 export default function ReunionPage() {
   return (
     <>
       <NavV3 />
-      <main style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 24px 80px" }}>
-        <div style={{ marginBottom: 28, textAlign: "center" }}>
-          <div
-            style={{
-              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-              fontSize: 11.5,
-              fontWeight: 600,
-              letterSpacing: ".14em",
-              textTransform: "uppercase",
-              color: "#7C3AED",
-              marginBottom: 10,
-            }}
-          >
-            Reunión comercial · 30 min
-          </div>
-          <h1
-            style={{
-              fontFamily: "Inter",
-              fontSize: 40,
-              fontWeight: 800,
-              letterSpacing: "-.03em",
-              margin: "0 0 10px",
-              color: "#0A0A0A",
-            }}
-          >
-            Elige el horario que te acomode
-          </h1>
-          <p style={{ fontFamily: "Inter", fontSize: 16, color: "#4B5563", margin: 0, lineHeight: 1.5 }}>
-            30 minutos por videollamada · te confirmamos por email.
-          </p>
-        </div>
-        <CalEmbed />
+      <main>
+        <h1 style={srOnly}>Agenda tu reunión con Clinera</h1>
+        <ReunionLanding enableMigrationQualification />
       </main>
       <FooterV3 />
     </>
