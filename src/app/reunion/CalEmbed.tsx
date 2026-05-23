@@ -55,13 +55,13 @@ export default function CalEmbed() {
     })(window, 'https://app.cal.com/embed/embed.js', 'init');
 
     const Cal = window.Cal!;
-    Cal('init', 'marketing', { origin: 'https://app.cal.com' });
-    Cal.ns.marketing('inline', {
-      elementOrSelector: '#my-cal-inline-marketing',
+    Cal('init', 'organico', { origin: 'https://app.cal.com' });
+    Cal.ns.organico('inline', {
+      elementOrSelector: '#my-cal-inline-organico',
       config: { layout: 'month_view', useSlotsViewOnSmallScreen: 'true' },
-      calLink: 'team/clinera.io/marketing',
+      calLink: 'team/clinera.io/organico',
     });
-    Cal.ns.marketing('ui', {
+    Cal.ns.organico('ui', {
       hideEventTypeDetails: true,
       layout: 'month_view',
     });
@@ -179,5 +179,5 @@ export default function CalEmbed() {
     };
   }, []);
 
-  return <div id="my-cal-inline-marketing" className={styles.calInline} />;
+  return <div id="my-cal-inline-organico" className={styles.calInline} />;
 }

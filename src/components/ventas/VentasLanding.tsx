@@ -1503,7 +1503,7 @@ function StepCalCom({
     }
 
     const Cal = w.Cal!;
-    Cal("init", "ventas", { origin: "https://app.cal.com" });
+    Cal("init", "ads", { origin: "https://app.cal.com" });
 
     const notes = [
       challenge ? `Desafío: ${challenge.title}` : null,
@@ -1514,8 +1514,8 @@ function StepCalCom({
       .filter(Boolean)
       .join("\n");
 
-    Cal.ns!.ventas("inline", {
-      elementOrSelector: "#my-cal-inline-ventas",
+    Cal.ns!.ads("inline", {
+      elementOrSelector: "#my-cal-inline-ads",
       config: {
         layout: "month_view",
         useSlotsViewOnSmallScreen: "true",
@@ -1523,14 +1523,14 @@ function StepCalCom({
         email: form.email,
         notes,
       },
-      calLink: "team/clinera.io/ventas",
+      calLink: "team/clinera.io/ads",
     });
 
-    Cal.ns!.ventas("ui", { hideEventTypeDetails: true, layout: "month_view" });
+    Cal.ns!.ads("ui", { hideEventTypeDetails: true, layout: "month_view" });
 
     // Registrar el listener una sola vez por sesión: cal.com no expone "off".
     if (!w.__clineraCalListener) {
-      Cal.ns!.ventas("on", {
+      Cal.ns!.ads("on", {
         action: "bookingSuccessful",
         callback: (e: { detail?: { data?: CalBooking } }) => {
           onBookedRef.current?.(e?.detail?.data ?? {});
@@ -1540,7 +1540,7 @@ function StepCalCom({
     }
 
     // Skeleton loader: ocultarlo cuando Cal avise que el iframe quedo listo.
-    Cal.ns!.ventas("on", {
+    Cal.ns!.ads("on", {
       action: "linkReady",
       callback: () => setCalLoaded(true),
     });
@@ -1572,7 +1572,7 @@ function StepCalCom({
         }}
       >
         <div
-          id="my-cal-inline-ventas"
+          id="my-cal-inline-ads"
           className="ventas-cal-embed"
           style={{
             width: "100%",
