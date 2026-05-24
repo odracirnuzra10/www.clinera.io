@@ -64,7 +64,30 @@ export default function NavV3() {
             />
             <span>Atendiendo clínicas en Chile, México y toda LATAM</span>
           </div>
-          <div style={{ display: "flex", gap: 22 }}>
+          <div style={{ display: "flex", gap: 22, alignItems: "center" }}>
+            <Link
+              href="/webinars"
+              style={{
+                color: "#7C3AED",
+                textDecoration: "none",
+                fontWeight: 500,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
+              <span
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: 999,
+                  background: "#10B981",
+                  display: "inline-block",
+                }}
+                className="live-dot"
+              />
+              Webinar
+            </Link>
             <Link href="/ayuda" style={{ color: "#6B7280", textDecoration: "none" }}>
               Ayuda y soporte
             </Link>
@@ -159,6 +182,7 @@ export default function NavV3() {
             <Link href="/planes" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Planes</Link>
             <Link href="/agencias" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Agencias</Link>
             <Link href="/novedades" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Novedades</Link>
+            <Link href="/webinars" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub" style={{ color: "#7C3AED" }}>Webinar semanal · gratis</Link>
             <Link href="/ayuda" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub">Ayuda y soporte</Link>
             <a
               href="https://app.clinera.io/"
