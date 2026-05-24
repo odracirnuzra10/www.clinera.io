@@ -5,13 +5,6 @@ import { CtaPrimary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 
 const WA_GROUP = "https://chat.whatsapp.com/EhQ8LCOzaeu9hfY7TG6FtI?mode=gi_t";
 
-declare global {
-  interface Window {
-    dataLayer?: unknown[];
-    fbq?: (...args: unknown[]) => void;
-  }
-}
-
 export default function WebinarsLanding() {
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -26,9 +19,9 @@ export default function WebinarsLanding() {
 
     const onClick = (ev: MouseEvent) => {
       const target = ev.target as HTMLElement | null;
-      const a = target?.closest("a[data-webinar-cta]") as HTMLAnchorElement | null;
-      if (!a) return;
-      const placement = a.getAttribute("data-webinar-cta") || "unknown";
+      const a = target?.closest("a") as HTMLAnchorElement | null;
+      if (!a || !a.href.includes("chat.whatsapp.com/EhQ8LCOz")) return;
+      const placement = a.closest("section")?.getAttribute("data-placement") || "unknown";
       window.dataLayer!.push({
         event: "webinar_join_click",
         placement,
@@ -71,6 +64,7 @@ function Hero() {
   return (
     <section
       className="webinars-section"
+      data-placement="hero"
       style={{
         position: "relative",
         overflow: "hidden",
@@ -169,7 +163,6 @@ function Hero() {
           href={WA_GROUP}
           target="_blank"
           rel="noopener noreferrer"
-          data-webinar-cta="hero"
           style={{
             padding: "16px 26px",
             fontSize: 16,
@@ -445,6 +438,7 @@ function FinalCTA() {
   return (
     <section
       className="webinars-section"
+      data-placement="final"
       style={{
         padding: "96px 80px 120px",
         background: "#0A0A0A",
@@ -526,7 +520,6 @@ function FinalCTA() {
           href={WA_GROUP}
           target="_blank"
           rel="noopener noreferrer"
-          data-webinar-cta="final"
           style={{
             padding: "16px 26px",
             fontSize: 16,
