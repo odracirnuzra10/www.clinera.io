@@ -30,12 +30,22 @@ const eventJsonLd = {
   "@type": "Event",
   name: "Webinar semanal — Empleados digitales con IA para clínicas",
   description:
-    "Webinar semanal en vivo donde mostramos cómo Clinera y AURA hacen que una clínica opere 24/7 con IA. Sin costo.",
+    "Webinar semanal en vivo donde mostramos cómo Clinera y AURA hacen que una clínica opere 24/7 con IA. Sin costo. Cada jueves 16:00 hora Chile.",
+  startDate: "2026-05-28T16:00:00-04:00",
+  endDate: "2026-05-28T17:00:00-04:00",
+  eventSchedule: {
+    "@type": "Schedule",
+    repeatFrequency: "P1W",
+    byDay: "https://schema.org/Thursday",
+    startTime: "16:00:00",
+    endTime: "17:00:00",
+    scheduleTimezone: "America/Santiago",
+  },
   eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
   location: {
     "@type": "VirtualLocation",
-    url: "https://chat.whatsapp.com/EhQ8LCOzaeu9hfY7TG6FtI",
+    url: "https://meet.google.com/kye-abrq-qwj",
   },
   organizer: {
     "@type": "Organization",
