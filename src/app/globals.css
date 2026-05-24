@@ -11,6 +11,17 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Pulsing green dot — used by Nav / Footer / landings */
+@keyframes pulseDot {
+  0%   { box-shadow: 0 0 0 0 rgba(16,185,129,.45); }
+  70%  { box-shadow: 0 0 0 10px rgba(16,185,129,0); }
+  100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+}
+.live-dot { animation: pulseDot 2.2s infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .live-dot { animation: none; }
+}
+
 /* ==========================================================================
    CSS Custom Properties
    ========================================================================== */

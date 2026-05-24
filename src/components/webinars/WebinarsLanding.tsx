@@ -48,9 +48,83 @@ export default function WebinarsLanding() {
       <WhatYoullLearn />
       <HowItWorks />
       <FinalCTA />
+      <StickyCTA />
       <style jsx global>{`
         @media (max-width: 720px) {
           .webinars-section { padding-left: 24px !important; padding-right: 24px !important; }
+          .webinars-section[data-placement="final"] { padding-bottom: 160px !important; }
+        }
+      `}</style>
+    </>
+  );
+}
+
+/* ============================================================
+   STICKY FLOATING CTA
+   ============================================================ */
+function StickyCTA() {
+  return (
+    <>
+      <a
+        href={WA_GROUP}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="webinars-sticky"
+        aria-label="Unirme al grupo del webinar por WhatsApp"
+      >
+        <span className="webinars-sticky-dot live-dot" aria-hidden />
+        <WhatsAppIcon />
+        <span className="webinars-sticky-label">Unirme al grupo del webinar</span>
+        <span style={{ marginLeft: 2 }}>→</span>
+      </a>
+      <style jsx>{`
+        .webinars-sticky {
+          position: fixed;
+          left: 50%;
+          bottom: 24px;
+          transform: translateX(-50%);
+          z-index: 60;
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 14px 22px;
+          border-radius: 999px;
+          background: linear-gradient(135deg, #3B82F6 0%, #7C3AED 50%, #D946EF 100%);
+          color: #fff;
+          font-family: Inter, sans-serif;
+          font-size: 15px;
+          font-weight: 600;
+          letter-spacing: -0.005em;
+          text-decoration: none;
+          box-shadow: 0 18px 40px -10px rgba(124, 58, 237, 0.55),
+            0 6px 16px -4px rgba(217, 70, 239, 0.35);
+          transition: transform 0.18s ease, box-shadow 0.18s ease;
+          line-height: 1;
+        }
+        .webinars-sticky:hover {
+          transform: translateX(-50%) translateY(-2px);
+          box-shadow: 0 22px 48px -10px rgba(124, 58, 237, 0.6),
+            0 8px 18px -4px rgba(217, 70, 239, 0.4);
+        }
+        .webinars-sticky-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 999px;
+          background: #10b981;
+          display: inline-block;
+        }
+        @media (max-width: 720px) {
+          .webinars-sticky {
+            left: 16px;
+            right: 16px;
+            transform: none;
+            justify-content: center;
+            padding: 14px 18px;
+            font-size: 14.5px;
+          }
+          .webinars-sticky:hover {
+            transform: none;
+          }
         }
       `}</style>
     </>

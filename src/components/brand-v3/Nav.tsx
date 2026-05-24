@@ -52,16 +52,6 @@ export default function NavV3() {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span
-              style={{
-                display: "inline-block",
-                width: 6,
-                height: 6,
-                borderRadius: 999,
-                background: "#10B981",
-              }}
-              className="live-dot"
-            />
             <span>Atendiendo clínicas en Chile, México y toda LATAM</span>
           </div>
           <div style={{ display: "flex", gap: 22, alignItems: "center" }}>
