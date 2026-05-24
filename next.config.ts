@@ -155,7 +155,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/webinar-clinera',
-        destination: '/webinars',
+        destination: '/webinar-clinera/index.html',
       },
       {
         source: '/presentacion',

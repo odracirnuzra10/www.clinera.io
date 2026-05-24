@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { CtaPrimary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 
-const WA_GROUP = "https://chat.whatsapp.com/EhQ8LCOzaeu9hfY7TG6FtI?mode=gi_t";
+const WA_GROUP = "https://chat.whatsapp.com/JJzwD46zLEiAjJXWqtoLgE?mode=gi_t";
 const MEET_URL = "https://meet.google.com/kye-abrq-qwj";
 const FLOW_STORAGE_KEY = "clinera_webinar_flow_step";
 
@@ -92,7 +92,7 @@ export default function WebinarsLanding() {
       const href = a.href;
       const placement = a.closest("section")?.getAttribute("data-placement") || "unknown";
 
-      const isWhatsApp = href.includes("chat.whatsapp.com/EhQ8LCOz");
+      const isWhatsApp = href.includes("chat.whatsapp.com/JJzwD46z");
       const isCalendar = href.includes("calendar.google.com/calendar/render");
       if (!isWhatsApp && !isCalendar) return;
 
