@@ -96,15 +96,17 @@ function StickyCTA() {
           font-weight: 600;
           letter-spacing: -0.005em;
           text-decoration: none;
-          box-shadow: 0 18px 40px -10px rgba(124, 58, 237, 0.55),
-            0 6px 16px -4px rgba(217, 70, 239, 0.35);
+          box-shadow:
+            0 1px 2px rgba(11, 11, 15, 0.10),
+            0 10px 24px -10px rgba(11, 11, 15, 0.35);
           transition: transform 0.18s ease, box-shadow 0.18s ease;
           line-height: 1;
         }
         .webinars-sticky:hover {
           transform: translateX(-50%) translateY(-2px);
-          box-shadow: 0 22px 48px -10px rgba(124, 58, 237, 0.6),
-            0 8px 18px -4px rgba(217, 70, 239, 0.4);
+          box-shadow:
+            0 1px 2px rgba(11, 11, 15, 0.10),
+            0 14px 28px -10px rgba(11, 11, 15, 0.4);
         }
         .webinars-sticky-dot {
           width: 8px;
