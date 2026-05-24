@@ -1,10 +1,24 @@
 "use client";
 
-import { useEffect } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { CtaPrimary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 
 const WA_GROUP = "https://chat.whatsapp.com/EhQ8LCOzaeu9hfY7TG6FtI?mode=gi_t";
 const MEET_URL = "https://meet.google.com/kye-abrq-qwj";
+const FLOW_STORAGE_KEY = "clinera_webinar_flow_step";
+
+type FlowStep = 1 | 2;
+type FlowCtx = {
+  step: FlowStep;
+  advanceToWhatsApp: () => void;
+  resetToCalendar: () => void;
+};
+const FlowContext = createContext<FlowCtx>({
+  step: 1,
+  advanceToWhatsApp: () => {},
+  resetToCalendar: () => {},
+});
+const useFlow = () => useContext(FlowContext);
 
 // Recurring weekly Thursday 16:00–17:00 America/Santiago, hasta 31 dic 2026.
 // Primer instancia: jueves 28 de mayo 2026.
@@ -29,6 +43,37 @@ const GCAL_URL = (() => {
 })();
 
 export default function WebinarsLanding() {
+  const [step, setStep] = useState<FlowStep>(1);
+
+  // Re-hidrata el step desde localStorage al montar.
+  useEffect(() => {
+    try {
+      if (typeof window !== "undefined" && window.localStorage.getItem(FLOW_STORAGE_KEY) === "2") {
+        setStep(2);
+      }
+    } catch {
+      // localStorage no disponible (modo privado, etc.) — ignore.
+    }
+  }, []);
+
+  const advanceToWhatsApp = useCallback(() => {
+    setStep(2);
+    try {
+      window.localStorage.setItem(FLOW_STORAGE_KEY, "2");
+    } catch {
+      /* noop */
+    }
+  }, []);
+
+  const resetToCalendar = useCallback(() => {
+    setStep(1);
+    try {
+      window.localStorage.removeItem(FLOW_STORAGE_KEY);
+    } catch {
+      /* noop */
+    }
+  }, []);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     window.dataLayer = window.dataLayer || [];
@@ -73,7 +118,7 @@ export default function WebinarsLanding() {
   }, []);
 
   return (
-    <>
+    <FlowContext.Provider value={{ step, advanceToWhatsApp, resetToCalendar }}>
       <Hero />
       <WhatYoullLearn />
       <HowItWorks />
@@ -85,7 +130,7 @@ export default function WebinarsLanding() {
           .webinars-section[data-placement="final"] { padding-bottom: 160px !important; }
         }
       `}</style>
-    </>
+    </FlowContext.Provider>
   );
 }
 
@@ -93,18 +138,27 @@ export default function WebinarsLanding() {
    STICKY FLOATING CTA
    ============================================================ */
 function StickyCTA() {
+  const { step, advanceToWhatsApp } = useFlow();
+  const isStep1 = step === 1;
   return (
     <>
       <a
-        href={WA_GROUP}
+        href={isStep1 ? GCAL_URL : WA_GROUP}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={isStep1 ? advanceToWhatsApp : undefined}
         className="webinars-sticky"
-        aria-label="Unirme al grupo del webinar por WhatsApp"
+        aria-label={
+          isStep1
+            ? "Agregar el webinar a mi calendario"
+            : "Unirme al grupo del webinar por WhatsApp"
+        }
       >
         <span className="webinars-sticky-dot live-dot" aria-hidden />
-        <WhatsAppIcon />
-        <span className="webinars-sticky-label">Unirme al grupo del webinar</span>
+        {isStep1 ? <CalendarIcon /> : <WhatsAppIcon />}
+        <span className="webinars-sticky-label">
+          {isStep1 ? "Paso 1 · Agregar al calendario" : "Paso 2 · Unirme al grupo"}
+        </span>
         <span style={{ marginLeft: 2 }}>→</span>
       </a>
       <style jsx>{`
@@ -264,55 +318,7 @@ function Hero() {
           AURA atiende, agenda y cobra por WhatsApp mientras tu clínica duerme. Sesiones cortas,
           casos reales, sin costo y sin compromiso.
         </p>
-        <div
-          style={{
-            display: "inline-flex",
-            flexWrap: "wrap",
-            gap: 10,
-            justifyContent: "center",
-          }}
-        >
-          <CtaPrimary
-            as="a"
-            href={WA_GROUP}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              padding: "16px 26px",
-              fontSize: 16,
-              gap: 10,
-            }}
-          >
-            <WhatsAppIcon />
-            Unirme al grupo del webinar
-            <span style={{ marginLeft: 4 }}>→</span>
-          </CtaPrimary>
-          <a
-            href={GCAL_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "16px 22px",
-              fontSize: 15,
-              fontWeight: 600,
-              fontFamily: "Inter, sans-serif",
-              color: "#0A0A0A",
-              background: "#fff",
-              border: "1px solid #E5E7EB",
-              borderRadius: 10,
-              textDecoration: "none",
-              letterSpacing: "-0.005em",
-              lineHeight: 1,
-              transition: "border-color 0.18s ease, transform 0.18s ease",
-            }}
-          >
-            <CalendarIcon />
-            Agregar al calendario
-          </a>
-        </div>
+        <WebinarCTAStack variant="light" />
         <div
           style={{
             marginTop: 18,
@@ -345,6 +351,144 @@ function CalendarIcon() {
       <line x1="8" y1="2" x2="8" y2="6" />
       <line x1="3" y1="10" x2="21" y2="10" />
     </svg>
+  );
+}
+
+/* ============================================================
+   WEBINAR CTA STACK — morpha entre step 1 (calendario) y step 2 (WA)
+   ============================================================ */
+function WebinarCTAStack({ variant = "light" }: { variant?: "light" | "dark" }) {
+  const { step, advanceToWhatsApp, resetToCalendar } = useFlow();
+  const dark = variant === "dark";
+
+  const stepChipBg = dark ? "rgba(255,255,255,.08)" : "#fff";
+  const stepChipBorder = dark ? "1px solid rgba(255,255,255,.14)" : "1px solid #E5E7EB";
+  const stepChipColor = dark ? "rgba(255,255,255,.7)" : "#6B7280";
+  const skipColor = dark ? "rgba(255,255,255,.6)" : "#6B7280";
+
+  if (step === 1) {
+    return (
+      <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+        <span
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontSize: 10.5,
+            fontWeight: 600,
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            color: stepChipColor,
+            background: stepChipBg,
+            border: stepChipBorder,
+            padding: "5px 10px",
+            borderRadius: 999,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontSize: 10,
+              fontWeight: 700,
+              padding: "1px 6px",
+              borderRadius: 4,
+              background: dark ? "rgba(124,58,237,.25)" : "#F3E8FF",
+              color: dark ? "#C4A6FF" : "#7C3AED",
+            }}
+          >
+            01
+          </span>
+          Paso 1 de 2 · Guarda la fecha
+        </span>
+        <CtaPrimary
+          as="a"
+          href={GCAL_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={advanceToWhatsApp}
+          style={{ padding: "16px 26px", fontSize: 16, gap: 10 }}
+        >
+          <CalendarIcon />
+          Agregar al calendario
+          <span style={{ marginLeft: 4 }}>→</span>
+        </CtaPrimary>
+        <button
+          type="button"
+          onClick={advanceToWhatsApp}
+          style={{
+            background: "none",
+            border: 0,
+            padding: 0,
+            cursor: "pointer",
+            fontFamily: "Inter, sans-serif",
+            fontSize: 13,
+            color: skipColor,
+            textDecoration: "underline",
+            textUnderlineOffset: 3,
+            textDecorationThickness: 1,
+          }}
+        >
+          Ya lo tengo agendado · ir al grupo →
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+      <span
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
+          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+          fontSize: 10.5,
+          fontWeight: 600,
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+          color: dark ? "#34D399" : "#065F46",
+          background: dark ? "rgba(16,185,129,.15)" : "#ECFDF5",
+          border: dark ? "1px solid rgba(16,185,129,.35)" : "1px solid #A7F3D0",
+          padding: "5px 10px",
+          borderRadius: 999,
+        }}
+      >
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M5 12l5 5L20 7" />
+        </svg>
+        Paso 1 listo · ahora paso 2 de 2
+      </span>
+      <CtaPrimary
+        as="a"
+        href={WA_GROUP}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ padding: "16px 26px", fontSize: 16, gap: 10 }}
+      >
+        <WhatsAppIcon />
+        Unirme al grupo de WhatsApp
+        <span style={{ marginLeft: 4 }}>→</span>
+      </CtaPrimary>
+      <button
+        type="button"
+        onClick={resetToCalendar}
+        style={{
+          background: "none",
+          border: 0,
+          padding: 0,
+          cursor: "pointer",
+          fontFamily: "Inter, sans-serif",
+          fontSize: 13,
+          color: skipColor,
+          textDecoration: "underline",
+          textUnderlineOffset: 3,
+          textDecorationThickness: 1,
+        }}
+      >
+        Volver a agendar el calendario
+      </button>
+    </div>
   );
 }
 
@@ -666,55 +810,7 @@ function FinalCTA() {
         >
           Sin costo. Sin compromiso. Puedes salir del grupo en cualquier momento.
         </p>
-        <div
-          style={{
-            display: "inline-flex",
-            flexWrap: "wrap",
-            gap: 10,
-            justifyContent: "center",
-          }}
-        >
-          <CtaPrimary
-            as="a"
-            href={WA_GROUP}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              padding: "16px 26px",
-              fontSize: 16,
-              gap: 10,
-            }}
-          >
-            <WhatsAppIcon />
-            Unirme al grupo del webinar
-            <span style={{ marginLeft: 4 }}>→</span>
-          </CtaPrimary>
-          <a
-            href={GCAL_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "16px 22px",
-              fontSize: 15,
-              fontWeight: 600,
-              fontFamily: "Inter, sans-serif",
-              color: "#fff",
-              background: "transparent",
-              border: "1px solid rgba(255,255,255,.18)",
-              borderRadius: 10,
-              textDecoration: "none",
-              letterSpacing: "-0.005em",
-              lineHeight: 1,
-              transition: "border-color 0.18s ease, background 0.18s ease",
-            }}
-          >
-            <CalendarIcon />
-            Agregar al calendario
-          </a>
-        </div>
+        <WebinarCTAStack variant="dark" />
       </div>
     </section>
   );
