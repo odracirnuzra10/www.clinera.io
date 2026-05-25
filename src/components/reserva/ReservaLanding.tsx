@@ -3,9 +3,15 @@
 import { useEffect, useState } from "react";
 import { GRAD } from "@/components/brand-v3/Brand";
 
-const MEET_URL = "https://meet.google.com/kye-abrq-qwj";
 const MEET_DOMAIN = "meet.google.com/kye-abrq-qwj";
-const WA_GROUP = "https://chat.whatsapp.com/JJzwD46zLEiAjJXWqtoLgE?mode=gi_t";
+
+// Link al evento publicado en Google Calendar del user.
+// Apunta al evento real con Google Meet ya adjunto (no es un URL template
+// reconstruido — eso no permite adjuntar conferenceData). Al hacer click,
+// el usuario ve la pill "Unirse con Google Meet" correctamente integrada
+// y al guardar en su calendar la conferencia se adjunta automaticamente.
+const GCAL_PUBLISHED_URL =
+  "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=Nm5ya3JiY2c1N3U3Y3Q1cmw0czBzOTFxMTlfMjAyNjA1MjhUMjAwMDAwWiByaWNhcmRvQG9hY2cuY2w&tmsrc=ricardo%40oacg.cl&scp=ALL";
 
 type NextDate = {
   monthLabel: string;
@@ -13,31 +19,7 @@ type NextDate = {
   weekdayLabel: string;
   year: number;
   month: number;
-  gcalUrl: string;
 };
-
-function pad2(n: number): string {
-  return String(n).padStart(2, "0");
-}
-
-function buildGoogleCalendarUrl(y: number, m: number, d: number): string {
-  const dateStr = `${y}${pad2(m)}${pad2(d)}`;
-  const params = new URLSearchParams({
-    action: "TEMPLATE",
-    text: "Webinar Clinera — Empleados digitales con IA",
-    dates: `${dateStr}T160000/${dateStr}T170000`,
-    ctz: "America/Santiago",
-    details: [
-      "Webinar semanal en vivo de Clinera. 30 minutos para conocer cómo AURA atiende, agenda y cobra por WhatsApp 24/7.",
-      "",
-      "Grupo de WhatsApp donde llega el link cada semana:",
-      WA_GROUP,
-    ].join("\n"),
-    location: MEET_URL,
-    recur: "RRULE:FREQ=WEEKLY;BYDAY=TH;UNTIL=20261231T235959Z",
-  });
-  return `https://calendar.google.com/calendar/render?${params.toString()}`;
-}
 
 function getNextThursdayChile(now: Date = new Date()): NextDate {
   const fmt = new Intl.DateTimeFormat("en-CA", {
@@ -83,7 +65,6 @@ function getNextThursdayChile(now: Date = new Date()): NextDate {
     weekdayLabel,
     year: y,
     month: m,
-    gcalUrl: buildGoogleCalendarUrl(y, m, d),
   };
 }
 
@@ -107,7 +88,7 @@ export default function ReservaLanding() {
       const target = ev.target as HTMLElement | null;
       const a = target?.closest("a") as HTMLAnchorElement | null;
       if (!a) return;
-      if (!a.href.includes("calendar.google.com/calendar/render")) return;
+      if (!a.href.includes("calendar.google.com/calendar/event")) return;
       window.dataLayer!.push({
         event: "webinar_calendar_add",
         placement: "reserva",
@@ -129,9 +110,6 @@ export default function ReservaLanding() {
     return () =>
       document.removeEventListener("click", onClick, { capture: true } as AddEventListenerOptions);
   }, []);
-
-  const gcalUrl =
-    nextDate?.gcalUrl ?? "https://calendar.google.com/calendar/render?action=TEMPLATE";
 
   return (
     <main
@@ -209,7 +187,7 @@ export default function ReservaLanding() {
 
       {/* Sticky floating CTA — único click posible en la página */}
       <a
-        href={gcalUrl}
+        href={GCAL_PUBLISHED_URL}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Agregar el webinar a Google Calendar"
