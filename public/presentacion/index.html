@@ -2494,6 +2494,37 @@
     .panel-text .panel-title{ font-size: 22px; }
     .price-card .plan-price .amt{ font-size: 38px; }
   }
+
+  /* ── Small-laptop optimization (13–14" 1280–1440 wide) ─────── */
+  /* Reduce padding y typography moderadamente para que el contenido
+     entre en viewports tipo MBA/MBP sin scroll vertical. */
+  @media (min-width: 981px) and (max-width: 1440px){
+    .slide{ padding: 64px 5vw 52px; }
+    .cover-title{ font-size: clamp(36px, 4.8vw, 68px) !important; }
+    .h-display{ font-size: clamp(28px, 3.4vw, 46px) !important; line-height: 1.04 !important; }
+    .aura-left .aura-name{ font-size: clamp(48px, 6vw, 84px) !important; }
+    .lead{ font-size: clamp(13px, 0.95vw, 15.5px) !important; margin-bottom: 22px !important; }
+    .kicker{ margin-bottom: 14px !important; }
+    .spacer-m{ height: 24px !important; }
+    .spacer-l{ height: 40px !important; }
+    .agent-slide{ gap: 36px !important; }
+    .agent-portrait{ min-height: 360px !important; }
+    .pv-row{ padding: 9px 12px !important; font-size: 12.5px !important; }
+    .panel-title{ font-size: 24px !important; }
+    .panel-lead{ font-size: 13.5px !important; margin-bottom: 12px !important; }
+    .panel-bullets li{ font-size: 13px !important; }
+    .roi-table-row{ padding: 10px 16px !important; }
+    .roi-table .roi-human, .roi-table .roi-aura, .roi-table .roi-concept{ font-size: 13.5px !important; }
+    .roi-kpi .kpi-value{ font-size: 32px !important; }
+    .plan-price .amt{ font-size: 40px !important; }
+  }
+  /* Short screens (< 820px height) — usually 13" laptops at default scaling */
+  @media (max-height: 820px) and (min-width: 981px){
+    .slide{ padding: 48px 5vw 40px !important; }
+    .spacer-m{ height: 18px !important; }
+    .spacer-l{ height: 28px !important; }
+    .agent-portrait{ min-height: 320px !important; }
+  }
 </style>
 </head>
 <body>
