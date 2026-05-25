@@ -2525,6 +2525,94 @@
     .spacer-l{ height: 28px !important; }
     .agent-portrait{ min-height: 320px !important; }
   }
+
+  /* ============================================
+     Agent mockups (chat/call/lia) — portados del deck webinars-presentacion
+     para mostrar AURA/CAMILA/LIA en una segunda pasada con visual mas simple.
+     ============================================ */
+  .split-mockup{ display:grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .split-mockup .mockup-text{ min-width: 0; }
+  .split-mockup .mockup-text .h-display{ margin-bottom: 14px; }
+  .split-mockup .mockup-text p{ font-size: 17px; line-height: 1.5; color: var(--ink-2); max-width: 460px; }
+  .split-mockup .mockup-text .accent-cyan{ color: var(--cyan); }
+  .split-mockup .mockup-text .accent-violet{ color: var(--violet); }
+
+  /* CHAT mockup (AURA) */
+  .m-chat{
+    background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 26px;
+    width: 100%; max-width: 440px; justify-self: end;
+    box-shadow: 0 18px 50px -20px rgba(11,11,15,.16);
+  }
+  .m-chat-head{ display:flex; align-items:center; gap:12px; padding-bottom:18px; border-bottom:1px solid var(--line-2); }
+  .m-chat-av{
+    width:44px; height:44px; border-radius:50%;
+    background:linear-gradient(135deg,var(--cyan),var(--violet));
+    color:#fff; display:grid; place-items:center; font-weight:700; font-size:16px;
+  }
+  .m-chat-name{ font-weight:600; font-size:15px; line-height:1.2; }
+  .m-chat-status{ font-family: var(--mono); font-size:11px; color: var(--green); margin-top:2px; letter-spacing:.04em; }
+  .m-chat-status .liveDot{ width:6px; height:6px; background: var(--green); border-radius:50%; display:inline-block; margin-right:6px; animation: m-blink 1.4s infinite; }
+  .m-msg{ margin-top:11px; font-size:14px; line-height:1.45; padding:10px 14px; border-radius:18px; max-width:82%; word-wrap:break-word; }
+  .m-msg.them{ background: #F3F4F6; color: var(--ink); border-bottom-left-radius:5px; }
+  .m-msg.us{ background: var(--ink); color:#fff; border-bottom-right-radius:5px; margin-left:auto; }
+  .m-msg .ts{ display:block; margin-top:6px; font-family: var(--mono); font-size:10px; opacity:.55; letter-spacing:.05em; }
+  .m-typing{ display:inline-flex; gap:5px; padding:13px 18px; background:#F3F4F6; border-radius:18px; border-bottom-left-radius:5px; margin-top:11px; align-items:center; }
+  .m-typing span{ width:7px; height:7px; border-radius:50%; background:#9CA3AF; animation: m-typ 1.4s infinite; }
+  .m-typing span:nth-child(2){ animation-delay:.18s; }
+  .m-typing span:nth-child(3){ animation-delay:.36s; }
+  @keyframes m-typ{ 0%,60%,100%{ opacity:.3; transform: translateY(0); } 30%{ opacity:1; transform: translateY(-2px); } }
+  @keyframes m-blink{ 0%,100%{opacity:1} 50%{opacity:.2} }
+
+  /* CALL mockup (CAMILA) */
+  .m-call{
+    background: var(--ink); color:#fff; border-radius:18px; padding:28px;
+    width:100%; max-width:440px; justify-self:end;
+    box-shadow: 0 18px 50px -20px rgba(11,11,15,.4);
+  }
+  .m-call-head{ display:flex; align-items:center; justify-content:space-between; }
+  .m-call-info{ display:flex; gap:12px; align-items:center; }
+  .m-call-av{ width:46px; height:46px; border-radius:50%; background:linear-gradient(135deg,var(--violet),var(--magenta)); display:grid; place-items:center; font-weight:700; font-size:17px; color:#fff; }
+  .m-call-name{ font-weight:600; font-size:15px; color:#fff; line-height:1.2; }
+  .m-call-status{ font-family: var(--mono); font-size:11px; color:#22D3EE; margin-top:2px; letter-spacing:.06em; }
+  .m-call-status .liveDot{ width:6px; height:6px; background:#22D3EE; border-radius:50%; display:inline-block; margin-right:6px; animation: m-blink 1s infinite; }
+  .m-call-timer{ font-family: var(--mono); font-size:12px; color:#9CA3AF; }
+  .m-wave{ display:flex; gap:3px; align-items:center; justify-content:center; height:80px; margin:16px 0 8px; }
+  .m-wave span{ width:3px; background: linear-gradient(180deg,#22D3EE,#A78BFA,#F0ABFC); border-radius:2px; transform-origin: center; animation: m-wave 1.1s infinite ease-in-out; }
+  @keyframes m-wave{ 0%,100%{transform: scaleY(.4)} 50%{transform: scaleY(1)} }
+  .m-call-line{ display:grid; grid-template-columns:80px 1fr; gap:12px; margin-top:11px; font-size:13px; line-height:1.45; }
+  .m-call-line .who{ font-family: var(--mono); font-size:10px; color:#9CA3AF; letter-spacing:.1em; padding-top:3px; text-transform:uppercase; }
+  .m-call-line .said{ color:#E5E7EB; }
+  .m-call-line .said em{ color:#22D3EE; font-style:normal; font-weight:500; }
+
+  /* LIA gap-finder mockup */
+  .m-lia{
+    background:#fff; border:1px solid var(--line); border-radius:18px; padding:24px;
+    width:100%; max-width:460px; justify-self:end;
+    box-shadow: 0 18px 50px -20px rgba(11,11,15,.16);
+  }
+  .m-lia-head{ display:flex; justify-content:space-between; align-items:center; padding-bottom:14px; border-bottom:1px solid var(--line-2); }
+  .m-lia-head .t{ font-family: var(--mono); font-size:11px; letter-spacing:.12em; color: var(--muted); text-transform:uppercase; }
+  .m-lia-head .scan{ display:inline-flex; align-items:center; gap:6px; font-family: var(--mono); font-size:11px; color: var(--violet); letter-spacing:.06em; }
+  .m-lia-head .scan .pulse{ width:7px; height:7px; border-radius:50%; background: var(--violet); animation: m-blink 1s infinite; }
+  .m-slot{ display:grid; grid-template-columns:60px 1fr auto; gap:14px; align-items:center; padding:13px 0; border-bottom:1px solid var(--line-2); }
+  .m-slot:last-child{ border-bottom:0; }
+  .m-slot .hr{ font-family: var(--mono); font-size:13.5px; font-weight:500; color: var(--ink); }
+  .m-slot .pro{ font-size:13.5px; color: var(--ink-2); }
+  .m-slot .pro small{ display:block; font-size:11px; color: var(--muted); margin-top:2px; font-family: var(--mono); letter-spacing:.04em; }
+  .m-slot.gap{ background: linear-gradient(90deg, rgba(124,58,237,.06), transparent); margin: 0 -12px; padding: 13px 12px; border-radius:8px; border:1px dashed rgba(124,58,237,.35); border-bottom:1px dashed rgba(124,58,237,.35); }
+  .m-slot.gap .hr{ color: var(--violet); }
+  .m-slot.gap .pro{ color: var(--violet); font-weight:500; }
+  .m-slot .badge{ font-family: var(--mono); font-size:10px; letter-spacing:.1em; padding:4px 8px; border-radius:4px; background: #F3F4F6; color: var(--muted); }
+  .m-slot.gap .badge{ background: var(--violet); color:#fff; }
+  .m-lia-action{ margin-top:14px; background: var(--ink); color:#fff; border-radius:10px; padding:13px 16px; display:flex; align-items:center; gap:12px; font-size:13.5px; line-height:1.4; }
+  .m-lia-action .arrow-ic{ color: #A78BFA; font-family: var(--mono); }
+  .m-lia-action em{ color: #A78BFA; font-style:normal; font-weight:500; }
+
+  /* Mobile responsive */
+  @media (max-width: 980px){
+    .split-mockup{ grid-template-columns: 1fr !important; gap: 28px !important; }
+    .m-chat, .m-call, .m-lia{ justify-self: center !important; max-width: 100% !important; }
+  }
 </style>
 </head>
 <body>
@@ -2534,7 +2622,7 @@
   <div class="meta-tag">Presentación · AURA + Clinera</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 06</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 10</div>
 <div class="hint">
   Click o <span class="arrow">→</span> para continuar
 </div>
@@ -2658,8 +2746,101 @@
     </div>
   </section>
 
-  <!-- 04 — ¿Qué más incluye? -->
+  <!-- 04 — AURA · WhatsApp en vivo (mockup simple) -->
   <section class="slide" id="slide3">
+    <div class="slide-inner split-mockup">
+      <div class="mockup-text">
+        <div class="kicker"><span class="pip"></span>AURA · WhatsApp en vivo</div>
+        <h2 class="h-display">Confirma como<br/>una <span class="em">persona</span>.</h2>
+        <p>Tipea, espera, contesta. El paciente no detecta que es IA.</p>
+      </div>
+      <div class="m-chat">
+        <div class="m-chat-head">
+          <div class="m-chat-av">A</div>
+          <div>
+            <div class="m-chat-name">AURA · Clínica Estética</div>
+            <div class="m-chat-status"><span class="liveDot"></span>en línea</div>
+          </div>
+        </div>
+        <div class="m-msg them">Hola, quiero agendar limpieza facial para esta semana<span class="ts">22:47</span></div>
+        <div class="m-typing"><span></span><span></span><span></span></div>
+        <div class="m-msg us">¡Hola Camila! Claro. Tengo dos espacios esta semana:<br/>· Miércoles 11:30<br/>· Viernes 17:00<br/>¿Cuál te acomoda?<span class="ts">22:48 · vía AURA</span></div>
+        <div class="m-msg them">Viernes a las 17 perfecto<span class="ts">22:49</span></div>
+        <div class="m-msg us">¡Listo! Reservé Viernes 17:00 con Dra. Meza. Te confirmo 2h antes.<span class="ts">22:49 · cita creada</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — CAMILA · voz humana (call mockup) -->
+  <section class="slide" id="slide4">
+    <div class="slide-inner split-mockup">
+      <div class="mockup-text">
+        <div class="kicker"><span class="pip"></span>CAMILA · voz humana</div>
+        <h2 class="h-display">También<br/>contesta el <span class="em">teléfono</span>.</h2>
+        <p>Voz natural, latencia humana. Toma la reserva sin que sepan que es IA.</p>
+      </div>
+      <div class="m-call">
+        <div class="m-call-head">
+          <div class="m-call-info">
+            <div class="m-call-av">C</div>
+            <div>
+              <div class="m-call-name">CAMILA · llamada saliente</div>
+              <div class="m-call-status"><span class="liveDot"></span>en conversación</div>
+            </div>
+          </div>
+          <div class="m-call-timer">01:24</div>
+        </div>
+        <div class="m-wave" id="m-camila-wave"></div>
+        <div class="m-call-line"><div class="who">Camila</div><div class="said">Hola Sra. Pérez, le habla <em>Camila de la clínica</em>. Veo que su control de tres meses vence esta semana, ¿le agendo una hora?</div></div>
+        <div class="m-call-line"><div class="who">Paciente</div><div class="said">Sí mira, perfecto. ¿Tienes para el jueves en la tarde?</div></div>
+        <div class="m-call-line"><div class="who">Camila</div><div class="said">Sí, tengo <em>jueves a las 16:00 con la Dra. Meza</em>. ¿Se la reservo?</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — LIA · gap-finder (mockup simple) -->
+  <section class="slide" id="slide5">
+    <div class="slide-inner split-mockup">
+      <div class="mockup-text">
+        <div class="kicker"><span class="pip"></span>LIA · cerebro operacional</div>
+        <h2 class="h-display">Detecta huecos.<br/>Elige al <span class="em">mejor candidato</span>.</h2>
+        <p>Escanea tu agenda cada hora. Cuando ve un espacio libre, decide a quién contactar — y manda a AURA o CAMILA a llenarlo.</p>
+      </div>
+      <div class="m-lia">
+        <div class="m-lia-head">
+          <div class="t">Agenda · Viernes</div>
+          <div class="scan"><span class="pulse"></span>LIA escaneando</div>
+        </div>
+        <div class="m-slot">
+          <div class="hr">10:00</div>
+          <div class="pro">Dra. Meza<small>Limpieza facial · ocupado</small></div>
+          <div class="badge">OK</div>
+        </div>
+        <div class="m-slot">
+          <div class="hr">11:30</div>
+          <div class="pro">Dra. Meza<small>Botox · ocupado</small></div>
+          <div class="badge">OK</div>
+        </div>
+        <div class="m-slot gap">
+          <div class="hr">14:00</div>
+          <div class="pro">Hueco detectado<small>60 min disponibles</small></div>
+          <div class="badge">HUECO</div>
+        </div>
+        <div class="m-slot">
+          <div class="hr">15:30</div>
+          <div class="pro">Dra. Meza<small>Peeling · ocupado</small></div>
+          <div class="badge">OK</div>
+        </div>
+        <div class="m-lia-action">
+          <span class="arrow-ic">→</span>
+          <div>Candidata: <em>Camila P.</em> · LTV alto · control vencido 14 días · <em>AURA escribiendo</em></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 — ¿Qué más incluye? -->
+  <section class="slide" id="slide6">
     <div class="slide-inner caps-slide-inner">
       <div class="kicker"><span class="pip"></span>Clinera · más allá de AURA</div>
       <h2 class="h-display">¿Qué <span class="em">más</span> incluye?</h2>
@@ -3005,8 +3186,8 @@
     </div>
   </section>
 
-  <!-- 05 — ROI Humano vs AURA Advanced -->
-  <section class="slide" id="slide4">
+  <!-- 08 — ROI Humano vs AURA Advanced -->
+  <section class="slide" id="slide7">
     <div class="slide-inner roi-slide-inner">
       <div class="kicker"><span class="pip"></span>ROI · Humano vs AURA Advanced</div>
       <h2 class="h-display">$359 vs <span class="em">$950</span>.</h2>
@@ -3077,8 +3258,8 @@
     </div>
   </section>
 
-  <!-- 06 — Precios -->
-  <section class="slide" id="slide5">
+  <!-- 09 — Precios -->
+  <section class="slide" id="slide8">
     <div class="slide-inner pricing-slide-inner">
       <div class="kicker"><span class="pip"></span>Planes · Clinera</div>
       <h2 class="h-display">Activa Clinera <span class="em">hoy</span>.</h2>
@@ -3226,8 +3407,8 @@
     </div>
   </section>
 
-  <!-- 07 — Cierre -->
-  <section class="slide" id="slide6">
+  <!-- 10 — Cierre -->
+  <section class="slide" id="slide9">
     <div class="slide-inner close">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Conoce Clinera</div>
       <p class="close-line">
@@ -3248,7 +3429,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 7;
+  const TOTAL_SLIDES = 10;
   let currentSlide = 0;
   let currentSubStep = 0;
   let isAnimating = false;
@@ -3279,13 +3460,14 @@
       resetSlideState(n);
       if (n === 1) setActiveAuraTab(0);
       else if (n === 2) setActiveLiaTab(0);
-      else if (n === 3) setActiveCap(0);
+      else if (n === 6) setActiveCap(0);
+      if (n === 4) initCamilaWave();
       setTimeout(function(){ isAnimating = false; }, 200);
     }, 300);
   }
 
   function resetSlideState(n){
-    if (n === 3){
+    if (n === 6){
       ['fn-1','fn-2','fn-3','fl-1','fl-2'].forEach(function(id){
         const el = $(id); if (el) el.classList.remove('show');
       });
@@ -3373,7 +3555,7 @@
       if (s.idx < s.total - 1){ setActiveLiaTab(s.idx + 1); return; }
       goToSlide(currentSlide + 1); return;
     }
-    if (currentSlide === 3){
+    if (currentSlide === 6){
       const s = getActiveTabIdx('.cap-item');
       if (s.idx < s.total - 1){ setActiveCap(s.idx + 1); return; }
       goToSlide(currentSlide + 1); return;
@@ -3415,7 +3597,7 @@
         const s = getActiveTabIdx('[data-lia-tab]');
         if (s.idx > 0){ setActiveLiaTab(s.idx - 1); return; }
       }
-      if (currentSlide === 3){
+      if (currentSlide === 6){
         const s = getActiveTabIdx('.cap-item');
         if (s.idx > 0){ setActiveCap(s.idx - 1); return; }
       }
@@ -3440,6 +3622,23 @@
     else if (currentSlide > 0) goToSlide(currentSlide - 1);
   }, { passive: true });
 
+  // Genera barras dinámicas para el waveform de CAMILA (slide4).
+  let camilaWaveInited = false;
+  function initCamilaWave(){
+    if (camilaWaveInited) return;
+    const wave = document.getElementById('m-camila-wave');
+    if (!wave) return;
+    const pattern = [18,32,52,28,68,45,22,58,72,38,15,42,65,30,80,55,25,48,72,40,18,35,60,28,50,75,32,20,55,68,42,28,15,38,62,48,72,30,55,42,20,35,58,72,45,28,18,32];
+    for (let i = 0; i < pattern.length; i++){
+      const s = document.createElement('span');
+      s.style.height = pattern[i] + 'px';
+      s.style.animationDelay = (i * 0.05) + 's';
+      s.style.animationDuration = (0.9 + Math.random() * 0.6) + 's';
+      wave.appendChild(s);
+    }
+    camilaWaveInited = true;
+  }
+
   // On mobile: load all slides visible from the start, no animations gating content
   if (isMobile()){
     document.querySelectorAll('.slide').forEach(function(s){ s.classList.add('active'); });
@@ -3448,6 +3647,7 @@
     const sn = document.getElementById('sale-new'); if (sn) sn.classList.add('show');
     const an = document.getElementById('ag-new'); if (an) an.classList.add('show');
     const ae = document.getElementById('ag-empty'); if (ae) ae.style.display = 'none';
+    initCamilaWave();
   } else {
     updateProgress();
   }
