@@ -3673,6 +3673,8 @@ export function Testimonios() {
 /* ============================================================
    PRICING
    ============================================================ */
+type Agent = { id: "aura" | "lia" | "camila"; name: string; soon?: boolean };
+
 export function Pricing() {
   const plans = [
     {
@@ -3690,6 +3692,7 @@ export function Pricing() {
         "3 usuarios incluidos",
       ],
       modos: ["Eficiente"],
+      agents: [{ id: "aura", name: "AURA" }] as Agent[],
       stripe: "https://buy.stripe.com/6oUfZj9l70IaaAX0xB1441e",
     },
     {
@@ -3708,6 +3711,7 @@ export function Pricing() {
         "5 usuarios / profesionales",
       ],
       modos: ["Eficiente", "Agentic"],
+      agents: [{ id: "aura", name: "AURA" }] as Agent[],
       stripe: "https://buy.stripe.com/fZu28tcxjez04cz9471441f",
     },
     {
@@ -3729,6 +3733,11 @@ export function Pricing() {
         "15 usuarios / profesionales",
       ],
       modos: ["Eficiente", "Agentic", "Agentic Flash"],
+      agents: [
+        { id: "aura", name: "AURA" },
+        { id: "lia", name: "LIA" },
+        { id: "camila", name: "CAMILA", soon: true },
+      ] as Agent[],
       stripe: "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g",
     },
   ];
@@ -4037,6 +4046,100 @@ export function Pricing() {
                               }}
                             />
                             {m}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {p.agents && p.agents.length > 0 && (
+                  <div
+                    style={{
+                      marginTop: 10,
+                      padding: "14px 14px",
+                      background: p.featured ? "rgba(124,58,237,.04)" : "#FAFAFA",
+                      border: p.featured ? "1px solid rgba(124,58,237,.18)" : "1px solid #E5E7EB",
+                      borderRadius: 10,
+                      boxSizing: "border-box",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                        fontSize: 9.5,
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase",
+                        color: "#9CA3AF",
+                        marginBottom: 8,
+                      }}
+                    >
+                      {p.agents.length === 1 ? "Empleado digital incluido" : "Empleados digitales incluidos"}
+                    </div>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                      {p.agents.map((a) => {
+                        const gradMap: Record<Agent["id"], string> = {
+                          aura: "linear-gradient(135deg,#3B82F6,#7C3AED)",
+                          lia: "linear-gradient(135deg,#7C3AED,#C850C0)",
+                          camila: "linear-gradient(135deg,#C850C0,#F59E0B)",
+                        };
+                        return (
+                          <span
+                            key={a.id}
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 6,
+                              padding: "4px 10px 4px 4px",
+                              background: "#fff",
+                              border: "1px solid #E5E7EB",
+                              borderRadius: 999,
+                              fontFamily: "Inter, sans-serif",
+                              fontSize: 11.5,
+                              fontWeight: 600,
+                              color: "#0A0A0A",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            <span
+                              style={{
+                                width: 18,
+                                height: 18,
+                                borderRadius: "50%",
+                                background: gradMap[a.id],
+                                color: "#fff",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: 9.5,
+                                fontWeight: 700,
+                                letterSpacing: 0,
+                              }}
+                            >
+                              {a.name.charAt(0)}
+                            </span>
+                            {a.name}
+                            {a.soon && (
+                              <span
+                                style={{
+                                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                                  fontSize: 8.5,
+                                  fontWeight: 700,
+                                  letterSpacing: "0.08em",
+                                  textTransform: "uppercase",
+                                  color: "#7C3AED",
+                                  background: "rgba(124,58,237,.10)",
+                                  border: "1px solid rgba(124,58,237,.22)",
+                                  borderRadius: 4,
+                                  padding: "1px 5px",
+                                  marginLeft: 2,
+                                }}
+                              >
+                                pronto
+                              </span>
+                            )}
                           </span>
                         );
                       })}

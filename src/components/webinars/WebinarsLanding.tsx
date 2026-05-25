@@ -47,6 +47,7 @@ export default function WebinarsLanding() {
   return (
     <>
       <Hero />
+      <VideoSection />
       <WhatYoullLearn />
       <HowItWorks />
       <FinalCTA />
@@ -247,6 +248,50 @@ function Hero() {
           }}
         >
           Jueves 16:00 hora Chile · 30 min · sin costo
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   VIDEO SECTION — Vimeo embed (16:9 responsive)
+   ============================================================ */
+function VideoSection() {
+  return (
+    <section
+      className="webinars-section"
+      style={{
+        padding: "48px 80px 8px",
+        background: "#fff",
+      }}
+    >
+      <div style={{ maxWidth: 880, margin: "0 auto" }}>
+        <div
+          style={{
+            position: "relative",
+            paddingTop: "56.25%",
+            background: "#0A0A0A",
+            borderRadius: 14,
+            overflow: "hidden",
+            border: "1px solid #EEECEA",
+            boxShadow: "0 20px 50px -24px rgba(11,11,15,.18)",
+          }}
+        >
+          <iframe
+            src="https://player.vimeo.com/video/1195421426?h=1a476b36d0&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              border: 0,
+            }}
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            title="Webinars | Clinera.io"
+          />
         </div>
       </div>
     </section>

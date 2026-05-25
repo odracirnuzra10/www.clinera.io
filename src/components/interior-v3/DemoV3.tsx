@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { useReveal } from "@/components/home-v3/sections";
 
+type DemoAgent = { id: "aura" | "lia" | "camila"; name: string; soon?: boolean };
+
 const PLANS = [
   {
     name: "Core",
@@ -16,6 +18,7 @@ const PLANS = [
       "3 usuarios incluidos",
     ],
     models: ["Gemini 3.0 Flash"],
+    agents: [{ id: "aura", name: "AURA" }] as DemoAgent[],
     stripeUrl: "https://buy.stripe.com/6oUfZj9l70IaaAX0xB1441e",
   },
   {
@@ -30,6 +33,7 @@ const PLANS = [
       "5 usuarios / profesionales",
     ],
     models: ["Gemini 3.0 Flash", "Kimi K2.6"],
+    agents: [{ id: "aura", name: "AURA" }] as DemoAgent[],
     stripeUrl: "https://buy.stripe.com/fZu28tcxjez04cz9471441f",
   },
   {
@@ -46,6 +50,11 @@ const PLANS = [
       "15 usuarios / profesionales",
     ],
     models: ["Gemini 3.0 Flash", "Kimi K2.6", "Gemini 3.5 Flash"],
+    agents: [
+      { id: "aura", name: "AURA" },
+      { id: "lia", name: "LIA" },
+      { id: "camila", name: "CAMILA", soon: true },
+    ] as DemoAgent[],
     stripeUrl: "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g",
   },
 ];
@@ -507,6 +516,95 @@ function PlansSection() {
                             {m}
                           </span>
                         ))}
+                      </div>
+                    </div>
+                  )}
+                  {plan.agents && plan.agents.length > 0 && (
+                    <div
+                      style={{
+                        marginBottom: 20,
+                        padding: "10px 12px",
+                        background: popular ? "rgba(255,255,255,.06)" : "#FAFAFA",
+                        border: popular ? "1px solid rgba(255,255,255,.1)" : "1px solid #E5E7EB",
+                        borderRadius: 10,
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                          fontSize: 9.5,
+                          letterSpacing: "0.12em",
+                          textTransform: "uppercase",
+                          color: popular ? "rgba(255,255,255,.55)" : "#9CA3AF",
+                          marginBottom: 8,
+                        }}
+                      >
+                        {plan.agents.length === 1 ? "Empleado digital incluido" : "Empleados digitales incluidos"}
+                      </div>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                        {plan.agents.map((a) => {
+                          const gradMap: Record<DemoAgent["id"], string> = {
+                            aura: "linear-gradient(135deg,#3B82F6,#7C3AED)",
+                            lia: "linear-gradient(135deg,#7C3AED,#C850C0)",
+                            camila: "linear-gradient(135deg,#C850C0,#F59E0B)",
+                          };
+                          return (
+                            <span
+                              key={a.id}
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: 6,
+                                padding: "3px 10px 3px 3px",
+                                background: popular ? "rgba(255,255,255,.1)" : "#fff",
+                                border: popular ? "1px solid rgba(255,255,255,.16)" : "1px solid #E5E7EB",
+                                borderRadius: 999,
+                                fontFamily: "Inter, sans-serif",
+                                fontSize: 11,
+                                fontWeight: 600,
+                                color: popular ? "#fff" : "#0A0A0A",
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  width: 18,
+                                  height: 18,
+                                  borderRadius: "50%",
+                                  background: gradMap[a.id],
+                                  color: "#fff",
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  fontSize: 9.5,
+                                  fontWeight: 700,
+                                }}
+                              >
+                                {a.name.charAt(0)}
+                              </span>
+                              {a.name}
+                              {a.soon && (
+                                <span
+                                  style={{
+                                    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                                    fontSize: 8,
+                                    fontWeight: 700,
+                                    letterSpacing: "0.08em",
+                                    textTransform: "uppercase",
+                                    color: popular ? "#C4B5FD" : "#7C3AED",
+                                    background: popular ? "rgba(196,181,253,.16)" : "rgba(124,58,237,.10)",
+                                    border: popular ? "1px solid rgba(196,181,253,.32)" : "1px solid rgba(124,58,237,.22)",
+                                    borderRadius: 4,
+                                    padding: "1px 5px",
+                                    marginLeft: 2,
+                                  }}
+                                >
+                                  pronto
+                                </span>
+                              )}
+                            </span>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
