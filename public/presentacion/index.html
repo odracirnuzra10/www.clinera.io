@@ -2618,18 +2618,22 @@
   .agent-badge .ab-status.live{ background:rgba(16,185,129,.12); color:var(--green); }
   .agent-badge .ab-status.dev{ background:rgba(124,58,237,.12); color:var(--violet); }
 
-  /* CAMILA portrait grande dentro del slide */
-  .camila-portrait{ position:relative; width:100%; max-width:380px; aspect-ratio: 4/5; border-radius:22px; overflow:hidden; box-shadow:0 22px 60px -22px rgba(11,11,15,.45); justify-self:end; background:linear-gradient(135deg,#1a1a24,#2d1b3a); }
-  .camila-portrait img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .camila-portrait .cp-watermark{ position:absolute; bottom:18px; left:18px; right:18px; display:flex; align-items:center; gap:10px; padding:10px 14px; background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border-radius:12px; }
-  .camila-portrait .cp-watermark .cp-icon{ width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--violet),var(--magenta)); display:grid; place-items:center; color:#fff; font-weight:700; font-size:14px; }
-  .camila-portrait .cp-watermark .cp-name{ font-weight:600; font-size:13px; color:var(--ink); line-height:1.1; }
-  .camila-portrait .cp-watermark .cp-sub{ display:block; font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:var(--muted); margin-top:2px; }
+  /* Portrait grande dentro del slide — reutilizable AURA / LIA / CAMILA */
+  .hero-portrait{ position:relative; width:100%; max-width:380px; aspect-ratio: 4/5; border-radius:22px; overflow:hidden; box-shadow:0 22px 60px -22px rgba(11,11,15,.45); justify-self:end; background:linear-gradient(135deg,#1a1a24,#2d1b3a); }
+  .hero-portrait img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .hero-portrait.aura-bg{ background:linear-gradient(135deg,#0E2A47,#1B4D78); }
+  .hero-portrait.lia-bg{ background:linear-gradient(135deg,#2D1B3A,#5B2B8C); }
+  .hero-portrait .cp-watermark{ position:absolute; bottom:18px; left:18px; right:18px; display:flex; align-items:center; gap:10px; padding:10px 14px; background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border-radius:12px; }
+  .hero-portrait .cp-watermark .cp-icon{ width:32px; height:32px; border-radius:50%; display:grid; place-items:center; color:#fff; font-weight:700; font-size:14px; background:linear-gradient(135deg,var(--violet),var(--magenta)); }
+  .hero-portrait.aura-bg .cp-watermark .cp-icon{ background:linear-gradient(135deg,var(--cyan),var(--violet)); }
+  .hero-portrait.lia-bg .cp-watermark .cp-icon{ background:linear-gradient(135deg,var(--violet),#9F8AE8); }
+  .hero-portrait .cp-watermark .cp-name{ font-weight:600; font-size:13px; color:var(--ink); line-height:1.1; }
+  .hero-portrait .cp-watermark .cp-sub{ display:block; font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:var(--muted); margin-top:2px; }
 
-  /* Slide CAMILA: layout 3-columnas (texto + foto + call mockup) en desktop, stacked en mobile */
-  .camila-trio{ display:grid; grid-template-columns: 1fr 0.85fr 1fr; gap:40px; align-items:center; }
-  .camila-trio .mockup-text{ min-width:0; }
-  .camila-trio .m-call{ justify-self:end; max-width:380px; }
+  /* Layout 3-columnas (texto + foto + mockup) en desktop, stacked en mobile */
+  .agent-trio{ display:grid; grid-template-columns: 1fr 0.85fr 1fr; gap:40px; align-items:center; }
+  .agent-trio .mockup-text{ min-width:0; }
+  .agent-trio .m-chat, .agent-trio .m-call, .agent-trio .m-lia{ justify-self:end; max-width:380px; }
 
   /* Slide 3 Modos de agendamiento */
   .modos-slide-inner{ display:flex; flex-direction:column; gap:18px; }
@@ -2668,8 +2672,8 @@
   @media (max-width: 980px){
     .split-mockup{ grid-template-columns: 1fr !important; gap: 28px !important; }
     .m-chat, .m-call, .m-lia{ justify-self: center !important; max-width: 100% !important; }
-    .camila-trio{ grid-template-columns: 1fr !important; gap: 24px !important; }
-    .camila-portrait{ justify-self: center !important; max-width: 320px !important; }
+    .agent-trio{ grid-template-columns: 1fr !important; gap: 24px !important; }
+    .hero-portrait{ justify-self: center !important; max-width: 320px !important; }
     .modos-grid{ grid-template-columns: 1fr !important; gap: 14px !important; }
   }
 </style>
@@ -2702,7 +2706,7 @@
 
   <!-- 02 — AURA · WhatsApp en vivo -->
   <section class="slide" id="slide1">
-    <div class="slide-inner split-mockup">
+    <div class="slide-inner agent-trio">
       <div class="mockup-text">
         <div class="agent-badge">
           <img src="/agents/aura.jpg" alt="AURA" />
@@ -2715,6 +2719,18 @@
         <h2 class="h-display">Confirma como<br/>una <span class="em">persona</span>.</h2>
         <p>Tipea, espera, contesta. El paciente no detecta que es IA. Crea, re-agenda y cancela citas 24/7 — y sincroniza con tu calendario.</p>
       </div>
+
+      <div class="hero-portrait aura-bg">
+        <img src="/agents/aura-fullbody.png" alt="AURA · asistente IA" />
+        <div class="cp-watermark">
+          <div class="cp-icon">A</div>
+          <div>
+            <div class="cp-name">AURA</div>
+            <div class="cp-sub">Asistente IA · WhatsApp</div>
+          </div>
+        </div>
+      </div>
+
       <div class="m-chat">
         <div class="m-chat-head">
           <div class="m-chat-av">A</div>
@@ -2734,7 +2750,7 @@
 
   <!-- 03 — CAMILA · voz humana (foto + call mockup) -->
   <section class="slide" id="slide2">
-    <div class="slide-inner camila-trio">
+    <div class="slide-inner agent-trio">
       <div class="mockup-text">
         <div class="agent-badge dev">
           <img src="/agents/camila.png" alt="CAMILA" />
@@ -2748,7 +2764,7 @@
         <p>Voz natural, latencia humana. Toma la reserva sin que sepan que es IA.</p>
       </div>
 
-      <div class="camila-portrait">
+      <div class="hero-portrait">
         <img src="/agents/camila.png" alt="CAMILA · agente de voz" />
         <div class="cp-watermark">
           <div class="cp-icon">C</div>
@@ -2780,7 +2796,7 @@
 
   <!-- 04 — LIA · gap-finder -->
   <section class="slide" id="slide3">
-    <div class="slide-inner split-mockup">
+    <div class="slide-inner agent-trio">
       <div class="mockup-text">
         <div class="agent-badge dev">
           <img src="/agents/lia.jpg" alt="LIA" />
@@ -2793,6 +2809,18 @@
         <h2 class="h-display">Detecta espacios<br/>disponibles. Elige al <span class="em">mejor candidato</span>.</h2>
         <p>Escanea tu agenda cada hora. Cuando ve un espacio libre, decide a quién contactar — y manda a AURA o CAMILA a llenarlo.</p>
       </div>
+
+      <div class="hero-portrait lia-bg">
+        <img src="/agents/lia-fullbody.png" alt="LIA · cerebro operacional" />
+        <div class="cp-watermark">
+          <div class="cp-icon">L</div>
+          <div>
+            <div class="cp-name">LIA</div>
+            <div class="cp-sub">Cerebro operacional · IA</div>
+          </div>
+        </div>
+      </div>
+
       <div class="m-lia">
         <div class="m-lia-head">
           <div class="t">Agenda · Viernes</div>
