@@ -1,50 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CtaPrimary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 
 const WA_GROUP = "https://chat.whatsapp.com/JJzwD46zLEiAjJXWqtoLgE?mode=gi_t";
-const MEET_URL = "https://meet.google.com/kye-abrq-qwj";
-const RESERVED_KEY = "clinera_webinar_reserved";
-
-// Evento recurrente semanal jueves 16:00–17:00 America/Santiago, hasta 31 dic 2026.
-// Primer instancia: jueves 28 de mayo 2026.
-//
-// Formato iCalendar (RFC 5545). Líneas separadas por CRLF. Caracteres
-// especiales (,;\) escapados en DESCRIPTION. TZID en lugar de UTC para
-// que el evento se quede a las 16:00 hora Chile aun con DST.
-const ICS_DESCRIPTION = [
-  "Webinar semanal en vivo de Clinera. 30 minutos para conocer como AURA atiende, agenda y cobra por WhatsApp 24/7.",
-  "",
-  "Grupo de WhatsApp para recibir el link cada semana:",
-  WA_GROUP,
-  "",
-  "Mas info en https://www.clinera.io/webinars",
-]
-  .join("\\n")
-  .replace(/,/g, "\\,")
-  .replace(/;/g, "\\;");
-
-const ICS_CONTENT = [
-  "BEGIN:VCALENDAR",
-  "VERSION:2.0",
-  "PRODID:-//Clinera//Webinar Semanal//ES",
-  "CALSCALE:GREGORIAN",
-  "METHOD:PUBLISH",
-  "BEGIN:VEVENT",
-  "UID:webinar-clinera-semanal-2026@clinera.io",
-  "DTSTAMP:20260524T000000Z",
-  "DTSTART;TZID=America/Santiago:20260528T160000",
-  "DTEND;TZID=America/Santiago:20260528T170000",
-  "RRULE:FREQ=WEEKLY;BYDAY=TH;UNTIL=20261231T235959Z",
-  "SUMMARY:Webinar Clinera - Empleados digitales con IA",
-  "DESCRIPTION:" + ICS_DESCRIPTION,
-  "LOCATION:" + MEET_URL,
-  "STATUS:CONFIRMED",
-  "SEQUENCE:0",
-  "END:VEVENT",
-  "END:VCALENDAR",
-].join("\r\n");
 
 export default function WebinarsLanding() {
   useEffect(() => {
@@ -58,9 +17,7 @@ export default function WebinarsLanding() {
       content_category: "webinar",
     });
 
-    // Detector global solo para anchors a WhatsApp. El calendario se
-    // descarga via .ics (no es un anchor) — su tracking va manual desde
-    // downloadIcsAndTrack.
+    // Detector global solo para anchors a WhatsApp (única acción).
     const onClick = (ev: MouseEvent) => {
       const target = ev.target as HTMLElement | null;
       const a = target?.closest("a") as HTMLAnchorElement | null;
@@ -114,13 +71,12 @@ function StickyCTA() {
         href={WA_GROUP}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={downloadIcsAndTrack("sticky")}
         className="webinars-sticky"
-        aria-label="Reservar cupo: unirme al grupo de WhatsApp y agregar al calendario"
+        aria-label="Unirme al grupo de WhatsApp del webinar"
       >
         <span className="webinars-sticky-dot live-dot" aria-hidden />
         <WhatsAppIcon />
-        <span className="webinars-sticky-label">Reservar mi cupo</span>
+        <span className="webinars-sticky-label">Unirme al grupo del webinar</span>
         <span style={{ marginLeft: 2 }}>→</span>
       </a>
       <style jsx>{`
@@ -306,118 +262,25 @@ function WhatsAppIcon() {
 }
 
 /* ============================================================
-   downloadIcsAndTrack — factory que devuelve el handler de click
-   compartido por StickyCTA y WebinarMainCTA. Descarga el archivo .ics
-   silenciosamente (es un file download nativo, no un popup → no es
-   bloqueado ni se siente como spam). En mobile el OS abre Apple/Google
-   Calendar app con el evento listo para 'Añadir'. En desktop el .ics
-   queda en Downloads, doble-click abre la app default.
-
-   El anchor donde se cuelga este handler tiene href={WA_GROUP}
-   target="_blank" — esa es la primary action que abre WhatsApp via
-   default browser behavior (nunca bloqueado).
-   ============================================================ */
-type Placement = "hero" | "final" | "sticky";
-function downloadIcsAndTrack(placement: Placement) {
-  return () => {
-    if (typeof window === "undefined") return;
-    try {
-      const blob = new Blob([ICS_CONTENT], { type: "text/calendar;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "webinar-clinera.ics";
-      a.style.display = "none";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(url), 2000);
-    } catch {
-      // descarga fallida — silent, el usuario igual tendrá WhatsApp
-    }
-    try {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: "webinar_calendar_add",
-        placement,
-        method: "ics_download",
-        page_path: "/webinars",
-        content_name: "Webinar semanal — Clinera",
-      });
-      if (typeof window.fbq === "function") {
-        window.fbq("track", "Lead", {
-          content_name: "Webinar semanal — Clinera",
-          content_category: "webinar_calendar",
-          placement,
-          value: 0,
-          currency: "USD",
-        });
-      }
-    } catch {}
-    try {
-      window.localStorage.setItem(RESERVED_KEY, "true");
-    } catch {}
-  };
-}
-
-/* ============================================================
-   WEBINAR MAIN CTA — un click dispara WhatsApp (anchor default) +
-   Google Calendar (window.open). Persiste "reserved" en localStorage.
+   WEBINAR MAIN CTA — un solo CTA que abre el grupo de WhatsApp.
+   Adentro del grupo se fija un mensaje con el link al evento .ics
+   (público en /webinar.ics) para que cada usuario decida si lo agenda.
    ============================================================ */
 function WebinarMainCTA({ variant = "light" }: { variant?: "light" | "dark" }) {
   const dark = variant === "dark";
-  const placement: Placement = dark ? "final" : "hero";
-  const [reserved, setReserved] = useState(false);
-
-  useEffect(() => {
-    try {
-      if (window.localStorage.getItem(RESERVED_KEY) === "true") setReserved(true);
-    } catch {}
-  }, []);
-
-  const handleClick = () => {
-    downloadIcsAndTrack(placement)();
-    setReserved(true);
-  };
-
   const noteColor = dark ? "rgba(255,255,255,.55)" : "#9CA3AF";
 
   return (
     <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
-      {reserved && (
-        <span
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-            fontSize: 10.5,
-            fontWeight: 600,
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-            color: dark ? "#34D399" : "#065F46",
-            background: dark ? "rgba(16,185,129,.15)" : "#ECFDF5",
-            border: dark ? "1px solid rgba(16,185,129,.35)" : "1px solid #A7F3D0",
-            padding: "5px 10px",
-            borderRadius: 999,
-          }}
-        >
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M5 12l5 5L20 7" />
-          </svg>
-          Cupo reservado · grupo + calendario
-        </span>
-      )}
       <CtaPrimary
         as="a"
         href={WA_GROUP}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={handleClick}
         style={{ padding: "16px 26px", fontSize: 16, gap: 10 }}
       >
         <WhatsAppIcon />
-        Reservar mi cupo en el webinar
+        Unirme al grupo del webinar
         <span style={{ marginLeft: 4 }}>→</span>
       </CtaPrimary>
       <span
@@ -428,7 +291,7 @@ function WebinarMainCTA({ variant = "light" }: { variant?: "light" | "dark" }) {
           color: noteColor,
         }}
       >
-        Abre WhatsApp + descarga el evento (.ics) para tu calendario
+        Jueves 16:00 hora Chile · 30 min · sin costo
       </span>
     </div>
   );
