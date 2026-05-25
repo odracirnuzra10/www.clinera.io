@@ -2608,10 +2608,69 @@
   .m-lia-action .arrow-ic{ color: #A78BFA; font-family: var(--mono); }
   .m-lia-action em{ color: #A78BFA; font-style:normal; font-weight:500; }
 
+  /* Agent badge dentro de mockup-text */
+  .agent-badge{ display:inline-flex; align-items:center; gap:12px; padding:8px 14px 8px 8px; border-radius:999px; background:#fff; border:1px solid var(--line); margin-bottom:18px; box-shadow:0 6px 18px -8px rgba(11,11,15,.12); }
+  .agent-badge img{ width:36px; height:36px; border-radius:50%; object-fit:cover; }
+  .agent-badge .ab-name{ font-weight:600; font-size:13px; color:var(--ink); line-height:1.1; }
+  .agent-badge .ab-role{ display:block; font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:var(--muted); margin-top:2px; }
+  .agent-badge.dev{ background:linear-gradient(135deg,#fff,#FAF5FF); }
+  .agent-badge .ab-status{ font-family:var(--mono); font-size:10px; padding:3px 8px; border-radius:4px; letter-spacing:.06em; text-transform:uppercase; }
+  .agent-badge .ab-status.live{ background:rgba(16,185,129,.12); color:var(--green); }
+  .agent-badge .ab-status.dev{ background:rgba(124,58,237,.12); color:var(--violet); }
+
+  /* CAMILA portrait grande dentro del slide */
+  .camila-portrait{ position:relative; width:100%; max-width:380px; aspect-ratio: 4/5; border-radius:22px; overflow:hidden; box-shadow:0 22px 60px -22px rgba(11,11,15,.45); justify-self:end; background:linear-gradient(135deg,#1a1a24,#2d1b3a); }
+  .camila-portrait img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .camila-portrait .cp-watermark{ position:absolute; bottom:18px; left:18px; right:18px; display:flex; align-items:center; gap:10px; padding:10px 14px; background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border-radius:12px; }
+  .camila-portrait .cp-watermark .cp-icon{ width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--violet),var(--magenta)); display:grid; place-items:center; color:#fff; font-weight:700; font-size:14px; }
+  .camila-portrait .cp-watermark .cp-name{ font-weight:600; font-size:13px; color:var(--ink); line-height:1.1; }
+  .camila-portrait .cp-watermark .cp-sub{ display:block; font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:var(--muted); margin-top:2px; }
+
+  /* Slide CAMILA: layout 3-columnas (texto + foto + call mockup) en desktop, stacked en mobile */
+  .camila-trio{ display:grid; grid-template-columns: 1fr 0.85fr 1fr; gap:40px; align-items:center; }
+  .camila-trio .mockup-text{ min-width:0; }
+  .camila-trio .m-call{ justify-self:end; max-width:380px; }
+
+  /* Slide 3 Modos de agendamiento */
+  .modos-slide-inner{ display:flex; flex-direction:column; gap:18px; }
+  .modos-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:22px; margin-top:14px; }
+  .modo-card{ background:#fff; border:1px solid var(--line); border-radius:18px; padding:22px 20px; display:flex; flex-direction:column; gap:14px; position:relative; transition:all .2s ease; }
+  .modo-card .modo-num{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; }
+  .modo-card .modo-name{ font-size:22px; font-weight:600; color:var(--ink); line-height:1.1; }
+  .modo-card .modo-tag{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-family:var(--mono); font-size:10px; letter-spacing:.06em; align-self:flex-start; text-transform:uppercase; }
+  .modo-card.eficiente .modo-tag{ background:rgba(34,211,238,.1); color:var(--cyan); }
+  .modo-card.agentic .modo-tag{ background:rgba(124,58,237,.1); color:var(--violet); }
+  .modo-card.flash{ background:linear-gradient(135deg,#fff,#FAF5FF); border-color:rgba(124,58,237,.3); }
+  .modo-card.flash .modo-tag{ background:linear-gradient(135deg,var(--violet),var(--magenta)); color:#fff; }
+  .modo-card .modo-desc{ font-size:13.5px; line-height:1.5; color:var(--ink-2); }
+  .modo-card .modo-desc b{ color:var(--ink); }
+  .modo-flow{ margin-top:auto; background:#F9FAFB; border-radius:12px; padding:12px 14px; display:flex; flex-direction:column; gap:8px; font-size:12.5px; line-height:1.4; }
+  .modo-card.flash .modo-flow{ background:rgba(124,58,237,.06); }
+  .modo-flow .mf-line{ display:grid; grid-template-columns:48px 1fr; gap:10px; align-items:start; }
+  .modo-flow .mf-line .mf-who{ font-family:var(--mono); font-size:9.5px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; padding-top:2px; }
+  .modo-flow .mf-line .mf-said{ color:var(--ink-2); }
+  .modo-flow .mf-line .mf-said b{ color:var(--ink); font-weight:600; }
+  .modo-foot{ display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.04em; margin-top:6px; padding-top:10px; border-top:1px solid var(--line-2); }
+  .modo-foot .mf-cost{ color:var(--ink); font-weight:600; }
+
+  /* Bloque "Agentes incluidos" en pricing */
+  .price-agents{ display:flex; flex-wrap:wrap; gap:6px; margin:14px 0 4px; padding:12px 0 0; border-top:1px solid var(--line-2); }
+  .price-agents .pa-label{ width:100%; font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:4px; }
+  .pa-pill{ display:inline-flex; align-items:center; gap:6px; padding:5px 10px 5px 5px; border-radius:999px; font-size:11.5px; font-weight:500; background:#F9FAFB; border:1px solid var(--line); }
+  .pa-pill .pa-dot{ width:18px; height:18px; border-radius:50%; display:inline-block; font-size:0; }
+  .pa-pill.aura .pa-dot{ background:linear-gradient(135deg,var(--cyan),var(--violet)); }
+  .pa-pill.lia .pa-dot{ background:linear-gradient(135deg,var(--violet),var(--magenta)); }
+  .pa-pill.camila .pa-dot{ background:linear-gradient(135deg,var(--magenta),#F59E0B); }
+  .pa-pill.soon{ opacity:.7; }
+  .pa-pill .pa-soon{ font-family:var(--mono); font-size:9px; letter-spacing:.06em; color:var(--magenta); margin-left:2px; text-transform:uppercase; }
+
   /* Mobile responsive */
   @media (max-width: 980px){
     .split-mockup{ grid-template-columns: 1fr !important; gap: 28px !important; }
     .m-chat, .m-call, .m-lia{ justify-self: center !important; max-width: 100% !important; }
+    .camila-trio{ grid-template-columns: 1fr !important; gap: 24px !important; }
+    .camila-portrait{ justify-self: center !important; max-width: 320px !important; }
+    .modos-grid{ grid-template-columns: 1fr !important; gap: 14px !important; }
   }
 </style>
 </head>
@@ -2622,7 +2681,7 @@
   <div class="meta-tag">Presentación · AURA + Clinera</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 10</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 09</div>
 <div class="hint">
   Click o <span class="arrow">→</span> para continuar
 </div>
@@ -2641,118 +2700,20 @@
     </div>
   </section>
 
-  <!-- 02 — AURA -->
+  <!-- 02 — AURA · WhatsApp en vivo -->
   <section class="slide" id="slide1">
-    <div class="slide-inner agent-slide">
-      <div class="agent-portrait">
-        <img class="portrait-img" src="/agents/aura.jpg" alt="AURA · Asistente IA" />
-        <div class="corner-pill">💬</div>
-        <div class="agent-watermark">
-          <div class="wm-icon">w</div>
-          <div class="wm-text">
-            <span class="wm-name">AURA</span>
-            <span class="wm-sub">Asistente IA</span>
-          </div>
-        </div>
-        <div class="stat-pill"><b>94%</b><span class="stat-sub">confirmaciones automáticas</span></div>
-      </div>
-
-      <div class="agent-content">
-        <div class="kicker"><span class="pip"></span>AURA · Asistente IA</div>
-
-        <div class="agent-panels">
-          <div class="agent-panel active">
-            <div class="panel-text">
-              <h3 class="panel-title">Hace el 100% de tu recepcionista.</h3>
-              <p class="panel-lead">Salvo servir el café. Ejecuta cada función de tu front-desk por WhatsApp, 24/7.</p>
-              <ul class="panel-bullets">
-                <li><b>Crea, re-agenda y cancela</b> citas en tu calendario</li>
-                <li><b>Consulta</b> pagos, sesiones, historial y alergias</li>
-                <li><b>Reactiva</b> pacientes que no vuelven hace 60/90/180 días</li>
-                <li><b>Sincroniza</b> con Google Calendar, AgendaPro y similares</li>
-              </ul>
-            </div>
-            <div class="panel-visual">
-              <div class="pv-head">
-                <span>Agenda · viernes 24 oct</span>
-                <span class="ok">94% ocupación</span>
-              </div>
-              <div class="pv-row"><span class="t">09:00</span><span class="nm">María Torres</span><span class="pl">Control</span></div>
-              <div class="pv-row"><span class="t">10:30</span><span class="nm">Pedro Rojas</span><span class="pl">Primera vez</span></div>
-              <div class="pv-row"><span class="t">12:00</span><span class="nm" style="color:var(--muted-2);font-style:italic;">—</span><span class="pl">Libre</span></div>
-              <div class="pv-row"><span class="t">15:00</span><span class="nm">Luis Alonso</span><span class="pl" style="color:var(--green);background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.3);">Pagado</span></div>
-              <div class="pv-row"><span class="t">16:30</span><span class="nm">Ana Mena</span><span class="pl">Control</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="agent-meta" style="margin-top: 28px; flex-direction: row; align-items: center; gap: 14px;">
-          <span class="agent-tag"><b>01</b> · WhatsApp IA</span>
-          <span class="status-pill live">Activa ahora</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 03 — LIA -->
-  <section class="slide" id="slide2">
-    <div class="slide-inner agent-slide reverse">
-      <div class="agent-content">
-        <div class="kicker"><span class="pip"></span>LIA · Cerebro Operacional</div>
-
-        <div class="agent-panels">
-          <div class="agent-panel active">
-            <div class="panel-text">
-              <h3 class="panel-title">Llena cada hueco con el paciente idóneo.</h3>
-              <p class="panel-lead">Escanea tu agenda 24/7 y mantiene tu vacancia en 0%.</p>
-              <ul class="panel-bullets">
-                <li><b>Detecta huecos</b> y cancelaciones al instante</li>
-                <li><b>Elige al mejor candidato</b> por LTV, urgencia e historial</li>
-                <li><b>Decide el canal</b> · AURA escribe, CAMILA llama</li>
-                <li><b>Reactiva cohortes</b> de leads tibios a 60/90/180 días</li>
-              </ul>
-            </div>
-            <div class="panel-visual">
-              <div class="pv-head">
-                <span>Hoy · Dra. Meza</span>
-                <span class="alert">2 huecos detectados</span>
-              </div>
-              <div class="pv-row"><span class="t">15:00</span><span class="nm">Antonia Ríos</span><span class="pl">Conf.</span></div>
-              <div class="pv-row gap"><span class="t">16:00</span><span class="nm">Hueco · cancelación 10:42</span><span class="pl">Detectado</span></div>
-              <div class="pv-row gap"><span class="t">17:00</span><span class="nm">Hueco · sin agendar</span><span class="pl">Detectado</span></div>
-              <div class="pv-row"><span class="t">18:00</span><span class="nm">Vicente Soto</span><span class="pl">Conf.</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="agent-meta" style="margin-top: 28px; flex-direction: row; align-items: center; gap: 14px;">
-          <span class="agent-tag"><b>02</b> · Cerebro Operacional</span>
-          <span class="status-pill dev">En desarrollo</span>
-        </div>
-      </div>
-
-      <div class="agent-portrait lia-bg">
-        <img class="portrait-img" src="/agents/lia.jpg" alt="LIA · Cerebro Operacional" />
-        <div class="corner-pill">☀</div>
-        <div class="agent-watermark">
-          <div class="wm-icon" style="background: linear-gradient(135deg, var(--violet), #9F8AE8);">L</div>
-          <div class="wm-text">
-            <span class="wm-name">LIA</span>
-            <span class="wm-sub">Inteligencia Operativa</span>
-          </div>
-        </div>
-        <div class="stat-pill"><b>0%</b><span class="stat-sub">vacancia · meta operativa</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 04 — AURA · WhatsApp en vivo (mockup simple) -->
-  <section class="slide" id="slide3">
     <div class="slide-inner split-mockup">
       <div class="mockup-text">
-        <div class="kicker"><span class="pip"></span>AURA · WhatsApp en vivo</div>
+        <div class="agent-badge">
+          <img src="/agents/aura.jpg" alt="AURA" />
+          <div>
+            <span class="ab-name">AURA</span>
+            <span class="ab-role">Asistente IA · WhatsApp</span>
+          </div>
+          <span class="ab-status live">Activa</span>
+        </div>
         <h2 class="h-display">Confirma como<br/>una <span class="em">persona</span>.</h2>
-        <p>Tipea, espera, contesta. El paciente no detecta que es IA.</p>
+        <p>Tipea, espera, contesta. El paciente no detecta que es IA. Crea, re-agenda y cancela citas 24/7 — y sincroniza con tu calendario.</p>
       </div>
       <div class="m-chat">
         <div class="m-chat-head">
@@ -2771,14 +2732,33 @@
     </div>
   </section>
 
-  <!-- 05 — CAMILA · voz humana (call mockup) -->
-  <section class="slide" id="slide4">
-    <div class="slide-inner split-mockup">
+  <!-- 03 — CAMILA · voz humana (foto + call mockup) -->
+  <section class="slide" id="slide2">
+    <div class="slide-inner camila-trio">
       <div class="mockup-text">
-        <div class="kicker"><span class="pip"></span>CAMILA · voz humana</div>
+        <div class="agent-badge dev">
+          <img src="/agents/camila.png" alt="CAMILA" />
+          <div>
+            <span class="ab-name">CAMILA</span>
+            <span class="ab-role">Voz humana · llamadas</span>
+          </div>
+          <span class="ab-status dev">Pronto</span>
+        </div>
         <h2 class="h-display">También<br/>contesta el <span class="em">teléfono</span>.</h2>
         <p>Voz natural, latencia humana. Toma la reserva sin que sepan que es IA.</p>
       </div>
+
+      <div class="camila-portrait">
+        <img src="/agents/camila.png" alt="CAMILA · agente de voz" />
+        <div class="cp-watermark">
+          <div class="cp-icon">C</div>
+          <div>
+            <div class="cp-name">CAMILA</div>
+            <div class="cp-sub">Agente de voz · IA</div>
+          </div>
+        </div>
+      </div>
+
       <div class="m-call">
         <div class="m-call-head">
           <div class="m-call-info">
@@ -2798,12 +2778,19 @@
     </div>
   </section>
 
-  <!-- 06 — LIA · gap-finder (mockup simple) -->
-  <section class="slide" id="slide5">
+  <!-- 04 — LIA · gap-finder -->
+  <section class="slide" id="slide3">
     <div class="slide-inner split-mockup">
       <div class="mockup-text">
-        <div class="kicker"><span class="pip"></span>LIA · cerebro operacional</div>
-        <h2 class="h-display">Detecta huecos.<br/>Elige al <span class="em">mejor candidato</span>.</h2>
+        <div class="agent-badge dev">
+          <img src="/agents/lia.jpg" alt="LIA" />
+          <div>
+            <span class="ab-name">LIA</span>
+            <span class="ab-role">Cerebro operacional</span>
+          </div>
+          <span class="ab-status dev">Pronto</span>
+        </div>
+        <h2 class="h-display">Detecta espacios<br/>disponibles. Elige al <span class="em">mejor candidato</span>.</h2>
         <p>Escanea tu agenda cada hora. Cuando ve un espacio libre, decide a quién contactar — y manda a AURA o CAMILA a llenarlo.</p>
       </div>
       <div class="m-lia">
@@ -2823,8 +2810,8 @@
         </div>
         <div class="m-slot gap">
           <div class="hr">14:00</div>
-          <div class="pro">Hueco detectado<small>60 min disponibles</small></div>
-          <div class="badge">HUECO</div>
+          <div class="pro">Espacio disponible<small>60 min libres</small></div>
+          <div class="badge">LIBRE</div>
         </div>
         <div class="m-slot">
           <div class="hr">15:30</div>
@@ -2839,8 +2826,60 @@
     </div>
   </section>
 
-  <!-- 07 — ¿Qué más incluye? -->
-  <section class="slide" id="slide6">
+  <!-- 05 — 3 Modos de agendamiento -->
+  <section class="slide" id="slide4">
+    <div class="slide-inner modos-slide-inner">
+      <div class="kicker"><span class="pip"></span>AURA · modos de agendamiento</div>
+      <h2 class="h-display">3 modos. Una <span class="em">misma agente</span>.</h2>
+      <p class="lead">Eliges cuánta autonomía le das a AURA al agendar. Distinto costo por atención.</p>
+
+      <div class="modos-grid">
+
+        <div class="modo-card eficiente">
+          <span class="modo-tag">⚡ Eficiente</span>
+          <div class="modo-num">Modo 01</div>
+          <div class="modo-name">Flujo guiado</div>
+          <p class="modo-desc"><b>AURA sigue un flujo predefinido</b>: pregunta → muestra horarios → reserva. Predecible y económico.</p>
+          <div class="modo-flow">
+            <div class="mf-line"><span class="mf-who">Paciente</span><span class="mf-said">Quiero hora.</span></div>
+            <div class="mf-line"><span class="mf-who">AURA</span><span class="mf-said">¿Para qué tratamiento? <b>1)</b> Limpieza · <b>2)</b> Botox · <b>3)</b> Otro</span></div>
+            <div class="mf-line"><span class="mf-who">Paciente</span><span class="mf-said">1</span></div>
+            <div class="mf-line"><span class="mf-who">AURA</span><span class="mf-said">Tengo mié 11:30 o vie 17:00. ¿Cuál?</span></div>
+          </div>
+          <div class="modo-foot"><span>Disponible en</span><span class="mf-cost">Core · Conect · Advanced</span></div>
+        </div>
+
+        <div class="modo-card agentic">
+          <span class="modo-tag">🧠 Agentic</span>
+          <div class="modo-num">Modo 02</div>
+          <div class="modo-name">Conversacional</div>
+          <p class="modo-desc"><b>AURA conversa libre</b>, entiende contexto, decide cuándo preguntar y cuándo confirmar. Más natural.</p>
+          <div class="modo-flow">
+            <div class="mf-line"><span class="mf-who">Paciente</span><span class="mf-said">Hola, tengo una mancha en la mejilla, ¿me pueden ver?</span></div>
+            <div class="mf-line"><span class="mf-who">AURA</span><span class="mf-said">Sí, eso lo ve <b>derma · Dra. Meza</b>. Tiene mié 11:30 o vie 17:00. ¿Te acomoda alguna?</span></div>
+            <div class="mf-line"><span class="mf-who">Paciente</span><span class="mf-said">Vie en la tarde mejor.</span></div>
+          </div>
+          <div class="modo-foot"><span>Disponible en</span><span class="mf-cost">Conect · Advanced</span></div>
+        </div>
+
+        <div class="modo-card flash">
+          <span class="modo-tag">⚡ Agentic Flash</span>
+          <div class="modo-num">Modo 03</div>
+          <div class="modo-name">Conversacional + razonamiento</div>
+          <p class="modo-desc"><b>Agentic con razonamiento extendido</b>: entiende casos ambiguos, propone alternativas y prioriza por LTV/urgencia.</p>
+          <div class="modo-flow">
+            <div class="mf-line"><span class="mf-who">Paciente</span><span class="mf-said">Vengo del Botox de hace 4 meses, ¿toca retoque ya?</span></div>
+            <div class="mf-line"><span class="mf-who">AURA</span><span class="mf-said">Sí, <b>justo en ventana</b>. Vi tu control con Dra. Meza el 12 ago. Mañana 16:00 hay cupo — te lo dejo reservado y te confirmo 2h antes. ¿Va?</span></div>
+          </div>
+          <div class="modo-foot"><span>Disponible en</span><span class="mf-cost">Solo Advanced</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — ¿Qué más incluye? -->
+  <section class="slide" id="slide5">
     <div class="slide-inner caps-slide-inner">
       <div class="kicker"><span class="pip"></span>Clinera · más allá de AURA</div>
       <h2 class="h-display">¿Qué <span class="em">más</span> incluye?</h2>
@@ -3186,17 +3225,17 @@
     </div>
   </section>
 
-  <!-- 08 — ROI Humano vs AURA Advanced -->
-  <section class="slide" id="slide7">
+  <!-- 07 — ROI · capacidad 24/7 -->
+  <section class="slide" id="slide6">
     <div class="slide-inner roi-slide-inner">
-      <div class="kicker"><span class="pip"></span>ROI · Humano vs AURA Advanced</div>
-      <h2 class="h-display">$359 vs <span class="em">$950</span>.</h2>
-      <p class="lead">Costo laboral fijo vs. costo de software variable.</p>
+      <div class="kicker"><span class="pip"></span>ROI · capacidad 24/7</div>
+      <h2 class="h-display">Capacidad 24/7<br/>desde <span class="em">$359</span>/mes.</h2>
+      <p class="lead">Tu equipo humano libera la operación. AURA cubre el resto.</p>
 
       <div class="roi-table">
         <div class="roi-table-head">
           <div>Concepto</div>
-          <div>Recepcionista humana</div>
+          <div>Front-desk tradicional</div>
           <div class="roi-aura">AURA Advanced</div>
         </div>
         <div class="roi-table-row">
@@ -3215,9 +3254,9 @@
           <div class="roi-aura">24 / 7 / 365</div>
         </div>
         <div class="roi-table-row">
-          <div class="roi-concept">Vacaciones / licencias</div>
-          <div class="roi-human">15–20 días al año sin servicio</div>
-          <div class="roi-aura">Cero</div>
+          <div class="roi-concept">Cobertura en feriados</div>
+          <div class="roi-human">Limitada</div>
+          <div class="roi-aura">Completa</div>
         </div>
         <div class="roi-table-row">
           <div class="roi-concept">Atenciones simultáneas</div>
@@ -3230,7 +3269,7 @@
           <div class="roi-aura">Inmediato</div>
         </div>
         <div class="roi-table-row">
-          <div class="roi-concept">Capacitación inicial</div>
+          <div class="roi-concept">Setup inicial</div>
           <div class="roi-human">1–3 meses</div>
           <div class="roi-aura">Configurado una vez</div>
         </div>
@@ -3238,14 +3277,14 @@
 
       <div class="roi-kpis">
         <div class="roi-kpi">
-          <div class="kpi-label">Ahorro mensual</div>
-          <div class="kpi-value">~$592</div>
-          <div class="kpi-sub">USD vs. una recepcionista en Chile</div>
+          <div class="kpi-label">Costo por atención</div>
+          <div class="kpi-value">$0,15</div>
+          <div class="kpi-sub">USD · plan Advanced</div>
         </div>
         <div class="roi-kpi featured">
-          <div class="kpi-label">Ahorro anualizado</div>
-          <div class="kpi-value">~$7.104</div>
-          <div class="kpi-sub">USD / año por clínica</div>
+          <div class="kpi-label">Capacidad mensual</div>
+          <div class="kpi-value">~2.400</div>
+          <div class="kpi-sub">atenciones automatizadas</div>
         </div>
         <div class="roi-kpi">
           <div class="kpi-label">Capacidad efectiva</div>
@@ -3254,12 +3293,12 @@
         </div>
       </div>
 
-      <p class="roi-quote">"Por $359 al mes tienes un <span class="em">empleado 24/7</span>."</p>
+      <p class="roi-quote">"Por $359 al mes tu clínica <span class="em">nunca cierra</span>."</p>
     </div>
   </section>
 
-  <!-- 09 — Precios -->
-  <section class="slide" id="slide8">
+  <!-- 08 — Precios -->
+  <section class="slide" id="slide7">
     <div class="slide-inner pricing-slide-inner">
       <div class="kicker"><span class="pip"></span>Planes · Clinera</div>
       <h2 class="h-display">Activa Clinera <span class="em">hoy</span>.</h2>
@@ -3286,6 +3325,10 @@
             <div class="pm-pills">
               <span class="pm-pill">Eficiente</span>
             </div>
+          </div>
+          <div class="price-agents">
+            <span class="pa-label">Empleados digitales incluidos</span>
+            <span class="pa-pill aura"><span class="pa-dot"></span>AURA</span>
           </div>
           <div class="cost-per-agend">
             <span class="cpa-label">Costo por<br/>atención</span>
@@ -3317,6 +3360,10 @@
               <span class="pm-pill">Eficiente</span>
               <span class="pm-pill">Agentic</span>
             </div>
+          </div>
+          <div class="price-agents">
+            <span class="pa-label">Empleados digitales incluidos</span>
+            <span class="pa-pill aura"><span class="pa-dot"></span>AURA</span>
           </div>
           <div class="cost-per-agend">
             <span class="cpa-label">Costo por<br/>atención</span>
@@ -3351,6 +3398,12 @@
               <span class="pm-pill">Agentic</span>
               <span class="pm-pill">Agentic Flash</span>
             </div>
+          </div>
+          <div class="price-agents">
+            <span class="pa-label">Empleados digitales incluidos</span>
+            <span class="pa-pill aura"><span class="pa-dot"></span>AURA</span>
+            <span class="pa-pill lia soon"><span class="pa-dot"></span>LIA<span class="pa-soon">pronto</span></span>
+            <span class="pa-pill camila soon"><span class="pa-dot"></span>CAMILA<span class="pa-soon">pronto</span></span>
           </div>
           <div class="cost-per-agend featured">
             <span class="cpa-label">Costo por<br/>atención</span>
@@ -3407,15 +3460,15 @@
     </div>
   </section>
 
-  <!-- 10 — Cierre -->
-  <section class="slide" id="slide9">
+  <!-- 09 — Cierre -->
+  <section class="slide" id="slide8">
     <div class="slide-inner close">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Conoce Clinera</div>
       <p class="close-line">
         <span class="em">AURA</span> atiende.
         <span class="em">LIA</span> piensa.
+        <span class="em">CAMILA</span> llama.
         La <span class="em">agenda</span> coordina.
-        El <span class="em">marketing</span> reactiva.
         La <span class="em">atribución</span> mide.
       </p>
       <h2 class="close-h">Activa Clinera<br/>en menos de 1 hora.</h2>
@@ -3429,7 +3482,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 10;
+  const TOTAL_SLIDES = 9;
   let currentSlide = 0;
   let currentSubStep = 0;
   let isAnimating = false;
@@ -3458,16 +3511,14 @@
       currentSubStep = 0;
       updateProgress();
       resetSlideState(n);
-      if (n === 1) setActiveAuraTab(0);
-      else if (n === 2) setActiveLiaTab(0);
-      else if (n === 6) setActiveCap(0);
-      if (n === 4) initCamilaWave();
+      if (n === 5) setActiveCap(0);
+      if (n === 2) initCamilaWave();
       setTimeout(function(){ isAnimating = false; }, 200);
     }, 300);
   }
 
   function resetSlideState(n){
-    if (n === 6){
+    if (n === 5){
       ['fn-1','fn-2','fn-3','fl-1','fl-2'].forEach(function(id){
         const el = $(id); if (el) el.classList.remove('show');
       });
@@ -3475,28 +3526,6 @@
       const bc = $('blast-card'); if (bc) bc.classList.remove('show');
       const sn = $('sale-new'); if (sn) sn.classList.remove('show');
     }
-  }
-
-  // AURA tabs
-  function setActiveAuraTab(idx){
-    document.querySelectorAll('[data-aura-tab]').forEach(function(el){
-      el.classList.toggle('active', parseInt(el.dataset.auraTab, 10) === idx);
-    });
-    document.querySelectorAll('[data-aura-panel]').forEach(function(el){
-      el.classList.toggle('active', parseInt(el.dataset.auraPanel, 10) === idx);
-    });
-    const step = $('aura-step'); if (step) step.textContent = String(idx + 1).padStart(2, '0');
-  }
-
-  // LIA tabs
-  function setActiveLiaTab(idx){
-    document.querySelectorAll('[data-lia-tab]').forEach(function(el){
-      el.classList.toggle('active', parseInt(el.dataset.liaTab, 10) === idx);
-    });
-    document.querySelectorAll('[data-lia-panel]').forEach(function(el){
-      el.classList.toggle('active', parseInt(el.dataset.liaPanel, 10) === idx);
-    });
-    const step = $('lia-step'); if (step) step.textContent = String(idx + 1).padStart(2, '0');
   }
 
   // Capability tabs
@@ -3545,17 +3574,7 @@
 
   function advanceSubStep(){
     if (isAnimating) return;
-    if (currentSlide === 1){
-      const s = getActiveTabIdx('[data-aura-tab]');
-      if (s.idx < s.total - 1){ setActiveAuraTab(s.idx + 1); return; }
-      goToSlide(currentSlide + 1); return;
-    }
-    if (currentSlide === 2){
-      const s = getActiveTabIdx('[data-lia-tab]');
-      if (s.idx < s.total - 1){ setActiveLiaTab(s.idx + 1); return; }
-      goToSlide(currentSlide + 1); return;
-    }
-    if (currentSlide === 6){
+    if (currentSlide === 5){
       const s = getActiveTabIdx('.cap-item');
       if (s.idx < s.total - 1){ setActiveCap(s.idx + 1); return; }
       goToSlide(currentSlide + 1); return;
@@ -3570,10 +3589,6 @@
   // Click handlers
   document.addEventListener('click', function(e){
     if (isMobile()) return;
-    const auraTab = e.target.closest('[data-aura-tab]');
-    if (auraTab){ e.stopPropagation(); setActiveAuraTab(parseInt(auraTab.dataset.auraTab, 10)); return; }
-    const liaTab = e.target.closest('[data-lia-tab]');
-    if (liaTab){ e.stopPropagation(); setActiveLiaTab(parseInt(liaTab.dataset.liaTab, 10)); return; }
     const capItem = e.target.closest('.cap-item');
     if (capItem){ e.stopPropagation(); setActiveCap(parseInt(capItem.dataset.cap, 10)); return; }
     if (e.target.closest('a') || e.target.closest('.price-card')) return;
@@ -3589,15 +3604,7 @@
     }
     if (e.key === 'ArrowLeft'){
       e.preventDefault();
-      if (currentSlide === 1){
-        const s = getActiveTabIdx('[data-aura-tab]');
-        if (s.idx > 0){ setActiveAuraTab(s.idx - 1); return; }
-      }
-      if (currentSlide === 2){
-        const s = getActiveTabIdx('[data-lia-tab]');
-        if (s.idx > 0){ setActiveLiaTab(s.idx - 1); return; }
-      }
-      if (currentSlide === 6){
+      if (currentSlide === 5){
         const s = getActiveTabIdx('.cap-item');
         if (s.idx > 0){ setActiveCap(s.idx - 1); return; }
       }
@@ -3642,7 +3649,7 @@
   // On mobile: load all slides visible from the start, no animations gating content
   if (isMobile()){
     document.querySelectorAll('.slide').forEach(function(s){ s.classList.add('active'); });
-    document.querySelectorAll('[data-aura-panel],[data-lia-panel],.cap-panel').forEach(function(p){ p.classList.add('active'); });
+    document.querySelectorAll('.cap-panel').forEach(function(p){ p.classList.add('active'); });
     document.querySelectorAll('.flow-node, .flow-line, .booking, .blast-card, .reveal').forEach(function(el){ el.classList.add('show', 'visible'); });
     const sn = document.getElementById('sale-new'); if (sn) sn.classList.add('show');
     const an = document.getElementById('ag-new'); if (an) an.classList.add('show');
