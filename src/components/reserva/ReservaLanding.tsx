@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CtaPrimary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
+import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 
 const WA_GROUP = "https://chat.whatsapp.com/JJzwD46zLEiAjJXWqtoLgE?mode=gi_t";
 const ICS_URL = "/webinar.ics";
@@ -209,16 +209,34 @@ export default function ReservaLanding() {
               alignItems: "center",
             }}
           >
-            <CtaPrimary
-              as="a"
+            <a
               href={ICS_URL}
               download="webinar-clinera.ics"
-              style={{ padding: "16px 26px", fontSize: 16, gap: 10, minWidth: 280, justifyContent: "center" }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 10,
+                padding: "16px 26px",
+                background: GRAD,
+                color: "#fff",
+                border: 0,
+                borderRadius: 10,
+                fontWeight: 600,
+                fontSize: 16,
+                fontFamily: "Inter, sans-serif",
+                letterSpacing: "-0.005em",
+                textDecoration: "none",
+                lineHeight: 1,
+                minWidth: 280,
+                boxShadow:
+                  "0 12px 32px -8px rgba(124,58,237,.35),0 4px 12px -2px rgba(217,70,239,.22)",
+              }}
             >
               <CalendarIcon />
               Agregar a mi calendario
               <span style={{ marginLeft: 4 }}>→</span>
-            </CtaPrimary>
+            </a>
 
             <a
               href={WA_GROUP}
