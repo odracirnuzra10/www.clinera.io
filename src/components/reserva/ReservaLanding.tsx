@@ -3,16 +3,44 @@
 import { useEffect, useState } from "react";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 
-const ICS_URL = "/webinar.ics";
+const MEET_URL = "https://meet.google.com/kye-abrq-qwj";
 const MEET_DOMAIN = "meet.google.com/kye-abrq-qwj";
+const WA_GROUP = "https://chat.whatsapp.com/JJzwD46zLEiAjJXWqtoLgE?mode=gi_t";
 
 type NextDate = {
   monthLabel: string; // "MAYO"
   dayNum: number;     // 28
   weekdayLabel: string; // "JUEVES"
   year: number;       // 2026
+  month: number;      // 5 (1-12)
   fullLabel: string;  // "Jueves 28 de mayo · 16:00 hora Chile"
+  gcalUrl: string;    // Google Calendar pre-fill URL (recurrente)
 };
+
+function pad2(n: number): string {
+  return String(n).padStart(2, "0");
+}
+
+function buildGoogleCalendarUrl(y: number, m: number, d: number): string {
+  const dateStr = `${y}${pad2(m)}${pad2(d)}`;
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: "Webinar Clinera — Empleados digitales con IA",
+    dates: `${dateStr}T160000/${dateStr}T170000`,
+    ctz: "America/Santiago",
+    details: [
+      "Webinar semanal en vivo de Clinera. 30 minutos para conocer cómo AURA atiende, agenda y cobra por WhatsApp 24/7.",
+      "",
+      "Grupo de WhatsApp donde llega el link cada semana:",
+      WA_GROUP,
+      "",
+      "Más info en https://www.clinera.io/reserva",
+    ].join("\n"),
+    location: MEET_URL,
+    recur: "RRULE:FREQ=WEEKLY;BYDAY=TH;UNTIL=20261231T235959Z",
+  });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
 
 // Calcula el próximo jueves a las 16:00 hora Chile.
 function getNextThursdayChile(now: Date = new Date()): NextDate {
@@ -56,12 +84,18 @@ function getNextThursdayChile(now: Date = new Date()): NextDate {
   })
     .format(base);
 
+  const y = base.getUTCFullYear();
+  const m = base.getUTCMonth() + 1;
+  const d = base.getUTCDate();
+
   return {
     monthLabel,
-    dayNum: base.getUTCDate(),
+    dayNum: d,
     weekdayLabel,
-    year: base.getUTCFullYear(),
+    year: y,
+    month: m,
     fullLabel: `${fullLabel} · 16:00 hora Chile`,
+    gcalUrl: buildGoogleCalendarUrl(y, m, d),
   };
 }
 
@@ -85,10 +119,11 @@ export default function ReservaLanding() {
       const target = ev.target as HTMLElement | null;
       const a = target?.closest("a") as HTMLAnchorElement | null;
       if (!a) return;
-      if (!a.href.includes("/webinar.ics")) return;
+      if (!a.href.includes("calendar.google.com/calendar/render")) return;
       window.dataLayer!.push({
         event: "webinar_calendar_add",
         placement: "reserva",
+        method: "google_calendar",
         page_path: "/reserva",
         content_name: "Reserva tu cupo — Clinera",
       });
@@ -207,8 +242,9 @@ export default function ReservaLanding() {
         <CalendarPreviewCard data={nextDate} />
 
         <a
-          href={ICS_URL}
-          download="webinar-clinera.ics"
+          href={nextDate?.gcalUrl ?? "https://calendar.google.com/calendar/render?action=TEMPLATE"}
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -231,8 +267,8 @@ export default function ReservaLanding() {
               "0 12px 32px -8px rgba(124,58,237,.4),0 4px 12px -2px rgba(217,70,239,.25)",
           }}
         >
-          <CalendarIcon />
-          Agregar a mi calendario
+          <GoogleCalendarIcon />
+          Agregar a Google Calendar
           <span style={{ marginLeft: 4 }}>→</span>
         </a>
 
@@ -249,7 +285,7 @@ export default function ReservaLanding() {
             lineHeight: 1.5,
           }}
         >
-          Compatible con Apple Calendar · Google Calendar · Outlook · cualquier app
+          Abre Google Calendar con el evento recurrente pre-llenado. 1 click para guardar.
         </p>
 
         <div
@@ -498,23 +534,22 @@ function CalendarPreviewCard({ data }: { data: NextDate | null }) {
   );
 }
 
-function CalendarIcon() {
+function GoogleCalendarIcon() {
   return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <rect x="3" y="4" width="18" height="18" rx="2" />
-      <line x1="16" y1="2" x2="16" y2="6" />
-      <line x1="8" y1="2" x2="8" y2="6" />
-      <line x1="3" y1="10" x2="21" y2="10" />
+    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="2" y="3" width="20" height="18" rx="3" fill="#fff" />
+      <rect x="2" y="3" width="20" height="4" rx="3" fill="#4285F4" />
+      <text
+        x="12"
+        y="17"
+        textAnchor="middle"
+        fontFamily="Inter, sans-serif"
+        fontWeight="700"
+        fontSize="9"
+        fill="#4285F4"
+      >
+        31
+      </text>
     </svg>
   );
 }

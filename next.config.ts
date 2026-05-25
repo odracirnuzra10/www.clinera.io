@@ -145,16 +145,6 @@ const nextConfig: NextConfig = {
           { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
         ],
       },
-      // .ics del webinar: Content-Type correcto para que el OS lo
-      // intercepte y abra la app de calendario (iOS/Android/Apple/Outlook).
-      // Sin Content-Disposition explicito → behavior nativo del browser.
-      {
-        source: "/webinar.ics",
-        headers: [
-          { key: "Content-Type", value: "text/calendar; charset=utf-8" },
-          { key: "Cache-Control", value: "public, max-age=3600" },
-        ],
-      },
     ];
   },
   async rewrites() {
