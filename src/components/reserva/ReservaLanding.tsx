@@ -1,20 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
+import { GRAD } from "@/components/brand-v3/Brand";
 
 const MEET_URL = "https://meet.google.com/kye-abrq-qwj";
 const MEET_DOMAIN = "meet.google.com/kye-abrq-qwj";
 const WA_GROUP = "https://chat.whatsapp.com/JJzwD46zLEiAjJXWqtoLgE?mode=gi_t";
 
 type NextDate = {
-  monthLabel: string; // "MAYO"
-  dayNum: number;     // 28
-  weekdayLabel: string; // "JUEVES"
-  year: number;       // 2026
-  month: number;      // 5 (1-12)
-  fullLabel: string;  // "Jueves 28 de mayo · 16:00 hora Chile"
-  gcalUrl: string;    // Google Calendar pre-fill URL (recurrente)
+  monthLabel: string;
+  dayNum: number;
+  weekdayLabel: string;
+  year: number;
+  month: number;
+  gcalUrl: string;
 };
 
 function pad2(n: number): string {
@@ -33,8 +32,6 @@ function buildGoogleCalendarUrl(y: number, m: number, d: number): string {
       "",
       "Grupo de WhatsApp donde llega el link cada semana:",
       WA_GROUP,
-      "",
-      "Más info en https://www.clinera.io/reserva",
     ].join("\n"),
     location: MEET_URL,
     recur: "RRULE:FREQ=WEEKLY;BYDAY=TH;UNTIL=20261231T235959Z",
@@ -42,7 +39,6 @@ function buildGoogleCalendarUrl(y: number, m: number, d: number): string {
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
-// Calcula el próximo jueves a las 16:00 hora Chile.
 function getNextThursdayChile(now: Date = new Date()): NextDate {
   const fmt = new Intl.DateTimeFormat("en-CA", {
     timeZone: "America/Santiago",
@@ -76,13 +72,6 @@ function getNextThursdayChile(now: Date = new Date()): NextDate {
   const weekdayLabel = new Intl.DateTimeFormat("es-CL", { weekday: "long", timeZone: "UTC" })
     .format(base)
     .toUpperCase();
-  const fullLabel = new Intl.DateTimeFormat("es-CL", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    timeZone: "UTC",
-  })
-    .format(base);
 
   const y = base.getUTCFullYear();
   const m = base.getUTCMonth() + 1;
@@ -94,7 +83,6 @@ function getNextThursdayChile(now: Date = new Date()): NextDate {
     weekdayLabel,
     year: y,
     month: m,
-    fullLabel: `${fullLabel} · 16:00 hora Chile`,
     gcalUrl: buildGoogleCalendarUrl(y, m, d),
   };
 }
@@ -142,14 +130,21 @@ export default function ReservaLanding() {
       document.removeEventListener("click", onClick, { capture: true } as AddEventListenerOptions);
   }, []);
 
+  const gcalUrl =
+    nextDate?.gcalUrl ?? "https://calendar.google.com/calendar/render?action=TEMPLATE";
+
   return (
-    <section
+    <main
       style={{
-        minHeight: "calc(100vh - 140px)",
-        padding: "64px 24px 96px",
+        minHeight: "100vh",
         background: "#FAFAFA",
         position: "relative",
         overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "48px 24px 160px",
       }}
     >
       <div
@@ -162,21 +157,15 @@ export default function ReservaLanding() {
           pointerEvents: "none",
         }}
       />
-      <div
-        style={{
-          maxWidth: 720,
-          margin: "0 auto",
-          position: "relative",
-          textAlign: "center",
-        }}
-      >
-        <span
+
+      <div style={{ width: "100%", maxWidth: 460, position: "relative", textAlign: "center" }}>
+        <div
           style={{
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
             fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-            fontSize: 11.5,
+            fontSize: 11,
             fontWeight: 600,
             letterSpacing: "0.14em",
             textTransform: "uppercase",
@@ -185,187 +174,80 @@ export default function ReservaLanding() {
             border: "1px solid #E5E7EB",
             padding: "6px 12px",
             borderRadius: 999,
-            marginBottom: 24,
+            marginBottom: 18,
           }}
         >
           <span
             className="live-dot"
             style={{
-              width: 8,
-              height: 8,
+              width: 7,
+              height: 7,
               borderRadius: 999,
               background: "#10B981",
               display: "inline-block",
             }}
           />
-          Webinar semanal · gratis · 30 min
-        </span>
+          Próximo webinar
+        </div>
 
         <h1
           style={{
-            fontFamily: "Inter",
-            fontSize: "clamp(30px, 4.5vw, 46px)",
+            fontFamily: "Inter, sans-serif",
+            fontSize: "clamp(24px, 4vw, 32px)",
             fontWeight: 800,
-            letterSpacing: "-0.03em",
-            lineHeight: 1.05,
-            margin: "0 0 14px",
+            letterSpacing: "-0.02em",
+            lineHeight: 1.1,
+            margin: "0 0 28px",
             color: "#0A0A0A",
           }}
         >
-          Guarda la fecha del{" "}
-          <span
-            style={{
-              background: GRAD,
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              color: "transparent",
-            }}
-          >
-            próximo webinar
-          </span>
-          .
+          Guarda la fecha en tu Google Calendar.
         </h1>
 
-        <p
-          style={{
-            fontFamily: "Inter",
-            fontSize: 16,
-            color: "#4B5563",
-            lineHeight: 1.55,
-            margin: "0 auto 36px",
-            maxWidth: 520,
-          }}
-        >
-          Un click agrega TODOS los jueves del año a tu calendario. Sin recordatorios manuales.
-        </p>
-
         <CalendarPreviewCard data={nextDate} />
-
-        <a
-          href={nextDate?.gcalUrl ?? "https://calendar.google.com/calendar/render?action=TEMPLATE"}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 10,
-            padding: "16px 30px",
-            background: GRAD,
-            color: "#fff",
-            border: 0,
-            borderRadius: 12,
-            fontWeight: 600,
-            fontSize: 16,
-            fontFamily: "Inter, sans-serif",
-            letterSpacing: "-0.005em",
-            textDecoration: "none",
-            lineHeight: 1,
-            minWidth: 280,
-            marginTop: 32,
-            boxShadow:
-              "0 12px 32px -8px rgba(124,58,237,.4),0 4px 12px -2px rgba(217,70,239,.25)",
-          }}
-        >
-          <GoogleCalendarIcon />
-          Agregar a Google Calendar
-          <span style={{ marginLeft: 4 }}>→</span>
-        </a>
-
-        <p
-          style={{
-            marginTop: 18,
-            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-            fontSize: 11,
-            letterSpacing: "0.06em",
-            color: "#6B7280",
-            maxWidth: 460,
-            marginLeft: "auto",
-            marginRight: "auto",
-            lineHeight: 1.5,
-          }}
-        >
-          Abre Google Calendar con el evento recurrente pre-llenado. 1 click para guardar.
-        </p>
-
-        <div
-          style={{
-            marginTop: 64,
-            paddingTop: 40,
-            borderTop: "1px solid #E5E7EB",
-            textAlign: "left",
-          }}
-        >
-          <Eyebrow style={{ display: "block", marginBottom: 14 }}>Qué vas a ver</Eyebrow>
-          <ul
-            style={{
-              listStyle: "none",
-              padding: 0,
-              margin: 0,
-              display: "flex",
-              flexDirection: "column",
-              gap: 10,
-            }}
-          >
-            {[
-              "Cómo reemplazar a la recepcionista con IA — agenda, cobra, reactiva.",
-              "Cómo conectar Meta Lead Ads en 30 segundos al WhatsApp de la clínica.",
-              "Cuál de los 3 modos de IA elegir según tu volumen.",
-              "Casos reales: clínicas operando 24/7 con números, no promesas.",
-            ].map((t, i) => (
-              <li
-                key={i}
-                style={{
-                  display: "flex",
-                  gap: 12,
-                  alignItems: "flex-start",
-                  fontFamily: "Inter",
-                  fontSize: 14.5,
-                  color: "#1F2937",
-                  lineHeight: 1.5,
-                }}
-              >
-                <span
-                  style={{
-                    flexShrink: 0,
-                    width: 22,
-                    height: 22,
-                    borderRadius: 999,
-                    background: "#ECFDF5",
-                    border: "1px solid #A7F3D0",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: 1,
-                  }}
-                >
-                  <svg
-                    width="11"
-                    height="11"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#10B981"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12l5 5L20 7" />
-                  </svg>
-                </span>
-                <span>{t}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
-    </section>
+
+      {/* Sticky floating CTA — único click posible en la página */}
+      <a
+        href={gcalUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Agregar el webinar a Google Calendar"
+        style={{
+          position: "fixed",
+          left: "50%",
+          bottom: 28,
+          transform: "translateX(-50%)",
+          zIndex: 60,
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 10,
+          padding: "16px 28px",
+          background: GRAD,
+          color: "#fff",
+          border: 0,
+          borderRadius: 999,
+          fontWeight: 600,
+          fontSize: 16,
+          fontFamily: "Inter, sans-serif",
+          letterSpacing: "-0.005em",
+          textDecoration: "none",
+          lineHeight: 1,
+          minWidth: 280,
+          maxWidth: "calc(100vw - 32px)",
+          boxShadow:
+            "0 1px 2px rgba(11,11,15,.10), 0 16px 32px -10px rgba(11,11,15,.4)",
+        }}
+      >
+        <GoogleCalendarIcon />
+        Agregar a Google Calendar
+        <span style={{ marginLeft: 4 }}>→</span>
+      </a>
+    </main>
   );
 }
 
-/* ============================================================
-   CalendarPreviewCard — visual estilo "save the date" / event card.
-   Muestra el próximo jueves prominente con detalles del webinar.
-   ============================================================ */
 function CalendarPreviewCard({ data }: { data: NextDate | null }) {
   const monthLabel = data?.monthLabel ?? "MAYO";
   const dayNum = data?.dayNum ?? 28;
@@ -386,19 +268,11 @@ function CalendarPreviewCard({ data }: { data: NextDate | null }) {
         textAlign: "left",
       }}
     >
-      {/* Top gradient strip — accent visual */}
-      <div
-        aria-hidden
-        style={{
-          height: 4,
-          background: GRAD,
-        }}
-      />
+      <div aria-hidden style={{ height: 4, background: GRAD }} />
 
-      {/* Header: month/year + weekday */}
       <div
         style={{
-          padding: "20px 28px 12px",
+          padding: "18px 24px 12px",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -408,7 +282,7 @@ function CalendarPreviewCard({ data }: { data: NextDate | null }) {
         <div
           style={{
             fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-            fontSize: 11,
+            fontSize: 10.5,
             fontWeight: 600,
             letterSpacing: "0.14em",
             color: "#7C3AED",
@@ -434,24 +308,23 @@ function CalendarPreviewCard({ data }: { data: NextDate | null }) {
         </div>
       </div>
 
-      {/* Day + weekday */}
       <div
         style={{
-          padding: "24px 28px 18px",
+          padding: "22px 24px 16px",
           display: "flex",
           alignItems: "center",
-          gap: 20,
+          gap: 18,
         }}
       >
         <div
           style={{
             fontFamily: "Inter, sans-serif",
-            fontSize: 76,
+            fontSize: 68,
             fontWeight: 800,
             letterSpacing: "-0.06em",
             lineHeight: 1,
             color: "#0A0A0A",
-            minWidth: 100,
+            minWidth: 92,
             textAlign: "center",
           }}
         >
@@ -461,7 +334,7 @@ function CalendarPreviewCard({ data }: { data: NextDate | null }) {
           <div
             style={{
               fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-              fontSize: 11,
+              fontSize: 10.5,
               fontWeight: 600,
               letterSpacing: "0.18em",
               color: "#6B7280",
@@ -494,20 +367,19 @@ function CalendarPreviewCard({ data }: { data: NextDate | null }) {
         </div>
       </div>
 
-      {/* Event detail rows */}
       <div
         style={{
-          padding: "16px 28px 22px",
+          padding: "14px 24px 20px",
           borderTop: "1px solid #F3F4F6",
           display: "flex",
           flexDirection: "column",
-          gap: 12,
+          gap: 10,
         }}
       >
         <div
           style={{
             fontFamily: "Inter, sans-serif",
-            fontSize: 15.5,
+            fontSize: 15,
             fontWeight: 700,
             color: "#0A0A0A",
             letterSpacing: "-0.012em",
@@ -521,7 +393,7 @@ function CalendarPreviewCard({ data }: { data: NextDate | null }) {
           <span
             style={{
               fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-              fontSize: 12,
+              fontSize: 11.5,
               color: "#4B5563",
               letterSpacing: "0.01em",
             }}
@@ -557,8 +429,8 @@ function GoogleCalendarIcon() {
 function RepeatIcon() {
   return (
     <svg
-      width="12"
-      height="12"
+      width="11"
+      height="11"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

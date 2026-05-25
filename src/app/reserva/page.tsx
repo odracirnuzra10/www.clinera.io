@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import NavV3 from "@/components/brand-v3/Nav";
-import FooterV3 from "@/components/brand-v3/Footer";
 import ReservaLanding from "@/components/reserva/ReservaLanding";
 
 export const metadata: Metadata = {
   title: "Reserva tu cupo — Webinar Clinera",
   description:
-    "Reserva tu cupo del próximo webinar semanal de Clinera. Cada jueves 16:00 hora Chile. Agrega el evento a tu calendario en un click y únete al grupo de WhatsApp para recibir el link cada semana.",
+    "Agrega el próximo webinar a tu Google Calendar en 1 click. Cada jueves 16:00 hora Chile.",
   alternates: { canonical: "https://www.clinera.io/reserva" },
+  robots: { index: true, follow: true },
   openGraph: {
     url: "https://www.clinera.io/reserva",
     title: "Reserva tu cupo — Webinar Clinera",
-    description:
-      "Cada jueves 16:00 hora Chile. Agrega el evento a tu calendario y únete al grupo.",
+    description: "1 click → todos los jueves del año en tu Google Calendar.",
     type: "website",
     images: [
       {
@@ -61,31 +59,14 @@ const eventJsonLd = {
   },
 };
 
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://clinera.io/" },
-    { "@type": "ListItem", position: 2, name: "Reserva tu cupo", item: "https://clinera.io/reserva" },
-  ],
-};
-
 export default function ReservaPage() {
   return (
     <>
-      <NavV3 />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
-      <main>
-        <ReservaLanding />
-      </main>
-      <FooterV3 />
+      <ReservaLanding />
     </>
   );
 }
