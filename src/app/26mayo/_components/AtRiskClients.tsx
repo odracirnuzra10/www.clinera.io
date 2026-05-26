@@ -1,6 +1,5 @@
-"use client";
-
 import React from "react";
+import SlideHeader from "./SlideHeader";
 
 interface AtRiskClient {
   name: string;
@@ -8,41 +7,57 @@ interface AtRiskClient {
 }
 
 const atRiskClientsList: AtRiskClient[] = [
-  { name: "Clínica Oftalmológica Oftalvista", cost: "42,2366 US$" },
-  { name: "Clínica dental Nevados", cost: "26,7229 US$" },
-  { name: "SER Estética Facial & Corporal", cost: "16,8846 US$" },
-  { name: "Clínica Antuka", cost: "12,9683 US$" },
-  { name: "Clínica dental Divedent", cost: "12,6670 US$" },
-  { name: "Aliviarte", cost: "12,4148 US$" },
-  { name: "Laser Podología Chile", cost: "11,3107 US$" },
+  { name: "Clínica Oftalmológica Oftalvista", cost: "42,2366" },
+  { name: "Clínica dental Nevados", cost: "26,7229" },
+  { name: "SER Estética Facial & Corporal", cost: "16,8846" },
+  { name: "Clínica Antuka", cost: "12,9683" },
+  { name: "Clínica dental Divedent", cost: "12,6670" },
+  { name: "Aliviarte", cost: "12,4148" },
+  { name: "Laser Podología Chile", cost: "11,3107" },
 ];
 
 export default function AtRiskClients() {
   return (
-    <section className="py-12 border-b border-zinc-900">
-      <div className="bg-[#1c1316] border border-red-950 p-6">
-        <div className="flex items-center gap-2.5 mb-4">
-          <span className="w-1.5 h-1.5 bg-red-500 block animate-pulse" />
-          <h2 className="text-lg font-bold text-red-400 tracking-tight font-outfit">
-            Clientes legacy en riesgo crítico para septiembre
-          </h2>
+    <section id="riesgo" className="slide">
+      <SlideHeader
+        num="04"
+        eyebrow="Alerta operativa"
+        title={
+          <>
+            Clientes legacy en <span style={{ color: "var(--danger)" }}>riesgo crítico</span> para
+            septiembre
+          </>
+        }
+        lead="Sin una actualización de plan o una reducción en la actividad del agente, estas 7 cuentas agotarán su margen legacy descendente y serán desconectadas al llegar a septiembre."
+      />
+
+      <div
+        className="rounded-2xl p-6 md:p-8"
+        style={{
+          background: "linear-gradient(180deg, rgba(255,90,110,0.08), rgba(255,90,110,0.02))",
+          border: "1px solid rgba(255,90,110,0.25)",
+        }}
+      >
+        <div className="flex items-center gap-2.5 mb-6">
+          <span
+            className="h-2 w-2 rounded-full animate-pulse"
+            style={{ background: "var(--danger)", boxShadow: "0 0 12px var(--danger)" }}
+          />
+          <span className="chip chip-danger">7 cuentas afectadas</span>
         </div>
-        
-        <p className="text-sm text-zinc-300 mb-6 leading-relaxed font-outfit">
-          Sin una actualización inmediata de plan o una reducción forzosa en la actividad del agente de IA, estas 7 cuentas consumirán la totalidad de su margen legacy descendente y experimentarán la desconexión del servicio al llegar a septiembre.
-        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {atRiskClientsList.map((client, idx) => (
-            <div 
-              key={idx} 
-              className="bg-[#161214] border border-red-950/20 p-4 flex items-center justify-between"
+            <div
+              key={idx}
+              className="flex items-center justify-between gap-4 rounded-xl p-4"
+              style={{ background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)" }}
             >
-              <span className="text-sm text-zinc-300 font-medium font-outfit">
+              <span className="text-sm font-medium" style={{ color: "var(--ink)" }}>
                 {client.name}
               </span>
-              <span className="text-base font-bold text-red-400 font-mono-dm">
-                {client.cost}
+              <span className="stat-value text-base shrink-0" style={{ color: "var(--danger)" }}>
+                {client.cost} <span className="deck-mono text-[10px] opacity-70">USD</span>
               </span>
             </div>
           ))}

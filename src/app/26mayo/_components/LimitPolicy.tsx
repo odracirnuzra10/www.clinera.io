@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import SlideHeader from "./SlideHeader";
 
 interface Step {
   month: string;
@@ -22,126 +23,85 @@ const legacyClientSteps: Step[] = [
   { month: "OCT", value: "+20%", desc: "Piso objetivo de consumo para clientes legacy" },
 ];
 
-export default function LimitPolicy() {
-  const [activeNewStep, setActiveNewStep] = useState<number>(0);
-  const [activeLegacyStep, setActiveLegacyStep] = useState<number>(0);
+interface StepperProps {
+  title: string;
+  steps: Step[];
+  accent: string;
+}
 
+function Stepper({ title, steps, accent }: StepperProps) {
+  const [active, setActive] = useState(0);
   return (
-    <section className="py-12 border-b border-zinc-900">
-      <div>
-        <div className="kicker-label font-mono-dm mb-3">
-          Cronograma de Ajustes
-        </div>
-        <h2 className="text-2xl font-bold text-zinc-100 mb-2 tracking-tight font-outfit">
-          Política de límites
-        </h2>
-        <p className="text-sm text-zinc-400 mb-8 max-w-2xl leading-relaxed font-outfit">
-          Estructura de control de excedentes. Ajustes progresivos mensuales sobre el límite base contratado a partir del 1 de junio de 2026.
+    <div className="card p-7 flex flex-col">
+      <h3 className="eyebrow !mb-8">{title}</h3>
+
+      <div className="relative flex justify-between items-end mb-8">
+        <div
+          className="absolute left-0 right-0 bottom-[10px] h-px z-0"
+          style={{ background: "var(--border)" }}
+        />
+        {steps.map((step, idx) => {
+          const isActive = active === idx;
+          return (
+            <button
+              key={step.month}
+              onClick={() => setActive(idx)}
+              className="relative z-10 flex flex-col items-center gap-2 group cursor-pointer focus:outline-none"
+            >
+              <span
+                className="stat-value text-2xl transition-all"
+                style={{
+                  color: isActive ? "var(--ink)" : accent,
+                  opacity: isActive ? 1 : 0.55,
+                  transform: isActive ? "scale(1.08)" : "scale(1)",
+                }}
+              >
+                {step.value}
+              </span>
+              <span
+                className="deck-mono text-[10px] font-semibold tracking-widest px-2 py-0.5 rounded-full transition-colors"
+                style={{
+                  color: isActive ? "#0a0c11" : "var(--ink-faint)",
+                  background: isActive ? accent : "rgba(255,255,255,0.05)",
+                }}
+              >
+                {step.month}
+              </span>
+              <span
+                className="h-1.5 w-1.5 rounded-full transition-colors"
+                style={{ background: isActive ? accent : "var(--border-strong)" }}
+              />
+            </button>
+          );
+        })}
+      </div>
+
+      <div
+        className="rounded-xl p-4 mt-auto min-h-[80px] flex flex-col justify-center"
+        style={{ background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)" }}
+      >
+        <span className="eyebrow !mb-1.5">Detalle {steps[active].month}</span>
+        <p className="text-sm leading-relaxed" style={{ color: "var(--ink-soft)" }}>
+          {steps[active].desc}.
         </p>
+      </div>
+    </div>
+  );
+}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* New Clients Panel */}
-          <div className="bg-[#161920] border border-[#222530] p-6 flex flex-col justify-between">
-            <div>
-              <h3 className="text-xs font-semibold uppercase text-zinc-400 mb-8 tracking-wider font-mono-dm">
-                Clientes Nuevos
-              </h3>
-              
-              {/* Stepper container */}
-              <div className="relative flex justify-between items-center mb-8 mt-4">
-                {/* Connecting Line */}
-                <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-zinc-800 -translate-y-1/2 z-0" />
-                
-                {newClientSteps.map((step, idx) => {
-                  const isSelected = activeNewStep === idx;
-                  return (
-                    <button
-                      key={step.month}
-                      onClick={() => setActiveNewStep(idx)}
-                      className="relative z-10 flex flex-col items-center group cursor-pointer focus:outline-none"
-                    >
-                      <div className={`text-[10px] px-2 py-0.5 mb-2 font-semibold tracking-widest transition-colors font-mono-dm ${
-                        isSelected 
-                          ? "text-zinc-100 bg-[#009FE3]" 
-                          : "text-zinc-500 bg-zinc-900 group-hover:text-zinc-300"
-                      }`}>
-                        {step.month}
-                      </div>
-                      <div className={`text-2xl font-bold tracking-tighter transition-all font-mono-dm ${
-                        isSelected 
-                          ? "text-zinc-100 scale-105" 
-                          : "text-[#009FE3]/70 group-hover:text-[#009FE3]"
-                      }`}>
-                        {step.value}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+export default function LimitPolicy() {
+  return (
+    <section id="limites" className="slide">
+      <SlideHeader
+        num="03"
+        eyebrow="Cronograma de ajustes"
+        title="Política de límites"
+        lead="Estructura de control de excedentes con ajustes progresivos mensuales sobre el límite base contratado, a partir del 1 de junio de 2026. Toca cada mes para ver el detalle."
+      />
 
-            {/* Step Detail */}
-            <div className="bg-[#12141a] p-4 border border-zinc-800/80 min-h-[72px] flex items-center">
-              <p className="text-xs text-zinc-400 leading-normal font-outfit">
-                <strong className="text-zinc-300 block mb-1 font-outfit uppercase tracking-wider text-[10px]">
-                  Detalle {newClientSteps[activeNewStep].month}
-                </strong>
-                {newClientSteps[activeNewStep].desc}.
-              </p>
-            </div>
-          </div>
-
-          {/* Legacy Clients Panel */}
-          <div className="bg-[#161920] border border-[#222530] p-6 flex flex-col justify-between">
-            <div>
-              <h3 className="text-xs font-semibold uppercase text-zinc-400 mb-8 tracking-wider font-mono-dm">
-                Clientes Legacy
-              </h3>
-
-              {/* Stepper container */}
-              <div className="relative flex justify-between items-center mb-8 mt-4">
-                {/* Connecting Line */}
-                <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-zinc-800 -translate-y-1/2 z-0" />
-
-                {legacyClientSteps.map((step, idx) => {
-                  const isSelected = activeLegacyStep === idx;
-                  return (
-                    <button
-                      key={step.month}
-                      onClick={() => setActiveLegacyStep(idx)}
-                      className="relative z-10 flex flex-col items-center group cursor-pointer focus:outline-none"
-                    >
-                      <div className={`text-[10px] px-1.5 py-0.5 mb-2 font-semibold tracking-widest transition-colors font-mono-dm ${
-                        isSelected 
-                          ? "text-zinc-100 bg-[#7C3AED]" 
-                          : "text-zinc-500 bg-zinc-900 group-hover:text-zinc-300"
-                      }`}>
-                        {step.month}
-                      </div>
-                      <div className={`text-2xl font-bold tracking-tighter transition-all font-mono-dm ${
-                        isSelected 
-                          ? "text-zinc-100 scale-105" 
-                          : "text-[#7C3AED]/70 group-hover:text-[#7C3AED]"
-                      }`}>
-                        {step.value}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Step Detail */}
-            <div className="bg-[#12141a] p-4 border border-zinc-800/80 min-h-[72px] flex items-center">
-              <p className="text-xs text-zinc-400 leading-normal font-outfit">
-                <strong className="text-zinc-300 block mb-1 font-outfit uppercase tracking-wider text-[10px]">
-                  Detalle {legacyClientSteps[activeLegacyStep].month}
-                </strong>
-                {legacyClientSteps[activeLegacyStep].desc}.
-              </p>
-            </div>
-          </div>
-        </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <Stepper title="Clientes nuevos" steps={newClientSteps} accent="var(--cyan)" />
+        <Stepper title="Clientes legacy" steps={legacyClientSteps} accent="var(--violet)" />
       </div>
     </section>
   );

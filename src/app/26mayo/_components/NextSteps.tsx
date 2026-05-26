@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import SlideHeader from "./SlideHeader";
 
 interface ActionItem {
   id: string;
@@ -31,75 +32,74 @@ const initialActionItems: ActionItem[] = [
   },
   {
     id: "step-5",
-    task: "Supervisión diaria del costo diario de tokens en OpenRouter y validación del impacto de la medida.",
+    task: "Supervisión diaria del costo de tokens en OpenRouter y validación del impacto de la medida.",
     owner: "Ricardo",
   },
 ];
 
 export default function NextSteps() {
   const [completed, setCompleted] = useState<Record<string, boolean>>({});
-
-  const toggleComplete = (id: string) => {
-    setCompleted((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
+  const done = Object.values(completed).filter(Boolean).length;
 
   return (
-    <section className="py-12 border-b border-zinc-900 pb-20">
-      <div>
-        <div className="kicker-label font-mono-dm mb-3">
-          Plan de Acción
-        </div>
-        <h2 className="text-2xl font-bold text-zinc-100 mb-2 tracking-tight font-outfit">
-          Próximos pasos
-        </h2>
-        <p className="text-sm text-zinc-400 mb-8 max-w-2xl leading-relaxed font-outfit">
-          Acciones y responsables asignados para garantizar el cumplimiento del calendario de activación de límites.
-        </p>
+    <section id="acciones" className="slide">
+      <SlideHeader
+        num="06"
+        eyebrow="Plan de acción"
+        title="Próximos pasos"
+        lead="Acciones y responsables asignados para garantizar el cumplimiento del calendario de activación de límites. Marca cada tarea a medida que avanza."
+      />
 
-        <div className="space-y-4 font-outfit">
-          {initialActionItems.map((item) => {
-            const isDone = completed[item.id] || false;
-            return (
-              <div 
-                key={item.id}
-                onClick={() => toggleComplete(item.id)}
-                className={`border p-4 flex items-center justify-between cursor-pointer select-none transition-all ${
-                  isDone 
-                    ? "bg-[#14181f]/40 border-zinc-800 opacity-60" 
-                    : "bg-[#161920] border-[#222530] hover:border-zinc-700"
-                }`}
+      <div className="flex items-center gap-3 mb-6">
+        <span className="chip chip-accent">
+          {done} / {initialActionItems.length} completadas
+        </span>
+        <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
+          <div
+            className="h-full rounded-full transition-all duration-300"
+            style={{ width: `${(done / initialActionItems.length) * 100}%`, background: "var(--grad)" }}
+          />
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        {initialActionItems.map((item) => {
+          const isDone = completed[item.id] || false;
+          return (
+            <div
+              key={item.id}
+              onClick={() => setCompleted((prev) => ({ ...prev, [item.id]: !prev[item.id] }))}
+              className="card card-hover p-5 flex items-center gap-4 cursor-pointer select-none"
+              style={{ opacity: isDone ? 0.55 : 1 }}
+            >
+              <div
+                className="h-5 w-5 rounded-md flex items-center justify-center shrink-0 transition-colors"
+                style={{
+                  border: `1.5px solid ${isDone ? "transparent" : "var(--border-strong)"}`,
+                  background: isDone ? "var(--grad)" : "transparent",
+                }}
               >
-                <div className="flex items-center gap-4 flex-1">
-                  {/* Custom Checkbox */}
-                  <div className={`w-4 h-4 border flex items-center justify-center flex-shrink-0 transition-colors ${
-                    isDone 
-                      ? "border-zinc-700 bg-zinc-800 text-zinc-300" 
-                      : "border-zinc-650"
-                  }`}>
-                    {isDone && (
-                      <svg width="10" height="8" viewBox="0 0 10 8" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M1 4L4 7L9 1" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    )}
-                  </div>
-                  <p className={`text-sm leading-relaxed transition-all ${
-                    isDone ? "line-through text-zinc-500" : "text-zinc-300"
-                  }`}>
-                    {item.task}
-                  </p>
-                </div>
-
-                <div className={`text-xs px-3 py-1 border ml-4 font-mono-dm font-semibold tracking-wider flex-shrink-0 transition-colors ${
-                  isDone 
-                    ? "border-zinc-800 text-zinc-600 bg-zinc-950/40" 
-                    : "border-[#7C3AED]/40 text-[#7C3AED] bg-[#7c3aed]/10"
-                }`}>
-                  {item.owner.toUpperCase()}
-                </div>
+                {isDone && (
+                  <svg width="11" height="9" viewBox="0 0 10 8" fill="none" stroke="#0a0c11" strokeWidth="2.2">
+                    <path d="M1 4L4 7L9 1" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
               </div>
-            );
-          })}
-        </div>
+
+              <p
+                className="flex-1 text-sm leading-relaxed transition-all"
+                style={{
+                  color: isDone ? "var(--ink-faint)" : "var(--ink-soft)",
+                  textDecoration: isDone ? "line-through" : "none",
+                }}
+              >
+                {item.task}
+              </p>
+
+              <span className={`chip shrink-0 ${isDone ? "chip-muted" : "chip-accent"}`}>{item.owner}</span>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

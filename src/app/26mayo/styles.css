@@ -1,64 +1,211 @@
 @import "tailwindcss";
 
-/* Custom theme variables and sterile 2.0 overrides */
-:root {
-  --bg-internal: #111318;
-  --card-internal: #161920;
-  --border-internal: #222530;
-  --ink-internal: #f4f4f5;
-  --ink-muted-internal: #8e93a6;
-  --cyan: #009FE3;
-  --violet: #7C3AED;
-  --magenta: #C850C0;
+/* ==========================================================================
+   Clinera Keynote — Presentación interna 26.05
+   Deck oscuro premium · alineado al sistema de marca (cyan→violeta→magenta)
+   ========================================================================== */
+
+html:has(.deck) {
+  scroll-behavior: smooth;
 }
 
-body {
-  background-color: var(--bg-internal) !important;
-  color: var(--ink-internal) !important;
+.deck {
+  --bg: #0a0c11;
+  --surface: rgba(255, 255, 255, 0.035);
+  --surface-2: rgba(255, 255, 255, 0.055);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.18);
+  --ink: #f5f7fa;
+  --ink-soft: rgba(245, 247, 250, 0.64);
+  --ink-faint: rgba(245, 247, 250, 0.42);
+  --cyan: #00d4ff;
+  --violet: #b847ff;
+  --magenta: #ff47d9;
+  --danger: #ff5a6e;
+  --grad: linear-gradient(100deg, #00d4ff 0%, #b847ff 52%, #ff47d9 100%);
+
+  position: relative;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-.font-outfit {
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+/* Ambient dotted grid + halos */
+.deck::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 80%);
+  pointer-events: none;
+  z-index: 0;
 }
 
-.font-mono-dm {
-  font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace !important;
+.deck > * {
+  position: relative;
+  z-index: 1;
 }
 
-/* Custom premium styles */
-.kicker-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-muted-internal);
+.deck-mono {
+  font-family: "JetBrains Mono", "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Defensive: globals.css forces dark color on h1–h6; keep deck headings light */
+.deck h1,
+.deck h2,
+.deck h3,
+.deck h4,
+.deck h5,
+.deck h6 {
+  color: var(--ink);
+}
+.deck h1 .gradient-text,
+.deck .gradient-text {
+  color: transparent;
+}
+
+/* ---- Layout rhythm: each section behaves like a slide ---- */
+.slide {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+  scroll-margin-top: 1.5rem;
+}
+@media (min-width: 768px) {
+  .slide {
+    padding: 6.5rem 2rem;
+  }
+}
+.slide + .slide {
+  border-top: 1px solid var(--border);
+}
+
+/* ---- Eyebrow / slide number ---- */
+.eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.6rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 1.25rem;
 }
-
-.kicker-label::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--violet);
-}
-
-.premium-card {
-  background-color: var(--card-internal);
-  border: 1px solid var(--border-internal);
-  padding: 24px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.premium-card:hover {
-  border-color: #3b3f54;
-}
-
-.brand-gradient-text {
-  background: linear-gradient(90deg, var(--cyan), var(--violet) 55%, var(--magenta));
+.eyebrow .num {
+  background: var(--grad);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  font-weight: 700;
+}
+.eyebrow .dash {
+  width: 28px;
+  height: 1px;
+  background: var(--border-strong);
+}
+
+/* ---- Titles ---- */
+.slide-title {
+  font-size: clamp(1.9rem, 4vw, 2.85rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: var(--ink);
+  margin-bottom: 1.1rem;
+}
+.slide-lead {
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+  line-height: 1.65;
+  color: var(--ink-soft);
+  max-width: 44rem;
+}
+
+.gradient-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---- Generic surfaces / cards ---- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.6);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--ink-faint);
+}
+.chip-accent {
+  border-color: rgba(184, 71, 255, 0.4);
+  color: #d8a6ff;
+  background: rgba(184, 71, 255, 0.12);
+}
+.chip-danger {
+  border-color: rgba(255, 90, 110, 0.4);
+  color: #ff9aa6;
+  background: rgba(255, 90, 110, 0.1);
+}
+.chip-muted {
+  border-color: var(--border);
+  color: var(--ink-faint);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Top accent line for highlighted card */
+.card-topline {
+  position: relative;
+  overflow: hidden;
+}
+.card-topline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--grad);
+}
+
+/* Big stat value */
+.stat-value {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* Sticky progress bar at very top */
+.deck-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--grad);
+  z-index: 60;
+  width: 0;
+  transition: width 0.1s linear;
 }

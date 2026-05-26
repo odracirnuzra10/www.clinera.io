@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import SlideHeader from "./SlideHeader";
 
 interface ClientData {
   id: string;
@@ -26,31 +27,23 @@ const initialClients: ClientData[] = [
   { id: "valdes", name: "Clínica de Ortodoncia Valdés y Asociados", tokens: 3781857, cost: 3.6079, atRisk: false },
 ];
 
+type SortField = "name" | "tokens" | "cost";
+
 export default function TokenTable() {
-  const [sortBy, setSortBy] = useState<"name" | "tokens" | "cost">("cost");
-  const [sortDesc, setSortDesc] = useState<boolean>(true);
+  const [sortBy, setSortBy] = useState<SortField>("cost");
+  const [sortDesc, setSortDesc] = useState(true);
 
-  // Totals computed on the entire list
   const metrics = useMemo(() => {
-    const totalTokens = initialClients.reduce((sum, c) => sum + c.tokens, 0);
-    const totalCost = initialClients.reduce((sum, c) => sum + c.cost, 0);
-    
-    // Sort all to find top 3 consumers by cost
+    const totalTokens = initialClients.reduce((s, c) => s + c.tokens, 0);
+    const totalCost = initialClients.reduce((s, c) => s + c.cost, 0);
     const sortedByCost = [...initialClients].sort((a, b) => b.cost - a.cost);
-    const top3Cost = sortedByCost.slice(0, 3).reduce((sum, c) => sum + c.cost, 0);
-    const top3Percentage = (top3Cost / totalCost) * 100;
-
-    return {
-      totalTokens,
-      totalCost,
-      top3Percentage,
-    };
+    const top3Cost = sortedByCost.slice(0, 3).reduce((s, c) => s + c.cost, 0);
+    return { totalTokens, totalCost, top3Percentage: (top3Cost / totalCost) * 100, maxCost: sortedByCost[0].cost };
   }, []);
 
-  const handleSort = (field: "name" | "tokens" | "cost") => {
-    if (sortBy === field) {
-      setSortDesc(!sortDesc);
-    } else {
+  const handleSort = (field: SortField) => {
+    if (sortBy === field) setSortDesc(!sortDesc);
+    else {
       setSortBy(field);
       setSortDesc(true);
     }
@@ -58,145 +51,119 @@ export default function TokenTable() {
 
   const sortedClients = useMemo(() => {
     return [...initialClients].sort((a, b) => {
-      let comparison = 0;
-      if (sortBy === "name") {
-        comparison = a.name.localeCompare(b.name, "es");
-      } else if (sortBy === "tokens") {
-        comparison = a.tokens - b.tokens;
-      } else if (sortBy === "cost") {
-        comparison = a.cost - b.cost;
-      }
-      return sortDesc ? -comparison : comparison;
+      let cmp = 0;
+      if (sortBy === "name") cmp = a.name.localeCompare(b.name, "es");
+      else if (sortBy === "tokens") cmp = a.tokens - b.tokens;
+      else cmp = a.cost - b.cost;
+      return sortDesc ? -cmp : cmp;
     });
   }, [sortBy, sortDesc]);
 
-  const formatTokens = (val: number) => {
-    return new Intl.NumberFormat("es-CL").format(val);
-  };
+  const fTokens = (v: number) => new Intl.NumberFormat("es-CL").format(v);
+  const fCost = (v: number) =>
+    new Intl.NumberFormat("es-CL", { minimumFractionDigits: 4, maximumFractionDigits: 4 }).format(v);
 
-  const formatCost = (val: number) => {
-    return new Intl.NumberFormat("es-CL", {
-      minimumFractionDigits: 4,
-      maximumFractionDigits: 4,
-    }).format(val);
-  };
+  const arrow = (f: SortField) => (sortBy === f ? (sortDesc ? " ↓" : " ↑") : "");
+
+  const kpis = [
+    { label: "Consumo total", value: fTokens(metrics.totalTokens), unit: "tokens", accent: "var(--cyan)" },
+    { label: "Costo mensual total", value: fCost(metrics.totalCost), unit: "USD", accent: "var(--violet)" },
+    { label: "Concentración top 3", value: `${metrics.top3Percentage.toFixed(1)}%`, unit: "del gasto", accent: "var(--danger)" },
+  ];
 
   return (
-    <section className="py-12 border-b border-zinc-900">
-      <div>
-        <div className="kicker-label font-mono-dm mb-3">
-          Datos de Consumo
-        </div>
-        <h2 className="text-2xl font-bold text-zinc-100 mb-2 tracking-tight font-outfit">
-          El impacto económico
-        </h2>
-        <p className="text-sm text-zinc-400 mb-8 max-w-2xl leading-relaxed font-outfit">
-          Consumo registrado de tokens y costos reales acumulados por cliente durante el período actual sin límites técnicos.
-        </p>
+    <section id="impacto" className="slide">
+      <SlideHeader
+        num="02"
+        eyebrow="Datos de consumo"
+        title="El impacto económico"
+        lead="Consumo de tokens y costo real acumulado por cliente durante el período actual, todavía sin límites técnicos aplicados."
+      />
 
-        {/* Client-side calculated KPI cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="bg-[#161920] border border-[#222530] p-5">
-            <span className="text-[10px] uppercase text-zinc-500 font-bold tracking-wider font-mono-dm block">
-              Consumo Total
-            </span>
-            <div className="flex items-baseline mt-2 gap-1.5">
-              <span className="text-2xl font-bold text-zinc-100 font-mono-dm">
-                {formatTokens(metrics.totalTokens)}
+      {/* KPIs */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-9">
+        {kpis.map((k) => (
+          <div key={k.label} className="card card-hover p-6">
+            <span className="eyebrow !mb-3">{k.label}</span>
+            <div className="flex items-baseline gap-2">
+              <span className="stat-value text-3xl" style={{ color: k.accent }}>
+                {k.value}
               </span>
-              <span className="text-[10px] text-zinc-500 uppercase font-mono-dm">
-                Tkn
+              <span className="deck-mono text-[11px]" style={{ color: "var(--ink-faint)" }}>
+                {k.unit}
               </span>
             </div>
           </div>
+        ))}
+      </div>
 
-          <div className="bg-[#161920] border border-[#222530] p-5">
-            <span className="text-[10px] uppercase text-zinc-500 font-bold tracking-wider font-mono-dm block">
-              Costo Mensual Total
-            </span>
-            <div className="flex items-baseline mt-2 gap-1.5">
-              <span className="text-2xl font-bold text-zinc-100 font-mono-dm">
-                {formatCost(metrics.totalCost)}
-              </span>
-              <span className="text-[10px] text-zinc-500 uppercase font-mono-dm">
-                USD
-              </span>
-            </div>
-          </div>
-
-          <div className="bg-[#161920] border border-[#222530] p-5">
-            <span className="text-[10px] uppercase text-zinc-500 font-bold tracking-wider font-mono-dm block">
-              Concentración Top 3
-            </span>
-            <div className="flex items-baseline mt-2 gap-1.5">
-              <span className="text-2xl font-bold text-red-400 font-mono-dm">
-                {metrics.top3Percentage.toFixed(1)}%
-              </span>
-              <span className="text-[10px] text-zinc-500 uppercase font-mono-dm">
-                Acumulado
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Sortable Table */}
-        <div className="overflow-x-auto border border-zinc-800 bg-[#161920]">
+      {/* Tabla con barras de consumo */}
+      <div className="card overflow-hidden">
+        <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-zinc-800 bg-[#12141a]">
-                <th 
-                  onClick={() => handleSort("name")}
-                  className="p-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider cursor-pointer hover:text-zinc-200 select-none transition-colors font-outfit"
-                >
-                  Negocio {sortBy === "name" && (sortDesc ? "↓" : "↑")}
-                </th>
-                <th 
-                  onClick={() => handleSort("tokens")}
-                  className="p-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider cursor-pointer hover:text-zinc-200 text-right select-none transition-colors font-outfit"
-                >
-                  Tokens {sortBy === "tokens" && (sortDesc ? "↓" : "↑")}
-                </th>
-                <th 
-                  onClick={() => handleSort("cost")}
-                  className="p-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider cursor-pointer hover:text-zinc-200 text-right select-none transition-colors font-outfit"
-                >
-                  Costo {sortBy === "cost" && (sortDesc ? "↓" : "↑")}
-                </th>
+              <tr style={{ borderBottom: "1px solid var(--border)" }}>
+                {(
+                  [
+                    ["name", "Negocio", "left"],
+                    ["tokens", "Tokens", "right"],
+                    ["cost", "Costo (USD)", "right"],
+                  ] as [SortField, string, string][]
+                ).map(([f, label, align]) => (
+                  <th
+                    key={f}
+                    onClick={() => handleSort(f)}
+                    className={`p-4 deck-mono text-[11px] uppercase tracking-[0.14em] font-semibold cursor-pointer select-none transition-colors hover:text-white ${
+                      align === "right" ? "text-right" : "text-left"
+                    }`}
+                    style={{ color: "var(--ink-faint)" }}
+                  >
+                    {label}
+                    {arrow(f)}
+                  </th>
+                ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-800/60">
-              {sortedClients.map((client) => (
-                <tr 
-                  key={client.id} 
-                  className={`hover:bg-[#1f232d] transition-colors ${
-                    client.atRisk ? "bg-[#e11d4805]" : ""
-                  }`}
+            <tbody>
+              {sortedClients.map((c) => (
+                <tr
+                  key={c.id}
+                  className="transition-colors"
+                  style={{ borderTop: "1px solid var(--border)" }}
                 >
-                  <td className="p-4 text-sm text-zinc-300 font-outfit">
-                    <div className="flex items-center gap-3">
-                      <span className="font-medium">{client.name}</span>
-                      {client.atRisk && (
-                        <span className="text-[9px] px-2 py-0.5 border border-red-900/60 bg-red-950/30 text-red-400 font-mono-dm tracking-wider font-semibold uppercase">
-                          En riesgo
-                        </span>
-                      )}
+                  <td className="p-4 align-middle">
+                    <div className="flex items-center gap-3 mb-1.5">
+                      <span className="text-sm font-medium" style={{ color: "var(--ink)" }}>
+                        {c.name}
+                      </span>
+                      {c.atRisk && <span className="chip chip-danger">En riesgo</span>}
+                    </div>
+                    {/* barra proporcional al costo */}
+                    <div className="h-1 w-full max-w-[260px] rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
+                      <div
+                        className="h-full rounded-full"
+                        style={{
+                          width: `${(c.cost / metrics.maxCost) * 100}%`,
+                          background: c.atRisk ? "var(--danger)" : "var(--grad)",
+                        }}
+                      />
                     </div>
                   </td>
-                  <td className="p-4 text-sm text-zinc-300 text-right font-mono-dm">
-                    {formatTokens(client.tokens)}
+                  <td className="p-4 text-sm text-right deck-mono align-middle" style={{ color: "var(--ink-soft)" }}>
+                    {fTokens(c.tokens)}
                   </td>
-                  <td className="p-4 text-sm text-zinc-300 text-right font-mono-dm">
-                    {formatCost(client.cost)} USD
+                  <td className="p-4 text-sm text-right deck-mono align-middle font-semibold" style={{ color: "var(--ink)" }}>
+                    {fCost(c.cost)}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="text-[11px] text-zinc-500 mt-3 text-right font-outfit">
-          Haz clic en las cabeceras de la tabla para ordenar la información.
-        </p>
       </div>
+      <p className="text-xs mt-3 text-right" style={{ color: "var(--ink-faint)" }}>
+        Haz clic en las cabeceras para ordenar. La barra bajo cada negocio es proporcional a su costo.
+      </p>
     </section>
   );
 }
