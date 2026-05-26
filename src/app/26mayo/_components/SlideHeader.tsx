@@ -10,7 +10,7 @@ interface SlideHeaderProps {
 /** Encabezado consistente para cada "slide" de la presentación. */
 export default function SlideHeader({ num, eyebrow, title, lead }: SlideHeaderProps) {
   return (
-    <header className="mb-10">
+    <header className="mb-14">
       <div className="eyebrow">
         <span className="num">{num}</span>
         <span className="dash" />

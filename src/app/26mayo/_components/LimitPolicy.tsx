@@ -32,10 +32,10 @@ interface StepperProps {
 function Stepper({ title, steps, accent }: StepperProps) {
   const [active, setActive] = useState(0);
   return (
-    <div className="card p-7 flex flex-col">
-      <h3 className="eyebrow !mb-8">{title}</h3>
+    <div className="card p-8 flex flex-col">
+      <h3 className="eyebrow !mb-10">{title}</h3>
 
-      <div className="relative flex justify-between items-end mb-8">
+      <div className="relative flex justify-between items-end mb-10">
         <div
           className="absolute left-0 right-0 bottom-[10px] h-px z-0"
           style={{ background: "var(--border)" }}
@@ -77,11 +77,11 @@ function Stepper({ title, steps, accent }: StepperProps) {
       </div>
 
       <div
-        className="rounded-xl p-4 mt-auto min-h-[80px] flex flex-col justify-center"
+        className="rounded-xl p-5 mt-auto min-h-[92px] flex flex-col justify-center"
         style={{ background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)" }}
       >
-        <span className="eyebrow !mb-1.5">Detalle {steps[active].month}</span>
-        <p className="text-sm leading-relaxed" style={{ color: "var(--ink-soft)" }}>
+        <span className="eyebrow !mb-2.5">Detalle {steps[active].month}</span>
+        <p className="text-sm leading-[1.7]" style={{ color: "var(--ink-soft)" }}>
           {steps[active].desc}.
         </p>
       </div>
@@ -99,24 +99,24 @@ export default function LimitPolicy() {
         lead="Estructura de control de excedentes con ajustes progresivos mensuales sobre el límite base contratado, a partir del 1 de junio de 2026. Toca cada mes para ver el detalle."
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Stepper title="Clientes nuevos" steps={newClientSteps} accent="var(--cyan)" />
         <Stepper title="Clientes legacy" steps={legacyClientSteps} accent="var(--violet)" />
       </div>
 
       {/* Calculadora de consumo — regla definitiva sep/oct */}
       <div
-        className="card card-topline mt-6 p-6 md:p-7 flex flex-col md:flex-row md:items-center gap-6"
+        className="card card-topline mt-8 p-7 md:p-9 flex flex-col md:flex-row md:items-center gap-8"
         style={{ borderColor: "var(--border-strong)" }}
       >
         <div className="flex-1">
-          <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-3 mb-4">
             <span className="chip chip-accent">Regla definitiva · sep–oct</span>
           </div>
-          <h3 className="text-lg font-bold mb-2" style={{ color: "var(--ink)" }}>
+          <h3 className="text-lg font-bold mb-3" style={{ color: "var(--ink)" }}>
             La calculadora de consumo
           </h3>
-          <p className="text-[0.95rem] leading-relaxed" style={{ color: "var(--ink-soft)" }}>
+          <p className="text-[0.95rem] leading-[1.8]" style={{ color: "var(--ink-soft)" }}>
             Cuando termine la rampa de cortesía, el límite deja de ser un porcentaje fijo y pasa a
             regirse por la <strong style={{ color: "var(--ink)" }}>calculadora de consumo</strong>:
             el tope se alcanza cuando el costo de IA llega al{" "}
