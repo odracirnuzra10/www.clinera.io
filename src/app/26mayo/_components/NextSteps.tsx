@@ -2,9 +2,6 @@
 
 import React, { useState } from "react";
 
-const outfitFont = { fontFamily: "'Outfit', sans-serif" };
-const dmMonoFont = { fontFamily: "'DM Mono', monospace" };
-
 interface ActionItem {
   id: string;
   task: string;
@@ -48,18 +45,18 @@ export default function NextSteps() {
 
   return (
     <section className="py-12 border-b border-zinc-900 pb-20">
-      <div className="max-w-4xl mx-auto px-4">
-        <h2 
-          className="text-2xl font-semibold text-zinc-100 mb-2 tracking-tight"
-          style={outfitFont}
-        >
+      <div>
+        <div className="kicker-label font-mono-dm mb-3">
+          Plan de Acción
+        </div>
+        <h2 className="text-2xl font-bold text-zinc-100 mb-2 tracking-tight font-outfit">
           Próximos pasos
         </h2>
-        <p className="text-sm text-zinc-400 mb-8 max-w-2xl leading-relaxed">
+        <p className="text-sm text-zinc-400 mb-8 max-w-2xl leading-relaxed font-outfit">
           Acciones y responsables asignados para garantizar el cumplimiento del calendario de activación de límites.
         </p>
 
-        <div className="space-y-4">
+        <div className="space-y-4 font-outfit">
           {initialActionItems.map((item) => {
             const isDone = completed[item.id] || false;
             return (
@@ -69,7 +66,7 @@ export default function NextSteps() {
                 className={`border p-4 flex items-center justify-between cursor-pointer select-none transition-all ${
                   isDone 
                     ? "bg-[#14181f]/40 border-zinc-800 opacity-60" 
-                    : "bg-[#161920] border-zinc-800 hover:border-zinc-700"
+                    : "bg-[#161920] border-[#222530] hover:border-zinc-700"
                 }`}
               >
                 <div className="flex items-center gap-4 flex-1">
@@ -77,7 +74,7 @@ export default function NextSteps() {
                   <div className={`w-4 h-4 border flex items-center justify-center flex-shrink-0 transition-colors ${
                     isDone 
                       ? "border-zinc-700 bg-zinc-800 text-zinc-300" 
-                      : "border-zinc-600"
+                      : "border-zinc-650"
                   }`}>
                     {isDone && (
                       <svg width="10" height="8" viewBox="0 0 10 8" fill="none" stroke="currentColor" strokeWidth="2">
@@ -85,23 +82,18 @@ export default function NextSteps() {
                       </svg>
                     )}
                   </div>
-                  <p 
-                    className={`text-sm leading-relaxed transition-all ${
-                      isDone ? "line-through text-zinc-500" : "text-zinc-300"
-                    }`}
-                  >
+                  <p className={`text-sm leading-relaxed transition-all ${
+                    isDone ? "line-through text-zinc-500" : "text-zinc-300"
+                  }`}>
                     {item.task}
                   </p>
                 </div>
 
-                <div 
-                  className={`text-xs px-3 py-1 border ml-4 font-mono font-semibold tracking-wider flex-shrink-0 transition-colors ${
-                    isDone 
-                      ? "border-zinc-800 text-zinc-600 bg-zinc-900/50" 
-                      : "border-zinc-700 text-zinc-300 bg-zinc-800"
-                  }`}
-                  style={dmMonoFont}
-                >
+                <div className={`text-xs px-3 py-1 border ml-4 font-mono-dm font-semibold tracking-wider flex-shrink-0 transition-colors ${
+                  isDone 
+                    ? "border-zinc-800 text-zinc-600 bg-zinc-950/40" 
+                    : "border-[#7C3AED]/40 text-[#7C3AED] bg-[#7c3aed]/10"
+                }`}>
                   {item.owner.toUpperCase()}
                 </div>
               </div>

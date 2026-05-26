@@ -2,9 +2,6 @@
 
 import React, { useState } from "react";
 
-const outfitFont = { fontFamily: "'Outfit', sans-serif" };
-const dmMonoFont = { fontFamily: "'DM Mono', monospace" };
-
 interface PromptCard {
   number: string;
   question: string;
@@ -17,7 +14,7 @@ const workshopPrompts: PromptCard[] = [
     question: "¿Cómo explicamos el cambio de Gemini a Kimi sin tecnicismos?",
     points: [
       "Kimi no solo responde mensajes de texto; es capaz de agendar, re-agendar y coordinar citas de forma autónoma en el sistema.",
-      "Gemini 2.5 Flash actuaba como un contestador automático simple; Kimi K2.6 funciona como un asistente administrativo real que ejecuta flujos multi-paso."
+      "Gemini 2.5 Flash actuaba como un contestador automático simple; Kimi K2.6 funciona como un asistente administrativo real que ejecuta flujos de acciones de extremo a extremo."
     ]
   },
   {
@@ -62,15 +59,15 @@ export default function Workshop() {
   };
 
   return (
-    <section className="py-12 border-b border-zinc-800">
-      <div className="max-w-4xl mx-auto px-4">
-        <h2 
-          className="text-2xl font-semibold text-zinc-100 mb-2 tracking-tight"
-          style={outfitFont}
-        >
+    <section className="py-12 border-b border-zinc-900">
+      <div>
+        <div className="kicker-label font-mono-dm mb-3">
+          Taller de Comunicación
+        </div>
+        <h2 className="text-2xl font-bold text-zinc-100 mb-2 tracking-tight font-outfit">
           Workshop: cómo se lo comunicamos al cliente
         </h2>
-        <p className="text-sm text-zinc-400 mb-8 max-w-2xl leading-relaxed">
+        <p className="text-sm text-zinc-400 mb-8 max-w-2xl leading-relaxed font-outfit">
           Guía de discusión en vivo para alinear los discursos de Mitzi, desarrollo, soporte y ventas.
         </p>
 
@@ -78,39 +75,30 @@ export default function Workshop() {
           {workshopPrompts.map((prompt) => (
             <div 
               key={prompt.number} 
-              className="bg-[#161920] border border-zinc-800 p-6 flex flex-col md:flex-row gap-6"
+              className="bg-[#161920] border border-[#222530] p-6 flex flex-col md:flex-row gap-6"
             >
               {/* Number and Question */}
               <div className="flex-1">
-                <div className="flex items-center gap-3 mb-3">
-                  <span 
-                    className="text-sm font-bold text-zinc-500 font-mono"
-                    style={dmMonoFont}
-                  >
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-sm font-bold text-[#7C3AED] font-mono-dm">
                     {prompt.number}
                   </span>
-                  <span 
-                    className="text-[9px] px-2 py-0.5 border border-zinc-700 bg-zinc-800 text-zinc-400 font-mono font-semibold uppercase tracking-wider"
-                    style={dmMonoFont}
-                  >
+                  <span className="text-[9px] px-2 py-0.5 border border-zinc-800 bg-zinc-950/30 text-zinc-400 font-mono-dm font-semibold uppercase tracking-wider">
                     Discusión grupal
                   </span>
                 </div>
-                <h3 
-                  className="text-base font-semibold text-zinc-200 leading-snug"
-                  style={outfitFont}
-                >
+                <h3 className="text-base font-bold text-zinc-200 leading-snug font-outfit mb-4">
                   {prompt.question}
                 </h3>
                 
                 {/* Drafted points */}
-                <div className="mt-4 space-y-3">
-                  <span className="text-[10px] uppercase text-zinc-500 font-medium block" style={outfitFont}>
+                <div className="space-y-3">
+                  <span className="text-[10px] uppercase text-zinc-500 font-bold tracking-wider font-mono-dm block">
                     Puntos de partida sugeridos
                   </span>
-                  <ul className="space-y-2">
+                  <ul className="space-y-3">
                     {prompt.points.map((point, pIdx) => (
-                      <li key={pIdx} className="text-xs text-zinc-300 pl-3 border-l border-zinc-700 leading-relaxed">
+                      <li key={pIdx} className="text-xs text-zinc-300 pl-3 border-l border-zinc-800 leading-relaxed font-outfit">
                         {point}
                       </li>
                     ))}
@@ -120,17 +108,16 @@ export default function Workshop() {
 
               {/* Note taking field */}
               <div className="w-full md:w-80 flex flex-col justify-between">
-                <span className="text-[10px] uppercase text-zinc-500 font-medium block mb-2" style={outfitFont}>
+                <span className="text-[10px] uppercase text-zinc-500 font-bold tracking-wider font-mono-dm block mb-2">
                   Notas de la reunión
                 </span>
                 <textarea
                   value={notes[prompt.number] || ""}
                   onChange={(e) => handleNoteChange(prompt.number, e.target.value)}
                   placeholder="Escribe aquí los acuerdos tomados en vivo..."
-                  className="w-full h-32 p-3 bg-[#111318] border border-zinc-800 text-zinc-300 text-xs focus:outline-none focus:border-zinc-700 resize-none rounded-none placeholder-zinc-600"
-                  style={outfitFont}
+                  className="w-full h-32 p-3 bg-[#111318] border border-zinc-850 text-zinc-300 text-xs focus:outline-none focus:border-zinc-700 resize-none rounded-none placeholder-zinc-750 font-outfit"
                 />
-                <span className="text-[9px] text-zinc-600 text-right mt-1 font-mono" style={dmMonoFont}>
+                <span className="text-[9px] text-zinc-600 text-right mt-1.5 font-mono-dm">
                   * Temporal (no se guarda en servidor)
                 </span>
               </div>

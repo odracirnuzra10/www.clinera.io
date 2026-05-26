@@ -2,9 +2,6 @@
 
 import React, { useState, useMemo } from "react";
 
-const outfitFont = { fontFamily: "'Outfit', sans-serif" };
-const dmMonoFont = { fontFamily: "'DM Mono', monospace" };
-
 interface ClientData {
   id: string;
   name: string;
@@ -85,58 +82,58 @@ export default function TokenTable() {
   };
 
   return (
-    <section className="py-12 border-b border-zinc-800">
-      <div className="max-w-4xl mx-auto px-4">
-        <h2 
-          className="text-2xl font-semibold text-zinc-100 mb-2 tracking-tight"
-          style={outfitFont}
-        >
+    <section className="py-12 border-b border-zinc-900">
+      <div>
+        <div className="kicker-label font-mono-dm mb-3">
+          Datos de Consumo
+        </div>
+        <h2 className="text-2xl font-bold text-zinc-100 mb-2 tracking-tight font-outfit">
           El impacto económico
         </h2>
-        <p className="text-sm text-zinc-400 mb-8 max-w-2xl leading-relaxed">
+        <p className="text-sm text-zinc-400 mb-8 max-w-2xl leading-relaxed font-outfit">
           Consumo registrado de tokens y costos reales acumulados por cliente durante el período actual sin límites técnicos.
         </p>
 
         {/* Client-side calculated KPI cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="bg-[#161920] border border-zinc-800 p-5">
-            <span className="text-xs uppercase text-zinc-500 font-medium" style={outfitFont}>
+          <div className="bg-[#161920] border border-[#222530] p-5">
+            <span className="text-[10px] uppercase text-zinc-500 font-bold tracking-wider font-mono-dm block">
               Consumo Total
             </span>
-            <div className="flex items-baseline mt-2 gap-2">
-              <span className="text-2xl font-bold text-zinc-100" style={dmMonoFont}>
+            <div className="flex items-baseline mt-2 gap-1.5">
+              <span className="text-2xl font-bold text-zinc-100 font-mono-dm">
                 {formatTokens(metrics.totalTokens)}
               </span>
-              <span className="text-xs text-zinc-500" style={outfitFont}>
-                tokens
+              <span className="text-[10px] text-zinc-500 uppercase font-mono-dm">
+                Tkn
               </span>
             </div>
           </div>
 
-          <div className="bg-[#161920] border border-zinc-800 p-5">
-            <span className="text-xs uppercase text-zinc-500 font-medium" style={outfitFont}>
+          <div className="bg-[#161920] border border-[#222530] p-5">
+            <span className="text-[10px] uppercase text-zinc-500 font-bold tracking-wider font-mono-dm block">
               Costo Mensual Total
             </span>
-            <div className="flex items-baseline mt-2 gap-2">
-              <span className="text-2xl font-bold text-zinc-100" style={dmMonoFont}>
+            <div className="flex items-baseline mt-2 gap-1.5">
+              <span className="text-2xl font-bold text-zinc-100 font-mono-dm">
                 {formatCost(metrics.totalCost)}
               </span>
-              <span className="text-xs text-zinc-500 font-mono" style={dmMonoFont}>
+              <span className="text-[10px] text-zinc-500 uppercase font-mono-dm">
                 USD
               </span>
             </div>
           </div>
 
-          <div className="bg-[#161920] border border-zinc-800 p-5">
-            <span className="text-xs uppercase text-zinc-500 font-medium" style={outfitFont}>
+          <div className="bg-[#161920] border border-[#222530] p-5">
+            <span className="text-[10px] uppercase text-zinc-500 font-bold tracking-wider font-mono-dm block">
               Concentración Top 3
             </span>
-            <div className="flex items-baseline mt-2 gap-2">
-              <span className="text-2xl font-bold text-red-400" style={dmMonoFont}>
+            <div className="flex items-baseline mt-2 gap-1.5">
+              <span className="text-2xl font-bold text-red-400 font-mono-dm">
                 {metrics.top3Percentage.toFixed(1)}%
               </span>
-              <span className="text-xs text-zinc-500" style={outfitFont}>
-                del costo total
+              <span className="text-[10px] text-zinc-500 uppercase font-mono-dm">
+                Acumulado
               </span>
             </div>
           </div>
@@ -149,28 +146,25 @@ export default function TokenTable() {
               <tr className="border-b border-zinc-800 bg-[#12141a]">
                 <th 
                   onClick={() => handleSort("name")}
-                  className="p-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider cursor-pointer hover:text-zinc-200 select-none transition-colors"
-                  style={outfitFont}
+                  className="p-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider cursor-pointer hover:text-zinc-200 select-none transition-colors font-outfit"
                 >
                   Negocio {sortBy === "name" && (sortDesc ? "↓" : "↑")}
                 </th>
                 <th 
                   onClick={() => handleSort("tokens")}
-                  className="p-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider cursor-pointer hover:text-zinc-200 text-right select-none transition-colors"
-                  style={outfitFont}
+                  className="p-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider cursor-pointer hover:text-zinc-200 text-right select-none transition-colors font-outfit"
                 >
                   Tokens {sortBy === "tokens" && (sortDesc ? "↓" : "↑")}
                 </th>
                 <th 
                   onClick={() => handleSort("cost")}
-                  className="p-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider cursor-pointer hover:text-zinc-200 text-right select-none transition-colors"
-                  style={outfitFont}
+                  className="p-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider cursor-pointer hover:text-zinc-200 text-right select-none transition-colors font-outfit"
                 >
                   Costo {sortBy === "cost" && (sortDesc ? "↓" : "↑")}
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-800">
+            <tbody className="divide-y divide-zinc-800/60">
               {sortedClients.map((client) => (
                 <tr 
                   key={client.id} 
@@ -178,23 +172,20 @@ export default function TokenTable() {
                     client.atRisk ? "bg-[#e11d4805]" : ""
                   }`}
                 >
-                  <td className="p-4 text-sm text-zinc-300">
+                  <td className="p-4 text-sm text-zinc-300 font-outfit">
                     <div className="flex items-center gap-3">
                       <span className="font-medium">{client.name}</span>
                       {client.atRisk && (
-                        <span 
-                          className="text-[9px] px-2 py-0.5 border border-red-900/60 bg-red-950/30 text-red-400 font-mono tracking-wider font-semibold"
-                          style={dmMonoFont}
-                        >
-                          EN RIESGO
+                        <span className="text-[9px] px-2 py-0.5 border border-red-900/60 bg-red-950/30 text-red-400 font-mono-dm tracking-wider font-semibold uppercase">
+                          En riesgo
                         </span>
                       )}
                     </div>
                   </td>
-                  <td className="p-4 text-sm text-zinc-300 text-right font-mono" style={dmMonoFont}>
+                  <td className="p-4 text-sm text-zinc-300 text-right font-mono-dm">
                     {formatTokens(client.tokens)}
                   </td>
-                  <td className="p-4 text-sm text-zinc-300 text-right font-mono" style={dmMonoFont}>
+                  <td className="p-4 text-sm text-zinc-300 text-right font-mono-dm">
                     {formatCost(client.cost)} USD
                   </td>
                 </tr>
@@ -202,7 +193,7 @@ export default function TokenTable() {
             </tbody>
           </table>
         </div>
-        <p className="text-[11px] text-zinc-500 mt-3 text-right">
+        <p className="text-[11px] text-zinc-500 mt-3 text-right font-outfit">
           Haz clic en las cabeceras de la tabla para ordenar la información.
         </p>
       </div>

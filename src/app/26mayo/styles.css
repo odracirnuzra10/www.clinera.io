@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+/* Custom theme variables and sterile 2.0 overrides */
+:root {
+  --bg-internal: #111318;
+  --card-internal: #161920;
+  --border-internal: #222530;
+  --ink-internal: #f4f4f5;
+  --ink-muted-internal: #8e93a6;
+  --cyan: #009FE3;
+  --violet: #7C3AED;
+  --magenta: #C850C0;
+}
+
+body {
+  background-color: var(--bg-internal) !important;
+  color: var(--ink-internal) !important;
+}
+
+.font-outfit {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+.font-mono-dm {
+  font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace !important;
+}
+
+/* Custom premium styles */
+.kicker-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted-internal);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kicker-label::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--violet);
+}
+
+.premium-card {
+  background-color: var(--card-internal);
+  border: 1px solid var(--border-internal);
+  padding: 24px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-card:hover {
+  border-color: #3b3f54;
+}
+
+.brand-gradient-text {
+  background: linear-gradient(90deg, var(--cyan), var(--violet) 55%, var(--magenta));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
