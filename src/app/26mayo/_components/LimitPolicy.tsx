@@ -93,7 +93,7 @@ export default function LimitPolicy() {
   return (
     <section id="limites" className="slide">
       <SlideHeader
-        num="03"
+        num="04"
         eyebrow="Cronograma de ajustes"
         title="Política de límites"
         lead="Estructura de control de excedentes con ajustes progresivos mensuales sobre el límite base contratado, a partir del 1 de junio de 2026. Toca cada mes para ver el detalle."
@@ -102,6 +102,37 @@ export default function LimitPolicy() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <Stepper title="Clientes nuevos" steps={newClientSteps} accent="var(--cyan)" />
         <Stepper title="Clientes legacy" steps={legacyClientSteps} accent="var(--violet)" />
+      </div>
+
+      {/* Calculadora de consumo — regla definitiva sep/oct */}
+      <div
+        className="card card-topline mt-6 p-6 md:p-7 flex flex-col md:flex-row md:items-center gap-6"
+        style={{ borderColor: "var(--border-strong)" }}
+      >
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="chip chip-accent">Regla definitiva · sep–oct</span>
+          </div>
+          <h3 className="text-lg font-bold mb-2" style={{ color: "var(--ink)" }}>
+            La calculadora de consumo
+          </h3>
+          <p className="text-[0.95rem] leading-relaxed" style={{ color: "var(--ink-soft)" }}>
+            Cuando termine la rampa de cortesía, el límite deja de ser un porcentaje fijo y pasa a
+            regirse por la <strong style={{ color: "var(--ink)" }}>calculadora de consumo</strong>:
+            el tope se alcanza cuando el costo de IA llega al{" "}
+            <strong style={{ color: "var(--ink)" }}>10%–20% del valor del plan</strong> de cada
+            cliente. Esto entra en vigencia definitiva en septiembre / octubre de 2026.
+          </p>
+        </div>
+        <a
+          href="https://www.clinera.io/calculadora-de-consumo"
+          target="_blank"
+          rel="noreferrer"
+          className="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+          style={{ background: "var(--grad)", color: "#0a0c11" }}
+        >
+          Abrir calculadora →
+        </a>
       </div>
     </section>
   );

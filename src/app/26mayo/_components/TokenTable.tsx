@@ -74,7 +74,7 @@ export default function TokenTable() {
   return (
     <section id="impacto" className="slide">
       <SlideHeader
-        num="02"
+        num="03"
         eyebrow="Datos de consumo"
         title="El impacto económico"
         lead="Consumo de tokens y costo real acumulado por cliente durante el período actual, todavía sin límites técnicos aplicados."

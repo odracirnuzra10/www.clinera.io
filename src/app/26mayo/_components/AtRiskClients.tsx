@@ -20,7 +20,7 @@ export default function AtRiskClients() {
   return (
     <section id="riesgo" className="slide">
       <SlideHeader
-        num="04"
+        num="05"
         eyebrow="Alerta operativa"
         title={
           <>

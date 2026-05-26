@@ -58,7 +58,7 @@ export default function Workshop() {
   return (
     <section id="workshop" className="slide">
       <SlideHeader
-        num="05"
+        num="06"
         eyebrow="Taller de comunicación"
         title="Workshop: cómo se lo comunicamos al cliente"
         lead="Guía de discusión en vivo para alinear los discursos de Mitzi, desarrollo, soporte y ventas. Usa el campo de notas para registrar los acuerdos."

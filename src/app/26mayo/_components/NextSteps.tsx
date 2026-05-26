@@ -44,7 +44,7 @@ export default function NextSteps() {
   return (
     <section id="acciones" className="slide">
       <SlideHeader
-        num="06"
+        num="07"
         eyebrow="Plan de acción"
         title="Próximos pasos"
         lead="Acciones y responsables asignados para garantizar el cumplimiento del calendario de activación de límites. Marca cada tarea a medida que avanza."

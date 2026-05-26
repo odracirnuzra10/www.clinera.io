@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./styles.css";
 import DeckProgress from "./_components/DeckProgress";
 import ModelComparison from "./_components/ModelComparison";
+import SchedulingModes from "./_components/SchedulingModes";
 import TokenTable from "./_components/TokenTable";
 import LimitPolicy from "./_components/LimitPolicy";
 import AtRiskClients from "./_components/AtRiskClients";
@@ -19,7 +20,8 @@ export const metadata: Metadata = {
 };
 
 const agenda = [
-  { id: "modelo", label: "El cambio de modelo", desc: "De Gemini a Kimi K2.6" },
+  { id: "modelo", label: "El cambio de modelo", desc: "De mensajería pasiva a agente" },
+  { id: "modos", label: "Los 3 modos de agendamiento", desc: "Eficiente · Agentic · Agentic Flash" },
   { id: "impacto", label: "El impacto económico", desc: "Consumo y costo real por cliente" },
   { id: "limites", label: "Política de límites", desc: "Cronograma de ajustes progresivos" },
   { id: "riesgo", label: "Clientes en riesgo", desc: "Cuentas críticas para septiembre" },
@@ -119,6 +121,7 @@ export default function PresentationPage() {
 
       {/* ── Slides ───────────────────────────────────────────────── */}
       <ModelComparison />
+      <SchedulingModes />
       <TokenTable />
       <LimitPolicy />
       <AtRiskClients />
