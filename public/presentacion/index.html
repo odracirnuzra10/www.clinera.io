@@ -2635,6 +2635,33 @@
   .agent-trio .mockup-text{ min-width:0; }
   .agent-trio .m-chat, .agent-trio .m-call, .agent-trio .m-lia{ justify-self:end; max-width:380px; }
 
+  /* Animación AURA chat — mensajes aparecen secuencialmente */
+  .m-chat .m-msg, .m-chat .m-typing{ opacity:0; transform:translateY(8px); transition:opacity .4s ease, transform .4s ease; }
+  .m-chat .m-msg.visible, .m-chat .m-typing.visible{ opacity:1; transform:translateY(0); }
+
+  /* Animación LIA — scan + detección de espacio + acción */
+  .m-lia{ position:relative; overflow:hidden; }
+  .m-lia .m-slot.gap{ transition:transform .35s ease, box-shadow .35s ease; }
+  .m-lia .m-slot.gap.detected{ animation: m-gap-pulse 1.6s ease-out infinite; }
+  @keyframes m-gap-pulse{
+    0%,100%{ box-shadow: 0 0 0 0 rgba(124,58,237,.0); transform: scale(1); }
+    40%{ box-shadow: 0 0 0 6px rgba(124,58,237,.18); transform: scale(1.015); }
+  }
+  .m-lia .m-slot.gap .badge{ transition:background .25s ease, color .25s ease; }
+  .m-lia .m-lia-action{ opacity:0; transform:translateY(8px); transition:opacity .45s ease, transform .45s ease; }
+  .m-lia .m-lia-action.visible{ opacity:1; transform:translateY(0); }
+
+  /* Línea de escaneo que recorre la agenda */
+  .m-lia-scanline{ position:absolute; left:0; right:0; height:2px; pointer-events:none; background:linear-gradient(90deg, transparent, rgba(124,58,237,.55), transparent); opacity:0; }
+  .m-lia-scanline.run{ animation: m-scan 3s ease-in-out infinite; }
+  @keyframes m-scan{
+    0%{ top:64px; opacity:0; }
+    8%{ opacity:1; }
+    50%{ top:60%; opacity:.9; }
+    92%{ opacity:1; }
+    100%{ top:64px; opacity:0; }
+  }
+
   /* Slide 3 Modos de agendamiento */
   .modos-slide-inner{ display:flex; flex-direction:column; gap:18px; }
   .modos-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:22px; margin-top:14px; }
@@ -2822,6 +2849,7 @@
       </div>
 
       <div class="m-lia">
+        <div class="m-lia-scanline" id="m-lia-scanline"></div>
         <div class="m-lia-head">
           <div class="t">Agenda · Viernes</div>
           <div class="scan"><span class="pulse"></span>LIA escaneando</div>
@@ -3525,7 +3553,9 @@
       updateProgress();
       resetSlideState(n);
       if (n === 5) setActiveCap(0);
+      if (n === 1) playAuraChat();
       if (n === 2) initCamilaWave();
+      if (n === 3) playLiaScan();
       setTimeout(function(){ isAnimating = false; }, 200);
     }, 300);
   }
@@ -3659,11 +3689,57 @@
     camilaWaveInited = true;
   }
 
+  // AURA chat — secuencia animada de mensajes (slide1)
+  let auraTimers = [];
+  function playAuraChat(){
+    const chat = document.querySelector('#slide1 .m-chat');
+    if (!chat) return;
+    auraTimers.forEach(function(t){ clearTimeout(t); });
+    auraTimers = [];
+    const items = chat.querySelectorAll('.m-msg, .m-typing');
+    items.forEach(function(it){ it.classList.remove('visible'); });
+    // items: 0=paciente1, 1=typing, 2=AURA1, 3=paciente2, 4=AURA2
+    function run(){
+      items.forEach(function(it){ it.classList.remove('visible'); });
+      auraTimers.push(setTimeout(function(){ items[0] && items[0].classList.add('visible'); }, 500));
+      auraTimers.push(setTimeout(function(){ items[1] && items[1].classList.add('visible'); }, 1600));
+      auraTimers.push(setTimeout(function(){ items[1] && items[1].classList.remove('visible'); items[2] && items[2].classList.add('visible'); }, 3300));
+      auraTimers.push(setTimeout(function(){ items[3] && items[3].classList.add('visible'); }, 5200));
+      auraTimers.push(setTimeout(function(){ items[4] && items[4].classList.add('visible'); }, 6600));
+      auraTimers.push(setTimeout(run, 10500));
+    }
+    run();
+  }
+
+  // LIA scan — recorrido + detección de espacio libre + acción (slide3)
+  let liaTimers = [];
+  function playLiaScan(){
+    const lia = document.querySelector('#slide3 .m-lia');
+    if (!lia) return;
+    liaTimers.forEach(function(t){ clearTimeout(t); });
+    liaTimers = [];
+    const scanline = lia.querySelector('.m-lia-scanline');
+    const gap = lia.querySelector('.m-slot.gap');
+    const action = lia.querySelector('.m-lia-action');
+    if (scanline) scanline.classList.add('run');
+    function run(){
+      if (gap) gap.classList.remove('detected');
+      if (action) action.classList.remove('visible');
+      liaTimers.push(setTimeout(function(){ if (gap) gap.classList.add('detected'); }, 1800));
+      liaTimers.push(setTimeout(function(){ if (action) action.classList.add('visible'); }, 3200));
+      liaTimers.push(setTimeout(run, 7000));
+    }
+    run();
+  }
+
   // On mobile: load all slides visible from the start, no animations gating content
   if (isMobile()){
     document.querySelectorAll('.slide').forEach(function(s){ s.classList.add('active'); });
     document.querySelectorAll('.cap-panel').forEach(function(p){ p.classList.add('active'); });
     document.querySelectorAll('.flow-node, .flow-line, .booking, .blast-card, .reveal').forEach(function(el){ el.classList.add('show', 'visible'); });
+    document.querySelectorAll('.m-chat .m-msg, .m-chat .m-typing').forEach(function(el){ el.classList.add('visible'); });
+    const liaAction = document.querySelector('.m-lia .m-lia-action'); if (liaAction) liaAction.classList.add('visible');
+    const liaGap = document.querySelector('.m-lia .m-slot.gap'); if (liaGap) liaGap.classList.add('detected');
     const sn = document.getElementById('sale-new'); if (sn) sn.classList.add('show');
     const an = document.getElementById('ag-new'); if (an) an.classList.add('show');
     const ae = document.getElementById('ag-empty'); if (ae) ae.style.display = 'none';
