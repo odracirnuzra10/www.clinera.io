@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import styles from './reunion.module.css';
+import { buildCalLinkWithAttribution } from '@/lib/gclid';
 
 declare global {
   interface Window {
@@ -59,7 +60,7 @@ export default function CalEmbed() {
     Cal.ns.organico('inline', {
       elementOrSelector: '#my-cal-inline-organico',
       config: { layout: 'month_view', useSlotsViewOnSmallScreen: 'true' },
-      calLink: 'team/clinera.io/organico',
+      calLink: buildCalLinkWithAttribution('team/clinera.io/organico'),
     });
     Cal.ns.organico('ui', {
       hideEventTypeDetails: true,

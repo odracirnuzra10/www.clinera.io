@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import {
+  buildCalLinkWithAttribution,
+  getAttributionPayload,
+} from "@/lib/gclid";
 
 // ============== SHARED CONSTANTS ==============
 const GRAD = "linear-gradient(135deg,#3B82F6 0%,#7C3AED 50%,#D946EF 100%)";
@@ -762,6 +766,8 @@ async function submitPartialLead({
     });
   }
 
+  const adAttribution = getAttributionPayload();
+
   const payload = {
     event_id: eventId,
     event_time: eventTime,
@@ -774,6 +780,7 @@ async function submitPartialLead({
     booking_status: "pending",
     lead_source: leadSource,
     ...migrationMeta,
+    ...adAttribution,
     challenge_id: challenge.id,
     challenge_label: challenge.title,
     lead_role: leadRole ?? "",
@@ -855,12 +862,16 @@ async function submitBookingConfirmation({
   const rule = PHONE_RULES[form.prefix];
   const digits = form.phone.replace(/\D/g, "");
   const migrationMeta = getMigrationMeta(migrationIntent ?? null);
+  const adAttribution = getAttributionPayload();
 
   const payload = {
     event_id: confirmEventId,
     parent_event_id: leadCtx?.eventId ?? null,
     event_time: Math.floor(Date.now() / 1000),
     booking_status: "confirmed",
+
+    // Atribución de Google Ads (gclid/gbraid/wbraid) para offline conversions
+    ...adAttribution,
 
     // Datos del calendario (Cal.com)
     cal_booking_uid: booking?.booking?.uid ?? null,
@@ -1523,7 +1534,7 @@ function StepCalCom({
         email: form.email,
         notes,
       },
-      calLink: "team/clinera.io/ads",
+      calLink: buildCalLinkWithAttribution("team/clinera.io/ads"),
     });
 
     Cal.ns!.ads("ui", { hideEventTypeDetails: true, layout: "month_view" });

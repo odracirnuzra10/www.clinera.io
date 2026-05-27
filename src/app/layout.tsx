@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
 import StickyMobileCTA from "@/components/cro/StickyMobileCTA";
+import GclidCapture from "@/components/GclidCapture";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://clinera.io"),
@@ -91,6 +92,8 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
+
+        <GclidCapture />
 
         {children}
 
