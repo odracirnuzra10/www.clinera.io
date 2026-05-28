@@ -221,6 +221,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/planes.html',
+        destination: '/planes',
+        permanent: true,
+      },
+      {
         source: '/start',
         destination: '/planes',
         permanent: true,
