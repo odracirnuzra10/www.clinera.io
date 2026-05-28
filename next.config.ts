@@ -226,6 +226,41 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/activar.html',
+        destination: '/planes',
+        permanent: true,
+      },
+      {
+        source: '/ayuda.html',
+        destination: '/ayuda',
+        permanent: true,
+      },
+      {
+        source: '/blog.html',
+        destination: '/novedades',
+        permanent: true,
+      },
+      {
+        source: '/blog',
+        destination: '/novedades',
+        permanent: true,
+      },
+      {
+        source: '/index.html',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/nosotros.html',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/software.html',
+        destination: '/funciones',
+        permanent: true,
+      },
+      {
         source: '/start',
         destination: '/planes',
         permanent: true,
