@@ -185,15 +185,127 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
 .eo-status.soon{background:rgba(245,158,11,.1);color:#B45309}
 .eo-status.soon::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--amber)}
 
-/* Team (sub-agents) */
-.eo-team{display:flex;flex-direction:column;gap:6px;padding-top:8px;border-top:1px solid var(--line-2)}
-.eo-team-h{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-weight:500}
-.eo-team-h .eo-team-expand{font-size:11px;color:var(--violet)}
-.eo-team-list{display:flex;gap:5px;flex-wrap:wrap}
-.eo-team-chip{padding:3px 8px;border-radius:5px;font-size:10.5px;font-weight:500;border:1px solid var(--line);display:inline-flex;align-items:center;gap:5px}
-.eo-team-chip.on{background:#fff;color:var(--ink-2)}
-.eo-team-chip.on::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--green)}
-.eo-team-chip.soon{background:#FAFAFA;color:var(--muted);border-style:dashed}
+/* Team (sub-agents) - mini cards con switch + edit */
+.eo-subteam{display:flex;flex-direction:column;gap:6px;padding-top:8px;border-top:1px solid var(--line-2)}
+.eo-subteam-h{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.eo-subteam-list{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.eo-subagent{background:#FAFBFC;border:1px solid var(--line);border-radius:7px;padding:7px 9px;display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:0}
+.eo-subagent.soon{background:#FAFAFA;border-style:dashed}
+.eo-subagent-info{min-width:0;flex:1}
+.eo-subagent-name{font-size:11px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:4px;letter-spacing:-.01em}
+.eo-subagent-name .esa-edit{color:var(--muted-2);font-family:var(--mono);font-size:8.5px;opacity:.6}
+.eo-subagent.soon .eo-subagent-name{color:var(--muted)}
+.eo-subagent-role{font-family:var(--mono);font-size:7.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:1px;font-weight:500;line-height:1.2}
+.eo-subagent-switch{width:22px;height:13px;border-radius:7px;background:var(--green);position:relative;flex-shrink:0}
+.eo-subagent-switch::after{content:"";position:absolute;top:1.5px;right:1.5px;width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 1px 1px rgba(0,0,0,.2)}
+.eo-subagent-switch.off{background:var(--line)}
+.eo-subagent-switch.off::after{right:auto;left:1.5px}
+
+/* ============== DUAL PANELS — Simple vs Avanzado (slides 3 + 4) ============== */
+.dual-panels{display:grid;grid-template-columns:1fr 1fr;gap:12px;height:520px}
+.dual-panel{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.dual-panel.advanced{background:#FAFBFC}
+.dual-panel-head{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line-2);background:#FFFFFF;flex-shrink:0}
+.dual-panel.advanced .dual-panel-head{background:#F3F4F6}
+.dp-mode{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.dp-mode::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--violet)}
+.dp-mode.adv::before{background:var(--muted-2)}
+.dp-tag{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:rgba(124,58,237,.08);color:var(--violet);font-weight:500}
+.dp-tag.muted{background:var(--line-2);color:var(--muted)}
+.dual-panel-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+
+/* Simple panel — Agente IA */
+.dp-status{display:flex;align-items:center;gap:9px;padding:10px 12px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:8px}
+.dp-status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(16,185,129,.4);animation:pulseDot 2s infinite}
+.dp-status-text{font-weight:600;font-size:12.5px;color:#047857;letter-spacing:-.01em}
+.dp-sect{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:4px;font-weight:500}
+.dp-card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.dp-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:11.5px;border-bottom:1px solid var(--line-2)}
+.dp-row:last-child{border-bottom:0}
+.dp-row-name{color:var(--ink-2)}
+.dp-row-pill{font-family:var(--mono);font-size:9px;color:var(--green);letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.dp-row-pill::before{content:"●";margin-right:4px}
+.dp-add-btn{margin-top:6px;padding:6px 10px;border:1px dashed var(--line);border-radius:6px;color:var(--violet);font-size:11px;font-weight:500;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px}
+.dp-collapsed{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:#fff;border:1px solid var(--line);border-radius:8px;font-size:11.5px;color:var(--ink);font-weight:500}
+.dp-collapsed .dp-c-ic{font-family:var(--mono);font-size:12px;color:var(--muted-2)}
+
+/* Advanced panel — Agente IA (config técnica) */
+.dp-field{display:flex;flex-direction:column;gap:4px}
+.dp-field-label{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+.dp-textarea{background:#fff;border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-family:var(--mono);font-size:10.5px;color:var(--ink-2);line-height:1.5;height:74px;overflow:hidden;letter-spacing:-.01em}
+.dp-textarea .dp-tk{color:var(--violet);font-weight:600}
+.dp-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dp-select{background:#fff;border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--ink);font-weight:500;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);letter-spacing:.02em}
+.dp-select::after{content:"▾";color:var(--muted-2);margin-left:4px}
+.dp-slider{display:flex;align-items:center;gap:8px}
+.dp-slider-track{height:4px;background:var(--line);border-radius:2px;flex:1;position:relative}
+.dp-slider-fill{position:absolute;top:0;bottom:0;left:0;background:linear-gradient(90deg,var(--cyan),var(--violet));border-radius:2px;width:40%}
+.dp-slider-knob{position:absolute;top:50%;transform:translate(-50%,-50%);width:11px;height:11px;border-radius:50%;background:#fff;border:2px solid var(--violet);left:40%}
+.dp-slider-val{font-family:var(--mono);font-size:10.5px;color:var(--ink);font-weight:600;min-width:24px;text-align:right}
+.dp-toggles{display:flex;flex-direction:column;gap:5px}
+.dp-toggle-row{display:flex;justify-content:space-between;align-items:center;padding:5px 9px;background:#fff;border:1px solid var(--line);border-radius:6px;font-size:11px;color:var(--ink-2)}
+.dp-toggle-row .dp-t-name{font-weight:500}
+.dp-toggle-row .dp-t-sw{width:22px;height:13px;border-radius:7px;background:var(--green);position:relative;flex-shrink:0}
+.dp-toggle-row .dp-t-sw::after{content:"";position:absolute;top:1.5px;right:1.5px;width:10px;height:10px;border-radius:50%;background:#fff}
+.dp-toggle-row .dp-t-sw.off{background:var(--line)}
+.dp-toggle-row .dp-t-sw.off::after{right:auto;left:1.5px}
+
+/* Simple panel — Automatización (lista de flujos pre-armados) */
+.dp-auto-row{display:flex;align-items:center;gap:10px;padding:10px;background:#fff;border:1px solid var(--line);border-radius:8px}
+.dp-auto-row .dp-auto-ic{width:28px;height:28px;border-radius:7px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0}
+.dp-auto-row.ok .dp-auto-ic{background:linear-gradient(135deg,var(--cyan),var(--violet))}
+.dp-auto-row.pause .dp-auto-ic{background:var(--line-2);color:var(--muted)}
+.dp-auto-info{flex:1;min-width:0}
+.dp-auto-name{font-size:12.5px;color:var(--ink);font-weight:600;letter-spacing:-.01em;line-height:1.2}
+.dp-auto-meta{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.dp-auto-sw{width:28px;height:16px;border-radius:8px;background:var(--green);position:relative;flex-shrink:0}
+.dp-auto-sw::after{content:"";position:absolute;top:2px;right:2px;width:12px;height:12px;border-radius:50%;background:#fff}
+.dp-auto-sw.off{background:var(--line)}
+.dp-auto-sw.off::after{right:auto;left:2px}
+
+/* Advanced panel — Automatización (builder compacto) */
+.dp-builder{display:flex;flex-direction:column;gap:8px;align-items:center}
+.dp-node{background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 12px;display:flex;align-items:center;gap:10px;width:100%;max-width:240px}
+.dp-node-ic{width:26px;height:26px;border-radius:6px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px;flex-shrink:0}
+.dp-node-ic.trig{background:linear-gradient(135deg,var(--cyan),var(--violet))}
+.dp-node-ic.wait{background:var(--line-2);color:var(--muted);border:1px solid var(--line)}
+.dp-node-ic.act{background:linear-gradient(135deg,var(--violet),var(--magenta))}
+.dp-node-content{flex:1;min-width:0}
+.dp-node-lbl{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.dp-node-text{font-size:11.5px;color:var(--ink);font-weight:500;line-height:1.2;letter-spacing:-.01em}
+.dp-connector{width:1.5px;height:14px;background:linear-gradient(180deg,var(--line),var(--violet));position:relative}
+.dp-connector::after{content:"";position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid var(--violet)}
+.dp-palette{display:flex;gap:6px;flex-wrap:wrap;padding:8px 10px;background:var(--line-2);border-radius:7px;margin-top:8px}
+.dp-pal-h{font-family:var(--mono);font-size:8.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;align-self:center;margin-right:2px}
+.dp-pal-chip{padding:4px 8px;background:#fff;border-radius:5px;font-family:var(--mono);font-size:9px;color:var(--ink-2);font-weight:500;letter-spacing:.04em}
+
+/* ============== MOCKUP: CHAT IA INTERNO (slide 8) ============== */
+.chats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;margin-top:28px}
+.chat-card{background:#fff;border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;height:100%}
+.chat-card-h{padding:10px 14px;border-bottom:1px solid var(--line-2);background:#FAFBFC;display:flex;justify-content:space-between;align-items:center}
+.chat-card-tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);font-weight:600}
+.chat-card-meta{font-family:var(--mono);font-size:8.5px;color:var(--muted);letter-spacing:.06em}
+.chat-body{padding:16px;display:flex;flex-direction:column;gap:12px;flex:1}
+.chat-msg{display:flex;flex-direction:column;gap:5px;max-width:90%}
+.chat-msg.doctor{align-self:flex-end;background:var(--ink);color:#fff;padding:10px 12px;border-radius:12px 12px 4px 12px}
+.chat-msg.ai{align-self:flex-start;background:#F9FAFB;border:1px solid var(--line);padding:12px;border-radius:12px 12px 12px 4px;max-width:96%}
+.chat-author{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+.chat-msg.doctor .chat-author{color:rgba(255,255,255,.55)}
+.chat-msg.ai .chat-author{color:var(--violet)}
+.chat-msg p{font-size:11.5px;line-height:1.5;color:var(--ink-2)}
+.chat-msg.doctor p{color:#fff;font-weight:500}
+.chat-msg.ai p.lead-line{color:var(--ink);font-weight:600;font-size:12px;letter-spacing:-.01em}
+.chat-list{list-style:none;display:flex;flex-direction:column;gap:5px;margin:6px 0 0}
+.chat-list li{font-size:11px;color:var(--ink-2);padding-left:11px;position:relative;line-height:1.4}
+.chat-list li::before{content:"•";position:absolute;left:0;color:var(--violet);font-weight:700}
+.chat-list li b{color:var(--ink);font-weight:600}
+.chat-list li.warn::before{content:"⚠";color:var(--amber);font-size:10px}
+.chat-list li .li-meta{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.04em;display:block;margin-top:1px}
+.chat-total{font-family:var(--mono);font-size:10px;color:var(--violet);letter-spacing:.06em;font-weight:700;margin-top:8px;padding-top:8px;border-top:1px solid var(--line);text-transform:uppercase}
+.chat-typing{display:inline-flex;gap:3px;padding:8px 11px;background:#F9FAFB;border:1px solid var(--line);border-radius:11px 11px 11px 4px;align-self:flex-start;align-items:center}
+.chat-typing span{width:5px;height:5px;border-radius:50%;background:#9CA3AF;animation:bub 1.2s infinite}
+.chat-typing span:nth-child(2){animation-delay:.15s}
+.chat-typing span:nth-child(3){animation-delay:.3s}
 
 /* ============== MOCKUP: AI Modo Fácil (slide 3) ============== */
 .app-mockup{background:#FAFBFC;border:1px solid var(--line);border-radius:18px;overflow:hidden;display:grid;grid-template-columns:1fr 268px;height:480px}
@@ -369,7 +481,7 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
   <div class="meta-tag" id="sectionTag">CLINERA · FUTURO 2026</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 09</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 10</div>
 <div class="hint">CLICK O <span class="arrow">→</span> PARA CONTINUAR</div>
 <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
 
@@ -532,12 +644,30 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
                   <div class="eo-kpi"><div class="eo-kpi-val">2 min</div><div class="eo-kpi-lbl">respuesta</div></div>
                 </div>
                 <span class="eo-status work">Trabajando</span>
-                <div class="eo-team">
-                  <div class="eo-team-h"><span>Agentes de texto · 3</span><span class="eo-team-expand">▾</span></div>
-                  <div class="eo-team-list">
-                    <span class="eo-team-chip soon">Diego</span>
-                    <span class="eo-team-chip soon">Emilia</span>
-                    <span class="eo-team-chip soon">Joaquín</span>
+                <div class="eo-subteam">
+                  <div class="eo-subteam-h"><span>Agentes de texto · 3</span><span style="color:var(--violet);font-size:11px">▾</span></div>
+                  <div class="eo-subteam-list">
+                    <div class="eo-subagent soon">
+                      <div class="eo-subagent-info">
+                        <div class="eo-subagent-name">Diego <span class="esa-edit">✎</span></div>
+                        <div class="eo-subagent-role">Ventas · derma</div>
+                      </div>
+                      <div class="eo-subagent-switch off"></div>
+                    </div>
+                    <div class="eo-subagent soon">
+                      <div class="eo-subagent-info">
+                        <div class="eo-subagent-name">Emilia <span class="esa-edit">✎</span></div>
+                        <div class="eo-subagent-role">Reactivación</div>
+                      </div>
+                      <div class="eo-subagent-switch off"></div>
+                    </div>
+                    <div class="eo-subagent soon">
+                      <div class="eo-subagent-info">
+                        <div class="eo-subagent-name">Joaquín <span class="esa-edit">✎</span></div>
+                        <div class="eo-subagent-role">Post-venta</div>
+                      </div>
+                      <div class="eo-subagent-switch off"></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -560,13 +690,37 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
                   <div class="eo-kpi"><div class="eo-kpi-val">71%</div><div class="eo-kpi-lbl">conexión</div></div>
                 </div>
                 <span class="eo-status work">Trabajando</span>
-                <div class="eo-team">
-                  <div class="eo-team-h"><span>Agentes de voz · 4</span><span class="eo-team-expand">▾</span></div>
-                  <div class="eo-team-list">
-                    <span class="eo-team-chip on">Sofía</span>
-                    <span class="eo-team-chip on">Mateo</span>
-                    <span class="eo-team-chip on">Valentina</span>
-                    <span class="eo-team-chip soon">Tomás</span>
+                <div class="eo-subteam">
+                  <div class="eo-subteam-h"><span>Agentes de voz · 4</span><span style="color:var(--violet);font-size:11px">▾</span></div>
+                  <div class="eo-subteam-list">
+                    <div class="eo-subagent">
+                      <div class="eo-subagent-info">
+                        <div class="eo-subagent-name">Sofía <span class="esa-edit">✎</span></div>
+                        <div class="eo-subagent-role">Confirmaciones</div>
+                      </div>
+                      <div class="eo-subagent-switch"></div>
+                    </div>
+                    <div class="eo-subagent">
+                      <div class="eo-subagent-info">
+                        <div class="eo-subagent-name">Mateo <span class="esa-edit">✎</span></div>
+                        <div class="eo-subagent-role">Reactivación</div>
+                      </div>
+                      <div class="eo-subagent-switch"></div>
+                    </div>
+                    <div class="eo-subagent">
+                      <div class="eo-subagent-info">
+                        <div class="eo-subagent-name">Valentina <span class="esa-edit">✎</span></div>
+                        <div class="eo-subagent-role">Encuestas NPS</div>
+                      </div>
+                      <div class="eo-subagent-switch"></div>
+                    </div>
+                    <div class="eo-subagent soon">
+                      <div class="eo-subagent-info">
+                        <div class="eo-subagent-name">Tomás <span class="esa-edit">✎</span></div>
+                        <div class="eo-subagent-role">Cobranza</div>
+                      </div>
+                      <div class="eo-subagent-switch off"></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -580,113 +734,203 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
 
   <!-- ============ 04 AGENTE IA MODO FÁCIL ============ -->
   <section class="slide" id="slide3">
-    <div class="slide-inner slide-feature">
-      <div class="feat-text">
-        <div class="kicker-row">
-          <div class="kicker"><span class="pip"></span>MÓDULO 01 · AGENTE IA MODO FÁCIL</div>
-          <span class="pill new"><span class="dot"></span>Nuevo</span>
+    <div class="slide-inner" style="display:flex;flex-direction:column;gap:24px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap">
+        <div style="max-width:640px">
+          <div class="kicker-row">
+            <div class="kicker"><span class="pip"></span>MÓDULO 01 · AGENTE IA MODO FÁCIL</div>
+            <span class="pill new"><span class="dot"></span>Nuevo</span>
+          </div>
+          <h2 class="h-display" style="font-size:54px;margin-bottom:14px">Configurar la IA,<br/><span class="grad">sin saber de IA.</span></h2>
         </div>
-        <h2 class="h-display">Configurar la IA,<br/><span class="grad">sin saber de IA.</span></h2>
-        <p class="lead">El 85% de las clínicas no es técnico. El Modo Fácil deja una pantalla que dice <b>"tu agente ya funciona"</b>: solo agregás promos, el resto ya está resuelto por el harness. El Modo Avanzado queda escondido para el 15% pro.</p>
+        <p class="lead" style="font-size:15px;max-width:480px">El 85% de las clínicas no es técnico. <b>Modo Fácil</b> deja una sola pantalla: agregás promos y listo. <b>Modo Avanzado</b> queda escondido para el 15% pro que quiere tocar prompt, modelo y herramientas.</p>
       </div>
-      <div class="feat-mockup">
-        <div class="app-mockup">
-          <div class="am-main">
-            <div class="am-head">
-              <div class="am-title"><span class="am-title-dot"></span>Sofía ya está atendiendo</div>
-              <div class="am-status-meta">live · WhatsApp</div>
-            </div>
-            <div class="am-section-label">Promociones activas</div>
-            <div class="am-card">
-              <div class="am-promo-row">
-                <span class="ap-name">Limpieza facial · 30% off</span>
-                <span class="ap-active">● Activa</span>
-              </div>
-              <div class="am-promo-row">
-                <span class="ap-name">Botox primera vez · $89.000</span>
-                <span class="ap-active">● Activa</span>
-              </div>
-              <div class="am-card-add">+ Agregar promoción</div>
-            </div>
-            <div class="am-section-label">Opcional</div>
-            <div class="am-card collapsed">
-              <div class="am-card-title">Agregar pasos al flujo<span class="am-best-tag">avanzado</span></div>
-              <div class="am-collapse-ic">+</div>
-            </div>
-            <div class="am-card collapsed">
-              <div class="am-card-title">Tu agente sigue 17 buenas prácticas</div>
-              <div class="am-collapse-ic">▾</div>
-            </div>
+
+      <div class="dual-panels">
+
+        <!-- PANEL: MODO FÁCIL (default) -->
+        <div class="dual-panel">
+          <div class="dual-panel-head">
+            <span class="dp-mode">Modo Fácil</span>
+            <span class="dp-tag">Default · 85% clínicas</span>
           </div>
-          <div class="am-phone">
-            <div class="am-phone-head">
-              <div class="am-phone-av">S</div>
-              <div>
-                <div class="am-phone-name">Sofía · Clínica Estética</div>
-                <div class="am-phone-sub">● Preview en vivo</div>
-              </div>
+          <div class="dual-panel-body">
+            <div class="dp-status">
+              <span class="dp-status-dot"></span>
+              <span class="dp-status-text">Sofía ya está atendiendo</span>
             </div>
-            <div class="am-bub them">Hola, ¿qué precio tiene la limpieza?<span style="font-family:var(--mono);font-size:8.5px;opacity:.55;display:block;margin-top:3px;letter-spacing:.04em">11:47</span></div>
-            <div class="am-typing"><span></span><span></span><span></span></div>
-            <div class="am-bub us">¡Hola! Esta semana tengo limpieza con <b>30% off</b> a $24.500. Tengo mié 11:30 o vie 17:00 ¿cuál te acomoda?<span style="font-family:var(--mono);font-size:8.5px;opacity:.6;display:block;margin-top:3px;letter-spacing:.04em">11:48 · vía Sofía</span></div>
+            <div class="dp-sect">Promociones activas</div>
+            <div class="dp-card">
+              <div class="dp-row"><span class="dp-row-name">Limpieza facial · 30% off</span><span class="dp-row-pill">Activa</span></div>
+              <div class="dp-row"><span class="dp-row-name">Botox primera vez · $89.000</span><span class="dp-row-pill">Activa</span></div>
+              <div class="dp-add-btn">+ Agregar promoción</div>
+            </div>
+            <div class="dp-sect">Opcional</div>
+            <div class="dp-collapsed">
+              <span>Tu agente sigue 17 buenas prácticas</span>
+              <span class="dp-c-ic">▾</span>
+            </div>
+            <div class="dp-collapsed">
+              <span>Agregar pasos al flujo</span>
+              <span class="dp-c-ic">+</span>
+            </div>
           </div>
         </div>
+
+        <!-- PANEL: MODO AVANZADO (oculto) -->
+        <div class="dual-panel advanced">
+          <div class="dual-panel-head">
+            <span class="dp-mode adv">Modo Avanzado</span>
+            <span class="dp-tag muted">Oculto · 15% pro</span>
+          </div>
+          <div class="dual-panel-body">
+            <div class="dp-field">
+              <span class="dp-field-label">System prompt</span>
+              <div class="dp-textarea">Sos Sofía, asistente IA de <span class="dp-tk">{clinica.nombre}</span>.<br/>Tono cálido, profesional. Nunca diagnostiques.<br/>Usa <span class="dp-tk">tool:agendar()</span> cuando el paciente acepte.<br/>Si pregunta precio, consulta <span class="dp-tk">tool:promos()</span>...</div>
+            </div>
+            <div class="dp-grid-2">
+              <div class="dp-field">
+                <span class="dp-field-label">Modelo</span>
+                <div class="dp-select">gemini-3-flash</div>
+              </div>
+              <div class="dp-field">
+                <span class="dp-field-label">Temperatura</span>
+                <div class="dp-slider">
+                  <div class="dp-slider-track">
+                    <div class="dp-slider-fill"></div>
+                    <div class="dp-slider-knob"></div>
+                  </div>
+                  <span class="dp-slider-val">0.4</span>
+                </div>
+              </div>
+            </div>
+            <div class="dp-field">
+              <span class="dp-field-label">Herramientas habilitadas</span>
+              <div class="dp-toggles">
+                <div class="dp-toggle-row"><span class="dp-t-name">Agenda (Calendar API)</span><div class="dp-t-sw"></div></div>
+                <div class="dp-toggle-row"><span class="dp-t-name">WhatsApp Business</span><div class="dp-t-sw"></div></div>
+                <div class="dp-toggle-row"><span class="dp-t-name">Stripe payment link</span><div class="dp-t-sw off"></div></div>
+              </div>
+            </div>
+            <div class="dp-field">
+              <span class="dp-field-label">Ventana de memoria</span>
+              <div class="dp-select">Últimos 8 mensajes</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
   <!-- ============ 05 AUTOMATIZACIÓN MODO FÁCIL ============ -->
   <section class="slide" id="slide4">
-    <div class="slide-inner slide-feature reverse">
-      <div class="feat-text">
-        <div class="kicker-row">
-          <div class="kicker"><span class="pip"></span>MÓDULO 02 · AUTOMATIZACIONES MODO FÁCIL</div>
-          <span class="pill new"><span class="dot"></span>Nuevo</span>
+    <div class="slide-inner" style="display:flex;flex-direction:column;gap:24px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap">
+        <div style="max-width:640px">
+          <div class="kicker-row">
+            <div class="kicker"><span class="pip"></span>MÓDULO 02 · AUTOMATIZACIONES MODO FÁCIL</div>
+            <span class="pill new"><span class="dot"></span>Nuevo</span>
+          </div>
+          <h2 class="h-display" style="font-size:54px;margin-bottom:14px">Automatiza<br/><span class="grad">en un toque.</span></h2>
         </div>
-        <h2 class="h-display">Automatiza<br/><span class="grad">arrastrando.</span></h2>
-        <p class="lead">Modo Simple y Avanzado. El dueño arma un flujo en menos de 1 minuto <b>sin programar</b>: trigger → espera → acción. El pro accede al editor completo con condiciones y ramas.</p>
+        <p class="lead" style="font-size:15px;max-width:480px"><b>Modo Simple</b> ya viene con automatizaciones listas para activar (confirmaciones, recordatorios, cobranza). <b>Modo Avanzado</b> habilita el constructor drag &amp; drop con condiciones, ramas y webhooks.</p>
       </div>
-      <div class="feat-mockup">
-        <div class="auto-builder">
-          <div class="auto-head">
-            <div class="auto-toggle">
-              <span class="auto-toggle-opt active">Simple</span>
-              <span class="auto-toggle-opt">Avanzado</span>
-            </div>
-            <div class="auto-meta">3 bloques · 47s</div>
+
+      <div class="dual-panels">
+
+        <!-- PANEL: MODO SIMPLE (default) -->
+        <div class="dual-panel">
+          <div class="dual-panel-head">
+            <span class="dp-mode">Modo Simple</span>
+            <span class="dp-tag">Default · listo para activar</span>
           </div>
-          <div class="auto-flow">
-            <div class="auto-node">
-              <div class="auto-node-ic trigger">▶</div>
-              <div class="auto-node-content">
-                <div class="auto-node-label">Trigger</div>
-                <div class="auto-node-text">Cita agendada</div>
+          <div class="dual-panel-body">
+            <div class="dp-sect" style="margin-top:0">Automatizaciones pre-armadas</div>
+
+            <div class="dp-auto-row ok">
+              <div class="dp-auto-ic">✓</div>
+              <div class="dp-auto-info">
+                <div class="dp-auto-name">Confirmación 24h antes</div>
+                <div class="dp-auto-meta">WhatsApp · 1.247 enviados</div>
               </div>
+              <div class="dp-auto-sw"></div>
             </div>
-            <div class="auto-connector"></div>
-            <div class="auto-node">
-              <div class="auto-node-ic wait">⏱</div>
-              <div class="auto-node-content">
-                <div class="auto-node-label">Espera</div>
-                <div class="auto-node-text">2 horas antes</div>
+
+            <div class="dp-auto-row ok">
+              <div class="dp-auto-ic">✓</div>
+              <div class="dp-auto-info">
+                <div class="dp-auto-name">Recordatorio 2h antes</div>
+                <div class="dp-auto-meta">WhatsApp · 894 enviados</div>
               </div>
+              <div class="dp-auto-sw"></div>
             </div>
-            <div class="auto-connector"></div>
-            <div class="auto-node dragging">
-              <div class="auto-node-ic action">✦</div>
-              <div class="auto-node-content">
-                <div class="auto-node-label">Acción</div>
-                <div class="auto-node-text">Enviar WhatsApp</div>
+
+            <div class="dp-auto-row ok">
+              <div class="dp-auto-ic">✓</div>
+              <div class="dp-auto-info">
+                <div class="dp-auto-name">Cobranza 7 días post-cita</div>
+                <div class="dp-auto-meta">WhatsApp + Stripe link</div>
               </div>
+              <div class="dp-auto-sw"></div>
             </div>
-          </div>
-          <div class="auto-palette">
-            <span class="auto-palette-h">Arrastra otro bloque</span>
-            <span class="auto-pal-chip">Condición</span>
-            <span class="auto-pal-chip">Email</span>
-            <span class="auto-pal-chip">Webhook</span>
+
+            <div class="dp-auto-row pause">
+              <div class="dp-auto-ic">⏸</div>
+              <div class="dp-auto-info">
+                <div class="dp-auto-name">Reactivación 90 días</div>
+                <div class="dp-auto-meta">En pausa · sin tocar nada</div>
+              </div>
+              <div class="dp-auto-sw off"></div>
+            </div>
+
+            <div class="dp-add-btn" style="margin-top:auto">+ Activar más plantillas</div>
           </div>
         </div>
+
+        <!-- PANEL: MODO AVANZADO (oculto) -->
+        <div class="dual-panel advanced">
+          <div class="dual-panel-head">
+            <span class="dp-mode adv">Modo Avanzado</span>
+            <span class="dp-tag muted">Constructor · drag &amp; drop</span>
+          </div>
+          <div class="dual-panel-body" style="align-items:center;justify-content:flex-start">
+            <div class="dp-builder">
+              <div class="dp-node">
+                <div class="dp-node-ic trig">▶</div>
+                <div class="dp-node-content">
+                  <div class="dp-node-lbl">Trigger</div>
+                  <div class="dp-node-text">Cita agendada</div>
+                </div>
+              </div>
+              <div class="dp-connector"></div>
+              <div class="dp-node">
+                <div class="dp-node-ic wait">⏱</div>
+                <div class="dp-node-content">
+                  <div class="dp-node-lbl">Espera</div>
+                  <div class="dp-node-text">2 horas antes</div>
+                </div>
+              </div>
+              <div class="dp-connector"></div>
+              <div class="dp-node" style="border-color:rgba(124,58,237,.35);background:linear-gradient(135deg,#fff,#FBFAFD);box-shadow:0 6px 22px -12px rgba(124,58,237,.35)">
+                <div class="dp-node-ic act">✦</div>
+                <div class="dp-node-content">
+                  <div class="dp-node-lbl">Acción · arrastrando</div>
+                  <div class="dp-node-text">Enviar WhatsApp</div>
+                </div>
+              </div>
+            </div>
+            <div class="dp-palette" style="margin-top:auto;width:100%">
+              <span class="dp-pal-h">Arrastra otro bloque</span>
+              <span class="dp-pal-chip">Condición</span>
+              <span class="dp-pal-chip">Email</span>
+              <span class="dp-pal-chip">Webhook</span>
+              <span class="dp-pal-chip">Stripe</span>
+              <span class="dp-pal-chip">Rama</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -931,29 +1175,123 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
     </div>
   </section>
 
-  <!-- ============ 09 CIERRE ============ -->
+  <!-- ============ 09 CHAT IA INTERNO ============ -->
   <section class="slide" id="slide8">
+    <div class="slide-inner" style="display:flex;flex-direction:column;align-items:center;text-align:center">
+      <div class="kicker-row" style="justify-content:center;margin-bottom:14px">
+        <div class="kicker"><span class="pip"></span>MÓDULO 06 · CHAT IA INTERNO</div>
+        <span class="pill new"><span class="dot"></span>Nuevo</span>
+      </div>
+      <h2 class="h-display" style="font-size:64px;text-align:center;margin-bottom:14px">Pregúntale a tu <span class="grad">clínica.</span></h2>
+      <p class="lead" style="text-align:center;margin:0 auto;max-width:720px">El Chat IA interno tiene acceso a toda la operación — agenda, pacientes, caja, fichas, conversaciones de AURA y CAMILA. <b>El doctor pregunta en lenguaje natural y obtiene la respuesta con los datos reales del momento.</b></p>
+
+      <div class="chats-row">
+
+        <!-- EJEMPLO 1: Abonos pendientes -->
+        <div class="chat-card">
+          <div class="chat-card-h">
+            <span class="chat-card-tag">Ejemplo 01 · Cobranza</span>
+            <span class="chat-card-meta">10:42</span>
+          </div>
+          <div class="chat-body">
+            <div class="chat-msg doctor">
+              <span class="chat-author">Dr. Meza</span>
+              <p>¿cuáles son los abonos pendientes de los últimos 7 días?</p>
+            </div>
+            <div class="chat-msg ai">
+              <span class="chat-author">Clinera</span>
+              <p class="lead-line">4 abonos pendientes esta semana:</p>
+              <ul class="chat-list">
+                <li><b>Camila P.</b> — $24.500<span class="li-meta">Vence mañana</span></li>
+                <li><b>Pedro R.</b> — $89.000<span class="li-meta">Vence 16 may</span></li>
+                <li><b>Ana M.</b> — $12.300<span class="li-meta">Vence 18 may</span></li>
+                <li><b>Luis A.</b> — $45.000<span class="li-meta">Vence 20 may</span></li>
+              </ul>
+              <div class="chat-total">Total · $170.800</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EJEMPLO 2: Conversaciones que merecen atención -->
+        <div class="chat-card">
+          <div class="chat-card-h">
+            <span class="chat-card-tag">Ejemplo 02 · Triaje</span>
+            <span class="chat-card-meta">11:08</span>
+          </div>
+          <div class="chat-body">
+            <div class="chat-msg doctor">
+              <span class="chat-author">Dr. Meza</span>
+              <p>de todas las conversaciones de hoy, ¿cuáles merecen mi atención?</p>
+            </div>
+            <div class="chat-msg ai">
+              <span class="chat-author">Clinera</span>
+              <p class="lead-line">3 conversaciones requieren tu mirada:</p>
+              <ul class="chat-list">
+                <li class="warn"><b>Sofía R.</b> — pregunta por contraindicaciones de embarazo<span class="li-meta">Consulta médica · AURA pausada</span></li>
+                <li class="warn"><b>Diego F.</b> — quiere migrar de derma<span class="li-meta">Lead alto · AURA no logró cerrar</span></li>
+                <li class="warn"><b>María T.</b> — dejó queja por demora<span class="li-meta">Lunes 12 may · sin respuesta</span></li>
+              </ul>
+              <div class="chat-total">Prioridad · alta</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EJEMPLO 3: Agenda del día -->
+        <div class="chat-card">
+          <div class="chat-card-h">
+            <span class="chat-card-tag">Ejemplo 03 · Agenda</span>
+            <span class="chat-card-meta">07:52</span>
+          </div>
+          <div class="chat-body">
+            <div class="chat-msg doctor">
+              <span class="chat-author">Dr. Meza</span>
+              <p>¿qué tratamientos me toca realizar a mí y a mi esposa hoy?</p>
+            </div>
+            <div class="chat-msg ai">
+              <span class="chat-author">Clinera</span>
+              <p class="lead-line">Tu agenda hoy · Dr. Meza:</p>
+              <ul class="chat-list">
+                <li><b>09:00</b> · Camila P. — Limpieza facial</li>
+                <li><b>11:30</b> · Pedro R. — Botox primera vez</li>
+                <li><b>16:00</b> · Luis A. — Control 3 meses</li>
+              </ul>
+              <p class="lead-line" style="margin-top:8px">Dra. Meza:</p>
+              <ul class="chat-list">
+                <li><b>10:00</b> · Antonia R. — Peeling químico</li>
+                <li><b>15:30</b> · Vicente S. — Evaluación inicial</li>
+              </ul>
+              <div class="chat-total">5 citas confirmadas hoy</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 10 CIERRE ============ -->
+  <section class="slide" id="slide9">
     <div class="slide-inner close">
       <div class="kicker"><span class="pip"></span>EL FUTURO YA ESTÁ EN MARCHA</div>
       <h2 class="h-display">Cuanto más adentro,<br/><span class="grad">más irreemplazables.</span></h2>
-      <p class="close-text">AURA atiende. CAMILA llama. LIA piensa. El <b>Chat IA interno</b> opera. Y los 5 módulos nuevos conectan a Clinera con las venas reales de la clínica: pacientes, operaciones, tareas, agente fácil y automatización fácil. <b>Ese es el foso.</b></p>
+      <p class="close-text">AURA atiende. CAMILA llama. LIA piensa. El <b>Chat IA interno</b> opera. Y los 6 módulos nuevos conectan a Clinera con las venas reales de la clínica: pacientes, operaciones, tareas, agente fácil, automatización fácil y consultas en lenguaje natural. <b>Ese es el foso.</b></p>
 
       <div class="roadmap">
         <div class="roadmap-chip featured">
           <span class="rc-when">Sem 1</span>
-          <span class="rc-what">Fundación Chat IA interno</span>
+          <span class="rc-what">Chat IA interno</span>
         </div>
         <div class="roadmap-chip">
           <span class="rc-when">Sem 2 — Q3</span>
-          <span class="rc-what">Módulo Pacientes</span>
+          <span class="rc-what">Pacientes + Modo Fácil</span>
         </div>
         <div class="roadmap-chip">
           <span class="rc-when">Q3 — Q4</span>
-          <span class="rc-what">Módulo Operaciones</span>
+          <span class="rc-what">Operaciones</span>
         </div>
         <div class="roadmap-chip">
           <span class="rc-when">Q4</span>
-          <span class="rc-what">Módulo Tareas</span>
+          <span class="rc-what">Tareas</span>
         </div>
       </div>
 
@@ -964,7 +1302,7 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
 </div>
 
 <script>
-  const TOTAL = 9;
+  const TOTAL = 10;
   let current = 0;
   let busy = false;
   const SECTIONS = [
@@ -976,6 +1314,7 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
     'MÓDULO 03 · PACIENTES',
     'MÓDULO 04 · OPERACIONES',
     'MÓDULO 05 · TAREAS',
+    'MÓDULO 06 · CHAT IA INTERNO',
     'EL FUTURO YA ESTÁ EN MARCHA'
   ];
 
@@ -985,7 +1324,7 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
     const pct = (current / (TOTAL - 1)) * 100;
     $('progressBar').style.width = pct + '%';
     const num = String(current + 1).padStart(2,'0');
-    $('stepCounter').innerHTML = '<span class="current">' + num + '</span> / 09';
+    $('stepCounter').innerHTML = '<span class="current">' + num + '</span> / 10';
     $('sectionTag').textContent = SECTIONS[current];
   }
 
