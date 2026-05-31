@@ -170,6 +170,10 @@ const nextConfig: NextConfig = {
         destination: '/chat/index.html',
       },
       {
+        source: '/lopez',
+        destination: '/lopez/index.html',
+      },
+      {
         source: '/test-prompt',
         destination: '/test-prompt/index.html',
       },
