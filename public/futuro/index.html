@@ -131,25 +131,69 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
 .moat-out-list span::before{content:"";width:5px;height:5px;border-radius:50%;background:#D1D5DB}
 .moat-out-foot{font-size:10.5px;color:var(--muted-2);line-height:1.4;margin-top:4px;font-style:italic}
 
-/* ============== MOCKUP: ORG CHART (slide 2) ============== */
-.org-chart{padding:32px 28px;background:linear-gradient(180deg,#FAFBFC,#fff);border:1px solid var(--line);border-radius:18px}
-.org-root{display:flex;justify-content:center;margin-bottom:20px}
-.org-root-card{padding:11px 22px;background:var(--ink);color:#fff;border-radius:10px;font-weight:600;font-size:13.5px;text-align:center}
-.org-root-card .or-sub{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,.65);text-transform:uppercase;margin-top:3px;font-weight:400}
-.org-lines{position:relative;height:36px;margin:0 6%}
-.org-team{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.org-card{padding:14px 14px 12px;background:#fff;border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;gap:12px;position:relative}
-.org-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.org-card-id .org-card-name{font-weight:700;font-size:13.5px;color:var(--ink);letter-spacing:-.01em}
-.org-card-id .org-card-role{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:3px;font-weight:500}
-.org-card-av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0}
-.org-card.aura .org-card-av{background:linear-gradient(135deg,var(--cyan),var(--violet))}
-.org-card.camila .org-card-av{background:linear-gradient(135deg,var(--violet),var(--magenta))}
-.org-card.lia .org-card-av{background:linear-gradient(135deg,var(--violet),#9F8AE8)}
-.org-card.chat .org-card-av{background:linear-gradient(135deg,var(--magenta),var(--amber))}
-.org-card-fn{font-size:11.5px;color:var(--ink-2);line-height:1.4;border-top:1px solid var(--line-2);padding-top:8px}
-.org-card-status{display:flex;justify-content:flex-start}
-.org-card.featured{background:linear-gradient(135deg,#fff,#FDF4FF);border-color:rgba(200,80,192,.22)}
+/* ============== MOCKUP: MI EQUIPO ORG (slide 2) ============== */
+.equipo-org{background:linear-gradient(180deg,#FAFBFC,#fff);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px}
+
+.eo-summary{display:flex;align-items:center;gap:14px;padding:10px 16px;background:#fff;border:1px solid var(--line);border-radius:10px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;justify-content:center}
+.eo-summary .eo-stat{display:inline-flex;gap:5px;align-items:baseline}
+.eo-summary .eo-stat b{color:var(--ink);font-weight:700;font-size:13px;font-family:var(--sans);letter-spacing:-.02em;text-transform:none}
+.eo-summary .eo-stat.work b{color:var(--green)}
+.eo-summary .eo-stat.soon b{color:var(--amber)}
+.eo-summary .eo-sep{width:1px;height:14px;background:var(--line)}
+
+.eo-tree{display:flex;flex-direction:column;align-items:center;gap:0}
+.eo-level{display:flex;width:100%;justify-content:center;gap:14px}
+.eo-level.eo-root-level .eo-card,.eo-level.eo-lia-level .eo-card{flex:0 1 280px}
+.eo-level.eo-jefes-level{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%}
+.eo-level.eo-jefes-level .eo-card{flex:1;min-width:0}
+
+.eo-conn{width:100%;height:18px;position:relative}
+.eo-conn svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+.eo-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 14px;display:flex;flex-direction:column;gap:10px;position:relative;min-width:0}
+.eo-card-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.eo-card-id{min-width:0;flex:1}
+.eo-card-name{font-weight:700;font-size:13.5px;color:var(--ink);letter-spacing:-.01em;display:flex;align-items:center;gap:5px}
+.eo-card-name .eo-edit-ic{color:var(--muted-2);font-family:var(--mono);font-size:10px;opacity:.6;cursor:default}
+.eo-card-role{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:3px;font-weight:500}
+.eo-card-av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px;flex-shrink:0;letter-spacing:-.02em}
+
+/* Variantes por agente */
+.eo-card.eo-gg{background:#FAFAFA;border:1px dashed var(--line);opacity:.85;flex:0 1 240px}
+.eo-card.eo-gg .eo-card-av{background:var(--line-2);color:var(--muted);font-weight:600}
+.eo-card.eo-lia{border-color:rgba(124,58,237,.25);background:linear-gradient(135deg,#fff,#FBFAFD)}
+.eo-card.eo-lia .eo-card-av{background:linear-gradient(135deg,var(--violet),#9F8AE8)}
+.eo-card.eo-aura .eo-card-av{background:linear-gradient(135deg,var(--cyan),var(--violet))}
+.eo-card.eo-camila .eo-card-av{background:linear-gradient(135deg,var(--violet),var(--magenta))}
+
+/* Switch on/off (visual) */
+.eo-switch{width:30px;height:18px;border-radius:9px;background:var(--green);position:relative;flex-shrink:0;cursor:default;transition:background .2s}
+.eo-switch::after{content:"";position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.18);transition:right .2s}
+.eo-switch.off{background:var(--line)}
+.eo-switch.off::after{right:auto;left:2px}
+
+/* KPIs */
+.eo-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-top:8px;border-top:1px solid var(--line-2)}
+.eo-kpi{display:flex;flex-direction:column;gap:1px;min-width:0}
+.eo-kpi-val{font-size:13.5px;color:var(--ink);font-weight:700;letter-spacing:-.025em;line-height:1.1}
+.eo-kpi-lbl{font-family:var(--mono);font-size:8.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-weight:500;margin-top:2px;line-height:1.2}
+
+/* Status pill */
+.eo-status{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:5px;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;align-self:flex-start}
+.eo-status.work{background:rgba(16,185,129,.1);color:#047857}
+.eo-status.work::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--green)}
+.eo-status.soon{background:rgba(245,158,11,.1);color:#B45309}
+.eo-status.soon::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--amber)}
+
+/* Team (sub-agents) */
+.eo-team{display:flex;flex-direction:column;gap:6px;padding-top:8px;border-top:1px solid var(--line-2)}
+.eo-team-h{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.eo-team-h .eo-team-expand{font-size:11px;color:var(--violet)}
+.eo-team-list{display:flex;gap:5px;flex-wrap:wrap}
+.eo-team-chip{padding:3px 8px;border-radius:5px;font-size:10.5px;font-weight:500;border:1px solid var(--line);display:inline-flex;align-items:center;gap:5px}
+.eo-team-chip.on{background:#fff;color:var(--ink-2)}
+.eo-team-chip.on::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--green)}
+.eo-team-chip.soon{background:#FAFAFA;color:var(--muted);border-style:dashed}
 
 /* ============== MOCKUP: AI Modo Fácil (slide 3) ============== */
 .app-mockup{background:#FAFBFC;border:1px solid var(--line);border-radius:18px;overflow:hidden;display:grid;grid-template-columns:1fr 268px;height:480px}
@@ -297,7 +341,8 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
   .slide-feature .feat-text .h-display{font-size:48px}
   .moat-inner{width:100%}
   .moat-wall,.moat-outsiders,.moat-wall-tag{display:none}
-  .org-team{grid-template-columns:repeat(2,1fr)}
+  .eo-level.eo-jefes-level{grid-template-columns:1fr}
+  .eo-kpis{grid-template-columns:repeat(3,1fr)}
   .app-mockup{grid-template-columns:1fr;height:auto}
   .am-phone{display:none}
   .patient-file{grid-template-columns:1fr;height:auto}
@@ -313,7 +358,7 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
   .h-display,.cover .h-display,.close .h-display{font-size:42px}
   .slide-feature .feat-text .h-display{font-size:34px}
   .lead{font-size:15px}
-  .org-team{grid-template-columns:1fr}
+  .eo-summary{flex-wrap:wrap;gap:8px}
 }
 </style>
 </head>
@@ -393,68 +438,139 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
     </div>
   </section>
 
-  <!-- ============ 03 ORGANIGRAMA ============ -->
+  <!-- ============ 03 MI EQUIPO ============ -->
   <section class="slide" id="slide2">
-    <div class="slide-inner slide-feature reverse">
+    <div class="slide-inner slide-feature" style="grid-template-columns:5fr 8fr;gap:48px">
       <div class="feat-text">
-        <div class="kicker"><span class="pip"></span>EMPLEADOS DIGITALES</div>
-        <h2 class="h-display">Tu clínica ya tiene<br/><span class="grad">una plantilla digital.</span></h2>
-        <p class="lead">AURA atiende WhatsApp. CAMILA llama por voz. LIA piensa la agenda. Y ahora el <b>Chat IA interno</b> es el empleado que vive dentro del sistema — consulta agenda, pacientes, caja, ventas y morosidad por ti.</p>
+        <div class="kicker-row">
+          <div class="kicker"><span class="pip"></span>MI EQUIPO</div>
+          <span class="pill new"><span class="dot"></span>Nuevo</span>
+        </div>
+        <h2 class="h-display" style="font-size:54px">Tu clínica ya tiene<br/><span class="grad">un equipo entero.</span></h2>
+        <p class="lead">AURA, CAMILA y LIA no son features sueltas — son tu <b>plantilla de empleados digitales</b>, con jefe, KPIs y un botón de encendido cada uno. Vos los renombrás, los prendés o apagás, y ves lo que producen. El dueño deja de "configurar un software" y pasa a <b>dirigir un equipo</b>.</p>
       </div>
       <div class="feat-mockup">
-        <div class="org-chart">
-          <div class="org-root">
-            <div class="org-root-card">Tu clínica<div class="or-sub">Dueño · operación</div></div>
+        <div class="equipo-org">
+          <!-- Summary bar -->
+          <div class="eo-summary">
+            <span class="eo-stat work"><b>6</b> trabajando</span>
+            <span class="eo-sep"></span>
+            <span class="eo-stat"><b>0</b> en pausa</span>
+            <span class="eo-sep"></span>
+            <span class="eo-stat soon"><b>4</b> próximamente</span>
           </div>
-          <div class="org-lines">
-            <svg viewBox="0 0 100 36" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">
-              <path d="M50 0 L50 18 L12.5 18 L12.5 36 M50 18 L37.5 18 L37.5 36 M50 18 L62.5 18 L62.5 36 M50 18 L87.5 18 L87.5 36" stroke="#EAEAEA" stroke-width="1.5" fill="none"/>
-            </svg>
-          </div>
-          <div class="org-team">
-            <div class="org-card aura">
-              <div class="org-card-head">
-                <div class="org-card-id">
-                  <div class="org-card-name">AURA</div>
-                  <div class="org-card-role">WhatsApp · Asistente</div>
+
+          <!-- Org tree -->
+          <div class="eo-tree">
+
+            <!-- Root: Gerente General (placeholder) -->
+            <div class="eo-level eo-root-level">
+              <div class="eo-card eo-gg">
+                <div class="eo-card-h">
+                  <div class="eo-card-id">
+                    <div class="eo-card-name">Gerente General <span class="eo-edit-ic">✎</span></div>
+                    <div class="eo-card-role">Dirección</div>
+                  </div>
+                  <div class="eo-card-av">GG</div>
                 </div>
-                <div class="org-card-av">A</div>
+                <span class="eo-status soon">Próximamente</span>
               </div>
-              <div class="org-card-fn">Responde, agenda y reactiva pacientes 24/7 por WhatsApp.</div>
-              <div class="org-card-status"><span class="pill live"><span class="dot"></span>Activa</span></div>
             </div>
-            <div class="org-card camila">
-              <div class="org-card-head">
-                <div class="org-card-id">
-                  <div class="org-card-name">CAMILA</div>
-                  <div class="org-card-role">Voz · llamadas</div>
-                </div>
-                <div class="org-card-av">C</div>
-              </div>
-              <div class="org-card-fn">Habla por teléfono con voz natural. Toma reservas sin que sepan que es IA.</div>
-              <div class="org-card-status"><span class="pill soon"><span class="dot"></span>Pronto</span></div>
+
+            <!-- Connector single -->
+            <div class="eo-conn">
+              <svg viewBox="0 0 100 18" preserveAspectRatio="none"><line x1="50" y1="0" x2="50" y2="18" stroke="#EAEAEA" stroke-width="1.4"/></svg>
             </div>
-            <div class="org-card lia">
-              <div class="org-card-head">
-                <div class="org-card-id">
-                  <div class="org-card-name">LIA</div>
-                  <div class="org-card-role">Cerebro · agenda</div>
+
+            <!-- Level: LIA -->
+            <div class="eo-level eo-lia-level">
+              <div class="eo-card eo-lia">
+                <div class="eo-card-h">
+                  <div class="eo-card-id">
+                    <div class="eo-card-name">LIA <span class="eo-edit-ic">✎</span></div>
+                    <div class="eo-card-role">Gerente de Operaciones · el cerebro</div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+                    <div class="eo-card-av">L</div>
+                    <div class="eo-switch" title="Encendida"></div>
+                  </div>
                 </div>
-                <div class="org-card-av">L</div>
+                <div class="eo-kpis">
+                  <div class="eo-kpi"><div class="eo-kpi-val">142</div><div class="eo-kpi-lbl">huecos</div></div>
+                  <div class="eo-kpi"><div class="eo-kpi-val">318</div><div class="eo-kpi-lbl">decisiones</div></div>
+                  <div class="eo-kpi"><div class="eo-kpi-val">$4,28M</div><div class="eo-kpi-lbl">recuperado</div></div>
+                </div>
+                <span class="eo-status work">Trabajando</span>
               </div>
-              <div class="org-card-fn">Detecta espacios vacíos y elige al mejor candidato por LTV y urgencia.</div>
-              <div class="org-card-status"><span class="pill soon"><span class="dot"></span>Pronto</span></div>
             </div>
-            <div class="org-card chat featured">
-              <div class="org-card-head">
-                <div class="org-card-id">
-                  <div class="org-card-name">Chat IA</div>
-                  <div class="org-card-role">Operación · interno</div>
+
+            <!-- Connector split: LIA → AURA + CAMILA -->
+            <div class="eo-conn" style="height:22px">
+              <svg viewBox="0 0 100 22" preserveAspectRatio="none">
+                <path d="M50 0 L50 11 L25 11 L25 22 M50 11 L75 11 L75 22" stroke="#EAEAEA" stroke-width="1.4" fill="none"/>
+              </svg>
+            </div>
+
+            <!-- Level: AURA + CAMILA -->
+            <div class="eo-level eo-jefes-level">
+
+              <!-- AURA -->
+              <div class="eo-card eo-aura">
+                <div class="eo-card-h">
+                  <div class="eo-card-id">
+                    <div class="eo-card-name">AURA <span class="eo-edit-ic">✎</span></div>
+                    <div class="eo-card-role">Jefa de texto · WhatsApp</div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+                    <div class="eo-card-av">A</div>
+                    <div class="eo-switch" title="Encendida"></div>
+                  </div>
                 </div>
-                <div class="org-card-av">●</div>
+                <div class="eo-kpis">
+                  <div class="eo-kpi"><div class="eo-kpi-val">1.247</div><div class="eo-kpi-lbl">conversaciones</div></div>
+                  <div class="eo-kpi"><div class="eo-kpi-val">38%</div><div class="eo-kpi-lbl">→ cita</div></div>
+                  <div class="eo-kpi"><div class="eo-kpi-val">2 min</div><div class="eo-kpi-lbl">respuesta</div></div>
+                </div>
+                <span class="eo-status work">Trabajando</span>
+                <div class="eo-team">
+                  <div class="eo-team-h"><span>Agentes de texto · 3</span><span class="eo-team-expand">▾</span></div>
+                  <div class="eo-team-list">
+                    <span class="eo-team-chip soon">Diego</span>
+                    <span class="eo-team-chip soon">Emilia</span>
+                    <span class="eo-team-chip soon">Joaquín</span>
+                  </div>
+                </div>
               </div>
-              <div class="org-card-fn">Vive dentro del sistema. Consulta agenda, caja, ventas y morosidad por ti.</div>
-              <div class="org-card-status"><span class="pill new"><span class="dot"></span>Nuevo</span></div>
+
+              <!-- CAMILA -->
+              <div class="eo-card eo-camila">
+                <div class="eo-card-h">
+                  <div class="eo-card-id">
+                    <div class="eo-card-name">CAMILA <span class="eo-edit-ic">✎</span></div>
+                    <div class="eo-card-role">Jefa de voz · llamadas</div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+                    <div class="eo-card-av">C</div>
+                    <div class="eo-switch" title="Encendida"></div>
+                  </div>
+                </div>
+                <div class="eo-kpis">
+                  <div class="eo-kpi"><div class="eo-kpi-val">486</div><div class="eo-kpi-lbl">llamadas</div></div>
+                  <div class="eo-kpi"><div class="eo-kpi-val">82%</div><div class="eo-kpi-lbl">confirmación</div></div>
+                  <div class="eo-kpi"><div class="eo-kpi-val">71%</div><div class="eo-kpi-lbl">conexión</div></div>
+                </div>
+                <span class="eo-status work">Trabajando</span>
+                <div class="eo-team">
+                  <div class="eo-team-h"><span>Agentes de voz · 4</span><span class="eo-team-expand">▾</span></div>
+                  <div class="eo-team-list">
+                    <span class="eo-team-chip on">Sofía</span>
+                    <span class="eo-team-chip on">Mateo</span>
+                    <span class="eo-team-chip on">Valentina</span>
+                    <span class="eo-team-chip soon">Tomás</span>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -854,7 +970,7 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
   const SECTIONS = [
     'CLINERA · FUTURO 2026',
     'POR QUÉ ENTRAMOS MÁS PROFUNDO',
-    'EMPLEADOS DIGITALES',
+    'MI EQUIPO',
     'MÓDULO 01 · AGENTE IA MODO FÁCIL',
     'MÓDULO 02 · AUTOMATIZACIONES MODO FÁCIL',
     'MÓDULO 03 · PACIENTES',
