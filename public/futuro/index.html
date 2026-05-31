@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>El Futuro de Clinera · 2026</title>
+<meta name="description" content="Lo que viene: IA que no responde mensajes, opera la clínica entera." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#111111;
+  --ink-2:#1F2937;
+  --muted:#6B6B6B;
+  --muted-2:#9CA3AF;
+  --line:#EAEAEA;
+  --line-2:#F3F4F6;
+  --bg:#FFFFFF;
+  --cyan:#009FE3;
+  --violet:#7C3AED;
+  --magenta:#C850C0;
+  --green:#10B981;
+  --amber:#F59E0B;
+  --red:#EF4444;
+  --sans:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden;min-height:100dvh}
+body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+::selection{background:var(--ink);color:#fff}
+
+/* ============== HUD ============== */
+.hud{position:fixed;top:24px;left:24px;right:24px;display:flex;justify-content:space-between;align-items:center;z-index:30;pointer-events:none}
+.brand{font-weight:700;font-size:15px;letter-spacing:-.01em;display:flex;align-items:center;gap:5px;color:var(--ink)}
+.brand .dot{width:5px;height:5px;border-radius:50%;background:var(--violet);display:inline-block}
+.meta-tag{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px}
+.meta-tag::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--violet);display:inline-block}
+
+.step-counter{position:fixed;bottom:24px;left:32px;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;color:var(--muted);z-index:30}
+.step-counter .current{color:var(--ink);font-weight:500}
+
+.hint{position:fixed;bottom:24px;right:32px;font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;z-index:30}
+.hint .arrow{color:var(--violet);font-family:var(--sans);font-weight:500}
+
+.progress-track{position:fixed;bottom:0;left:0;right:0;height:2px;background:var(--line-2);z-index:30}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--magenta));width:0;transition:width .35s ease-out}
+
+/* ============== STAGE / SLIDES ============== */
+.stage{position:relative;width:100vw;min-height:100dvh;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:96px 80px 80px;opacity:0;pointer-events:none;transform:translateY(18px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+.slide.active{opacity:1;pointer-events:auto;transform:none}
+.slide.exit{opacity:0;transform:translateY(-10px);transition:opacity .3s ease,transform .3s ease}
+.slide-inner{width:100%;max-width:1280px;margin:0 auto}
+
+/* Typography */
+.kicker{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:26px}
+.kicker .pip{width:5px;height:5px;border-radius:50%;background:var(--violet)}
+.kicker-row{display:flex;align-items:center;gap:12px;margin-bottom:26px;flex-wrap:wrap}
+.kicker-row .kicker{margin:0}
+
+.h-display{font-size:88px;font-weight:800;line-height:1.02;letter-spacing:-.03em;color:var(--ink);margin-bottom:22px}
+.h-display .grad{background:linear-gradient(90deg,var(--cyan),var(--violet),var(--magenta));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.lead{font-size:18px;color:var(--muted);max-width:600px;line-height:1.55}
+.lead b{color:var(--ink);font-weight:600}
+
+.bullets{list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:9px;max-width:560px}
+.bullets li{font-size:14px;line-height:1.5;color:var(--ink-2);position:relative;padding-left:18px}
+.bullets li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--violet)}
+.bullets li b{color:var(--ink);font-weight:600}
+
+/* Pills */
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:6px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;border:1px solid var(--line)}
+.pill.new{background:rgba(124,58,237,.08);color:var(--violet);border-color:rgba(124,58,237,.22)}
+.pill.soon{background:rgba(245,158,11,.08);color:#B45309;border-color:rgba(245,158,11,.25)}
+.pill.live{background:rgba(16,185,129,.1);color:#047857;border-color:rgba(16,185,129,.25)}
+.pill .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* Feature-slide layout */
+.slide-feature{display:grid;grid-template-columns:5fr 6fr;gap:60px;align-items:center}
+.slide-feature.reverse{grid-template-columns:6fr 5fr}
+.slide-feature.reverse>.feat-text{order:2}
+.slide-feature.reverse>.feat-mockup{order:1}
+.feat-text{min-width:0}
+.feat-text .h-display{font-size:60px;margin-bottom:18px}
+.feat-text .lead{font-size:16px;max-width:none}
+.feat-mockup{min-width:0}
+
+/* COVER */
+.cover{text-align:center;display:flex;flex-direction:column;align-items:center}
+.cover .kicker{margin-bottom:32px}
+.cover .h-display{font-size:124px;max-width:1100px;margin:0 auto 26px;line-height:.98}
+.cover .lead{font-size:21px;max-width:640px;margin:0 auto 40px;text-align:center}
+.cover-cta{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);display:inline-flex;gap:10px;align-items:center;font-weight:500;padding:10px 18px;border:1px solid var(--line);border-radius:8px}
+.cover-cta .pip{width:7px;height:7px;background:var(--violet);border-radius:50%;display:inline-block}
+
+/* CLOSE */
+.close{text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px}
+.close .h-display{font-size:96px;max-width:1100px;margin:0 auto 12px}
+.close-text{font-size:17px;color:var(--muted);max-width:720px;line-height:1.6;margin:0 auto}
+.close-text b{color:var(--ink);font-weight:600}
+.roadmap{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap;justify-content:center}
+.roadmap-chip{padding:14px 18px;border:1px solid var(--line);border-radius:12px;background:#fff;display:flex;flex-direction:column;gap:5px;text-align:left;min-width:180px;position:relative}
+.roadmap-chip .rc-when{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--violet);text-transform:uppercase;font-weight:500}
+.roadmap-chip .rc-what{font-size:13.5px;color:var(--ink);font-weight:600;line-height:1.3}
+.roadmap-chip.featured{background:linear-gradient(135deg,#fff,#F5F3FF);border-color:rgba(124,58,237,.22)}
+.close-quote{margin-top:36px;font-size:22px;font-weight:500;color:var(--ink);line-height:1.4;max-width:720px}
+.close-quote .grad{background:linear-gradient(90deg,var(--cyan),var(--violet),var(--magenta));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:700}
+
+/* ============== MOCKUP: MOAT (slide 1) ============== */
+.moat-diagram{position:relative;height:520px;background:linear-gradient(180deg,#FAFBFC,#fff);border:1px solid var(--line);border-radius:18px;padding:24px;overflow:hidden}
+.moat-inner{position:relative;width:62%;height:100%}
+.moat-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.moat-svg line{stroke:rgba(124,58,237,.32);stroke-width:1.3;stroke-dasharray:4 4}
+.moat-svg line.live{stroke:var(--violet);stroke-dasharray:none;stroke-width:1.6;opacity:.6}
+.moat-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;border:1.5px solid var(--violet);border-radius:14px;padding:16px 22px;text-align:center;z-index:5;box-shadow:0 14px 44px -22px rgba(124,58,237,.55);min-width:172px}
+.moat-center .mc-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),var(--violet));margin:0 auto 8px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:15px;letter-spacing:-.02em}
+.moat-center .mc-name{font-weight:700;font-size:14px;color:var(--ink);letter-spacing:-.01em}
+.moat-center .mc-sub{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+.moat-mod{position:absolute;background:#fff;border:1px solid var(--line);border-radius:9px;padding:7px 11px;font-size:12px;color:var(--ink);font-weight:500;display:flex;align-items:center;gap:7px;z-index:3;white-space:nowrap}
+.moat-mod .mm-dot{width:6px;height:6px;border-radius:50%;background:var(--violet);flex-shrink:0}
+.moat-wall{position:absolute;left:62%;top:24px;bottom:24px;width:1px;background:repeating-linear-gradient(180deg,var(--line) 0 6px,transparent 6px 12px)}
+.moat-outsiders{position:absolute;right:24px;top:50%;transform:translateY(-50%);width:34%;padding-left:24px}
+.moat-wall-tag{position:absolute;top:18px;right:24px;font-family:var(--mono);font-size:9px;color:var(--muted-2);letter-spacing:.14em;text-transform:uppercase;background:#fff;padding:0 6px}
+.moat-out-card{background:#FAFAFA;border:1px dashed #D1D5DB;border-radius:10px;padding:14px;margin-bottom:8px;opacity:.95}
+.moat-out-h{font-family:var(--mono);font-size:9.5px;color:var(--muted-2);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.moat-out-list{display:flex;flex-direction:column;gap:6px}
+.moat-out-list span{font-size:12px;color:#6B7280;display:flex;align-items:center;gap:8px;font-weight:500}
+.moat-out-list span::before{content:"";width:5px;height:5px;border-radius:50%;background:#D1D5DB}
+.moat-out-foot{font-size:10.5px;color:var(--muted-2);line-height:1.4;margin-top:4px;font-style:italic}
+
+/* ============== MOCKUP: ORG CHART (slide 2) ============== */
+.org-chart{padding:32px 28px;background:linear-gradient(180deg,#FAFBFC,#fff);border:1px solid var(--line);border-radius:18px}
+.org-root{display:flex;justify-content:center;margin-bottom:20px}
+.org-root-card{padding:11px 22px;background:var(--ink);color:#fff;border-radius:10px;font-weight:600;font-size:13.5px;text-align:center}
+.org-root-card .or-sub{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,.65);text-transform:uppercase;margin-top:3px;font-weight:400}
+.org-lines{position:relative;height:36px;margin:0 6%}
+.org-team{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.org-card{padding:14px 14px 12px;background:#fff;border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;gap:12px;position:relative}
+.org-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.org-card-id .org-card-name{font-weight:700;font-size:13.5px;color:var(--ink);letter-spacing:-.01em}
+.org-card-id .org-card-role{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:3px;font-weight:500}
+.org-card-av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0}
+.org-card.aura .org-card-av{background:linear-gradient(135deg,var(--cyan),var(--violet))}
+.org-card.camila .org-card-av{background:linear-gradient(135deg,var(--violet),var(--magenta))}
+.org-card.lia .org-card-av{background:linear-gradient(135deg,var(--violet),#9F8AE8)}
+.org-card.chat .org-card-av{background:linear-gradient(135deg,var(--magenta),var(--amber))}
+.org-card-fn{font-size:11.5px;color:var(--ink-2);line-height:1.4;border-top:1px solid var(--line-2);padding-top:8px}
+.org-card-status{display:flex;justify-content:flex-start}
+.org-card.featured{background:linear-gradient(135deg,#fff,#FDF4FF);border-color:rgba(200,80,192,.22)}
+
+/* ============== MOCKUP: AI Modo Fácil (slide 3) ============== */
+.app-mockup{background:#FAFBFC;border:1px solid var(--line);border-radius:18px;overflow:hidden;display:grid;grid-template-columns:1fr 268px;height:480px}
+.am-main{padding:22px;background:#fff;overflow:hidden}
+.am-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.am-title{font-weight:600;font-size:14.5px;color:var(--ink);display:flex;align-items:center;gap:8px}
+.am-title-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(16,185,129,.4);animation:pulseDot 2s infinite}
+@keyframes pulseDot{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.4)}50%{box-shadow:0 0 0 6px rgba(16,185,129,0)}}
+.am-status-meta{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.am-section-label{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin:18px 0 8px;font-weight:500}
+.am-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:8px}
+.am-card-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.am-card-title{font-size:12.5px;font-weight:600;color:var(--ink)}
+.am-card-meta{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.am-promo-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--line-2);font-size:12px}
+.am-promo-row:last-child{border-bottom:0}
+.am-promo-row .ap-name{color:var(--ink-2)}
+.am-promo-row .ap-active{color:var(--green);font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
+.am-card-add{margin-top:8px;padding:7px 12px;border:1px dashed var(--line);border-radius:6px;color:var(--violet);font-size:11.5px;font-weight:500;text-align:center;display:inline-flex;align-items:center;gap:6px;cursor:default}
+.am-card.collapsed{display:flex;justify-content:space-between;align-items:center;padding:12px 16px}
+.am-card.collapsed .am-card-title{font-size:13px}
+.am-card.collapsed .am-collapse-ic{font-family:var(--mono);font-size:13px;color:var(--muted-2)}
+.am-best-tag{font-family:var(--mono);font-size:9px;color:var(--violet);letter-spacing:.06em;text-transform:uppercase;background:rgba(124,58,237,.08);padding:2px 6px;border-radius:4px;margin-left:8px}
+
+.am-phone{background:#0F0F18;padding:22px 18px;display:flex;flex-direction:column;gap:9px;overflow:hidden;position:relative}
+.am-phone::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:60px;height:5px;background:#252533;border-radius:3px}
+.am-phone-head{display:flex;align-items:center;gap:10px;padding:14px 0 12px;border-bottom:1px solid #25252E}
+.am-phone-av{width:30px;height:30px;border-radius:50%;background:#25D366;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px}
+.am-phone-name{font-size:12.5px;color:#fff;font-weight:500;letter-spacing:-.01em}
+.am-phone-sub{font-family:var(--mono);font-size:8.5px;color:#22D3EE;letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.am-bub{padding:8px 11px;border-radius:11px;font-size:11.5px;line-height:1.4;max-width:88%}
+.am-bub.them{background:#25252E;color:#E5E7EB;border-bottom-left-radius:4px;align-self:flex-start}
+.am-bub.us{background:linear-gradient(135deg,#0E8C5A,#25D366);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.am-typing{display:inline-flex;gap:4px;padding:9px 12px;background:#25252E;border-radius:11px;border-bottom-left-radius:4px;align-self:flex-start;align-items:center}
+.am-typing span{width:5px;height:5px;border-radius:50%;background:#9CA3AF;animation:bub 1.2s infinite}
+.am-typing span:nth-child(2){animation-delay:.15s}
+.am-typing span:nth-child(3){animation-delay:.3s}
+@keyframes bub{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-2px)}}
+
+/* ============== MOCKUP: Automation Builder (slide 4) ============== */
+.auto-builder{background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px}
+.auto-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.auto-toggle{display:inline-flex;background:var(--line-2);border-radius:8px;padding:3px}
+.auto-toggle-opt{padding:6px 14px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;color:var(--muted);font-weight:500;cursor:default}
+.auto-toggle-opt.active{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.auto-meta{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.auto-flow{display:flex;flex-direction:column;align-items:center;gap:0}
+.auto-node{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;width:100%;max-width:340px}
+.auto-node.dragging{border-color:var(--violet);background:linear-gradient(135deg,#fff,#FDF4FF);box-shadow:0 8px 30px -16px rgba(124,58,237,.4)}
+.auto-node-ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;flex-shrink:0;color:#fff;font-weight:700}
+.auto-node-ic.trigger{background:linear-gradient(135deg,var(--cyan),var(--violet))}
+.auto-node-ic.wait{background:var(--line-2);color:var(--muted);border:1px solid var(--line)}
+.auto-node-ic.action{background:linear-gradient(135deg,var(--violet),var(--magenta))}
+.auto-node-content{flex:1;min-width:0}
+.auto-node-label{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;font-weight:500}
+.auto-node-text{font-size:13px;color:var(--ink);font-weight:500;line-height:1.3}
+.auto-connector{height:22px;width:1.5px;background:linear-gradient(180deg,var(--line),var(--violet),var(--line));position:relative;margin:0}
+.auto-connector::after{content:"";position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--violet)}
+.auto-palette{display:flex;justify-content:center;gap:8px;margin-top:30px;padding-top:24px;border-top:1px solid var(--line-2)}
+.auto-palette-h{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);align-self:center;margin-right:6px}
+.auto-pal-chip{padding:7px 12px;background:var(--line-2);border-radius:7px;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--ink-2);font-weight:500}
+
+/* ============== MOCKUP: Patient File (slide 5) ============== */
+.patient-file{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;display:grid;grid-template-columns:240px 1fr;height:520px}
+.pf-timeline{background:#FAFBFC;padding:20px 18px;border-right:1px solid var(--line);overflow:hidden}
+.pf-timeline-h{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;font-weight:500}
+.pf-event{padding-left:18px;position:relative;padding-bottom:14px}
+.pf-event::after{content:"";position:absolute;left:3px;top:2px;bottom:-2px;width:1.5px;background:var(--line)}
+.pf-event:last-child::after{display:none}
+.pf-event::before{content:"";position:absolute;left:0;top:1px;width:9px;height:9px;border-radius:50%;background:#fff;border:2px solid var(--violet);z-index:1}
+.pf-event.past::before{background:var(--violet);border-color:var(--violet)}
+.pf-event-date{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.06em;margin-bottom:3px;font-weight:500}
+.pf-event-text{font-size:11.5px;color:var(--ink);font-weight:500;line-height:1.3}
+.pf-event-sub{font-size:10.5px;color:var(--muted);margin-top:2px}
+
+.pf-main{padding:22px;overflow:hidden}
+.pf-patient{display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.pf-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--violet));display:grid;place-items:center;color:#fff;font-weight:700;font-size:16px}
+.pf-name{font-weight:600;font-size:15px;color:var(--ink);letter-spacing:-.01em}
+.pf-rut{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px;letter-spacing:.04em}
+.pf-status{margin-left:auto}
+.pf-tabs{display:flex;gap:20px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.pf-tab{padding:8px 0;font-size:12px;color:var(--muted);font-weight:500;border-bottom:2px solid transparent;cursor:default}
+.pf-tab.active{color:var(--ink);border-bottom-color:var(--violet)}
+.pf-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line-2);font-size:12px}
+.pf-row:last-child{border-bottom:0}
+.pf-row-l{color:var(--muted)}
+.pf-row-r{color:var(--ink);font-weight:500}
+.pf-row-r.good{color:var(--green)}
+.pf-images{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.pf-img{aspect-ratio:1;border-radius:9px;background:linear-gradient(135deg,#DBEAFE,#E9D5FF);position:relative;overflow:hidden}
+.pf-img.after{background:linear-gradient(135deg,#E9D5FF,#FAE8FF)}
+.pf-img::after{content:"ANTES";position:absolute;top:7px;left:7px;font-family:var(--mono);font-size:9px;color:var(--ink);background:rgba(255,255,255,.92);padding:2px 6px;border-radius:3px;letter-spacing:.06em;font-weight:600}
+.pf-img.after::after{content:"DESPUÉS"}
+
+/* ============== MOCKUP: Operations Dashboard (slide 6) ============== */
+.ops-dash{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px}
+.ops-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.ops-h-title{font-weight:600;font-size:14.5px;color:var(--ink)}
+.ops-h-meta{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.ops-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.ops-kpi{padding:16px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.ops-kpi-label{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;font-weight:500}
+.ops-kpi-val{font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1}
+.ops-kpi-delta{font-size:11px;color:var(--green);font-family:var(--mono);font-weight:500;margin-top:6px;display:flex;align-items:center;gap:4px}
+.ops-kpi-delta.down{color:var(--red)}
+.ops-kpi.featured{background:linear-gradient(135deg,#fff,#F5F3FF);border-color:rgba(124,58,237,.22)}
+.ops-kpi.featured .ops-kpi-val{background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ops-charts{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
+.ops-chart{padding:16px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.ops-chart-h{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;font-weight:500}
+.ops-chart-tag{font-family:var(--sans);background:var(--line-2);padding:2px 7px;border-radius:4px;font-size:10px;color:var(--ink);letter-spacing:.04em;font-weight:500;text-transform:none}
+.ops-bars{display:flex;align-items:flex-end;gap:7px;height:108px;padding-bottom:18px;border-bottom:1px solid var(--line-2);position:relative}
+.ops-bar{flex:1;background:linear-gradient(180deg,var(--violet),var(--cyan));border-radius:4px 4px 0 0;position:relative;min-width:0}
+.ops-bar.muted{background:linear-gradient(180deg,#D1D5DB,#E5E7EB)}
+.ops-bar-label{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;color:var(--muted)}
+.ops-line{height:130px}
+.ops-line svg{width:100%;height:100%;display:block}
+
+/* ============== MOCKUP: Kanban (slide 7) ============== */
+.kanban{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.kanban-col{display:flex;flex-direction:column;gap:8px}
+.kanban-col-h{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;padding-bottom:12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-weight:500}
+.kanban-col-h .count{background:var(--line-2);padding:2px 7px;border-radius:4px;font-size:9.5px;color:var(--ink);font-weight:600}
+.kanban-card{padding:12px 13px;border:1px solid var(--line);border-radius:10px;background:#fff;display:flex;flex-direction:column;gap:6px}
+.kanban-card-tag{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);font-weight:500}
+.kanban-card.confirm .kanban-card-tag{color:var(--cyan)}
+.kanban-card.lead .kanban-card-tag{color:var(--magenta)}
+.kanban-card-title{font-size:12.5px;color:var(--ink);font-weight:600;line-height:1.35;letter-spacing:-.005em}
+.kanban-card-sub{font-size:11px;color:var(--muted);line-height:1.4;margin-top:1px}
+.kanban-card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding-top:8px;border-top:1px solid var(--line-2)}
+.kanban-card-due{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.04em;font-weight:500}
+.kanban-card-due.urgent{color:var(--red)}
+.kanban-card-av{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--violet));display:grid;place-items:center;color:#fff;font-weight:600;font-size:10px;letter-spacing:-.02em}
+.kanban-card.completed{opacity:.6}
+.kanban-card.completed .kanban-card-title{text-decoration:line-through;color:var(--muted)}
+
+/* ============== RESPONSIVE ============== */
+@media (max-width:1100px){
+  .h-display{font-size:64px}
+  .cover .h-display{font-size:84px}
+  .close .h-display{font-size:72px}
+  .slide{padding:88px 40px 64px}
+  .slide-feature{grid-template-columns:1fr;gap:36px}
+  .slide-feature .feat-text .h-display{font-size:48px}
+  .moat-inner{width:100%}
+  .moat-wall,.moat-outsiders,.moat-wall-tag{display:none}
+  .org-team{grid-template-columns:repeat(2,1fr)}
+  .app-mockup{grid-template-columns:1fr;height:auto}
+  .am-phone{display:none}
+  .patient-file{grid-template-columns:1fr;height:auto}
+  .pf-timeline{display:none}
+  .ops-charts{grid-template-columns:1fr}
+  .kanban{grid-template-columns:1fr}
+}
+@media (max-width:680px){
+  .hud{top:16px;left:16px;right:16px}
+  .step-counter{left:18px;bottom:16px}
+  .hint{display:none}
+  .slide{padding:64px 20px 40px}
+  .h-display,.cover .h-display,.close .h-display{font-size:42px}
+  .slide-feature .feat-text .h-display{font-size:34px}
+  .lead{font-size:15px}
+  .org-team{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="hud">
+  <div class="brand">clinera<span class="dot"></span>io</div>
+  <div class="meta-tag" id="sectionTag">CLINERA · FUTURO 2026</div>
+</div>
+
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 09</div>
+<div class="hint">CLICK O <span class="arrow">→</span> PARA CONTINUAR</div>
+<div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+
+<div class="stage" id="stage">
+
+  <!-- ============ 01 PORTADA ============ -->
+  <section class="slide active" id="slide0">
+    <div class="slide-inner cover">
+      <div class="kicker"><span class="pip"></span>CLINERA · FUTURO 2026</div>
+      <h1 class="h-display">El futuro de Clinera<br/><span class="grad">vive dentro de tu clínica.</span></h1>
+      <p class="lead">Lo que viene: IA que no responde mensajes — que opera la clínica entera.</p>
+      <div class="cover-cta"><span class="pip"></span>Click para comenzar →</div>
+    </div>
+  </section>
+
+  <!-- ============ 02 EL MOAT ============ -->
+  <section class="slide" id="slide1">
+    <div class="slide-inner slide-feature">
+      <div class="feat-text">
+        <div class="kicker"><span class="pip"></span>POR QUÉ ENTRAMOS MÁS PROFUNDO</div>
+        <h2 class="h-display">Imposibles de<br/><span class="grad">reemplazar.</span></h2>
+        <p class="lead">Dejamos de ser un chatbot. Nos convertimos en el sistema nervioso de la clínica. Un Claude o ChatGPT genérico no tiene tus datos, ni tus conectores, ni la confianza dentro del sistema. <b>El foso no es el modelo de IA — es estar conectado a las venas operativas.</b></p>
+      </div>
+      <div class="feat-mockup">
+        <div class="moat-diagram">
+          <div class="moat-inner">
+            <svg class="moat-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <line class="live" x1="50" y1="50" x2="14" y2="18"/>
+              <line class="live" x1="50" y1="50" x2="50" y2="10"/>
+              <line class="live" x1="50" y1="50" x2="88" y2="18"/>
+              <line class="live" x1="50" y1="50" x2="8" y2="50"/>
+              <line class="live" x1="50" y1="50" x2="92" y2="50"/>
+              <line class="live" x1="50" y1="50" x2="14" y2="82"/>
+              <line class="live" x1="50" y1="50" x2="50" y2="92"/>
+              <line class="live" x1="50" y1="50" x2="88" y2="82"/>
+            </svg>
+            <div class="moat-center">
+              <div class="mc-icon">C</div>
+              <div class="mc-name">CLINERA</div>
+              <div class="mc-sub">Chat IA interno</div>
+            </div>
+            <div class="moat-mod" style="top:6%;left:0%;"><span class="mm-dot"></span>Agenda</div>
+            <div class="moat-mod" style="top:0%;left:50%;transform:translateX(-50%);"><span class="mm-dot"></span>Pacientes</div>
+            <div class="moat-mod" style="top:6%;right:6%;"><span class="mm-dot"></span>Ventas</div>
+            <div class="moat-mod" style="top:48%;left:0%;transform:translateY(-50%);"><span class="mm-dot"></span>Caja</div>
+            <div class="moat-mod" style="top:48%;right:0%;transform:translateY(-50%);"><span class="mm-dot"></span>Comisiones</div>
+            <div class="moat-mod" style="bottom:6%;left:0%;"><span class="mm-dot"></span>Morosidad</div>
+            <div class="moat-mod" style="bottom:0%;left:50%;transform:translateX(-50%);"><span class="mm-dot"></span>Tareas</div>
+            <div class="moat-mod" style="bottom:6%;right:6%;"><span class="mm-dot"></span>Fichas</div>
+          </div>
+          <div class="moat-wall"></div>
+          <div class="moat-wall-tag">FUERA</div>
+          <div class="moat-outsiders">
+            <div class="moat-out-card">
+              <div class="moat-out-h">Sin acceso al sistema</div>
+              <div class="moat-out-list">
+                <span>Claude</span>
+                <span>ChatGPT</span>
+                <span>Codex</span>
+              </div>
+              <div class="moat-out-foot">Sin datos. Sin conectores. Sin confianza.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 ORGANIGRAMA ============ -->
+  <section class="slide" id="slide2">
+    <div class="slide-inner slide-feature reverse">
+      <div class="feat-text">
+        <div class="kicker"><span class="pip"></span>EMPLEADOS DIGITALES</div>
+        <h2 class="h-display">Tu clínica ya tiene<br/><span class="grad">una plantilla digital.</span></h2>
+        <p class="lead">AURA atiende WhatsApp. CAMILA llama por voz. LIA piensa la agenda. Y ahora el <b>Chat IA interno</b> es el empleado que vive dentro del sistema — consulta agenda, pacientes, caja, ventas y morosidad por ti.</p>
+      </div>
+      <div class="feat-mockup">
+        <div class="org-chart">
+          <div class="org-root">
+            <div class="org-root-card">Tu clínica<div class="or-sub">Dueño · operación</div></div>
+          </div>
+          <div class="org-lines">
+            <svg viewBox="0 0 100 36" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">
+              <path d="M50 0 L50 18 L12.5 18 L12.5 36 M50 18 L37.5 18 L37.5 36 M50 18 L62.5 18 L62.5 36 M50 18 L87.5 18 L87.5 36" stroke="#EAEAEA" stroke-width="1.5" fill="none"/>
+            </svg>
+          </div>
+          <div class="org-team">
+            <div class="org-card aura">
+              <div class="org-card-head">
+                <div class="org-card-id">
+                  <div class="org-card-name">AURA</div>
+                  <div class="org-card-role">WhatsApp · Asistente</div>
+                </div>
+                <div class="org-card-av">A</div>
+              </div>
+              <div class="org-card-fn">Responde, agenda y reactiva pacientes 24/7 por WhatsApp.</div>
+              <div class="org-card-status"><span class="pill live"><span class="dot"></span>Activa</span></div>
+            </div>
+            <div class="org-card camila">
+              <div class="org-card-head">
+                <div class="org-card-id">
+                  <div class="org-card-name">CAMILA</div>
+                  <div class="org-card-role">Voz · llamadas</div>
+                </div>
+                <div class="org-card-av">C</div>
+              </div>
+              <div class="org-card-fn">Habla por teléfono con voz natural. Toma reservas sin que sepan que es IA.</div>
+              <div class="org-card-status"><span class="pill soon"><span class="dot"></span>Pronto</span></div>
+            </div>
+            <div class="org-card lia">
+              <div class="org-card-head">
+                <div class="org-card-id">
+                  <div class="org-card-name">LIA</div>
+                  <div class="org-card-role">Cerebro · agenda</div>
+                </div>
+                <div class="org-card-av">L</div>
+              </div>
+              <div class="org-card-fn">Detecta espacios vacíos y elige al mejor candidato por LTV y urgencia.</div>
+              <div class="org-card-status"><span class="pill soon"><span class="dot"></span>Pronto</span></div>
+            </div>
+            <div class="org-card chat featured">
+              <div class="org-card-head">
+                <div class="org-card-id">
+                  <div class="org-card-name">Chat IA</div>
+                  <div class="org-card-role">Operación · interno</div>
+                </div>
+                <div class="org-card-av">●</div>
+              </div>
+              <div class="org-card-fn">Vive dentro del sistema. Consulta agenda, caja, ventas y morosidad por ti.</div>
+              <div class="org-card-status"><span class="pill new"><span class="dot"></span>Nuevo</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 AGENTE IA MODO FÁCIL ============ -->
+  <section class="slide" id="slide3">
+    <div class="slide-inner slide-feature">
+      <div class="feat-text">
+        <div class="kicker-row">
+          <div class="kicker"><span class="pip"></span>MÓDULO 01 · AGENTE IA MODO FÁCIL</div>
+          <span class="pill new"><span class="dot"></span>Nuevo</span>
+        </div>
+        <h2 class="h-display">Configurar la IA,<br/><span class="grad">sin saber de IA.</span></h2>
+        <p class="lead">El 85% de las clínicas no es técnico. El Modo Fácil deja una pantalla que dice <b>"tu agente ya funciona"</b>: solo agregás promos, el resto ya está resuelto por el harness. El Modo Avanzado queda escondido para el 15% pro.</p>
+      </div>
+      <div class="feat-mockup">
+        <div class="app-mockup">
+          <div class="am-main">
+            <div class="am-head">
+              <div class="am-title"><span class="am-title-dot"></span>Sofía ya está atendiendo</div>
+              <div class="am-status-meta">live · WhatsApp</div>
+            </div>
+            <div class="am-section-label">Promociones activas</div>
+            <div class="am-card">
+              <div class="am-promo-row">
+                <span class="ap-name">Limpieza facial · 30% off</span>
+                <span class="ap-active">● Activa</span>
+              </div>
+              <div class="am-promo-row">
+                <span class="ap-name">Botox primera vez · $89.000</span>
+                <span class="ap-active">● Activa</span>
+              </div>
+              <div class="am-card-add">+ Agregar promoción</div>
+            </div>
+            <div class="am-section-label">Opcional</div>
+            <div class="am-card collapsed">
+              <div class="am-card-title">Agregar pasos al flujo<span class="am-best-tag">avanzado</span></div>
+              <div class="am-collapse-ic">+</div>
+            </div>
+            <div class="am-card collapsed">
+              <div class="am-card-title">Tu agente sigue 17 buenas prácticas</div>
+              <div class="am-collapse-ic">▾</div>
+            </div>
+          </div>
+          <div class="am-phone">
+            <div class="am-phone-head">
+              <div class="am-phone-av">S</div>
+              <div>
+                <div class="am-phone-name">Sofía · Clínica Estética</div>
+                <div class="am-phone-sub">● Preview en vivo</div>
+              </div>
+            </div>
+            <div class="am-bub them">Hola, ¿qué precio tiene la limpieza?<span style="font-family:var(--mono);font-size:8.5px;opacity:.55;display:block;margin-top:3px;letter-spacing:.04em">11:47</span></div>
+            <div class="am-typing"><span></span><span></span><span></span></div>
+            <div class="am-bub us">¡Hola! Esta semana tengo limpieza con <b>30% off</b> a $24.500. Tengo mié 11:30 o vie 17:00 ¿cuál te acomoda?<span style="font-family:var(--mono);font-size:8.5px;opacity:.6;display:block;margin-top:3px;letter-spacing:.04em">11:48 · vía Sofía</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 AUTOMATIZACIÓN MODO FÁCIL ============ -->
+  <section class="slide" id="slide4">
+    <div class="slide-inner slide-feature reverse">
+      <div class="feat-text">
+        <div class="kicker-row">
+          <div class="kicker"><span class="pip"></span>MÓDULO 02 · AUTOMATIZACIONES MODO FÁCIL</div>
+          <span class="pill new"><span class="dot"></span>Nuevo</span>
+        </div>
+        <h2 class="h-display">Automatiza<br/><span class="grad">arrastrando.</span></h2>
+        <p class="lead">Modo Simple y Avanzado. El dueño arma un flujo en menos de 1 minuto <b>sin programar</b>: trigger → espera → acción. El pro accede al editor completo con condiciones y ramas.</p>
+      </div>
+      <div class="feat-mockup">
+        <div class="auto-builder">
+          <div class="auto-head">
+            <div class="auto-toggle">
+              <span class="auto-toggle-opt active">Simple</span>
+              <span class="auto-toggle-opt">Avanzado</span>
+            </div>
+            <div class="auto-meta">3 bloques · 47s</div>
+          </div>
+          <div class="auto-flow">
+            <div class="auto-node">
+              <div class="auto-node-ic trigger">▶</div>
+              <div class="auto-node-content">
+                <div class="auto-node-label">Trigger</div>
+                <div class="auto-node-text">Cita agendada</div>
+              </div>
+            </div>
+            <div class="auto-connector"></div>
+            <div class="auto-node">
+              <div class="auto-node-ic wait">⏱</div>
+              <div class="auto-node-content">
+                <div class="auto-node-label">Espera</div>
+                <div class="auto-node-text">2 horas antes</div>
+              </div>
+            </div>
+            <div class="auto-connector"></div>
+            <div class="auto-node dragging">
+              <div class="auto-node-ic action">✦</div>
+              <div class="auto-node-content">
+                <div class="auto-node-label">Acción</div>
+                <div class="auto-node-text">Enviar WhatsApp</div>
+              </div>
+            </div>
+          </div>
+          <div class="auto-palette">
+            <span class="auto-palette-h">Arrastra otro bloque</span>
+            <span class="auto-pal-chip">Condición</span>
+            <span class="auto-pal-chip">Email</span>
+            <span class="auto-pal-chip">Webhook</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 PACIENTES ============ -->
+  <section class="slide" id="slide5">
+    <div class="slide-inner slide-feature">
+      <div class="feat-text">
+        <div class="kicker-row">
+          <div class="kicker"><span class="pip"></span>MÓDULO 03 · PACIENTES</div>
+          <span class="pill soon"><span class="dot"></span>Pronto</span>
+        </div>
+        <h2 class="h-display">Toda la <span class="grad">historia clínica</span>, en un lugar.</h2>
+        <ul class="bullets">
+          <li><b>Timeline cronológico</b> · citas, tratamientos, doctor, presupuestos, imágenes y pagos.</li>
+          <li><b>Fichas con evoluciones</b> · facial, corporal, odontograma, periodontograma.</li>
+          <li><b>Presupuestos y pagos</b> · cobro parcial, saldo pendiente, abonos.</li>
+          <li><b>Imágenes antes/después</b> + rayos X.</li>
+          <li><b>Recetas</b> integradas con Vademécum y recemed.cl.</li>
+          <li><b>Consentimientos</b> informados firmados + log de sesiones.</li>
+        </ul>
+      </div>
+      <div class="feat-mockup">
+        <div class="patient-file">
+          <div class="pf-timeline">
+            <div class="pf-timeline-h">Historial</div>
+            <div class="pf-event past">
+              <div class="pf-event-date">12 MAY 2026</div>
+              <div class="pf-event-text">Limpieza facial</div>
+              <div class="pf-event-sub">Dra. Meza · $24.500</div>
+            </div>
+            <div class="pf-event past">
+              <div class="pf-event-date">28 MAR 2026</div>
+              <div class="pf-event-text">Botox primera vez</div>
+              <div class="pf-event-sub">Dra. Meza · $89.000</div>
+            </div>
+            <div class="pf-event past">
+              <div class="pf-event-date">15 FEB 2026</div>
+              <div class="pf-event-text">Evaluación inicial</div>
+              <div class="pf-event-sub">Dra. Meza</div>
+            </div>
+            <div class="pf-event">
+              <div class="pf-event-date">PRÓXIMO</div>
+              <div class="pf-event-text">Control 3 meses</div>
+              <div class="pf-event-sub">Pendiente agendar</div>
+            </div>
+          </div>
+          <div class="pf-main">
+            <div class="pf-patient">
+              <div class="pf-av">C</div>
+              <div>
+                <div class="pf-name">Camila Pérez</div>
+                <div class="pf-rut">RUT 18.456.789-2</div>
+              </div>
+              <div class="pf-status"><span class="pill live"><span class="dot"></span>Activa</span></div>
+            </div>
+            <div class="pf-tabs">
+              <span class="pf-tab active">Evolución</span>
+              <span class="pf-tab">Imágenes</span>
+              <span class="pf-tab">Pagos</span>
+              <span class="pf-tab">Recetas</span>
+            </div>
+            <div class="pf-row"><span class="pf-row-l">Última sesión</span><span class="pf-row-r">12 may · Limpieza facial</span></div>
+            <div class="pf-row"><span class="pf-row-l">Tratamiento activo</span><span class="pf-row-r">Botox · 1/3 sesiones</span></div>
+            <div class="pf-row"><span class="pf-row-l">Saldo</span><span class="pf-row-r good">Al día</span></div>
+            <div class="pf-row"><span class="pf-row-l">LTV acumulado</span><span class="pf-row-r">$184.500</span></div>
+            <div class="pf-images">
+              <div class="pf-img"></div>
+              <div class="pf-img after"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 OPERACIONES ============ -->
+  <section class="slide" id="slide6">
+    <div class="slide-inner slide-feature reverse">
+      <div class="feat-text">
+        <div class="kicker-row">
+          <div class="kicker"><span class="pip"></span>MÓDULO 04 · OPERACIONES</div>
+          <span class="pill soon"><span class="dot"></span>Pronto</span>
+        </div>
+        <h2 class="h-display">La clínica,<br/><span class="grad">en números.</span></h2>
+        <ul class="bullets">
+          <li><b>Pacientes del mes</b> vs periodo anterior.</li>
+          <li><b>Citas</b> confirmadas, canceladas, no-show.</li>
+          <li><b>Top tratamientos</b> + profesionales que más venden.</li>
+          <li><b>Ventas · costos · sueldos · utilidad</b> consolidados.</li>
+          <li><b>Morosidad</b> y cuadratura de caja.</li>
+          <li><b>Validación IA</b> de comprobantes por imagen.</li>
+          <li><b>Comisiones</b> por profesional, automáticas.</li>
+        </ul>
+      </div>
+      <div class="feat-mockup">
+        <div class="ops-dash">
+          <div class="ops-head">
+            <div class="ops-h-title">Mayo 2026</div>
+            <div class="ops-h-meta">vs abril</div>
+          </div>
+          <div class="ops-kpis">
+            <div class="ops-kpi">
+              <div class="ops-kpi-label">Ventas</div>
+              <div class="ops-kpi-val">$14.8M</div>
+              <div class="ops-kpi-delta">↑ 18.4%</div>
+            </div>
+            <div class="ops-kpi featured">
+              <div class="ops-kpi-label">Utilidad</div>
+              <div class="ops-kpi-val">$3.7M</div>
+              <div class="ops-kpi-delta">↑ 24.1%</div>
+            </div>
+            <div class="ops-kpi">
+              <div class="ops-kpi-label">Morosidad</div>
+              <div class="ops-kpi-val">2.4%</div>
+              <div class="ops-kpi-delta down">↓ desde 3.8%</div>
+            </div>
+          </div>
+          <div class="ops-charts">
+            <div class="ops-chart">
+              <div class="ops-chart-h"><span>Ventas por semana</span><span class="ops-chart-tag">+18%</span></div>
+              <div class="ops-bars">
+                <div class="ops-bar muted" style="height:32%"><div class="ops-bar-label">S1</div></div>
+                <div class="ops-bar muted" style="height:48%"><div class="ops-bar-label">S2</div></div>
+                <div class="ops-bar" style="height:62%"><div class="ops-bar-label">S3</div></div>
+                <div class="ops-bar" style="height:78%"><div class="ops-bar-label">S4</div></div>
+                <div class="ops-bar" style="height:92%"><div class="ops-bar-label">S5</div></div>
+              </div>
+            </div>
+            <div class="ops-chart">
+              <div class="ops-chart-h"><span>Tendencia</span><span class="ops-chart-tag">12 sem</span></div>
+              <div class="ops-line">
+                <svg viewBox="0 0 200 120" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="opsGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#7C3AED" stop-opacity=".22"/>
+                      <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,80 L20,72 L40,76 L60,60 L80,64 L100,48 L120,52 L140,36 L160,30 L180,20 L200,14 L200,120 L0,120 Z" fill="url(#opsGrad)"/>
+                  <path d="M0,80 L20,72 L40,76 L60,60 L80,64 L100,48 L120,52 L140,36 L160,30 L180,20 L200,14" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="200" cy="14" r="3.5" fill="#7C3AED"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 08 TAREAS ============ -->
+  <section class="slide" id="slide7">
+    <div class="slide-inner slide-feature">
+      <div class="feat-text">
+        <div class="kicker-row">
+          <div class="kicker"><span class="pip"></span>MÓDULO 05 · TAREAS</div>
+          <span class="pill soon"><span class="dot"></span>Pronto</span>
+        </div>
+        <h2 class="h-display">Nada se<br/><span class="grad">cae entre medio.</span></h2>
+        <ul class="bullets">
+          <li><b>Crear tareas</b> desde mensajería o calendario, asociadas a lead, turno o paciente.</li>
+          <li><b>Bandeja de entrada</b> con fechas, responsable y estado.</li>
+          <li><b>Confirmación por defecto</b> · cita agendada → 24h antes → WhatsApp, lista para activar.</li>
+          <li><b>Asignar agente humano</b> a un lead y filtrar por ese agente.</li>
+        </ul>
+      </div>
+      <div class="feat-mockup">
+        <div class="kanban">
+          <div class="kanban-col">
+            <div class="kanban-col-h">Pendiente <span class="count">3</span></div>
+            <div class="kanban-card confirm">
+              <div class="kanban-card-tag">CONFIRMACIÓN</div>
+              <div class="kanban-card-title">Confirmar cita Camila P.</div>
+              <div class="kanban-card-sub">Vie 17:00 · Limpieza facial</div>
+              <div class="kanban-card-foot">
+                <div class="kanban-card-due urgent">en 2h</div>
+                <div class="kanban-card-av">A</div>
+              </div>
+            </div>
+            <div class="kanban-card lead">
+              <div class="kanban-card-tag">LEAD · 2 DÍAS</div>
+              <div class="kanban-card-title">Llamar a Pedro R.</div>
+              <div class="kanban-card-sub">Pidió info por IG · sin respuesta</div>
+              <div class="kanban-card-foot">
+                <div class="kanban-card-due">hoy</div>
+                <div class="kanban-card-av" style="background:linear-gradient(135deg,var(--violet),var(--magenta))">N</div>
+              </div>
+            </div>
+            <div class="kanban-card">
+              <div class="kanban-card-tag">PRESUPUESTO</div>
+              <div class="kanban-card-title">Enviar presupuesto Botox</div>
+              <div class="kanban-card-sub">Ana M. · estimado $89.000</div>
+              <div class="kanban-card-foot">
+                <div class="kanban-card-due">mañana</div>
+                <div class="kanban-card-av">A</div>
+              </div>
+            </div>
+          </div>
+          <div class="kanban-col">
+            <div class="kanban-col-h">En proceso <span class="count">2</span></div>
+            <div class="kanban-card confirm">
+              <div class="kanban-card-tag">RECORDATORIO</div>
+              <div class="kanban-card-title">WhatsApp 24h antes · Luis A.</div>
+              <div class="kanban-card-sub">Mié 11:30 · Control 3 meses</div>
+              <div class="kanban-card-foot">
+                <div class="kanban-card-due">en curso</div>
+                <div class="kanban-card-av">A</div>
+              </div>
+            </div>
+            <div class="kanban-card">
+              <div class="kanban-card-tag">RECEPCIÓN</div>
+              <div class="kanban-card-title">Recordar consentimiento</div>
+              <div class="kanban-card-sub">María T. · Botox</div>
+              <div class="kanban-card-foot">
+                <div class="kanban-card-due">hoy</div>
+                <div class="kanban-card-av" style="background:linear-gradient(135deg,var(--violet),var(--magenta))">N</div>
+              </div>
+            </div>
+          </div>
+          <div class="kanban-col">
+            <div class="kanban-col-h">Completada <span class="count">5</span></div>
+            <div class="kanban-card completed">
+              <div class="kanban-card-tag">CONFIRMACIÓN</div>
+              <div class="kanban-card-title">Cita Antonia R. confirmada</div>
+              <div class="kanban-card-foot">
+                <div class="kanban-card-due">hace 1h</div>
+                <div class="kanban-card-av">A</div>
+              </div>
+            </div>
+            <div class="kanban-card completed">
+              <div class="kanban-card-tag">REACTIVACIÓN</div>
+              <div class="kanban-card-title">Reactivar 90d · 14 leads</div>
+              <div class="kanban-card-foot">
+                <div class="kanban-card-due">ayer</div>
+                <div class="kanban-card-av">A</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 09 CIERRE ============ -->
+  <section class="slide" id="slide8">
+    <div class="slide-inner close">
+      <div class="kicker"><span class="pip"></span>EL FUTURO YA ESTÁ EN MARCHA</div>
+      <h2 class="h-display">Cuanto más adentro,<br/><span class="grad">más irreemplazables.</span></h2>
+      <p class="close-text">AURA atiende. CAMILA llama. LIA piensa. El <b>Chat IA interno</b> opera. Y los 5 módulos nuevos conectan a Clinera con las venas reales de la clínica: pacientes, operaciones, tareas, agente fácil y automatización fácil. <b>Ese es el foso.</b></p>
+
+      <div class="roadmap">
+        <div class="roadmap-chip featured">
+          <span class="rc-when">Sem 1</span>
+          <span class="rc-what">Fundación Chat IA interno</span>
+        </div>
+        <div class="roadmap-chip">
+          <span class="rc-when">Sem 2 — Q3</span>
+          <span class="rc-what">Módulo Pacientes</span>
+        </div>
+        <div class="roadmap-chip">
+          <span class="rc-when">Q3 — Q4</span>
+          <span class="rc-what">Módulo Operaciones</span>
+        </div>
+        <div class="roadmap-chip">
+          <span class="rc-when">Q4</span>
+          <span class="rc-what">Módulo Tareas</span>
+        </div>
+      </div>
+
+      <p class="close-quote">El futuro de Clinera no se promptea afuera. <br/><span class="grad">Se opera adentro.</span></p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const TOTAL = 9;
+  let current = 0;
+  let busy = false;
+  const SECTIONS = [
+    'CLINERA · FUTURO 2026',
+    'POR QUÉ ENTRAMOS MÁS PROFUNDO',
+    'EMPLEADOS DIGITALES',
+    'MÓDULO 01 · AGENTE IA MODO FÁCIL',
+    'MÓDULO 02 · AUTOMATIZACIONES MODO FÁCIL',
+    'MÓDULO 03 · PACIENTES',
+    'MÓDULO 04 · OPERACIONES',
+    'MÓDULO 05 · TAREAS',
+    'EL FUTURO YA ESTÁ EN MARCHA'
+  ];
+
+  function $(id){ return document.getElementById(id); }
+
+  function updateProgress(){
+    const pct = (current / (TOTAL - 1)) * 100;
+    $('progressBar').style.width = pct + '%';
+    const num = String(current + 1).padStart(2,'0');
+    $('stepCounter').innerHTML = '<span class="current">' + num + '</span> / 09';
+    $('sectionTag').textContent = SECTIONS[current];
+  }
+
+  function goTo(n){
+    if (n < 0 || n >= TOTAL || busy) return;
+    busy = true;
+    const oldS = $('slide' + current);
+    const newS = $('slide' + n);
+    oldS.classList.remove('active');
+    oldS.classList.add('exit');
+    setTimeout(function(){
+      oldS.classList.remove('exit');
+      newS.classList.add('active');
+      current = n;
+      updateProgress();
+      setTimeout(function(){ busy = false; }, 200);
+    }, 280);
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter'){
+      e.preventDefault();
+      goTo(current + 1);
+    }
+    if (e.key === 'ArrowLeft'){
+      e.preventDefault();
+      goTo(current - 1);
+    }
+  });
+
+  // Click anywhere to advance, except on interactive elements
+  document.addEventListener('click', function(e){
+    if (e.target.closest('a, button, input, textarea, select')) return;
+    goTo(current + 1);
+  });
+
+  // Touch — desktop horizontal swipe
+  let tStartX = 0, tStartY = 0;
+  document.addEventListener('touchstart', function(e){
+    tStartX = e.changedTouches[0].screenX;
+    tStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+  document.addEventListener('touchend', function(e){
+    const dx = tStartX - e.changedTouches[0].screenX;
+    const dy = tStartY - e.changedTouches[0].screenY;
+    if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
+    if (dx > 0) goTo(current + 1);
+    else goTo(current - 1);
+  }, { passive: true });
+
+  updateProgress();
+</script>
+
+</body>
+</html>
