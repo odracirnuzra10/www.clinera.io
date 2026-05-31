@@ -279,7 +279,38 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
 .dp-pal-h{font-family:var(--mono);font-size:8.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;align-self:center;margin-right:2px}
 .dp-pal-chip{padding:4px 8px;background:#fff;border-radius:5px;font-family:var(--mono);font-size:9px;color:var(--ink-2);font-weight:500;letter-spacing:.04em}
 
-/* ============== MOCKUP: CHAT IA INTERNO (slide 8) ============== */
+/* ============== SLIDE ÍNDICE / TOC (slide 2) ============== */
+.index-stack{display:flex;flex-direction:column;gap:28px}
+.index-section{display:flex;flex-direction:column;gap:12px}
+.index-section-h{display:flex;align-items:center;gap:10px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.index-h-num{font-size:22px;font-weight:800;letter-spacing:-.02em;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--magenta));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.index-h-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.index-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.index-grid-3{grid-template-columns:repeat(3,1fr)}
+.index-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:7px;position:relative;transition:transform .2s}
+.index-card.featured{background:linear-gradient(135deg,#fff,#F5F3FF);border-color:rgba(124,58,237,.28)}
+.index-card-num{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--muted);font-weight:500}
+.index-card-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:5px;font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;background:var(--line-2);color:var(--muted-2);align-self:flex-start}
+.index-card-tag.module{background:rgba(0,159,227,.1);color:var(--cyan)}
+.index-card-tag.module.core{background:linear-gradient(90deg,var(--cyan),var(--violet));color:#fff}
+.index-card-tag.new{background:rgba(124,58,237,.1);color:var(--violet)}
+.index-card-tag.improve{background:rgba(245,158,11,.12);color:#B45309}
+.index-card-title{font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.1;margin-top:2px}
+.index-card-desc{font-size:12.5px;color:var(--muted);line-height:1.45}
+
+/* ============== MOCKUP: CHAT IA INTERNO (redesign — hero + 3 minis) ============== */
+.chat-hero{background:#fff;border:1px solid var(--line);border-radius:14px;width:100%;max-width:580px;margin:0 auto;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 14px 40px -22px rgba(11,11,15,.18)}
+.chat-hero-h{padding:11px 16px;border-bottom:1px solid var(--line-2);background:#FAFBFC;display:flex;justify-content:space-between;align-items:center}
+.chat-hero-body{padding:18px;display:flex;flex-direction:column;gap:13px;text-align:left}
+
+.chat-mini-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px;width:100%;max-width:880px}
+.chat-mini{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:7px;text-align:left}
+.chat-mini-tag{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);font-weight:600}
+.chat-mini-q{font-size:12.5px;line-height:1.45;color:var(--ink-2);font-style:italic;margin:0}
+.chat-mini-q::before{content:"\201C";color:var(--muted-2);font-style:normal;margin-right:1px}
+.chat-mini-q::after{content:"\201D";color:var(--muted-2);font-style:normal;margin-left:1px}
+
+/* OLD chats-row (deprecated — kept harmless for layout fallback) */
 .chats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;margin-top:28px}
 .chat-card{background:#fff;border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;height:100%}
 .chat-card-h{padding:10px 14px;border-bottom:1px solid var(--line-2);background:#FAFBFC;display:flex;justify-content:space-between;align-items:center}
@@ -481,7 +512,7 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
   <div class="meta-tag" id="sectionTag">CLINERA · FUTURO 2026</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 10</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 11</div>
 <div class="hint">CLICK O <span class="arrow">→</span> PARA CONTINUAR</div>
 <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
 
@@ -550,8 +581,85 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
     </div>
   </section>
 
-  <!-- ============ 03 MI EQUIPO ============ -->
+  <!-- ============ 03 ÍNDICE — LO QUE VIENE ============ -->
   <section class="slide" id="slide2">
+    <div class="slide-inner" style="display:flex;flex-direction:column;justify-content:center;gap:36px">
+      <div style="text-align:center">
+        <div class="kicker" style="justify-content:center"><span class="pip"></span>ÍNDICE · LO QUE VIENE</div>
+        <h2 class="h-display" style="font-size:64px;margin-bottom:10px">El mapa de <span class="grad">Clinera 2026.</span></h2>
+        <p class="lead" style="margin:0 auto;text-align:center;max-width:580px">4 módulos nuevos + 3 funciones que reorganizan la operación de la clínica.</p>
+      </div>
+
+      <div class="index-stack">
+
+        <!-- 4 MÓDULOS NUEVOS -->
+        <div class="index-section">
+          <div class="index-section-h">
+            <span class="index-h-num">4</span>
+            <span class="index-h-label">Módulos nuevos</span>
+          </div>
+          <div class="index-grid">
+            <div class="index-card">
+              <span class="index-card-num">01</span>
+              <span class="index-card-tag module">Módulo</span>
+              <div class="index-card-title">Mi Equipo</div>
+              <p class="index-card-desc">Plantilla de empleados digitales — jefe, KPIs y switch por agente.</p>
+            </div>
+            <div class="index-card">
+              <span class="index-card-num">02</span>
+              <span class="index-card-tag module">Módulo</span>
+              <div class="index-card-title">Pacientes</div>
+              <p class="index-card-desc">Toda la historia clínica: timeline, fichas, imágenes, recetas, pagos.</p>
+            </div>
+            <div class="index-card">
+              <span class="index-card-num">03</span>
+              <span class="index-card-tag module">Módulo</span>
+              <div class="index-card-title">Operaciones</div>
+              <p class="index-card-desc">La clínica en números — ventas, utilidad, morosidad, comisiones.</p>
+            </div>
+            <div class="index-card featured">
+              <span class="index-card-num">04</span>
+              <span class="index-card-tag module core">Módulo · core</span>
+              <div class="index-card-title">Chat IA Interno</div>
+              <p class="index-card-desc">Reemplaza el dashboard de inicio. Pregunta en lenguaje natural.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 FUNCIONES NUEVAS / MEJORADAS -->
+        <div class="index-section">
+          <div class="index-section-h">
+            <span class="index-h-num">3</span>
+            <span class="index-h-label">Funciones nuevas y mejoradas</span>
+          </div>
+          <div class="index-grid index-grid-3">
+            <div class="index-card">
+              <span class="index-card-num">05</span>
+              <span class="index-card-tag new">Función nueva</span>
+              <div class="index-card-title">Tareas</div>
+              <p class="index-card-desc">Bandeja + plantillas por defecto. Nada se cae entre medio.</p>
+            </div>
+            <div class="index-card">
+              <span class="index-card-num">06</span>
+              <span class="index-card-tag improve">Mejora</span>
+              <div class="index-card-title">Modo Fácil · Agente IA</div>
+              <p class="index-card-desc">Configurar la IA sin saber de IA. Promos y listo.</p>
+            </div>
+            <div class="index-card">
+              <span class="index-card-num">07</span>
+              <span class="index-card-tag improve">Mejora</span>
+              <div class="index-card-title">Modo Fácil · Automatización</div>
+              <p class="index-card-desc">Plantillas pre-armadas con switches. Sin programar.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 MI EQUIPO ============ -->
+  <section class="slide" id="slide3">
     <div class="slide-inner slide-feature" style="grid-template-columns:5fr 8fr;gap:48px">
       <div class="feat-text">
         <div class="kicker-row">
@@ -733,7 +841,7 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
   </section>
 
   <!-- ============ 04 AGENTE IA MODO FÁCIL ============ -->
-  <section class="slide" id="slide3">
+  <section class="slide" id="slide4">
     <div class="slide-inner" style="display:flex;flex-direction:column;gap:24px">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap">
         <div style="max-width:640px">
@@ -824,7 +932,7 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
   </section>
 
   <!-- ============ 05 AUTOMATIZACIÓN MODO FÁCIL ============ -->
-  <section class="slide" id="slide4">
+  <section class="slide" id="slide5">
     <div class="slide-inner" style="display:flex;flex-direction:column;gap:24px">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap">
         <div style="max-width:640px">
@@ -936,7 +1044,7 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
   </section>
 
   <!-- ============ 06 PACIENTES ============ -->
-  <section class="slide" id="slide5">
+  <section class="slide" id="slide6">
     <div class="slide-inner slide-feature">
       <div class="feat-text">
         <div class="kicker-row">
@@ -1008,7 +1116,7 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
   </section>
 
   <!-- ============ 07 OPERACIONES ============ -->
-  <section class="slide" id="slide6">
+  <section class="slide" id="slide7">
     <div class="slide-inner slide-feature reverse">
       <div class="feat-text">
         <div class="kicker-row">
@@ -1083,7 +1191,7 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
   </section>
 
   <!-- ============ 08 TAREAS ============ -->
-  <section class="slide" id="slide7">
+  <section class="slide" id="slide8">
     <div class="slide-inner slide-feature">
       <div class="feat-text">
         <div class="kicker-row">
@@ -1176,101 +1284,59 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
   </section>
 
   <!-- ============ 09 CHAT IA INTERNO ============ -->
-  <section class="slide" id="slide8">
+  <section class="slide" id="slide9">
     <div class="slide-inner" style="display:flex;flex-direction:column;align-items:center;text-align:center">
       <div class="kicker-row" style="justify-content:center;margin-bottom:14px">
         <div class="kicker"><span class="pip"></span>MÓDULO 06 · CHAT IA INTERNO</div>
         <span class="pill new"><span class="dot"></span>Nuevo</span>
       </div>
-      <h2 class="h-display" style="font-size:64px;text-align:center;margin-bottom:14px">Pregúntale a tu <span class="grad">clínica.</span></h2>
-      <p class="lead" style="text-align:center;margin:0 auto;max-width:720px">El Chat IA interno tiene acceso a toda la operación — agenda, pacientes, caja, fichas, conversaciones de AURA y CAMILA. <b>El doctor pregunta en lenguaje natural y obtiene la respuesta con los datos reales del momento.</b></p>
+      <h2 class="h-display" style="font-size:60px;text-align:center;margin-bottom:12px">Pregúntale a tu <span class="grad">clínica.</span></h2>
+      <p class="lead" style="text-align:center;margin:0 auto 24px;max-width:620px;font-size:15.5px">Acceso a agenda, caja, fichas y conversaciones de AURA y CAMILA. Lenguaje natural, datos reales.</p>
 
-      <div class="chats-row">
-
-        <!-- EJEMPLO 1: Abonos pendientes -->
-        <div class="chat-card">
-          <div class="chat-card-h">
-            <span class="chat-card-tag">Ejemplo 01 · Cobranza</span>
-            <span class="chat-card-meta">10:42</span>
+      <!-- CENTRAL: 1 chat ejemplo (Cobranza) -->
+      <div class="chat-hero">
+        <div class="chat-hero-h">
+          <span class="chat-card-tag">Ejemplo · Cobranza</span>
+          <span class="chat-card-meta">10:42 · Dr. Meza</span>
+        </div>
+        <div class="chat-hero-body">
+          <div class="chat-msg doctor">
+            <p>¿cuáles son los abonos pendientes de los últimos 7 días?</p>
           </div>
-          <div class="chat-body">
-            <div class="chat-msg doctor">
-              <span class="chat-author">Dr. Meza</span>
-              <p>¿cuáles son los abonos pendientes de los últimos 7 días?</p>
-            </div>
-            <div class="chat-msg ai">
-              <span class="chat-author">Clinera</span>
-              <p class="lead-line">4 abonos pendientes esta semana:</p>
-              <ul class="chat-list">
-                <li><b>Camila P.</b> — $24.500<span class="li-meta">Vence mañana</span></li>
-                <li><b>Pedro R.</b> — $89.000<span class="li-meta">Vence 16 may</span></li>
-                <li><b>Ana M.</b> — $12.300<span class="li-meta">Vence 18 may</span></li>
-                <li><b>Luis A.</b> — $45.000<span class="li-meta">Vence 20 may</span></li>
-              </ul>
-              <div class="chat-total">Total · $170.800</div>
-            </div>
+          <div class="chat-msg ai">
+            <span class="chat-author">Clinera</span>
+            <p class="lead-line">4 abonos pendientes esta semana:</p>
+            <ul class="chat-list">
+              <li><b>Camila P.</b> — $24.500<span class="li-meta">Vence mañana</span></li>
+              <li><b>Pedro R.</b> — $89.000<span class="li-meta">Vence 16 may</span></li>
+              <li><b>Ana M.</b> — $12.300<span class="li-meta">Vence 18 may</span></li>
+              <li><b>Luis A.</b> — $45.000<span class="li-meta">Vence 20 may</span></li>
+            </ul>
+            <div class="chat-total">Total · $170.800</div>
           </div>
         </div>
+      </div>
 
-        <!-- EJEMPLO 2: Conversaciones que merecen atención -->
-        <div class="chat-card">
-          <div class="chat-card-h">
-            <span class="chat-card-tag">Ejemplo 02 · Triaje</span>
-            <span class="chat-card-meta">11:08</span>
-          </div>
-          <div class="chat-body">
-            <div class="chat-msg doctor">
-              <span class="chat-author">Dr. Meza</span>
-              <p>de todas las conversaciones de hoy, ¿cuáles merecen mi atención?</p>
-            </div>
-            <div class="chat-msg ai">
-              <span class="chat-author">Clinera</span>
-              <p class="lead-line">3 conversaciones requieren tu mirada:</p>
-              <ul class="chat-list">
-                <li class="warn"><b>Sofía R.</b> — pregunta por contraindicaciones de embarazo<span class="li-meta">Consulta médica · AURA pausada</span></li>
-                <li class="warn"><b>Diego F.</b> — quiere migrar de derma<span class="li-meta">Lead alto · AURA no logró cerrar</span></li>
-                <li class="warn"><b>María T.</b> — dejó queja por demora<span class="li-meta">Lunes 12 may · sin respuesta</span></li>
-              </ul>
-              <div class="chat-total">Prioridad · alta</div>
-            </div>
-          </div>
+      <!-- ABAJO: 3 ejemplos breves -->
+      <div class="chat-mini-row">
+        <div class="chat-mini">
+          <span class="chat-mini-tag">Triaje</span>
+          <p class="chat-mini-q">¿qué conversaciones de hoy merecen mi atención?</p>
         </div>
-
-        <!-- EJEMPLO 3: Agenda del día -->
-        <div class="chat-card">
-          <div class="chat-card-h">
-            <span class="chat-card-tag">Ejemplo 03 · Agenda</span>
-            <span class="chat-card-meta">07:52</span>
-          </div>
-          <div class="chat-body">
-            <div class="chat-msg doctor">
-              <span class="chat-author">Dr. Meza</span>
-              <p>¿qué tratamientos me toca realizar a mí y a mi esposa hoy?</p>
-            </div>
-            <div class="chat-msg ai">
-              <span class="chat-author">Clinera</span>
-              <p class="lead-line">Tu agenda hoy · Dr. Meza:</p>
-              <ul class="chat-list">
-                <li><b>09:00</b> · Camila P. — Limpieza facial</li>
-                <li><b>11:30</b> · Pedro R. — Botox primera vez</li>
-                <li><b>16:00</b> · Luis A. — Control 3 meses</li>
-              </ul>
-              <p class="lead-line" style="margin-top:8px">Dra. Meza:</p>
-              <ul class="chat-list">
-                <li><b>10:00</b> · Antonia R. — Peeling químico</li>
-                <li><b>15:30</b> · Vicente S. — Evaluación inicial</li>
-              </ul>
-              <div class="chat-total">5 citas confirmadas hoy</div>
-            </div>
-          </div>
+        <div class="chat-mini">
+          <span class="chat-mini-tag">Agenda</span>
+          <p class="chat-mini-q">¿qué tratamientos tenemos hoy yo y mi esposa?</p>
         </div>
-
+        <div class="chat-mini">
+          <span class="chat-mini-tag">Ventas</span>
+          <p class="chat-mini-q">¿cuánto vendimos esta semana vs la pasada?</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ============ 10 CIERRE ============ -->
-  <section class="slide" id="slide9">
+  <section class="slide" id="slide10">
     <div class="slide-inner close">
       <div class="kicker"><span class="pip"></span>EL FUTURO YA ESTÁ EN MARCHA</div>
       <h2 class="h-display">Cuanto más adentro,<br/><span class="grad">más irreemplazables.</span></h2>
@@ -1302,12 +1368,13 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
 </div>
 
 <script>
-  const TOTAL = 10;
+  const TOTAL = 11;
   let current = 0;
   let busy = false;
   const SECTIONS = [
     'CLINERA · FUTURO 2026',
     'POR QUÉ ENTRAMOS MÁS PROFUNDO',
+    'ÍNDICE · LO QUE VIENE',
     'MI EQUIPO',
     'MÓDULO 01 · AGENTE IA MODO FÁCIL',
     'MÓDULO 02 · AUTOMATIZACIONES MODO FÁCIL',
@@ -1324,7 +1391,7 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
     const pct = (current / (TOTAL - 1)) * 100;
     $('progressBar').style.width = pct + '%';
     const num = String(current + 1).padStart(2,'0');
-    $('stepCounter').innerHTML = '<span class="current">' + num + '</span> / 10';
+    $('stepCounter').innerHTML = '<span class="current">' + num + '</span> / 11';
     $('sectionTag').textContent = SECTIONS[current];
   }
 
