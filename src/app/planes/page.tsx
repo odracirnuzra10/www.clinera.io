@@ -7,7 +7,7 @@ import TrialBanner from "@/components/cro/TrialBanner";
 export const metadata: Metadata = {
   title: "Planes y Precios — Clinera.io (desde USD 129/mes)",
   description:
-    "Core USD 129/mes (~600 atenciones), Conect USD 179/mes (~900 atenciones + modo automático), Advanced USD 359/mes (~2.400 atenciones + modo automático · 4× más IA). Plan Corporativo desde USD 1.500/mes personalizado. AURA agenda por WhatsApp 24/7. Sin permanencia.",
+    "Conect USD 129/mes (~270 atenciones IA + modo automático), Advanced USD 179/mes (~390 atenciones + agente LIA), MAX USD 279/mes (~1.000 atenciones + CAMILA por voz). Plan Corporativo desde USD 1.500/mes personalizado. AURA agenda por WhatsApp 24/7. Sin permanencia.",
   alternates: { canonical: "https://clinera.io/planes" },
   openGraph: {
     url: "https://clinera.io/planes",
@@ -24,9 +24,9 @@ const jsonLd = {
   name: "Clinera.io",
   description: "Software de IA para clínicas",
   offers: [
-    { "@type": "Offer", name: "Core",        price: "129",  priceCurrency: "USD", url: "https://clinera.io/planes" },
-    { "@type": "Offer", name: "Conect",      price: "179",  priceCurrency: "USD", url: "https://clinera.io/planes" },
-    { "@type": "Offer", name: "Advanced",    price: "359",  priceCurrency: "USD", url: "https://clinera.io/planes" },
+    { "@type": "Offer", name: "Conect",      price: "129",  priceCurrency: "USD", url: "https://clinera.io/planes" },
+    { "@type": "Offer", name: "Advanced",    price: "179",  priceCurrency: "USD", url: "https://clinera.io/planes" },
+    { "@type": "Offer", name: "MAX",         price: "279",  priceCurrency: "USD", url: "https://clinera.io/planes" },
     { "@type": "Offer", name: "Corporativo", price: "1500", priceCurrency: "USD", url: "https://clinera.io/planes", availability: "https://schema.org/PreOrder", description: "Plan personalizado desde USD 1.500/mes" },
   ],
 };

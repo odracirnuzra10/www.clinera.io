@@ -3678,57 +3678,60 @@ type Agent = { id: "aura" | "lia" | "camila"; name: string; soon?: boolean };
 export function Pricing() {
   const plans = [
     {
-      name: "Core",
-      price: "$129",
-      perAppt: "$0.22",
-      sub: "AURA + WhatsApp 24/7 para clínicas que ya tienen software.",
-      tags: [
-        { t: "Agente IA", ok: true },
-        { t: "Módulo Clínico", ok: false },
-      ],
-      features: [
-        "8.000 créditos IA / mes",
-        "~600 atenciones",
-        "3 usuarios incluidos",
-      ],
-      modos: ["Eficiente"],
-      agents: [{ id: "aura", name: "AURA" }] as Agent[],
-      stripe: "https://buy.stripe.com/6oUfZj9l70IaaAX0xB1441e",
-    },
-    {
       name: "Conect",
-      price: "$179",
-      perAppt: "$0.20",
-      sub: "AURA + clínica completa sin necesitar otro software.",
+      price: "$129",
+      perAppt: "$0.48",
+      sub: "AURA por WhatsApp 24/7 + módulo clínico, con agendamiento automático.",
       tags: [
         { t: "Agente IA", ok: true },
         { t: "Módulo Clínico", ok: true },
       ],
-      headline: "Todo de Core, más",
       features: [
-        "12.000 créditos IA / mes",
-        "~900 atenciones",
-        "5 usuarios / profesionales",
+        "270 atenciones de IA / mes",
+        "8.000 créditos IA (consumo técnico)",
+        "3 usuarios incluidos",
       ],
       modos: ["Eficiente", "Agentic"],
       agents: [{ id: "aura", name: "AURA" }] as Agent[],
-      stripe: "https://buy.stripe.com/fZu28tcxjez04cz9471441f",
+      stripe: "https://buy.stripe.com/28EbJ32WJ3Um4cz6VZ1441k",
     },
     {
       name: "Advanced",
-      price: "$359",
-      perAppt: "$0.15",
-      sub: "Para cadenas multi-sede que necesitan escala y atribución.",
-      featured: true,
-      bestValue: true,
+      price: "$179",
+      perAppt: "$0.46",
+      sub: "AURA + LIA orquestando tu clínica completa, sin otro software.",
       tags: [
         { t: "Agente IA", ok: true },
         { t: "Módulo Clínico", ok: true },
       ],
       headline: "Todo de Conect, más",
       features: [
-        "32.000 créditos IA / mes · 4× Core",
-        "~2.400 atenciones",
+        "390 atenciones de IA / mes",
+        "12.000 créditos IA (consumo técnico)",
+        "5 usuarios / profesionales",
+      ],
+      modos: ["Eficiente", "Agentic"],
+      agents: [
+        { id: "aura", name: "AURA" },
+        { id: "lia", name: "LIA" },
+      ] as Agent[],
+      stripe: "https://buy.stripe.com/4gM00l7cZ8aCfVh6VZ1441m",
+    },
+    {
+      name: "MAX",
+      price: "$279",
+      perAppt: "$0.28",
+      sub: "Máxima capacidad de IA + CAMILA por voz para clínicas que escalan.",
+      featured: true,
+      bestValue: true,
+      tags: [
+        { t: "Agente IA", ok: true },
+        { t: "Módulo Clínico", ok: true },
+      ],
+      headline: "Todo de Advanced, más",
+      features: [
+        "1.000 atenciones de IA / mes",
+        "28.000 créditos IA (consumo técnico)",
         "Webhooks + API pública",
         "15 usuarios / profesionales",
       ],
@@ -3738,7 +3741,7 @@ export function Pricing() {
         { id: "lia", name: "LIA" },
         { id: "camila", name: "CAMILA", soon: true },
       ] as Agent[],
-      stripe: "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g",
+      stripe: "https://buy.stripe.com/6oU14pdBn9eGeRdgwz1441n",
     },
   ];
 
@@ -3847,7 +3850,7 @@ export function Pricing() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  ★ El más elegido · 4× más IA
+                  ★ El más elegido · mejor costo/atención
                 </div>
               )}
               <div
@@ -4207,6 +4210,20 @@ export function Pricing() {
             color: "#6B7280",
           }}
         >
+          Una atención = una conversación completa de IA con un paciente por WhatsApp
+        </div>
+
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: 10,
+            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontSize: 11.5,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            color: "#6B7280",
+          }}
+        >
           Facturación en USD · Stripe · MercadoPago · WebPay · Boleta o factura según país
         </div>
 
@@ -4283,7 +4300,7 @@ export function Pricing() {
                 maxWidth: 480,
               }}
             >
-              Todo de Advanced + onboarding white-glove + SLA personalizado + integraciones a medida + soporte dedicado + facturación adaptada.
+              Todo de MAX + onboarding white-glove + SLA personalizado + integraciones a medida + soporte dedicado + facturación adaptada.
             </p>
           </div>
           <div
@@ -4370,7 +4387,7 @@ export function Faq() {
     { q: "¿Cuánto demora en estar funcionando?", a: "Menos de una hora. Conectas tu WhatsApp, le cargas tu agenda y tus servicios, y AURA empieza a responder el mismo día." },
     { q: "¿Y si AURA no entiende algo?", a: "Cuando detecta urgencias, reclamos o algo fuera de su alcance, traspasa la conversación a una persona de tu equipo al tiro. Tú decides las reglas." },
     { q: "¿Puedo cobrar la reserva?", a: "Sí. AURA cobra con WebPay o MercadoPago al confirmar la hora. Esto baja los no-shows hasta un 72% en promedio." },
-    { q: "¿Funciona para clínicas con varios profesionales?", a: "Sí. En el plan Conect manejas hasta 5 profesionales; en Advanced, múltiples sedes y sin límite de usuarios." },
+    { q: "¿Funciona para clínicas con varios profesionales?", a: "Sí. Conect incluye 3 usuarios, Advanced 5 y MAX hasta 15 profesionales. Para cadenas multi-sede y sin límite de usuarios está el plan Corporativo." },
     { q: "¿Dónde se guardan los datos de mis pacientes?", a: "Servidores en AWS (Sao Paulo), con cifrado en tránsito y reposo. Cumplimos Ley N° 19.628 de protección de datos en Chile." },
   ];
   const [open, setOpen] = useState<number>(0);
