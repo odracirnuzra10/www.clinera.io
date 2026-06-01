@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Acuerdo Épicas 4 + 5 · Mauricio López · Clinera</title>
-<meta name="description" content="Propuesta de trabajo: Épica 4 (Chat IA + rediseño) + Épica 5 (Empleados digitales). Bonos por velocidad." />
+<title>Acuerdo · Mauricio López · Clinera</title>
+<meta name="description" content="2 épicas, 2 bonos. Resumen del acuerdo de trabajo." />
 <meta name="robots" content="noindex,nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,21 +31,19 @@ body{font-feature-settings:'kern','liga','ss01';-webkit-font-smoothing:antialias
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 ::selection{background:var(--ink);color:#fff}
 
-/* ============== HUD ============== */
+/* HUD */
 .progress-track{position:fixed;top:0;left:0;right:0;height:2px;background:var(--line-2);z-index:25}
 .progress-bar{height:100%;background:var(--violet);width:0;transition:width .4s ease-out}
-
 .hud-top{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:18px 28px;pointer-events:none}
 .brand-mark{font-weight:700;font-size:14.5px;letter-spacing:-.01em;display:flex;align-items:center;gap:5px;color:var(--ink)}
 .brand-mark .b-dot{width:5px;height:5px;border-radius:50%;background:var(--violet);display:inline-block}
 .eyebrow-mark{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
-
 .hud-bot{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:18px 28px;pointer-events:none}
 .counter{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--muted);font-weight:500}
 .counter b{color:var(--ink);font-weight:600}
 .nav-controls{display:flex;align-items:center;gap:8px;pointer-events:auto}
-.dots{display:flex;gap:7px;align-items:center;padding:0 8px}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;transition:background .2s,transform .2s;padding:0;border:0}
+.dots{display:flex;gap:8px;align-items:center;padding:0 10px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--line);cursor:pointer;transition:background .2s,transform .2s;padding:0;border:0}
 .dot:hover{background:var(--muted-2);transform:scale(1.15)}
 .dot.active{background:var(--violet);transform:scale(1.2)}
 .nav-btn{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--bg-card);display:grid;place-items:center;color:var(--ink);transition:background .15s,transform .1s}
@@ -54,137 +52,76 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .nav-btn:disabled{opacity:.35;cursor:not-allowed;background:transparent}
 .nav-btn svg{width:14px;height:14px}
 
-/* ============== STAGE / SLIDES ============== */
+/* Stage */
 .stage{position:relative;width:100vw;height:100dvh;overflow:hidden}
 .slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:88px 60px 96px;opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1)}
 .slide.active{opacity:1;transform:none;pointer-events:auto}
 .slide.exit{opacity:0;transform:translateY(-8px);transition:opacity .3s,transform .3s}
-.slide-inner{width:100%;max-width:1120px;margin:0 auto}
+.slide-inner{width:100%;max-width:1180px;margin:0 auto}
 
-/* ============== TYPOGRAPHY ============== */
+/* Typography */
 .eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:22px;font-weight:500}
 .eyebrow .pip{width:5px;height:5px;border-radius:50%;background:var(--violet);display:inline-block}
-.title{font-size:60px;font-weight:700;line-height:1.05;letter-spacing:-.025em;color:var(--ink);margin-bottom:18px}
+.title{font-size:64px;font-weight:700;line-height:1.05;letter-spacing:-.025em;color:var(--ink);margin-bottom:18px}
 .title .accent{color:var(--violet)}
-.title-lg{font-size:74px;font-weight:800;line-height:1.02;letter-spacing:-.03em}
-.lead{font-size:17px;color:var(--muted);line-height:1.55;max-width:700px}
+.title-lg{font-size:80px;font-weight:800;line-height:1.02;letter-spacing:-.03em}
+.lead{font-size:18px;color:var(--muted);line-height:1.55;max-width:720px}
 .lead b{color:var(--ink);font-weight:600}
 .lead em{font-style:normal;color:var(--violet);font-weight:500}
 
-/* ============== SLIDE 1: COVER ============== */
+/* Cover */
 .cover{text-align:center;display:flex;flex-direction:column;align-items:center}
 .cover .eyebrow{justify-content:center}
-.cover .title{max-width:920px}
-.cover .lead{text-align:center;margin:0 auto}
+.cover .title{max-width:980px}
+.cover .lead{text-align:center;margin:0 auto;max-width:680px}
 .cover-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px;justify-content:center;max-width:880px}
-.meta-chip{display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border:1px solid var(--line);border-radius:10px;background:var(--bg-card);font-size:13px;color:var(--ink);font-weight:500;letter-spacing:-.005em}
+.meta-chip{display:inline-flex;align-items:center;gap:9px;padding:9px 16px;border:1px solid var(--line);border-radius:10px;background:var(--bg-card);font-size:13px;color:var(--ink);font-weight:500;letter-spacing:-.005em}
 .meta-chip.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
 .meta-chip .meta-av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#A78BFA,var(--violet));display:grid;place-items:center;color:#fff;font-weight:700;font-size:10.5px;letter-spacing:-.02em}
 .meta-chip .meta-mono{font-family:var(--mono);font-size:11.5px;color:inherit;letter-spacing:-.005em;font-weight:500}
 
-/* ============== SLIDE 2: 3 CARDS ============== */
-.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
-.card{background:var(--bg-card);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:13px;transition:border-color .2s}
-.card:hover{border-color:rgba(124,58,237,.3)}
-.card-ic{width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.08);color:var(--violet);display:grid;place-items:center}
-.card-ic svg{width:18px;height:18px}
-.card-title{font-size:19px;font-weight:600;color:var(--ink);letter-spacing:-.015em;line-height:1.2}
-.card-body{font-size:14.5px;color:var(--muted);line-height:1.55}
-.card-body b{color:var(--ink);font-weight:600}
-.card-body em{font-style:normal;color:var(--violet);font-weight:500}
+/* Épica cards (slide 2) */
+.epica-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:36px}
+.epica-card{background:var(--bg-card);border:1px solid var(--line);border-radius:18px;padding:32px;display:flex;flex-direction:column;gap:0;position:relative;min-height:480px}
+.epica-tag{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--violet);font-weight:600;align-self:flex-start;padding:5px 10px;border-radius:5px;background:rgba(124,58,237,.08)}
+.epica-tag::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--violet)}
+.epica-title{font-size:34px;font-weight:700;letter-spacing:-.025em;line-height:1.1;color:var(--ink);margin-top:14px}
+.epica-title .sub{display:block;color:var(--violet);font-weight:600}
+.epica-desc{font-size:15px;color:var(--muted);line-height:1.6;margin-top:14px;letter-spacing:-.005em}
+.epica-desc b{color:var(--ink);font-weight:600}
 
-/* ============== SLIDES 3, 4: LISTS ============== */
-.list-stack{display:flex;flex-direction:column;gap:8px;margin-top:24px}
-.list-row{display:flex;align-items:flex-start;gap:18px;padding:16px 20px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
-.list-row-num{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--muted-2);min-width:24px;padding-top:3px;letter-spacing:-.01em}
-.list-row-content{flex:1;min-width:0}
-.list-row-title{font-size:15.5px;font-weight:600;color:var(--ink);letter-spacing:-.01em;line-height:1.35}
-.list-row-desc{font-size:13.5px;color:var(--muted);line-height:1.5;margin-top:4px}
-.list-row-desc b{color:var(--ink);font-weight:600}
-.list-row-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:5px;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;flex-shrink:0;align-self:flex-start;margin-top:1px}
-.list-row-badge.good{background:rgba(31,157,85,.1);color:var(--green)}
-.list-row-badge.good::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--green)}
-.list-row-badge.off{background:var(--line-2);color:var(--muted)}
-.list-row-badge.off::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--muted-2)}
+.epica-bonos{display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-top:24px;border-top:1px solid var(--line)}
+.epica-bono-row{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.epica-bono-amount{font-family:var(--mono);font-size:30px;font-weight:600;letter-spacing:-.03em;color:var(--ink);line-height:1}
+.epica-bono-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;text-align:right}
+.epica-bono-label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.epica-bono-row.fast .epica-bono-label{color:var(--green)}
+.epica-bono-row.std .epica-bono-label{color:var(--amber)}
+.epica-bono-date{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
 
-/* List dense — para slide con 7 items */
-.list-stack.dense{gap:6px;margin-top:20px}
-.list-stack.dense .list-row{padding:13px 18px}
-.list-stack.dense .list-row-title{font-size:15px}
-
-/* ============== SLIDE 5: CALLOUT ============== */
-.callout{background:var(--bg-card);border:1px solid var(--line);border-radius:16px;padding:32px 36px 32px 44px;margin-top:30px;position:relative}
-.callout::before{content:"";position:absolute;left:0;top:32px;bottom:32px;width:3px;background:var(--violet);border-radius:2px}
-.callout p{font-size:18px;line-height:1.55;color:var(--ink-2);letter-spacing:-.005em}
-.callout p b{color:var(--ink);font-weight:600}
-.callout p em{font-style:normal;color:var(--violet);font-weight:500}
-.callout-foot{margin-top:24px;padding-top:22px;border-top:1px solid var(--line);font-size:15.5px;color:var(--ink);font-weight:500;letter-spacing:-.005em;line-height:1.5}
-.callout-foot b{font-weight:600}
-
-/* ============== SLIDE 6: DEAL CARDS ============== */
-.deal-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:18px;margin-top:34px}
-.deal-card{border-radius:18px;padding:32px 34px 28px;display:flex;flex-direction:column;gap:0;position:relative;min-height:360px}
-.deal-card.featured{background:var(--ink);color:#fff}
-.deal-card.secondary{background:var(--bg-card);border:1px solid var(--line)}
-.deal-star{position:absolute;top:26px;right:28px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.1);display:grid;place-items:center;color:#fff}
-.deal-star svg{width:14px;height:14px}
-.deal-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600}
-.deal-card.featured .deal-eyebrow{color:rgba(255,255,255,.6)}
-.deal-window{font-size:36px;font-weight:700;letter-spacing:-.025em;line-height:1.05;margin-top:8px}
-.deal-amount{font-family:var(--mono);font-size:58px;font-weight:600;line-height:1;letter-spacing:-.04em;margin-top:14px;display:flex;align-items:baseline;gap:10px}
-.deal-card.secondary .deal-amount{color:var(--ink)}
-.deal-amount-suffix{font-family:var(--sans);font-size:17px;font-weight:500;letter-spacing:-.01em;opacity:.7}
-.deal-row{display:flex;justify-content:space-between;align-items:center;padding:18px 0 0;border-top:1px solid rgba(255,255,255,.12);margin-top:auto}
-.deal-card.secondary .deal-row{border-top-color:var(--line)}
-.deal-row-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500}
-.deal-card.featured .deal-row-label{color:rgba(255,255,255,.55)}
-.deal-row-value{font-family:var(--mono);font-size:14px;font-weight:600;color:inherit;letter-spacing:-.01em}
-.deal-foot{margin-top:24px;font-size:14px;color:var(--muted);line-height:1.55;text-align:center;max-width:780px;margin-left:auto;margin-right:auto}
-.deal-foot b{color:var(--ink);font-weight:600}
-
-/* ============== SLIDE 7: TIMELINE ============== */
-.timeline-wrap{margin-top:36px;position:relative;padding:34px 0 24px}
-.timeline-line{position:absolute;left:12.5%;right:12.5%;top:43px;height:1.5px;background:linear-gradient(90deg,var(--violet) 0%,var(--green) 33%,var(--amber) 66%,var(--ink) 100%);opacity:.35}
-.timeline-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:start;position:relative}
-.timeline-node{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;position:relative}
-.timeline-dot{width:18px;height:18px;border-radius:50%;background:var(--bg);border:2px solid var(--line);position:relative;z-index:2}
-.timeline-dot.start{border-color:var(--violet);background:var(--violet);box-shadow:0 0 0 4px rgba(124,58,237,.15)}
-.timeline-dot.green{border-color:var(--green);background:var(--green);box-shadow:0 0 0 4px rgba(31,157,85,.15)}
-.timeline-dot.amber{border-color:var(--amber);background:var(--amber);box-shadow:0 0 0 4px rgba(154,106,0,.15)}
-.timeline-dot.end{border-color:var(--ink);background:var(--ink)}
-.timeline-content{display:flex;flex-direction:column;align-items:center;gap:6px}
-.timeline-date{font-family:var(--mono);font-size:12px;letter-spacing:-.01em;color:var(--ink);font-weight:600}
-.timeline-label{font-size:13.5px;color:var(--muted);line-height:1.4;max-width:180px;letter-spacing:-.005em}
-.timeline-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:6px;font-family:var(--mono);font-size:12px;letter-spacing:-.01em;font-weight:600;margin-top:6px}
-.timeline-pill.green{background:rgba(31,157,85,.1);color:var(--green)}
-.timeline-pill.amber{background:rgba(154,106,0,.1);color:var(--amber)}
-.timeline-foot{margin-top:36px;text-align:center;font-size:15px;color:var(--muted);line-height:1.55;max-width:780px;margin-left:auto;margin-right:auto}
-.timeline-foot b{color:var(--ink);font-weight:600}
-.timeline-foot em{font-style:normal;color:var(--violet);font-weight:500}
-
-/* ============== SLIDE 8: CHECKLIST ============== */
-.check-list{display:flex;flex-direction:column;gap:10px;margin-top:32px}
-.check-row{display:flex;align-items:flex-start;gap:14px;padding:17px 22px;background:var(--bg-card);border:1px solid var(--line);border-radius:12px}
+/* Cierre */
+.cierre-text{font-size:19px;color:var(--ink-2);line-height:1.6;max-width:840px;margin-top:8px;letter-spacing:-.005em}
+.cierre-text b{color:var(--ink);font-weight:600}
+.cierre-block{background:var(--bg-card);border:1px solid var(--line);border-radius:16px;padding:28px 32px;margin-top:30px;display:flex;flex-direction:column;gap:18px}
+.cierre-row{display:flex;align-items:flex-start;gap:14px}
 .check-ic{width:24px;height:24px;border-radius:50%;background:rgba(31,157,85,.12);color:var(--green);display:grid;place-items:center;flex-shrink:0;margin-top:1px}
 .check-ic svg{width:13px;height:13px}
-.check-text{font-size:15px;color:var(--ink);line-height:1.5;letter-spacing:-.005em}
-.check-text b{font-weight:600}
-.check-text .mono{font-family:var(--mono);font-size:13.5px;color:var(--ink);font-weight:600;letter-spacing:-.01em}
-.close-line{margin-top:38px;text-align:center;font-size:20px;font-weight:500;color:var(--ink);letter-spacing:-.015em;line-height:1.4;max-width:760px;margin-left:auto;margin-right:auto}
-.close-line b{font-weight:700;color:var(--ink)}
+.cierre-row p{font-size:15.5px;color:var(--ink);line-height:1.5;letter-spacing:-.005em}
+.cierre-row p b{font-weight:600}
+.cierre-row p .mono{font-family:var(--mono);font-weight:600;letter-spacing:-.01em}
+.close-line{margin-top:38px;text-align:center;font-size:22px;font-weight:500;color:var(--ink);letter-spacing:-.015em;line-height:1.4}
+.close-line b{font-weight:700}
 
-/* ============== RESPONSIVE ============== */
+/* Responsive */
 @media (max-width:980px){
-  .slide{padding:72px 32px 84px}
+  .slide{padding:72px 28px 84px}
   .title{font-size:46px}
-  .title-lg{font-size:56px}
-  .cards-3{grid-template-columns:1fr}
-  .deal-grid{grid-template-columns:1fr}
-  .timeline-row{grid-template-columns:1fr 1fr;gap:24px}
-  .timeline-line{display:none}
+  .title-lg{font-size:54px}
+  .epica-grid{grid-template-columns:1fr}
+  .epica-card{min-height:auto;padding:26px}
+  .epica-title{font-size:28px}
   .lead{font-size:15.5px}
-  .callout p{font-size:16px}
-  .deal-amount{font-size:48px}
+  .cierre-text{font-size:17px}
 }
 @media (max-width:560px){
   .hud-top,.hud-bot{padding:14px 16px}
@@ -193,10 +130,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .slide{padding:60px 20px 80px}
   .title{font-size:32px}
   .title-lg{font-size:38px}
-  .deal-amount{font-size:38px}
   .meta-chip{font-size:12px;padding:7px 12px}
-  .callout{padding:24px 22px 24px 32px}
-  .timeline-row{grid-template-columns:1fr;gap:20px}
+  .epica-bono-amount{font-size:24px}
 }
 </style>
 </head>
@@ -206,7 +141,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 <header class="hud-top">
   <div class="brand-mark">clinera<span class="b-dot"></span>io</div>
-  <div class="eyebrow-mark" id="sectionTag">PROPUESTA · ÉPICA 4</div>
+  <div class="eyebrow-mark" id="sectionTag">ACUERDO · LÓPEZ</div>
 </header>
 
 <div class="stage" id="stage">
@@ -214,491 +149,117 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   <!-- ============ SLIDE 1 · PORTADA ============ -->
   <section class="slide active" id="slide0">
     <div class="slide-inner cover">
-      <div class="eyebrow"><span class="pip"></span>Propuesta de trabajo · Clinera</div>
-      <h1 class="title title-lg">ÉPICA 4 + ÉPICA 5 <span class="accent">— 2 acuerdos, 2 bonos</span></h1>
-      <p class="lead">Chat IA interno + rediseño visual <b>(Épica 4)</b> y los Empleados digitales en plantilla real <b>(Épica 5)</b>. Tu <b>QA actual continúa</b>; Jorge, Daniel y David siguen el scrum normal. Vos te enfocás en las épicas — cada una con su propio bono por velocidad.</p>
+      <div class="eyebrow"><span class="pip"></span>Acuerdo de trabajo · Clinera</div>
+      <h1 class="title title-lg">Mauricio López <span class="accent">2 épicas, 2 bonos.</span></h1>
+      <p class="lead">Tu <b>QA actual continúa</b>. Jorge, Daniel y David siguen el scrum normal. Las épicas 4 y 5 son tuyas — con bono extra por entregar rápido. Si necesitás <b>Claude Code</b> para acelerar, se te da licencia.</p>
       <div class="cover-meta">
-        <span class="meta-chip">
-          <span class="meta-av">ML</span>
-          Para: <b style="margin-left:2px">Mauricio López</b>&nbsp;· Desarrollo
-        </span>
-        <span class="meta-chip"><span class="meta-mono">16 + 8 tareas</span></span>
-        <span class="meta-chip"><span class="meta-mono">Inicio · lun 8 jun</span></span>
-        <span class="meta-chip dark">Hasta $2.500.000 en bonos</span>
+        <span class="meta-chip"><span class="meta-av">ML</span><b>Mauricio López</b></span>
+        <span class="meta-chip"><span class="meta-mono">Arranca · lun 8 jun</span></span>
+        <span class="meta-chip dark">Tope combinado · $2.500.000</span>
       </div>
     </div>
   </section>
 
-  <!-- ============ SLIDE 2 · TU ROL ============ -->
+  <!-- ============ SLIDE 2 · LAS DOS ÉPICAS ============ -->
   <section class="slide" id="slide1">
     <div class="slide-inner">
-      <div class="eyebrow"><span class="pip"></span>Tu rol mientras corren las épicas</div>
-      <h2 class="title">Vos no soltás tu QA. <span class="accent">El scrum sigue.</span></h2>
-      <p class="lead">Las épicas son trabajo adicional. <b>Tu QA actual no se interrumpe</b> y el resto del equipo sigue el flujo normal del producto. Las épicas 4 y 5 son tuyas en paralelo — por eso van con bono.</p>
-      <div class="cards-3" style="margin-top:36px">
-        <div class="card">
-          <div class="card-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      <div class="eyebrow"><span class="pip"></span>Las dos épicas</div>
+      <h2 class="title">Resumen del <span class="accent">acuerdo</span></h2>
+
+      <div class="epica-grid">
+
+        <!-- ÉPICA 4 -->
+        <div class="epica-card">
+          <span class="epica-tag">Épica 4</span>
+          <h3 class="epica-title">Chat IA interno<span class="sub">+ rediseño</span></h3>
+          <p class="epica-desc">Un asistente conversacional <b>dentro del software</b>. La clínica le pregunta en lenguaje natural y obtiene respuestas, acciones y soporte. <b>Más un rediseño visual</b> de la IA en todos los módulos — sobre todo mensajería.</p>
+
+          <div class="epica-bonos">
+            <div class="epica-bono-row fast">
+              <span class="epica-bono-amount">$500.000</span>
+              <span class="epica-bono-meta">
+                <span class="epica-bono-label">Rápido</span>
+                <span class="epica-bono-date">Vie 26 jun</span>
+              </span>
+            </div>
+            <div class="epica-bono-row std">
+              <span class="epica-bono-amount">$300.000</span>
+              <span class="epica-bono-meta">
+                <span class="epica-bono-label">Estándar</span>
+                <span class="epica-bono-date">Vie 3 jul</span>
+              </span>
+            </div>
           </div>
-          <div class="card-title">Vos · López</div>
-          <p class="card-body"><b>QA actual continúa</b> sin cambios. Encima: Épica 4 (Chat IA + rediseño) y Épica 5 (Empleados digitales). Cada una con su bono.</p>
         </div>
-        <div class="card">
-          <div class="card-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
+
+        <!-- ÉPICA 5 -->
+        <div class="epica-card">
+          <span class="epica-tag">Épica 5</span>
+          <h3 class="epica-title">Empleados<span class="sub">digitales</span></h3>
+          <p class="epica-desc">AURA, CAMILA y LIA pasan a <b>plantilla real</b>. Con jefe, KPIs y un switch de encendido cada uno. El dueño deja de "configurar un software" y pasa a <b>dirigir un equipo</b>.</p>
+
+          <div class="epica-bonos">
+            <div class="epica-bono-row fast">
+              <span class="epica-bono-amount">$2.000.000</span>
+              <span class="epica-bono-meta">
+                <span class="epica-bono-label">Rápido</span>
+                <span class="epica-bono-date">Mar 30 jun</span>
+              </span>
+            </div>
+            <div class="epica-bono-row std">
+              <span class="epica-bono-amount">$1.000.000</span>
+              <span class="epica-bono-meta">
+                <span class="epica-bono-label">Estándar</span>
+                <span class="epica-bono-date">Jue 30 jul</span>
+              </span>
+            </div>
           </div>
-          <div class="card-title">Jorge · Daniel · David</div>
-          <p class="card-body">Siguen el <b>scrum normal</b> del producto. No tocan las épicas — son las tuyas. El resto del backlog corre paralelo, sin pisar tu trabajo.</p>
         </div>
-        <div class="card">
-          <div class="card-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          </div>
-          <div class="card-title">Apoyo</div>
-          <p class="card-body">Si necesitás <b>Claude Code</b> para acelerar, se te da licencia. La idea es que dispongas de las herramientas para entregar rápido y cobrar el bono mayor.</p>
-        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- ============ SLIDE 3 · OBJETIVO ============ -->
+  <!-- ============ SLIDE 3 · CIERRE ============ -->
   <section class="slide" id="slide2">
-    <div class="slide-inner">
-      <div class="eyebrow"><span class="pip"></span>El objetivo</div>
-      <h2 class="title">Que cualquiera en la clínica le hable al sistema y le <span class="accent">responda</span>.</h2>
-      <div class="cards-3">
-        <div class="card">
-          <div class="card-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-          </div>
-          <div class="card-title">Pregunta y responde</div>
-          <p class="card-body"><em>"¿Cuántas sesiones hay hoy?"</em> · <em>"muéstrame los morosos"</em> · <em>"busca al paciente Pérez"</em>. La IA consulta los <b>datos reales</b> de la clínica.</p>
-        </div>
-        <div class="card">
-          <div class="card-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          </div>
-          <div class="card-title">Ayuda a operar</div>
-          <p class="card-body">El <b>modo soporte</b>: en vez de datos, guía al usuario a usar el software paso a paso (<em>"quiero crear una cita"</em>).</p>
-        </div>
-        <div class="card">
-          <div class="card-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          </div>
-          <div class="card-title">Rediseño minimalista</div>
-          <p class="card-body">La estética de la IA pasa a un estilo más limpio en todos los módulos — sobre todo <b>mensajería</b> — sin perder funciones.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 3 · TU ALCANCE ============ -->
-  <section class="slide" id="slide3">
-    <div class="slide-inner">
-      <div class="eyebrow"><span class="pip"></span>Tu alcance</div>
-      <h2 class="title">9 entregables bajo tu <span class="accent">control</span></h2>
-      <p class="lead">Todo lo que <b>no depende de terceros</b>. Esto define el plazo y el bono.</p>
-      <div class="list-stack">
-
-        <div class="list-row">
-          <span class="list-row-num">01</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Fundación · Chat UI + motor del agente (tool-calling) + contrato de datos</div>
-            <p class="list-row-desc">La base sobre la que se enchufa todo lo demás.</p>
-          </div>
-          <span class="list-row-badge good">Cuenta</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">02</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Conectores YA · Agenda · Pacientes · Ventas · Mensajería · Tratamientos</div>
-            <p class="list-row-desc"><b>5 conectores</b> con datos que ya existen hoy.</p>
-          </div>
-          <span class="list-row-badge good">Cuenta</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">03</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Permisos por rol + límite de tokens por plan</div>
-            <p class="list-row-desc">Quién puede usar la IA y cuánto, según el plan.</p>
-          </div>
-          <span class="list-row-badge good">Cuenta</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">04</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Modo soporte en el chat</div>
-            <p class="list-row-desc">Switch entre consultar datos y recibir ayuda para usar el software.</p>
-          </div>
-          <span class="list-row-badge good">Cuenta</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">05</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Rediseño minimalista de la IA en todos los módulos</div>
-            <p class="list-row-desc">Nuevo estilo visual, sobre todo en <b>mensajería</b>, sin perder funciones.</p>
-          </div>
-          <span class="list-row-badge good">Cuenta</span>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 4 · CONECTORES FUTUROS ============ -->
-  <section class="slide" id="slide4">
-    <div class="slide-inner">
-      <div class="eyebrow"><span class="pip"></span>Conectores futuros</div>
-      <h2 class="title">7 conectores que dependen de <span class="accent">Jimmy</span></h2>
-      <p class="lead">Estos <b>no entran en el bono</b> porque su data todavía no existe: la construye Jimmy. Tu trabajo acá es dejarlos <b>listos para enchufar</b>.</p>
-      <div class="list-stack dense">
-
-        <div class="list-row">
-          <span class="list-row-num">01</span>
-          <div class="list-row-content"><div class="list-row-title">Caja y cuadratura</div></div>
-          <span class="list-row-badge off">Fuera del plazo</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">02</span>
-          <div class="list-row-content"><div class="list-row-title">Pagos pendientes y morosidad</div></div>
-          <span class="list-row-badge off">Fuera del plazo</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">03</span>
-          <div class="list-row-content"><div class="list-row-title">Presupuestos del paciente</div></div>
-          <span class="list-row-badge off">Fuera del plazo</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">04</span>
-          <div class="list-row-content"><div class="list-row-title">Comisiones por profesional</div></div>
-          <span class="list-row-badge off">Fuera del plazo</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">05</span>
-          <div class="list-row-content"><div class="list-row-title">Tareas del profesional</div></div>
-          <span class="list-row-badge off">Fuera del plazo</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">06</span>
-          <div class="list-row-content"><div class="list-row-title">Utilidad / costos del mes</div></div>
-          <span class="list-row-badge off">Fuera del plazo</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">07</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Estimación de impuestos</div>
-            <p class="list-row-desc">Depende de la integración con el SII.</p>
-          </div>
-          <span class="list-row-badge off">Fuera del plazo</span>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 5 · PLUG & PLAY ============ -->
-  <section class="slide" id="slide5">
-    <div class="slide-inner">
-      <div class="eyebrow"><span class="pip"></span>Condición clave</div>
-      <h2 class="title">Dejar los futuros <span class="accent">plug &amp; play</span> con Jimmy</h2>
-      <div class="callout">
-        <p>No los construyes ahora, pero <b>los dejas enchufables</b>. Tenés que coordinar con Jimmy el formato de esos 7 conectores, de modo que cuando él termine su parte —aprox. 1 mes después de que vos entregues— conectarlos sea <em>plug &amp; play</em>: enchufar y andar, sin rehacer nada. <b>Esa coordinación es parte del trabajo que sí cuenta.</b></p>
-        <div class="callout-foot">En resumen: vos entregás los <b>9 propios + el "enchufe" preparado</b>. Jimmy llega un mes después y solo conecta.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 6 · EL ACUERDO ============ -->
-  <section class="slide" id="slide6">
-    <div class="slide-inner">
-      <div class="eyebrow"><span class="pip"></span>El acuerdo</div>
-      <h2 class="title">Mientras más rápido, mayor el <span class="accent">extra</span></h2>
-
-      <div class="deal-grid">
-        <div class="deal-card featured">
-          <div class="deal-star">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.39 7.36H22l-6.18 4.49L18.21 21 12 16.51 5.79 21l2.39-7.15L2 9.36h7.61z"/></svg>
-          </div>
-          <div class="deal-eyebrow">Opción rápida</div>
-          <div class="deal-window">En 3 semanas</div>
-          <div class="deal-amount">$500.000 <span class="deal-amount-suffix">extra</span></div>
-          <div class="deal-row">
-            <span class="deal-row-label">Entrega hasta</span>
-            <span class="deal-row-value">Vie 26 jun</span>
-          </div>
-        </div>
-
-        <div class="deal-card secondary">
-          <div class="deal-eyebrow">Plazo estándar</div>
-          <div class="deal-window">En 4 semanas</div>
-          <div class="deal-amount">$300.000 <span class="deal-amount-suffix">extra</span></div>
-          <div class="deal-row">
-            <span class="deal-row-label">Entrega hasta</span>
-            <span class="deal-row-value">Vie 3 jul</span>
-          </div>
-        </div>
-      </div>
-
-      <p class="deal-foot">Ambos montos son <b>adicionales a tu sueldo base</b>. El reloj parte el lunes 8 de junio. Mide los 9 entregables propios + coordinación plug &amp; play con Jimmy.</p>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 7 · TIMELINE ============ -->
-  <section class="slide" id="slide7">
-    <div class="slide-inner">
-      <div class="eyebrow"><span class="pip"></span>Calendario</div>
-      <h2 class="title">Cómo corre el <span class="accent">calendario</span></h2>
-
-      <div class="timeline-wrap">
-        <div class="timeline-line"></div>
-        <div class="timeline-row">
-
-          <div class="timeline-node">
-            <div class="timeline-dot start"></div>
-            <div class="timeline-content">
-              <div class="timeline-date">Lun 8 jun</div>
-              <div class="timeline-label">Arranca el reloj</div>
-            </div>
-          </div>
-
-          <div class="timeline-node">
-            <div class="timeline-dot green"></div>
-            <div class="timeline-content">
-              <div class="timeline-date">Vie 26 jun</div>
-              <div class="timeline-label">Entrega en 3 semanas</div>
-              <span class="timeline-pill green">+$500.000</span>
-            </div>
-          </div>
-
-          <div class="timeline-node">
-            <div class="timeline-dot amber"></div>
-            <div class="timeline-content">
-              <div class="timeline-date">Vie 3 jul</div>
-              <div class="timeline-label">Entrega en 4 semanas</div>
-              <span class="timeline-pill amber">+$300.000</span>
-            </div>
-          </div>
-
-          <div class="timeline-node">
-            <div class="timeline-dot end"></div>
-            <div class="timeline-content">
-              <div class="timeline-date">~ Inicio ago</div>
-              <div class="timeline-label">Jimmy enchufa los conectores futuros (plug &amp; play)</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <p class="timeline-foot">Si la entrega pasa del 3 de julio, <b>no hay bono extra</b> — el trabajo se paga con tu base normal. El objetivo es <em>premiar la velocidad, no penalizar</em>.</p>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 8 · ÉPICA 5 INTRO ============ -->
-  <section class="slide" id="slide8">
-    <div class="slide-inner">
-      <div class="eyebrow"><span class="pip"></span>Épica 5 · Empleados digitales</div>
-      <h2 class="title">AURA, CAMILA y LIA pasan a <span class="accent">plantilla real</span>.</h2>
-      <p class="lead">No son features sueltas: son una <b>plantilla de empleados digitales</b> con jefe, KPIs y un switch de encendido cada uno. LIA dirige a AURA y CAMILA. El dueño deja de "configurar un software" y pasa a <b>dirigir un equipo</b>.</p>
-      <div class="cards-3" style="margin-top:36px">
-        <div class="card">
-          <div class="card-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9v12h18V9"/><path d="M2 5h20"/><path d="M9 2h6"/></svg>
-          </div>
-          <div class="card-title">Estructura jerárquica</div>
-          <p class="card-body">Gerente General → <b>LIA</b> (operaciones) → <b>AURA</b> y <b>CAMILA</b> → sub-agentes. Un organigrama real del equipo IA.</p>
-        </div>
-        <div class="card">
-          <div class="card-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-5"/></svg>
-          </div>
-          <div class="card-title">KPIs por agente</div>
-          <p class="card-body">Cada empleado mide lo que produce: conversaciones, llamadas, decisiones, ingreso recuperado. <b>Resumen del mes visible.</b></p>
-        </div>
-        <div class="card">
-          <div class="card-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="6"/><circle cx="16" cy="12" r="3" fill="currentColor"/></svg>
-          </div>
-          <div class="card-title">Switch + renombrable</div>
-          <p class="card-body">El dueño <b>prende/apaga</b> cada agente, lo renombra a su gusto, y por dentro mantiene su id fijo para no romper automatizaciones.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 9 · 8 SEMANAS ============ -->
-  <section class="slide" id="slide9">
-    <div class="slide-inner">
-      <div class="eyebrow"><span class="pip"></span>Épica 5 · Plan de 8 semanas</div>
-      <h2 class="title">Las 8 semanas del <span class="accent">plan</span></h2>
-      <p class="lead">Hoja de ruta semana por semana. Cada semana entrega valor visible — no es un big-bang al final.</p>
-      <div class="list-stack dense">
-
-        <div class="list-row">
-          <span class="list-row-num">01</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Semana 1 · Sentar las bases del equipo</div>
-            <p class="list-row-desc">Estructura, IDs fijos, organigrama y panel "Mi Equipo" en blanco.</p>
-          </div>
-          <span class="list-row-badge good">Cuenta</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">02</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Semana 2 · Memoria común y reglas funcionando</div>
-            <p class="list-row-desc">Memoria compartida entre AURA / CAMILA / LIA + reglas de comportamiento por rol.</p>
-          </div>
-          <span class="list-row-badge good">Cuenta</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">03</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Semana 3 · Primeros empleados trabajando de verdad</div>
-            <p class="list-row-desc">AURA y CAMILA prendidos en clínica piloto, ejecutando tareas reales.</p>
-          </div>
-          <span class="list-row-badge good">Cuenta</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">04</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Semana 4 · Primer resultado que la clínica nota</div>
-            <p class="list-row-desc">KPIs visibles + primer caso de ingreso recuperado por el equipo digital.</p>
-          </div>
-          <span class="list-row-badge good">Cuenta</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">05</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Semana 5 · LIA empieza a tomar decisiones</div>
-            <p class="list-row-desc">LIA prioriza huecos, elige candidatos por LTV y dispara AURA o CAMILA.</p>
-          </div>
-          <span class="list-row-badge good">Cuenta</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">06</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Semana 6 · El equipo de voz crece y se ve la plata</div>
-            <p class="list-row-desc">Sub-agentes de voz (Sofía, Mateo, Valentina) activos. Ingresos atribuibles al equipo.</p>
-          </div>
-          <span class="list-row-badge good">Cuenta</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">07</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Semana 7 · Todo coordinado y vitrina pulida</div>
-            <p class="list-row-desc">UI final del módulo "Mi Equipo" + edge cases resueltos.</p>
-          </div>
-          <span class="list-row-badge good">Cuenta</span>
-        </div>
-
-        <div class="list-row">
-          <span class="list-row-num">08</span>
-          <div class="list-row-content">
-            <div class="list-row-title">Semana 8 · A prueba y listo para vender</div>
-            <p class="list-row-desc">Hardening, métricas auditables, copy comercial y demo lista.</p>
-          </div>
-          <span class="list-row-badge good">Cuenta</span>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 10 · ACUERDO ÉPICA 5 ============ -->
-  <section class="slide" id="slide10">
-    <div class="slide-inner">
-      <div class="eyebrow"><span class="pip"></span>Acuerdo Épica 5 · Empleados digitales</div>
-      <h2 class="title">Bono por entregar la <span class="accent">plantilla digital</span></h2>
-
-      <div class="deal-grid">
-        <div class="deal-card featured">
-          <div class="deal-star">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.39 7.36H22l-6.18 4.49L18.21 21 12 16.51 5.79 21l2.39-7.15L2 9.36h7.61z"/></svg>
-          </div>
-          <div class="deal-eyebrow">Opción rápida</div>
-          <div class="deal-window">Hasta el 30 jun</div>
-          <div class="deal-amount">$2.000.000 <span class="deal-amount-suffix">extra</span></div>
-          <div class="deal-row">
-            <span class="deal-row-label">Entrega hasta</span>
-            <span class="deal-row-value">Mar 30 jun</span>
-          </div>
-        </div>
-
-        <div class="deal-card secondary">
-          <div class="deal-eyebrow">Plazo estándar</div>
-          <div class="deal-window">Hasta el 30 jul</div>
-          <div class="deal-amount">$1.000.000 <span class="deal-amount-suffix">extra</span></div>
-          <div class="deal-row">
-            <span class="deal-row-label">Entrega hasta</span>
-            <span class="deal-row-value">Jue 30 jul</span>
-          </div>
-        </div>
-      </div>
-
-      <p class="deal-foot">Ambos montos son <b>adicionales a tu sueldo base</b> y se suman al bono de Épica 4. Mide las 8 semanas del plan. Si necesitás Claude Code para llegar antes, <b>se te da licencia</b>.</p>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 12 · CIERRE ============ -->
-  <section class="slide" id="slide11">
     <div class="slide-inner">
       <div class="eyebrow"><span class="pip"></span>Cierre</div>
       <h2 class="title">¿Lo <span class="accent">tomamos</span>?</h2>
+      <p class="cierre-text">Tres cosas para que quede claro antes de firmar.</p>
 
-      <div class="check-list">
-        <div class="check-row">
+      <div class="cierre-block">
+
+        <div class="cierre-row">
           <div class="check-ic">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
-          <p class="check-text">Tu <b>QA actual continúa</b>. Jorge, Daniel y David siguen el scrum normal — las épicas son sólo tuyas.</p>
+          <p>Tu <b>QA actual no se interrumpe</b>. Jorge, Daniel y David siguen su scrum. Las épicas son <b>trabajo adicional</b> tuyo, con bono.</p>
         </div>
 
-        <div class="check-row">
+        <div class="cierre-row">
           <div class="check-ic">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
-          <p class="check-text"><b>Épica 4 · Chat IA + rediseño</b> — entregás los 9 propios + plug &amp; play con Jimmy.<br/>Reloj <span class="mono">lun 8 jun</span>: <span class="mono">$500k</span> al <span class="mono">vie 26 jun</span> · <span class="mono">$300k</span> al <span class="mono">vie 3 jul</span>.</p>
+          <p>Bonos <b>extra sobre tu sueldo base</b>. Si las dos rápidas: <span class="mono">$500k + $2M = $2.500.000</span>. Si las dos lentas: <span class="mono">$300k + $1M = $1.300.000</span>.</p>
         </div>
 
-        <div class="check-row">
+        <div class="cierre-row">
           <div class="check-ic">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
-          <p class="check-text"><b>Épica 5 · Empleados digitales</b> — entregás las 8 semanas del plan.<br/><span class="mono">$2.000.000</span> al <span class="mono">mar 30 jun</span> · <span class="mono">$1.000.000</span> al <span class="mono">jue 30 jul</span>.</p>
+          <p>Si necesitás <b>Claude Code</b> para llegar antes, <b>se te da licencia</b>. Tope total combinado <span class="mono">$2.500.000</span>.</p>
         </div>
 
-        <div class="check-row">
-          <div class="check-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <p class="check-text">Bonos <b>extra sobre tu sueldo base</b>. Si querés Claude Code para acelerar, <b>se te da licencia</b>. Tope combinado: <span class="mono">$2.500.000</span>.</p>
-        </div>
       </div>
 
-      <p class="close-line">Si estamos de acuerdo, lo dejamos <b>firmado</b> y arrancás el lunes.</p>
+      <p class="close-line">Si estamos de acuerdo, lo dejamos <b>firmado</b> y arrancás el <b>lunes 8 de junio</b>.</p>
     </div>
   </section>
 
 </div>
 
 <footer class="hud-bot">
-  <div class="counter"><b id="counterCurrent">01</b> / <span id="counterTotal">12</span></div>
+  <div class="counter"><b id="counterCurrent">01</b> / <span id="counterTotal">03</span></div>
   <div class="nav-controls">
     <button class="nav-btn" id="navPrev" aria-label="Anterior">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -711,26 +272,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 </footer>
 
 <script>
-  const TOTAL = 12;
-  const TAGS = [
-    'PROPUESTA · ÉPICAS 4 + 5',
-    'TU ROL',
-    'OBJETIVO ÉPICA 4',
-    'ALCANCE ÉPICA 4',
-    'CONECTORES FUTUROS',
-    'CONDICIÓN CLAVE',
-    'ACUERDO ÉPICA 4',
-    'CALENDARIO ÉPICA 4',
-    'ÉPICA 5 · INTRO',
-    'PLAN DE 8 SEMANAS',
-    'ACUERDO ÉPICA 5',
-    'CIERRE'
-  ];
+  const TOTAL = 3;
+  const TAGS = ['ACUERDO · LÓPEZ', 'LAS DOS ÉPICAS', 'CIERRE'];
   let current = 0;
   let busy = false;
   function $(id){return document.getElementById(id);}
 
-  // Build dots
   const dotsEl = $('dots');
   for (let i = 0; i < TOTAL; i++){
     const d = document.createElement('button');
@@ -745,9 +292,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     $('progressBar').style.width = (current / (TOTAL - 1)) * 100 + '%';
     $('counterCurrent').textContent = String(current + 1).padStart(2, '0');
     $('sectionTag').textContent = TAGS[current];
-    document.querySelectorAll('.dot').forEach(function(d, i){
-      d.classList.toggle('active', i === current);
-    });
+    document.querySelectorAll('.dot').forEach(function(d, i){ d.classList.toggle('active', i === current); });
     $('navPrev').disabled = current === 0;
     $('navNext').disabled = current === TOTAL - 1;
   }
@@ -772,28 +317,18 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   $('navNext').addEventListener('click', function(){ goTo(current + 1); });
 
   document.addEventListener('keydown', function(e){
-    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter'){
-      e.preventDefault();
-      goTo(current + 1);
-    }
-    if (e.key === 'ArrowLeft'){
-      e.preventDefault();
-      goTo(current - 1);
-    }
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft'){ e.preventDefault(); goTo(current - 1); }
   });
 
-  // Touch swipe
   let tx = 0, ty = 0;
   document.addEventListener('touchstart', function(e){
-    tx = e.changedTouches[0].screenX;
-    ty = e.changedTouches[0].screenY;
+    tx = e.changedTouches[0].screenX; ty = e.changedTouches[0].screenY;
   }, { passive: true });
   document.addEventListener('touchend', function(e){
-    const dx = tx - e.changedTouches[0].screenX;
-    const dy = ty - e.changedTouches[0].screenY;
+    const dx = tx - e.changedTouches[0].screenX, dy = ty - e.changedTouches[0].screenY;
     if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
-    if (dx > 0) goTo(current + 1);
-    else goTo(current - 1);
+    if (dx > 0) goTo(current + 1); else goTo(current - 1);
   }, { passive: true });
 
   updateUI();
