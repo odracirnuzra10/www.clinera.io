@@ -3687,7 +3687,7 @@ export function Pricing() {
         { t: "Módulo Clínico", ok: true },
       ],
       features: [
-        "270 atenciones de IA / mes",
+        "~270 atenciones de IA / mes",
         "8.000 créditos IA (consumo técnico)",
         "3 usuarios incluidos",
       ],
@@ -3699,29 +3699,26 @@ export function Pricing() {
       name: "Advanced",
       price: "$179",
       perAppt: "$0.46",
-      sub: "AURA + LIA orquestando tu clínica completa, sin otro software.",
+      sub: "Más atenciones y más equipo para clínicas que ya están creciendo.",
       tags: [
         { t: "Agente IA", ok: true },
         { t: "Módulo Clínico", ok: true },
       ],
       headline: "Todo de Conect, más",
       features: [
-        "390 atenciones de IA / mes",
+        "~390 atenciones de IA / mes",
         "12.000 créditos IA (consumo técnico)",
         "5 usuarios / profesionales",
       ],
       modos: ["Eficiente", "Agentic"],
-      agents: [
-        { id: "aura", name: "AURA" },
-        { id: "lia", name: "LIA" },
-      ] as Agent[],
+      agents: [{ id: "aura", name: "AURA" }] as Agent[],
       stripe: "https://buy.stripe.com/4gM00l7cZ8aCfVh6VZ1441m",
     },
     {
       name: "MAX",
       price: "$279",
       perAppt: "$0.28",
-      sub: "Máxima capacidad de IA + CAMILA por voz para clínicas que escalan.",
+      sub: "Toda la potencia: LIA orquesta y CAMILA llama por voz. Para clínicas que escalan.",
       featured: true,
       bestValue: true,
       tags: [
@@ -3730,7 +3727,7 @@ export function Pricing() {
       ],
       headline: "Todo de Advanced, más",
       features: [
-        "1.000 atenciones de IA / mes",
+        "~1.000 atenciones de IA / mes",
         "28.000 créditos IA (consumo técnico)",
         "Webhooks + API pública",
         "15 usuarios / profesionales",
