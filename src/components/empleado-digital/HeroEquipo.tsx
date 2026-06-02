@@ -1,7 +1,7 @@
 import WhatsAppMockup from "./WhatsAppMockup";
 import styles from "@/app/empleado-digital/empleado-digital.module.css";
 
-const STRIPE_ADVANCED = "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g";
+const STRIPE_MAX = "https://buy.stripe.com/6oU14pdBn9eGeRdgwz1441n";
 
 export default function HeroEquipo() {
   return (
@@ -20,13 +20,13 @@ export default function HeroEquipo() {
 
           <div className={styles.heroCtaRow}>
             <a
-              href={STRIPE_ADVANCED}
+              href={STRIPE_MAX}
               className={styles.heroCta}
-              data-plan="advanced"
-              data-plan-value="359"
-              data-plan-name="Advanced signup hero empleado-digital"
+              data-plan="max"
+              data-plan-value="279"
+              data-plan-name="MAX signup hero empleado-digital"
             >
-              Contratar Advanced — USD 359/mes
+              Contratar MAX — USD 279/mes
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path
                   d="M6 3l5 5-5 5"
@@ -41,7 +41,7 @@ export default function HeroEquipo() {
             <div className={styles.statBar} role="list">
               <span role="listitem">
                 <span className={styles.statDot} aria-hidden />
-                <strong>$359</strong> vs ~$950 recepcionista
+                <strong>$279</strong> vs ~$950 recepcionista
               </span>
               <span role="listitem">
                 <strong>24/7</strong> · sin licencias ni vacaciones

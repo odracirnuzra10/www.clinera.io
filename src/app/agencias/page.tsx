@@ -44,7 +44,7 @@ const faqJsonLd = {
       acceptedAnswer: {
         "@type": "Answer",
         text:
-          "Aplica permanentemente a todas las cuentas activas que la agencia traiga: Core, Conect o Advanced. Sin tope, sin vencimiento. Se descuenta directo del precio del plan que paga la clínica.",
+          "Aplica permanentemente a todas las cuentas activas que la agencia traiga: Conect, Advanced o MAX. Sin tope, sin vencimiento. Se descuenta directo del precio del plan que paga la clínica.",
       },
     },
     {

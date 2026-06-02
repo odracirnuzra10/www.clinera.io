@@ -15,7 +15,7 @@ const MODOS: Modo[] = [
     idx: "01",
     title: "Eficiente",
     desc: "Tu IA conversa. Tu paciente confirma con un link a tu calendario propio o al de Clinera. ~4 créditos por atención — el costo IA más bajo del mercado.",
-    innerEyebrow: "Desde Plan Core",
+    innerEyebrow: "Desde Plan Conect",
   },
   {
     idx: "02",
@@ -30,7 +30,7 @@ const MODOS: Modo[] = [
     title: "Agentic Flash",
     desc: "Mismo nivel agéntico que Agentic, respuesta inmediata (289 tokens/s). Para clínicas que no toleran latencia (~36 créditos por atención).",
     tag: "VELOCIDAD MÁX",
-    innerEyebrow: "Solo Plan Advanced",
+    innerEyebrow: "Solo Plan MAX",
   },
 ];
 

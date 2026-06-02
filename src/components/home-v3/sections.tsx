@@ -3727,7 +3727,8 @@ export function Pricing() {
       ],
       headline: "Todo de Advanced, más",
       features: [
-        "~1.000 atenciones de IA / mes",
+        "~1.000 atenciones por texto (WhatsApp/chat) al mes",
+        "~120 atenciones por voz (CAMILA) al mes",
         "28.000 créditos IA (consumo técnico)",
         "Webhooks + API pública",
         "15 usuarios / profesionales",

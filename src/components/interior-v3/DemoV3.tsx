@@ -8,44 +8,45 @@ type DemoAgent = { id: "aura" | "lia" | "camila"; name: string; soon?: boolean }
 
 const PLANS = [
   {
-    name: "Core",
-    slug: "core",
-    price: "129",
-    tagline: "AURA + WhatsApp 24/7 para clínicas que ya tienen software.",
-    features: [
-      "8.000 créditos IA / mes",
-      "~600 atenciones",
-      "3 usuarios incluidos",
-    ],
-    models: ["Gemini 3.0 Flash"],
-    agents: [{ id: "aura", name: "AURA" }] as DemoAgent[],
-    stripeUrl: "https://buy.stripe.com/6oUfZj9l70IaaAX0xB1441e",
-  },
-  {
     name: "Conect",
     slug: "conect",
-    price: "179",
-    tagline: "AURA + clínica completa sin necesitar otro software.",
+    price: "129",
+    tagline: "AURA por WhatsApp 24/7 + módulo clínico, con agendamiento automático.",
     features: [
-      "12.000 créditos IA / mes",
-      "~900 atenciones",
+      "~270 atenciones de IA / mes",
+      "8.000 créditos IA (consumo técnico)",
+      "Con modo automático de agendamiento",
+      "3 usuarios incluidos",
+    ],
+    models: ["Gemini 3.0 Flash", "Kimi K2.6"],
+    agents: [{ id: "aura", name: "AURA" }] as DemoAgent[],
+    stripeUrl: "https://buy.stripe.com/28EbJ32WJ3Um4cz6VZ1441k",
+  },
+  {
+    name: "Advanced",
+    slug: "advanced",
+    price: "179",
+    tagline: "Más atenciones y más equipo para clínicas que ya están creciendo.",
+    features: [
+      "~390 atenciones de IA / mes",
+      "12.000 créditos IA (consumo técnico)",
       "Con modo automático de agendamiento",
       "5 usuarios / profesionales",
     ],
     models: ["Gemini 3.0 Flash", "Kimi K2.6"],
     agents: [{ id: "aura", name: "AURA" }] as DemoAgent[],
-    stripeUrl: "https://buy.stripe.com/fZu28tcxjez04cz9471441f",
+    stripeUrl: "https://buy.stripe.com/4gM00l7cZ8aCfVh6VZ1441m",
   },
   {
-    name: "Advanced",
-    slug: "advanced",
-    price: "359",
-    tagline: "Para cadenas multi-sede que necesitan escala y atribución.",
+    name: "MAX",
+    slug: "max",
+    price: "279",
+    tagline: "Toda la potencia: LIA orquesta y CAMILA llama por voz. Para clínicas que escalan.",
     popular: true,
     features: [
-      "32.000 créditos IA / mes · 4× Core",
-      "~2.400 atenciones",
-      "Con modo automático de agendamiento",
+      "~1.000 atenciones por texto (WhatsApp/chat) al mes",
+      "~120 atenciones por voz (CAMILA) al mes",
+      "28.000 créditos IA (consumo técnico)",
       "Webhooks + API pública",
       "15 usuarios / profesionales",
     ],
@@ -55,7 +56,7 @@ const PLANS = [
       { id: "lia", name: "LIA" },
       { id: "camila", name: "CAMILA", soon: true },
     ] as DemoAgent[],
-    stripeUrl: "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g",
+    stripeUrl: "https://buy.stripe.com/6oU14pdBn9eGeRdgwz1441n",
   },
 ];
 
@@ -394,7 +395,7 @@ function PlansSection() {
                         marginBottom: 14,
                       }}
                     >
-                      Recomendado · 4× más IA
+                      Recomendado · mejor costo/atención
                     </span>
                   )}
                   <h3
@@ -744,7 +745,7 @@ function PlansSection() {
                 maxWidth: 460,
               }}
             >
-              Todo de Advanced + onboarding white-glove + SLA personalizado + integraciones a medida + soporte dedicado.
+              Todo de MAX + onboarding white-glove + SLA personalizado + integraciones a medida + soporte dedicado.
             </p>
           </div>
           <div
@@ -809,9 +810,9 @@ function PlansSection() {
           style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, maxWidth: 980, margin: "48px auto 0" }}
         >
           {[
-            { price: "$50", unit: "/mes", label: "+5.000 créditos IA" },
-            { price: "$9", unit: "/mes", label: "Profesional o usuario extra" },
-            { price: "$21", unit: "/mes", label: "Módulo Odontograma" },
+            { price: "$100", unit: "única vez", label: "Add-on de créditos IA", sub: "~300 atenciones por texto o ~50 por voz" },
+            { price: "$9", unit: "/mes", label: "Profesional o usuario extra", sub: "" },
+            { price: "$21", unit: "/mes", label: "Módulo Odontograma", sub: "" },
           ].map((it) => (
             <div
               key={it.label}
@@ -828,6 +829,9 @@ function PlansSection() {
                 <span style={{ fontSize: 14, fontWeight: 500, color: "#6B7280", marginLeft: 4 }}>{it.unit}</span>
               </div>
               <div style={{ fontFamily: "Inter", fontSize: 14, color: "#4B5563", marginTop: 6 }}>{it.label}</div>
+              {it.sub && (
+                <div style={{ fontFamily: "Inter", fontSize: 12, color: "#9CA3AF", marginTop: 4, lineHeight: 1.45 }}>{it.sub}</div>
+              )}
             </div>
           ))}
         </div>

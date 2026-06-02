@@ -1,33 +1,34 @@
 import Link from "next/link";
 import styles from "@/app/empleado-digital/empleado-digital.module.css";
 
-const STRIPE_ADVANCED = "https://buy.stripe.com/dRmeVf54RbmO5gDbcf1441g";
+const STRIPE_MAX = "https://buy.stripe.com/6oU14pdBn9eGeRdgwz1441n";
 
 const BULLETS = [
-  "32.000 créditos IA / mes (4× Core)",
-  "~2.400 atenciones / mes",
-  "3 modos de agendamiento (incluye Automático)",
+  "~1.000 atenciones por texto (WhatsApp/chat) al mes",
+  "~120 atenciones por voz (CAMILA) al mes",
+  "28.000 créditos IA (consumo técnico)",
+  "3 modos de agendamiento (incluye Agentic Flash)",
   "3 modelos IA: Gemini 3.0 Flash · Kimi K2.6 · Gemini 3.5 Flash",
   "Módulo clínico completo (agenda + fichas + Vault)",
   "Multi-sede + panel de atribución",
   "Webhooks + API pública (integraciones a medida)",
   "15 usuarios / profesionales",
+  "Empleados digitales: AURA + LIA + CAMILA (voz)",
   "Soporte prioritario · onboarding dedicado",
-  "Acceso anticipado a LIA (0% vacancia)",
 ];
 
 export default function AdvancedCTA() {
   return (
     <section className={styles.ctaSection} aria-labelledby="cta-h2">
       <div className={styles.ctaCard}>
-        <span className={styles.ctaBadge}>Recomendado · Advanced</span>
+        <span className={styles.ctaBadge}>Recomendado · MAX</span>
 
         <h2 id="cta-h2" className={styles.ctaH2}>
           Activa tu empleado digital hoy
         </h2>
 
         <div className={styles.ctaPriceRow}>
-          <span className={styles.ctaPrice}>USD 359</span>
+          <span className={styles.ctaPrice}>USD 279</span>
           <span className={styles.ctaPriceUnit}>/ mes</span>
         </div>
 
@@ -40,13 +41,13 @@ export default function AdvancedCTA() {
         </ul>
 
         <a
-          href={STRIPE_ADVANCED}
+          href={STRIPE_MAX}
           className={styles.ctaButton}
-          data-plan="advanced"
-          data-plan-value="359"
-          data-plan-name="Advanced signup final empleado-digital"
+          data-plan="max"
+          data-plan-value="279"
+          data-plan-name="MAX signup final empleado-digital"
         >
-          Contratar Advanced — USD 359/mes
+          Contratar MAX — USD 279/mes
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path
               d="M6 3l5 5-5 5"
@@ -79,20 +80,20 @@ export default function AdvancedCTA() {
           <Link
             href="/planes"
             className={styles.ctaSecondaryLink}
-            data-plan="conect"
+            data-plan="advanced"
             data-plan-value="179"
-            data-plan-name="Conect view from empleado-digital"
+            data-plan-name="Advanced view from empleado-digital"
           >
-            Ver plan Conect — USD 179/mes →
+            Ver plan Advanced — USD 179/mes →
           </Link>
           <Link
             href="/planes"
             className={styles.ctaSecondaryLink}
-            data-plan="core"
+            data-plan="conect"
             data-plan-value="129"
-            data-plan-name="Core view from empleado-digital"
+            data-plan-name="Conect view from empleado-digital"
           >
-            Ver plan Core — USD 129/mes →
+            Ver plan Conect — USD 129/mes →
           </Link>
         </div>
       </div>

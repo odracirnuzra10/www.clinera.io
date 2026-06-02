@@ -205,7 +205,7 @@ export default function CalculadoraDeConsumoPage() {
               name="Eficiente"
               consumption="~4"
               model="Gemini 3.0 Flash"
-              available="Plan Core"
+              available="Plan Conect"
               description="Optimizado para tareas simples y respuestas rápidas. Ideal para confirmar citas y responder FAQ."
             />
             <ModeCard
@@ -220,7 +220,7 @@ export default function CalculadoraDeConsumoPage() {
               name="Agentic Flash"
               consumption="~36"
               model="Gemini 3.5 Flash (high-speed, 289 tok/s)"
-              available="Solo plan Advanced"
+              available="Solo plan MAX"
               description="Máxima velocidad de razonamiento. Para flujos con muchos tool calls y respuestas inmediatas a alto volumen."
             />
           </div>
@@ -326,15 +326,15 @@ export default function CalculadoraDeConsumoPage() {
               </thead>
               <tbody>
                 <PlanRow
-                  plan="Core"
+                  plan="Conect"
                   cells={[
-                    { text: "hasta 2.000", isDefault: true },
-                    { text: "no disponible" },
+                    { text: "hasta 2.000" },
+                    { text: "hasta 470", isDefault: true },
                     { text: "no disponible" },
                   ]}
                 />
                 <PlanRow
-                  plan="Conect"
+                  plan="Advanced"
                   cells={[
                     { text: "hasta 3.000" },
                     { text: "hasta 700", isDefault: true },
@@ -342,11 +342,11 @@ export default function CalculadoraDeConsumoPage() {
                   ]}
                 />
                 <PlanRow
-                  plan="Advanced"
+                  plan="MAX"
                   cells={[
-                    { text: "hasta 8.000" },
-                    { text: "hasta 1.880" },
-                    { text: "hasta 880", isDefault: true },
+                    { text: "hasta 7.000" },
+                    { text: "hasta 1.650" },
+                    { text: "hasta 780", isDefault: true },
                   ]}
                 />
               </tbody>
@@ -419,11 +419,11 @@ export default function CalculadoraDeConsumoPage() {
                   marginBottom: 12,
                 }}
               >
-                USD $50 / mes
+                USD $100 / recarga
               </div>
               <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.55)", margin: 0 }}>
                 Equivale hasta ~1.250 atenciones extra en Eficiente · ~290 en
-                Agentic · ~140 en Agentic Flash.
+                Agentic · ~140 en Agentic Flash · ~50 por voz (CAMILA).
               </p>
             </div>
           </div>

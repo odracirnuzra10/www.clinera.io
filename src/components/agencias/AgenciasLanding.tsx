@@ -184,7 +184,7 @@ function SellingPoints() {
     {
       num: "04",
       title: "Costo claro por atención",
-      desc: "Desde $0,15 USD por atención según el modo. Cupos calculados con 30% de margen conservador.",
+      desc: "Desde $0,28 USD por atención en el plan MAX. Cupos calculados con 30% de margen conservador.",
     },
   ];
   return (
@@ -341,7 +341,7 @@ function ProgramaPartner() {
             num="01"
             title="20%"
             unit=" descuento"
-            desc="Permanente para todos los clientes que traes. Aplica a Core, Conect y Advanced. Sin tope, sin vencimiento. Mejor margen para ti, mejor precio para la clínica."
+            desc="Permanente para todos los clientes que traes. Aplica a Conect, Advanced y MAX. Sin tope, sin vencimiento. Mejor margen para ti, mejor precio para la clínica."
           />
           <BenefitCard
             featured
@@ -820,23 +820,23 @@ function ModosCompact() {
             num="01"
             name="Eficiente"
             credits="~4"
-            cost="$0,22"
-            desc="IA conversa, paciente confirma vía link. Costo más bajo. Desde Plan Core."
+            cost="$0,48"
+            desc="IA conversa, paciente confirma vía link. Costo IA más bajo. Desde Plan Conect."
           />
           <ModoMini
             featured
             num="02"
             name="Agentic"
             credits="~17"
-            cost="$0,20"
+            cost="$0,46"
             desc="IA agenda sola con tool calls. La mejor relación capacidad/costo. Desde Plan Conect."
           />
           <ModoMini
             num="03"
             name="Agentic Flash"
             credits="~36"
-            cost="$0,15"
-            desc="Agentic con respuesta inmediata a 289 tokens/s. Solo Plan Advanced."
+            cost="$0,28"
+            desc="Agentic con respuesta inmediata a 289 tokens/s. Solo Plan MAX."
           />
         </div>
 
@@ -995,7 +995,7 @@ function FaqAgencias() {
   const faq = [
     {
       q: "¿Cómo funciona el 20% de descuento?",
-      a: "Aplica permanentemente a todas las cuentas activas que tu agencia traiga: Core, Conect o Advanced. Sin tope, sin vencimiento. Se descuenta directo del precio del plan que paga la clínica — tu agencia decide si lo absorbe como margen, si lo traslada, o si lo divide.",
+      a: "Aplica permanentemente a todas las cuentas activas que tu agencia traiga: Conect, Advanced o MAX. Sin tope, sin vencimiento. Se descuenta directo del precio del plan que paga la clínica — tu agencia decide si lo absorbe como margen, si lo traslada, o si lo divide.",
     },
     {
       q: "¿Qué es el Directorio de Agencias Recomendadas?",

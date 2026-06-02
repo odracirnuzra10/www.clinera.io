@@ -1,8 +1,8 @@
 "use client";
 
 const ROWS: Array<{ label: string; human: string; aura: string }> = [
-  { label: "Costo mensual", human: "~$950 USD", aura: "$359 USD" },
-  { label: "Atenciones / mes", human: "500–1.500", aura: "hasta 1.880" },
+  { label: "Costo mensual", human: "~$950 USD", aura: "$279 USD" },
+  { label: "Atenciones / mes", human: "500–1.500", aura: "~1.000 texto + ~120 voz" },
   { label: "Horario", human: "45 h / semana", aura: "24 / 7 / 365" },
   { label: "Vacaciones / licencias", human: "15–20 días al año sin servicio", aura: "Cero" },
   { label: "Atenciones simultáneas", human: "1–2", aura: "Ilimitadas" },
@@ -11,7 +11,7 @@ const ROWS: Array<{ label: string; human: string; aura: string }> = [
 ];
 
 const MOBILE_METRICS: Array<{ label: string; aura: string; human: string }> = [
-  { label: "Costo mensual", aura: "$359", human: "~$950 USD recepcionista humana" },
+  { label: "Costo mensual", aura: "$279", human: "~$950 USD recepcionista humana" },
   { label: "Disponibilidad", aura: "24 / 7 / 365", human: "45 h / semana + licencias y vacaciones" },
   { label: "Atenciones simultáneas", aura: "Ilimitadas", human: "1 a 2 conversaciones a la vez" },
 ];
@@ -50,7 +50,7 @@ export default function RoiSection() {
               display: "inline-block",
             }}
           />
-          ROI · Humano vs AURA Advanced
+          ROI · Humano vs AURA MAX
         </p>
         <h2
           id="roi-h2"
@@ -64,7 +64,7 @@ export default function RoiSection() {
             color: "#0A0A0A",
           }}
         >
-          $359 vs <span style={{ color: "#7C3AED" }}>$950</span>.
+          $279 vs <span style={{ color: "#7C3AED" }}>$950</span>.
         </h2>
         <p
           style={{
@@ -171,7 +171,7 @@ export default function RoiSection() {
           >
             <div>Concepto</div>
             <div>Recepcionista humana</div>
-            <div style={{ color: "#7C3AED" }}>AURA Advanced</div>
+            <div style={{ color: "#7C3AED" }}>AURA MAX</div>
           </div>
           {ROWS.map((row, i) => (
             <div
@@ -217,7 +217,7 @@ export default function RoiSection() {
                   fontWeight: 500,
                 }}
               >
-                <span className="roi-cell-tag roi-cell-tag-aura" aria-hidden>AURA Advanced</span>
+                <span className="roi-cell-tag roi-cell-tag-aura" aria-hidden>AURA MAX</span>
                 {row.aura}
               </div>
             </div>
@@ -264,7 +264,7 @@ export default function RoiSection() {
                 marginBottom: 8,
               }}
             >
-              ~$591
+              ~$671
             </div>
             <div style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280", lineHeight: 1.5 }}>
               USD vs. una recepcionista en Chile
@@ -303,7 +303,7 @@ export default function RoiSection() {
                 marginBottom: 8,
               }}
             >
-              ~$7.092
+              ~$8.052
             </div>
             <div
               style={{
@@ -347,7 +347,7 @@ export default function RoiSection() {
                 marginBottom: 8,
               }}
             >
-              ~1,9×
+              ~1,1×
             </div>
             <div style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280", lineHeight: 1.5 }}>
               capacidad vs. un humano promedio
@@ -369,7 +369,7 @@ export default function RoiSection() {
             maxWidth: 880,
           }}
         >
-          &ldquo;Por $359 al mes tienes un{" "}
+          &ldquo;Por $279 al mes tienes un{" "}
           <span style={{ color: "#7C3AED" }}>empleado 24/7</span>. Tu próxima recepcionista te
           va a costar mil dólares y va a trabajar 45 horas a la semana.&rdquo;
         </p>

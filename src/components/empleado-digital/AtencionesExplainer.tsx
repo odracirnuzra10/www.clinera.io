@@ -172,7 +172,7 @@ export default function AtencionesExplainer() {
             borderLeft: "3px solid #E5E7EB",
           }}
         >
-          <strong style={{ color: "#0A0A0A" }}>Costo por atención según el plan: ~$0.19 (Advanced) · ~$0.26 (Conect) · ~$0.22 (Core).</strong>{" "}
+          <strong style={{ color: "#0A0A0A" }}>Costo por atención según el plan: ~$0.28 (MAX) · ~$0.46 (Advanced) · ~$0.48 (Conect).</strong>{" "}
           Los cupos se calcularon con un margen conservador (~30%) para que tu atención
           promedio no se quede corta — y nunca pases por sorpresa del cupo.
         </p>

@@ -12,16 +12,16 @@ const CRED_PER_ATT: Record<Mode, number> = {
 };
 
 const MODE_META: Record<Mode, { name: string; from: string }> = {
-  eficiente: { name: "Eficiente", from: "Plan Core" },
+  eficiente: { name: "Eficiente", from: "Plan Conect" },
   agentic: { name: "Agentic", from: "Plan Conect" },
-  flash: { name: "Agentic Flash", from: "Plan Advanced" },
+  flash: { name: "Agentic Flash", from: "Plan MAX" },
 };
 
 const ADDON_CRED = 5000;
-const ADDON_PRICE = 50;
+const ADDON_PRICE = 100;
 
 type Plan = {
-  id: "core" | "conect" | "advanced";
+  id: "conect" | "advanced" | "max";
   name: string;
   price: number;
   credits: number;
@@ -30,9 +30,9 @@ type Plan = {
 };
 
 const PLANS: Plan[] = [
-  { id: "core", name: "Core", price: 129, credits: 8000, users: 3, modes: ["eficiente"] },
-  { id: "conect", name: "Conect", price: 179, credits: 12000, users: 5, modes: ["eficiente", "agentic"] },
-  { id: "advanced", name: "Advanced", price: 359, credits: 32000, users: 15, modes: ["eficiente", "agentic", "flash"] },
+  { id: "conect", name: "Conect", price: 129, credits: 8000, users: 3, modes: ["eficiente", "agentic"] },
+  { id: "advanced", name: "Advanced", price: 179, credits: 12000, users: 5, modes: ["eficiente", "agentic"] },
+  { id: "max", name: "MAX", price: 279, credits: 28000, users: 15, modes: ["eficiente", "agentic", "flash"] },
 ];
 
 const PRESETS = [
