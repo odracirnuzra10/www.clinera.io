@@ -938,6 +938,20 @@
   }
   .ficha-field.full{ grid-column: 1 / -1; }
   .ficha-field.empty .val{ color: var(--muted-2); font-style: italic; font-weight: 400; }
+  .ficha-field.opt{
+    opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0;
+    border-bottom-color: transparent; overflow: hidden; transform: translateY(-4px);
+    transition: opacity .35s ease, max-height .45s cubic-bezier(.16,1,.3,1), padding .4s ease, transform .4s ease, border-color .4s ease;
+  }
+  .ficha-field.opt.show{ opacity: 1; max-height: 56px; padding-top: 8px; padding-bottom: 8px; transform: none; border-bottom-color: var(--line-2); }
+  .ficha-edit-chip{
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px; opacity: 0; transform: translateY(-2px);
+    transition: opacity .3s ease, transform .3s ease; white-space: nowrap; border: 1px solid transparent;
+  }
+  .ficha-edit-chip.show{ opacity: 1; transform: none; }
+  .ficha-edit-chip.add{ background: rgba(16,185,129,.12); color: var(--green); border-color: rgba(16,185,129,.3); }
+  .ficha-edit-chip.rm{ background: rgba(124,58,237,.06); color: var(--muted); border-color: var(--line-2); }
 
   .vault-strip{
     margin-top: 16px;
@@ -2775,44 +2789,8 @@
     </div>
   </section>
 
-  <!-- 03 — Lista en 3 minutos -->
+  <!-- 03 — CAMILA · voz humana (foto + call mockup) -->
   <section class="slide" id="slide2">
-    <div class="slide-inner modos-slide-inner">
-      <div class="kicker"><span class="pip"></span>Configúrala tú mismo</div>
-      <h2 class="h-display">Lista en 3 <span class="em">minutos</span>.</h2>
-      <p class="lead">Sin instaladores ni técnicos. Tú la dejas andando, paso a paso.</p>
-
-      <div class="modos-grid">
-
-        <div class="modo-card eficiente">
-          <span class="modo-tag">Paso 01</span>
-          <div class="modo-name">Conecta tu WhatsApp</div>
-          <p class="modo-desc">Escaneas un código una sola vez. AURA empieza a contestar desde el <b>mismo número de siempre</b>.</p>
-          <div class="modo-foot"><span>Te toma</span><span class="mf-cost">~1 min</span></div>
-        </div>
-
-        <div class="modo-card agentic">
-          <span class="modo-tag">Paso 02</span>
-          <div class="modo-name">Carga tu clínica</div>
-          <p class="modo-desc">Tus tratamientos, tus sucursales y tus profesionales. Es <b>como llenar una ficha</b>.</p>
-          <div class="modo-foot"><span>Te toma</span><span class="mf-cost">~1 min</span></div>
-        </div>
-
-        <div class="modo-card flash">
-          <span class="modo-tag">Paso 03</span>
-          <div class="modo-name">Pones tus reglas</div>
-          <p class="modo-desc">Horarios, qué se puede agendar y qué no. <b>Tú decides hasta dónde llega AURA</b>.</p>
-          <div class="modo-foot"><span>Te toma</span><span class="mf-cost">~1 min</span></div>
-        </div>
-
-      </div>
-
-      <p class="roi-quote">Y listo: tu clínica empieza a <span class="em">atender sola</span>.</p>
-    </div>
-  </section>
-
-  <!-- 04 — CAMILA · voz humana (foto + call mockup) -->
-  <section class="slide" id="slide3">
     <div class="slide-inner agent-trio">
       <div class="mockup-text">
         <div class="agent-badge dev">
@@ -2857,8 +2835,8 @@
     </div>
   </section>
 
-  <!-- 05 — LIA · gap-finder -->
-  <section class="slide" id="slide4">
+  <!-- 04 — LIA · gap-finder -->
+  <section class="slide" id="slide3">
     <div class="slide-inner agent-trio">
       <div class="mockup-text">
         <div class="agent-badge dev">
@@ -2915,6 +2893,42 @@
           <div>Candidata: <em>Camila P.</em> · no ha vuelto hace tiempo · control vencido 14 días · <em>AURA escribiendo</em></div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- 05 — Lista en 3 minutos -->
+  <section class="slide" id="slide4">
+    <div class="slide-inner modos-slide-inner">
+      <div class="kicker"><span class="pip"></span>Configúrala tú mismo</div>
+      <h2 class="h-display">Lista en 3 <span class="em">minutos</span>.</h2>
+      <p class="lead">Sin instaladores ni técnicos. Tú la dejas andando, paso a paso.</p>
+
+      <div class="modos-grid">
+
+        <div class="modo-card eficiente">
+          <span class="modo-tag">Paso 01</span>
+          <div class="modo-name">Conecta tu WhatsApp</div>
+          <p class="modo-desc">Escaneas un código una sola vez. AURA empieza a contestar desde el <b>mismo número de siempre</b>.</p>
+          <div class="modo-foot"><span>Te toma</span><span class="mf-cost">~1 min</span></div>
+        </div>
+
+        <div class="modo-card agentic">
+          <span class="modo-tag">Paso 02</span>
+          <div class="modo-name">Carga tu clínica</div>
+          <p class="modo-desc">Tus tratamientos, tus sucursales y tus profesionales. Es <b>como llenar una ficha</b>.</p>
+          <div class="modo-foot"><span>Te toma</span><span class="mf-cost">~1 min</span></div>
+        </div>
+
+        <div class="modo-card flash">
+          <span class="modo-tag">Paso 03</span>
+          <div class="modo-name">Pones tus reglas</div>
+          <p class="modo-desc">Horarios, qué se puede agendar y qué no. <b>Tú decides hasta dónde llega AURA</b>.</p>
+          <div class="modo-foot"><span>Te toma</span><span class="mf-cost">~1 min</span></div>
+        </div>
+
+      </div>
+
+      <p class="roi-quote">Y listo: tu clínica empieza a <span class="em">atender sola</span>.</p>
     </div>
   </section>
 
@@ -3147,7 +3161,10 @@
                     <span class="ficha-rut">17.xxx.xxx-3 · 28 años</span>
                   </div>
                 </div>
-                <span class="ficha-spec-pill" id="ficha-spec">Odontología</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span class="ficha-edit-chip" id="ficha-chip"></span>
+                  <span class="ficha-spec-pill" id="ficha-spec">Odontología</span>
+                </div>
               </div>
               <div class="ficha-fields">
                 <div class="ficha-field">
@@ -3165,6 +3182,14 @@
                 <div class="ficha-field">
                   <span class="lbl">Tratamiento previo</span>
                   <span class="val" id="ff-4">Brackets 2022</span>
+                </div>
+                <div class="ficha-field opt" id="ff-opt-1">
+                  <span class="lbl">Presión arterial</span>
+                  <span class="val">120 / 80</span>
+                </div>
+                <div class="ficha-field opt" id="ff-opt-2">
+                  <span class="lbl">Tipo de piel</span>
+                  <span class="val">Mixta</span>
                 </div>
                 <div class="ficha-field full">
                   <span class="lbl">Notas del profesional</span>
@@ -3494,8 +3519,8 @@
       resetSlideState(n);
       if (n === 6) setActiveCap(0);
       if (n === 1) playAuraChat();
-      if (n === 3) initCamilaWave();
-      if (n === 4) playLiaScan();
+      if (n === 2) initCamilaWave();
+      if (n === 3) playLiaScan();
       setTimeout(function(){ isAnimating = false; }, 200);
     }, 300);
   }
@@ -3537,6 +3562,9 @@
       document.querySelectorAll('.booking').forEach(function(el, i){
         setTimeout(function(){ el.classList.add('show'); }, 120 + i * 130);
       });
+    }
+    if (idx === 2){
+      runFichaEdit();
     }
     if (idx === 3){
       const bc = $('blast-card'); if (bc) bc.classList.remove('show');
@@ -3612,7 +3640,7 @@
     else if (currentSlide > 0) goToSlide(currentSlide - 1);
   }, { passive: true });
 
-  // Genera barras dinámicas para el waveform de CAMILA (slide3).
+  // Genera barras dinámicas para el waveform de CAMILA (slide2).
   let camilaWaveInited = false;
   function initCamilaWave(){
     if (camilaWaveInited) return;
@@ -3651,10 +3679,10 @@
     run();
   }
 
-  // LIA scan — recorrido + detección de espacio libre + acción (slide4)
+  // LIA scan — recorrido + detección de espacio libre + acción (slide3)
   let liaTimers = [];
   function playLiaScan(){
-    const lia = document.querySelector('#slide4 .m-lia');
+    const lia = document.querySelector('#slide3 .m-lia');
     if (!lia) return;
     liaTimers.forEach(function(t){ clearTimeout(t); });
     liaTimers = [];
@@ -3672,6 +3700,32 @@
     run();
   }
 
+  // Ficha clínica — demo de campos personalizables: agrega y quita campos en loop (cap 2)
+  let fichaTimers = [];
+  function runFichaEdit(){
+    const a = $('ff-opt-1');
+    const b = $('ff-opt-2');
+    const chip = $('ficha-chip');
+    if (!a || !b || !chip) return;
+    fichaTimers.forEach(function(t){ clearTimeout(t); });
+    fichaTimers = [];
+    function setChip(text, cls){
+      chip.textContent = text;
+      chip.className = 'ficha-edit-chip show ' + cls;
+      fichaTimers.push(setTimeout(function(){ chip.classList.remove('show'); }, 1300));
+    }
+    function run(){
+      a.classList.remove('show'); b.classList.remove('show');
+      chip.className = 'ficha-edit-chip';
+      fichaTimers.push(setTimeout(function(){ a.classList.add('show'); setChip('+ Presión arterial', 'add'); }, 700));
+      fichaTimers.push(setTimeout(function(){ b.classList.add('show'); setChip('+ Tipo de piel', 'add'); }, 2300));
+      fichaTimers.push(setTimeout(function(){ a.classList.remove('show'); setChip('– Presión arterial', 'rm'); }, 4300));
+      fichaTimers.push(setTimeout(function(){ b.classList.remove('show'); setChip('– Tipo de piel', 'rm'); }, 5900));
+      fichaTimers.push(setTimeout(run, 7800));
+    }
+    run();
+  }
+
   // On mobile: load all slides visible from the start, no animations gating content
   if (isMobile()){
     document.querySelectorAll('.slide').forEach(function(s){ s.classList.add('active'); });
@@ -3680,6 +3734,7 @@
     document.querySelectorAll('.m-chat .m-msg, .m-chat .m-typing').forEach(function(el){ el.classList.add('visible'); });
     const liaAction = document.querySelector('.m-lia .m-lia-action'); if (liaAction) liaAction.classList.add('visible');
     const liaGap = document.querySelector('.m-lia .m-slot.gap'); if (liaGap) liaGap.classList.add('detected');
+    document.querySelectorAll('.ficha-field.opt').forEach(function(el){ el.classList.add('show'); });
     const sn = document.getElementById('sale-new'); if (sn) sn.classList.add('show');
     const an = document.getElementById('ag-new'); if (an) an.classList.add('show');
     const ae = document.getElementById('ag-empty'); if (ae) ae.style.display = 'none';
