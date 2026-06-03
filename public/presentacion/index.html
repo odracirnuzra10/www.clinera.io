@@ -3831,15 +3831,15 @@
     function setChip(text, cls){
       chip.textContent = text;
       chip.className = 'ficha-edit-chip show ' + cls;
-      fichaTimers.push(setTimeout(function(){ chip.classList.remove('show'); }, 1300));
+      fichaTimers.push(setTimeout(function(){ chip.classList.remove('show'); }, 1100));
     }
     function run(){
       a.classList.remove('show'); b.classList.remove('show');
       chip.className = 'ficha-edit-chip';
-      fichaTimers.push(setTimeout(function(){ a.classList.add('show'); setChip('+ Presión arterial', 'add'); }, 700));
-      fichaTimers.push(setTimeout(function(){ b.classList.add('show'); setChip('+ Tipo de piel', 'add'); }, 2300));
-      fichaTimers.push(setTimeout(function(){ a.classList.remove('show'); setChip('– Presión arterial', 'rm'); }, 4300));
-      fichaTimers.push(setTimeout(function(){ b.classList.remove('show'); setChip('– Tipo de piel', 'rm'); }, 5900));
+      fichaTimers.push(setTimeout(function(){ a.classList.add('show'); setChip('+ Presión arterial', 'add'); }, 550));
+      fichaTimers.push(setTimeout(function(){ b.classList.add('show'); setChip('+ Tipo de piel', 'add'); }, 1800));
+      fichaTimers.push(setTimeout(function(){ a.classList.remove('show'); setChip('– Presión arterial', 'rm'); }, 3300));
+      fichaTimers.push(setTimeout(function(){ b.classList.remove('show'); setChip('– Tipo de piel', 'rm'); }, 4200));
     }
     run();
   }
@@ -3856,7 +3856,7 @@
     const marks = view.querySelectorAll('.fmark');
     marks.forEach(function(m){ m.classList.remove('show'); });
     marks.forEach(function(m, k){
-      fichaMarkTimers.push(setTimeout(function(){ m.classList.add('show'); }, 350 + k * 380));
+      fichaMarkTimers.push(setTimeout(function(){ m.classList.add('show'); }, 260 + k * 300));
     });
   }
   function showFichaView(i){
@@ -3871,9 +3871,9 @@
     function tick(){
       idx = (idx + 1) % 4;
       showFichaView(idx);
-      fichaLoopTimer = setTimeout(tick, 6000);
+      fichaLoopTimer = setTimeout(tick, 4800);
     }
-    fichaLoopTimer = setTimeout(tick, 6000);
+    fichaLoopTimer = setTimeout(tick, 4800);
   }
 
   // On mobile: load all slides visible from the start, no animations gating content
