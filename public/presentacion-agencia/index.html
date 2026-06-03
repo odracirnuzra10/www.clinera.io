@@ -1009,6 +1009,7 @@
   .fmark{ opacity:0; transform:scale(.55); transform-box:fill-box; transform-origin:center;
     transition:opacity .4s ease, transform .45s cubic-bezier(.34,1.56,.64,1); }
   .fmark.show{ opacity:1; transform:scale(1); }
+  .fmark.line{ transform:none; }
   @media (max-width: 980px){
     .ficha-stage{ position:static; min-height:0; display:flex; flex-direction:column; gap:16px; }
     .ficha-view{ position:static; opacity:1; transform:none; pointer-events:auto; }
@@ -4293,20 +4294,20 @@
               <div class="fv-card">
                 <div class="fv-head"><div class="fv-title">Evaluación facial</div><div class="fv-sub">Estética</div></div>
                 <svg class="fv-svg" viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M240 26 C300 26 322 70 322 120 C322 175 286 214 240 214 C194 214 158 175 158 120 C158 70 180 26 240 26 Z" fill="#fff" stroke="#E2E0E5" stroke-width="1.5"/>
-                  <g fill="none" stroke="#C7C5CD" stroke-width="2" stroke-linecap="round">
-                    <path d="M188 98 q14 -8 28 0"/><path d="M264 98 q14 -8 28 0"/>
-                    <ellipse cx="202" cy="112" rx="9" ry="5"/><ellipse cx="278" cy="112" rx="9" ry="5"/>
-                    <path d="M240 118 l-6 28 q6 6 12 0"/>
-                    <path d="M222 174 q18 12 36 0"/>
+                  <path d="M240 30 C292 30 314 70 314 116 C314 150 304 178 286 198 C272 212 258 220 240 220 C222 220 208 212 194 198 C176 178 166 150 166 116 C166 70 188 30 240 30 Z" fill="none" stroke="#C7C5CD" stroke-width="2"/>
+                  <g fill="none" stroke="#D3D1D8" stroke-width="1.6" stroke-linecap="round">
+                    <path d="M198 104 q16 -7 30 -1"/><path d="M252 103 q16 -6 30 1"/>
+                    <ellipse cx="212" cy="118" rx="10" ry="5.5"/><ellipse cx="268" cy="118" rx="10" ry="5.5"/>
+                    <path d="M240 122 l-6 30 q6 6 12 0"/>
+                    <path d="M221 182 q19 11 38 0"/>
                   </g>
-                  <g class="fmark"><rect x="186" y="60" width="108" height="20" rx="10" fill="rgba(124,58,237,.16)" stroke="#7C3AED" stroke-width="1.5"/></g>
-                  <g class="fmark"><circle cx="240" cy="92" r="8" fill="rgba(124,58,237,.16)" stroke="#7C3AED" stroke-width="1.5"/></g>
-                  <g class="fmark"><ellipse cx="190" cy="142" rx="20" ry="13" fill="rgba(34,211,238,.2)" stroke="#22D3EE" stroke-width="1.5"/></g>
-                  <g class="fmark"><ellipse cx="290" cy="142" rx="20" ry="13" fill="rgba(34,211,238,.2)" stroke="#22D3EE" stroke-width="1.5"/></g>
-                  <g class="fmark"><ellipse cx="240" cy="196" rx="26" ry="14" fill="rgba(245,158,11,.18)" stroke="#F59E0B" stroke-width="1.5"/></g>
+                  <line class="fmark line" x1="240" y1="22" x2="240" y2="228" stroke="#E5484D" stroke-width="2.5" stroke-linecap="round"/>
+                  <line class="fmark line" x1="118" y1="58"  x2="362" y2="58"  stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+                  <line class="fmark line" x1="118" y1="104" x2="362" y2="104" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+                  <line class="fmark line" x1="118" y1="152" x2="362" y2="152" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+                  <line class="fmark line" x1="118" y1="200" x2="362" y2="200" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
                 </svg>
-                <div class="fv-legend"><span><i class="tx-c"></i>Botox</span><span><i class="tx-b"></i>Relleno</span><span><i class="tx-a"></i>Perfilado</span></div>
+                <div class="fv-legend"><span><i style="background:#E5484D"></i>Eje de simetría</span><span><i style="background:#10B981"></i>Tercios faciales</span></div>
               </div>
             </div>
 
@@ -4315,21 +4316,20 @@
               <div class="fv-card">
                 <div class="fv-head"><div class="fv-title">Evaluación corporal</div><div class="fv-sub">Estética</div></div>
                 <svg class="fv-svg" viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg">
-                  <g fill="#F2F1F4" stroke="#E2E0E5" stroke-width="1.5">
-                    <circle cx="240" cy="30" r="18"/>
-                    <rect x="233" y="46" width="14" height="12" rx="4"/>
-                    <rect x="198" y="58" width="84" height="92" rx="22"/>
-                    <rect x="170" y="62" width="18" height="84" rx="9"/>
-                    <rect x="292" y="62" width="18" height="84" rx="9"/>
-                    <rect x="200" y="146" width="80" height="24" rx="11"/>
-                    <rect x="206" y="166" width="30" height="76" rx="13"/>
-                    <rect x="244" y="166" width="30" height="76" rx="13"/>
+                  <g fill="#A9A7B0">
+                    <ellipse cx="240" cy="34" rx="19" ry="23"/>
+                    <path d="M232 52 h16 v10 q-8 4 -16 0 Z"/>
+                    <path d="M198 76 C214 67 266 67 282 76 C295 86 294 116 287 138 C283 150 281 158 279 167 C278 173 202 173 201 167 C199 158 197 150 193 138 C186 116 185 86 198 76 Z"/>
+                    <path d="M199 80 C181 88 173 120 177 156 C178 167 187 169 191 162 C196 139 199 109 207 92 Z"/>
+                    <path d="M281 80 C299 88 307 120 303 156 C302 167 293 169 289 162 C284 139 281 109 273 92 Z"/>
+                    <path d="M207 165 C202 193 205 222 211 240 L225 240 C227 217 227 192 224 168 Z"/>
+                    <path d="M273 165 C278 193 275 222 269 240 L255 240 C253 217 253 192 256 168 Z"/>
                   </g>
-                  <g class="fmark"><ellipse cx="240" cy="120" rx="30" ry="20" fill="rgba(245,158,11,.18)" stroke="#F59E0B" stroke-width="1.5"/></g>
-                  <g class="fmark"><ellipse cx="206" cy="110" rx="10" ry="16" fill="rgba(34,211,238,.2)" stroke="#22D3EE" stroke-width="1.5"/></g>
-                  <g class="fmark"><ellipse cx="274" cy="110" rx="10" ry="16" fill="rgba(34,211,238,.2)" stroke="#22D3EE" stroke-width="1.5"/></g>
-                  <g class="fmark"><ellipse cx="221" cy="198" rx="13" ry="24" fill="rgba(124,58,237,.16)" stroke="#7C3AED" stroke-width="1.5"/></g>
-                  <g class="fmark"><ellipse cx="259" cy="198" rx="13" ry="24" fill="rgba(124,58,237,.16)" stroke="#7C3AED" stroke-width="1.5"/></g>
+                  <g class="fmark"><ellipse cx="240" cy="126" rx="29" ry="19" fill="rgba(245,158,11,.85)"/></g>
+                  <g class="fmark"><ellipse cx="206" cy="116" rx="9"  ry="16" fill="rgba(34,211,238,.85)"/></g>
+                  <g class="fmark"><ellipse cx="274" cy="116" rx="9"  ry="16" fill="rgba(34,211,238,.85)"/></g>
+                  <g class="fmark"><ellipse cx="221" cy="198" rx="12" ry="24" fill="rgba(124,58,237,.85)"/></g>
+                  <g class="fmark"><ellipse cx="259" cy="198" rx="12" ry="24" fill="rgba(124,58,237,.85)"/></g>
                 </svg>
                 <div class="fv-legend"><span><i class="tx-a"></i>Abdomen</span><span><i class="tx-b"></i>Flancos</span><span><i class="tx-c"></i>Muslos</span></div>
               </div>
