@@ -978,6 +978,43 @@
     .ficha-slide-grid{ grid-template-columns: 1fr; gap: 26px; }
   }
 
+  /* Showcase: cicla ficha texto / odontograma / facial / corporal */
+  .ficha-modes{ display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
+  .fmode{
+    font-family:var(--mono); font-size:10px; letter-spacing:.07em; text-transform:uppercase;
+    padding:5px 11px; border-radius:999px; border:1px solid var(--line); color:var(--muted);
+    background:#fff; transition:background .35s ease, color .35s ease, border-color .35s ease;
+  }
+  .fmode.active{ background:linear-gradient(135deg,var(--violet),var(--magenta)); color:#fff; border-color:transparent; }
+  .ficha-stage{ position:relative; min-height:392px; }
+  .ficha-view{
+    position:absolute; inset:0; opacity:0; transform:translateY(10px); pointer-events:none;
+    transition:opacity .55s ease, transform .55s ease;
+  }
+  .ficha-view.active{ opacity:1; transform:none; pointer-events:auto; }
+  .fv-card{
+    background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px 20px;
+    height:100%; box-sizing:border-box; display:flex; flex-direction:column;
+  }
+  .fv-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:4px; }
+  .fv-title{ font-size:15px; font-weight:700; color:var(--ink); letter-spacing:-0.01em; }
+  .fv-sub{ font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted-2); }
+  .fv-svg{ width:100%; height:auto; display:block; margin:10px 0 auto; }
+  .fv-legend{ display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; font-size:11.5px; color:var(--ink-2); }
+  .fv-legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .fv-legend i{ width:9px; height:9px; border-radius:3px; display:inline-block; }
+  .tx-a{ background:#F59E0B; }
+  .tx-b{ background:var(--cyan); }
+  .tx-c{ background:var(--violet); }
+  .fmark{ opacity:0; transform:scale(.55); transform-box:fill-box; transform-origin:center;
+    transition:opacity .4s ease, transform .45s cubic-bezier(.34,1.56,.64,1); }
+  .fmark.show{ opacity:1; transform:scale(1); }
+  @media (max-width: 980px){
+    .ficha-stage{ position:static; min-height:0; display:flex; flex-direction:column; gap:16px; }
+    .ficha-view{ position:static; opacity:1; transform:none; pointer-events:auto; }
+    .fmark{ opacity:1; transform:none; }
+  }
+
   .vault-strip{
     margin-top: 16px;
     padding: 14px 16px;
@@ -4192,50 +4229,112 @@
         </div>
 
         <div class="ficha-slide-right">
-          <div class="ficha">
-            <div class="ficha-head">
-              <div class="ficha-patient">
-                <div class="ficha-avatar">CM</div>
-                <div class="ficha-name-block">
-                  <span class="ficha-name">Camila Mella</span>
-                  <span class="ficha-rut">17.xxx.xxx-3 · 28 años</span>
+          <div class="ficha-modes">
+            <span class="fmode active" data-fmode="0">Ficha</span>
+            <span class="fmode" data-fmode="1">Odontograma</span>
+            <span class="fmode" data-fmode="2">Facial</span>
+            <span class="fmode" data-fmode="3">Corporal</span>
+          </div>
+
+          <div class="ficha-stage">
+
+            <!-- Vista 0: Ficha texto -->
+            <div class="ficha-view active" data-fview="0">
+              <div class="ficha">
+                <div class="ficha-head">
+                  <div class="ficha-patient">
+                    <div class="ficha-avatar">CM</div>
+                    <div class="ficha-name-block">
+                      <span class="ficha-name">Camila Mella</span>
+                      <span class="ficha-rut">17.xxx.xxx-3 · 28 años</span>
+                    </div>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span class="ficha-edit-chip" id="ficha-chip"></span>
+                    <span class="ficha-spec-pill" id="ficha-spec">Odontología</span>
+                  </div>
+                </div>
+                <div class="ficha-fields">
+                  <div class="ficha-field"><span class="lbl">Motivo</span><span class="val" id="ff-1">Limpieza dental anual</span></div>
+                  <div class="ficha-field"><span class="lbl">Última visita</span><span class="val" id="ff-2">14 nov 2025</span></div>
+                  <div class="ficha-field"><span class="lbl">Alergias</span><span class="val" id="ff-3">Penicilina</span></div>
+                  <div class="ficha-field"><span class="lbl">Tratamiento previo</span><span class="val" id="ff-4">Brackets 2022</span></div>
+                  <div class="ficha-field opt" id="ff-opt-1"><span class="lbl">Presión arterial</span><span class="val">120 / 80</span></div>
+                  <div class="ficha-field opt" id="ff-opt-2"><span class="lbl">Tipo de piel</span><span class="val">Mixta</span></div>
+                  <div class="ficha-field full"><span class="lbl">Notas del profesional</span><span class="val" id="ff-5">Sensibilidad en pieza 36<span class="cursor"></span></span></div>
                 </div>
               </div>
-              <div style="display:flex; align-items:center; gap:8px;">
-                <span class="ficha-edit-chip" id="ficha-chip"></span>
-                <span class="ficha-spec-pill" id="ficha-spec">Odontología</span>
+            </div>
+
+            <!-- Vista 1: Odontograma -->
+            <div class="ficha-view" data-fview="1">
+              <div class="fv-card">
+                <div class="fv-head"><div class="fv-title">Odontograma</div><div class="fv-sub">Clínica dental</div></div>
+                <svg class="fv-svg" viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg">
+                  <text x="22" y="30" font-family="'DM Mono',monospace" font-size="11" letter-spacing="1.5" fill="#9A98A0">SUPERIOR</text>
+                  <text x="22" y="140" font-family="'DM Mono',monospace" font-size="11" letter-spacing="1.5" fill="#9A98A0">INFERIOR</text>
+                  <g fill="#fff" stroke="#E2E0E5" stroke-width="1.5">
+                    <rect x="22" y="40" width="44" height="54" rx="13"/><rect x="78" y="40" width="44" height="54" rx="13"/><rect x="134" y="40" width="44" height="54" rx="13"/><rect x="190" y="40" width="44" height="54" rx="13"/><rect x="246" y="40" width="44" height="54" rx="13"/><rect x="302" y="40" width="44" height="54" rx="13"/><rect x="358" y="40" width="44" height="54" rx="13"/><rect x="414" y="40" width="44" height="54" rx="13"/>
+                    <rect x="22" y="150" width="44" height="54" rx="13"/><rect x="78" y="150" width="44" height="54" rx="13"/><rect x="134" y="150" width="44" height="54" rx="13"/><rect x="190" y="150" width="44" height="54" rx="13"/><rect x="246" y="150" width="44" height="54" rx="13"/><rect x="302" y="150" width="44" height="54" rx="13"/><rect x="358" y="150" width="44" height="54" rx="13"/><rect x="414" y="150" width="44" height="54" rx="13"/>
+                  </g>
+                  <circle class="fmark" cx="44"  cy="67"  r="10" fill="#22D3EE"/>
+                  <circle class="fmark" cx="156" cy="67"  r="10" fill="#F59E0B"/>
+                  <circle class="fmark" cx="324" cy="67"  r="10" fill="#22D3EE"/>
+                  <circle class="fmark" cx="100" cy="177" r="10" fill="#7C3AED"/>
+                  <circle class="fmark" cx="268" cy="177" r="10" fill="#F59E0B"/>
+                  <circle class="fmark" cx="380" cy="177" r="10" fill="#7C3AED"/>
+                </svg>
+                <div class="fv-legend"><span><i class="tx-a"></i>Caries</span><span><i class="tx-b"></i>Tratado</span><span><i class="tx-c"></i>A tratar</span></div>
               </div>
             </div>
-            <div class="ficha-fields">
-              <div class="ficha-field">
-                <span class="lbl">Motivo</span>
-                <span class="val" id="ff-1">Limpieza dental anual</span>
-              </div>
-              <div class="ficha-field">
-                <span class="lbl">Última visita</span>
-                <span class="val" id="ff-2">14 nov 2025</span>
-              </div>
-              <div class="ficha-field">
-                <span class="lbl">Alergias</span>
-                <span class="val" id="ff-3">Penicilina</span>
-              </div>
-              <div class="ficha-field">
-                <span class="lbl">Tratamiento previo</span>
-                <span class="val" id="ff-4">Brackets 2022</span>
-              </div>
-              <div class="ficha-field opt" id="ff-opt-1">
-                <span class="lbl">Presión arterial</span>
-                <span class="val">120 / 80</span>
-              </div>
-              <div class="ficha-field opt" id="ff-opt-2">
-                <span class="lbl">Tipo de piel</span>
-                <span class="val">Mixta</span>
-              </div>
-              <div class="ficha-field full">
-                <span class="lbl">Notas del profesional</span>
-                <span class="val" id="ff-5">Sensibilidad en pieza 36<span class="cursor"></span></span>
+
+            <!-- Vista 2: Evaluación facial -->
+            <div class="ficha-view" data-fview="2">
+              <div class="fv-card">
+                <div class="fv-head"><div class="fv-title">Evaluación facial</div><div class="fv-sub">Estética</div></div>
+                <svg class="fv-svg" viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M240 26 C300 26 322 70 322 120 C322 175 286 214 240 214 C194 214 158 175 158 120 C158 70 180 26 240 26 Z" fill="#fff" stroke="#E2E0E5" stroke-width="1.5"/>
+                  <g fill="none" stroke="#C7C5CD" stroke-width="2" stroke-linecap="round">
+                    <path d="M188 98 q14 -8 28 0"/><path d="M264 98 q14 -8 28 0"/>
+                    <ellipse cx="202" cy="112" rx="9" ry="5"/><ellipse cx="278" cy="112" rx="9" ry="5"/>
+                    <path d="M240 118 l-6 28 q6 6 12 0"/>
+                    <path d="M222 174 q18 12 36 0"/>
+                  </g>
+                  <g class="fmark"><rect x="186" y="60" width="108" height="20" rx="10" fill="rgba(124,58,237,.16)" stroke="#7C3AED" stroke-width="1.5"/></g>
+                  <g class="fmark"><circle cx="240" cy="92" r="8" fill="rgba(124,58,237,.16)" stroke="#7C3AED" stroke-width="1.5"/></g>
+                  <g class="fmark"><ellipse cx="190" cy="142" rx="20" ry="13" fill="rgba(34,211,238,.2)" stroke="#22D3EE" stroke-width="1.5"/></g>
+                  <g class="fmark"><ellipse cx="290" cy="142" rx="20" ry="13" fill="rgba(34,211,238,.2)" stroke="#22D3EE" stroke-width="1.5"/></g>
+                  <g class="fmark"><ellipse cx="240" cy="196" rx="26" ry="14" fill="rgba(245,158,11,.18)" stroke="#F59E0B" stroke-width="1.5"/></g>
+                </svg>
+                <div class="fv-legend"><span><i class="tx-c"></i>Botox</span><span><i class="tx-b"></i>Relleno</span><span><i class="tx-a"></i>Perfilado</span></div>
               </div>
             </div>
+
+            <!-- Vista 3: Evaluación corporal -->
+            <div class="ficha-view" data-fview="3">
+              <div class="fv-card">
+                <div class="fv-head"><div class="fv-title">Evaluación corporal</div><div class="fv-sub">Estética</div></div>
+                <svg class="fv-svg" viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg">
+                  <g fill="#F2F1F4" stroke="#E2E0E5" stroke-width="1.5">
+                    <circle cx="240" cy="30" r="18"/>
+                    <rect x="233" y="46" width="14" height="12" rx="4"/>
+                    <rect x="198" y="58" width="84" height="92" rx="22"/>
+                    <rect x="170" y="62" width="18" height="84" rx="9"/>
+                    <rect x="292" y="62" width="18" height="84" rx="9"/>
+                    <rect x="200" y="146" width="80" height="24" rx="11"/>
+                    <rect x="206" y="166" width="30" height="76" rx="13"/>
+                    <rect x="244" y="166" width="30" height="76" rx="13"/>
+                  </g>
+                  <g class="fmark"><ellipse cx="240" cy="120" rx="30" ry="20" fill="rgba(245,158,11,.18)" stroke="#F59E0B" stroke-width="1.5"/></g>
+                  <g class="fmark"><ellipse cx="206" cy="110" rx="10" ry="16" fill="rgba(34,211,238,.2)" stroke="#22D3EE" stroke-width="1.5"/></g>
+                  <g class="fmark"><ellipse cx="274" cy="110" rx="10" ry="16" fill="rgba(34,211,238,.2)" stroke="#22D3EE" stroke-width="1.5"/></g>
+                  <g class="fmark"><ellipse cx="221" cy="198" rx="13" ry="24" fill="rgba(124,58,237,.16)" stroke="#7C3AED" stroke-width="1.5"/></g>
+                  <g class="fmark"><ellipse cx="259" cy="198" rx="13" ry="24" fill="rgba(124,58,237,.16)" stroke="#7C3AED" stroke-width="1.5"/></g>
+                </svg>
+                <div class="fv-legend"><span><i class="tx-a"></i>Abdomen</span><span><i class="tx-b"></i>Flancos</span><span><i class="tx-c"></i>Muslos</span></div>
+              </div>
+            </div>
+
           </div>
 
           <div class="vault-strip">
@@ -4570,7 +4669,7 @@
       if (n === 1) playAuraChat();
       if (n === 2) initCamilaWave();
       if (n === 3) playLiaScan();
-      if (n === 8) runFichaEdit();
+      if (n === 8) runFichaShowcase();
       setTimeout(function(){ isAnimating = false; }, 200);
     }, 300);
   }
@@ -4767,9 +4866,40 @@
       fichaTimers.push(setTimeout(function(){ b.classList.add('show'); setChip('+ Tipo de piel', 'add'); }, 2300));
       fichaTimers.push(setTimeout(function(){ a.classList.remove('show'); setChip('– Presión arterial', 'rm'); }, 4300));
       fichaTimers.push(setTimeout(function(){ b.classList.remove('show'); setChip('– Tipo de piel', 'rm'); }, 5900));
-      fichaTimers.push(setTimeout(run, 7800));
     }
     run();
+  }
+
+  // Showcase de Ficha clínica: cicla texto → odontograma → facial → corporal
+  let fichaMarkTimers = [];
+  let fichaLoopTimer = null;
+  function animFichaView(i){
+    fichaMarkTimers.forEach(function(t){ clearTimeout(t); });
+    fichaMarkTimers = [];
+    if (i === 0){ runFichaEdit(); return; }
+    const view = document.querySelector('.ficha-view[data-fview="' + i + '"]');
+    if (!view) return;
+    const marks = view.querySelectorAll('.fmark');
+    marks.forEach(function(m){ m.classList.remove('show'); });
+    marks.forEach(function(m, k){
+      fichaMarkTimers.push(setTimeout(function(){ m.classList.add('show'); }, 350 + k * 380));
+    });
+  }
+  function showFichaView(i){
+    document.querySelectorAll('.fmode').forEach(function(el){ el.classList.toggle('active', parseInt(el.dataset.fmode, 10) === i); });
+    document.querySelectorAll('.ficha-view').forEach(function(el){ el.classList.toggle('active', parseInt(el.dataset.fview, 10) === i); });
+    animFichaView(i);
+  }
+  function runFichaShowcase(){
+    if (fichaLoopTimer) clearTimeout(fichaLoopTimer);
+    let idx = 0;
+    showFichaView(0);
+    function tick(){
+      idx = (idx + 1) % 4;
+      showFichaView(idx);
+      fichaLoopTimer = setTimeout(tick, 6000);
+    }
+    fichaLoopTimer = setTimeout(tick, 6000);
   }
 
   // On mobile: load all slides visible from the start, no animations gating content
@@ -4781,6 +4911,7 @@
     const liaAction = document.querySelector('.m-lia .m-lia-action'); if (liaAction) liaAction.classList.add('visible');
     const liaGap = document.querySelector('.m-lia .m-slot.gap'); if (liaGap) liaGap.classList.add('detected');
     document.querySelectorAll('.ficha-field.opt').forEach(function(el){ el.classList.add('show'); });
+    document.querySelectorAll('.fmark').forEach(function(el){ el.classList.add('show'); });
     const sn = document.getElementById('sale-new'); if (sn) sn.classList.add('show');
     const an = document.getElementById('ag-new'); if (an) an.classList.add('show');
     const ae = document.getElementById('ag-empty'); if (ae) ae.style.display = 'none';
