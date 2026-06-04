@@ -3354,18 +3354,45 @@
               <div class="fv-card">
                 <div class="fv-head"><div class="fv-title">Odontograma</div><div class="fv-sub">Clínica dental</div></div>
                 <svg class="fv-svg" viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <!-- arquetipos de pieza dental (corona arriba, raíces abajo), caja local 0..42 x 0..58 -->
+                    <path id="t-inc" d="M9,9 C9,4 13,2.5 21,2.5 C29,2.5 33,4 33,9 L32,25 C32,28 29,29 21,29 C13,29 10,28 10,25 Z M16,28 L26,28 L24,55 C23.5,58 18.5,58 18,55 Z"/>
+                    <path id="t-can" d="M21,2 C27,2 31,5 32.5,12 L31,25 C31,28 28,29 21,29 C14,29 11,28 11,25 L9.5,12 C11,5 15,2 21,2 Z M16,28 L26,28 L23.5,57 C23,60 19,60 18.5,57 Z"/>
+                    <path id="t-pre" d="M9,13 C9,7 12.5,4 15.5,4 C18,4 19,7 21,7 C23,7 24,4 26.5,4 C29.5,4 33,7 33,13 L32,25 C32,28 29,29 21,29 C13,29 10,28 10,25 Z M15,28 L27,28 L24,56 C23.5,59 18.5,59 18,56 Z"/>
+                    <path id="t-mol" d="M6,14 C6,8 9.5,5 12.5,5 C15.5,5 16.5,8 21,8 C25.5,8 26.5,5 29.5,5 C32.5,5 36,8 36,14 L35,27 C35,30 31,31 21,31 C11,31 7,30 7,27 Z M11,30 L19.5,30 L17.5,56 C17,59 12.5,59 12,56 Z M22.5,30 L31,30 L30,56 C29.5,59 25,59 24.5,56 Z"/>
+                  </defs>
                   <text x="22" y="30" font-family="'DM Mono',monospace" font-size="11" letter-spacing="1.5" fill="#9A98A0">SUPERIOR</text>
-                  <text x="22" y="140" font-family="'DM Mono',monospace" font-size="11" letter-spacing="1.5" fill="#9A98A0">INFERIOR</text>
-                  <g fill="#fff" stroke="#E2E0E5" stroke-width="1.5">
-                    <rect x="22" y="40" width="44" height="54" rx="13"/><rect x="78" y="40" width="44" height="54" rx="13"/><rect x="134" y="40" width="44" height="54" rx="13"/><rect x="190" y="40" width="44" height="54" rx="13"/><rect x="246" y="40" width="44" height="54" rx="13"/><rect x="302" y="40" width="44" height="54" rx="13"/><rect x="358" y="40" width="44" height="54" rx="13"/><rect x="414" y="40" width="44" height="54" rx="13"/>
-                    <rect x="22" y="150" width="44" height="54" rx="13"/><rect x="78" y="150" width="44" height="54" rx="13"/><rect x="134" y="150" width="44" height="54" rx="13"/><rect x="190" y="150" width="44" height="54" rx="13"/><rect x="246" y="150" width="44" height="54" rx="13"/><rect x="302" y="150" width="44" height="54" rx="13"/><rect x="358" y="150" width="44" height="54" rx="13"/><rect x="414" y="150" width="44" height="54" rx="13"/>
+                  <text x="22" y="232" font-family="'DM Mono',monospace" font-size="11" letter-spacing="1.5" fill="#9A98A0">INFERIOR</text>
+                  <line x1="22" y1="125" x2="458" y2="125" stroke="#EFEDF1" stroke-width="1.5" stroke-dasharray="3 5"/>
+                  <!-- ARCADA SUPERIOR: corona hacia el centro (abajo), raíces arriba -->
+                  <g fill="#fff" stroke="#D7D5DC" stroke-width="1.4" stroke-linejoin="round">
+                    <use href="#t-mol" transform="translate(26,110) scale(1,-1)"/>
+                    <use href="#t-pre" transform="translate(81,110) scale(1,-1)"/>
+                    <use href="#t-can" transform="translate(136,110) scale(1,-1)"/>
+                    <use href="#t-inc" transform="translate(191,110) scale(1,-1)"/>
+                    <use href="#t-inc" transform="translate(246,110) scale(1,-1)"/>
+                    <use href="#t-can" transform="translate(301,110) scale(1,-1)"/>
+                    <use href="#t-pre" transform="translate(356,110) scale(1,-1)"/>
+                    <use href="#t-mol" transform="translate(411,110) scale(1,-1)"/>
                   </g>
-                  <circle class="fmark" cx="44"  cy="67"  r="10" fill="#22D3EE"/>
-                  <circle class="fmark" cx="156" cy="67"  r="10" fill="#F59E0B"/>
-                  <circle class="fmark" cx="324" cy="67"  r="10" fill="#22D3EE"/>
-                  <circle class="fmark" cx="100" cy="177" r="10" fill="#7C3AED"/>
-                  <circle class="fmark" cx="268" cy="177" r="10" fill="#F59E0B"/>
-                  <circle class="fmark" cx="380" cy="177" r="10" fill="#7C3AED"/>
+                  <!-- ARCADA INFERIOR: corona hacia el centro (arriba), raíces abajo -->
+                  <g fill="#fff" stroke="#D7D5DC" stroke-width="1.4" stroke-linejoin="round">
+                    <use href="#t-mol" transform="translate(26,140)"/>
+                    <use href="#t-pre" transform="translate(81,140)"/>
+                    <use href="#t-can" transform="translate(136,140)"/>
+                    <use href="#t-inc" transform="translate(191,140)"/>
+                    <use href="#t-inc" transform="translate(246,140)"/>
+                    <use href="#t-can" transform="translate(301,140)"/>
+                    <use href="#t-pre" transform="translate(356,140)"/>
+                    <use href="#t-mol" transform="translate(411,140)"/>
+                  </g>
+                  <!-- diagnósticos (animan al entrar) -->
+                  <circle class="fmark" cx="47"  cy="92"  r="6.5" fill="#F59E0B"/>
+                  <circle class="fmark" cx="212" cy="94"  r="6.5" fill="#22D3EE"/>
+                  <circle class="fmark" cx="322" cy="93"  r="6.5" fill="#7C3AED"/>
+                  <circle class="fmark" cx="102" cy="158" r="6.5" fill="#7C3AED"/>
+                  <circle class="fmark" cx="267" cy="159" r="6.5" fill="#F59E0B"/>
+                  <circle class="fmark" cx="377" cy="158" r="6.5" fill="#22D3EE"/>
                 </svg>
                 <div class="fv-legend"><span><i class="tx-a"></i>Caries</span><span><i class="tx-b"></i>Tratado</span><span><i class="tx-c"></i>A tratar</span></div>
               </div>
@@ -3376,18 +3403,26 @@
               <div class="fv-card">
                 <div class="fv-head"><div class="fv-title">Evaluación facial</div><div class="fv-sub">Estética</div></div>
                 <svg class="fv-svg" viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M240 30 C292 30 314 70 314 116 C314 150 304 178 286 198 C272 212 258 220 240 220 C222 220 208 212 194 198 C176 178 166 150 166 116 C166 70 188 30 240 30 Z" fill="none" stroke="#C7C5CD" stroke-width="2"/>
-                  <g fill="none" stroke="#D3D1D8" stroke-width="1.6" stroke-linecap="round">
-                    <path d="M198 104 q16 -7 30 -1"/><path d="M252 103 q16 -6 30 1"/>
-                    <ellipse cx="212" cy="118" rx="10" ry="5.5"/><ellipse cx="268" cy="118" rx="10" ry="5.5"/>
-                    <path d="M240 122 l-6 30 q6 6 12 0"/>
-                    <path d="M221 182 q19 11 38 0"/>
+                  <g fill="none" stroke="#C7C5CD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M240,32 C282,32 308,58 312,100 C315,132 306,162 287,188 C274,208 258,222 240,222 C222,222 208,208 195,188 C176,162 167,132 170,100 C174,58 198,32 240,32 Z"/>
+                    <path d="M182,66 C205,44 275,44 298,66"/>
+                    <path d="M166,112 C160,120 160,134 166,142"/>
+                    <path d="M314,112 C320,120 320,134 314,142"/>
                   </g>
-                  <line class="fmark line" x1="240" y1="22" x2="240" y2="228" stroke="#E5484D" stroke-width="2.5" stroke-linecap="round"/>
-                  <line class="fmark line" x1="118" y1="58"  x2="362" y2="58"  stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-                  <line class="fmark line" x1="118" y1="104" x2="362" y2="104" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-                  <line class="fmark line" x1="118" y1="152" x2="362" y2="152" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-                  <line class="fmark line" x1="118" y1="200" x2="362" y2="200" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+                  <g fill="none" stroke="#D3D1D8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M196,104 q15,-8 29,-2"/><path d="M255,102 q15,-6 29,2"/>
+                    <path d="M199,118 q13,-9 27,0 q-13,8 -27,0 Z"/><path d="M254,118 q13,-9 27,0 q-13,8 -27,0 Z"/>
+                    <path d="M240,120 l-5,30 q5,5 11,2"/>
+                    <path d="M231,151 q9,6 18,0"/>
+                    <path d="M221,176 q19,-7 38,0 q-19,11 -38,0 Z"/>
+                    <path d="M226,185 q14,7 28,0"/>
+                  </g>
+                  <circle cx="212.5" cy="118" r="2.6" fill="#B9B7BF"/><circle cx="267.5" cy="118" r="2.6" fill="#B9B7BF"/>
+                  <line class="fmark line" x1="240" y1="24" x2="240" y2="228" stroke="#E5484D" stroke-width="2.4" stroke-linecap="round"/>
+                  <line class="fmark line" x1="150" y1="60"  x2="330" y2="60"  stroke="#10B981" stroke-width="2.2" stroke-linecap="round"/>
+                  <line class="fmark line" x1="150" y1="104" x2="330" y2="104" stroke="#10B981" stroke-width="2.2" stroke-linecap="round"/>
+                  <line class="fmark line" x1="150" y1="151" x2="330" y2="151" stroke="#10B981" stroke-width="2.2" stroke-linecap="round"/>
+                  <line class="fmark line" x1="150" y1="212" x2="330" y2="212" stroke="#10B981" stroke-width="2.2" stroke-linecap="round"/>
                 </svg>
                 <div class="fv-legend"><span><i style="background:#E5484D"></i>Eje de simetría</span><span><i style="background:#10B981"></i>Tercios faciales</span></div>
               </div>
@@ -3398,20 +3433,18 @@
               <div class="fv-card">
                 <div class="fv-head"><div class="fv-title">Evaluación corporal</div><div class="fv-sub">Estética</div></div>
                 <svg class="fv-svg" viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg">
-                  <g fill="#A9A7B0">
-                    <ellipse cx="240" cy="34" rx="19" ry="23"/>
-                    <path d="M232 52 h16 v10 q-8 4 -16 0 Z"/>
-                    <path d="M198 76 C214 67 266 67 282 76 C295 86 294 116 287 138 C283 150 281 158 279 167 C278 173 202 173 201 167 C199 158 197 150 193 138 C186 116 185 86 198 76 Z"/>
-                    <path d="M199 80 C181 88 173 120 177 156 C178 167 187 169 191 162 C196 139 199 109 207 92 Z"/>
-                    <path d="M281 80 C299 88 307 120 303 156 C302 167 293 169 289 162 C284 139 281 109 273 92 Z"/>
-                    <path d="M207 165 C202 193 205 222 211 240 L225 240 C227 217 227 192 224 168 Z"/>
-                    <path d="M273 165 C278 193 275 222 269 240 L255 240 C253 217 253 192 256 168 Z"/>
+                  <g fill="#F7F6F9" stroke="#C2C0C8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                    <ellipse cx="240" cy="36" rx="14" ry="17"/>
+                    <path d="M234,52 C234,60 233,66 231,69 M246,52 C246,60 247,66 249,69"/>
+                    <path d="M226,74 C217,78 214,90 217,104 C220,116 216,124 233,134 C221,146 216,158 219,176 C221,194 217,214 220,232 C221,239 220,243 222,246 L231,246 C233,230 235,210 237,188 C238,178 239,172 240,168 C241,172 242,178 243,188 C245,210 247,230 249,246 L258,246 C260,243 259,239 260,232 C263,214 259,194 261,176 C264,158 259,146 247,134 C264,124 260,116 263,104 C266,90 263,78 254,74 C245,70 235,70 226,74 Z"/>
+                    <path d="M223,77 C213,84 208,104 210,128 C211,142 209,154 212,166 C213,171 218,171 219,166 C220,150 221,132 225,114 C227,100 228,86 228,79 Z"/>
+                    <path d="M257,77 C267,84 272,104 270,128 C269,142 271,154 268,166 C267,171 262,171 261,166 C260,150 259,132 255,114 C253,100 252,86 252,79 Z"/>
                   </g>
-                  <g class="fmark"><ellipse cx="240" cy="126" rx="29" ry="19" fill="rgba(245,158,11,.85)"/></g>
-                  <g class="fmark"><ellipse cx="206" cy="116" rx="9"  ry="16" fill="rgba(34,211,238,.85)"/></g>
-                  <g class="fmark"><ellipse cx="274" cy="116" rx="9"  ry="16" fill="rgba(34,211,238,.85)"/></g>
-                  <g class="fmark"><ellipse cx="221" cy="198" rx="12" ry="24" fill="rgba(124,58,237,.85)"/></g>
-                  <g class="fmark"><ellipse cx="259" cy="198" rx="12" ry="24" fill="rgba(124,58,237,.85)"/></g>
+                  <g class="fmark"><ellipse cx="240" cy="142" rx="22" ry="15" fill="rgba(245,158,11,.82)"/></g>
+                  <g class="fmark"><ellipse cx="219" cy="134" rx="6"  ry="12" fill="rgba(34,211,238,.82)"/></g>
+                  <g class="fmark"><ellipse cx="261" cy="134" rx="6"  ry="12" fill="rgba(34,211,238,.82)"/></g>
+                  <g class="fmark"><ellipse cx="227" cy="192" rx="10" ry="22" fill="rgba(124,58,237,.8)"/></g>
+                  <g class="fmark"><ellipse cx="253" cy="192" rx="10" ry="22" fill="rgba(124,58,237,.8)"/></g>
                 </svg>
                 <div class="fv-legend"><span><i class="tx-a"></i>Abdomen</span><span><i class="tx-b"></i>Flancos</span><span><i class="tx-c"></i>Muslos</span></div>
               </div>
