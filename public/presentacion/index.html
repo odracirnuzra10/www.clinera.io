@@ -2785,6 +2785,51 @@
     .hero-portrait{ justify-self: center !important; max-width: 320px !important; }
     .modos-grid{ grid-template-columns: 1fr !important; gap: 14px !important; }
   }
+
+  /* ── Próximamente: grid de funcionalidades futuras ── */
+  .fut-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:14px; margin-top:10px; }
+  .fut-card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 18px; }
+  .fut-ic{ width:32px; height:32px; border-radius:9px; background:linear-gradient(135deg,rgba(0,159,227,.14),rgba(124,58,237,.16)); display:flex; align-items:center; justify-content:center; color:var(--violet); margin-bottom:11px; }
+  .fut-title{ font-size:14.5px; font-weight:700; color:var(--ink); letter-spacing:-0.01em; line-height:1.25; }
+  .fut-sub{ font-size:12px; color:var(--muted); margin-top:5px; line-height:1.45; }
+  .fut-cl{ display:inline-block; margin-top:9px; font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:var(--cyan); border:1px solid rgba(0,159,227,.3); border-radius:999px; padding:2px 8px; }
+  @media (max-width:980px){ .fut-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:640px){ .fut-grid{ grid-template-columns:1fr; } }
+
+  /* ── Agente conversacional interno (chat IA) ── */
+  .cia{ width:100%; max-width:680px; margin:18px auto 0; }
+  .cia-input{ background:#fff; border:1px solid var(--line); border-radius:30px; padding:7px 7px 7px 16px; display:flex; align-items:center; gap:6px; box-shadow:0 10px 36px -16px rgba(11,11,15,.16); min-height:54px; transition:border-color .3s, box-shadow .3s; }
+  .cia-input.focused{ border-color:rgba(124,58,237,.32); box-shadow:0 12px 40px -12px rgba(124,58,237,.22); }
+  .cia-plus{ width:30px; height:30px; border-radius:50%; display:grid; place-items:center; color:var(--muted); font-size:21px; font-weight:300; flex-shrink:0; }
+  .cia-text{ flex:1; font-size:15px; color:var(--ink); white-space:nowrap; overflow:hidden; text-align:left; }
+  .cia-ph{ color:#9CA3AF; }
+  .cia-ph.hidden{ display:none; }
+  .cia-cur{ display:inline-block; width:2px; height:17px; background:var(--ink); margin-left:1px; vertical-align:-3px; animation:ciaBlink 1s steps(1) infinite; }
+  .cia-cur.hidden{ display:none; }
+  @keyframes ciaBlink{ 0%,49%{opacity:1} 50%,100%{opacity:0} }
+  .cia-model{ font-family:var(--sans); font-size:13px; color:var(--muted); font-weight:500; flex-shrink:0; }
+  .cia-send{ width:34px; height:34px; border-radius:50%; background:var(--ink); color:#fff; display:grid; place-items:center; flex-shrink:0; }
+  .cia-send svg{ width:16px; height:16px; }
+  .cia-chat{ display:flex; flex-direction:column; gap:14px; opacity:0; max-height:0; overflow:hidden; transition:opacity .5s, max-height .5s; text-align:left; }
+  .cia-chat.visible{ opacity:1; max-height:540px; margin-top:18px; }
+  .cia-user{ align-self:flex-end; background:#F3F4F6; color:var(--ink); padding:11px 16px; border-radius:18px; font-size:14px; max-width:84%; font-weight:500; line-height:1.4; }
+  .cia-ai{ align-self:flex-start; max-width:94%; width:100%; }
+  .cia-typing{ display:inline-flex; gap:5px; padding:11px 15px; background:#fff; border:1px solid var(--line); border-radius:16px; }
+  .cia-typing span{ width:7px; height:7px; border-radius:50%; background:#9CA3AF; animation:ciaBub 1.2s infinite; }
+  .cia-typing span:nth-child(2){ animation-delay:.15s; }
+  .cia-typing span:nth-child(3){ animation-delay:.3s; }
+  .cia-typing.hidden{ display:none; }
+  @keyframes ciaBub{ 0%,60%,100%{opacity:.3; transform:translateY(0)} 30%{opacity:1; transform:translateY(-2px)} }
+  .cia-ans{ display:none; font-size:14px; color:var(--ink-2); line-height:1.6; padding:2px; }
+  .cia-ans.visible{ display:block; animation:ciaFade .5s ease-out; }
+  @keyframes ciaFade{ from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
+  .cia-ans .cia-lead{ color:var(--ink); font-weight:600; font-size:14.5px; display:block; margin-bottom:9px; letter-spacing:-.005em; }
+  .cia-ans ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
+  .cia-ans li{ padding-left:14px; position:relative; font-size:13.5px; color:var(--ink-2); line-height:1.5; }
+  .cia-ans li::before{ content:"•"; position:absolute; left:0; color:var(--violet); font-weight:700; }
+  .cia-ans li b{ color:var(--ink); font-weight:600; }
+  .cia-ans li .meta{ font-family:var(--mono); font-size:11px; color:var(--muted); margin-left:6px; }
+  .cia-ans .cia-total{ font-family:var(--mono); font-size:11.5px; color:var(--violet); font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-top:12px; padding-top:10px; border-top:1px solid var(--line); }
 </style>
 </head>
 <body>
@@ -3627,8 +3672,81 @@
     </div>
   </section>
 
-  <!-- 10 — Cierre -->
-  <section class="slide" id="slide9">
+  <!-- 10 — Próximamente · Julio 2026 -->
+  <section class="slide slide-scroll" id="slide9">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Roadmap · Julio 2026</div>
+      <h2 class="h-display">Lo que viene en <span class="em">Julio 2026</span>.</h2>
+      <p class="lead">Módulos nuevos que conectan Clinera con la operación real de tu clínica.</p>
+      <div class="fut-grid">
+        <div class="fut-card">
+          <div class="fut-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div class="fut-title">Sueldos, comisiones y liquidaciones</div>
+          <div class="fut-sub">Las remuneraciones del equipo, dentro de Clinera.</div>
+        </div>
+        <div class="fut-card">
+          <div class="fut-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></div>
+          <div class="fut-title">Facturación online</div>
+          <div class="fut-sub">NUBOX · facturacion.cl · Bsale · OpenFactura</div>
+          <span class="fut-cl">Solo Chile</span>
+        </div>
+        <div class="fut-card">
+          <div class="fut-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+          <div class="fut-title">Sincronización POS</div>
+          <div class="fut-sub">MercadoPago · TUU</div>
+          <span class="fut-cl">Solo Chile</span>
+        </div>
+        <div class="fut-card">
+          <div class="fut-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          <div class="fut-title">Tareas y turnos por contacto</div>
+          <div class="fut-sub">Asignados a un humano o a un empleado digital.</div>
+        </div>
+        <div class="fut-card">
+          <div class="fut-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/></svg></div>
+          <div class="fut-title">Conexión con laboratorios</div>
+          <div class="fut-sub">Historial de movimientos por cada caso.</div>
+        </div>
+        <div class="fut-card">
+          <div class="fut-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="14" y2="16"/></svg></div>
+          <div class="fut-title">Presupuestos en cada ficha</div>
+          <div class="fut-sub">Clínica, corporal, facial y odontograma.</div>
+        </div>
+        <div class="fut-card">
+          <div class="fut-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 3.5 13.5a5 5 0 0 1 7-7l7 7a5 5 0 0 1-7 7Z"/><path d="m8.5 8.5 7 7"/></svg></div>
+          <div class="fut-title">Recetas controladas</div>
+          <div class="fut-sub">Emisión vía recemed.cl</div>
+          <span class="fut-cl">Solo Chile</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 — Agente conversacional interno -->
+  <section class="slide" id="slide10">
+    <div class="slide-inner" style="max-width:840px;">
+      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Próximamente · Chat IA interno</div>
+      <h2 class="h-display" style="text-align:center;">Pregúntale a tu <span class="em">clínica</span>.</h2>
+      <p class="lead" style="text-align:center; max-width:580px; margin:0 auto;">Un agente IA interno que responde en lenguaje natural sobre tus ventas, tu agenda y tus pacientes — y hasta te arma otros agentes.</p>
+      <div class="cia">
+        <div class="cia-input" id="ciaInput">
+          <span class="cia-plus">+</span>
+          <div class="cia-text"><span class="cia-ph" id="ciaPh">Pregunta lo que quieras</span><span id="ciaType"></span><span class="cia-cur hidden" id="ciaCur"></span></div>
+          <span class="cia-model">Thinking ▾</span>
+          <span class="cia-send"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="9" width="2" height="6" rx="1"/><rect x="8" y="6" width="2" height="12" rx="1"/><rect x="12" y="3" width="2" height="18" rx="1"/><rect x="16" y="7" width="2" height="10" rx="1"/><rect x="20" y="10" width="2" height="4" rx="1"/></svg></span>
+        </div>
+        <div class="cia-chat" id="ciaChat">
+          <div class="cia-user" id="ciaUser">¿cuánto vendí el mes pasado?</div>
+          <div class="cia-ai">
+            <div class="cia-typing" id="ciaDots"><span></span><span></span><span></span></div>
+            <div class="cia-ans" id="ciaAns"><span class="cia-lead">Cerraste $4.820.000 el mes pasado.</span><ul><li><b>Tratamientos</b> — $3.100.000</li><li><b>Productos</b> — $920.000</li><li><b>Membresías</b> — $800.000</li></ul><div class="cia-total">+12% vs. el mes anterior</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 — Cierre -->
+  <section class="slide" id="slide11">
     <div class="slide-inner close">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Conoce Clinera</div>
       <p class="close-line">
@@ -3649,7 +3767,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 10;
+  const TOTAL_SLIDES = 12;
   let currentSlide = 0;
   let currentSubStep = 0;
   let isAnimating = false;
@@ -3683,6 +3801,7 @@
       if (n === 2) initCamilaWave();
       if (n === 3) playLiaScan();
       if (n === 7) runFichaShowcase();
+      if (n === 10) playChatIA();
       setTimeout(function(){ isAnimating = false; }, 200);
     }, 300);
   }
@@ -3920,6 +4039,58 @@
     fichaLoopTimer = setTimeout(tick, 4800);
   }
 
+  // Chat IA interno — cicla preguntas/respuestas en lenguaje natural
+  let ciaTimers = [];
+  let ciaIdx = 0;
+  const CIA_QA = [
+    { q: '¿cuánto vendí el mes pasado?', a: '<span class="cia-lead">Cerraste $4.820.000 el mes pasado.</span><ul><li><b>Tratamientos</b> — $3.100.000</li><li><b>Productos</b> — $920.000</li><li><b>Membresías</b> — $800.000</li></ul><div class="cia-total">+12% vs. el mes anterior</div>' },
+    { q: '¿cuál es mi próximo paciente?', a: '<span class="cia-lead">Tu próximo paciente:</span><ul><li><b>Camila P.</b> — 14:00 · Limpieza facial<span class="meta">box 2 · Dra. Meza</span></li></ul>' },
+    { q: '¿cuáles pacientes están morosos?', a: '<span class="cia-lead">3 pacientes morosos:</span><ul><li><b>Juan R.</b> — $85.000<span class="meta">30 días</span></li><li><b>Ana M.</b> — $12.300<span class="meta">18 días</span></li><li><b>Luis A.</b> — $45.000<span class="meta">22 días</span></li></ul><div class="cia-total">Total · $142.300</div>' },
+    { q: 'ayúdame a construir un agente de voz para calificar leads', a: '<span class="cia-lead">Listo, te armo el agente de voz:</span><ul><li>Saluda y pregunta el <b>motivo de consulta</b></li><li>Califica <b>presupuesto y urgencia</b></li><li>Agenda o <b>deriva a un humano</b></li></ul><div class="cia-total">¿Lo activo?</div>' },
+  ];
+  function playChatIA(){
+    ciaTimers.forEach(function(t){ clearTimeout(t); }); ciaTimers = [];
+    const input = document.getElementById('ciaInput');
+    const ph = document.getElementById('ciaPh');
+    const type = document.getElementById('ciaType');
+    const cur = document.getElementById('ciaCur');
+    const chat = document.getElementById('ciaChat');
+    const user = document.getElementById('ciaUser');
+    const dots = document.getElementById('ciaDots');
+    const ans = document.getElementById('ciaAns');
+    if (!input || !chat) return;
+    function reset(){
+      ph.classList.remove('hidden'); cur.classList.add('hidden'); type.textContent = '';
+      input.classList.remove('focused'); chat.classList.remove('visible');
+      dots.classList.remove('hidden'); ans.classList.remove('visible');
+    }
+    function cycle(){
+      reset();
+      const item = CIA_QA[ciaIdx % CIA_QA.length]; ciaIdx++;
+      ciaTimers.push(setTimeout(function(){
+        ph.classList.add('hidden'); cur.classList.remove('hidden'); input.classList.add('focused');
+        let i = 0;
+        (function typeChar(){
+          if (i <= item.q.length){
+            type.textContent = item.q.slice(0, i); i++;
+            ciaTimers.push(setTimeout(typeChar, 40 + Math.random() * 30));
+          } else {
+            ciaTimers.push(setTimeout(function(){
+              user.textContent = item.q;
+              chat.classList.add('visible');
+              type.textContent = ''; cur.classList.add('hidden'); ph.classList.remove('hidden'); input.classList.remove('focused');
+              ciaTimers.push(setTimeout(function(){
+                dots.classList.add('hidden'); ans.innerHTML = item.a; ans.classList.add('visible');
+                ciaTimers.push(setTimeout(cycle, 5000));
+              }, 1500));
+            }, 650));
+          }
+        })();
+      }, 900));
+    }
+    cycle();
+  }
+
   // On mobile: load all slides visible from the start, no animations gating content
   if (isMobile()){
     document.querySelectorAll('.slide').forEach(function(s){ s.classList.add('active'); });
@@ -3930,6 +4101,9 @@
     const liaGap = document.querySelector('.m-lia .m-slot.gap'); if (liaGap) liaGap.classList.add('detected');
     document.querySelectorAll('.ficha-field.opt').forEach(function(el){ el.classList.add('show'); });
     document.querySelectorAll('.fmark').forEach(function(el){ el.classList.add('show'); });
+    const ciaC = document.getElementById('ciaChat'); if (ciaC) ciaC.classList.add('visible');
+    const ciaD = document.getElementById('ciaDots'); if (ciaD) ciaD.classList.add('hidden');
+    const ciaA = document.getElementById('ciaAns'); if (ciaA) ciaA.classList.add('visible');
     const sn = document.getElementById('sale-new'); if (sn) sn.classList.add('show');
     const an = document.getElementById('ag-new'); if (an) an.classList.add('show');
     const ae = document.getElementById('ag-empty'); if (ae) ae.style.display = 'none';

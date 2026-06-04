@@ -3952,7 +3952,7 @@ export function Pricing() {
                 >
                   {p.headline || "Incluye"}
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 10, minHeight: 150 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {p.features.map((f, i) => (
                     <div
                       key={i}
@@ -3992,7 +3992,7 @@ export function Pricing() {
                 {p.modos && p.modos.length > 0 && (
                   <div
                     style={{
-                      marginTop: 20,
+                      marginTop: "auto",
                       padding: "14px 14px",
                       background: p.featured ? "rgba(124,58,237,.04)" : "#FAFAFA",
                       border: p.featured ? "1px solid rgba(124,58,237,.18)" : "1px solid #E5E7EB",
