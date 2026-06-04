@@ -359,43 +359,80 @@ function ProgramaPartner() {
         </div>
 
         <div
+          className="agencias-franco"
           style={{
             background:
-              "linear-gradient(135deg, rgba(124,58,237,.04), rgba(200,80,192,.025))",
-            border: "1px dashed rgba(124,58,237,.25)",
-            borderRadius: 14,
-            padding: "20px 24px",
+              "linear-gradient(135deg, rgba(124,58,237,.05), rgba(200,80,192,.03))",
+            border: "1px solid rgba(124,58,237,.18)",
+            borderRadius: 16,
+            padding: "24px 26px",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
-            gap: 18,
+            gap: 24,
             flexWrap: "wrap",
           }}
         >
-          <p
+          <img
+            src="/agents/franco.png"
+            alt="Franco — ejecutivo de cuentas de Clinera"
             style={{
-              fontFamily: "Inter",
-              fontSize: 14.5,
-              color: "#1F2937",
-              lineHeight: 1.55,
-              margin: 0,
-              flex: 1,
-              minWidth: 240,
+              width: 88,
+              height: 88,
+              borderRadius: "50%",
+              objectFit: "cover",
+              objectPosition: "center 18%",
+              border: "2px solid #fff",
+              boxShadow: "0 10px 24px -10px rgba(124,58,237,.4)",
+              flexShrink: 0,
             }}
-          >
-            <b style={{ color: "#0A0A0A", fontWeight: 600 }}>
-              Soporte dedicado incluido.
-            </b>{" "}
-            Un punto de contacto técnico para resolver dudas de integración,
-            automatizaciones y casos puntuales mientras implementas Clinera con tus
-            clientes.
-          </p>
+          />
+          <div style={{ flex: 1, minWidth: 260 }}>
+            <div
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: 11,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: VIOLET,
+                marginBottom: 6,
+              }}
+            >
+              Tu ejecutivo de cuentas
+            </div>
+            <h3
+              style={{
+                fontFamily: "Inter",
+                fontSize: 19,
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+                color: "#0A0A0A",
+                margin: "0 0 8px",
+              }}
+            >
+              Franco lleva tu cuenta — y la de tus clientes.
+            </h3>
+            <p
+              style={{
+                fontFamily: "Inter",
+                fontSize: 14.5,
+                color: "#1F2937",
+                lineHeight: 1.6,
+                margin: 0,
+              }}
+            >
+              <b style={{ fontWeight: 600 }}>Soporte dedicado:</b> tienes su celular
+              directo para resolver lo que necesites. Y las{" "}
+              <b style={{ fontWeight: 600 }}>importaciones de fichas, tratamientos y
+              pacientes</b>{" "}
+              desde Dentalink, Medilink o AgendaPro las hace él — listas en ~1 semana.
+            </p>
+          </div>
           <CtaPrimary
             as={Link}
-            href="/reunion-comercial"
-            style={{ padding: "12px 20px", fontSize: 14 }}
+            href="/capacitacion"
+            style={{ padding: "12px 20px", fontSize: 14, whiteSpace: "nowrap" }}
           >
-            Aplicar al programa <span style={{ marginLeft: 2 }}>→</span>
+            Soporte y capacitación <span style={{ marginLeft: 2 }}>→</span>
           </CtaPrimary>
         </div>
       </div>
@@ -1002,8 +1039,12 @@ function FaqAgencias() {
       a: "Un directorio público dentro de clinera.io donde aparecen las agencias partner verificadas. Cuando una clínica nos pregunta por una agencia experta en Clinera, le derivamos contactos directamente. Quedas listado con descripción, áreas de expertise y forma de contacto.",
     },
     {
-      q: "¿Qué incluye la capacitación dedicada?",
-      a: "Onboarding 1:1 de tu equipo: cómo configurar AURA para distintos verticales clínicos, cómo conectar Meta Lead Ads vía webhook, cómo armar reporting con atribución, y cómo escalar la implementación a múltiples clientes. Más un canal de soporte técnico directo para resolver dudas puntuales.",
+      q: "¿Quién es Franco y cómo es el soporte dedicado?",
+      a: "Franco es tu ejecutivo de cuentas en Clinera: el rostro detrás de tu operación y la de tus clientes. Tienes su celular directo para resolver dudas de integración, automatizaciones y casos puntuales — sin tickets ni esperas. Más onboarding 1:1 de tu equipo (configurar AURA por vertical, conectar Meta Lead Ads vía webhook, reporting con atribución y cómo escalar a múltiples clientes).",
+    },
+    {
+      q: "¿Quién hace la importación de fichas, tratamientos y pacientes?",
+      a: "La hacemos nosotros. Franco solicita acceso a la cuenta actual de tu cliente (Dentalink, Medilink, AgendaPro, Dentalsoft, etc.) y en un plazo de ~1 semana deja importadas las fichas clínicas, los tratamientos y la base de pacientes. Tu cliente no parte de cero ni pierde su historial.",
     },
     {
       q: "¿Hay un compromiso de volumen mínimo?",

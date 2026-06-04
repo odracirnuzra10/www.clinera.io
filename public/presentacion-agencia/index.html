@@ -1010,10 +1010,22 @@
     transition:opacity .4s ease, transform .45s cubic-bezier(.34,1.56,.64,1); }
   .fmark.show{ opacity:1; transform:scale(1); }
   .fmark.line{ transform:none; }
+  /* Slide Franco · ejecutivo de cuentas */
+  .franco-grid{ display:grid; grid-template-columns: minmax(220px, 300px) 1fr; gap:48px; align-items:center; }
+  .franco-photo{ width:100%; border-radius:22px; object-fit:cover; object-position:center 18%; aspect-ratio:4/5; border:1px solid var(--line); box-shadow:0 30px 60px -22px rgba(124,58,237,.42); display:block; }
+  .franco-name{ font-family:'Outfit',sans-serif; font-size:22px; font-weight:700; color:var(--ink); letter-spacing:-0.01em; margin-top:16px; }
+  .franco-role{ font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--violet); margin-top:4px; }
+  .franco-points{ display:flex; flex-direction:column; gap:14px; margin-top:24px; }
+  .franco-point{ display:flex; gap:14px; align-items:flex-start; padding:16px 18px; background:#fff; border:1px solid var(--line); border-radius:14px; }
+  .fp-ic{ flex-shrink:0; width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; }
+  .fp-title{ font-size:15px; font-weight:700; color:var(--ink); letter-spacing:-0.01em; margin-bottom:3px; }
+  .fp-desc{ font-size:13.5px; color:var(--ink-2); line-height:1.55; }
   @media (max-width: 980px){
     .ficha-stage{ position:static; min-height:0; display:flex; flex-direction:column; gap:16px; }
     .ficha-view{ position:static; opacity:1; transform:none; pointer-events:auto; }
     .fmark{ opacity:1; transform:none; }
+    .franco-grid{ grid-template-columns:1fr; gap:24px; }
+    .franco-photo{ max-width:260px; margin:0 auto; }
   }
 
   .vault-strip{
@@ -4608,14 +4620,52 @@
       </div>
 
       <div class="benefits-foot">
-        <p class="benefits-foot-text"><b>Soporte dedicado incluido.</b> Un punto de contacto técnico para resolver dudas de integración, automatizaciones y casos puntuales mientras implementas Clinera con tus clientes.</p>
+        <p class="benefits-foot-text"><b>Con un ejecutivo dedicado: Franco.</b> Tienes su celular directo, y él hace las importaciones de fichas, tratamientos y pacientes de tus clientes desde Dentalink, Medilink o AgendaPro.</p>
         <a class="benefits-foot-cta" href="https://www.clinera.io/reunion-comercial" target="_self">Aplicar al programa →</a>
       </div>
     </div>
   </section>
 
-  <!-- 13 — Cierre -->
+  <!-- 13 — Franco · ejecutivo de cuentas -->
   <section class="slide" id="slide12">
+    <div class="slide-inner">
+      <div class="franco-grid">
+        <div style="text-align:center;">
+          <img class="franco-photo" src="/agents/franco.png" alt="Franco — ejecutivo de cuentas de Clinera" />
+          <div class="franco-name">Franco</div>
+          <div class="franco-role">Tu ejecutivo de cuentas</div>
+        </div>
+        <div>
+          <div class="kicker"><span class="pip"></span>Detrás de tu cuenta hay un rostro</div>
+          <h2 class="h-display">Tu contacto se llama <span class="em">Franco</span>.</h2>
+          <p class="lead">Un solo punto de contacto que conoce tu operación y la de tus clientes. Sin tickets anónimos ni filas de soporte.</p>
+          <div class="franco-points">
+            <div class="franco-point">
+              <div class="fp-ic" style="background:linear-gradient(135deg,#22D3EE,#7C3AED);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div>
+                <div class="fp-title">Soporte dedicado · su celular es tuyo</div>
+                <div class="fp-desc">Le escribes directo por WhatsApp y te responde. Integraciones, automatizaciones y dudas de tus clientes — resueltas sin esperas.</div>
+              </div>
+            </div>
+            <div class="franco-point">
+              <div class="fp-ic" style="background:linear-gradient(135deg,#7C3AED,#D946EF);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+              </div>
+              <div>
+                <div class="fp-title">Nosotros migramos a tus clientes</div>
+                <div class="fp-desc">Las importaciones de fichas, tratamientos y pacientes las hace Franco. Pide acceso a Dentalink, Medilink o AgendaPro y en ~1 semana deja todo cargado.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 — Cierre -->
+  <section class="slide" id="slide13">
     <div class="slide-inner close">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Clinera + tu agencia</div>
       <p class="close-line">
@@ -4636,7 +4686,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 13;
+  const TOTAL_SLIDES = 14;
   let currentSlide = 0;
   let currentSubStep = 0;
   let isAnimating = false;
