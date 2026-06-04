@@ -3805,7 +3805,7 @@ export function Pricing() {
               style={{
                 background: "#fff",
                 borderRadius: 20,
-                padding: p.featured ? "36px 32px" : "30px",
+                padding: p.featured ? "40px 34px" : "34px 30px",
                 border: p.featured ? "2px solid #7C3AED" : "1px solid #E5E7EB",
                 boxShadow: p.featured
                   ? "0 36px 80px -16px rgba(124,58,237,.30), 0 12px 28px rgba(217,70,239,.12)"
@@ -3993,11 +3993,11 @@ export function Pricing() {
                   <div
                     style={{
                       marginTop: "auto",
-                      padding: "14px 14px",
+                      padding: "18px 18px",
                       background: p.featured ? "rgba(124,58,237,.04)" : "#FAFAFA",
                       border: p.featured ? "1px solid rgba(124,58,237,.18)" : "1px solid #E5E7EB",
-                      borderRadius: 10,
-                      minHeight: 96,
+                      borderRadius: 12,
+                      minHeight: 104,
                       boxSizing: "border-box",
                       display: "flex",
                       flexDirection: "column",
@@ -4011,12 +4011,12 @@ export function Pricing() {
                         letterSpacing: "0.12em",
                         textTransform: "uppercase",
                         color: "#9CA3AF",
-                        marginBottom: 8,
+                        marginBottom: 12,
                       }}
                     >
                       {p.modos.length === 1 ? "Modo de agendamiento" : "Modos de agendamiento"}
                     </div>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                       {p.modos.map((m) => {
                         const dotColor =
                           m === "Eficiente" ? "#009FE3"
@@ -4028,8 +4028,8 @@ export function Pricing() {
                             style={{
                               display: "inline-flex",
                               alignItems: "center",
-                              gap: 5,
-                              padding: "4px 10px",
+                              gap: 6,
+                              padding: "6px 12px",
                               background: "#fff",
                               border: "1px solid #E5E7EB",
                               borderRadius: 999,
@@ -4059,11 +4059,11 @@ export function Pricing() {
                 {p.agents && p.agents.length > 0 && (
                   <div
                     style={{
-                      marginTop: 10,
-                      padding: "14px 14px",
+                      marginTop: 14,
+                      padding: "18px 18px",
                       background: p.featured ? "rgba(124,58,237,.04)" : "#FAFAFA",
                       border: p.featured ? "1px solid rgba(124,58,237,.18)" : "1px solid #E5E7EB",
-                      borderRadius: 10,
+                      borderRadius: 12,
                       boxSizing: "border-box",
                       display: "flex",
                       flexDirection: "column",
@@ -4076,12 +4076,12 @@ export function Pricing() {
                         letterSpacing: "0.12em",
                         textTransform: "uppercase",
                         color: "#9CA3AF",
-                        marginBottom: 8,
+                        marginBottom: 12,
                       }}
                     >
                       {p.agents.length === 1 ? "Empleado digital incluido" : "Empleados digitales incluidos"}
                     </div>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                       {p.agents.map((a) => {
                         const gradMap: Record<Agent["id"], string> = {
                           aura: "linear-gradient(135deg,#3B82F6,#7C3AED)",
