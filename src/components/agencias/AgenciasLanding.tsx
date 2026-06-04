@@ -424,11 +424,12 @@ function ProgramaPartner() {
               directo para resolver lo que necesites. Y las{" "}
               <b style={{ fontWeight: 600 }}>importaciones de fichas, tratamientos y
               pacientes</b>{" "}
-              desde Dentalink, Medilink o AgendaPro las hace él — listas en ~1 semana.
+              las hace él vía Excel, accediendo a la cuenta del software actual
+              (Dentalink, Medilink, Reservo, AgendaPro) — listas en ~1 semana.
             </p>
           </div>
           <CtaPrimary
-            as={Link}
+            as="a"
             href="/capacitacion"
             style={{ padding: "12px 20px", fontSize: 14, whiteSpace: "nowrap" }}
           >
@@ -1040,11 +1041,11 @@ function FaqAgencias() {
     },
     {
       q: "¿Quién es Franco y cómo es el soporte dedicado?",
-      a: "Franco es tu ejecutivo de cuentas en Clinera: el rostro detrás de tu operación y la de tus clientes. Tienes su celular directo para resolver dudas de integración, automatizaciones y casos puntuales — sin tickets ni esperas. Más onboarding 1:1 de tu equipo (configurar AURA por vertical, conectar Meta Lead Ads vía webhook, reporting con atribución y cómo escalar a múltiples clientes).",
+      a: "Franco es el enlace entre tu agencia y Clinera: el rostro detrás de tu operación y la de tus clientes. Tienes su celular directo (WhatsApp +54 9 2616 62-5707) para resolver dudas de integración, automatizaciones y casos puntuales — sin tickets ni esperas. Más onboarding 1:1 de tu equipo (configurar AURA por vertical, conectar Meta Lead Ads vía webhook, reporting con atribución y cómo escalar a múltiples clientes).",
     },
     {
       q: "¿Quién hace la importación de fichas, tratamientos y pacientes?",
-      a: "La hacemos nosotros. Franco solicita acceso a la cuenta actual de tu cliente (Dentalink, Medilink, AgendaPro, Dentalsoft, etc.) y en un plazo de ~1 semana deja importadas las fichas clínicas, los tratamientos y la base de pacientes. Tu cliente no parte de cero ni pierde su historial.",
+      a: "La hacemos nosotros. Franco solicita acceso a la cuenta del software actual de tu cliente (Dentalink, Medilink, Reservo, AgendaPro, etc.), exporta a Excel y deja importadas las fichas clínicas, los tratamientos y la base de pacientes en un plazo de ~1 semana. Importante: los tratamientos suelen venir sin descripción; Franco le pide al cliente que complete esas descripciones (puede apoyarse en ChatGPT y solo verificar que estén correctas) antes de cargarlas en Clinera. Tu cliente no parte de cero ni pierde su historial.",
     },
     {
       q: "¿Hay un compromiso de volumen mínimo?",
