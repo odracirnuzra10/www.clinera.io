@@ -1,6 +1,6 @@
 ---
-title: "Los 3 modos de agendamiento con IA en Clinera: Eficiente, Agentic y Agentic Flash"
-description: "Eficiente, Agentic y Agentic Flash: qué modelo usa cada modo (Gemini 3.0 Flash, Kimi K2.6 y Gemini 3.5 Flash), cuántos créditos consume, qué hace cada uno y para qué tipo de clínica conviene."
+title: "Los 3 modos de agendamiento con IA en Clinera: Eficiente, Agentic y Agentic Pro"
+description: "Eficiente, Agentic y Agentic Pro: qué modelo usa cada modo (Gemini 3.0 Flash, Kimi K2.6 y Gemini 3.5 Flash), cuántos créditos consume, qué hace cada uno y para qué tipo de clínica conviene."
 slug: modos-agendamiento-ia-eficiente-agentic-agentic-flash
 publishedAt: "2026-05-20"
 category: "Tecnología"
@@ -10,15 +10,15 @@ author: "Equipo Clinera"
 wordsApprox: 1750
 faq:
   - q: "¿Cuál es la diferencia real entre los 3 modos?"
-    a: "Eficiente conversa por WhatsApp y entrega un link al paciente para que confirme su hora (usa Gemini 3.0 Flash, no agéntico). Agentic agenda directamente en tu sistema sin links ni fricción (usa Kimi K2.6, modelo orquestador de tools). Agentic Flash hace lo mismo que Agentic pero con respuesta inmediata (usa Gemini 3.5 Flash, el último modelo de Google lanzado el 19 de mayo de 2026)."
+    a: "Eficiente conversa por WhatsApp y entrega un link al paciente para que confirme su hora (usa Gemini 3.0 Flash, no agéntico). Agentic agenda directamente en tu sistema sin links ni fricción (usa Kimi K2.6, modelo orquestador de tools). Agentic Pro hace lo mismo que Agentic pero con respuesta inmediata (usa Gemini 3.5 Flash, el último modelo de Google lanzado el 19 de mayo de 2026)."
   - q: "¿Qué significa que un modelo sea agéntico?"
-    a: "Un modelo agéntico no solo responde texto: ejecuta acciones reales contra tu sistema. Crear una cita, reagendarla, consultar el historial clínico de un paciente, revisar pagos pendientes o cancelar una sesión son tool calls. Agentic y Agentic Flash hacen eso solos. Eficiente no — necesita que el paciente termine el flujo en una página externa."
+    a: "Un modelo agéntico no solo responde texto: ejecuta acciones reales contra tu sistema. Crear una cita, reagendarla, consultar el historial clínico de un paciente, revisar pagos pendientes o cancelar una sesión son tool calls. Agentic y Agentic Pro hacen eso solos. Eficiente no — necesita que el paciente termine el flujo en una página externa."
   - q: "¿Cuántos créditos consume cada modo por atención?"
-    a: "Eficiente ~3 créditos por atención (el más barato del mercado). Agentic ~13 créditos por atención (la mejor relación capacidad/costo). Agentic Flash ~28 créditos por atención (premium, justificado solo si la velocidad importa). Una atención es una conversación completa por WhatsApp — puede ser una consulta simple o terminar en agendamiento con varios tool calls."
-  - q: "¿Por qué Agentic Flash consume más créditos que Agentic si hacen lo mismo?"
+    a: "Eficiente ~3 créditos por atención (el más barato del mercado). Agentic ~13 créditos por atención (la mejor relación capacidad/costo). Agentic Pro ~28 créditos por atención (premium, justificado solo si la velocidad importa). Una atención es una conversación completa por WhatsApp — puede ser una consulta simple o terminar en agendamiento con varios tool calls."
+  - q: "¿Por qué Agentic Pro consume más créditos que Agentic si hacen lo mismo?"
     a: "Gemini 3.5 Flash es un modelo más nuevo y más rápido, pero su throughput tan alto (289 tokens por segundo) se consigue con un modelo más grande detrás. Más parámetros = más tokens generados por turno = más costo. Si tu clínica no necesita respuestas en menos de medio segundo, Agentic con Kimi K2.6 te da el mismo resultado funcional a menos de la mitad del costo."
   - q: "¿En qué planes está disponible cada modo?"
-    a: "Eficiente desde Plan Core (USD 89/mes). Agentic desde Plan Conect (USD 179/mes). Agentic Flash solo en Plan Advanced (USD 359/mes). Puedes cambiar de modo en cualquier momento dentro de tu plan si tienes el cupo de créditos para sostenerlo."
+    a: "Eficiente desde Plan Core (USD 89/mes). Agentic desde Plan Conect (USD 179/mes). Agentic Pro solo en Plan Advanced (USD 359/mes). Puedes cambiar de modo en cualquier momento dentro de tu plan si tienes el cupo de créditos para sostenerlo."
 ---
 
 ## TL;DR
@@ -26,7 +26,7 @@ faq:
 - Clinera no usa un solo modelo de IA — usa tres modos distintos según el balance entre **costo**, **autonomía** y **velocidad** que necesite tu clínica.
 - **Eficiente** (Gemini 3.0 Flash, no agéntico): conversa y deja que el paciente confirme en un link de agenda. ~3 créditos por atención.
 - **Agentic** (Kimi K2.6, agéntico): agenda solo, sin links ni fricción. ~13 créditos por atención. Es el modo que usa la mayoría de las clínicas.
-- **Agentic Flash** (Gemini 3.5 Flash, agéntico ultra rápido): mismo resultado funcional que Agentic pero respondiendo a **289 tokens por segundo**. ~28 créditos por atención.
+- **Agentic Pro** (Gemini 3.5 Flash, agéntico ultra rápido): mismo resultado funcional que Agentic pero respondiendo a **289 tokens por segundo**. ~28 créditos por atención.
 
 ---
 
@@ -111,7 +111,7 @@ Sus características relevantes para nuestro caso:
 
 ---
 
-## Modo Agentic Flash — Gemini 3.5 Flash
+## Modo Agentic Pro — Gemini 3.5 Flash
 
 El modo premium del set. Usa **Gemini 3.5 Flash**, el modelo más reciente de Google, lanzado el 19 de mayo de 2026.
 
@@ -133,7 +133,7 @@ Lo que no mejora es el costo: al ser un modelo más grande y más capaz, consume
 
 - Clínicas donde la velocidad de respuesta es directamente conversión. Estética premium con pacientes acostumbrados a la inmediatez. Odontología urgente. Cualquier operación que compita por leads en hot mode.
 - Operaciones con SLA agresivos (responder en menos de 30 segundos siempre, incluso a las 3am).
-- Plan Advanced. La densidad de créditos del plan Advanced (32.000 créditos al mes) está calibrada justamente para que la economía de Agentic Flash funcione.
+- Plan Advanced. La densidad de créditos del plan Advanced (32.000 créditos al mes) está calibrada justamente para que la economía de Agentic Pro funcione.
 
 ---
 
@@ -169,7 +169,7 @@ Lo que no mejora es el costo: al ser un modelo más grande y más capaz, consume
         <td style={{ padding: "14px 16px", color: "#374151" }}>Conect</td>
       </tr>
       <tr>
-        <td style={{ padding: "14px 16px", fontWeight: 600, color: "#0A0A0A" }}>Agentic Flash</td>
+        <td style={{ padding: "14px 16px", fontWeight: 600, color: "#0A0A0A" }}>Agentic Pro</td>
         <td style={{ padding: "14px 16px", color: "#374151" }}>Gemini 3.5 Flash</td>
         <td style={{ padding: "14px 16px", textAlign: "center", color: "#7C3AED", fontWeight: 600 }}>Sí</td>
         <td style={{ padding: "14px 16px", textAlign: "right", color: "#374151", fontVariantNumeric: "tabular-nums" }}>~289</td>
@@ -188,8 +188,8 @@ Los créditos son estimados con mix realista (consultas + agendamientos + tool c
 
 Tres reglas prácticas:
 
-1. **Si la conversión depende de cerrar la cita en el mismo chat**: Agentic o Agentic Flash. El link que abre el paciente en Eficiente tiene una tasa de abandono real entre 8% y 15% según la vertical — eso es ventas perdidas que ya estaban casi cerradas.
-2. **Si la conversión depende de la velocidad de respuesta**: Agentic Flash. Sirve cuando compites por leads inmediatos (típicamente Meta Ads en estética) y el primer mensaje rápido se queda con el paciente.
+1. **Si la conversión depende de cerrar la cita en el mismo chat**: Agentic o Agentic Pro. El link que abre el paciente en Eficiente tiene una tasa de abandono real entre 8% y 15% según la vertical — eso es ventas perdidas que ya estaban casi cerradas.
+2. **Si la conversión depende de la velocidad de respuesta**: Agentic Pro. Sirve cuando compites por leads inmediatos (típicamente Meta Ads en estética) y el primer mensaje rápido se queda con el paciente.
 3. **Si lo que importa es escala y costo por atención**: Agentic. Es la opción que la mayoría de las clínicas en Clinera tiene activa porque entrega autonomía completa a un costo razonable.
 
 Una opción que también funciona: **partir con Eficiente** para validar el caso de uso con bajo riesgo y subir a Agentic en cuanto el volumen lo justifique. El cambio se hace desde el panel y no requiere reconfigurar nada.
@@ -217,6 +217,6 @@ Los créditos son la unidad simple para que no tengas que entender el modelo de 
 
 El modo de agendamiento se elige durante el onboarding (setup en menos de 1 hora) y se puede cambiar en cualquier momento desde el panel. La transición es transparente para el paciente — la IA mantiene su voz, su contexto y sus reglas. Lo único que cambia es el motor que está debajo.
 
-Si recién partes, lo más probable es que necesites **Agentic**. Si tu clínica vive de inmediatez y compite por leads en caliente, **Agentic Flash**. Si quieres probar la categoría sin compromiso, **Eficiente** en plan Core es la entrada más barata del mercado.
+Si recién partes, lo más probable es que necesites **Agentic**. Si tu clínica vive de inmediatez y compite por leads en caliente, **Agentic Pro**. Si quieres probar la categoría sin compromiso, **Eficiente** en plan Core es la entrada más barata del mercado.
 
 [Ver planes desde USD 89/mes](/planes) · [Hablar con ventas](/hablar-con-ventas) · [Ver el estudio de efectividad](/efectividad)

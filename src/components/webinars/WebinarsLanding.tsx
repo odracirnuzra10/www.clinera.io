@@ -357,7 +357,7 @@ function WhatYoullLearn() {
     },
     {
       title: "Cuál de los 3 modos de IA elegir",
-      desc: "Eficiente, Agentic o Agentic Flash. Cada uno cuesta distinto por atención. Te mostramos cuál conviene según tu volumen.",
+      desc: "Eficiente, Agentic o Agentic Pro. Cada uno cuesta distinto por atención. Te mostramos cuál conviene según tu volumen.",
     },
     {
       title: "Casos reales de clínicas operando 24/7",

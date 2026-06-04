@@ -27,7 +27,7 @@ const MODOS: Modo[] = [
   },
   {
     idx: "03",
-    title: "Agentic Flash",
+    title: "Agentic Pro",
     desc: "Mismo nivel agéntico que Agentic, respuesta inmediata (289 tokens/s). Para clínicas que no toleran latencia (~36 créditos por atención).",
     tag: "VELOCIDAD MÁX",
     innerEyebrow: "Solo Plan MAX",

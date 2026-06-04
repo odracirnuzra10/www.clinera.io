@@ -3733,7 +3733,7 @@ export function Pricing() {
         "Webhooks + API pública",
         "15 usuarios / profesionales",
       ],
-      modos: ["Eficiente", "Agentic", "Agentic Flash"],
+      modos: ["Eficiente", "Agentic", "Agentic Pro"],
       agents: [
         { id: "aura", name: "AURA" },
         { id: "lia", name: "LIA" },

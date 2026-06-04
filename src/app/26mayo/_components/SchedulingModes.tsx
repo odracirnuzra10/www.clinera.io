@@ -28,7 +28,7 @@ const modes: Mode[] = [
     glow: "rgba(184,71,255,0.16)",
   },
   {
-    name: "Agentic Flash",
+    name: "Agentic Pro",
     model: "Claude Sonnet 4.6",
     desc: "El más rápido y potente. Acciones autónomas con la mejor velocidad de respuesta. Máxima capacidad y, también, el costo más alto.",
     traits: ["Máxima velocidad", "Costo más alto"],

@@ -871,7 +871,7 @@ function ModosCompact() {
           />
           <ModoMini
             num="03"
-            name="Agentic Flash"
+            name="Agentic Pro"
             credits="~36"
             cost="$0,28"
             desc="Agentic con respuesta inmediata a 289 tokens/s. Solo Plan MAX."

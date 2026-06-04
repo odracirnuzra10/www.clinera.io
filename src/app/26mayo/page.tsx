@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 const agenda = [
   { id: "modelo", label: "El cambio de modelo", desc: "De mensajería pasiva a agente" },
-  { id: "modos", label: "Los 3 modos de agendamiento", desc: "Eficiente · Agentic · Agentic Flash" },
+  { id: "modos", label: "Los 3 modos de agendamiento", desc: "Eficiente · Agentic · Agentic Pro" },
   { id: "impacto", label: "El impacto económico", desc: "Consumo y costo real por cliente" },
   { id: "limites", label: "Política de límites", desc: "Cronograma de ajustes progresivos" },
   { id: "riesgo", label: "Clientes en riesgo", desc: "Cuentas críticas para septiembre" },

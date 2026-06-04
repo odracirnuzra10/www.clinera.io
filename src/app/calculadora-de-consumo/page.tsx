@@ -217,7 +217,7 @@ export default function CalculadoraDeConsumoPage() {
               recommended
             />
             <ModeCard
-              name="Agentic Flash"
+              name="Agentic Pro"
               consumption="~36"
               model="Gemini 3.5 Flash (high-speed, 289 tok/s)"
               available="Solo plan MAX"
@@ -248,7 +248,7 @@ export default function CalculadoraDeConsumoPage() {
               { task: "Confirmar cita existente", meta: "1 tool call · Eficiente", cred: "~4 cr" },
               { task: "Agendar cita nueva por WhatsApp", meta: "3 tool calls · Agentic", cred: "~17 cr" },
               { task: "Reagendar + confirmar", meta: "4 tool calls · Agentic", cred: "~23 cr" },
-              { task: "Agendar + cobrar + email", meta: "5+ tool calls · Agentic Flash", cred: "~36 cr" },
+              { task: "Agendar + cobrar + email", meta: "5+ tool calls · Agentic Pro", cred: "~36 cr" },
             ].map((row) => (
               <li
                 key={row.task}
@@ -321,7 +321,7 @@ export default function CalculadoraDeConsumoPage() {
                   <th style={thStyle}>Plan</th>
                   <th style={thStyle}>Eficiente</th>
                   <th style={thStyle}>Agentic</th>
-                  <th style={thStyle}>Agentic Flash</th>
+                  <th style={thStyle}>Agentic Pro</th>
                 </tr>
               </thead>
               <tbody>
@@ -423,7 +423,7 @@ export default function CalculadoraDeConsumoPage() {
               </div>
               <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.55)", margin: 0 }}>
                 Equivale hasta ~1.250 atenciones extra en Eficiente · ~290 en
-                Agentic · ~140 en Agentic Flash · ~50 por voz (CAMILA).
+                Agentic · ~140 en Agentic Pro · ~50 por voz (CAMILA).
               </p>
             </div>
           </div>

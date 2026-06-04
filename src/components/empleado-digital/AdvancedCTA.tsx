@@ -7,7 +7,7 @@ const BULLETS = [
   "~1.000 atenciones por texto (WhatsApp/chat) al mes",
   "~120 atenciones por voz (CAMILA) al mes",
   "28.000 créditos IA (consumo técnico)",
-  "3 modos de agendamiento (incluye Agentic Flash)",
+  "3 modos de agendamiento (incluye Agentic Pro)",
   "3 modelos IA: Gemini 3.0 Flash · Kimi K2.6 · Gemini 3.5 Flash",
   "Módulo clínico completo (agenda + fichas + Vault)",
   "Multi-sede + panel de atribución",

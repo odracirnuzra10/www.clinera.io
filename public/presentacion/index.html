@@ -212,6 +212,10 @@
     opacity: 0;
     transform: translateY(-8px);
   }
+  /* Slide con scroll vertical propio (usado en Precios, mucho detalle) */
+  .slide.slide-scroll{ align-items: flex-start; }
+  .slide.slide-scroll::-webkit-scrollbar{ width: 9px; }
+  .slide.slide-scroll::-webkit-scrollbar-thumb{ background: #D8D6DB; border-radius: 999px; }
   .slide-inner{
     width: 100%;
     max-width: 1200px;
@@ -2684,6 +2688,7 @@
   .m-lia-action{ margin-top:14px; background: var(--ink); color:#fff; border-radius:10px; padding:13px 16px; display:flex; align-items:center; gap:12px; font-size:13.5px; line-height:1.4; }
   .m-lia-action .arrow-ic{ color: #A78BFA; font-family: var(--mono); }
   .m-lia-action em{ color: #A78BFA; font-style:normal; font-weight:500; }
+  .m-lia-action.mora .arrow-ic, .m-lia-action.mora em{ color: #F59E0B; }
 
   /* Agent badge dentro de mockup-text */
   .agent-badge{ display:inline-flex; align-items:center; gap:12px; padding:8px 14px 8px 8px; border-radius:999px; background:#fff; border:1px solid var(--line); margin-bottom:18px; box-shadow:0 6px 18px -8px rgba(11,11,15,.12); }
@@ -2910,7 +2915,7 @@
           </div>
           <span class="ab-status dev">Pronto</span>
         </div>
-        <h2 class="h-display">Detecta espacios libres<br/>y <span class="em">morosidades</span>. Y actúa.</h2>
+        <h2 class="h-display">Detecta espacios libres<br/>y <span class="em">morosidades</span>.</h2>
         <p>Escanea tu agenda cada hora: cuando ve un espacio libre, decide a quién contactar y manda a AURA o CAMILA a llenarlo. Y detecta <b>morosidades</b> para disparar los <b>cobros</b> — sin revisarlo a mano.</p>
       </div>
 
@@ -3021,7 +3026,7 @@
         </div>
 
         <div class="modo-card flash">
-          <span class="modo-tag">Agentic Flash</span>
+          <span class="modo-tag">Agentic Pro</span>
           <div class="modo-num">Modo 03</div>
           <div class="modo-name">Agenda sola, más rápido</div>
           <p class="modo-desc">Lo mismo que Agentic, pero con <b>respuesta inmediata</b>. Pensado para alto volumen.</p>
@@ -3468,7 +3473,7 @@
   </section>
 
   <!-- 09 — Precios -->
-  <section class="slide" id="slide8">
+  <section class="slide slide-scroll" id="slide8">
     <div class="slide-inner pricing-slide-inner">
       <div class="kicker"><span class="pip"></span>Planes · Clinera</div>
       <h2 class="h-display">Activa Clinera <span class="em">hoy</span>.</h2>
@@ -3556,7 +3561,7 @@
             <div class="pm-pills">
               <span class="pm-pill">Eficiente</span>
               <span class="pm-pill">Agentic</span>
-              <span class="pm-pill">Agentic Flash</span>
+              <span class="pm-pill">Agentic Pro</span>
             </div>
           </div>
           <div class="price-agents">
@@ -3841,13 +3846,17 @@
     const scanline = lia.querySelector('.m-lia-scanline');
     const gap = lia.querySelector('.m-slot.gap');
     const action = lia.querySelector('.m-lia-action');
+    const ACT_GAP = '<span class="arrow-ic">→</span><div>Espacio 14:00 → <em>Camila P.</em> · control vencido · <em>AURA escribiendo</em></div>';
+    const ACT_MORA = '<span class="arrow-ic">→</span><div>Morosidad: <em>Juan R.</em> · pago vencido 30 días · $85.000 · <em>AURA cobrando</em></div>';
     if (scanline) scanline.classList.add('run');
     function run(){
       if (gap) gap.classList.remove('detected');
-      if (action) action.classList.remove('visible');
-      liaTimers.push(setTimeout(function(){ if (gap) gap.classList.add('detected'); }, 1800));
-      liaTimers.push(setTimeout(function(){ if (action) action.classList.add('visible'); }, 3200));
-      liaTimers.push(setTimeout(run, 7000));
+      if (action){ action.classList.remove('visible'); action.classList.remove('mora'); }
+      liaTimers.push(setTimeout(function(){ if (gap) gap.classList.add('detected'); }, 1500));
+      liaTimers.push(setTimeout(function(){ if (action){ action.innerHTML = ACT_GAP; action.classList.add('visible'); } }, 2800));
+      liaTimers.push(setTimeout(function(){ if (action) action.classList.remove('visible'); }, 5000));
+      liaTimers.push(setTimeout(function(){ if (action){ action.innerHTML = ACT_MORA; action.classList.add('mora'); action.classList.add('visible'); } }, 5400));
+      liaTimers.push(setTimeout(run, 8800));
     }
     run();
   }

@@ -14,7 +14,7 @@ const CRED_PER_ATT: Record<Mode, number> = {
 const MODE_META: Record<Mode, { name: string; from: string }> = {
   eficiente: { name: "Eficiente", from: "Plan Conect" },
   agentic: { name: "Agentic", from: "Plan Conect" },
-  flash: { name: "Agentic Flash", from: "Plan MAX" },
+  flash: { name: "Agentic Pro", from: "Plan MAX" },
 };
 
 const ADDON_CRED = 5000;
