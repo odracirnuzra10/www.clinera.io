@@ -6,8 +6,8 @@ import { track } from "@/lib/tracking";
 type Mode = "eficiente" | "agentic" | "flash";
 
 const CRED_PER_ATT: Record<Mode, number> = {
-  eficiente: 4,
-  agentic: 17,
+  eficiente: 10,
+  agentic: 30,
   flash: 36,
 };
 

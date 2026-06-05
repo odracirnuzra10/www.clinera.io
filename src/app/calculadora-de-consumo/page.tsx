@@ -203,14 +203,14 @@ export default function CalculadoraDeConsumoPage() {
           >
             <ModeCard
               name="Eficiente"
-              consumption="~4"
+              consumption="~10"
               model="Gemini 3.0 Flash"
               available="Plan Conect"
               description="Optimizado para tareas simples y respuestas rápidas. Ideal para confirmar citas y responder FAQ."
             />
             <ModeCard
               name="Agentic"
-              consumption="~17"
+              consumption="~30"
               model="Kimi K2.6"
               available="Plan Conect"
               description="El balance ideal entre razonamiento y costo. Maneja flujos completos de agendamiento, reagendamiento y triage."
@@ -229,9 +229,9 @@ export default function CalculadoraDeConsumoPage() {
         {/* ─────────────────────── 03 · EJEMPLOS ─────────────────────── */}
         <NumberedSection num="03" title="Ejemplos reales de consumo">
           <p style={paragraphStyle}>
-            Estos son escenarios reales medidos en clínicas activas. El
-            consumo varía según número de <em>tool calls</em>, longitud del
-            contexto y modo activo.
+            Costo <b>por acción de la IA</b> (una sola respuesta), no por
+            conversación completa. El consumo varía según número de{" "}
+            <em>tool calls</em>, longitud del contexto y modo activo.
           </p>
 
           <ul
@@ -246,9 +246,9 @@ export default function CalculadoraDeConsumoPage() {
             {[
               { task: "Responder FAQ simple", meta: "sin tools · cualquier modo", cred: "~1 cr" },
               { task: "Confirmar cita existente", meta: "1 tool call · Eficiente", cred: "~4 cr" },
-              { task: "Agendar cita nueva por WhatsApp", meta: "3 tool calls · Agentic", cred: "~17 cr" },
-              { task: "Reagendar + confirmar", meta: "4 tool calls · Agentic", cred: "~23 cr" },
-              { task: "Agendar + cobrar + email", meta: "5+ tool calls · Agentic Pro", cred: "~36 cr" },
+              { task: "Agendar cita nueva por WhatsApp", meta: "3 tool calls · Agentic", cred: "~45 cr" },
+              { task: "Reagendar + confirmar", meta: "4 tool calls · Agentic", cred: "~50 cr" },
+              { task: "Agendar + cobrar + email", meta: "5+ tool calls · Agentic Pro", cred: "~70 cr" },
             ].map((row) => (
               <li
                 key={row.task}
@@ -291,6 +291,78 @@ export default function CalculadoraDeConsumoPage() {
             ))}
           </ul>
 
+          <p style={{ ...paragraphStyle, marginTop: 20 }}>
+            Una <b>conversación completa de agendamiento automático</b> (Agentic,
+            ~6 turnos) puede costar <b>~195 cr</b>. La mayoría de atenciones son
+            más livianas (FAQ, info, confirmaciones), por eso el{" "}
+            <b>promedio por atención queda en ~30 cr</b> en Agentic (~10 cr en
+            Eficiente).
+          </p>
+
+          <h3
+            style={{
+              fontFamily: FONT_BODY,
+              fontSize: 18,
+              fontWeight: 700,
+              letterSpacing: "-0.02em",
+              margin: "34px 0 4px",
+              color: "#0A0A0A",
+            }}
+          >
+            Una atención completa, turno por turno
+          </h3>
+          <p style={{ ...paragraphStyle, marginTop: 0 }}>
+            Dos conversaciones reales con el costo en créditos de cada respuesta de
+            la IA. La que agenda gasta más (por las tool calls), aunque sea más corta.
+          </p>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: 16,
+              marginTop: 18,
+            }}
+          >
+            <ConvoExample
+              title="Modo Eficiente"
+              meta="Gemini 3.0 Flash · solo texto, sin agendar"
+              total={10}
+              accent="#009FE3"
+              turns={[
+                { who: "p", text: "Hola, ¿hacen limpieza facial?" },
+                { who: "a", text: "¡Hola! Sí, limpieza facial profunda, dura 50 min.", cr: 2 },
+                { who: "p", text: "¿Cuánto cuesta?" },
+                { who: "a", text: "$35.000. Incluye extracción e hidratación.", cr: 2 },
+                { who: "p", text: "¿Tienen hora esta semana?" },
+                { who: "a", text: "Sí. Te dejo el link para que elijas tu hora.", cr: 2 },
+                { who: "p", text: "Listo, ya reservé" },
+                { who: "a", text: "¡Perfecto! Te llega la confirmación por WhatsApp.", cr: 2 },
+                { who: "p", text: "Gracias" },
+                { who: "a", text: "¡A ti! Cualquier cosa, escríbeme por aquí.", cr: 2 },
+              ]}
+            />
+            <ConvoExample
+              title="Modo Agentic"
+              meta="Kimi K2.6 · agenda y cobra, con tool calls"
+              total={195}
+              accent="#7C3AED"
+              turns={[
+                { who: "p", text: "Hola, quiero agendar una limpieza facial" },
+                { who: "a", text: "¡Hola! Claro. ¿Para qué día te acomoda?", cr: 8 },
+                { who: "p", text: "El jueves en la tarde" },
+                { who: "a", text: "Tengo jueves 16:00 y 17:30 con la Dra. Meza. ¿Cuál prefieres?", cr: 45, tool: "consulta agenda" },
+                { who: "p", text: "16:00" },
+                { who: "a", text: "Listo, reservé jueves 16:00 con Dra. Meza. ¿Te cobro la reserva ahora?", cr: 54, tool: "crea la cita" },
+                { who: "p", text: "Sí, con WebPay" },
+                { who: "a", text: "Te envío el link de pago.", cr: 40, tool: "genera el cobro" },
+                { who: "p", text: "Ya pagué" },
+                { who: "a", text: "¡Pago confirmado! Te recuerdo 2h antes.", cr: 40, tool: "confirma + recordatorio" },
+                { who: "p", text: "Gracias" },
+                { who: "a", text: "¡A ti, Camila! Nos vemos el jueves.", cr: 8 },
+              ]}
+            />
+          </div>
+
           <div style={calloutCyanStyle}>
             Estos valores incluyen un margen de seguridad del ~30% sobre el
             consumo promedio observado en clínicas activas. Preferimos prometer
@@ -328,24 +400,24 @@ export default function CalculadoraDeConsumoPage() {
                 <PlanRow
                   plan="Conect"
                   cells={[
-                    { text: "hasta 2.000" },
-                    { text: "hasta 470", isDefault: true },
+                    { text: "hasta 800" },
+                    { text: "hasta 270", isDefault: true },
                     { text: "no disponible" },
                   ]}
                 />
                 <PlanRow
                   plan="Advanced"
                   cells={[
-                    { text: "hasta 3.000" },
-                    { text: "hasta 700", isDefault: true },
+                    { text: "hasta 1.200" },
+                    { text: "hasta 400", isDefault: true },
                     { text: "no disponible" },
                   ]}
                 />
                 <PlanRow
                   plan="MAX"
                   cells={[
-                    { text: "hasta 7.000" },
-                    { text: "hasta 1.650" },
+                    { text: "hasta 2.800" },
+                    { text: "hasta 930" },
                     { text: "hasta 780", isDefault: true },
                   ]}
                 />
@@ -422,7 +494,7 @@ export default function CalculadoraDeConsumoPage() {
                 USD $100 / recarga
               </div>
               <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.55)", margin: 0 }}>
-                Equivale hasta ~1.250 atenciones extra en Eficiente · ~290 en
+                Equivale hasta ~500 atenciones extra en Eficiente · ~170 en
                 Agentic · ~140 en Agentic Pro · ~50 por voz (CAMILA).
               </p>
             </div>
@@ -806,6 +878,115 @@ function RuleCard({
       <p style={{ fontSize: 14.5, lineHeight: 1.55, color: "#0A0A0A", margin: 0 }}>
         {description}
       </p>
+    </div>
+  );
+}
+
+function ConvoExample({
+  title,
+  meta,
+  total,
+  accent,
+  turns,
+}: {
+  title: string;
+  meta: string;
+  total: number;
+  accent: string;
+  turns: { who: "p" | "a"; text: string; cr?: number; tool?: string }[];
+}) {
+  return (
+    <div
+      style={{
+        background: "#fff",
+        border: "1px solid #EEECEA",
+        borderRadius: 16,
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 12,
+          padding: "16px 18px",
+          borderBottom: "1px solid #F0EEEC",
+          background: "#FAFAFA",
+        }}
+      >
+        <div>
+          <div style={{ fontFamily: FONT_BODY, fontWeight: 700, fontSize: 15, color: "#0A0A0A", letterSpacing: "-0.01em" }}>
+            {title}
+          </div>
+          <div style={{ fontFamily: FONT_MONO, fontSize: 11, color: "#6B7280", marginTop: 3, letterSpacing: "0.02em" }}>
+            {meta}
+          </div>
+        </div>
+        <div
+          style={{
+            fontFamily: FONT_MONO,
+            fontWeight: 700,
+            fontSize: 13,
+            color: "#fff",
+            background: accent,
+            borderRadius: 999,
+            padding: "5px 12px",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {total} cr
+        </div>
+      </div>
+      <div style={{ padding: "16px 16px 18px", display: "flex", flexDirection: "column", gap: 9 }}>
+        {turns.map((t, i) =>
+          t.who === "p" ? (
+            <div
+              key={i}
+              style={{
+                alignSelf: "flex-end",
+                maxWidth: "82%",
+                background: "#F3F4F6",
+                color: "#0A0A0A",
+                borderRadius: "14px 14px 4px 14px",
+                padding: "8px 12px",
+                fontFamily: FONT_BODY,
+                fontSize: 13,
+                lineHeight: 1.4,
+              }}
+            >
+              {t.text}
+            </div>
+          ) : (
+            <div key={i} style={{ alignSelf: "flex-start", maxWidth: "88%" }}>
+              <div
+                style={{
+                  background: "#fff",
+                  border: "1px solid #EAE8E6",
+                  borderRadius: "14px 14px 14px 4px",
+                  padding: "8px 12px",
+                  fontFamily: FONT_BODY,
+                  fontSize: 13,
+                  lineHeight: 1.45,
+                  color: "#1A1A1A",
+                }}
+              >
+                {t.text}
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4, paddingLeft: 4 }}>
+                <span style={{ fontFamily: FONT_MONO, fontSize: 11, fontWeight: 700, color: accent }}>+{t.cr} cr</span>
+                {t.tool && (
+                  <span style={{ fontFamily: FONT_MONO, fontSize: 10, color: "#9CA3AF", letterSpacing: "0.02em" }}>
+                    · {t.tool}
+                  </span>
+                )}
+              </div>
+            </div>
+          ),
+        )}
+      </div>
     </div>
   );
 }
