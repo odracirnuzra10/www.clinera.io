@@ -3952,7 +3952,7 @@ export function Pricing() {
                 >
                   {p.headline || "Incluye"}
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
                   {p.features.map((f, i) => (
                     <div
                       key={i}
