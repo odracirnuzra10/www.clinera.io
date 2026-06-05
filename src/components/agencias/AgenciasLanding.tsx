@@ -858,7 +858,7 @@ function ModosCompact() {
             num="01"
             name="Eficiente"
             credits="~4"
-            cost="$0,48"
+            cost="$0,39"
             desc="IA conversa, paciente confirma vía link. Costo IA más bajo. Desde Plan Conect."
           />
           <ModoMini
@@ -866,7 +866,7 @@ function ModosCompact() {
             num="02"
             name="Agentic"
             credits="~17"
-            cost="$0,46"
+            cost="$0,36"
             desc="IA agenda sola con tool calls. La mejor relación capacidad/costo. Desde Plan Conect."
           />
           <ModoMini

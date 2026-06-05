@@ -18,7 +18,7 @@ const MODE_META: Record<Mode, { name: string; from: string }> = {
 };
 
 const ADDON_CRED = 5000;
-const ADDON_PRICE = 100;
+const ADDON_PRICE = 50;
 
 type Plan = {
   id: "conect" | "advanced" | "max";
@@ -30,8 +30,8 @@ type Plan = {
 };
 
 const PLANS: Plan[] = [
-  { id: "conect", name: "Conect", price: 129, credits: 8000, users: 3, modes: ["eficiente", "agentic"] },
-  { id: "advanced", name: "Advanced", price: 179, credits: 12000, users: 5, modes: ["eficiente", "agentic"] },
+  { id: "conect", name: "Conect", price: 129, credits: 10000, users: 3, modes: ["eficiente", "agentic"] },
+  { id: "advanced", name: "Advanced", price: 179, credits: 15000, users: 5, modes: ["eficiente", "agentic"] },
   { id: "max", name: "MAX", price: 279, credits: 28000, users: 15, modes: ["eficiente", "agentic", "flash"] },
 ];
 

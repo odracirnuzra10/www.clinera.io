@@ -400,16 +400,16 @@ export default function CalculadoraDeConsumoPage() {
                 <PlanRow
                   plan="Conect"
                   cells={[
-                    { text: "hasta 800" },
-                    { text: "hasta 270", isDefault: true },
+                    { text: "hasta 1.000" },
+                    { text: "hasta 330", isDefault: true },
                     { text: "no disponible" },
                   ]}
                 />
                 <PlanRow
                   plan="Advanced"
                   cells={[
-                    { text: "hasta 1.200" },
-                    { text: "hasta 400", isDefault: true },
+                    { text: "hasta 1.500" },
+                    { text: "hasta 500", isDefault: true },
                     { text: "no disponible" },
                   ]}
                 />
@@ -491,7 +491,7 @@ export default function CalculadoraDeConsumoPage() {
                   marginBottom: 12,
                 }}
               >
-                USD $100 / recarga
+                USD $50 / recarga
               </div>
               <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.55)", margin: 0 }}>
                 Equivale hasta ~500 atenciones extra en Eficiente · ~170 en

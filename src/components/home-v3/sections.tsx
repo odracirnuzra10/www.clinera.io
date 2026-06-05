@@ -3680,15 +3680,15 @@ export function Pricing() {
     {
       name: "Conect",
       price: "$129",
-      perAppt: "$0.48",
+      perAppt: "$0.39",
       sub: "AURA por WhatsApp 24/7 + módulo clínico, con agendamiento automático.",
       tags: [
         { t: "Agente IA", ok: true },
         { t: "Módulo Clínico", ok: true },
       ],
       features: [
-        "~270 atenciones de IA / mes",
-        "8.000 créditos IA (consumo técnico)",
+        "~330 atenciones de IA / mes",
+        "10.000 créditos IA (consumo técnico)",
         "3 usuarios incluidos",
       ],
       modos: ["Eficiente", "Agentic"],
@@ -3698,7 +3698,7 @@ export function Pricing() {
     {
       name: "Advanced",
       price: "$179",
-      perAppt: "$0.46",
+      perAppt: "$0.36",
       sub: "Más atenciones y más equipo para clínicas que ya están creciendo.",
       tags: [
         { t: "Agente IA", ok: true },
@@ -3706,8 +3706,8 @@ export function Pricing() {
       ],
       headline: "Todo de Conect, más",
       features: [
-        "~390 atenciones de IA / mes",
-        "12.000 créditos IA (consumo técnico)",
+        "~500 atenciones de IA / mes",
+        "15.000 créditos IA (consumo técnico)",
         "5 usuarios / profesionales",
         "Multisucursal",
       ],

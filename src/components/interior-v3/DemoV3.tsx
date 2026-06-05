@@ -13,8 +13,8 @@ const PLANS = [
     price: "129",
     tagline: "AURA por WhatsApp 24/7 + módulo clínico, con agendamiento automático.",
     features: [
-      "~270 atenciones de IA / mes",
-      "8.000 créditos IA (consumo técnico)",
+      "~330 atenciones de IA / mes",
+      "10.000 créditos IA (consumo técnico)",
       "Con modo automático de agendamiento",
       "3 usuarios incluidos",
     ],
@@ -28,8 +28,8 @@ const PLANS = [
     price: "179",
     tagline: "Más atenciones y más equipo para clínicas que ya están creciendo.",
     features: [
-      "~390 atenciones de IA / mes",
-      "12.000 créditos IA (consumo técnico)",
+      "~500 atenciones de IA / mes",
+      "15.000 créditos IA (consumo técnico)",
       "Con modo automático de agendamiento",
       "5 usuarios / profesionales",
       "Multisucursal",
