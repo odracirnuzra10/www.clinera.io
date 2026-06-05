@@ -3794,7 +3794,7 @@ export function Pricing() {
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr 1.18fr",
-            gap: 20,
+            gap: 24,
             alignItems: "stretch",
           }}
         >
@@ -4151,7 +4151,7 @@ export function Pricing() {
                 )}
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: "auto" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 18 }}>
                 <Link
                   href="/hablar-con-ventas"
                   style={{
