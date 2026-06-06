@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Clinera · Chat IA interno</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,7 +18,6 @@
     --surface: #1a1d24;
     --elevated: #21252e;
     --border: #2a2f3a;
-    --border-strong: #353a47;
     --ink: #fafbfc;
     --ink-soft: #8b92a5;
     --ink-faint: #4a5168;
@@ -40,7 +39,6 @@
     /* Light (escritorio) */
     --d-bg: #fafbfc;
     --d-surface: #ffffff;
-    --d-card: #ffffff;
     --d-border: #e7eaee;
     --d-border-soft: #eef0f3;
     --d-ink: #111318;
@@ -51,42 +49,111 @@
     --d-violet-soft: #ede9fe;
   }
 
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html,
-  body {
-    width: 100%;
-    height: 100%;
+  html, body {
+    width: 100%; height: 100%;
     overflow: hidden;
     background: var(--bg-page);
     color: var(--ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background 320ms var(--ease-out);
   }
+  body.mode-desktop { background: var(--d-bg); color: var(--d-ink); }
 
-  body.mode-desktop {
-    background: var(--d-bg);
-    color: var(--d-ink);
-  }
-
-  .stage {
-    position: fixed;
-    inset: 0;
-    background: var(--bg-page);
-  }
-  body.mode-desktop .stage {
-    background: var(--d-bg);
-  }
+  .stage { position: fixed; inset: 0; }
 
   body.mode-mobile .desktop-canvas { display: none; }
   body.mode-desktop .mobile-canvas { display: none; }
+
+  /* ================================================================
+     Controles flotantes — selector móvil/escritorio + zoom
+     ================================================================ */
+  .controls {
+    position: fixed;
+    top: 14px; right: 14px;
+    z-index: 50;
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 8px;
+    background: rgba(20, 22, 28, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 9999px;
+    box-shadow: 0 8px 28px -8px rgba(0, 0, 0, 0.4);
+  }
+  body.mode-desktop .controls {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(17, 19, 24, 0.08);
+    box-shadow: 0 6px 24px -8px rgba(17, 19, 24, 0.12);
+  }
+  .mode-switch { display: flex; align-items: center; gap: 4px; }
+  .mode-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 18px;
+    border-radius: 9999px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-weight: 500; font-size: 13px;
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 200ms, background 200ms;
+    letter-spacing: 0.01em;
+  }
+  body.mode-desktop .mode-btn { color: rgba(17, 19, 24, 0.5); }
+  .mode-btn:hover { color: #fff; }
+  body.mode-desktop .mode-btn:hover { color: var(--d-ink); }
+  .mode-btn.active {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.85), rgba(200, 80, 192, 0.85));
+    color: #fff;
+    box-shadow: 0 4px 14px -4px rgba(124, 58, 237, 0.4);
+  }
+  body.mode-desktop .mode-btn.active { color: #fff; }
+  .mode-btn svg { width: 14px; height: 14px; }
+  .ctrl-sep {
+    width: 1px; height: 20px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  body.mode-desktop .ctrl-sep { background: rgba(17, 19, 24, 0.08); }
+  .zoom-ctl {
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 8px 0 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.55);
+  }
+  body.mode-desktop .zoom-ctl { color: rgba(17, 19, 24, 0.5); }
+  body.mode-mobile .zoom-ctl,
+  body.mode-mobile .ctrl-sep { display: none; }
+  .zoom-ctl input[type="range"] {
+    width: 120px;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    outline: none;
+  }
+  body.mode-desktop .zoom-ctl input[type="range"] { background: rgba(17, 19, 24, 0.08); }
+  .zoom-ctl input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #c850c0);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(124, 58, 237, 0.4);
+  }
+  .zoom-ctl input[type="range"]::-moz-range-thumb {
+    width: 14px; height: 14px; border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #c850c0);
+    cursor: pointer;
+  }
+  .zoom-val { min-width: 32px; text-align: right; }
 
   /* ================================================================
      MÓVIL · canvas vertical 1080x1920 (dark)
@@ -94,46 +161,32 @@
 
   .mobile-canvas {
     position: fixed;
-    width: 1080px;
-    height: 1920px;
+    width: 1080px; height: 1920px;
     background: var(--bg-base);
     overflow: hidden;
     transform-origin: 0 0;
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
     isolation: isolate;
   }
-
   .mobile-canvas::before {
-    content: "";
-    position: absolute;
-    inset: 0;
+    content: ""; position: absolute; inset: 0;
     background-image: radial-gradient(rgba(255, 255, 255, 0.025) 1.4px, transparent 1.4px);
     background-size: 48px 48px;
     -webkit-mask-image: radial-gradient(ellipse at 50% 28%, #000 25%, transparent 78%);
     mask-image: radial-gradient(ellipse at 50% 28%, #000 25%, transparent 78%);
-    pointer-events: none;
-    z-index: 0;
+    pointer-events: none; z-index: 0;
   }
   .mobile-canvas::after {
-    content: "";
-    position: absolute;
-    top: -180px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 900px;
-    height: 600px;
+    content: ""; position: absolute;
+    top: -180px; left: 50%; transform: translateX(-50%);
+    width: 900px; height: 600px;
     background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.12) 0%, transparent 65%);
-    pointer-events: none;
-    z-index: 0;
+    pointer-events: none; z-index: 0;
   }
 
   .chat-header {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    gap: 28px;
+    position: relative; z-index: 2;
+    display: flex; align-items: center; gap: 28px;
     padding: 64px 72px 40px;
   }
   .avatar {
@@ -146,27 +199,10 @@
     letter-spacing: -0.02em;
   }
   .meta { flex: 1; min-width: 0; }
-  .meta .title {
-    font-family: var(--font-sans); font-weight: 600; font-size: 34px;
-    letter-spacing: -0.01em; color: var(--ink); line-height: 1.15;
-  }
-  .meta .subtitle {
-    margin-top: 8px; font-family: var(--font-mono); font-weight: 400; font-size: 17px;
-    letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint);
-  }
-  .status {
-    display: flex; align-items: center; gap: 12px;
-    font-family: var(--font-mono); font-weight: 400; font-size: 20px;
-    color: var(--ink-soft); flex-shrink: 0;
-    padding: 8px 18px 8px 14px; border-radius: 9999px;
-    background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.18);
-  }
-  .dot {
-    width: 12px; height: 12px; border-radius: 50%;
-    background: var(--success);
-    box-shadow: 0 0 14px rgba(34,197,94,0.7);
-    animation: livePulse 2.2s var(--ease-out) infinite;
-  }
+  .meta .title { font-family: var(--font-sans); font-weight: 600; font-size: 34px; letter-spacing: -0.01em; color: var(--ink); line-height: 1.15; }
+  .meta .subtitle { margin-top: 8px; font-family: var(--font-mono); font-weight: 400; font-size: 17px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); }
+  .status { display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-weight: 400; font-size: 20px; color: var(--ink-soft); flex-shrink: 0; padding: 8px 18px 8px 14px; border-radius: 9999px; background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.18); }
+  .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--success); box-shadow: 0 0 14px rgba(34,197,94,0.7); animation: livePulse 2.2s var(--ease-out) infinite; }
   @keyframes livePulse {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.55; transform: scale(0.82); }
@@ -191,34 +227,14 @@
     color: var(--ink); opacity: 0;
     transform: translateY(8px) scale(0.97);
     animation: enter 220ms var(--ease-out) forwards;
-    will-change: transform, opacity;
   }
   @keyframes enter { to { opacity: 1; transform: translateY(0) scale(1); } }
-  .bubble.user {
-    align-self: flex-end;
-    background: var(--grad-soft), var(--surface);
-    background-color: var(--surface);
-    border: 1px solid var(--border);
-    border-bottom-right-radius: 8px;
-  }
-  .bubble.ai {
-    align-self: flex-start;
-    background: var(--surface); border: 1px solid var(--border);
-    border-bottom-left-radius: 8px;
-    display: flex; flex-direction: column; gap: 24px;
-    max-width: 92%; padding: 30px 32px;
-  }
+  .bubble.user { align-self: flex-end; background: var(--grad-soft), var(--surface); background-color: var(--surface); border: 1px solid var(--border); border-bottom-right-radius: 8px; }
+  .bubble.ai { align-self: flex-start; background: var(--surface); border: 1px solid var(--border); border-bottom-left-radius: 8px; display: flex; flex-direction: column; gap: 24px; max-width: 92%; padding: 30px 32px; }
   .ai-text { font-family: var(--font-sans); font-size: 32px; color: var(--ink); line-height: 1.5; }
 
-  .thinking {
-    align-self: flex-start;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 24px; border-bottom-left-radius: 8px;
-    padding: 30px 38px; display: flex; gap: 12px; align-items: center;
-    opacity: 0; animation: enter 220ms var(--ease-out) forwards;
-  }
-  .thinking .d { width: 12px; height: 12px; border-radius: 50%;
-    background: var(--ink-soft); animation: shimmer 1.1s var(--ease-out) infinite; }
+  .thinking { align-self: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: 24px; border-bottom-left-radius: 8px; padding: 30px 38px; display: flex; gap: 12px; align-items: center; opacity: 0; animation: enter 220ms var(--ease-out) forwards; }
+  .thinking .d { width: 12px; height: 12px; border-radius: 50%; background: var(--ink-soft); animation: shimmer 1.1s var(--ease-out) infinite; }
   .thinking .d:nth-child(2) { animation-delay: 0.15s; }
   .thinking .d:nth-child(3) { animation-delay: 0.3s; }
   @keyframes shimmer {
@@ -232,33 +248,17 @@
     opacity: 0; transform: translateY(8px) scale(0.97);
     animation: enter 320ms var(--ease-out) forwards; animation-delay: 80ms;
   }
-  .card-label {
-    font-family: var(--font-mono); font-weight: 500; font-size: 14px;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--ink-faint); margin-bottom: 20px;
-  }
-  .pill {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--font-mono); font-weight: 500; font-size: 18px;
-    padding: 7px 16px; border-radius: 9999px;
-    background: rgba(34,197,94,0.12); color: var(--success);
-    border: 1px solid rgba(34,197,94,0.32);
-    margin-top: 20px; letter-spacing: 0.01em;
-  }
+  .card-label { font-family: var(--font-mono); font-weight: 500; font-size: 14px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-weight: 500; font-size: 18px; padding: 7px 16px; border-radius: 9999px; background: rgba(34,197,94,0.12); color: var(--success); border: 1px solid rgba(34,197,94,0.32); margin-top: 20px; }
   .pill svg { width: 12px; height: 12px; }
 
-  /* Bars vertical */
-  .bars-v {
-    display: grid; grid-template-columns: 1fr 1fr 1fr;
-    gap: 26px; align-items: end; height: 340px; margin-top: 8px;
-  }
+  .bars-v { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 26px; align-items: end; height: 340px; margin-top: 8px; }
   .bar-v { display: flex; flex-direction: column; align-items: stretch; height: 100%; justify-content: flex-end; gap: 14px; }
   .bar-v .bar-track { flex: 1; display: flex; align-items: flex-end; background: rgba(255,255,255,0.025); border-radius: 12px 12px 6px 6px; overflow: hidden; }
   .bar-v .bar-fill { width: 100%; height: 0; background: var(--grad); border-radius: 8px 8px 4px 4px; transition: height 700ms var(--ease-out); box-shadow: 0 0 28px rgba(124,58,237,0.18); }
   .bar-v .v { font-family: var(--font-mono); font-weight: 500; font-size: 22px; color: var(--ink); text-align: center; }
   .bar-v .l { font-family: var(--font-sans); font-size: 18px; color: var(--ink-soft); text-align: center; line-height: 1.3; }
 
-  /* Donut */
   .donut-wrap { display: grid; grid-template-columns: 280px 1fr; gap: 36px; align-items: center; padding: 4px; }
   .donut { width: 280px; height: 280px; position: relative; }
   .donut svg { width: 100%; height: 100%; transform: rotate(-90deg); display: block; }
@@ -270,7 +270,6 @@
   .legend .label { color: var(--ink-soft); flex: 1; }
   .legend .value { font-family: var(--font-mono); font-weight: 500; color: var(--ink); font-size: 26px; letter-spacing: -0.01em; }
 
-  /* Ranking */
   .bars-h { display: flex; flex-direction: column; gap: 22px; margin-top: 6px; }
   .bar-h { display: flex; flex-direction: column; gap: 10px; }
   .bar-h .row { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--font-sans); font-size: 22px; color: var(--ink); gap: 16px; }
@@ -283,159 +282,118 @@
   .bar-h.dim .fill { background: rgba(0,159,227,0.4); }
   .bar-h .rank { font-family: var(--font-mono); color: var(--ink-faint); margin-right: 12px; }
 
-  /* Gauge */
   .gauge-wrap { display: grid; place-items: center; padding: 4px 0; }
   .gauge { width: 360px; height: 230px; position: relative; }
   .gauge svg { width: 100%; height: 100%; display: block; }
   .gauge .num { position: absolute; bottom: 16px; left: 0; right: 0; text-align: center; font-family: var(--font-mono); font-weight: 500; font-size: 80px; color: var(--ink); letter-spacing: -0.03em; line-height: 1; }
   .gauge-ticks { display: flex; justify-content: space-between; width: 100%; max-width: 340px; font-family: var(--font-mono); font-size: 14px; color: var(--ink-faint); margin-top: -8px; }
 
-  .mobile-canvas.fading .messages > * {
-    transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
-    opacity: 0; transform: translateY(-8px);
-  }
-
   /* ================================================================
-     ESCRITORIO · canvas horizontal 1920x1080 (light)
+     ESCRITORIO · canvas horizontal 1920x1080 (light) — más aire
      ================================================================ */
 
   .desktop-canvas {
     position: fixed;
-    width: 1920px;
-    height: 1080px;
+    width: 1920px; height: 1080px;
     background: var(--d-bg);
     overflow: hidden;
     transform-origin: 0 0;
     color: var(--d-ink);
     font-family: var(--font-sans);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: flex; flex-direction: column; align-items: center;
     isolation: isolate;
   }
-
-  /* Halo violeta sutil bajo el title */
   .desktop-canvas::before {
-    content: "";
-    position: absolute;
-    top: -200px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1400px;
-    height: 700px;
+    content: ""; position: absolute;
+    top: -240px; left: 50%; transform: translateX(-50%);
+    width: 1400px; height: 700px;
     background: radial-gradient(ellipse at center, rgba(124,58,237,0.05) 0%, transparent 65%);
-    pointer-events: none;
-    z-index: 0;
+    pointer-events: none; z-index: 0;
   }
 
   .hub {
     position: relative; z-index: 1;
-    width: 100%;
-    max-width: 1480px;
-    padding: 100px 80px 60px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 100%; max-width: 1280px;
+    padding: 90px 80px 50px;
+    display: flex; flex-direction: column; align-items: center;
+    height: 100%;
   }
 
   .hub-kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 16px;
-    font-family: var(--font-mono);
-    font-weight: 400;
-    font-size: 16px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 14px;
+    font-family: var(--font-mono); font-weight: 400; font-size: 13px;
+    letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--d-ink-faint);
-    margin-bottom: 100px;
+    margin-bottom: 40px;
   }
-  .hub-kicker .k-dot {
-    width: 9px; height: 9px; border-radius: 50%;
-    background: var(--d-violet); display: inline-block;
-  }
+  .hub-kicker .k-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--d-violet); }
   .hub-kicker .k-sep { color: var(--d-ink-very-faint); margin: 0 -4px; }
   .hub-kicker .nuevo {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 6px 14px; border-radius: 9999px;
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 5px 11px; border-radius: 9999px;
     background: var(--d-violet-soft);
-    border: 1px solid rgba(124,58,237,0.18);
+    border: 1px solid rgba(124, 58, 237, 0.18);
     color: var(--d-violet);
-    font-weight: 500; font-size: 14px; letter-spacing: 0.18em;
-    margin-left: 8px;
+    font-weight: 500; font-size: 11px; letter-spacing: 0.18em;
+    margin-left: 6px;
   }
-  .hub-kicker .nuevo .nd {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--d-violet);
-  }
+  .hub-kicker .nuevo .nd { width: 6px; height: 6px; border-radius: 50%; background: var(--d-violet); }
 
   .hub-title {
     font-family: var(--font-sans);
     font-weight: 600;
-    font-size: 96px;
+    font-size: 64px;
     letter-spacing: -0.03em;
     line-height: 1.05;
     color: var(--d-ink);
     text-align: center;
-    margin-bottom: 70px;
+    margin-bottom: 36px;
     transition: color 600ms var(--ease-out);
+    flex-shrink: 0;
   }
   .hub-title.faded { color: var(--d-ink-very-faint); }
 
   .hub-bar {
     width: 100%;
-    max-width: 1280px;
-    height: 92px;
+    max-width: 980px;
+    height: 64px;
     border-radius: 9999px;
     background: var(--d-surface);
     border: 1.5px solid var(--d-border);
-    box-shadow:
-      0 8px 32px -8px rgba(124, 58, 237, 0.12),
-      0 2px 6px rgba(17, 19, 24, 0.04);
-    display: flex;
-    align-items: center;
-    padding: 0 18px 0 32px;
-    gap: 20px;
+    box-shadow: 0 6px 24px -8px rgba(124, 58, 237, 0.1), 0 1px 4px rgba(17, 19, 24, 0.04);
+    display: flex; align-items: center;
+    padding: 0 12px 0 22px; gap: 14px;
     position: relative;
+    flex-shrink: 0;
   }
   .hub-bar.glow {
-    box-shadow:
-      0 12px 40px -8px rgba(124, 58, 237, 0.22),
-      0 2px 8px rgba(17, 19, 24, 0.05);
-    border-color: rgba(124, 58, 237, 0.35);
+    box-shadow: 0 10px 36px -8px rgba(124, 58, 237, 0.22), 0 2px 8px rgba(17, 19, 24, 0.05);
+    border-color: rgba(124, 58, 237, 0.32);
   }
 
   .bar-plus {
-    width: 32px; height: 32px;
+    width: 24px; height: 24px;
     display: grid; place-items: center;
     color: var(--d-ink-faint);
-    font-size: 28px; line-height: 1;
-    font-weight: 300;
+    font-size: 22px; line-height: 1; font-weight: 300;
     flex-shrink: 0;
   }
-
   .bar-input-area {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    position: relative;
-    height: 100%;
-    font-family: var(--font-sans);
-    font-size: 28px;
-    color: var(--d-ink);
+    flex: 1; min-width: 0;
+    display: flex; align-items: center;
+    position: relative; height: 100%;
+    font-family: var(--font-sans); font-size: 18px; color: var(--d-ink);
     overflow: hidden;
   }
   .bar-placeholder {
     position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-    color: var(--d-ink-faint);
-    pointer-events: none;
+    color: var(--d-ink-faint); pointer-events: none;
     transition: opacity 200ms var(--ease-out);
   }
   .bar-typed { color: var(--d-ink); white-space: nowrap; }
   .bar-caret {
     display: inline-block;
-    width: 2px; height: 30px;
+    width: 2px; height: 22px;
     margin-left: 2px;
     background: var(--d-violet);
     vertical-align: middle;
@@ -445,77 +403,66 @@
   .bar-caret.on { opacity: 1; }
   @keyframes caretBlink { 50% { opacity: 0; } }
 
-  .bar-right {
-    display: flex; align-items: center; gap: 18px;
-    flex-shrink: 0;
-  }
+  .bar-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
   .bar-thinking {
-    font-family: var(--font-sans);
-    font-size: 22px;
+    font-family: var(--font-sans); font-size: 15px;
     color: var(--d-ink-soft);
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
+    display: inline-flex; align-items: center; gap: 4px;
     transition: color 200ms var(--ease-out);
   }
   .bar-thinking.active { color: var(--d-violet); }
-  .bar-thinking .caret-down {
-    width: 12px; height: 12px;
-    opacity: 0.6;
-  }
-  .bar-mic {
-    width: 36px; height: 36px;
-    display: grid; place-items: center;
-    color: var(--d-ink-soft);
-  }
-  .bar-mic svg { width: 22px; height: 22px; }
+  .bar-thinking .caret-down { width: 10px; height: 10px; opacity: 0.6; }
+  .bar-mic { width: 28px; height: 28px; display: grid; place-items: center; color: var(--d-ink-soft); }
+  .bar-mic svg { width: 17px; height: 17px; }
   .bar-wave {
-    width: 60px; height: 60px;
-    border-radius: 50%;
+    width: 44px; height: 44px; border-radius: 50%;
     background: var(--d-ink);
     display: grid; place-items: center;
-    color: #fff;
+    color: #fff; border: none; cursor: pointer;
   }
-  .bar-wave svg { width: 24px; height: 24px; }
+  .bar-wave svg { width: 19px; height: 19px; }
 
   .hub-pills {
-    display: flex;
-    gap: 18px;
-    margin-top: 28px;
+    display: flex; gap: 14px;
+    margin-top: 20px;
     transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
+    flex-shrink: 0;
   }
   .hub-pills.gone {
-    opacity: 0;
-    transform: translateY(-6px);
+    opacity: 0; transform: translateY(-6px);
     pointer-events: none;
+    margin-top: 0;
+    height: 0;
+    overflow: hidden;
   }
   .hub-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 26px;
-    border-radius: 9999px;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 10px 20px; border-radius: 9999px;
     background: var(--d-surface);
     border: 1px solid var(--d-border);
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 20px;
+    font-family: var(--font-sans); font-weight: 500; font-size: 15px;
     color: var(--d-ink);
-    box-shadow: 0 1px 3px rgba(17,19,24,0.03);
+    box-shadow: 0 1px 3px rgba(17, 19, 24, 0.03);
+    cursor: pointer;
   }
-  .hub-pill svg { width: 20px; height: 20px; color: var(--d-ink-soft); }
+  .hub-pill svg { width: 16px; height: 16px; color: var(--d-ink-soft); }
 
-  /* Conversation area */
+  /* Conversación que crece (chat). Scroll interno con auto-scroll. */
   .hub-conv {
     position: relative;
-    width: 100%;
-    max-width: 1280px;
-    margin-top: 56px;
-    min-height: 260px;
-    display: flex;
-    flex-direction: column;
-    gap: 36px;
+    width: 100%; max-width: 980px;
+    margin-top: 36px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    display: flex; flex-direction: column;
+    gap: 28px;
+    padding-bottom: 24px;
   }
+  .hub-conv::-webkit-scrollbar { display: none; }
 
   .d-user {
     align-self: flex-end;
@@ -523,12 +470,10 @@
     background: #f3f4f6;
     color: var(--d-ink);
     font-family: var(--font-sans);
-    font-size: 24px;
-    line-height: 1.5;
-    padding: 16px 28px;
+    font-size: 18px; line-height: 1.5;
+    padding: 12px 22px;
     border-radius: 9999px;
-    opacity: 0;
-    transform: translateY(6px);
+    opacity: 0; transform: translateY(6px);
     animation: enterLight 260ms var(--ease-out) forwards;
   }
   @keyframes enterLight {
@@ -537,88 +482,91 @@
 
   .d-response {
     align-self: flex-start;
-    max-width: 78%;
+    max-width: 80%;
     font-family: var(--font-sans);
     color: var(--d-ink);
-    font-size: 26px;
-    line-height: 1.5;
+    font-size: 19px; line-height: 1.55;
   }
   .d-response .lead {
     font-weight: 700;
-    font-size: 28px;
-    margin-bottom: 24px;
-    opacity: 0;
-    transform: translateY(6px);
+    font-size: 21px;
+    margin-bottom: 18px;
+    opacity: 0; transform: translateY(6px);
     animation: enterLight 320ms var(--ease-out) forwards;
   }
-  .d-response .list {
-    display: flex; flex-direction: column;
-    gap: 16px;
-    margin-bottom: 8px;
-  }
+  .d-response .list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 6px; }
   .d-response .item {
-    display: flex; align-items: center; gap: 16px;
-    font-size: 24px;
-    color: var(--d-ink);
-    opacity: 0;
-    transform: translateY(6px);
+    display: flex; align-items: center; gap: 14px;
+    font-size: 18px; color: var(--d-ink);
+    opacity: 0; transform: translateY(6px);
     animation: enterLight 280ms var(--ease-out) forwards;
   }
-  .d-response .item .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--d-violet);
-    flex-shrink: 0;
-    box-shadow: none;
-    animation: none;
-  }
-  .d-response .item .rank {
-    font-family: var(--font-mono);
-    font-weight: 500;
-    font-size: 18px;
-    color: var(--d-ink-faint);
-    width: 24px;
-  }
-  .d-response .item .name {
-    font-weight: 700;
-  }
-  .d-response .item .amount {
-    font-weight: 400;
-  }
-  .d-response .item .meta {
-    font-family: var(--font-mono);
-    font-size: 18px;
-    color: var(--d-ink-faint);
-    letter-spacing: 0.04em;
-  }
-  .d-response .divider {
-    height: 1px; background: var(--d-border-soft);
-    margin: 14px 0 14px;
-    width: 60%;
-    opacity: 0;
-    animation: enterLight 320ms var(--ease-out) forwards;
-  }
+  .d-response .item .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--d-violet); flex-shrink: 0; box-shadow: none; animation: none; }
+  .d-response .item .rank { font-family: var(--font-mono); font-weight: 500; font-size: 14px; color: var(--d-ink-faint); width: 22px; }
+  .d-response .item .name { font-weight: 700; }
+  .d-response .item .meta { font-family: var(--font-mono); font-size: 14px; color: var(--d-ink-faint); letter-spacing: 0.04em; }
+  .d-response .divider { height: 1px; background: var(--d-border-soft); margin: 12px 0 12px; width: 60%; opacity: 0; animation: enterLight 320ms var(--ease-out) forwards; }
   .d-response .total {
-    display: flex; align-items: center; gap: 12px;
-    font-family: var(--font-mono);
-    font-weight: 500;
-    font-size: 22px;
-    color: var(--d-violet);
-    letter-spacing: 0.06em;
-    opacity: 0;
-    animation: enterLight 320ms var(--ease-out) forwards;
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-weight: 500; font-size: 17px;
+    color: var(--d-violet); letter-spacing: 0.06em;
+    opacity: 0; animation: enterLight 320ms var(--ease-out) forwards;
   }
   .d-response .total .label { text-transform: uppercase; }
   .d-response .total .sep { color: var(--d-ink-very-faint); }
-  .d-response .total .value { font-weight: 500; }
 
+  .d-thinking {
+    align-self: flex-start;
+    display: flex; align-items: center; gap: 9px;
+    padding: 12px 18px;
+    background: var(--d-surface);
+    border: 1px solid var(--d-border);
+    border-radius: 9999px;
+    opacity: 0; animation: enterLight 220ms var(--ease-out) forwards;
+  }
+  .d-thinking .d {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--d-ink-faint);
+    animation: shimmer 1.1s var(--ease-out) infinite;
+  }
+  .d-thinking .d:nth-child(2) { animation-delay: 0.15s; }
+  .d-thinking .d:nth-child(3) { animation-delay: 0.3s; }
+
+  /* Fade out al reiniciar el loop */
+  .mobile-canvas.fading .messages > *,
   .hub-conv.fading > * {
     transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out);
-    opacity: 0;
-    transform: translateY(-6px);
+    opacity: 0; transform: translateY(-6px);
   }
 </style>
 </head>
 <body>
+  <!-- Controles flotantes (selector + zoom) -->
+  <div class="controls" id="controls">
+    <div class="mode-switch">
+      <button class="mode-btn" data-mode="mobile">
+        <svg viewBox="0 0 24 24" fill="none">
+          <rect x="6" y="2.5" width="12" height="19" rx="3" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="12" cy="18" r="1" fill="currentColor"/>
+        </svg>
+        Móvil
+      </button>
+      <button class="mode-btn" data-mode="desktop">
+        <svg viewBox="0 0 24 24" fill="none">
+          <rect x="2" y="4" width="20" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M8 20h8M12 17v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        Escritorio
+      </button>
+    </div>
+    <span class="ctrl-sep"></span>
+    <div class="zoom-ctl" id="zoomCtl">
+      <span>ZOOM</span>
+      <input id="zoomRange" type="range" min="50" max="110" value="80" />
+      <span class="zoom-val" id="zoomVal">80%</span>
+    </div>
+  </div>
+
   <div class="stage" id="stage">
     <!-- ====== MÓVIL · vertical 1080x1920 ====== -->
     <div class="mobile-canvas" id="mobileCanvas">
@@ -628,10 +576,7 @@
           <div class="title">Clinera · Chat IA interno</div>
           <div class="subtitle">Pregúntale a tu clínica</div>
         </div>
-        <div class="status">
-          <span class="dot"></span>
-          en línea
-        </div>
+        <div class="status"><span class="dot"></span>en línea</div>
       </header>
       <div class="header-line"></div>
       <main class="messages" id="messages"></main>
@@ -645,14 +590,9 @@
           MÓDULO 06
           <span class="k-sep">·</span>
           CHAT IA INTERNO
-          <span class="nuevo">
-            <span class="nd"></span>
-            NUEVO
-          </span>
+          <span class="nuevo"><span class="nd"></span>NUEVO</span>
         </div>
-
         <h1 class="hub-title" id="hubTitle">¿Por dónde empezamos?</h1>
-
         <div class="hub-bar" id="hubBar">
           <div class="bar-plus">+</div>
           <div class="bar-input-area">
@@ -679,7 +619,6 @@
             </button>
           </div>
         </div>
-
         <div class="hub-pills" id="hubPills">
           <button class="hub-pill">
             <svg viewBox="0 0 24 24" fill="none">
@@ -702,7 +641,6 @@
             Buscar paciente
           </button>
         </div>
-
         <div class="hub-conv" id="hubConv"></div>
       </div>
     </div>
@@ -710,17 +648,20 @@
 
   <script>
     // =====================================================
-    // Configuración global
+    // Estado global y utilidades
     // =====================================================
     const SPEED = 1.0;
     const t = (ms) => ms / SPEED;
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-    // Detección de modo según orientación al cargar
-    const MODE = window.innerHeight > window.innerWidth ? 'mobile' : 'desktop';
-    document.body.classList.add(`mode-${MODE}`);
+    // Token de loop: cualquier loop que detecte que su token ya no es el
+    // actual se aborta limpio (para que al cambiar de modo nada quede vivo).
+    const State = {
+      mode: null,        // 'mobile' | 'desktop'
+      zoom: 0.8,         // multiplicador sobre el fit (sólo escritorio)
+      loopToken: 0,
+    };
 
-    // ---------- Helpers compartidos ----------
     function el(tag, cls, html) {
       const e = document.createElement(tag);
       if (cls) e.className = cls;
@@ -731,412 +672,469 @@
     const clp = (n) => fmtCLP.format(n);
 
     // =====================================================
-    // MÓVIL · canvas vertical
+    // FIT — móvil y escritorio
     // =====================================================
-    if (MODE === 'mobile') {
-      const canvas = document.getElementById('mobileCanvas');
-      function fit() {
-        const s = Math.min(window.innerWidth / 1080, window.innerHeight / 1920);
-        canvas.style.left = `${(window.innerWidth - 1080 * s) / 2}px`;
-        canvas.style.top = `${(window.innerHeight - 1920 * s) / 2}px`;
-        canvas.style.transform = `scale(${s})`;
-      }
-      window.addEventListener('resize', fit);
-      fit();
+    const mobileCanvas = document.getElementById('mobileCanvas');
+    const desktopCanvas = document.getElementById('desktopCanvas');
 
-      const messages = document.getElementById('messages');
-      function scrollDown() { messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' }); }
+    function fitMobile() {
+      const s = Math.min(window.innerWidth / 1080, window.innerHeight / 1920);
+      mobileCanvas.style.left = `${(window.innerWidth - 1080 * s) / 2}px`;
+      mobileCanvas.style.top = `${(window.innerHeight - 1920 * s) / 2}px`;
+      mobileCanvas.style.transform = `scale(${s})`;
+    }
+    function fitDesktop() {
+      const fitS = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+      const s = fitS * State.zoom;
+      desktopCanvas.style.left = `${(window.innerWidth - 1920 * s) / 2}px`;
+      desktopCanvas.style.top = `${(window.innerHeight - 1080 * s) / 2}px`;
+      desktopCanvas.style.transform = `scale(${s})`;
+    }
+    function fitAll() {
+      if (State.mode === 'mobile') fitMobile();
+      else fitDesktop();
+    }
+    window.addEventListener('resize', fitAll);
 
-      async function addUser(text) {
-        const b = el('div', 'bubble user'); b.textContent = text;
-        messages.appendChild(b); scrollDown();
-        await sleep(t(220));
-      }
-      async function showThinking() {
-        const th = el('div', 'thinking', '<span class="d"></span><span class="d"></span><span class="d"></span>');
-        messages.appendChild(th); scrollDown();
-        await sleep(t(220 + 900));
-        th.remove();
-      }
-      function aiBubble(text) {
-        const bubble = el('div', 'bubble ai');
-        const txt = el('div', 'ai-text'); txt.textContent = text;
-        bubble.appendChild(txt); return bubble;
-      }
-      function pill(text, dir) {
-        const arrow = dir === 'down'
-          ? '<svg viewBox="0 0 10 10" fill="none"><path d="M5 1.5v7M2 5.5l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-          : '<svg viewBox="0 0 10 10" fill="none"><path d="M5 8.5v-7M2 4.5l3-3 3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-        return el('span', 'pill', `${arrow}<span>${text}</span>`);
-      }
+    // =====================================================
+    // Controles UI
+    // =====================================================
+    const modeButtons = document.querySelectorAll('.mode-btn');
+    const zoomRange = document.getElementById('zoomRange');
+    const zoomVal = document.getElementById('zoomVal');
 
-      function buildBars(values) {
-        const card = el('div', 'card');
-        card.appendChild(el('div', 'card-label', 'Ingresos · mes pasado'));
-        const grid = el('div', 'bars-v');
-        const max = Math.max(...values.map((v) => v.value));
-        values.forEach((v) => {
-          const col = el('div', 'bar-v');
-          col.appendChild(el('div', 'v', clp(v.value)));
-          const track = el('div', 'bar-track');
-          const fill = el('div', 'bar-fill'); track.appendChild(fill);
-          col.appendChild(track);
-          col.appendChild(el('div', 'l', v.label));
-          grid.appendChild(col);
-        });
-        card.appendChild(grid);
-        card.appendChild(pill('+12% vs. mes anterior', 'up'));
-        requestAnimationFrame(() => setTimeout(() => {
-          const fills = grid.querySelectorAll('.bar-fill');
-          values.forEach((v, i) => setTimeout(() => { fills[i].style.height = `${(v.value / max) * 100}%`; }, i * 60));
-        }, 100));
-        return card;
-      }
-      function buildDonut(parts, totalLabel) {
-        const card = el('div', 'card');
-        card.appendChild(el('div', 'card-label', 'Pacientes · mayo'));
-        const wrap = el('div', 'donut-wrap'); const donut = el('div', 'donut');
-        const R = 92, cx = 140, cy = 140, C = 2 * Math.PI * R;
-        const sum = parts.reduce((a, b) => a + b.value, 0);
-        let svg = `<svg viewBox="0 0 280 280"><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="22"/>`;
-        let cum = 0;
+    modeButtons.forEach((btn) => {
+      btn.addEventListener('click', () => setMode(btn.dataset.mode));
+    });
+    zoomRange.addEventListener('input', (e) => {
+      State.zoom = parseInt(e.target.value, 10) / 100;
+      zoomVal.textContent = `${Math.round(State.zoom * 100)}%`;
+      if (State.mode === 'desktop') fitDesktop();
+    });
+
+    function syncControls() {
+      modeButtons.forEach((b) => {
+        b.classList.toggle('active', b.dataset.mode === State.mode);
+      });
+      zoomVal.textContent = `${Math.round(State.zoom * 100)}%`;
+      zoomRange.value = Math.round(State.zoom * 100);
+    }
+
+    // =====================================================
+    // MÓVIL — render + loop
+    // =====================================================
+    const messages = document.getElementById('messages');
+    function mScrollDown() { messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' }); }
+
+    async function mAddUser(text) {
+      const b = el('div', 'bubble user'); b.textContent = text;
+      messages.appendChild(b); mScrollDown();
+      await sleep(t(220));
+    }
+    async function mShowThinking() {
+      const th = el('div', 'thinking', '<span class="d"></span><span class="d"></span><span class="d"></span>');
+      messages.appendChild(th); mScrollDown();
+      await sleep(t(1120));
+      th.remove();
+      return null;
+    }
+    function mAiBubble(text) {
+      const bubble = el('div', 'bubble ai');
+      const txt = el('div', 'ai-text'); txt.textContent = text;
+      bubble.appendChild(txt); return bubble;
+    }
+    function mPill(text, dir) {
+      const arrow = dir === 'down'
+        ? '<svg viewBox="0 0 10 10" fill="none"><path d="M5 1.5v7M2 5.5l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        : '<svg viewBox="0 0 10 10" fill="none"><path d="M5 8.5v-7M2 4.5l3-3 3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      return el('span', 'pill', `${arrow}<span>${text}</span>`);
+    }
+
+    function mBuildBars(values) {
+      const card = el('div', 'card');
+      card.appendChild(el('div', 'card-label', 'Ingresos · mes pasado'));
+      const grid = el('div', 'bars-v');
+      const max = Math.max(...values.map((v) => v.value));
+      values.forEach((v) => {
+        const col = el('div', 'bar-v');
+        col.appendChild(el('div', 'v', clp(v.value)));
+        const track = el('div', 'bar-track');
+        const fill = el('div', 'bar-fill'); track.appendChild(fill);
+        col.appendChild(track);
+        col.appendChild(el('div', 'l', v.label));
+        grid.appendChild(col);
+      });
+      card.appendChild(grid);
+      card.appendChild(mPill('+12% vs. mes anterior', 'up'));
+      requestAnimationFrame(() => setTimeout(() => {
+        const fills = grid.querySelectorAll('.bar-fill');
+        values.forEach((v, i) => setTimeout(() => { fills[i].style.height = `${(v.value / max) * 100}%`; }, i * 60));
+      }, 100));
+      return card;
+    }
+    function mBuildDonut(parts, totalLabel) {
+      const card = el('div', 'card');
+      card.appendChild(el('div', 'card-label', 'Pacientes · mayo'));
+      const wrap = el('div', 'donut-wrap'); const donut = el('div', 'donut');
+      const R = 92, cx = 140, cy = 140, C = 2 * Math.PI * R;
+      const sum = parts.reduce((a, b) => a + b.value, 0);
+      let svg = `<svg viewBox="0 0 280 280"><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="22"/>`;
+      let cum = 0;
+      parts.forEach((p, i) => {
+        const dash = (p.value / sum) * C;
+        svg += `<circle class="arc" data-i="${i}" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${p.color}" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 ${C}" stroke-dashoffset="${-cum}" style="transition: stroke-dasharray 700ms var(--ease-out); transition-delay: ${i * 120}ms;"/>`;
+        cum += dash;
+      });
+      svg += '</svg>';
+      donut.innerHTML = svg;
+      donut.appendChild(el('div', 'center-sub', 'Total'));
+      donut.appendChild(el('div', 'center', totalLabel));
+      wrap.appendChild(donut);
+      const legend = el('div', 'legend');
+      parts.forEach((p) => {
+        const row = el('div', 'row');
+        row.innerHTML = `<span class="swatch" style="background:${p.color}"></span><span class="label">${p.label}</span><span class="value">${p.value}</span>`;
+        legend.appendChild(row);
+      });
+      wrap.appendChild(legend);
+      card.appendChild(wrap);
+      card.appendChild(mPill('+8% vs. abril', 'up'));
+      requestAnimationFrame(() => setTimeout(() => {
+        let cum2 = 0;
         parts.forEach((p, i) => {
           const dash = (p.value / sum) * C;
-          svg += `<circle class="arc" data-i="${i}" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${p.color}" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 ${C}" stroke-dashoffset="${-cum}" style="transition: stroke-dasharray 700ms var(--ease-out); transition-delay: ${i * 120}ms;"/>`;
-          cum += dash;
+          const arc = donut.querySelector(`.arc[data-i="${i}"]`);
+          arc.style.strokeDasharray = `${dash} ${C - dash}`;
+          arc.style.strokeDashoffset = `${-cum2}`;
+          cum2 += dash;
         });
-        svg += '</svg>';
-        donut.innerHTML = svg;
-        donut.appendChild(el('div', 'center-sub', 'Total'));
-        donut.appendChild(el('div', 'center', totalLabel));
-        wrap.appendChild(donut);
-        const legend = el('div', 'legend');
-        parts.forEach((p) => {
-          const row = el('div', 'row');
-          row.innerHTML = `<span class="swatch" style="background:${p.color}"></span><span class="label">${p.label}</span><span class="value">${p.value}</span>`;
-          legend.appendChild(row);
-        });
-        wrap.appendChild(legend);
-        card.appendChild(wrap);
-        card.appendChild(pill('+8% vs. abril', 'up'));
-        requestAnimationFrame(() => setTimeout(() => {
-          let cum2 = 0;
-          parts.forEach((p, i) => {
-            const dash = (p.value / sum) * C;
-            const arc = donut.querySelector(`.arc[data-i="${i}"]`);
-            arc.style.strokeDasharray = `${dash} ${C - dash}`;
-            arc.style.strokeDashoffset = `${-cum2}`;
-            cum2 += dash;
-          });
-        }, 100));
-        return card;
-      }
-      function buildRanking(items) {
-        const card = el('div', 'card');
-        card.appendChild(el('div', 'card-label', 'Top tratamientos · mes'));
-        const list = el('div', 'bars-h');
-        const max = Math.max(...items.map((i) => i.value));
-        items.forEach((it, i) => {
-          const row = el('div', 'bar-h ' + (i === 0 ? 'first' : 'dim'));
-          const head = el('div', 'row');
-          head.innerHTML = `<span class="name"><span class="rank">${String(i + 1).padStart(2, '0')}</span>${it.label}</span><span class="v">${it.value}<small>sesiones</small></span>`;
-          row.appendChild(head);
-          const track = el('div', 'track');
-          const fill = el('div', 'fill'); track.appendChild(fill);
-          row.appendChild(track);
-          list.appendChild(row);
-        });
-        card.appendChild(list);
-        requestAnimationFrame(() => setTimeout(() => {
-          const fills = list.querySelectorAll('.fill');
-          items.forEach((it, i) => setTimeout(() => { fills[i].style.width = `${(it.value / max) * 100}%`; }, i * 90));
-        }, 100));
-        return card;
-      }
-      function buildGauge(value) {
-        const card = el('div', 'card');
-        card.appendChild(el('div', 'card-label', 'Tasa de no-show · mes'));
-        const wrap = el('div', 'gauge-wrap'); const gauge = el('div', 'gauge');
-        const arcLen = Math.PI * 140;
-        const visible = (value / 20) * arcLen;
-        gauge.innerHTML = `
-          <svg viewBox="0 0 360 220">
-            <defs><linearGradient id="ggrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#009FE3"/><stop offset="50%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#C850C0"/></linearGradient></defs>
-            <path d="M 40 200 A 140 140 0 0 1 320 200" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="22" stroke-linecap="round"/>
-            <path id="gFill" d="M 40 200 A 140 140 0 0 1 320 200" fill="none" stroke="url(#ggrad)" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 ${arcLen}" style="transition: stroke-dasharray 800ms var(--ease-out);"/>
-          </svg>`;
-        gauge.appendChild(el('div', 'num', value.toString().replace('.', ',') + '%'));
-        wrap.appendChild(gauge);
-        const ticks = el('div', 'gauge-ticks');
-        ticks.innerHTML = '<span>0%</span><span>10%</span><span>20%</span>';
-        wrap.appendChild(ticks);
-        card.appendChild(wrap);
-        card.appendChild(pill('−2,1 pts vs. mes anterior', 'down'));
-        requestAnimationFrame(() => setTimeout(() => {
-          gauge.querySelector('#gFill').style.strokeDasharray = `${visible} ${arcLen}`;
-        }, 100));
-        return card;
-      }
+      }, 100));
+      return card;
+    }
+    function mBuildRanking(items) {
+      const card = el('div', 'card');
+      card.appendChild(el('div', 'card-label', 'Top tratamientos · mes'));
+      const list = el('div', 'bars-h');
+      const max = Math.max(...items.map((i) => i.value));
+      items.forEach((it, i) => {
+        const row = el('div', 'bar-h ' + (i === 0 ? 'first' : 'dim'));
+        const head = el('div', 'row');
+        head.innerHTML = `<span class="name"><span class="rank">${String(i + 1).padStart(2, '0')}</span>${it.label}</span><span class="v">${it.value}<small>sesiones</small></span>`;
+        row.appendChild(head);
+        const track = el('div', 'track');
+        const fill = el('div', 'fill'); track.appendChild(fill);
+        row.appendChild(track);
+        list.appendChild(row);
+      });
+      card.appendChild(list);
+      requestAnimationFrame(() => setTimeout(() => {
+        const fills = list.querySelectorAll('.fill');
+        items.forEach((it, i) => setTimeout(() => { fills[i].style.width = `${(it.value / max) * 100}%`; }, i * 90));
+      }, 100));
+      return card;
+    }
+    function mBuildGauge(value) {
+      const card = el('div', 'card');
+      card.appendChild(el('div', 'card-label', 'Tasa de no-show · mes'));
+      const wrap = el('div', 'gauge-wrap'); const gauge = el('div', 'gauge');
+      const arcLen = Math.PI * 140;
+      const visible = (value / 20) * arcLen;
+      gauge.innerHTML = `
+        <svg viewBox="0 0 360 220">
+          <defs><linearGradient id="ggrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#009FE3"/><stop offset="50%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#C850C0"/></linearGradient></defs>
+          <path d="M 40 200 A 140 140 0 0 1 320 200" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="22" stroke-linecap="round"/>
+          <path id="gFill" d="M 40 200 A 140 140 0 0 1 320 200" fill="none" stroke="url(#ggrad)" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 ${arcLen}" style="transition: stroke-dasharray 800ms var(--ease-out);"/>
+        </svg>`;
+      gauge.appendChild(el('div', 'num', value.toString().replace('.', ',') + '%'));
+      wrap.appendChild(gauge);
+      const ticks = el('div', 'gauge-ticks');
+      ticks.innerHTML = '<span>0%</span><span>10%</span><span>20%</span>';
+      wrap.appendChild(ticks);
+      card.appendChild(wrap);
+      card.appendChild(mPill('−2,1 pts vs. mes anterior', 'down'));
+      requestAnimationFrame(() => setTimeout(() => {
+        gauge.querySelector('#gFill').style.strokeDasharray = `${visible} ${arcLen}`;
+      }, 100));
+      return card;
+    }
 
-      const ROUNDS = [
-        {
-          q: '¿cuánto vendí el mes pasado?',
-          a: 'Cerraste $4.820.000 el mes pasado.',
-          build: () => buildBars([
-            { label: 'Tratamientos', value: 3100000 },
-            { label: 'Productos', value: 920000 },
-            { label: 'Membresías', value: 800000 },
-          ]),
-        },
-        {
-          q: '¿cuántos pacientes atendí?',
-          a: 'Atendiste 312 pacientes en mayo.',
-          build: () => buildDonut([
-            { label: 'Recurrentes', value: 248, color: '#009FE3' },
-            { label: 'Nuevos', value: 64, color: '#C850C0' },
-          ], '312'),
-        },
-        {
-          q: '¿cuál es mi tratamiento más vendido?',
-          a: 'Limpieza facial profunda, 86 sesiones.',
-          build: () => buildRanking([
-            { label: 'Limpieza facial profunda', value: 86 },
-            { label: 'Toxina botulínica', value: 54 },
-            { label: 'Hydrafacial', value: 41 },
-          ]),
-        },
-        {
-          q: '¿cuál es mi tasa de inasistencia?',
-          a: 'Tu tasa de no-show es 7,2%.',
-          build: () => buildGauge(7.2),
-        },
-      ];
+    const M_ROUNDS = [
+      { q: '¿cuánto vendí el mes pasado?', a: 'Cerraste $4.820.000 el mes pasado.',
+        build: () => mBuildBars([
+          { label: 'Tratamientos', value: 3100000 },
+          { label: 'Productos', value: 920000 },
+          { label: 'Membresías', value: 800000 },
+        ]) },
+      { q: '¿cuántos pacientes atendí?', a: 'Atendiste 312 pacientes en mayo.',
+        build: () => mBuildDonut([
+          { label: 'Recurrentes', value: 248, color: '#009FE3' },
+          { label: 'Nuevos', value: 64, color: '#C850C0' },
+        ], '312') },
+      { q: '¿cuál es mi tratamiento más vendido?', a: 'Limpieza facial profunda, 86 sesiones.',
+        build: () => mBuildRanking([
+          { label: 'Limpieza facial profunda', value: 86 },
+          { label: 'Toxina botulínica', value: 54 },
+          { label: 'Hydrafacial', value: 41 },
+        ]) },
+      { q: '¿cuál es mi tasa de inasistencia?', a: 'Tu tasa de no-show es 7,2%.',
+        build: () => mBuildGauge(7.2) },
+    ];
 
-      async function playRound(round) {
-        await addUser(round.q);
-        await sleep(t(400));
-        await showThinking();
-        const bubble = aiBubble(round.a);
-        messages.appendChild(bubble);
-        scrollDown();
-        await sleep(t(220));
-        const card = round.build();
-        bubble.appendChild(card);
-        await sleep(t(120));
-        scrollDown();
-        await sleep(t(700));
-        scrollDown();
-        await sleep(t(1600));
-      }
-      async function fadeOut() {
-        canvas.classList.add('fading');
+    async function loopMobile(myToken) {
+      while (myToken === State.loopToken) {
+        for (const round of M_ROUNDS) {
+          if (myToken !== State.loopToken) return;
+          await mAddUser(round.q);
+          await sleep(t(400));
+          await mShowThinking();
+          if (myToken !== State.loopToken) return;
+          const bubble = mAiBubble(round.a);
+          messages.appendChild(bubble);
+          mScrollDown();
+          await sleep(t(220));
+          const card = round.build();
+          bubble.appendChild(card);
+          await sleep(t(120));
+          mScrollDown();
+          await sleep(t(700));
+          mScrollDown();
+          await sleep(t(1600));
+        }
+        if (myToken !== State.loopToken) return;
+        mobileCanvas.classList.add('fading');
         await sleep(t(600));
         messages.innerHTML = '';
         messages.scrollTop = 0;
-        canvas.classList.remove('fading');
+        mobileCanvas.classList.remove('fading');
         await sleep(t(200));
       }
-      async function loopMobile() {
-        while (true) {
-          for (const r of ROUNDS) await playRound(r);
-          await fadeOut();
-        }
-      }
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => loopMobile());
-      else loopMobile();
     }
 
     // =====================================================
-    // ESCRITORIO · canvas horizontal
+    // ESCRITORIO — render + loop (también acumula chat)
     // =====================================================
-    if (MODE === 'desktop') {
-      const canvas = document.getElementById('desktopCanvas');
-      function fit() {
-        const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-        canvas.style.left = `${(window.innerWidth - 1920 * s) / 2}px`;
-        canvas.style.top = `${(window.innerHeight - 1080 * s) / 2}px`;
-        canvas.style.transform = `scale(${s})`;
+    const hubTitle = document.getElementById('hubTitle');
+    const hubBar = document.getElementById('hubBar');
+    const barPlaceholder = document.getElementById('barPlaceholder');
+    const barTyped = document.getElementById('barTyped');
+    const barCaret = document.getElementById('barCaret');
+    const barThinking = document.getElementById('barThinking');
+    const hubPills = document.getElementById('hubPills');
+    const hubConv = document.getElementById('hubConv');
+
+    function dScrollDown() { hubConv.scrollTo({ top: hubConv.scrollHeight, behavior: 'smooth' }); }
+
+    function dShowCaret(on) { barCaret.classList.toggle('on', on); }
+    function dSetPlaceholder(visible) { barPlaceholder.style.opacity = visible ? '1' : '0'; }
+
+    async function dTypewriter(text, myToken) {
+      barTyped.textContent = '';
+      dSetPlaceholder(false);
+      dShowCaret(true);
+      hubBar.classList.add('glow');
+      for (let i = 0; i < text.length; i++) {
+        if (myToken !== State.loopToken) return;
+        barTyped.textContent += text[i];
+        const ch = text[i];
+        let delay = 26;
+        if (ch === ' ') delay = 36;
+        else if (',?¿.'.includes(ch)) delay = 64;
+        delay += Math.random() * 16;
+        await sleep(t(delay));
       }
-      window.addEventListener('resize', fit);
-      fit();
+      await sleep(t(200));
+    }
+    async function dClearBar() {
+      barTyped.textContent = '';
+      dShowCaret(false);
+      hubBar.classList.remove('glow');
+      dSetPlaceholder(true);
+    }
 
-      const title = document.getElementById('hubTitle');
-      const bar = document.getElementById('hubBar');
-      const barPlaceholder = document.getElementById('barPlaceholder');
-      const barTyped = document.getElementById('barTyped');
-      const barCaret = document.getElementById('barCaret');
-      const barThinking = document.getElementById('barThinking');
-      const pills = document.getElementById('hubPills');
-      const conv = document.getElementById('hubConv');
+    function dAddUser(text) {
+      const b = el('div', 'd-user'); b.textContent = text;
+      hubConv.appendChild(b);
+      dScrollDown();
+      return b;
+    }
+    function dShowThinkingInline() {
+      const th = el('div', 'd-thinking', '<span class="d"></span><span class="d"></span><span class="d"></span>');
+      hubConv.appendChild(th);
+      dScrollDown();
+      return th;
+    }
+    function dRenderResponse(data) {
+      const r = el('div', 'd-response');
+      const lead = el('div', 'lead'); lead.textContent = data.lead;
+      lead.style.animationDelay = '0ms';
+      r.appendChild(lead);
 
-      function showCaret(on) { barCaret.classList.toggle('on', on); }
-      function setPlaceholder(visible) { barPlaceholder.style.opacity = visible ? '1' : '0'; }
+      const list = el('div', 'list');
+      data.items.forEach((it, i) => {
+        const item = el('div', 'item');
+        item.style.animationDelay = `${120 + i * 90}ms`;
+        let inner = '';
+        if (it.rank) inner += `<span class="rank">${it.rank}</span>`;
+        inner += `<span class="dot"></span>`;
+        inner += `<span><span class="name">${it.name}</span>`;
+        if (it.amount) inner += ` <span class="amount">— ${it.amount}</span>`;
+        if (it.meta) inner += ` <span class="meta">${it.meta}</span>`;
+        inner += `</span>`;
+        item.innerHTML = inner;
+        list.appendChild(item);
+      });
+      r.appendChild(list);
 
-      async function typewriter(text) {
-        barTyped.textContent = '';
-        setPlaceholder(false);
-        showCaret(true);
-        bar.classList.add('glow');
-        for (let i = 0; i < text.length; i++) {
-          barTyped.textContent += text[i];
-          const ch = text[i];
-          let delay = 28;
-          if (ch === ' ') delay = 38;
-          else if (',?¿.'.includes(ch)) delay = 70;
-          delay += Math.random() * 18;
-          await sleep(t(delay));
-        }
-        await sleep(t(220));
+      if (data.total) {
+        const div = el('div', 'divider');
+        div.style.animationDelay = `${120 + data.items.length * 90 + 60}ms`;
+        r.appendChild(div);
+        const total = el('div', 'total');
+        total.style.animationDelay = `${120 + data.items.length * 90 + 140}ms`;
+        total.innerHTML = `<span class="label">${data.total.label || 'Total'}</span><span class="sep">·</span><span class="value">${data.total.value}</span>`;
+        r.appendChild(total);
       }
-      async function clearBar() {
-        barTyped.textContent = '';
-        showCaret(false);
-        bar.classList.remove('glow');
-        setPlaceholder(true);
-      }
-      async function showBarThinking(ms = 900) {
-        barThinking.classList.add('active');
-        await sleep(t(ms));
-        barThinking.classList.remove('active');
-      }
+      hubConv.appendChild(r);
+      dScrollDown();
+      return r;
+    }
 
-      function addUserDesktop(text) {
-        const b = el('div', 'd-user'); b.textContent = text;
-        conv.appendChild(b);
-        return b;
-      }
-
-      function renderResponse(data) {
-        const r = el('div', 'd-response');
-        const lead = el('div', 'lead'); lead.textContent = data.lead;
-        lead.style.animationDelay = '0ms';
-        r.appendChild(lead);
-
-        const list = el('div', 'list');
-        data.items.forEach((it, i) => {
-          const item = el('div', 'item');
-          item.style.animationDelay = `${120 + i * 90}ms`;
-          let inner = '';
-          if (it.rank) inner += `<span class="rank">${it.rank}</span>`;
-          inner += `<span class="dot"></span>`;
-          inner += `<span><span class="name">${it.name}</span>`;
-          if (it.amount) inner += ` <span class="amount">— ${it.amount}</span>`;
-          if (it.meta) inner += ` <span class="meta">${it.meta}</span>`;
-          inner += `</span>`;
-          item.innerHTML = inner;
-          list.appendChild(item);
-        });
-        r.appendChild(list);
-
-        if (data.total) {
-          const div = el('div', 'divider');
-          div.style.animationDelay = `${120 + data.items.length * 90 + 60}ms`;
-          r.appendChild(div);
-          const total = el('div', 'total');
-          total.style.animationDelay = `${120 + data.items.length * 90 + 140}ms`;
-          total.innerHTML = `
-            <span class="label">${data.total.label || 'Total'}</span>
-            <span class="sep">·</span>
-            <span class="value">${data.total.value}</span>`;
-          r.appendChild(total);
-        }
-
-        conv.appendChild(r);
-        return r;
-      }
-
-      const ROUNDS_D = [
-        {
-          q: '¿cuáles son los abonos pendientes de los últimos 7 días?',
-          response: {
-            lead: '4 abonos pendientes esta semana:',
-            items: [
-              { name: 'Camila P.', amount: '$24.500', meta: 'vence mañana' },
-              { name: 'Pedro R.', amount: '$89.000', meta: 'vence 16 may' },
-              { name: 'Ana M.', amount: '$12.300', meta: 'vence 18 may' },
-              { name: 'Luis A.', amount: '$45.000', meta: 'vence 20 may' },
-            ],
-            total: { label: 'Total', value: '$170.800' },
-          },
+    const D_ROUNDS = [
+      {
+        q: '¿cuáles son los abonos pendientes de los últimos 7 días?',
+        response: {
+          lead: '4 abonos pendientes esta semana:',
+          items: [
+            { name: 'Camila P.', amount: '$24.500', meta: 'vence mañana' },
+            { name: 'Pedro R.', amount: '$89.000', meta: 'vence 16 may' },
+            { name: 'Ana M.', amount: '$12.300', meta: 'vence 18 may' },
+            { name: 'Luis A.', amount: '$45.000', meta: 'vence 20 may' },
+          ],
+          total: { label: 'Total', value: '$170.800' },
         },
-        {
-          q: '¿cuánto vendí el mes pasado?',
-          response: {
-            lead: 'Cerraste $4.820.000 el mes pasado.',
-            items: [
-              { name: 'Tratamientos', amount: '$3.100.000', meta: '64%' },
-              { name: 'Productos', amount: '$920.000', meta: '19%' },
-              { name: 'Membresías', amount: '$800.000', meta: '17%' },
-            ],
-            total: { label: 'Total', value: '$4.820.000' },
-          },
+      },
+      {
+        q: '¿cuánto vendí el mes pasado?',
+        response: {
+          lead: 'Cerraste $4.820.000 el mes pasado.',
+          items: [
+            { name: 'Tratamientos', amount: '$3.100.000', meta: '64%' },
+            { name: 'Productos', amount: '$920.000', meta: '19%' },
+            { name: 'Membresías', amount: '$800.000', meta: '17%' },
+          ],
+          total: { label: 'Total', value: '$4.820.000' },
         },
-        {
-          q: '¿cuál es mi tratamiento más vendido?',
-          response: {
-            lead: 'Limpieza facial profunda lideró mayo.',
-            items: [
-              { rank: '01', name: 'Limpieza facial profunda', meta: '86 sesiones' },
-              { rank: '02', name: 'Toxina botulínica', meta: '54 sesiones' },
-              { rank: '03', name: 'Hydrafacial', meta: '41 sesiones' },
-            ],
-            total: { label: 'Total top 3', value: '181 sesiones' },
-          },
+      },
+      {
+        q: '¿cuál es mi tratamiento más vendido?',
+        response: {
+          lead: 'Limpieza facial profunda lideró mayo.',
+          items: [
+            { rank: '01', name: 'Limpieza facial profunda', meta: '86 sesiones' },
+            { rank: '02', name: 'Toxina botulínica', meta: '54 sesiones' },
+            { rank: '03', name: 'Hydrafacial', meta: '41 sesiones' },
+          ],
+          total: { label: 'Total top 3', value: '181 sesiones' },
         },
-        {
-          q: '¿cuál es mi tasa de inasistencia?',
-          response: {
-            lead: 'Tu tasa de no-show es 7,2%.',
-            items: [
-              { name: 'Mes anterior', amount: '9,3%', meta: 'referencia' },
-              { name: 'Promedio del año', amount: '8,1%', meta: 'tendencia' },
-              { name: 'Meta interna', amount: '6,0%', meta: 'objetivo' },
-            ],
-            total: { label: 'Variación', value: '−2,1 pts' },
-          },
+      },
+      {
+        q: '¿cuál es mi tasa de inasistencia?',
+        response: {
+          lead: 'Tu tasa de no-show es 7,2%.',
+          items: [
+            { name: 'Mes anterior', amount: '9,3%', meta: 'referencia' },
+            { name: 'Promedio del año', amount: '8,1%', meta: 'tendencia' },
+            { name: 'Meta interna', amount: '6,0%', meta: 'objetivo' },
+          ],
+          total: { label: 'Variación', value: '−2,1 pts' },
         },
-      ];
+      },
+    ];
 
-      async function playRoundDesktop(round, isFirst) {
-        await sleep(t(400));
-        await typewriter(round.q);
-        await sleep(t(200));
-        // “Thinking” en la barra (cambia color del label)
-        await showBarThinking(900);
-        // Mover la pregunta a la conversación
-        await clearBar();
-        if (isFirst) {
-          pills.classList.add('gone');
-          title.classList.add('faded');
-        }
-        addUserDesktop(round.q);
-        await sleep(t(280));
-        renderResponse(round.response);
-        // tiempo de lectura
-        await sleep(t(3400));
-      }
-
-      async function fadeOutDesktop() {
-        conv.classList.add('fading');
-        await sleep(t(500));
-        conv.innerHTML = '';
-        conv.classList.remove('fading');
-        title.classList.remove('faded');
-        pills.classList.remove('gone');
-        await sleep(t(500));
-      }
-
-      async function loopDesktop() {
-        while (true) {
-          for (let i = 0; i < ROUNDS_D.length; i++) {
-            await playRoundDesktop(ROUNDS_D[i], i === 0);
+    async function loopDesktop(myToken) {
+      while (myToken === State.loopToken) {
+        for (let i = 0; i < D_ROUNDS.length; i++) {
+          if (myToken !== State.loopToken) return;
+          const round = D_ROUNDS[i];
+          await sleep(t(i === 0 ? 600 : 400));
+          if (myToken !== State.loopToken) return;
+          await dTypewriter(round.q, myToken);
+          if (myToken !== State.loopToken) return;
+          barThinking.classList.add('active');
+          await sleep(t(700));
+          if (myToken !== State.loopToken) return;
+          await dClearBar();
+          if (i === 0) {
+            hubPills.classList.add('gone');
+            hubTitle.classList.add('faded');
           }
-          await fadeOutDesktop();
+          dAddUser(round.q);
+          await sleep(t(280));
+          const th = dShowThinkingInline();
+          await sleep(t(900));
+          th.remove();
+          barThinking.classList.remove('active');
+          if (myToken !== State.loopToken) return;
+          dRenderResponse(round.response);
+          await sleep(t(2800));
         }
+        if (myToken !== State.loopToken) return;
+        hubConv.classList.add('fading');
+        await sleep(t(500));
+        hubConv.innerHTML = '';
+        hubConv.classList.remove('fading');
+        hubTitle.classList.remove('faded');
+        hubPills.classList.remove('gone');
+        await sleep(t(500));
       }
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => loopDesktop());
-      else loopDesktop();
     }
+
+    // =====================================================
+    // Cambio de modo
+    // =====================================================
+    function setMode(m) {
+      if (m === State.mode) return;
+      State.mode = m;
+      State.loopToken += 1; // aborta cualquier loop vivo
+
+      // Reset DOM
+      messages.innerHTML = '';
+      messages.scrollTop = 0;
+      mobileCanvas.classList.remove('fading');
+
+      hubConv.innerHTML = '';
+      hubConv.scrollTop = 0;
+      hubConv.classList.remove('fading');
+      hubTitle.classList.remove('faded');
+      hubPills.classList.remove('gone');
+      barTyped.textContent = '';
+      dShowCaret(false);
+      dSetPlaceholder(true);
+      hubBar.classList.remove('glow');
+      barThinking.classList.remove('active');
+
+      // Cambia clase del body y vuelve a calcular fit
+      document.body.classList.remove('mode-mobile', 'mode-desktop');
+      document.body.classList.add(`mode-${m}`);
+      syncControls();
+      fitAll();
+
+      // Arranca loop nuevo
+      const myToken = State.loopToken;
+      if (m === 'mobile') loopMobile(myToken);
+      else loopDesktop(myToken);
+    }
+
+    // =====================================================
+    // Arranque
+    // =====================================================
+    function start() {
+      const initialMode = window.innerHeight > window.innerWidth ? 'mobile' : 'desktop';
+      setMode(initialMode);
+    }
+
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(start);
+    else start();
   </script>
 </body>
 </html>
