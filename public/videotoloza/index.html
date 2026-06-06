@@ -12,6 +12,7 @@
 />
 <style>
   :root {
+    /* Dark (móvil) */
     --bg-page: #0b0d11;
     --bg-base: #111318;
     --surface: #1a1d24;
@@ -35,6 +36,19 @@
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     --font-sans: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    /* Light (escritorio) */
+    --d-bg: #fafbfc;
+    --d-surface: #ffffff;
+    --d-card: #ffffff;
+    --d-border: #e7eaee;
+    --d-border-soft: #eef0f3;
+    --d-ink: #111318;
+    --d-ink-soft: #6b7280;
+    --d-ink-faint: #9ca3af;
+    --d-ink-very-faint: #c5c9d2;
+    --d-violet: #7c3aed;
+    --d-violet-soft: #ede9fe;
   }
 
   *,
@@ -57,14 +71,28 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  body.mode-desktop {
+    background: var(--d-bg);
+    color: var(--d-ink);
+  }
+
   .stage {
     position: fixed;
     inset: 0;
     background: var(--bg-page);
   }
+  body.mode-desktop .stage {
+    background: var(--d-bg);
+  }
 
-  /* Canvas 9:16 1080x1920 (escalado por JS para llenar viewport) */
-  .canvas {
+  body.mode-mobile .desktop-canvas { display: none; }
+  body.mode-desktop .mobile-canvas { display: none; }
+
+  /* ================================================================
+     MÓVIL · canvas vertical 1080x1920 (dark)
+     ================================================================ */
+
+  .mobile-canvas {
     position: fixed;
     width: 1080px;
     height: 1920px;
@@ -76,8 +104,7 @@
     isolation: isolate;
   }
 
-  /* Patrón de puntos sutil + halo */
-  .canvas::before {
+  .mobile-canvas::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -88,7 +115,7 @@
     pointer-events: none;
     z-index: 0;
   }
-  .canvas::after {
+  .mobile-canvas::after {
     content: "";
     position: absolute;
     top: -180px;
@@ -96,16 +123,11 @@
     transform: translateX(-50%);
     width: 900px;
     height: 600px;
-    background: radial-gradient(
-      ellipse at center,
-      rgba(124, 58, 237, 0.12) 0%,
-      transparent 65%
-    );
+    background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.12) 0%, transparent 65%);
     pointer-events: none;
     z-index: 0;
   }
 
-  /* ----- Header ----- */
   .chat-header {
     position: relative;
     z-index: 2;
@@ -114,121 +136,64 @@
     gap: 28px;
     padding: 64px 72px 40px;
   }
-
   .avatar {
-    width: 92px;
-    height: 92px;
-    border-radius: 50%;
+    width: 92px; height: 92px; border-radius: 50%;
     background: var(--grad);
-    display: grid;
-    place-items: center;
-    font-family: var(--font-sans);
-    font-weight: 700;
-    font-size: 40px;
-    color: #fff;
+    display: grid; place-items: center;
+    font-family: var(--font-sans); font-weight: 700; font-size: 40px; color: #fff;
     flex-shrink: 0;
-    box-shadow: 0 0 40px rgba(124, 58, 237, 0.28),
-      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    box-shadow: 0 0 40px rgba(124,58,237,0.28), inset 0 1px 0 rgba(255,255,255,0.18);
     letter-spacing: -0.02em;
   }
-
-  .meta {
-    flex: 1;
-    min-width: 0;
-  }
+  .meta { flex: 1; min-width: 0; }
   .meta .title {
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 34px;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    line-height: 1.15;
+    font-family: var(--font-sans); font-weight: 600; font-size: 34px;
+    letter-spacing: -0.01em; color: var(--ink); line-height: 1.15;
   }
   .meta .subtitle {
-    margin-top: 8px;
-    font-family: var(--font-mono);
-    font-weight: 400;
-    font-size: 17px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
+    margin-top: 8px; font-family: var(--font-mono); font-weight: 400; font-size: 17px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint);
   }
-
   .status {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-family: var(--font-mono);
-    font-weight: 400;
-    font-size: 20px;
-    color: var(--ink-soft);
-    flex-shrink: 0;
-    padding: 8px 18px 8px 14px;
-    border-radius: 9999px;
-    background: rgba(34, 197, 94, 0.06);
-    border: 1px solid rgba(34, 197, 94, 0.18);
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--font-mono); font-weight: 400; font-size: 20px;
+    color: var(--ink-soft); flex-shrink: 0;
+    padding: 8px 18px 8px 14px; border-radius: 9999px;
+    background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.18);
   }
   .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+    width: 12px; height: 12px; border-radius: 50%;
     background: var(--success);
-    box-shadow: 0 0 14px rgba(34, 197, 94, 0.7);
+    box-shadow: 0 0 14px rgba(34,197,94,0.7);
     animation: livePulse 2.2s var(--ease-out) infinite;
   }
   @keyframes livePulse {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.55; transform: scale(0.82); }
   }
-
-  /* Línea de marca bajo header */
   .header-line {
-    height: 1px;
-    margin: 0 72px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(0, 159, 227, 0.45) 25%,
-      rgba(124, 58, 237, 0.5) 50%,
-      rgba(200, 80, 192, 0.45) 75%,
-      transparent 100%
-    );
+    height: 1px; margin: 0 72px;
+    background: linear-gradient(90deg, transparent 0%, rgba(0,159,227,0.45) 25%, rgba(124,58,237,0.5) 50%, rgba(200,80,192,0.45) 75%, transparent 100%);
   }
 
-  /* ----- Messages ----- */
   .messages {
-    position: relative;
-    z-index: 2;
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
+    position: relative; z-index: 2; flex: 1;
+    overflow-y: auto; overflow-x: hidden;
     padding: 60px 72px 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 38px;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
+    display: flex; flex-direction: column; gap: 38px;
+    scroll-behavior: smooth; scrollbar-width: none;
   }
   .messages::-webkit-scrollbar { display: none; }
 
-  /* Burbuja base */
   .bubble {
-    max-width: 86%;
-    padding: 28px 36px;
-    border-radius: 24px;
-    font-family: var(--font-sans);
-    font-size: 32px;
-    line-height: 1.5;
-    color: var(--ink);
-    opacity: 0;
+    max-width: 86%; padding: 28px 36px; border-radius: 24px;
+    font-family: var(--font-sans); font-size: 32px; line-height: 1.5;
+    color: var(--ink); opacity: 0;
     transform: translateY(8px) scale(0.97);
     animation: enter 220ms var(--ease-out) forwards;
     will-change: transform, opacity;
   }
-  @keyframes enter {
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-
+  @keyframes enter { to { opacity: 1; transform: translateY(0) scale(1); } }
   .bubble.user {
     align-self: flex-end;
     background: var(--grad-soft), var(--surface);
@@ -236,47 +201,24 @@
     border: 1px solid var(--border);
     border-bottom-right-radius: 8px;
   }
-
   .bubble.ai {
     align-self: flex-start;
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: var(--surface); border: 1px solid var(--border);
     border-bottom-left-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    max-width: 92%;
-    padding: 30px 32px;
+    display: flex; flex-direction: column; gap: 24px;
+    max-width: 92%; padding: 30px 32px;
   }
+  .ai-text { font-family: var(--font-sans); font-size: 32px; color: var(--ink); line-height: 1.5; }
 
-  .ai-text {
-    font-family: var(--font-sans);
-    font-size: 32px;
-    color: var(--ink);
-    line-height: 1.5;
-  }
-
-  /* Indicador "Thinking" */
   .thinking {
     align-self: flex-start;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    border-bottom-left-radius: 8px;
-    padding: 30px 38px;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    opacity: 0;
-    animation: enter 220ms var(--ease-out) forwards;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 24px; border-bottom-left-radius: 8px;
+    padding: 30px 38px; display: flex; gap: 12px; align-items: center;
+    opacity: 0; animation: enter 220ms var(--ease-out) forwards;
   }
-  .thinking .d {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--ink-soft);
-    animation: shimmer 1.1s var(--ease-out) infinite;
-  }
+  .thinking .d { width: 12px; height: 12px; border-radius: 50%;
+    background: var(--ink-soft); animation: shimmer 1.1s var(--ease-out) infinite; }
   .thinking .d:nth-child(2) { animation-delay: 0.15s; }
   .thinking .d:nth-child(3) { animation-delay: 0.3s; }
   @keyframes shimmer {
@@ -284,291 +226,402 @@
     50% { opacity: 1; transform: translateY(-4px); }
   }
 
-  /* ----- Card de datos ----- */
   .card {
-    background: var(--elevated);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 28px 28px 24px;
-    opacity: 0;
-    transform: translateY(8px) scale(0.97);
-    animation: enter 320ms var(--ease-out) forwards;
-    animation-delay: 80ms;
+    background: var(--elevated); border: 1px solid var(--border);
+    border-radius: 20px; padding: 28px 28px 24px;
+    opacity: 0; transform: translateY(8px) scale(0.97);
+    animation: enter 320ms var(--ease-out) forwards; animation-delay: 80ms;
   }
   .card-label {
-    font-family: var(--font-mono);
-    font-weight: 500;
-    font-size: 14px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 20px;
+    font-family: var(--font-mono); font-weight: 500; font-size: 14px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 20px;
   }
-
   .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-mono);
-    font-weight: 500;
-    font-size: 18px;
-    padding: 7px 16px;
-    border-radius: 9999px;
-    background: rgba(34, 197, 94, 0.12);
-    color: var(--success);
-    border: 1px solid rgba(34, 197, 94, 0.32);
-    margin-top: 20px;
-    letter-spacing: 0.01em;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-weight: 500; font-size: 18px;
+    padding: 7px 16px; border-radius: 9999px;
+    background: rgba(34,197,94,0.12); color: var(--success);
+    border: 1px solid rgba(34,197,94,0.32);
+    margin-top: 20px; letter-spacing: 0.01em;
   }
   .pill svg { width: 12px; height: 12px; }
 
-  /* ====== Chart 1 — Barras verticales ====== */
+  /* Bars vertical */
   .bars-v {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 26px;
-    align-items: end;
-    height: 340px;
-    margin-top: 8px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 26px; align-items: end; height: 340px; margin-top: 8px;
   }
-  .bar-v {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    height: 100%;
-    justify-content: flex-end;
-    gap: 14px;
+  .bar-v { display: flex; flex-direction: column; align-items: stretch; height: 100%; justify-content: flex-end; gap: 14px; }
+  .bar-v .bar-track { flex: 1; display: flex; align-items: flex-end; background: rgba(255,255,255,0.025); border-radius: 12px 12px 6px 6px; overflow: hidden; }
+  .bar-v .bar-fill { width: 100%; height: 0; background: var(--grad); border-radius: 8px 8px 4px 4px; transition: height 700ms var(--ease-out); box-shadow: 0 0 28px rgba(124,58,237,0.18); }
+  .bar-v .v { font-family: var(--font-mono); font-weight: 500; font-size: 22px; color: var(--ink); text-align: center; }
+  .bar-v .l { font-family: var(--font-sans); font-size: 18px; color: var(--ink-soft); text-align: center; line-height: 1.3; }
+
+  /* Donut */
+  .donut-wrap { display: grid; grid-template-columns: 280px 1fr; gap: 36px; align-items: center; padding: 4px; }
+  .donut { width: 280px; height: 280px; position: relative; }
+  .donut svg { width: 100%; height: 100%; transform: rotate(-90deg); display: block; }
+  .donut .center { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-mono); font-weight: 500; font-size: 72px; color: var(--ink); letter-spacing: -0.03em; line-height: 1; }
+  .donut .center-sub { position: absolute; bottom: 78px; left: 0; right: 0; text-align: center; font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); }
+  .legend { display: flex; flex-direction: column; gap: 18px; }
+  .legend .row { display: flex; align-items: center; gap: 14px; font-family: var(--font-sans); font-size: 22px; }
+  .legend .swatch { width: 12px; height: 12px; border-radius: 4px; flex-shrink: 0; }
+  .legend .label { color: var(--ink-soft); flex: 1; }
+  .legend .value { font-family: var(--font-mono); font-weight: 500; color: var(--ink); font-size: 26px; letter-spacing: -0.01em; }
+
+  /* Ranking */
+  .bars-h { display: flex; flex-direction: column; gap: 22px; margin-top: 6px; }
+  .bar-h { display: flex; flex-direction: column; gap: 10px; }
+  .bar-h .row { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--font-sans); font-size: 22px; color: var(--ink); gap: 16px; }
+  .bar-h .name { font-weight: 500; }
+  .bar-h .v { font-family: var(--font-mono); font-weight: 500; color: var(--ink); font-size: 22px; flex-shrink: 0; }
+  .bar-h .v small { color: var(--ink-faint); margin-left: 4px; font-size: 16px; }
+  .bar-h .track { height: 14px; background: rgba(255,255,255,0.04); border-radius: 9999px; overflow: hidden; }
+  .bar-h .fill { height: 100%; width: 0; border-radius: 9999px; transition: width 700ms var(--ease-out); }
+  .bar-h.first .fill { background: var(--grad); box-shadow: 0 0 18px rgba(124,58,237,0.22); }
+  .bar-h.dim .fill { background: rgba(0,159,227,0.4); }
+  .bar-h .rank { font-family: var(--font-mono); color: var(--ink-faint); margin-right: 12px; }
+
+  /* Gauge */
+  .gauge-wrap { display: grid; place-items: center; padding: 4px 0; }
+  .gauge { width: 360px; height: 230px; position: relative; }
+  .gauge svg { width: 100%; height: 100%; display: block; }
+  .gauge .num { position: absolute; bottom: 16px; left: 0; right: 0; text-align: center; font-family: var(--font-mono); font-weight: 500; font-size: 80px; color: var(--ink); letter-spacing: -0.03em; line-height: 1; }
+  .gauge-ticks { display: flex; justify-content: space-between; width: 100%; max-width: 340px; font-family: var(--font-mono); font-size: 14px; color: var(--ink-faint); margin-top: -8px; }
+
+  .mobile-canvas.fading .messages > * {
+    transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+    opacity: 0; transform: translateY(-8px);
   }
-  .bar-v .bar-track {
-    flex: 1;
-    display: flex;
-    align-items: flex-end;
-    background: rgba(255, 255, 255, 0.025);
-    border-radius: 12px 12px 6px 6px;
+
+  /* ================================================================
+     ESCRITORIO · canvas horizontal 1920x1080 (light)
+     ================================================================ */
+
+  .desktop-canvas {
+    position: fixed;
+    width: 1920px;
+    height: 1080px;
+    background: var(--d-bg);
     overflow: hidden;
-  }
-  .bar-v .bar-fill {
-    width: 100%;
-    height: 0;
-    background: var(--grad);
-    border-radius: 8px 8px 4px 4px;
-    transition: height 700ms var(--ease-out);
-    box-shadow: 0 0 28px rgba(124, 58, 237, 0.18);
-  }
-  .bar-v .v {
-    font-family: var(--font-mono);
-    font-weight: 500;
-    font-size: 22px;
-    color: var(--ink);
-    text-align: center;
-  }
-  .bar-v .l {
+    transform-origin: 0 0;
+    color: var(--d-ink);
     font-family: var(--font-sans);
-    font-size: 18px;
-    color: var(--ink-soft);
-    text-align: center;
-    line-height: 1.3;
-  }
-
-  /* ====== Chart 2 — Donut ====== */
-  .donut-wrap {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 36px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    padding: 4px 4px;
+    isolation: isolate;
   }
-  .donut {
-    width: 280px;
-    height: 280px;
-    position: relative;
+
+  /* Halo violeta sutil bajo el title */
+  .desktop-canvas::before {
+    content: "";
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1400px;
+    height: 700px;
+    background: radial-gradient(ellipse at center, rgba(124,58,237,0.05) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
   }
-  .donut svg {
+
+  .hub {
+    position: relative; z-index: 1;
     width: 100%;
-    height: 100%;
-    transform: rotate(-90deg);
-    display: block;
-  }
-  .donut .center {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    font-family: var(--font-mono);
-    font-weight: 500;
-    font-size: 72px;
-    color: var(--ink);
-    letter-spacing: -0.03em;
-    line-height: 1;
-  }
-  .donut .center-sub {
-    position: absolute;
-    bottom: 78px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-  }
-
-  .legend {
+    max-width: 1480px;
+    padding: 100px 80px 60px;
     display: flex;
     flex-direction: column;
-    gap: 18px;
-  }
-  .legend .row {
-    display: flex;
     align-items: center;
-    gap: 14px;
-    font-family: var(--font-sans);
-    font-size: 22px;
-  }
-  .legend .swatch {
-    width: 12px;
-    height: 12px;
-    border-radius: 4px;
-    flex-shrink: 0;
-  }
-  .legend .label {
-    color: var(--ink-soft);
-    flex: 1;
-  }
-  .legend .value {
-    font-family: var(--font-mono);
-    font-weight: 500;
-    color: var(--ink);
-    font-size: 26px;
-    letter-spacing: -0.01em;
   }
 
-  /* ====== Chart 3 — Ranking horizontal ====== */
-  .bars-h {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    margin-top: 6px;
-  }
-  .bar-h {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .bar-h .row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-family: var(--font-sans);
-    font-size: 22px;
-    color: var(--ink);
+  .hub-kicker {
+    display: inline-flex;
+    align-items: center;
     gap: 16px;
-  }
-  .bar-h .name {
-    font-weight: 500;
-  }
-  .bar-h .v {
     font-family: var(--font-mono);
-    font-weight: 500;
-    color: var(--ink);
-    font-size: 22px;
-    flex-shrink: 0;
-  }
-  .bar-h .v small {
-    color: var(--ink-faint);
-    margin-left: 4px;
+    font-weight: 400;
     font-size: 16px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--d-ink-faint);
+    margin-bottom: 100px;
   }
-  .bar-h .track {
-    height: 14px;
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 9999px;
-    overflow: hidden;
+  .hub-kicker .k-dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--d-violet); display: inline-block;
   }
-  .bar-h .fill {
-    height: 100%;
-    width: 0;
-    border-radius: 9999px;
-    transition: width 700ms var(--ease-out);
+  .hub-kicker .k-sep { color: var(--d-ink-very-faint); margin: 0 -4px; }
+  .hub-kicker .nuevo {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 9999px;
+    background: var(--d-violet-soft);
+    border: 1px solid rgba(124,58,237,0.18);
+    color: var(--d-violet);
+    font-weight: 500; font-size: 14px; letter-spacing: 0.18em;
+    margin-left: 8px;
   }
-  .bar-h.first .fill {
-    background: var(--grad);
-    box-shadow: 0 0 18px rgba(124, 58, 237, 0.22);
-  }
-  .bar-h.dim .fill {
-    background: rgba(0, 159, 227, 0.4);
-  }
-  .bar-h .rank {
-    font-family: var(--font-mono);
-    color: var(--ink-faint);
-    margin-right: 12px;
+  .hub-kicker .nuevo .nd {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--d-violet);
   }
 
-  /* ====== Chart 4 — Gauge ====== */
-  .gauge-wrap {
-    display: grid;
-    place-items: center;
-    padding: 4px 0 4px;
+  .hub-title {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 96px;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--d-ink);
+    text-align: center;
+    margin-bottom: 70px;
+    transition: color 600ms var(--ease-out);
   }
-  .gauge {
-    width: 360px;
-    height: 230px;
+  .hub-title.faded { color: var(--d-ink-very-faint); }
+
+  .hub-bar {
+    width: 100%;
+    max-width: 1280px;
+    height: 92px;
+    border-radius: 9999px;
+    background: var(--d-surface);
+    border: 1.5px solid var(--d-border);
+    box-shadow:
+      0 8px 32px -8px rgba(124, 58, 237, 0.12),
+      0 2px 6px rgba(17, 19, 24, 0.04);
+    display: flex;
+    align-items: center;
+    padding: 0 18px 0 32px;
+    gap: 20px;
     position: relative;
   }
-  .gauge svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  .gauge .num {
-    position: absolute;
-    bottom: 16px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-family: var(--font-mono);
-    font-weight: 500;
-    font-size: 80px;
-    color: var(--ink);
-    letter-spacing: -0.03em;
-    line-height: 1;
-  }
-  .gauge .num-cap {
-    position: absolute;
-    bottom: 4px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-  }
-  .gauge-ticks {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 340px;
-    font-family: var(--font-mono);
-    font-size: 14px;
-    color: var(--ink-faint);
-    margin-top: -8px;
+  .hub-bar.glow {
+    box-shadow:
+      0 12px 40px -8px rgba(124, 58, 237, 0.22),
+      0 2px 8px rgba(17, 19, 24, 0.05);
+    border-color: rgba(124, 58, 237, 0.35);
   }
 
-  /* Fade out al final del loop */
-  .canvas.fading .messages > * {
-    transition: opacity 600ms var(--ease-out),
-      transform 600ms var(--ease-out);
+  .bar-plus {
+    width: 32px; height: 32px;
+    display: grid; place-items: center;
+    color: var(--d-ink-faint);
+    font-size: 28px; line-height: 1;
+    font-weight: 300;
+    flex-shrink: 0;
+  }
+
+  .bar-input-area {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 100%;
+    font-family: var(--font-sans);
+    font-size: 28px;
+    color: var(--d-ink);
+    overflow: hidden;
+  }
+  .bar-placeholder {
+    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    color: var(--d-ink-faint);
+    pointer-events: none;
+    transition: opacity 200ms var(--ease-out);
+  }
+  .bar-typed { color: var(--d-ink); white-space: nowrap; }
+  .bar-caret {
+    display: inline-block;
+    width: 2px; height: 30px;
+    margin-left: 2px;
+    background: var(--d-violet);
+    vertical-align: middle;
     opacity: 0;
-    transform: translateY(-8px);
+    animation: caretBlink 1s steps(2) infinite;
+  }
+  .bar-caret.on { opacity: 1; }
+  @keyframes caretBlink { 50% { opacity: 0; } }
+
+  .bar-right {
+    display: flex; align-items: center; gap: 18px;
+    flex-shrink: 0;
+  }
+  .bar-thinking {
+    font-family: var(--font-sans);
+    font-size: 22px;
+    color: var(--d-ink-soft);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 200ms var(--ease-out);
+  }
+  .bar-thinking.active { color: var(--d-violet); }
+  .bar-thinking .caret-down {
+    width: 12px; height: 12px;
+    opacity: 0.6;
+  }
+  .bar-mic {
+    width: 36px; height: 36px;
+    display: grid; place-items: center;
+    color: var(--d-ink-soft);
+  }
+  .bar-mic svg { width: 22px; height: 22px; }
+  .bar-wave {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: var(--d-ink);
+    display: grid; place-items: center;
+    color: #fff;
+  }
+  .bar-wave svg { width: 24px; height: 24px; }
+
+  .hub-pills {
+    display: flex;
+    gap: 18px;
+    margin-top: 28px;
+    transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
+  }
+  .hub-pills.gone {
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+  }
+  .hub-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 26px;
+    border-radius: 9999px;
+    background: var(--d-surface);
+    border: 1px solid var(--d-border);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--d-ink);
+    box-shadow: 0 1px 3px rgba(17,19,24,0.03);
+  }
+  .hub-pill svg { width: 20px; height: 20px; color: var(--d-ink-soft); }
+
+  /* Conversation area */
+  .hub-conv {
+    position: relative;
+    width: 100%;
+    max-width: 1280px;
+    margin-top: 56px;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .d-user {
+    align-self: flex-end;
+    max-width: 70%;
+    background: #f3f4f6;
+    color: var(--d-ink);
+    font-family: var(--font-sans);
+    font-size: 24px;
+    line-height: 1.5;
+    padding: 16px 28px;
+    border-radius: 9999px;
+    opacity: 0;
+    transform: translateY(6px);
+    animation: enterLight 260ms var(--ease-out) forwards;
+  }
+  @keyframes enterLight {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .d-response {
+    align-self: flex-start;
+    max-width: 78%;
+    font-family: var(--font-sans);
+    color: var(--d-ink);
+    font-size: 26px;
+    line-height: 1.5;
+  }
+  .d-response .lead {
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(6px);
+    animation: enterLight 320ms var(--ease-out) forwards;
+  }
+  .d-response .list {
+    display: flex; flex-direction: column;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  .d-response .item {
+    display: flex; align-items: center; gap: 16px;
+    font-size: 24px;
+    color: var(--d-ink);
+    opacity: 0;
+    transform: translateY(6px);
+    animation: enterLight 280ms var(--ease-out) forwards;
+  }
+  .d-response .item .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--d-violet);
+    flex-shrink: 0;
+    box-shadow: none;
+    animation: none;
+  }
+  .d-response .item .rank {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--d-ink-faint);
+    width: 24px;
+  }
+  .d-response .item .name {
+    font-weight: 700;
+  }
+  .d-response .item .amount {
+    font-weight: 400;
+  }
+  .d-response .item .meta {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: var(--d-ink-faint);
+    letter-spacing: 0.04em;
+  }
+  .d-response .divider {
+    height: 1px; background: var(--d-border-soft);
+    margin: 14px 0 14px;
+    width: 60%;
+    opacity: 0;
+    animation: enterLight 320ms var(--ease-out) forwards;
+  }
+  .d-response .total {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--d-violet);
+    letter-spacing: 0.06em;
+    opacity: 0;
+    animation: enterLight 320ms var(--ease-out) forwards;
+  }
+  .d-response .total .label { text-transform: uppercase; }
+  .d-response .total .sep { color: var(--d-ink-very-faint); }
+  .d-response .total .value { font-weight: 500; }
+
+  .hub-conv.fading > * {
+    transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out);
+    opacity: 0;
+    transform: translateY(-6px);
   }
 </style>
 </head>
 <body>
-  <div class="stage">
-    <div class="canvas" id="canvas">
+  <div class="stage" id="stage">
+    <!-- ====== MÓVIL · vertical 1080x1920 ====== -->
+    <div class="mobile-canvas" id="mobileCanvas">
       <header class="chat-header">
         <div class="avatar">C</div>
         <div class="meta">
@@ -583,177 +636,190 @@
       <div class="header-line"></div>
       <main class="messages" id="messages"></main>
     </div>
+
+    <!-- ====== ESCRITORIO · horizontal 1920x1080 ====== -->
+    <div class="desktop-canvas" id="desktopCanvas">
+      <div class="hub">
+        <div class="hub-kicker">
+          <span class="k-dot"></span>
+          MÓDULO 06
+          <span class="k-sep">·</span>
+          CHAT IA INTERNO
+          <span class="nuevo">
+            <span class="nd"></span>
+            NUEVO
+          </span>
+        </div>
+
+        <h1 class="hub-title" id="hubTitle">¿Por dónde empezamos?</h1>
+
+        <div class="hub-bar" id="hubBar">
+          <div class="bar-plus">+</div>
+          <div class="bar-input-area">
+            <span class="bar-placeholder" id="barPlaceholder">Pregunta lo que quieras</span>
+            <span class="bar-typed" id="barTyped"></span><span class="bar-caret" id="barCaret"></span>
+          </div>
+          <div class="bar-right">
+            <span class="bar-thinking" id="barThinking">
+              Thinking
+              <svg class="caret-down" viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="bar-mic">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="9" y="3" width="6" height="13" rx="3" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M5 11v1a7 7 0 0014 0v-1M12 20v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <button class="bar-wave" aria-label="Voz">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 12v0M8 8v8M12 5v14M16 8v8M20 12v0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="hub-pills" id="hubPills">
+          <button class="hub-pill">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            Resumen del día
+          </button>
+          <button class="hub-pill">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 3v18M16 7c0-1.7-1.8-3-4-3s-4 1.3-4 3 1.8 3 4 3 4 1.3 4 3-1.8 3-4 3-4-1.3-4-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            Mostrar morosos
+          </button>
+          <button class="hub-pill">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            Buscar paciente
+          </button>
+        </div>
+
+        <div class="hub-conv" id="hubConv"></div>
+      </div>
+    </div>
   </div>
 
   <script>
     // =====================================================
-    // Clinera · Chat IA interno — animación en loop
+    // Configuración global
     // =====================================================
-
-    // Velocidad global (1 = normal · 0.7 = más lento · 1.5 = más rápido)
     const SPEED = 1.0;
     const t = (ms) => ms / SPEED;
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-    // ---------- Ajuste del canvas al viewport ----------
-    const canvas = document.getElementById('canvas');
-    function fit() {
-      const s = Math.min(window.innerWidth / 1080, window.innerHeight / 1920);
-      const w = 1080 * s;
-      const h = 1920 * s;
-      canvas.style.left = `${(window.innerWidth - w) / 2}px`;
-      canvas.style.top = `${(window.innerHeight - h) / 2}px`;
-      canvas.style.transform = `scale(${s})`;
-    }
-    window.addEventListener('resize', fit);
-    fit();
+    // Detección de modo según orientación al cargar
+    const MODE = window.innerHeight > window.innerWidth ? 'mobile' : 'desktop';
+    document.body.classList.add(`mode-${MODE}`);
 
-    const messages = document.getElementById('messages');
-
-    // ---------- Helpers ----------
-    const fmtCLP = new Intl.NumberFormat('es-CL', {
-      style: 'currency',
-      currency: 'CLP',
-      maximumFractionDigits: 0,
-    });
-    const clp = (n) => fmtCLP.format(n);
-
+    // ---------- Helpers compartidos ----------
     function el(tag, cls, html) {
       const e = document.createElement(tag);
       if (cls) e.className = cls;
       if (html !== undefined) e.innerHTML = html;
       return e;
     }
-    function scrollDown() {
-      messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
-    }
+    const fmtCLP = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
+    const clp = (n) => fmtCLP.format(n);
 
-    // ---------- Burbujas ----------
-    async function addUser(text) {
-      const b = el('div', 'bubble user');
-      b.textContent = text;
-      messages.appendChild(b);
-      scrollDown();
-      await sleep(t(220));
-    }
+    // =====================================================
+    // MÓVIL · canvas vertical
+    // =====================================================
+    if (MODE === 'mobile') {
+      const canvas = document.getElementById('mobileCanvas');
+      function fit() {
+        const s = Math.min(window.innerWidth / 1080, window.innerHeight / 1920);
+        canvas.style.left = `${(window.innerWidth - 1080 * s) / 2}px`;
+        canvas.style.top = `${(window.innerHeight - 1920 * s) / 2}px`;
+        canvas.style.transform = `scale(${s})`;
+      }
+      window.addEventListener('resize', fit);
+      fit();
 
-    async function showThinking() {
-      const th = el(
-        'div',
-        'thinking',
-        '<span class="d"></span><span class="d"></span><span class="d"></span>'
-      );
-      messages.appendChild(th);
-      scrollDown();
-      await sleep(t(220 + 900));
-      th.remove();
-    }
+      const messages = document.getElementById('messages');
+      function scrollDown() { messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' }); }
 
-    function aiBubble(text) {
-      const bubble = el('div', 'bubble ai');
-      const txt = el('div', 'ai-text');
-      txt.textContent = text;
-      bubble.appendChild(txt);
-      return bubble;
-    }
-
-    function pill(text, dir) {
-      // dir: 'up' | 'down' — siempre verde (delta favorable)
-      const arrow =
-        dir === 'down'
+      async function addUser(text) {
+        const b = el('div', 'bubble user'); b.textContent = text;
+        messages.appendChild(b); scrollDown();
+        await sleep(t(220));
+      }
+      async function showThinking() {
+        const th = el('div', 'thinking', '<span class="d"></span><span class="d"></span><span class="d"></span>');
+        messages.appendChild(th); scrollDown();
+        await sleep(t(220 + 900));
+        th.remove();
+      }
+      function aiBubble(text) {
+        const bubble = el('div', 'bubble ai');
+        const txt = el('div', 'ai-text'); txt.textContent = text;
+        bubble.appendChild(txt); return bubble;
+      }
+      function pill(text, dir) {
+        const arrow = dir === 'down'
           ? '<svg viewBox="0 0 10 10" fill="none"><path d="M5 1.5v7M2 5.5l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
           : '<svg viewBox="0 0 10 10" fill="none"><path d="M5 8.5v-7M2 4.5l3-3 3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-      return el('span', 'pill', `${arrow}<span>${text}</span>`);
-    }
+        return el('span', 'pill', `${arrow}<span>${text}</span>`);
+      }
 
-    // ====================================================
-    // CHART 1 — Barras verticales (ingresos)
-    // ====================================================
-    function buildBars(values) {
-      const card = el('div', 'card');
-      card.appendChild(el('div', 'card-label', 'Ingresos · mes pasado'));
-      const grid = el('div', 'bars-v');
-      const max = Math.max(...values.map((v) => v.value));
-      values.forEach((v) => {
-        const col = el('div', 'bar-v');
-        const valEl = el('div', 'v', clp(v.value));
-        const track = el('div', 'bar-track');
-        const fill = el('div', 'bar-fill');
-        track.appendChild(fill);
-        col.appendChild(valEl);
-        col.appendChild(track);
-        col.appendChild(el('div', 'l', v.label));
-        grid.appendChild(col);
-      });
-      card.appendChild(grid);
-      card.appendChild(pill('+12% vs. mes anterior', 'up'));
-
-      // Animar
-      requestAnimationFrame(() => {
-        setTimeout(() => {
+      function buildBars(values) {
+        const card = el('div', 'card');
+        card.appendChild(el('div', 'card-label', 'Ingresos · mes pasado'));
+        const grid = el('div', 'bars-v');
+        const max = Math.max(...values.map((v) => v.value));
+        values.forEach((v) => {
+          const col = el('div', 'bar-v');
+          col.appendChild(el('div', 'v', clp(v.value)));
+          const track = el('div', 'bar-track');
+          const fill = el('div', 'bar-fill'); track.appendChild(fill);
+          col.appendChild(track);
+          col.appendChild(el('div', 'l', v.label));
+          grid.appendChild(col);
+        });
+        card.appendChild(grid);
+        card.appendChild(pill('+12% vs. mes anterior', 'up'));
+        requestAnimationFrame(() => setTimeout(() => {
           const fills = grid.querySelectorAll('.bar-fill');
-          values.forEach((v, i) => {
-            setTimeout(() => {
-              fills[i].style.height = `${(v.value / max) * 100}%`;
-            }, i * 60);
-          });
-        }, 100);
-      });
-      return card;
-    }
-
-    // ====================================================
-    // CHART 2 — Donut (pacientes)
-    // ====================================================
-    function buildDonut(parts, totalLabel) {
-      const card = el('div', 'card');
-      card.appendChild(el('div', 'card-label', 'Pacientes · mayo'));
-
-      const wrap = el('div', 'donut-wrap');
-      const donut = el('div', 'donut');
-
-      const R = 92;
-      const cx = 140;
-      const cy = 140;
-      const C = 2 * Math.PI * R;
-      const sum = parts.reduce((a, b) => a + b.value, 0);
-
-      let svg = `<svg viewBox="0 0 280 280">
-        <circle cx="${cx}" cy="${cy}" r="${R}" fill="none"
-          stroke="rgba(255,255,255,0.05)" stroke-width="22"/>`;
-      let cum = 0;
-      parts.forEach((p, i) => {
-        const dash = (p.value / sum) * C;
-        svg += `<circle class="arc" data-i="${i}"
-          cx="${cx}" cy="${cy}" r="${R}" fill="none"
-          stroke="${p.color}" stroke-width="22" stroke-linecap="round"
-          stroke-dasharray="0 ${C}"
-          stroke-dashoffset="${-cum}"
-          style="transition: stroke-dasharray 700ms var(--ease-out); transition-delay: ${i * 120}ms;"/>`;
-        cum += dash;
-      });
-      svg += '</svg>';
-      donut.innerHTML = svg;
-      donut.appendChild(el('div', 'center-sub', 'Total'));
-      donut.appendChild(el('div', 'center', totalLabel));
-      wrap.appendChild(donut);
-
-      const legend = el('div', 'legend');
-      parts.forEach((p) => {
-        const row = el('div', 'row');
-        row.innerHTML = `
-          <span class="swatch" style="background:${p.color}"></span>
-          <span class="label">${p.label}</span>
-          <span class="value">${p.value}</span>`;
-        legend.appendChild(row);
-      });
-      wrap.appendChild(legend);
-      card.appendChild(wrap);
-      card.appendChild(pill('+8% vs. abril', 'up'));
-
-      // Animar arcos
-      requestAnimationFrame(() => {
-        setTimeout(() => {
+          values.forEach((v, i) => setTimeout(() => { fills[i].style.height = `${(v.value / max) * 100}%`; }, i * 60));
+        }, 100));
+        return card;
+      }
+      function buildDonut(parts, totalLabel) {
+        const card = el('div', 'card');
+        card.appendChild(el('div', 'card-label', 'Pacientes · mayo'));
+        const wrap = el('div', 'donut-wrap'); const donut = el('div', 'donut');
+        const R = 92, cx = 140, cy = 140, C = 2 * Math.PI * R;
+        const sum = parts.reduce((a, b) => a + b.value, 0);
+        let svg = `<svg viewBox="0 0 280 280"><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="22"/>`;
+        let cum = 0;
+        parts.forEach((p, i) => {
+          const dash = (p.value / sum) * C;
+          svg += `<circle class="arc" data-i="${i}" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${p.color}" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 ${C}" stroke-dashoffset="${-cum}" style="transition: stroke-dasharray 700ms var(--ease-out); transition-delay: ${i * 120}ms;"/>`;
+          cum += dash;
+        });
+        svg += '</svg>';
+        donut.innerHTML = svg;
+        donut.appendChild(el('div', 'center-sub', 'Total'));
+        donut.appendChild(el('div', 'center', totalLabel));
+        wrap.appendChild(donut);
+        const legend = el('div', 'legend');
+        parts.forEach((p) => {
+          const row = el('div', 'row');
+          row.innerHTML = `<span class="swatch" style="background:${p.color}"></span><span class="label">${p.label}</span><span class="value">${p.value}</span>`;
+          legend.appendChild(row);
+        });
+        wrap.appendChild(legend);
+        card.appendChild(wrap);
+        card.appendChild(pill('+8% vs. abril', 'up'));
+        requestAnimationFrame(() => setTimeout(() => {
           let cum2 = 0;
           parts.forEach((p, i) => {
             const dash = (p.value / sum) * C;
@@ -762,192 +828,314 @@
             arc.style.strokeDashoffset = `${-cum2}`;
             cum2 += dash;
           });
-        }, 100);
-      });
-
-      return card;
-    }
-
-    // ====================================================
-    // CHART 3 — Ranking horizontal (tratamientos)
-    // ====================================================
-    function buildRanking(items) {
-      const card = el('div', 'card');
-      card.appendChild(el('div', 'card-label', 'Top tratamientos · mes'));
-      const list = el('div', 'bars-h');
-      const max = Math.max(...items.map((i) => i.value));
-      items.forEach((it, i) => {
-        const row = el('div', 'bar-h ' + (i === 0 ? 'first' : 'dim'));
-        const head = el('div', 'row');
-        head.innerHTML = `
-          <span class="name"><span class="rank">${String(i + 1).padStart(2, '0')}</span>${it.label}</span>
-          <span class="v">${it.value}<small>sesiones</small></span>`;
-        row.appendChild(head);
-        const track = el('div', 'track');
-        const fill = el('div', 'fill');
-        track.appendChild(fill);
-        row.appendChild(track);
-        list.appendChild(row);
-      });
-      card.appendChild(list);
-
-      requestAnimationFrame(() => {
-        setTimeout(() => {
+        }, 100));
+        return card;
+      }
+      function buildRanking(items) {
+        const card = el('div', 'card');
+        card.appendChild(el('div', 'card-label', 'Top tratamientos · mes'));
+        const list = el('div', 'bars-h');
+        const max = Math.max(...items.map((i) => i.value));
+        items.forEach((it, i) => {
+          const row = el('div', 'bar-h ' + (i === 0 ? 'first' : 'dim'));
+          const head = el('div', 'row');
+          head.innerHTML = `<span class="name"><span class="rank">${String(i + 1).padStart(2, '0')}</span>${it.label}</span><span class="v">${it.value}<small>sesiones</small></span>`;
+          row.appendChild(head);
+          const track = el('div', 'track');
+          const fill = el('div', 'fill'); track.appendChild(fill);
+          row.appendChild(track);
+          list.appendChild(row);
+        });
+        card.appendChild(list);
+        requestAnimationFrame(() => setTimeout(() => {
           const fills = list.querySelectorAll('.fill');
-          items.forEach((it, i) => {
-            setTimeout(() => {
-              fills[i].style.width = `${(it.value / max) * 100}%`;
-            }, i * 90);
-          });
-        }, 100);
-      });
-      return card;
-    }
+          items.forEach((it, i) => setTimeout(() => { fills[i].style.width = `${(it.value / max) * 100}%`; }, i * 90));
+        }, 100));
+        return card;
+      }
+      function buildGauge(value) {
+        const card = el('div', 'card');
+        card.appendChild(el('div', 'card-label', 'Tasa de no-show · mes'));
+        const wrap = el('div', 'gauge-wrap'); const gauge = el('div', 'gauge');
+        const arcLen = Math.PI * 140;
+        const visible = (value / 20) * arcLen;
+        gauge.innerHTML = `
+          <svg viewBox="0 0 360 220">
+            <defs><linearGradient id="ggrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#009FE3"/><stop offset="50%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#C850C0"/></linearGradient></defs>
+            <path d="M 40 200 A 140 140 0 0 1 320 200" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="22" stroke-linecap="round"/>
+            <path id="gFill" d="M 40 200 A 140 140 0 0 1 320 200" fill="none" stroke="url(#ggrad)" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 ${arcLen}" style="transition: stroke-dasharray 800ms var(--ease-out);"/>
+          </svg>`;
+        gauge.appendChild(el('div', 'num', value.toString().replace('.', ',') + '%'));
+        wrap.appendChild(gauge);
+        const ticks = el('div', 'gauge-ticks');
+        ticks.innerHTML = '<span>0%</span><span>10%</span><span>20%</span>';
+        wrap.appendChild(ticks);
+        card.appendChild(wrap);
+        card.appendChild(pill('−2,1 pts vs. mes anterior', 'down'));
+        requestAnimationFrame(() => setTimeout(() => {
+          gauge.querySelector('#gFill').style.strokeDasharray = `${visible} ${arcLen}`;
+        }, 100));
+        return card;
+      }
 
-    // ====================================================
-    // CHART 4 — Gauge (tasa de no-show)
-    // ====================================================
-    function buildGauge(value) {
-      const card = el('div', 'card');
-      card.appendChild(el('div', 'card-label', 'Tasa de no-show · mes'));
-
-      const wrap = el('div', 'gauge-wrap');
-      const gauge = el('div', 'gauge');
-
-      // Semicírculo. Path desde (40,200) hasta (320,200) con radio 140.
-      // Arco superior: y disminuye.
-      const arcLen = Math.PI * 140; // ~439.8
-      const fillRatio = value / 20; // escala 0–20%
-      const visible = fillRatio * arcLen;
-
-      gauge.innerHTML = `
-        <svg viewBox="0 0 360 220">
-          <defs>
-            <linearGradient id="ggrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#009FE3"/>
-              <stop offset="50%" stop-color="#7C3AED"/>
-              <stop offset="100%" stop-color="#C850C0"/>
-            </linearGradient>
-          </defs>
-          <path d="M 40 200 A 140 140 0 0 1 320 200"
-                fill="none"
-                stroke="rgba(255,255,255,0.05)"
-                stroke-width="22"
-                stroke-linecap="round"/>
-          <path id="gFill"
-                d="M 40 200 A 140 140 0 0 1 320 200"
-                fill="none"
-                stroke="url(#ggrad)"
-                stroke-width="22"
-                stroke-linecap="round"
-                stroke-dasharray="0 ${arcLen}"
-                style="transition: stroke-dasharray 800ms var(--ease-out);"/>
-        </svg>
-      `;
-      const num = el('div', 'num', value.toString().replace('.', ',') + '%');
-      gauge.appendChild(num);
-      wrap.appendChild(gauge);
-
-      const ticks = el('div', 'gauge-ticks');
-      ticks.innerHTML = '<span>0%</span><span>10%</span><span>20%</span>';
-      wrap.appendChild(ticks);
-
-      card.appendChild(wrap);
-      card.appendChild(pill('−2,1 pts vs. mes anterior', 'down'));
-
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          const fill = gauge.querySelector('#gFill');
-          fill.style.strokeDasharray = `${visible} ${arcLen}`;
-        }, 100);
-      });
-      return card;
-    }
-
-    // ====================================================
-    // Secuencia de 4 pares
-    // ====================================================
-    const ROUNDS = [
-      {
-        q: '¿cuánto vendí el mes pasado?',
-        a: 'Cerraste $4.820.000 el mes pasado.',
-        build: () =>
-          buildBars([
+      const ROUNDS = [
+        {
+          q: '¿cuánto vendí el mes pasado?',
+          a: 'Cerraste $4.820.000 el mes pasado.',
+          build: () => buildBars([
             { label: 'Tratamientos', value: 3100000 },
             { label: 'Productos', value: 920000 },
             { label: 'Membresías', value: 800000 },
           ]),
-      },
-      {
-        q: '¿cuántos pacientes atendí?',
-        a: 'Atendiste 312 pacientes en mayo.',
-        build: () =>
-          buildDonut(
-            [
-              { label: 'Recurrentes', value: 248, color: '#009FE3' },
-              { label: 'Nuevos', value: 64, color: '#C850C0' },
-            ],
-            '312'
-          ),
-      },
-      {
-        q: '¿cuál es mi tratamiento más vendido?',
-        a: 'Limpieza facial profunda, 86 sesiones.',
-        build: () =>
-          buildRanking([
+        },
+        {
+          q: '¿cuántos pacientes atendí?',
+          a: 'Atendiste 312 pacientes en mayo.',
+          build: () => buildDonut([
+            { label: 'Recurrentes', value: 248, color: '#009FE3' },
+            { label: 'Nuevos', value: 64, color: '#C850C0' },
+          ], '312'),
+        },
+        {
+          q: '¿cuál es mi tratamiento más vendido?',
+          a: 'Limpieza facial profunda, 86 sesiones.',
+          build: () => buildRanking([
             { label: 'Limpieza facial profunda', value: 86 },
             { label: 'Toxina botulínica', value: 54 },
             { label: 'Hydrafacial', value: 41 },
           ]),
-      },
-      {
-        q: '¿cuál es mi tasa de inasistencia?',
-        a: 'Tu tasa de no-show es 7,2%.',
-        build: () => buildGauge(7.2),
-      },
-    ];
+        },
+        {
+          q: '¿cuál es mi tasa de inasistencia?',
+          a: 'Tu tasa de no-show es 7,2%.',
+          build: () => buildGauge(7.2),
+        },
+      ];
 
-    async function playRound(round) {
-      await addUser(round.q);
-      await sleep(t(400));
-      await showThinking();
-
-      const bubble = aiBubble(round.a);
-      messages.appendChild(bubble);
-      scrollDown();
-      await sleep(t(220));
-
-      const card = round.build();
-      bubble.appendChild(card);
-      // Permitir un frame para que el card se monte antes de animar barras
-      await sleep(t(120));
-      scrollDown();
-      await sleep(t(700));
-      scrollDown();
-      await sleep(t(1600));
-    }
-
-    async function fadeOut() {
-      canvas.classList.add('fading');
-      await sleep(t(600));
-      messages.innerHTML = '';
-      messages.scrollTop = 0;
-      canvas.classList.remove('fading');
-      await sleep(t(200));
-    }
-
-    async function loop() {
-      while (true) {
-        for (const r of ROUNDS) await playRound(r);
-        await fadeOut();
+      async function playRound(round) {
+        await addUser(round.q);
+        await sleep(t(400));
+        await showThinking();
+        const bubble = aiBubble(round.a);
+        messages.appendChild(bubble);
+        scrollDown();
+        await sleep(t(220));
+        const card = round.build();
+        bubble.appendChild(card);
+        await sleep(t(120));
+        scrollDown();
+        await sleep(t(700));
+        scrollDown();
+        await sleep(t(1600));
       }
+      async function fadeOut() {
+        canvas.classList.add('fading');
+        await sleep(t(600));
+        messages.innerHTML = '';
+        messages.scrollTop = 0;
+        canvas.classList.remove('fading');
+        await sleep(t(200));
+      }
+      async function loopMobile() {
+        while (true) {
+          for (const r of ROUNDS) await playRound(r);
+          await fadeOut();
+        }
+      }
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => loopMobile());
+      else loopMobile();
     }
 
-    // Esperar a que las fuentes carguen para evitar saltos
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => loop());
-    } else {
-      loop();
+    // =====================================================
+    // ESCRITORIO · canvas horizontal
+    // =====================================================
+    if (MODE === 'desktop') {
+      const canvas = document.getElementById('desktopCanvas');
+      function fit() {
+        const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+        canvas.style.left = `${(window.innerWidth - 1920 * s) / 2}px`;
+        canvas.style.top = `${(window.innerHeight - 1080 * s) / 2}px`;
+        canvas.style.transform = `scale(${s})`;
+      }
+      window.addEventListener('resize', fit);
+      fit();
+
+      const title = document.getElementById('hubTitle');
+      const bar = document.getElementById('hubBar');
+      const barPlaceholder = document.getElementById('barPlaceholder');
+      const barTyped = document.getElementById('barTyped');
+      const barCaret = document.getElementById('barCaret');
+      const barThinking = document.getElementById('barThinking');
+      const pills = document.getElementById('hubPills');
+      const conv = document.getElementById('hubConv');
+
+      function showCaret(on) { barCaret.classList.toggle('on', on); }
+      function setPlaceholder(visible) { barPlaceholder.style.opacity = visible ? '1' : '0'; }
+
+      async function typewriter(text) {
+        barTyped.textContent = '';
+        setPlaceholder(false);
+        showCaret(true);
+        bar.classList.add('glow');
+        for (let i = 0; i < text.length; i++) {
+          barTyped.textContent += text[i];
+          const ch = text[i];
+          let delay = 28;
+          if (ch === ' ') delay = 38;
+          else if (',?¿.'.includes(ch)) delay = 70;
+          delay += Math.random() * 18;
+          await sleep(t(delay));
+        }
+        await sleep(t(220));
+      }
+      async function clearBar() {
+        barTyped.textContent = '';
+        showCaret(false);
+        bar.classList.remove('glow');
+        setPlaceholder(true);
+      }
+      async function showBarThinking(ms = 900) {
+        barThinking.classList.add('active');
+        await sleep(t(ms));
+        barThinking.classList.remove('active');
+      }
+
+      function addUserDesktop(text) {
+        const b = el('div', 'd-user'); b.textContent = text;
+        conv.appendChild(b);
+        return b;
+      }
+
+      function renderResponse(data) {
+        const r = el('div', 'd-response');
+        const lead = el('div', 'lead'); lead.textContent = data.lead;
+        lead.style.animationDelay = '0ms';
+        r.appendChild(lead);
+
+        const list = el('div', 'list');
+        data.items.forEach((it, i) => {
+          const item = el('div', 'item');
+          item.style.animationDelay = `${120 + i * 90}ms`;
+          let inner = '';
+          if (it.rank) inner += `<span class="rank">${it.rank}</span>`;
+          inner += `<span class="dot"></span>`;
+          inner += `<span><span class="name">${it.name}</span>`;
+          if (it.amount) inner += ` <span class="amount">— ${it.amount}</span>`;
+          if (it.meta) inner += ` <span class="meta">${it.meta}</span>`;
+          inner += `</span>`;
+          item.innerHTML = inner;
+          list.appendChild(item);
+        });
+        r.appendChild(list);
+
+        if (data.total) {
+          const div = el('div', 'divider');
+          div.style.animationDelay = `${120 + data.items.length * 90 + 60}ms`;
+          r.appendChild(div);
+          const total = el('div', 'total');
+          total.style.animationDelay = `${120 + data.items.length * 90 + 140}ms`;
+          total.innerHTML = `
+            <span class="label">${data.total.label || 'Total'}</span>
+            <span class="sep">·</span>
+            <span class="value">${data.total.value}</span>`;
+          r.appendChild(total);
+        }
+
+        conv.appendChild(r);
+        return r;
+      }
+
+      const ROUNDS_D = [
+        {
+          q: '¿cuáles son los abonos pendientes de los últimos 7 días?',
+          response: {
+            lead: '4 abonos pendientes esta semana:',
+            items: [
+              { name: 'Camila P.', amount: '$24.500', meta: 'vence mañana' },
+              { name: 'Pedro R.', amount: '$89.000', meta: 'vence 16 may' },
+              { name: 'Ana M.', amount: '$12.300', meta: 'vence 18 may' },
+              { name: 'Luis A.', amount: '$45.000', meta: 'vence 20 may' },
+            ],
+            total: { label: 'Total', value: '$170.800' },
+          },
+        },
+        {
+          q: '¿cuánto vendí el mes pasado?',
+          response: {
+            lead: 'Cerraste $4.820.000 el mes pasado.',
+            items: [
+              { name: 'Tratamientos', amount: '$3.100.000', meta: '64%' },
+              { name: 'Productos', amount: '$920.000', meta: '19%' },
+              { name: 'Membresías', amount: '$800.000', meta: '17%' },
+            ],
+            total: { label: 'Total', value: '$4.820.000' },
+          },
+        },
+        {
+          q: '¿cuál es mi tratamiento más vendido?',
+          response: {
+            lead: 'Limpieza facial profunda lideró mayo.',
+            items: [
+              { rank: '01', name: 'Limpieza facial profunda', meta: '86 sesiones' },
+              { rank: '02', name: 'Toxina botulínica', meta: '54 sesiones' },
+              { rank: '03', name: 'Hydrafacial', meta: '41 sesiones' },
+            ],
+            total: { label: 'Total top 3', value: '181 sesiones' },
+          },
+        },
+        {
+          q: '¿cuál es mi tasa de inasistencia?',
+          response: {
+            lead: 'Tu tasa de no-show es 7,2%.',
+            items: [
+              { name: 'Mes anterior', amount: '9,3%', meta: 'referencia' },
+              { name: 'Promedio del año', amount: '8,1%', meta: 'tendencia' },
+              { name: 'Meta interna', amount: '6,0%', meta: 'objetivo' },
+            ],
+            total: { label: 'Variación', value: '−2,1 pts' },
+          },
+        },
+      ];
+
+      async function playRoundDesktop(round, isFirst) {
+        await sleep(t(400));
+        await typewriter(round.q);
+        await sleep(t(200));
+        // “Thinking” en la barra (cambia color del label)
+        await showBarThinking(900);
+        // Mover la pregunta a la conversación
+        await clearBar();
+        if (isFirst) {
+          pills.classList.add('gone');
+          title.classList.add('faded');
+        }
+        addUserDesktop(round.q);
+        await sleep(t(280));
+        renderResponse(round.response);
+        // tiempo de lectura
+        await sleep(t(3400));
+      }
+
+      async function fadeOutDesktop() {
+        conv.classList.add('fading');
+        await sleep(t(500));
+        conv.innerHTML = '';
+        conv.classList.remove('fading');
+        title.classList.remove('faded');
+        pills.classList.remove('gone');
+        await sleep(t(500));
+      }
+
+      async function loopDesktop() {
+        while (true) {
+          for (let i = 0; i < ROUNDS_D.length; i++) {
+            await playRoundDesktop(ROUNDS_D[i], i === 0);
+          }
+          await fadeOutDesktop();
+        }
+      }
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => loopDesktop());
+      else loopDesktop();
     }
   </script>
 </body>
