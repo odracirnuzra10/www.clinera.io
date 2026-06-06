@@ -71,34 +71,38 @@
   /* ================================================================
      Controles flotantes — selector móvil/escritorio + zoom
      ================================================================ */
-  .controls {
+  /* Topbar reservada — el canvas se ajusta debajo, nunca se tapan */
+  .topbar {
     position: fixed;
-    top: 14px; right: 14px;
+    top: 0; left: 0; right: 0;
+    height: 52px;
     z-index: 50;
-    display: flex; align-items: center; gap: 10px;
-    padding: 6px 8px;
-    background: rgba(20, 22, 28, 0.85);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 9999px;
-    box-shadow: 0 8px 28px -8px rgba(0, 0, 0, 0.4);
+    display: flex; align-items: center; justify-content: flex-end;
+    padding: 0 14px;
+    background: rgba(11, 13, 17, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
-  body.mode-desktop .controls {
-    background: rgba(255, 255, 255, 0.85);
-    border-color: rgba(17, 19, 24, 0.08);
-    box-shadow: 0 6px 24px -8px rgba(17, 19, 24, 0.12);
+  body.mode-desktop .topbar {
+    background: rgba(255, 255, 255, 0.78);
+    border-bottom-color: rgba(17, 19, 24, 0.06);
   }
-  .mode-switch { display: flex; align-items: center; gap: 4px; }
+
+  .controls {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .mode-switch { display: flex; align-items: center; gap: 2px; padding: 3px; border-radius: 9999px; background: rgba(255,255,255,0.04); }
+  body.mode-desktop .mode-switch { background: rgba(17,19,24,0.04); }
   .mode-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 8px 18px;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px;
     border-radius: 9999px;
     background: transparent;
     border: none;
     cursor: pointer;
     font-family: var(--font-sans);
-    font-weight: 500; font-size: 13px;
+    font-weight: 500; font-size: 12px;
     color: rgba(255, 255, 255, 0.55);
     transition: color 200ms, background 200ms;
     letter-spacing: 0.01em;
@@ -107,53 +111,89 @@
   .mode-btn:hover { color: #fff; }
   body.mode-desktop .mode-btn:hover { color: var(--d-ink); }
   .mode-btn.active {
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.85), rgba(200, 80, 192, 0.85));
+    background: linear-gradient(135deg, #7c3aed, #c850c0);
     color: #fff;
-    box-shadow: 0 4px 14px -4px rgba(124, 58, 237, 0.4);
+    box-shadow: 0 2px 10px -2px rgba(124, 58, 237, 0.45);
   }
   body.mode-desktop .mode-btn.active { color: #fff; }
-  .mode-btn svg { width: 14px; height: 14px; }
+  .mode-btn svg { width: 13px; height: 13px; }
   .ctrl-sep {
-    width: 1px; height: 20px;
+    width: 1px; height: 18px;
     background: rgba(255, 255, 255, 0.1);
   }
   body.mode-desktop .ctrl-sep { background: rgba(17, 19, 24, 0.08); }
   .zoom-ctl {
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 8px 0 4px;
+    display: flex; align-items: center; gap: 8px;
+    padding: 0 6px 0 2px;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 10px;
     color: rgba(255, 255, 255, 0.55);
   }
   body.mode-desktop .zoom-ctl { color: rgba(17, 19, 24, 0.5); }
   body.mode-mobile .zoom-ctl,
   body.mode-mobile .ctrl-sep { display: none; }
   .zoom-ctl input[type="range"] {
-    width: 120px;
-    height: 4px;
-    -webkit-appearance: none;
-    appearance: none;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 4px;
-    outline: none;
+    width: 96px; height: 3px;
+    -webkit-appearance: none; appearance: none;
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 4px; outline: none;
   }
-  body.mode-desktop .zoom-ctl input[type="range"] { background: rgba(17, 19, 24, 0.08); }
+  body.mode-desktop .zoom-ctl input[type="range"] { background: rgba(17, 19, 24, 0.1); }
   .zoom-ctl input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 14px; height: 14px;
-    border-radius: 50%;
+    -webkit-appearance: none; appearance: none;
+    width: 12px; height: 12px; border-radius: 50%;
     background: linear-gradient(135deg, #7c3aed, #c850c0);
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(124, 58, 237, 0.4);
+    cursor: pointer; box-shadow: 0 2px 6px rgba(124, 58, 237, 0.4);
   }
   .zoom-ctl input[type="range"]::-moz-range-thumb {
-    width: 14px; height: 14px; border: none;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #7c3aed, #c850c0);
-    cursor: pointer;
+    width: 12px; height: 12px; border: none; border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #c850c0); cursor: pointer;
   }
-  .zoom-val { min-width: 32px; text-align: right; }
+  .zoom-val { min-width: 28px; text-align: right; }
+
+  /* Botón ocultar topbar */
+  .topbar-toggle {
+    background: transparent; border: none; cursor: pointer;
+    width: 28px; height: 28px;
+    display: grid; place-items: center;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 200ms, background 200ms;
+  }
+  .topbar-toggle:hover { color: #fff; background: rgba(255,255,255,0.06); }
+  body.mode-desktop .topbar-toggle { color: rgba(17,19,24,0.5); }
+  body.mode-desktop .topbar-toggle:hover { color: var(--d-ink); background: rgba(17,19,24,0.05); }
+  .topbar-toggle svg { width: 14px; height: 14px; transition: transform 300ms var(--ease-out); }
+
+  /* Estado oculto: topbar fuera de viewport + handle para volver a mostrar */
+  body.topbar-hidden .topbar { transform: translateY(-100%); }
+  .topbar { transition: transform 320ms var(--ease-out); }
+
+  .topbar-handle {
+    position: fixed; top: 0; left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    z-index: 49;
+    padding: 4px 16px 6px;
+    border-radius: 0 0 12px 12px;
+    background: rgba(11, 13, 17, 0.7);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-top: none;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    display: grid; place-items: center;
+    transition: transform 320ms var(--ease-out), color 200ms;
+  }
+  body.mode-desktop .topbar-handle {
+    background: rgba(255,255,255,0.85);
+    border-color: rgba(17,19,24,0.06);
+    color: rgba(17,19,24,0.5);
+  }
+  .topbar-handle:hover { color: #fff; }
+  body.mode-desktop .topbar-handle:hover { color: var(--d-ink); }
+  .topbar-handle svg { width: 14px; height: 14px; display: block; }
+  body.topbar-hidden .topbar-handle { transform: translateX(-50%) translateY(0); }
 
   /* ================================================================
      MÓVIL · canvas vertical 1080x1920 (dark)
@@ -541,31 +581,45 @@
 </style>
 </head>
 <body>
-  <!-- Controles flotantes (selector + zoom) -->
-  <div class="controls" id="controls">
-    <div class="mode-switch">
-      <button class="mode-btn" data-mode="mobile">
-        <svg viewBox="0 0 24 24" fill="none">
-          <rect x="6" y="2.5" width="12" height="19" rx="3" stroke="currentColor" stroke-width="1.6"/>
-          <circle cx="12" cy="18" r="1" fill="currentColor"/>
+  <!-- Topbar reservada con controles -->
+  <div class="topbar" id="topbar">
+    <div class="controls" id="controls">
+      <div class="mode-switch">
+        <button class="mode-btn" data-mode="mobile">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="6" y="2.5" width="12" height="19" rx="3" stroke="currentColor" stroke-width="1.6"/>
+            <circle cx="12" cy="18" r="1" fill="currentColor"/>
+          </svg>
+          Móvil
+        </button>
+        <button class="mode-btn" data-mode="desktop">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="4" width="20" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M8 20h8M12 17v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          Escritorio
+        </button>
+      </div>
+      <span class="ctrl-sep"></span>
+      <div class="zoom-ctl" id="zoomCtl">
+        <span>ZOOM</span>
+        <input id="zoomRange" type="range" min="50" max="110" value="80" />
+        <span class="zoom-val" id="zoomVal">80%</span>
+      </div>
+      <span class="ctrl-sep"></span>
+      <button class="topbar-toggle" id="topbarToggle" title="Ocultar barra (H)">
+        <svg viewBox="0 0 14 14" fill="none">
+          <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        Móvil
       </button>
-      <button class="mode-btn" data-mode="desktop">
-        <svg viewBox="0 0 24 24" fill="none">
-          <rect x="2" y="4" width="20" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/>
-          <path d="M8 20h8M12 17v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-        Escritorio
-      </button>
-    </div>
-    <span class="ctrl-sep"></span>
-    <div class="zoom-ctl" id="zoomCtl">
-      <span>ZOOM</span>
-      <input id="zoomRange" type="range" min="50" max="110" value="80" />
-      <span class="zoom-val" id="zoomVal">80%</span>
     </div>
   </div>
+  <!-- Handle para volver a mostrar la topbar -->
+  <button class="topbar-handle" id="topbarHandle" title="Mostrar barra (H)">
+    <svg viewBox="0 0 14 14" fill="none">
+      <path d="M3 9l4-4 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
 
   <div class="stage" id="stage">
     <!-- ====== MÓVIL · vertical 1080x1920 ====== -->
@@ -677,17 +731,24 @@
     const mobileCanvas = document.getElementById('mobileCanvas');
     const desktopCanvas = document.getElementById('desktopCanvas');
 
+    const TOPBAR_H = 52;
+    function availSize() {
+      const reserved = document.body.classList.contains('topbar-hidden') ? 0 : TOPBAR_H;
+      return { w: window.innerWidth, h: window.innerHeight - reserved, top: reserved };
+    }
     function fitMobile() {
-      const s = Math.min(window.innerWidth / 1080, window.innerHeight / 1920);
-      mobileCanvas.style.left = `${(window.innerWidth - 1080 * s) / 2}px`;
-      mobileCanvas.style.top = `${(window.innerHeight - 1920 * s) / 2}px`;
+      const a = availSize();
+      const s = Math.min(a.w / 1080, a.h / 1920);
+      mobileCanvas.style.left = `${(a.w - 1080 * s) / 2}px`;
+      mobileCanvas.style.top = `${a.top + (a.h - 1920 * s) / 2}px`;
       mobileCanvas.style.transform = `scale(${s})`;
     }
     function fitDesktop() {
-      const fitS = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+      const a = availSize();
+      const fitS = Math.min(a.w / 1920, a.h / 1080);
       const s = fitS * State.zoom;
-      desktopCanvas.style.left = `${(window.innerWidth - 1920 * s) / 2}px`;
-      desktopCanvas.style.top = `${(window.innerHeight - 1080 * s) / 2}px`;
+      desktopCanvas.style.left = `${(a.w - 1920 * s) / 2}px`;
+      desktopCanvas.style.top = `${a.top + (a.h - 1080 * s) / 2}px`;
       desktopCanvas.style.transform = `scale(${s})`;
     }
     function fitAll() {
@@ -719,6 +780,22 @@
       zoomVal.textContent = `${Math.round(State.zoom * 100)}%`;
       zoomRange.value = Math.round(State.zoom * 100);
     }
+
+    // Ocultar / mostrar la topbar (botón + tecla H)
+    const topbarToggle = document.getElementById('topbarToggle');
+    const topbarHandle = document.getElementById('topbarHandle');
+    function setTopbarHidden(hidden) {
+      document.body.classList.toggle('topbar-hidden', hidden);
+      // Espera al transition para re-fit (320ms)
+      setTimeout(fitAll, 340);
+    }
+    topbarToggle.addEventListener('click', () => setTopbarHidden(true));
+    topbarHandle.addEventListener('click', () => setTopbarHidden(false));
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'h' || e.key === 'H') {
+        setTopbarHidden(!document.body.classList.contains('topbar-hidden'));
+      }
+    });
 
     // =====================================================
     // MÓVIL — render + loop
