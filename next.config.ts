@@ -193,6 +193,10 @@ const nextConfig: NextConfig = {
         source: '/ckd',
         destination: '/ckd/index.html',
       },
+      {
+        source: '/videotoloza',
+        destination: '/videotoloza/index.html',
+      },
     ];
   },
   async redirects() {
