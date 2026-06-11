@@ -74,10 +74,10 @@ const softwareApplicationJsonLd = {
 const videoJsonLd = {
   "@context": "https://schema.org",
   "@type": "VideoObject",
-  name: "Demo 2026 | Clinera.io",
+  name: "Presentación + Demo | Clinera.io",
   description:
     "Demostración en vivo del agente IA de Clinera.io para clínicas: agendamiento automático por WhatsApp, gestión de pacientes y automatización clínica.",
-  embedUrl: "https://player.vimeo.com/video/1190537955",
+  embedUrl: "https://player.vimeo.com/video/1199567468",
   uploadDate: "2026-05-01",
   thumbnailUrl: "https://clinera.io/og-demo.png",
 };

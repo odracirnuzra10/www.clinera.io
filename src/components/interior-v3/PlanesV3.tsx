@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { FinalCTA, Pricing, useReveal } from "@/components/home-v3/sections";
 
@@ -43,6 +43,7 @@ export default function PlanesV3() {
 }
 
 function PlanesHero() {
+  const [videoOpen, setVideoOpen] = useState(false);
   return (
     <section
       style={{
@@ -75,19 +76,145 @@ function PlanesHero() {
             fontSize: 17,
             color: "#4B5563",
             lineHeight: 1.55,
-            margin: "0 auto",
+            margin: "0 auto 22px",
             maxWidth: 600,
           }}
         >
           Sin permanencia. Precios en USD. Calcula tu plan abajo.
         </p>
+        <button
+          type="button"
+          onClick={() => setVideoOpen(true)}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "11px 18px 11px 12px",
+            background: "#fff",
+            border: "1px solid #E5E7EB",
+            borderRadius: 999,
+            cursor: "pointer",
+            fontFamily: "Inter",
+            fontSize: 14.5,
+            fontWeight: 600,
+            color: "#0A0A0A",
+            boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+          }}
+        >
+          <span
+            style={{
+              width: 28,
+              height: 28,
+              borderRadius: "50%",
+              background: GRAD,
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}
+          >
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </span>
+          Ver video: cómo funcionan los planes
+        </button>
       </div>
+      <PlanVideoModal open={videoOpen} onClose={() => setVideoOpen(false)} />
       <style jsx>{`
         @media (max-width: 720px) {
           :global(.planes-hero-title) { font-size: 36px !important; }
         }
       `}</style>
     </section>
+  );
+}
+
+function PlanVideoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Video explicativo de planes"
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 1000,
+        background: "rgba(10,10,12,.72)",
+        backdropFilter: "blur(6px)",
+        WebkitBackdropFilter: "blur(6px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 24,
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{ position: "relative", width: "100%", maxWidth: 980 }}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Cerrar video"
+          style={{
+            position: "absolute",
+            top: -44,
+            right: 0,
+            width: 36,
+            height: 36,
+            borderRadius: "50%",
+            background: "rgba(255,255,255,.12)",
+            border: "1px solid rgba(255,255,255,.22)",
+            color: "#fff",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
+        <div
+          style={{
+            borderRadius: 16,
+            overflow: "hidden",
+            border: "1px solid rgba(255,255,255,.1)",
+            boxShadow: "0 40px 100px rgba(0,0,0,.5)",
+            background: "#0E1014",
+          }}
+        >
+          <div style={{ padding: "47.29% 0 0 0", position: "relative" }}>
+            <iframe
+              src="https://player.vimeo.com/video/1200166304?h=512d9c40cb&badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
+              title="Planes | Clinera.io"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
