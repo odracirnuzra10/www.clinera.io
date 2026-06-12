@@ -56,7 +56,7 @@ export default function AtencionesExplainer() {
                 display: "inline-block",
               }}
             />
-            ¿Qué es una atención?
+            ¿Qué cuenta como conversación?
           </p>
           <h2
             id="atenciones-h2"
@@ -70,7 +70,7 @@ export default function AtencionesExplainer() {
               color: "#0A0A0A",
             }}
           >
-            Una atención puede ser solo una consulta — o un agendamiento completo con tool
+            Una conversación puede ser solo una consulta — o un agendamiento completo con tool
             calls.
           </h2>
           <p
@@ -82,7 +82,7 @@ export default function AtencionesExplainer() {
               margin: 0,
             }}
           >
-            Cada atención consume créditos según el modo y la complejidad. Tus créditos se
+            Cada conversación consume créditos según el modo y la complejidad. Tus créditos se
             descuentan en tiempo real y el cupo se renueva cada mes.
           </p>
         </div>
@@ -172,8 +172,8 @@ export default function AtencionesExplainer() {
             borderLeft: "3px solid #E5E7EB",
           }}
         >
-          <strong style={{ color: "#0A0A0A" }}>Costo por atención según el plan: ~$0.28 (MAX) · ~$0.46 (Advanced) · ~$0.48 (Conect).</strong>{" "}
-          Los cupos se calcularon con un margen conservador (~30%) para que tu atención
+          <strong style={{ color: "#0A0A0A" }}>Costo por conversación según el plan: ~$0.09 (MAX) · ~$0.12 (Advanced) · ~$0.13 (Conect).</strong>{" "}
+          Los cupos se calcularon con un margen conservador (~30%) para que tu conversación
           promedio no se quede corta — y nunca pases por sorpresa del cupo.
         </p>
 

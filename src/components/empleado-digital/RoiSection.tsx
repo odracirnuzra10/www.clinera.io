@@ -2,10 +2,10 @@
 
 const ROWS: Array<{ label: string; human: string; aura: string }> = [
   { label: "Costo mensual", human: "~$950 USD", aura: "$279 USD" },
-  { label: "Atenciones / mes", human: "500–1.500", aura: "~1.000 texto + ~120 voz" },
+  { label: "Conversaciones / mes", human: "500–1.500", aura: "3.200 texto + ~120 voz" },
   { label: "Horario", human: "45 h / semana", aura: "24 / 7 / 365" },
   { label: "Vacaciones / licencias", human: "15–20 días al año sin servicio", aura: "Cero" },
-  { label: "Atenciones simultáneas", human: "1–2", aura: "Ilimitadas" },
+  { label: "Conversaciones simultáneas", human: "1–2", aura: "Ilimitadas" },
   { label: "Tiempo de respuesta", human: "5–30 min en horario", aura: "Inmediato" },
   { label: "Capacitación inicial", human: "1–3 meses", aura: "Configurado una vez" },
 ];
@@ -13,7 +13,7 @@ const ROWS: Array<{ label: string; human: string; aura: string }> = [
 const MOBILE_METRICS: Array<{ label: string; aura: string; human: string }> = [
   { label: "Costo mensual", aura: "$279", human: "~$950 USD recepcionista humana" },
   { label: "Disponibilidad", aura: "24 / 7 / 365", human: "45 h / semana + licencias y vacaciones" },
-  { label: "Atenciones simultáneas", aura: "Ilimitadas", human: "1 a 2 conversaciones a la vez" },
+  { label: "Conversaciones simultáneas", aura: "Ilimitadas", human: "1 a 2 conversaciones a la vez" },
 ];
 
 export default function RoiSection() {

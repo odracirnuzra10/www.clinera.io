@@ -95,7 +95,7 @@ export default function CalculadoraDeConsumoPage() {
                 margin: "0 0 28px",
               }}
             >
-              Entiende qué consume cada plan, cuántas atenciones cubre y por qué
+              Entiende qué consume cada plan, cuántas conversaciones cubre y por qué
               los números son aproximados. Al final encontrarás una calculadora
               para estimar tu consumo según tu volumen real.
             </p>
@@ -157,16 +157,16 @@ export default function CalculadoraDeConsumoPage() {
         {/* ─────────────────────── 01 · CONCEPTOS ─────────────────────── */}
         <NumberedSection num="01" title="Conceptos">
           <p style={paragraphStyle}>
-            Clinera factura por <strong>créditos</strong>, no por atención.
+            Clinera factura por <strong>créditos</strong>, no por conversación.
             Cada plan trae una bolsa mensual de créditos y cada interacción de
             AURA (la IA) consume un puñado dependiendo de cuánto razonamiento y
             cuántas tools usó para resolverla.
           </p>
           <p style={paragraphStyle}>
-            Una <strong>atención</strong> es una conversación con un paciente
-            (agendar, reagendar, confirmar, responder dudas). Lo que consume
-            esa atención depende del <em>modo de IA</em> activo en tu cuenta y
-            de la complejidad real de la conversación.
+            Una <strong>conversación</strong> es un intercambio con un paciente
+            (responder dudas, confirmar); un <strong>agendamiento</strong> además
+            crea o mueve la cita. Lo que consume depende del <em>modo de IA</em>{" "}
+            activo en tu cuenta y de la complejidad real de la conversación.
           </p>
 
           <blockquote
@@ -182,7 +182,7 @@ export default function CalculadoraDeConsumoPage() {
               lineHeight: 1.45,
             }}
           >
-            “Una atención no tiene costo fijo.”
+            “Una conversación no tiene costo fijo.”
           </blockquote>
         </NumberedSection>
 
@@ -293,9 +293,9 @@ export default function CalculadoraDeConsumoPage() {
 
           <p style={{ ...paragraphStyle, marginTop: 20 }}>
             Una <b>conversación completa de agendamiento automático</b> (Agentic,
-            ~6 turnos) puede costar <b>~195 cr</b>. La mayoría de atenciones son
+            ~6 turnos) puede costar <b>~195 cr</b>. La mayoría de conversaciones son
             más livianas (FAQ, info, confirmaciones), por eso el{" "}
-            <b>promedio por atención queda en ~30 cr</b> en Agentic (~10 cr en
+            <b>promedio por conversación queda en ~30 cr</b> en Agentic (~10 cr en
             Eficiente).
           </p>
 
@@ -309,7 +309,7 @@ export default function CalculadoraDeConsumoPage() {
               color: "#0A0A0A",
             }}
           >
-            Una atención completa, turno por turno
+            Una conversación completa, turno por turno
           </h3>
           <p style={{ ...paragraphStyle, marginTop: 0 }}>
             Dos conversaciones reales con el costo en créditos de cada respuesta de
@@ -373,7 +373,7 @@ export default function CalculadoraDeConsumoPage() {
         {/* ─────────────────────── 04 · EQUIVALENCIAS ─────────────────────── */}
         <NumberedSection num="04" title="Equivalencias: planes × modos">
           <p style={paragraphStyle}>
-            Cuántas atenciones puedes cubrir al mes con la bolsa de créditos
+            Cuántas conversaciones puedes cubrir al mes con la bolsa de créditos
             de cada plan, según el modo que actives. La celda destacada marca
             el modo <em>default</em> del plan.
           </p>
@@ -494,8 +494,8 @@ export default function CalculadoraDeConsumoPage() {
                 USD $50 / recarga
               </div>
               <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.55)", margin: 0 }}>
-                Equivale hasta ~500 atenciones extra en Eficiente · ~170 en
-                Agentic · ~140 en Agentic Pro · ~50 por voz (CAMILA).
+                Equivale hasta ~500 conversaciones extra en Eficiente · ~170 en
+                Agentic · ~140 en Agentic Pro · ~50 llamadas de voz (CAMILA).
               </p>
             </div>
           </div>
@@ -528,7 +528,7 @@ export default function CalculadoraDeConsumoPage() {
               label="Pausa"
               accent="#EF4444"
               bg="rgba(239,68,68,0.08)"
-              description="Las nuevas atenciones se pausan automáticamente. Las en curso terminan ok."
+              description="Las nuevas conversaciones se pausan automáticamente. Las en curso terminan ok."
             />
           </div>
 
@@ -742,7 +742,7 @@ function ModeCard({
           marginBottom: 14,
         }}
       >
-        cr / atención
+        cr / conversación
       </div>
       <p
         style={{

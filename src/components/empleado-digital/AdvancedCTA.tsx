@@ -4,8 +4,8 @@ import styles from "@/app/empleado-digital/empleado-digital.module.css";
 const STRIPE_MAX = "https://buy.stripe.com/6oU14pdBn9eGeRdgwz1441n";
 
 const BULLETS = [
-  "~1.000 atenciones por texto (WhatsApp/chat) al mes",
-  "~120 atenciones por voz (CAMILA) al mes",
+  "3.200 conversaciones / 700 agendamientos al mes",
+  "~120 llamadas de voz (CAMILA) al mes",
   "28.000 créditos IA (consumo técnico)",
   "3 modos de agendamiento (incluye Agentic Pro)",
   "3 modelos IA: Gemini 3.0 Flash · Kimi K2.6 · Gemini 3.5 Flash",

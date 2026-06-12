@@ -183,8 +183,8 @@ function SellingPoints() {
     },
     {
       num: "04",
-      title: "Costo claro por atención",
-      desc: "Desde $0,28 USD por atención en el plan MAX. Cupos calculados con 30% de margen conservador.",
+      title: "Costo claro por conversación",
+      desc: "Desde $0,09 USD por conversación en el plan MAX. Cupos calculados con 30% de margen conservador.",
     },
   ];
   return (
@@ -830,7 +830,7 @@ function ModosCompact() {
             maxWidth: 720,
           }}
         >
-          Una IA. Tres modos. Cada uno con su costo por atención.
+          Una IA. Tres modos. Cada uno con su costo por conversación.
         </h2>
         <p
           style={{

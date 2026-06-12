@@ -69,7 +69,8 @@ const nextConfig: NextConfig = {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "img-src 'self' data: blob: https:",
-      "media-src 'self' https://*.vimeo.com",
+      // Vimeo (videos) + Vapi storage (grabaciones de voz de CAMILA en /presentacion)
+      "media-src 'self' https://*.vimeo.com https://storage.vapi.ai",
       "connect-src 'self' https: wss:",
       [
         "frame-src 'self'",

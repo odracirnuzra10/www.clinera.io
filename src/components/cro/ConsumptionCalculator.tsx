@@ -207,15 +207,15 @@ export default function ConsumptionCalculator() {
                       color: active ? "rgba(255,255,255,0.7)" : "#6B7280",
                     }}
                   >
-                    ~{CRED_PER_ATT[m]} cr/atención · {meta.from}
+                    ~{CRED_PER_ATT[m]} cr/conversación · {meta.from}
                   </div>
                 </button>
               );
             })}
           </div>
 
-          {/* Step 02 — Atenciones */}
-          <StepLabel num="02" text="¿Cuántas atenciones esperas al mes?" />
+          {/* Step 02 — Conversaciones */}
+          <StepLabel num="02" text="¿Cuántas conversaciones esperas al mes?" />
           <div
             style={{
               display: "flex",
@@ -236,7 +236,7 @@ export default function ConsumptionCalculator() {
                 if (!Number.isFinite(v)) return;
                 setAttentions(Math.max(50, Math.min(5000, Math.round(v))));
               }}
-              aria-label="Atenciones por mes"
+              aria-label="Conversaciones por mes"
               style={{
                 width: 140,
                 fontFamily: FONT_MONO,
@@ -251,7 +251,7 @@ export default function ConsumptionCalculator() {
                 background: "#fff",
               }}
             />
-            <span style={{ fontSize: 14, color: "#6B7280" }}>atenciones / mes</span>
+            <span style={{ fontSize: 14, color: "#6B7280" }}>conversaciones / mes</span>
           </div>
 
           <input
@@ -261,7 +261,7 @@ export default function ConsumptionCalculator() {
             step={50}
             value={attentions}
             onChange={(e) => setAttentions(Number(e.target.value))}
-            aria-label="Atenciones por mes (slider)"
+            aria-label="Conversaciones por mes (slider)"
             style={{
               width: "100%",
               accentColor: "#009FE3",
@@ -405,7 +405,7 @@ export default function ConsumptionCalculator() {
             >
               Necesitas {result.best.addons} pack{result.best.addons > 1 ? "s" : ""} de +5.000
               créditos para cubrir tu volumen (~{fmt(result.best.addons * Math.floor(ADDON_CRED / CRED_PER_ATT[mode]))}{" "}
-              atenciones extra · +${result.best.addons * ADDON_PRICE}/mes).
+              conversaciones extra · +${result.best.addons * ADDON_PRICE}/mes).
             </div>
           )}
 

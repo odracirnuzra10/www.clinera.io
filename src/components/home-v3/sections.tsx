@@ -3681,14 +3681,14 @@ export function Pricing() {
     {
       name: "Conect",
       price: "$129",
-      perAppt: "$0.39",
+      perAppt: "$0.13",
       sub: "AURA por WhatsApp 24/7 + módulo clínico, con agendamiento automático.",
       tags: [
         { t: "Agente IA", ok: true },
         { t: "Módulo Clínico", ok: true },
       ],
       features: [
-        "~330 atenciones de IA / mes",
+        "1.000 conversaciones / 120 agendamientos al mes",
         "10.000 créditos IA (consumo técnico)",
         "3 usuarios incluidos",
       ],
@@ -3699,15 +3699,15 @@ export function Pricing() {
     {
       name: "Advanced",
       price: "$179",
-      perAppt: "$0.36",
-      sub: "Más atenciones y más equipo para clínicas que ya están creciendo.",
+      perAppt: "$0.12",
+      sub: "Más capacidad y más equipo para clínicas que ya están creciendo.",
       tags: [
         { t: "Agente IA", ok: true },
         { t: "Módulo Clínico", ok: true },
       ],
       headline: "Todo de Conect, más",
       features: [
-        "~500 atenciones de IA / mes",
+        "1.500 conversaciones / 300 agendamientos al mes",
         "15.000 créditos IA (consumo técnico)",
         "5 usuarios / profesionales",
         "Multisucursal",
@@ -3719,7 +3719,7 @@ export function Pricing() {
     {
       name: "MAX",
       price: "$279",
-      perAppt: "$0.28",
+      perAppt: "$0.09",
       sub: "Toda la potencia: LIA orquesta y CAMILA llama por voz. Para clínicas que escalan.",
       featured: true,
       bestValue: true,
@@ -3729,8 +3729,8 @@ export function Pricing() {
       ],
       headline: "Todo de Advanced, más",
       features: [
-        "~1.000 atenciones por texto (WhatsApp/chat) al mes",
-        "~120 atenciones por voz (CAMILA) al mes",
+        "3.200 conversaciones / 700 agendamientos al mes",
+        "~120 llamadas de voz (CAMILA) al mes",
         "28.000 créditos IA (consumo técnico)",
         "Multisucursal",
         "Webhooks + API pública",
@@ -3851,7 +3851,7 @@ export function Pricing() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  ★ El más elegido · mejor costo/atención
+                  ★ El más elegido · mejor costo/conversación
                 </div>
               )}
               <div
@@ -3892,7 +3892,7 @@ export function Pricing() {
                     marginBottom: 14,
                   }}
                 >
-                  {p.perAppt} por atención
+                  {p.perAppt} por conversación
                 </div>
               )}
               <div
@@ -4223,7 +4223,7 @@ export function Pricing() {
             color: "#6B7280",
           }}
         >
-          Una atención = una conversación completa de IA con un paciente por WhatsApp
+          Una conversación = un intercambio completo de IA con un paciente · un agendamiento crea o mueve la cita en tu agenda
         </div>
 
         <div
