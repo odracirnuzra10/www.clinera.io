@@ -10,7 +10,7 @@ import {
   orgSchema,
 } from "@/components/seo/schemas";
 
-const URL = "https://clinera.io/recursos/calculadora-roi";
+const URL = "https://www.clinera.io/recursos/calculadora-roi";
 
 export const metadata: Metadata = {
   title: "Calculadora de ROI Clinera — cuánto pierdes por no-shows",
@@ -62,8 +62,8 @@ export default function CalculadoraRoiPage() {
         data={[
           orgSchema,
           breadcrumbSchema([
-            { name: "Inicio", url: "https://clinera.io" },
-            { name: "Recursos", url: "https://clinera.io/recursos" },
+            { name: "Inicio", url: "https://www.clinera.io" },
+            { name: "Recursos", url: "https://www.clinera.io/recursos" },
             { name: "Calculadora de ROI", url: URL },
           ]),
           faqSchema(FAQ),

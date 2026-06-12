@@ -23,15 +23,15 @@ export const metadata: Metadata = {
     "sistema de agendamiento inteligente",
     "CRM médico LATAM",
   ],
-  alternates: { canonical: "https://clinera.io/demo" },
+  alternates: { canonical: "https://www.clinera.io/demo" },
   openGraph: {
     title: "Demo en vivo — Clinera.io | Agente IA para clínicas",
     description:
       "Software médico con IA para agendamiento automático y atención por WhatsApp. Demo interactiva.",
-    url: "https://clinera.io/demo",
+    url: "https://www.clinera.io/demo",
     siteName: "Clinera.io",
     type: "website",
-    images: [{ url: "https://clinera.io/og-demo.png", width: 1200, height: 630 }],
+    images: [{ url: "https://www.clinera.io/og-demo.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
@@ -50,7 +50,7 @@ const softwareApplicationJsonLd = {
   name: "Clinera.io",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
-  url: "https://clinera.io",
+  url: "https://www.clinera.io",
   description:
     "Agente de IA para clínicas médicas y estéticas en LATAM. Automatiza agendamiento, WhatsApp y gestión clínica. Alternativa a AgendaPro, Dentalink, Medilink y DentalSoft.",
   offers: {
@@ -59,15 +59,18 @@ const softwareApplicationJsonLd = {
     priceCurrency: "USD",
     priceValidUntil: "2026-12-31",
   },
+  // Fuente única de rating: coherente con "+52 clínicas activas" visible en el sitio
+  // (mismo valor que softwareSchema en src/components/seo/schemas.ts).
   aggregateRating: {
     "@type": "AggregateRating",
-    ratingValue: "4.8",
-    reviewCount: "326",
+    ratingValue: "4.9",
+    reviewCount: "52",
+    bestRating: "5",
   },
   provider: {
     "@type": "Organization",
     name: "OACG Group",
-    url: "https://clinera.io",
+    url: "https://www.clinera.io",
   },
 };
 
@@ -79,7 +82,7 @@ const videoJsonLd = {
     "Demostración en vivo del agente IA de Clinera.io para clínicas: agendamiento automático por WhatsApp, gestión de pacientes y automatización clínica.",
   embedUrl: "https://player.vimeo.com/video/1199567468",
   uploadDate: "2026-05-01",
-  thumbnailUrl: "https://clinera.io/og-demo.png",
+  thumbnailUrl: "https://www.clinera.io/og-demo.png",
 };
 
 export default function DemoPage() {

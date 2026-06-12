@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   title: "Empleado Digital IA para Clínicas — AURA y LIA | Clinera.io",
   description:
     "No es un chatbot. Es un empleado digital que ejecuta funciones: crea citas, re-agenda, consulta pagos, revisa sesiones. 24/7 por WhatsApp. Desde USD 129/mes. Plan Corporativo personalizado desde USD 1.500/mes.",
-  alternates: { canonical: "https://clinera.io/empleado-digital" },
+  alternates: { canonical: "https://www.clinera.io/empleado-digital" },
   openGraph: {
-    url: "https://clinera.io/empleado-digital",
+    url: "https://www.clinera.io/empleado-digital",
     title: "Empleado Digital IA para Clínicas — AURA y LIA | Clinera.io",
     description:
       "AURA ejecuta el 100% del trabajo de tu recepcionista por WhatsApp. LIA mantiene tu vacancia en 0%. Desde USD 129/mes.",
@@ -40,7 +40,7 @@ const productJsonLd = {
     priceCurrency: "USD",
     offerCount: 4,
     availability: "https://schema.org/InStock",
-    url: "https://clinera.io/empleado-digital",
+    url: "https://www.clinera.io/empleado-digital",
     seller: { "@type": "Organization", name: "Clinera.io" },
   },
 };
@@ -53,13 +53,13 @@ const breadcrumbJsonLd = {
       "@type": "ListItem",
       position: 1,
       name: "Inicio",
-      item: "https://clinera.io/",
+      item: "https://www.clinera.io/",
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Empleado digital",
-      item: "https://clinera.io/empleado-digital",
+      item: "https://www.clinera.io/empleado-digital",
     },
   ],
 };

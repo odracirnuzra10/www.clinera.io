@@ -146,7 +146,7 @@ const competitors: Record<Slug, Competitor> = {
       "Atribución de ventas a campañas (Meta/Google → conversación → cita → venta).",
       "IA integrable con tu agenda actual vía API y MCP (no obliga a migrar).",
       "Derivación automática a humano cuando la conversación lo requiere.",
-      "Precios públicos desde USD 89/mes, sin permanencia.",
+      "Precios públicos desde USD 129/mes, sin permanencia.",
       "Setup en menos de 1 hora, sin programador.",
       "Reducción típica de no-shows del 30% al 5-10% en el primer mes.",
     ],
@@ -178,7 +178,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "App móvil nativa", clinera: "yes", them: "no" },
       { feature: "Panel de ventas / trazabilidad", clinera: "yes", them: "partial" },
       { feature: "Precios públicos", clinera: "yes", them: "no" },
-      { feature: "Plan desde USD", clinera: "$89", them: "consulta" },
+      { feature: "Plan desde USD", clinera: "$129", them: "consulta" },
     ],
     dimensions: [
       {
@@ -204,7 +204,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y planes",
         body:
-          "Clinera publica sus precios: Growth USD 89/mes, Conect USD 129/mes, Advanced USD 179/mes, sin permanencia. Reservo no publica precios — atiende por formulario o teléfono con un plan único ajustado al tamaño del centro. Si valoras saber cuánto pagas antes de llamar, Clinera tiene la transparencia.",
+          "Clinera publica sus precios: Conect USD 129/mes, Advanced USD 179/mes, MAX USD 279/mes, sin permanencia. Reservo no publica precios — atiende por formulario o teléfono con un plan único ajustado al tamaño del centro. Si valoras saber cuánto pagas antes de llamar, Clinera tiene la transparencia.",
       },
       {
         title: "Soporte y onboarding",
@@ -223,11 +223,11 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Puedo mantener Reservo y sumar Clinera solo para la IA?",
-        a: "Sí. El plan Growth de Clinera está diseñado justo para eso: clínicas que ya tienen software y solo quieren sumar la capa de mensajería con IA. Conectamos vía API o MCP.",
+        a: "Sí. El plan Conect de Clinera está diseñado justo para eso: clínicas que ya tienen software y solo quieren sumar la capa de mensajería con IA. Conectamos vía API o MCP.",
       },
       {
         q: "¿Cuánto cuesta Reservo vs Clinera?",
-        a: "Reservo no publica precios (cotización por tamaño de clínica). Clinera publica USD 89/129/179 por mes, sin permanencia.",
+        a: "Reservo no publica precios (cotización por tamaño de clínica). Clinera publica USD 129/179/279 por mes, sin permanencia.",
       },
       {
         q: "¿Reservo cubre dental?",
@@ -244,7 +244,7 @@ const competitors: Record<Slug, Competitor> = {
       "AgendaPro es el software de agendamiento más grande de LATAM (20.000+ negocios en 10+ países, US$35M levantados en 2025). Clinera está enfocada 100% en clínicas con IA conversacional. Esta es la comparativa honesta.",
     tldr: {
       clinera:
-        "Clinera es mejor si necesitas profundidad clínica real (ficha médica, consentimientos, memoria contextual en WhatsApp) y precios transparentes desde USD 89/mes.",
+        "Clinera es mejor si necesitas profundidad clínica real (ficha médica, consentimientos, memoria contextual en WhatsApp) y precios transparentes desde USD 129/mes.",
       them:
         "AgendaPro es mejor si tu negocio mezcla varios verticales (estética + spa + peluquería + gym) y necesitas escala comprobada con apps móviles nativas y pasarela de pagos pulida.",
     },
@@ -256,7 +256,7 @@ const competitors: Record<Slug, Competitor> = {
       "Landing pages de conversión con analítica medible.",
       "Atribución de ventas a campañas de marketing (campaña → cita → venta).",
       "Foco 100% clínico: ficha por especialidad, consentimientos, telemedicina.",
-      "Precio plano USD 89/mes con 3 usuarios incluidos (sin sumar por usuario).",
+      "Precio plano USD 129/mes con 3 usuarios incluidos (sin sumar por usuario).",
       "Integración MCP con cualquier stack existente.",
       "Setup en menos de 1 hora y onboarding asistido en el plan Advanced.",
     ],
@@ -288,7 +288,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Recordatorios automáticos", clinera: "yes", them: "yes" },
       { feature: "Cobertura LATAM", clinera: "yes", them: "yes" },
       { feature: "Precio publicado", clinera: "yes", them: "partial" },
-      { feature: "Plan base (USD/mes)", clinera: "$89 · 3 usuarios", them: "$19/usuario" },
+      { feature: "Plan base (USD/mes)", clinera: "$129 · 3 usuarios", them: "$19/usuario" },
     ],
     dimensions: [
       {
@@ -314,7 +314,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y planes",
         body:
-          "AgendaPro arranca en USD 19/usuario/mes (plus add-ons de pagos y recepcionista). Clinera publica Growth USD 89/mes con 3 usuarios incluidos, Conect USD 129/mes con 5 usuarios, Advanced USD 179/mes con 15 usuarios. Para equipos pequeños AgendaPro suele salir más barato; desde 4-5 usuarios Clinera empareja o queda más barato, y con la ventaja de IA conversacional incluida.",
+          "AgendaPro arranca en USD 19/usuario/mes (plus add-ons de pagos y recepcionista). Clinera publica Conect USD 129/mes con 3 usuarios incluidos, Advanced USD 179/mes con 5 usuarios, MAX USD 279/mes con 15 usuarios. Para equipos pequeños AgendaPro suele salir más barato; desde 6-7 usuarios Clinera empareja o queda más barato, y con la ventaja de IA conversacional incluida.",
       },
       {
         title: "Soporte y onboarding",
@@ -333,7 +333,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Cuál es más barato para mi clínica?",
-        a: "Depende del tamaño. Con 1-2 usuarios, AgendaPro (USD 19/usuario) suele salir más barato. Desde 3+ usuarios, Clinera Growth USD 89/mes con 3 usuarios incluidos empareja o queda más barato, e incluye IA conversacional.",
+        a: "Depende del tamaño. Con equipos chicos, AgendaPro (USD 19/usuario) suele salir más barato en precio nominal. Desde 6-7 usuarios, Clinera Conect USD 129/mes con 3 usuarios incluidos empareja o queda más barato, e incluye IA conversacional.",
       },
       {
         q: "¿Clinera sirve si tengo spa además de mi clínica?",
@@ -354,7 +354,7 @@ const competitors: Record<Slug, Competitor> = {
       "Medilink tiene uno de los relatos IA más fuertes en Chile pero su agente conversacional aún no está en producción generalizada. Clinera ya opera 24/7 con AURA, memoria contextual LangChain, coexistencia nativa con WhatsApp Business y precios públicos. Acá la comparativa honesta.",
     tldr: {
       clinera:
-        "Clinera es mejor si quieres IA conversacional que YA está operando en producción, con coexistencia con WhatsApp Business, difusiones masivas, landing pages de conversión y atribución de ventas — todo en un mismo panel. Precios desde USD 89/mes.",
+        "Clinera es mejor si quieres IA conversacional que YA está operando en producción, con coexistencia con WhatsApp Business, difusiones masivas, landing pages de conversión y atribución de ventas — todo en un mismo panel. Precios desde USD 129/mes.",
       them:
         "Medilink es mejor si necesitas ecosistema profundo en Chile (integraciones con BSale, Nubox, Kame, DTE completo) y llamadas telefónicas con IA, y no te importa esperar a que su agente WhatsApp entre en producción general.",
     },
@@ -366,7 +366,7 @@ const competitors: Record<Slug, Competitor> = {
       "Atribución de ventas a campañas de marketing.",
       "Memoria contextual LangChain documentada y operativa.",
       "IA integrable con agendas externas (Reservo, Dentalink, etc.) vía MCP + API.",
-      "Precios públicos: Growth $89, Conect $129, Advanced $179 USD/mes.",
+      "Precios públicos: Conect $129, Advanced $179, MAX $279 USD/mes.",
       "Contratación self-service sin cotización telefónica.",
       "Setup en menos de 1 hora.",
       "Derivación automática a humano con trazabilidad completa.",
@@ -399,7 +399,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Multi-sede", clinera: "yes", them: "yes" },
       { feature: "Panel ventas y trazabilidad", clinera: "yes", them: "yes" },
       { feature: "Precios públicos", clinera: "yes", them: "no" },
-      { feature: "Plan base (USD/mes)", clinera: "$89", them: "consulta" },
+      { feature: "Plan base (USD/mes)", clinera: "$129", them: "consulta" },
     ],
     dimensions: [
       {
@@ -425,7 +425,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y planes",
         body:
-          "Medilink no publica precios (cotización por clínica). Clinera publica Growth USD 89, Conect USD 129, Advanced USD 179, sin permanencia. Si valoras transparencia total y precio predecible, Clinera tiene ventaja clara.",
+          "Medilink no publica precios (cotización por clínica). Clinera publica Conect USD 129, Advanced USD 179, MAX USD 279, sin permanencia. Si valoras transparencia total y precio predecible, Clinera tiene ventaja clara.",
       },
       {
         title: "Soporte y onboarding",
@@ -448,7 +448,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Cuánto cuesta Medilink vs Clinera?",
-        a: "Medilink no publica precios — cotización telefónica. Clinera publica USD 89/129/179 por mes, sin permanencia.",
+        a: "Medilink no publica precios — cotización telefónica. Clinera publica USD 129/179/279 por mes, sin permanencia.",
       },
       {
         q: "¿Clinera tiene telemedicina?",
@@ -465,7 +465,7 @@ const competitors: Record<Slug, Competitor> = {
       "La decisión más cara que muchas clínicas toman es no decidir nada — seguir con una recepción manual contestando mensajes y llamando pacientes. Aquí los números reales de lo que cuesta quedarse así.",
     tldr: {
       clinera:
-        "Clinera se paga sola en menos de un mes: recupera revenue perdido por no-shows, libera 2h diarias de recepción y responde a pacientes fuera de horario. Precio USD 89-179/mes.",
+        "Clinera se paga sola en menos de un mes: recupera revenue perdido por no-shows, libera 2h diarias de recepción y responde a pacientes fuera de horario. Precio USD 129-279/mes.",
       them:
         "Seguir manual tiene sentido solo si atiendes menos de 30 citas al mes, no piensas crecer y tu recepción tiene capacidad sobrada. Para el resto, los números no dan.",
     },
@@ -496,7 +496,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Atribución de ventas a campañas de marketing", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "IA integrable con agenda externa", clinera: "yes", them: "no", clineraHighlight: true },
       // Operational reality
-      { feature: "Costo mensual directo", clinera: "$89-179 USD", them: "$0 (aparente)" },
+      { feature: "Costo mensual directo", clinera: "$129-279 USD", them: "$0 (aparente)" },
       { feature: "Horas/día de recepción en mensajes", clinera: "< 30 min", them: "2-4 horas" },
       { feature: "Tasa de no-shows típica", clinera: "5-10%", them: "25-35%" },
       { feature: "Tiempo medio de primera respuesta", clinera: "< 1 min", them: "30 min – 2 h" },
@@ -539,7 +539,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Crecimiento",
         body:
-          "Manual no escala linealmente — cada 50% más de pacientes exige contratar más recepción. Clinera sí: subir de Growth a Conect o Advanced cuesta USD 30-60/mes más y soporta 3-10× el volumen.",
+          "Manual no escala linealmente — cada 50% más de pacientes exige contratar más recepción. Clinera sí: subir de Conect a Advanced o MAX cuesta USD 50-100/mes más y soporta 3-10× el volumen.",
       },
     ],
     faqs: [
@@ -585,7 +585,7 @@ const competitors: Record<Slug, Competitor> = {
       "Atribución real de ventas a campañas Meta y Google Ads — Dentalink no tiene panel de marketing.",
       "Memoria contextual entre conversaciones (LangChain).",
       "Difusiones masivas de WhatsApp marketing desde el panel.",
-      "Precios públicos desde USD 89/mes con 3 usuarios incluidos, sin permanencia.",
+      "Precios públicos desde USD 129/mes con 3 usuarios incluidos, sin permanencia.",
       "Setup en menos de 1 hora.",
     ],
     themWins: [
@@ -617,7 +617,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Financiamiento de pacientes", clinera: "partial", them: "yes" },
       { feature: "Telemedicina integrada", clinera: "partial", them: "yes" },
       { feature: "Precios públicos en web", clinera: "yes", them: "no" },
-      { feature: "Plan inicial USD/mes", clinera: "$89 (3 usuarios)", them: "consultar" },
+      { feature: "Plan inicial USD/mes", clinera: "$129 (3 usuarios)", them: "consultar" },
     ],
     dimensions: [
       {
@@ -643,7 +643,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y transparencia",
         body:
-          "Dentalink no publica precios — atiende por demo o cotización. Clinera publica Growth USD 89/mes (3 usuarios incluidos), Conect USD 129/mes, Advanced USD 179/mes, todos sin permanencia y con costo de implementación $0.",
+          "Dentalink no publica precios — atiende por demo o cotización. Clinera publica Conect USD 129/mes (3 usuarios incluidos), Advanced USD 179/mes, MAX USD 279/mes, todos sin permanencia y con costo de implementación $0.",
       },
     ],
     faqs: [
@@ -661,7 +661,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Cuál es más caro?",
-        a: "Dentalink no publica precios, así que es difícil comparar — la cotización depende del tamaño de la clínica y los módulos contratados. Clinera publica Growth USD 89/mes con 3 usuarios, sin permanencia. Para una clínica dental pequeña-mediana, ambos suelen estar en el rango USD 90-200/mes.",
+        a: "Dentalink no publica precios, así que es difícil comparar — la cotización depende del tamaño de la clínica y los módulos contratados. Clinera publica Conect USD 129/mes con 3 usuarios, sin permanencia. Para una clínica dental pequeña-mediana, ambos suelen estar en el rango USD 100-250/mes.",
       },
       {
         q: "¿Migrar de Dentalink a Clinera tiene sentido?",
@@ -719,7 +719,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Recordatorios automáticos", clinera: "yes", them: "yes" },
       { feature: "Cobertura LATAM (no solo Chile)", clinera: "yes", them: "no" },
       { feature: "Precios públicos en web", clinera: "yes", them: "yes" },
-      { feature: "Plan inicial mensual", clinera: "$89 (3 usuarios)", them: "$26.000 CLP (~$27)" },
+      { feature: "Plan inicial mensual", clinera: "$129 (3 usuarios)", them: "$26.000 CLP (~$27)" },
     ],
     dimensions: [
       {
@@ -745,7 +745,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y transparencia",
         body:
-          "Sacmed publica desde $26.000 CLP/mes (~USD 27) en plan Starter. Clinera publica Growth USD 89/mes con 3 usuarios incluidos, Conect USD 129/mes, Advanced USD 179/mes. En precio bajo nominal, Sacmed gana; en valor por dólar para clínicas que invierten en marketing digital, Clinera tiene atribución que justifica el delta.",
+          "Sacmed publica desde $26.000 CLP/mes (~USD 27) en plan Starter. Clinera publica Conect USD 129/mes con 3 usuarios incluidos, Advanced USD 179/mes, MAX USD 279/mes. En precio bajo nominal, Sacmed gana; en valor por dólar para clínicas que invierten en marketing digital, Clinera tiene atribución que justifica el delta.",
       },
     ],
     faqs: [
@@ -759,7 +759,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Cuál es más caro?",
-        a: "En precio nominal, Sacmed es más barato (~USD 27/mes vs USD 89 de Clinera Growth). Clinera incluye 3 usuarios, IA conversacional, atribución de marketing y difusiones WhatsApp. Para clínicas que invierten en marketing digital, el delta se paga solo con la atribución.",
+        a: "En precio nominal, Sacmed es más barato (~USD 27/mes vs USD 129 de Clinera Conect). Clinera incluye 3 usuarios, IA conversacional, atribución de marketing y difusiones WhatsApp. Para clínicas que invierten en marketing digital, el delta se paga solo con la atribución.",
       },
       {
         q: "¿Sacmed cubre clínicas fuera de Chile?",
@@ -814,7 +814,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Ficha clínica digital", clinera: "yes", them: "yes" },
       { feature: "Multi-sede", clinera: "yes", them: "yes" },
       { feature: "Precios públicos", clinera: "yes", them: "yes" },
-      { feature: "Plan desde", clinera: "USD 89/mes", them: "COP $1.670.000/año (~USD 35/mes)" },
+      { feature: "Plan desde", clinera: "USD 129/mes", them: "COP $1.670.000/año (~USD 35/mes)" },
       { feature: "Permanencia", clinera: "no", them: "anual (precio año 1 vs año 2+)" },
     ],
     dimensions: [
@@ -826,7 +826,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y modelo comercial",
         body:
-          "Medifolios publica precios en COP con modelo anual decreciente: año 1 más caro (incluye onboarding), año 2+ baja considerablemente. Consultorio: $1.670.000 año 1 / $840.000 año 2+ (~USD 35/USD 17/mes). Clinera publica precios en USD con modelo mensual sin permanencia: Growth USD 89/mes (3 usuarios), Conect USD 129/mes (5 usuarios), Advanced USD 179/mes (15 usuarios). Costo de implementación $0 en todos los planes. Para clínicas que recién arrancan en digital, Medifolios año 1 es más caro upfront pero año 2+ se vuelve más barato. Clinera es predecible mes a mes sin compromiso.",
+          "Medifolios publica precios en COP con modelo anual decreciente: año 1 más caro (incluye onboarding), año 2+ baja considerablemente. Consultorio: $1.670.000 año 1 / $840.000 año 2+ (~USD 35/USD 17/mes). Clinera publica precios en USD con modelo mensual sin permanencia: Conect USD 129/mes (3 usuarios), Advanced USD 179/mes (5 usuarios), MAX USD 279/mes (15 usuarios). Costo de implementación $0 en todos los planes. Para clínicas que recién arrancan en digital, Medifolios año 1 es más caro upfront pero año 2+ se vuelve más barato. Clinera es predecible mes a mes sin compromiso.",
       },
       {
         title: "Combinar ambos: Medifolios + Clinera",
@@ -866,7 +866,7 @@ const competitors: Record<Slug, Competitor> = {
     },
     clineraWins: [
       "AURA: agente IA conversacional autónomo (no solo asistente de triaje como el de Saludtools).",
-      "IA conversacional disponible en todos los planes desde USD 89/mes (vs Premium-only en Saludtools).",
+      "IA conversacional disponible en todos los planes desde USD 129/mes (vs Premium-only en Saludtools).",
       "Coexistencia con WhatsApp Business — mismo número que ya usa la clínica.",
       "Atribución end-to-end campaña Meta/Google → conversación → cita → venta.",
       "Memoria contextual LangChain entre conversaciones.",
@@ -895,7 +895,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Ficha clínica digital", clinera: "yes", them: "yes" },
       { feature: "Multi-especialidad", clinera: "yes", them: "yes" },
       { feature: "Precios públicos en home", clinera: "yes", them: "no", themNote: "ver /precios" },
-      { feature: "Plan desde", clinera: "USD 89/mes", them: "consulta /precios" },
+      { feature: "Plan desde", clinera: "USD 129/mes", them: "consulta /precios" },
       { feature: "Permanencia", clinera: "no", them: "consulta" },
     ],
     dimensions: [
@@ -907,7 +907,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y modelo comercial",
         body:
-          "Saludtools tiene 3 planes (Estándar/Plus/Premium) sin precios visibles en home (hay que ir a /precios o contactar comercial). La IA está reservada al plan Premium, que es el más caro. Clinera tiene 3 planes con precios públicos en USD: Growth USD 89/mes, Conect USD 129/mes, Advanced USD 179/mes. La IA conversacional está en TODOS los planes, no escalonada por tier. Costo de implementación $0 en todos los planes Clinera; Saludtools no especifica setup en home.",
+          "Saludtools tiene 3 planes (Estándar/Plus/Premium) sin precios visibles en home (hay que ir a /precios o contactar comercial). La IA está reservada al plan Premium, que es el más caro. Clinera tiene 3 planes con precios públicos en USD: Conect USD 129/mes, Advanced USD 179/mes, MAX USD 279/mes. La IA conversacional está en TODOS los planes, no escalonada por tier. Costo de implementación $0 en todos los planes Clinera; Saludtools no especifica setup en home.",
       },
       {
         title: "Combinar ambos: Saludtools + Clinera",
@@ -930,7 +930,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿En qué planes de Clinera está la IA?",
-        a: "En todos. AURA (agente IA WhatsApp 24/7) viene en Growth (USD 89/mes), Conect (USD 129/mes) y Advanced (USD 179/mes). No es feature de tier alto: es el core del producto.",
+        a: "En todos. AURA (agente IA WhatsApp 24/7) viene en Conect (USD 129/mes), Advanced (USD 179/mes) y MAX (USD 279/mes). No es feature de tier alto: es el core del producto.",
       },
     ],
   },
@@ -975,14 +975,14 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Cobertura LATAM", clinera: "yes", them: "yes", themNote: "20+ países" },
       { feature: "Setup en menos de 1 hora", clinera: "yes", them: "yes" },
       { feature: "Precios públicos", clinera: "yes", them: "yes" },
-      { feature: "Plan desde", clinera: "USD 89/mes", them: "USD 0 (gratis) / USD 19/mes" },
+      { feature: "Plan desde", clinera: "USD 129/mes", them: "USD 0 (gratis) / USD 19/mes" },
       { feature: "Permanencia", clinera: "no", them: "no" },
     ],
     dimensions: [
       {
-        title: "Plan gratis + USD 19/mes vs USD 89/mes con IA conversacional autónoma",
+        title: "Plan gratis + USD 19/mes vs USD 129/mes con IA conversacional autónoma",
         body:
-          "La diferencia de precio es real: Doctocliq tiene plan gratis y plan pago desde USD 19/mes; Clinera arranca en USD 89/mes. Pero lo que cambia entre los dos no es 'más features por más precio' — es **agente vs asistente**. Doctocliq tiene asistente IA que ayuda con recordatorios y tareas específicas. Clinera tiene AURA: agente IA conversacional autónomo que entiende lo que el paciente quiere, ofrece horarios reales de la agenda, cierra el agendamiento, confirma, deriva si es necesario. Para una clínica que paga publicidad en Meta/Google y pierde pacientes porque nadie contesta el WhatsApp a las 22:00, AURA cierra el ROI en menos de 1 mes. Para una clínica que recién empieza y solo necesita ordenar la agenda + recordatorios, Doctocliq gratis es el punto de entrada correcto.",
+          "La diferencia de precio es real: Doctocliq tiene plan gratis y plan pago desde USD 19/mes; Clinera arranca en USD 129/mes. Pero lo que cambia entre los dos no es 'más features por más precio' — es **agente vs asistente**. Doctocliq tiene asistente IA que ayuda con recordatorios y tareas específicas. Clinera tiene AURA: agente IA conversacional autónomo que entiende lo que el paciente quiere, ofrece horarios reales de la agenda, cierra el agendamiento, confirma, deriva si es necesario. Para una clínica que paga publicidad en Meta/Google y pierde pacientes porque nadie contesta el WhatsApp a las 22:00, AURA cierra el ROI en menos de 1 mes. Para una clínica que recién empieza y solo necesita ordenar la agenda + recordatorios, Doctocliq gratis es el punto de entrada correcto.",
       },
       {
         title: "Foco dental fuerte vs multi-vertical sin sesgo",
@@ -1001,7 +1001,7 @@ const competitors: Record<Slug, Competitor> = {
         a: "Parcialmente. Compiten en agenda + recordatorios + asistente IA, pero resuelven cuellos de botella distintos: Doctocliq es la entrada económica para digitalización clínica básica; Clinera es la capa premium de IA conversacional + atribución de marketing. Pueden combinarse vía API.",
       },
       {
-        q: "¿Vale la pena pagar USD 89/mes en Clinera si tengo el plan gratis de Doctocliq?",
+        q: "¿Vale la pena pagar USD 129/mes en Clinera si tengo el plan gratis de Doctocliq?",
         a: "Solo si tu clínica paga publicidad y pierde pacientes por no contestar WhatsApp a tiempo. En ese caso Clinera se paga sola en menos de 1 mes (1-2 pacientes nuevos cubiertos = ROI positivo). Si la clínica recién arranca y no invierte en marketing aún, el plan gratis de Doctocliq es el punto correcto y volves a Clinera cuando empieces a pautar.",
       },
       {
@@ -1035,11 +1035,11 @@ export async function generateMetadata({
     return {
       title: cross.title,
       description: cross.description,
-      alternates: { canonical: `https://clinera.io/comparativas/${slug}` },
+      alternates: { canonical: `https://www.clinera.io/comparativas/${slug}` },
       openGraph: {
         type: "website",
         locale: "es_CL",
-        url: `https://clinera.io/comparativas/${slug}`,
+        url: `https://www.clinera.io/comparativas/${slug}`,
         title: cross.title,
         description: cross.description,
         images: ["/images/og-banner.png"],
@@ -1059,9 +1059,9 @@ export async function generateMetadata({
   return {
     title: `Clinera vs ${data.name} 2026 — Comparativa completa`,
     description: `Comparamos Clinera con ${data.name}: IA, agenda, WhatsApp, ficha clínica, precio, soporte y casos de migración. Guía honesta para decidir en 2026.`,
-    alternates: { canonical: `https://clinera.io/comparativas/${slug}` },
+    alternates: { canonical: `https://www.clinera.io/comparativas/${slug}` },
     openGraph: {
-      url: `https://clinera.io/comparativas/${slug}`,
+      url: `https://www.clinera.io/comparativas/${slug}`,
       title: `Clinera vs ${data.name} 2026 — Comparativa completa`,
       description: `Tabla, análisis por dimensión, precios y casos reales de migración desde ${data.name} a Clinera.`,
     },
@@ -1149,13 +1149,13 @@ export default async function ComparativaPage({
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Inicio", item: "https://clinera.io/" },
-        { "@type": "ListItem", position: 2, name: "Comparativas", item: "https://clinera.io/comparativas" },
+        { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.clinera.io/" },
+        { "@type": "ListItem", position: 2, name: "Comparativas", item: "https://www.clinera.io/comparativas" },
         {
           "@type": "ListItem",
           position: 3,
           name: `${cross.competitorA.name} vs ${cross.competitorB.name}`,
-          item: `https://clinera.io/comparativas/${slug}`,
+          item: `https://www.clinera.io/comparativas/${slug}`,
         },
       ],
     };
@@ -1191,13 +1191,13 @@ export default async function ComparativaPage({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Inicio", item: "https://clinera.io/" },
-      { "@type": "ListItem", position: 2, name: "Comparativas", item: "https://clinera.io/comparativas" },
+      { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.clinera.io/" },
+      { "@type": "ListItem", position: 2, name: "Comparativas", item: "https://www.clinera.io/comparativas" },
       {
         "@type": "ListItem",
         position: 3,
         name: `Clinera vs ${data.name}`,
-        item: `https://clinera.io/comparativas/${slug}`,
+        item: `https://www.clinera.io/comparativas/${slug}`,
       },
     ],
   };
@@ -1254,7 +1254,7 @@ export default async function ComparativaPage({
         reviewRating: { "@type": "Rating", ratingValue: 5, bestRating: 5 },
         author: { "@type": "Person", name: t.author, affiliation: t.clinic },
         reviewBody: t.quote,
-        itemReviewed: { "@id": "https://clinera.io/#software" },
+        itemReviewed: { "@id": "https://www.clinera.io/#software" },
       }
     : null;
 
@@ -1895,7 +1895,7 @@ export default async function ComparativaPage({
                       fontWeight: 500,
                     }}
                   >
-                    Ver planes desde USD 89/mes →
+                    Ver planes desde USD 129/mes →
                   </Link>
                 </li>
               </ul>

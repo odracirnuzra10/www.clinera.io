@@ -35,14 +35,6 @@ export const softwareSchema = {
   offers: [
     {
       "@type": "Offer",
-      name: "Growth",
-      price: "89",
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-      url: `${SITE_URL}/planes`,
-    },
-    {
-      "@type": "Offer",
       name: "Conect",
       price: "129",
       priceCurrency: "USD",
@@ -53,6 +45,14 @@ export const softwareSchema = {
       "@type": "Offer",
       name: "Advanced",
       price: "179",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: `${SITE_URL}/planes`,
+    },
+    {
+      "@type": "Offer",
+      name: "MAX",
+      price: "279",
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
       url: `${SITE_URL}/planes`,
@@ -77,18 +77,10 @@ export const productPlansSchema = {
   offers: {
     "@type": "AggregateOffer",
     priceCurrency: "USD",
-    lowPrice: "89",
-    highPrice: "179",
+    lowPrice: "129",
+    highPrice: "279",
     offerCount: "3",
     offers: [
-      {
-        "@type": "Offer",
-        name: "Growth",
-        price: "89",
-        priceCurrency: "USD",
-        url: `${SITE_URL}/planes`,
-        availability: "https://schema.org/InStock",
-      },
       {
         "@type": "Offer",
         name: "Conect",
@@ -101,6 +93,14 @@ export const productPlansSchema = {
         "@type": "Offer",
         name: "Advanced",
         price: "179",
+        priceCurrency: "USD",
+        url: `${SITE_URL}/planes`,
+        availability: "https://schema.org/InStock",
+      },
+      {
+        "@type": "Offer",
+        name: "MAX",
+        price: "279",
         priceCurrency: "USD",
         url: `${SITE_URL}/planes`,
         availability: "https://schema.org/InStock",

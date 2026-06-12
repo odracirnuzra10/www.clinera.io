@@ -14,10 +14,10 @@ export const metadata: Metadata = {
     "arquitectura agente juez self-refine",
     "evals LangGraph agente clínica",
   ],
-  alternates: { canonical: "https://clinera.io/blog/efectividad" },
+  alternates: { canonical: "https://www.clinera.io/blog/efectividad" },
   openGraph: {
     type: "article",
-    url: "https://clinera.io/blog/efectividad",
+    url: "https://www.clinera.io/blog/efectividad",
     siteName: "Clinera.io",
     title: "Estudio de Efectividad 2026 — 100% de agendamientos en ≤3 intentos",
     description:
@@ -55,28 +55,28 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Article",
-      "@id": "https://clinera.io/blog/efectividad#article",
+      "@id": "https://www.clinera.io/blog/efectividad#article",
       headline: "Estudio de Efectividad 2026: 100% de agendamientos en ≤3 intentos",
       description:
         "Reporte interno de evals del agente de IA de Clinera. 95.2% pass@1, 100% pass@3 sobre 42 casos, 14 flujos y 3 clínicas reales.",
       author: {
         "@type": "Organization",
         name: "Equipo de Ingeniería Clinera",
-        url: "https://clinera.io",
+        url: "https://www.clinera.io",
       },
       publisher: {
         "@type": "Organization",
         name: "Clinera",
-        url: "https://clinera.io",
+        url: "https://www.clinera.io",
         logo: {
           "@type": "ImageObject",
-          url: "https://clinera.io/clinera-logo.png",
+          url: "https://www.clinera.io/clinera-logo.png",
         },
       },
       datePublished: "2026-04-23",
       dateModified: "2026-04-23",
-      mainEntityOfPage: "https://clinera.io/blog/efectividad",
-      image: "https://clinera.io/images/efectividad/reporte-pagina-1.webp",
+      mainEntityOfPage: "https://www.clinera.io/blog/efectividad",
+      image: "https://www.clinera.io/images/efectividad/reporte-pagina-1.webp",
       inLanguage: "es",
       about: [
         { "@type": "Thing", name: "Inteligencia Artificial" },
@@ -85,11 +85,11 @@ const jsonLd = {
         { "@type": "Thing", name: "LangGraph" },
         { "@type": "Thing", name: "Evals de LLMs" },
       ],
-      isBasedOn: { "@id": "https://clinera.io/efectividad#dataset" },
+      isBasedOn: { "@id": "https://www.clinera.io/efectividad#dataset" },
     },
     {
       "@type": "FAQPage",
-      "@id": "https://clinera.io/blog/efectividad#faq",
+      "@id": "https://www.clinera.io/blog/efectividad#faq",
       mainEntity: [
         {
           "@type": "Question",
@@ -168,9 +168,9 @@ const jsonLd = {
     {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Inicio", item: "https://clinera.io" },
-        { "@type": "ListItem", position: 2, name: "Novedades", item: "https://clinera.io/novedades" },
-        { "@type": "ListItem", position: 3, name: "Efectividad", item: "https://clinera.io/blog/efectividad" },
+        { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.clinera.io" },
+        { "@type": "ListItem", position: 2, name: "Novedades", item: "https://www.clinera.io/novedades" },
+        { "@type": "ListItem", position: 3, name: "Efectividad", item: "https://www.clinera.io/blog/efectividad" },
       ],
     },
   ],

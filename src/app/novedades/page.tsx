@@ -11,11 +11,11 @@ export const metadata: Metadata = {
   title: "Blog y novedades — Clinera",
   description:
     "Lo nuevo de Clinera: estudios técnicos, guías de WhatsApp Business + IA, casos reales de clínicas LATAM y operaciones para clínicas médicas y estéticas.",
-  alternates: { canonical: "https://clinera.io/novedades" },
+  alternates: { canonical: "https://www.clinera.io/novedades" },
   openGraph: {
     type: "website",
     locale: "es_CL",
-    url: "https://clinera.io/novedades",
+    url: "https://www.clinera.io/novedades",
     siteName: "Clinera.io",
     title: "Blog y novedades — Clinera",
     description: "Estudios técnicos, guías de WhatsApp + IA y casos reales.",
@@ -75,16 +75,16 @@ export default async function NovedadesPage({
   const blogSchema = {
     "@context": "https://schema.org",
     "@type": "Blog",
-    "@id": "https://clinera.io/novedades#blog",
+    "@id": "https://www.clinera.io/novedades#blog",
     name: "Blog Clinera",
-    url: "https://clinera.io/novedades",
+    url: "https://www.clinera.io/novedades",
     description:
       "Estudios técnicos, guías de WhatsApp + IA, casos reales y operaciones para clínicas LATAM.",
-    publisher: { "@id": "https://clinera.io/#organization" },
+    publisher: { "@id": "https://www.clinera.io/#organization" },
     blogPost: filtered.slice(0, 12).map((p) => ({
       "@type": "BlogPosting",
       headline: p.title,
-      url: `https://clinera.io/blog/${p.slug}`,
+      url: `https://www.clinera.io/blog/${p.slug}`,
       datePublished: p.publishedAt,
       ...(p.updatedAt && { dateModified: p.updatedAt }),
       ...(p.author && { author: { "@type": "Person", name: p.author } }),
@@ -98,7 +98,7 @@ export default async function NovedadesPage({
     itemListElement: filtered.map((p, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      url: `https://clinera.io/blog/${p.slug}`,
+      url: `https://www.clinera.io/blog/${p.slug}`,
       name: p.title,
     })),
   };
@@ -109,8 +109,8 @@ export default async function NovedadesPage({
         data={[
           orgSchema,
           breadcrumbSchema([
-            { name: "Inicio", url: "https://clinera.io" },
-            { name: "Blog", url: "https://clinera.io/novedades" },
+            { name: "Inicio", url: "https://www.clinera.io" },
+            { name: "Blog", url: "https://www.clinera.io/novedades" },
           ]),
           blogSchema,
           itemListSchema,

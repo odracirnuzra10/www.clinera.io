@@ -5,13 +5,13 @@ export const metadata: Metadata = {
   title: "Agenda tu demostración — Clinera.io",
   description:
     "Elige tu plan, agenda tu hora y un especialista te guía paso a paso. Demostración personalizada de 30 minutos.",
-  alternates: { canonical: "https://clinera.io/contacto" },
+  alternates: { canonical: "https://www.clinera.io/contacto" },
   robots: { index: false, follow: false },
   openGraph: {
     title: "Agenda tu demostración — Clinera.io",
     description:
       "30 min con un especialista. Elige tu plan y horario.",
-    url: "https://clinera.io/contacto",
+    url: "https://www.clinera.io/contacto",
     type: "website",
   },
 };

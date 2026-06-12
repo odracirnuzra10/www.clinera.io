@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: "Reunión comercial — Clinera.io",
   description:
     "Agenda una reunión comercial de 30 minutos con el equipo de Clinera.io. Te mostramos cómo nuestra IA puede responder en WhatsApp, agendar y cobrar por tu clínica.",
-  alternates: { canonical: "https://clinera.io/reunion-comercial" },
+  alternates: { canonical: "https://www.clinera.io/reunion-comercial" },
   openGraph: {
     title: "Reunión comercial — Clinera.io",
     description:
       "30 min con el equipo comercial de Clinera. Elige tu horario.",
-    url: "https://clinera.io/reunion-comercial",
+    url: "https://www.clinera.io/reunion-comercial",
     type: "website",
   },
 };

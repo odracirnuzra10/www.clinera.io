@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   title: "Programa Partner para Agencias — Clinera.io",
   description:
     "El programa partner de Clinera para agencias de marketing en LATAM. 20% de descuento permanente para tus clientes, directorio de agencias recomendadas y capacitación 1:1. Conecta Meta Lead Ads, CRM y dashboards directo a la operación clínica vía API/Webhooks.",
-  alternates: { canonical: "https://clinera.io/agencias" },
+  alternates: { canonical: "https://www.clinera.io/agencias" },
   openGraph: {
-    url: "https://clinera.io/agencias",
+    url: "https://www.clinera.io/agencias",
     title: "Programa Partner para Agencias — Clinera.io",
     description:
       "20% descuento permanente, directorio recomendado y capacitación 1:1. Conecta Meta Ads y tu stack al WhatsApp de cada clínica.",
@@ -29,8 +29,8 @@ const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://clinera.io/" },
-    { "@type": "ListItem", position: 2, name: "Agencias", item: "https://clinera.io/agencias" },
+    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.clinera.io/" },
+    { "@type": "ListItem", position: 2, name: "Agencias", item: "https://www.clinera.io/agencias" },
   ],
 };
 

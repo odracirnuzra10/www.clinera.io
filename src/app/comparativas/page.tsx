@@ -8,15 +8,15 @@ export const metadata: Metadata = {
   title: "Comparativas — Clinera vs alternativas",
   description:
     "Comparamos Clinera con Reservo, AgendaPro, Medilink y hacerlo manual. Más comparativas cruzadas (AgendaPro vs Reservo, etc.) para decidir con datos.",
-  alternates: { canonical: "https://clinera.io/comparativas" },
+  alternates: { canonical: "https://www.clinera.io/comparativas" },
 };
 
 const breadcrumbLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://clinera.io/" },
-    { "@type": "ListItem", position: 2, name: "Comparativas", item: "https://clinera.io/comparativas" },
+    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.clinera.io/" },
+    { "@type": "ListItem", position: 2, name: "Comparativas", item: "https://www.clinera.io/comparativas" },
   ],
 };
 
@@ -38,7 +38,7 @@ const items = [
     bullets: [
       "AgendaPro: la más grande en LATAM (20.000+ negocios), horizontal (salud + spa + gym).",
       "Clinera: 100% clínica, IA con LangChain + MCP, memoria contextual real.",
-      "Desde USD 89/mes con 3 usuarios vs USD 19/usuario de AgendaPro.",
+      "Desde USD 129/mes con 3 usuarios vs USD 19/usuario de AgendaPro.",
     ],
   },
   {
@@ -100,11 +100,13 @@ export default function ComparativasHub() {
                 COMPARATIVAS · 2026
               </span>
               <h1 className="hero-v2__title" style={{ fontSize: "3rem" }}>
-                ¿Clinera o la alternativa? <span className="gt">Aquí decides</span>.
+                Clinera vs AgendaPro, Reservo, Medilink y más:{" "}
+                <span className="gt">comparativas con datos</span>.
               </h1>
               <p className="hero-v2__sub" style={{ margin: "0 auto" }}>
-                Comparamos Clinera con los sistemas más usados en LATAM.
-                Honesto, con tablas, precios y casos reales de migración.
+                ¿Clinera o la alternativa? Aquí decides. Comparamos Clinera con
+                los sistemas más usados en LATAM — honesto, con tablas, precios
+                y casos reales de migración.
               </p>
             </div>
           </div>

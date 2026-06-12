@@ -39,7 +39,7 @@ export async function generateMetadata({
     ? `${clinic.nombre} — Agenda por WhatsApp 24/7`
     : `${clinic.nombre} en ${clinic.ciudad} — Agenda por WhatsApp 24/7`;
   const description = `Agenda con ${clinic.nombre} (${clinic.ciudad}) por WhatsApp en cualquier momento. ${clinic.especialidades.slice(0, 3).join(", ")}. Confirmación inmediata.`;
-  const url = `https://clinera.io/clinicas/${slug}`;
+  const url = `https://www.clinera.io/clinicas/${slug}`;
   return {
     title,
     description,
@@ -50,13 +50,13 @@ export async function generateMetadata({
       url,
       title,
       description,
-      images: [clinic.heroImageUrl ?? "https://clinera.io/images/og-banner.png"],
+      images: [clinic.heroImageUrl ?? "https://www.clinera.io/images/og-banner.png"],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [clinic.heroImageUrl ?? "https://clinera.io/images/og-banner.png"],
+      images: [clinic.heroImageUrl ?? "https://www.clinera.io/images/og-banner.png"],
     },
   };
 }
@@ -118,11 +118,11 @@ export default async function ClinicPage({
             hours: clinic.horario,
           }),
           breadcrumbSchema([
-            { name: "Inicio", url: "https://clinera.io" },
-            { name: "Clínicas", url: "https://clinera.io/clinicas" },
+            { name: "Inicio", url: "https://www.clinera.io" },
+            { name: "Clínicas", url: "https://www.clinera.io/clinicas" },
             {
               name: clinic.nombre,
-              url: `https://clinera.io/clinicas/${slug}`,
+              url: `https://www.clinera.io/clinicas/${slug}`,
             },
           ]),
           faqSchema(faqs),

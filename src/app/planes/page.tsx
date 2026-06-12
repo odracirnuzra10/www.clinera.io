@@ -3,14 +3,15 @@ import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
 import PlanesV3 from "@/components/interior-v3/PlanesV3";
 import TrialBanner from "@/components/cro/TrialBanner";
+import { PLANES_FAQ } from "@/content/planes-faq";
 
 export const metadata: Metadata = {
   title: "Planes y Precios — Clinera.io (desde USD 129/mes)",
   description:
-    "Conect USD 129/mes (~270 atenciones IA + modo automático), Advanced USD 179/mes (~390 atenciones · 5 usuarios), MAX USD 279/mes (~1.000 atenciones + LIA y CAMILA por voz). Plan Corporativo desde USD 1.500/mes personalizado. AURA agenda por WhatsApp 24/7. Sin permanencia.",
-  alternates: { canonical: "https://clinera.io/planes" },
+    "Conect USD 129/mes (~330 atenciones IA + modo automático), Advanced USD 179/mes (~500 atenciones · 5 usuarios), MAX USD 279/mes (~1.000 atenciones + LIA y CAMILA por voz). Plan Corporativo desde USD 1.500/mes personalizado. AURA agenda por WhatsApp 24/7. Sin permanencia.",
+  alternates: { canonical: "https://www.clinera.io/planes" },
   openGraph: {
-    url: "https://clinera.io/planes",
+    url: "https://www.clinera.io/planes",
     title: "Planes y Precios — Clinera.io",
     description:
       "3 planes para clínicas en LATAM. Desde USD 129/mes, sin permanencia.",
@@ -24,11 +25,21 @@ const jsonLd = {
   name: "Clinera.io",
   description: "Software de IA para clínicas",
   offers: [
-    { "@type": "Offer", name: "Conect",      price: "129",  priceCurrency: "USD", url: "https://clinera.io/planes" },
-    { "@type": "Offer", name: "Advanced",    price: "179",  priceCurrency: "USD", url: "https://clinera.io/planes" },
-    { "@type": "Offer", name: "MAX",         price: "279",  priceCurrency: "USD", url: "https://clinera.io/planes" },
-    { "@type": "Offer", name: "Corporativo", price: "1500", priceCurrency: "USD", url: "https://clinera.io/planes", availability: "https://schema.org/PreOrder", description: "Plan personalizado desde USD 1.500/mes" },
+    { "@type": "Offer", name: "Conect",      price: "129",  priceCurrency: "USD", url: "https://www.clinera.io/planes" },
+    { "@type": "Offer", name: "Advanced",    price: "179",  priceCurrency: "USD", url: "https://www.clinera.io/planes" },
+    { "@type": "Offer", name: "MAX",         price: "279",  priceCurrency: "USD", url: "https://www.clinera.io/planes" },
+    { "@type": "Offer", name: "Corporativo", price: "1500", priceCurrency: "USD", url: "https://www.clinera.io/planes", availability: "https://schema.org/PreOrder", description: "Plan personalizado desde USD 1.500/mes" },
   ],
+};
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: PLANES_FAQ.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
 };
 
 export default function PlanesPage() {
@@ -36,6 +47,7 @@ export default function PlanesPage() {
     <>
       <NavV3 />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <main>
         <TrialBanner />
         <PlanesV3 />

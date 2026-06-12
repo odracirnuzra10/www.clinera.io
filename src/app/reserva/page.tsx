@@ -48,7 +48,7 @@ const eventJsonLd = {
   organizer: {
     "@type": "Organization",
     name: "Clinera.io",
-    url: "https://clinera.io",
+    url: "https://www.clinera.io",
   },
   offers: {
     "@type": "Offer",

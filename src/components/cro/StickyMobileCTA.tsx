@@ -7,22 +7,31 @@ import Link from "next/link";
 export default function StickyMobileCTA() {
   const pathname = usePathname();
   const isDemo = pathname?.startsWith("/demo") === true;
+  // Páginas largas de conversión donde el CTA persistente ayuda en móvil.
+  const enabled =
+    isDemo ||
+    pathname === "/" ||
+    pathname === "/planes" ||
+    pathname?.startsWith("/comparativas") === true;
   const [show, setShow] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
-    if (!isDemo) return;
+    if (!enabled) return;
     if (sessionStorage.getItem("sticky-cta-dismissed") === "1") {
       setDismissed(true);
       return;
     }
-    const onScroll = () => setShow(window.scrollY > 80);
+    // En /demo aparece casi de inmediato; en el resto, pasado el hero
+    // para no tapar los CTAs principales.
+    const threshold = isDemo ? 80 : 600;
+    const onScroll = () => setShow(window.scrollY > threshold);
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, [isDemo]);
+  }, [enabled, isDemo]);
 
-  if (!isDemo || dismissed || !show) return null;
+  if (!enabled || dismissed || !show) return null;
 
   const trackClick = (cta: "whatsapp" | "agendar") => {
     if (typeof window === "undefined") return;
@@ -52,7 +61,7 @@ export default function StickyMobileCTA() {
           WhatsApp
         </a>
         <Link
-          href="/reunion"
+          href="/hablar-con-ventas"
           onClick={() => trackClick("agendar")}
           className="sticky-primary"
         >

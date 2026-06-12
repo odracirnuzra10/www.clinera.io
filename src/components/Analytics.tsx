@@ -221,8 +221,21 @@ const ENGAGEMENT_SRC = `(function(){
   state.engagedTimer = setInterval(tickEngagement, 1000);
 
   function attachVideoTrackers(){
-    if (typeof window.Vimeo === 'undefined' || !window.Vimeo.Player) return;
-    document.querySelectorAll('iframe[src*="player.vimeo.com"]').forEach(function(iframe){
+    var iframes = document.querySelectorAll('iframe[src*="player.vimeo.com"]');
+    if (!iframes.length) return;
+    // SDK on-demand: solo se descarga en páginas que realmente tienen video.
+    if (typeof window.Vimeo === 'undefined' || !window.Vimeo.Player) {
+      if (!document.getElementById('vimeo-sdk')) {
+        var sdk = document.createElement('script');
+        sdk.id = 'vimeo-sdk';
+        sdk.async = true;
+        sdk.src = 'https://player.vimeo.com/api/player.js';
+        sdk.onload = function(){ attachVideoTrackers(); };
+        document.head.appendChild(sdk);
+      }
+      return;
+    }
+    iframes.forEach(function(iframe){
       if (iframe.dataset.clineraTracked === '1') return;
       iframe.dataset.clineraTracked = '1';
       try {
@@ -302,10 +315,10 @@ const ENGAGEMENT_SRC = `(function(){
     var planName = a.getAttribute('data-plan-name');
     var planValue = parseFloat(a.getAttribute('data-plan-value') || '0');
     if (!planValue) {
-      if (plan === 'growth')        { planValue = 89;  planName = planName || 'Growth signup'; }
-      else if (plan === 'conect')   { planValue = 129; planName = planName || 'Conect signup'; }
+      if (plan === 'conect')        { planValue = 129; planName = planName || 'Conect signup'; }
       else if (plan === 'advanced') { planValue = 179; planName = planName || 'Advanced signup'; }
-      else                          { planValue = 89;  planName = planName || 'plan_signup'; }
+      else if (plan === 'max')      { planValue = 279; planName = planName || 'MAX signup'; }
+      else                          { planValue = 129; planName = planName || 'plan_signup'; }
     }
     var text = (a.innerText || a.getAttribute('aria-label') || '').trim().replace(/\\s+/g,' ').slice(0,80);
     DL().push({
@@ -364,8 +377,8 @@ export default function Analytics() {
       {/* fbq ViewContent currency fix */}
       <script id="fbq-fix" dangerouslySetInnerHTML={{ __html: FBQ_FIX_SRC }} />
 
-      {/* Vimeo Player SDK (for video progress tracking) */}
-      <script id="vimeo-sdk" async src="https://player.vimeo.com/api/player.js" />
+      {/* Vimeo Player SDK se carga solo en páginas con video (src/app/demo/page.tsx).
+          El tracker de video de ENGAGEMENT_SRC hace no-op si window.Vimeo no existe. */}
 
       {/* Global engagement tracking: ViewContent + engaged_60s + video progress + InitiateCheckout */}
       <script id="clinera-engagement" dangerouslySetInnerHTML={{ __html: ENGAGEMENT_SRC }} />

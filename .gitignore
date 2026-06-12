@@ -21,3 +21,4 @@ fluentia-api-develop (2).json
 next-env.d.ts
 tsconfig.tsbuildinfo
 .vercel
+public-optimized/

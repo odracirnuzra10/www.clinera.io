@@ -29,7 +29,7 @@ export async function generateMetadata({
   const recurso = getRecursoBySlug(slug);
   if (!recurso) return {};
   const content = generateRecursoContent(recurso);
-  const url = `https://clinera.io/recursos/${slug}`;
+  const url = `https://www.clinera.io/recursos/${slug}`;
   return {
     title: content.metaTitle,
     description: content.metaDescription,
@@ -64,7 +64,7 @@ export default async function RecursoPage({
 
   const content = generateRecursoContent(recurso);
   const topicLabel = TOPIC_LABELS[recurso.topic];
-  const url = `https://clinera.io/recursos/${slug}`;
+  const url = `https://www.clinera.io/recursos/${slug}`;
 
   const articleLd = {
     "@context": "https://schema.org",
@@ -75,8 +75,8 @@ export default async function RecursoPage({
     datePublished: recurso.publishedAt,
     dateModified: recurso.updatedAt || recurso.publishedAt,
     author: { "@type": "Organization", name: "Clinera" },
-    publisher: { "@id": "https://clinera.io/#organization" },
-    image: "https://clinera.io/images/og-banner.png",
+    publisher: { "@id": "https://www.clinera.io/#organization" },
+    image: "https://www.clinera.io/images/og-banner.png",
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     inLanguage: recurso.countryCode === "CL" ? "es-CL" : recurso.countryCode === "PE" ? "es-PE" : "es-CO",
     about: {
@@ -92,8 +92,8 @@ export default async function RecursoPage({
           orgSchema,
           articleLd,
           breadcrumbSchema([
-            { name: "Inicio", url: "https://clinera.io" },
-            { name: "Recursos", url: "https://clinera.io/recursos" },
+            { name: "Inicio", url: "https://www.clinera.io" },
+            { name: "Recursos", url: "https://www.clinera.io/recursos" },
             { name: content.h1, url },
           ]),
           faqSchema(content.faqs),

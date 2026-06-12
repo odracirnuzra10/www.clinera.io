@@ -35,25 +35,13 @@ const PLANS: Plan[] = [
     undecided: true,
   },
   {
-    id: "p-growth",
-    value: "Growth",
-    name: "Growth",
-    desc: (
-      <>
-        Para clínicas que ya tienen un software de agendamiento. Incluye{" "}
-        <strong>3 usuarios</strong> y <strong>150 conversaciones al mes</strong>.
-      </>
-    ),
-    price: { amount: "US$89", per: "/mes" },
-  },
-  {
     id: "p-conect",
     value: "Conect",
     name: "Conect",
     desc: (
       <>
         Para clínicas que necesitan conectar todo. Incluye{" "}
-        <strong>5 usuarios</strong> y <strong>500 conversaciones al mes</strong>.
+        <strong>3 usuarios</strong> y <strong>~330 atenciones de IA al mes</strong>.
       </>
     ),
     tag: { label: "Más elegido" },
@@ -65,11 +53,24 @@ const PLANS: Plan[] = [
     name: "Advanced",
     desc: (
       <>
-        Para clínicas que necesitan mayor capacidad de IA para responder mensajes.
-        Incluye <strong>15 usuarios</strong> y <strong>2.000 conversaciones al mes</strong>.
+        Para clínicas que ya están creciendo. Incluye <strong>5 usuarios</strong>,{" "}
+        <strong>~500 atenciones de IA al mes</strong> y multisucursal.
       </>
     ),
     price: { amount: "US$179", per: "/mes" },
+  },
+  {
+    id: "p-max",
+    value: "MAX",
+    name: "MAX",
+    desc: (
+      <>
+        Toda la potencia: <strong>15 usuarios</strong>,{" "}
+        <strong>~1.000 atenciones por texto + ~120 por voz al mes</strong>, con LIA y
+        CAMILA.
+      </>
+    ),
+    price: { amount: "US$279", per: "/mes" },
   },
 ];
 

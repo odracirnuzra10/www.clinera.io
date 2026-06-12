@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description:
     "Recibimos tu solicitud. Catalina o Nohelymar te contactará por WhatsApp para coordinar la demo o resolver tus dudas.",
   robots: { index: false, follow: false },
-  alternates: { canonical: "https://clinera.io/gracias" },
+  alternates: { canonical: "https://www.clinera.io/gracias" },
 };
 
 export default function GraciasPage() {

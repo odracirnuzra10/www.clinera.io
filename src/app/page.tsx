@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
 import HomeV3 from "@/components/home-v3/HomeV3";
+import { HOME_FAQ } from "@/content/home-faq";
 
 export const metadata: Metadata = {
   title: "Clinera.io | Tu empleado digital para clínicas · 24/7 por WhatsApp",
   description:
     "No es un chatbot. Es un empleado digital que ejecuta funciones: crea citas, re-agenda, consulta pagos y revisa sesiones. Desde $129 USD/mes. +52 clínicas en Chile y LATAM.",
-  alternates: { canonical: "https://clinera.io/" },
+  alternates: { canonical: "https://www.clinera.io/" },
   openGraph: {
-    url: "https://clinera.io/",
+    url: "https://www.clinera.io/",
     title: "Clinera.io — Tu empleado digital. 24/7. Por WhatsApp.",
     description:
       "AURA agenda, re-agenda, consulta pagos y revisa sesiones. Hace el 100% del trabajo de tu recepcionista. Activa tu clínica en menos de 1 hora.",
@@ -20,8 +21,8 @@ const organizationLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Clinera.io",
-  url: "https://clinera.io",
-  logo: "https://clinera.io/images/brand/clinera-icon-512.png",
+  url: "https://www.clinera.io",
+  logo: "https://www.clinera.io/images/brand/clinera-icon-512.png",
   sameAs: [
     "https://cl.linkedin.com/company/clinera-io",
     "https://www.instagram.com/clinera.io",
@@ -37,19 +38,32 @@ const softwareLd = {
   operatingSystem: "Web, iOS, Android",
   description:
     "Empleado digital con IA para clínicas: agenda, re-agenda, consulta pagos y revisa sesiones por WhatsApp, 24/7. Ejecuta el 100% del trabajo de una recepcionista.",
-  url: "https://clinera.io",
+  url: "https://www.clinera.io",
   offers: {
     "@type": "AggregateOffer",
     lowPrice: "129",
     highPrice: "1500",
     priceCurrency: "USD",
-    offerCount: "3",
+    offerCount: "4",
   },
+  // Fuente única de rating: coherente con "+52 clínicas activas" visible en el sitio
+  // (mismo valor que softwareSchema en src/components/seo/schemas.ts).
   aggregateRating: {
     "@type": "AggregateRating",
-    ratingValue: "4.8",
-    ratingCount: "500",
+    ratingValue: "4.9",
+    reviewCount: "52",
+    bestRating: "5",
   },
+};
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: HOME_FAQ.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
 };
 
 export default function Home() {
@@ -62,6 +76,10 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
 
       <NavV3 />

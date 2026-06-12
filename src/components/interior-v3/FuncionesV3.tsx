@@ -193,7 +193,7 @@ function Hero() {
           <CtaPrimary as={Link} href="/hablar-con-ventas" style={{ padding: "15px 26px", fontSize: 16 }}>
             Hablar con ventas <span>→</span>
           </CtaPrimary>
-          <CtaSecondary as={Link} href="/reunion" style={{ padding: "15px 26px", fontSize: 16 }}>
+          <CtaSecondary as={Link} href="/hablar-con-ventas" style={{ padding: "15px 26px", fontSize: 16 }}>
             <svg
               width="14"
               height="14"

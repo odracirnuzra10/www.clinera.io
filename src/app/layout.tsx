@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import "./fonts.css";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
 import StickyMobileCTA from "@/components/cro/StickyMobileCTA";
 import GclidCapture from "@/components/GclidCapture";
+import SkipLink from "@/components/SkipLink";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://clinera.io"),
+  metadataBase: new URL("https://www.clinera.io"),
   title: {
-    default: "Clinera.io | Software de IA para Clinicas",
+    default: "Clinera.io | Software de IA para Clínicas",
     template: "%s | Clinera.io",
   },
   description:
@@ -31,28 +33,30 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "es_CL",
-    url: "https://clinera.io",
+    url: "https://www.clinera.io",
     siteName: "Clinera.io",
-    title: "Clinera.io | Software de IA para Clinicas",
-    description: "Inteligencia Artificial para tu clinica.",
+    title: "Clinera.io | Software de IA para Clínicas",
+    description:
+      "AURA agenda, re-agenda y atiende pacientes por WhatsApp 24/7. +52 clínicas en LATAM. Desde USD 129/mes, sin permanencia.",
     images: [
       {
         url: "/images/og-banner.png",
         width: 1200,
         height: 630,
-        alt: "Clinera.io - Software de IA para Clinicas",
+        alt: "Clinera.io - Software de IA para Clínicas",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Clinera.io | Software de IA para Clinicas",
-    description: "Inteligencia Artificial para tu clinica.",
+    title: "Clinera.io | Software de IA para Clínicas",
+    description:
+      "AURA agenda, re-agenda y atiende pacientes por WhatsApp 24/7. +52 clínicas en LATAM. Desde USD 129/mes, sin permanencia.",
     images: ["/images/og-banner.png"],
   },
   // icons handled automatically by Next.js (src/app/icon.png + apple-icon.png)
   alternates: {
-    canonical: "https://clinera.io",
+    canonical: "https://www.clinera.io",
   },
   robots: {
     index: true,
@@ -75,15 +79,10 @@ export default function RootLayout({
   return (
     <html lang="es-CL">
       <head>
-        <link rel="llms-txt" href="https://clinera.io/llms.txt" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
+        <link rel="llms-txt" href="https://www.clinera.io/llms.txt" />
       </head>
       <body>
+        <SkipLink />
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-NXT8BGS9"

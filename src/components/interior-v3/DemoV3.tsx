@@ -909,7 +909,7 @@ function DemoFinalCTA() {
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
             <Link
-              href="/reunion"
+              href="/hablar-con-ventas"
               style={{
                 background: "rgba(255,255,255,.1)",
                 color: "#fff",

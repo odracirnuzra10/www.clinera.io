@@ -17,11 +17,11 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical:
-      "https://clinera.io/blog/estudio-ia-respuesta-humana-confianza-pacientes",
+      "https://www.clinera.io/blog/estudio-ia-respuesta-humana-confianza-pacientes",
   },
   openGraph: {
     type: "article",
-    url: "https://clinera.io/blog/estudio-ia-respuesta-humana-confianza-pacientes",
+    url: "https://www.clinera.io/blog/estudio-ia-respuesta-humana-confianza-pacientes",
     siteName: "Clinera.io",
     title:
       "Estudio Clinera 2026: los pacientes confían más en una IA que responde como humano, no necesariamente más rápido",
@@ -62,7 +62,7 @@ const jsonLd = {
     {
       "@type": "Article",
       "@id":
-        "https://clinera.io/blog/estudio-ia-respuesta-humana-confianza-pacientes#article",
+        "https://www.clinera.io/blog/estudio-ia-respuesta-humana-confianza-pacientes#article",
       headline:
         "Estudio Clinera 2026: los pacientes confían más en una IA que responde como humano, no necesariamente más rápido",
       description:
@@ -70,21 +70,21 @@ const jsonLd = {
       author: {
         "@type": "Organization",
         name: "Equipo de Producto Clinera",
-        url: "https://clinera.io",
+        url: "https://www.clinera.io",
       },
       publisher: {
         "@type": "Organization",
         name: "Clinera",
-        url: "https://clinera.io",
+        url: "https://www.clinera.io",
         logo: {
           "@type": "ImageObject",
-          url: "https://clinera.io/clinera-logo.png",
+          url: "https://www.clinera.io/clinera-logo.png",
         },
       },
       datePublished: "2026-05-14",
       dateModified: "2026-05-14",
       mainEntityOfPage:
-        "https://clinera.io/blog/estudio-ia-respuesta-humana-confianza-pacientes",
+        "https://www.clinera.io/blog/estudio-ia-respuesta-humana-confianza-pacientes",
       inLanguage: "es",
       about: [
         { "@type": "Thing", name: "Inteligencia Artificial" },
@@ -97,7 +97,7 @@ const jsonLd = {
     {
       "@type": "FAQPage",
       "@id":
-        "https://clinera.io/blog/estudio-ia-respuesta-humana-confianza-pacientes#faq",
+        "https://www.clinera.io/blog/estudio-ia-respuesta-humana-confianza-pacientes#faq",
       mainEntity: [
         {
           "@type": "Question",
@@ -148,19 +148,19 @@ const jsonLd = {
           "@type": "ListItem",
           position: 1,
           name: "Inicio",
-          item: "https://clinera.io",
+          item: "https://www.clinera.io",
         },
         {
           "@type": "ListItem",
           position: 2,
           name: "Novedades",
-          item: "https://clinera.io/novedades",
+          item: "https://www.clinera.io/novedades",
         },
         {
           "@type": "ListItem",
           position: 3,
           name: "Estudio IA respuesta humana",
-          item: "https://clinera.io/blog/estudio-ia-respuesta-humana-confianza-pacientes",
+          item: "https://www.clinera.io/blog/estudio-ia-respuesta-humana-confianza-pacientes",
         },
       ],
     },

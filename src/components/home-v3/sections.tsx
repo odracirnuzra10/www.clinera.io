@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState, ReactNode } from "react";
 import { CtaPrimary, CtaSecondary, Eyebrow, Mono, GRAD } from "@/components/brand-v3/Brand";
+import { HOME_FAQ } from "@/content/home-faq";
 
 /* ============================================================
    Reveal-on-scroll helper
@@ -655,7 +656,7 @@ export function Features() {
         sectionEyebrow="El equipo IA"
         status={{ kind: "live", label: "Activa ahora" }}
         stat={{ value: "94%", label: "confirmaciones automáticas" }}
-        cta={{ label: "Probar AURA gratis", href: "/planes" }}
+        cta={{ label: "Ver a AURA en acción", href: "/demo" }}
         bg="#fff"
         features={[
           {
@@ -4194,6 +4195,18 @@ export function Pricing() {
                 >
                   Activar plan
                 </a>
+                <div
+                  style={{
+                    textAlign: "center",
+                    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                    fontSize: 11,
+                    letterSpacing: "0.02em",
+                    color: "#3D4250",
+                    marginTop: 2,
+                  }}
+                >
+                  Sin permanencia · Implementación $0 · Cancela cuando quieras
+                </div>
               </div>
             </article>
           ))}
@@ -4382,14 +4395,7 @@ export function Pricing() {
    FAQ
    ============================================================ */
 export function Faq() {
-  const qs = [
-    { q: "¿Necesito cambiar mi número de WhatsApp?", a: "No. Clinera se conecta con tu número actual usando la API oficial de WhatsApp Business. Tus pacientes siguen escribiendo al mismo número de siempre." },
-    { q: "¿Cuánto demora en estar funcionando?", a: "Menos de una hora. Conectas tu WhatsApp, le cargas tu agenda y tus servicios, y AURA empieza a responder el mismo día." },
-    { q: "¿Y si AURA no entiende algo?", a: "Cuando detecta urgencias, reclamos o algo fuera de su alcance, traspasa la conversación a una persona de tu equipo al tiro. Tú decides las reglas." },
-    { q: "¿Puedo cobrar la reserva?", a: "Sí. AURA cobra con WebPay o MercadoPago al confirmar la hora. Esto baja los no-shows hasta un 72% en promedio." },
-    { q: "¿Funciona para clínicas con varios profesionales?", a: "Sí. Conect incluye 3 usuarios, Advanced 5 y MAX hasta 15 profesionales. Para cadenas multi-sede y sin límite de usuarios está el plan Corporativo." },
-    { q: "¿Dónde se guardan los datos de mis pacientes?", a: "Servidores en AWS (Sao Paulo), con cifrado en tránsito y reposo. Cumplimos Ley N° 19.628 de protección de datos en Chile." },
-  ];
+  const qs = HOME_FAQ;
   const [open, setOpen] = useState<number>(0);
   return (
     <section id="faq" style={{ padding: "112px 80px", borderTop: "1px solid #F0F0F0", background: "#fff" }}>

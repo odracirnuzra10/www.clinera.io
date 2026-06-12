@@ -14,10 +14,10 @@ export const metadata: Metadata = {
     "IA clínicas confiable",
     "agente IA agendamiento",
   ],
-  alternates: { canonical: "https://clinera.io/efectividad" },
+  alternates: { canonical: "https://www.clinera.io/efectividad" },
   openGraph: {
     type: "website",
-    url: "https://clinera.io/efectividad",
+    url: "https://www.clinera.io/efectividad",
     siteName: "Clinera.io",
     title: "Efectividad de Clinera — 100% de agendamientos en ≤3 intentos",
     description:
@@ -50,24 +50,24 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "WebPage",
-      "@id": "https://clinera.io/efectividad#webpage",
-      url: "https://clinera.io/efectividad",
+      "@id": "https://www.clinera.io/efectividad#webpage",
+      url: "https://www.clinera.io/efectividad",
       name: "Efectividad de Clinera | 100% de agendamientos exitosos",
       description:
         "Clinera agenda el 95.2% de los pacientes al primer intento y el 100% en máximo tres. Auditado sobre 42 casos y 14 flujos en 3 clínicas reales.",
-      isPartOf: { "@id": "https://clinera.io/#website" },
-      about: { "@id": "https://clinera.io/efectividad#dataset" },
+      isPartOf: { "@id": "https://www.clinera.io/#website" },
+      about: { "@id": "https://www.clinera.io/efectividad#dataset" },
       inLanguage: "es",
     },
     {
       "@type": "Dataset",
-      "@id": "https://clinera.io/efectividad#dataset",
+      "@id": "https://www.clinera.io/efectividad#dataset",
       name: "Clinera LangGraph Agent Evals — 2026-04-22",
       description:
         "Suite end-to-end de evals del agente de agendamiento de Clinera contra 3 clínicas reales. 42 casos, 14 flujos, métricas pass@k.",
-      creator: { "@type": "Organization", name: "Clinera", url: "https://clinera.io" },
+      creator: { "@type": "Organization", name: "Clinera", url: "https://www.clinera.io" },
       datePublished: "2026-04-22",
-      license: "https://clinera.io/terminos",
+      license: "https://www.clinera.io/terminos",
       variableMeasured: [
         { "@type": "PropertyValue", name: "pass@1", value: "95.2%" },
         { "@type": "PropertyValue", name: "pass@2", value: "97.6%" },
@@ -79,7 +79,7 @@ const jsonLd = {
     },
     {
       "@type": "FAQPage",
-      "@id": "https://clinera.io/efectividad#faq",
+      "@id": "https://www.clinera.io/efectividad#faq",
       mainEntity: [
         {
           "@type": "Question",
@@ -131,8 +131,8 @@ const jsonLd = {
     {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Inicio", item: "https://clinera.io" },
-        { "@type": "ListItem", position: 2, name: "Efectividad", item: "https://clinera.io/efectividad" },
+        { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.clinera.io" },
+        { "@type": "ListItem", position: 2, name: "Efectividad", item: "https://www.clinera.io/efectividad" },
       ],
     },
   ],

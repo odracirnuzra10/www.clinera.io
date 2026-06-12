@@ -29,7 +29,7 @@ const cols: Col[] = [
     l: [
       ["Centro de ayuda", "/ayuda"],
       ["Migrar a Clinera", "/migracion"],
-      ["Agendar reunión", "/reunion"],
+      ["Agendar reunión", "/hablar-con-ventas"],
       ["Hablar con ventas", "/hablar-con-ventas"],
     ],
   },

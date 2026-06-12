@@ -19,10 +19,10 @@ export const metadata: Metadata = {
     "agente IA WhatsApp clínicas",
     "migración software clínica",
   ],
-  alternates: { canonical: "https://clinera.io/migracion" },
+  alternates: { canonical: "https://www.clinera.io/migracion" },
   openGraph: {
     type: "website",
-    url: "https://clinera.io/migracion",
+    url: "https://www.clinera.io/migracion",
     siteName: "Clinera.io",
     title: "Migración a Clinera — una sola plataforma para todo el ciclo del paciente",
     description:
@@ -56,17 +56,17 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "WebPage",
-      "@id": "https://clinera.io/migracion#webpage",
-      url: "https://clinera.io/migracion",
+      "@id": "https://www.clinera.io/migracion#webpage",
+      url: "https://www.clinera.io/migracion",
       name: "Migración a Clinera",
       description:
         "Migra desde AgendaPro, Reservo o Medilink + Vambe.ai a Clinera, un ecosistema único con agenda, agente IA, ficha clínica y atribución de campañas.",
-      isPartOf: { "@id": "https://clinera.io/#website" },
+      isPartOf: { "@id": "https://www.clinera.io/#website" },
       inLanguage: "es",
     },
     {
       "@type": "FAQPage",
-      "@id": "https://clinera.io/migracion#faq",
+      "@id": "https://www.clinera.io/migracion#faq",
       mainEntity: [
         {
           "@type": "Question",
@@ -118,8 +118,8 @@ const jsonLd = {
     {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Inicio", item: "https://clinera.io" },
-        { "@type": "ListItem", position: 2, name: "Migración", item: "https://clinera.io/migracion" },
+        { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.clinera.io" },
+        { "@type": "ListItem", position: 2, name: "Migración", item: "https://www.clinera.io/migracion" },
       ],
     },
   ],

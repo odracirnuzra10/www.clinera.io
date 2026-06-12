@@ -14,11 +14,11 @@ export const metadata: Metadata = {
   title: "Recursos para clínicas — Software, agenda, WhatsApp y fichas",
   description:
     "Comparativas y guías por ciudad para elegir el software clínico correcto. Mejor software, agenda online, WhatsApp e IA, y sistemas de ficha clínica para clínicas en LATAM.",
-  alternates: { canonical: "https://clinera.io/recursos" },
+  alternates: { canonical: "https://www.clinera.io/recursos" },
   openGraph: {
     type: "website",
     locale: "es_CL",
-    url: "https://clinera.io/recursos",
+    url: "https://www.clinera.io/recursos",
     siteName: "Clinera.io",
     title: "Recursos para clínicas — Software, agenda, WhatsApp y fichas",
     description:
@@ -42,7 +42,7 @@ export default function RecursosIndexPage() {
     itemListElement: publishedRecursos.map((r, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      url: `https://clinera.io/recursos/${r.slug}`,
+      url: `https://www.clinera.io/recursos/${r.slug}`,
       name: `${TOPIC_LABELS[r.topic]} en ${r.ciudad}`,
     })),
   };
@@ -53,8 +53,8 @@ export default function RecursosIndexPage() {
         data={[
           orgSchema,
           breadcrumbSchema([
-            { name: "Inicio", url: "https://clinera.io" },
-            { name: "Recursos", url: "https://clinera.io/recursos" },
+            { name: "Inicio", url: "https://www.clinera.io" },
+            { name: "Recursos", url: "https://www.clinera.io/recursos" },
           ]),
           itemListLd,
         ]}

@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   title: "Política de Privacidad — Clinera.io",
   description:
     "Política de privacidad de Clinera.io. Cómo recopilamos, usamos y protegemos tu información personal, incluidos los servicios de inteligencia artificial.",
-  alternates: { canonical: "https://clinera.io/privacidad" },
+  alternates: { canonical: "https://www.clinera.io/privacidad" },
   openGraph: {
-    url: "https://clinera.io/privacidad",
+    url: "https://www.clinera.io/privacidad",
     title: "Política de Privacidad — Clinera.io",
     description:
       "Cómo recopilamos, usamos y protegemos tu información personal en Clinera.io.",

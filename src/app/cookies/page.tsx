@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   title: "Política de Cookies — Clinera.io",
   description:
     "Cómo usa Clinera.io las cookies en su sitio web: tipos de cookies, finalidades, terceros, base legal y cómo gestionarlas.",
-  alternates: { canonical: "https://clinera.io/cookies" },
+  alternates: { canonical: "https://www.clinera.io/cookies" },
   openGraph: {
-    url: "https://clinera.io/cookies",
+    url: "https://www.clinera.io/cookies",
     title: "Política de Cookies — Clinera.io",
     description:
       "Tipos de cookies que usamos, finalidades, terceros y cómo gestionarlas.",

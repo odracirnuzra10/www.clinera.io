@@ -50,7 +50,7 @@ const eventJsonLd = {
   organizer: {
     "@type": "Organization",
     name: "Clinera.io",
-    url: "https://clinera.io",
+    url: "https://www.clinera.io",
   },
   offers: {
     "@type": "Offer",
@@ -65,8 +65,8 @@ const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://clinera.io/" },
-    { "@type": "ListItem", position: 2, name: "Webinars", item: "https://clinera.io/webinars" },
+    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.clinera.io/" },
+    { "@type": "ListItem", position: 2, name: "Webinars", item: "https://www.clinera.io/webinars" },
   ],
 };
 

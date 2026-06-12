@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   title: "Términos y Condiciones — Clinera.io",
   description:
     "Términos y condiciones de uso de Clinera.io. Derechos y obligaciones al usar nuestro software, licencia, privacidad, pagos y jurisdicción.",
-  alternates: { canonical: "https://clinera.io/terminos" },
+  alternates: { canonical: "https://www.clinera.io/terminos" },
   openGraph: {
-    url: "https://clinera.io/terminos",
+    url: "https://www.clinera.io/terminos",
     title: "Términos y Condiciones — Clinera.io",
     description:
       "Derechos y obligaciones al usar el software Clinera.",

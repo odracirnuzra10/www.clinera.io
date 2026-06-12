@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   title: "Funciones — Software clínico con IA",
   description:
     "Agenda inteligente, AURA (IA conversacional 24/7), ficha clínica digital, mensajería omnicanal, ventas trazables y marketing con atribución. Todas las funciones de Clinera.",
-  alternates: { canonical: "https://clinera.io/funciones" },
-  openGraph: { url: "https://clinera.io/funciones" },
+  alternates: { canonical: "https://www.clinera.io/funciones" },
+  openGraph: { url: "https://www.clinera.io/funciones" },
 };
 
 export default function FuncionesPage() {

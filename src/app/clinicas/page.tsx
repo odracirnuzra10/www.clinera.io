@@ -10,11 +10,11 @@ export const metadata: Metadata = {
   title: "Clínicas con Clinera — Agenda por WhatsApp 24/7",
   description:
     "Directorio público de clínicas que usan Clinera para agendar pacientes por WhatsApp con IA. Estética, medicina regenerativa, salud metabólica en LATAM.",
-  alternates: { canonical: "https://clinera.io/clinicas" },
+  alternates: { canonical: "https://www.clinera.io/clinicas" },
   openGraph: {
     type: "website",
     locale: "es_CL",
-    url: "https://clinera.io/clinicas",
+    url: "https://www.clinera.io/clinicas",
     siteName: "Clinera.io",
     title: "Clínicas con Clinera — Agenda por WhatsApp 24/7",
     description:
@@ -44,7 +44,7 @@ export default function ClinicasIndexPage() {
     itemListElement: visible.map((c, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      url: `https://clinera.io/clinicas/${c.slug}`,
+      url: `https://www.clinera.io/clinicas/${c.slug}`,
       name: c.nombre,
     })),
   };
@@ -55,8 +55,8 @@ export default function ClinicasIndexPage() {
         data={[
           orgSchema,
           breadcrumbSchema([
-            { name: "Inicio", url: "https://clinera.io" },
-            { name: "Clínicas", url: "https://clinera.io/clinicas" },
+            { name: "Inicio", url: "https://www.clinera.io" },
+            { name: "Clínicas", url: "https://www.clinera.io/clinicas" },
           ]),
           itemListLd,
         ]}
