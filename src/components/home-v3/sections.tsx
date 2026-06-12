@@ -3689,7 +3689,6 @@ export function Pricing() {
       ],
       features: [
         "1.000 conversaciones / 80 agendamientos al mes",
-        "10.000 créditos IA (consumo técnico)",
         "3 usuarios incluidos",
       ],
       modos: ["Eficiente", "Agentic"],
@@ -3708,7 +3707,6 @@ export function Pricing() {
       headline: "Todo de Conect, más",
       features: [
         "1.500 conversaciones / 150 agendamientos al mes",
-        "15.000 créditos IA (consumo técnico)",
         "5 usuarios / profesionales",
         "Multisucursal",
       ],
@@ -3731,7 +3729,6 @@ export function Pricing() {
       features: [
         "3.200 conversaciones / 500 agendamientos al mes",
         "~120 llamadas de voz (CAMILA) al mes",
-        "28.000 créditos IA (consumo técnico)",
         "Multisucursal",
         "Webhooks + API pública",
         "15 usuarios / profesionales",

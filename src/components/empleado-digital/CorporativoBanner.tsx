@@ -90,7 +90,7 @@ export default function CorporativoBanner() {
             }}
           >
             Todo de Advanced + onboarding white-glove + SLA personalizado + integraciones a
-            medida + soporte dedicado + facturación adaptada. Créditos custom según volumen.
+            medida + soporte dedicado + facturación adaptada. Capacidad a medida según tu volumen.
           </p>
         </div>
         <div

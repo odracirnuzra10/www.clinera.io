@@ -14,7 +14,6 @@ const PLANS = [
     tagline: "AURA por WhatsApp 24/7 + módulo clínico, con agendamiento automático.",
     features: [
       "1.000 conversaciones / 80 agendamientos al mes",
-      "10.000 créditos IA (consumo técnico)",
       "Con modo automático de agendamiento",
       "3 usuarios incluidos",
     ],
@@ -29,7 +28,6 @@ const PLANS = [
     tagline: "Más capacidad y más equipo para clínicas que ya están creciendo.",
     features: [
       "1.500 conversaciones / 150 agendamientos al mes",
-      "15.000 créditos IA (consumo técnico)",
       "Con modo automático de agendamiento",
       "5 usuarios / profesionales",
       "Multisucursal",
@@ -47,7 +45,6 @@ const PLANS = [
     features: [
       "3.200 conversaciones / 500 agendamientos al mes",
       "~120 llamadas de voz (CAMILA) al mes",
-      "28.000 créditos IA (consumo técnico)",
       "Multisucursal",
       "Webhooks + API pública",
       "15 usuarios / profesionales",
@@ -812,7 +809,7 @@ function PlansSection() {
           style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, maxWidth: 980, margin: "48px auto 0" }}
         >
           {[
-            { price: "$100", unit: "única vez", label: "Add-on de créditos IA", sub: "~300 conversaciones por texto o ~50 llamadas de voz" },
+            { price: "$100", unit: "única vez", label: "Add-on de conversaciones", sub: "~300 conversaciones por texto o ~50 llamadas de voz" },
             { price: "$9", unit: "/mes", label: "Profesional o usuario extra", sub: "" },
             { price: "$21", unit: "/mes", label: "Módulo Odontograma", sub: "" },
           ].map((it) => (
