@@ -13,7 +13,7 @@ const PLANS = [
     price: "129",
     tagline: "AURA por WhatsApp 24/7 + módulo clínico, con agendamiento automático.",
     features: [
-      "1.000 conversaciones / 120 agendamientos al mes",
+      "1.000 conversaciones / 80 agendamientos al mes",
       "10.000 créditos IA (consumo técnico)",
       "Con modo automático de agendamiento",
       "3 usuarios incluidos",
@@ -28,7 +28,7 @@ const PLANS = [
     price: "179",
     tagline: "Más capacidad y más equipo para clínicas que ya están creciendo.",
     features: [
-      "1.500 conversaciones / 300 agendamientos al mes",
+      "1.500 conversaciones / 150 agendamientos al mes",
       "15.000 créditos IA (consumo técnico)",
       "Con modo automático de agendamiento",
       "5 usuarios / profesionales",
@@ -45,7 +45,7 @@ const PLANS = [
     tagline: "Toda la potencia: LIA orquesta y CAMILA llama por voz. Para clínicas que escalan.",
     popular: true,
     features: [
-      "3.200 conversaciones / 700 agendamientos al mes",
+      "3.200 conversaciones / 500 agendamientos al mes",
       "~120 llamadas de voz (CAMILA) al mes",
       "28.000 créditos IA (consumo técnico)",
       "Multisucursal",

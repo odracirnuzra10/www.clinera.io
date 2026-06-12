@@ -3688,7 +3688,7 @@ export function Pricing() {
         { t: "Módulo Clínico", ok: true },
       ],
       features: [
-        "1.000 conversaciones / 120 agendamientos al mes",
+        "1.000 conversaciones / 80 agendamientos al mes",
         "10.000 créditos IA (consumo técnico)",
         "3 usuarios incluidos",
       ],
@@ -3707,7 +3707,7 @@ export function Pricing() {
       ],
       headline: "Todo de Conect, más",
       features: [
-        "1.500 conversaciones / 300 agendamientos al mes",
+        "1.500 conversaciones / 150 agendamientos al mes",
         "15.000 créditos IA (consumo técnico)",
         "5 usuarios / profesionales",
         "Multisucursal",
@@ -3729,7 +3729,7 @@ export function Pricing() {
       ],
       headline: "Todo de Advanced, más",
       features: [
-        "3.200 conversaciones / 700 agendamientos al mes",
+        "3.200 conversaciones / 500 agendamientos al mes",
         "~120 llamadas de voz (CAMILA) al mes",
         "28.000 créditos IA (consumo técnico)",
         "Multisucursal",

@@ -494,8 +494,8 @@ export default function CalculadoraDeConsumoPage() {
                 USD $50 / recarga
               </div>
               <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.55)", margin: 0 }}>
-                Equivale hasta ~500 conversaciones extra en Eficiente · ~170 en
-                Agentic · ~140 en Agentic Pro · ~50 llamadas de voz (CAMILA).
+                Equivale a 500 conversaciones, 80 agendamientos o 50 llamadas
+                de voz (CAMILA).
               </p>
             </div>
           </div>

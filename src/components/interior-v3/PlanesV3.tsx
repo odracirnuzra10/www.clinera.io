@@ -208,7 +208,7 @@ function PlanVideoModal({ open, onClose }: { open: boolean; onClose: () => void 
 
 function Addons() {
   const items = [
-    { price: "$50", unit: "única vez", label: "Add-on de créditos IA",  sub: "+5.000 créditos IA: ~500 conversaciones en Eficiente · ~170 en Agentic · ~50 llamadas de voz. Recarga opcional cuando agotas tus créditos del mes." },
+    { price: "$50", unit: "única vez", label: "Add-on de créditos IA",  sub: "+5.000 créditos IA: 500 conversaciones / 80 agendamientos / 50 llamadas de voz. Recarga opcional cuando agotas tus créditos del mes." },
     { price: "$9",  unit: "/mes", label: "Usuario / profesional extra", sub: "Suma asientos sin cambiar de plan" },
     { price: "$21", unit: "/mes", label: "Módulo Odontograma",          sub: "Ficha odontológica visual + historial dental", isNew: true },
   ];

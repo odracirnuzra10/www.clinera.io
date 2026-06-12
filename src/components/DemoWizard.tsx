@@ -41,7 +41,7 @@ const PLANS: Plan[] = [
     desc: (
       <>
         Para clínicas que necesitan conectar todo. Incluye{" "}
-        <strong>3 usuarios</strong> y <strong>1.000 conversaciones / 120 agendamientos al mes</strong>.
+        <strong>3 usuarios</strong> y <strong>1.000 conversaciones / 80 agendamientos al mes</strong>.
       </>
     ),
     tag: { label: "Más elegido" },
@@ -54,7 +54,7 @@ const PLANS: Plan[] = [
     desc: (
       <>
         Para clínicas que ya están creciendo. Incluye <strong>5 usuarios</strong>,{" "}
-        <strong>1.500 conversaciones / 300 agendamientos al mes</strong> y multisucursal.
+        <strong>1.500 conversaciones / 150 agendamientos al mes</strong> y multisucursal.
       </>
     ),
     price: { amount: "US$179", per: "/mes" },
@@ -66,7 +66,7 @@ const PLANS: Plan[] = [
     desc: (
       <>
         Toda la potencia: <strong>15 usuarios</strong>,{" "}
-        <strong>3.200 conversaciones / 700 agendamientos + ~120 llamadas de voz al mes</strong>, con LIA y
+        <strong>3.200 conversaciones / 500 agendamientos + ~120 llamadas de voz al mes</strong>, con LIA y
         CAMILA.
       </>
     ),
