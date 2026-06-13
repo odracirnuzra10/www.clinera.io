@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { getClineraMetaIds } from "@/lib/metaIds";
 
 // ============== SHARED CONSTANTS ==============
 const GRAD = "linear-gradient(135deg,#3B82F6 0%,#7C3AED 50%,#D946EF 100%)";
@@ -579,6 +580,9 @@ async function submitPartialLead({
     action_source: "website",
     fbp,
     fbc,
+    // Identificadores de Meta para CAPI (meta_fbc / meta_fbp / fbclid) — los lee
+    // n8n. Capturados en el pageview inicial y persistidos en sessionStorage.
+    ...getClineraMetaIds(),
     client_user_agent: typeof navigator !== "undefined" ? navigator.userAgent : "",
 
     booking_status: "pending",
@@ -671,6 +675,9 @@ async function submitBookingConfirmation({
     parent_event_id: leadCtx?.eventId ?? null,
     event_time: Math.floor(Date.now() / 1000),
     booking_status: "confirmed",
+
+    // Identificadores de Meta para CAPI (meta_fbc / meta_fbp / fbclid)
+    ...getClineraMetaIds(),
 
     // Datos del calendario (Cal.com)
     cal_booking_uid: booking?.booking?.uid ?? null,

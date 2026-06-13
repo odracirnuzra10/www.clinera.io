@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { captureGclid, withStripeAttribution } from "@/lib/gclid";
+import { captureClineraMetaIds } from "@/lib/metaIds";
 
 // Componente invisible montado en layout.tsx. Hace dos cosas:
 //
@@ -20,6 +21,9 @@ import { captureGclid, withStripeAttribution } from "@/lib/gclid";
 export default function GclidCapture() {
   useEffect(() => {
     captureGclid();
+    // Captura identificadores de Meta (fbclid / _fbp / _fbc) en el primer
+    // pageview y los persiste en sessionStorage para el POST del wizard (CAPI).
+    captureClineraMetaIds();
 
     function onClick(ev: MouseEvent) {
       const target = ev.target as HTMLElement | null;
