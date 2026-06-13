@@ -3,18 +3,16 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { track } from "@/lib/tracking";
 
-type Mode = "eficiente" | "agentic" | "flash";
+type Mode = "eficiente" | "agentic";
 
 const CRED_PER_ATT: Record<Mode, number> = {
   eficiente: 10,
-  agentic: 30,
-  flash: 36,
+  agentic: 195,
 };
 
 const MODE_META: Record<Mode, { name: string; from: string }> = {
   eficiente: { name: "Eficiente", from: "Plan Conect" },
   agentic: { name: "Agentic", from: "Plan Conect" },
-  flash: { name: "Agentic Pro", from: "Plan MAX" },
 };
 
 const ADDON_CRED = 5000;
@@ -32,7 +30,7 @@ type Plan = {
 const PLANS: Plan[] = [
   { id: "conect", name: "Conect", price: 129, credits: 10000, users: 3, modes: ["eficiente", "agentic"] },
   { id: "advanced", name: "Advanced", price: 179, credits: 15000, users: 5, modes: ["eficiente", "agentic"] },
-  { id: "max", name: "MAX", price: 279, credits: 28000, users: 15, modes: ["eficiente", "agentic", "flash"] },
+  { id: "max", name: "MAX", price: 279, credits: 28000, users: 15, modes: ["eficiente", "agentic"] },
 ];
 
 const PRESETS = [
@@ -176,7 +174,7 @@ export default function ConsumptionCalculator() {
               marginBottom: 28,
             }}
           >
-            {(["eficiente", "agentic", "flash"] as Mode[]).map((m) => {
+            {(["eficiente", "agentic"] as Mode[]).map((m) => {
               const active = m === mode;
               const meta = MODE_META[m];
               return (

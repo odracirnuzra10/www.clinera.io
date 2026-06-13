@@ -189,8 +189,7 @@ export default function CalculadoraDeConsumoPage() {
         {/* ─────────────────────── 02 · MODOS ─────────────────────── */}
         <NumberedSection num="02" title="Modos de agendamiento">
           <p style={paragraphStyle}>
-            Clinera ofrece tres modos de IA. Cada uno tiene un perfil distinto
-            de consumo y disponibilidad según el plan contratado.
+            Clinera ofrece dos modos de agendamiento, Manual y Automático.
           </p>
 
           <div
@@ -206,22 +205,15 @@ export default function CalculadoraDeConsumoPage() {
               consumption="~10"
               model="Gemini 3.0 Flash"
               available="Plan Conect"
-              description="Optimizado para tareas simples y respuestas rápidas. Ideal para confirmar citas y responder FAQ."
+              description="En modo manual o eficiente, la IA responde, hace preguntas y entrega un link de agendamiento para que el mismo usuario se agende."
             />
             <ModeCard
               name="Agentic"
-              consumption="~30"
+              consumption="~195"
               model="Kimi K2.6"
               available="Plan Conect"
-              description="El balance ideal entre razonamiento y costo. Maneja flujos completos de agendamiento, reagendamiento y triage."
+              description="En modo automático o agéntico, la IA hace todo sola: te hace preguntas, te ofrece disponibilidad real del sistema y te agenda la hora directamente."
               recommended
-            />
-            <ModeCard
-              name="Agentic Pro"
-              consumption="~36"
-              model="Gemini 3.5 Flash (high-speed, 289 tok/s)"
-              available="Solo plan MAX"
-              description="Máxima velocidad de razonamiento. Para flujos con muchos tool calls y respuestas inmediatas a alto volumen."
             />
           </div>
         </NumberedSection>
@@ -374,8 +366,7 @@ export default function CalculadoraDeConsumoPage() {
         <NumberedSection num="04" title="Equivalencias: planes × modos">
           <p style={paragraphStyle}>
             Cuántas conversaciones puedes cubrir al mes con la bolsa de créditos
-            de cada plan, según el modo que actives. La celda destacada marca
-            el modo <em>default</em> del plan.
+            de cada plan, según el modo que actives.
           </p>
 
           <div style={{ overflowX: "auto", marginTop: 28 }}>
@@ -393,32 +384,28 @@ export default function CalculadoraDeConsumoPage() {
                   <th style={thStyle}>Plan</th>
                   <th style={thStyle}>Eficiente</th>
                   <th style={thStyle}>Agentic</th>
-                  <th style={thStyle}>Agentic Pro</th>
                 </tr>
               </thead>
               <tbody>
                 <PlanRow
                   plan="Conect"
                   cells={[
-                    { text: "hasta 1.000" },
-                    { text: "hasta 330", isDefault: true },
-                    { text: "no disponible" },
+                    { text: "~1.000 atenciones" },
+                    { text: "~50 atenciones", isDefault: true },
                   ]}
                 />
                 <PlanRow
                   plan="Advanced"
                   cells={[
-                    { text: "hasta 1.500" },
-                    { text: "hasta 500", isDefault: true },
-                    { text: "no disponible" },
+                    { text: "~1.500 atenciones" },
+                    { text: "~77 atenciones", isDefault: true },
                   ]}
                 />
                 <PlanRow
                   plan="MAX"
                   cells={[
-                    { text: "hasta 2.800" },
-                    { text: "hasta 930" },
-                    { text: "hasta 780", isDefault: true },
+                    { text: "~2.800 atenciones" },
+                    { text: "~145 atenciones", isDefault: true },
                   ]}
                 />
               </tbody>
@@ -435,9 +422,7 @@ export default function CalculadoraDeConsumoPage() {
               lineHeight: 1.55,
             }}
           >
-            La celda destacada en cada fila marca el modo <em>default</em> del
-            plan. Los números usan una calibración conservadora con ~30% de
-            margen de seguridad.
+            * Según conversación estándar de 5 a 6 preguntas y respuestas.
           </p>
         </NumberedSection>
 
