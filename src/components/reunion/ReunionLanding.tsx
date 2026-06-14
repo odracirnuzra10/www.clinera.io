@@ -543,12 +543,13 @@ async function submitPartialLead({
   const digits = form.phone.replace(/\D/g, "");
   const migrationMeta = getMigrationMeta(migrationIntent ?? null);
 
-  // Fire Pixel Lead — el lead está calificado: nombre + clínica + tel + email.
-  // El booking en Cal.com es un upgrade adicional, no un requisito para considerarlo lead.
+  // Fire Pixel MQL — el lead está calificado: nombre + clínica + tel + email.
+  // El booking en Cal.com es un upgrade adicional, no un requisito para considerarlo MQL.
+  // Mismo eventID que va al webhook n8n → dedup con el evento server-side MQL (CAPI).
   if (typeof window !== "undefined" && typeof window.fbq === "function") {
     window.fbq(
       "track",
-      "Lead",
+      "MQL",
       {
         content_name: "Clinera Reunion Organico",
         content_category: "booking",
