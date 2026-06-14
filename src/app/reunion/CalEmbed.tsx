@@ -100,12 +100,6 @@ export default function CalEmbed() {
               content_name: 'Cal - Reunión Marketing',
               content_category: 'booking',
             });
-            window.fbq('track', 'Lead', {
-              content_name: 'Cal - Reunión Marketing',
-              content_category: 'booking',
-              currency: 'USD',
-              value: 0,
-            });
           }
         }
       } catch {
