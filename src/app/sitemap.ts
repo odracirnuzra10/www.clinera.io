@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Core product
     { url: `${baseUrl}/funciones`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${baseUrl}/planes`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${baseUrl}/planes-pro`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${baseUrl}/demo`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${baseUrl}/inicia`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${baseUrl}/reunion-comercial`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
