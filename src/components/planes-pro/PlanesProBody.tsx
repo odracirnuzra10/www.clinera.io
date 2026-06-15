@@ -106,9 +106,9 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
         </p>
         <div className="reveal" style={{ display: "grid", gap: 12, marginTop: 18 }}>
           {[
-            { plan: "Conect", cr: 10000, ef: 1000, ag: 51 },
-            { plan: "Advanced", cr: 15000, ef: 1500, ag: 77 },
-            { plan: "MAX", cr: 28000, ef: 2800, ag: 144 },
+            { plan: "Conect", cr: 10000, ef: 1000, ag: 80 },
+            { plan: "Advanced", cr: 15000, ef: 1500, ag: 150 },
+            { plan: "MAX", cr: 28000, ef: 2800, ag: 500 },
           ].map((row) => (
             <div key={row.plan} style={{ border: `1px solid ${BORDER}`, borderRadius: 18, padding: "20px 22px", background: "#fff", boxShadow: "0 4px 24px rgba(0,0,0,.03)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: 8 }}>
@@ -116,16 +116,18 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
                 <span style={{ fontFamily: MONO, fontSize: 14, color: MUTED }}>{fmt(row.cr)} créditos / mes</span>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 14 }}>
-                <Gauge label="Eficiente" big={`~${fmt(row.ef)}`} unit="conversaciones" pct={100} color={GREEN} />
-                <Gauge label="Agentic" big={`~${fmt(row.ag)}`} unit="conversaciones" pct={Math.round((row.ag / row.ef) * 100)} color={ACCENT} />
+                <Gauge label="Eficiente" big={`~${fmt(row.ef)}`} unit="conversaciones" pct={Math.round((row.ef / 2800) * 100)} color={GREEN} />
+                <Gauge label="Agentic" big={`~${fmt(row.ag)}`} unit="agendamientos" pct={Math.round((row.ag / 500) * 100)} color={ACCENT} />
               </div>
             </div>
           ))}
         </div>
         <p style={footnote}>
-          MAX: 28.000 créditos equivalen a ~2.800 conversaciones Eficientes; la cifra publicada de
-          ~3.200 es solo orientativa <strong style={{ color: MUTED }}>[CONFIRMAR cuál publicar]</strong>.
-          La fuente de verdad son los créditos — usa la calculadora para tu caso.
+          Eficiente = conversaciones simples (créditos ÷ ~10). Agentic = agendamientos que la IA
+          agenda sola, con el tope publicado por plan (80 / 150 / 500); un agendamiento directo es
+          más liviano que una conversación Agentic compleja (~195 cr). En MAX, ~2.800 conversaciones
+          Eficientes — la cifra publicada de ~3.200 es orientativa{" "}
+          <strong style={{ color: MUTED }}>[CONFIRMAR cuál publicar]</strong>. Usa la calculadora para tu mezcla real.
         </p>
       </Section>
 
