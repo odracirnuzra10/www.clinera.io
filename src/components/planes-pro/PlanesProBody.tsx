@@ -134,14 +134,13 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
           <Eyebrow style={{ color: ACCENT }}>Los planes, con créditos a la vista</Eyebrow>
           <p style={{ fontFamily: MONO, fontSize: 13.5, color: MUTED, marginTop: 14, lineHeight: 1.6 }}>
-            Cada plan trae su bolsa mensual de créditos:{" "}
-            <strong style={{ color: INK }}>Conect 10.000</strong> ·{" "}
-            <strong style={{ color: INK }}>Advanced 15.000</strong> ·{" "}
-            <strong style={{ color: INK }}>MAX 28.000</strong>. Abajo, los planes completos.
+            Cada plan trae su bolsa mensual de créditos —{" "}
+            <strong style={{ color: INK }}>visible en cada tarjeta</strong>. Esa es la fuente de
+            verdad; las conversaciones de referencia son orientativas.
           </p>
         </div>
       </div>
-      <Pricing />
+      <Pricing showCredits />
 
       {/* ─────────────────── 4 · CALCULADORA ─────────────────── */}
       <ConsumoCalculator />

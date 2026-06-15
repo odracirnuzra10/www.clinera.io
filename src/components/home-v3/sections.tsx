@@ -3676,12 +3676,13 @@ export function Testimonios() {
    ============================================================ */
 type Agent = { id: "aura" | "lia" | "camila"; name: string; soon?: boolean };
 
-export function Pricing() {
+export function Pricing({ showCredits = false }: { showCredits?: boolean } = {}) {
   const plans = [
     {
       name: "Conect",
       price: "$129",
       perAppt: "$0.13",
+      credits: "10.000",
       sub: "AURA por WhatsApp 24/7 + módulo clínico, con agendamiento automático.",
       tags: [
         { t: "Agente IA", ok: true },
@@ -3699,6 +3700,7 @@ export function Pricing() {
       name: "Advanced",
       price: "$179",
       perAppt: "$0.12",
+      credits: "15.000",
       sub: "Más capacidad y más equipo para clínicas que ya están creciendo.",
       tags: [
         { t: "Agente IA", ok: true },
@@ -3718,6 +3720,7 @@ export function Pricing() {
       name: "MAX",
       price: "$279",
       perAppt: "$0.09",
+      credits: "28.000",
       sub: "Toda la potencia: LIA orquesta y CAMILA llama por voz. Para clínicas que escalan.",
       featured: true,
       bestValue: true,
@@ -3951,6 +3954,44 @@ export function Pricing() {
                   {p.headline || "Incluye"}
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
+                  {showCredits && p.credits && (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "baseline",
+                        gap: 8,
+                        padding: "11px 13px",
+                        marginBottom: 4,
+                        background: p.featured ? "rgba(124,58,237,.05)" : "#F7F6F3",
+                        border: "1px solid " + (p.featured ? "rgba(124,58,237,.18)" : "#E5E7EB"),
+                        borderRadius: 10,
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                          fontSize: 18,
+                          fontWeight: 700,
+                          color: "#0A0A0A",
+                          letterSpacing: "-0.01em",
+                        }}
+                      >
+                        {p.credits}
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                          fontSize: 10.5,
+                          fontWeight: 500,
+                          letterSpacing: "0.1em",
+                          textTransform: "uppercase",
+                          color: "#6B7280",
+                        }}
+                      >
+                        créditos / mes
+                      </span>
+                    </div>
+                  )}
                   {p.features.map((f, i) => (
                     <div
                       key={i}
