@@ -13,6 +13,7 @@ import {
   breadcrumbSchema,
   faqSchema,
   orgSchema,
+  videoObjectSchema,
 } from "@/components/seo/schemas";
 import { allPosts, getPostBySlug, getRelatedPosts } from "@/content/posts";
 import styles from "./blog-post.module.css";
@@ -95,6 +96,19 @@ export default async function BlogPostPage({
             { name: post.title, url },
           ]),
           ...(post.faq && post.faq.length > 0 ? [faqSchema(post.faq)] : []),
+          ...(post.video
+            ? [
+                videoObjectSchema({
+                  name: post.video.name,
+                  description: post.video.description,
+                  thumbnailUrl:
+                    post.video.thumbnailUrl ??
+                    `https://vumbnail.com/${post.video.id}.jpg`,
+                  uploadDate: post.video.uploadDate ?? post.publishedAt,
+                  embedUrl: `https://player.vimeo.com/video/${post.video.id}`,
+                }),
+              ]
+            : []),
         ]}
       />
 

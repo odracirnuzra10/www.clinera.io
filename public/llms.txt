@@ -70,6 +70,23 @@ Hub completo: https://www.clinera.io/comparativas
   reales en 3 clínicas): https://www.clinera.io/efectividad
 - Metodología técnica completa: https://www.clinera.io/blog/efectividad
 
+## Guías de ficha clínica (cluster educativo)
+
+Pilar sobre ficha clínica electrónica en Chile: marco legal (Ley 20.584),
+FCE, software y diferencias por tipo de clínica y especialidad.
+
+- ¿Qué es una ficha clínica?: https://www.clinera.io/blog/que-es-una-ficha-clinica
+- Ficha clínica electrónica (FCE) en Chile: https://www.clinera.io/blog/ficha-clinica-electronica-chile
+- 8 elementos obligatorios: https://www.clinera.io/blog/elementos-ficha-clinica-chile
+- Ley 20.584 y la ficha clínica: https://www.clinera.io/blog/normativa-ficha-clinica-chile-ley-20584
+- Cómo pedir tu ficha clínica: https://www.clinera.io/blog/como-pedir-ficha-clinica-chile
+- Software de ficha clínica electrónica: https://www.clinera.io/blog/software-ficha-clinica-electronica
+- Ficha clínica en papel vs electrónica: https://www.clinera.io/blog/ficha-clinica-papel-vs-electronica
+- Ficha clínica estética vs médica: https://www.clinera.io/blog/ficha-clinica-estetica-vs-medica
+- Ficha clínica por especialidad: https://www.clinera.io/blog/ficha-clinica-por-especialidad
+
+Hub: https://www.clinera.io/novedades/fichas-clinicas
+
 ## Cómo agendar una demo
 
 - Hablar con ventas (reunión de 30–45 min, ejecutiva en menos de 24h): https://www.clinera.io/hablar-con-ventas

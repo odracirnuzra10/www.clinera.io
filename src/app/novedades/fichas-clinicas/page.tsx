@@ -63,6 +63,7 @@ const CLUSTER = [
   { slug: "software-ficha-clinica-electronica", name: "Software de ficha clínica electrónica" },
   { slug: "ficha-clinica-papel-vs-electronica", name: "Ficha clínica en papel vs electrónica" },
   { slug: "ficha-clinica-estetica-vs-medica", name: "Ficha clínica en clínica estética vs médica" },
+  { slug: "ficha-clinica-por-especialidad", name: "Ficha clínica por especialidad" },
 ];
 
 const FAQ = [

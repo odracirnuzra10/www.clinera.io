@@ -20,6 +20,16 @@ export type PostFrontmatter = {
   relatedComparativa?: string;
   // FAQ embebido en frontmatter (opcional, para FAQPage schema).
   faq?: { q: string; a: string }[];
+  // Video embebido en el post (opcional, para VideoObject schema).
+  // Si falta thumbnailUrl se usa el de Vimeo (vumbnail); si falta uploadDate
+  // se usa publishedAt. El embed visual va en el body con <VimeoEmbed/>.
+  video?: {
+    id: string;
+    name: string;
+    description: string;
+    thumbnailUrl?: string;
+    uploadDate?: string;
+  };
 };
 
 export type Post = PostFrontmatter & {

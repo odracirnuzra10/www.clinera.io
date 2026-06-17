@@ -119,6 +119,25 @@ export const faqSchema = (faqs: { q: string; a: string }[]) => ({
   })),
 });
 
+export const videoObjectSchema = (v: {
+  name: string;
+  description: string;
+  thumbnailUrl: string;
+  uploadDate: string;
+  embedUrl: string;
+  contentUrl?: string;
+}) => ({
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: v.name,
+  description: v.description,
+  thumbnailUrl: v.thumbnailUrl,
+  uploadDate: v.uploadDate,
+  embedUrl: v.embedUrl,
+  ...(v.contentUrl && { contentUrl: v.contentUrl }),
+  publisher: { "@id": `${SITE_URL}/#organization` },
+});
+
 export const breadcrumbSchema = (items: { name: string; url: string }[]) => ({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",

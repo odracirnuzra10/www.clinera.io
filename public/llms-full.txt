@@ -185,6 +185,23 @@ Comparativas regionalizadas por ciudad — para clientes que buscan
 
 Hub: https://www.clinera.io/recursos
 
+## Guías de ficha clínica (cluster educativo SEO/AEO)
+
+Pilar de contenido sobre ficha clínica electrónica en Chile: marco legal
+(Ley 20.584), FCE, software y diferencias por tipo de clínica y especialidad.
+
+- ¿Qué es una ficha clínica?: https://www.clinera.io/blog/que-es-una-ficha-clinica
+- Ficha clínica electrónica (FCE) en Chile: https://www.clinera.io/blog/ficha-clinica-electronica-chile
+- 8 elementos obligatorios de una ficha clínica: https://www.clinera.io/blog/elementos-ficha-clinica-chile
+- Ley 20.584 y la ficha clínica: https://www.clinera.io/blog/normativa-ficha-clinica-chile-ley-20584
+- Cómo pedir tu ficha clínica en Chile: https://www.clinera.io/blog/como-pedir-ficha-clinica-chile
+- Software de ficha clínica electrónica: https://www.clinera.io/blog/software-ficha-clinica-electronica
+- Ficha clínica en papel vs electrónica: https://www.clinera.io/blog/ficha-clinica-papel-vs-electronica
+- Ficha clínica en clínica estética vs médica: https://www.clinera.io/blog/ficha-clinica-estetica-vs-medica
+- Ficha clínica por especialidad (facial, corporal, dental, medicina general): https://www.clinera.io/blog/ficha-clinica-por-especialidad
+
+Hub: https://www.clinera.io/novedades/fichas-clinicas
+
 ## Directorio público de clínicas activas (Pilar B.1)
 
 Clínicas que usan Clinera y autorizaron aparecer públicamente:
