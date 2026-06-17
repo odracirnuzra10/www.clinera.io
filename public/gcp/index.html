@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Migración a Google Cloud — Clinera.io</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #111111; --sub: #6B6B6B; --line: #EAEAEA; --warm: #F7F6F3;
+    --brand: #7C3AED; --canvas: #FFFFFF;
+    --sans: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--canvas); color: var(--ink); font-family: var(--sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+  .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .brand { color: var(--brand); } .ink { color: var(--ink); } .sub { color: var(--sub); }
+  .w600 { font-weight: 600; }
+
+  .nav { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(234,234,234,.8); background: rgba(255,255,255,.72); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+  .nav-in { height: 64px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-mark { height: 28px; width: 28px; border-radius: 999px; background: var(--ink); color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 700; }
+  .logo-text { font-weight: 600; letter-spacing: -.01em; }
+  .nav-right { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--sub); }
+  .pill { border-radius: 999px; background: var(--warm); border: 1px solid var(--line); padding: 4px 10px; font-weight: 500; color: var(--ink); }
+  .dot { height: 4px; width: 4px; border-radius: 999px; background: var(--line); }
+
+  .hero { position: relative; overflow: hidden; }
+  .grain { position: absolute; inset: 0; opacity: .55; background-image: radial-gradient(circle at 1px 1px, rgba(17,17,17,.05) 1px, transparent 0); background-size: 22px 22px; }
+  .hero-in { position: relative; padding: 72px 0 56px; }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--brand); margin-bottom: 20px; }
+  h1 { font-size: clamp(2.1rem, 5.4vw, 3.6rem); font-weight: 800; line-height: 1.05; letter-spacing: -.02em; max-width: 760px; }
+  .uline { position: relative; white-space: nowrap; }
+  .uline svg { position: absolute; left: 0; bottom: -8px; width: 100%; }
+  .lede { margin-top: 22px; font-size: clamp(1.05rem, 1.6vw, 1.2rem); color: var(--sub); max-width: 600px; }
+
+  .strip { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); background: var(--line); }
+  .stat { background: #fff; padding: 24px; }
+  .stat .big { font-size: clamp(1.8rem, 3.2vw, 2.25rem); font-weight: 700; letter-spacing: -.02em; }
+  .stat .big small { font-size: 1rem; color: var(--sub); font-weight: 500; }
+  .stat .cap { margin-top: 6px; font-size: 14px; color: var(--sub); line-height: 1.45; }
+
+  .divider { display: flex; align-items: center; gap: 16px; margin: 4px 0; }
+  .divider .ln { height: 1px; flex: 1; background: var(--line); }
+
+  section.block { padding: 72px 0; }
+  .two-col { display: grid; grid-template-columns: 190px 1fr; gap: 44px; }
+  .step { font-family: var(--mono); font-size: 14px; letter-spacing: .04em; color: var(--brand); }
+  h2 { margin-top: 12px; font-size: clamp(1.45rem, 3vw, 1.9rem); font-weight: 700; line-height: 1.15; letter-spacing: -.02em; }
+  .body-copy { color: var(--sub); font-size: 17px; line-height: 1.7; max-width: 620px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 18px; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; font-size: 13px; font-weight: 500; padding: 4px 12px; }
+  .b-green { background: #EDF3EC; color: #2F6B3A; } .b-blue { background: #E1F3FE; color: #0B5C8A; } .b-amber { background: #FBF3DB; color: #8A6D1A; }
+
+  .warm-bg { background: var(--warm); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+  .card { border-radius: 18px; border: 1px solid var(--line); background: #fff; padding: 28px; }
+  .card .lead { font-size: 17px; line-height: 1.7; color: var(--ink); }
+  .card .lead.muted { color: var(--sub); margin-top: 14px; }
+  .reassure { margin-top: 18px; display: flex; gap: 12px; font-size: 15px; color: var(--sub); line-height: 1.6; }
+  .reassure svg { margin-top: 3px; flex-shrink: 0; }
+
+  .grid2 { margin-top: 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); background: var(--line); }
+  .pillar { background: #fff; padding: 26px; display: flex; gap: 16px; align-items: flex-start; }
+  .picon { flex-shrink: 0; height: 38px; width: 38px; border-radius: 11px; background: var(--warm); border: 1px solid var(--line); display: grid; place-items: center; color: var(--brand); }
+  .pillar h3 { font-weight: 700; font-size: 17px; letter-spacing: -.01em; }
+  .pillar p { margin-top: 5px; font-size: 14px; color: var(--sub); line-height: 1.5; }
+
+  .dark { border-radius: 24px; background: var(--ink); color: #fff; overflow: hidden; position: relative; }
+  .dark-in { position: relative; padding: 48px; }
+  .dark-spark { position: absolute; top: 28px; right: 28px; opacity: .18; }
+  .dark-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .dark .step-light { font-family: var(--mono); font-size: 14px; color: rgba(255,255,255,.5); }
+  .dark h2 { margin-top: 18px; font-size: clamp(1.55rem, 3.4vw, 2.3rem); font-weight: 800; line-height: 1.1; color: #fff; max-width: 680px; }
+  .dark-copy { margin-top: 24px; max-width: 680px; display: flex; flex-direction: column; gap: 18px; font-size: 17px; line-height: 1.7; color: rgba(255,255,255,.72); }
+  .dark-copy strong { color: #fff; font-weight: 600; }
+  .rule-box { border-radius: 14px; border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.05); padding: 22px; }
+  .rule-box .t { color: #fff; font-size: 17px; font-weight: 600; }
+  .rule-box .d { margin-top: 6px; color: rgba(255,255,255,.82); }
+  .calm { margin-top: 26px; max-width: 680px; border-radius: 14px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); padding: 22px 24px; }
+  .calm-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-weight: 700; color: #fff; }
+  .calm p { color: rgba(255,255,255,.72); font-size: 15px; line-height: 1.65; }
+
+  /* TABLA COMPARATIVA */
+  .cmp-intro { max-width: 620px; }
+  .cmp-wrap { margin-top: 26px; overflow-x: auto; border-radius: 16px; border: 1px solid var(--line); }
+  table.cmp { width: 100%; min-width: 620px; border-collapse: collapse; background: #fff; }
+  table.cmp th, table.cmp td { padding: 16px 18px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.45; }
+  table.cmp tr:last-child td { border-bottom: none; }
+  table.cmp thead th { background: var(--warm); }
+  table.cmp .aspect { color: var(--sub); font-weight: 500; width: 22%; background: #FBFBFA; border-right: 1px solid var(--line); }
+  table.cmp td.col { width: 39%; border-right: 1px solid var(--line); }
+  table.cmp td.col:last-child, table.cmp th:last-child { border-right: none; }
+  table.cmp td.col { border-right: 1px solid var(--line); }
+  .chip { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 5px 12px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+  .chip-dark { background: var(--ink); color: #fff; }
+  .chip-violet { background: #F2ECFD; color: var(--brand); border: 1px solid #E5D8FB; }
+  .cell-bad { color: #991B1B; font-weight: 600; }
+  .cell-good { color: #2F6B3A; font-weight: 600; }
+
+  .close-grid { display: grid; grid-template-columns: 190px 1fr; gap: 44px; align-items: start; }
+  .close-label { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 14px; color: var(--sub); text-transform: uppercase; letter-spacing: .04em; }
+  .close-lead { font-size: clamp(1.2rem, 2.2vw, 1.45rem); font-weight: 600; line-height: 1.35; letter-spacing: -.01em; }
+  .close-body { margin-top: 14px; font-size: 16px; color: var(--sub); line-height: 1.7; max-width: 620px; }
+
+  footer { background: #fff; border-top: 1px solid var(--line); }
+  .foot-in { padding: 36px 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .foot-meta { font-size: 13px; color: var(--sub); font-family: var(--mono); }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 760px) {
+    .strip { grid-template-columns: 1fr; }
+    .two-col, .close-grid { grid-template-columns: 1fr; gap: 18px; }
+    .grid2 { grid-template-columns: 1fr; }
+    .dark-in { padding: 30px 24px; } .dark-spark { display: none; }
+    section.block { padding: 52px 0; }
+    .nav-right .mono { display: none; }
+  }
+  @media print { .nav { display: none; } .reveal { opacity: 1 !important; transform: none !important; } }
+</style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="wrap nav-in">
+      <div class="logo"><span class="logo-mark">c</span><span class="logo-text">clinera<span class="sub">.io</span></span></div>
+      <div class="nav-right"><span class="mono">Migración a Google Cloud</span><span class="dot"></span><span class="pill">Junio 2026</span></div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="grain"></div>
+    <div class="wrap hero-in">
+      <p class="eyebrow reveal">Migración a Google Cloud</p>
+      <h1 class="reveal">Estamos mudando Clinera a una sola casa: <span class="uline">Google Cloud.<svg height="10" viewBox="0 0 300 10" fill="none" preserveAspectRatio="none"><path d="M2 7C70 3 230 2 298 6" stroke="#7C3AED" stroke-width="3" stroke-linecap="round"/></svg></span></h1>
+      <p class="lede reveal">Concentramos toda la tecnología en un solo lugar. En simple: qué pasó con el costo, qué lo causó y cómo sigue la mudanza.</p>
+      <div class="strip reveal">
+        <div class="stat"><div class="big">~US$745<small>/mes</small></div><div class="cap">Costo actual, todavía sin clientes en producción</div></div>
+        <div class="stat"><div class="big">~US$300<small>/mes</small></div><div class="cap">Costo del sistema anterior (tres proveedores)</div></div>
+        <div class="stat"><div class="big brand">+50%</div><div class="cap">venía de <span class="ink w600">un solo problema</span>, puntual y reversible</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><div class="divider"><div class="ln"></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.8 10.2L22 12L13.8 13.8L12 22L10.2 13.8L2 12L10.2 10.2L12 2Z" fill="#7C3AED"/></svg><div class="ln"></div></div></div>
+
+  <section class="block">
+    <div class="wrap two-col">
+      <div class="reveal"><span class="step">01 / 05</span><h2>El costo subió antes de tiempo</h2></div>
+      <div class="reveal body-copy">
+        <p>Aún sin llegar a producción, el gasto mensual saltó a unos <span class="ink w600">US$745</span> (antes, cerca de <span class="ink w600">US$300</span>). La buena noticia: <span class="ink w600">no es que Google Cloud sea caro.</span> Fue un problema puntual y completamente reversible.</p>
+        <div class="badges"><span class="badge b-green">Identificado</span><span class="badge b-green">Reversible</span><span class="badge b-blue">No afectó a clientes</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="warm-bg">
+    <div class="wrap two-col block">
+      <div class="reveal"><span class="step">02 / 05</span><h2>Qué pasó: una llave quedó abierta</h2></div>
+      <div>
+        <div class="card reveal">
+          <p class="lead">Un <span class="w600">proceso automático del ambiente de pruebas</span> se quedó pegado: en vez de hacer su tarea y apagarse, quedó corriendo sin parar, las 24 horas.</p>
+          <p class="lead muted">Como una llave que se abre cada minuto y nunca se cierra. Ese solo proceso explicaba <span class="ink w600">más de la mitad de la cuenta</span>.</p>
+        </div>
+        <div class="reassure reveal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#2F6B3A" stroke-width="1.6"/><path d="M8.5 12.3l2.3 2.2 4.5-4.8" stroke="#2F6B3A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Estaba en pruebas (ningún cliente afectado), es de otro producto que comparte la cuenta, y se apaga al instante.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="reveal" style="max-width:620px"><span class="step">03 / 05</span><h2>Lo que necesita una mudanza bien hecha</h2><p class="body-copy" style="margin-top:14px">Sin tecnicismos, los ingredientes que evitan sustos:</p></div>
+      <div class="grid2">
+        <div class="pillar reveal"><span class="picon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 4v14M15 6v14" stroke="currentColor" stroke-width="1.5"/></svg></span><div><h3>Un mapa antes de mover</h3><p>Saber qué se mueve y a dónde, sin sorpresas a mitad de camino.</p></div></div>
+        <div class="pillar reveal"><span class="picon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg></span><div><h3>Ambientes separados</h3><p>Las pruebas y los clientes reales nunca se mezclan.</p></div></div>
+        <div class="pillar reveal"><span class="picon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 19h5v-5h5V9h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><h3>Paso a paso</h3><p>Mover de a una pieza, nunca todo el mismo día.</p></div></div>
+        <div class="pillar reveal"><span class="picon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 109-9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3 4v4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><h3>Red de seguridad</h3><p>Mantener el sistema viejo en paralelo para volver atrás al instante.</p></div></div>
+        <div class="pillar reveal"><span class="picon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 9a6 6 0 0112 0c0 5 2 6 2 6H4s2-1 2-6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 19a2 2 0 004 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><div><h3>Alarmas de costo</h3><p>Avisos para que un gasto raro no pase días sin que nadie lo note.</p></div></div>
+        <div class="pillar reveal"><span class="picon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 12.3l2.3 2.2 4.5-4.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><h3>Probar de punta a punta</h3><p>Un mensaje real y un pago real antes de dar por terminado.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <div class="dark reveal">
+        <div class="dark-in">
+          <div class="dark-spark"><svg width="120" height="120" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.8 10.2L22 12L13.8 13.8L12 22L10.2 13.8L2 12L10.2 10.2L12 2Z" fill="#7C3AED"/></svg></div>
+          <div class="dark-head"><span class="step-light">04 / 05</span><span class="badge b-amber" style="text-transform:uppercase;letter-spacing:.04em;font-weight:600">Importante</span></div>
+          <h2>En pruebas, usar siempre una app de Meta <span class="brand">distinta</span>. Nunca la oficial.</h2>
+          <div class="dark-copy">
+            <p>Clinera conecta el WhatsApp de cada clínica con una <strong>app oficial de Meta</strong>. Esa app es <strong>una sola</strong> y guarda todas las conexiones reales de los clientes.</p>
+            <div class="rule-box"><p class="t">La regla, sin excepciones:</p><p class="d">En dev y staging, usar una <strong style="color:#fff">app de Meta de prueba, separada</strong>. Jamás la oficial de producción.</p></div>
+            <p><strong>¿Por qué?</strong> Esa app solo puede apuntar a un lugar a la vez. Si una prueba la toca, el WhatsApp de <strong>todos los clientes reales podría caerse</strong>.</p>
+          </div>
+          <div class="calm">
+            <div class="calm-head"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4v5c0 4.5-3.2 7.3-8 9-4.8-1.7-8-4.5-8-9V7l8-4z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>La tranquilidad</span></div>
+            <p>El WhatsApp de los clientes vive en los servidores de Meta. Mover la tecnología, por sí solo, <strong style="color:#fff">no desconecta a nadie</strong> —mientras nadie toque la app oficial en pruebas y no se cree una app nueva para reemplazarla.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <div class="reveal cmp-intro"><span class="step">05 / 05</span><h2>La diferencia, lado a lado</h2><p class="body-copy" style="margin-top:12px">La app oficial (producción) frente a la app de prueba (dev y staging):</p></div>
+      <div class="reveal cmp-wrap">
+        <table class="cmp">
+          <thead>
+            <tr>
+              <th></th>
+              <th><span class="chip chip-dark">Producción · app oficial</span></th>
+              <th><span class="chip chip-violet">Dev / Staging · app de prueba</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="aspect">Qué contiene</td><td class="col">El WhatsApp real de todas las clínicas</td><td class="col">Nada real: solo un número de prueba de Meta</td></tr>
+            <tr><td class="aspect">A dónde conecta</td><td class="col">Siempre al sistema en producción</td><td class="col">Solo al ambiente de pruebas</td></tr>
+            <tr><td class="aspect">Si algo falla ahí</td><td class="col"><span class="cell-bad">Se afectan clientes reales</span></td><td class="col"><span class="cell-good">No pasa nada: es un sandbox</span></td></tr>
+            <tr><td class="aspect">Quién la toca</td><td class="col">Nadie, hasta el cambio final</td><td class="col">El equipo, para probar libremente</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="warm-bg">
+    <div class="wrap block" style="padding:56px 0">
+      <div class="close-grid reveal">
+        <div class="close-label"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.8 10.2L22 12L13.8 13.8L12 22L10.2 13.8L2 12L10.2 10.2L12 2Z" fill="#7C3AED"/></svg><span>En resumen</span></div>
+        <div>
+          <p class="close-lead">El sobrecosto no significa que Google Cloud sea caro: fue un proceso de pruebas pegado, ya identificado y reversible.</p>
+          <p class="close-body">La mudanza sigue su curso —primero pruebas, luego clientes— con la app oficial de WhatsApp intocable hasta el cambio final.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap foot-in">
+      <div class="logo"><span class="logo-mark">c</span><span class="logo-text">clinera<span class="sub">.io</span></span></div>
+      <p class="foot-meta">Migración a Google Cloud · Junio 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const parent = entry.target.parentElement;
+          const group = parent ? Array.from(parent.querySelectorAll(':scope > .reveal')) : [];
+          const idx = group.indexOf(entry.target);
+          entry.target.style.transitionDelay = (idx > 0 ? Math.min(idx, 6) * 70 : 0) + 'ms';
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>
