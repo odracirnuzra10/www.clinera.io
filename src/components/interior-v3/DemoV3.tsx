@@ -332,7 +332,7 @@ function CapabilitiesSection() {
 }
 
 function PlansSection() {
-  const [billing, setBilling] = useState<Billing>("annual");
+  const [billing, setBilling] = useState<Billing>("monthly");
   const annual = billing === "annual";
   return (
     <section style={{ padding: "96px 80px", background: "#FAFAFA", borderTop: "1px solid #F0F0F0" }}>
@@ -447,7 +447,7 @@ function PlansSection() {
                     </span>
                   </div>
                   <div style={{ minHeight: 20, marginBottom: annual ? 8 : 20, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                    {annual ? (
+                    {annual && (
                       <>
                         <span style={{ fontFamily: "Inter", fontSize: 12.5, color: popular ? "rgba(255,255,255,.7)" : "#6B7280" }}>
                           facturado anual · ${plan.annualTotal}/año
@@ -456,10 +456,6 @@ function PlansSection() {
                           ${plan.price}/mes
                         </span>
                       </>
-                    ) : (
-                      <span style={{ fontFamily: "Inter", fontSize: 12.5, color: popular ? "rgba(255,255,255,.7)" : "#6B7280" }}>
-                        o ${plan.annualMonthly}/mes pagando anual
-                      </span>
                     )}
                   </div>
                   {annual && (

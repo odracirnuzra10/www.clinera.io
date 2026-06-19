@@ -2208,19 +2208,7 @@
     display:inline-flex; align-items:center; gap:7px;
     transition: background .2s, color .2s, box-shadow .2s;
   }
-  .billing-toggle button[data-bt="monthly"].active{ background: var(--ink); color:#fff; }
-  .billing-toggle button[data-bt="annual"].active{
-    background: linear-gradient(90deg, var(--cyan), var(--violet) 55%, var(--magenta));
-    color:#fff; box-shadow: 0 10px 24px -10px rgba(124,58,237,.55);
-  }
-  .bt-badge{
-    font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px;
-    white-space:nowrap;
-    background:rgba(16,185,129,.10); color: var(--green); border:1px solid rgba(16,185,129,.32);
-  }
-  .billing-toggle button.active .bt-badge{
-    background:rgba(255,255,255,.22); color:#fff; border-color:rgba(255,255,255,.34);
-  }
+  .billing-toggle button.active{ background: var(--ink); color:#fff; }
 
   /* annual sub-line + savings chip */
   .plan-sub{
@@ -3801,16 +3789,16 @@
       <div class="billing-switch">
         <div class="billing-toggle" role="group" aria-label="Frecuencia de facturación">
           <button type="button" data-bt="monthly">Mensual</button>
-          <button type="button" data-bt="annual">Anual<span class="bt-badge">2 meses gratis</span></button>
+          <button type="button" data-bt="annual">Anual</button>
         </div>
       </div>
 
-      <div class="pricing-grid is-annual">
+      <div class="pricing-grid">
 
         <div class="price-card">
           <h3 class="plan-name">Conect</h3>
-          <div class="plan-price"><span class="amt" data-m="$129" data-a="$99">$99</span><span class="per">/mes</span></div>
-          <div class="plan-sub" data-m="o $99/mes pagando anual" data-a='facturado anual · $1.190/año <span class="strike">$129/mes</span>'>facturado anual · $1.190/año <span class="strike">$129/mes</span></div>
+          <div class="plan-price"><span class="amt" data-m="$129" data-a="$99">$129</span><span class="per">/mes</span></div>
+          <div class="plan-sub" data-m="" data-a='facturado anual · $1.190/año <span class="strike">$129/mes</span>'></div>
           <div class="plan-save">Ahorras $358 al año</div>
           <p class="plan-desc">AURA por WhatsApp 24/7 + módulo clínico.</p>
           <hr class="price-divider" />
@@ -3841,8 +3829,8 @@
 
         <div class="price-card">
           <h3 class="plan-name">Advanced</h3>
-          <div class="plan-price"><span class="amt" data-m="$179" data-a="$141">$141</span><span class="per">/mes</span></div>
-          <div class="plan-sub" data-m="o $141/mes pagando anual" data-a='facturado anual · $1.690/año <span class="strike">$179/mes</span>'>facturado anual · $1.690/año <span class="strike">$179/mes</span></div>
+          <div class="plan-price"><span class="amt" data-m="$179" data-a="$141">$179</span><span class="per">/mes</span></div>
+          <div class="plan-sub" data-m="" data-a='facturado anual · $1.690/año <span class="strike">$179/mes</span>'></div>
           <div class="plan-save">Ahorras $458 al año</div>
           <p class="plan-desc">Más capacidad y equipo para crecer.</p>
           <hr class="price-divider" />
@@ -3875,8 +3863,8 @@
         <div class="price-card popular">
           <span class="popular-tag">Recomendado · mejor costo/conversación</span>
           <h3 class="plan-name">MAX</h3>
-          <div class="plan-price"><span class="amt" data-m="$279" data-a="$224">$224</span><span class="per">/mes</span></div>
-          <div class="plan-sub" data-m="o $224/mes pagando anual" data-a='facturado anual · $2.690/año <span class="strike">$279/mes</span>'>facturado anual · $2.690/año <span class="strike">$279/mes</span></div>
+          <div class="plan-price"><span class="amt" data-m="$279" data-a="$224">$279</span><span class="per">/mes</span></div>
+          <div class="plan-sub" data-m="" data-a='facturado anual · $2.690/año <span class="strike">$279/mes</span>'></div>
           <div class="plan-save">Ahorras $658 al año</div>
           <p class="plan-desc">LIA orquesta y CAMILA llama por voz.</p>
           <hr class="price-divider" />
@@ -4116,7 +4104,7 @@
   document.querySelectorAll('.billing-toggle button[data-bt]').forEach(function(b){
     b.addEventListener('click', function(e){ e.stopPropagation(); setBilling(b.getAttribute('data-bt')); });
   });
-  setBilling('annual');
+  setBilling('monthly');
 
   // Keyboard
   document.addEventListener('keydown', function(e){

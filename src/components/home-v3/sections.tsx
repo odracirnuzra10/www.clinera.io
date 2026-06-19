@@ -3724,31 +3724,12 @@ export function BillingToggle({ billing, onChange }: { billing: Billing; onChang
         aria-pressed={annual}
         style={{
           ...base,
-          background: annual ? GRAD : "transparent",
+          background: annual ? "#0A0A0A" : "transparent",
           color: annual ? "#fff" : "#4B5563",
-          padding: "9px 14px 9px 18px",
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 8,
-          boxShadow: annual ? "0 10px 24px -10px rgba(124,58,237,.55)" : "none",
+          padding: "9px 20px",
         }}
       >
         Anual
-        <span
-          style={{
-            fontFamily: "Inter",
-            fontSize: 11,
-            fontWeight: 700,
-            padding: "2px 8px",
-            borderRadius: 999,
-            whiteSpace: "nowrap",
-            background: annual ? "rgba(255,255,255,.22)" : "#ECFDF5",
-            color: annual ? "#fff" : "#065F46",
-            border: annual ? "1px solid rgba(255,255,255,.32)" : "1px solid #A7F3D0",
-          }}
-        >
-          2 meses gratis
-        </span>
       </button>
     </div>
   );
@@ -3836,7 +3817,7 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
     },
   ];
 
-  const [billing, setBilling] = useState<"monthly" | "annual">("annual");
+  const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
   const annual = billing === "annual";
 
   return (
@@ -3978,7 +3959,7 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
                 <div style={{ fontFamily: "Inter", fontSize: 14, color: "#6B7280" }}>/mes</div>
               </div>
               <div style={{ minHeight: 20, marginBottom: 8, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                {annual ? (
+                {annual && (
                   <>
                     <span style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280" }}>
                       facturado anual · {p.annualTotal} USD/año
@@ -3987,10 +3968,6 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
                       {p.price}/mes
                     </span>
                   </>
-                ) : (
-                  <span style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280" }}>
-                    o {p.annualMonthly}/mes pagando anual
-                  </span>
                 )}
               </div>
               {annual && (
