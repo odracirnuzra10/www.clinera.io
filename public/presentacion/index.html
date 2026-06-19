@@ -2210,21 +2210,11 @@
   }
   .billing-toggle button.active{ background: var(--ink); color:#fff; }
 
-  /* annual sub-line + savings chip */
+  /* annual sub-line */
   .plan-sub{
     font-size: 11.5px; color: var(--muted);
     margin: -2px 0 8px; min-height: 16px; line-height:1.3;
   }
-  .plan-sub .strike{ color: var(--muted-2); text-decoration: line-through; margin-left: 6px; }
-  .plan-save{
-    display:none; align-items:center; gap:6px; width:max-content;
-    font-size: 11px; font-weight: 700;
-    color: var(--green); background: rgba(16,185,129,.10);
-    border: 1px solid rgba(16,185,129,.32);
-    padding: 3px 9px; border-radius: 999px; margin: 0 0 12px;
-  }
-  .plan-save::before{ content:'✓'; }
-  .pricing-grid.is-annual .plan-save{ display:inline-flex; }
   .price-card{
     position: relative;
     background: #fff;
@@ -3798,8 +3788,7 @@
         <div class="price-card">
           <h3 class="plan-name">Conect</h3>
           <div class="plan-price"><span class="amt" data-m="$129" data-a="$99">$129</span><span class="per">/mes</span></div>
-          <div class="plan-sub" data-m="" data-a='facturado anual · $1.190/año <span class="strike">$129/mes</span>'></div>
-          <div class="plan-save">Ahorras $358 al año</div>
+          <div class="plan-sub" data-m="" data-a="facturado anual · $1.190/año"></div>
           <p class="plan-desc">AURA por WhatsApp 24/7 + módulo clínico.</p>
           <hr class="price-divider" />
           <ul class="price-features">
@@ -3830,8 +3819,7 @@
         <div class="price-card">
           <h3 class="plan-name">Advanced</h3>
           <div class="plan-price"><span class="amt" data-m="$179" data-a="$141">$179</span><span class="per">/mes</span></div>
-          <div class="plan-sub" data-m="" data-a='facturado anual · $1.690/año <span class="strike">$179/mes</span>'></div>
-          <div class="plan-save">Ahorras $458 al año</div>
+          <div class="plan-sub" data-m="" data-a="facturado anual · $1.690/año"></div>
           <p class="plan-desc">Más capacidad y equipo para crecer.</p>
           <hr class="price-divider" />
           <ul class="price-features">
@@ -3864,8 +3852,7 @@
           <span class="popular-tag">Recomendado · mejor costo/conversación</span>
           <h3 class="plan-name">MAX</h3>
           <div class="plan-price"><span class="amt" data-m="$279" data-a="$224">$279</span><span class="per">/mes</span></div>
-          <div class="plan-sub" data-m="" data-a='facturado anual · $2.690/año <span class="strike">$279/mes</span>'></div>
-          <div class="plan-save">Ahorras $658 al año</div>
+          <div class="plan-sub" data-m="" data-a="facturado anual · $2.690/año"></div>
           <p class="plan-desc">LIA orquesta y CAMILA llama por voz.</p>
           <hr class="price-divider" />
           <ul class="price-features">

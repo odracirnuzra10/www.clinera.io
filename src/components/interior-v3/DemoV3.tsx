@@ -446,42 +446,13 @@ function PlansSection() {
                       USD/mes
                     </span>
                   </div>
-                  <div style={{ minHeight: 20, marginBottom: annual ? 8 : 20, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                  <div style={{ minHeight: 20, marginBottom: 20, display: "flex", alignItems: "center" }}>
                     {annual && (
-                      <>
-                        <span style={{ fontFamily: "Inter", fontSize: 12.5, color: popular ? "rgba(255,255,255,.7)" : "#6B7280" }}>
-                          facturado anual · ${plan.annualTotal}/año
-                        </span>
-                        <span style={{ fontFamily: "Inter", fontSize: 12, color: popular ? "rgba(255,255,255,.45)" : "#9CA3AF", textDecoration: "line-through" }}>
-                          ${plan.price}/mes
-                        </span>
-                      </>
+                      <span style={{ fontFamily: "Inter", fontSize: 12.5, color: popular ? "rgba(255,255,255,.7)" : "#6B7280" }}>
+                        facturado anual · ${plan.annualTotal}/año
+                      </span>
                     )}
                   </div>
-                  {annual && (
-                    <div style={{ marginBottom: 18 }}>
-                      <span
-                        style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 6,
-                          fontFamily: "Inter",
-                          fontSize: 12,
-                          fontWeight: 600,
-                          color: popular ? "#6EE7B7" : "#065F46",
-                          background: popular ? "rgba(16,185,129,.16)" : "#ECFDF5",
-                          border: popular ? "1px solid rgba(16,185,129,.34)" : "1px solid #A7F3D0",
-                          padding: "4px 10px",
-                          borderRadius: 999,
-                        }}
-                      >
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={popular ? "#6EE7B7" : "#10B981"} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M5 12l5 5L20 7" />
-                        </svg>
-                        Ahorras ${plan.saveYear} al año
-                      </span>
-                    </div>
-                  )}
                   <ul style={{ listStyle: "none", padding: 0, margin: "0 0 16px", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
                     {plan.features.map((f) => (
                       <li

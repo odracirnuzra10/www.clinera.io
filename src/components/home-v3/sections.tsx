@@ -3958,42 +3958,13 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
                 </div>
                 <div style={{ fontFamily: "Inter", fontSize: 14, color: "#6B7280" }}>/mes</div>
               </div>
-              <div style={{ minHeight: 20, marginBottom: 8, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <div style={{ minHeight: 20, marginBottom: 8, display: "flex", alignItems: "center" }}>
                 {annual && (
-                  <>
-                    <span style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280" }}>
-                      facturado anual · {p.annualTotal} USD/año
-                    </span>
-                    <span style={{ fontFamily: "Inter", fontSize: 12.5, color: "#9CA3AF", textDecoration: "line-through" }}>
-                      {p.price}/mes
-                    </span>
-                  </>
+                  <span style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280" }}>
+                    facturado anual · {p.annualTotal} USD/año
+                  </span>
                 )}
               </div>
-              {annual && (
-                <div style={{ marginBottom: 10 }}>
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 6,
-                      fontFamily: "Inter",
-                      fontSize: 12.5,
-                      fontWeight: 600,
-                      color: "#065F46",
-                      background: "#ECFDF5",
-                      border: "1px solid #A7F3D0",
-                      padding: "4px 10px",
-                      borderRadius: 999,
-                    }}
-                  >
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12l5 5L20 7" />
-                    </svg>
-                    Ahorras {p.saveYear} al año
-                  </span>
-                </div>
-              )}
               {p.perAppt && (
                 <div
                   style={{
