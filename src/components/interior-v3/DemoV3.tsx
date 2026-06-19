@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
-import { useReveal } from "@/components/home-v3/sections";
+import { useReveal, BillingToggle, type Billing } from "@/components/home-v3/sections";
 
 type DemoAgent = { id: "aura" | "lia" | "camila"; name: string; soon?: boolean };
 
@@ -20,6 +21,10 @@ const PLANS = [
     models: ["Gemini 3.0 Flash", "Kimi K2.6"],
     agents: [{ id: "aura", name: "AURA" }] as DemoAgent[],
     stripeUrl: "https://buy.stripe.com/28EbJ32WJ3Um4cz6VZ1441k",
+    annualMonthly: "99",
+    annualTotal: "1.190",
+    saveYear: "358",
+    stripeUrlAnnual: "https://buy.stripe.com/bJe7sNfJvbmOdN9a8b1441r",
   },
   {
     name: "Advanced",
@@ -35,6 +40,10 @@ const PLANS = [
     models: ["Gemini 3.0 Flash", "Kimi K2.6"],
     agents: [{ id: "aura", name: "AURA" }] as DemoAgent[],
     stripeUrl: "https://buy.stripe.com/4gM00l7cZ8aCfVh6VZ1441m",
+    annualMonthly: "141",
+    annualTotal: "1.690",
+    saveYear: "458",
+    stripeUrlAnnual: "https://buy.stripe.com/9B6dRbapbduW4czfsv1441q",
   },
   {
     name: "MAX",
@@ -56,6 +65,10 @@ const PLANS = [
       { id: "camila", name: "CAMILA", soon: true },
     ] as DemoAgent[],
     stripeUrl: "https://buy.stripe.com/6oU14pdBn9eGeRdgwz1441n",
+    annualMonthly: "224",
+    annualTotal: "2.690",
+    saveYear: "658",
+    stripeUrlAnnual: "https://buy.stripe.com/8x28wRapbfD424r6VZ1441s",
   },
 ];
 
@@ -319,10 +332,12 @@ function CapabilitiesSection() {
 }
 
 function PlansSection() {
+  const [billing, setBilling] = useState<Billing>("annual");
+  const annual = billing === "annual";
   return (
     <section style={{ padding: "96px 80px", background: "#FAFAFA", borderTop: "1px solid #F0F0F0" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div className="reveal" style={{ textAlign: "center", marginBottom: 48 }}>
+        <div className="reveal" style={{ textAlign: "center", marginBottom: 32 }}>
           <Eyebrow>Precios</Eyebrow>
           <h2
             style={{
@@ -340,6 +355,9 @@ function PlansSection() {
           <p style={{ fontFamily: "Inter", fontSize: 17, color: "#4B5563", margin: 0 }}>
             Sin permanencia · sin costo de implementación · precios en USD.
           </p>
+        </div>
+        <div className="reveal" style={{ display: "flex", justifyContent: "center", marginBottom: 44 }}>
+          <BillingToggle billing={billing} onChange={setBilling} />
         </div>
         <div
           className="demo-plans-grid"
@@ -419,15 +437,55 @@ function PlansSection() {
                   >
                     {plan.tagline}
                   </p>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 20 }}>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 6 }}>
                     <span style={{ fontFamily: "Inter", fontSize: 20, fontWeight: 600 }}>$</span>
                     <span style={{ fontFamily: "Inter", fontSize: 48, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1 }}>
-                      {plan.price}
+                      {annual ? plan.annualMonthly : plan.price}
                     </span>
                     <span style={{ fontFamily: "Inter", fontSize: 14, color: popular ? "rgba(255,255,255,.7)" : "#6B7280", marginLeft: 4 }}>
                       USD/mes
                     </span>
                   </div>
+                  <div style={{ minHeight: 20, marginBottom: annual ? 8 : 20, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                    {annual ? (
+                      <>
+                        <span style={{ fontFamily: "Inter", fontSize: 12.5, color: popular ? "rgba(255,255,255,.7)" : "#6B7280" }}>
+                          facturado anual · ${plan.annualTotal}/año
+                        </span>
+                        <span style={{ fontFamily: "Inter", fontSize: 12, color: popular ? "rgba(255,255,255,.45)" : "#9CA3AF", textDecoration: "line-through" }}>
+                          ${plan.price}/mes
+                        </span>
+                      </>
+                    ) : (
+                      <span style={{ fontFamily: "Inter", fontSize: 12.5, color: popular ? "rgba(255,255,255,.7)" : "#6B7280" }}>
+                        o ${plan.annualMonthly}/mes pagando anual
+                      </span>
+                    )}
+                  </div>
+                  {annual && (
+                    <div style={{ marginBottom: 18 }}>
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 6,
+                          fontFamily: "Inter",
+                          fontSize: 12,
+                          fontWeight: 600,
+                          color: popular ? "#6EE7B7" : "#065F46",
+                          background: popular ? "rgba(16,185,129,.16)" : "#ECFDF5",
+                          border: popular ? "1px solid rgba(16,185,129,.34)" : "1px solid #A7F3D0",
+                          padding: "4px 10px",
+                          borderRadius: 999,
+                        }}
+                      >
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={popular ? "#6EE7B7" : "#10B981"} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M5 12l5 5L20 7" />
+                        </svg>
+                        Ahorras ${plan.saveYear} al año
+                      </span>
+                    </div>
+                  )}
                   <ul style={{ listStyle: "none", padding: 0, margin: "0 0 16px", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
                     {plan.features.map((f) => (
                       <li
@@ -630,12 +688,13 @@ function PlansSection() {
                     Hablar con ventas
                   </Link>
                   <a
-                    href={plan.stripeUrl}
+                    href={annual ? plan.stripeUrlAnnual : plan.stripeUrl}
                     target="_blank"
                     rel="noopener"
                     data-plan={plan.slug}
-                    data-plan-value={plan.price}
-                    data-plan-name={`${plan.name} pay`}
+                    data-plan-billing={annual ? "annual" : "monthly"}
+                    data-plan-value={annual ? plan.annualTotal.replace(/\./g, "") : plan.price}
+                    data-plan-name={`${plan.name} pay ${annual ? "annual" : "monthly"}`}
                     style={{
                       background: popular ? "rgba(255,255,255,.1)" : "#fff",
                       color: popular ? "#fff" : "#0A0A0A",
@@ -649,7 +708,7 @@ function PlansSection() {
                       textAlign: "center",
                     }}
                   >
-                    Activar plan →
+                    {annual ? "Activar plan anual →" : "Activar plan →"}
                   </a>
                   <p
                     style={{

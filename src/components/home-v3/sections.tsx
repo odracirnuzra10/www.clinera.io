@@ -3676,6 +3676,84 @@ export function Testimonios() {
    ============================================================ */
 type Agent = { id: "aura" | "lia" | "camila"; name: string; soon?: boolean };
 
+export type Billing = "monthly" | "annual";
+
+export function BillingToggle({ billing, onChange }: { billing: Billing; onChange: (b: Billing) => void }) {
+  const annual = billing === "annual";
+  const base = {
+    appearance: "none" as const,
+    cursor: "pointer",
+    border: 0,
+    fontFamily: "Inter",
+    fontSize: 14,
+    fontWeight: 600,
+    borderRadius: 999,
+    transition: "background .2s, color .2s, box-shadow .2s",
+  };
+  return (
+    <div
+      role="group"
+      aria-label="Frecuencia de facturación"
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 4,
+        background: "#fff",
+        border: "1px solid #E5E7EB",
+        borderRadius: 999,
+        padding: 5,
+        boxShadow: "0 1px 2px rgba(0,0,0,.05)",
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => onChange("monthly")}
+        aria-pressed={!annual}
+        style={{
+          ...base,
+          background: !annual ? "#0A0A0A" : "transparent",
+          color: !annual ? "#fff" : "#4B5563",
+          padding: "9px 20px",
+        }}
+      >
+        Mensual
+      </button>
+      <button
+        type="button"
+        onClick={() => onChange("annual")}
+        aria-pressed={annual}
+        style={{
+          ...base,
+          background: annual ? GRAD : "transparent",
+          color: annual ? "#fff" : "#4B5563",
+          padding: "9px 14px 9px 18px",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
+          boxShadow: annual ? "0 10px 24px -10px rgba(124,58,237,.55)" : "none",
+        }}
+      >
+        Anual
+        <span
+          style={{
+            fontFamily: "Inter",
+            fontSize: 11,
+            fontWeight: 700,
+            padding: "2px 8px",
+            borderRadius: 999,
+            whiteSpace: "nowrap",
+            background: annual ? "rgba(255,255,255,.22)" : "#ECFDF5",
+            color: annual ? "#fff" : "#065F46",
+            border: annual ? "1px solid rgba(255,255,255,.32)" : "1px solid #A7F3D0",
+          }}
+        >
+          2 meses gratis
+        </span>
+      </button>
+    </div>
+  );
+}
+
 export function Pricing({ showCredits = false }: { showCredits?: boolean } = {}) {
   const plans = [
     {
@@ -3695,6 +3773,10 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
       modos: ["Eficiente", "Agentic"],
       agents: [{ id: "aura", name: "AURA" }] as Agent[],
       stripe: "https://buy.stripe.com/28EbJ32WJ3Um4cz6VZ1441k",
+      annualMonthly: "$99",
+      annualTotal: "$1.190",
+      saveYear: "$358",
+      stripeAnnual: "https://buy.stripe.com/bJe7sNfJvbmOdN9a8b1441r",
     },
     {
       name: "Advanced",
@@ -3715,6 +3797,10 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
       modos: ["Eficiente", "Agentic"],
       agents: [{ id: "aura", name: "AURA" }] as Agent[],
       stripe: "https://buy.stripe.com/4gM00l7cZ8aCfVh6VZ1441m",
+      annualMonthly: "$141",
+      annualTotal: "$1.690",
+      saveYear: "$458",
+      stripeAnnual: "https://buy.stripe.com/9B6dRbapbduW4czfsv1441q",
     },
     {
       name: "MAX",
@@ -3743,8 +3829,15 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
         { id: "camila", name: "CAMILA", soon: true },
       ] as Agent[],
       stripe: "https://buy.stripe.com/6oU14pdBn9eGeRdgwz1441n",
+      annualMonthly: "$224",
+      annualTotal: "$2.690",
+      saveYear: "$658",
+      stripeAnnual: "https://buy.stripe.com/8x28wRapbfD424r6VZ1441s",
     },
   ];
+
+  const [billing, setBilling] = useState<"monthly" | "annual">("annual");
+  const annual = billing === "annual";
 
   return (
     <section
@@ -3788,6 +3881,10 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
           <p style={{ fontFamily: "Inter", fontSize: 17, color: "#4B5563", margin: 0, lineHeight: 1.55 }}>
             Una recepcionista te cuesta ~$950 USD/mes en LATAM, trabaja 45 horas semana y se enferma. Un empleado digital de Clinera <b>parte en $129/mes</b>, no descansa y no escala con sueldo. Sin contratos, sin permanencia.
           </p>
+        </div>
+
+        <div className="reveal" style={{ display: "flex", justifyContent: "center", marginBottom: 44 }}>
+          <BillingToggle billing={billing} onChange={setBilling} />
         </div>
 
         <div
@@ -3865,7 +3962,7 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
               >
                 {p.name}
               </div>
-              <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginTop: 10, marginBottom: 12 }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginTop: 10, marginBottom: 4 }}>
                 <div
                   style={{
                     fontFamily: "Inter",
@@ -3876,10 +3973,50 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
                     lineHeight: 1,
                   }}
                 >
-                  {p.price}
+                  {annual ? p.annualMonthly : p.price}
                 </div>
                 <div style={{ fontFamily: "Inter", fontSize: 14, color: "#6B7280" }}>/mes</div>
               </div>
+              <div style={{ minHeight: 20, marginBottom: 8, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                {annual ? (
+                  <>
+                    <span style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280" }}>
+                      facturado anual · {p.annualTotal} USD/año
+                    </span>
+                    <span style={{ fontFamily: "Inter", fontSize: 12.5, color: "#9CA3AF", textDecoration: "line-through" }}>
+                      {p.price}/mes
+                    </span>
+                  </>
+                ) : (
+                  <span style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280" }}>
+                    o {p.annualMonthly}/mes pagando anual
+                  </span>
+                )}
+              </div>
+              {annual && (
+                <div style={{ marginBottom: 10 }}>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                      fontFamily: "Inter",
+                      fontSize: 12.5,
+                      fontWeight: 600,
+                      color: "#065F46",
+                      background: "#ECFDF5",
+                      border: "1px solid #A7F3D0",
+                      padding: "4px 10px",
+                      borderRadius: 999,
+                    }}
+                  >
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12l5 5L20 7" />
+                    </svg>
+                    Ahorras {p.saveYear} al año
+                  </span>
+                </div>
+              )}
               {p.perAppt && (
                 <div
                   style={{
@@ -4211,7 +4348,7 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
                   Hablar con ventas
                 </Link>
                 <a
-                  href={p.stripe}
+                  href={annual ? p.stripeAnnual : p.stripe}
                   target="_blank"
                   rel="noopener"
                   style={{
@@ -4228,10 +4365,11 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
                     boxSizing: "border-box",
                   }}
                   data-plan={p.name.toLowerCase()}
-                  data-plan-value={p.price.replace("$", "")}
-                  data-plan-name={`${p.name} pay`}
+                  data-plan-billing={annual ? "annual" : "monthly"}
+                  data-plan-value={(annual ? p.annualTotal : p.price).replace(/[$.]/g, "")}
+                  data-plan-name={`${p.name} pay ${annual ? "annual" : "monthly"}`}
                 >
-                  Activar plan
+                  {annual ? "Activar plan anual" : "Activar plan"}
                 </a>
                 <div
                   style={{

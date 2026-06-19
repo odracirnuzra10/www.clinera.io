@@ -2191,6 +2191,52 @@
     gap: 16px;
     margin-top: 22px;
   }
+
+  /* Billing toggle (mensual / anual) */
+  .billing-switch{ display:flex; justify-content:center; margin: 4px 0 2px; }
+  .billing-toggle{
+    display:inline-flex; align-items:center; gap: 4px;
+    background:#fff; border:1px solid var(--line);
+    border-radius:999px; padding:5px;
+    box-shadow: 0 1px 2px rgba(11,11,15,.05);
+  }
+  .billing-toggle button{
+    appearance:none; border:0; cursor:pointer;
+    font-family:inherit; font-size:13.5px; font-weight:600;
+    color: var(--muted); background:transparent;
+    padding:8px 16px; border-radius:999px;
+    display:inline-flex; align-items:center; gap:7px;
+    transition: background .2s, color .2s, box-shadow .2s;
+  }
+  .billing-toggle button[data-bt="monthly"].active{ background: var(--ink); color:#fff; }
+  .billing-toggle button[data-bt="annual"].active{
+    background: linear-gradient(90deg, var(--cyan), var(--violet) 55%, var(--magenta));
+    color:#fff; box-shadow: 0 10px 24px -10px rgba(124,58,237,.55);
+  }
+  .bt-badge{
+    font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px;
+    white-space:nowrap;
+    background:rgba(16,185,129,.10); color: var(--green); border:1px solid rgba(16,185,129,.32);
+  }
+  .billing-toggle button.active .bt-badge{
+    background:rgba(255,255,255,.22); color:#fff; border-color:rgba(255,255,255,.34);
+  }
+
+  /* annual sub-line + savings chip */
+  .plan-sub{
+    font-size: 11.5px; color: var(--muted);
+    margin: -2px 0 8px; min-height: 16px; line-height:1.3;
+  }
+  .plan-sub .strike{ color: var(--muted-2); text-decoration: line-through; margin-left: 6px; }
+  .plan-save{
+    display:none; align-items:center; gap:6px; width:max-content;
+    font-size: 11px; font-weight: 700;
+    color: var(--green); background: rgba(16,185,129,.10);
+    border: 1px solid rgba(16,185,129,.32);
+    padding: 3px 9px; border-radius: 999px; margin: 0 0 12px;
+  }
+  .plan-save::before{ content:'✓'; }
+  .pricing-grid.is-annual .plan-save{ display:inline-flex; }
   .price-card{
     position: relative;
     background: #fff;
@@ -3752,11 +3798,20 @@
       <h2 class="h-display">Activa Clinera <span class="em">hoy</span>.</h2>
       <p class="lead">Tres planes. Sin permanencia.</p>
 
-      <div class="pricing-grid">
+      <div class="billing-switch">
+        <div class="billing-toggle" role="group" aria-label="Frecuencia de facturación">
+          <button type="button" data-bt="monthly">Mensual</button>
+          <button type="button" data-bt="annual">Anual<span class="bt-badge">2 meses gratis</span></button>
+        </div>
+      </div>
+
+      <div class="pricing-grid is-annual">
 
         <div class="price-card">
           <h3 class="plan-name">Conect</h3>
-          <div class="plan-price"><span class="amt">$129</span><span class="per">/mes</span></div>
+          <div class="plan-price"><span class="amt" data-m="$129" data-a="$99">$99</span><span class="per">/mes</span></div>
+          <div class="plan-sub" data-m="o $99/mes pagando anual" data-a='facturado anual · $1.190/año <span class="strike">$129/mes</span>'>facturado anual · $1.190/año <span class="strike">$129/mes</span></div>
+          <div class="plan-save">Ahorras $358 al año</div>
           <p class="plan-desc">AURA por WhatsApp 24/7 + módulo clínico.</p>
           <hr class="price-divider" />
           <ul class="price-features">
@@ -3786,7 +3841,9 @@
 
         <div class="price-card">
           <h3 class="plan-name">Advanced</h3>
-          <div class="plan-price"><span class="amt">$179</span><span class="per">/mes</span></div>
+          <div class="plan-price"><span class="amt" data-m="$179" data-a="$141">$141</span><span class="per">/mes</span></div>
+          <div class="plan-sub" data-m="o $141/mes pagando anual" data-a='facturado anual · $1.690/año <span class="strike">$179/mes</span>'>facturado anual · $1.690/año <span class="strike">$179/mes</span></div>
+          <div class="plan-save">Ahorras $458 al año</div>
           <p class="plan-desc">Más capacidad y equipo para crecer.</p>
           <hr class="price-divider" />
           <ul class="price-features">
@@ -3818,7 +3875,9 @@
         <div class="price-card popular">
           <span class="popular-tag">Recomendado · mejor costo/conversación</span>
           <h3 class="plan-name">MAX</h3>
-          <div class="plan-price"><span class="amt">$279</span><span class="per">/mes</span></div>
+          <div class="plan-price"><span class="amt" data-m="$279" data-a="$224">$224</span><span class="per">/mes</span></div>
+          <div class="plan-sub" data-m="o $224/mes pagando anual" data-a='facturado anual · $2.690/año <span class="strike">$279/mes</span>'>facturado anual · $2.690/año <span class="strike">$279/mes</span></div>
+          <div class="plan-save">Ahorras $658 al año</div>
           <p class="plan-desc">LIA orquesta y CAMILA llama por voz.</p>
           <hr class="price-divider" />
           <ul class="price-features">
@@ -4034,9 +4093,30 @@
     if (capItem){ e.stopPropagation(); setActiveCap(parseInt(capItem.dataset.cap, 10)); return; }
     const igArrow = e.target.closest('.ig-arrow');
     if (igArrow){ const t = document.getElementById('igTrack'); if (t) t.scrollBy({ left: parseInt(igArrow.dataset.igDir, 10) * 440, behavior: 'smooth' }); return; }
-    if (e.target.closest('a') || e.target.closest('.price-card') || e.target.closest('.proof-ig')) return;
+    if (e.target.closest('a') || e.target.closest('.price-card') || e.target.closest('.proof-ig') || e.target.closest('.billing-switch')) return;
     advanceSubStep();
   });
+
+  // Billing toggle (mensual / anual · default anual) — direct listeners so it works on desktop + mobile
+  function setBilling(mode){
+    const grid = document.querySelector('.pricing-grid');
+    if (!grid) return;
+    const annual = mode === 'annual';
+    grid.classList.toggle('is-annual', annual);
+    document.querySelectorAll('.billing-toggle button[data-bt]').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-bt') === mode);
+    });
+    grid.querySelectorAll('.amt[data-a]').forEach(function(el){
+      el.textContent = annual ? el.getAttribute('data-a') : el.getAttribute('data-m');
+    });
+    grid.querySelectorAll('.plan-sub[data-a]').forEach(function(el){
+      el.innerHTML = annual ? el.getAttribute('data-a') : el.getAttribute('data-m');
+    });
+  }
+  document.querySelectorAll('.billing-toggle button[data-bt]').forEach(function(b){
+    b.addEventListener('click', function(e){ e.stopPropagation(); setBilling(b.getAttribute('data-bt')); });
+  });
+  setBilling('annual');
 
   // Keyboard
   document.addEventListener('keydown', function(e){
