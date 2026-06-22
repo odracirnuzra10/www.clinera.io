@@ -9,83 +9,169 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: {
-          sans: ['Outfit', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-          mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
-        },
-        colors: {
-          ink: '#111111',
-          sub: '#6B6B6B',
-          line: '#EAEAEA',
-          canvas: '#FFFFFF',
-          warm: '#F7F6F3',
-          cyan: '#009FE3',
-          violet: '#7C3AED',
-        },
-      },
-    },
-  };
-</script>
 <style>
-  html { font-size: 19px; }
-  html, body { background: #FFFFFF; color: #111111; }
-  body { font-family: 'Outfit', sans-serif; -webkit-font-smoothing: antialiased; overflow: hidden; }
-  ::selection { background: #009FE3; color: #fff; }
+  :root{
+    --ink:#111111; --sub:#6B6B6B; --line:#EAEAEA; --warm:#F7F6F3;
+    --cyan:#009FE3; --violet:#7C3AED; --lead:#454545;
+  }
+  *{ box-sizing:border-box; }
+  html{ font-size:19px; }
+  html,body{ margin:0; background:#FFFFFF; color:var(--ink); }
+  body{ font-family:'Outfit',sans-serif; -webkit-font-smoothing:antialiased; overflow:hidden; }
+  ::selection{ background:var(--cyan); color:#fff; }
+  .mono{ font-family:'JetBrains Mono',monospace; }
 
-  #deck { position: relative; min-height: 100dvh; width: 100%; overflow: hidden; }
+  #deck{ position:relative; min-height:100dvh; width:100%; overflow:hidden; }
 
-  /* Progress bar */
-  #progress-track { position: fixed; top: 0; left: 0; right: 0; height: 2px; background: #EAEAEA; z-index: 50; }
-  #progress-fill { height: 100%; width: 0%; background: #111111; transition: width .55s cubic-bezier(.16,1,.3,1); }
+  /* Progress */
+  #progress-track{ position:fixed; top:0; left:0; right:0; height:2px; background:var(--line); z-index:50; }
+  #progress-fill{ height:100%; width:0%; background:var(--ink); transition:width .55s cubic-bezier(.16,1,.3,1); }
+
+  /* Top bar */
+  .topbar{ position:fixed; top:0; left:0; right:0; z-index:40; display:flex; align-items:center;
+    justify-content:space-between; padding:1.25rem clamp(1.25rem,6vw,7rem); pointer-events:none; }
+  .brand{ display:flex; align-items:center; gap:.5rem; pointer-events:auto; }
+  .brand .dot{ width:8px; height:8px; border-radius:999px; background:var(--cyan); display:inline-block; }
+  .brand .name{ font-weight:600; letter-spacing:-.01em; font-size:15px; }
+  .counter{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--sub); pointer-events:auto; }
 
   /* Slides */
-  .slide {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    padding: 4.25rem clamp(1.25rem, 6vw, 7rem) 4.25rem;
-    opacity: 0; visibility: hidden;
-    pointer-events: none;
-    transition: opacity .5s ease;
+  .slide{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    padding:4.25rem clamp(1.25rem,6vw,7rem);
+    opacity:0; visibility:hidden; pointer-events:none; transition:opacity .5s ease;
   }
-  .slide.active { opacity: 1; visibility: visible; pointer-events: auto; }
+  .slide.active{ opacity:1; visibility:visible; pointer-events:auto; }
+  .w-narrow{ max-width:56rem; align-self:flex-start; }
+  .w-wide{ width:100%; max-width:64rem; }
 
   /* Reveal cascade */
-  .reveal { opacity: 0; transform: translateY(18px); }
-  .slide.active .reveal {
-    animation: fadeUp .65s cubic-bezier(.16,1,.3,1) forwards;
-    animation-delay: var(--d, 0s);
+  .reveal{ opacity:0; transform:translateY(18px); }
+  .slide.active .reveal{ animation:fadeUp .65s cubic-bezier(.16,1,.3,1) forwards; animation-delay:var(--d,0s); }
+  @keyframes fadeUp{ to{ opacity:1; transform:none; } }
+
+  /* Typography */
+  .kicker{ font-family:'JetBrains Mono',monospace; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; margin:0; }
+  .display{ font-weight:800; line-height:1.02; letter-spacing:-.02em; margin:0; font-size:clamp(2.6rem,7vw,5.2rem); }
+  .display.sm{ font-size:clamp(2.4rem,6.5vw,5rem); }
+  .h-step{ font-weight:700; line-height:1.07; letter-spacing:-.02em; margin:0; font-size:clamp(2.3rem,4.6vw,3.9rem); }
+  .lead{ color:var(--lead); line-height:1.7; margin:0; }
+  .c-cyan{ color:var(--cyan); } .c-violet{ color:var(--violet); } .c-sub{ color:var(--sub); }
+  .fw-med{ font-weight:500; } .fw-semi{ font-weight:600; }
+
+  .mt-4{ margin-top:1rem; } .mt-5{ margin-top:1.25rem; } .mt-6{ margin-top:1.5rem; }
+  .mt-7{ margin-top:1.75rem; } .mt-9{ margin-top:2.25rem; } .mt-10{ margin-top:2.5rem; }
+
+  /* Two-column layout */
+  .two-col{ display:grid; grid-template-columns:1fr; gap:2.5rem; align-items:center; }
+  .two-col.top{ align-items:start; }
+  @media(min-width:1024px){
+    .two-col{ grid-template-columns:1.05fr .95fr; gap:4rem; }
+    .two-col.agenda{ grid-template-columns:1fr auto; }
+    .two-col.next{ grid-template-columns:1fr .85fr; }
   }
-  @keyframes fadeUp { to { opacity: 1; transform: none; } }
 
-  .kicker { font-family: 'JetBrains Mono', monospace; font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; }
-  .display { font-weight: 800; line-height: 1.02; letter-spacing: -0.02em; }
-  .h-step { font-weight: 700; line-height: 1.07; letter-spacing: -0.02em; font-size: clamp(2.3rem, 4.6vw, 3.9rem); }
-  .lead { color: #454545; line-height: 1.7; }
+  /* Checklist */
+  .checklist{ margin:1.75rem 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:.875rem; }
+  .checklist li{ display:flex; gap:.75rem; align-items:flex-start; font-size:1rem; line-height:1.45; }
+  .checklist svg{ margin-top:.18rem; flex:none; }
+  .note{ margin-top:1.75rem; font-size:.9rem; color:var(--sub); border-left:2px solid var(--line); padding-left:1rem; line-height:1.6; }
 
-  .chip { font-family: 'JetBrains Mono', monospace; font-size: .7rem; letter-spacing: .04em; }
+  /* Cards */
+  .card{ border:1px solid var(--line); border-radius:16px; background:var(--warm); padding:1.75rem; }
+  .card.sm{ padding:1.5rem; }
+  .icon-box{ width:56px; height:56px; border-radius:14px; display:grid; place-items:center; background:#fff; border:1px solid var(--line); }
+  .icon-box.s44{ width:44px; height:44px; border-radius:12px; }
+  .icon-box.s40{ width:40px; height:40px; border-radius:12px; }
+  .icon-box.s36{ width:36px; height:36px; border-radius:10px; }
+  .icon-box.warm{ background:var(--warm); }
+
+  /* Chat bubbles */
+  .bubbles{ display:flex; flex-direction:column; gap:.625rem; }
+  .bubble{ padding:.625rem .875rem; border-radius:12px; font-size:.88rem; line-height:1.42; max-width:88%; }
+  .bubble.in{ background:#fff; border:1px solid var(--line); border-top-left-radius:4px; align-self:flex-start; }
+  .bubble.out{ background:var(--ink); color:#fff; border-top-right-radius:4px; align-self:flex-end; }
+  .bubble.out.violet{ background:var(--violet); }
+
+  /* Chips & tags */
+  .chip{ font-family:'JetBrains Mono',monospace; font-size:.7rem; letter-spacing:.04em; color:var(--sub); }
+  .tag{ font-family:'JetBrains Mono',monospace; font-size:.7rem; letter-spacing:.02em; padding:.25rem .625rem; border-radius:8px; white-space:nowrap; }
+  .tag.violet{ background:#F3EEFE; color:var(--violet); }
+  .tag.green{ background:#EDF3EC; color:#2F6B36; }
+  .greendot{ width:6px; height:6px; border-radius:999px; background:#22C55E; display:inline-block; }
+
+  .inner-box{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:1rem; }
+  .codebox{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:.875rem;
+    font-family:'JetBrains Mono',monospace; font-size:.76rem; line-height:1.6; }
+  .codebox p{ margin:0 0 .375rem; }
+
+  .btn-dark{ display:inline-flex; align-items:center; gap:.5rem; background:var(--ink); color:#fff;
+    border-radius:10px; padding:.75rem 1.25rem; font-size:1.05rem; font-weight:500; text-decoration:none;
+    transition:opacity .15s ease, transform .15s ease; }
+  .btn-dark:hover{ opacity:.9; }
+  .btn-dark:active{ transform:scale(.98); }
+
+  /* Agenda list */
+  .agenda-list{ list-style:none; margin:0; padding:0; }
+  .agenda-list li{ display:flex; align-items:baseline; gap:1.25rem; padding:.875rem 0; border-top:1px solid var(--line); }
+  .agenda-list li:last-child{ border-bottom:1px solid var(--line); }
+  .agenda-list .num{ font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--cyan); width:1.5rem; flex:none; }
+  .agenda-list .ti{ font-weight:500; font-size:1.05rem; margin:0; }
+  .agenda-list .de{ color:var(--sub); font-size:.92rem; margin:.12rem 0 0; }
+  .aside{ border:1px solid var(--line); border-radius:16px; background:var(--warm); padding:1.5rem; }
+  @media(min-width:1024px){ .aside{ width:18rem; } }
+
+  /* 4-grid (automatizaciones) */
+  .grid4{ display:grid; grid-template-columns:1fr; gap:1rem; margin-top:2.25rem; }
+  @media(min-width:640px){ .grid4{ grid-template-columns:1fr 1fr; } }
+  @media(min-width:1024px){ .grid4{ grid-template-columns:repeat(4,1fr); } }
+  .mini{ border:1px solid var(--line); border-radius:16px; background:#fff; padding:1.25rem; }
+  .mini .mt{ font-weight:500; margin:1rem 0 0; }
+  .mini .ms{ color:var(--sub); font-size:.88rem; line-height:1.5; margin:.25rem 0 0; }
+
+  /* Flow (config clínica) */
+  .flow{ display:flex; flex-direction:column; gap:.75rem; margin-top:2.25rem; }
+  @media(min-width:1024px){ .flow{ flex-direction:row; align-items:center; gap:.25rem; } }
+  .flow .step{ flex:1; border:1px solid var(--line); border-radius:16px; background:#fff; padding:1.25rem; }
+  .flow .step .n{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--cyan); }
+  .flow .step .t{ font-weight:500; margin:0; }
+  .flow .step .s{ color:var(--sub); font-size:.85rem; margin:.25rem 0 0; }
+  .flow-arrow{ color:#C8C8C8; flex:none; align-self:center; transform:rotate(90deg); }
+  @media(min-width:1024px){ .flow-arrow{ transform:none; } }
+  .darkbar{ margin-top:1.75rem; border-radius:16px; background:var(--ink); color:#fff; padding:1.25rem;
+    display:flex; align-items:flex-start; gap:.75rem; font-size:.95rem; line-height:1.55; }
+
+  /* Uso correcto */
+  .dos{ display:grid; grid-template-columns:1fr; gap:1.25rem; margin-top:2.25rem; }
+  @media(min-width:768px){ .dos{ grid-template-columns:1fr 1fr; } }
+  .panel{ border:1px solid; border-radius:16px; padding:1.5rem; }
+  .panel.bad{ border-color:#F2D5D2; background:#FDEBEC; }
+  .panel.good{ border-color:#D5E4D2; background:#EDF3EC; }
+  .panel-head{ display:flex; align-items:center; gap:.625rem; margin-bottom:1rem; font-weight:600; }
+  .panel ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.75rem; font-size:.96rem; line-height:1.45; }
+  .panel li{ display:flex; gap:.625rem; }
+  .panel.bad ul{ color:#7A2620; } .panel.bad .panel-head{ color:#991B1B; }
+  .panel.good ul{ color:#33502F; } .panel.good .panel-head{ color:#2F6B36; }
+  .b-bad{ color:#B4382F; } .b-good{ color:#2F6B36; }
+
+  /* Cierre WhatsApp chip */
+  .wa{ display:inline-flex; align-items:center; gap:.5rem; border-radius:10px; background:var(--ink); color:#fff;
+    padding:.625rem 1rem; font-size:.9rem; font-weight:500; }
 
   /* Nav */
-  .navbtn {
-    width: 44px; height: 44px; display: grid; place-items: center;
-    border: 1px solid #EAEAEA; border-radius: 12px; background: #fff;
-    transition: background .2s ease, border-color .2s ease, transform .15s ease;
-  }
-  .navbtn:hover { background: #F7F6F3; }
-  .navbtn:active { transform: scale(0.96); }
-  .navbtn:disabled { opacity: .3; cursor: default; }
-  .navbtn:disabled:hover { background: #fff; }
+  .navbtn{ width:44px; height:44px; display:grid; place-items:center; border:1px solid var(--line);
+    border-radius:12px; background:#fff; cursor:pointer; transition:background .2s ease, transform .15s ease; }
+  .navbtn:hover{ background:var(--warm); }
+  .navbtn:active{ transform:scale(.96); }
+  .navbtn:disabled{ opacity:.3; cursor:default; }
+  .navbtn:disabled:hover{ background:#fff; }
+  .nav-wrap{ position:fixed; bottom:1.25rem; right:clamp(1.25rem,6vw,7rem); z-index:40; display:flex; align-items:center; gap:.625rem; }
+  .hint-wrap{ position:fixed; bottom:1.25rem; left:clamp(1.25rem,6vw,7rem); z-index:40; }
+  .hint{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--sub); margin:0; }
 
-  .icon-box { width: 56px; height: 56px; border-radius: 14px; display: grid; place-items: center; }
-
-  .flow-arrow { color: #C8C8C8; flex: none; }
-
-  @media (max-width: 1023px) {
-    .slide { justify-content: flex-start; padding-top: 6rem; padding-bottom: 7rem; overflow-y: auto; }
+  @media (max-width:1023px){
+    .slide{ justify-content:flex-start; padding-top:6rem; padding-bottom:7rem; overflow-y:auto; }
   }
 </style>
 </head>
@@ -96,70 +182,68 @@
   <div id="progress-track"><div id="progress-fill"></div></div>
 
   <!-- Top bar -->
-  <header class="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-[clamp(1.25rem,6vw,7rem)] py-5 pointer-events-none">
-    <div class="flex items-center gap-2 pointer-events-auto">
-      <span class="w-2 h-2 rounded-full bg-cyan inline-block"></span>
-      <span class="font-semibold tracking-tight text-[15px]">Clinera</span>
+  <header class="topbar">
+    <div class="brand">
+      <span class="dot"></span>
+      <span class="name">Clinera</span>
     </div>
-    <div class="font-mono text-[12px] text-sub pointer-events-auto" id="counter">01&nbsp;/&nbsp;10</div>
+    <div class="counter" id="counter">01&nbsp;/&nbsp;10</div>
   </header>
 
   <!-- ============ SLIDE 1 · PORTADA ============ -->
   <section class="slide active" data-i="0">
-    <div class="max-w-4xl self-start">
-      <p class="kicker text-cyan reveal" style="--d:.05s">Onboarding · Clinera</p>
-      <h1 class="display mt-5 reveal text-[clamp(2.6rem,7vw,5.2rem)]" style="--d:.12s">
-        Bienvenido a<br>tu nueva clínica.
-      </h1>
-      <p class="lead mt-6 text-[clamp(1.05rem,2vw,1.4rem)] max-w-2xl reveal" style="--d:.22s">
+    <div class="w-narrow">
+      <p class="kicker c-cyan reveal" style="--d:.05s">Onboarding · Clinera</p>
+      <h1 class="display mt-5 reveal" style="--d:.12s">Bienvenido a<br>tu nueva clínica.</h1>
+      <p class="lead mt-6 reveal" style="--d:.22s; font-size:clamp(1.05rem,2vw,1.4rem); max-width:42rem;">
         Hoy dejamos lista la base para que tu clínica empiece a operar sola. Te guiamos paso a paso, sin tecnicismos.
       </p>
-      <div class="mt-10 flex items-center gap-3 reveal" style="--d:.34s">
-        <span class="font-mono text-[12px] text-sub">Click o</span>
-        <span class="navbtn !w-9 !h-9 pointer-events-none">
+      <div class="mt-10 reveal" style="--d:.34s; display:flex; align-items:center; gap:.75rem;">
+        <span class="chip">Click o</span>
+        <span class="navbtn" style="width:36px; height:36px; pointer-events:none;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </span>
-        <span class="font-mono text-[12px] text-sub">para comenzar</span>
+        <span class="chip">para comenzar</span>
       </div>
     </div>
   </section>
 
   <!-- ============ SLIDE 2 · AGENDA ============ -->
   <section class="slide" data-i="1">
-    <div class="max-w-5xl w-full">
-      <p class="kicker text-cyan reveal" style="--d:.05s">Agenda de hoy</p>
+    <div class="w-wide">
+      <p class="kicker c-cyan reveal" style="--d:.05s">Agenda de hoy</p>
       <h2 class="h-step mt-4 reveal" style="--d:.12s">5 pasos para dejarla operativa</h2>
 
-      <div class="mt-9 grid lg:grid-cols-[1fr_auto] gap-10 lg:gap-16 items-start">
-        <ol class="space-y-px">
-          <li class="flex items-baseline gap-5 py-3.5 border-t border-line reveal" style="--d:.18s">
-            <span class="font-mono text-[13px] text-cyan w-6 flex-none">01</span>
-            <div><p class="font-medium text-[1.05rem]">Conexión de WhatsApp</p><p class="text-sub text-[.92rem] mt-0.5">Conectamos el número de tu clínica. Somos partners de Meta.</p></div>
+      <div class="two-col agenda top mt-9">
+        <ol class="agenda-list">
+          <li class="reveal" style="--d:.18s">
+            <span class="num">01</span>
+            <div><p class="ti">Conexión de WhatsApp</p><p class="de">Conectamos el número de tu clínica. Somos partners de Meta.</p></div>
           </li>
-          <li class="flex items-baseline gap-5 py-3.5 border-t border-line reveal" style="--d:.25s">
-            <span class="font-mono text-[13px] text-cyan w-6 flex-none">02</span>
-            <div><p class="font-medium text-[1.05rem]">Tu agente de IA</p><p class="text-sub text-[.92rem] mt-0.5">Configuramos y afinamos el asistente que conversa por ti.</p></div>
+          <li class="reveal" style="--d:.25s">
+            <span class="num">02</span>
+            <div><p class="ti">Tu agente de IA</p><p class="de">Configuramos y afinamos el asistente que conversa por ti.</p></div>
           </li>
-          <li class="flex items-baseline gap-5 py-3.5 border-t border-line reveal" style="--d:.32s">
-            <span class="font-mono text-[13px] text-cyan w-6 flex-none">03</span>
-            <div><p class="font-medium text-[1.05rem]">Automatizaciones</p><p class="text-sub text-[.92rem] mt-0.5">Recordatorios, confirmaciones y seguimiento de pacientes.</p></div>
+          <li class="reveal" style="--d:.32s">
+            <span class="num">03</span>
+            <div><p class="ti">Automatizaciones</p><p class="de">Recordatorios, confirmaciones y seguimiento de pacientes.</p></div>
           </li>
-          <li class="flex items-baseline gap-5 py-3.5 border-t border-line reveal" style="--d:.39s">
-            <span class="font-mono text-[13px] text-cyan w-6 flex-none">04</span>
-            <div><p class="font-medium text-[1.05rem]">Configuración de tu clínica</p><p class="text-sub text-[.92rem] mt-0.5">Sucursales, especialidades, tratamientos y profesionales.</p></div>
+          <li class="reveal" style="--d:.39s">
+            <span class="num">04</span>
+            <div><p class="ti">Configuración de tu clínica</p><p class="de">Sucursales, especialidades, tratamientos y profesionales.</p></div>
           </li>
-          <li class="flex items-baseline gap-5 py-3.5 border-t border-b border-line reveal" style="--d:.46s">
-            <span class="font-mono text-[13px] text-cyan w-6 flex-none">05</span>
-            <div><p class="font-medium text-[1.05rem]">Uso correcto</p><p class="text-sub text-[.92rem] mt-0.5">Buenas prácticas para proteger tu número de bloqueos.</p></div>
+          <li class="reveal" style="--d:.46s">
+            <span class="num">05</span>
+            <div><p class="ti">Uso correcto</p><p class="de">Buenas prácticas para proteger tu número de bloqueos.</p></div>
           </li>
         </ol>
 
-        <aside class="lg:w-72 rounded-xl border border-line bg-warm p-6 reveal" style="--d:.5s">
-          <div class="icon-box bg-white border border-line mb-4">
+        <aside class="aside reveal" style="--d:.5s">
+          <div class="icon-box" style="margin-bottom:1rem;">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
           </div>
-          <p class="font-semibold text-[1.02rem] leading-snug">Hoy montamos una base de ejemplo</p>
-          <p class="text-sub text-[.9rem] mt-2 leading-relaxed">
+          <p class="fw-semi" style="font-size:1.02rem; line-height:1.3; margin:0;">Hoy montamos una base de ejemplo</p>
+          <p class="c-sub" style="font-size:.9rem; line-height:1.55; margin:.5rem 0 0;">
             Creamos juntos un tratamiento, un profesional y una sucursal de prueba. Después tú la completas con los datos reales de tu clínica.
           </p>
         </aside>
@@ -169,43 +253,41 @@
 
   <!-- ============ SLIDE 3 · PASO 1 CONEXIÓN ============ -->
   <section class="slide" data-i="2">
-    <div class="max-w-5xl w-full grid lg:grid-cols-[1.05fr_.95fr] gap-10 lg:gap-16 items-center">
+    <div class="w-wide two-col">
       <div>
-        <p class="kicker text-cyan reveal" style="--d:.05s">Paso 1 · Conexión</p>
+        <p class="kicker c-cyan reveal" style="--d:.05s">Paso 1 · Conexión</p>
         <h2 class="h-step mt-4 reveal" style="--d:.12s">Conectamos tu WhatsApp</h2>
-        <p class="lead mt-5 text-[1.08rem] reveal" style="--d:.2s">
+        <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem;">
           Somos partners oficiales de Meta. Eso nos permite vincular el WhatsApp de tu clínica de forma directa y segura, sin intermediarios.
         </p>
-        <ul class="mt-7 space-y-3.5">
-          <li class="flex gap-3 reveal" style="--d:.28s">
-            <svg class="mt-1 flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span class="text-[1rem]">Vinculamos el número de tu clínica a Clinera.</span>
+        <ul class="checklist">
+          <li class="reveal" style="--d:.28s">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Vinculamos el número de tu clínica a Clinera.</span>
           </li>
-          <li class="flex gap-3 reveal" style="--d:.34s">
-            <svg class="mt-1 flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span class="text-[1rem]">Lo hacemos juntos en esta reunión, compartiendo pantalla.</span>
+          <li class="reveal" style="--d:.34s">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Lo hacemos juntos en esta reunión, compartiendo pantalla.</span>
           </li>
-          <li class="flex gap-3 reveal" style="--d:.4s">
-            <svg class="mt-1 flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span class="text-[1rem]">Tu agente queda listo para conversar por WhatsApp.</span>
+          <li class="reveal" style="--d:.4s">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Tu agente queda listo para conversar por WhatsApp.</span>
           </li>
         </ul>
-        <p class="mt-7 text-[.9rem] text-sub border-l-2 border-line pl-4 reveal" style="--d:.46s">
-          Recomendación: usa un número dedicado a la clínica, no uno personal.
-        </p>
+        <p class="note reveal" style="--d:.46s">Recomendación: usa un número dedicado a la clínica, no uno personal.</p>
       </div>
       <div class="reveal" style="--d:.3s">
-        <div class="rounded-xl border border-line bg-warm p-7">
-          <div class="icon-box bg-white border border-line mb-5">
+        <div class="card">
+          <div class="icon-box" style="margin-bottom:1.25rem;">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
           </div>
-          <div class="flex items-center gap-2 mb-4">
-            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-            <span class="chip text-sub">Número vinculado</span>
+          <div style="display:flex; align-items:center; gap:.5rem; margin-bottom:1rem;">
+            <span class="greendot"></span>
+            <span class="chip">Número vinculado</span>
           </div>
-          <div class="space-y-2.5">
-            <div class="bg-white border border-line rounded-lg rounded-tl-sm px-3.5 py-2.5 text-[.88rem] max-w-[85%]">Hola, quiero agendar una limpieza facial.</div>
-            <div class="bg-ink text-white rounded-lg rounded-tr-sm px-3.5 py-2.5 text-[.88rem] max-w-[85%] ml-auto">¡Claro! Tengo cupos el jueves a las 10:00 o 15:30. ¿Cuál te acomoda?</div>
+          <div class="bubbles">
+            <div class="bubble in">Hola, quiero agendar una limpieza facial.</div>
+            <div class="bubble out">¡Claro! Tengo cupos el jueves a las 10:00 o 15:30. ¿Cuál te acomoda?</div>
           </div>
         </div>
       </div>
@@ -214,45 +296,45 @@
 
   <!-- ============ SLIDE 4 · PASO 1 PLANTILLAS ============ -->
   <section class="slide" data-i="3">
-    <div class="max-w-5xl w-full grid lg:grid-cols-[1.05fr_.95fr] gap-10 lg:gap-16 items-center">
+    <div class="w-wide two-col">
       <div>
-        <p class="kicker text-cyan reveal" style="--d:.05s">Paso 1 · Plantillas</p>
+        <p class="kicker c-cyan reveal" style="--d:.05s">Paso 1 · Plantillas</p>
         <h2 class="h-step mt-4 reveal" style="--d:.12s">Plantillas y método de pago</h2>
-        <p class="lead mt-5 text-[1.08rem] reveal" style="--d:.2s">
+        <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem;">
           Para enviar mensajes proactivos —recordatorios o confirmaciones de cita— Meta exige usar plantillas aprobadas. Cada conversación que inicia la clínica tiene un costo que cobra Meta, no Clinera.
         </p>
-        <ul class="mt-7 space-y-3.5">
-          <li class="flex gap-3 reveal" style="--d:.28s">
-            <svg class="mt-1 flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span class="text-[1rem]">Asociamos un método de pago para habilitar el envío de plantillas.</span>
+        <ul class="checklist">
+          <li class="reveal" style="--d:.28s">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Asociamos un método de pago para habilitar el envío de plantillas.</span>
           </li>
-          <li class="flex gap-3 reveal" style="--d:.34s">
-            <svg class="mt-1 flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span class="text-[1rem]">El costo lo define Meta por conversación: bajo y predecible.</span>
+          <li class="reveal" style="--d:.34s">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>El costo lo define Meta por conversación: bajo y predecible.</span>
           </li>
-          <li class="flex gap-3 reveal" style="--d:.4s">
-            <svg class="mt-1 flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span class="text-[1rem]">Sin esto, el agente solo puede responder, no iniciar conversaciones.</span>
+          <li class="reveal" style="--d:.4s">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Sin esto, el agente solo puede responder, no iniciar conversaciones.</span>
           </li>
         </ul>
-        <a href="https://whatsappbusiness.com/es-la/products/platform-pricing/" target="_blank" rel="noopener noreferrer" class="reveal inline-flex items-center gap-2 mt-7 bg-ink text-white rounded-lg px-5 py-3 text-[1.05rem] font-medium transition-transform duration-150 active:scale-[0.98] hover:opacity-90" style="--d:.46s">
+        <a href="https://whatsappbusiness.com/es-la/products/platform-pricing/" target="_blank" rel="noopener noreferrer" class="btn-dark reveal" style="--d:.46s; margin-top:1.75rem;">
           Ver precios oficiales de Meta
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
         </a>
       </div>
       <div class="reveal" style="--d:.3s">
-        <div class="rounded-xl border border-line bg-warm p-7">
-          <div class="icon-box bg-white border border-line mb-5">
+        <div class="card">
+          <div class="icon-box" style="margin-bottom:1.25rem;">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>
           </div>
-          <p class="chip text-sub mb-3">Ejemplo de plantilla</p>
-          <div class="bg-white border border-line rounded-lg p-4">
-            <p class="text-[.7rem] font-mono text-sub mb-2">RECORDATORIO DE CITA</p>
-            <p class="text-[.9rem] leading-relaxed">Hola, te recordamos tu cita en <span class="text-cyan">Clínica Aurora</span> el <span class="text-cyan">jueves 14:30</span>. Responde CONFIRMAR para validar tu hora.</p>
+          <p class="chip" style="margin-bottom:.75rem;">Ejemplo de plantilla</p>
+          <div class="inner-box">
+            <p class="mono c-sub" style="font-size:.7rem; margin:0 0 .5rem;">RECORDATORIO DE CITA</p>
+            <p style="font-size:.9rem; line-height:1.55; margin:0;">Hola, te recordamos tu cita en <span class="c-cyan">Clínica Aurora</span> el <span class="c-cyan">jueves 14:30</span>. Responde CONFIRMAR para validar tu hora.</p>
           </div>
-          <div class="flex items-center justify-between mt-4">
-            <span class="chip text-sub">Estado</span>
-            <span class="chip px-2.5 py-1 rounded-md bg-[#EDF3EC] text-[#2F6B36]">Aprobada por Meta</span>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:1rem;">
+            <span class="chip">Estado</span>
+            <span class="tag green">Aprobada por Meta</span>
           </div>
         </div>
       </div>
@@ -261,51 +343,49 @@
 
   <!-- ============ SLIDE 5 · PASO 2 AGENTE IA (violeta) ============ -->
   <section class="slide" data-i="4">
-    <div class="max-w-5xl w-full grid lg:grid-cols-[1.05fr_.95fr] gap-10 lg:gap-16 items-center">
+    <div class="w-wide two-col">
       <div>
-        <p class="kicker text-violet reveal" style="--d:.05s">Paso 2 · Agente IA</p>
+        <p class="kicker c-violet reveal" style="--d:.05s">Paso 2 · Agente IA</p>
         <h2 class="h-step mt-4 reveal" style="--d:.12s">Empieza simple,<br>afina después</h2>
-        <p class="lead mt-5 text-[1.08rem] reveal" style="--d:.2s">
+        <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem;">
           Tu agente ya viene con reglas integradas de fábrica: sabe agendar, responder y derivar. La clave es cargar lo mínimo al principio e ir mejorándolo de a poco, no llenarlo de todo de una vez.
         </p>
-        <ul class="mt-7 space-y-3.5">
-          <li class="flex gap-3 reveal" style="--d:.28s">
-            <svg class="mt-1 flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span class="text-[1rem]">Carga solo lo esencial al principio. Menos es más.</span>
+        <ul class="checklist">
+          <li class="reveal" style="--d:.28s">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Carga solo lo esencial al principio. Menos es más.</span>
           </li>
-          <li class="flex gap-3 reveal" style="--d:.34s">
-            <svg class="mt-1 flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span class="text-[1rem]">Pruébalo en el <span class="font-semibold text-violet">Playground</span> las veces que quieras, sin afectar a pacientes reales.</span>
+          <li class="reveal" style="--d:.34s">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Pruébalo en el <span class="fw-semi c-violet">Playground</span> las veces que quieras, sin afectar a pacientes reales.</span>
           </li>
-          <li class="flex gap-3 reveal" style="--d:.4s">
-            <svg class="mt-1 flex-none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span class="text-[1rem]">Ajústalo de a poco según cómo responde. Iterar gana a sobrecargar.</span>
+          <li class="reveal" style="--d:.4s">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Ajústalo de a poco según cómo responde. Iterar gana a sobrecargar.</span>
           </li>
         </ul>
-        <p class="mt-7 text-[.9rem] text-sub border-l-2 border-line pl-4 reveal" style="--d:.46s">
-          Un prompt corto y bien probado rinde más que uno largo sin testear.
-        </p>
+        <p class="note reveal" style="--d:.46s">Un prompt corto y bien probado rinde más que uno largo sin testear.</p>
       </div>
       <div class="reveal" style="--d:.3s">
-        <div class="rounded-xl border border-line bg-warm p-6">
-          <div class="flex items-center justify-between mb-5">
-            <div class="flex items-center gap-2.5">
-              <span class="icon-box !w-10 !h-10 !rounded-xl" style="background:#F3EEFE;border:1px solid #E4D9FB">
+        <div class="card sm">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem;">
+            <div style="display:flex; align-items:center; gap:.625rem;">
+              <span class="icon-box s40" style="background:#F3EEFE; border-color:#E4D9FB;">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/><circle cx="9.5" cy="10.5" r="1"/><circle cx="14.5" cy="10.5" r="1"/><path d="M9 15h6"/></svg>
               </span>
-              <span class="font-medium text-[.95rem]">Playground</span>
+              <span class="fw-med" style="font-size:.95rem;">Playground</span>
             </div>
-            <span class="chip px-2.5 py-1 rounded-md" style="background:#F3EEFE;color:#7C3AED">prueba sin riesgo</span>
+            <span class="tag violet">prueba sin riesgo</span>
           </div>
-          <p class="chip text-sub mb-2">Prompt mínimo</p>
-          <div class="bg-white border border-line rounded-lg p-3.5 font-mono text-[.76rem] leading-relaxed space-y-1.5 mb-4">
-            <p><span class="text-violet">Reglas base</span> · agendar, confirmar, derivar</p>
-            <p class="text-ink">+ Servicios: limpieza facial</p>
+          <p class="chip" style="margin-bottom:.5rem;">Prompt mínimo</p>
+          <div class="codebox" style="margin-bottom:1rem;">
+            <p><span class="c-violet">Reglas base</span> · agendar, confirmar, derivar</p>
+            <p style="color:var(--ink); margin:0;">+ Servicios: limpieza facial</p>
           </div>
-          <p class="chip text-sub mb-2">Prueba</p>
-          <div class="space-y-2">
-            <div class="bg-white border border-line rounded-lg rounded-tl-sm px-3.5 py-2.5 text-[.84rem] max-w-[85%]">¿Tienen hora para mañana?</div>
-            <div class="text-white rounded-lg rounded-tr-sm px-3.5 py-2.5 text-[.84rem] max-w-[90%] ml-auto" style="background:#7C3AED">Sí, mañana tengo 11:00 o 16:30. ¿Cuál te acomoda?</div>
+          <p class="chip" style="margin-bottom:.5rem;">Prueba</p>
+          <div class="bubbles">
+            <div class="bubble in" style="font-size:.84rem;">¿Tienen hora para mañana?</div>
+            <div class="bubble out violet" style="font-size:.84rem; max-width:90%;">Sí, mañana tengo 11:00 o 16:30. ¿Cuál te acomoda?</div>
           </div>
         </div>
       </div>
@@ -314,32 +394,32 @@
 
   <!-- ============ SLIDE 6 · PASO 3 AUTOMATIZACIONES ============ -->
   <section class="slide" data-i="5">
-    <div class="max-w-5xl w-full">
-      <p class="kicker text-cyan reveal" style="--d:.05s">Paso 3 · Automatizaciones</p>
+    <div class="w-wide">
+      <p class="kicker c-cyan reveal" style="--d:.05s">Paso 3 · Automatizaciones</p>
       <h2 class="h-step mt-4 reveal" style="--d:.12s">Automatiza lo repetitivo</h2>
-      <p class="lead mt-5 text-[1.08rem] max-w-2xl reveal" style="--d:.2s">
+      <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:42rem;">
         Clinera se encarga de las tareas que hoy haces a mano. Dejamos las automatizaciones base activas; tú ajustas tiempos y mensajes.
       </p>
-      <div class="mt-9 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="rounded-xl border border-line bg-white p-5 reveal" style="--d:.26s">
+      <div class="grid4">
+        <div class="mini reveal" style="--d:.26s">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-          <p class="font-medium mt-4">Recordatorios</p>
-          <p class="text-sub text-[.88rem] mt-1 leading-relaxed">Avisos automáticos antes de cada cita.</p>
+          <p class="mt">Recordatorios</p>
+          <p class="ms">Avisos automáticos antes de cada cita.</p>
         </div>
-        <div class="rounded-xl border border-line bg-white p-5 reveal" style="--d:.32s">
+        <div class="mini reveal" style="--d:.32s">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
-          <p class="font-medium mt-4">Confirmaciones</p>
-          <p class="text-sub text-[.88rem] mt-1 leading-relaxed">El paciente confirma o reagenda solo.</p>
+          <p class="mt">Confirmaciones</p>
+          <p class="ms">El paciente confirma o reagenda solo.</p>
         </div>
-        <div class="rounded-xl border border-line bg-white p-5 reveal" style="--d:.38s">
+        <div class="mini reveal" style="--d:.38s">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-          <p class="font-medium mt-4">Reactivación</p>
-          <p class="text-sub text-[.88rem] mt-1 leading-relaxed">Recupera pacientes que no vuelven hace meses.</p>
+          <p class="mt">Reactivación</p>
+          <p class="ms">Recupera pacientes que no vuelven hace meses.</p>
         </div>
-        <div class="rounded-xl border border-line bg-white p-5 reveal" style="--d:.44s">
+        <div class="mini reveal" style="--d:.44s">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <p class="font-medium mt-4">Seguimiento</p>
-          <p class="text-sub text-[.88rem] mt-1 leading-relaxed">Mensaje post-atención para fidelizar.</p>
+          <p class="mt">Seguimiento</p>
+          <p class="ms">Mensaje post-atención para fidelizar.</p>
         </div>
       </div>
     </div>
@@ -347,96 +427,96 @@
 
   <!-- ============ SLIDE 7 · PASO 4 CONFIG CLÍNICA ============ -->
   <section class="slide" data-i="6">
-    <div class="max-w-5xl w-full">
-      <p class="kicker text-cyan reveal" style="--d:.05s">Paso 4 · Tu clínica</p>
+    <div class="w-wide">
+      <p class="kicker c-cyan reveal" style="--d:.05s">Paso 4 · Tu clínica</p>
       <h2 class="h-step mt-4 reveal" style="--d:.12s">Carga la estructura de tu clínica</h2>
-      <p class="lead mt-5 text-[1.08rem] max-w-2xl reveal" style="--d:.2s">
+      <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:42rem;">
         El orden importa: cada elemento se apoya en el anterior. Hacemos el ejercicio juntos creando un ejemplo de cada uno.
       </p>
 
-      <div class="mt-9 flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-1">
-        <div class="flex-1 rounded-xl border border-line bg-white p-5 reveal" style="--d:.26s">
-          <span class="font-mono text-[12px] text-cyan">01</span>
-          <div class="icon-box !w-11 !h-11 bg-warm border border-line my-3">
+      <div class="flow">
+        <div class="step reveal" style="--d:.26s">
+          <span class="n">01</span>
+          <div class="icon-box s44 warm" style="margin:.75rem 0;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/><path d="M9 9v0M9 13v0M9 17v0"/></svg>
           </div>
-          <p class="font-medium">Sucursal</p>
-          <p class="text-sub text-[.85rem] mt-1">Dónde atiende tu clínica.</p>
+          <p class="t">Sucursal</p>
+          <p class="s">Dónde atiende tu clínica.</p>
         </div>
-        <svg class="flow-arrow self-center rotate-90 lg:rotate-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        <div class="flex-1 rounded-xl border border-line bg-white p-5 reveal" style="--d:.34s">
-          <span class="font-mono text-[12px] text-cyan">02</span>
-          <div class="icon-box !w-11 !h-11 bg-warm border border-line my-3">
+        <svg class="flow-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="step reveal" style="--d:.34s">
+          <span class="n">02</span>
+          <div class="icon-box s44 warm" style="margin:.75rem 0;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M9 6c-3 1-5 3-5 7v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4c0-4-2-6-5-7"/></svg>
           </div>
-          <p class="font-medium">Especialidad</p>
-          <p class="text-sub text-[.85rem] mt-1">Áreas que ofreces.</p>
+          <p class="t">Especialidad</p>
+          <p class="s">Áreas que ofreces.</p>
         </div>
-        <svg class="flow-arrow self-center rotate-90 lg:rotate-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        <div class="flex-1 rounded-xl border border-line bg-white p-5 reveal" style="--d:.42s">
-          <span class="font-mono text-[12px] text-cyan">03</span>
-          <div class="icon-box !w-11 !h-11 bg-warm border border-line my-3">
+        <svg class="flow-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="step reveal" style="--d:.42s">
+          <span class="n">03</span>
+          <div class="icon-box s44 warm" style="margin:.75rem 0;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v6h6"/><path d="M4 2h10l6 6v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M9 13h6M9 17h4"/></svg>
           </div>
-          <p class="font-medium">Tratamiento</p>
-          <p class="text-sub text-[.85rem] mt-1">Servicios y duración.</p>
+          <p class="t">Tratamiento</p>
+          <p class="s">Servicios y duración.</p>
         </div>
-        <svg class="flow-arrow self-center rotate-90 lg:rotate-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        <div class="flex-1 rounded-xl border border-line bg-white p-5 reveal" style="--d:.5s">
-          <span class="font-mono text-[12px] text-cyan">04</span>
-          <div class="icon-box !w-11 !h-11 bg-warm border border-line my-3">
+        <svg class="flow-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="step reveal" style="--d:.5s">
+          <span class="n">04</span>
+          <div class="icon-box s44 warm" style="margin:.75rem 0;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>
           </div>
-          <p class="font-medium">Profesional</p>
-          <p class="text-sub text-[.85rem] mt-1">Quién atiende y su agenda.</p>
+          <p class="t">Profesional</p>
+          <p class="s">Quién atiende y su agenda.</p>
         </div>
       </div>
 
-      <div class="mt-7 rounded-xl bg-ink text-white p-5 flex items-start gap-3 reveal" style="--d:.58s">
-        <svg class="mt-0.5 flex-none" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-        <p class="text-[.95rem] leading-relaxed">Hoy creamos <span class="text-cyan font-medium">un ejemplo de cada uno</span> juntos. Después replicas el mismo proceso con todos los datos reales de tu clínica.</p>
+      <div class="darkbar reveal" style="--d:.58s">
+        <svg style="margin-top:.12rem; flex:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <p style="margin:0;">Hoy creamos <span class="c-cyan fw-med">un ejemplo de cada uno</span> juntos. Después replicas el mismo proceso con todos los datos reales de tu clínica.</p>
       </div>
     </div>
   </section>
 
   <!-- ============ SLIDE 8 · PASO 5 USO CORRECTO ============ -->
   <section class="slide" data-i="7">
-    <div class="max-w-5xl w-full">
-      <p class="kicker reveal" style="--d:.05s;color:#B4382F">Paso 5 · Uso correcto</p>
+    <div class="w-wide">
+      <p class="kicker reveal" style="--d:.05s; color:#B4382F;">Paso 5 · Uso correcto</p>
       <h2 class="h-step mt-4 reveal" style="--d:.12s">Cuida tu número, cuida tu clínica</h2>
-      <p class="lead mt-5 text-[1.08rem] max-w-2xl reveal" style="--d:.2s">
+      <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:42rem;">
         WhatsApp y Meta penalizan el mal uso, y un número bloqueado deja a tu clínica sin canal. Estas reglas lo protegen.
       </p>
 
-      <div class="mt-9 grid md:grid-cols-2 gap-5">
+      <div class="dos">
         <!-- Evita -->
-        <div class="rounded-xl border p-6 reveal" style="--d:.26s;border-color:#F2D5D2;background:#FDEBEC">
-          <div class="flex items-center gap-2.5 mb-4">
-            <span class="icon-box !w-9 !h-9 !rounded-lg" style="background:#fff">
+        <div class="panel bad reveal" style="--d:.26s">
+          <div class="panel-head">
+            <span class="icon-box s36" style="background:#fff; border:none;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B4382F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </span>
-            <span class="font-semibold text-[#991B1B]">Evita</span>
+            Evita
           </div>
-          <ul class="space-y-3 text-[.96rem] text-[#7A2620]">
-            <li class="flex gap-2.5"><span class="text-[#B4382F] mt-px">×</span> Envíos masivos o no solicitados (spam).</li>
-            <li class="flex gap-2.5"><span class="text-[#B4382F] mt-px">×</span> Nombres de marcas registradas como <span class="font-medium">«Botox»</span>.</li>
-            <li class="flex gap-2.5"><span class="text-[#B4382F] mt-px">×</span> Vender o promocionar medicamentos.</li>
-            <li class="flex gap-2.5"><span class="text-[#B4382F] mt-px">×</span> Promesas médicas o resultados garantizados.</li>
+          <ul>
+            <li><span class="b-bad" style="margin-top:1px;">×</span> Envíos masivos o no solicitados (spam).</li>
+            <li><span class="b-bad" style="margin-top:1px;">×</span> Nombres de marcas registradas como <span class="fw-med">«Botox»</span>.</li>
+            <li><span class="b-bad" style="margin-top:1px;">×</span> Vender o promocionar medicamentos.</li>
+            <li><span class="b-bad" style="margin-top:1px;">×</span> Promesas médicas o resultados garantizados.</li>
           </ul>
         </div>
         <!-- Recomendado -->
-        <div class="rounded-xl border p-6 reveal" style="--d:.34s;border-color:#D5E4D2;background:#EDF3EC">
-          <div class="flex items-center gap-2.5 mb-4">
-            <span class="icon-box !w-9 !h-9 !rounded-lg" style="background:#fff">
+        <div class="panel good reveal" style="--d:.34s">
+          <div class="panel-head">
+            <span class="icon-box s36" style="background:#fff; border:none;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6B36" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
             </span>
-            <span class="font-semibold text-[#2F6B36]">Recomendado</span>
+            Recomendado
           </div>
-          <ul class="space-y-3 text-[.96rem] text-[#33502F]">
-            <li class="flex gap-2.5"><span class="text-[#2F6B36] mt-px">+</span> Escribe solo a quien dio su consentimiento.</li>
-            <li class="flex gap-2.5"><span class="text-[#2F6B36] mt-px">+</span> Usa términos genéricos (ej. «tratamiento facial»).</li>
-            <li class="flex gap-2.5"><span class="text-[#2F6B36] mt-px">+</span> Mensajes claros, relevantes y oportunos.</li>
-            <li class="flex gap-2.5"><span class="text-[#2F6B36] mt-px">+</span> Revisa cada mensaje antes de un envío amplio.</li>
+          <ul>
+            <li><span class="b-good" style="margin-top:1px;">+</span> Escribe solo a quien dio su consentimiento.</li>
+            <li><span class="b-good" style="margin-top:1px;">+</span> Usa términos genéricos (ej. «tratamiento facial»).</li>
+            <li><span class="b-good" style="margin-top:1px;">+</span> Mensajes claros, relevantes y oportunos.</li>
+            <li><span class="b-good" style="margin-top:1px;">+</span> Revisa cada mensaje antes de un envío amplio.</li>
           </ul>
         </div>
       </div>
@@ -445,26 +525,26 @@
 
   <!-- ============ SLIDE 9 · LO QUE SIGUE ============ -->
   <section class="slide" data-i="8">
-    <div class="max-w-5xl w-full grid lg:grid-cols-[1fr_.85fr] gap-10 lg:gap-16 items-center">
+    <div class="w-wide two-col next">
       <div>
-        <p class="kicker text-cyan reveal" style="--d:.05s">Lo que sigue</p>
+        <p class="kicker c-cyan reveal" style="--d:.05s">Lo que sigue</p>
         <h2 class="h-step mt-4 reveal" style="--d:.12s">Esto es tu base.<br>Ahora la haces tuya.</h2>
-        <p class="lead mt-5 text-[1.08rem] reveal" style="--d:.2s">
+        <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem;">
           Hoy dejamos todo funcionando con datos de ejemplo. El siguiente paso es completarlo con la información real de tu clínica.
         </p>
       </div>
-      <ol class="space-y-px reveal" style="--d:.3s">
-        <li class="flex items-baseline gap-4 py-4 border-t border-line">
-          <span class="font-mono text-[13px] text-cyan flex-none">01</span>
-          <span class="text-[1rem]">Reemplaza los ejemplos por tus tratamientos, profesionales y sucursales reales.</span>
+      <ol class="agenda-list reveal" style="--d:.3s">
+        <li>
+          <span class="num">01</span>
+          <span style="font-size:1rem; line-height:1.45;">Reemplaza los ejemplos por tus tratamientos, profesionales y sucursales reales.</span>
         </li>
-        <li class="flex items-baseline gap-4 py-4 border-t border-line">
-          <span class="font-mono text-[13px] text-cyan flex-none">02</span>
-          <span class="text-[1rem]">Afina el prompt de tu agente con el detalle de tu clínica.</span>
+        <li>
+          <span class="num">02</span>
+          <span style="font-size:1rem; line-height:1.45;">Afina el prompt de tu agente con el detalle de tu clínica.</span>
         </li>
-        <li class="flex items-baseline gap-4 py-4 border-t border-b border-line">
-          <span class="font-mono text-[13px] text-cyan flex-none">03</span>
-          <span class="text-[1rem]">Agendamos una segunda reunión para revisar y dejar todo 100% operativo.</span>
+        <li>
+          <span class="num">03</span>
+          <span style="font-size:1rem; line-height:1.45;">Agendamos una segunda reunión para revisar y dejar todo 100% operativo.</span>
         </li>
       </ol>
     </div>
@@ -472,29 +552,27 @@
 
   <!-- ============ SLIDE 10 · CIERRE ============ -->
   <section class="slide" data-i="9">
-    <div class="max-w-4xl self-start">
-      <p class="kicker text-cyan reveal" style="--d:.05s">Clinera · Onboarding</p>
-      <h1 class="display mt-5 reveal text-[clamp(2.4rem,6.5vw,5rem)]" style="--d:.12s">
-        Tu clínica, lista<br>para operar sola.
-      </h1>
-      <p class="lead mt-6 text-[clamp(1.05rem,2vw,1.35rem)] max-w-2xl reveal" style="--d:.22s">
+    <div class="w-narrow">
+      <p class="kicker c-cyan reveal" style="--d:.05s">Clinera · Onboarding</p>
+      <h1 class="display sm mt-5 reveal" style="--d:.12s">Tu clínica, lista<br>para operar sola.</h1>
+      <p class="lead mt-6 reveal" style="--d:.22s; font-size:clamp(1.05rem,2vw,1.35rem); max-width:42rem;">
         Cualquier duda durante la configuración, tu equipo de Clinera está a un mensaje de distancia.
       </p>
-      <div class="mt-9 flex flex-wrap items-center gap-3 reveal" style="--d:.32s">
-        <span class="inline-flex items-center gap-2 rounded-lg bg-ink text-white px-4 py-2.5 text-[.9rem] font-medium">
+      <div class="mt-9 reveal" style="--d:.32s; display:flex; flex-wrap:wrap; align-items:center; gap:.75rem;">
+        <span class="wa">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
           Soporte por WhatsApp
         </span>
-        <span class="font-mono text-[12px] text-sub">clinera.io</span>
+        <span class="chip">clinera.io</span>
       </div>
     </div>
   </section>
 
   <!-- Nav controls -->
-  <div class="fixed bottom-5 left-[clamp(1.25rem,6vw,7rem)] z-40">
-    <p id="hint" class="font-mono text-[11px] text-sub">Click o → para avanzar</p>
+  <div class="hint-wrap">
+    <p id="hint" class="hint">Click o → para avanzar</p>
   </div>
-  <div class="fixed bottom-5 right-[clamp(1.25rem,6vw,7rem)] z-40 flex items-center gap-2.5">
+  <div class="nav-wrap">
     <button id="prev" class="navbtn" aria-label="Anterior">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
     </button>
