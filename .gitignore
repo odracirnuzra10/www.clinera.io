@@ -8,8 +8,9 @@ node_modules/
 .env*
 .DS_Store
 
-# Carpetas viejas que no queremos en el repo
-onboarding/
+# Carpetas viejas que no queremos en el repo (ancladas a la raíz;
+# /public/onboarding es una página del sitio y sí debe versionarse)
+/onboarding/
 WEBINAR/
 "web 2.0"/
 "web 2.0_backup"/
