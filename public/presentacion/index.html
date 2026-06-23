@@ -987,7 +987,7 @@
   .fmode{
     font-family:var(--mono); font-size:10px; letter-spacing:.07em; text-transform:uppercase;
     padding:5px 11px; border-radius:999px; border:1px solid var(--line); color:var(--muted);
-    background:#fff; transition:background .35s ease, color .35s ease, border-color .35s ease;
+    background:#fff; cursor:pointer; transition:background .35s ease, color .35s ease, border-color .35s ease;
   }
   .fmode.active{ background:linear-gradient(135deg,var(--violet),var(--magenta)); color:#fff; border-color:transparent; }
   .ficha-stage{ position:relative; min-height:392px; }
@@ -3951,7 +3951,7 @@
       if (n === 1) playAuraChat();
       if (n === 2) initCamilaWave();
       if (n === 3) playLiaScan();
-      if (n === 8) runFichaShowcase();
+      if (n === 8){ if (fichaLoopTimer) clearTimeout(fichaLoopTimer); showFichaView(0); }
       if (n === 10) playChatIA();
       setTimeout(function(){ isAnimating = false; }, 200);
     }, 300);
@@ -4019,6 +4019,11 @@
       if (s.idx < s.total - 1){ setActiveCap(s.idx + 1); return; }
       goToSlide(currentSlide + 1); return;
     }
+    if (currentSlide === 8){
+      const s = getActiveTabIdx('.fmode');
+      if (s.idx < s.total - 1){ showFichaView(s.idx + 1); return; }
+      goToSlide(currentSlide + 1); return;
+    }
     goToSlide(currentSlide + 1);
   }
 
@@ -4031,6 +4036,8 @@
     if (isMobile()) return;
     const capItem = e.target.closest('.cap-item');
     if (capItem){ e.stopPropagation(); setActiveCap(parseInt(capItem.dataset.cap, 10)); return; }
+    const fmodeTab = e.target.closest('.fmode');
+    if (fmodeTab){ e.stopPropagation(); showFichaView(parseInt(fmodeTab.dataset.fmode, 10)); return; }
     const igArrow = e.target.closest('.ig-arrow');
     if (igArrow){ const t = document.getElementById('igTrack'); if (t) t.scrollBy({ left: parseInt(igArrow.dataset.igDir, 10) * 440, behavior: 'smooth' }); return; }
     if (e.target.closest('a') || e.target.closest('.price-card') || e.target.closest('.proof-ig') || e.target.closest('.billing-switch')) return;
@@ -4070,6 +4077,10 @@
       if (currentSlide === 7){
         const s = getActiveTabIdx('.cap-item');
         if (s.idx > 0){ setActiveCap(s.idx - 1); return; }
+      }
+      if (currentSlide === 8){
+        const s = getActiveTabIdx('.fmode');
+        if (s.idx > 0){ showFichaView(s.idx - 1); return; }
       }
       if (currentSlide > 0) goToSlide(currentSlide - 1);
     }
@@ -4200,17 +4211,6 @@
     document.querySelectorAll('.fmode').forEach(function(el){ el.classList.toggle('active', parseInt(el.dataset.fmode, 10) === i); });
     document.querySelectorAll('.ficha-view').forEach(function(el){ el.classList.toggle('active', parseInt(el.dataset.fview, 10) === i); });
     animFichaView(i);
-  }
-  function runFichaShowcase(){
-    if (fichaLoopTimer) clearTimeout(fichaLoopTimer);
-    let idx = 0;
-    showFichaView(0);
-    function tick(){
-      idx = (idx + 1) % 4;
-      showFichaView(idx);
-      fichaLoopTimer = setTimeout(tick, 4800);
-    }
-    fichaLoopTimer = setTimeout(tick, 4800);
   }
 
   // Chat IA interno — cicla preguntas/respuestas en lenguaje natural
