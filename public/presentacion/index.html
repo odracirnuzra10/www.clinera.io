@@ -1010,6 +1010,9 @@
   .tx-a{ background:#F59E0B; }
   .tx-b{ background:var(--cyan); }
   .tx-c{ background:var(--violet); }
+  .fv-card.is-photo{ padding:0; border:0; overflow:hidden; }
+  .fv-photo{ width:100%; height:100%; object-fit:contain; display:block; }
+  @media (max-width: 980px){ .fv-photo{ height:auto; } }
   .fmark{ opacity:0; transform:scale(.55); transform-box:fill-box; transform-origin:center;
     transition:opacity .4s ease, transform .45s cubic-bezier(.34,1.56,.64,1); }
   .fmark.show{ opacity:1; transform:scale(1); }
@@ -3627,53 +3630,15 @@
 
             <!-- Vista 2: Evaluación facial -->
             <div class="ficha-view" data-fview="2">
-              <div class="fv-card">
-                <div class="fv-head"><div class="fv-title">Evaluación facial</div><div class="fv-sub">Estética</div></div>
-                <svg class="fv-svg" viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg">
-                  <g fill="none" stroke="#C7C5CD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M240,32 C282,32 308,58 312,100 C315,132 306,162 287,188 C274,208 258,222 240,222 C222,222 208,208 195,188 C176,162 167,132 170,100 C174,58 198,32 240,32 Z"/>
-                    <path d="M182,66 C205,44 275,44 298,66"/>
-                    <path d="M166,112 C160,120 160,134 166,142"/>
-                    <path d="M314,112 C320,120 320,134 314,142"/>
-                  </g>
-                  <g fill="none" stroke="#D3D1D8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M196,104 q15,-8 29,-2"/><path d="M255,102 q15,-6 29,2"/>
-                    <path d="M199,118 q13,-9 27,0 q-13,8 -27,0 Z"/><path d="M254,118 q13,-9 27,0 q-13,8 -27,0 Z"/>
-                    <path d="M240,120 l-5,30 q5,5 11,2"/>
-                    <path d="M231,151 q9,6 18,0"/>
-                    <path d="M221,176 q19,-7 38,0 q-19,11 -38,0 Z"/>
-                    <path d="M226,185 q14,7 28,0"/>
-                  </g>
-                  <circle cx="212.5" cy="118" r="2.6" fill="#B9B7BF"/><circle cx="267.5" cy="118" r="2.6" fill="#B9B7BF"/>
-                  <line class="fmark line" x1="240" y1="24" x2="240" y2="228" stroke="#E5484D" stroke-width="2.4" stroke-linecap="round"/>
-                  <line class="fmark line" x1="150" y1="60"  x2="330" y2="60"  stroke="#10B981" stroke-width="2.2" stroke-linecap="round"/>
-                  <line class="fmark line" x1="150" y1="104" x2="330" y2="104" stroke="#10B981" stroke-width="2.2" stroke-linecap="round"/>
-                  <line class="fmark line" x1="150" y1="151" x2="330" y2="151" stroke="#10B981" stroke-width="2.2" stroke-linecap="round"/>
-                  <line class="fmark line" x1="150" y1="212" x2="330" y2="212" stroke="#10B981" stroke-width="2.2" stroke-linecap="round"/>
-                </svg>
-                <div class="fv-legend"><span><i style="background:#E5484D"></i>Eje de simetría</span><span><i style="background:#10B981"></i>Tercios faciales</span></div>
+              <div class="fv-card is-photo">
+                <img class="fv-photo" src="/presentacion/eval-facial.jpg" alt="Evaluación facial: eje de simetría y tercios faciales" loading="lazy" decoding="async" />
               </div>
             </div>
 
             <!-- Vista 3: Evaluación corporal -->
             <div class="ficha-view" data-fview="3">
-              <div class="fv-card">
-                <div class="fv-head"><div class="fv-title">Evaluación corporal</div><div class="fv-sub">Estética</div></div>
-                <svg class="fv-svg" viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg">
-                  <g fill="#F7F6F9" stroke="#C2C0C8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-                    <ellipse cx="240" cy="36" rx="14" ry="17"/>
-                    <path d="M234,52 C234,60 233,66 231,69 M246,52 C246,60 247,66 249,69"/>
-                    <path d="M226,74 C217,78 214,90 217,104 C220,116 216,124 233,134 C221,146 216,158 219,176 C221,194 217,214 220,232 C221,239 220,243 222,246 L231,246 C233,230 235,210 237,188 C238,178 239,172 240,168 C241,172 242,178 243,188 C245,210 247,230 249,246 L258,246 C260,243 259,239 260,232 C263,214 259,194 261,176 C264,158 259,146 247,134 C264,124 260,116 263,104 C266,90 263,78 254,74 C245,70 235,70 226,74 Z"/>
-                    <path d="M223,77 C213,84 208,104 210,128 C211,142 209,154 212,166 C213,171 218,171 219,166 C220,150 221,132 225,114 C227,100 228,86 228,79 Z"/>
-                    <path d="M257,77 C267,84 272,104 270,128 C269,142 271,154 268,166 C267,171 262,171 261,166 C260,150 259,132 255,114 C253,100 252,86 252,79 Z"/>
-                  </g>
-                  <g class="fmark"><ellipse cx="240" cy="142" rx="22" ry="15" fill="rgba(245,158,11,.82)"/></g>
-                  <g class="fmark"><ellipse cx="219" cy="134" rx="6"  ry="12" fill="rgba(34,211,238,.82)"/></g>
-                  <g class="fmark"><ellipse cx="261" cy="134" rx="6"  ry="12" fill="rgba(34,211,238,.82)"/></g>
-                  <g class="fmark"><ellipse cx="227" cy="192" rx="10" ry="22" fill="rgba(124,58,237,.8)"/></g>
-                  <g class="fmark"><ellipse cx="253" cy="192" rx="10" ry="22" fill="rgba(124,58,237,.8)"/></g>
-                </svg>
-                <div class="fv-legend"><span><i class="tx-a"></i>Abdomen</span><span><i class="tx-b"></i>Flancos</span><span><i class="tx-c"></i>Muslos</span></div>
+              <div class="fv-card is-photo">
+                <img class="fv-photo" src="/presentacion/eval-corporal.jpg" alt="Evaluación corporal: abdomen, flancos y muslos" loading="lazy" decoding="async" />
               </div>
             </div>
 
