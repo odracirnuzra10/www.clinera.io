@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Análisis de funciones · Clinera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#111111; --sub:#6B6B6B; --line:#EAEAEA; --warm:#F7F6F3;
+    --cyan:#009FE3; --violet:#7C3AED; --lead:#454545;
+  }
+  *{ box-sizing:border-box; }
+  html{ font-size:18px; }
+  html,body{ margin:0; background:#FFFFFF; color:var(--ink); }
+  body{ font-family:'Outfit',sans-serif; -webkit-font-smoothing:antialiased; overflow:hidden; }
+  ::selection{ background:var(--cyan); color:#fff; }
+  .mono{ font-family:'JetBrains Mono',monospace; }
+  a{ color:inherit; }
+
+  #deck{ position:relative; min-height:100dvh; width:100%; overflow:hidden; }
+
+  #progress-track{ position:fixed; top:0; left:0; right:0; height:2px; background:var(--line); z-index:50; }
+  #progress-fill{ height:100%; width:0%; background:var(--ink); transition:width .55s cubic-bezier(.16,1,.3,1); }
+
+  .topbar{ position:fixed; top:0; left:0; right:0; z-index:40; display:flex; align-items:center;
+    justify-content:space-between; padding:1.1rem clamp(1.1rem,5vw,5rem); pointer-events:none; }
+  .brand{ display:flex; align-items:center; gap:.5rem; pointer-events:auto; }
+  .brand .dot{ width:8px; height:8px; border-radius:999px; background:var(--cyan); display:inline-block; }
+  .brand .name{ font-weight:600; letter-spacing:-.01em; font-size:14px; }
+  .brand .tag{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--sub); border:1px solid var(--line); border-radius:999px; padding:2px 8px; margin-left:4px; }
+  .counter{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--sub); pointer-events:auto; }
+
+  .slide{
+    position:absolute; inset:0; opacity:0; visibility:hidden; pointer-events:none; transition:opacity .45s ease;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:4.5rem clamp(1.1rem,5vw,5rem) 4.5rem; overflow-y:auto;
+  }
+  .slide.active{ opacity:1; visibility:visible; pointer-events:auto; }
+  .slide.scrollable{ justify-content:flex-start; }
+  .wrap{ width:100%; max-width:1120px; margin:0 auto; }
+
+  .reveal{ opacity:0; transform:translateY(14px); }
+  .slide.active .reveal{ animation:fadeUp .6s cubic-bezier(.16,1,.3,1) forwards; animation-delay:var(--d,0s); }
+  @keyframes fadeUp{ to{ opacity:1; transform:none; } }
+
+  .kicker{ font-family:'JetBrains Mono',monospace; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; margin:0; color:var(--violet); }
+  .display{ font-weight:800; line-height:1.03; letter-spacing:-.022em; margin:0; font-size:clamp(2.4rem,6vw,4.6rem); }
+  .h-fn{ font-weight:700; line-height:1.08; letter-spacing:-.02em; margin:.5rem 0 0; font-size:clamp(1.9rem,3.4vw,2.9rem); }
+  .lead{ color:var(--lead); line-height:1.65; margin:0; }
+  .c-cyan{ color:var(--cyan); } .c-violet{ color:var(--violet); }
+
+  /* Cover */
+  .cover-sub{ color:var(--lead); font-size:clamp(1.02rem,1.7vw,1.25rem); line-height:1.6; max-width:42rem; margin:1.4rem 0 0; }
+  .index{ margin-top:2.4rem; display:grid; grid-template-columns:1fr; gap:.5rem; }
+  @media(min-width:680px){ .index{ grid-template-columns:1fr 1fr; column-gap:2.5rem; } }
+  .idx{ display:flex; align-items:baseline; gap:.9rem; padding:.7rem 0; border-top:1px solid var(--line); cursor:pointer;
+    transition:padding-left .18s ease; }
+  .idx:hover{ padding-left:.35rem; }
+  .idx .n{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--cyan); width:1.6rem; flex:none; }
+  .idx .t{ font-weight:500; font-size:1rem; }
+  .idx .t.muted{ color:var(--sub); }
+
+  /* Function slide */
+  .fn-grid{ display:grid; grid-template-columns:1fr; gap:1.8rem; margin-top:1.6rem; align-items:start; }
+  @media(min-width:900px){ .fn-grid{ grid-template-columns:1.04fr .96fr; gap:2.6rem; } .fn-grid.noimg{ grid-template-columns:1fr; max-width:48rem; } }
+  .shot{ display:flex; flex-direction:column; gap:.8rem; }
+  .shot a{ display:block; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:var(--warm);
+    box-shadow:0 12px 34px -22px rgba(11,11,15,.22); transition:box-shadow .2s ease; }
+  .shot a:hover{ box-shadow:0 16px 40px -20px rgba(11,11,15,.3); }
+  .shot img{ display:block; width:100%; height:auto; }
+  .shot .cap{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--sub); }
+  .noshot{ border:1px dashed var(--line); border-radius:14px; background:var(--warm); padding:1.4rem 1.5rem;
+    display:flex; align-items:center; gap:.7rem; color:var(--sub); font-size:.9rem; }
+
+  .desc .obj{ color:var(--lead); font-size:1.04rem; line-height:1.6; margin:0 0 1.1rem; }
+  .desc .obj b{ color:var(--ink); }
+  .blist{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.7rem; }
+  .blist li{ display:flex; gap:.7rem; align-items:flex-start; font-size:.96rem; line-height:1.5; }
+  .blist li::before{ content:""; width:7px; height:7px; border-radius:2px; background:var(--cyan); flex:none; margin-top:.5rem; }
+  .foot{ margin-top:1.3rem; border-left:3px solid var(--violet); padding:.5rem 0 .5rem .9rem; font-size:.95rem;
+    line-height:1.55; color:var(--ink); background:linear-gradient(90deg, rgba(124,58,237,.05), transparent); }
+  .foot b{ color:var(--violet); }
+  .note{ margin-top:1rem; display:flex; gap:.6rem; align-items:flex-start; font-size:.86rem; color:#9a6a00;
+    background:#FFF7E6; border:1px solid #FCE4B5; border-radius:10px; padding:.7rem .85rem; line-height:1.45; }
+
+  /* Closing */
+  .close-card{ display:inline-flex; align-items:center; gap:.55rem; border-radius:10px; background:var(--ink); color:#fff;
+    padding:.7rem 1.1rem; font-size:.9rem; font-weight:500; }
+
+  /* Nav */
+  .navbtn{ width:42px; height:42px; display:grid; place-items:center; border:1px solid var(--line);
+    border-radius:11px; background:#fff; cursor:pointer; transition:background .2s ease, transform .15s ease; }
+  .navbtn:hover{ background:var(--warm); }
+  .navbtn:active{ transform:scale(.96); }
+  .navbtn:disabled{ opacity:.3; cursor:default; }
+  .navbtn:disabled:hover{ background:#fff; }
+  .nav-wrap{ position:fixed; bottom:1.1rem; right:clamp(1.1rem,5vw,5rem); z-index:40; display:flex; align-items:center; gap:.55rem; }
+  .hint-wrap{ position:fixed; bottom:1.1rem; left:clamp(1.1rem,5vw,5rem); z-index:40; }
+  .hint{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--sub); margin:0; }
+
+  @media (max-width:899px){
+    .slide{ justify-content:flex-start; padding-top:5rem; padding-bottom:6.5rem; }
+  }
+</style>
+</head>
+<body>
+<div id="deck">
+  <div id="progress-track"><div id="progress-fill"></div></div>
+  <header class="topbar">
+    <div class="brand">
+      <span class="dot"></span>
+      <span class="name">Clinera</span>
+      <span class="tag">Interno</span>
+    </div>
+    <div class="counter" id="counter">01&nbsp;/&nbsp;01</div>
+  </header>
+
+  <div id="slides"></div>
+
+  <div class="hint-wrap"><p id="hint" class="hint">Click o → para avanzar</p></div>
+  <div class="nav-wrap">
+    <button id="prev" class="navbtn" aria-label="Anterior">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    </button>
+    <button id="next" class="navbtn" aria-label="Siguiente">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+  // ---- Contenido (del documento de análisis) ----
+  const FUNCS = [
+    {
+      title: "Campos de contacto",
+      imgs: ["contacto"],
+      obj: "Campos <b>personalizables por contacto</b> (en línea con el CRM): selector, opciones, etc.",
+      bullets: [
+        'Crear campos como "Convenio" y "Fecha de nacimiento".',
+        "Con la fecha de nacimiento → automatización por cumpleaños: trigger 1 día antes o el día.",
+        "Hacer la fecha de nacimiento requerida para activar funciones de remarketing.",
+      ],
+    },
+    {
+      title: "Caja",
+      imgs: ["caja"],
+      obj: "<b>Cierre de caja (control diario).</b> Cada sucursal abre y cierra su caja por turno o día y sabe con exactitud cuánto debería haber al final: saldo + abono inicial, suma lo recaudado, resta gastos.",
+      bullets: [
+        "Cuadrar el efectivo real vs. lo que dice el sistema; detectar faltantes al instante.",
+        "Registro de quién abrió y cerró, con fecha y hora (trazabilidad por persona y sucursal).",
+        "Definir el fondo fijo que queda para el día siguiente.",
+        "Ver el detalle de cada transacción (paciente, medio de pago, monto, boleta).",
+        "Comprobante imprimible del cierre como respaldo administrativo.",
+      ],
+      foot: "En una línea: el control que evita que se pierda plata y da orden y transparencia al efectivo de cada sucursal.",
+    },
+    {
+      title: "Citas",
+      imgs: ["citas"],
+      obj: "Ver todas las citas del paciente <b>sin salir de su perfil</b> ni ir a la agenda general. De un vistazo: cuándo viene, con qué profesional, sillón/sucursal, duración y si está confirmada.",
+      bullets: [
+        "Citas pasadas y futuras del paciente en una sola lista.",
+        "Estado de cada una (confirmada / no confirmada) para seguimiento y reducir inasistencias.",
+        "Agendar una cita nueva desde ahí mismo (botón +), o imprimir el listado.",
+        "Buscar por tratamiento o filtrar por profesional.",
+      ],
+    },
+    {
+      title: "Notas",
+      imgs: ["notas"],
+      obj: "Notas internas del equipo sobre el paciente que <b>no son clínicas</b>, sino administrativas o de gestión. Contexto que cualquiera del equipo debe saber, con opción de adjuntar respaldo.",
+      bullets: [
+        'Registrar acuerdos o situaciones: "pidió reagendar", "saldo pendiente", "cliente delicado".',
+        "Cada nota queda con autor y fecha (memoria compartida del equipo).",
+        "Adjuntar un archivo puntual al comentario.",
+        "Separar lo administrativo de lo clínico: no ensucia la evolución médica.",
+      ],
+    },
+    {
+      title: "Actividad — todo el historial",
+      imgs: ["actividad-1", "actividad-2"],
+      obj: "Que <b>Actividad muestre TODO el historial</b> del paciente en una sola línea de tiempo cronológica, y que cada entrada sea clickable.",
+      bullets: [
+        "Cronología: turnos (con estado), presupuestos, pagos y saldos, notas, fichas y evoluciones, archivos.",
+        "Cada entrada abre su detalle real: presupuesto → presupuesto, nota → nota, cita → cita, etc.",
+        "Contexto 360 del paciente y navegación central desde un solo lugar.",
+        "Reemplaza la vista actual de Actividad, que hoy solo muestra turnos.",
+      ],
+      note: 'Pendiente técnico: revisar el contador "Turnos totales" que hoy muestra 0 teniendo 22 reservas.',
+    },
+    {
+      title: "Tareas",
+      imgs: ["tareas"],
+      obj: "Crear <b>pendientes accionables</b> sobre el paciente, clasificados por tipo, con responsable y fecha/hora, centralizados en un buzón de tareas del día.",
+      bullets: [
+        "Crear con tipo (llamada, mensaje, otro), detalle, fecha y hora (no solo fecha).",
+        "Desde dos orígenes: el perfil del paciente o el módulo de Mensajería.",
+        "Asociar opcional a un presupuesto o tratamiento cotizado.",
+        "Asignar opcional a uno o varios usuarios responsables.",
+        "Marcar como completada y ver el historial de completadas.",
+        'Buzón central "mis tareas de hoy", filtrable por tipo y responsable.',
+      ],
+      foot: "Diferencia con las notas: la tarea tiene tipo, fecha/hora, responsable y estado; la nota es solo informativa.",
+    },
+    {
+      title: "Ficha clínica del odontograma",
+      imgs: ["odontograma"],
+      obj: "Registrar el <b>estado actual de la boca</b> del paciente: la foto de cómo está hoy, no lo que se va a hacer.",
+      bullets: [
+        "Marcar pieza por pieza y por cara, en dos grupos: Preexistencias (corona, endodoncia, implante, prótesis…) y Lesiones (caries, fractura, movilidad…).",
+        "Otras: sin erupcionar, diente sano. Dentición permanente y temporal.",
+        "Cada marca con fecha, pieza, cara, estado y creador; se puede anular (auditoría).",
+        'Versionado: odontograma inicial, ver versiones anteriores, "ver con evoluciones".',
+      ],
+      foot: "Solo sirve para diagnosticar. No genera cobro.",
+    },
+    {
+      title: "Plan de tratamiento vía odontograma",
+      imgs: ["plan"],
+      obj: "Planificar <b>qué se le va a hacer</b> al paciente, armar el presupuesto y poder ejecutar y enviar a cobrar cada prestación.",
+      bullets: [
+        "Seleccionar una pieza → catálogo de prestaciones por categorías, más plantillas y buscador.",
+        "Ver planes en ejecución e historial creado.",
+        "Cada prestación con pieza, precio, descuento y estado de pago; agrupables en secciones.",
+        "Presupuesto con total, descuento, vencimiento, profesional, colaboradores, convenio y sucursal.",
+        "Avance por prestación (100/75/50/25/0%), de a una, todas o varias a la vez.",
+        "Enviar al carrito → venta pendiente de cobro ligada al tratamiento y presupuesto (la ve la secretaria en Ventas).",
+        "ID único por presupuesto (#1100). Seguimiento financiero: total, realizado, abonado y saldo.",
+        "Firma del paciente, comentarios impresos, resumen clínico con IA y colaboradores.",
+      ],
+      foot: "La 7 dice cómo está el diente hoy; esta dice qué se le va a hacer, cuánto cuesta y cómo se cobra — el puente directo entre lo clínico y la caja.",
+    },
+    {
+      title: "Pestaña de Imágenes y RX",
+      imgs: [],
+      obj: "Centralizar y <b>clasificar todas las fotos y RX</b> del paciente, etiquetadas desde el momento en que se suben, vengan de donde vengan.",
+      bullets: [
+        'Pestaña "Imágenes" exclusiva: galería por tipo (repositorio de imágenes y de RX).',
+        "Clasificación obligatoria al subir (imagen normal o RX), también desde la ficha clínica.",
+        "Llega ya clasificada al repositorio que corresponde, sin ordenarla después.",
+        'Dos formas de subir (desde ficha clínica o directo); ambas terminan etiquetadas en "Imágenes".',
+        "Repositorio único, filtrable al instante (solo RX o solo fotos).",
+      ],
+    },
+    {
+      title: "Firmas",
+      imgs: ["firmas"],
+      obj: "Que <b>cada profesional pueda crear una firma</b> para adjuntarla en presupuestos y/o recetas.",
+      bullets: [],
+    },
+    {
+      title: "Recetas",
+      imgs: ["recetas"],
+      obj: "Emitir recetas médicas con un <b>recetario personalizado</b> de la clínica, escribiendo libre como en un documento Word.",
+      bullets: [
+        "Configurar el recetario una vez: logo, nombre, dirección y firma al pie (membrete).",
+        "Editor libre con formato (negrita, listas, etc.), tal cual un Word.",
+        "Apoyo de vademécum para buscar y agregar fármacos rápido.",
+        "Plantillas de recetas frecuentes para no escribir de cero.",
+        "Cada receta con profesional, tratamiento asociado, fecha y hora.",
+        "Acciones: enviar al paciente, editar, imprimir, copiar/duplicar y anular.",
+        "Filtrar por tratamiento y poder mostrar las anuladas.",
+      ],
+    },
+  ];
+
+  const pad = (n) => String(n).padStart(2, "0");
+  const elc = (cls, html) => { const d = document.createElement("div"); if (cls) d.className = cls; if (html != null) d.innerHTML = html; return d; };
+
+  // ---- Build slides ----
+  const slidesRoot = document.getElementById("slides");
+  const html = [];
+
+  // Cover
+  html.push(`
+    <section class="slide active scrollable" data-i="0">
+      <div class="wrap">
+        <p class="kicker reveal" style="--d:.05s">Análisis de funciones · App competidora</p>
+        <h1 class="display reveal" style="--d:.12s; margin-top:.6rem;">Funciones a llevar<br>a <span class="c-violet">Clinera</span>.</h1>
+        <p class="cover-sub reveal" style="--d:.2s">${FUNCS.length} funciones analizadas: captura de referencia + qué se espera lograr en cada una. Click en una para ir directo, o avanza con →.</p>
+        <div class="index reveal" style="--d:.3s">
+          ${FUNCS.map((f, i) => `
+            <div class="idx" data-goto="${i + 1}">
+              <span class="n">${pad(i + 1)}</span>
+              <span class="t${f.imgs.length ? "" : " muted"}">${f.title}</span>
+            </div>`).join("")}
+        </div>
+      </div>
+    </section>`);
+
+  // Function slides
+  FUNCS.forEach((f, i) => {
+    const imgsHtml = f.imgs.length
+      ? `<div class="shot reveal" style="--d:.2s">
+          ${f.imgs.map((s) => `<a href="/elo/${s}.jpg" target="_blank" rel="noopener"><img src="/elo/${s}.jpg" alt="${f.title}" loading="lazy" decoding="async" /></a>`).join("")}
+          <span class="cap">Captura de referencia · click para ampliar</span>
+        </div>`
+      : `<div class="noshot reveal" style="--d:.2s">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Sin captura en el documento — referencia textual.
+        </div>`;
+    const bulletsHtml = f.bullets.length
+      ? `<ul class="blist">${f.bullets.map((b) => `<li>${b}</li>`).join("")}</ul>`
+      : "";
+    const footHtml = f.foot ? `<div class="foot">${f.foot}</div>` : "";
+    const noteHtml = f.note
+      ? `<div class="note"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C77700" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:1px;"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg><span>${f.note}</span></div>`
+      : "";
+    html.push(`
+      <section class="slide scrollable" data-i="${i + 1}">
+        <div class="wrap">
+          <p class="kicker reveal" style="--d:.05s">Función ${pad(i + 1)} / ${pad(FUNCS.length)}</p>
+          <h2 class="h-fn reveal" style="--d:.1s">${f.title}</h2>
+          <div class="fn-grid${f.imgs.length ? "" : " noimg"}">
+            ${imgsHtml}
+            <div class="desc reveal" style="--d:.26s">
+              <p class="obj">${f.obj}</p>
+              ${bulletsHtml}${footHtml}${noteHtml}
+            </div>
+          </div>
+        </div>
+      </section>`);
+  });
+
+  // Closing
+  const closeI = FUNCS.length + 1;
+  html.push(`
+    <section class="slide" data-i="${closeI}">
+      <div class="wrap" style="text-align:left; max-width:46rem;">
+        <p class="kicker reveal" style="--d:.05s">Fin del análisis</p>
+        <h2 class="display reveal" style="--d:.12s; font-size:clamp(2.1rem,5vw,3.6rem); margin-top:.6rem;">${FUNCS.length} funciones,<br>una hoja de ruta.</h2>
+        <p class="cover-sub reveal" style="--d:.2s">Cada captura es de la app competidora; la descripción es lo que se espera replicar y mejorar en Clinera.</p>
+        <div class="reveal" style="--d:.3s; margin-top:1.6rem;">
+          <span class="close-card">
+            <span class="dot" style="width:8px;height:8px;border-radius:999px;background:var(--cyan);display:inline-block;"></span>
+            Clinera · documento interno
+          </span>
+        </div>
+      </div>
+    </section>`);
+
+  slidesRoot.innerHTML = html.join("");
+
+  // ---- Navigation ----
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const total = slides.length;
+  const counter = document.getElementById("counter");
+  const fill = document.getElementById("progress-fill");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+  const hint = document.getElementById("hint");
+  let i = 0;
+
+  function render() {
+    slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
+    counter.innerHTML = pad(i + 1) + "&nbsp;/&nbsp;" + pad(total);
+    fill.style.width = ((i + 1) / total) * 100 + "%";
+    prevBtn.disabled = i === 0;
+    nextBtn.disabled = i === total - 1;
+    hint.style.opacity = i === total - 1 ? "0" : "1";
+    const active = slides[i];
+    if (active) active.scrollTop = 0;
+  }
+  function go(n) { const t = Math.min(Math.max(n, 0), total - 1); if (t === i) return; i = t; render(); }
+  const next = () => go(i + 1);
+  const prev = () => go(i - 1);
+
+  document.getElementById("deck").addEventListener("click", function (e) {
+    if (e.target.closest("button, a")) return;
+    const idx = e.target.closest(".idx");
+    if (idx) { go(parseInt(idx.dataset.goto, 10)); return; }
+    if (window.getSelection && String(window.getSelection())) return;
+    next();
+  });
+  nextBtn.addEventListener("click", next);
+  prevBtn.addEventListener("click", prev);
+
+  window.addEventListener("keydown", function (e) {
+    if (["ArrowRight", "ArrowDown", " ", "PageDown", "Enter"].includes(e.key)) { e.preventDefault(); next(); }
+    else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(e.key)) { e.preventDefault(); prev(); }
+    else if (e.key === "Home") { e.preventDefault(); go(0); }
+    else if (e.key === "End") { e.preventDefault(); go(total - 1); }
+  });
+
+  let sx = 0, sy = 0;
+  window.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  window.addEventListener("touchend", function (e) {
+    const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4) { dx < 0 ? next() : prev(); }
+  }, { passive: true });
+
+  render();
+})();
+</script>
+</body>
+</html>
