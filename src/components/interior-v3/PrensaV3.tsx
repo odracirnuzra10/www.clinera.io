@@ -32,6 +32,14 @@ const FEATURED: PressItem = {
   ratio: 56.25,
 };
 
+type Clip = { title: string; vimeoId: string };
+
+const CLIPS: Clip[] = [
+  { title: "¿Qué ofrece Clinera?", vimeoId: "1205132765" },
+  { title: "Integración total con la operación de la clínica", vimeoId: "1205136502" },
+  { title: "Un flujo conversacional que se siente humano", vimeoId: "1205138381" },
+];
+
 export default function PrensaV3() {
   useReveal();
   return (
@@ -53,6 +61,20 @@ export default function PrensaV3() {
             transition-duration: 0ms !important;
           }
         }
+        .prensa-clips-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+        }
+        @media (max-width: 900px) {
+          .prensa-clips-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            max-width: 460px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
         @media (max-width: 720px) {
           main > section {
             padding-left: 24px !important;
@@ -66,6 +88,7 @@ export default function PrensaV3() {
 
       <PrensaHero />
       <FeaturedVideo item={FEATURED} />
+      <Clips items={CLIPS} />
       <MasEnCamino />
       <PrensaCta />
     </>
@@ -276,6 +299,82 @@ function FeaturedVideo({ item }: { item: PressItem }) {
           >
             {item.description}
           </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Cortos / momentos destacados ---------- */
+function Clips({ items }: { items: Clip[] }) {
+  return (
+    <section style={{ padding: "8px 80px 56px", background: "#fff" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+        <div
+          className="reveal"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 12,
+            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontSize: 11,
+            letterSpacing: "0.16em",
+            textTransform: "uppercase",
+            color: "#9CA3AF",
+            marginBottom: 28,
+          }}
+        >
+          <span style={{ width: 22, height: 1, background: "#E5E7EB" }} />
+          Momentos de la entrevista
+          <span style={{ width: 22, height: 1, background: "#E5E7EB" }} />
+        </div>
+
+        <div className="prensa-clips-grid">
+          {items.map((clip) => (
+            <div key={clip.vimeoId} className="reveal">
+              <div
+                style={{
+                  borderRadius: 16,
+                  overflow: "hidden",
+                  border: "1px solid rgba(0,0,0,.08)",
+                  boxShadow: "0 24px 50px -28px rgba(0,0,0,.28)",
+                  background: "#000",
+                }}
+              >
+                <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
+                  <iframe
+                    src={`https://player.vimeo.com/video/${clip.vimeoId}?badge=0&autopause=0&player_id=0&app_id=58479`}
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    loading="lazy"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      border: 0,
+                    }}
+                    title={clip.title}
+                  />
+                </div>
+              </div>
+              <p
+                style={{
+                  fontFamily: "Inter",
+                  fontSize: 15,
+                  fontWeight: 600,
+                  letterSpacing: "-0.01em",
+                  lineHeight: 1.4,
+                  color: "#0A0A0A",
+                  margin: "14px 2px 0",
+                }}
+              >
+                {clip.title}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
