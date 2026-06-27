@@ -3672,6 +3672,154 @@ export function Testimonios() {
 }
 
 /* ============================================================
+   PRENSA · CNN (video vertical de credibilidad)
+   ============================================================ */
+export function PrensaCNN() {
+  return (
+    <section style={{ padding: "48px 80px", background: "#fff" }}>
+      <div
+        className="reveal home-cnn-card"
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          borderRadius: 28,
+          position: "relative",
+          overflow: "hidden",
+          background: "#0A0A0F",
+          color: "#fff",
+        }}
+      >
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(ellipse 55% 75% at 88% 12%, rgba(217,70,239,.26) 0%, rgba(124,58,237,.12) 42%, transparent 72%),radial-gradient(ellipse 50% 60% at 8% 100%, rgba(59,130,246,.18) 0%, transparent 65%)",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          className="home-cnn-grid"
+          style={{
+            position: "relative",
+            padding: "60px 56px",
+            display: "grid",
+            gridTemplateColumns: "1fr 0.6fr",
+            gap: 56,
+            alignItems: "center",
+          }}
+        >
+          <div className="home-cnn-text">
+            <div
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: 11,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,.55)",
+                marginBottom: 22,
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <span style={{ width: 24, height: 1, background: "linear-gradient(90deg,#3B82F6,#D946EF)" }} />
+              Clinera en la prensa
+            </div>
+            <h2
+              className="home-cnn-title"
+              style={{
+                fontFamily: "Inter",
+                fontSize: 46,
+                fontWeight: 700,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.05,
+                margin: "0 0 18px",
+                color: "#fff",
+              }}
+            >
+              Un gran paso para{" "}
+              <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
+                Clinera
+              </span>
+              .
+            </h2>
+            <p
+              style={{
+                fontFamily: "Inter",
+                fontSize: 17,
+                lineHeight: 1.6,
+                color: "rgba(255,255,255,.72)",
+                margin: "0 0 24px",
+                maxWidth: 440,
+              }}
+            >
+              Ricardo Oyarzún, fundador de Clinera, fue entrevistado por{" "}
+              <b style={{ color: "#fff", fontWeight: 600 }}>CNN</b> sobre cómo la IA está transformando la atención de las clínicas en LATAM. Un reconocimiento que confirma hacia dónde vamos.
+            </p>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 9,
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: 11.5,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,.82)",
+                background: "rgba(255,255,255,.06)",
+                border: "1px solid rgba(255,255,255,.14)",
+                borderRadius: 999,
+                padding: "8px 14px",
+              }}
+            >
+              <span style={{ width: 7, height: 7, borderRadius: 999, background: "#E5484D", display: "inline-block" }} />
+              Entrevista en CNN
+            </div>
+          </div>
+
+          <div className="home-cnn-video">
+            <div
+              style={{
+                maxWidth: 312,
+                margin: "0 auto",
+                borderRadius: 22,
+                overflow: "hidden",
+                border: "1px solid rgba(255,255,255,.12)",
+                boxShadow: "0 40px 90px -20px rgba(0,0,0,.6)",
+                background: "#000",
+              }}
+            >
+              <div style={{ padding: "177.78% 0 0 0", position: "relative" }}>
+                <iframe
+                  src="https://player.vimeo.com/video/1205003575?badge=0&autopause=0&player_id=0&app_id=58479"
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  loading="lazy"
+                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
+                  title="Un gran paso para Clinera — Entrevista CNN"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <style jsx>{`
+        @media (max-width: 900px) {
+          :global(.home-cnn-grid) {
+            grid-template-columns: 1fr !important;
+            gap: 34px !important;
+            padding: 44px 28px !important;
+          }
+          :global(.home-cnn-title) { font-size: 34px !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+/* ============================================================
    PRICING
    ============================================================ */
 type Agent = { id: "aura" | "lia" | "camila"; name: string; soon?: boolean };

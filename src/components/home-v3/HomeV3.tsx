@@ -11,6 +11,7 @@ import {
   Hero,
   Integraciones,
   Logos,
+  PrensaCNN,
   Pricing,
   Testimonios,
   useReveal,
@@ -62,6 +63,7 @@ export default function HomeV3() {
       <Estudios />
       <DarkBreak />
       <Testimonios />
+      <PrensaCNN />
       <Pricing />
       <Faq />
       <FinalCTA />
