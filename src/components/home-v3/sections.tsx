@@ -3796,6 +3796,29 @@ export function PrensaCNN() {
               Ver la entrevista en CNN
               <span aria-hidden style={{ fontSize: 16, lineHeight: 1, opacity: 0.7 }}>→</span>
             </Link>
+            <div style={{ marginTop: 14 }}>
+              <a
+                href="https://www.youtube.com/watch?v=Gskr4kELyx4"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 7,
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  fontSize: 11,
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,.5)",
+                  textDecoration: "none",
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.2 3.6Z" />
+                </svg>
+                Ver emisión original en YouTube ↗
+              </a>
+            </div>
           </div>
 
           <div className="home-cnn-video">

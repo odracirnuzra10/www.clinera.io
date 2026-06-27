@@ -225,8 +225,33 @@ function FeaturedVideo({ item }: { item: PressItem }) {
           </div>
         </div>
 
+        {/* link a la emisión original (prueba de autenticidad) */}
+        <div style={{ textAlign: "center", marginTop: 16 }}>
+          <a
+            href="https://www.youtube.com/watch?v=Gskr4kELyx4"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 7,
+              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontSize: 11.5,
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+              color: "#9CA3AF",
+              textDecoration: "none",
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FF0000" aria-hidden>
+              <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.2 3.6Z" />
+            </svg>
+            Ver emisión original en YouTube ↗
+          </a>
+        </div>
+
         {/* contexto */}
-        <div style={{ maxWidth: 680, margin: "30px auto 0", textAlign: "center" }}>
+        <div style={{ maxWidth: 680, margin: "26px auto 0", textAlign: "center" }}>
           <h2
             style={{
               fontFamily: "Inter",
