@@ -39,6 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/comparativas/doctocliq`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
 
     // Trust / evidence (evergreen + companion article)
+    { url: `${baseUrl}/prensa`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/efectividad`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${baseUrl}/blog/efectividad`, lastModified: new Date('2026-04-23'), changeFrequency: 'monthly', priority: 0.8 },
 

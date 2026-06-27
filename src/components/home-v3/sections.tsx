@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState, ReactNode } from "react";
-import { CtaPrimary, CtaSecondary, Eyebrow, Mono, GRAD } from "@/components/brand-v3/Brand";
+import { CtaPrimary, CtaSecondary, Eyebrow, Mono, GRAD, CnnLogo } from "@/components/brand-v3/Brand";
 import { HOME_FAQ } from "@/content/home-faq";
 
 /* ============================================================
@@ -3703,10 +3703,10 @@ export function PrensaCNN() {
           className="home-cnn-grid"
           style={{
             position: "relative",
-            padding: "60px 56px",
+            padding: "56px 56px",
             display: "grid",
-            gridTemplateColumns: "1fr 0.6fr",
-            gap: 56,
+            gridTemplateColumns: "0.92fr 1.08fr",
+            gap: 52,
             alignItems: "center",
           }}
         >
@@ -3718,7 +3718,7 @@ export function PrensaCNN() {
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
                 color: "rgba(255,255,255,.55)",
-                marginBottom: 22,
+                marginBottom: 20,
                 display: "flex",
                 alignItems: "center",
                 gap: 10,
@@ -3727,11 +3727,27 @@ export function PrensaCNN() {
               <span style={{ width: 24, height: 1, background: "linear-gradient(90deg,#3B82F6,#D946EF)" }} />
               Clinera en la prensa
             </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 22 }}>
+              <span
+                style={{
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  fontSize: 11,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,.45)",
+                }}
+              >
+                Visto en
+              </span>
+              <CnnLogo height={30} color="#F23A30" />
+            </div>
+
             <h2
               className="home-cnn-title"
               style={{
                 fontFamily: "Inter",
-                fontSize: 46,
+                fontSize: 44,
                 fontWeight: 700,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.05,
@@ -3751,54 +3767,55 @@ export function PrensaCNN() {
                 fontSize: 17,
                 lineHeight: 1.6,
                 color: "rgba(255,255,255,.72)",
-                margin: "0 0 24px",
+                margin: "0 0 26px",
                 maxWidth: 440,
               }}
             >
               Ricardo Oyarzún, fundador de Clinera, fue entrevistado por{" "}
               <b style={{ color: "#fff", fontWeight: 600 }}>CNN</b> sobre cómo la IA está transformando la atención de las clínicas en LATAM. Un reconocimiento que confirma hacia dónde vamos.
             </p>
-            <div
+            <Link
+              href="/prensa"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: 9,
-                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                fontSize: 11.5,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                color: "rgba(255,255,255,.82)",
-                background: "rgba(255,255,255,.06)",
-                border: "1px solid rgba(255,255,255,.14)",
+                gap: 10,
+                fontFamily: "Inter",
+                fontSize: 14.5,
+                fontWeight: 600,
+                color: "#fff",
+                textDecoration: "none",
+                background: "rgba(255,255,255,.07)",
+                border: "1px solid rgba(255,255,255,.16)",
                 borderRadius: 999,
-                padding: "8px 14px",
+                padding: "11px 18px",
+                transition: "background .2s, border-color .2s",
               }}
             >
-              <span style={{ width: 7, height: 7, borderRadius: 999, background: "#E5484D", display: "inline-block" }} />
-              Entrevista en CNN
-            </div>
+              <span style={{ width: 7, height: 7, borderRadius: 999, background: "#F23A30", display: "inline-block" }} />
+              Ver la entrevista en CNN
+              <span aria-hidden style={{ fontSize: 16, lineHeight: 1, opacity: 0.7 }}>→</span>
+            </Link>
           </div>
 
           <div className="home-cnn-video">
             <div
               style={{
-                maxWidth: 312,
-                margin: "0 auto",
-                borderRadius: 22,
+                borderRadius: 18,
                 overflow: "hidden",
                 border: "1px solid rgba(255,255,255,.12)",
                 boxShadow: "0 40px 90px -20px rgba(0,0,0,.6)",
                 background: "#000",
               }}
             >
-              <div style={{ padding: "177.78% 0 0 0", position: "relative" }}>
+              <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
                 <iframe
-                  src="https://player.vimeo.com/video/1205003575?badge=0&autopause=0&player_id=0&app_id=58479"
+                  src="https://player.vimeo.com/video/1205127087?badge=0&autopause=0&player_id=0&app_id=58479"
                   allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   loading="lazy"
                   style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
-                  title="Un gran paso para Clinera — Entrevista CNN"
+                  title="CNN entrevista a Clinera"
                 />
               </div>
             </div>
@@ -3806,13 +3823,17 @@ export function PrensaCNN() {
         </div>
       </div>
       <style jsx>{`
+        :global(.home-cnn-text a:hover) {
+          background: rgba(255, 255, 255, 0.12) !important;
+          border-color: rgba(255, 255, 255, 0.3) !important;
+        }
         @media (max-width: 900px) {
           :global(.home-cnn-grid) {
             grid-template-columns: 1fr !important;
             gap: 34px !important;
-            padding: 44px 28px !important;
+            padding: 40px 26px !important;
           }
-          :global(.home-cnn-title) { font-size: 34px !important; }
+          :global(.home-cnn-title) { font-size: 32px !important; }
         }
       `}</style>
     </section>
