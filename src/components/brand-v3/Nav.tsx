@@ -123,8 +123,8 @@ export default function NavV3() {
           <Link href="/planes" style={{ color: "#0A0A0A", textDecoration: "none" }}>
             Planes
           </Link>
-          <Link href="/agencias" style={{ color: "#0A0A0A", textDecoration: "none" }}>
-            Agencias
+          <Link href="/prensa" style={{ color: "#0A0A0A", textDecoration: "none" }}>
+            Prensa
           </Link>
           <Link href="/novedades" style={{ color: "#0A0A0A", textDecoration: "none" }}>
             Novedades
@@ -170,7 +170,7 @@ export default function NavV3() {
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             <Link href="/funciones" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Funciones</Link>
             <Link href="/planes" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Planes</Link>
-            <Link href="/agencias" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Agencias</Link>
+            <Link href="/prensa" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Prensa</Link>
             <Link href="/novedades" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Novedades</Link>
             <Link href="/webinars" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub" style={{ color: "#7C3AED" }}>Webinar semanal · gratis</Link>
             <Link href="/ayuda" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub">Ayuda y soporte</Link>

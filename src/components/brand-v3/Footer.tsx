@@ -12,6 +12,7 @@ const cols: Col[] = [
       ["Ver demo", "/demo"],
       ["Funciones", "/funciones"],
       ["Planes", "/planes"],
+      ["Agencias", "/agencias"],
       ["Integraciones", "/blog/clinera-api-webhooks-n8n-make-zapier"],
     ],
   },
@@ -30,7 +31,6 @@ const cols: Col[] = [
       ["Centro de ayuda", "/ayuda"],
       ["Migrar a Clinera", "/migracion"],
       ["Agendar reunión", "/hablar-con-ventas"],
-      ["Hablar con ventas", "/hablar-con-ventas"],
     ],
   },
   {
