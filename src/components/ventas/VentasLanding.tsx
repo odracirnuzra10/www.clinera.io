@@ -23,9 +23,11 @@ const PHONE_RULES: Record<string, PhoneRule> = {
   "+56": { name: "Chile", len: 9, placeholder: "9 1234 5678", pattern: /^9\d{8}$/, invalidHint: "Debe empezar con 9" },
   "+52": { name: "México", len: 10, placeholder: "55 1234 5678", pattern: /^[2-9]\d{9}$/, invalidHint: "Debe empezar con 2-9" },
   "+507": { name: "Panamá", len: 8, placeholder: "6123 4567", pattern: /^6\d{7}$/, invalidHint: "Debe empezar con 6" },
+  "+506": { name: "Costa Rica", len: 8, placeholder: "8312 3456", pattern: /^[678]\d{7}$/, invalidHint: "Debe empezar con 6, 7 u 8" },
   "+595": { name: "Paraguay", len: 9, placeholder: "981 234 567", pattern: /^9[2-9]\d{7}$/, invalidHint: "Debe empezar con 92-99" },
   "+34": { name: "España", len: 9, placeholder: "612 345 678", pattern: /^[67]\d{8}$/, invalidHint: "Debe empezar con 6 o 7" },
   "+51": { name: "Perú", len: 9, placeholder: "912 345 678", pattern: /^9\d{8}$/, invalidHint: "Debe empezar con 9" },
+  "+1": { name: "Puerto Rico", len: 10, placeholder: "787 123 4567", pattern: /^(787|939)\d{7}$/, invalidHint: "Debe empezar con 787 o 939" },
 };
 
 type LeadRole = "owner" | "admin" | "doctor" | "reception";
@@ -1331,9 +1333,14 @@ function StepContact({
       if (d.length <= 6) return d.slice(0, 3) + " " + d.slice(3);
       return d.slice(0, 3) + " " + d.slice(3, 6) + " " + d.slice(6);
     }
-    if (prefix === "+507") {
+    if (prefix === "+507" || prefix === "+506") {
       if (d.length <= 4) return d;
       return d.slice(0, 4) + " " + d.slice(4);
+    }
+    if (prefix === "+1") {
+      if (d.length <= 3) return d;
+      if (d.length <= 6) return d.slice(0, 3) + " " + d.slice(3);
+      return d.slice(0, 3) + " " + d.slice(3, 6) + " " + d.slice(6);
     }
     if (d.length <= 2) return d;
     if (d.length <= 6) return d.slice(0, 2) + " " + d.slice(2);
@@ -1405,9 +1412,11 @@ function StepContact({
             <option value="+56">🇨🇱 +56</option>
             <option value="+52">🇲🇽 +52</option>
             <option value="+507">🇵🇦 +507</option>
+            <option value="+506">🇨🇷 +506</option>
             <option value="+595">🇵🇾 +595</option>
             <option value="+34">🇪🇸 +34</option>
             <option value="+51">🇵🇪 +51</option>
+            <option value="+1">🇵🇷 +1</option>
           </select>
           <Input
             style={{ flex: 1 }}
