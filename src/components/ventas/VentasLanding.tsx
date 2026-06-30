@@ -22,6 +22,7 @@ type PhoneRule = {
 const PHONE_RULES: Record<string, PhoneRule> = {
   "+56": { name: "Chile", len: 9, placeholder: "9 1234 5678", pattern: /^9\d{8}$/, invalidHint: "Debe empezar con 9" },
   "+52": { name: "México", len: 10, placeholder: "55 1234 5678", pattern: /^[2-9]\d{9}$/, invalidHint: "Debe empezar con 2-9" },
+  "+54": { name: "Argentina", len: 10, placeholder: "11 1234 5678", pattern: /^\d{10}$/, invalidHint: "Debe tener 10 dígitos" },
   "+507": { name: "Panamá", len: 8, placeholder: "6123 4567", pattern: /^6\d{7}$/, invalidHint: "Debe empezar con 6" },
   "+506": { name: "Costa Rica", len: 8, placeholder: "8312 3456", pattern: /^[678]\d{7}$/, invalidHint: "Debe empezar con 6, 7 u 8" },
   "+595": { name: "Paraguay", len: 9, placeholder: "981 234 567", pattern: /^9[2-9]\d{7}$/, invalidHint: "Debe empezar con 92-99" },
@@ -1411,6 +1412,7 @@ function StepContact({
           >
             <option value="+56">🇨🇱 +56</option>
             <option value="+52">🇲🇽 +52</option>
+            <option value="+54">🇦🇷 +54</option>
             <option value="+507">🇵🇦 +507</option>
             <option value="+506">🇨🇷 +506</option>
             <option value="+595">🇵🇾 +595</option>
