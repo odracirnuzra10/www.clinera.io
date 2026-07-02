@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Capacitación · Clinera</title>
-<meta name="description" content="Programa de capacitación de Clinera: 3 sesiones guiadas para pasar de la base operativa al dominio completo — agenda, fichas, mensajería, ventas, marketing y agente de IA.">
+<meta name="description" content="Programa de capacitación de Clinera: 3 sesiones prácticas de mínimo 1 hora. Rebeca te muestra cada módulo y tú haces la tarea en el momento — agenda, fichas, mensajería, ventas, marketing y agente de IA.">
 <link rel="canonical" href="https://clinera.io/capacitacion">
 <link rel="icon" type="image/png" href="/icon.png">
 <link rel="apple-touch-icon" href="/apple-icon.png">
@@ -67,7 +67,7 @@
   .kicker{ font-family:'JetBrains Mono',monospace; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; margin:0; }
   .display{ font-weight:800; line-height:1.02; letter-spacing:-.02em; margin:0; font-size:clamp(2.6rem,7vw,5.2rem); }
   .display.sm{ font-size:clamp(2.4rem,6.5vw,5rem); }
-  .h-step{ font-weight:700; line-height:1.07; letter-spacing:-.02em; margin:0; font-size:clamp(2.3rem,4.6vw,3.9rem); }
+  .h-step{ font-weight:700; line-height:1.07; letter-spacing:-.02em; margin:0; font-size:clamp(2.1rem,4.2vw,3.4rem); }
   .lead{ color:var(--lead); line-height:1.7; margin:0; }
   .c-cyan{ color:var(--cyan); } .c-violet{ color:var(--violet); } .c-sub{ color:var(--sub); }
   .fw-med{ font-weight:500; } .fw-semi{ font-weight:600; }
@@ -84,10 +84,10 @@
   }
 
   /* Checklist */
-  .checklist{ margin:1.75rem 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:.875rem; }
-  .checklist li{ display:flex; gap:.75rem; align-items:flex-start; font-size:1rem; line-height:1.45; }
+  .checklist{ margin:1.5rem 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:.8rem; }
+  .checklist li{ display:flex; gap:.75rem; align-items:flex-start; font-size:.98rem; line-height:1.45; }
   .checklist svg{ margin-top:.18rem; flex:none; }
-  .note{ margin-top:1.75rem; font-size:.9rem; color:var(--sub); border-left:2px solid var(--line); padding-left:1rem; line-height:1.6; }
+  .note{ margin-top:1.5rem; font-size:.9rem; color:var(--sub); border-left:2px solid var(--line); padding-left:1rem; line-height:1.6; }
 
   /* Cards */
   .card{ border:1px solid var(--line); border-radius:16px; background:var(--warm); padding:1.75rem; }
@@ -130,28 +130,62 @@
   @media(min-width:1024px){ .aside{ width:18rem; } }
 
   /* 4-grid */
-  .grid4{ display:grid; grid-template-columns:1fr; gap:1rem; margin-top:2.25rem; }
+  .grid4{ display:grid; grid-template-columns:1fr; gap:1rem; margin-top:2rem; }
   @media(min-width:640px){ .grid4{ grid-template-columns:1fr 1fr; } }
   @media(min-width:1024px){ .grid4{ grid-template-columns:repeat(4,1fr); } }
-  .grid3{ display:grid; grid-template-columns:1fr; gap:1rem; margin-top:2.25rem; }
-  @media(min-width:1024px){ .grid3{ grid-template-columns:repeat(3,1fr); } }
   .mini{ border:1px solid var(--line); border-radius:16px; background:#fff; padding:1.25rem; }
   .mini .mt{ font-weight:500; margin:1rem 0 0; }
   .mini .ms{ color:var(--sub); font-size:.88rem; line-height:1.5; margin:.25rem 0 0; }
 
+  /* Tarea en vivo */
+  .tarea{ margin-top:2rem; border:1px solid var(--line); border-radius:16px; background:#fff; overflow:hidden; }
+  .tarea .t-head{ display:flex; align-items:center; gap:.75rem; padding:.8rem 1.3rem; border-bottom:1px solid var(--line); background:var(--warm); }
+  .t-badge{ font-family:'JetBrains Mono',monospace; font-size:.64rem; letter-spacing:.14em; text-transform:uppercase;
+    background:var(--ink); color:#fff; border-radius:7px; padding:.3rem .6rem; flex:none; }
+  .t-title{ font-weight:600; font-size:.95rem; }
+  .t-who{ margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:.66rem; letter-spacing:.06em; color:var(--sub); }
+  @media(max-width:640px){ .t-who{ display:none; } }
+  .t-steps{ list-style:none; margin:0; padding:1.05rem 1.3rem; display:grid; grid-template-columns:1fr; gap:.7rem 1.6rem; }
+  @media(min-width:1024px){ .t-steps.cols2{ grid-template-columns:1fr 1fr; } }
+  .t-steps li{ display:flex; gap:.7rem; font-size:.93rem; line-height:1.45; align-items:flex-start; }
+  .t-steps .tn{ font-family:'JetBrains Mono',monospace; font-size:.7rem; font-weight:600; color:var(--cyan);
+    flex:none; width:1.5rem; height:1.5rem; border:1px solid var(--line); border-radius:7px;
+    display:grid; place-items:center; margin-top:.05rem; }
+  .tarea.v .t-steps .tn{ color:var(--violet); }
+
+  /* Método (Rebeca muestra → tú lo haces) */
+  .metodo{ display:flex; flex-direction:column; gap:.6rem; margin-top:1.75rem; }
+  @media(min-width:640px){ .metodo{ flex-direction:row; align-items:stretch; } }
+  .metodo .mstep{ flex:1; border:1px solid var(--line); border-radius:14px; background:#fff; padding:1rem 1.15rem;
+    display:flex; align-items:center; gap:.8rem; }
+  .metodo .mn{ font-family:'JetBrains Mono',monospace; font-size:.72rem; font-weight:600; color:var(--cyan);
+    flex:none; width:1.7rem; height:1.7rem; border:1px solid var(--line); border-radius:8px; display:grid; place-items:center; }
+  .metodo .mt2{ margin:0; font-weight:500; font-size:.95rem; line-height:1.3; }
+  .metodo .ms2{ margin:.1rem 0 0; color:var(--sub); font-size:.8rem; line-height:1.35; }
+  .metodo-arrow{ color:#C8C8C8; flex:none; align-self:center; transform:rotate(90deg); }
+  @media(min-width:640px){ .metodo-arrow{ transform:none; } }
+
   /* Session cover */
-  .sess-cover{ border:1px solid var(--line); border-radius:20px; background:var(--warm); padding:2rem;
-    display:flex; flex-direction:column; gap:.75rem; }
-  .sess-num{ font-family:'JetBrains Mono',monospace; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; }
+  .sess-meta{ display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; }
+
+  /* Flow (estructura clínica) */
+  .flow{ display:flex; flex-direction:column; gap:.75rem; margin-top:2rem; }
+  @media(min-width:1024px){ .flow{ flex-direction:row; align-items:center; gap:.25rem; } }
+  .flow .step{ flex:1; border:1px solid var(--line); border-radius:16px; background:#fff; padding:1.15rem; }
+  .flow .step .n{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--cyan); }
+  .flow .step .t{ font-weight:500; margin:0; }
+  .flow .step .s{ color:var(--sub); font-size:.85rem; margin:.25rem 0 0; }
+  .flow-arrow{ color:#C8C8C8; flex:none; align-self:center; transform:rotate(90deg); }
+  @media(min-width:1024px){ .flow-arrow{ transform:none; } }
 
   /* Embudo vertical */
-  .funnelv{ display:flex; flex-direction:column; align-items:center; gap:.5rem; margin-top:2.25rem; }
-  .fstage{ width:var(--w); max-width:100%; display:flex; align-items:center; gap:1rem; padding:.9rem 1.3rem; border-radius:14px; color:#fff; background:var(--c); box-shadow:0 12px 30px -16px rgba(11,11,15,.45); }
-  .fstage .fn{ font-family:'JetBrains Mono',monospace; font-size:.8rem; font-weight:600; flex:none; width:2rem; height:2rem; border-radius:9px; display:grid; place-items:center; background:rgba(255,255,255,.2); }
-  .fstage .fbody{ min-width:0; }
-  .fstage .ft{ margin:0; font-weight:600; font-size:.98rem; line-height:1.2; letter-spacing:-.01em; }
-  .fstage .fs{ margin:.12rem 0 0; font-size:.8rem; color:rgba(255,255,255,.85); line-height:1.35; }
-  @media(max-width:640px){ .fstage{ width:max(var(--w), 82%); } }
+  .funnelv{ display:flex; flex-direction:column; align-items:center; gap:.5rem; margin-top:2rem; }
+  .fstage{ width:var(--w); max-width:100%; display:flex; align-items:center; gap:1rem; padding:.75rem 1.25rem; border-radius:14px; color:#fff; background:var(--c); box-shadow:0 12px 30px -16px rgba(11,11,15,.45); }
+  .fstage .fn{ font-family:'JetBrains Mono',monospace; font-size:.78rem; font-weight:600; flex:none; width:1.8rem; height:1.8rem; border-radius:8px; display:grid; place-items:center; background:rgba(255,255,255,.2); }
+  .fstage .fbody{ min-width:0; display:flex; align-items:baseline; gap:.6rem; }
+  .fstage .ft{ margin:0; font-weight:600; font-size:.94rem; line-height:1.2; letter-spacing:-.01em; }
+  .fstage .fs{ margin:0; font-size:.78rem; color:rgba(255,255,255,.85); line-height:1.35; }
+  @media(max-width:640px){ .fstage{ width:max(var(--w), 82%); } .fstage .fbody{ flex-direction:column; gap:.05rem; } }
 
   .darkbar{ margin-top:1.75rem; border-radius:16px; background:var(--ink); color:#fff; padding:1.25rem;
     display:flex; align-items:flex-start; gap:.75rem; font-size:.95rem; line-height:1.55; }
@@ -174,12 +208,6 @@
     display:grid; place-items:center; font-weight:600; font-size:1rem; flex:none; }
   .guide .gname{ font-weight:600; font-size:.98rem; margin:0; }
   .guide .grole{ color:var(--sub); font-size:.84rem; margin:.1rem 0 0; }
-
-  .btn-dark{ display:inline-flex; align-items:center; gap:.5rem; background:var(--ink); color:#fff;
-    border-radius:10px; padding:.75rem 1.25rem; font-size:1.05rem; font-weight:500; text-decoration:none;
-    transition:opacity .15s ease, transform .15s ease; }
-  .btn-dark:hover{ opacity:.9; }
-  .btn-dark:active{ transform:scale(.98); }
 
   /* Cierre WhatsApp chip */
   .wa{ display:inline-flex; align-items:center; gap:.5rem; border-radius:10px; background:var(--ink); color:#fff;
@@ -219,7 +247,7 @@
         <button class="sess-chip" data-jump="s2">S2</button>
         <button class="sess-chip" data-jump="s3">S3</button>
       </nav>
-      <div class="counter" id="counter">01&nbsp;/&nbsp;18</div>
+      <div class="counter" id="counter">01&nbsp;/&nbsp;20</div>
     </div>
   </header>
 
@@ -229,7 +257,7 @@
       <p class="kicker c-cyan reveal" style="--d:.05s">Capacitación · Clinera</p>
       <h1 class="display mt-5 reveal" style="--d:.12s">De cero a cien<br>con tu clínica.</h1>
       <p class="lead mt-6 reveal" style="--d:.22s; font-size:clamp(1.05rem,2vw,1.4rem); max-width:42rem;">
-        Tu clínica ya opera con Clinera. En tres sesiones guiadas vas a aprender a usar todo lo demás: fichas, ventas, marketing y tu agente de IA a fondo.
+        Tres sesiones prácticas sobre tu cuenta real. Rebeca te muestra cada módulo — y la tarea la haces tú, en el momento. Al terminar, usas todo Clinera, no solo la agenda.
       </p>
       <div class="mt-9 reveal" style="--d:.3s">
         <div class="guide" style="max-width:24rem;">
@@ -250,57 +278,44 @@
     </div>
   </section>
 
-  <!-- ============ SLIDE 2 · POR QUÉ ============ -->
+  <!-- ============ SLIDE 2 · CÓMO FUNCIONA ============ -->
   <section class="slide">
-    <div class="w-wide two-col">
-      <div>
-        <p class="kicker c-cyan reveal" style="--d:.05s">Por qué estas sesiones</p>
-        <h2 class="h-step mt-4 reveal" style="--d:.12s">El onboarding fue la base.<br>Esto es el resto.</h2>
-        <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem;">
-          En el onboarding dejamos tu clínica operando: WhatsApp conectado, agente respondiendo, agenda funcionando. Pero Clinera hace mucho más que eso — y la mayoría de las clínicas usa solo una parte.
-        </p>
-        <ul class="checklist">
-          <li class="reveal" style="--d:.28s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Tres reuniones guiadas, paso a paso, sobre <span class="fw-semi">tu cuenta real</span> — no una demo.</span>
-          </li>
-          <li class="reveal" style="--d:.34s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Cada sesión termina con algo funcionando que antes no usabas.</span>
-          </li>
-          <li class="reveal" style="--d:.4s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Los tutoriales quedan disponibles para repasar; aquí practicamos contigo.</span>
-          </li>
-        </ul>
-      </div>
-      <div class="reveal" style="--d:.3s">
-        <div class="card">
-          <p class="chip" style="margin-bottom:1rem;">Tu recorrido en Clinera</p>
-          <div class="inner-box" style="display:flex; align-items:center; gap:.75rem;">
-            <span class="icon-box s40 warm">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F6B36" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            </span>
-            <div>
-              <p style="margin:0; font-weight:500; font-size:.95rem;">Onboarding</p>
-              <p class="c-sub" style="margin:.1rem 0 0; font-size:.82rem;">Base operativa lista</p>
-            </div>
-            <span class="tag green" style="margin-left:auto;">Completado</span>
-          </div>
-          <div style="display:flex; justify-content:center; padding:.4rem 0;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8C8C8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
-          </div>
-          <div class="inner-box" style="display:flex; align-items:center; gap:.75rem; border-color:var(--cyan);">
-            <span class="icon-box s40 warm">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
-            </span>
-            <div>
-              <p style="margin:0; font-weight:500; font-size:.95rem;">Capacitación</p>
-              <p class="c-sub" style="margin:.1rem 0 0; font-size:.82rem;">3 sesiones · dominio completo</p>
-            </div>
-            <span class="tag cyan" style="margin-left:auto;">Estás aquí</span>
+    <div class="w-wide">
+      <p class="kicker c-cyan reveal" style="--d:.05s">Cómo funciona</p>
+      <h2 class="h-step mt-4 reveal" style="--d:.12s">Aquí no se toma apuntes.<br>Aquí se hace.</h2>
+      <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:44rem;">
+        El onboarding dejó tu clínica operando. Estas tres sesiones son para lo demás — y cada tema funciona igual: primero lo ves, después lo haces tú con tus propios datos.
+      </p>
+
+      <div class="metodo">
+        <div class="mstep reveal" style="--d:.28s">
+          <span class="mn">01</span>
+          <div>
+            <p class="mt2">Rebeca te muestra</p>
+            <p class="ms2">El módulo en vivo, compartiendo pantalla sobre tu cuenta.</p>
           </div>
         </div>
+        <svg class="metodo-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="mstep reveal" style="--d:.36s">
+          <span class="mn">02</span>
+          <div>
+            <p class="mt2">Tú haces la tarea</p>
+            <p class="ms2">Con el mouse en tu mano, ahí mismo. Nada queda en teoría.</p>
+          </div>
+        </div>
+        <svg class="metodo-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="mstep reveal" style="--d:.44s">
+          <span class="mn">03</span>
+          <div>
+            <p class="mt2">Queda funcionando</p>
+            <p class="ms2">Cada sesión termina con algo real configurado en tu clínica.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="darkbar reveal" style="--d:.52s">
+        <svg style="margin-top:.12rem; flex:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <p style="margin:0;">Cada sesión dura <span class="c-cyan fw-med">mínimo 1 hora</span>, por videollamada. Los tutoriales del centro de ayuda quedan siempre disponibles para repasar — pero lo importante ya lo habrás hecho tú.</p>
       </div>
     </div>
   </section>
@@ -309,21 +324,30 @@
   <section class="slide">
     <div class="w-wide">
       <p class="kicker c-cyan reveal" style="--d:.05s">El programa</p>
-      <h2 class="h-step mt-4 reveal" style="--d:.12s">Tres sesiones, un objetivo:<br>que uses todo Clinera</h2>
+      <h2 class="h-step mt-4 reveal" style="--d:.12s">Qué veremos en cada sesión</h2>
 
       <div class="two-col agenda top mt-9">
         <ol class="agenda-list">
           <li class="reveal" style="--d:.18s">
             <span class="num">S1</span>
-            <div><p class="ti">Operación diaria</p><p class="de">Agenda a fondo, pacientes y fichas, mensajería y registro de ventas. El día a día, dominado.</p></div>
+            <div>
+              <p class="ti">Operación diaria</p>
+              <p class="de">Estructura de tu clínica · Turnos y agenda · Fichas y pacientes · Mensajería en vivo</p>
+            </div>
           </li>
           <li class="reveal" style="--d:.26s">
             <span class="num">S2</span>
-            <div><p class="ti">Llenar la agenda</p><p class="de">Embudo, difusiones, formulario de captura, automatizaciones y metas del mes.</p></div>
+            <div>
+              <p class="ti">Vender y llenar la agenda</p>
+              <p class="de">Embudo de ventas · Registro de ventas · Difusiones y audiencias · Formulario Mágico</p>
+            </div>
           </li>
           <li class="reveal" style="--d:.34s">
             <span class="num">S3</span>
-            <div><p class="ti">Piloto automático</p><p class="de">Tu agente de IA a fondo, equipo y roles, y el cierre: tu clínica al 100%.</p></div>
+            <div>
+              <p class="ti">Piloto automático</p>
+              <p class="de">Automatizaciones · Índices y metas · Agente de IA a fondo · Equipo y roles</p>
+            </div>
           </li>
         </ol>
 
@@ -331,9 +355,9 @@
           <div class="icon-box" style="margin-bottom:1rem;">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
           </div>
-          <p class="fw-semi" style="font-size:1.02rem; line-height:1.3; margin:0;">Cómo funciona</p>
+          <p class="fw-semi" style="font-size:1.02rem; line-height:1.3; margin:0;">3 sesiones · mín. 60 min</p>
           <p class="c-sub" style="font-size:.9rem; line-height:1.55; margin:.5rem 0 0;">
-            Sesiones de ~60 minutos por videollamada, compartiendo pantalla sobre tu cuenta. Entre sesión y sesión queda una tarea corta para practicar.
+            Cuatro temas por sesión, cada uno con su tarea en vivo. Si un tema necesita más tiempo, la sesión se extiende — no se salta.
           </p>
         </aside>
       </div>
@@ -344,27 +368,30 @@
   <section class="slide" id="s1">
     <div class="w-wide two-col agenda top">
       <div>
-        <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 1 de 3</p>
+        <div class="sess-meta reveal" style="--d:.05s">
+          <p class="kicker c-cyan" style="margin:0;">Sesión 1 de 3</p>
+          <span class="tag cyan">mín. 60 min</span>
+        </div>
         <h2 class="h-step mt-4 reveal" style="--d:.12s">Operación diaria</h2>
         <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:40rem;">
-          Todo lo que tu equipo toca cada día. Al terminar esta sesión, la agenda, las fichas, el chat y las ventas dejan de tener secretos.
+          Todo lo que tu equipo toca cada día — y en cada tema, una tarea que haces tú en el momento.
         </p>
         <ol class="agenda-list mt-9">
           <li class="reveal" style="--d:.26s">
             <span class="num">01</span>
-            <div><p class="ti">Agenda a fondo</p><p class="de">Vistas, estados de turnos y citas agendadas por la IA.</p></div>
+            <div><p class="ti">Estructura de tu clínica</p><p class="de">Tarea: crear un tratamiento y dejarlo agendable de punta a punta.</p></div>
           </li>
           <li class="reveal" style="--d:.32s">
             <span class="num">02</span>
-            <div><p class="ti">Pacientes y fichas</p><p class="de">Directorio, ficha médica y consentimientos.</p></div>
+            <div><p class="ti">Turnos y agenda</p><p class="de">Tarea: crear, reagendar y eliminar un turno a mano.</p></div>
           </li>
           <li class="reveal" style="--d:.38s">
             <span class="num">03</span>
-            <div><p class="ti">Mensajería</p><p class="de">El chat de tu clínica: tú, tu equipo y el agente.</p></div>
+            <div><p class="ti">Fichas y pacientes</p><p class="de">Tarea: armar tu ficha personalizada y usarla en un paciente de prueba.</p></div>
           </li>
           <li class="reveal" style="--d:.44s">
             <span class="num">04</span>
-            <div><p class="ti">Registro de ventas</p><p class="de">Cada peso que entra, anotado y vinculado a su cita.</p></div>
+            <div><p class="ti">Mensajería en vivo</p><p class="de">Tarea: tomar un chat, apagar la IA, dejar nota y agendar sin salir.</p></div>
           </li>
         </ol>
       </div>
@@ -372,236 +399,249 @@
         <div class="icon-box" style="margin-bottom:1rem;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
         </div>
-        <p class="fw-semi" style="font-size:1.02rem; line-height:1.3; margin:0;">Resultado de la sesión</p>
+        <p class="fw-semi" style="font-size:1.02rem; line-height:1.3; margin:0;">Al terminar la sesión</p>
         <p class="c-sub" style="font-size:.9rem; line-height:1.55; margin:.5rem 0 0;">
-          Tu equipo gestiona el día completo desde Clinera: turnos, fichas, conversaciones y ventas — sin planillas paralelas.
+          Tu equipo gestiona el día completo desde Clinera: turnos, fichas, conversaciones — sin planillas paralelas y sin depender de nadie.
         </p>
       </aside>
     </div>
   </section>
 
-  <!-- ============ SLIDE 5 · S1 AGENDA ============ -->
+  <!-- ============ SLIDE 5 · S1-01 ESTRUCTURA ============ -->
   <section class="slide">
-    <div class="w-wide two-col">
-      <div>
-        <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 1 · Agenda</p>
-        <h2 class="h-step mt-4 reveal" style="--d:.12s">La agenda, a fondo</h2>
-        <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem;">
-          Más que ver citas: manejar el flujo completo de un turno, desde que se agenda hasta que el paciente sale atendido.
-        </p>
-        <ul class="checklist">
-          <li class="reveal" style="--d:.28s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Vista <span class="fw-semi">Calendario</span> para el mes, vista <span class="fw-semi">Agenda</span> para el día a día.</span>
-          </li>
-          <li class="reveal" style="--d:.34s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Crear, reagendar y cancelar turnos; estados de turno personalizados.</span>
-          </li>
-          <li class="reveal" style="--d:.4s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Filtrar las citas que agendó la IA y ver cuántas suma en el mes.</span>
-          </li>
-          <li class="reveal" style="--d:.46s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Agendas por profesional y por sucursal, sin choques de horario.</span>
-          </li>
-        </ul>
-      </div>
-      <div class="reveal" style="--d:.3s">
-        <div class="card">
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
-            <p class="chip" style="margin:0;">Agenda · Hoy</p>
-            <span class="tag cyan">3 citas IA</span>
-          </div>
-          <div class="inner-box" style="display:flex; align-items:center; gap:.75rem; margin-bottom:.6rem;">
-            <span class="mono c-cyan" style="font-size:.75rem;">10:00</span>
-            <div style="min-width:0;">
-              <p style="margin:0; font-weight:500; font-size:.9rem;">Amanda Riquelme</p>
-              <p class="c-sub" style="margin:0; font-size:.78rem;">Limpieza facial · Dra. Solís</p>
-            </div>
-            <span class="tag green" style="margin-left:auto;">Confirmada</span>
-          </div>
-          <div class="inner-box" style="display:flex; align-items:center; gap:.75rem; margin-bottom:.6rem;">
-            <span class="mono c-cyan" style="font-size:.75rem;">11:30</span>
-            <div style="min-width:0;">
-              <p style="margin:0; font-weight:500; font-size:.9rem;">Bruno Castillo</p>
-              <p class="c-sub" style="margin:0; font-size:.78rem;">Evaluación inicial · Dr. Errázuriz</p>
-            </div>
-            <span class="tag amber" style="margin-left:auto;">Por confirmar</span>
-          </div>
-          <div class="inner-box" style="display:flex; align-items:center; gap:.75rem;">
-            <span class="mono c-cyan" style="font-size:.75rem;">16:00</span>
-            <div style="min-width:0;">
-              <p style="margin:0; font-weight:500; font-size:.9rem;">Carla Fuentes</p>
-              <p class="c-sub" style="margin:0; font-size:.78rem;">Control · Dra. Solís</p>
-            </div>
-            <span class="tag violet" style="margin-left:auto;">Agendada por IA</span>
-          </div>
+    <div class="w-wide">
+      <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 1 · Tema 01</p>
+      <h2 class="h-step mt-4 reveal" style="--d:.12s">La estructura de tu clínica</h2>
+      <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:44rem;">
+        Sucursales, especialidades, tratamientos y profesionales: la cadena que hace que todo lo demás funcione. El orden importa, porque cada pieza se apoya en la anterior.
+      </p>
+
+      <div class="flow">
+        <div class="step reveal" style="--d:.26s">
+          <span class="n">01</span>
+          <p class="t" style="margin-top:.4rem;">Tratamiento</p>
+          <p class="s">Servicio, duración y precio.</p>
         </div>
+        <svg class="flow-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="step reveal" style="--d:.32s">
+          <span class="n">02</span>
+          <p class="t" style="margin-top:.4rem;">Especialidad</p>
+          <p class="s">El área a la que pertenece.</p>
+        </div>
+        <svg class="flow-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="step reveal" style="--d:.38s">
+          <span class="n">03</span>
+          <p class="t" style="margin-top:.4rem;">Profesional</p>
+          <p class="s">Quién lo realiza.</p>
+        </div>
+        <svg class="flow-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="step reveal" style="--d:.44s">
+          <span class="n">04</span>
+          <p class="t" style="margin-top:.4rem;">Horario y sucursal</p>
+          <p class="s">Cuándo y dónde atiende.</p>
+        </div>
+      </div>
+
+      <div class="tarea reveal" style="--d:.52s">
+        <div class="t-head">
+          <span class="t-badge">Tarea</span>
+          <span class="t-title">Deja un tratamiento agendable, de punta a punta</span>
+          <span class="t-who">La haces tú · Rebeca acompaña</span>
+        </div>
+        <ol class="t-steps cols2">
+          <li><span class="tn">1</span><span>Crea un tratamiento con su duración y precio.</span></li>
+          <li><span class="tn">2</span><span>Asócialo a una especialidad.</span></li>
+          <li><span class="tn">3</span><span>Asigna esa especialidad a un profesional.</span></li>
+          <li><span class="tn">4</span><span>Dale al profesional su horario en una sucursal. Listo: ya se puede agendar — y tu agente de IA ya lo puede ofrecer.</span></li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <!-- ============ SLIDE 6 · S1 PACIENTES Y FICHAS ============ -->
+  <!-- ============ SLIDE 6 · S1-02 TURNOS ============ -->
   <section class="slide">
-    <div class="w-wide two-col">
-      <div>
-        <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 1 · Pacientes</p>
-        <h2 class="h-step mt-4 reveal" style="--d:.12s">Pacientes y fichas clínicas</h2>
-        <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem;">
-          Toda la historia de cada paciente en un solo lugar: datos, atenciones, ficha médica y consentimientos firmados.
-        </p>
-        <ul class="checklist">
-          <li class="reveal" style="--d:.28s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Directorio completo: buscar, crear y editar pacientes.</span>
-          </li>
-          <li class="reveal" style="--d:.34s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span><span class="fw-semi">Editor de fichas</span>: arma la ficha médica con los campos que tu especialidad necesita.</span>
-          </li>
-          <li class="reveal" style="--d:.4s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Consentimientos informados asociados al tratamiento.</span>
-          </li>
-          <li class="reveal" style="--d:.46s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Importar tu base histórica desde Excel — pacientes y fichas — en minutos.</span>
-          </li>
-        </ul>
-        <p class="note reveal" style="--d:.52s">Si vienes de otro software, la migración de tu base la hacemos nosotros contigo.</p>
-      </div>
-      <div class="reveal" style="--d:.3s">
-        <div class="card">
-          <div class="icon-box" style="margin-bottom:1.25rem;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v6h6"/><path d="M4 2h10l6 6v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M9 13h6M9 17h4"/></svg>
-          </div>
-          <p class="chip" style="margin-bottom:.75rem;">Ficha médica</p>
-          <div class="inner-box">
-            <p style="margin:0 0 .2rem; font-weight:600; font-size:.95rem;">Amanda Riquelme</p>
-            <p class="c-sub" style="margin:0 0 .75rem; font-size:.8rem;">34 años · Paciente desde marzo 2026</p>
-            <div style="display:flex; flex-direction:column; gap:.45rem;">
-              <div style="display:flex; justify-content:space-between; font-size:.82rem;"><span class="c-sub">Motivo de consulta</span><span class="fw-med">Manchas solares</span></div>
-              <div style="display:flex; justify-content:space-between; font-size:.82rem;"><span class="c-sub">Alergias</span><span class="fw-med">Sin registro</span></div>
-              <div style="display:flex; justify-content:space-between; font-size:.82rem;"><span class="c-sub">Última atención</span><span class="fw-med">Limpieza facial</span></div>
+    <div class="w-wide">
+      <div class="two-col">
+        <div>
+          <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 1 · Tema 02</p>
+          <h2 class="h-step mt-4 reveal" style="--d:.12s">Turnos y agenda</h2>
+          <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.05rem;">
+            La IA agenda sola todos los días. Pero cuando un paciente llama por teléfono o llega al mesón, tú tienes que ser igual de rápido a mano.
+          </p>
+          <ul class="checklist">
+            <li class="reveal" style="--d:.28s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Vista <span class="fw-semi">Calendario</span> para el mes, vista <span class="fw-semi">Agenda</span> para el día.</span>
+            </li>
+            <li class="reveal" style="--d:.34s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Estados de turno personalizados, por profesional y sucursal.</span>
+            </li>
+            <li class="reveal" style="--d:.4s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Filtro de citas agendadas por la IA y cuántas suma en el mes.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="reveal" style="--d:.3s">
+          <div class="card">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
+              <p class="chip" style="margin:0;">Agenda · Hoy</p>
+              <span class="tag cyan">3 citas IA</span>
+            </div>
+            <div class="inner-box" style="display:flex; align-items:center; gap:.75rem; margin-bottom:.6rem;">
+              <span class="mono c-cyan" style="font-size:.75rem;">10:00</span>
+              <div style="min-width:0;">
+                <p style="margin:0; font-weight:500; font-size:.9rem;">Amanda Riquelme</p>
+                <p class="c-sub" style="margin:0; font-size:.78rem;">Limpieza facial · Dra. Solís</p>
+              </div>
+              <span class="tag green" style="margin-left:auto;">Confirmada</span>
+            </div>
+            <div class="inner-box" style="display:flex; align-items:center; gap:.75rem;">
+              <span class="mono c-cyan" style="font-size:.75rem;">11:30</span>
+              <div style="min-width:0;">
+                <p style="margin:0; font-weight:500; font-size:.9rem;">Bruno Castillo</p>
+                <p class="c-sub" style="margin:0; font-size:.78rem;">Evaluación inicial · Dr. Errázuriz</p>
+              </div>
+              <span class="tag amber" style="margin-left:auto;">Por confirmar</span>
             </div>
           </div>
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:1rem;">
-            <span class="chip">Consentimiento</span>
-            <span class="tag green">Firmado</span>
-          </div>
         </div>
+      </div>
+
+      <div class="tarea reveal" style="--d:.48s">
+        <div class="t-head">
+          <span class="t-badge">Tarea</span>
+          <span class="t-title">El ciclo completo de un turno, a mano</span>
+          <span class="t-who">La haces tú · Rebeca acompaña</span>
+        </div>
+        <ol class="t-steps cols2">
+          <li><span class="tn">1</span><span>Crea un turno con el tratamiento que armaste en el tema anterior.</span></li>
+          <li><span class="tn">2</span><span>Reagéndalo a otro día y hora.</span></li>
+          <li><span class="tn">3</span><span>Cámbiale el estado (confirmado, atendido, no asistió).</span></li>
+          <li><span class="tn">4</span><span>Elimínalo. Ya dominas el ciclo que la IA hace sola.</span></li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <!-- ============ SLIDE 7 · S1 MENSAJERÍA ============ -->
+  <!-- ============ SLIDE 7 · S1-03 FICHAS ============ -->
   <section class="slide">
-    <div class="w-wide two-col">
-      <div>
-        <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 1 · Mensajería</p>
-        <h2 class="h-step mt-4 reveal" style="--d:.12s">Un solo chat para<br>toda la clínica</h2>
-        <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem;">
-          Todas las conversaciones de WhatsApp en un solo lugar, compartidas entre tu equipo y tu agente de IA — con el historial completo de cada paciente al lado.
-        </p>
-        <ul class="checklist">
-          <li class="reveal" style="--d:.28s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Tomar una conversación o dejarla al agente: <span class="fw-semi">chatbot on/off por chat</span>.</span>
-          </li>
-          <li class="reveal" style="--d:.34s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Plantillas y fragmentos: respuestas frecuentes en dos clics.</span>
-          </li>
-          <li class="reveal" style="--d:.4s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Etiquetas y etapa del embudo directo desde la conversación.</span>
-          </li>
-          <li class="reveal" style="--d:.46s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Agendar una cita sin salir del chat.</span>
-          </li>
-        </ul>
-      </div>
-      <div class="reveal" style="--d:.3s">
-        <div class="card">
-          <div style="display:flex; align-items:center; gap:.5rem; margin-bottom:1rem;">
-            <span class="greendot"></span>
-            <span class="chip">WhatsApp · Recepción</span>
-            <span class="tag violet" style="margin-left:auto;">Agente activo</span>
-          </div>
-          <div class="bubbles">
-            <div class="bubble in">Hola, ¿me pueden cambiar la hora del viernes?</div>
-            <div class="bubble out">¡Claro! Tengo el viernes 12:30 o el lunes 10:00. ¿Cuál prefieres?</div>
-            <div class="bubble in">El lunes a las 10 está perfecto.</div>
-            <div class="bubble out">Listo, quedó reagendada. Te llegará la confirmación por aquí.</div>
+    <div class="w-wide">
+      <div class="two-col">
+        <div>
+          <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 1 · Tema 03</p>
+          <h2 class="h-step mt-4 reveal" style="--d:.12s">Fichas y pacientes</h2>
+          <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.05rem;">
+            La ficha clínica no viene impuesta: con el Editor de Fichas la armas con los campos que tu especialidad realmente usa.
+          </p>
+          <ul class="checklist">
+            <li class="reveal" style="--d:.28s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Directorio completo: buscar, crear y editar pacientes.</span>
+            </li>
+            <li class="reveal" style="--d:.34s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span><span class="fw-semi">Editor de Fichas</span> + consentimientos asociados al tratamiento.</span>
+            </li>
+            <li class="reveal" style="--d:.4s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Importar tu base histórica desde Excel — pacientes y fichas.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="reveal" style="--d:.3s">
+          <div class="card">
+            <p class="chip" style="margin-bottom:.75rem;">Ficha médica</p>
+            <div class="inner-box">
+              <p style="margin:0 0 .2rem; font-weight:600; font-size:.95rem;">Amanda Riquelme</p>
+              <p class="c-sub" style="margin:0 0 .75rem; font-size:.8rem;">34 años · Paciente desde marzo 2026</p>
+              <div style="display:flex; flex-direction:column; gap:.45rem;">
+                <div style="display:flex; justify-content:space-between; font-size:.82rem;"><span class="c-sub">Motivo de consulta</span><span class="fw-med">Manchas solares</span></div>
+                <div style="display:flex; justify-content:space-between; font-size:.82rem;"><span class="c-sub">Alergias</span><span class="fw-med">Sin registro</span></div>
+                <div style="display:flex; justify-content:space-between; font-size:.82rem;"><span class="c-sub">Última atención</span><span class="fw-med">Limpieza facial</span></div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:1rem;">
+              <span class="chip">Consentimiento</span>
+              <span class="tag green">Firmado</span>
+            </div>
           </div>
         </div>
+      </div>
+
+      <div class="tarea reveal" style="--d:.48s">
+        <div class="t-head">
+          <span class="t-badge">Tarea</span>
+          <span class="t-title">Tu ficha, con tus campos, en un paciente real</span>
+          <span class="t-who">La haces tú · Rebeca acompaña</span>
+        </div>
+        <ol class="t-steps">
+          <li><span class="tn">1</span><span>En el Editor de Fichas, crea tu ficha personalizada con los campos de tu especialidad.</span></li>
+          <li><span class="tn">2</span><span>Crea un paciente de prueba.</span></li>
+          <li><span class="tn">3</span><span>Complétale la ficha que acabas de armar — así queda lista para tus pacientes reales.</span></li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <!-- ============ SLIDE 8 · S1 VENTAS ============ -->
+  <!-- ============ SLIDE 8 · S1-04 MENSAJERÍA ============ -->
   <section class="slide">
-    <div class="w-wide two-col">
-      <div>
-        <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 1 · Ventas</p>
-        <h2 class="h-step mt-4 reveal" style="--d:.12s">Cada venta, registrada<br>y vinculada a su cita</h2>
-        <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem;">
-          El registro de ventas conecta lo clínico con lo comercial: qué se vendió, quién lo atendió, cuánto se abonó y cuánto falta por cobrar.
-        </p>
-        <ul class="checklist">
-          <li class="reveal" style="--d:.28s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Registrar una venta y <span class="fw-semi">vincularla a la cita</span> que la generó.</span>
-          </li>
-          <li class="reveal" style="--d:.34s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Pagos parciales y abonos: saber siempre cuánto queda pendiente.</span>
-          </li>
-          <li class="reveal" style="--d:.4s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Medios de pago propios de tu clínica y filtros por sucursal o período.</span>
-          </li>
-          <li class="reveal" style="--d:.46s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Exportar todo para tu contador en un clic.</span>
-          </li>
-        </ul>
-      </div>
-      <div class="reveal" style="--d:.3s">
-        <div class="card">
-          <p class="chip" style="margin-bottom:1rem;">Registro de ventas · Junio</p>
-          <div class="inner-box" style="margin-bottom:.6rem;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <p style="margin:0; font-weight:500; font-size:.9rem;">Plan despigmentación</p>
-                <p class="c-sub" style="margin:.1rem 0 0; font-size:.78rem;">Amanda Riquelme · Dra. Solís</p>
-              </div>
-              <div style="text-align:right;">
-                <p class="mono" style="margin:0; font-size:.85rem; font-weight:600;">$380.000</p>
-                <span class="tag green">Pagado</span>
-              </div>
+    <div class="w-wide">
+      <div class="two-col">
+        <div>
+          <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 1 · Tema 04</p>
+          <h2 class="h-step mt-4 reveal" style="--d:.12s">Mensajería en vivo</h2>
+          <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.05rem;">
+            Todas las conversaciones de WhatsApp en un solo lugar, compartidas entre tu equipo y el agente. La regla de oro: saber cuándo tomar tú el chat.
+          </p>
+          <ul class="checklist">
+            <li class="reveal" style="--d:.28s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span><span class="fw-semi">Chatbot on/off por conversación</span>: tú decides quién responde.</span>
+            </li>
+            <li class="reveal" style="--d:.34s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Notas internas, etiquetas y etapa del ciclo de vida en el mismo panel.</span>
+            </li>
+            <li class="reveal" style="--d:.4s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Plantillas y fragmentos para responder en dos clics.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="reveal" style="--d:.3s">
+          <div class="card">
+            <div style="display:flex; align-items:center; gap:.5rem; margin-bottom:1rem;">
+              <span class="greendot"></span>
+              <span class="chip">WhatsApp · Recepción</span>
+              <span class="tag amber" style="margin-left:auto;">IA en pausa · respondes tú</span>
             </div>
-          </div>
-          <div class="inner-box">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <p style="margin:0; font-weight:500; font-size:.9rem;">Programa corporal · 6 sesiones</p>
-                <p class="c-sub" style="margin:.1rem 0 0; font-size:.78rem;">Bruno Castillo · Dr. Errázuriz</p>
-              </div>
-              <div style="text-align:right;">
-                <p class="mono" style="margin:0; font-size:.85rem; font-weight:600;">$150.000 <span class="c-sub" style="font-weight:400;">/ $450.000</span></p>
-                <span class="tag amber">Abono parcial</span>
-              </div>
+            <div class="bubbles">
+              <div class="bubble in">Hola, ¿me pueden cambiar la hora del viernes?</div>
+              <div class="bubble out">¡Claro! Tengo el viernes 12:30 o el lunes 10:00. ¿Cuál prefieres?</div>
+              <div class="bubble in">El lunes a las 10 está perfecto.</div>
             </div>
-          </div>
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:1rem;">
-            <span class="chip">Pendiente por cobrar</span>
-            <span class="mono fw-semi" style="font-size:.9rem;">$300.000</span>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:1rem;">
+              <span class="chip">Acción</span>
+              <span class="tag cyan">Crear cita desde el chat</span>
+            </div>
           </div>
         </div>
+      </div>
+
+      <div class="tarea reveal" style="--d:.48s">
+        <div class="t-head">
+          <span class="t-badge">Tarea</span>
+          <span class="t-title">Prueba en tiempo real, con un chat de verdad</span>
+          <span class="t-who">La haces tú · Rebeca acompaña</span>
+        </div>
+        <ol class="t-steps cols2">
+          <li><span class="tn">1</span><span>Desactiva la IA en una conversación y responde tú.</span></li>
+          <li><span class="tn">2</span><span>Deja una nota interna en el contacto.</span></li>
+          <li><span class="tn">3</span><span>Cámbiale la etapa del ciclo de vida.</span></li>
+          <li><span class="tn">4</span><span>Agéndale una cita con el botón <span class="fw-semi">Crear cita</span> — sin salir del chat.</span></li>
+        </ol>
       </div>
     </div>
   </section>
@@ -610,27 +650,30 @@
   <section class="slide" id="s2">
     <div class="w-wide two-col agenda top">
       <div>
-        <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 2 de 3</p>
-        <h2 class="h-step mt-4 reveal" style="--d:.12s">Llenar la agenda</h2>
+        <div class="sess-meta reveal" style="--d:.05s">
+          <p class="kicker c-cyan" style="margin:0;">Sesión 2 de 3</p>
+          <span class="tag cyan">mín. 60 min</span>
+        </div>
+        <h2 class="h-step mt-4 reveal" style="--d:.12s">Vender y llenar la agenda</h2>
         <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:40rem;">
-          De administrar pacientes a conseguirlos. Esta sesión es el lado comercial de Clinera: captar, ordenar, hacer seguimiento y medir.
+          De administrar pacientes a conseguirlos y cobrarles bien. El lado comercial de Clinera — también con tareas en vivo.
         </p>
         <ol class="agenda-list mt-9">
           <li class="reveal" style="--d:.26s">
             <span class="num">01</span>
-            <div><p class="ti">Embudo de ventas</p><p class="de">Cada contacto en su etapa, del lead a la recompra.</p></div>
+            <div><p class="ti">Embudo de ventas</p><p class="de">Tarea: crear tus etapas y mover un contacto.</p></div>
           </li>
           <li class="reveal" style="--d:.32s">
             <span class="num">02</span>
-            <div><p class="ti">Difusiones y audiencias</p><p class="de">Mensajes masivos bien segmentados, sin riesgo de bloqueo.</p></div>
+            <div><p class="ti">Registro de ventas</p><p class="de">Tarea: venta asociada a cita, abono parcial y export a Excel.</p></div>
           </li>
           <li class="reveal" style="--d:.38s">
             <span class="num">03</span>
-            <div><p class="ti">Formulario Mágico</p><p class="de">Captura leads desde tu web o tus anuncios, directo al embudo.</p></div>
+            <div><p class="ti">Difusiones y audiencias</p><p class="de">Tarea: armar una audiencia y programar tu primera difusión.</p></div>
           </li>
           <li class="reveal" style="--d:.44s">
             <span class="num">04</span>
-            <div><p class="ti">Automatizaciones y metas</p><p class="de">Seguimiento en piloto automático y KPIs con meta mensual.</p></div>
+            <div><p class="ti">Formulario Mágico</p><p class="de">Tarea: completar tu propio formulario y ver el lead caer al embudo.</p></div>
           </li>
         </ol>
       </div>
@@ -638,21 +681,21 @@
         <div class="icon-box" style="margin-bottom:1rem;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
         </div>
-        <p class="fw-semi" style="font-size:1.02rem; line-height:1.3; margin:0;">Resultado de la sesión</p>
+        <p class="fw-semi" style="font-size:1.02rem; line-height:1.3; margin:0;">Al terminar la sesión</p>
         <p class="c-sub" style="font-size:.9rem; line-height:1.55; margin:.5rem 0 0;">
-          Tu embudo ordenado, una difusión enviada, el formulario capturando leads y una meta de ventas definida para el mes.
+          Tu embudo con etapas reales, una difusión programada, el formulario capturando leads y tus ventas ordenadas para el contador.
         </p>
       </aside>
     </div>
   </section>
 
-  <!-- ============ SLIDE 10 · S2 EMBUDO ============ -->
+  <!-- ============ SLIDE 10 · S2-01 EMBUDO ============ -->
   <section class="slide">
     <div class="w-wide">
-      <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 2 · Embudo</p>
+      <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 2 · Tema 01</p>
       <h2 class="h-step mt-4 reveal" style="--d:.12s">Tu negocio, de un vistazo</h2>
-      <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:44rem;">
-        En el onboarding conociste el embudo. Ahora lo haces tuyo: personalizar las etapas, mover contactos desde el chat y detectar dónde se está quedando la gente.
+      <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.05rem; max-width:44rem;">
+        Cada contacto en su etapa, del lead a la recompra. Así sabes siempre a quién contactar y dónde se está quedando la gente.
       </p>
 
       <div class="funnelv">
@@ -674,145 +717,214 @@
         </div>
         <div class="fstage reveal" style="--w:54%; --c:linear-gradient(135deg,#7C3AED,#6C2CDF); --d:.48s">
           <span class="fn">05</span>
-          <div class="fbody"><p class="ft">Recompra</p><p class="fs">Vuelve por más tratamientos.</p></div>
+          <div class="fbody"><p class="ft">Recompra</p><p class="fs">Vuelve por más.</p></div>
         </div>
       </div>
 
-      <div class="darkbar reveal" style="--d:.56s">
-        <svg style="margin-top:.12rem; flex:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-        <p style="margin:0;">Las etapas son tuyas: en esta sesión las adaptamos a cómo vende <span class="c-cyan fw-med">tu clínica</span>, y aprendes a mover contactos desde la mensajería o el módulo de marketing.</p>
+      <div class="tarea reveal" style="--d:.56s">
+        <div class="t-head">
+          <span class="t-badge">Tarea</span>
+          <span class="t-title">Deja el embudo con las etapas de tu clínica</span>
+          <span class="t-who">La haces tú · Rebeca acompaña</span>
+        </div>
+        <ol class="t-steps">
+          <li><span class="tn">1</span><span>Revisa tus etapas; si faltan, créalas según cómo vende tu clínica de verdad.</span></li>
+          <li><span class="tn">2</span><span>Mueve un contacto de etapa — desde la mensajería o desde Contactos.</span></li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <!-- ============ SLIDE 11 · S2 DIFUSIONES ============ -->
-  <section class="slide">
-    <div class="w-wide two-col">
-      <div>
-        <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 2 · Difusiones</p>
-        <h2 class="h-step mt-4 reveal" style="--d:.12s">Mensajes masivos<br>que no queman tu número</h2>
-        <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem;">
-          Una promoción bien segmentada llena la agenda de la semana. Una mal enviada arriesga tu WhatsApp. Aquí aprendes a hacer lo primero.
-        </p>
-        <ul class="checklist">
-          <li class="reveal" style="--d:.28s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Crear <span class="fw-semi">audiencias</span> por etapa del embudo, etiqueta o historial.</span>
-          </li>
-          <li class="reveal" style="--d:.34s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Enviar con plantillas aprobadas por Meta y programar el mejor horario.</span>
-          </li>
-          <li class="reveal" style="--d:.4s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Medir quién respondió y convertir esas respuestas en citas.</span>
-          </li>
-        </ul>
-        <p class="note reveal" style="--d:.46s">Regla de oro: solo a quien dio su consentimiento, y siempre con algo que le sirva.</p>
-      </div>
-      <div class="reveal" style="--d:.3s">
-        <div class="card">
-          <div class="icon-box" style="margin-bottom:1.25rem;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
-          </div>
-          <p class="chip" style="margin-bottom:.75rem;">Difusión</p>
-          <div class="inner-box" style="margin-bottom:1rem;">
-            <p style="margin:0 0 .2rem; font-weight:600; font-size:.92rem;">Reactivación invierno</p>
-            <p class="c-sub" style="margin:0; font-size:.8rem;">Audiencia: compró hace +6 meses · 148 contactos</p>
-          </div>
-          <div style="display:flex; flex-direction:column; gap:.5rem;">
-            <div style="display:flex; justify-content:space-between; font-size:.85rem;"><span class="c-sub">Estado</span><span class="tag green">Enviada</span></div>
-            <div style="display:flex; justify-content:space-between; font-size:.85rem;"><span class="c-sub">Respuestas</span><span class="fw-semi mono" style="font-size:.82rem;">37</span></div>
-            <div style="display:flex; justify-content:space-between; font-size:.85rem;"><span class="c-sub">Citas generadas</span><span class="fw-semi mono c-cyan" style="font-size:.82rem;">12</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 12 · S2 FORMULARIO MÁGICO ============ -->
-  <section class="slide">
-    <div class="w-wide two-col">
-      <div>
-        <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 2 · Captura</p>
-        <h2 class="h-step mt-4 reveal" style="--d:.12s">Formulario Mágico:<br>leads directo al embudo</h2>
-        <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem;">
-          Un formulario de Clinera que vive en tu página web o detrás de tus anuncios. Cada persona que lo completa entra sola al embudo, en la etapa que definas.
-        </p>
-        <ul class="checklist">
-          <li class="reveal" style="--d:.28s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Compartirlo como <span class="fw-semi">enlace directo</span> o insertarlo en tu sitio web.</span>
-          </li>
-          <li class="reveal" style="--d:.34s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Auto-captura: nombre, teléfono y mensaje quedan como contacto nuevo.</span>
-          </li>
-          <li class="reveal" style="--d:.4s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Ideal para campañas: el lead de tu anuncio cae al embudo y el agente lo atiende.</span>
-          </li>
-        </ul>
-      </div>
-      <div class="reveal" style="--d:.3s">
-        <div class="card">
-          <p class="chip" style="margin-bottom:.75rem;">Así se ve en tu web</p>
-          <div class="inner-box">
-            <p style="margin:0 0 .8rem; font-weight:600; font-size:.95rem;">Agenda tu evaluación</p>
-            <div style="display:flex; flex-direction:column; gap:.55rem;">
-              <div>
-                <p class="chip" style="margin:0 0 .25rem;">Nombre</p>
-                <div style="border:1px solid var(--line); border-radius:9px; padding:.5rem .7rem; font-size:.85rem;">Camila Ortiz</div>
-              </div>
-              <div>
-                <p class="chip" style="margin:0 0 .25rem;">WhatsApp</p>
-                <div style="border:1px solid var(--line); border-radius:9px; padding:.5rem .7rem; font-size:.85rem;">+56 9 5555 0134</div>
-              </div>
-              <div style="background:var(--ink); color:#fff; border-radius:9px; padding:.55rem; text-align:center; font-size:.85rem; font-weight:500;">Enviar</div>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:1rem;">
-            <span class="chip">Al enviar</span>
-            <span class="tag cyan">Entra al embudo como Nuevo lead</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 13 · S2 AUTOMATIZACIONES ============ -->
+  <!-- ============ SLIDE 11 · S2-02 VENTAS ============ -->
   <section class="slide">
     <div class="w-wide">
-      <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 2 · Automatizaciones</p>
-      <h2 class="h-step mt-4 reveal" style="--d:.12s">Seguimiento que ocurre solo</h2>
-      <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:44rem;">
-        En el onboarding quedaron activas las automatizaciones base. Ahora las afinamos: tiempos, mensajes y cuáles conviene sumar según tu clínica.
-      </p>
-      <div class="grid4">
-        <div class="mini reveal" style="--d:.26s">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-          <p class="mt">Recordatorios</p>
-          <p class="ms">Cuánto tiempo antes, con qué mensaje y por qué canal.</p>
+      <div class="two-col">
+        <div>
+          <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 2 · Tema 02</p>
+          <h2 class="h-step mt-4 reveal" style="--d:.12s">Registro de ventas</h2>
+          <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.05rem;">
+            Cada peso que entra, anotado y conectado a la cita que lo generó. Lo clínico y lo comercial dejan de vivir en mundos separados.
+          </p>
+          <ul class="checklist">
+            <li class="reveal" style="--d:.28s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Venta <span class="fw-semi">vinculada a una cita</span>, con profesional y sucursal.</span>
+            </li>
+            <li class="reveal" style="--d:.34s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Pagos parciales y totales: siempre sabes cuánto queda pendiente.</span>
+            </li>
+            <li class="reveal" style="--d:.4s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Medios de pago propios, filtros por período y export a Excel.</span>
+            </li>
+          </ul>
         </div>
-        <div class="mini reveal" style="--d:.32s">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
-          <p class="mt">Confirmaciones</p>
-          <p class="ms">El paciente confirma o reagenda sin que nadie lo llame.</p>
-        </div>
-        <div class="mini reveal" style="--d:.38s">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-          <p class="mt">Reactivación</p>
-          <p class="ms">Pacientes que no vuelven hace meses reciben un motivo para volver.</p>
-        </div>
-        <div class="mini reveal" style="--d:.44s">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <p class="mt">Seguimiento</p>
-          <p class="ms">Mensaje post-atención para cuidar la experiencia y fidelizar.</p>
+        <div class="reveal" style="--d:.3s">
+          <div class="card">
+            <p class="chip" style="margin-bottom:1rem;">Registro de ventas</p>
+            <div class="inner-box" style="margin-bottom:.6rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <p style="margin:0; font-weight:500; font-size:.9rem;">Plan despigmentación</p>
+                  <p class="c-sub" style="margin:.1rem 0 0; font-size:.78rem;">Amanda Riquelme · Dra. Solís</p>
+                </div>
+                <div style="text-align:right;">
+                  <p class="mono" style="margin:0; font-size:.85rem; font-weight:600;">$380.000</p>
+                  <span class="tag green">Pagado</span>
+                </div>
+              </div>
+            </div>
+            <div class="inner-box">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <p style="margin:0; font-weight:500; font-size:.9rem;">Programa corporal · 6 sesiones</p>
+                  <p class="c-sub" style="margin:.1rem 0 0; font-size:.78rem;">Bruno Castillo · Dr. Errázuriz</p>
+                </div>
+                <div style="text-align:right;">
+                  <p class="mono" style="margin:0; font-size:.85rem; font-weight:600;">$150.000 <span class="c-sub" style="font-weight:400;">/ $450.000</span></p>
+                  <span class="tag amber">Abono parcial</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="darkbar reveal" style="--d:.52s">
-        <svg style="margin-top:.12rem; flex:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
-        <p style="margin:0;">Cerramos la sesión en <span class="c-cyan fw-med">Índices</span>: tu meta de facturación mensual, ventas del mes, ticket promedio y citas — para que el avance se mida, no se sienta.</p>
+
+      <div class="tarea reveal" style="--d:.48s">
+        <div class="t-head">
+          <span class="t-badge">Tarea</span>
+          <span class="t-title">Registra, abona y exporta</span>
+          <span class="t-who">La haces tú · Rebeca acompaña</span>
+        </div>
+        <ol class="t-steps cols2">
+          <li><span class="tn">1</span><span>Registra una venta y asóciala a una cita.</span></li>
+          <li><span class="tn">2</span><span>Ingresa un pago parcial y mira cómo queda el saldo pendiente.</span></li>
+          <li><span class="tn">3</span><span>Complétala a pago total.</span></li>
+          <li><span class="tn">4</span><span>Exporta el Excel del período — listo para enviárselo a tu contador.</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 12 · S2-03 DIFUSIONES ============ -->
+  <section class="slide">
+    <div class="w-wide">
+      <div class="two-col">
+        <div>
+          <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 2 · Tema 03</p>
+          <h2 class="h-step mt-4 reveal" style="--d:.12s">Difusiones y audiencias</h2>
+          <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.05rem;">
+            Una promoción bien segmentada llena la agenda de la semana. Una mal enviada arriesga tu WhatsApp. Aquí aprendes a hacer lo primero.
+          </p>
+          <ul class="checklist">
+            <li class="reveal" style="--d:.28s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span><span class="fw-semi">Audiencias</span> por etapa del embudo, etiqueta o historial.</span>
+            </li>
+            <li class="reveal" style="--d:.34s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Plantillas aprobadas por Meta, envío programado.</span>
+            </li>
+            <li class="reveal" style="--d:.4s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Medir respuestas y convertirlas en citas.</span>
+            </li>
+          </ul>
+          <p class="note reveal" style="--d:.44s">Regla de oro: solo a quien dio su consentimiento, y siempre con algo que le sirva.</p>
+        </div>
+        <div class="reveal" style="--d:.3s">
+          <div class="card">
+            <p class="chip" style="margin-bottom:.75rem;">Difusión</p>
+            <div class="inner-box" style="margin-bottom:1rem;">
+              <p style="margin:0 0 .2rem; font-weight:600; font-size:.92rem;">Reactivación invierno</p>
+              <p class="c-sub" style="margin:0; font-size:.8rem;">Audiencia: compró hace +6 meses · 148 contactos</p>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:.5rem;">
+              <div style="display:flex; justify-content:space-between; font-size:.85rem;"><span class="c-sub">Estado</span><span class="tag green">Enviada</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:.85rem;"><span class="c-sub">Respuestas</span><span class="fw-semi mono" style="font-size:.82rem;">37</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:.85rem;"><span class="c-sub">Citas generadas</span><span class="fw-semi mono c-cyan" style="font-size:.82rem;">12</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tarea reveal" style="--d:.48s">
+        <div class="t-head">
+          <span class="t-badge">Tarea</span>
+          <span class="t-title">Tu primera difusión segmentada</span>
+          <span class="t-who">La haces tú · Rebeca acompaña</span>
+        </div>
+        <ol class="t-steps">
+          <li><span class="tn">1</span><span>Crea una audiencia (por ejemplo: pacientes que compraron hace más de 6 meses).</span></li>
+          <li><span class="tn">2</span><span>Arma la difusión con una plantilla aprobada.</span></li>
+          <li><span class="tn">3</span><span>Prográmala — o envíatela de prueba a tu propio número primero.</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 13 · S2-04 FORMULARIO MÁGICO ============ -->
+  <section class="slide">
+    <div class="w-wide">
+      <div class="two-col">
+        <div>
+          <p class="kicker c-cyan reveal" style="--d:.05s">Sesión 2 · Tema 04</p>
+          <h2 class="h-step mt-4 reveal" style="--d:.12s">Formulario Mágico</h2>
+          <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.05rem;">
+            Un formulario de Clinera que vive en tu web o detrás de tus anuncios. Cada persona que lo completa entra sola al embudo, en la etapa que definas.
+          </p>
+          <ul class="checklist">
+            <li class="reveal" style="--d:.28s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span><span class="fw-semi">Enlace directo</span> para compartir, o insertado en tu sitio web.</span>
+            </li>
+            <li class="reveal" style="--d:.34s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Auto-captura: nombre, teléfono y mensaje quedan como contacto.</span>
+            </li>
+            <li class="reveal" style="--d:.4s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Ideal para campañas: el lead cae al embudo y el agente lo atiende.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="reveal" style="--d:.3s">
+          <div class="card">
+            <p class="chip" style="margin-bottom:.75rem;">Así se ve en tu web</p>
+            <div class="inner-box">
+              <p style="margin:0 0 .8rem; font-weight:600; font-size:.95rem;">Agenda tu evaluación</p>
+              <div style="display:flex; flex-direction:column; gap:.55rem;">
+                <div>
+                  <p class="chip" style="margin:0 0 .25rem;">Nombre</p>
+                  <div style="border:1px solid var(--line); border-radius:9px; padding:.5rem .7rem; font-size:.85rem;">Camila Ortiz</div>
+                </div>
+                <div>
+                  <p class="chip" style="margin:0 0 .25rem;">WhatsApp</p>
+                  <div style="border:1px solid var(--line); border-radius:9px; padding:.5rem .7rem; font-size:.85rem;">+56 9 5555 0134</div>
+                </div>
+                <div style="background:var(--ink); color:#fff; border-radius:9px; padding:.55rem; text-align:center; font-size:.85rem; font-weight:500;">Enviar</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:1rem;">
+              <span class="chip">Al enviar</span>
+              <span class="tag cyan">Entra al embudo como Nuevo lead</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tarea reveal" style="--d:.48s">
+        <div class="t-head">
+          <span class="t-badge">Tarea</span>
+          <span class="t-title">Conviértete en tu propio lead</span>
+          <span class="t-who">La haces tú · Rebeca acompaña</span>
+        </div>
+        <ol class="t-steps">
+          <li><span class="tn">1</span><span>Configura el formulario y elige a qué etapa del embudo entra el lead.</span></li>
+          <li><span class="tn">2</span><span>Copia el enlace directo y complétalo tú mismo desde el celular.</span></li>
+          <li><span class="tn">3</span><span>Ve tu propio lead caer al embudo — el mismo camino que harán tus pacientes.</span></li>
+        </ol>
       </div>
     </div>
   </section>
@@ -821,27 +933,30 @@
   <section class="slide" id="s3">
     <div class="w-wide two-col agenda top">
       <div>
-        <p class="kicker c-violet reveal" style="--d:.05s">Sesión 3 de 3</p>
+        <div class="sess-meta reveal" style="--d:.05s">
+          <p class="kicker c-violet" style="margin:0;">Sesión 3 de 3</p>
+          <span class="tag violet">mín. 60 min</span>
+        </div>
         <h2 class="h-step mt-4 reveal" style="--d:.12s">Piloto automático</h2>
         <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:40rem;">
-          La última sesión es donde todo se junta: tu agente de IA afinado con lo que aprendiste, y tu equipo trabajando ordenado dentro de Clinera.
+          La última sesión junta todo: lo repetitivo queda automatizado, tu agente afinado con tus reglas, y tu equipo ordenado dentro de Clinera.
         </p>
         <ol class="agenda-list v mt-9">
           <li class="reveal" style="--d:.26s">
             <span class="num">01</span>
-            <div><p class="ti">Agente de IA a fondo</p><p class="de">Reglas, promociones y agendamiento automático.</p></div>
+            <div><p class="ti">Automatizaciones</p><p class="de">Tarea: ajustar tiempos y tono de tus recordatorios.</p></div>
           </li>
           <li class="reveal" style="--d:.32s">
             <span class="num">02</span>
-            <div><p class="ti">Playground</p><p class="de">Probar cada cambio sin tocar pacientes reales.</p></div>
+            <div><p class="ti">Índices y metas</p><p class="de">Tarea: fijar tu meta de facturación del mes.</p></div>
           </li>
           <li class="reveal" style="--d:.38s">
             <span class="num">03</span>
-            <div><p class="ti">Equipo y roles</p><p class="de">Usuarios, asignación de conversaciones y actividad.</p></div>
+            <div><p class="ti">Agente de IA a fondo</p><p class="de">Tarea: crear una promoción y probarla en el Playground.</p></div>
           </li>
           <li class="reveal" style="--d:.44s">
             <span class="num">04</span>
-            <div><p class="ti">Cierre 0 → 100</p><p class="de">Checklist final y plan de los próximos 30 días.</p></div>
+            <div><p class="ti">Equipo y roles</p><p class="de">Tarea: crear un usuario y asignarle una conversación.</p></div>
           </li>
         </ol>
       </div>
@@ -849,134 +964,271 @@
         <div class="icon-box" style="margin-bottom:1rem;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/><circle cx="9.5" cy="10.5" r="1"/><circle cx="14.5" cy="10.5" r="1"/><path d="M9 15h6"/></svg>
         </div>
-        <p class="fw-semi" style="font-size:1.02rem; line-height:1.3; margin:0;">Resultado de la sesión</p>
+        <p class="fw-semi" style="font-size:1.02rem; line-height:1.3; margin:0;">Al terminar la sesión</p>
         <p class="c-sub" style="font-size:.9rem; line-height:1.55; margin:.5rem 0 0;">
-          Tu agente vende y agenda con tus reglas, cada conversación tiene responsable, y tú miras los números en vez de perseguir chats.
+          Tu agente vende y agenda con tus reglas, cada chat tiene responsable, y tú miras los números en vez de perseguir conversaciones.
         </p>
       </aside>
     </div>
   </section>
 
-  <!-- ============ SLIDE 15 · S3 AGENTE IA ============ -->
+  <!-- ============ SLIDE 15 · S3-01 AUTOMATIZACIONES ============ -->
   <section class="slide">
-    <div class="w-wide two-col">
-      <div>
-        <p class="kicker c-violet reveal" style="--d:.05s">Sesión 3 · Agente IA</p>
-        <h2 class="h-step mt-4 reveal" style="--d:.12s">Tu agente, con las reglas<br>de tu clínica</h2>
-        <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem;">
-          Después de semanas de uso real, ya sabes qué preguntan tus pacientes. En esta sesión convertimos eso en un agente que conversa, recomienda y agenda como tú lo harías.
-        </p>
-        <ul class="checklist">
-          <li class="reveal" style="--d:.28s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Cómo conversa: saludo, preguntas de diagnóstico y qué recomienda.</span>
-          </li>
-          <li class="reveal" style="--d:.34s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span><span class="fw-semi c-violet">Promociones</span> con vigencia y condiciones: el agente las ofrece solo.</span>
-          </li>
-          <li class="reveal" style="--d:.4s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Modo de agendamiento: enlace o <span class="fw-semi">agenda directa desde la conversación</span>.</span>
-          </li>
-          <li class="reveal" style="--d:.46s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Cada ajuste se prueba en el <span class="fw-semi">Playground</span> antes de tocar producción.</span>
-          </li>
-        </ul>
-      </div>
-      <div class="reveal" style="--d:.3s">
-        <div class="card sm">
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem;">
-            <div style="display:flex; align-items:center; gap:.625rem;">
-              <span class="icon-box s40" style="background:#F3EEFE; border-color:#E4D9FB;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/><circle cx="9.5" cy="10.5" r="1"/><circle cx="14.5" cy="10.5" r="1"/><path d="M9 15h6"/></svg>
-              </span>
-              <span class="fw-med" style="font-size:.95rem;">Playground</span>
-            </div>
-            <span class="tag violet">prueba sin riesgo</span>
-          </div>
-          <p class="chip" style="margin-bottom:.5rem;">Promoción activa</p>
-          <div class="codebox" style="margin-bottom:1rem;">
-            <p><span class="c-violet">Promo amigas</span> · 20% dcto.</p>
-            <p style="color:var(--ink); margin:0;">Condición: vienen dos y ambas compran</p>
-          </div>
-          <p class="chip" style="margin-bottom:.5rem;">Prueba</p>
-          <div class="bubbles">
-            <div class="bubble in" style="font-size:.84rem;">¿Tienen algún descuento si voy con mi hermana?</div>
-            <div class="bubble out violet" style="font-size:.84rem; max-width:90%;">¡Sí! Si vienen juntas y ambas toman el tratamiento, tienen 20% de descuento cada una. ¿Les agendo?</div>
-          </div>
+    <div class="w-wide">
+      <p class="kicker c-violet reveal" style="--d:.05s">Sesión 3 · Tema 01</p>
+      <h2 class="h-step mt-4 reveal" style="--d:.12s">Automatiza lo repetitivo</h2>
+      <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.05rem; max-width:44rem;">
+        Las automatizaciones base quedaron activas en el onboarding. Ahora las afinamos con lo que ya sabes de tus pacientes: tiempos, mensajes y cuáles sumar.
+      </p>
+      <div class="grid4">
+        <div class="mini reveal" style="--d:.26s">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <p class="mt">Recordatorios</p>
+          <p class="ms">Cuánto antes, con qué mensaje.</p>
         </div>
+        <div class="mini reveal" style="--d:.32s">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+          <p class="mt">Confirmaciones</p>
+          <p class="ms">El paciente confirma o reagenda solo.</p>
+        </div>
+        <div class="mini reveal" style="--d:.38s">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          <p class="mt">Reactivación</p>
+          <p class="ms">Un motivo para volver, automático.</p>
+        </div>
+        <div class="mini reveal" style="--d:.44s">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <p class="mt">Seguimiento</p>
+          <p class="ms">Mensaje post-atención que fideliza.</p>
+        </div>
+      </div>
+
+      <div class="tarea v reveal" style="--d:.52s">
+        <div class="t-head">
+          <span class="t-badge">Tarea</span>
+          <span class="t-title">Deja las automatizaciones con tu tono y tus tiempos</span>
+          <span class="t-who">La haces tú · Rebeca acompaña</span>
+        </div>
+        <ol class="t-steps">
+          <li><span class="tn">1</span><span>Ajusta cuánto tiempo antes se envía el recordatorio de cita.</span></li>
+          <li><span class="tn">2</span><span>Edita el mensaje para que suene a tu clínica.</span></li>
+          <li><span class="tn">3</span><span>Activa una automatización que aún no uses — por ejemplo, la reactivación.</span></li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <!-- ============ SLIDE 16 · S3 EQUIPO ============ -->
+  <!-- ============ SLIDE 16 · S3-02 ÍNDICES Y METAS ============ -->
   <section class="slide">
-    <div class="w-wide two-col">
-      <div>
-        <p class="kicker c-violet reveal" style="--d:.05s">Sesión 3 · Equipo</p>
-        <h2 class="h-step mt-4 reveal" style="--d:.12s">Tu equipo, ordenado<br>dentro de Clinera</h2>
-        <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem;">
-          Cuando hay más de una persona respondiendo, el orden importa: quién ve qué, quién responde a quién y qué pasó en cada cuenta.
-        </p>
-        <ul class="checklist">
-          <li class="reveal" style="--d:.28s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Usuarios con roles: dueño, recepción y profesionales ven lo que les toca.</span>
-          </li>
-          <li class="reveal" style="--d:.34s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span><span class="fw-semi">Asignación de conversaciones</span>: cada chat con un responsable claro.</span>
-          </li>
-          <li class="reveal" style="--d:.4s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Profesionales, sucursales y tratamientos al día — la base que la IA usa para agendar bien.</span>
-          </li>
-          <li class="reveal" style="--d:.46s">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Historial de actividad: saber quién cambió qué, y cuándo.</span>
-          </li>
-        </ul>
-        <p class="note reveal" style="--d:.52s">También repasamos la app móvil para que el equipo responda y revise la agenda desde el celular.</p>
-      </div>
-      <div class="reveal" style="--d:.3s">
-        <div class="card">
-          <p class="chip" style="margin-bottom:1rem;">Conversaciones · Asignación</p>
-          <div class="inner-box" style="display:flex; align-items:center; gap:.75rem; margin-bottom:.6rem;">
-            <span class="icon-box s40 warm" style="border-radius:999px; font-weight:600; font-size:.85rem;">CO</span>
-            <div style="min-width:0;">
-              <p style="margin:0; font-weight:500; font-size:.9rem;">Camila Ortiz</p>
-              <p class="c-sub" style="margin:0; font-size:.78rem;">Pregunta por plan corporal</p>
+    <div class="w-wide">
+      <div class="two-col">
+        <div>
+          <p class="kicker c-violet reveal" style="--d:.05s">Sesión 3 · Tema 02</p>
+          <h2 class="h-step mt-4 reveal" style="--d:.12s">Índices y metas</h2>
+          <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.05rem;">
+            Lo que no se mide, se siente — y sentir no sirve para decidir. Los índices te muestran el mes en números, contra una meta que tú defines.
+          </p>
+          <ul class="checklist">
+            <li class="reveal" style="--d:.28s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Ventas del mes, ticket promedio y total de registros.</span>
+            </li>
+            <li class="reveal" style="--d:.34s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Vista de citas: cuántas, de dónde vienen y cuántas hizo la IA.</span>
+            </li>
+            <li class="reveal" style="--d:.4s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span><span class="fw-semi">Meta mensual</span> con progreso diario de facturación.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="reveal" style="--d:.3s">
+          <div class="card">
+            <p class="chip" style="margin-bottom:1rem;">Rendimiento del mes</p>
+            <div class="inner-box">
+              <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:.5rem;">
+                <span class="chip">Progreso</span>
+                <span class="mono fw-semi c-violet" style="font-size:1.1rem;">64%</span>
+              </div>
+              <div style="height:8px; border-radius:999px; background:var(--warm); border:1px solid var(--line); overflow:hidden;">
+                <div style="width:64%; height:100%; background:var(--violet);"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-top:.6rem; font-size:.82rem;">
+                <span class="c-sub">Actual <span class="fw-med mono" style="color:var(--ink); font-size:.78rem;">$7.680.000</span></span>
+                <span class="c-sub">Meta <span class="fw-med mono" style="color:var(--ink); font-size:.78rem;">$12.000.000</span></span>
+              </div>
             </div>
-            <span class="tag violet" style="margin-left:auto;">Agente IA</span>
-          </div>
-          <div class="inner-box" style="display:flex; align-items:center; gap:.75rem; margin-bottom:.6rem;">
-            <span class="icon-box s40 warm" style="border-radius:999px; font-weight:600; font-size:.85rem;">BR</span>
-            <div style="min-width:0;">
-              <p style="margin:0; font-weight:500; font-size:.9rem;">Bruno Castillo</p>
-              <p class="c-sub" style="margin:0; font-size:.78rem;">Reclamo por retraso</p>
+            <div style="display:flex; gap:.6rem; margin-top:.75rem;">
+              <div class="inner-box" style="flex:1; padding:.75rem;">
+                <p class="chip" style="margin:0 0 .2rem;">Ticket promedio</p>
+                <p class="mono fw-semi" style="margin:0; font-size:.9rem;">$412.000</p>
+              </div>
+              <div class="inner-box" style="flex:1; padding:.75rem;">
+                <p class="chip" style="margin:0 0 .2rem;">Citas IA del mes</p>
+                <p class="mono fw-semi" style="margin:0; font-size:.9rem;">10</p>
+              </div>
             </div>
-            <span class="tag cyan" style="margin-left:auto;">Recepción</span>
-          </div>
-          <div class="inner-box" style="display:flex; align-items:center; gap:.75rem;">
-            <span class="icon-box s40 warm" style="border-radius:999px; font-weight:600; font-size:.85rem;">AR</span>
-            <div style="min-width:0;">
-              <p style="margin:0; font-weight:500; font-size:.9rem;">Amanda Riquelme</p>
-              <p class="c-sub" style="margin:0; font-size:.78rem;">Consulta post-tratamiento</p>
-            </div>
-            <span class="tag green" style="margin-left:auto;">Dra. Solís</span>
           </div>
         </div>
+      </div>
+
+      <div class="tarea v reveal" style="--d:.48s">
+        <div class="t-head">
+          <span class="t-badge">Tarea</span>
+          <span class="t-title">Ponle un número al mes</span>
+          <span class="t-who">La haces tú · Rebeca acompaña</span>
+        </div>
+        <ol class="t-steps">
+          <li><span class="tn">1</span><span>Define tu meta de facturación del mes en Índices.</span></li>
+          <li><span class="tn">2</span><span>Recorre ventas, ticket promedio y citas — y define qué número vas a mirar cada semana.</span></li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <!-- ============ SLIDE 17 · CHECKLIST 0→100 ============ -->
+  <!-- ============ SLIDE 17 · S3-03 AGENTE IA ============ -->
+  <section class="slide">
+    <div class="w-wide">
+      <div class="two-col">
+        <div>
+          <p class="kicker c-violet reveal" style="--d:.05s">Sesión 3 · Tema 03</p>
+          <h2 class="h-step mt-4 reveal" style="--d:.12s">Tu agente, con las reglas de tu clínica</h2>
+          <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.05rem;">
+            Después de semanas de uso real ya sabes qué preguntan tus pacientes. Hoy convertimos eso en un agente que conversa, recomienda y agenda como tú lo harías.
+          </p>
+          <ul class="checklist">
+            <li class="reveal" style="--d:.28s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Cómo conversa: saludo, diagnóstico y qué recomienda.</span>
+            </li>
+            <li class="reveal" style="--d:.34s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span><span class="fw-semi c-violet">Promociones</span> con condición y vigencia — el agente las ofrece solo.</span>
+            </li>
+            <li class="reveal" style="--d:.4s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Agendamiento automático: la cita se crea desde la conversación.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="reveal" style="--d:.3s">
+          <div class="card sm">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem;">
+              <div style="display:flex; align-items:center; gap:.625rem;">
+                <span class="icon-box s40" style="background:#F3EEFE; border-color:#E4D9FB;">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/><circle cx="9.5" cy="10.5" r="1"/><circle cx="14.5" cy="10.5" r="1"/><path d="M9 15h6"/></svg>
+                </span>
+                <span class="fw-med" style="font-size:.95rem;">Playground</span>
+              </div>
+              <span class="tag violet">prueba sin riesgo</span>
+            </div>
+            <p class="chip" style="margin-bottom:.5rem;">Promoción activa</p>
+            <div class="codebox" style="margin-bottom:1rem;">
+              <p><span class="c-violet">Promo amigas</span> · 20% dcto.</p>
+              <p style="color:var(--ink); margin:0;">Condición: vienen dos y ambas compran</p>
+            </div>
+            <div class="bubbles">
+              <div class="bubble in" style="font-size:.84rem;">¿Tienen algún descuento si voy con mi hermana?</div>
+              <div class="bubble out violet" style="font-size:.84rem; max-width:90%;">¡Sí! Si vienen juntas y ambas toman el tratamiento, tienen 20% de descuento cada una. ¿Les agendo?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tarea v reveal" style="--d:.48s">
+        <div class="t-head">
+          <span class="t-badge">Tarea</span>
+          <span class="t-title">Crea una promoción y véndela con tu agente</span>
+          <span class="t-who">La haces tú · Rebeca acompaña</span>
+        </div>
+        <ol class="t-steps">
+          <li><span class="tn">1</span><span>Crea una promoción con descuento, condición y vigencia.</span></li>
+          <li><span class="tn">2</span><span>Entra al Playground y pregúntale por ella como si fueras un paciente.</span></li>
+          <li><span class="tn">3</span><span>Ajusta una regla de cómo conversa y vuelve a probar hasta que suene a ti.</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 18 · S3-04 EQUIPO ============ -->
+  <section class="slide">
+    <div class="w-wide">
+      <div class="two-col">
+        <div>
+          <p class="kicker c-violet reveal" style="--d:.05s">Sesión 3 · Tema 04</p>
+          <h2 class="h-step mt-4 reveal" style="--d:.12s">Equipo y roles</h2>
+          <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.05rem;">
+            Cuando hay más de una persona respondiendo, el orden importa: quién ve qué, quién responde a quién y qué pasó en cada cuenta.
+          </p>
+          <ul class="checklist">
+            <li class="reveal" style="--d:.28s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Usuarios con roles: dueño, recepción y profesionales ven lo suyo.</span>
+            </li>
+            <li class="reveal" style="--d:.34s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span><span class="fw-semi">Asignación de conversaciones</span>: cada chat con responsable.</span>
+            </li>
+            <li class="reveal" style="--d:.4s">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Historial de actividad y la app móvil para operar desde el celular.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="reveal" style="--d:.3s">
+          <div class="card">
+            <p class="chip" style="margin-bottom:1rem;">Conversaciones · Asignación</p>
+            <div class="inner-box" style="display:flex; align-items:center; gap:.75rem; margin-bottom:.6rem;">
+              <span class="icon-box s40 warm" style="border-radius:999px; font-weight:600; font-size:.85rem;">CO</span>
+              <div style="min-width:0;">
+                <p style="margin:0; font-weight:500; font-size:.9rem;">Camila Ortiz</p>
+                <p class="c-sub" style="margin:0; font-size:.78rem;">Pregunta por plan corporal</p>
+              </div>
+              <span class="tag violet" style="margin-left:auto;">Agente IA</span>
+            </div>
+            <div class="inner-box" style="display:flex; align-items:center; gap:.75rem; margin-bottom:.6rem;">
+              <span class="icon-box s40 warm" style="border-radius:999px; font-weight:600; font-size:.85rem;">BR</span>
+              <div style="min-width:0;">
+                <p style="margin:0; font-weight:500; font-size:.9rem;">Bruno Castillo</p>
+                <p class="c-sub" style="margin:0; font-size:.78rem;">Reclamo por retraso</p>
+              </div>
+              <span class="tag cyan" style="margin-left:auto;">Recepción</span>
+            </div>
+            <div class="inner-box" style="display:flex; align-items:center; gap:.75rem;">
+              <span class="icon-box s40 warm" style="border-radius:999px; font-weight:600; font-size:.85rem;">AR</span>
+              <div style="min-width:0;">
+                <p style="margin:0; font-weight:500; font-size:.9rem;">Amanda Riquelme</p>
+                <p class="c-sub" style="margin:0; font-size:.78rem;">Consulta post-tratamiento</p>
+              </div>
+              <span class="tag green" style="margin-left:auto;">Dra. Solís</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tarea v reveal" style="--d:.48s">
+        <div class="t-head">
+          <span class="t-badge">Tarea</span>
+          <span class="t-title">Suma a tu equipo, con su rol</span>
+          <span class="t-who">La haces tú · Rebeca acompaña</span>
+        </div>
+        <ol class="t-steps">
+          <li><span class="tn">1</span><span>Crea un usuario para alguien de tu equipo, con el rol que le corresponde.</span></li>
+          <li><span class="tn">2</span><span>Asígnale una conversación desde la mensajería.</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 19 · CHECKLIST 0→100 ============ -->
   <section class="slide">
     <div class="w-wide">
       <p class="kicker c-cyan reveal" style="--d:.05s">Al terminar el programa</p>
-      <h2 class="h-step mt-4 reveal" style="--d:.12s">Esto es usar Clinera al 100</h2>
+      <h2 class="h-step mt-4 reveal" style="--d:.12s">Todo esto lo hiciste tú</h2>
+      <p class="lead mt-5 reveal" style="--d:.18s; font-size:1.05rem; max-width:44rem;">
+        No son temas que "viste en una presentación": son doce tareas que quedaron hechas y funcionando en tu cuenta.
+      </p>
 
       <div class="doneglance">
         <div class="donecol reveal" style="--d:.24s">
@@ -985,22 +1237,22 @@
             <span class="dt">Operación diaria</span>
           </div>
           <ul>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Agenda y estados de turno dominados</span></li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Fichas y consentimientos configurados</span></li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Mensajería con plantillas y etiquetas</span></li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Ventas vinculadas a citas, con abonos</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Tratamiento agendable de punta a punta</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Turnos creados, reagendados y eliminados a mano</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Ficha personalizada usada en un paciente</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Chat real: IA off, nota, etapa y cita sin salir</span></li>
           </ul>
         </div>
         <div class="donecol reveal" style="--d:.32s">
           <div class="dh">
             <span class="sn" style="background:#E1F3FE; color:#0A6E9E;">S2</span>
-            <span class="dt">Llenar la agenda</span>
+            <span class="dt">Vender y llenar la agenda</span>
           </div>
           <ul>
             <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Embudo con tus etapas reales</span></li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Primera difusión segmentada enviada</span></li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Formulario capturando leads solo</span></li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Automatizaciones afinadas y meta fijada</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Venta con abono, pago total y export a Excel</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Difusión segmentada programada</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Formulario probado con tu propio lead</span></li>
           </ul>
         </div>
         <div class="donecol reveal" style="--d:.4s">
@@ -1009,17 +1261,17 @@
             <span class="dt">Piloto automático</span>
           </div>
           <ul>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Agente con reglas y promociones propias</span></li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Agendamiento automático activo</span></li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Equipo con roles y chats asignados</span></li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Plan de los próximos 30 días</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Recordatorios con tu tono y tus tiempos</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Meta de facturación del mes definida</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Promoción creada y probada en Playground</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Usuario del equipo con chats asignados</span></li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ SLIDE 18 · CIERRE ============ -->
+  <!-- ============ SLIDE 20 · CIERRE ============ -->
   <section class="slide">
     <div class="w-narrow">
       <p class="kicker c-cyan reveal" style="--d:.05s">Clinera · Capacitación</p>
@@ -1087,6 +1339,8 @@
       hint.style.opacity = i === total - 1 ? '0' : '1';
       const cur = currentSession();
       chips.forEach(c => c.classList.toggle('on', c.dataset.jump === cur));
+      const active = slides[i];
+      if (active) active.scrollTop = 0;
     }
 
     function go(n) {
