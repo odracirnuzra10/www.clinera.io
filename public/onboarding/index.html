@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Onboarding · Clinera</title>
-<meta name="description" content="Guía de onboarding de Clinera: 5 pasos para dejar tu clínica operando sola con WhatsApp, agente de IA y automatizaciones.">
+<meta name="description" content="Guía de onboarding de Clinera: 7 pasos para dejar tu clínica operando sola con WhatsApp, agente de IA, automatizaciones, embudo de marketing y app móvil.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -133,6 +133,7 @@
   /* Flow (config clínica) */
   .flow{ display:flex; flex-direction:column; gap:.75rem; margin-top:2.25rem; }
   @media(min-width:1024px){ .flow{ flex-direction:row; align-items:center; gap:.25rem; } }
+  @media(min-width:1024px){ .flow.funnel{ align-items:stretch; } }
   .flow .step{ flex:1; border:1px solid var(--line); border-radius:16px; background:#fff; padding:1.25rem; }
   .flow .step .n{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--cyan); }
   .flow .step .t{ font-weight:500; margin:0; }
@@ -141,6 +142,27 @@
   @media(min-width:1024px){ .flow-arrow{ transform:none; } }
   .darkbar{ margin-top:1.75rem; border-radius:16px; background:var(--ink); color:#fff; padding:1.25rem;
     display:flex; align-items:flex-start; gap:.75rem; font-size:.95rem; line-height:1.55; }
+
+  /* App móvil */
+  .vbadge{ display:inline-grid; place-items:center; width:19px; height:19px; border-radius:999px;
+    background:var(--cyan); flex:none; }
+  .vnote{ margin-top:1.75rem; display:flex; align-items:center; gap:.6rem; font-size:.92rem; line-height:1.45;
+    color:#0A6E9E; background:#EAF7FD; border:1px solid #CDEBF9; border-radius:12px; padding:.8rem 1rem; }
+  .appgrid{ display:grid; grid-template-columns:1fr; gap:1.25rem; margin-top:1.5rem; }
+  @media(min-width:768px){ .appgrid{ grid-template-columns:1fr 1fr; } }
+  .appcard{ border:1px solid var(--line); border-radius:16px; background:#fff; padding:1.5rem;
+    display:flex; gap:1.25rem; align-items:center; }
+  .appcard .qr{ width:120px; height:120px; flex:none; border:1px solid var(--line); border-radius:12px;
+    padding:8px; background:#fff; }
+  .appcard .qr img{ width:100%; height:100%; display:block; }
+  .appcard .store-label{ font-family:'JetBrains Mono',monospace; font-size:.66rem; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--sub); display:flex; align-items:center; gap:.4rem; }
+  .appcard .appname{ display:flex; align-items:center; gap:.4rem; font-weight:600; font-size:1.15rem; margin:.4rem 0 .2rem; }
+  .appcard .dlbtn{ display:inline-flex; align-items:center; gap:.4rem; margin-top:.85rem; font-size:.85rem;
+    font-weight:500; color:var(--ink); text-decoration:none; border:1px solid var(--line); border-radius:9px;
+    padding:.45rem .8rem; transition:background .15s ease; }
+  .appcard .dlbtn:hover{ background:var(--warm); }
+  @media(max-width:400px){ .appcard{ flex-direction:column; align-items:flex-start; } }
 
   /* Uso correcto */
   .dos{ display:grid; grid-template-columns:1fr; gap:1.25rem; margin-top:2.25rem; }
@@ -187,7 +209,7 @@
       <span class="dot"></span>
       <span class="name">Clinera</span>
     </div>
-    <div class="counter" id="counter">01&nbsp;/&nbsp;10</div>
+    <div class="counter" id="counter">01&nbsp;/&nbsp;12</div>
   </header>
 
   <!-- ============ SLIDE 1 · PORTADA ============ -->
@@ -212,33 +234,41 @@
   <section class="slide" data-i="1">
     <div class="w-wide">
       <p class="kicker c-cyan reveal" style="--d:.05s">Agenda de hoy</p>
-      <h2 class="h-step mt-4 reveal" style="--d:.12s">5 pasos para dejarla operativa</h2>
+      <h2 class="h-step mt-4 reveal" style="--d:.12s">7 pasos para dejarla operativa</h2>
 
       <div class="two-col agenda top mt-9">
         <ol class="agenda-list">
-          <li class="reveal" style="--d:.18s">
+          <li class="reveal" style="--d:.16s">
             <span class="num">01</span>
             <div><p class="ti">Conexión de WhatsApp</p><p class="de">Conectamos el número de tu clínica. Somos partners de Meta.</p></div>
           </li>
-          <li class="reveal" style="--d:.25s">
+          <li class="reveal" style="--d:.22s">
             <span class="num">02</span>
             <div><p class="ti">Tu agente de IA</p><p class="de">Configuramos y afinamos el asistente que conversa por ti.</p></div>
           </li>
-          <li class="reveal" style="--d:.32s">
+          <li class="reveal" style="--d:.28s">
             <span class="num">03</span>
             <div><p class="ti">Automatizaciones</p><p class="de">Recordatorios, confirmaciones y seguimiento de pacientes.</p></div>
           </li>
-          <li class="reveal" style="--d:.39s">
+          <li class="reveal" style="--d:.34s">
             <span class="num">04</span>
-            <div><p class="ti">Configuración de tu clínica</p><p class="de">Sucursales, especialidades, tratamientos y profesionales.</p></div>
+            <div><p class="ti">Embudo de marketing</p><p class="de">Organiza a tus pacientes por etapa: lead, interesado, agendado, compró y recompra.</p></div>
+          </li>
+          <li class="reveal" style="--d:.40s">
+            <span class="num">05</span>
+            <div><p class="ti">App móvil oficial</p><p class="de">Descarga la app de Clinera y escanea el QR de tu tienda.</p></div>
           </li>
           <li class="reveal" style="--d:.46s">
-            <span class="num">05</span>
+            <span class="num">06</span>
+            <div><p class="ti">Configuración de tu clínica</p><p class="de">Sucursales, especialidades, tratamientos y profesionales.</p></div>
+          </li>
+          <li class="reveal" style="--d:.52s">
+            <span class="num">07</span>
             <div><p class="ti">Uso correcto</p><p class="de">Buenas prácticas para proteger tu número de bloqueos.</p></div>
           </li>
         </ol>
 
-        <aside class="aside reveal" style="--d:.5s">
+        <aside class="aside reveal" style="--d:.56s">
           <div class="icon-box" style="margin-bottom:1rem;">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#009FE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
           </div>
@@ -425,10 +455,109 @@
     </div>
   </section>
 
-  <!-- ============ SLIDE 7 · PASO 4 CONFIG CLÍNICA ============ -->
+  <!-- ============ SLIDE 7 · PASO 4 EMBUDO DE MARKETING ============ -->
   <section class="slide" data-i="6">
     <div class="w-wide">
-      <p class="kicker c-cyan reveal" style="--d:.05s">Paso 4 · Tu clínica</p>
+      <p class="kicker c-cyan reveal" style="--d:.05s">Paso 4 · Embudo de marketing</p>
+      <h2 class="h-step mt-4 reveal" style="--d:.12s">Ordena a tus pacientes en un embudo</h2>
+      <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:44rem;">
+        Recomendamos organizar cada contacto por etapa, para saber siempre en qué punto está y qué sigue. Clinera va moviendo al paciente por el embudo a medida que avanza.
+      </p>
+
+      <div class="flow funnel">
+        <div class="step reveal" style="--d:.24s">
+          <span class="n">01</span>
+          <p class="t" style="margin-top:.7rem;">Nuevo lead</p>
+          <p class="s">Entró un contacto nuevo.</p>
+        </div>
+        <svg class="flow-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="step reveal" style="--d:.30s">
+          <span class="n">02</span>
+          <p class="t" style="margin-top:.7rem;">Cliente interesado</p>
+          <p class="s">Preguntó por un tratamiento.</p>
+        </div>
+        <svg class="flow-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="step reveal" style="--d:.36s">
+          <span class="n">03</span>
+          <p class="t" style="margin-top:.7rem;">Agendado</p>
+          <p class="s">Tiene su cita reservada.</p>
+        </div>
+        <svg class="flow-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="step reveal" style="--d:.42s">
+          <span class="n">04</span>
+          <p class="t" style="margin-top:.7rem;">Compró</p>
+          <p class="s">Pagó su primera atención.</p>
+        </div>
+        <svg class="flow-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <div class="step reveal" style="--d:.48s">
+          <span class="n">05</span>
+          <p class="t" style="margin-top:.7rem;">Recompra</p>
+          <p class="s">Vuelve por más tratamientos.</p>
+        </div>
+      </div>
+
+      <div class="darkbar reveal" style="--d:.56s">
+        <svg style="margin-top:.12rem; flex:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <p style="margin:0;">El agente y las automatizaciones <span class="c-cyan fw-med">mueven al paciente de una etapa a la otra</span> — tú solo miras el embudo y sabes a quién contactar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 8 · PASO 5 APP MÓVIL ============ -->
+  <section class="slide" data-i="7">
+    <div class="w-wide">
+      <p class="kicker c-cyan reveal" style="--d:.05s">Paso 5 · App móvil</p>
+      <h2 class="h-step mt-4 reveal" style="--d:.12s">Descarga la app oficial de Clinera</h2>
+      <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:44rem;">
+        Lleva tu clínica en el bolsillo: agenda, pacientes y conversaciones desde el celular. Escanea el código de tu tienda — el QR abre la tienda de tu país automáticamente, estés donde estés.
+      </p>
+
+      <div class="vnote reveal" style="--d:.24s">
+        <span class="vbadge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span><span class="fw-semi">App oficial verificada.</span> Publicada por Clinera — busca el sello de verificado y desconfía de apps con nombres parecidos.</span>
+      </div>
+
+      <div class="appgrid">
+        <div class="appcard reveal" style="--d:.32s">
+          <div class="qr"><img src="/onboarding/qr-appstore.svg" alt="Código QR para descargar Clinera en la App Store" width="120" height="120"></div>
+          <div>
+            <span class="store-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16.36 12.9c.02 2.6 2.28 3.46 2.3 3.47-.02.06-.36 1.24-1.19 2.46-.72 1.05-1.47 2.1-2.64 2.12-1.15.02-1.52-.68-2.83-.68-1.31 0-1.72.66-2.81.7-1.13.04-1.99-1.13-2.72-2.18-1.48-2.14-2.61-6.06-1.09-8.7.75-1.32 2.1-2.15 3.56-2.17 1.11-.02 2.16.75 2.83.75.68 0 1.95-.93 3.29-.79.56.02 2.13.23 3.14 1.7-.08.05-1.87 1.1-1.85 3.27M14.2 6.6c.6-.73 1-1.74.89-2.75-.86.03-1.9.57-2.52 1.3-.56.64-1.05 1.67-.92 2.65.96.07 1.94-.49 2.55-1.2"/></svg>
+              App Store · iPhone
+            </span>
+            <p class="appname">Clinera <span class="vbadge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></p>
+            <p class="c-sub" style="font-size:.85rem; margin:0; line-height:1.4;">Escanea el QR o toca el botón.</p>
+            <a class="dlbtn" href="https://apps.apple.com/app/id6759620693" target="_blank" rel="noopener noreferrer">
+              Abrir App Store
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="appcard reveal" style="--d:.4s">
+          <div class="qr"><img src="/onboarding/qr-playstore.svg" alt="Código QR para descargar Clinera en Google Play" width="120" height="120"></div>
+          <div>
+            <span class="store-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4 2.5v19a1 1 0 0 0 1.5.87l16-9.5a1 1 0 0 0 0-1.74l-16-9.5A1 1 0 0 0 4 2.5z"/></svg>
+              Google Play · Android
+            </span>
+            <p class="appname">Clinera <span class="vbadge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></p>
+            <p class="c-sub" style="font-size:.85rem; margin:0; line-height:1.4;">Escanea el QR o toca el botón.</p>
+            <a class="dlbtn" href="https://play.google.com/store/apps/details?id=com.clinera.mobile&hl=es" target="_blank" rel="noopener noreferrer">
+              Abrir Google Play
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <p class="note reveal" style="--d:.5s">El mismo QR funciona en Chile, México y toda la región: cada persona llega a la tienda de su país.</p>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 9 · PASO 6 CONFIG CLÍNICA ============ -->
+  <section class="slide" data-i="8">
+    <div class="w-wide">
+      <p class="kicker c-cyan reveal" style="--d:.05s">Paso 6 · Tu clínica</p>
       <h2 class="h-step mt-4 reveal" style="--d:.12s">Carga la estructura de tu clínica</h2>
       <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:42rem;">
         El orden importa: cada elemento se apoya en el anterior. Hacemos el ejercicio juntos creando un ejemplo de cada uno.
@@ -479,10 +608,10 @@
     </div>
   </section>
 
-  <!-- ============ SLIDE 8 · PASO 5 USO CORRECTO ============ -->
-  <section class="slide" data-i="7">
+  <!-- ============ SLIDE 10 · PASO 7 USO CORRECTO ============ -->
+  <section class="slide" data-i="9">
     <div class="w-wide">
-      <p class="kicker reveal" style="--d:.05s; color:#B4382F;">Paso 5 · Uso correcto</p>
+      <p class="kicker reveal" style="--d:.05s; color:#B4382F;">Paso 7 · Uso correcto</p>
       <h2 class="h-step mt-4 reveal" style="--d:.12s">Cuida tu número, cuida tu clínica</h2>
       <p class="lead mt-5 reveal" style="--d:.2s; font-size:1.08rem; max-width:42rem;">
         WhatsApp y Meta penalizan el mal uso, y un número bloqueado deja a tu clínica sin canal. Estas reglas lo protegen.
@@ -523,8 +652,8 @@
     </div>
   </section>
 
-  <!-- ============ SLIDE 9 · LO QUE SIGUE ============ -->
-  <section class="slide" data-i="8">
+  <!-- ============ SLIDE 11 · LO QUE SIGUE ============ -->
+  <section class="slide" data-i="10">
     <div class="w-wide two-col next">
       <div>
         <p class="kicker c-cyan reveal" style="--d:.05s">Lo que sigue</p>
@@ -550,8 +679,8 @@
     </div>
   </section>
 
-  <!-- ============ SLIDE 10 · CIERRE ============ -->
-  <section class="slide" data-i="9">
+  <!-- ============ SLIDE 12 · CIERRE ============ -->
+  <section class="slide" data-i="11">
     <div class="w-narrow">
       <p class="kicker c-cyan reveal" style="--d:.05s">Clinera · Onboarding</p>
       <h1 class="display sm mt-5 reveal" style="--d:.12s">Tu clínica, lista<br>para operar sola.</h1>
