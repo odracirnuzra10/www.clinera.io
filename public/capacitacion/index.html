@@ -153,6 +153,19 @@
     display:grid; place-items:center; margin-top:.05rem; }
   .tarea.v .t-steps .tn{ color:var(--violet); }
 
+  /* Prohibido / recomendado (difusiones) */
+  .dos{ display:grid; grid-template-columns:1fr; gap:1rem; margin-top:1.75rem; }
+  @media(min-width:768px){ .dos{ grid-template-columns:1fr 1fr; } }
+  .panel{ border:1px solid; border-radius:16px; padding:1.15rem 1.3rem; }
+  .panel.bad{ border-color:#F2D5D2; background:#FDEBEC; }
+  .panel.good{ border-color:#D5E4D2; background:#EDF3EC; }
+  .panel-head{ display:flex; align-items:center; gap:.5rem; margin-bottom:.75rem; font-weight:600; font-size:.95rem; }
+  .panel ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.5rem; font-size:.88rem; line-height:1.4; }
+  .panel li{ display:flex; gap:.55rem; }
+  .panel.bad ul{ color:#7A2620; } .panel.bad .panel-head{ color:#991B1B; }
+  .panel.good ul{ color:#33502F; } .panel.good .panel-head{ color:#2F6B36; }
+  .b-bad{ color:#B4382F; flex:none; } .b-good{ color:#2F6B36; flex:none; }
+
   /* Método (Rebeca muestra → tú lo haces) */
   .metodo{ display:flex; flex-direction:column; gap:.6rem; margin-top:1.75rem; }
   @media(min-width:640px){ .metodo{ flex-direction:row; align-items:stretch; } }
@@ -831,7 +844,6 @@
               <span>Medir respuestas y convertirlas en citas.</span>
             </li>
           </ul>
-          <p class="note reveal" style="--d:.44s">Regla de oro: solo a quien dio su consentimiento, y siempre con algo que le sirva.</p>
         </div>
         <div class="reveal" style="--d:.3s">
           <div class="card">
@@ -849,7 +861,33 @@
         </div>
       </div>
 
-      <div class="tarea reveal" style="--d:.48s">
+      <div class="dos reveal" style="--d:.42s">
+        <div class="panel bad">
+          <div class="panel-head">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B4382F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            Prohibido — te puede costar el número
+          </div>
+          <ul>
+            <li><span class="b-bad" style="margin-top:1px;">×</span><span>Spam: envíos masivos a quien no dio su consentimiento.</span></li>
+            <li><span class="b-bad" style="margin-top:1px;">×</span><span>Nombres de marcas registradas como <span class="fw-semi">«Botox»</span>.</span></li>
+            <li><span class="b-bad" style="margin-top:1px;">×</span><span>Lenguaje medicamentoso: vender o promocionar medicamentos.</span></li>
+            <li><span class="b-bad" style="margin-top:1px;">×</span><span>Promesas médicas o resultados garantizados.</span></li>
+          </ul>
+        </div>
+        <div class="panel good">
+          <div class="panel-head">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2F6B36" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            En su lugar
+          </div>
+          <ul>
+            <li><span class="b-good" style="margin-top:1px;">+</span><span>Solo a pacientes que aceptaron recibir mensajes.</span></li>
+            <li><span class="b-good" style="margin-top:1px;">+</span><span>Términos genéricos: «tratamiento facial», «rejuvenecimiento».</span></li>
+            <li><span class="b-good" style="margin-top:1px;">+</span><span>Mensajes claros, relevantes y oportunos — con algo que le sirva.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tarea reveal" style="--d:.5s">
         <div class="t-head">
           <span class="t-badge">Tarea</span>
           <span class="t-title">Tu primera difusión segmentada</span>
