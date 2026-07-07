@@ -206,6 +206,14 @@ const nextConfig: NextConfig = {
         source: '/videotoloza',
         destination: '/videotoloza/index.html',
       },
+      {
+        source: '/franco',
+        destination: '/franco/index.html',
+      },
+      {
+        source: '/brian',
+        destination: '/brian/index.html',
+      },
     ];
   },
   async redirects() {
