@@ -214,6 +214,10 @@ const nextConfig: NextConfig = {
         source: '/brian',
         destination: '/brian/index.html',
       },
+      {
+        source: '/rebeca',
+        destination: '/rebeca/index.html',
+      },
     ];
   },
   async redirects() {
