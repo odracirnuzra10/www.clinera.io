@@ -2125,6 +2125,33 @@
     .cmp-grid{ grid-template-columns: 1fr; gap: 14px; }
     .cmp-analogy{ margin-bottom: 30px; }
   }
+
+  /* --- Slide dedicada: Seguridad y cumplimiento (panel dark, acento cyan) --- */
+  .sec-inner{ max-width: 1180px; margin: 0 auto; width: 100%; }
+  .sec-panel{ position: relative; overflow: hidden; background: #111318; border: 1px solid rgba(255,255,255,.09); border-radius: 24px; padding: clamp(26px,3vw,46px); }
+  .sec-glow{ position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 42% 55% at 88% -8%, rgba(0,159,227,.18) 0%, transparent 62%); }
+  .sec-kicker{ position: relative; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.5); display: inline-flex; align-items: center; gap: 9px; margin-bottom: 16px; }
+  .sec-kicker .pip{ width: 6px; height: 6px; border-radius: 999px; background: var(--cyan); }
+  .sec-title{ position: relative; font-family: var(--sans); font-weight: 700; letter-spacing: -.03em; line-height: 1.08; font-size: clamp(23px,2.9vw,38px); margin: 0 0 12px; color: #fff; }
+  .sec-sub{ position: relative; font-family: var(--sans); font-size: clamp(14px,1.05vw,16px); line-height: 1.55; color: rgba(255,255,255,.6); margin: 0 0 30px; max-width: 640px; }
+  .sec-grid{ position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .sec-col{ background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 22px 22px 20px; }
+  .sec-country{ display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+  .sec-cc{ font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; color: var(--cyan); border: 1px solid rgba(0,159,227,.32); background: rgba(0,159,227,.09); border-radius: 7px; padding: 3px 8px; }
+  .sec-country .name{ font-family: var(--sans); font-size: 16px; font-weight: 600; color: #fff; letter-spacing: -.01em; }
+  .sec-h{ font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: rgba(255,255,255,.42); margin: 0 0 12px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.07); }
+  .sec-h.first{ padding-top: 0; border-top: 0; }
+  .sec-laws{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
+  .sec-law{ font-family: var(--mono); font-size: 12.5px; color: #fff; font-weight: 500; letter-spacing: -.01em; display: block; margin-bottom: 3px; }
+  .sec-lawdesc{ font-family: var(--sans); font-size: 12.5px; line-height: 1.5; color: rgba(255,255,255,.56); }
+  .sec-lawdesc b{ color: rgba(255,255,255,.82); font-weight: 600; }
+  .sec-do{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+  .sec-do li{ display: flex; gap: 9px; align-items: flex-start; font-family: var(--sans); font-size: 12.5px; line-height: 1.45; color: rgba(255,255,255,.74); }
+  .sec-do li svg{ flex: none; width: 15px; height: 15px; margin-top: 1px; color: var(--cyan); }
+  .sec-note{ margin-top: 15px; padding: 12px 14px; border-radius: 10px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.09); font-family: var(--sans); font-size: 11.5px; line-height: 1.5; color: rgba(255,255,255,.5); }
+  .sec-note b{ color: rgba(255,255,255,.72); font-weight: 600; }
+  @media (max-width: 900px){ .sec-grid{ grid-template-columns: 1fr; gap: 14px; } }
+
   .roi-table{
     background: #fff;
     border: 1px solid var(--line);
@@ -2978,7 +3005,7 @@
   <div class="meta-tag">Presentación · Clinera</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 15</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 16</div>
 <div class="hint">
   Click o <span class="arrow">→</span> para continuar
 </div>
@@ -3847,8 +3874,76 @@
     </div>
   </section>
 
-  <!-- 14 — Precios -->
+  <!-- 14 — Seguridad y cumplimiento normativo (Chile / México) -->
   <section class="slide slide-scroll" id="slide13">
+    <div class="slide-inner sec-inner">
+      <div class="sec-panel">
+        <div class="sec-glow" aria-hidden="true"></div>
+        <div class="sec-kicker"><span class="pip" aria-hidden="true"></span>Seguridad · Cumplimiento</div>
+        <h2 class="sec-title">Seguridad y cumplimiento normativo de datos clínicos</h2>
+        <p class="sec-sub">Cómo protege Clinera la información de tus pacientes, en cada país donde operamos.</p>
+
+        <div class="sec-grid">
+          <!-- CHILE -->
+          <div class="sec-col">
+            <div class="sec-country"><span class="sec-cc">CL</span><span class="name">Chile</span></div>
+
+            <p class="sec-h first">Marco legal</p>
+            <ul class="sec-laws">
+              <li>
+                <span class="sec-law">Ley 19.628</span>
+                <span class="sec-lawdesc">Sobre Protección de la Vida Privada.</span>
+              </li>
+              <li>
+                <span class="sec-law">Ley 20.584</span>
+                <span class="sec-lawdesc">Derechos y Deberes de los Pacientes. Regula la ficha clínica: confidencialidad obligatoria, resguardo mínimo de <b>15 años</b> y acceso restringido solo a personal vinculado a la atención.</span>
+              </li>
+              <li>
+                <span class="sec-law">Ley 21.719</span>
+                <span class="sec-lawdesc">Protección de Datos Personales. Entra en vigencia el <b>1 de diciembre de 2026</b>: clasifica los datos de salud como datos sensibles con protección reforzada, crea la Agencia de Protección de Datos Personales y exige notificación obligatoria de brechas y derechos <b>ARCO+</b> (acceso, rectificación, cancelación, oposición, portabilidad).</span>
+              </li>
+            </ul>
+
+            <p class="sec-h">Qué hace Clinera</p>
+            <ul class="sec-do">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Cifrado de datos en tránsito y en reposo.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Control de accesos por rol, restringido solo a personal vinculado a la atención del paciente.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Registro de auditoría inmutable: quién accede o modifica cada ficha y cuándo.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Retención y respaldo de fichas clínicas alineado al mínimo legal de 15 años.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Arquitectura preparada para el ejercicio de derechos ARCO+ y notificación de incidentes.</li>
+            </ul>
+          </div>
+
+          <!-- MÉXICO -->
+          <div class="sec-col">
+            <div class="sec-country"><span class="sec-cc">MX</span><span class="name">México</span></div>
+
+            <p class="sec-h first">Marco legal</p>
+            <ul class="sec-laws">
+              <li>
+                <span class="sec-law">NOM-024-SSA3-2012</span>
+                <span class="sec-lawdesc">Norma oficial que regula los Sistemas de Información de Registro Electrónico para la Salud (<b>SIRES</b>), certificada por la <b>DGIS</b> (Secretaría de Salud).</span>
+              </li>
+              <li>
+                <span class="sec-lawdesc">La certificación formal DGIS aplica principalmente a instituciones que reportan al sistema nacional de salud (hospitales, redes públicas); no es un requisito legal general para clínicas privadas.</span>
+              </li>
+            </ul>
+
+            <p class="sec-h">Qué hace Clinera</p>
+            <ul class="sec-do">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Diseño alineado a los principios de seguridad de la norma: cifrado de datos, control de accesos por rol y logs de auditoría de cada cambio en el expediente.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Estructura de datos preparada para interoperabilidad y catálogos estandarizados.</li>
+            </ul>
+
+            <div class="sec-note"><b>Clinera no cuenta con certificación DGIS formal.</b> Este trámite aplica a instituciones que reportan al sistema público de salud mexicano y es independiente del software utilizado.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 — Precios -->
+  <section class="slide slide-scroll" id="slide14">
     <div class="slide-inner pricing-slide-inner">
       <div class="kicker"><span class="pip"></span>Planes · Clinera</div>
       <h2 class="h-display">Activa Clinera <span class="em">hoy</span>.</h2>
@@ -4009,8 +4104,8 @@
     </div>
   </section>
 
-  <!-- 15 — Cierre -->
-  <section class="slide" id="slide14">
+  <!-- 16 — Cierre -->
+  <section class="slide" id="slide15">
     <div class="slide-inner close">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Conoce Clinera</div>
       <p class="close-line">
@@ -4031,7 +4126,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 15;
+  const TOTAL_SLIDES = 16;
   let currentSlide = 0;
   let currentSubStep = 0;
   let isAnimating = false;
