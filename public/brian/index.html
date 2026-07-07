@@ -62,13 +62,6 @@
   .cal{ border:1px solid var(--line); border-radius:14px; padding:14px; background:var(--card); box-shadow:var(--shadow); }
   .cal iframe{ width:100%; border:0; display:block; border-radius:8px; }
 
-  /* Placeholder mientras el calendario de Brian está pendiente */
-  .cal-pending{ text-align:center; padding:30px 20px; }
-  .cal-pending .cp-ic{ width:42px; height:42px; border-radius:11px; margin:0 auto 12px; display:grid; place-items:center; color:var(--cyan); background:var(--cyan-wash); }
-  .cal-pending .cp-ic svg{ width:21px; height:21px; }
-  .cal-pending .cp-title{ margin:0; font-size:16px; font-weight:600; color:var(--ink); letter-spacing:-0.01em; }
-  .cal-pending .cp-sub{ margin:6px auto 0; font-size:14px; color:var(--sub); max-width:360px; }
-
   footer{ flex:none; margin-top:24px; border-top:1px solid var(--line); }
   .foot{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 0; }
   .foot span{ font-size:13px; color:var(--muted); }
@@ -128,21 +121,9 @@
         <div class="wrap">
           <h2>Elige el horario que más te acomode</h2>
           <div class="cal">
-            <!--
-              PENDIENTE: pegar aquí el embed de la página de reservas de Brian.
-              Genera el "Horario de citas" en la cuenta de Google de Brian
-              (mismos pasos que Franco) y reemplaza TODO el bloque .cal-pending
-              de abajo por su iframe. Dale id="cal" para el ajuste de alto en mobile:
-
-              <iframe id="cal" title="Agenda tu sesión de onboarding con Brian"
-                src="URL_DEL_HORARIO_DE_CITAS_DE_BRIAN?gv=true"
-                style="border:0" width="100%" height="560" frameborder="0"></iframe>
-            -->
-            <div class="cal-pending">
-              <span class="cp-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 3v3M16 3v3"/><path d="M12 12.5v3.2M10.4 14.1h3.2"/></svg></span>
-              <p class="cp-title">Estamos habilitando la agenda de Brian</p>
-              <p class="cp-sub">En unos minutos podrás reservar tu horario aquí mismo. Si necesitas coordinar antes, escríbenos desde <a href="https://www.clinera.io">clinera.io</a>.</p>
-            </div>
+            <!-- Google Calendar Appointment Scheduling begin -->
+            <iframe id="cal" title="Agenda tu sesión de onboarding con Brian" src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1INsco6UQUkhY5k6EdHOV4xbFI9qZBjndys21yHS17rO1Jy1pQNtL5jKT8FQPEQhlghMgqWeZn?gv=true" style="border:0" width="100%" height="560" frameborder="0"></iframe>
+            <!-- end Google Calendar Appointment Scheduling -->
           </div>
         </div>
       </section>
