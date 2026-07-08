@@ -2152,6 +2152,13 @@
   .sec-note b{ color: rgba(255,255,255,.72); font-weight: 600; }
   @media (max-width: 900px){ .sec-grid{ grid-template-columns: 1fr; gap: 14px; } }
 
+  /* Nota de acompañamiento (slide Lista en 3 minutos) */
+  .setup-note{ margin-top: 20px; display: flex; align-items: baseline; gap: 14px; max-width: 880px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+  .setup-note .k{ font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--violet); flex: none; padding-top: 1px; }
+  .setup-note .t{ font-family: var(--sans); font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
+  .setup-note .t b{ color: var(--ink); font-weight: 600; }
+  @media (max-width: 720px){ .setup-note{ flex-direction: column; gap: 6px; } }
+
   .roi-table{
     background: #fff;
     border: 1px solid var(--line);
@@ -3284,6 +3291,11 @@
       </div>
 
       <p class="roi-quote">Y listo: tu clínica empieza a <span class="em">atender sola</span>.</p>
+
+      <div class="setup-note">
+        <span class="k">Acompañamiento</span>
+        <span class="t">El software queda listo desde el <b>minuto cero</b>. Además te acompañamos: reunión de onboarding de <b>60–90 min</b> y, según tu caso, <b>2 a 3 capacitaciones</b> de 60 min cada una.</span>
+      </div>
     </div>
   </section>
 
@@ -3731,13 +3743,13 @@
     </div>
   </section>
 
-  <!-- 10 — Clinera vs Agendapro / Dentalink / Reservo -->
+  <!-- 10 — Clinera vs Agendapro / Dentalink / Reservo / Doctoralia -->
   <section class="slide" id="slide9">
     <div class="slide-inner cmp-inner">
       <div class="kicker"><span class="pip"></span>Por qué Clinera · Diferenciación</div>
 
       <h2 class="cmp-analogy">
-        <span class="cmp-old">Agendapro, Dentalink y Reservo son un auto: lo compras y lo manejas.</span>
+        <span class="cmp-old">Agendapro, Dentalink, Reservo y Doctoralia son un auto: lo compras y lo manejas.</span>
         <span class="cmp-new">Clinera es un <span class="em">Tesla autónomo</span>: puede manejar solo.</span>
       </h2>
 
@@ -3747,7 +3759,7 @@
             <span class="cmp-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5l6 15.5 2.3-6.2 6.2-2.3z"/></svg></span>
             <span class="cmp-label">Software que tú operas</span>
           </div>
-          <p class="cmp-brand">Agendapro · Dentalink · Reservo</p>
+          <p class="cmp-brand">Agendapro · Dentalink · Reservo · Doctoralia</p>
           <p class="cmp-body">Agenda, recordatorios y fichas: herramientas que el equipo de la clínica tiene que entrar a usar todos los días.</p>
         </div>
 
