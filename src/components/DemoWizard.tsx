@@ -8,7 +8,7 @@ const MON = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT
 const DOW_LONG = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 const MON_LONG = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 const WEBHOOK_URL =
-  "https://clinerasoftware.app.n8n.cloud/webhook/088a2cfe-5c93-4a4b-a4e5-ac2617979ea5";
+  "https://n8n.oacg.cl/webhook/088a2cfe-5c93-4a4b-a4e5-ac2617979ea5";
 const STORAGE_KEY = "clinera_demo_v5_state";
 
 type Plan = {

@@ -11,7 +11,7 @@ import { test, expect, Page, Request } from "@playwright/test";
  */
 
 const WEBHOOK_URL =
-  "https://clinerasoftware.app.n8n.cloud/webhook/088a2cfe-5c93-4a4b-a4e5-ac2617979ea5";
+  "https://n8n.oacg.cl/webhook/088a2cfe-5c93-4a4b-a4e5-ac2617979ea5";
 
 type LeadPayload = {
   event_id: string;
