@@ -2159,6 +2159,22 @@
   .setup-note .t b{ color: var(--ink); font-weight: 600; }
   @media (max-width: 720px){ .setup-note{ flex-direction: column; gap: 6px; } }
 
+  /* Slide: 3 agentes en una (minimalista) */
+  .agents-mini{ max-width: 1180px; margin: 0 auto; width: 100%; }
+  .agents-row{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 34px; }
+  .agent-mini{ border: 1px solid var(--line); border-radius: 16px; background: var(--card); padding: 22px 22px 24px; }
+  .am-head{ display: flex; align-items: center; gap: 11px; margin-bottom: 16px; }
+  .am-head img{ width: 44px; height: 44px; border-radius: 50%; object-fit: cover; object-position: center top; flex: none; border: 1px solid var(--line); }
+  .am-id{ min-width: 0; flex: 1; display: flex; flex-direction: column; }
+  .am-name{ font-family: var(--sans); font-size: 15px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+  .am-role{ font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+  .am-status{ font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; flex: none; }
+  .am-status.live{ color: var(--green); background: rgba(16,185,129,.1); }
+  .am-status.soon{ color: var(--muted); background: var(--line-2); }
+  .am-title{ font-family: var(--sans); font-size: 16px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; margin: 0 0 8px; line-height: 1.25; }
+  .am-desc{ font-family: var(--sans); font-size: 13.5px; line-height: 1.5; color: var(--muted); margin: 0; }
+  @media (max-width: 900px){ .agents-row{ grid-template-columns: 1fr; gap: 12px; margin-top: 24px; } }
+
   .roi-table{
     background: #fff;
     border: 1px solid var(--line);
@@ -3012,7 +3028,7 @@
   <div class="meta-tag">Presentación · Clinera</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 12</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 10</div>
 <div class="hint">
   Click o <span class="arrow">→</span> para continuar
 </div>
@@ -3031,180 +3047,46 @@
     </div>
   </section>
 
-  <!-- 02 — AURA · WhatsApp en vivo -->
+  <!-- 02 — Agentes de IA (AURA · CAMILA · LIA) -->
   <section class="slide" id="slide1">
-    <div class="slide-inner agent-trio">
-      <div class="mockup-text">
-        <div class="agent-badge">
-          <img src="/agents/aura.jpg" alt="AURA" />
-          <div>
-            <span class="ab-name">AURA</span>
-            <span class="ab-role">Asistente IA · WhatsApp</span>
+    <div class="slide-inner agents-mini">
+      <div class="kicker"><span class="pip"></span>Tu equipo de IA</div>
+      <h2 class="h-display">Tres agentes. Una clínica que <span class="em">opera sola</span>.</h2>
+      <p class="lead">Cada uno con su especialidad — todos incluidos en Clinera.</p>
+      <div class="agents-row">
+        <div class="agent-mini">
+          <div class="am-head">
+            <img src="/agents/aura.jpg" alt="AURA" />
+            <div class="am-id"><span class="am-name">AURA</span><span class="am-role">Asistente IA · WhatsApp</span></div>
+            <span class="am-status live">Activa</span>
           </div>
-          <span class="ab-status live">Activa</span>
+          <p class="am-title">Confirma como una persona.</p>
+          <p class="am-desc">Agenda, confirma y responde por WhatsApp 24/7. El paciente no nota que es IA.</p>
         </div>
-        <h2 class="h-display">Confirma como<br/>una <span class="em">persona</span>.</h2>
-        <p>Tipea, espera, contesta. El paciente no detecta que es IA. Crea, re-agenda y cancela citas 24/7 — y sincroniza con tu calendario.</p>
-      </div>
-
-      <div class="hero-portrait aura-bg">
-        <img src="/agents/aura-fullbody.png" alt="AURA · asistente IA" />
-        <div class="cp-watermark">
-          <div class="cp-icon">A</div>
-          <div>
-            <div class="cp-name">AURA</div>
-            <div class="cp-sub">Asistente IA · WhatsApp</div>
+        <div class="agent-mini">
+          <div class="am-head">
+            <img src="/agents/camila.png" alt="CAMILA" />
+            <div class="am-id"><span class="am-name">CAMILA</span><span class="am-role">Voz humana · llamadas</span></div>
+            <span class="am-status soon">Pronto</span>
           </div>
+          <p class="am-title">También contesta el teléfono.</p>
+          <p class="am-desc">Voz natural que toma la reserva por llamada. Incluida en el plan MAX.</p>
         </div>
-      </div>
-
-      <div class="m-chat">
-        <div class="m-chat-head">
-          <div class="m-chat-av">A</div>
-          <div>
-            <div class="m-chat-name">AURA · Clínica Estética</div>
-            <div class="m-chat-status"><span class="liveDot"></span>en línea</div>
+        <div class="agent-mini">
+          <div class="am-head">
+            <img src="/agents/lia.jpg" alt="LIA" />
+            <div class="am-id"><span class="am-name">LIA</span><span class="am-role">Llena tu agenda sola</span></div>
+            <span class="am-status soon">Pronto</span>
           </div>
+          <p class="am-title">Detecta espacios y morosidades.</p>
+          <p class="am-desc">Escanea tu agenda, llena los huecos libres y dispara los cobros — sola.</p>
         </div>
-        <div class="m-msg them">Hola, quiero agendar limpieza facial para esta semana<span class="ts">22:47</span></div>
-        <div class="m-typing"><span></span><span></span><span></span></div>
-        <div class="m-msg us">¡Hola Camila! Claro. Tengo dos espacios esta semana:<br/>· Miércoles 11:30<br/>· Viernes 17:00<br/>¿Cuál te acomoda?<span class="ts">22:48 · vía AURA</span></div>
-        <div class="m-msg them">Viernes a las 17 perfecto<span class="ts">22:49</span></div>
-        <div class="m-msg us">¡Listo! Reservé Viernes 17:00 con Dra. Meza. Te confirmo 2h antes.<span class="ts">22:49 · cita creada</span></div>
       </div>
     </div>
   </section>
 
-  <!-- 03 — CAMILA · voz humana (foto + call mockup) -->
+  <!-- 03 — 3 Modos de agendamiento -->
   <section class="slide" id="slide2">
-    <div class="slide-inner agent-trio">
-      <div class="mockup-text">
-        <div class="agent-badge dev">
-          <img src="/agents/camila.png" alt="CAMILA" />
-          <div>
-            <span class="ab-name">CAMILA</span>
-            <span class="ab-role">Voz humana · llamadas</span>
-          </div>
-          <span class="ab-status dev">Pronto</span>
-        </div>
-        <h2 class="h-display">También<br/>contesta el <span class="em">teléfono</span>.</h2>
-        <p>Voz natural, latencia humana. Toma la reserva sin que sepan que es IA. <b style="color:var(--ink);">Disponible pronto — incluida en el plan MAX, sin pago aparte.</b></p>
-
-        <div class="voice-accents" id="voice-accents">
-          <div class="va-label">Descarga sus audios y escúchala en distintos acentos</div>
-          <div class="va-btns">
-            <a class="va-btn" href="https://storage.vapi.ai/019ebcd1-be77-7003-a22e-c5e0d1919ab3-1781284464821-77e6a79e-f9cd-4382-a74f-28ff957c4cdd-mono.wav" download target="_blank" rel="noopener noreferrer" aria-label="Descargar audio de CAMILA con acento chileno, ejemplo 1">
-              <span class="va-flag" aria-hidden="true"><svg viewBox="0 0 30 20" preserveAspectRatio="none"><rect width="30" height="20" fill="#fff"/><rect y="10" width="30" height="10" fill="#D52B1E"/><rect width="10" height="10" fill="#0039A6"/><polygon points="5,1.8 5.75,3.96 8.04,4.01 6.22,5.4 6.88,7.59 5,6.28 3.12,7.59 3.78,5.4 1.96,4.01 4.25,3.96" fill="#fff"/></svg></span>
-              <span class="va-txt"><span class="va-name">Acento chileno</span><span class="va-sub">Ejemplo 1 · descargar</span></span>
-              <span class="va-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>
-            </a>
-            <a class="va-btn" href="https://storage.vapi.ai/019ebc0c-ed8b-7002-bc38-3a5857ea20ec-1781271547378-eaed16df-aa51-4075-8a7d-19d149314a61-mono.wav" download target="_blank" rel="noopener noreferrer" aria-label="Descargar audio de CAMILA con acento chileno, ejemplo 2">
-              <span class="va-flag" aria-hidden="true"><svg viewBox="0 0 30 20" preserveAspectRatio="none"><rect width="30" height="20" fill="#fff"/><rect y="10" width="30" height="10" fill="#D52B1E"/><rect width="10" height="10" fill="#0039A6"/><polygon points="5,1.8 5.75,3.96 8.04,4.01 6.22,5.4 6.88,7.59 5,6.28 3.12,7.59 3.78,5.4 1.96,4.01 4.25,3.96" fill="#fff"/></svg></span>
-              <span class="va-txt"><span class="va-name">Acento chileno</span><span class="va-sub">Ejemplo 2 · descargar</span></span>
-              <span class="va-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>
-            </a>
-            <a class="va-btn" href="https://storage.vapi.ai/019ebc74-7152-7000-8c02-649fbe6b5e28-1781278422089-242b2443-e012-44b7-b5f6-fb0d5970d387-mono.wav" download target="_blank" rel="noopener noreferrer" aria-label="Descargar audio de CAMILA con acento mexicano">
-              <span class="va-flag" aria-hidden="true"><svg viewBox="0 0 30 20" preserveAspectRatio="none"><rect width="30" height="20" fill="#fff"/><rect width="10" height="20" fill="#006847"/><rect x="20" width="10" height="20" fill="#CE1126"/><circle cx="15" cy="10" r="2.4" fill="none" stroke="#7d5a2e" stroke-width="0.7"/><circle cx="15" cy="10" r="1.1" fill="#7d5a2e"/></svg></span>
-              <span class="va-txt"><span class="va-name">Acento mexicano</span><span class="va-sub">Ejemplo · descargar</span></span>
-              <span class="va-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-portrait">
-        <img src="/agents/camila.png" alt="CAMILA · agente de voz" />
-        <div class="cp-watermark">
-          <div class="cp-icon">C</div>
-          <div>
-            <div class="cp-name">CAMILA</div>
-            <div class="cp-sub">Agente de voz · IA</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="m-call">
-        <div class="m-call-head">
-          <div class="m-call-info">
-            <div class="m-call-av">C</div>
-            <div>
-              <div class="m-call-name">CAMILA · llamada saliente</div>
-              <div class="m-call-status"><span class="liveDot"></span>en conversación</div>
-            </div>
-          </div>
-          <div class="m-call-timer">01:24</div>
-        </div>
-        <div class="m-wave" id="m-camila-wave"></div>
-        <div class="m-call-line"><div class="who">Camila</div><div class="said">Hola Sra. Pérez, le habla <em>Camila de la clínica</em>. Veo que su control de tres meses vence esta semana, ¿le agendo una hora?</div></div>
-        <div class="m-call-line"><div class="who">Paciente</div><div class="said">Sí mira, perfecto. ¿Tienes para el jueves en la tarde?</div></div>
-        <div class="m-call-line"><div class="who">Camila</div><div class="said">Sí, tengo <em>jueves a las 16:00 con la Dra. Meza</em>. ¿Se la reservo?</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 04 — LIA · gap-finder -->
-  <section class="slide" id="slide3">
-    <div class="slide-inner agent-trio">
-      <div class="mockup-text">
-        <div class="agent-badge dev">
-          <img src="/agents/lia.jpg" alt="LIA" />
-          <div>
-            <span class="ab-name">LIA</span>
-            <span class="ab-role">Llena tu agenda sola</span>
-          </div>
-          <span class="ab-status dev">Pronto</span>
-        </div>
-        <h2 class="h-display">Detecta espacios libres<br/>y <span class="em">morosidades</span>.</h2>
-        <p>Escanea tu agenda cada hora: cuando ve un espacio libre, decide a quién contactar y manda a AURA o CAMILA a llenarlo. Y detecta <b>morosidades</b> para disparar los <b>cobros</b> — sin revisarlo a mano. <b style="color:var(--ink);">Disponible pronto — incluida desde el plan MAX.</b></p>
-      </div>
-
-      <div class="hero-portrait lia-bg">
-        <img src="/agents/lia-fullbody.png" alt="LIA · agente IA" />
-        <div class="cp-watermark">
-          <div class="cp-icon">L</div>
-          <div>
-            <div class="cp-name">LIA</div>
-            <div class="cp-sub">Llena tu agenda sola · IA</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="m-lia">
-        <div class="m-lia-scanline" id="m-lia-scanline"></div>
-        <div class="m-lia-head">
-          <div class="t">Agenda · Viernes</div>
-          <div class="scan"><span class="pulse"></span>LIA escaneando</div>
-        </div>
-        <div class="m-slot">
-          <div class="hr">10:00</div>
-          <div class="pro">Dra. Meza<small>Limpieza facial · ocupado</small></div>
-          <div class="badge">OK</div>
-        </div>
-        <div class="m-slot">
-          <div class="hr">11:30</div>
-          <div class="pro">Dra. Meza<small>Botox · ocupado</small></div>
-          <div class="badge">OK</div>
-        </div>
-        <div class="m-slot gap">
-          <div class="hr">14:00</div>
-          <div class="pro">Espacio disponible<small>60 min libres</small></div>
-          <div class="badge">LIBRE</div>
-        </div>
-        <div class="m-slot">
-          <div class="hr">15:30</div>
-          <div class="pro">Dra. Meza<small>Peeling · ocupado</small></div>
-          <div class="badge">OK</div>
-        </div>
-        <div class="m-lia-action">
-          <span class="arrow-ic">→</span>
-          <div>Candidata: <em>Camila P.</em> · no ha vuelto hace tiempo · control vencido 14 días · <em>AURA escribiendo</em></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 05 — 3 Modos de agendamiento -->
-  <section class="slide" id="slide4">
     <div class="slide-inner modos-slide-inner">
       <div class="kicker"><span class="pip"></span>AURA · modos de agendamiento</div>
       <h2 class="h-display">3 modos. Una <span class="em">misma agente</span>.</h2>
@@ -3246,8 +3128,8 @@
     </div>
   </section>
 
-  <!-- 06 — Ficha clínica -->
-  <section class="slide" id="slide5">
+  <!-- 04 — Ficha clínica -->
+  <section class="slide" id="slide3">
     <div class="slide-inner ficha-slide-inner">
       <div class="ficha-slide-grid">
         <div class="ficha-slide-left">
@@ -3388,8 +3270,8 @@
     </div>
   </section>
 
-  <!-- 07 — Seguridad y cumplimiento normativo (Chile / México) -->
-  <section class="slide slide-scroll" id="slide6">
+  <!-- 05 — Seguridad y cumplimiento normativo (Chile / México) -->
+  <section class="slide slide-scroll" id="slide4">
     <div class="slide-inner sec-inner">
       <div class="sec-panel">
         <div class="sec-glow" aria-hidden="true"></div>
@@ -3441,8 +3323,8 @@
     </div>
   </section>
 
-  <!-- 08 — Agente conversacional interno -->
-  <section class="slide" id="slide7">
+  <!-- 06 — Agente conversacional interno -->
+  <section class="slide" id="slide5">
     <div class="slide-inner" style="max-width:840px;">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Próximamente · Chat IA interno</div>
       <h2 class="h-display" style="text-align:center;">Pregúntale a tu <span class="em">clínica</span>.</h2>
@@ -3465,8 +3347,8 @@
     </div>
   </section>
 
-  <!-- 09 — ¿Qué más incluye? -->
-  <section class="slide" id="slide8">
+  <!-- 07 — ¿Qué más incluye? -->
+  <section class="slide" id="slide6">
     <div class="slide-inner caps-slide-inner">
       <div class="kicker"><span class="pip"></span>Clinera · más allá de AURA</div>
       <h2 class="h-display">¿Qué <span class="em">más</span> incluye?</h2>
@@ -3724,8 +3606,8 @@
     </div>
   </section>
 
-  <!-- 10 — Lista en 3 minutos -->
-  <section class="slide" id="slide9">
+  <!-- 08 — Lista en 3 minutos -->
+  <section class="slide" id="slide7">
     <div class="slide-inner modos-slide-inner">
       <div class="kicker"><span class="pip"></span>Configúrala tú mismo</div>
       <h2 class="h-display">Lista en 3 <span class="em">minutos</span>.</h2>
@@ -3765,8 +3647,8 @@
     </div>
   </section>
 
-  <!-- 11 — Clinera en la prensa · CNN -->
-  <section class="slide" id="slide10">
+  <!-- 09 — Clinera en la prensa · CNN -->
+  <section class="slide" id="slide8">
     <div class="slide-inner">
       <div class="cnn-press-card">
         <div class="cnn-press-glow" aria-hidden="true"></div>
@@ -3799,8 +3681,8 @@
     </div>
   </section>
 
-  <!-- 12 — Precios -->
-  <section class="slide slide-scroll" id="slide11">
+  <!-- 10 — Precios -->
+  <section class="slide slide-scroll" id="slide9">
     <div class="slide-inner pricing-slide-inner">
       <div class="kicker"><span class="pip"></span>Planes · Clinera</div>
       <h2 class="h-display">Activa Clinera <span class="em">hoy</span>.</h2>
@@ -3964,7 +3846,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 12;
+  const TOTAL_SLIDES = 10;
   let currentSlide = 0;
   let currentSubStep = 0;
   let isAnimating = false;
@@ -3993,18 +3875,15 @@
       currentSubStep = 0;
       updateProgress();
       resetSlideState(n);
-      if (n === 8) setActiveCap(0);
-      if (n === 1) playAuraChat();
-      if (n === 2) initCamilaWave();
-      if (n === 3) playLiaScan();
-      if (n === 5){ if (fichaLoopTimer) clearTimeout(fichaLoopTimer); showFichaView(0); }
-      if (n === 7) playChatIA();
+      if (n === 6) setActiveCap(0);
+      if (n === 3){ if (fichaLoopTimer) clearTimeout(fichaLoopTimer); showFichaView(0); }
+      if (n === 5) playChatIA();
       setTimeout(function(){ isAnimating = false; }, 200);
     }, 300);
   }
 
   function resetSlideState(n){
-    if (n === 8){
+    if (n === 6){
       ['fn-1','fn-2','fn-3','fl-1','fl-2'].forEach(function(id){
         const el = $(id); if (el) el.classList.remove('show');
       });
@@ -4060,12 +3939,12 @@
 
   function advanceSubStep(){
     if (isAnimating) return;
-    if (currentSlide === 8){
+    if (currentSlide === 6){
       const s = getActiveTabIdx('.cap-item');
       if (s.idx < s.total - 1){ setActiveCap(s.idx + 1); return; }
       goToSlide(currentSlide + 1); return;
     }
-    if (currentSlide === 5){
+    if (currentSlide === 3){
       const s = getActiveTabIdx('.fmode');
       if (s.idx < s.total - 1){ showFichaView(s.idx + 1); return; }
       goToSlide(currentSlide + 1); return;
@@ -4120,11 +3999,11 @@
     }
     if (e.key === 'ArrowLeft'){
       e.preventDefault();
-      if (currentSlide === 8){
+      if (currentSlide === 6){
         const s = getActiveTabIdx('.cap-item');
         if (s.idx > 0){ setActiveCap(s.idx - 1); return; }
       }
-      if (currentSlide === 5){
+      if (currentSlide === 3){
         const s = getActiveTabIdx('.fmode');
         if (s.idx > 0){ showFichaView(s.idx - 1); return; }
       }
