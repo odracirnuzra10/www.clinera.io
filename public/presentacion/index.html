@@ -2175,6 +2175,12 @@
   .am-desc{ font-family: var(--sans); font-size: 13.5px; line-height: 1.5; color: var(--muted); margin: 0; }
   @media (max-width: 900px){ .agents-row{ grid-template-columns: 1fr; gap: 12px; margin-top: 24px; } }
 
+  /* Funciones agénticas (slide 3 modos) */
+  .agentic-fns{ display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 22px; }
+  .agentic-fns .af-k{ font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+  .agentic-fns .af{ display: inline-flex; align-items: center; gap: 7px; font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--ink-2); background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px 6px 11px; }
+  .agentic-fns .af svg{ width: 13px; height: 13px; color: var(--violet); flex: none; }
+
   .roi-table{
     background: #fff;
     border: 1px solid var(--line);
@@ -3091,6 +3097,15 @@
       <div class="kicker"><span class="pip"></span>AURA · modos de agendamiento</div>
       <h2 class="h-display">3 modos. Una <span class="em">misma agente</span>.</h2>
       <p class="lead">Tres niveles de autonomía y de consumo. Eliges según el volumen de tu clínica.</p>
+
+      <div class="agentic-fns">
+        <span class="af-k">Qué hace la agente</span>
+        <span class="af"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Responde consultas</span>
+        <span class="af"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Agenda, reagenda y cancela citas</span>
+        <span class="af"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Envía recordatorios</span>
+        <span class="af"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Revisa morosos</span>
+        <span class="af"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Revisa espacios disponibles</span>
+      </div>
 
       <div class="modos-grid">
 
