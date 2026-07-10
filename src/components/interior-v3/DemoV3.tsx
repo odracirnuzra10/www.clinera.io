@@ -832,12 +832,11 @@ function PlansSection() {
 
         <div
           className="reveal demo-addons"
-          style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, maxWidth: 980, margin: "48px auto 0" }}
+          style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 20, maxWidth: 660, margin: "48px auto 0" }}
         >
           {[
             { price: "$100", unit: "única vez", label: "Add-on de conversaciones", sub: "~300 conversaciones por texto o ~50 llamadas de voz" },
             { price: "$9", unit: "/mes", label: "Profesional o usuario extra", sub: "" },
-            { price: "$21", unit: "/mes", label: "Módulo Odontograma", sub: "" },
           ].map((it) => (
             <div
               key={it.label}

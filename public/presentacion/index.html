@@ -1003,7 +1003,7 @@
     .cnn-desc{ max-width:none; }
   }
 
-  /* Showcase: cicla ficha texto / odontograma / facial / corporal */
+  /* Showcase: cicla ficha texto / facial / corporal */
   .ficha-modes{ display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
   .fmode{
     font-family:var(--mono); font-size:10px; letter-spacing:.07em; text-transform:uppercase;
@@ -3218,9 +3218,8 @@
         <div class="ficha-slide-right">
           <div class="ficha-modes">
             <span class="fmode active" data-fmode="0">Ficha</span>
-            <span class="fmode" data-fmode="1">Odontograma</span>
-            <span class="fmode" data-fmode="2">Facial</span>
-            <span class="fmode" data-fmode="3">Corporal</span>
+            <span class="fmode" data-fmode="1">Facial</span>
+            <span class="fmode" data-fmode="2">Corporal</span>
           </div>
 
           <div class="ficha-stage">
@@ -3238,79 +3237,30 @@
                   </div>
                   <div style="display:flex; align-items:center; gap:8px;">
                     <span class="ficha-edit-chip" id="ficha-chip"></span>
-                    <span class="ficha-spec-pill" id="ficha-spec">Odontología</span>
+                    <span class="ficha-spec-pill" id="ficha-spec">Estética facial</span>
                   </div>
                 </div>
                 <div class="ficha-fields">
-                  <div class="ficha-field"><span class="lbl">Motivo</span><span class="val" id="ff-1">Limpieza dental anual</span></div>
+                  <div class="ficha-field"><span class="lbl">Motivo</span><span class="val" id="ff-1">Limpieza facial profunda</span></div>
                   <div class="ficha-field"><span class="lbl">Última visita</span><span class="val" id="ff-2">14 nov 2025</span></div>
                   <div class="ficha-field"><span class="lbl">Alergias</span><span class="val" id="ff-3">Penicilina</span></div>
-                  <div class="ficha-field"><span class="lbl">Tratamiento previo</span><span class="val" id="ff-4">Brackets 2022</span></div>
+                  <div class="ficha-field"><span class="lbl">Tratamiento previo</span><span class="val" id="ff-4">Ácido hialurónico 2024</span></div>
                   <div class="ficha-field opt" id="ff-opt-1"><span class="lbl">Presión arterial</span><span class="val">120 / 80</span></div>
                   <div class="ficha-field opt" id="ff-opt-2"><span class="lbl">Tipo de piel</span><span class="val">Mixta</span></div>
-                  <div class="ficha-field full"><span class="lbl">Notas del profesional</span><span class="val" id="ff-5">Sensibilidad en pieza 36<span class="cursor"></span></span></div>
+                  <div class="ficha-field full"><span class="lbl">Notas del profesional</span><span class="val" id="ff-5">Flacidez leve en zona malar<span class="cursor"></span></span></div>
                 </div>
               </div>
             </div>
 
-            <!-- Vista 1: Odontograma -->
+            <!-- Vista 1: Evaluación facial -->
             <div class="ficha-view" data-fview="1">
-              <div class="fv-card">
-                <div class="fv-head"><div class="fv-title">Odontograma</div><div class="fv-sub">Clínica dental</div></div>
-                <svg class="fv-svg" viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <!-- arquetipos de pieza dental (corona arriba, raíces abajo), caja local 0..42 x 0..58 -->
-                    <path id="t-inc" d="M9,9 C9,4 13,2.5 21,2.5 C29,2.5 33,4 33,9 L32,25 C32,28 29,29 21,29 C13,29 10,28 10,25 Z M16,28 L26,28 L24,55 C23.5,58 18.5,58 18,55 Z"/>
-                    <path id="t-can" d="M21,2 C27,2 31,5 32.5,12 L31,25 C31,28 28,29 21,29 C14,29 11,28 11,25 L9.5,12 C11,5 15,2 21,2 Z M16,28 L26,28 L23.5,57 C23,60 19,60 18.5,57 Z"/>
-                    <path id="t-pre" d="M9,13 C9,7 12.5,4 15.5,4 C18,4 19,7 21,7 C23,7 24,4 26.5,4 C29.5,4 33,7 33,13 L32,25 C32,28 29,29 21,29 C13,29 10,28 10,25 Z M15,28 L27,28 L24,56 C23.5,59 18.5,59 18,56 Z"/>
-                    <path id="t-mol" d="M6,14 C6,8 9.5,5 12.5,5 C15.5,5 16.5,8 21,8 C25.5,8 26.5,5 29.5,5 C32.5,5 36,8 36,14 L35,27 C35,30 31,31 21,31 C11,31 7,30 7,27 Z M11,30 L19.5,30 L17.5,56 C17,59 12.5,59 12,56 Z M22.5,30 L31,30 L30,56 C29.5,59 25,59 24.5,56 Z"/>
-                  </defs>
-                  <text x="22" y="30" font-family="'DM Mono',monospace" font-size="11" letter-spacing="1.5" fill="#9A98A0">SUPERIOR</text>
-                  <text x="22" y="232" font-family="'DM Mono',monospace" font-size="11" letter-spacing="1.5" fill="#9A98A0">INFERIOR</text>
-                  <line x1="22" y1="125" x2="458" y2="125" stroke="#EFEDF1" stroke-width="1.5" stroke-dasharray="3 5"/>
-                  <!-- ARCADA SUPERIOR: corona hacia el centro (abajo), raíces arriba -->
-                  <g fill="#fff" stroke="#D7D5DC" stroke-width="1.4" stroke-linejoin="round">
-                    <use href="#t-mol" transform="translate(26,110) scale(1,-1)"/>
-                    <use href="#t-pre" transform="translate(81,110) scale(1,-1)"/>
-                    <use href="#t-can" transform="translate(136,110) scale(1,-1)"/>
-                    <use href="#t-inc" transform="translate(191,110) scale(1,-1)"/>
-                    <use href="#t-inc" transform="translate(246,110) scale(1,-1)"/>
-                    <use href="#t-can" transform="translate(301,110) scale(1,-1)"/>
-                    <use href="#t-pre" transform="translate(356,110) scale(1,-1)"/>
-                    <use href="#t-mol" transform="translate(411,110) scale(1,-1)"/>
-                  </g>
-                  <!-- ARCADA INFERIOR: corona hacia el centro (arriba), raíces abajo -->
-                  <g fill="#fff" stroke="#D7D5DC" stroke-width="1.4" stroke-linejoin="round">
-                    <use href="#t-mol" transform="translate(26,140)"/>
-                    <use href="#t-pre" transform="translate(81,140)"/>
-                    <use href="#t-can" transform="translate(136,140)"/>
-                    <use href="#t-inc" transform="translate(191,140)"/>
-                    <use href="#t-inc" transform="translate(246,140)"/>
-                    <use href="#t-can" transform="translate(301,140)"/>
-                    <use href="#t-pre" transform="translate(356,140)"/>
-                    <use href="#t-mol" transform="translate(411,140)"/>
-                  </g>
-                  <!-- diagnósticos (animan al entrar) -->
-                  <circle class="fmark" cx="47"  cy="92"  r="6.5" fill="#F59E0B"/>
-                  <circle class="fmark" cx="212" cy="94"  r="6.5" fill="#22D3EE"/>
-                  <circle class="fmark" cx="322" cy="93"  r="6.5" fill="#7C3AED"/>
-                  <circle class="fmark" cx="102" cy="158" r="6.5" fill="#7C3AED"/>
-                  <circle class="fmark" cx="267" cy="159" r="6.5" fill="#F59E0B"/>
-                  <circle class="fmark" cx="377" cy="158" r="6.5" fill="#22D3EE"/>
-                </svg>
-                <div class="fv-legend"><span><i class="tx-a"></i>Caries</span><span><i class="tx-b"></i>Tratado</span><span><i class="tx-c"></i>A tratar</span></div>
-              </div>
-            </div>
-
-            <!-- Vista 2: Evaluación facial -->
-            <div class="ficha-view" data-fview="2">
               <div class="fv-card is-photo">
                 <img class="fv-photo" src="/presentacion/eval-facial.jpg" alt="Evaluación facial: eje de simetría y tercios faciales" loading="lazy" decoding="async" />
               </div>
             </div>
 
-            <!-- Vista 3: Evaluación corporal -->
-            <div class="ficha-view" data-fview="3">
+            <!-- Vista 2: Evaluación corporal -->
+            <div class="ficha-view" data-fview="2">
               <div class="fv-card is-photo">
                 <img class="fv-photo" src="/presentacion/eval-corporal.jpg" alt="Evaluación corporal: abdomen, flancos y muslos" loading="lazy" decoding="async" />
               </div>
@@ -3461,7 +3411,7 @@
               <div class="col-head">Hora</div>
               <div class="col-head">
                 <span class="pro-name">Dra. Meza</span>
-                <span class="pro-spec">Odontología</span>
+                <span class="pro-spec">Medicina estética</span>
               </div>
               <div class="col-head">
                 <span class="pro-name">Dr. Cohen</span>
@@ -3476,7 +3426,7 @@
               <div class="slot-cell">
                 <div class="booking wa" data-bk="0">
                   <span class="ch">WhatsApp</span>
-                  <span>María T. · Limpieza</span>
+                  <span>María T. · Limpieza facial</span>
                 </div>
               </div>
               <div class="slot-cell">
@@ -3491,7 +3441,7 @@
               <div class="slot-cell">
                 <div class="booking wa" data-bk="2">
                   <span class="ch">WhatsApp</span>
-                  <span>Camila M. · Limpieza</span>
+                  <span>Camila M. · Limpieza facial</span>
                 </div>
               </div>
               <div class="slot-cell"></div>
@@ -3967,7 +3917,7 @@
     run();
   }
 
-  // Showcase de Ficha clínica: cicla texto → odontograma → facial → corporal
+  // Showcase de Ficha clínica: cicla texto → facial → corporal
   let fichaMarkTimers = [];
   let fichaLoopTimer = null;
   function animFichaView(i){

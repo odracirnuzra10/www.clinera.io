@@ -153,7 +153,6 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
         <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 20, marginTop: 26 }}>
           <AddonCard titulo="Pack de créditos" precio="$50" unidad="= 5.000 créditos" desc="Cuando tu volumen supera la bolsa del mes. Equivale a ~500 conversaciones Eficientes extra." nota="[CONFIRMAR: única vez vs mensual]" />
           <AddonCard titulo="Usuario / profesional extra" precio="$9" unidad="/ mes" desc="Suma una persona más de tu equipo al acceso de la plataforma, por encima de los incluidos en tu plan." />
-          <AddonCard titulo="Módulo Odontograma" precio="$21" unidad="/ mes" desc="Ficha odontológica visual e interactiva para clínicas dentales. Se activa sobre cualquier plan." badge="Nuevo" />
         </div>
       </Section>
 

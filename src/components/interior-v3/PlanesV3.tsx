@@ -210,7 +210,6 @@ function Addons() {
   const items = [
     { price: "$50", unit: "única vez", label: "Add-on de conversaciones",  sub: "500 conversaciones / 80 agendamientos / 50 llamadas de voz. Recarga opcional cuando agotas el cupo del mes." },
     { price: "$9",  unit: "/mes", label: "Usuario / profesional extra", sub: "Suma asientos sin cambiar de plan" },
-    { price: "$21", unit: "/mes", label: "Módulo Odontograma",          sub: "Ficha odontológica visual + historial dental", isNew: true },
   ];
   return (
     <section style={{ padding: "80px 80px", background: "#fff", borderTop: "1px solid #F0F0F0" }}>
@@ -233,38 +232,20 @@ function Addons() {
         </div>
         <div
           className="planes-addons-grid"
-          style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, maxWidth: 980, margin: "0 auto" }}
+          style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 20, maxWidth: 660, margin: "0 auto" }}
         >
           {items.map((it) => (
             <div
               key={it.label}
               style={{
                 background: "#FAFAFA",
-                border: it.isNew ? "1px solid #7C3AED" : "1px solid #EEECEA",
+                border: "1px solid #EEECEA",
                 borderRadius: 16,
                 padding: "28px 26px",
                 textAlign: "center",
                 position: "relative",
               }}
             >
-              {it.isNew && (
-                <div style={{
-                  position: "absolute",
-                  top: -10,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  background: GRAD,
-                  color: "#fff",
-                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                  fontSize: 9.5,
-                  fontWeight: 600,
-                  letterSpacing: "0.14em",
-                  padding: "4px 12px",
-                  borderRadius: 999,
-                  whiteSpace: "nowrap",
-                  boxShadow: "0 4px 12px rgba(124,58,237,.3)",
-                }}>NUEVO</div>
-              )}
               <div style={{ fontFamily: "Inter", fontSize: 36, fontWeight: 700, letterSpacing: "-0.02em", color: "#0A0A0A" }}>
                 {it.price}
                 <span style={{ fontSize: 16, fontWeight: 500, color: "#6B7280", marginLeft: 4 }}>{it.unit}</span>
