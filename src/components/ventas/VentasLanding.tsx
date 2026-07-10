@@ -45,6 +45,17 @@ const LEAD_ROLE_LABELS: Record<LeadRole, string> = {
   reception: "Recepción / Asistente",
 };
 
+// Tipo de clínica que atendemos hoy — dentales pausadas por el momento.
+type ClinicType = "medica" | "estetica";
+const CLINIC_TYPE_OPTIONS: { id: ClinicType; label: string; desc: string }[] = [
+  { id: "medica", label: "Médica", desc: "Medicina general y especialidades" },
+  { id: "estetica", label: "Estética", desc: "Estética y medicina estética" },
+];
+const CLINIC_TYPE_LABELS: Record<ClinicType, string> = {
+  medica: "Médica",
+  estetica: "Estética",
+};
+
 type Challenge = { id: string; emoji: string; title: string; desc: string };
 const CHALLENGES: Challenge[] = [
   { id: "automatizar", emoji: "⚡", title: "Automatizar respuestas", desc: "WhatsApp, email y agendamiento sin intervención manual." },
@@ -93,7 +104,7 @@ const MIGRATION_LABELS: Record<MigrationIntent, string> = MIGRATION_OPTIONS.redu
 const WEBHOOK_URL = "https://n8n.oacg.cl/webhook/088a2cfe-5c93-4a4b-a4e5-ac2617979ea5";
 const WA_NUMBER = "56985581524";
 
-type Form = { nombre: string; clinica: string; prefix: string; phone: string; email: string };
+type Form = { nombre: string; clinica: string; tipoClinica: ClinicType | ""; prefix: string; phone: string; email: string };
 
 // ============== TRACKING HELPERS ==============
 function getCookie(name: string): string {
@@ -564,7 +575,7 @@ function Wizard({
   const [migrationIntent, setMigrationIntent] = useState<MigrationIntent | null>(null);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [leadRole, setLeadRole] = useState<LeadRole | null>(null);
-  const [form, setForm] = useState<Form>({ nombre: "", clinica: "", prefix: "+56", phone: "", email: "" });
+  const [form, setForm] = useState<Form>({ nombre: "", clinica: "", tipoClinica: "", prefix: "+56", phone: "", email: "" });
   const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
   const [booking, setBooking] = useState<CalBooking | null>(null);
@@ -795,6 +806,8 @@ async function submitPartialLead({
     solicitante: leadRole ? LEAD_ROLE_LABELS[leadRole] : "",
     nombre: form.nombre.trim(),
     nombre_clinica: form.clinica.trim(),
+    tipo_clinica: form.tipoClinica || "",
+    tipo_clinica_label: form.tipoClinica ? CLINIC_TYPE_LABELS[form.tipoClinica] : "",
     celular: (form.prefix + digits).trim(),
     celular_prefix: form.prefix,
     celular_digits: digits,
@@ -906,6 +919,8 @@ async function submitBookingConfirmation({
     solicitante: leadRole ? LEAD_ROLE_LABELS[leadRole] : "",
     nombre: form.nombre.trim(),
     nombre_clinica: form.clinica.trim(),
+    tipo_clinica: form.tipoClinica || "",
+    tipo_clinica_label: form.tipoClinica ? CLINIC_TYPE_LABELS[form.tipoClinica] : "",
     celular: (form.prefix + digits).trim(),
     celular_prefix: form.prefix,
     celular_digits: digits,
@@ -1315,11 +1330,12 @@ function StepContact({
   const digits = form.phone.replace(/\D/g, "");
   const nameOk = form.nombre.trim().length >= 2;
   const clinicOk = form.clinica.trim().length >= 2;
+  const clinicTypeOk = form.tipoClinica !== "";
   const phoneLengthOk = digits.length === rule.len;
   const phonePatternOk = rule.pattern.test(digits);
   const phoneOk = phoneLengthOk && phonePatternOk;
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim());
-  const allOk = nameOk && clinicOk && phoneOk && emailOk;
+  const allOk = nameOk && clinicOk && clinicTypeOk && phoneOk && emailOk;
 
   function formatPhone(v: string, prefix: string) {
     const r = PHONE_RULES[prefix];
@@ -1358,7 +1374,7 @@ function StepContact({
 
   function submit() {
     if (!allOk) {
-      setErrors({ nombre: !nameOk, clinica: !clinicOk, phone: !phoneOk, email: !emailOk });
+      setErrors({ nombre: !nameOk, clinica: !clinicOk, tipoClinica: !clinicTypeOk, phone: !phoneOk, email: !emailOk });
       setTimeout(() => setErrors({}), 500);
       return;
     }
@@ -1385,6 +1401,39 @@ function StepContact({
       </Field>
       <Field label="Nombre de la clínica">
         <Input value={form.clinica} onChange={(e) => setForm({ ...form, clinica: e.target.value })} placeholder="Ej: Clínica Sonríe" autoComplete="organization" error={!!errors.clinica} />
+      </Field>
+      <Field label="Tipo de clínica">
+        <div style={{ display: "flex", gap: 8 }}>
+          {CLINIC_TYPE_OPTIONS.map((opt) => {
+            const sel = form.tipoClinica === opt.id;
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                onClick={() => setForm({ ...form, tipoClinica: opt.id })}
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: 2,
+                  padding: "11px 14px",
+                  border: "1.5px solid " + (sel ? "#0A0A0A" : errors.tipoClinica ? "#E74C3C" : "#E7EBF0"),
+                  borderRadius: 12,
+                  background: sel ? "#FAFBFD" : "#fff",
+                  cursor: "pointer",
+                  textAlign: "left",
+                  fontFamily: "Inter",
+                  color: "#0A0A0A",
+                  transition: "all .2s",
+                }}
+              >
+                <span style={{ fontWeight: 700, fontSize: 14.5, letterSpacing: "-.01em" }}>{opt.label}</span>
+                <span style={{ fontSize: 12, color: "#6B7280", lineHeight: 1.3 }}>{opt.desc}</span>
+              </button>
+            );
+          })}
+        </div>
       </Field>
       <Field label={phoneFieldLabel}>
         <div style={{ display: "flex", gap: 8 }}>
