@@ -46,14 +46,18 @@ const LEAD_ROLE_LABELS: Record<LeadRole, string> = {
 };
 
 // Tipo de clínica que atendemos hoy — dentales pausadas por el momento.
-type ClinicType = "medica" | "estetica";
+type ClinicType = "medica" | "kinesiologica" | "estetica" | "salud_mental";
 const CLINIC_TYPE_OPTIONS: { id: ClinicType; label: string; desc: string }[] = [
   { id: "medica", label: "Médica", desc: "Medicina general y especialidades" },
+  { id: "kinesiologica", label: "Kinesiológica", desc: "Kinesiología y rehabilitación" },
   { id: "estetica", label: "Estética", desc: "Estética y medicina estética" },
+  { id: "salud_mental", label: "Salud mental", desc: "Psicología y psiquiatría" },
 ];
 const CLINIC_TYPE_LABELS: Record<ClinicType, string> = {
   medica: "Médica",
+  kinesiologica: "Kinesiológica",
   estetica: "Estética",
+  salud_mental: "Salud mental",
 };
 
 type Challenge = { id: string; emoji: string; title: string; desc: string };
@@ -355,7 +359,7 @@ function ReunionHero({
                 whiteSpace: "nowrap",
               }}
             >
-              Integraciones
+              Especialidades
             </div>
             <div
               style={{
@@ -368,7 +372,7 @@ function ReunionHero({
             >
               <div style={{ display: "flex", whiteSpace: "nowrap", animation: "marqueeScroll 22s linear infinite", width: "max-content", paddingLeft: 12 }}>
                 {Array(2)
-                  .fill(["Reservo", "Dentalink", "Medilink", "AgendaPro", "WhatsApp Business"])
+                  .fill(["Médica", "Kinesiológica", "Estética", "Salud mental"])
                   .flat()
                   .map((n, i, arr) => (
                     <span key={i} style={{ display: "inline-flex", alignItems: "center" }}>
@@ -576,7 +580,6 @@ function Wizard({
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [leadRole, setLeadRole] = useState<LeadRole | null>(null);
   const [form, setForm] = useState<Form>({ nombre: "", clinica: "", tipoClinica: "", prefix: "+56", phone: "", email: "" });
-  const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
   const [booking, setBooking] = useState<CalBooking | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -660,8 +663,6 @@ function Wizard({
         <StepContact
           form={form}
           setForm={setForm}
-          errors={errors}
-          setErrors={setErrors}
           leadRole={leadRole}
           label={`Paso ${contactStep} de ${totalSteps}`}
           onBack={() => setStep(roleStep)}
@@ -1305,8 +1306,6 @@ function StepChallenge({
 function StepContact({
   form,
   setForm,
-  errors,
-  setErrors,
   leadRole,
   label = "Paso 2 de 3",
   onBack,
@@ -1314,13 +1313,12 @@ function StepContact({
 }: {
   form: Form;
   setForm: (f: Form) => void;
-  errors: Record<string, boolean>;
-  setErrors: (e: Record<string, boolean>) => void;
   leadRole?: LeadRole | null;
   label?: string;
   onBack: () => void;
   onNext: () => void;
 }) {
+  const [attempted, setAttempted] = useState(false);
   const isReception = leadRole === "reception";
   const phoneFieldLabel = isReception ? "WhatsApp del dueño o administrador" : "Tu WhatsApp personal";
   const phoneHelper = isReception
@@ -1374,8 +1372,7 @@ function StepContact({
 
   function submit() {
     if (!allOk) {
-      setErrors({ nombre: !nameOk, clinica: !clinicOk, tipoClinica: !clinicTypeOk, phone: !phoneOk, email: !emailOk });
-      setTimeout(() => setErrors({}), 500);
+      setAttempted(true);
       return;
     }
     onNext();
@@ -1396,29 +1393,29 @@ function StepContact({
         sub="Para preparar la reunión y confirmarte por WhatsApp."
       />
 
-      <Field label="Nombre">
-        <Input value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} placeholder="Tu nombre completo" autoComplete="name" error={!!errors.nombre} />
+      <Field label="Nombre" required error={attempted && !nameOk ? "Ingresa tu nombre." : undefined}>
+        <Input value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} placeholder="Tu nombre completo" autoComplete="name" error={attempted && !nameOk} />
       </Field>
-      <Field label="Nombre de la clínica">
-        <Input value={form.clinica} onChange={(e) => setForm({ ...form, clinica: e.target.value })} placeholder="Ej: Clínica Sonríe" autoComplete="organization" error={!!errors.clinica} />
+      <Field label="Nombre de la clínica" required error={attempted && !clinicOk ? "Ingresa el nombre de tu clínica." : undefined}>
+        <Input value={form.clinica} onChange={(e) => setForm({ ...form, clinica: e.target.value })} placeholder="Ej: Clínica Sonríe" autoComplete="organization" error={attempted && !clinicOk} />
       </Field>
-      <Field label="Tipo de clínica">
-        <div style={{ display: "flex", gap: 8 }}>
+      <Field label="Tipo de clínica" required error={attempted && !clinicTypeOk ? "Selecciona el tipo de clínica." : undefined}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
           {CLINIC_TYPE_OPTIONS.map((opt) => {
             const sel = form.tipoClinica === opt.id;
+            const showErr = attempted && !clinicTypeOk;
             return (
               <button
                 key={opt.id}
                 type="button"
                 onClick={() => setForm({ ...form, tipoClinica: opt.id })}
                 style={{
-                  flex: 1,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
                   gap: 2,
                   padding: "11px 14px",
-                  border: "1.5px solid " + (sel ? "#0A0A0A" : errors.tipoClinica ? "#E74C3C" : "#E7EBF0"),
+                  border: "1.5px solid " + (sel ? "#0A0A0A" : showErr ? "#E74C3C" : "#E7EBF0"),
                   borderRadius: 12,
                   background: sel ? "#FAFBFD" : "#fff",
                   cursor: "pointer",
@@ -1435,7 +1432,7 @@ function StepContact({
           })}
         </div>
       </Field>
-      <Field label={phoneFieldLabel}>
+      <Field label={phoneFieldLabel} required>
         <div style={{ display: "flex", gap: 8 }}>
           <select
             value={form.prefix}
@@ -1478,7 +1475,7 @@ function StepContact({
             placeholder={rule.placeholder}
             maxLength={rule.len + 4}
             autoComplete="tel-national"
-            error={!!errors.phone}
+            error={attempted && !phoneOk}
           />
         </div>
         <div
@@ -1493,13 +1490,20 @@ function StepContact({
         >
           {phoneHelper}
         </div>
-        {digits.length > 0 && (
-          <div style={{ fontSize: 12, color: phoneHint.cls, marginTop: 4, letterSpacing: ".01em", fontWeight: 500 }}>{phoneHint.t}</div>
+        {(digits.length > 0 || attempted) && (
+          <div style={{ fontSize: 12, color: digits.length === 0 ? "#E74C3C" : phoneHint.cls, marginTop: 4, letterSpacing: ".01em", fontWeight: 500 }}>
+            {digits.length === 0 ? `Ingresa tu WhatsApp (${rule.len} dígitos)` : phoneHint.t}
+          </div>
         )}
       </Field>
-      <Field label="Email">
-        <Input type="email" inputMode="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="tu@clinica.cl" autoComplete="email" error={!!errors.email} />
+      <Field label="Email" required error={attempted && !emailOk ? "Ingresa un email válido." : undefined}>
+        <Input type="email" inputMode="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="tu@clinica.cl" autoComplete="email" error={attempted && !emailOk} />
       </Field>
+      {attempted && !allOk && (
+        <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "#E74C3C", fontWeight: 600, textAlign: "center", marginBottom: 10 }}>
+          Completa todos los campos para continuar.
+        </div>
+      )}
       <SubmitBtn enabled={allOk} onClick={submit}>
         Agenda mi demo
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -2068,13 +2072,17 @@ function BackBtn({ onClick }: { onClick: () => void }) {
     </button>
   );
 }
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, required, error, children }: { label: string; required?: boolean; error?: string; children: React.ReactNode }) {
   return (
     <div className="ventas-field" style={{ marginBottom: 14 }}>
       <label className="ventas-field-label" style={{ fontFamily: "Inter", fontSize: 12.5, fontWeight: 600, color: "#374151", marginBottom: 6, display: "block", letterSpacing: ".01em" }}>
         {label}
+        {required && <span style={{ color: "#E74C3C", marginLeft: 3 }}>*</span>}
       </label>
       {children}
+      {error && (
+        <div style={{ fontFamily: "Inter", fontSize: 12, color: "#E74C3C", marginTop: 5, fontWeight: 500 }}>{error}</div>
+      )}
     </div>
   );
 }
