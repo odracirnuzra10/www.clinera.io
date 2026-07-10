@@ -47,11 +47,11 @@ const LEAD_ROLE_LABELS: Record<LeadRole, string> = {
 
 // Tipo de clínica que atendemos hoy — dentales pausadas por el momento.
 type ClinicType = "medica" | "kinesiologica" | "estetica" | "salud_mental";
-const CLINIC_TYPE_OPTIONS: { id: ClinicType; label: string; desc: string }[] = [
-  { id: "medica", label: "Médica", desc: "Medicina general y especialidades" },
-  { id: "kinesiologica", label: "Kinesiológica", desc: "Kinesiología y rehabilitación" },
-  { id: "estetica", label: "Estética", desc: "Estética y medicina estética" },
-  { id: "salud_mental", label: "Salud mental", desc: "Psicología y psiquiatría" },
+const CLINIC_TYPE_OPTIONS: { id: ClinicType; label: string }[] = [
+  { id: "medica", label: "Médica" },
+  { id: "kinesiologica", label: "Kinesiológica" },
+  { id: "estetica", label: "Estética" },
+  { id: "salud_mental", label: "Salud mental" },
 ];
 const CLINIC_TYPE_LABELS: Record<ClinicType, string> = {
   medica: "Médica",
@@ -1317,8 +1317,8 @@ function StepContact({
   const isReception = leadRole === "reception";
   const phoneFieldLabel = isReception ? "WhatsApp del dueño o administrador" : "Tu WhatsApp personal";
   const phoneHelper = isReception
-    ? "Necesitamos coordinar con quien toma la decisión. Pídele su número y vuelve."
-    : "Te escribimos directo a ti, no a recepción. Coordinar la demo toma 2 minutos.";
+    ? "Pídele el número a quien decide y vuelve."
+    : "Te escribimos directo a ti, no a recepción.";
   const rule = PHONE_RULES[form.prefix];
   const digits = form.phone.replace(/\D/g, "");
   const nameOk = form.nombre.trim().length >= 2;
@@ -1385,7 +1385,7 @@ function StepContact({
             de contacto
           </>
         }
-        sub="Para preparar la reunión y confirmarte por WhatsApp."
+        sub="Te confirmamos por WhatsApp."
       />
 
       <Field label="Nombre" required error={attempted && !nameOk ? "Ingresa tu nombre." : undefined}>
@@ -1406,22 +1406,22 @@ function StepContact({
                 onClick={() => setForm({ ...form, tipoClinica: opt.id })}
                 style={{
                   display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  gap: 2,
-                  padding: "11px 14px",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "13px 14px",
                   border: "1.5px solid " + (sel ? "#0A0A0A" : showErr ? "#E74C3C" : "#E7EBF0"),
                   borderRadius: 12,
                   background: sel ? "#FAFBFD" : "#fff",
                   cursor: "pointer",
-                  textAlign: "left",
                   fontFamily: "Inter",
+                  fontWeight: 700,
+                  fontSize: 14.5,
+                  letterSpacing: "-.01em",
                   color: "#0A0A0A",
                   transition: "all .2s",
                 }}
               >
-                <span style={{ fontWeight: 700, fontSize: 14.5, letterSpacing: "-.01em" }}>{opt.label}</span>
-                <span style={{ fontSize: 12, color: "#6B7280", lineHeight: 1.3 }}>{opt.desc}</span>
+                {opt.label}
               </button>
             );
           })}
