@@ -2210,6 +2210,17 @@
     .hub-node{ position: static; transform: none; }
   }
 
+  /* Slide puesta en marcha (foto + asistencia) */
+  .setup-split{ display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 52px; align-items: center; margin-top: 10px; }
+  .setup-photo{ border-radius: 20px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 30px 70px -30px rgba(11,11,15,.35); background: var(--card); aspect-ratio: 4 / 3; }
+  .setup-photo img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+  .setup-points{ display: flex; flex-direction: column; gap: 13px; margin-top: 26px; }
+  .setup-point{ display: flex; align-items: center; gap: 12px; font-family: var(--sans); font-size: 15px; color: var(--ink-2); line-height: 1.4; }
+  .setup-point .sp-ic{ width: 32px; height: 32px; border-radius: 9px; background: rgba(124,58,237,.08); color: var(--violet); display: grid; place-items: center; flex: none; }
+  .setup-point .sp-ic svg{ width: 17px; height: 17px; }
+  .setup-point b{ color: var(--ink); font-weight: 600; }
+  @media (max-width: 900px){ .setup-split{ grid-template-columns: 1fr; gap: 26px; } .setup-photo{ order: -1; } }
+
   .roi-table{
     background: #fff;
     border: 1px solid var(--line);
@@ -3658,43 +3669,25 @@
     </div>
   </section>
 
-  <!-- 08 — Lista en 3 minutos -->
+  <!-- 08 — Puesta en marcha (foto + asistencia) -->
   <section class="slide" id="slide7">
-    <div class="slide-inner modos-slide-inner">
-      <div class="kicker"><span class="pip"></span>Configúrala tú mismo</div>
-      <h2 class="h-display">Lista en 3 <span class="em">minutos</span>.</h2>
-      <p class="lead">Sin instaladores ni técnicos. Tú la dejas andando, paso a paso.</p>
-
-      <div class="modos-grid">
-
-        <div class="modo-card eficiente">
-          <span class="modo-tag">Paso 01</span>
-          <div class="modo-name">Conecta tu WhatsApp</div>
-          <p class="modo-desc">Escaneas un código una sola vez. AURA empieza a contestar desde el <b>mismo número de siempre</b>.</p>
-          <div class="modo-foot"><span>Te toma</span><span class="mf-cost">~1 min</span></div>
+    <div class="slide-inner">
+      <div class="setup-split">
+        <div>
+          <div class="kicker"><span class="pip"></span>Puesta en marcha · con asistencia</div>
+          <h2 class="h-display">Lista en 20 <span class="em">minutos</span>.</h2>
+          <p class="lead">Conectas tu WhatsApp y dejas tu clínica configurada — con un especialista de Clinera guiándote en vivo, no lo haces solo.</p>
+          <div class="setup-points">
+            <div class="setup-point"><span class="sp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-11.9 7.6L4 20.5l1.4-5A8.4 8.4 0 1 1 21 11.5z"/></svg></span><span>Conectas tu WhatsApp — <b>el mismo número de siempre</b></span></div>
+            <div class="setup-point"><span class="sp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.6v2.6M12 18.8v2.6M4.6 4.6l1.9 1.9M17.5 17.5l1.9 1.9M2.6 12h2.6M18.8 12h2.6M4.6 19.4l1.9-1.9M17.5 6.5l1.9-1.9"/></svg></span><span>Configuras tu clínica — <b>tratamientos, sedes y reglas</b></span></div>
+            <div class="setup-point"><span class="sp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="2.5" y="13" width="4" height="6" rx="1.5"/><rect x="17.5" y="13" width="4" height="6" rx="1.5"/><path d="M20 19a4 4 0 0 1-4 3h-2"/></svg></span><span><b>Un especialista te acompaña</b> de principio a fin</span></div>
+          </div>
         </div>
 
-        <div class="modo-card agentic">
-          <span class="modo-tag">Paso 02</span>
-          <div class="modo-name">Carga tu clínica</div>
-          <p class="modo-desc">Tus tratamientos, tus sucursales y tus profesionales. Es <b>como llenar una ficha</b>.</p>
-          <div class="modo-foot"><span>Te toma</span><span class="mf-cost">~1 min</span></div>
+        <!-- PLACEHOLDER: reemplazar por la foto del doctor configurando su clínica (conectando WhatsApp en el computador). -->
+        <div class="setup-photo">
+          <img src="/ckd/images/hero-equipo.jpg" alt="Especialista de Clinera configurando una clínica" />
         </div>
-
-        <div class="modo-card flash">
-          <span class="modo-tag">Paso 03</span>
-          <div class="modo-name">Pones tus reglas</div>
-          <p class="modo-desc">Horarios, qué se puede agendar y qué no. <b>Tú decides hasta dónde llega AURA</b>.</p>
-          <div class="modo-foot"><span>Te toma</span><span class="mf-cost">~1 min</span></div>
-        </div>
-
-      </div>
-
-      <p class="roi-quote">Y listo: tu clínica empieza a <span class="em">atender sola</span>.</p>
-
-      <div class="setup-note">
-        <span class="k">Acompañamiento</span>
-        <span class="t">El software queda listo desde el <b>minuto cero</b>. Además te acompañamos: reunión de onboarding de <b>60–90 min</b> y, según tu caso, <b>2 a 3 capacitaciones</b> de 60 min cada una.</span>
       </div>
     </div>
   </section>
