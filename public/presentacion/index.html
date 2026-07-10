@@ -2191,6 +2191,25 @@
   @media (max-width: 900px){ .scope-grid{ grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; } }
   @media (max-width: 560px){ .scope-grid{ grid-template-columns: 1fr; } }
 
+  /* Hub de orquestación del agente */
+  .hub{ position: relative; width: 100%; max-width: 880px; margin: 26px auto 0; aspect-ratio: 880 / 480; }
+  .hub-lines{ position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+  .hub-lines line{ stroke: rgba(124,58,237,.25); stroke-width: 1.2; stroke-dasharray: 4 4; }
+  .hub-center{ position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .hub-core{ width: 116px; height: 116px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, var(--cyan), var(--violet) 55%, var(--magenta)); box-shadow: 0 22px 55px -16px rgba(124,58,237,.5); }
+  .hub-core img{ width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: center top; display: block; border: 3px solid var(--bg); }
+  .hub-core-label{ font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); font-weight: 500; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 5px 13px; box-shadow: 0 6px 18px -10px rgba(11,11,15,.2); }
+  .hub-node{ position: absolute; transform: translate(-50%,-50%); z-index: 2; display: inline-flex; align-items: center; gap: 9px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 9px 13px; box-shadow: 0 10px 26px -16px rgba(11,11,15,.2); white-space: nowrap; }
+  .hub-node .hn-ic{ width: 28px; height: 28px; border-radius: 8px; background: rgba(124,58,237,.08); color: var(--violet); display: grid; place-items: center; flex: none; }
+  .hub-node .hn-ic svg{ width: 15px; height: 15px; }
+  .hub-node .hn-label{ font-family: var(--sans); font-size: 12.5px; font-weight: 600; color: var(--ink); letter-spacing: -.005em; }
+  @media (max-width: 900px){
+    .hub{ display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; aspect-ratio: auto; max-width: 520px; margin-top: 22px; }
+    .hub-lines{ display: none; }
+    .hub-center{ position: static; transform: none; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 6px; }
+    .hub-node{ position: static; transform: none; }
+  }
+
   .roi-table{
     background: #fff;
     border: 1px solid var(--line);
@@ -3104,36 +3123,59 @@
   <!-- 03 — 3 Modos de agendamiento -->
   <section class="slide" id="slide2">
     <div class="slide-inner modos-slide-inner">
-      <div class="kicker"><span class="pip"></span>AURA · una agente para todo</div>
-      <h2 class="h-display">Una agente. Toda tu <span class="em">clínica</span>.</h2>
-      <p class="lead">No solo responde: agenda, cobra, hace marketing y actualiza fichas — sola, bajo tus reglas.</p>
+      <div class="kicker"><span class="pip"></span>AURA · orquesta tu clínica</div>
+      <h2 class="h-display">Una agente. Toda tu <span class="em">operación</span>.</h2>
+      <p class="lead">Un solo agente orquesta todo — agenda, fichas, marketing, ventas, cobros y recordatorios — sola, bajo tus reglas.</p>
 
-      <div class="scope-grid">
-        <div class="scope-card">
-          <span class="scope-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 3v3M16 3v3M8.5 14.5l2.2 2.2 4.3-4.3"/></svg></span>
-          <h3>Agenda</h3>
-          <p>Agenda, reagenda y cancela citas sola. Revisa espacios libres y morosos.</p>
-        </div>
-        <div class="scope-card">
-          <span class="scope-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 16.5h5"/></svg></span>
-          <h3>Fichas clínicas</h3>
-          <p>Consulta y completa la ficha del paciente durante la conversación.</p>
-        </div>
-        <div class="scope-card">
-          <span class="scope-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 10.5 13.5"/><path d="M21 3l-6.5 18-4-8-8-4z"/></svg></span>
-          <h3>Marketing</h3>
-          <p>Lanza difusiones segmentadas por WhatsApp a tu base de pacientes.</p>
-        </div>
-        <div class="scope-card">
-          <span class="scope-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V13M10 20V7M16 20v-4M22 20V4"/><path d="M2 20.5h20"/></svg></span>
-          <h3>Ventas</h3>
-          <p>Registra cada venta y te resume cuánto factura tu clínica.</p>
-        </div>
-      </div>
+      <div class="hub">
+        <svg class="hub-lines" viewBox="0 0 880 480" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="440" y1="240" x2="440" y2="48"/>
+          <line x1="440" y1="240" x2="701" y2="104"/>
+          <line x1="440" y1="240" x2="810" y2="240"/>
+          <line x1="440" y1="240" x2="701" y2="376"/>
+          <line x1="440" y1="240" x2="440" y2="432"/>
+          <line x1="440" y1="240" x2="179" y2="376"/>
+          <line x1="440" y1="240" x2="70" y2="240"/>
+          <line x1="440" y1="240" x2="179" y2="104"/>
+        </svg>
 
-      <div style="margin:26px auto 0;max-width:780px;display:flex;align-items:center;justify-content:center;gap:11px;font-size:14.5px;color:var(--ink-2);text-align:center;line-height:1.5;">
-        <span style="flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:var(--green);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">✓</span>
-        <span><b style="color:var(--ink);">Tú mandas, la IA ejecuta.</b> Defines qué puede agendar, en qué horarios y hasta dónde llega — y puedes intervenir cuando quieras.</span>
+        <div class="hub-center">
+          <div class="hub-core"><img src="/agents/aura.jpg" alt="Agente IA de Clinera" /></div>
+          <span class="hub-core-label">Agente IA</span>
+        </div>
+
+        <div class="hub-node" style="left:50%;top:10%">
+          <span class="hn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 3v3M16 3v3"/></svg></span>
+          <span class="hn-label">Agendamientos</span>
+        </div>
+        <div class="hub-node" style="left:79.7%;top:21.7%">
+          <span class="hn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span>
+          <span class="hn-label">Recordatorios y confirmaciones</span>
+        </div>
+        <div class="hub-node" style="left:92%;top:50%">
+          <span class="hn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 16.5h5"/></svg></span>
+          <span class="hn-label">Fichas clínicas</span>
+        </div>
+        <div class="hub-node" style="left:79.7%;top:78.3%">
+          <span class="hn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-11.9 7.6L4 20.5l1.4-5A8.4 8.4 0 1 1 21 11.5z"/></svg></span>
+          <span class="hn-label">Difusiones por WhatsApp</span>
+        </div>
+        <div class="hub-node" style="left:50%;top:90%">
+          <span class="hn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5h18l-7 8.5v5.5l-4 2v-7.5z"/></svg></span>
+          <span class="hn-label">Embudo de marketing</span>
+        </div>
+        <div class="hub-node" style="left:20.3%;top:78.3%">
+          <span class="hn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V13M10 20V7M16 20v-4M22 20V4"/><path d="M2 20.5h20"/></svg></span>
+          <span class="hn-label">Ventas</span>
+        </div>
+        <div class="hub-node" style="left:8%;top:50%">
+          <span class="hn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 9.5h19"/></svg></span>
+          <span class="hn-label">Cobros y morosidades</span>
+        </div>
+        <div class="hub-node" style="left:20.3%;top:21.7%">
+          <span class="hn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.6v2.6M12 18.8v2.6M4.6 4.6l1.9 1.9M17.5 17.5l1.9 1.9M2.6 12h2.6M18.8 12h2.6M4.6 19.4l1.9-1.9M17.5 6.5l1.9-1.9"/></svg></span>
+          <span class="hn-label">Configuración de la clínica</span>
+        </div>
       </div>
     </div>
   </section>
