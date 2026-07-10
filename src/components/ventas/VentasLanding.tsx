@@ -80,23 +80,18 @@ const MIGRATION_OPTIONS: MigrationOption[] = [
   {
     id: "no_software",
     title: "No tenemos software",
-    desc: "Buscamos implementar uno desde cero.",
+    desc: "Implementar desde cero.",
     priority: true,
   },
   {
     id: "yes_migrate",
     title: "Queremos migrar a Clinera",
-    desc: "Estamos abiertos a centralizar la operación.",
+    desc: "Centralizar la operación.",
   },
   {
     id: "maybe",
     title: "Queremos evaluarlo",
-    desc: "Déjanos tus datos y revisamos compatibilidad.",
-  },
-  {
-    id: "no_migrate",
-    title: "Mantendremos nuestro software",
-    desc: "Por ahora no buscamos migrar.",
+    desc: "Revisar compatibilidad.",
   },
 ];
 
@@ -1071,7 +1066,7 @@ function StepMigrationQualification({
   return (
     <div>
       <StepHeader
-        label="Paso 1 de 4"
+        label="Paso 1 de 5"
         title={
           <>
             Situación{" "}
@@ -1080,7 +1075,7 @@ function StepMigrationQualification({
             </em>
           </>
         }
-        sub="Antes de agendar, cuéntanos si tu clínica busca implementar o migrar a Clinera."
+        sub="¿Buscas implementar o migrar a Clinera?"
       />
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {MIGRATION_OPTIONS.map((opt, index) => {
