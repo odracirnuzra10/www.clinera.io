@@ -157,6 +157,20 @@ function getMigrationMeta(migrationIntent: MigrationIntent | null) {
   };
 }
 
+// Un MQL real tiene poder de decisión e intención de implementar: Dueño/Admin/Doctor
+// + (sin software | quiere migrar). Recepción y "queremos evaluarlo" siguen entrando
+// al pipeline (webhook → Monday) pero NO disparan el evento MQL que optimiza Meta —
+// disparan LeadUnqualified para poder medirlos aparte.
+function isQualifiedMql(
+  leadRole: LeadRole | null | undefined,
+  migrationIntent: MigrationIntent | null | undefined,
+): boolean {
+  const roleOk = leadRole === "owner" || leadRole === "admin" || leadRole === "doctor";
+  const intentOk =
+    migrationIntent == null || migrationIntent === "no_software" || migrationIntent === "yes_migrate";
+  return roleOk && intentOk;
+}
+
 function trackQualificationSelected(migrationIntent: MigrationIntent) {
   if (typeof window === "undefined") return;
   const meta = getMigrationMeta(migrationIntent);
@@ -746,25 +760,28 @@ async function submitPartialLead({
   const rule = PHONE_RULES[form.prefix];
   const digits = form.phone.replace(/\D/g, "");
   const migrationMeta = getMigrationMeta(migrationIntent ?? null);
+  const mqlQualified = isQualifiedMql(leadRole, migrationIntent);
 
-  // Fire Pixel MQL — el lead está calificado: nombre + clínica + tel + email.
-  // El booking en Cal.com es un upgrade adicional, no un requisito para considerarlo MQL.
-  // Mismo eventID que va al webhook n8n → dedup con el evento server-side MQL (CAPI).
+  // Fire Pixel MQL solo si el lead califica como ICP (rol decisor + intención de
+  // implementar). El booking en Cal.com es un upgrade adicional, no un requisito.
+  // Mismo eventID que va al webhook n8n → dedup con el evento server-side MQL (CAPI);
+  // n8n también respeta `mql_qualified` para no enviar el MQL por CAPI si no califica.
   if (typeof window !== "undefined" && typeof window.fbq === "function") {
-    window.fbq(
-      "track",
-      "MQL",
-      {
-        content_name: "Clinera Ventas",
-        content_category: "booking",
-        lead_source: leadSource,
-        booking_status: "pending",
-        value: 10,
-        currency: "USD",
-        ...migrationMeta,
-      },
-      { eventID: eventId },
-    );
+    const eventProps = {
+      content_name: "Clinera Ventas",
+      content_category: "booking",
+      lead_source: leadSource,
+      booking_status: "pending",
+      value: 10,
+      currency: "USD",
+      lead_role: leadRole ?? "",
+      ...migrationMeta,
+    };
+    if (mqlQualified) {
+      window.fbq("track", "MQL", eventProps, { eventID: eventId });
+    } else {
+      window.fbq("trackCustom", "LeadUnqualified", eventProps, { eventID: eventId });
+    }
   }
 
   if (typeof window !== "undefined" && window.dataLayer) {
@@ -774,6 +791,7 @@ async function submitPartialLead({
       challenge: challenge.id,
       event_id: eventId,
       booking_status: "pending",
+      mql_qualified: mqlQualified,
       ...migrationMeta,
     });
   }
@@ -794,6 +812,7 @@ async function submitPartialLead({
 
     booking_status: "pending",
     lead_source: leadSource,
+    mql_qualified: mqlQualified,
     ...migrationMeta,
     ...adAttribution,
     challenge_id: challenge.id,
@@ -886,6 +905,7 @@ async function submitBookingConfirmation({
     parent_event_id: leadCtx?.eventId ?? null,
     event_time: Math.floor(Date.now() / 1000),
     booking_status: "confirmed",
+    mql_qualified: isQualifiedMql(leadRole, migrationIntent),
 
     // Atribución de Google Ads (gclid/gbraid/wbraid) para offline conversions
     ...adAttribution,
