@@ -31,14 +31,34 @@ const PHONE_RULES: Record<string, PhoneRule> = {
   "+1": { name: "Puerto Rico", len: 10, placeholder: "787 123 4567", pattern: /^(787|939)\d{7}$/, invalidHint: "Debe empezar con 787 o 939" },
 };
 
-// Volumen de consultas mensuales — el calificador central del wizard.
-// Clinera atiende clínicas con 200+ consultas/mes; menos de 200 → cierre amable.
-type VolumeId = "under_200" | "200_500" | "over_500";
-type VolumeOption = { id: VolumeId; emoji: string; title: string; desc: string; qualifies: boolean };
+// Volumen de pacientes mensuales — el calificador central del wizard.
+// Clinera funciona con volumen: 100+ pacientes/mes; menos de 100 → cierre amable.
+type VolumeId = "over_100" | "under_100";
+type VolumeOption = {
+  id: VolumeId;
+  emoji: string;
+  title: string;
+  desc: string;
+  qualifies: boolean;
+  dataLabel: string;
+};
 const VOLUME_OPTIONS: VolumeOption[] = [
-  { id: "over_500", emoji: "🚀", title: "Más de 500", desc: "Alto volumen, varias sillas o sucursales.", qualifies: true },
-  { id: "200_500", emoji: "📈", title: "200 a 500", desc: "Operación en crecimiento, agenda cargada.", qualifies: true },
-  { id: "under_200", emoji: "🌱", title: "Menos de 200", desc: "Operación pequeña o recién partiendo.", qualifies: false },
+  {
+    id: "over_100",
+    emoji: "📈",
+    title: "Sí, más de 100 pacientes",
+    desc: "Agenda cargada, la operación ya exige volumen.",
+    qualifies: true,
+    dataLabel: "Más de 100 pacientes/mes",
+  },
+  {
+    id: "under_100",
+    emoji: "🌱",
+    title: "No, aún no llegamos",
+    desc: "Atendemos menos de 100 pacientes al mes.",
+    qualifies: false,
+    dataLabel: "Menos de 100 pacientes/mes",
+  },
 ];
 
 // Tipo de clínica que atendemos hoy — dentales pausadas por el momento.
@@ -621,10 +641,10 @@ function Wizard({
               window.dataLayer.push({ event: "ventas_select_volume", patient_volume: v.id, qualifies: v.qualifies });
             }
             if (!v.qualifies) {
-              // Menos de 200 consultas/mes: Clinera no es para ellos. Cierre amable,
+              // Menos de 100 pacientes/mes: Clinera no es para ellos. Cierre amable,
               // sin lead al pipeline ni MQL — solo un evento custom para medir el corte.
               if (typeof window !== "undefined" && typeof window.fbq === "function") {
-                window.fbq("trackCustom", "LeadUnder200", { content_name: "Clinera Ventas" });
+                window.fbq("trackCustom", "LeadUnder100", { content_name: "Clinera Ventas" });
               }
               setTimeout(() => {
                 setStep(totalSteps);
@@ -735,7 +755,7 @@ async function submitPartialLead({
   const migrationMeta = getMigrationMeta(migrationIntent ?? null);
 
   // Fire Pixel MQL — todo wizard completado con datos válidos es MQL (evento amplio
-  // de marketing). Quien declara <200 consultas/mes nunca llega aquí (corte en el
+  // de marketing). Quien declara <100 pacientes/mes nunca llega aquí (corte en el
   // paso de volumen). La calificación humana ocurre después: el closer marca SQL
   // en el tablero de leads y ese es el evento de alto valor.
   // Mismo eventID que va al webhook n8n → dedup con el evento server-side MQL (CAPI).
@@ -786,7 +806,7 @@ async function submitPartialLead({
     lead_source: leadSource,
     ...migrationMeta,
     ...adAttribution,
-    tamano_clinica: `${volume.title} consultas/mes`,
+    tamano_clinica: volume.dataLabel,
     patient_volume: volume.id,
     nombre: form.nombre.trim(),
     nombre_clinica: form.clinica.trim(),
@@ -895,7 +915,7 @@ async function submitBookingConfirmation({
     // Datos del contacto (re-incluidos para que el segundo evento sea autosuficiente)
     lead_source: leadCtx?.leadSource ?? detectLeadSource(),
     ...migrationMeta,
-    tamano_clinica: `${volume.title} consultas/mes`,
+    tamano_clinica: volume.dataLabel,
     patient_volume: volume.id,
     nombre: form.nombre.trim(),
     nombre_clinica: form.clinica.trim(),
@@ -1074,14 +1094,14 @@ function StepVolume({
         label={label}
         title={
           <>
-            ¿Cuántas{" "}
+            ¿Tu clínica atiende más de{" "}
             <em style={{ fontStyle: "normal", background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-              consultas
+              100 pacientes
             </em>{" "}
-            gestionan al mes?
+            al mes?
           </>
         }
-        sub="Clinera está diseñado para clínicas que responden 200 o más consultas mensuales."
+        sub="Clinera funciona con volumen: está diseñado para clínicas que atienden 100 o más pacientes mensuales."
       />
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {VOLUME_OPTIONS.map((opt) => {
@@ -1450,7 +1470,7 @@ function StepCalCom({
     Cal("init", "ads", { origin: "https://app.cal.com" });
 
     const notes = [
-      volume ? `Volumen: ${volume.title} consultas/mes` : null,
+      volume ? `Volumen: ${volume.dataLabel}` : null,
       migrationIntent ? `Situación: ${MIGRATION_LABELS[migrationIntent]}` : null,
       form.clinica ? `Clínica: ${form.clinica}` : null,
       form.phone ? `Teléfono: ${form.prefix} ${form.phone}` : null,
@@ -1692,7 +1712,7 @@ function StepSuccess({
   const bookingLabel = formatBookingDate(booking?.date);
   const migrationLabel = migrationIntent ? MIGRATION_LABELS[migrationIntent] : "";
   const msg = encodeURIComponent(
-    `Hola Clinera, acabo de agendar una reunión comercial desde /ventas.\n\nNombre: ${form.nombre}\nClínica: ${form.clinica}\nEmail: ${form.email}${migrationLabel ? `\nSituación: ${migrationLabel}` : ""}${volume ? `\nVolumen: ${volume.title} consultas/mes` : ""}${bookingLabel ? `\nCuándo: ${bookingLabel}` : ""}`,
+    `Hola Clinera, acabo de agendar una reunión comercial desde /ventas.\n\nNombre: ${form.nombre}\nClínica: ${form.clinica}\nEmail: ${form.email}${migrationLabel ? `\nSituación: ${migrationLabel}` : ""}${volume ? `\nVolumen: ${volume.dataLabel}` : ""}${bookingLabel ? `\nCuándo: ${bookingLabel}` : ""}`,
   );
   const waUrl = `https://wa.me/${WA_NUMBER}?text=${msg}`;
 
@@ -1841,7 +1861,7 @@ function StepTooSmallClose() {
     <TerminalMessage
       tone="info"
       title="Clinera aún no es para tu clínica"
-      body="Clinera está diseñado para clínicas que gestionan 200 o más consultas al mes. Cuando tu operación llegue a ese volumen, acá vamos a estar para ayudarte a escalarla."
+      body="Clinera funciona con volumen: está diseñado para clínicas que atienden 100 o más pacientes al mes. Cuando tu operación llegue a ese volumen, acá vamos a estar para ayudarte a escalarla."
     />
   );
 }
