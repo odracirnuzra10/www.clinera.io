@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
 };
 
-const LAST_UPDATED = "20 de abril de 2026";
+const LAST_UPDATED = "13 de julio de 2026";
 
 export default function TerminosPage() {
   return (
@@ -151,7 +151,43 @@ export default function TerminosPage() {
                 son <strong>no reembolsables</strong>.
               </p>
 
-              <h2 style={h2}>6. Modelos de inteligencia artificial y precisión</h2>
+              <h2 style={h2}>6. Onboarding e implementación</h2>
+              <p style={p}>
+                La activación de la cuenta del Cliente requiere un proceso de
+                incorporación (<em>Onboarding</em>) guiado por los especialistas
+                de Clinera. Para que dicho proceso se ejecute en los plazos
+                previstos, el Cliente asume las obligaciones descritas en esta
+                sección.
+              </p>
+              <p style={p}>
+                <strong>
+                  Es obligación del Cliente presentarse a cada sesión de
+                  Onboarding con toda la información, documentación y materiales
+                  requeridos,
+                </strong>{" "}
+                acoplándose estrictamente a las plantillas, formatos, sugerencias
+                y requisitos que los especialistas de Onboarding le hayan
+                comunicado de manera previa, por cualquiera de los canales
+                habilitados (correo electrónico, WhatsApp u otros).
+              </p>
+              <p style={p}>
+                Los retrasos, reprogramaciones o dilaciones en la implementación
+                y en la activación de la cuenta que se deriven del incumplimiento
+                de lo anterior —esto es, cuando el Cliente no llegue con lo mínimo
+                requerido— son de exclusiva responsabilidad del Cliente y{" "}
+                <strong>no son imputables a la Compañía</strong>. La Compañía no
+                será responsable por la extensión de los plazos de puesta en
+                marcha atribuibles a la falta de preparación o de entrega de
+                información por parte del Cliente.
+              </p>
+              <p style={p}>
+                La Compañía podrá reprogramar o suspender las sesiones de
+                Onboarding cuando el Cliente no cuente con los requisitos previos
+                solicitados, sin que ello genere responsabilidad alguna para la
+                Compañía.
+              </p>
+
+              <h2 style={h2}>7. Modelos de inteligencia artificial y precisión</h2>
               <p style={p}>
                 Clinera utiliza modelos de lenguaje de gran escala (LLM)
                 avanzados de proveedores líderes (como OpenAI, Anthropic y
@@ -176,7 +212,7 @@ export default function TerminosPage() {
                 directo de contenidos generados por los modelos de IA.
               </p>
 
-              <h2 style={h2}>7. Disposiciones generales</h2>
+              <h2 style={h2}>8. Disposiciones generales</h2>
               <p style={p}>
                 Estos Términos se rigen por las leyes del Estado de Delaware,
                 Estados Unidos. Toda controversia, disputa o reclamación
