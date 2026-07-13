@@ -249,6 +249,7 @@ export default function VentasLanding({
           .ventas-submit-btn { padding: 12px !important; font-size: 14.5px !important; }
           .ventas-field { margin-bottom: 10px !important; }
           .ventas-field-label { margin-bottom: 4px !important; }
+          .ventas-volume-num { font-size: 46px !important; }
         }
       `}</style>
       <ReunionHero enableMigrationQualification={enableMigrationQualification} />
@@ -1092,20 +1093,51 @@ function StepVolume({
       {onBack && <BackBtn onClick={onBack} />}
       <StepHeader
         label={label}
-        title={
-          <>
-            ¿Tu clínica atiende más de{" "}
-            <em style={{ fontStyle: "normal", background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-              100 pacientes
-            </em>{" "}
-            al mes?
-          </>
-        }
-        sub="Clinera funciona con volumen: está diseñado para clínicas que atienden 100 o más pacientes mensuales."
+        title="¿Tu clínica atiende más de 100 pacientes al mes?"
+        sub="Es nuestro requisito de entrada."
       />
+
+      {/* Callout: el umbral mínimo es lo primero que debe registrar el ojo */}
+      <div
+        style={{
+          background: "#FAFBFD",
+          border: "1px solid #E7EBF0",
+          borderRadius: 14,
+          padding: "16px 18px",
+          marginBottom: 18,
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontSize: 11,
+            fontWeight: 600,
+            letterSpacing: ".14em",
+            textTransform: "uppercase",
+            color: "#6B7280",
+            marginBottom: 8,
+          }}
+        >
+          Mínimo operativo
+        </div>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
+          <span
+            className="ventas-volume-num"
+            style={{ fontFamily: "Inter", fontSize: 56, fontWeight: 800, letterSpacing: "-.04em", lineHeight: 0.9, color: "#0A0A0A" }}
+          >
+            100
+          </span>
+          <span style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 600, color: "#4B5563" }}>pacientes/mes</span>
+        </div>
+        <div style={{ marginTop: 10, fontFamily: "Inter", fontSize: 13, color: "#6B7280", lineHeight: 1.4 }}>
+          Bajo ese volumen, Clinera todavía no te conviene.
+        </div>
+      </div>
+
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {VOLUME_OPTIONS.map((opt) => {
           const sel = volume?.id === opt.id;
+          const primary = opt.qualifies;
           return (
             <button
               key={opt.id}
@@ -1116,51 +1148,30 @@ function StepVolume({
                 position: "relative",
                 display: "flex",
                 alignItems: "center",
-                gap: 14,
-                padding: "14px 16px",
-                border: "1.5px solid " + (sel ? "#0A0A0A" : "#E7EBF0"),
-                borderRadius: 14,
+                gap: 12,
+                padding: primary ? "16px 18px" : "12px 16px",
+                border: (primary ? "1.5px" : "1px") + " solid " + (sel ? "#0A0A0A" : primary ? "#7C3AED" : "#E7EBF0"),
+                borderRadius: 12,
                 cursor: "pointer",
-                background: sel ? "#FAFBFD" : "#fff",
+                background: "#fff",
                 textAlign: "left",
                 fontFamily: "Inter",
                 color: "#0A0A0A",
                 width: "100%",
-                overflow: "hidden",
                 transition: "all .2s",
               }}
             >
-              {sel && <span style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 3, background: GRAD }} />}
-              <span
-                className="ventas-challenge-icon"
-                style={{
-                  flexShrink: 0,
-                  width: 44,
-                  height: 44,
-                  borderRadius: 12,
-                  background: sel ? GRAD : "linear-gradient(135deg,#F4F8FF 0%,#FAF5FF 100%)",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: 22,
-                  lineHeight: 1,
-                  boxShadow: sel ? "0 6px 14px -4px rgba(124,58,237,.4)" : "none",
-                  transition: "all .25s",
-                }}
-              >
-                {opt.emoji}
-              </span>
               <span style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 2 }}>
-                <span className="ventas-challenge-title" style={{ fontWeight: 700, fontSize: 15, letterSpacing: "-.012em" }}>{opt.title}</span>
-                <span className="ventas-challenge-desc" style={{ fontSize: 13, color: "#6B7280", lineHeight: 1.4 }}>{opt.desc}</span>
+                <span style={{ fontWeight: primary ? 700 : 600, fontSize: primary ? 15.5 : 14.5, letterSpacing: "-.012em", color: primary ? "#0A0A0A" : "#4B5563" }}>{opt.title}</span>
+                <span style={{ fontSize: 12.5, color: "#6B7280", lineHeight: 1.4 }}>{opt.desc}</span>
               </span>
               <span
                 style={{
                   flexShrink: 0,
-                  width: 22,
-                  height: 22,
+                  width: 20,
+                  height: 20,
                   borderRadius: 999,
-                  border: "1.5px solid " + (sel ? "#0A0A0A" : "#D1D5DB"),
+                  border: "1.5px solid " + (sel ? "#0A0A0A" : primary ? "#7C3AED" : "#D1D5DB"),
                   background: sel ? "#0A0A0A" : "#fff",
                   position: "relative",
                   transition: "all .2s",
@@ -1170,10 +1181,10 @@ function StepVolume({
                   <span
                     style={{
                       position: "absolute",
-                      left: 7,
+                      left: 6.5,
                       top: 3,
                       width: 5,
-                      height: 10,
+                      height: 9,
                       border: "solid #fff",
                       borderWidth: "0 2px 2px 0",
                       transform: "rotate(45deg)",
