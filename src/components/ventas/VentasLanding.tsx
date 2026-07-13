@@ -762,26 +762,28 @@ async function submitPartialLead({
   const migrationMeta = getMigrationMeta(migrationIntent ?? null);
   const mqlQualified = isQualifiedMql(leadRole, migrationIntent);
 
-  // Fire Pixel MQL solo si el lead califica como ICP (rol decisor + intención de
-  // implementar). El booking en Cal.com es un upgrade adicional, no un requisito.
-  // Mismo eventID que va al webhook n8n → dedup con el evento server-side MQL (CAPI);
-  // n8n también respeta `mql_qualified` para no enviar el MQL por CAPI si no califica.
+  // Fire Pixel MQL — todo wizard completado con datos válidos es MQL (evento amplio
+  // de marketing). La calificación humana ocurre después: el closer marca SQL en el
+  // tablero de leads y ese es el evento de alto valor. `mql_qualified` viaja igual
+  // como señal de perfil ICP para reporting/panel, pero no bloquea el evento.
+  // Mismo eventID que va al webhook n8n → dedup con el evento server-side MQL (CAPI).
   if (typeof window !== "undefined" && typeof window.fbq === "function") {
-    const eventProps = {
-      content_name: "Clinera Ventas",
-      content_category: "booking",
-      lead_source: leadSource,
-      booking_status: "pending",
-      value: 10,
-      currency: "USD",
-      lead_role: leadRole ?? "",
-      ...migrationMeta,
-    };
-    if (mqlQualified) {
-      window.fbq("track", "MQL", eventProps, { eventID: eventId });
-    } else {
-      window.fbq("trackCustom", "LeadUnqualified", eventProps, { eventID: eventId });
-    }
+    window.fbq(
+      "track",
+      "MQL",
+      {
+        content_name: "Clinera Ventas",
+        content_category: "booking",
+        lead_source: leadSource,
+        booking_status: "pending",
+        value: 10,
+        currency: "USD",
+        lead_role: leadRole ?? "",
+        icp_profile: mqlQualified,
+        ...migrationMeta,
+      },
+      { eventID: eventId },
+    );
   }
 
   if (typeof window !== "undefined" && window.dataLayer) {
