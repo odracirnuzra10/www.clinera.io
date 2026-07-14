@@ -3928,24 +3928,24 @@ export function BillingToggle({ billing, onChange }: { billing: Billing; onChang
 }
 
 export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) {
+  const IA_MODELS = ["Gemini", "Kimi", "Claude", "GLM", "MiniMax"];
   const plans = [
     {
       name: "Vortex",
       price: "$279",
       credits: "28.000",
       impl: "+ USD 450 implementación (pago único)",
-      sub: "AURA responde por WhatsApp 24/7 y agenda sola. Para clínicas que ya operan con volumen.",
+      sub: "AURA por WhatsApp 24/7 para clínicas con volumen.",
       tags: [
         { t: "AURA (texto)", ok: true },
         { t: "Módulo Clínico", ok: true },
       ],
       features: [
-        "~2.800 conversaciones · ~400 agendamientos al mes",
-        "El agendamiento no consume créditos",
+        "~2.800 conversaciones / mes",
         "10 usuarios / profesionales",
         "1 sucursal",
       ],
-      modos: ["Eficiente", "Agentic"],
+      models: IA_MODELS,
       agents: [{ id: "aura", name: "AURA" }] as Agent[],
       stripe: "https://buy.stripe.com/4gM7sN7cZ4Yq9wT5RV1441u",
     },
@@ -3954,7 +3954,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
       price: "$379",
       credits: "37.000",
       impl: "+ USD 450 implementación (pago único)",
-      sub: "Suma a CAMILA por voz. Para clínicas que necesitan llamar y coordinar sin manos.",
+      sub: "Suma a CAMILA por voz.",
       featured: true,
       tags: [
         { t: "AURA + CAMILA", ok: true },
@@ -3962,13 +3962,11 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
       ],
       headline: "Todo de Vortex, más",
       features: [
-        "~2.900 conversaciones · ~320 min de voz (≈105 llamadas) · ~450 agendamientos",
+        "~2.900 conversaciones · ~320 min de voz",
         "15 usuarios / profesionales",
         "2 sucursales",
-        "Webhooks + API",
-        "Soporte prioritario",
       ],
-      modos: ["Eficiente", "Agentic", "Agentic Pro"],
+      models: IA_MODELS,
       agents: [
         { id: "aura", name: "AURA" },
         { id: "camila", name: "CAMILA" },
@@ -3980,20 +3978,18 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
       price: "$479",
       credits: "46.000",
       impl: "+ USD 450 implementación (pago único)",
-      sub: "Suma a LIA fiscalizando el 100% de tus conversaciones, con informes diarios y semanales.",
+      sub: "Suma a LIA.",
       tags: [
         { t: "AURA + CAMILA + LIA", ok: true },
         { t: "Webhooks + API", ok: true },
       ],
       headline: "Todo de Atlas, más",
       features: [
-        "~3.100 conversaciones · ~440 min de voz (≈145 llamadas) · ~500 agendamientos",
-        "LIA fiscaliza el 100% de las conversaciones + informes diarios y semanales",
+        "~3.100 conversaciones · ~440 min de voz",
         "25 usuarios / profesionales",
         "Sucursales ilimitadas",
-        "Soporte dedicado",
       ],
-      modos: ["Eficiente", "Agentic", "Agentic Pro"],
+      models: IA_MODELS,
       agents: [
         { id: "aura", name: "AURA" },
         { id: "camila", name: "CAMILA" },
@@ -4282,7 +4278,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
                   ))}
                 </div>
 
-                {p.modos && p.modos.length > 0 && (
+                {p.models && p.models.length > 0 && (
                   <div
                     style={{
                       marginTop: "auto",
@@ -4290,7 +4286,6 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
                       background: p.featured ? "rgba(124,58,237,.04)" : "#FAFAFA",
                       border: p.featured ? "1px solid rgba(124,58,237,.18)" : "1px solid #E5E7EB",
                       borderRadius: 12,
-                      minHeight: 104,
                       boxSizing: "border-box",
                       display: "flex",
                       flexDirection: "column",
@@ -4307,44 +4302,30 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
                         marginBottom: 12,
                       }}
                     >
-                      {p.modos.length === 1 ? "Modo de agendamiento" : "Modos de agendamiento"}
+                      Elige tu IA
                     </div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                      {p.modos.map((m) => {
-                        const dotColor =
-                          m === "Eficiente" ? "#009FE3"
-                          : m === "Agentic" ? "#7C3AED"
-                          : "#C850C0";
-                        return (
-                          <span
-                            key={m}
-                            style={{
-                              display: "inline-flex",
-                              alignItems: "center",
-                              gap: 6,
-                              padding: "6px 12px",
-                              background: "#fff",
-                              border: "1px solid #E5E7EB",
-                              borderRadius: 999,
-                              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                              fontSize: 11,
-                              color: "#0A0A0A",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            <span
-                              style={{
-                                width: 5,
-                                height: 5,
-                                borderRadius: "50%",
-                                background: dotColor,
-                                display: "inline-block",
-                              }}
-                            />
-                            {m}
-                          </span>
-                        );
-                      })}
+                      {p.models.map((m) => (
+                        <span
+                          key={m}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 6,
+                            padding: "6px 12px",
+                            background: "#fff",
+                            border: "1px solid #E5E7EB",
+                            borderRadius: 999,
+                            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                            fontSize: 11,
+                            color: "#0A0A0A",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          <span style={{ width: 5, height: 5, borderRadius: "50%", background: GRAD, display: "inline-block" }} />
+                          {m}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 )}
@@ -4498,51 +4479,11 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
                     marginTop: 2,
                   }}
                 >
-                  Sin permanencia · Onboarding asistido · Operando el mismo día
+                  Ingeniero E2E · Soporte prioritario · Sin permanencia
                 </div>
               </div>
             </article>
           ))}
-        </div>
-
-        <div
-          className="reveal"
-          style={{
-            marginTop: 40,
-            background: "#fff",
-            border: "1px solid #E5E7EB",
-            borderRadius: 18,
-            padding: "28px 32px",
-            boxShadow: "0 4px 24px rgba(0,0,0,.03)",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 18 }}>
-            <div>
-              <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "#7C3AED", marginBottom: 6 }}>
-                Tarifario de créditos
-              </div>
-              <div style={{ fontFamily: "Inter", fontSize: 20, fontWeight: 700, color: "#0A0A0A", letterSpacing: "-0.01em" }}>
-                Una sola bolsa. La gastas como quieras.
-              </div>
-            </div>
-            <div style={{ fontFamily: "Inter", fontSize: 13.5, color: "#4B5563", maxWidth: 380, lineHeight: 1.5 }}>
-              El agendamiento no consume créditos. Solo pagas la conversación — el resultado va incluido.
-            </div>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(190px,1fr))", gap: 12 }}>
-            {[
-              { k: "Conversación de texto (AURA)", v: "10 créditos" },
-              { k: "Agendamiento", v: "0 · incluido" },
-              { k: "Minuto de voz (CAMILA)", v: "25 créditos" },
-              { k: "Fiscalización de LIA", v: "0 · incluida" },
-              { k: "Informes de LIA", v: "~4.000 / mes" },
-            ].map((r) => (
-              <div key={r.k} style={{ background: "#FAFAFA", border: "1px solid #E5E7EB", borderRadius: 12, padding: "14px 16px" }}>
-                <div style={{ fontFamily: "Inter", fontSize: 13, color: "#4B5563", marginBottom: 6, lineHeight: 1.35 }}>{r.k}</div>
-                <div style={{ fontFamily: "Inter", fontSize: 16, fontWeight: 700, color: "#0A0A0A" }}>{r.v}</div>
-              </div>
-            ))}
-          </div>
         </div>
 
         <div
@@ -4556,7 +4497,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
             color: "#6B7280",
           }}
         >
-          Un crédito es la unidad de consumo · conversación de texto (AURA) = 10 créditos · minuto de voz (CAMILA) = 25 · el agendamiento no consume créditos
+          $20 USD = 5.000 créditos ≈ 500 conversaciones · el agendamiento no consume créditos
         </div>
 
         <div

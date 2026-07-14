@@ -208,9 +208,8 @@ function PlanVideoModal({ open, onClose }: { open: boolean; onClose: () => void 
 
 function Addons() {
   const items = [
-    { price: "$55", unit: "recarga", label: "5.000 créditos",  sub: "≈500 conversaciones de emergencia cuando agotas la bolsa del mes. Consumo puntual, no reemplaza tu plan." },
+    { price: "$20", unit: "recarga", label: "5.000 créditos extras",  sub: "≈500 conversaciones de emergencia cuando agotas la bolsa del mes." },
     { price: "$9",  unit: "/mes", label: "Usuario / profesional extra", sub: "Suma asientos sin cambiar de plan." },
-    { price: "$39", unit: "/mes", label: "Sucursal extra (solo Atlas)", sub: "Suma una sede adicional sobre el plan Atlas." },
   ];
   return (
     <section style={{ padding: "80px 80px", background: "#fff", borderTop: "1px solid #F0F0F0" }}>
