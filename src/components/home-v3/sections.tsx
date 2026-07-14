@@ -3928,7 +3928,7 @@ export function BillingToggle({ billing, onChange }: { billing: Billing; onChang
 }
 
 export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) {
-  const IA_MODELS = ["Gemini", "Kimi", "Claude", "GLM", "MiniMax"];
+  const IA_MODELS = ["Gemini 3.0 Flash", "Gemini 2.5 Flash", "Sonnet 5", "Opus 4.8", "Kimi K2.6", "GLM 5.2", "MiniMax M3"];
   const plans = [
     {
       name: "Vortex",
@@ -3945,7 +3945,6 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
         "10 usuarios / profesionales",
         "1 sucursal",
       ],
-      models: IA_MODELS,
       agents: [{ id: "aura", name: "AURA" }] as Agent[],
       stripe: "https://buy.stripe.com/4gM7sN7cZ4Yq9wT5RV1441u",
     },
@@ -3966,7 +3965,6 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
         "15 usuarios / profesionales",
         "2 sucursales",
       ],
-      models: IA_MODELS,
       agents: [
         { id: "aura", name: "AURA" },
         { id: "camila", name: "CAMILA" },
@@ -3989,7 +3987,6 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
         "25 usuarios / profesionales",
         "Sucursales ilimitadas",
       ],
-      models: IA_MODELS,
       agents: [
         { id: "aura", name: "AURA" },
         { id: "camila", name: "CAMILA" },
@@ -4278,62 +4275,10 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
                   ))}
                 </div>
 
-                {p.models && p.models.length > 0 && (
-                  <div
-                    style={{
-                      marginTop: "auto",
-                      padding: "18px 18px",
-                      background: p.featured ? "rgba(124,58,237,.04)" : "#FAFAFA",
-                      border: p.featured ? "1px solid rgba(124,58,237,.18)" : "1px solid #E5E7EB",
-                      borderRadius: 12,
-                      boxSizing: "border-box",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                        fontSize: 9.5,
-                        letterSpacing: "0.12em",
-                        textTransform: "uppercase",
-                        color: "#9CA3AF",
-                        marginBottom: 12,
-                      }}
-                    >
-                      Elige tu IA
-                    </div>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                      {p.models.map((m) => (
-                        <span
-                          key={m}
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: 6,
-                            padding: "6px 12px",
-                            background: "#fff",
-                            border: "1px solid #E5E7EB",
-                            borderRadius: 999,
-                            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                            fontSize: 11,
-                            color: "#0A0A0A",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          <span style={{ width: 5, height: 5, borderRadius: "50%", background: GRAD, display: "inline-block" }} />
-                          {m}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
                 {p.agents && p.agents.length > 0 && (
                   <div
                     style={{
-                      marginTop: 14,
+                      marginTop: "auto",
                       padding: "18px 18px",
                       background: p.featured ? "rgba(124,58,237,.04)" : "#FAFAFA",
                       border: p.featured ? "1px solid rgba(124,58,237,.18)" : "1px solid #E5E7EB",
@@ -4484,6 +4429,26 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
               </div>
             </article>
           ))}
+        </div>
+
+        <style dangerouslySetInnerHTML={{ __html: "@keyframes iaMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}" }} />
+        <div className="reveal home-ia-strip" style={{ marginTop: 34, borderTop: "1px solid #EEECEA", borderBottom: "1px solid #EEECEA", padding: "14px 0", display: "flex", alignItems: "stretch" }}>
+          <div className="home-ia-label" style={{ flexShrink: 0, padding: "4px 18px 4px 0", borderRight: "1px solid #EEECEA", fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10.5, fontWeight: 600, letterSpacing: ".13em", textTransform: "uppercase", color: "#6B7280", display: "flex", alignItems: "center", whiteSpace: "nowrap", lineHeight: 1.3 }}>
+            Elige tu IA · cualquier plan
+          </div>
+          <div style={{ flex: 1, minWidth: 0, overflow: "hidden", position: "relative", WebkitMaskImage: "linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent)", maskImage: "linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent)" }}>
+            <div style={{ display: "flex", whiteSpace: "nowrap", animation: "iaMarquee 30s linear infinite", width: "max-content", paddingLeft: 14 }}>
+              {[...IA_MODELS, ...IA_MODELS].map((m, i, arr) => (
+                <span key={i} style={{ display: "inline-flex", alignItems: "center" }}>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "0 22px", fontFamily: "Inter", fontSize: 14, fontWeight: 600, color: "#0A0A0A" }}>
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: GRAD, display: "inline-block" }} />
+                    {m}
+                  </span>
+                  {i < arr.length - 1 && <span style={{ color: "#D1D5DB", fontSize: 10 }}>•</span>}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div
@@ -4652,6 +4617,9 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
           :global(.home-pricing-grid) { grid-template-columns: 1fr !important; gap: 28px !important; }
           :global(.home-plan-card) { transform: none !important; }
           :global(.home-plan-card-featured) { order: -1; }
+        }
+        @media (max-width: 600px) {
+          :global(.home-ia-label) { display: none !important; }
         }
         @media (max-width: 720px) {
           :global(.home-enterprise-card) { grid-template-columns: 1fr !important; gap: 20px !important; padding: 24px !important; }
