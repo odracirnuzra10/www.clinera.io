@@ -171,6 +171,10 @@ const nextConfig: NextConfig = {
         destination: '/presentacion/index.html',
       },
       {
+        source: '/mid-market',
+        destination: '/mid-market/index.html',
+      },
+      {
         source: '/futuro',
         destination: '/futuro/index.html',
       },

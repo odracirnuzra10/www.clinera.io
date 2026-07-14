@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Mid-Market Premium · Estrategia interna — Clinera</title>
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex" />
+<meta name="googlebot" content="noindex,nofollow" />
+<meta name="referrer" content="no-referrer" />
+<meta name="theme-color" content="#111318" />
+<link rel="icon" type="image/png" href="/icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --bg: #FAFAFA;
+    --ink: #0B0B0F;
+    --ink-2: #1A1A22;
+    --muted: #6B6B75;
+    --muted-2: #9A9AA3;
+    --line: #E6E6EA;
+    --card: #FFFFFF;
+    --cyan: #009FE3;
+    --violet: #7C3AED;
+    --magenta: #C850C0;
+    --amber: #F59E0B;
+    --mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  html{ background: var(--bg); }
+  body{ font-family: var(--sans); color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow: hidden; height: 100vh; height: 100dvh; }
+
+  /* === HUD === */
+  .hud{ position: fixed; inset: 0 0 auto 0; z-index: 30; display:flex; align-items:center; justify-content:space-between; padding: 22px 32px; pointer-events: none; }
+  .brand{ font-family: var(--sans); font-weight: 700; letter-spacing: -0.02em; font-size: 18px; color: var(--ink); display:flex; align-items:center; gap: 6px; }
+  .brand .dot{ width: 7px; height: 7px; border-radius: 50%; background: var(--violet); display:inline-block; transform: translateY(-1px); }
+  .meta-tag{ font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display:flex; align-items:center; gap: 8px; }
+  .meta-tag::before{ content:''; width: 6px; height: 6px; border-radius: 50%; background: var(--violet); }
+
+  .progress-track{ position: fixed; left: 0; right: 0; bottom: 0; height: 2px; background: transparent; z-index: 20; }
+  .progress-bar{ height: 100%; width: 0%; background: var(--ink); transition: width 600ms cubic-bezier(.6,.1,.2,1); }
+
+  .step-counter{ position: fixed; bottom: 22px; left: 32px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--muted-2); z-index: 30; }
+  .step-counter .current{ color: var(--ink); font-weight: 500; }
+  .hint{ position: fixed; bottom: 22px; right: 32px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--muted-2); z-index: 30; text-transform: uppercase; display:flex; align-items:center; gap: 10px; }
+  .hint .arrow{ width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--line); display:inline-flex; align-items:center; justify-content:center; font-size: 10px; color: var(--ink); }
+
+  /* Chrome recoloreado cuando la slide activa es oscura */
+  body.on-dark .brand{ color:#fff; }
+  body.on-dark .meta-tag{ color:rgba(255,255,255,.6); }
+  body.on-dark .step-counter{ color:rgba(255,255,255,.5); }
+  body.on-dark .step-counter .current{ color:#fff; }
+  body.on-dark .hint{ color:rgba(255,255,255,.5); }
+  body.on-dark .hint .arrow{ border-color:rgba(255,255,255,.28); color:#fff; }
+  body.on-dark .progress-bar{ background:#fff; }
+
+  /* === Slides === */
+  .stage{ position: relative; width: 100vw; height: 100vh; height: 100dvh; }
+  .slide{ position: absolute; inset: 0; display:flex; align-items:center; justify-content:center; opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity 350ms cubic-bezier(.6,.1,.2,1), transform 350ms cubic-bezier(.6,.1,.2,1); padding: 84px 5vw 64px; overflow-y: auto; }
+  .slide.active{ opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .slide.exit{ opacity: 0; transform: translateY(-8px); }
+  .slide.dark{ background:#111318; }
+  .slide-inner{ width: 100%; max-width: 1120px; }
+
+  /* Kicker */
+  .kicker{ font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); display:inline-flex; align-items:center; gap: 8px; margin-bottom: 26px; }
+  .kicker .pip{ width: 6px; height: 6px; border-radius: 50%; background: var(--violet); }
+  .slide.dark .kicker{ color: rgba(255,255,255,.55); }
+
+  /* Cover */
+  .cover{ text-align:center; }
+  .cover-title{ font-family: var(--sans); font-weight: 800; letter-spacing: -0.04em; line-height: 1.02; font-size: clamp(38px, 5.4vw, 80px); color: var(--ink); margin: 0 0 24px 0; }
+  .slide.dark .cover-title{ color:#fff; }
+  .cover-title .grad, .grad{ background: linear-gradient(90deg, var(--cyan), var(--violet) 55%, var(--magenta)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .cover-sub{ font-size: clamp(15px, 1.2vw, 18px); color: var(--muted); max-width: 680px; margin: 0 auto 40px; line-height: 1.55; font-weight: 400; }
+  .slide.dark .cover-sub{ color: rgba(255,255,255,.68); }
+  .cover-cta{ font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--violet); display:inline-flex; align-items:center; gap: 12px; }
+  .cover-cta .pip{ width: 7px; height: 7px; border-radius:50%; background: var(--violet); }
+
+  /* Generic title / lead */
+  .h-display{ font-size: clamp(30px, 3.6vw, 52px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.06; margin: 0 0 14px 0; color: var(--ink); }
+  .slide.dark .h-display{ color:#fff; }
+  .h-display .em{ background: linear-gradient(90deg, var(--cyan), var(--violet) 55%, var(--magenta)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lead{ font-size: clamp(14px, 1.05vw, 16.5px); color: var(--muted); max-width: 760px; line-height: 1.55; margin: 0 0 28px 0; }
+  .slide.dark .lead{ color: rgba(255,255,255,.68); }
+  .close-line{ font-size: clamp(16px, 1.5vw, 20px); font-weight: 600; color: var(--ink); letter-spacing: -.01em; line-height: 1.4; margin: 0; }
+
+  /* Stats */
+  .stat-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin: 6px 0 24px; }
+  .stat{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:24px; box-shadow:0 10px 30px -20px rgba(11,11,15,.22); }
+  .stat-num{ font-family:var(--sans); font-weight:800; letter-spacing:-.03em; font-size:clamp(34px,4.2vw,52px); line-height:1; color:var(--ink); }
+  .stat-hero{ font-family:var(--sans); font-weight:800; letter-spacing:-.04em; font-size:clamp(48px,6vw,74px); line-height:1; }
+  .stat-label{ font-size:13px; color:var(--muted); line-height:1.45; margin-top:12px; }
+
+  /* Checklist */
+  .checklist{ display:grid; gap:10px; margin:0; padding:0; list-style:none; }
+  .checklist li{ display:flex; gap:11px; align-items:flex-start; font-size:14.5px; color:var(--ink-2); line-height:1.45; }
+  .checklist li .ck{ flex:none; width:20px; height:20px; border-radius:6px; background:rgba(124,58,237,.08); color:var(--violet); display:grid; place-items:center; margin-top:1px; }
+  .checklist li .ck svg{ width:12px; height:12px; }
+
+  /* Comparison */
+  .cmp-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin: 6px 0 22px; }
+  .cmp-col{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px 22px 24px; box-shadow:0 10px 30px -20px rgba(11,11,15,.22); }
+  .cmp-col.hi{ border-color:var(--violet); }
+  .cmp-name{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+  .cmp-tag{ display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; padding:4px 10px; border-radius:999px; margin:10px 0 14px; }
+  .cmp-tag.low{ background:#F1F1F4; color:var(--muted); }
+  .cmp-tag.high{ background:rgba(124,58,237,.1); color:var(--violet); }
+  .cmp-list{ display:grid; gap:9px; margin:0; padding:0; list-style:none; font-size:13.5px; color:var(--ink-2); line-height:1.45; }
+  .cmp-list li{ padding-left:15px; position:relative; }
+  .cmp-list li::before{ content:''; position:absolute; left:0; top:8px; width:5px; height:5px; border-radius:50%; background:var(--muted-2); }
+
+  /* Plus row */
+  .plus-row{ display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:10px; margin: 4px 0 24px; }
+  .plus-chip{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 18px; font-weight:700; font-size:15px; box-shadow:0 8px 24px -18px rgba(11,11,15,.25); }
+  .plus-op{ color:var(--violet); font-weight:700; font-size:18px; }
+  .center-phrase{ text-align:center; font-size:clamp(23px,3vw,38px); font-weight:800; letter-spacing:-.03em; line-height:1.12; margin: 6px 0 20px; color:var(--ink); }
+
+  /* Flow */
+  .flow{ display:grid; grid-template-columns:1fr auto 1fr; gap:18px; align-items:center; margin: 14px 0 24px; }
+  .flow-box{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px; box-shadow:0 10px 30px -20px rgba(11,11,15,.22); }
+  .flow-box.meta{ border-color:var(--violet); }
+  .flow-box .fb-h{ font-weight:700; font-size:16px; margin-bottom:6px; }
+  .flow-box .fb-t{ font-size:13px; color:var(--muted); line-height:1.5; }
+  .flow-arrow{ color:var(--violet); display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .flow-arrow svg{ width:26px; height:26px; }
+  .flow-arrow .fa-tag{ font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--amber); text-align:center; max-width:130px; line-height:1.35; }
+
+  /* Timeline */
+  .tl{ display:flex; gap:10px; margin: 6px 0 18px; }
+  .tl-step{ flex:1; min-width:0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 16px 18px; box-shadow:0 10px 30px -20px rgba(11,11,15,.22); }
+  .tl-n{ font-family:var(--mono); font-size:12px; font-weight:500; color:var(--violet); letter-spacing:.06em; }
+  .tl-h{ font-weight:700; font-size:14px; margin:8px 0 4px; letter-spacing:-.01em; }
+  .tl-t{ font-size:12px; color:var(--muted); line-height:1.4; }
+
+  /* Generic card */
+  .mm-card{ background:rgba(124,58,237,.05); border:1px solid var(--line); border-radius:16px; padding:18px 22px; }
+  .mm-tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--violet); }
+
+  /* Competitor rows */
+  .comp-rows{ display:grid; gap:10px; margin: 6px 0 20px; }
+  .comp-row{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 20px; box-shadow:0 8px 24px -20px rgba(11,11,15,.2); }
+  .comp-row .cr-name{ font-weight:700; font-size:15px; margin-bottom:3px; }
+  .comp-row .cr-t{ font-size:13px; color:var(--muted); line-height:1.45; }
+
+  /* Price + fee */
+  .fee-card{ background:rgba(124,58,237,.06); border:1px solid var(--violet); border-radius:16px; padding:16px 22px; display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 16px; }
+  .fee-card .fc-tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--violet); }
+  .fee-card .fc-amt{ font-weight:800; font-size:24px; letter-spacing:-.02em; }
+  .fee-card .fc-t{ font-size:13px; color:var(--muted); }
+  .price-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:14px; }
+  .price-c{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:24px; text-align:center; box-shadow:0 10px 30px -20px rgba(11,11,15,.22); }
+  .price-c .pc-amt{ font-weight:800; font-size:30px; letter-spacing:-.02em; }
+  .price-c .pc-per{ font-size:13px; color:var(--muted); margin-top:2px; }
+
+  /* Chain grid */
+  .chain-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px; }
+  .chain-card{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; box-shadow:0 10px 30px -20px rgba(11,11,15,.22); }
+  .chain-card .cc-name{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--violet); margin-bottom:8px; }
+  .chain-card .cc-t{ font-size:13.5px; color:var(--ink-2); line-height:1.5; }
+
+  /* Bars (TAM) */
+  .bars{ display:grid; gap:12px; margin: 12px 0 8px; max-width:600px; }
+  .bar-row{ display:grid; grid-template-columns:120px 1fr auto; gap:14px; align-items:center; }
+  .bar-row .bl{ font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+  .bar-track{ height:14px; background:#F1F1F4; border-radius:999px; overflow:hidden; }
+  .bar-fill{ height:100%; border-radius:999px; background:linear-gradient(90deg,var(--cyan),var(--violet)); }
+  .bar-val{ font-weight:700; font-size:14px; }
+  .secondaries{ display:flex; flex-wrap:wrap; gap:8px 24px; margin-top:14px; font-size:13.5px; color:var(--ink-2); }
+  .secondaries b{ color:var(--ink); }
+  .foot{ font-size:11.5px; color:var(--muted-2); line-height:1.5; margin-top:14px; max-width:840px; }
+
+  /* Milestones (cierre) */
+  .miles{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin: 4px 0 26px; }
+  .mile-date{ font-family:var(--mono); font-size:13px; letter-spacing:.08em; text-transform:uppercase; font-weight:500; color:#fff; }
+  .mile-tag{ font-family:var(--sans); font-size:13px; font-weight:500; color:#fff; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:999px; padding:8px 15px; }
+  .final-grad{ font-size:clamp(19px,2vw,26px); font-weight:700; letter-spacing:-.015em; line-height:1.3; margin:0; max-width:900px; }
+
+  /* Responsive */
+  @media (max-width: 980px){
+    body{ overflow:auto; height:auto; }
+    .hud{ position:static; padding:18px 20px; }
+    body.on-dark .brand{ color:var(--ink); }
+    body.on-dark .meta-tag{ color:var(--muted); }
+    .stage{ height:auto; }
+    .slide{ position:static; opacity:1; pointer-events:auto; transform:none; height:auto; min-height:auto; overflow:visible; padding:44px 20px; border-top:1px solid var(--line); }
+    .slide.dark{ border-top-color:rgba(255,255,255,.12); }
+    .progress-track, .hint, .step-counter{ display:none; }
+    .stat-row, .cmp-grid, .price-row, .chain-grid{ grid-template-columns:1fr; }
+    .flow{ grid-template-columns:1fr; }
+    .flow-arrow svg{ transform:rotate(90deg); }
+    .tl{ flex-direction:column; }
+    .plus-row{ gap:8px; }
+    .bar-row{ grid-template-columns:96px 1fr auto; gap:10px; }
+    .meta-tag{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hud">
+  <div class="brand">clinera<span class="dot"></span>io</div>
+  <div class="meta-tag">Mid-Market · Interno</div>
+</div>
+
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 12</div>
+<div class="hint">Click o <span class="arrow">→</span> para continuar</div>
+<div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+
+<div class="stage" id="stage">
+
+  <!-- 01 — Portada -->
+  <section class="slide dark active" id="slide0">
+    <div class="slide-inner cover">
+      <div class="kicker"><span class="pip"></span>Estrategia 2026–2027 · Interno</div>
+      <h1 class="cover-title">Clinera entra al<br/><span class="grad">Mid-Market Premium</span>.</h1>
+      <p class="cover-sub">Nueva oferta: SaaS + Migración + Configuración + Capacitación + Entrega. Más producto, más compromiso y una migración que deja de ser barrera.</p>
+      <div class="cover-cta"><span class="pip"></span>Click para comenzar →</div>
+    </div>
+  </section>
+
+  <!-- 02 — Clínicas pequeñas -->
+  <section class="slide" id="slide1">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Clinera · Estrategia 2026–2027 · Interno</div>
+      <h2 class="h-display">Las clínicas pequeñas no necesitan <span class="em">más IA</span>.</h2>
+      <p class="lead">Su problema principal suele ser demanda y cultura operativa, no falta de IA.</p>
+      <div class="cmp-grid">
+        <div class="cmp-col">
+          <div class="cmp-name">Clínica chica</div>
+          <span class="cmp-tag low">Bajo ajuste</span>
+          <ul class="cmp-list">
+            <li>Alta sensibilidad al precio y churn alto.</li>
+            <li>Usa pocas funciones avanzadas.</li>
+            <li>Espera que la IA resuelva la falta de marketing.</li>
+          </ul>
+        </div>
+        <div class="cmp-col hi">
+          <div class="cmp-name">Clínica mediana</div>
+          <span class="cmp-tag high">Alto ajuste</span>
+          <ul class="cmp-list">
+            <li>Ya vende, atiende volumen y paga software.</li>
+            <li>Necesita orden, control y operación multi-sede.</li>
+            <li>Sí aprovecha IA, fichas, atribución y difusiones.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="close-line">No abandonamos mercado: concentramos el producto donde genera valor real.</p>
+    </div>
+  </section>
+
+  <!-- 03 — Cliente correcto -->
+  <section class="slide" id="slide2">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Clinera · Estrategia 2026–2027 · Interno</div>
+      <h2 class="h-display">Nuestro cliente correcto ya está <span class="em">creciendo</span>.</h2>
+      <p class="lead">Es demasiado complejo para una agenda genérica y todavía no necesita un equipo TI interno.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="stat-num">2+</div><div class="stat-label">Sucursales o una operación equivalente</div></div>
+        <div class="stat"><div class="stat-num">300+</div><div class="stat-label">Citas mensuales como señal de volumen</div></div>
+        <div class="stat"><div class="stat-num">1</div><div class="stat-label">Software actual que ya le quedó corto</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Tiene recepción, gerente o responsable operativo.</li>
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Invierte en crecimiento y necesita trazabilidad.</li>
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Está dispuesta a centralizar o migrar su operación.</li>
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Puede pagar desde USD 279/mes + implementación.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 04 — TAM -->
+  <section class="slide" id="slide3">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Clinera · Estrategia 2026–2027 · Interno</div>
+      <h2 class="h-display">El TAM Mid-Market Premium ronda 16.000 clínicas.</h2>
+      <p class="lead">Estimación de planificación; separa el universo total de las clínicas que realmente cumplen el ICP.</p>
+      <div class="stat-hero grad">≈16.000</div>
+      <div style="font-size:13px;color:var(--muted);margin:4px 0 6px;">Clínicas en el punto medio del rango</div>
+      <div class="bars">
+        <div class="bar-row"><span class="bl">México · 12K</span><span class="bar-track"><span class="bar-fill" style="width:75%"></span></span><span class="bar-val">12.000</span></div>
+        <div class="bar-row"><span class="bl">Chile · 4K</span><span class="bar-track"><span class="bar-fill" style="width:25%"></span></span><span class="bar-val">4.000</span></div>
+      </div>
+      <div class="secondaries">
+        <span><b>Rango defendible:</b> 13.500–19.000</span>
+        <span><b>USD 72,8M</b> — ARR teórico a USD 379/mes promedio</span>
+      </div>
+      <p class="foot">Método: tamaño por empleados + ventas + filtro de operación existente. No equivale al SOM ni a ventas inmediatas. Fuentes: INEGI/DENUE may-2026 · Data México 6211/6212/6213/6214 · SII Chile 2024.</p>
+    </div>
+  </section>
+
+  <!-- 05 — Data histórica -->
+  <section class="slide" id="slide4">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Clinera · Estrategia 2026–2027 · Interno</div>
+      <h2 class="h-display">La data histórica es <span class="em">la barrera</span> que frena el cambio.</h2>
+      <p class="lead">La clínica mediana sí quiere una plataforma mejor, pero no puede arriesgar fichas, agenda ni continuidad.</p>
+      <div class="flow">
+        <div class="flow-box">
+          <div class="fb-h">Software actual</div>
+          <div class="fb-t">Pacientes · fichas · citas · tratamientos · ventas</div>
+        </div>
+        <div class="flow-arrow">
+          <span class="fa-tag">Riesgo percibido: “¿Y si perdemos algo?”</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </div>
+        <div class="flow-box meta">
+          <div class="fb-h">Clinera operando</div>
+          <div class="fb-t">Una plataforma · IA nativa · operación unificada</div>
+        </div>
+      </div>
+      <p class="close-line">La solución comercial no es prometer más funciones. Es eliminar el riesgo del cambio.</p>
+    </div>
+  </section>
+
+  <!-- 06 — PMA -->
+  <section class="slide" id="slide5">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Clinera · Estrategia 2026–2027 · Interno</div>
+      <h2 class="h-display">El PMA vuelve <span class="em">repetible</span> una migración compleja.</h2>
+      <p class="lead">La IA acelera el mapeo; el ingeniero IA controla excepciones y calidad.</p>
+      <div class="tl">
+        <div class="tl-step"><div class="tl-n">01</div><div class="tl-h">Diagnóstico</div><div class="tl-t">Origen, alcance y accesos</div></div>
+        <div class="tl-step"><div class="tl-n">02</div><div class="tl-h">Extracción</div><div class="tl-t">Base y archivos históricos</div></div>
+        <div class="tl-step"><div class="tl-n">03</div><div class="tl-h">Mapeo IA</div><div class="tl-t">Entidades, campos y relaciones</div></div>
+        <div class="tl-step"><div class="tl-n">04</div><div class="tl-h">Validación</div><div class="tl-t">Totales, duplicados y prueba</div></div>
+        <div class="tl-step"><div class="tl-n">05</div><div class="tl-h">Go-live</div><div class="tl-t">Capacitación, entrega y soporte</div></div>
+      </div>
+      <div class="mm-card" style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;">
+        <span class="mm-tag">Definition of done</span>
+        <span style="font-size:13.5px;color:var(--ink-2);">Sin pérdida de datos · sin interrupción visible · conciliación aprobada · tiempo y horas humanas medidos</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 — Competencia -->
+  <section class="slide" id="slide6">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Clinera · Estrategia 2026–2027 · Interno · Competencia</div>
+      <h2 class="h-display">La cancha <span class="em">competitiva</span>.</h2>
+      <p class="lead">Ellos ya venden IA. Nosotros vendemos otra cosa.</p>
+      <div class="comp-rows">
+        <div class="comp-row"><div class="cr-name">AgendaPro</div><div class="cr-t">Serie B US$35M para IA, “Sofía IA”, claim “90% menos inasistencias” sin fuente.</div></div>
+        <div class="comp-row"><div class="cr-name">Dentalink/Medilink (Healthatom)</div><div class="cr-t">Suite de 8 herramientas IA operativa desde jun-2026, campaña “Cámbiate” activa.</div></div>
+        <div class="comp-row"><div class="cr-name">Reservo</div><div class="cr-t">Cero IA visible, reportes básicos, casi sin ads: el objetivo más blando.</div></div>
+        <div class="comp-row"><div class="cr-name">Encuadrado</div><div class="cr-t">Solo transcriptor IA, foco en profesionales independientes.</div></div>
+      </div>
+      <p class="close-line">Nuestro diferenciador no es “tener IA”: es el ingeniero que migra e instala todo + IA vertical + evidencia real + precios públicos.</p>
+    </div>
+  </section>
+
+  <!-- 08 — Nueva oferta -->
+  <section class="slide" id="slide7">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Clinera · Estrategia 2026–2027 · Interno</div>
+      <h2 class="h-display">La nueva oferta responde por el resultado.</h2>
+      <p class="lead">Clinera no entrega una cuenta vacía: entrega una clínica funcionando.</p>
+      <div class="plus-row">
+        <span class="plus-chip">SaaS</span><span class="plus-op">+</span>
+        <span class="plus-chip">Migración</span><span class="plus-op">+</span>
+        <span class="plus-chip">Configuración</span><span class="plus-op">+</span>
+        <span class="plus-chip">Capacitación</span><span class="plus-op">+</span>
+        <span class="plus-chip">Entrega</span>
+      </div>
+      <p class="center-phrase">Clinera es lo que tu software actual <span class="grad">no tiene</span>.</p>
+      <p class="close-line" style="text-align:center;">Una sola empresa responde por la migración, la configuración y la adopción inicial.</p>
+    </div>
+  </section>
+
+  <!-- 09 — Precio califica -->
+  <section class="slide" id="slide8">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Clinera · Estrategia 2026–2027 · Interno</div>
+      <h2 class="h-display">El precio también <span class="em">califica</span> al cliente.</h2>
+      <p class="lead">El fee no es una barrera accidental: es parte de la propuesta Mid-Market Premium.</p>
+      <div class="fee-card">
+        <span class="fc-tag">Implementación obligatoria</span>
+        <span class="fc-amt">USD 450</span>
+        <span class="fc-t">PMA + configuración + capacitación + entrega</span>
+      </div>
+      <div class="price-row">
+        <div class="price-c"><div class="pc-amt">$279</div><div class="pc-per">USD/mes</div></div>
+        <div class="price-c"><div class="pc-amt">$379</div><div class="pc-per">USD/mes</div></div>
+        <div class="price-c"><div class="pc-amt">$479</div><div class="pc-per">USD/mes</div></div>
+      </div>
+      <p class="close-line" style="margin-top:22px;">Menos clientes, mejor ajuste, mayor adopción y una relación comercial más seria.</p>
+    </div>
+  </section>
+
+  <!-- 10 — Números -->
+  <section class="slide" id="slide9">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Clinera · Estrategia 2026–2027 · Interno</div>
+      <h2 class="h-display">Los números que <span class="em">cierran</span>.</h2>
+      <div class="stat-row" style="margin-top:18px;">
+        <div class="stat"><div class="stat-num">9,4%</div><div class="stat-label">La implementación de USD 450 como % del valor año 1 — benchmark sano: hasta 20%</div></div>
+        <div class="stat"><div class="stat-num">≈130%</div><div class="stat-label">Del costo de adquisición cubierto con el cash del mes 1 por cliente</div></div>
+        <div class="stat"><div class="stat-num">17–26x</div><div class="stat-label">LTV/CAC estimado del cliente mediano</div></div>
+      </div>
+      <div class="mm-card">
+        <b style="color:var(--ink);">Reglas comerciales:</b> <span style="color:var(--ink-2);">único descuento 20% en el plan por 3 meses (la implementación nunca se descuenta) · clientes actuales mantienen precios legacy · créditos de IA más baratos para impulsar expansión.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 — Cadena de entrega -->
+  <section class="slide" id="slide10">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Clinera · Estrategia 2026–2027 · Interno</div>
+      <h2 class="h-display">El cambio exige <span class="em">una sola cadena</span> de entrega.</h2>
+      <p class="lead">Marketing, ventas, producto e implementación tienen que vender y cumplir la misma promesa.</p>
+      <div class="chain-grid">
+        <div class="chain-card"><div class="cc-name">Marketing</div><div class="cc-t">Hablarle a clínicas con software actual, crecimiento probado y dolor de centralización.</div></div>
+        <div class="chain-card"><div class="cc-name">Ventas</div><div class="cc-t">Calificar volumen, responsable operativo, sistema actual y disposición real a migrar.</div></div>
+        <div class="chain-card"><div class="cc-name">Producto + Tech</div><div class="cc-t">Convertir PMA en producto: adaptadores, validación, auditoría y automatización.</div></div>
+        <div class="chain-card"><div class="cc-name">Implementación</div><div class="cc-t">Ejecutar PMA, controlar excepciones, capacitar y entregar una operación funcionando.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 — Cierre -->
+  <section class="slide dark" id="slide11">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Decisión</div>
+      <h2 class="h-display">Clinera será la plataforma Mid-Market Premium para clínicas que ya superaron su software actual.</h2>
+      <div class="miles">
+        <span class="mile-date">20 julio</span>
+        <span class="mile-tag">PMA definido</span>
+        <span class="mile-tag">Piloto seleccionado</span>
+        <span class="mile-tag">Alcance USD 450 cerrado</span>
+      </div>
+      <p class="final-grad grad">La promesa no es migrar datos. Es que la clínica siga operando mientras Clinera toma el control.</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const TOTAL_SLIDES = 12;
+  let currentSlide = 0;
+  let isAnimating = false;
+  function $(id){ return document.getElementById(id); }
+
+  function updateProgress(){
+    const pct = (currentSlide / (TOTAL_SLIDES - 1)) * 100;
+    $('progressBar').style.width = pct + '%';
+    const num = String(currentSlide + 1).padStart(2,'0');
+    $('stepCounter').innerHTML = '<span class="current">' + num + '</span> / ' + String(TOTAL_SLIDES).padStart(2,'0');
+  }
+  function setChrome(n){
+    const s = $('slide' + n);
+    document.body.classList.toggle('on-dark', !!(s && s.classList.contains('dark')));
+  }
+  function goToSlide(n){
+    if (n < 0 || n >= TOTAL_SLIDES || isAnimating) return;
+    isAnimating = true;
+    const oldS = $('slide' + currentSlide);
+    const newS = $('slide' + n);
+    oldS.classList.remove('active');
+    oldS.classList.add('exit');
+    setTimeout(function(){
+      oldS.classList.remove('exit');
+      newS.classList.add('active');
+      currentSlide = n;
+      updateProgress();
+      setChrome(n);
+      setTimeout(function(){ isAnimating = false; }, 200);
+    }, 300);
+  }
+
+  const mobileMQ = window.matchMedia('(max-width: 980px)');
+  function isMobile(){ return mobileMQ.matches; }
+
+  document.addEventListener('click', function(e){
+    if (isMobile()) return;
+    if (e.target.closest('a')) return;
+    goToSlide(currentSlide + 1);
+  });
+  document.addEventListener('keydown', function(e){
+    if (isMobile()) return;
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); goToSlide(currentSlide + 1); }
+    if (e.key === 'ArrowLeft'){ e.preventDefault(); if (currentSlide > 0) goToSlide(currentSlide - 1); }
+  });
+  let tsx = 0, tsy = 0;
+  document.addEventListener('touchstart', function(e){ tsx = e.changedTouches[0].screenX; tsy = e.changedTouches[0].screenY; }, { passive: true });
+  document.addEventListener('touchend', function(e){
+    if (isMobile()) return;
+    const dx = tsx - e.changedTouches[0].screenX;
+    const dy = tsy - e.changedTouches[0].screenY;
+    if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
+    if (dx > 0) goToSlide(currentSlide + 1);
+    else if (currentSlide > 0) goToSlide(currentSlide - 1);
+  }, { passive: true });
+
+  setChrome(0);
+  updateProgress();
+</script>
+</body>
+</html>
