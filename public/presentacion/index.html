@@ -2203,6 +2203,15 @@
   .impl-note{ margin-top: 16px; background: rgba(124,58,237,.05); border: 1px solid var(--line); border-radius: 16px; padding: 18px 22px; }
   .impl-note-title{ font-family: var(--sans); font-weight: 700; font-size: 15.5px; color: var(--ink); margin-bottom: 3px; letter-spacing: -.01em; }
   .impl-note-text{ font-family: var(--sans); font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .impl-logos{ margin-top: 6px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .impl-logos-label{ display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 9px; }
+  .impl-logos-row{ display: flex; flex-wrap: wrap; gap: 7px; }
+  .impl-logos-row img{ height: 27px; width: auto; display: block; }
+  .impl-brian{ margin-top: 6px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 12px; }
+  .impl-brian img{ width: 54px; height: 54px; border-radius: 12px; object-fit: cover; object-position: center 18%; border: 1px solid var(--line); flex: none; }
+  .impl-brian-id{ display: flex; flex-direction: column; gap: 2px; }
+  .impl-brian-name{ font-family: var(--sans); font-weight: 700; font-size: 14.5px; letter-spacing: -.01em; color: var(--ink); }
+  .impl-brian-role{ font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--violet); }
   @media (max-width: 900px){
     .impl-timeline{ flex-direction: column; gap: 10px; }
     .impl-arrow{ transform: rotate(90deg); margin: 2px 0; }
@@ -3143,6 +3152,16 @@
           <span class="impl-stage">Etapa 1</span>
           <div class="impl-title">Migración de datos</div>
           <div class="impl-text">Migramos tus fichas clínicas, pacientes y tratamientos desde tu software actual, con conciliación registro por registro. Nada se pierde.</div>
+          <div class="impl-logos">
+            <span class="impl-logos-label">Migramos desde</span>
+            <div class="impl-logos-row">
+              <img src="/images/badges/agendapro.svg" alt="AgendaPro" />
+              <img src="/images/badges/dentalink.svg" alt="Dentalink" />
+              <img src="/images/badges/medilink.svg" alt="Medilink" />
+              <img src="/images/badges/reservo.svg" alt="Reservo" />
+              <img src="/images/badges/doctoralia.svg" alt="Doctoralia" />
+            </div>
+          </div>
         </div>
         <span class="impl-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         <div class="impl-card">
@@ -3150,6 +3169,13 @@
           <span class="impl-stage">Etapa 2</span>
           <div class="impl-title">Configuración total</div>
           <div class="impl-text">Dejamos tu clínica configurada completa: IA, automatizaciones, difusiones, embudo de marketing y plantillas — todo listo para operar.</div>
+          <div class="impl-brian">
+            <img src="/images/team/brian.png" alt="Brian, ingeniero E2E de Clinera" />
+            <div class="impl-brian-id">
+              <span class="impl-brian-name">Brian</span>
+              <span class="impl-brian-role">Ingeniero E2E</span>
+            </div>
+          </div>
         </div>
         <span class="impl-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         <div class="impl-card">
