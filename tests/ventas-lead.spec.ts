@@ -76,9 +76,10 @@ test.describe("Ventas wizard — software + tamaño + payload n8n", () => {
     ).toBeVisible();
     await page.getByRole("button", { name: /Continuar/i }).click();
 
-    // Paso 2 — Filtro (todos califican; 1 suc + 200–500 → prioridad_alta false)
+    // Paso 2 — Filtro (interés Sí + 1 suc + 200–500 → prioridad_alta false)
     await expect(page.getByRole("heading", { level: 2 })).toContainText(/tu clínica/i);
-    await expect(page.getByText("con planes desde")).toBeVisible();
+    await expect(page.getByText(/Te interesa/)).toBeVisible();
+    await page.getByRole("button", { name: /me interesa/i }).click();
     await page.getByRole("button", { name: "1", exact: true }).click();
     await page.getByRole("button", { name: "200–500", exact: true }).click();
     await page.getByRole("button", { name: /Continuar/i }).click();

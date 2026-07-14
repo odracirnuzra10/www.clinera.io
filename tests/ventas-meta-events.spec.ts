@@ -76,9 +76,10 @@ async function fbqNames(page: Page): Promise<FbqCall[]> {
   return page.evaluate(() => (window as unknown as { __fbqCalls: FbqCall[] }).__fbqCalls);
 }
 
-// Recorre el paso 2 (filtro): 1 sucursal + 200–500 pacientes → prioridad_alta false.
+// Recorre el paso 2 (filtro): interés Sí + 1 sucursal + 200–500 → prioridad_alta false.
 async function fillSizeStep(page: Page) {
   await expect(page.getByRole("heading", { level: 2 })).toContainText(/tu clínica/i);
+  await page.getByRole("button", { name: /me interesa/i }).click();
   await page.getByRole("button", { name: "1", exact: true }).click();
   await page.getByRole("button", { name: "200–500", exact: true }).click();
   await page.getByRole("button", { name: /Continuar/i }).click();
@@ -158,6 +159,7 @@ test.describe("Meta events — /ventas wizard", () => {
 
     await page.getByRole("button", { name: "Medilink", exact: true }).click();
     await page.getByRole("button", { name: /Continuar/i }).click();
+    await page.getByRole("button", { name: /me interesa/i }).click();
     await page.getByRole("button", { name: "2", exact: true }).click();
     await page.getByRole("button", { name: "200–500", exact: true }).click();
     await page.getByRole("button", { name: /Continuar/i }).click();

@@ -639,11 +639,13 @@ function Wizard({
   const [step, setStep] = useState(1);
   const [software, setSoftware] = useState<SoftwareId | null>(null);
   const [size, setSize] = useState<SizeAnswers>({ sucursales: null, pacientes: null });
+  const [interes, setInteres] = useState<"si" | "no" | null>(null);
   const [qualification, setQualification] = useState<Qualification | null>(null);
   const [form, setForm] = useState<Form>({ nombre: "", clinica: "", tipoClinica: "", prefix: "+56", phone: "", email: "" });
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
   const [booking, setBooking] = useState<CalBooking | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [declined, setDeclined] = useState(false);
   // El paso de software (paso 1) queda gateado por la misma prop de antes; ambas
   // páginas (/ventas y /hablar-con-ventas) lo activan → flujo de 4 pasos.
   const hasSoftwareStep = enableMigrationQualification;
@@ -673,7 +675,7 @@ function Wizard({
         ))}
       </div>
 
-      {!submitted && hasSoftwareStep && step === softwareStep && (
+      {!submitted && !declined && hasSoftwareStep && step === softwareStep && (
         <StepSoftware
           software={software}
           setSoftware={setSoftware}
@@ -687,10 +689,23 @@ function Wizard({
           }}
         />
       )}
-      {!submitted && step === sizeStep && (
+      {!submitted && !declined && step === sizeStep && (
         <StepSize
           size={size}
           setSize={setSize}
+          interes={interes}
+          onInteres={(v) => {
+            setInteres(v);
+            if (v === "no") {
+              pushDL("no_interesa", {
+                software_actual: software ?? "",
+                software_actual_label: software ? SOFTWARE_LABELS[software] : "",
+              });
+              setDeclined(true);
+            } else {
+              pushDL("interes_confirmado", { software_actual: software ?? "" });
+            }
+          }}
           label={`Paso ${sizeStep} de ${totalSteps}`}
           onBack={hasSoftwareStep ? () => setStep(softwareStep) : undefined}
           onNext={() => {
@@ -725,7 +740,7 @@ function Wizard({
           }}
         />
       )}
-      {!submitted && step === contactStep && (
+      {!submitted && !declined && step === contactStep && (
         <StepContact
           form={form}
           setForm={setForm}
@@ -766,7 +781,7 @@ function Wizard({
           }}
         />
       )}
-      {!submitted && step === calStep && (
+      {!submitted && !declined && step === calStep && (
         <StepCalCom
           form={form}
           software={software}
@@ -777,6 +792,14 @@ function Wizard({
             setBooking(calBooking);
             await submitBookingConfirmation({ form, software, size, qual: qualification, leadCtx, booking: calBooking });
             setSubmitted(true);
+          }}
+        />
+      )}
+      {!submitted && declined && (
+        <StepDeclined
+          onBack={() => {
+            setDeclined(false);
+            setInteres(null);
           }}
         />
       )}
@@ -1240,17 +1263,21 @@ function ChipGroup({
 function StepSize({
   size,
   setSize,
+  interes,
+  onInteres,
   label,
   onBack,
   onNext,
 }: {
   size: SizeAnswers;
   setSize: (s: SizeAnswers) => void;
+  interes: "si" | "no" | null;
+  onInteres: (v: "si" | "no") => void;
   label: string;
   onBack?: () => void;
   onNext: () => void;
 }) {
-  const complete = sizeComplete(size);
+  const complete = interes === "si" && sizeComplete(size);
   return (
     <div>
       {onBack && <BackBtn onClick={onBack} />}
@@ -1265,37 +1292,83 @@ function StepSize({
             ?
           </>
         }
-        sub="Dos datos rápidos para preparar tu reunión."
+        sub="Una pregunta rápida antes de coordinar tu reunión."
       />
 
-      {/* Encuadre de precio / interés */}
+      {/* Pregunta de interés (gate) — precio de entrada */}
       <div
         style={{
           background: "linear-gradient(135deg,#F4F8FF 0%,#FAF5FF 100%)",
           border: "1px solid rgba(124,58,237,.16)",
           borderRadius: 14,
-          padding: "15px 17px",
-          marginBottom: 20,
+          padding: "16px 18px",
+          marginBottom: 18,
         }}
       >
-        <p style={{ fontFamily: "Inter", fontSize: 14, color: "#374151", lineHeight: 1.5, margin: 0 }}>
-          Clinera es un ecosistema IA diseñado para clínicas en crecimiento, con planes desde{" "}
-          <strong style={{ color: "#0A0A0A" }}>US$279/mes</strong>. ¿Estás interesado?
+        <p style={{ fontFamily: "Inter", fontSize: 14, color: "#374151", lineHeight: 1.5, margin: "0 0 12px" }}>
+          Clinera es para clínicas en crecimiento que necesitan ordenarse con IA, desde{" "}
+          <strong style={{ color: "#0A0A0A" }}>US$279/mes</strong>. ¿Te interesa?
         </p>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button
+            type="button"
+            onClick={() => onInteres("si")}
+            style={{
+              flex: 1,
+              padding: "12px 14px",
+              border: "1.5px solid " + (interes === "si" ? "#0A0A0A" : "#D7C9F0"),
+              borderRadius: 12,
+              background: interes === "si" ? "#0A0A0A" : "#fff",
+              color: interes === "si" ? "#fff" : "#0A0A0A",
+              fontFamily: "Inter",
+              fontWeight: 700,
+              fontSize: 14.5,
+              letterSpacing: "-.01em",
+              cursor: "pointer",
+              transition: "all .2s",
+            }}
+          >
+            Sí, me interesa
+          </button>
+          <button
+            type="button"
+            onClick={() => onInteres("no")}
+            style={{
+              flex: "0 0 auto",
+              padding: "12px 18px",
+              border: "1.5px solid #E7EBF0",
+              borderRadius: 12,
+              background: "#fff",
+              color: "#6B7280",
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: 14.5,
+              cursor: "pointer",
+              transition: "all .2s",
+            }}
+          >
+            No
+          </button>
+        </div>
       </div>
 
-      <ChipGroup
-        groupLabel="¿Cuántas sucursales tienes?"
-        options={SUCURSALES_OPTIONS}
-        selected={size.sucursales}
-        onSelect={(o) => setSize({ ...size, sucursales: o })}
-      />
-      <ChipGroup
-        groupLabel="¿Cuántos pacientes atiendes al mes?"
-        options={PACIENTES_OPTIONS}
-        selected={size.pacientes}
-        onSelect={(o) => setSize({ ...size, pacientes: o })}
-      />
+      {/* Datos de tamaño — sólo si dijo que le interesa */}
+      {interes === "si" && (
+        <div key="size-groups" style={{ animation: "ventasFadeUp .3s ease both" }}>
+          <ChipGroup
+            groupLabel="¿Cuántas sucursales tienes?"
+            options={SUCURSALES_OPTIONS}
+            selected={size.sucursales}
+            onSelect={(o) => setSize({ ...size, sucursales: o })}
+          />
+          <ChipGroup
+            groupLabel="¿Cuántos pacientes atiendes al mes?"
+            options={PACIENTES_OPTIONS}
+            selected={size.pacientes}
+            onSelect={(o) => setSize({ ...size, pacientes: o })}
+          />
+        </div>
+      )}
 
       <SubmitBtn enabled={complete} onClick={() => complete && onNext()}>
         Continuar
@@ -1303,6 +1376,62 @@ function StepSize({
           <path d="M5 12h14M12 5l7 7-7 7" />
         </svg>
       </SubmitBtn>
+    </div>
+  );
+}
+
+// Pantalla "No me interesa" — cierre suave, sin lista de espera.
+function StepDeclined({ onBack }: { onBack: () => void }) {
+  return (
+    <div style={{ padding: "24px 0 12px", textAlign: "center" }}>
+      <div
+        style={{
+          width: 64,
+          height: 64,
+          borderRadius: 999,
+          background: "rgba(59,130,246,.10)",
+          border: "2px solid rgba(59,130,246,.28)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          margin: "0 auto 20px",
+          animation: "scaleBounce .5s ease .05s both",
+        }}
+      >
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14 9V5a3 3 0 0 0-6 0v4" />
+          <path d="M5 9h14l1 12H4L5 9z" />
+        </svg>
+      </div>
+      <h2 style={{ fontFamily: "Inter", fontSize: 26, fontWeight: 800, letterSpacing: "-.028em", color: "#0A0A0A", margin: "0 0 10px" }}>
+        Sin problema.
+      </h2>
+      <p style={{ fontFamily: "Inter", fontSize: 15, color: "#4B5563", lineHeight: 1.55, margin: "0 auto 20px", maxWidth: 400 }}>
+        Cuando tu clínica necesite ordenarse con IA, acá vamos a estar para ayudarte a escalarla.
+      </p>
+      <button
+        type="button"
+        onClick={onBack}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 6,
+          background: "transparent",
+          border: "1px solid #E5E7EB",
+          borderRadius: 12,
+          padding: "11px 20px",
+          color: "#0A0A0A",
+          fontFamily: "Inter",
+          fontSize: 14.5,
+          fontWeight: 600,
+          cursor: "pointer",
+        }}
+      >
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        Cambié de opinión
+      </button>
     </div>
   );
 }
