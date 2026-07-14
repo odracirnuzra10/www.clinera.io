@@ -23,7 +23,7 @@ export const HOME_FAQ = [
   },
   {
     q: "¿Funciona para clínicas con varios profesionales?",
-    a: "Sí. Conect incluye 3 usuarios, Advanced 5 y MAX hasta 15 profesionales. Para cadenas multi-sede y sin límite de usuarios está el plan Corporativo.",
+    a: "Sí. Vortex incluye 10 usuarios, Atlas 15 y Summit hasta 25 profesionales. Para cadenas multi-sede y sin límite de usuarios está el plan Corporativo.",
   },
   {
     q: "¿Dónde se guardan los datos de mis pacientes?",

@@ -1,7 +1,7 @@
 import WhatsAppMockup from "./WhatsAppMockup";
 import styles from "@/app/empleado-digital/empleado-digital.module.css";
 
-const STRIPE_MAX = "https://buy.stripe.com/6oU14pdBn9eGeRdgwz1441n";
+const STRIPE_SUMMIT = "https://buy.stripe.com/5kQ6oJbtf3UmdN94NR1441w";
 
 export default function HeroEquipo() {
   return (
@@ -20,13 +20,13 @@ export default function HeroEquipo() {
 
           <div className={styles.heroCtaRow}>
             <a
-              href={STRIPE_MAX}
+              href={STRIPE_SUMMIT}
               className={styles.heroCta}
-              data-plan="max"
-              data-plan-value="279"
-              data-plan-name="MAX signup hero empleado-digital"
+              data-plan="summit"
+              data-plan-value="479"
+              data-plan-name="Summit signup hero empleado-digital"
             >
-              Contratar MAX — USD 279/mes
+              Contratar Summit — USD 479/mes
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path
                   d="M6 3l5 5-5 5"
@@ -41,7 +41,7 @@ export default function HeroEquipo() {
             <div className={styles.statBar} role="list">
               <span role="listitem">
                 <span className={styles.statDot} aria-hidden />
-                <strong>$279</strong> vs ~$950 recepcionista
+                <strong>$479</strong> vs ~$950 recepcionista
               </span>
               <span role="listitem">
                 <strong>24/7</strong> · sin licencias ni vacaciones
@@ -49,7 +49,7 @@ export default function HeroEquipo() {
             </div>
 
             <p className={styles.trustLine}>
-              Desde USD 129/mes · Cancela cuando quieras · Sin permanencia · Pago seguro vía Stripe
+              Desde USD 279/mes · Implementación USD 450 pago único · Cancela cuando quieras · Pago seguro vía Stripe
             </p>
           </div>
         </div>

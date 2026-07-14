@@ -89,7 +89,7 @@ export default function CorporativoBanner() {
               maxWidth: 500,
             }}
           >
-            Todo de Advanced + onboarding white-glove + SLA personalizado + integraciones a
+            Todo de Summit + onboarding white-glove + SLA personalizado + integraciones a
             medida + soporte dedicado + facturación adaptada. Capacidad a medida según tu volumen.
           </p>
         </div>
@@ -124,14 +124,14 @@ export default function CorporativoBanner() {
                 lineHeight: 1,
               }}
             >
-              $1.500
+              $1.900
             </span>
             <span style={{ fontSize: 14, color: "rgba(255,255,255,.55)" }}>USD/mes</span>
           </div>
           <Link
             href="/hablar-con-ventas"
             data-plan="corporativo"
-            data-plan-value="1500"
+            data-plan-value="1900"
             data-plan-name="Corporativo from empleado-digital"
             style={{
               background: "#fff",

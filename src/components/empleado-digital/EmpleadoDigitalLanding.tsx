@@ -34,7 +34,7 @@ export default function EmpleadoDigitalLanding() {
         id="lia"
         eyebrow="02 · 0% vacancia"
         headline="Llena cada hueco con el paciente idóneo."
-        body="LIA escanea tu agenda 24/7. Detecta huecos al instante, elige al mejor candidato por LTV, urgencia e historial, y le pasa la acción a AURA. Incluida en Advanced."
+        body="LIA fiscaliza tu operación 24/7. Detecta huecos y fugas al instante, prioriza por LTV, urgencia e historial, y activa a AURA para llenarlos. Incluida en Summit."
         imageSrc="/agents/lia-fullbody.png"
         imageAlt="LIA — cerebro operacional IA para clínicas"
         reverse

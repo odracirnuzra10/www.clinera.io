@@ -35,42 +35,41 @@ const PLANS: Plan[] = [
     undecided: true,
   },
   {
-    id: "p-conect",
-    value: "Conect",
-    name: "Conect",
+    id: "p-vortex",
+    value: "Vortex",
+    name: "Vortex",
     desc: (
       <>
-        Para clínicas que necesitan conectar todo. Incluye{" "}
-        <strong>3 usuarios</strong> y <strong>1.000 conversaciones / 80 agendamientos al mes</strong>.
-      </>
-    ),
-    tag: { label: "Más elegido" },
-    price: { amount: "US$129", per: "/mes" },
-  },
-  {
-    id: "p-advanced",
-    value: "Advanced",
-    name: "Advanced",
-    desc: (
-      <>
-        Para clínicas que ya están creciendo. Incluye <strong>5 usuarios</strong>,{" "}
-        <strong>1.500 conversaciones / 150 agendamientos al mes</strong> y multisucursal.
-      </>
-    ),
-    price: { amount: "US$179", per: "/mes" },
-  },
-  {
-    id: "p-max",
-    value: "MAX",
-    name: "MAX",
-    desc: (
-      <>
-        Toda la potencia: <strong>15 usuarios</strong>,{" "}
-        <strong>3.200 conversaciones / 500 agendamientos + ~120 llamadas de voz al mes</strong>, con LIA y
-        CAMILA.
+        Para clínicas que ya operan con volumen. Incluye{" "}
+        <strong>10 usuarios</strong> y <strong>28.000 créditos al mes</strong> con AURA por WhatsApp. El agendamiento no consume créditos.
       </>
     ),
     price: { amount: "US$279", per: "/mes" },
+  },
+  {
+    id: "p-atlas",
+    value: "Atlas",
+    name: "Atlas",
+    desc: (
+      <>
+        Suma a CAMILA por voz. Incluye <strong>15 usuarios</strong>,{" "}
+        <strong>37.000 créditos al mes</strong>, 2 sucursales y Webhooks + API.
+      </>
+    ),
+    tag: { label: "Más elegido" },
+    price: { amount: "US$379", per: "/mes" },
+  },
+  {
+    id: "p-summit",
+    value: "Summit",
+    name: "Summit",
+    desc: (
+      <>
+        AURA + CAMILA + LIA fiscalizando. Incluye <strong>25 usuarios</strong>,{" "}
+        <strong>46.000 créditos al mes</strong> y sucursales ilimitadas.
+      </>
+    ),
+    price: { amount: "US$479", per: "/mes" },
   },
 ];
 

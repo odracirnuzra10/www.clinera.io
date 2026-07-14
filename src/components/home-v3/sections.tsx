@@ -232,7 +232,7 @@ export function Hero() {
               <span>+2.400 citas agendadas por IA</span>
               <span style={{ color: "#9CA3AF" }}>·</span>
               <span>
-                Desde <b style={{ color: "#0A0A0A" }}>$129</b> vs ~$950 recepcionista
+                Desde <b style={{ color: "#0A0A0A" }}>$279</b> vs ~$950 recepcionista
               </span>
               <Link
                 href="/efectividad"
@@ -3927,90 +3927,81 @@ export function BillingToggle({ billing, onChange }: { billing: Billing; onChang
   );
 }
 
-export function Pricing({ showCredits = false }: { showCredits?: boolean } = {}) {
+export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) {
   const plans = [
     {
-      name: "Conect",
-      price: "$129",
-      perAppt: "$0.13",
-      credits: "10.000",
-      sub: "AURA por WhatsApp 24/7 + módulo clínico, con agendamiento automático.",
-      tags: [
-        { t: "Agente IA", ok: true },
-        { t: "Módulo Clínico", ok: true },
-      ],
-      features: [
-        "1.000 conversaciones / 80 agendamientos al mes",
-        "3 usuarios incluidos",
-      ],
-      modos: ["Eficiente", "Agentic"],
-      agents: [{ id: "aura", name: "AURA" }] as Agent[],
-      stripe: "https://buy.stripe.com/28EbJ32WJ3Um4cz6VZ1441k",
-      annualMonthly: "$99",
-      annualTotal: "$1.190",
-      saveYear: "$358",
-      stripeAnnual: "https://buy.stripe.com/bJe7sNfJvbmOdN9a8b1441r",
-    },
-    {
-      name: "Advanced",
-      price: "$179",
-      perAppt: "$0.12",
-      credits: "15.000",
-      sub: "Más capacidad y más equipo para clínicas que ya están creciendo.",
-      tags: [
-        { t: "Agente IA", ok: true },
-        { t: "Módulo Clínico", ok: true },
-      ],
-      headline: "Todo de Conect, más",
-      features: [
-        "1.500 conversaciones / 150 agendamientos al mes",
-        "5 usuarios / profesionales",
-        "Multisucursal",
-      ],
-      modos: ["Eficiente", "Agentic"],
-      agents: [{ id: "aura", name: "AURA" }] as Agent[],
-      stripe: "https://buy.stripe.com/4gM00l7cZ8aCfVh6VZ1441m",
-      annualMonthly: "$141",
-      annualTotal: "$1.690",
-      saveYear: "$458",
-      stripeAnnual: "https://buy.stripe.com/9B6dRbapbduW4czfsv1441q",
-    },
-    {
-      name: "MAX",
+      name: "Vortex",
       price: "$279",
-      perAppt: "$0.09",
       credits: "28.000",
-      sub: "Toda la potencia: LIA orquesta y CAMILA llama por voz. Para clínicas que escalan.",
-      featured: true,
-      bestValue: true,
+      impl: "+ USD 450 implementación (pago único)",
+      sub: "AURA responde por WhatsApp 24/7 y agenda sola. Para clínicas que ya operan con volumen.",
       tags: [
-        { t: "Agente IA", ok: true },
+        { t: "AURA (texto)", ok: true },
         { t: "Módulo Clínico", ok: true },
       ],
-      headline: "Todo de Advanced, más",
       features: [
-        "3.200 conversaciones / 500 agendamientos al mes",
-        "~120 llamadas de voz (CAMILA) al mes",
-        "Multisucursal",
-        "Webhooks + API pública",
+        "~2.800 conversaciones · ~400 agendamientos al mes",
+        "El agendamiento no consume créditos",
+        "10 usuarios / profesionales",
+        "1 sucursal",
+      ],
+      modos: ["Eficiente", "Agentic"],
+      agents: [{ id: "aura", name: "AURA" }] as Agent[],
+      stripe: "https://buy.stripe.com/4gM7sN7cZ4Yq9wT5RV1441u",
+    },
+    {
+      name: "Atlas",
+      price: "$379",
+      credits: "37.000",
+      impl: "+ USD 450 implementación (pago único)",
+      sub: "Suma a CAMILA por voz. Para clínicas que necesitan llamar y coordinar sin manos.",
+      featured: true,
+      tags: [
+        { t: "AURA + CAMILA", ok: true },
+        { t: "Webhooks + API", ok: true },
+      ],
+      headline: "Todo de Vortex, más",
+      features: [
+        "~2.900 conversaciones · ~320 min de voz (≈105 llamadas) · ~450 agendamientos",
         "15 usuarios / profesionales",
+        "2 sucursales",
+        "Webhooks + API",
+        "Soporte prioritario",
       ],
       modos: ["Eficiente", "Agentic", "Agentic Pro"],
       agents: [
         { id: "aura", name: "AURA" },
-        { id: "lia", name: "LIA" },
-        { id: "camila", name: "CAMILA", soon: true },
+        { id: "camila", name: "CAMILA" },
       ] as Agent[],
-      stripe: "https://buy.stripe.com/6oU14pdBn9eGeRdgwz1441n",
-      annualMonthly: "$224",
-      annualTotal: "$2.690",
-      saveYear: "$658",
-      stripeAnnual: "https://buy.stripe.com/8x28wRapbfD424r6VZ1441s",
+      stripe: "https://buy.stripe.com/5kQ7sN40Nez08sP9471441v",
+    },
+    {
+      name: "Summit",
+      price: "$479",
+      credits: "46.000",
+      impl: "+ USD 450 implementación (pago único)",
+      sub: "Suma a LIA fiscalizando el 100% de tus conversaciones, con informes diarios y semanales.",
+      tags: [
+        { t: "AURA + CAMILA + LIA", ok: true },
+        { t: "Webhooks + API", ok: true },
+      ],
+      headline: "Todo de Atlas, más",
+      features: [
+        "~3.100 conversaciones · ~440 min de voz (≈145 llamadas) · ~500 agendamientos",
+        "LIA fiscaliza el 100% de las conversaciones + informes diarios y semanales",
+        "25 usuarios / profesionales",
+        "Sucursales ilimitadas",
+        "Soporte dedicado",
+      ],
+      modos: ["Eficiente", "Agentic", "Agentic Pro"],
+      agents: [
+        { id: "aura", name: "AURA" },
+        { id: "camila", name: "CAMILA" },
+        { id: "lia", name: "LIA" },
+      ] as Agent[],
+      stripe: "https://buy.stripe.com/5kQ6oJbtf3UmdN94NR1441w",
     },
   ];
-
-  const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
-  const annual = billing === "annual";
 
   return (
     <section
@@ -4049,22 +4040,18 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
               color: "#0A0A0A",
             }}
           >
-            Tu próximo empleado parte en $129. Y trabaja 24/7.
+            Tu próximo empleado parte en $279. Y trabaja 24/7.
           </h2>
           <p style={{ fontFamily: "Inter", fontSize: 17, color: "#4B5563", margin: 0, lineHeight: 1.55 }}>
-            Una recepcionista te cuesta ~$950 USD/mes en LATAM, trabaja 45 horas semana y se enferma. Un empleado digital de Clinera <b>parte en $129/mes</b>, no descansa y no escala con sueldo. Sin contratos, sin permanencia.
+            Una recepcionista te cuesta ~$950 USD/mes en LATAM, trabaja 45 horas semana y se enferma. Un equipo digital de Clinera —AURA, CAMILA y LIA— <b>parte en $279/mes</b>, no descansa y no escala con sueldo. Sin contratos, sin permanencia.
           </p>
-        </div>
-
-        <div className="reveal" style={{ display: "flex", justifyContent: "center", marginBottom: 44 }}>
-          <BillingToggle billing={billing} onChange={setBilling} />
         </div>
 
         <div
           className="reveal home-pricing-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr 1.18fr",
+            gridTemplateColumns: "1fr 1fr 1fr",
             gap: 24,
             alignItems: "stretch",
           }}
@@ -4121,7 +4108,7 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
                     whiteSpace: "nowrap",
                   }}
                 >
-                  ★ El más elegido · mejor costo/conversación
+                  ★ El más elegido
                 </div>
               )}
               <div
@@ -4146,32 +4133,22 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
                     lineHeight: 1,
                   }}
                 >
-                  {annual ? p.annualMonthly : p.price}
+                  {p.price}
                 </div>
                 <div style={{ fontFamily: "Inter", fontSize: 14, color: "#6B7280" }}>/mes</div>
               </div>
-              <div style={{ minHeight: 20, marginBottom: 8, display: "flex", alignItems: "center" }}>
-                {annual && (
-                  <span style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280" }}>
-                    facturado anual · {p.annualTotal} USD/año
-                  </span>
-                )}
+              <div
+                style={{
+                  fontFamily: "Inter",
+                  fontSize: 12.5,
+                  color: "#6B7280",
+                  fontWeight: 500,
+                  marginTop: 2,
+                  marginBottom: 16,
+                }}
+              >
+                {p.impl}
               </div>
-              {p.perAppt && (
-                <div
-                  style={{
-                    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                    fontSize: 11,
-                    color: p.bestValue ? "#10B981" : "#9CA3AF",
-                    fontWeight: p.bestValue ? 600 : 400,
-                    letterSpacing: "0.02em",
-                    marginTop: 4,
-                    marginBottom: 14,
-                  }}
-                >
-                  {p.perAppt} por conversación
-                </div>
-              )}
               <div
                 style={{
                   fontFamily: "Inter",
@@ -4488,7 +4465,7 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
                   Hablar con ventas
                 </Link>
                 <a
-                  href={annual ? p.stripeAnnual : p.stripe}
+                  href={p.stripe}
                   target="_blank"
                   rel="noopener"
                   style={{
@@ -4505,11 +4482,11 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
                     boxSizing: "border-box",
                   }}
                   data-plan={p.name.toLowerCase()}
-                  data-plan-billing={annual ? "annual" : "monthly"}
-                  data-plan-value={(annual ? p.annualTotal : p.price).replace(/[$.]/g, "")}
-                  data-plan-name={`${p.name} pay ${annual ? "annual" : "monthly"}`}
+                  data-plan-billing="monthly"
+                  data-plan-value={p.price.replace(/[$.]/g, "")}
+                  data-plan-name={`${p.name} pay monthly`}
                 >
-                  {annual ? "Activar plan anual" : "Activar plan"}
+                  Activar plan
                 </a>
                 <div
                   style={{
@@ -4521,11 +4498,51 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
                     marginTop: 2,
                   }}
                 >
-                  Sin permanencia · Implementación $0 · Cancela cuando quieras
+                  Sin permanencia · Onboarding asistido · Operando el mismo día
                 </div>
               </div>
             </article>
           ))}
+        </div>
+
+        <div
+          className="reveal"
+          style={{
+            marginTop: 40,
+            background: "#fff",
+            border: "1px solid #E5E7EB",
+            borderRadius: 18,
+            padding: "28px 32px",
+            boxShadow: "0 4px 24px rgba(0,0,0,.03)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 18 }}>
+            <div>
+              <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "#7C3AED", marginBottom: 6 }}>
+                Tarifario de créditos
+              </div>
+              <div style={{ fontFamily: "Inter", fontSize: 20, fontWeight: 700, color: "#0A0A0A", letterSpacing: "-0.01em" }}>
+                Una sola bolsa. La gastas como quieras.
+              </div>
+            </div>
+            <div style={{ fontFamily: "Inter", fontSize: 13.5, color: "#4B5563", maxWidth: 380, lineHeight: 1.5 }}>
+              El agendamiento no consume créditos. Solo pagas la conversación — el resultado va incluido.
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(190px,1fr))", gap: 12 }}>
+            {[
+              { k: "Conversación de texto (AURA)", v: "10 créditos" },
+              { k: "Agendamiento", v: "0 · incluido" },
+              { k: "Minuto de voz (CAMILA)", v: "25 créditos" },
+              { k: "Fiscalización de LIA", v: "0 · incluida" },
+              { k: "Informes de LIA", v: "~4.000 / mes" },
+            ].map((r) => (
+              <div key={r.k} style={{ background: "#FAFAFA", border: "1px solid #E5E7EB", borderRadius: 12, padding: "14px 16px" }}>
+                <div style={{ fontFamily: "Inter", fontSize: 13, color: "#4B5563", marginBottom: 6, lineHeight: 1.35 }}>{r.k}</div>
+                <div style={{ fontFamily: "Inter", fontSize: 16, fontWeight: 700, color: "#0A0A0A" }}>{r.v}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div
@@ -4539,7 +4556,7 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
             color: "#6B7280",
           }}
         >
-          Una conversación = un intercambio completo de IA con un paciente · un agendamiento crea o mueve la cita en tu agenda
+          Un crédito es la unidad de consumo · conversación de texto (AURA) = 10 créditos · minuto de voz (CAMILA) = 25 · el agendamiento no consume créditos
         </div>
 
         <div
@@ -4629,7 +4646,7 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
                 maxWidth: 480,
               }}
             >
-              Todo de MAX + onboarding white-glove + SLA personalizado + integraciones a medida + soporte dedicado + facturación adaptada.
+              Todo de Summit + onboarding white-glove + SLA personalizado + integraciones a medida + soporte dedicado + facturación adaptada. Implementación cotizada aparte.
             </p>
           </div>
           <div
@@ -4663,7 +4680,7 @@ export function Pricing({ showCredits = false }: { showCredits?: boolean } = {})
                   lineHeight: 1,
                 }}
               >
-                $1.500
+                $1.900
               </span>
               <span style={{ fontSize: 14, color: "rgba(255,255,255,.55)" }}>USD/mes</span>
             </div>

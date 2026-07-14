@@ -25,7 +25,7 @@ export default function PostCTA({ relatedComparativa }: Props) {
 
   const subhead = compLabel
     ? `Tabla lado a lado, dimensiones técnicas, FAQ y cuándo elegir cada uno. O agenda 45 min con ventas y resolvemos tu caso puntual.`
-    : `AURA atendiendo WhatsApp 24/7 con tu agenda y tu base de datos. Demo grabada de 5 minutos o reunión con ventas. Planes desde USD 129/mes, sin permanencia, costo de implementación $0.`;
+    : `AURA atendiendo WhatsApp 24/7 con tu agenda y tu base de datos. Demo grabada de 5 minutos o reunión con ventas. Planes desde USD 279/mes, sin permanencia, con implementación USD 450 pago único.`;
 
   return (
     <section

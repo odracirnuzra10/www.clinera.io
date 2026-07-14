@@ -38,7 +38,7 @@ const items = [
     bullets: [
       "AgendaPro: la más grande en LATAM (20.000+ negocios), horizontal (salud + spa + gym).",
       "Clinera: 100% clínica, IA con LangChain + MCP, memoria contextual real.",
-      "Desde USD 129/mes con 3 usuarios vs USD 19/usuario de AgendaPro.",
+      "Desde USD 279/mes vs USD 19/usuario de AgendaPro.",
     ],
   },
   {
@@ -58,7 +58,7 @@ const items = [
     bullets: [
       "Manual: 2-4h diarias de recepción, 30% no-shows y 40-60% de mensajes fuera de horario sin responder.",
       "Clinera: AURA contesta 24/7 y reduce no-shows a 5-10%.",
-      "Payback en semanas: recuperas ~USD 2.000/mes en no-shows evitados por USD 129/mes.",
+      "Payback en semanas: recuperas ~USD 2.000/mes en no-shows evitados por USD 279/mes.",
     ],
   },
   {

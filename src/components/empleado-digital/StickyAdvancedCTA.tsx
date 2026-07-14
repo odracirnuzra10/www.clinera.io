@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-const STRIPE_MAX = "https://buy.stripe.com/6oU14pdBn9eGeRdgwz1441n";
+const STRIPE_SUMMIT = "https://buy.stripe.com/5kQ6oJbtf3UmdN94NR1441w";
 
 export default function StickyAdvancedCTA() {
   const pathname = usePathname();
@@ -32,15 +32,15 @@ export default function StickyAdvancedCTA() {
 
   return (
     <>
-      <div className="equipo-sticky" role="region" aria-label="Contratar MAX">
+      <div className="equipo-sticky" role="region" aria-label="Contratar Summit">
         <a
-          href={STRIPE_MAX}
+          href={STRIPE_SUMMIT}
           className="equipo-sticky-primary"
-          data-plan="max"
-          data-plan-value="279"
-          data-plan-name="MAX sticky mobile empleado-digital"
+          data-plan="summit"
+          data-plan-value="479"
+          data-plan-name="Summit sticky mobile empleado-digital"
         >
-          Contratar MAX — USD 279/mes
+          Contratar Summit — USD 479/mes
         </a>
         <button
           onClick={dismiss}

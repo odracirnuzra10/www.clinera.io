@@ -84,7 +84,7 @@ export const cruzadas: Record<string, Cruzada> = {
       { feature: "App móvil nativa", A: "yes", B: "no", clinera: "yes" },
       { feature: "Precios públicos en web", A: "yes", B: "no", clinera: "yes" },
       { feature: "Sin permanencia", A: "no", B: "partial", clinera: "yes" },
-      { feature: "Plan inicial USD/mes", A: "$19/usuario", B: "consultar", clinera: "$129 (3 usuarios)" },
+      { feature: "Plan inicial USD/mes", A: "$19/usuario", B: "consultar", clinera: "$279 (VORTEX)" },
     ],
     dimensions: [
       {
@@ -110,7 +110,7 @@ export const cruzadas: Record<string, Cruzada> = {
       {
         title: "Precio y transparencia",
         body:
-          "AgendaPro publica USD 19/usuario/mes (te puede subir rápido si tienes 5+ profesionales). Reservo no publica precios — atiende por formulario o teléfono. Clinera tiene Conect USD 129/mes (3 usuarios incluidos), Advanced USD 179/mes y MAX USD 279/mes, todos sin permanencia.",
+          "AgendaPro publica USD 19/usuario/mes (te puede subir rápido si tienes 5+ profesionales). Reservo no publica precios — atiende por formulario o teléfono. Clinera tiene VORTEX USD 279/mes, ATLAS USD 379/mes y SUMMIT USD 479/mes (bolsa de créditos: 28.000/37.000/46.000), todos sin permanencia.",
       },
     ],
     faqs: [
@@ -175,7 +175,7 @@ export const cruzadas: Record<string, Cruzada> = {
       { feature: "Difusiones masivas WhatsApp", A: "partial", B: "partial", clinera: "yes" },
       { feature: "Precios públicos en web", A: "yes", B: "no", clinera: "yes" },
       { feature: "Setup en menos de 1 hora", A: "yes", B: "no", clinera: "yes" },
-      { feature: "Plan inicial USD/mes", A: "$19/usuario", B: "consultar", clinera: "$129 (3 usuarios)" },
+      { feature: "Plan inicial USD/mes", A: "$19/usuario", B: "consultar", clinera: "$279 (VORTEX)" },
     ],
     dimensions: [
       {
@@ -196,7 +196,7 @@ export const cruzadas: Record<string, Cruzada> = {
       {
         title: "Precio y transparencia",
         body:
-          "AgendaPro publica USD 19/usuario/mes. Medilink no publica precios — atiende por demo/cotización. Clinera publica Conect USD 129/mes, Advanced USD 179, MAX USD 279, todos sin permanencia y con costo de implementación $0.",
+          "AgendaPro publica USD 19/usuario/mes. Medilink no publica precios — atiende por demo/cotización. Clinera publica VORTEX USD 279/mes, ATLAS USD 379 y SUMMIT USD 479 (bolsa de créditos 28.000/37.000/46.000), sin permanencia; implementación USD 450 (pago único) con onboarding asistido — operando el mismo día.",
       },
     ],
     faqs: [
@@ -210,7 +210,7 @@ export const cruzadas: Record<string, Cruzada> = {
       },
       {
         q: "¿Cuál es más caro?",
-        a: "Depende del tamaño. AgendaPro es USD 19/usuario, así que para 5 profesionales son USD 95/mes. Medilink suele cotizarse en USD 100-200/mes para clínicas pequeñas-medianas. Clinera Conect son USD 129/mes con 3 usuarios incluidos.",
+        a: "Depende del tamaño. AgendaPro es USD 19/usuario, así que para 5 profesionales son USD 95/mes. Medilink suele cotizarse en USD 100-200/mes para clínicas pequeñas-medianas. Clinera VORTEX es USD 279/mes.",
       },
       {
         q: "¿Hay alternativas con IA conversacional WhatsApp 24/7?",
@@ -261,7 +261,7 @@ export const cruzadas: Record<string, Cruzada> = {
       { feature: "Difusiones masivas WhatsApp", A: "partial", B: "partial", clinera: "yes" },
       { feature: "App móvil nativa", A: "no", B: "partial", clinera: "yes" },
       { feature: "Precios públicos en web", A: "no", B: "no", clinera: "yes" },
-      { feature: "Plan inicial USD/mes", A: "consultar", B: "consultar", clinera: "$129 (3 usuarios)" },
+      { feature: "Plan inicial USD/mes", A: "consultar", B: "consultar", clinera: "$279 (VORTEX)" },
     ],
     dimensions: [
       {
@@ -287,7 +287,7 @@ export const cruzadas: Record<string, Cruzada> = {
       {
         title: "Precio",
         body:
-          "Ni Reservo ni Medilink publican precios — atienden por cotización. Clinera tiene Conect USD 129/mes, Advanced USD 179, MAX USD 279, todos sin permanencia.",
+          "Ni Reservo ni Medilink publican precios — atienden por cotización. Clinera tiene VORTEX USD 279/mes, ATLAS USD 379 y SUMMIT USD 479 (bolsa de créditos 28.000/37.000/46.000), todos sin permanencia.",
       },
     ],
     faqs: [
@@ -305,7 +305,7 @@ export const cruzadas: Record<string, Cruzada> = {
       },
       {
         q: "¿Hay alternativa con WhatsApp IA en Chile?",
-        a: "Clinera. Es chilena (OACG SpA), opera con IA conversacional WhatsApp 24/7 (AURA, basada en LangChain + MCP), tiene atribución de ventas a campañas Meta/Google, y publica precios desde USD 129/mes.",
+        a: "Clinera. Es chilena (OACG SpA), opera con IA conversacional WhatsApp 24/7 (AURA, basada en LangChain + MCP), tiene atribución de ventas a campañas Meta/Google, y publica precios desde USD 279/mes.",
       },
       {
         q: "¿Puedo usar Clinera sin migrar de Reservo o Medilink?",
@@ -352,7 +352,7 @@ export const cruzadas: Record<string, Cruzada> = {
       { feature: "Precios públicos en web", A: "yes", B: "yes", clinera: "yes" },
       { feature: "Cobertura LATAM", A: "yes", B: "partial", clinera: "yes" },
       { feature: "Sin permanencia", A: "no", B: "partial", clinera: "yes" },
-      { feature: "Plan inicial USD/mes", A: "$19/usuario", B: "$25/profesional", clinera: "$129 (3 usuarios)" },
+      { feature: "Plan inicial USD/mes", A: "$19/usuario", B: "$25/profesional", clinera: "$279 (VORTEX)" },
     ],
     dimensions: [
       {
@@ -378,7 +378,7 @@ export const cruzadas: Record<string, Cruzada> = {
       {
         title: "Precio",
         body:
-          "AgendaPro USD 19/usuario/mes (escala con el equipo). Doctocliq desde USD 25/profesional/mes. Clinera Conect USD 129/mes con 3 usuarios incluidos, Advanced USD 179, MAX USD 279 — todos sin permanencia.",
+          "AgendaPro USD 19/usuario/mes (escala con el equipo). Doctocliq desde USD 25/profesional/mes. Clinera VORTEX USD 279/mes, ATLAS USD 379, SUMMIT USD 479 (bolsa de créditos 28.000/37.000/46.000) — todos sin permanencia.",
       },
     ],
     faqs: [
@@ -392,7 +392,7 @@ export const cruzadas: Record<string, Cruzada> = {
       },
       {
         q: "¿Cuál es más caro?",
-        a: "Depende del tamaño del equipo. AgendaPro es USD 19/usuario, Doctocliq desde USD 25/profesional. Para una clínica de 4 personas: AgendaPro ~USD 76, Doctocliq ~USD 100. Clinera Conect USD 129 fijo con 3 usuarios, con IA conversacional incluida.",
+        a: "Depende del tamaño del equipo. AgendaPro es USD 19/usuario, Doctocliq desde USD 25/profesional. Para una clínica de 4 personas: AgendaPro ~USD 76, Doctocliq ~USD 100. Clinera VORTEX USD 279/mes fijo, con IA conversacional incluida.",
       },
       {
         q: "¿Hay opción con IA conversacional WhatsApp?",
@@ -443,7 +443,7 @@ export const cruzadas: Record<string, Cruzada> = {
       { feature: "App móvil nativa", A: "no", B: "yes", clinera: "yes" },
       { feature: "Precios públicos en web", A: "no", B: "yes", clinera: "yes" },
       { feature: "Sin permanencia", A: "partial", B: "partial", clinera: "yes" },
-      { feature: "Plan inicial USD/mes", A: "consultar", B: "$25/profesional", clinera: "$129 (3 usuarios)" },
+      { feature: "Plan inicial USD/mes", A: "consultar", B: "$25/profesional", clinera: "$279 (VORTEX)" },
     ],
     dimensions: [
       {
@@ -469,7 +469,7 @@ export const cruzadas: Record<string, Cruzada> = {
       {
         title: "Precio y transparencia",
         body:
-          "Reservo no publica precios — atiende por cotización. Doctocliq publica desde USD 25/profesional. Clinera publica Conect USD 129/mes (3 usuarios incluidos), Advanced USD 179, MAX USD 279, sin permanencia.",
+          "Reservo no publica precios — atiende por cotización. Doctocliq publica desde USD 25/profesional. Clinera publica VORTEX USD 279/mes, ATLAS USD 379, SUMMIT USD 479 (bolsa de créditos 28.000/37.000/46.000), sin permanencia.",
       },
     ],
     faqs: [
@@ -534,7 +534,7 @@ export const cruzadas: Record<string, Cruzada> = {
       { feature: "App móvil nativa", A: "partial", B: "yes", clinera: "yes" },
       { feature: "Precios públicos en web", A: "no", B: "yes", clinera: "yes" },
       { feature: "Sin permanencia", A: "no", B: "partial", clinera: "yes" },
-      { feature: "Plan inicial USD/mes", A: "consultar", B: "$25/profesional", clinera: "$129 (3 usuarios)" },
+      { feature: "Plan inicial USD/mes", A: "consultar", B: "$25/profesional", clinera: "$279 (VORTEX)" },
     ],
     dimensions: [
       {
@@ -560,7 +560,7 @@ export const cruzadas: Record<string, Cruzada> = {
       {
         title: "Precio y transparencia",
         body:
-          "Medilink no publica precios. Doctocliq desde USD 25/profesional. Clinera Conect USD 129/mes (3 usuarios incluidos), Advanced USD 179, MAX USD 279, todos sin permanencia.",
+          "Medilink no publica precios. Doctocliq desde USD 25/profesional. Clinera VORTEX USD 279/mes, ATLAS USD 379, SUMMIT USD 479 (bolsa de créditos 28.000/37.000/46.000), todos sin permanencia.",
       },
     ],
     faqs: [
@@ -625,7 +625,7 @@ cruzadas["dentalink-vs-reservo"] = {
     { feature: "Facturación electrónica DTE Chile", A: "partial", B: "yes", clinera: "partial" },
     { feature: "Cobertura LATAM (no solo Chile)", A: "yes", B: "no", clinera: "yes" },
     { feature: "Precios públicos en web", A: "no", B: "no", clinera: "yes" },
-    { feature: "Plan inicial USD/mes", A: "consultar", B: "consultar", clinera: "$129 (3 usuarios)" },
+    { feature: "Plan inicial USD/mes", A: "consultar", B: "consultar", clinera: "$279 (VORTEX)" },
   ],
   dimensions: [
     {
@@ -651,7 +651,7 @@ cruzadas["dentalink-vs-reservo"] = {
     {
       title: "Precio y transparencia",
       body:
-        "Ni Dentalink ni Reservo publican precios — atienden por demo o cotización. Clinera publica Conect USD 129/mes con 3 usuarios, sin permanencia y con costo de implementación $0.",
+        "Ni Dentalink ni Reservo publican precios — atienden por demo o cotización. Clinera publica VORTEX USD 279/mes, sin permanencia; implementación USD 450 (pago único) con onboarding asistido — operando el mismo día.",
     },
   ],
   faqs: [
@@ -673,7 +673,7 @@ cruzadas["dentalink-vs-reservo"] = {
     },
     {
       q: "¿Cuál es más caro?",
-      a: "Ni Dentalink ni Reservo publican precios. Para clínicas pequeñas-medianas suelen estar en USD 80-200/mes según módulos. Clinera Conect es USD 129/mes fijo con 3 usuarios incluidos.",
+      a: "Ni Dentalink ni Reservo publican precios. Para clínicas pequeñas-medianas suelen estar en USD 80-200/mes según módulos. Clinera VORTEX es USD 279/mes fijo.",
     },
   ],
   publishedAt: "2026-04-25",
@@ -716,7 +716,7 @@ cruzadas["sacmed-vs-medilink"] = {
     { feature: "Facturación electrónica DTE Chile", A: "yes", B: "yes", clinera: "partial" },
     { feature: "Cobertura LATAM (no solo Chile)", A: "no", B: "no", clinera: "yes" },
     { feature: "Precios públicos en web", A: "yes", B: "no", clinera: "yes" },
-    { feature: "Plan inicial mensual", A: "$26.000 CLP (~$27)", B: "consultar", clinera: "$129 (3 usuarios)" },
+    { feature: "Plan inicial mensual", A: "$26.000 CLP (~$27)", B: "consultar", clinera: "$279 (VORTEX)" },
   ],
   dimensions: [
     {
@@ -742,7 +742,7 @@ cruzadas["sacmed-vs-medilink"] = {
     {
       title: "Precio",
       body:
-        "Sacmed publica desde $26.000 CLP/mes (~USD 27) en plan Starter — el más accesible de los chilenos. Medilink no publica precios. Clinera publica Conect USD 129/mes con 3 usuarios incluidos. Sacmed gana en precio nominal; Clinera gana en valor por dólar para clínicas con marketing digital.",
+        "Sacmed publica desde $26.000 CLP/mes (~USD 27) en plan Starter — el más accesible de los chilenos. Medilink no publica precios. Clinera publica VORTEX desde USD 279/mes. Sacmed gana en precio nominal; Clinera gana en valor por dólar para clínicas con marketing digital.",
     },
   ],
   faqs: [
@@ -805,7 +805,7 @@ cruzadas["dentalink-vs-sacmed"] = {
     { feature: "Integración MCP / API para IA externa", A: "no", B: "no", clinera: "yes" },
     { feature: "Cobertura LATAM (no solo Chile)", A: "yes", B: "no", clinera: "yes" },
     { feature: "Precios públicos en web", A: "no", B: "yes", clinera: "yes" },
-    { feature: "Plan inicial mensual", A: "consultar", B: "$26.000 CLP (~$27)", clinera: "$129 (3 usuarios)" },
+    { feature: "Plan inicial mensual", A: "consultar", B: "$26.000 CLP (~$27)", clinera: "$279 (VORTEX)" },
   ],
   dimensions: [
     {
@@ -845,7 +845,7 @@ cruzadas["dentalink-vs-sacmed"] = {
     },
     {
       q: "¿Cuál es más caro?",
-      a: "Sacmed publica desde $26.000 CLP/mes (~USD 27) en plan Starter — el más barato. Dentalink no publica precios. Clinera Conect es USD 129/mes con 3 usuarios incluidos.",
+      a: "Sacmed publica desde $26.000 CLP/mes (~USD 27) en plan Starter — el más barato. Dentalink no publica precios. Clinera VORTEX es USD 279/mes.",
     },
     {
       q: "¿Sirve fuera de Chile?",

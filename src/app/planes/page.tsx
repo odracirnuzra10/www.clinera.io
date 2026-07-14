@@ -6,15 +6,15 @@ import TrialBanner from "@/components/cro/TrialBanner";
 import { PLANES_FAQ } from "@/content/planes-faq";
 
 export const metadata: Metadata = {
-  title: "Planes y Precios — Clinera.io (desde USD 129/mes)",
+  title: "Planes y Precios — Clinera.io (desde USD 279/mes)",
   description:
-    "Conect USD 129/mes (1.000 conversaciones / 80 agendamientos + modo automático), Advanced USD 179/mes (1.500 conversaciones / 150 agendamientos · 5 usuarios), MAX USD 279/mes (3.200 conversaciones / 500 agendamientos + LIA y CAMILA por voz). Plan Corporativo desde USD 1.500/mes personalizado. AURA agenda por WhatsApp 24/7. Sin permanencia.",
+    "Vortex USD 279/mes (28.000 créditos · AURA por WhatsApp), Atlas USD 379/mes (37.000 créditos · AURA + CAMILA por voz · Webhooks/API), Summit USD 479/mes (46.000 créditos · AURA + CAMILA + LIA fiscalizando). Una sola bolsa de créditos: el agendamiento no consume. Implementación USD 450 (pago único). Plan Corporativo desde USD 1.900/mes. Sin permanencia.",
   alternates: { canonical: "https://www.clinera.io/planes" },
   openGraph: {
     url: "https://www.clinera.io/planes",
     title: "Planes y Precios — Clinera.io",
     description:
-      "3 planes para clínicas en LATAM. Desde USD 129/mes, sin permanencia.",
+      "3 planes con bolsa de créditos para clínicas en LATAM. Desde USD 279/mes + USD 450 de implementación, sin permanencia.",
     type: "website",
   },
 };
@@ -25,10 +25,10 @@ const jsonLd = {
   name: "Clinera.io",
   description: "Software de IA para clínicas",
   offers: [
-    { "@type": "Offer", name: "Conect",      price: "129",  priceCurrency: "USD", url: "https://www.clinera.io/planes" },
-    { "@type": "Offer", name: "Advanced",    price: "179",  priceCurrency: "USD", url: "https://www.clinera.io/planes" },
-    { "@type": "Offer", name: "MAX",         price: "279",  priceCurrency: "USD", url: "https://www.clinera.io/planes" },
-    { "@type": "Offer", name: "Corporativo", price: "1500", priceCurrency: "USD", url: "https://www.clinera.io/planes", availability: "https://schema.org/PreOrder", description: "Plan personalizado desde USD 1.500/mes" },
+    { "@type": "Offer", name: "Vortex", price: "279",  priceCurrency: "USD", url: "https://www.clinera.io/planes" },
+    { "@type": "Offer", name: "Atlas",  price: "379",  priceCurrency: "USD", url: "https://www.clinera.io/planes" },
+    { "@type": "Offer", name: "Summit", price: "479",  priceCurrency: "USD", url: "https://www.clinera.io/planes" },
+    { "@type": "Offer", name: "Corporativo", price: "1900", priceCurrency: "USD", url: "https://www.clinera.io/planes", availability: "https://schema.org/PreOrder", description: "Plan personalizado desde USD 1.900/mes" },
   ],
 };
 

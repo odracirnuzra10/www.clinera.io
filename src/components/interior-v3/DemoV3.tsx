@@ -1,74 +1,71 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
-import { useReveal, BillingToggle, type Billing } from "@/components/home-v3/sections";
+import { useReveal } from "@/components/home-v3/sections";
 
-type DemoAgent = { id: "aura" | "lia" | "camila"; name: string; soon?: boolean };
+type DemoAgent = { id: "aura" | "lia" | "camila"; name: string };
 
 const PLANS = [
   {
-    name: "Conect",
-    slug: "conect",
-    price: "129",
-    tagline: "AURA por WhatsApp 24/7 + módulo clínico, con agendamiento automático.",
-    features: [
-      "1.000 conversaciones / 80 agendamientos al mes",
-      "Con modo automático de agendamiento",
-      "3 usuarios incluidos",
-    ],
-    models: ["Gemini 3.0 Flash", "Kimi K2.6"],
-    agents: [{ id: "aura", name: "AURA" }] as DemoAgent[],
-    stripeUrl: "https://buy.stripe.com/28EbJ32WJ3Um4cz6VZ1441k",
-    annualMonthly: "99",
-    annualTotal: "1.190",
-    saveYear: "358",
-    stripeUrlAnnual: "https://buy.stripe.com/bJe7sNfJvbmOdN9a8b1441r",
-  },
-  {
-    name: "Advanced",
-    slug: "advanced",
-    price: "179",
-    tagline: "Más capacidad y más equipo para clínicas que ya están creciendo.",
-    features: [
-      "1.500 conversaciones / 150 agendamientos al mes",
-      "Con modo automático de agendamiento",
-      "5 usuarios / profesionales",
-      "Multisucursal",
-    ],
-    models: ["Gemini 3.0 Flash", "Kimi K2.6"],
-    agents: [{ id: "aura", name: "AURA" }] as DemoAgent[],
-    stripeUrl: "https://buy.stripe.com/4gM00l7cZ8aCfVh6VZ1441m",
-    annualMonthly: "141",
-    annualTotal: "1.690",
-    saveYear: "458",
-    stripeUrlAnnual: "https://buy.stripe.com/9B6dRbapbduW4czfsv1441q",
-  },
-  {
-    name: "MAX",
-    slug: "max",
+    name: "Vortex",
+    slug: "vortex",
     price: "279",
-    tagline: "Toda la potencia: LIA orquesta y CAMILA llama por voz. Para clínicas que escalan.",
+    tagline: "AURA por WhatsApp 24/7 con agendamiento automático. Modo Eficiente + Agentic.",
+    features: [
+      "28.000 créditos / mes (bolsa única)",
+      "AURA por texto — WhatsApp 24/7",
+      "El agendamiento no consume créditos",
+      "10 usuarios / profesionales",
+      "1 sucursal",
+      "Modos Eficiente + Agentic",
+    ],
+    models: ["Gemini 3.0 Flash", "Kimi K2.6"],
+    agents: [{ id: "aura", name: "AURA" }] as DemoAgent[],
+    stripeUrl: "https://buy.stripe.com/4gM7sN7cZ4Yq9wT5RV1441u",
+  },
+  {
+    name: "Atlas",
+    slug: "atlas",
+    price: "379",
+    tagline: "AURA por texto + CAMILA por voz. Más equipo, más sucursales, Agentic Pro.",
     popular: true,
     features: [
-      "3.200 conversaciones / 500 agendamientos al mes",
-      "~120 llamadas de voz (CAMILA) al mes",
-      "Multisucursal",
-      "Webhooks + API pública",
+      "37.000 créditos / mes (bolsa única)",
+      "AURA por texto + CAMILA por voz",
+      "El agendamiento no consume créditos",
       "15 usuarios / profesionales",
+      "2 sucursales",
+      "+ Agentic Pro",
+      "Webhooks + API pública",
     ],
     models: ["Gemini 3.0 Flash", "Kimi K2.6", "Gemini 3.5 Flash"],
     agents: [
       { id: "aura", name: "AURA" },
-      { id: "lia", name: "LIA" },
-      { id: "camila", name: "CAMILA", soon: true },
+      { id: "camila", name: "CAMILA" },
     ] as DemoAgent[],
-    stripeUrl: "https://buy.stripe.com/6oU14pdBn9eGeRdgwz1441n",
-    annualMonthly: "224",
-    annualTotal: "2.690",
-    saveYear: "658",
-    stripeUrlAnnual: "https://buy.stripe.com/8x28wRapbfD424r6VZ1441s",
+    stripeUrl: "https://buy.stripe.com/5kQ7sN40Nez08sP9471441v",
+  },
+  {
+    name: "Summit",
+    slug: "summit",
+    price: "479",
+    tagline: "AURA + CAMILA + LIA. LIA fiscaliza y audita. Para clínicas que escalan.",
+    features: [
+      "46.000 créditos / mes (bolsa única)",
+      "AURA + CAMILA + LIA (fiscaliza)",
+      "El agendamiento no consume créditos",
+      "25 usuarios / profesionales",
+      "Sucursales ilimitadas",
+      "Webhooks + API pública",
+    ],
+    models: ["Gemini 3.0 Flash", "Kimi K2.6", "Gemini 3.5 Flash"],
+    agents: [
+      { id: "aura", name: "AURA" },
+      { id: "camila", name: "CAMILA" },
+      { id: "lia", name: "LIA" },
+    ] as DemoAgent[],
+    stripeUrl: "https://buy.stripe.com/5kQ6oJbtf3UmdN94NR1441w",
   },
 ];
 
@@ -332,12 +329,10 @@ function CapabilitiesSection() {
 }
 
 function PlansSection() {
-  const [billing, setBilling] = useState<Billing>("monthly");
-  const annual = billing === "annual";
   return (
     <section style={{ padding: "96px 80px", background: "#FAFAFA", borderTop: "1px solid #F0F0F0" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div className="reveal" style={{ textAlign: "center", marginBottom: 32 }}>
+        <div className="reveal" style={{ textAlign: "center", marginBottom: 44 }}>
           <Eyebrow>Precios</Eyebrow>
           <h2
             style={{
@@ -353,11 +348,8 @@ function PlansSection() {
             Elige tu plan y activa hoy.
           </h2>
           <p style={{ fontFamily: "Inter", fontSize: 17, color: "#4B5563", margin: 0 }}>
-            Sin permanencia · sin costo de implementación · precios en USD.
+            Sin permanencia · implementación USD 450 pago único · precios en USD.
           </p>
-        </div>
-        <div className="reveal" style={{ display: "flex", justifyContent: "center", marginBottom: 44 }}>
-          <BillingToggle billing={billing} onChange={setBilling} />
         </div>
         <div
           className="demo-plans-grid"
@@ -412,7 +404,7 @@ function PlansSection() {
                         marginBottom: 14,
                       }}
                     >
-                      Recomendado · mejor costo/conversación
+                      El más elegido
                     </span>
                   )}
                   <h3
@@ -440,18 +432,16 @@ function PlansSection() {
                   <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 6 }}>
                     <span style={{ fontFamily: "Inter", fontSize: 20, fontWeight: 600 }}>$</span>
                     <span style={{ fontFamily: "Inter", fontSize: 48, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1 }}>
-                      {annual ? plan.annualMonthly : plan.price}
+                      {plan.price}
                     </span>
                     <span style={{ fontFamily: "Inter", fontSize: 14, color: popular ? "rgba(255,255,255,.7)" : "#6B7280", marginLeft: 4 }}>
                       USD/mes
                     </span>
                   </div>
                   <div style={{ minHeight: 20, marginBottom: 20, display: "flex", alignItems: "center" }}>
-                    {annual && (
-                      <span style={{ fontFamily: "Inter", fontSize: 12.5, color: popular ? "rgba(255,255,255,.7)" : "#6B7280" }}>
-                        facturado anual · ${plan.annualTotal}/año
-                      </span>
-                    )}
+                    <span style={{ fontFamily: "Inter", fontSize: 12.5, color: popular ? "rgba(255,255,255,.7)" : "#6B7280" }}>
+                      Bolsa única de créditos · sin costo por conversación
+                    </span>
                   </div>
                   <ul style={{ listStyle: "none", padding: 0, margin: "0 0 16px", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
                     {plan.features.map((f) => (
@@ -608,25 +598,6 @@ function PlansSection() {
                                 {a.name.charAt(0)}
                               </span>
                               {a.name}
-                              {a.soon && (
-                                <span
-                                  style={{
-                                    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                                    fontSize: 8,
-                                    fontWeight: 700,
-                                    letterSpacing: "0.08em",
-                                    textTransform: "uppercase",
-                                    color: popular ? "#C4B5FD" : "#7C3AED",
-                                    background: popular ? "rgba(196,181,253,.16)" : "rgba(124,58,237,.10)",
-                                    border: popular ? "1px solid rgba(196,181,253,.32)" : "1px solid rgba(124,58,237,.22)",
-                                    borderRadius: 4,
-                                    padding: "1px 5px",
-                                    marginLeft: 2,
-                                  }}
-                                >
-                                  pronto
-                                </span>
-                              )}
                             </span>
                           );
                         })}
@@ -655,13 +626,13 @@ function PlansSection() {
                     Hablar con ventas
                   </Link>
                   <a
-                    href={annual ? plan.stripeUrlAnnual : plan.stripeUrl}
+                    href={plan.stripeUrl}
                     target="_blank"
                     rel="noopener"
                     data-plan={plan.slug}
-                    data-plan-billing={annual ? "annual" : "monthly"}
-                    data-plan-value={annual ? plan.annualTotal.replace(/\./g, "") : plan.price}
-                    data-plan-name={`${plan.name} pay ${annual ? "annual" : "monthly"}`}
+                    data-plan-billing="monthly"
+                    data-plan-value={plan.price}
+                    data-plan-name={`${plan.name} pay monthly`}
                     style={{
                       background: popular ? "rgba(255,255,255,.1)" : "#fff",
                       color: popular ? "#fff" : "#0A0A0A",
@@ -675,7 +646,7 @@ function PlansSection() {
                       textAlign: "center",
                     }}
                   >
-                    {annual ? "Activar plan anual →" : "Activar plan →"}
+                    Activar plan →
                   </a>
                   <p
                     style={{
@@ -770,7 +741,7 @@ function PlansSection() {
                 maxWidth: 460,
               }}
             >
-              Todo de MAX + onboarding white-glove + SLA personalizado + integraciones a medida + soporte dedicado.
+              Todo de Summit + onboarding white-glove + SLA personalizado + integraciones a medida + soporte dedicado.
             </p>
           </div>
           <div
@@ -804,14 +775,14 @@ function PlansSection() {
                   lineHeight: 1,
                 }}
               >
-                $1.500
+                $1.900
               </span>
               <span style={{ fontSize: 14, color: "rgba(255,255,255,.55)" }}>USD/mes</span>
             </div>
             <Link
               href="/hablar-con-ventas"
               data-plan="corporativo"
-              data-plan-value="1500"
+              data-plan-value="1900"
               data-plan-name="Corporativo talk-to-sales"
               style={{
                 background: "#fff",
@@ -835,7 +806,7 @@ function PlansSection() {
           style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 20, maxWidth: 660, margin: "48px auto 0" }}
         >
           {[
-            { price: "$100", unit: "única vez", label: "Add-on de conversaciones", sub: "~300 conversaciones por texto o ~50 llamadas de voz" },
+            { price: "$100", unit: "única vez", label: "Recarga de créditos", sub: "~3.000 créditos extra para tu bolsa (texto o voz)" },
             { price: "$9", unit: "/mes", label: "Profesional o usuario extra", sub: "" },
           ].map((it) => (
             <div

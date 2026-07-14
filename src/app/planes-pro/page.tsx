@@ -10,7 +10,7 @@ const URL = "https://www.clinera.io/planes-pro";
 export const metadata: Metadata = {
   title: "Planes Pro · precios y créditos explicados al detalle — Clinera.io",
   description:
-    "La vista a fondo de los planes de Clinera: qué es un crédito, por qué una conversación no siempre cuesta lo mismo (Eficiente ~10 vs Agentic ~195) y cuánto rinde cada plan. Conect 10.000 cr, Advanced 15.000 cr, MAX 28.000 cr. Calculadora de consumo incluida. Sin permanencia.",
+    "La vista a fondo de los planes de Clinera: qué es un crédito, por qué una conversación no siempre cuesta lo mismo (Eficiente ~10 vs Agentic ~195) y cuánto rinde cada plan. Vortex 28.000 cr, Atlas 37.000 cr, Summit 46.000 cr. Calculadora de consumo incluida. Sin permanencia · + USD 450 implementación (pago único).",
   alternates: { canonical: URL },
   openGraph: {
     type: "website",
@@ -45,7 +45,7 @@ const FAQS: { q: string; a: string; confirmar?: boolean }[] = [
   },
   {
     q: "¿Qué pasa si se me acaban los créditos del mes?",
-    a: "No se corta el servicio de golpe ni hay cobros sorpresa. Puedes sumar un pack de créditos adicionales ($50 = 5.000 créditos) cuando lo necesites, o subir de plan. La calculadora de esta página te muestra de antemano cuántos packs harían falta a tu volumen para que no te tome por sorpresa.",
+    a: "No se corta el servicio de golpe ni hay cobros sorpresa. Puedes sumar una recarga de créditos (USD 55 = 5.000 créditos) cuando lo necesites, o subir de plan. La calculadora de esta página te muestra de antemano cuántas recargas harían falta a tu volumen para que no te tome por sorpresa.",
   },
   {
     q: "¿Los créditos no usados se acumulan o vencen?",
@@ -54,8 +54,7 @@ const FAQS: { q: string; a: string; confirmar?: boolean }[] = [
   },
   {
     q: "¿Las llamadas de voz (CAMILA) consumen créditos?",
-    a: "Sí, las llamadas de voz consumen créditos aparte de las conversaciones de texto. El costo exacto por llamada está [CONFIRMAR] y por eso aún no lo incluimos en la calculadora.",
-    confirmar: true,
+    a: "Sí. CAMILA atiende por voz y consume de la misma bolsa: cada minuto de voz gasta 25 créditos, aparte de las conversaciones de texto de AURA. El agendamiento que resulte de esa llamada no consume créditos.",
   },
   {
     q: "¿Puedo cambiar de plan cuando quiera?",
@@ -67,7 +66,7 @@ const FAQS: { q: string; a: string; confirmar?: boolean }[] = [
   },
   {
     q: "¿Incluye implementación?",
-    a: "Sí, la implementación es $0 en todos los planes. No hay costo de setup ni de onboarding: empiezas a usar Clinera sin una inversión inicial.",
+    a: "La implementación es un pago único de USD 450 en los tres planes (Vortex, Atlas y Summit). Es un onboarding asistido por una persona: configuramos tus agentes, tu agenda y tus flujos contigo antes de salir a producción. Es la única inversión inicial y no se repite.",
   },
 ];
 
@@ -78,10 +77,10 @@ const planOffers = {
   description: "Software de IA para clínicas médicas y estéticas en LATAM. Planes con créditos visibles.",
   brand: { "@type": "Brand", name: "Clinera.io" },
   offers: [
-    { "@type": "Offer", name: "Conect", price: "129", priceCurrency: "USD", url: URL },
-    { "@type": "Offer", name: "Advanced", price: "179", priceCurrency: "USD", url: URL },
-    { "@type": "Offer", name: "MAX", price: "279", priceCurrency: "USD", url: URL },
-    { "@type": "Offer", name: "Corporativo", price: "1500", priceCurrency: "USD", url: "https://www.clinera.io/hablar-con-ventas" },
+    { "@type": "Offer", name: "Vortex", price: "279", priceCurrency: "USD", url: URL },
+    { "@type": "Offer", name: "Atlas", price: "379", priceCurrency: "USD", url: URL },
+    { "@type": "Offer", name: "Summit", price: "479", priceCurrency: "USD", url: URL },
+    { "@type": "Offer", name: "Corporativo", price: "1900", priceCurrency: "USD", url: "https://www.clinera.io/hablar-con-ventas" },
   ],
 };
 

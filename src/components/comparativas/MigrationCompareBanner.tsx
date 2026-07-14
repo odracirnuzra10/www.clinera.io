@@ -16,7 +16,7 @@ const GRAD = "linear-gradient(135deg, #7C3AED 0%, #D946EF 100%)";
 
 const VAMBE_PRICE_USD = 574;
 const VAMBE_URL = "https://www.vambe.ai/pricing";
-const CLINERA_PRICE_USD = 179;
+const CLINERA_PRICE_USD = 279;
 
 export type CompetitorApiPricing = {
   /** Nombre largo del competidor para mostrar (ej "AgendaPro", "Medifolios") */

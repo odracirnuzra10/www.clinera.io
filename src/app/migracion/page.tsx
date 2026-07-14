@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     siteName: "Clinera.io",
     title: "Migración a Clinera — una sola plataforma para todo el ciclo del paciente",
     description:
-      "Cambia AgendaPro / Reservo / Medilink + Vambe.ai por Clinera. USD 800+ por 2 herramientas separadas vs USD 179 con todo conectado.",
+      "Cambia AgendaPro / Reservo / Medilink + Vambe.ai por Clinera. USD 800+ por 2 herramientas separadas vs USD 279 con todo conectado.",
     locale: "es_LA",
     images: [
       {
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Migración a Clinera — una sola plataforma para todo el ciclo",
     description:
-      "Cambia AgendaPro / Reservo / Medilink + Vambe por Clinera. USD 179 con agente IA incluido.",
+      "Cambia AgendaPro / Reservo / Medilink + Vambe por Clinera. USD 279 con agente IA incluido.",
     images: ["/images/og-banner.png"],
   },
   robots: {
@@ -101,7 +101,7 @@ const jsonLd = {
           acceptedAnswer: {
             "@type": "Answer",
             text:
-              "No. Cero set-up fee, sin permanencia y cancelas cuando quieras. La migración corre por nuestra cuenta.",
+              "Sin permanencia: cancelas cuando quieras. La implementación es un pago único de USD 450 (onboarding asistido por un humano que configura AURA, conecta tu WhatsApp Business, importa tus pacientes y tratamientos, integra tu agenda y capacita a tu equipo). Quedas operando el mismo día.",
           },
         },
         {

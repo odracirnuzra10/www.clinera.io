@@ -8,7 +8,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
   const dark = variant === "dark";
   return (
     <section
-      aria-label="Implementación de Clinera sin costo"
+      aria-label="Implementación de Clinera: pago único"
       style={{
         padding: "32px 24px",
         background: dark ? "#0A0A0A" : "#FAF8FF",
@@ -58,7 +58,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
                 letterSpacing: "-0.01em",
               }}
             >
-              Costo de implementación $0
+              Implementación USD 450 (pago único)
             </p>
             <p
               style={{
@@ -68,7 +68,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
                 color: dark ? "rgba(255,255,255,0.72)" : "#4B5563",
               }}
             >
-              Setup en menos de 1 hora, sin programador. AURA empieza a operar tu WhatsApp esa misma tarde.
+              Onboarding asistido por un humano: configura AURA, conecta tu WhatsApp e importa tu base. Quedas operando el mismo día.
             </p>
           </div>
         </div>
@@ -76,9 +76,9 @@ export default function TrialBanner({ variant = "light" }: Props) {
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
           <Link
             href="/planes"
-            data-plan="conect"
-            data-plan-name="Conect signup"
-            data-plan-value="179"
+            data-plan="vortex"
+            data-plan-name="Vortex signup"
+            data-plan-value="279"
             style={{
               background: "linear-gradient(135deg, #7C3AED 0%, #D946EF 100%)",
               color: "#fff",
@@ -90,7 +90,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
               boxShadow: "0 10px 26px -8px rgba(124,58,237,0.45)",
             }}
           >
-            Activar Conect $179 →
+            Activar Vortex $279 →
           </Link>
           <Link
             href="/hablar-con-ventas"

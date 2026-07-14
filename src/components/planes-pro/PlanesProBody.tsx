@@ -68,7 +68,7 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
             </a>
           </div>
           <div style={{ display: "flex", gap: 24, flexWrap: "wrap", marginTop: 32 }}>
-            {["Sin permanencia", "Implementación $0", "Facturación en USD"].map((t) => (
+            {["Sin permanencia", "Implementación USD 450 (pago único)", "Facturación en USD"].map((t) => (
               <span key={t} style={chip}>
                 <Check /> {t}
               </span>
@@ -99,6 +99,27 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
           define cuánto te rinde el mes.
         </div>
 
+        <h3 style={subh}>Qué consume créditos (y qué no)</h3>
+        <p style={{ ...para, marginTop: 0 }}>
+          Tus agentes trabajan sobre la misma bolsa. <strong>AURA</strong> responde por texto,{" "}
+          <strong>CAMILA</strong> atiende por voz y <strong>LIA</strong> fiscaliza tu operación. Cada
+          acción descuenta distinto:
+        </p>
+        <div className="reveal" style={{ display: "grid", gap: 0, marginTop: 6, maxWidth: 640 }}>
+          {[
+            ["Texto (AURA)", "~10 créditos por conversación"],
+            ["Agendamiento", "0 créditos · el agendamiento no consume créditos"],
+            ["Minuto de voz (CAMILA)", "25 créditos por minuto"],
+            ["LIA fiscaliza", "0 créditos"],
+            ["Informes de LIA", "≈4.000 créditos / mes"],
+          ].map(([k, v]) => (
+            <div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 16, padding: "12px 2px", borderBottom: `1px solid ${BORDER}`, fontFamily: MONO, fontSize: 13.5, lineHeight: 1.5 }}>
+              <span style={{ color: INK, fontWeight: 600 }}>{k}</span>
+              <span style={{ color: MUTED, textAlign: "right" }}>{v}</span>
+            </div>
+          ))}
+        </div>
+
         <h3 style={subh}>Cuánto alcanza cada plan</h3>
         <p style={{ ...para, marginTop: 0 }}>
           Referencia si toda tu operación fuera de un solo tipo. En la práctica operarás con una
@@ -106,9 +127,9 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
         </p>
         <div className="reveal" style={{ display: "grid", gap: 12, marginTop: 18 }}>
           {[
-            { plan: "Conect", cr: 10000, ef: 1000, ag: 80 },
-            { plan: "Advanced", cr: 15000, ef: 1500, ag: 150 },
-            { plan: "MAX", cr: 28000, ef: 2800, ag: 500 },
+            { plan: "Vortex", cr: 28000, ef: 2800, ag: 143 },
+            { plan: "Atlas", cr: 37000, ef: 3700, ag: 190 },
+            { plan: "Summit", cr: 46000, ef: 4600, ag: 236 },
           ].map((row) => (
             <div key={row.plan} style={{ border: `1px solid ${BORDER}`, borderRadius: 18, padding: "20px 22px", background: "#fff", boxShadow: "0 4px 24px rgba(0,0,0,.03)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: 8 }}>
@@ -116,18 +137,17 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
                 <span style={{ fontFamily: MONO, fontSize: 14, color: MUTED }}>{fmt(row.cr)} créditos / mes</span>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 14 }}>
-                <Gauge label="Eficiente" big={`~${fmt(row.ef)}`} unit="conversaciones" pct={Math.round((row.ef / 2800) * 100)} color={GREEN} />
-                <Gauge label="Agentic" big={`~${fmt(row.ag)}`} unit="agendamientos" pct={Math.round((row.ag / 500) * 100)} color={ACCENT} />
+                <Gauge label="Eficiente" big={`~${fmt(row.ef)}`} unit="conversaciones" pct={Math.round((row.ef / 4600) * 100)} color={GREEN} />
+                <Gauge label="Agentic" big={`~${fmt(row.ag)}`} unit="conversaciones" pct={Math.round((row.ag / 236) * 100)} color={ACCENT} />
               </div>
             </div>
           ))}
         </div>
         <p style={footnote}>
-          Eficiente = conversaciones simples (créditos ÷ ~10). Agentic = agendamientos que la IA
-          agenda sola, con el tope publicado por plan (80 / 150 / 500); un agendamiento directo es
-          más liviano que una conversación Agentic compleja (~195 cr). En MAX, ~2.800 conversaciones
-          Eficientes — la cifra publicada de ~3.200 es orientativa{" "}
-          <strong style={{ color: MUTED }}>[CONFIRMAR cuál publicar]</strong>. Usa la calculadora para tu mezcla real.
+          Eficiente = conversaciones simples (créditos ÷ ~10). Agentic = conversaciones de
+          razonamiento multi-paso (créditos ÷ ~195). El agendamiento no consume créditos, así que
+          suma por encima de estas cifras. Son referencias orientativas: usa la calculadora para tu
+          mezcla real.
         </p>
       </Section>
 
@@ -138,7 +158,10 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
           <p style={{ fontFamily: MONO, fontSize: 13.5, color: MUTED, marginTop: 14, lineHeight: 1.6 }}>
             Cada plan trae su bolsa mensual de créditos —{" "}
             <strong style={{ color: INK }}>visible en cada tarjeta</strong>. Esa es la fuente de
-            verdad; las conversaciones de referencia son orientativas.
+            verdad; las conversaciones de referencia son orientativas. Los tres planes suman{" "}
+            <strong style={{ color: INK }}>+ USD 450 de implementación (pago único)</strong>:
+            onboarding asistido por una persona. Aun así, un plan completo cuesta menos que una
+            recepcionista (~USD 950/mes).
           </p>
         </div>
       </div>
@@ -151,8 +174,9 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
       <Section eyebrow="Extras" title="Add-ons y extras">
         <p style={para}>Suma capacidad o funciones puntuales sin cambiar de plan.</p>
         <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 20, marginTop: 26 }}>
-          <AddonCard titulo="Pack de créditos" precio="$50" unidad="= 5.000 créditos" desc="Cuando tu volumen supera la bolsa del mes. Equivale a ~500 conversaciones Eficientes extra." nota="[CONFIRMAR: única vez vs mensual]" />
-          <AddonCard titulo="Usuario / profesional extra" precio="$9" unidad="/ mes" desc="Suma una persona más de tu equipo al acceso de la plataforma, por encima de los incluidos en tu plan." />
+          <AddonCard titulo="Recarga de créditos" precio="USD 55" unidad="= 5.000 créditos" desc="Cuando tu volumen supera la bolsa del mes. Equivale a ~500 conversaciones Eficientes extra." />
+          <AddonCard titulo="Usuario / profesional extra" precio="USD 9" unidad="/ mes" desc="Suma una persona más de tu equipo al acceso de la plataforma, por encima de los incluidos en tu plan." />
+          <AddonCard titulo="Sucursal extra" precio="USD 39" unidad="/ mes" desc="Suma una sucursal adicional a tu operación." nota="Disponible solo en Atlas." />
         </div>
       </Section>
 
@@ -181,8 +205,8 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
                 Decide con todo a la vista.
               </h2>
               <p style={{ fontFamily: FONT, fontSize: 16.5, lineHeight: 1.6, color: "rgba(255,255,255,0.78)", maxWidth: 560, margin: "0 0 28px" }}>
-                Sin permanencia · implementación $0 · cambias de plan cuando quieras. Empieza con el
-                plan que la calculadora te recomendó, o conversemos tu caso.
+                Sin permanencia · implementación USD 450 (pago único) · cambias de plan cuando
+                quieras. Empieza con el plan que la calculadora te recomendó, o conversemos tu caso.
               </p>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 26 }}>
                 <a href="#calculadora" style={{ display: "inline-block", background: GRAD, color: "#fff", padding: "14px 26px", borderRadius: 999, fontWeight: 700, fontSize: 15.5, textDecoration: "none" }}>
@@ -193,7 +217,7 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
                 </a>
               </div>
               <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-                {["Sin permanencia", "Implementación $0", "USD · Stripe · MercadoPago · WebPay"].map((t) => (
+                {["Sin permanencia", "Implementación USD 450 (pago único)", "USD · Stripe · MercadoPago · WebPay"].map((t) => (
                   <span key={t} style={{ ...chip, color: "rgba(255,255,255,0.6)" }}>
                     <Check light /> {t}
                   </span>

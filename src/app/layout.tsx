@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "Clinera.io",
     title: "Clinera.io | Software de IA para Clínicas",
     description:
-      "AURA agenda, re-agenda y atiende pacientes por WhatsApp 24/7. +52 clínicas en LATAM. Desde USD 129/mes, sin permanencia.",
+      "AURA agenda, re-agenda y atiende pacientes por WhatsApp 24/7. +52 clínicas en LATAM. Desde USD 279/mes, sin permanencia.",
     images: [
       {
         url: "/images/og-banner.png",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Clinera.io | Software de IA para Clínicas",
     description:
-      "AURA agenda, re-agenda y atiende pacientes por WhatsApp 24/7. +52 clínicas en LATAM. Desde USD 129/mes, sin permanencia.",
+      "AURA agenda, re-agenda y atiende pacientes por WhatsApp 24/7. +52 clínicas en LATAM. Desde USD 279/mes, sin permanencia.",
     images: ["/images/og-banner.png"],
   },
   // icons handled automatically by Next.js (src/app/icon.png + apple-icon.png)

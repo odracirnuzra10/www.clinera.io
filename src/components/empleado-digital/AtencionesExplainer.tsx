@@ -3,22 +3,22 @@
 const CARDS = [
   {
     icon: "💬",
-    title: "Consulta o FAQ",
-    desc: "Un paciente pregunta por precios, ubicación, horarios o servicios. AURA responde con contexto de tu clínica.",
-    creditos: "~1–4 créditos",
+    title: "Mensaje de texto (AURA)",
+    desc: "Cada respuesta que AURA envía por WhatsApp — precios, ubicación, horarios o servicios, con el contexto de tu clínica.",
+    creditos: "10 créditos",
   },
   {
     icon: "📅",
-    title: "Agendamiento completo",
-    desc: "AURA conversa, valida disponibilidad, ejecuta tool calls a tu agenda y BD, confirma la cita.",
-    creditos: "~17 créditos",
+    title: "Agendamiento",
+    desc: "AURA agenda, re-agenda o confirma la cita ejecutando tool calls a tu agenda y BD. Cierra la cita sin gastar tu bolsa.",
+    creditos: "0 créditos",
     featured: true,
   },
   {
-    icon: "🔄",
-    title: "Re-agenda o reactivación",
-    desc: "Mueve una cita existente, contacta a un paciente dormido, gestiona cobros pendientes.",
-    creditos: "~17–23 créditos",
+    icon: "🎙️",
+    title: "Minuto de voz (CAMILA)",
+    desc: "Cada minuto que CAMILA habla por teléfono con tu paciente — confirmación, recordatorio o reactivación.",
+    creditos: "25 créditos",
   },
 ];
 
@@ -56,7 +56,7 @@ export default function AtencionesExplainer() {
                 display: "inline-block",
               }}
             />
-            ¿Qué cuenta como conversación?
+            ¿Qué consume créditos?
           </p>
           <h2
             id="atenciones-h2"
@@ -70,8 +70,7 @@ export default function AtencionesExplainer() {
               color: "#0A0A0A",
             }}
           >
-            Una conversación puede ser solo una consulta — o un agendamiento completo con tool
-            calls.
+            Una bolsa mensual de créditos. Y el agendamiento no consume nada.
           </h2>
           <p
             style={{
@@ -82,8 +81,8 @@ export default function AtencionesExplainer() {
               margin: 0,
             }}
           >
-            Cada conversación consume créditos según el modo y la complejidad. Tus créditos se
-            descuentan en tiempo real y el cupo se renueva cada mes.
+            Cada acción de IA descuenta créditos de tu bolsa mensual en tiempo real. El
+            agendamiento no consume créditos y el cupo se renueva cada mes.
           </p>
         </div>
 
@@ -172,9 +171,10 @@ export default function AtencionesExplainer() {
             borderLeft: "3px solid #E5E7EB",
           }}
         >
-          <strong style={{ color: "#0A0A0A" }}>Costo por conversación según el plan: ~$0.09 (MAX) · ~$0.12 (Advanced) · ~$0.13 (Conect).</strong>{" "}
-          Los cupos se calcularon con un margen conservador (~30%) para que tu conversación
-          promedio no se quede corta — y nunca pases por sorpresa del cupo.
+          <strong style={{ color: "#0A0A0A" }}>Tu plan incluye una bolsa mensual de créditos: 28.000 (Vortex) · 37.000 (Atlas) · 46.000 (Summit).</strong>{" "}
+          El texto de AURA consume 10 créditos y un minuto de voz de CAMILA 25 — el agendamiento
+          no consume créditos. Los cupos se dimensionaron con margen para que nunca te quedes
+          corto ni pases por sorpresa del cupo.
         </p>
 
         <p

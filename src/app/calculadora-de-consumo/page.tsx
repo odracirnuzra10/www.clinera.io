@@ -204,14 +204,14 @@ export default function CalculadoraDeConsumoPage() {
               name="Eficiente"
               consumption="~10"
               model="Gemini 3.0 Flash"
-              available="Plan Conect"
+              available="VORTEX"
               description="En modo manual o eficiente, la IA responde, hace preguntas y entrega un link de agendamiento para que el mismo usuario se agende."
             />
             <ModeCard
               name="Agentic"
               consumption="~195"
               model="Kimi K2.6"
-              available="Plan Conect"
+              available="VORTEX"
               description="En modo automático o agéntico, la IA hace todo sola: te hace preguntas, te ofrece disponibilidad real del sistema y te agenda la hora directamente."
               recommended
             />
@@ -388,24 +388,24 @@ export default function CalculadoraDeConsumoPage() {
               </thead>
               <tbody>
                 <PlanRow
-                  plan="Conect"
-                  cells={[
-                    { text: "~1.000 atenciones" },
-                    { text: "~50 atenciones", isDefault: true },
-                  ]}
-                />
-                <PlanRow
-                  plan="Advanced"
-                  cells={[
-                    { text: "~1.500 atenciones" },
-                    { text: "~77 atenciones", isDefault: true },
-                  ]}
-                />
-                <PlanRow
-                  plan="MAX"
+                  plan="VORTEX · 28.000 cr"
                   cells={[
                     { text: "~2.800 atenciones" },
-                    { text: "~145 atenciones", isDefault: true },
+                    { text: "~143 atenciones", isDefault: true },
+                  ]}
+                />
+                <PlanRow
+                  plan="ATLAS · 37.000 cr"
+                  cells={[
+                    { text: "~3.700 atenciones" },
+                    { text: "~190 atenciones", isDefault: true },
+                  ]}
+                />
+                <PlanRow
+                  plan="SUMMIT · 46.000 cr"
+                  cells={[
+                    { text: "~4.600 atenciones" },
+                    { text: "~236 atenciones", isDefault: true },
                   ]}
                 />
               </tbody>

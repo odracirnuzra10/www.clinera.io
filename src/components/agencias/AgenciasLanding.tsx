@@ -183,8 +183,8 @@ function SellingPoints() {
     },
     {
       num: "04",
-      title: "Costo claro por conversación",
-      desc: "Desde $0,09 USD por conversación en el plan MAX. Cupos calculados con 30% de margen conservador.",
+      title: "Una sola bolsa de créditos",
+      desc: "Cada plan trae su bolsa mensual de créditos y el agendamiento no consume créditos. Texto de AURA = 10 cr; minuto de voz de CAMILA = 25 cr.",
     },
   ];
   return (
@@ -341,7 +341,7 @@ function ProgramaPartner() {
             num="01"
             title="20%"
             unit=" descuento"
-            desc="Permanente para todos los clientes que traes. Aplica a Conect, Advanced y MAX. Sin tope, sin vencimiento. Mejor margen para ti, mejor precio para la clínica."
+            desc="Permanente para todos los clientes que traes. Aplica a Vortex, Atlas y Summit. Sin tope, sin vencimiento. Mejor margen para ti, mejor precio para la clínica."
           />
           <BenefitCard
             featured
@@ -817,7 +817,7 @@ function ModosCompact() {
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <Eyebrow style={{ color: CYAN }}>Modos de IA · Costo claro</Eyebrow>
+        <Eyebrow style={{ color: CYAN }}>Modos de IA · Una bolsa de créditos</Eyebrow>
         <h2
           style={{
             fontFamily: "Inter",
@@ -830,7 +830,7 @@ function ModosCompact() {
             maxWidth: 720,
           }}
         >
-          Una IA. Tres modos. Cada uno con su costo por conversación.
+          Una IA. Tres modos. Una sola bolsa de créditos.
         </h2>
         <p
           style={{
@@ -843,7 +843,8 @@ function ModosCompact() {
           }}
         >
           Tu cliente elige el modo según su volumen y la velocidad que necesita. La
-          unidad atómica es el crédito.
+          unidad atómica es el crédito: una sola bolsa mensual, sin costo por
+          agendamiento.
         </p>
 
         <div
@@ -858,24 +859,74 @@ function ModosCompact() {
             num="01"
             name="Eficiente"
             credits="~4"
-            cost="$0,39"
-            desc="IA conversa, paciente confirma vía link. Costo IA más bajo. Desde Plan Conect."
+            desc="IA conversa, paciente confirma vía link. Menor consumo de créditos. Desde Plan Vortex."
           />
           <ModoMini
             featured
             num="02"
             name="Agentic"
             credits="~17"
-            cost="$0,36"
-            desc="IA agenda sola con tool calls. La mejor relación capacidad/costo. Desde Plan Conect."
+            desc="IA agenda sola con tool calls. La mejor relación capacidad/créditos. Desde Plan Vortex."
           />
           <ModoMini
             num="03"
             name="Agentic Pro"
             credits="~36"
-            cost="$0,28"
-            desc="Agentic con respuesta inmediata a 289 tokens/s. Solo Plan MAX."
+            desc="Agentic con respuesta inmediata a 289 tokens/s. Solo Plan Summit."
           />
+        </div>
+
+        <div
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(0,159,227,.05), rgba(124,58,237,.04))",
+            border: "1px solid rgba(0,159,227,.2)",
+            borderRadius: 16,
+            padding: "22px 24px",
+            marginBottom: 22,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontSize: 10.5,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: CYAN,
+              marginBottom: 16,
+            }}
+          >
+            Bolsa de créditos incluida · por plan
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+              gap: 14,
+              marginBottom: 18,
+            }}
+          >
+            <BagStat plan="Vortex" credits="28.000" />
+            <BagStat plan="Atlas" credits="37.000" />
+            <BagStat plan="Summit" credits="46.000" featured />
+          </div>
+          <p
+            style={{
+              fontFamily: "Inter",
+              fontSize: 13,
+              color: "#6B7280",
+              lineHeight: 1.55,
+              margin: 0,
+              paddingTop: 16,
+              borderTop: "1px dashed rgba(0,159,227,.2)",
+            }}
+          >
+            Todo sale de una sola bolsa mensual.{" "}
+            <b style={{ color: "#0A0A0A", fontWeight: 600 }}>
+              El agendamiento no consume créditos.
+            </b>{" "}
+            Texto de AURA = 10 cr · minuto de voz de CAMILA = 25 cr.
+          </p>
         </div>
 
         <Link
@@ -897,18 +948,72 @@ function ModosCompact() {
   );
 }
 
+function BagStat({
+  plan,
+  credits,
+  featured,
+}: {
+  plan: string;
+  credits: string;
+  featured?: boolean;
+}) {
+  return (
+    <div
+      style={{
+        background: "#fff",
+        border: featured ? "1px solid rgba(124,58,237,.3)" : "1px solid #E5E7EB",
+        borderRadius: 12,
+        padding: "14px 16px",
+      }}
+    >
+      <div
+        style={{
+          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+          fontSize: 10,
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          color: featured ? VIOLET : "#9CA3AF",
+          marginBottom: 6,
+        }}
+      >
+        {plan}
+      </div>
+      <div
+        style={{
+          fontFamily: "Inter",
+          fontSize: 22,
+          fontWeight: 800,
+          letterSpacing: "-0.025em",
+          color: "#0A0A0A",
+          lineHeight: 1,
+        }}
+      >
+        {credits}
+        <span
+          style={{
+            fontSize: "0.5em",
+            fontWeight: 600,
+            color: "#9CA3AF",
+            marginLeft: 4,
+          }}
+        >
+          cr/mes
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function ModoMini({
   num,
   name,
   credits,
-  cost,
   desc,
   featured,
 }: {
   num: string;
   name: string;
   credits: string;
-  cost: string;
   desc: string;
   featured?: boolean;
 }) {
@@ -951,7 +1056,7 @@ function ModoMini({
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: "1fr",
           gap: 10,
           padding: 14,
           borderRadius: 10,
@@ -971,7 +1076,7 @@ function ModoMini({
               marginBottom: 5,
             }}
           >
-            Créditos / at.
+            Créditos / atención
           </div>
           <div
             style={{
@@ -983,31 +1088,6 @@ function ModoMini({
             }}
           >
             {credits}
-          </div>
-        </div>
-        <div>
-          <div
-            style={{
-              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-              fontSize: 9,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "#9CA3AF",
-              marginBottom: 5,
-            }}
-          >
-            Costo / at.
-          </div>
-          <div
-            style={{
-              fontFamily: "Inter",
-              fontSize: 18,
-              fontWeight: 700,
-              color: featured ? VIOLET : "#0A0A0A",
-              letterSpacing: "-0.015em",
-            }}
-          >
-            {cost}
           </div>
         </div>
       </div>
@@ -1033,7 +1113,7 @@ function FaqAgencias() {
   const faq = [
     {
       q: "¿Cómo funciona el 20% de descuento?",
-      a: "Aplica permanentemente a todas las cuentas activas que tu agencia traiga: Conect, Advanced o MAX. Sin tope, sin vencimiento. Se descuenta directo del precio del plan que paga la clínica — tu agencia decide si lo absorbe como margen, si lo traslada, o si lo divide.",
+      a: "Aplica permanentemente a todas las cuentas activas que tu agencia traiga: Vortex, Atlas o Summit. Sin tope, sin vencimiento. Se descuenta directo del precio del plan que paga la clínica — tu agencia decide si lo absorbe como margen, si lo traslada, o si lo divide.",
     },
     {
       q: "¿Qué es el Directorio de Agencias Recomendadas?",

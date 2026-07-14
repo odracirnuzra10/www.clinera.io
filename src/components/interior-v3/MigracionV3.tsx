@@ -541,10 +541,22 @@ function CompareSection() {
                     color: "transparent",
                   }}
                 >
-                  USD 179
+                  USD 279
                 </span>
               </span>
             </div>
+            <p
+              style={{
+                margin: "2px 0 0",
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: 11,
+                letterSpacing: "0.04em",
+                color: "rgba(255,255,255,.55)",
+                textAlign: "right",
+              }}
+            >
+              + USD 450 implementación (pago único)
+            </p>
           </div>
         </div>
       </div>
@@ -665,13 +677,13 @@ function ReasonsSection() {
     {
       num: "01 · Ahorro",
       title: "Pagas una sola herramienta, no dos.",
-      body: "Agenda médica con API USD 260 + Vambe.ai USD 550 = USD 800+/mes. Clinera Advanced incluye agente IA por USD 179. Un solo proveedor, un solo cobro.",
+      body: "Agenda médica con API USD 260 + Vambe.ai USD 550 = USD 800+/mes. Clinera Vortex incluye agente IA por USD 279. Un solo proveedor, un solo cobro.",
       bullets: [
-        "Sin set-up fee · sin permanencia",
+        "Sin permanencia · un solo cobro mensual",
         "Cancelas cuando quieras",
-        "Ahorro mínimo USD 600 / mes",
+        "Ahorro mínimo USD 500 / mes",
       ],
-      kpi: "−USD 620 / mes",
+      kpi: "−USD 520 / mes",
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <line x1="12" y1="1" x2="12" y2="23" />
@@ -1261,7 +1273,7 @@ function Faq() {
     },
     {
       q: "¿Hay permanencia o costo de implementación?",
-      a: "No. Cero set-up fee, sin permanencia y cancelas cuando quieras. La migración corre por nuestra cuenta.",
+      a: "Sin permanencia: cancelas cuando quieras. La implementación es un pago único de USD 450 — onboarding asistido por un humano que configura AURA, conecta tu WhatsApp Business, importa tus pacientes y tratamientos, integra tu agenda y capacita a tu equipo. Quedas operando el mismo día.",
     },
     {
       q: "¿Cuánto tiempo toma la migración completa?",

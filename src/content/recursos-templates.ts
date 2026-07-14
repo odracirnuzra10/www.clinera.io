@@ -140,10 +140,10 @@ function mejorSoftwareTemplate(r: Recurso): RecursoContent {
           "No es marketplace de pacientes (no genera demanda nueva por sí solo).",
           "Odontograma dental básico — para clínicas 100% odontológicas conviene combinar con Dentalink.",
         ],
-        precioMensual: "USD 129/mes (Conect, 3 usuarios incluidos) — sin permanencia.",
+        precioMensual: "USD 279/mes (Vortex, 10 usuarios incluidos) — sin permanencia.",
         idealPara: `Clínicas en ${ciudad} que reciben WhatsApps fuera de horario o pierden pacientes por no contestar a tiempo. Clínicas con inversión en publicidad digital que necesitan saber qué anuncio trae pacientes reales.`,
         ctaPrimaryHref: "/planes",
-        ctaPrimaryLabel: "Ver planes desde USD 129/mes",
+        ctaPrimaryLabel: "Ver planes desde USD 279/mes",
       },
     },
     ...getCompetitorCards(countryCode, ciudad),
@@ -230,9 +230,9 @@ function mejorSoftwareTemplate(r: Recurso): RecursoContent {
     comparativaSlug.charAt(0).toUpperCase() + comparativaSlug.slice(1);
   const cta = {
     title: `¿Tu clínica en ${ciudad} ya pierde pacientes por no contestar WhatsApp?`,
-    body: `Activa Clinera con costo de implementación $0 y sin permanencia. Setup en menos de 1 hora, sin programador. AURA empieza a contestar tu WhatsApp Business hoy mismo.`,
+    body: `Activa Clinera con implementación USD 450 (pago único) y sin permanencia. Onboarding asistido por un humano y AURA empieza a contestar tu WhatsApp Business el mismo día.`,
     primaryHref: "/planes",
-    primaryLabel: "Ver planes desde USD 129/mes",
+    primaryLabel: "Ver planes desde USD 279/mes",
     secondaryHref: `/comparativas/${comparativaSlug}`,
     secondaryLabel: `Ver comparativa Clinera vs ${competitorName}`,
   };
@@ -584,7 +584,7 @@ function getFaqs(
     return [
       {
         q: `¿Cuál es el software más barato para clínicas en ${ciudad}?`,
-        a: `Doctocliq tiene plan GRATIS real (sin tarjeta) y plan pago desde USD 19/mes — el más barato del listado. Para clínicas con 3+ profesionales que invierten en marketing digital, el plan Conect de Clinera (USD 129/mes con 3 usuarios incluidos) es más eficiente porque integra IA conversacional + atribución de ventas, no solo recordatorios.`,
+        a: `Doctocliq tiene plan GRATIS real (sin tarjeta) y plan pago desde USD 19/mes — el más barato del listado. Para clínicas con 3+ profesionales que invierten en marketing digital, el plan Vortex de Clinera (USD 279/mes con 10 usuarios incluidos) es más eficiente porque integra IA conversacional + atribución de ventas, no solo recordatorios.`,
       },
       {
         q: `¿Cuál es mejor para clínicas dentales en ${ciudad}?`,
@@ -600,7 +600,7 @@ function getFaqs(
       },
       {
         q: `¿Hay versión gratuita?`,
-        a: `Doctocliq tiene plan gratis permanente. Clinera no tiene plan gratis pero sí costo de implementación $0 (asistido por humano, setup en menos de 1 hora) y sin permanencia: pagas solo el plan mensual desde USD 129/mes y puedes cancelar cuando quieras.`,
+        a: `Doctocliq tiene plan gratis permanente. Clinera no tiene plan gratis; la implementación es un pago único de USD 450 (onboarding asistido por un humano, operando el mismo día) y no hay permanencia: pagas el plan mensual desde USD 279/mes y puedes cancelar cuando quieras.`,
       },
       {
         q: `¿Migrar de un software a otro pierde datos?`,
@@ -612,7 +612,7 @@ function getFaqs(
     return [
       {
         q: `¿Cuál es el software más barato para clínicas en ${ciudad}?`,
-        a: `Si miras precio nominal en COP: Medifolios Consultorio desde $1.670.000/año (~USD 35/mes año 1). En USD el plan Conect de Clinera (USD 129/mes con 3 usuarios incluidos) es más caro mes a mes pero incluye IA conversacional + atribución de ventas, lo que en clínicas con marketing activo cierra el ROI mucho más rápido que cualquier sistema de agenda básico.`,
+        a: `Si miras precio nominal en COP: Medifolios Consultorio desde $1.670.000/año (~USD 35/mes año 1). En USD el plan Vortex de Clinera (USD 279/mes con 10 usuarios incluidos) es más caro mes a mes pero incluye IA conversacional + atribución de ventas, lo que en clínicas con marketing activo cierra el ROI mucho más rápido que cualquier sistema de agenda básico.`,
       },
       {
         q: `¿Cuál es el mejor para IPS con RIPS y facturación electrónica DIAN?`,
@@ -628,7 +628,7 @@ function getFaqs(
       },
       {
         q: `¿Hay versión gratuita?`,
-        a: `Ninguno de los softwares colombianos del listado ofrece plan gratuito permanente. Clinera tiene costo de implementación $0 (asistido por humano, setup en menos de 1 hora) y sin permanencia: pagas solo el plan mensual desde USD 129/mes y puedes cancelar cuando quieras.`,
+        a: `Ninguno de los softwares colombianos del listado ofrece plan gratuito permanente. Clinera tiene una implementación de pago único USD 450 (onboarding asistido por un humano, operando el mismo día) y sin permanencia: pagas el plan mensual desde USD 279/mes y puedes cancelar cuando quieras.`,
       },
       {
         q: `¿Migrar de un software a otro pierde datos?`,
@@ -640,7 +640,7 @@ function getFaqs(
   return [
     {
       q: `¿Cuál es el software más barato para clínicas en ${ciudad}?`,
-      a: `Si miras solo precio nominal, los planes desde USD 19/usuario de AgendaPro o el Sacmed chileno con su plan Starter ($26.000 CLP/mes ≈ USD 27) son los más bajos. Para clínicas con 3+ profesionales que invierten en marketing digital, el plan Conect de Clinera (USD 129/mes con 3 usuarios incluidos) suele ser más eficiente porque integra IA + atribución de ventas.`,
+      a: `Si miras solo precio nominal, los planes desde USD 19/usuario de AgendaPro o el Sacmed chileno con su plan Starter ($26.000 CLP/mes ≈ USD 27) son los más bajos. Para clínicas con 3+ profesionales que invierten en marketing digital, el plan Vortex de Clinera (USD 279/mes con 10 usuarios incluidos) suele ser más eficiente porque integra IA + atribución de ventas.`,
     },
     {
       q: `¿Cuál es mejor para clínicas estéticas en ${ciudad}?`,
@@ -652,7 +652,7 @@ function getFaqs(
     },
     {
       q: `¿Hay versión gratuita?`,
-      a: `Ninguno de los softwares de esta lista ofrece plan gratuito permanente. Clinera tiene costo de implementación $0 y sin permanencia: pagas solo el plan mensual desde USD 129/mes y puedes cancelar cuando quieras.`,
+      a: `Ninguno de los softwares de esta lista ofrece plan gratuito permanente. Clinera tiene una implementación de pago único USD 450 (onboarding asistido por un humano) y sin permanencia: pagas el plan mensual desde USD 279/mes y puedes cancelar cuando quieras.`,
     },
     {
       q: `¿Migrar de un software a otro pierde datos?`,

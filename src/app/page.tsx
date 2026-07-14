@@ -7,7 +7,7 @@ import { HOME_FAQ } from "@/content/home-faq";
 export const metadata: Metadata = {
   title: "Clinera.io | Tu empleado digital para clínicas · 24/7 por WhatsApp",
   description:
-    "No es un chatbot. Es un empleado digital que ejecuta funciones: crea citas, re-agenda, consulta pagos y revisa sesiones. Desde $129 USD/mes. +52 clínicas en Chile y LATAM.",
+    "No es un chatbot. Es un empleado digital que ejecuta funciones: crea citas, re-agenda, consulta pagos y revisa sesiones. Desde $279 USD/mes. +52 clínicas en Chile y LATAM.",
   alternates: { canonical: "https://www.clinera.io/" },
   openGraph: {
     url: "https://www.clinera.io/",

@@ -7,13 +7,13 @@ import styles from "./empleado-digital.module.css";
 export const metadata: Metadata = {
   title: "Empleado Digital IA para Clínicas — AURA y LIA | Clinera.io",
   description:
-    "No es un chatbot. Es un empleado digital que ejecuta funciones: crea citas, re-agenda, consulta pagos, revisa sesiones. 24/7 por WhatsApp. Desde USD 129/mes. Plan Corporativo personalizado desde USD 1.500/mes.",
+    "No es un chatbot. Es un empleado digital que ejecuta funciones: crea citas, re-agenda, consulta pagos, revisa sesiones. 24/7 por WhatsApp. Desde USD 279/mes. Plan Corporativo personalizado desde USD 1.900/mes.",
   alternates: { canonical: "https://www.clinera.io/empleado-digital" },
   openGraph: {
     url: "https://www.clinera.io/empleado-digital",
     title: "Empleado Digital IA para Clínicas — AURA y LIA | Clinera.io",
     description:
-      "AURA ejecuta el 100% del trabajo de tu recepcionista por WhatsApp. LIA mantiene tu vacancia en 0%. Desde USD 129/mes.",
+      "AURA ejecuta el 100% del trabajo de tu recepcionista por WhatsApp. LIA mantiene tu vacancia en 0%. Desde USD 279/mes.",
     type: "website",
     images: [
       {
@@ -31,12 +31,12 @@ const productJsonLd = {
   "@type": "Product",
   name: "Clinera.io — Empleado digital IA para clínicas",
   description:
-    "Empleado digital con IA para clínicas. Ejecuta funciones (agenda, re-agenda, consulta pagos, revisa sesiones) por WhatsApp 24/7. Planes desde USD 129/mes, Corporativo personalizado desde USD 1.500/mes.",
+    "Empleado digital con IA para clínicas. Ejecuta funciones (agenda, re-agenda, consulta pagos, revisa sesiones) por WhatsApp 24/7. Planes desde USD 279/mes, Corporativo personalizado desde USD 1.900/mes.",
   brand: { "@type": "Brand", name: "Clinera.io" },
   offers: {
     "@type": "AggregateOffer",
-    lowPrice: "129",
-    highPrice: "1500",
+    lowPrice: "279",
+    highPrice: "1900",
     priceCurrency: "USD",
     offerCount: 4,
     availability: "https://schema.org/InStock",
