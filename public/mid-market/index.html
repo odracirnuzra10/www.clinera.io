@@ -134,8 +134,8 @@
   .tl{ display:flex; gap:10px; margin: 6px 0 18px; }
   .tl-step{ flex:1; min-width:0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 16px 18px; box-shadow:0 10px 30px -20px rgba(11,11,15,.22); }
   .tl-n{ font-family:var(--mono); font-size:12px; font-weight:500; color:var(--violet); letter-spacing:.06em; }
-  .tl-h{ font-weight:700; font-size:14px; margin:8px 0 4px; letter-spacing:-.01em; }
-  .tl-t{ font-size:12px; color:var(--muted); line-height:1.4; }
+  .tl-h{ font-weight:700; font-size:15px; margin:9px 0 5px; letter-spacing:-.01em; }
+  .tl-t{ font-size:13px; color:var(--ink-2); line-height:1.45; }
 
   /* Generic card */
   .mm-card{ background:rgba(124,58,237,.05); border:1px solid var(--line); border-radius:16px; padding:18px 22px; }
@@ -207,7 +207,7 @@
   <div class="meta-tag">Mid-Market · Interno</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 08</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 09</div>
 <div class="hint">Click o <span class="arrow">→</span> para continuar</div>
 <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
 
@@ -304,18 +304,28 @@
   <section class="slide" id="slide4">
     <div class="slide-inner">
       <div class="kicker"><span class="pip"></span>Clinera · Estrategia 2026–2027 · Interno</div>
-      <h2 class="h-display">La solución es el <span class="em">PMA</span>: Proceso de Migración Ágil, repetible.</h2>
-      <p class="lead">La IA acelera el mapeo y el ingeniero controla excepciones y calidad. Convertimos una migración compleja en un proceso estándar.</p>
-      <div class="tl">
-        <div class="tl-step"><div class="tl-n">01</div><div class="tl-h">Diagnóstico</div><div class="tl-t">Origen, alcance y accesos</div></div>
-        <div class="tl-step"><div class="tl-n">02</div><div class="tl-h">Extracción</div><div class="tl-t">Base y archivos históricos</div></div>
-        <div class="tl-step"><div class="tl-n">03</div><div class="tl-h">Mapeo IA</div><div class="tl-t">Entidades, campos y relaciones</div></div>
-        <div class="tl-step"><div class="tl-n">04</div><div class="tl-h">Validación</div><div class="tl-t">Totales, duplicados y prueba</div></div>
-        <div class="tl-step"><div class="tl-n">05</div><div class="tl-h">Go-live</div><div class="tl-t">Capacitación, entrega y soporte</div></div>
+      <h2 class="h-display">El equipo construye el API. La <span class="em">IA hace la migración</span>.</h2>
+      <p class="lead">El PMA es un motor de migración con IA. El ingeniero no tipea nada — solo verifica que la base quede bien mapeada y la IA carga todo por API.</p>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="mm-tag" style="margin-bottom:12px;">El equipo</div>
+          <div style="font-weight:700;font-size:19px;letter-spacing:-.015em;margin-bottom:8px;">Construye el API</div>
+          <div style="font-size:14px;color:var(--ink-2);line-height:1.5;">Un motor de migración que la IA usa para leer y cargar cualquier sistema de origen.</div>
+        </div>
+        <div class="stat">
+          <div class="mm-tag" style="margin-bottom:12px;">La IA</div>
+          <div style="font-weight:700;font-size:19px;letter-spacing:-.015em;margin-bottom:8px;">Migra por API</div>
+          <div style="font-size:14px;color:var(--ink-2);line-height:1.5;">Fichas, pacientes, tratamientos, profesionales y sucursales — mapeados y cargados solos.</div>
+        </div>
+        <div class="stat">
+          <div class="mm-tag" style="margin-bottom:12px;">El ingeniero</div>
+          <div style="font-weight:700;font-size:19px;letter-spacing:-.015em;margin-bottom:8px;">Solo verifica</div>
+          <div style="font-size:14px;color:var(--ink-2);line-height:1.5;">Cero tipeo: revisa que la base quede bien mapeada y aprueba la conciliación.</div>
+        </div>
       </div>
       <div class="mm-card" style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;">
         <span class="mm-tag">Definition of done</span>
-        <span style="font-size:13.5px;color:var(--ink-2);">Sin pérdida de datos · sin interrupción visible · conciliación aprobada · tiempo y horas humanas medidos</span>
+        <span style="font-size:14px;color:var(--ink-2);">Sin pérdida de datos · sin interrupción visible · conciliación aprobada.</span>
       </div>
     </div>
   </section>
@@ -371,8 +381,25 @@
     </div>
   </section>
 
-  <!-- 08 — Cierre -->
-  <section class="slide dark" id="slide7">
+  <!-- 08 — Competencia: vamos por sus clientes -->
+  <section class="slide" id="slide7">
+    <div class="slide-inner">
+      <div class="kicker"><span class="pip"></span>Clinera · Estrategia 2026–2027 · Interno · Competencia</div>
+      <h2 class="h-display">El mediano ya tiene software. Vamos a <span class="em">quitárselo</span>.</h2>
+      <p class="lead">No esperamos a las clínicas que parten de cero. Vamos directo a competirle a los incumbentes y llevarnos a sus clientes — y el PMA es lo que nos permite crecer así.</p>
+      <div class="mm-tag" style="margin-bottom:12px;">Les competimos de frente</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px;">
+        <span class="plus-chip">AgendaPro</span>
+        <span class="plus-chip">Medilink</span>
+        <span class="plus-chip">Reservo</span>
+        <span class="plus-chip">Doctoralia</span>
+      </div>
+      <p class="close-line">El PMA elimina el riesgo y el costo de cambiarse. Por eso ganamos clientes que ya están en otro sistema — no dependemos de los que empiezan de cero.</p>
+    </div>
+  </section>
+
+  <!-- 09 — Cierre -->
+  <section class="slide dark" id="slide8">
     <div class="slide-inner">
       <div class="kicker"><span class="pip"></span>Decisión</div>
       <h2 class="h-display">Clinera será la plataforma de la clínica mediana que ya superó su software actual.</h2>
@@ -388,7 +415,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 8;
+  const TOTAL_SLIDES = 9;
   let currentSlide = 0;
   let isAnimating = false;
   function $(id){ return document.getElementById(id); }
