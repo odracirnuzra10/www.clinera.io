@@ -122,6 +122,7 @@
 
   /* Flow */
   .flow{ display:grid; grid-template-columns:1fr auto 1fr; gap:18px; align-items:center; margin: 14px 0 24px; }
+  .flow-3{ grid-template-columns:1fr auto 1fr auto 1fr; gap:14px; }
   .flow-box{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px; box-shadow:0 10px 30px -20px rgba(11,11,15,.22); }
   .flow-box.meta{ border-color:var(--violet); }
   .flow-box .fb-h{ font-weight:700; font-size:16px; margin-bottom:6px; }
@@ -192,6 +193,7 @@
     .progress-track, .hint, .step-counter{ display:none; }
     .stat-row, .cmp-grid, .price-row, .chain-grid{ grid-template-columns:1fr; }
     .flow{ grid-template-columns:1fr; }
+    .flow.flow-3{ grid-template-columns:1fr; }
     .flow-arrow svg{ transform:rotate(90deg); }
     .tl{ flex-direction:column; }
     .plus-row{ gap:8px; }
@@ -282,16 +284,23 @@
       <div class="kicker"><span class="pip"></span>Clinera · Estrategia 2026–2027 · Interno</div>
       <h2 class="h-display">El dolor real no es la IA. Es la <span class="em">migración</span>.</h2>
       <p class="lead">La mediana quiere cambiarse a algo mejor, pero su historia — pacientes, fichas, agenda, tratamientos — la ata a su software actual.</p>
-      <div class="flow">
+      <div class="flow flow-3">
         <div class="flow-box">
           <div class="fb-h">Software actual</div>
-          <div class="fb-t">Pacientes · fichas · citas · tratamientos · ventas</div>
+          <div class="fb-t">Pacientes · fichas · citas · tratamientos</div>
         </div>
         <div class="flow-arrow">
-          <span class="fa-tag">Riesgo percibido: “¿Y si perdemos algo?”</span>
+          <span class="fa-tag">Riesgo: “¿y si perdemos algo?”</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </div>
         <div class="flow-box meta">
+          <div class="fb-h">PMA</div>
+          <div class="fb-t">Migración ágil por API — nada se pierde</div>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </div>
+        <div class="flow-box">
           <div class="fb-h">Clinera operando</div>
           <div class="fb-t">Una plataforma · IA nativa · operación unificada</div>
         </div>
