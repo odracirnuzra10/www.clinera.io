@@ -31,35 +31,104 @@ const PHONE_RULES: Record<string, PhoneRule> = {
   "+1": { name: "Puerto Rico", len: 10, placeholder: "787 123 4567", pattern: /^(787|939)\d{7}$/, invalidHint: "Debe empezar con 787 o 939" },
 };
 
-// Volumen de pacientes mensuales — el calificador central del wizard.
-// Clinera funciona con volumen: 100+ pacientes/mes; menos de 100 → cierre amable.
-type VolumeId = "over_100" | "under_100";
-type VolumeOption = {
-  id: VolumeId;
-  emoji: string;
-  title: string;
-  desc: string;
-  qualifies: boolean;
-  dataLabel: string;
-};
-const VOLUME_OPTIONS: VolumeOption[] = [
-  {
-    id: "over_100",
-    emoji: "📈",
-    title: "Sí, más de 100 pacientes",
-    desc: "Agenda cargada, la operación ya exige volumen.",
-    qualifies: true,
-    dataLabel: "Más de 100 pacientes/mes",
-  },
-  {
-    id: "under_100",
-    emoji: "🌱",
-    title: "No, aún no llegamos",
-    desc: "Atendemos menos de 100 pacientes al mes.",
-    qualifies: false,
-    dataLabel: "Menos de 100 pacientes/mes",
-  },
+// ============== PASO 1 — SOFTWARE ACTUAL ==============
+// Toda clínica mediana ya usa algún sistema; el paso 1 identifica cuál para
+// enmarcar la migración. Ya no existe la opción "no tenemos software".
+type SoftwareId =
+  | "agendapro"
+  | "dentalink"
+  | "medilink"
+  | "reservo"
+  | "desarrollo_propio"
+  | "otro";
+
+type SoftwareOption = { id: SoftwareId; label: string };
+
+const SOFTWARE_OPTIONS: SoftwareOption[] = [
+  { id: "agendapro", label: "AgendaPro" },
+  { id: "dentalink", label: "Dentalink" },
+  { id: "medilink", label: "Medilink" },
+  { id: "reservo", label: "Reservo" },
+  { id: "desarrollo_propio", label: "Desarrollo propio" },
+  { id: "otro", label: "Otro sistema" },
 ];
+
+const SOFTWARE_LABELS: Record<SoftwareId, string> = SOFTWARE_OPTIONS.reduce(
+  (acc, o) => ({ ...acc, [o.id]: o.label }),
+  {} as Record<SoftwareId, string>,
+);
+
+const SOFTWARE_MICROCOPY_MIGRATE =
+  "Perfecto. Nuestro ingeniero migra tus fichas, pacientes y tratamientos desde tu sistema actual — tú no haces nada.";
+const SOFTWARE_MICROCOPY_CUSTOM =
+  "Perfecto. Nuestro ingeniero se conecta con tu sistema a medida y migra todo por ti.";
+
+function softwareMicrocopy(id: SoftwareId): string {
+  return id === "desarrollo_propio" ? SOFTWARE_MICROCOPY_CUSTOM : SOFTWARE_MICROCOPY_MIGRATE;
+}
+
+// ============== PASO 2 — TAMAÑO DE LA OPERACIÓN ==============
+// Umbrales de calificación. AJUSTA AQUÍ (único lugar del código). Una clínica
+// califica si cumple AL MENOS UNA condición; marca "prioridad alta" con DOS o más.
+const QUALIFY_THRESHOLDS = {
+  sucursales: 2, // califica si sucursales >= 2
+  pacientesMes: 200, // califica si pacientes/mes >= 200
+  profesionales: 4, // califica si profesionales activos >= 4
+} as const;
+
+// `value` = piso numérico del rango; lo consume la regla de calificación.
+type SizeChoice = { id: string; label: string; value: number };
+
+const SUCURSALES_OPTIONS: SizeChoice[] = [
+  { id: "1", label: "1", value: 1 },
+  { id: "2", label: "2", value: 2 },
+  { id: "3plus", label: "3 o más", value: 3 },
+];
+
+const PACIENTES_OPTIONS: SizeChoice[] = [
+  { id: "lt100", label: "Menos de 100", value: 0 },
+  { id: "100_200", label: "100–200", value: 100 },
+  { id: "200_500", label: "200–500", value: 200 },
+  { id: "gt500", label: "Más de 500", value: 500 },
+];
+
+const PROFESIONALES_OPTIONS: SizeChoice[] = [
+  { id: "1_3", label: "1–3", value: 1 },
+  { id: "4_10", label: "4–10", value: 4 },
+  { id: "gt10", label: "Más de 10", value: 11 },
+];
+
+type SizeAnswers = {
+  sucursales: SizeChoice | null;
+  pacientes: SizeChoice | null;
+  profesionales: SizeChoice | null;
+};
+
+type Qualification = { califica: boolean; prioridadAlta: boolean; metCount: number };
+
+// Regla de calificación PURA — sin efectos, un solo lugar, fácil de testear/ajustar.
+function evaluateQualification(size: SizeAnswers): Qualification {
+  const conds = [
+    (size.sucursales?.value ?? 0) >= QUALIFY_THRESHOLDS.sucursales,
+    (size.pacientes?.value ?? 0) >= QUALIFY_THRESHOLDS.pacientesMes,
+    (size.profesionales?.value ?? 0) >= QUALIFY_THRESHOLDS.profesionales,
+  ];
+  const metCount = conds.filter(Boolean).length;
+  return { califica: metCount >= 1, prioridadAlta: metCount >= 2, metCount };
+}
+
+function sizeComplete(size: SizeAnswers): boolean {
+  return !!(size.sucursales && size.pacientes && size.profesionales);
+}
+
+function sizeSummaryLabel(size: SizeAnswers): string {
+  const suc = size.sucursales
+    ? `${size.sucursales.label} sucursal${size.sucursales.id === "1" ? "" : "es"}`
+    : null;
+  const pac = size.pacientes ? `${size.pacientes.label} pacientes/mes` : null;
+  const pro = size.profesionales ? `${size.profesionales.label} profesionales` : null;
+  return [suc, pac, pro].filter(Boolean).join(" · ");
+}
 
 // Tipo de clínica que atendemos hoy — dentales pausadas por el momento.
 type ClinicType = "medica" | "kinesiologica" | "estetica" | "salud_mental";
@@ -77,40 +146,13 @@ const CLINIC_TYPE_LABELS: Record<ClinicType, string> = {
 };
 
 
-type MigrationIntent = "no_software" | "yes_migrate" | "maybe" | "no_migrate";
-type MigrationOption = {
-  id: MigrationIntent;
-  title: string;
-  desc: string;
-  priority?: boolean;
-};
-
-const MIGRATION_OPTIONS: MigrationOption[] = [
-  {
-    id: "no_software",
-    title: "No tenemos software",
-    desc: "Implementar desde cero.",
-    priority: true,
-  },
-  {
-    id: "yes_migrate",
-    title: "Queremos migrar a Clinera",
-    desc: "Centralizar la operación.",
-  },
-  {
-    id: "maybe",
-    title: "Queremos evaluarlo",
-    desc: "Revisar compatibilidad.",
-  },
-];
-
-const MIGRATION_LABELS: Record<MigrationIntent, string> = MIGRATION_OPTIONS.reduce(
-  (acc, opt) => ({ ...acc, [opt.id]: opt.title }),
-  {} as Record<MigrationIntent, string>,
-);
-
 const WEBHOOK_URL = "https://n8n.oacg.cl/webhook/088a2cfe-5c93-4a4b-a4e5-ac2617979ea5";
 const WA_NUMBER = "56985581524";
+
+// Mensaje precargado del botón de lista de espera (pantalla NO CALIFICA).
+// La conversación la inicia el cliente al enviar este mensaje — no lo contactamos primero.
+const WAITLIST_WA_MESSAGE =
+  "Hola, mi clínica aún no llega al tamaño mínimo de Clinera. Quiero quedar en la lista de espera para cuando crezcamos.";
 
 type Form = { nombre: string; clinica: string; tipoClinica: ClinicType | ""; prefix: string; phone: string; email: string };
 
@@ -137,47 +179,48 @@ function detectLeadSource(): string {
   return "organico";
 }
 
-const MIGRATION_MONDAY: Record<MigrationIntent, string | null> = {
-  no_software: "no tiene software",
-  yes_migrate: "quiere migrar",
-  maybe: "quiere evaluarlo",
-  no_migrate: null,
-};
+// Empuja un evento a GTM/dataLayer (mecanismo de analytics que ya usa el sitio).
+function pushDL(event: string, data: Record<string, unknown> = {}) {
+  if (typeof window === "undefined" || !window.dataLayer) return;
+  window.dataLayer.push({ event, ...data });
+}
 
-function getMigrationMeta(migrationIntent: MigrationIntent | null) {
-  if (!migrationIntent) return {};
-
+// Atributos NO personales del lead (software + tamaño + calificación). Se usan
+// tanto en los eventos de analytics como en el payload del webhook.
+function sizeAttributes(
+  software: SoftwareId | null,
+  size: SizeAnswers,
+  qual: Qualification | null,
+) {
   return {
-    migration_intent: migrationIntent,
-    migration_intent_label: MIGRATION_LABELS[migrationIntent],
-    monday_initial_status: MIGRATION_MONDAY[migrationIntent] ?? "",
-    lead_priority:
-      migrationIntent === "no_software"
-        ? "high"
-        : migrationIntent === "maybe"
-          ? "manual_review"
-          : "standard",
-    calendar_access:
-      migrationIntent === "maybe"
-        ? "manual_review"
-        : migrationIntent === "no_migrate"
-          ? "not_available"
-          : "allowed",
+    software_actual: software ?? "",
+    software_actual_label: software ? SOFTWARE_LABELS[software] : "",
+    sucursales: size.sucursales?.id ?? "",
+    sucursales_label: size.sucursales?.label ?? "",
+    pacientes_mes: size.pacientes?.id ?? "",
+    pacientes_mes_label: size.pacientes?.label ?? "",
+    profesionales: size.profesionales?.id ?? "",
+    profesionales_label: size.profesionales?.label ?? "",
+    prioridad_alta: qual?.prioridadAlta ?? false,
+    califica: qual?.califica ?? false,
   };
 }
 
-function trackQualificationSelected(migrationIntent: MigrationIntent) {
-  if (typeof window === "undefined") return;
-  const meta = getMigrationMeta(migrationIntent);
-
-  if (window.dataLayer) {
-    window.dataLayer.push({ event: `qualification_selected:${migrationIntent}`, ...meta });
-    window.dataLayer.push({ event: "qualification_selected", ...meta });
-  }
-
-  if (typeof window.fbq === "function") {
-    window.fbq("trackCustom", `qualification_selected:${migrationIntent}`, meta);
-  }
+// Campos legacy para no romper el mapeo de n8n → Monday (que esperaba los datos
+// del esquema anterior: tamano_clinica, patient_volume, migration_intent, etc.).
+// Toda clínica que llega aquí ya tiene software → su intención es migrar.
+function backCompatFields(software: SoftwareId | null, size: SizeAnswers, qual: Qualification | null) {
+  const pacientesValue = size.pacientes?.value ?? 0;
+  return {
+    tamano_clinica: sizeSummaryLabel(size),
+    patient_volume: pacientesValue >= 100 ? "over_100" : "under_100",
+    migration_intent: "yes_migrate",
+    migration_intent_label: "Queremos migrar a Clinera",
+    software_actual_migracion: software ? SOFTWARE_LABELS[software] : "",
+    monday_initial_status: "quiere migrar",
+    lead_priority: qual?.prioridadAlta ? "high" : "standard",
+    calendar_access: "allowed",
+  };
 }
 
 // ============== ROOT ==============
@@ -221,6 +264,7 @@ export default function VentasLanding({
         @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-5px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(3px); } }
         @keyframes scaleBounce { 0% { transform: scale(0); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
         @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes ventasFadeUp { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
         @media (prefers-reduced-motion: reduce) { * { animation-duration: 0ms !important; transition-duration: 0ms !important; } }
         /* Desktop shows the big carousel card; mobile swaps to a compact horizontal strip */
         .ventas-testi-desktop { display: block; }
@@ -581,18 +625,22 @@ function Wizard({
   enableMigrationQualification: boolean;
 }) {
   const [step, setStep] = useState(1);
-  const [migrationIntent, setMigrationIntent] = useState<MigrationIntent | null>(null);
-  const [volume, setVolume] = useState<VolumeOption | null>(null);
+  const [software, setSoftware] = useState<SoftwareId | null>(null);
+  const [size, setSize] = useState<SizeAnswers>({ sucursales: null, pacientes: null, profesionales: null });
+  const [qualification, setQualification] = useState<Qualification | null>(null);
   const [form, setForm] = useState<Form>({ nombre: "", clinica: "", tipoClinica: "", prefix: "+56", phone: "", email: "" });
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
   const [booking, setBooking] = useState<CalBooking | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const [terminalState, setTerminalState] = useState<"manual_review" | "not_compatible" | "too_small" | null>(null);
-  const hasQualification = enableMigrationQualification;
-  const totalSteps = hasQualification ? 4 : 3;
-  const volumeStep = hasQualification ? 2 : 1;
-  const contactStep = hasQualification ? 3 : 2;
-  const calStep = hasQualification ? 4 : 3;
+  const [terminalState, setTerminalState] = useState<"waitlist" | null>(null);
+  // El paso de software (paso 1) queda gateado por la misma prop de antes; ambas
+  // páginas (/ventas y /hablar-con-ventas) lo activan → flujo de 4 pasos.
+  const hasSoftwareStep = enableMigrationQualification;
+  const totalSteps = hasSoftwareStep ? 4 : 3;
+  const softwareStep = 1;
+  const sizeStep = hasSoftwareStep ? 2 : 1;
+  const contactStep = hasSoftwareStep ? 3 : 2;
+  const calStep = hasSoftwareStep ? 4 : 3;
 
   return (
     <div
@@ -614,53 +662,54 @@ function Wizard({
         ))}
       </div>
 
-      {!submitted && !terminalState && hasQualification && step === 1 && (
-        <StepMigrationQualification
-          migrationIntent={migrationIntent}
-          setMigrationIntent={(intent) => {
-            setMigrationIntent(intent);
-            trackQualificationSelected(intent);
-            if (intent === "no_migrate") {
-              setTimeout(() => {
-                setStep(totalSteps);
-                setTerminalState("not_compatible");
-              }, 260);
-              return;
-            }
-            setTimeout(() => setStep(volumeStep), 300);
+      {!submitted && !terminalState && hasSoftwareStep && step === softwareStep && (
+        <StepSoftware
+          software={software}
+          setSoftware={setSoftware}
+          label={`Paso ${softwareStep} de ${totalSteps}`}
+          onNext={() => {
+            pushDL("paso_1_completado", {
+              software_actual: software ?? "",
+              software_actual_label: software ? SOFTWARE_LABELS[software] : "",
+            });
+            setStep(sizeStep);
           }}
         />
       )}
-      {!submitted && !terminalState && step === volumeStep && (
-        <StepVolume
-          volume={volume}
-          label={`Paso ${volumeStep} de ${totalSteps}`}
-          onBack={hasQualification ? () => setStep(1) : undefined}
-          setVolume={(v) => {
-            setVolume(v);
-            if (typeof window !== "undefined" && window.dataLayer) {
-              window.dataLayer.push({ event: "ventas_select_volume", patient_volume: v.id, qualifies: v.qualifies });
-            }
-            if (!v.qualifies) {
-              // Menos de 100 pacientes/mes: Clinera no es para ellos. Cierre amable,
-              // sin lead al pipeline ni MQL — solo un evento custom para medir el corte.
+      {!submitted && !terminalState && step === sizeStep && (
+        <StepSize
+          size={size}
+          setSize={setSize}
+          label={`Paso ${sizeStep} de ${totalSteps}`}
+          onBack={hasSoftwareStep ? () => setStep(softwareStep) : undefined}
+          onNext={() => {
+            const qual = evaluateQualification(size);
+            setQualification(qual);
+            const attrs = sizeAttributes(software, size, qual);
+            pushDL("paso_2_completado", attrs);
+
+            if (qual.califica) {
+              pushDL("calificado", attrs);
               if (typeof window !== "undefined" && typeof window.fbq === "function") {
-                window.fbq("trackCustom", "LeadUnder100", { content_name: "Clinera Ventas" });
+                window.fbq("track", "ViewContent", { content_name: "Clinera Ventas", ...attrs });
               }
-              setTimeout(() => {
-                setStep(totalSteps);
-                setTerminalState("too_small");
-              }, 260);
+              // Persistir el lead parcial YA (apenas se completa el paso 2): así queda
+              // capturado aunque el usuario abandone antes de dejar sus datos.
+              submitSizeLead({ software, size, qual }).then((ctx) => {
+                if (ctx) setLeadCtx(ctx);
+              });
+              setStep(contactStep);
               return;
             }
+
+            // No califica → registrar como waitlist y mostrar pantalla de lista de espera.
+            pushDL("no_calificado_waitlist", attrs);
             if (typeof window !== "undefined" && typeof window.fbq === "function") {
-              window.fbq("track", "ViewContent", {
-                content_name: "Clinera Ventas",
-                patient_volume: v.id,
-                ...(migrationIntent ? { migration_intent: migrationIntent } : {}),
-              });
+              window.fbq("trackCustom", "LeadUnderMinimum", { content_name: "Clinera Ventas", ...attrs });
             }
-            setTimeout(() => setStep(contactStep), 300);
+            submitWaitlistLead({ software, size, qual });
+            setStep(totalSteps);
+            setTerminalState("waitlist");
           }}
         />
       )}
@@ -669,24 +718,17 @@ function Wizard({
           form={form}
           setForm={setForm}
           label={`Paso ${contactStep} de ${totalSteps}`}
-          onBack={() => setStep(volumeStep)}
+          onBack={() => setStep(sizeStep)}
           onNext={() => {
             if (typeof window !== "undefined" && typeof window.fbq === "function") {
-              window.fbq("track", "InitiateCheckout", {
-                content_name: "Clinera Ventas",
-                ...(migrationIntent ? { migration_intent: migrationIntent } : {}),
-              });
+              window.fbq("track", "InitiateCheckout", { content_name: "Clinera Ventas" });
             }
-            // Capturar el lead en n8n en background — sin bloquear el avance al embed.
-            // El fetch usa keepalive, así que se completa aunque cambie de pestaña.
-            submitPartialLead({ form, volume, migrationIntent }).then((ctx) => {
+            pushDL("lead_completo", sizeAttributes(software, size, qualification));
+            // Enviar el lead completo en background — sin bloquear el avance al embed.
+            // Reutiliza el event_id del lead parcial (paso 2) para que n8n haga upsert.
+            submitContactLead({ form, software, size, qual: qualification, leadCtx }).then((ctx) => {
               if (ctx) setLeadCtx(ctx);
             });
-            if (migrationIntent === "maybe") {
-              setStep(totalSteps);
-              setTerminalState("manual_review");
-              return;
-            }
             setStep(calStep);
           }}
         />
@@ -694,31 +736,33 @@ function Wizard({
       {!submitted && !terminalState && step === calStep && (
         <StepCalCom
           form={form}
-          volume={volume}
-          migrationIntent={migrationIntent}
+          software={software}
+          size={size}
           label={`Paso ${calStep} de ${totalSteps}`}
           onBack={() => setStep(contactStep)}
           onBooked={async (calBooking) => {
             setBooking(calBooking);
-            await submitBookingConfirmation({ form, volume, migrationIntent, leadCtx, booking: calBooking });
+            await submitBookingConfirmation({ form, software, size, qual: qualification, leadCtx, booking: calBooking });
             setSubmitted(true);
           }}
         />
       )}
-      {terminalState === "manual_review" && <StepManualReviewClose />}
-      {terminalState === "not_compatible" && <StepNotCompatibleClose />}
-      {terminalState === "too_small" && <StepTooSmallClose />}
-      {submitted && <StepSuccess form={form} volume={volume} booking={booking} migrationIntent={migrationIntent} />}
+      {terminalState === "waitlist" && (
+        <StepWaitlistClose software={software} size={size} qual={qualification} />
+      )}
+      {submitted && <StepSuccess form={form} software={software} size={size} booking={booking} />}
     </div>
   );
 }
 
 // ============== SUBMIT + META DEDUP ==============
-// El lead se captura en DOS etapas:
-// 1) submitPartialLead — al final del paso 2 (datos de contacto). Garantiza que n8n
-//    reciba el lead aunque después abandone el embed de Cal.com.
-// 2) submitBookingConfirmation — cuando Cal.com dispara `bookingSuccessful`.
-//    Manda los detalles del calendario y referencia al lead anterior.
+// El lead se captura en ETAPAS, todas contra el mismo webhook n8n:
+// 1) submitSizeLead     — apenas se completa el paso 2 (tamaño), si CALIFICA. Deja el
+//                         lead capturado aunque abandone antes de dar sus datos.
+// 2) submitWaitlistLead — apenas se completa el paso 2, si NO califica. lead_status="waitlist".
+// 3) submitContactLead  — al enviar el paso 3 (contacto). Reutiliza el event_id del
+//                         paso 2 para que n8n haga upsert del mismo lead.
+// 4) submitBookingConfirmation — cuando Cal.com dispara `bookingSuccessful`.
 
 type CalBooking = {
   booking?: { uid?: string; eventTypeId?: number; startTime?: string; endTime?: string };
@@ -729,37 +773,158 @@ type CalBooking = {
   confirmed?: boolean;
 };
 
-async function submitPartialLead({
-  form,
-  volume,
-  migrationIntent,
-}: {
-  form: Form;
-  volume: VolumeOption | null;
-  migrationIntent?: MigrationIntent | null;
-}): Promise<{ eventId: string; leadSource: string } | null> {
-  if (!volume || !volume.qualifies) return null;
-
-  const eventId = "ventas_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
-  const eventTime = Math.floor(Date.now() / 1000);
-
+// Señales de Meta (fbp/fbc) desde cookies + fbclid de la URL.
+function getMetaSignals() {
   const fbp = getCookie("_fbp");
   let fbc = getCookie("_fbc");
   if (!fbc && typeof window !== "undefined") {
     const fbclid = new URLSearchParams(window.location.search).get("fbclid");
     if (fbclid) fbc = `fb.1.${Date.now()}.${fbclid}`;
   }
+  return { fbp, fbc };
+}
 
+async function postWebhook(payload: Record<string, unknown>, errLabel: string) {
+  try {
+    await fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    });
+  } catch (e) {
+    console.error(`${errLabel} webhook failed`, e);
+  }
+}
+
+// (1) Lead parcial de TAMAÑO — se dispara apenas se completa el paso 2 si CALIFICA.
+// Aún no hay datos de contacto: guarda software + tamaño + calificación para que el
+// lead quede capturado incluso si el usuario abandona antes del paso 3.
+async function submitSizeLead({
+  software,
+  size,
+  qual,
+}: {
+  software: SoftwareId | null;
+  size: SizeAnswers;
+  qual: Qualification;
+}): Promise<{ eventId: string; leadSource: string } | null> {
+  if (!qual.califica) return null;
+
+  const eventId = "ventas_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
   const leadSource = detectLeadSource();
+  const { fbp, fbc } = getMetaSignals();
+
+  pushDL("ventas_size_lead", {
+    lead_source: leadSource,
+    event_id: eventId,
+    booking_status: "pending",
+    ...sizeAttributes(software, size, qual),
+  });
+
+  const payload = {
+    event_id: eventId,
+    event_time: Math.floor(Date.now() / 1000),
+    event_source_url: typeof window !== "undefined" ? window.location.href : "",
+    action_source: "website",
+    fbp,
+    fbc,
+    ...getClineraMetaIds(),
+    client_user_agent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+
+    lead_stage: "size_captured",
+    lead_status: "qualified",
+    booking_status: "pending",
+    lead_source: leadSource,
+    ...getAttributionPayload(),
+    ...sizeAttributes(software, size, qual),
+    ...backCompatFields(software, size, qual),
+    fuente: "Landing /ventas — Clinera (tamaño)",
+    landing_url: typeof window !== "undefined" ? location.href : "",
+    referrer: typeof document !== "undefined" ? document.referrer : "",
+    created_at: new Date().toISOString(),
+    timestamp: Date.now(),
+  };
+
+  await postWebhook(payload, "Size lead");
+  return { eventId, leadSource };
+}
+
+// (2) Lead de WAITLIST — se dispara al completar el paso 2 si NO califica.
+// Guarda software + tamaño con lead_status="waitlist". Sin datos de contacto (aún
+// no se piden). El cliente inicia la conversación por WhatsApp desde la pantalla.
+//
+// TODO(waitlist board): cuando exista la integración con tech.oacg.cl/waitlist
+// (Baserow), replicar este mismo payload a ese tablero. Forma esperada del registro:
+//   { software_actual, software_actual_label, sucursales, sucursales_label,
+//     pacientes_mes, pacientes_mes_label, profesionales, profesionales_label,
+//     prioridad_alta:false, califica:false, lead_status:"waitlist",
+//     lead_source, created_at }
+async function submitWaitlistLead({
+  software,
+  size,
+  qual,
+}: {
+  software: SoftwareId | null;
+  size: SizeAnswers;
+  qual: Qualification;
+}) {
+  const eventId = "ventas_wl_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+  const leadSource = detectLeadSource();
+  const { fbp, fbc } = getMetaSignals();
+
+  const payload = {
+    event_id: eventId,
+    event_time: Math.floor(Date.now() / 1000),
+    event_source_url: typeof window !== "undefined" ? window.location.href : "",
+    action_source: "website",
+    fbp,
+    fbc,
+    ...getClineraMetaIds(),
+    client_user_agent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+
+    lead_stage: "size_captured",
+    lead_status: "waitlist",
+    booking_status: "waitlist",
+    lead_source: leadSource,
+    ...getAttributionPayload(),
+    ...sizeAttributes(software, size, qual),
+    ...backCompatFields(software, size, qual),
+    lead_priority: "waitlist",
+    monday_initial_status: "lista de espera",
+    fuente: "Landing /ventas — Clinera (waitlist)",
+    landing_url: typeof window !== "undefined" ? location.href : "",
+    referrer: typeof document !== "undefined" ? document.referrer : "",
+    created_at: new Date().toISOString(),
+    timestamp: Date.now(),
+  };
+
+  await postWebhook(payload, "Waitlist lead");
+}
+
+// (3) Lead COMPLETO de contacto — se dispara al enviar el paso 3. Reutiliza el
+// event_id del lead de tamaño (paso 2) para que n8n upsertee el mismo lead.
+async function submitContactLead({
+  form,
+  software,
+  size,
+  qual,
+  leadCtx,
+}: {
+  form: Form;
+  software: SoftwareId | null;
+  size: SizeAnswers;
+  qual: Qualification | null;
+  leadCtx: { eventId: string; leadSource: string } | null;
+}): Promise<{ eventId: string; leadSource: string } | null> {
+  const eventId = leadCtx?.eventId ?? "ventas_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+  const leadSource = leadCtx?.leadSource ?? detectLeadSource();
+  const { fbp, fbc } = getMetaSignals();
+
   const rule = PHONE_RULES[form.prefix];
   const digits = form.phone.replace(/\D/g, "");
-  const migrationMeta = getMigrationMeta(migrationIntent ?? null);
 
-  // Fire Pixel MQL — todo wizard completado con datos válidos es MQL (evento amplio
-  // de marketing). Quien declara <100 pacientes/mes nunca llega aquí (corte en el
-  // paso de volumen). La calificación humana ocurre después: el closer marca SQL
-  // en el tablero de leads y ese es el evento de alto valor.
-  // Mismo eventID que va al webhook n8n → dedup con el evento server-side MQL (CAPI).
+  // MQL pixel — mismo eventID que el webhook → dedup con el evento server-side (CAPI).
   if (typeof window !== "undefined" && typeof window.fbq === "function") {
     window.fbq(
       "track",
@@ -771,44 +936,36 @@ async function submitPartialLead({
         booking_status: "pending",
         value: 10,
         currency: "USD",
-        patient_volume: volume.id,
-        ...migrationMeta,
+        ...sizeAttributes(software, size, qual),
       },
       { eventID: eventId },
     );
   }
 
-  if (typeof window !== "undefined" && window.dataLayer) {
-    window.dataLayer.push({
-      event: "ventas_submit_lead",
-      lead_source: leadSource,
-      patient_volume: volume.id,
-      event_id: eventId,
-      booking_status: "pending",
-      ...migrationMeta,
-    });
-  }
-
-  const adAttribution = getAttributionPayload();
+  pushDL("ventas_submit_lead", {
+    lead_source: leadSource,
+    event_id: eventId,
+    booking_status: "pending",
+    ...sizeAttributes(software, size, qual),
+  });
 
   const payload = {
     event_id: eventId,
-    event_time: eventTime,
+    event_time: Math.floor(Date.now() / 1000),
     event_source_url: typeof window !== "undefined" ? window.location.href : "",
     action_source: "website",
     fbp,
     fbc,
-    // Identificadores de Meta para CAPI (meta_fbc / meta_fbp / fbclid) — los lee
-    // n8n. Capturados en el pageview inicial y persistidos en sessionStorage.
     ...getClineraMetaIds(),
     client_user_agent: typeof navigator !== "undefined" ? navigator.userAgent : "",
 
+    lead_stage: "contact",
+    lead_status: "qualified",
     booking_status: "pending",
     lead_source: leadSource,
-    ...migrationMeta,
-    ...adAttribution,
-    tamano_clinica: volume.dataLabel,
-    patient_volume: volume.id,
+    ...getAttributionPayload(),
+    ...sizeAttributes(software, size, qual),
+    ...backCompatFields(software, size, qual),
     nombre: form.nombre.trim(),
     nombre_clinica: form.clinica.trim(),
     tipo_clinica: form.tipoClinica || "",
@@ -825,35 +982,26 @@ async function submitPartialLead({
     timestamp: Date.now(),
   };
 
-  try {
-    await fetch(WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-      keepalive: true,
-    });
-  } catch (e) {
-    console.error("Partial lead webhook failed", e);
-  }
-
+  await postWebhook(payload, "Contact lead");
   return { eventId, leadSource };
 }
 
+// (4) Confirmación de reserva — cuando Cal.com dispara `bookingSuccessful`.
 async function submitBookingConfirmation({
   form,
-  volume,
-  migrationIntent,
+  software,
+  size,
+  qual,
   leadCtx,
   booking,
 }: {
   form: Form;
-  volume: VolumeOption | null;
-  migrationIntent?: MigrationIntent | null;
+  software: SoftwareId | null;
+  size: SizeAnswers;
+  qual: Qualification | null;
   leadCtx: { eventId: string; leadSource: string } | null;
   booking: CalBooking;
 }) {
-  if (!volume || !volume.qualifies) return;
-
   const confirmEventId =
     "ventas_confirm_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
 
@@ -867,35 +1015,32 @@ async function submitBookingConfirmation({
         content_category: "booking",
         lead_source: leadCtx?.leadSource,
         cal_booking_uid: booking?.booking?.uid,
-        ...getMigrationMeta(migrationIntent ?? null),
+        ...sizeAttributes(software, size, qual),
       },
       { eventID: confirmEventId },
     );
   }
 
-  if (typeof window !== "undefined" && window.dataLayer) {
-    window.dataLayer.push({
-      event: "ventas_booking_confirmed",
-      lead_event_id: leadCtx?.eventId,
-      cal_booking_uid: booking?.booking?.uid,
-      cal_date: booking?.date,
-      ...getMigrationMeta(migrationIntent ?? null),
-    });
-  }
+  pushDL("ventas_booking_confirmed", {
+    lead_event_id: leadCtx?.eventId,
+    cal_booking_uid: booking?.booking?.uid,
+    cal_date: booking?.date,
+    ...sizeAttributes(software, size, qual),
+  });
 
   const rule = PHONE_RULES[form.prefix];
   const digits = form.phone.replace(/\D/g, "");
-  const migrationMeta = getMigrationMeta(migrationIntent ?? null);
-  const adAttribution = getAttributionPayload();
 
   const payload = {
     event_id: confirmEventId,
     parent_event_id: leadCtx?.eventId ?? null,
     event_time: Math.floor(Date.now() / 1000),
     booking_status: "confirmed",
+    lead_stage: "booking_confirmed",
+    lead_status: "qualified",
 
     // Atribución de Google Ads (gclid/gbraid/wbraid) para offline conversions
-    ...adAttribution,
+    ...getAttributionPayload(),
     // Identificadores de Meta para CAPI (meta_fbc / meta_fbp / fbclid)
     ...getClineraMetaIds(),
 
@@ -915,9 +1060,8 @@ async function submitBookingConfirmation({
 
     // Datos del contacto (re-incluidos para que el segundo evento sea autosuficiente)
     lead_source: leadCtx?.leadSource ?? detectLeadSource(),
-    ...migrationMeta,
-    tamano_clinica: volume.dataLabel,
-    patient_volume: volume.id,
+    ...sizeAttributes(software, size, qual),
+    ...backCompatFields(software, size, qual),
     nombre: form.nombre.trim(),
     nombre_clinica: form.clinica.trim(),
     tipo_clinica: form.tipoClinica || "",
@@ -933,48 +1077,44 @@ async function submitBookingConfirmation({
     timestamp: Date.now(),
   };
 
-  try {
-    await fetch(WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-      keepalive: true,
-    });
-  } catch (e) {
-    console.error("Booking confirmation webhook failed", e);
-  }
+  await postWebhook(payload, "Booking confirmation");
 }
 
-// ============== STEP 1 — MIGRATION QUALIFICATION ==============
-function StepMigrationQualification({
-  migrationIntent,
-  setMigrationIntent,
+// ============== STEP 1 — SOFTWARE ACTUAL ==============
+function StepSoftware({
+  software,
+  setSoftware,
+  label,
+  onNext,
 }: {
-  migrationIntent: MigrationIntent | null;
-  setMigrationIntent: (intent: MigrationIntent) => void;
+  software: SoftwareId | null;
+  setSoftware: (id: SoftwareId) => void;
+  label: string;
+  onNext: () => void;
 }) {
   return (
     <div>
       <StepHeader
-        label="Paso 1 de 4"
+        label={label}
         title={
           <>
-            Situación{" "}
+            ¿Qué{" "}
             <em style={{ fontStyle: "normal", background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-              actual
-            </em>
+              software
+            </em>{" "}
+            usan hoy en tu clínica?
           </>
         }
-        sub="Reunión exclusiva para dueños, gerentes y directores médicos de clínicas. ¿Buscas implementar o migrar a Clinera?"
+        sub="Reunión exclusiva para dueños, gerentes y directores médicos de clínicas."
       />
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {MIGRATION_OPTIONS.map((opt, index) => {
-          const sel = migrationIntent === opt.id;
+        {SOFTWARE_OPTIONS.map((opt) => {
+          const sel = software === opt.id;
           return (
             <button
               key={opt.id}
               type="button"
-              onClick={() => setMigrationIntent(opt.id)}
+              onClick={() => setSoftware(opt.id)}
               className="ventas-challenge-opt"
               style={{
                 position: "relative",
@@ -995,51 +1135,8 @@ function StepMigrationQualification({
               }}
             >
               {sel && <span style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 3, background: GRAD }} />}
-              <span
-                className="ventas-challenge-icon"
-                style={{
-                  flexShrink: 0,
-                  width: 44,
-                  height: 44,
-                  borderRadius: 12,
-                  background: sel ? GRAD : "linear-gradient(135deg,#F4F8FF 0%,#FAF5FF 100%)",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: sel ? "#fff" : "#7C3AED",
-                  boxShadow: sel ? "0 6px 14px -4px rgba(124,58,237,.4)" : "none",
-                  transition: "all .25s",
-                }}
-              >
-                {index + 1}
-              </span>
-              <span style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 4 }}>
-                <span style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                  <span className="ventas-challenge-title" style={{ fontWeight: 700, fontSize: 15, letterSpacing: "-.012em" }}>{opt.title}</span>
-                  {opt.priority && (
-                    <span
-                      style={{
-                        fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                        fontSize: 9,
-                        fontWeight: 700,
-                        letterSpacing: ".08em",
-                        textTransform: "uppercase",
-                        color: "#065F46",
-                        background: "rgba(16,185,129,.10)",
-                        border: "1px solid rgba(16,185,129,.24)",
-                        borderRadius: 999,
-                        padding: "3px 7px",
-                        lineHeight: 1,
-                      }}
-                    >
-                      Atención prioritaria
-                    </span>
-                  )}
-                </span>
-                <span className="ventas-challenge-desc" style={{ fontSize: 13, color: "#6B7280", lineHeight: 1.4 }}>{opt.desc}</span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span className="ventas-challenge-title" style={{ fontWeight: 700, fontSize: 15, letterSpacing: "-.012em" }}>{opt.label}</span>
               </span>
               <span
                 style={{
@@ -1072,130 +1169,161 @@ function StepMigrationQualification({
           );
         })}
       </div>
+
+      {software && (
+        <div
+          key={software}
+          style={{
+            marginTop: 14,
+            display: "flex",
+            alignItems: "flex-start",
+            gap: 10,
+            padding: "13px 15px",
+            background: "linear-gradient(135deg,#F4F8FF 0%,#FAF5FF 100%)",
+            border: "1px solid rgba(124,58,237,.16)",
+            borderRadius: 12,
+            animation: "ventasFadeUp .3s ease both",
+          }}
+        >
+          <span style={{ flexShrink: 0, marginTop: 1, color: "#7C3AED" }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+          </span>
+          <span style={{ fontFamily: "Inter", fontSize: 13.5, color: "#374151", lineHeight: 1.45 }}>
+            {softwareMicrocopy(software)}
+          </span>
+        </div>
+      )}
+
+      <SubmitBtn enabled={!!software} onClick={() => software && onNext()}>
+        Continuar
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </SubmitBtn>
     </div>
   );
 }
 
-// ============== STEP — VOLUMEN ==============
-function StepVolume({
-  volume,
-  setVolume,
-  label = "Paso 1 de 3",
-  onBack,
+// ============== STEP 2 — TAMAÑO DE LA OPERACIÓN ==============
+function ChipGroup({
+  groupLabel,
+  options,
+  selected,
+  onSelect,
 }: {
-  volume: VolumeOption | null;
-  setVolume: (v: VolumeOption) => void;
-  label?: string;
-  onBack?: () => void;
+  groupLabel: string;
+  options: SizeChoice[];
+  selected: SizeChoice | null;
+  onSelect: (o: SizeChoice) => void;
 }) {
+  return (
+    <div style={{ marginBottom: 18 }}>
+      <div
+        className="ventas-step-label"
+        style={{
+          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+          fontWeight: 600,
+          fontSize: 11,
+          letterSpacing: ".14em",
+          color: "#6B7280",
+          marginBottom: 8,
+          textTransform: "uppercase",
+        }}
+      >
+        {groupLabel}
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+        {options.map((opt) => {
+          const sel = selected?.id === opt.id;
+          return (
+            <button
+              key={opt.id}
+              type="button"
+              onClick={() => onSelect(opt)}
+              style={{
+                flex: "1 1 auto",
+                minWidth: "fit-content",
+                padding: "11px 16px",
+                border: "1.5px solid " + (sel ? "#0A0A0A" : "#E7EBF0"),
+                borderRadius: 999,
+                background: sel ? "#FAFBFD" : "#fff",
+                cursor: "pointer",
+                fontFamily: "Inter",
+                fontWeight: sel ? 700 : 500,
+                fontSize: 14,
+                letterSpacing: "-.01em",
+                color: sel ? "#0A0A0A" : "#4B5563",
+                whiteSpace: "nowrap",
+                transition: "all .2s",
+              }}
+            >
+              {opt.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function StepSize({
+  size,
+  setSize,
+  label,
+  onBack,
+  onNext,
+}: {
+  size: SizeAnswers;
+  setSize: (s: SizeAnswers) => void;
+  label: string;
+  onBack?: () => void;
+  onNext: () => void;
+}) {
+  const complete = sizeComplete(size);
   return (
     <div>
       {onBack && <BackBtn onClick={onBack} />}
       <StepHeader
         label={label}
-        title="¿Tu clínica atiende más de 100 pacientes al mes?"
-        sub="Es nuestro requisito de entrada."
+        title={
+          <>
+            Cuéntanos el{" "}
+            <em style={{ fontStyle: "normal", background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
+              tamaño
+            </em>{" "}
+            de tu operación
+          </>
+        }
+        sub="Tres datos rápidos para saber si Clinera te calza hoy."
       />
 
-      {/* Callout: el umbral mínimo es lo primero que debe registrar el ojo */}
-      <div
-        style={{
-          background: "#FAFBFD",
-          border: "1px solid #E7EBF0",
-          borderRadius: 14,
-          padding: "16px 18px",
-          marginBottom: 18,
-        }}
-      >
-        <div
-          style={{
-            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-            fontSize: 11,
-            fontWeight: 600,
-            letterSpacing: ".14em",
-            textTransform: "uppercase",
-            color: "#6B7280",
-            marginBottom: 8,
-          }}
-        >
-          Mínimo operativo
-        </div>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
-          <span
-            className="ventas-volume-num"
-            style={{ fontFamily: "Inter", fontSize: 56, fontWeight: 800, letterSpacing: "-.04em", lineHeight: 0.9, color: "#0A0A0A" }}
-          >
-            100
-          </span>
-          <span style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 600, color: "#4B5563" }}>pacientes/mes</span>
-        </div>
-        <div style={{ marginTop: 10, fontFamily: "Inter", fontSize: 13, color: "#6B7280", lineHeight: 1.4 }}>
-          Bajo ese volumen, Clinera todavía no te conviene.
-        </div>
-      </div>
+      <ChipGroup
+        groupLabel="Sucursales"
+        options={SUCURSALES_OPTIONS}
+        selected={size.sucursales}
+        onSelect={(o) => setSize({ ...size, sucursales: o })}
+      />
+      <ChipGroup
+        groupLabel="Pacientes al mes"
+        options={PACIENTES_OPTIONS}
+        selected={size.pacientes}
+        onSelect={(o) => setSize({ ...size, pacientes: o })}
+      />
+      <ChipGroup
+        groupLabel="Profesionales activos"
+        options={PROFESIONALES_OPTIONS}
+        selected={size.profesionales}
+        onSelect={(o) => setSize({ ...size, profesionales: o })}
+      />
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {VOLUME_OPTIONS.map((opt) => {
-          const sel = volume?.id === opt.id;
-          const primary = opt.qualifies;
-          return (
-            <button
-              key={opt.id}
-              type="button"
-              onClick={() => setVolume(opt)}
-              className="ventas-challenge-opt"
-              style={{
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                padding: primary ? "16px 18px" : "12px 16px",
-                border: (primary ? "1.5px" : "1px") + " solid " + (sel ? "#0A0A0A" : primary ? "#7C3AED" : "#E7EBF0"),
-                borderRadius: 12,
-                cursor: "pointer",
-                background: "#fff",
-                textAlign: "left",
-                fontFamily: "Inter",
-                color: "#0A0A0A",
-                width: "100%",
-                transition: "all .2s",
-              }}
-            >
-              <span style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 2 }}>
-                <span style={{ fontWeight: primary ? 700 : 600, fontSize: primary ? 15.5 : 14.5, letterSpacing: "-.012em", color: primary ? "#0A0A0A" : "#4B5563" }}>{opt.title}</span>
-                <span style={{ fontSize: 12.5, color: "#6B7280", lineHeight: 1.4 }}>{opt.desc}</span>
-              </span>
-              <span
-                style={{
-                  flexShrink: 0,
-                  width: 20,
-                  height: 20,
-                  borderRadius: 999,
-                  border: "1.5px solid " + (sel ? "#0A0A0A" : primary ? "#7C3AED" : "#D1D5DB"),
-                  background: sel ? "#0A0A0A" : "#fff",
-                  position: "relative",
-                  transition: "all .2s",
-                }}
-              >
-                {sel && (
-                  <span
-                    style={{
-                      position: "absolute",
-                      left: 6.5,
-                      top: 3,
-                      width: 5,
-                      height: 9,
-                      border: "solid #fff",
-                      borderWidth: "0 2px 2px 0",
-                      transform: "rotate(45deg)",
-                    }}
-                  />
-                )}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+      <SubmitBtn enabled={complete} onClick={() => complete && onNext()}>
+        Continuar
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </SubmitBtn>
     </div>
   );
 }
@@ -1285,6 +1413,40 @@ function StepContact({
         }
         sub="Te confirmamos por WhatsApp."
       />
+
+      {/* Card de inversión transparente — siempre visible, sin acordeón */}
+      <div
+        style={{
+          background: "#FAFBFD",
+          border: "1px solid #E7EBF0",
+          borderRadius: 14,
+          padding: "15px 17px",
+          marginBottom: 18,
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontSize: 10.5,
+            fontWeight: 600,
+            letterSpacing: ".14em",
+            textTransform: "uppercase",
+            color: "#6B7280",
+            marginBottom: 8,
+          }}
+        >
+          Inversión transparente
+        </div>
+        <div style={{ fontFamily: "Inter", fontSize: 19, fontWeight: 800, letterSpacing: "-.02em", color: "#0A0A0A", lineHeight: 1.15 }}>
+          Planes desde US$279/mes
+        </div>
+        <div style={{ marginTop: 7, fontFamily: "Inter", fontSize: 13, color: "#4B5563", lineHeight: 1.5 }}>
+          + implementación única de US$450 — incluye tu ingeniero dedicado: migración completa, configuración de IA y capacitación del equipo.
+        </div>
+        <div style={{ marginTop: 10, fontFamily: "Inter", fontSize: 12, color: "#9CA3AF", lineHeight: 1.5 }}>
+          1 de cada 5 horas agendadas se pierde por inasistencias. Eso empieza a recuperarse desde la primera semana.
+        </div>
+      </div>
 
       <Field label="Nombre" required error={attempted && !nameOk ? "Ingresa tu nombre." : undefined}>
         <Input value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} placeholder="Tu nombre completo" autoComplete="name" error={attempted && !nameOk} />
@@ -1398,7 +1560,7 @@ function StepContact({
         </div>
       )}
       <SubmitBtn enabled={allOk} onClick={submit}>
-        Agenda mi demo
+        Agenda con tu ingeniero
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M5 12h14M12 5l7 7-7 7" />
         </svg>
@@ -1411,15 +1573,15 @@ function StepContact({
 // ============== STEP 3 — Cal.com inline embed ==============
 function StepCalCom({
   form,
-  volume,
-  migrationIntent,
-  label = "Paso 3 de 3",
+  software,
+  size,
+  label = "Paso 4 de 4",
   onBack,
   onBooked,
 }: {
   form: Form;
-  volume: VolumeOption | null;
-  migrationIntent?: MigrationIntent | null;
+  software: SoftwareId | null;
+  size: SizeAnswers;
   label?: string;
   onBack: () => void;
   onBooked: (b: CalBooking) => void;
@@ -1480,9 +1642,10 @@ function StepCalCom({
     const Cal = w.Cal!;
     Cal("init", "ads", { origin: "https://app.cal.com" });
 
+    const sizeLabel = sizeSummaryLabel(size);
     const notes = [
-      volume ? `Volumen: ${volume.dataLabel}` : null,
-      migrationIntent ? `Situación: ${MIGRATION_LABELS[migrationIntent]}` : null,
+      software ? `Software actual: ${SOFTWARE_LABELS[software]}` : null,
+      sizeLabel ? `Tamaño: ${sizeLabel}` : null,
       form.clinica ? `Clínica: ${form.clinica}` : null,
       form.phone ? `Teléfono: ${form.prefix} ${form.phone}` : null,
     ]
@@ -1524,7 +1687,7 @@ function StepCalCom({
     // ocultamos igual para no dejar al usuario mirando un skeleton perpetuo.
     const fallback = window.setTimeout(() => setCalLoaded(true), 6000);
     return () => window.clearTimeout(fallback);
-  }, [form.nombre, form.email, form.clinica, form.phone, form.prefix, volume, migrationIntent]);
+  }, [form.nombre, form.email, form.clinica, form.phone, form.prefix, software, size]);
 
   return (
     <div>
@@ -1711,19 +1874,20 @@ function formatBookingDate(iso?: string | null): string {
 
 function StepSuccess({
   form,
-  volume,
+  software,
+  size,
   booking,
-  migrationIntent,
 }: {
   form: Form;
-  volume: VolumeOption | null;
+  software: SoftwareId | null;
+  size: SizeAnswers;
   booking: CalBooking | null;
-  migrationIntent?: MigrationIntent | null;
 }) {
   const bookingLabel = formatBookingDate(booking?.date);
-  const migrationLabel = migrationIntent ? MIGRATION_LABELS[migrationIntent] : "";
+  const softwareLabel = software ? SOFTWARE_LABELS[software] : "";
+  const sizeLabel = sizeSummaryLabel(size);
   const msg = encodeURIComponent(
-    `Hola Clinera, acabo de agendar una reunión comercial desde /ventas.\n\nNombre: ${form.nombre}\nClínica: ${form.clinica}\nEmail: ${form.email}${migrationLabel ? `\nSituación: ${migrationLabel}` : ""}${volume ? `\nVolumen: ${volume.dataLabel}` : ""}${bookingLabel ? `\nCuándo: ${bookingLabel}` : ""}`,
+    `Hola Clinera, acabo de agendar una reunión comercial desde /ventas.\n\nNombre: ${form.nombre}\nClínica: ${form.clinica}\nEmail: ${form.email}${softwareLabel ? `\nSoftware actual: ${softwareLabel}` : ""}${sizeLabel ? `\nTamaño: ${sizeLabel}` : ""}${bookingLabel ? `\nCuándo: ${bookingLabel}` : ""}`,
   );
   const waUrl = `https://wa.me/${WA_NUMBER}?text=${msg}`;
 
@@ -1818,61 +1982,55 @@ function StepSuccess({
   );
 }
 
-function StepManualReviewClose() {
-  return (
-    <TerminalMessage
-      tone="review"
-      title="Gracias. Revisaremos tu caso"
-      body="Gracias. Revisaremos tu caso y nuestro equipo te contactará si vemos compatibilidad."
-    />
-  );
-}
+// Pantalla NO CALIFICA — waitlist + WhatsApp. La conversación la inicia el cliente
+// al enviar el mensaje precargado; nosotros no lo contactamos primero.
+function StepWaitlistClose({
+  software,
+  size,
+  qual,
+}: {
+  software: SoftwareId | null;
+  size: SizeAnswers;
+  qual: Qualification | null;
+}) {
+  const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WAITLIST_WA_MESSAGE)}`;
 
-function StepNotCompatibleClose() {
-  const msg = encodeURIComponent("Hola Clinera, quiero contactarlos aunque por ahora no busco migrar.");
-  const waUrl = `https://wa.me/${WA_NUMBER}?text=${msg}`;
-
-  return (
-    <TerminalMessage
-      tone="info"
-      title="Gracias por tu interés"
-      body="Actualmente Clinera está diseñado para clínicas que buscan centralizar su operación dentro del ecosistema Clinera."
-      action={
-        <a
-          href={waUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 8,
-            background: "#25D366",
-            color: "#fff",
-            padding: "12px 20px",
-            borderRadius: 12,
-            fontFamily: "Inter",
-            fontSize: 15,
-            fontWeight: 700,
-            textDecoration: "none",
-            boxShadow: "0 10px 24px -8px rgba(37,211,102,.5)",
-            marginTop: 22,
-          }}
-        >
-          <WhatsAppIcon size={16} />
-          Contactarnos por WhatsApp
-        </a>
-      }
-    />
-  );
-}
-
-function StepTooSmallClose() {
   return (
     <TerminalMessage
       tone="info"
       title="Clinera aún no es para tu clínica"
-      body="Clinera funciona con volumen: está diseñado para clínicas que atienden 100 o más pacientes al mes. Cuando tu operación llegue a ese volumen, acá vamos a estar para ayudarte a escalarla."
+      body="Clinera está diseñado para clínicas medianas: con más de una sucursal, 200+ pacientes al mes o equipos de 4+ profesionales. Cuando tu operación llegue a ese punto, acá vamos a estar para ayudarte a escalarla."
+      action={
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, marginTop: 24 }}>
+          <a
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => pushDL("click_whatsapp_waitlist", sizeAttributes(software, size, qual))}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+              background: "#25D366",
+              color: "#fff",
+              padding: "13px 24px",
+              borderRadius: 12,
+              fontFamily: "Inter",
+              fontSize: 15,
+              fontWeight: 700,
+              textDecoration: "none",
+              boxShadow: "0 10px 24px -8px rgba(37,211,102,.5)",
+            }}
+          >
+            <WhatsAppIcon size={16} />
+            Quiero quedar en la lista de espera
+          </a>
+          <p style={{ fontFamily: "Inter", fontSize: 12.5, color: "#9CA3AF", margin: 0, maxWidth: 340, lineHeight: 1.5 }}>
+            Te avisaremos cuando abramos cupos para clínicas como la tuya.
+          </p>
+        </div>
+      }
     />
   );
 }
