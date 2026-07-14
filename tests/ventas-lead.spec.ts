@@ -2,13 +2,13 @@ import { test, expect, Page, Request } from "@playwright/test";
 
 /**
  * E2E para el wizard de calificación de /ventas y /hablar-con-ventas.
- * Flujo nuevo (4 pasos): Software → Tamaño (calificación) → Contacto → Agenda.
+ * Flujo (4 pasos): Software → Filtro (precio + tamaño) → Contacto → Agenda.
+ * Toda clínica que completa el filtro califica (no hay lista de espera).
  *
  * Verifica:
  *  - Paso 1: opciones de software + microcopy condicional.
- *  - Paso 2: chips de tamaño + regla de calificación.
- *  - Flujo CALIFICA: card de inversión, CTA "Agenda con tu ingeniero", payload n8n.
- *  - Flujo NO CALIFICA: pantalla de waitlist + botón WhatsApp con mensaje precargado.
+ *  - Paso 2: encuadre de precio + chips de tamaño.
+ *  - Card de inversión, CTA "Agenda con tu ingeniero", payload n8n.
  *
  * Nota: el request al webhook se DEJA PASAR a producción para validar downstream.
  * Por eso prefijamos los identificadores con [E2E TEST].
@@ -16,10 +16,6 @@ import { test, expect, Page, Request } from "@playwright/test";
 
 const WEBHOOK_URL =
   "https://n8n.oacg.cl/webhook/088a2cfe-5c93-4a4b-a4e5-ac2617979ea5";
-
-const WA_NUMBER = "56985581524";
-const WAITLIST_WA_MESSAGE =
-  "Hola, mi clínica aún no llega al tamaño mínimo de Clinera. Quiero quedar en la lista de espera para cuando crezcamos.";
 
 type LeadPayload = {
   event_id: string;
@@ -80,11 +76,11 @@ test.describe("Ventas wizard — software + tamaño + payload n8n", () => {
     ).toBeVisible();
     await page.getByRole("button", { name: /Continuar/i }).click();
 
-    // Paso 2 — Tamaño (2 sucursales → califica por una sola condición)
-    await expect(page.getByRole("heading", { level: 2 })).toContainText(/tamaño/i);
-    await page.getByRole("button", { name: "2", exact: true }).click();
-    await page.getByRole("button", { name: "100–200", exact: true }).click();
-    await page.getByRole("button", { name: "1–3", exact: true }).click();
+    // Paso 2 — Filtro (todos califican; 1 suc + 200–500 → prioridad_alta false)
+    await expect(page.getByRole("heading", { level: 2 })).toContainText(/tu clínica/i);
+    await expect(page.getByText("con planes desde")).toBeVisible();
+    await page.getByRole("button", { name: "1", exact: true }).click();
+    await page.getByRole("button", { name: "200–500", exact: true }).click();
     await page.getByRole("button", { name: /Continuar/i }).click();
 
     // Paso 3 — Contacto + card de inversión
@@ -126,9 +122,8 @@ test.describe("Ventas wizard — software + tamaño + payload n8n", () => {
 
     expect(contactLead, "esperaba lead de contacto en el paso 3").toBeTruthy();
     expect(contactLead!.software_actual).toBe("agendapro");
-    expect(contactLead!.sucursales).toBe("2");
-    expect(contactLead!.pacientes_mes).toBe("100_200");
-    expect(contactLead!.profesionales).toBe("1_3");
+    expect(contactLead!.sucursales).toBe("1");
+    expect(contactLead!.pacientes_mes).toBe("200_500");
     expect(contactLead!.califica).toBe(true);
     expect(contactLead!.prioridad_alta).toBe(false);
     expect(contactLead!.nombre).toContain(nonce);
@@ -143,53 +138,4 @@ test.describe("Ventas wizard — software + tamaño + payload n8n", () => {
     console.log("=========================");
   });
 
-  test("flujo NO CALIFICA: Reservo + clínica chica → waitlist + WhatsApp", async ({ page }) => {
-    const hits = recordWebhookHits(page);
-
-    await page.goto("/hablar-con-ventas", { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(400);
-
-    // Paso 1 — Software
-    await page.getByRole("button", { name: "Reservo", exact: true }).click();
-    await page.getByRole("button", { name: /Continuar/i }).click();
-
-    // Paso 2 — Tamaño (1 sucursal + <100 + 1–3 → NO califica)
-    await expect(page.getByRole("heading", { level: 2 })).toContainText(/tamaño/i);
-    const reqPromise = page.waitForRequest(
-      (r) => r.url() === WEBHOOK_URL && r.method() === "POST",
-      { timeout: 8000 },
-    );
-    await page.getByRole("button", { name: "1", exact: true }).click();
-    await page.getByRole("button", { name: "Menos de 100", exact: true }).click();
-    await page.getByRole("button", { name: "1–3", exact: true }).click();
-    await page.getByRole("button", { name: /Continuar/i }).click();
-    await reqPromise;
-    await page.waitForTimeout(400);
-
-    // Pantalla de waitlist
-    await expect(page.getByRole("heading", { level: 2 })).toContainText(
-      /Clinera aún no es para tu clínica/i,
-    );
-    const waLink = page.getByRole("link", { name: /Quiero quedar en la lista de espera/i });
-    await expect(waLink).toBeVisible();
-    const href = await waLink.getAttribute("href");
-    expect(href).toBe(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WAITLIST_WA_MESSAGE)}`);
-    await expect(
-      page.getByText("Te avisaremos cuando abramos cupos para clínicas como la tuya."),
-    ).toBeVisible();
-
-    // Lead registrado como waitlist con atributos de tamaño
-    const waitlistLead = hits.find((h) => h.lead_status === "waitlist");
-    expect(waitlistLead, "esperaba lead de waitlist").toBeTruthy();
-    expect(waitlistLead!.booking_status).toBe("waitlist");
-    expect(waitlistLead!.califica).toBe(false);
-    expect(waitlistLead!.software_actual).toBe("reservo");
-    expect(waitlistLead!.sucursales).toBe("1");
-    expect(waitlistLead!.pacientes_mes).toBe("lt100");
-    expect(waitlistLead!.profesionales).toBe("1_3");
-
-    console.log("=== E2E LEAD WAITLIST ===");
-    console.log("event_id:", waitlistLead!.event_id);
-    console.log("=========================");
-  });
 });

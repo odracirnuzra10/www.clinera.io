@@ -1,5 +1,5 @@
 // ============================================================================
-// Eventos de Meta del wizard de /ventas — MQL · Waitlist · Contact
+// Evento de Meta del wizard de /ventas — MQL (lead calificado)
 // ----------------------------------------------------------------------------
 // FUENTE DE VERDAD de "califica": la función pura `evaluateQualification` del
 // wizard (VentasLanding.tsx). Este módulo NO reimplementa la regla ni conoce
@@ -38,7 +38,6 @@ export type QualCustomData = {
   software_actual: string;
   sucursales: string;
   pacientes_mes: string;
-  profesionales: string;
   prioridad_alta: boolean;
   pais: string;
 };
@@ -95,13 +94,6 @@ function alreadyFired(key: string): boolean {
   }
 }
 
-function newEventId(prefix: string): string {
-  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
-    return `${prefix}_${crypto.randomUUID()}`;
-  }
-  return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
-}
-
 function readSignals(): MetaSignals {
   const ids = getClineraMetaIds();
   return { fbp: ids.meta_fbp, fbc: ids.meta_fbc };
@@ -111,7 +103,7 @@ function readSignals(): MetaSignals {
 // Núcleo: dispara Pixel + (opcional) CAPI con el MISMO event_id.
 // ---------------------------------------------------------------------------
 async function sendMetaEvent(opts: {
-  eventName: "MQL" | "Waitlist" | "Contact";
+  eventName: "MQL";
   eventId: string;
   customData: Record<string, unknown>;
   userData?: { em?: string; ph?: string }; // hasheado; omitir si no hay PII
@@ -172,40 +164,6 @@ export async function fireMqlEvent(opts: {
     eventId: opts.eventId,
     customData: { ...opts.customData, value: 10, currency: "USD" },
     userData,
-    capi: true,
-  });
-}
-
-// ===========================================================================
-// (2) Waitlist — sólo leads NO calificados que llegan a la lista de espera.
-//     Una vez por sesión. Sin PII (aún no la dieron).
-// ===========================================================================
-export async function fireWaitlistEvent(opts: {
-  qual: QualResult;
-  customData: QualCustomData;
-}): Promise<void> {
-  // Waitlist es exclusivo de NO calificados.
-  if (opts.qual.califica) return;
-  if (alreadyFired("cl_waitlist_fired")) return;
-
-  await sendMetaEvent({
-    eventName: "Waitlist",
-    eventId: newEventId("waitlist"),
-    customData: opts.customData,
-    capi: true,
-  });
-}
-
-// ===========================================================================
-// (3) Contact — click en el botón de WhatsApp de la pantalla de waitlist,
-//     ANTES de abrir wa.me. Pixel + CAPI (con fbp/fbc, sin PII). event_id propio.
-//     Fire-and-forget: no bloquea la apertura de WhatsApp.
-// ===========================================================================
-export function fireContactEvent(opts: { customData: QualCustomData }): void {
-  void sendMetaEvent({
-    eventName: "Contact",
-    eventId: newEventId("contact"),
-    customData: opts.customData,
     capi: true,
   });
 }

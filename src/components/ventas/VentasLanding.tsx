@@ -10,8 +10,6 @@ import { getClineraMetaIds } from "@/lib/metaIds";
 import {
   MQL_TRIGGER,
   fireMqlEvent,
-  fireWaitlistEvent,
-  fireContactEvent,
   type QualCustomData,
 } from "@/lib/metaEvents";
 
@@ -75,59 +73,48 @@ function softwareMicrocopy(id: SoftwareId): string {
 }
 
 // ============== PASO 2 — TAMAÑO DE LA OPERACIÓN ==============
-// Umbrales de calificación. AJUSTA AQUÍ (único lugar del código). Una clínica
-// califica si cumple AL MENOS UNA condición; marca "prioridad alta" con DOS o más.
-const QUALIFY_THRESHOLDS = {
-  sucursales: 2, // califica si sucursales >= 2
-  pacientesMes: 200, // califica si pacientes/mes >= 200
-  profesionales: 4, // califica si profesionales activos >= 4
+// Prioridad comercial. AJUSTA AQUÍ (único lugar del código). Toda clínica que
+// completa el paso 2 CALIFICA (el precio de entrada de US$279 auto-selecciona);
+// "prioridad alta" es solo una señal de tamaño para el equipo comercial.
+const PRIORITY_THRESHOLDS = {
+  sucursales: 2, // prioridad alta si sucursales >= 2
+  pacientesMes: 500, // prioridad alta si pacientes/mes >= 500
 } as const;
 
-// `value` = piso numérico del rango; lo consume la regla de calificación.
+// `value` = piso numérico del rango; lo consume la regla de prioridad.
 type SizeChoice = { id: string; label: string; value: number };
 
 const SUCURSALES_OPTIONS: SizeChoice[] = [
   { id: "1", label: "1", value: 1 },
   { id: "2", label: "2", value: 2 },
-  { id: "3plus", label: "3 o más", value: 3 },
+  { id: "3plus", label: "más de 3", value: 4 },
 ];
 
 const PACIENTES_OPTIONS: SizeChoice[] = [
-  { id: "lt100", label: "Menos de 100", value: 0 },
-  { id: "100_200", label: "100–200", value: 100 },
   { id: "200_500", label: "200–500", value: 200 },
-  { id: "gt500", label: "Más de 500", value: 500 },
-];
-
-const PROFESIONALES_OPTIONS: SizeChoice[] = [
-  { id: "1_3", label: "1–3", value: 1 },
-  { id: "4_10", label: "4–10", value: 4 },
-  { id: "gt10", label: "Más de 10", value: 11 },
+  { id: "500_1000", label: "500–1.000", value: 500 },
+  { id: "gt1000", label: "más de 1.000", value: 1000 },
 ];
 
 type SizeAnswers = {
   sucursales: SizeChoice | null;
   pacientes: SizeChoice | null;
-  profesionales: SizeChoice | null;
 };
 
-export type Qualification = { califica: boolean; prioridadAlta: boolean; metCount: number };
+export type Qualification = { califica: boolean; prioridadAlta: boolean };
 
-// Regla de calificación PURA — sin efectos, un solo lugar, fácil de testear/ajustar.
-// FUENTE DE VERDAD única de "califica": el código de tracking (src/lib/metaEvents.ts)
-// consume el RESULTADO de esta función, nunca reimplementa la regla ni los umbrales.
+// Regla PURA — toda clínica que completa el filtro califica (el precio de entrada
+// auto-selecciona). prioridad_alta = señal de tamaño para el equipo comercial.
+// FUENTE DE VERDAD única: el tracking (src/lib/metaEvents.ts) consume este resultado.
 function evaluateQualification(size: SizeAnswers): Qualification {
-  const conds = [
-    (size.sucursales?.value ?? 0) >= QUALIFY_THRESHOLDS.sucursales,
-    (size.pacientes?.value ?? 0) >= QUALIFY_THRESHOLDS.pacientesMes,
-    (size.profesionales?.value ?? 0) >= QUALIFY_THRESHOLDS.profesionales,
-  ];
-  const metCount = conds.filter(Boolean).length;
-  return { califica: metCount >= 1, prioridadAlta: metCount >= 2, metCount };
+  const prioridadAlta =
+    (size.sucursales?.value ?? 0) >= PRIORITY_THRESHOLDS.sucursales ||
+    (size.pacientes?.value ?? 0) >= PRIORITY_THRESHOLDS.pacientesMes;
+  return { califica: true, prioridadAlta };
 }
 
 function sizeComplete(size: SizeAnswers): boolean {
-  return !!(size.sucursales && size.pacientes && size.profesionales);
+  return !!(size.sucursales && size.pacientes);
 }
 
 function sizeSummaryLabel(size: SizeAnswers): string {
@@ -135,8 +122,7 @@ function sizeSummaryLabel(size: SizeAnswers): string {
     ? `${size.sucursales.label} sucursal${size.sucursales.id === "1" ? "" : "es"}`
     : null;
   const pac = size.pacientes ? `${size.pacientes.label} pacientes/mes` : null;
-  const pro = size.profesionales ? `${size.profesionales.label} profesionales` : null;
-  return [suc, pac, pro].filter(Boolean).join(" · ");
+  return [suc, pac].filter(Boolean).join(" · ");
 }
 
 // Tipo de clínica que atendemos hoy — dentales pausadas por el momento.
@@ -157,11 +143,6 @@ const CLINIC_TYPE_LABELS: Record<ClinicType, string> = {
 
 const WEBHOOK_URL = "https://n8n.oacg.cl/webhook/088a2cfe-5c93-4a4b-a4e5-ac2617979ea5";
 const WA_NUMBER = "56985581524";
-
-// Mensaje precargado del botón de lista de espera (pantalla NO CALIFICA).
-// La conversación la inicia el cliente al enviar este mensaje — no lo contactamos primero.
-const WAITLIST_WA_MESSAGE =
-  "Hola, mi clínica aún no llega al tamaño mínimo de Clinera. Quiero quedar en la lista de espera para cuando crezcamos.";
 
 type Form = { nombre: string; clinica: string; tipoClinica: ClinicType | ""; prefix: string; phone: string; email: string };
 
@@ -214,16 +195,14 @@ function sizeAttributes(
     sucursales_label: size.sucursales?.label ?? "",
     pacientes_mes: size.pacientes?.id ?? "",
     pacientes_mes_label: size.pacientes?.label ?? "",
-    profesionales: size.profesionales?.id ?? "",
-    profesionales_label: size.profesionales?.label ?? "",
     prioridad_alta: qual?.prioridadAlta ?? false,
     califica: qual?.califica ?? false,
   };
 }
 
-// custom_data para los eventos de Meta (MQL / Waitlist / Contact): SOLO atributos
-// de calificación, SIN PII y SIN los labels legibles. `pais` sale del prefijo
-// telefónico cuando ya hay contacto (Paso 3); "" mientras no lo tengamos.
+// custom_data para el evento MQL de Meta: SOLO atributos de calificación, SIN PII
+// y SIN los labels legibles. `pais` sale del prefijo telefónico cuando ya hay
+// contacto (Paso 3); "" mientras no lo tengamos.
 function qualCustomData(
   software: SoftwareId | null,
   size: SizeAnswers,
@@ -234,7 +213,6 @@ function qualCustomData(
     software_actual: software ?? "",
     sucursales: size.sucursales?.id ?? "",
     pacientes_mes: size.pacientes?.id ?? "",
-    profesionales: size.profesionales?.id ?? "",
     prioridad_alta: qual?.prioridadAlta ?? false,
     pais,
   };
@@ -660,13 +638,12 @@ function Wizard({
 }) {
   const [step, setStep] = useState(1);
   const [software, setSoftware] = useState<SoftwareId | null>(null);
-  const [size, setSize] = useState<SizeAnswers>({ sucursales: null, pacientes: null, profesionales: null });
+  const [size, setSize] = useState<SizeAnswers>({ sucursales: null, pacientes: null });
   const [qualification, setQualification] = useState<Qualification | null>(null);
   const [form, setForm] = useState<Form>({ nombre: "", clinica: "", tipoClinica: "", prefix: "+56", phone: "", email: "" });
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
   const [booking, setBooking] = useState<CalBooking | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const [terminalState, setTerminalState] = useState<"waitlist" | null>(null);
   // El paso de software (paso 1) queda gateado por la misma prop de antes; ambas
   // páginas (/ventas y /hablar-con-ventas) lo activan → flujo de 4 pasos.
   const hasSoftwareStep = enableMigrationQualification;
@@ -696,7 +673,7 @@ function Wizard({
         ))}
       </div>
 
-      {!submitted && !terminalState && hasSoftwareStep && step === softwareStep && (
+      {!submitted && hasSoftwareStep && step === softwareStep && (
         <StepSoftware
           software={software}
           setSoftware={setSoftware}
@@ -710,58 +687,45 @@ function Wizard({
           }}
         />
       )}
-      {!submitted && !terminalState && step === sizeStep && (
+      {!submitted && step === sizeStep && (
         <StepSize
           size={size}
           setSize={setSize}
           label={`Paso ${sizeStep} de ${totalSteps}`}
           onBack={hasSoftwareStep ? () => setStep(softwareStep) : undefined}
           onNext={() => {
+            // Toda clínica que completa el filtro califica (el precio de entrada
+            // auto-selecciona). No hay rama de lista de espera.
             const qual = evaluateQualification(size);
             setQualification(qual);
             const attrs = sizeAttributes(software, size, qual);
             pushDL("paso_2_completado", attrs);
-
-            if (qual.califica) {
-              pushDL("calificado", attrs);
-              if (typeof window !== "undefined" && typeof window.fbq === "function") {
-                window.fbq("track", "ViewContent", { content_name: "Clinera Ventas", ...attrs });
-              }
-              // event_id único del lead — compartido con el webhook n8n y, si
-              // MQL_TRIGGER === "qualified_step2", con el par Pixel+CAPI del MQL.
-              const eventId = newLeadEventId();
-              // Persistir el lead parcial YA (apenas se completa el paso 2): así queda
-              // capturado aunque el usuario abandone antes de dejar sus datos.
-              submitSizeLead({ software, size, qual, eventId }).then((ctx) => {
-                if (ctx) setLeadCtx(ctx);
-              });
-              // MQL en el Paso 2 sólo si el equipo lo activó. Sin user_data:
-              // todavía no hay datos de contacto (email/teléfono).
-              if (MQL_TRIGGER === "qualified_step2") {
-                void fireMqlEvent({
-                  eventId,
-                  qual,
-                  customData: qualCustomData(software, size, qual, ""),
-                });
-              }
-              setStep(contactStep);
-              return;
+            pushDL("calificado", attrs);
+            if (typeof window !== "undefined" && typeof window.fbq === "function") {
+              window.fbq("track", "ViewContent", { content_name: "Clinera Ventas", ...attrs });
             }
-
-            // No califica → evento Waitlist (Pixel+CAPI deduplicado, sin PII) +
-            // registrar lead waitlist + mostrar pantalla de lista de espera.
-            pushDL("no_calificado_waitlist", attrs);
-            void fireWaitlistEvent({
-              qual,
-              customData: qualCustomData(software, size, qual, ""),
+            // event_id único del lead — compartido con el webhook n8n y, si
+            // MQL_TRIGGER === "qualified_step2", con el par Pixel+CAPI del MQL.
+            const eventId = newLeadEventId();
+            // Persistir el lead parcial YA (apenas se completa el paso 2): así queda
+            // capturado aunque el usuario abandone antes de dejar sus datos.
+            submitSizeLead({ software, size, qual, eventId }).then((ctx) => {
+              if (ctx) setLeadCtx(ctx);
             });
-            submitWaitlistLead({ software, size, qual });
-            setStep(totalSteps);
-            setTerminalState("waitlist");
+            // MQL en el Paso 2 sólo si el equipo lo activó. Sin user_data:
+            // todavía no hay datos de contacto (email/teléfono).
+            if (MQL_TRIGGER === "qualified_step2") {
+              void fireMqlEvent({
+                eventId,
+                qual,
+                customData: qualCustomData(software, size, qual, ""),
+              });
+            }
+            setStep(contactStep);
           }}
         />
       )}
-      {!submitted && !terminalState && step === contactStep && (
+      {!submitted && step === contactStep && (
         <StepContact
           form={form}
           setForm={setForm}
@@ -802,7 +766,7 @@ function Wizard({
           }}
         />
       )}
-      {!submitted && !terminalState && step === calStep && (
+      {!submitted && step === calStep && (
         <StepCalCom
           form={form}
           software={software}
@@ -816,9 +780,6 @@ function Wizard({
           }}
         />
       )}
-      {terminalState === "waitlist" && (
-        <StepWaitlistClose software={software} size={size} qual={qualification} />
-      )}
       {submitted && <StepSuccess form={form} software={software} size={size} booking={booking} />}
     </div>
   );
@@ -826,12 +787,11 @@ function Wizard({
 
 // ============== SUBMIT + META DEDUP ==============
 // El lead se captura en ETAPAS, todas contra el mismo webhook n8n:
-// 1) submitSizeLead     — apenas se completa el paso 2 (tamaño), si CALIFICA. Deja el
-//                         lead capturado aunque abandone antes de dar sus datos.
-// 2) submitWaitlistLead — apenas se completa el paso 2, si NO califica. lead_status="waitlist".
-// 3) submitContactLead  — al enviar el paso 3 (contacto). Reutiliza el event_id del
+// 1) submitSizeLead     — apenas se completa el paso 2 (tamaño). Deja el lead
+//                         capturado aunque abandone antes de dar sus datos.
+// 2) submitContactLead  — al enviar el paso 3 (contacto). Reutiliza el event_id del
 //                         paso 2 para que n8n haga upsert del mismo lead.
-// 4) submitBookingConfirmation — cuando Cal.com dispara `bookingSuccessful`.
+// 3) submitBookingConfirmation — cuando Cal.com dispara `bookingSuccessful`.
 
 type CalBooking = {
   booking?: { uid?: string; eventTypeId?: number; startTime?: string; endTime?: string };
@@ -925,59 +885,7 @@ async function submitSizeLead({
   return { eventId: resolvedEventId, leadSource };
 }
 
-// (2) Lead de WAITLIST — se dispara al completar el paso 2 si NO califica.
-// Guarda software + tamaño con lead_status="waitlist". Sin datos de contacto (aún
-// no se piden). El cliente inicia la conversación por WhatsApp desde la pantalla.
-//
-// TODO(waitlist board): cuando exista la integración con tech.oacg.cl/waitlist
-// (Baserow), replicar este mismo payload a ese tablero. Forma esperada del registro:
-//   { software_actual, software_actual_label, sucursales, sucursales_label,
-//     pacientes_mes, pacientes_mes_label, profesionales, profesionales_label,
-//     prioridad_alta:false, califica:false, lead_status:"waitlist",
-//     lead_source, created_at }
-async function submitWaitlistLead({
-  software,
-  size,
-  qual,
-}: {
-  software: SoftwareId | null;
-  size: SizeAnswers;
-  qual: Qualification;
-}) {
-  const eventId = "ventas_wl_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
-  const leadSource = detectLeadSource();
-  const { fbp, fbc } = getMetaSignals();
-
-  const payload = {
-    event_id: eventId,
-    event_time: Math.floor(Date.now() / 1000),
-    event_source_url: typeof window !== "undefined" ? window.location.href : "",
-    action_source: "website",
-    fbp,
-    fbc,
-    ...getClineraMetaIds(),
-    client_user_agent: typeof navigator !== "undefined" ? navigator.userAgent : "",
-
-    lead_stage: "size_captured",
-    lead_status: "waitlist",
-    booking_status: "waitlist",
-    lead_source: leadSource,
-    ...getAttributionPayload(),
-    ...sizeAttributes(software, size, qual),
-    ...backCompatFields(software, size, qual),
-    lead_priority: "waitlist",
-    monday_initial_status: "lista de espera",
-    fuente: "Landing /ventas — Clinera (waitlist)",
-    landing_url: typeof window !== "undefined" ? location.href : "",
-    referrer: typeof document !== "undefined" ? document.referrer : "",
-    created_at: new Date().toISOString(),
-    timestamp: Date.now(),
-  };
-
-  await postWebhook(payload, "Waitlist lead");
-}
-
-// (3) Lead COMPLETO de contacto — se dispara al enviar el paso 3. Reutiliza el
+// (2) Lead COMPLETO de contacto — se dispara al enviar el paso 3. Reutiliza el
 // event_id del lead de tamaño (paso 2) para que n8n upsertee el mismo lead.
 async function submitContactLead({
   form,
@@ -1284,15 +1192,13 @@ function ChipGroup({
   return (
     <div style={{ marginBottom: 18 }}>
       <div
-        className="ventas-step-label"
         style={{
-          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+          fontFamily: "Inter",
           fontWeight: 600,
-          fontSize: 11,
-          letterSpacing: ".14em",
-          color: "#6B7280",
-          marginBottom: 8,
-          textTransform: "uppercase",
+          fontSize: 13.5,
+          letterSpacing: "-.01em",
+          color: "#374151",
+          marginBottom: 9,
         }}
       >
         {groupLabel}
@@ -1352,33 +1258,43 @@ function StepSize({
         label={label}
         title={
           <>
-            Cuéntanos el{" "}
+            ¿Clinera es para{" "}
             <em style={{ fontStyle: "normal", background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-              tamaño
-            </em>{" "}
-            de tu operación
+              tu clínica
+            </em>
+            ?
           </>
         }
-        sub="Tres datos rápidos para saber si Clinera te calza hoy."
+        sub="Dos datos rápidos para preparar tu reunión."
       />
 
+      {/* Encuadre de precio / interés */}
+      <div
+        style={{
+          background: "linear-gradient(135deg,#F4F8FF 0%,#FAF5FF 100%)",
+          border: "1px solid rgba(124,58,237,.16)",
+          borderRadius: 14,
+          padding: "15px 17px",
+          marginBottom: 20,
+        }}
+      >
+        <p style={{ fontFamily: "Inter", fontSize: 14, color: "#374151", lineHeight: 1.5, margin: 0 }}>
+          Clinera es un ecosistema IA diseñado para clínicas en crecimiento, con planes desde{" "}
+          <strong style={{ color: "#0A0A0A" }}>US$279/mes</strong>. ¿Estás interesado?
+        </p>
+      </div>
+
       <ChipGroup
-        groupLabel="Sucursales"
+        groupLabel="¿Cuántas sucursales tienes?"
         options={SUCURSALES_OPTIONS}
         selected={size.sucursales}
         onSelect={(o) => setSize({ ...size, sucursales: o })}
       />
       <ChipGroup
-        groupLabel="Pacientes al mes"
+        groupLabel="¿Cuántos pacientes atiendes al mes?"
         options={PACIENTES_OPTIONS}
         selected={size.pacientes}
         onSelect={(o) => setSize({ ...size, pacientes: o })}
-      />
-      <ChipGroup
-        groupLabel="Profesionales activos"
-        options={PROFESIONALES_OPTIONS}
-        selected={size.profesionales}
-        onSelect={(o) => setSize({ ...size, profesionales: o })}
       />
 
       <SubmitBtn enabled={complete} onClick={() => complete && onNext()}>
@@ -2045,115 +1961,6 @@ function StepSuccess({
   );
 }
 
-// Pantalla NO CALIFICA — waitlist + WhatsApp. La conversación la inicia el cliente
-// al enviar el mensaje precargado; nosotros no lo contactamos primero.
-function StepWaitlistClose({
-  software,
-  size,
-  qual,
-}: {
-  software: SoftwareId | null;
-  size: SizeAnswers;
-  qual: Qualification | null;
-}) {
-  const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WAITLIST_WA_MESSAGE)}`;
-
-  return (
-    <TerminalMessage
-      tone="info"
-      title="Clinera aún no es para tu clínica"
-      body="Clinera está diseñado para clínicas medianas: con más de una sucursal, 200+ pacientes al mes o equipos de 4+ profesionales. Cuando tu operación llegue a ese punto, acá vamos a estar para ayudarte a escalarla."
-      action={
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, marginTop: 24 }}>
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => {
-              pushDL("click_whatsapp_waitlist", sizeAttributes(software, size, qual));
-              // Evento Contact (estándar Meta) ANTES de abrir wa.me. Pixel + CAPI
-              // (con fbp/fbc, sin PII); event_id propio.
-              fireContactEvent({ customData: qualCustomData(software, size, qual, "") });
-            }}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 8,
-              background: "#25D366",
-              color: "#fff",
-              padding: "13px 24px",
-              borderRadius: 12,
-              fontFamily: "Inter",
-              fontSize: 15,
-              fontWeight: 700,
-              textDecoration: "none",
-              boxShadow: "0 10px 24px -8px rgba(37,211,102,.5)",
-            }}
-          >
-            <WhatsAppIcon size={16} />
-            Quiero quedar en la lista de espera
-          </a>
-          <p style={{ fontFamily: "Inter", fontSize: 12.5, color: "#9CA3AF", margin: 0, maxWidth: 340, lineHeight: 1.5 }}>
-            Te avisaremos cuando abramos cupos para clínicas como la tuya.
-          </p>
-        </div>
-      }
-    />
-  );
-}
-
-function TerminalMessage({
-  tone,
-  title,
-  body,
-  action,
-}: {
-  tone: "review" | "info";
-  title: string;
-  body: string;
-  action?: React.ReactNode;
-}) {
-  const isReview = tone === "review";
-  return (
-    <div style={{ padding: "30px 0 18px", textAlign: "center" }}>
-      <div
-        style={{
-          width: 72,
-          height: 72,
-          borderRadius: 999,
-          background: isReview ? "rgba(124,58,237,.12)" : "rgba(59,130,246,.12)",
-          border: `2px solid ${isReview ? "rgba(124,58,237,.32)" : "rgba(59,130,246,.32)"}`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          margin: "0 auto 22px",
-          animation: "scaleBounce .6s ease .1s both",
-        }}
-      >
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke={isReview ? "#7C3AED" : "#3B82F6"} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-          {isReview ? (
-            <>
-              <path d="M12 8v5" />
-              <path d="M12 17h.01" />
-              <circle cx="12" cy="12" r="9" />
-            </>
-          ) : (
-            <>
-              <path d="M20 6L9 17l-5-5" />
-              <path d="M21 12a9 9 0 11-4.6-7.9" />
-            </>
-          )}
-        </svg>
-      </div>
-      <h2 style={{ fontFamily: "Inter", fontSize: 30, fontWeight: 800, letterSpacing: "-.028em", color: "#0A0A0A", margin: "0 0 10px" }}>{title}</h2>
-      <p style={{ fontFamily: "Inter", fontSize: 15, color: "#4B5563", lineHeight: 1.55, margin: "0 auto", maxWidth: 430 }}>
-        {body}
-      </p>
-      {action}
-    </div>
-  );
-}
 
 // ============== SHARED ATOMS ==============
 function StepHeader({ label, title, sub }: { label: string; title: React.ReactNode; sub: string }) {

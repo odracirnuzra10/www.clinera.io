@@ -1,15 +1,15 @@
 import { test, expect, Page } from "@playwright/test";
 
 /**
- * Eventos de Meta del wizard de /ventas — MQL · Waitlist · Contact.
+ * Evento de Meta del wizard de /ventas — MQL (lead calificado).
  *
  * Red 100% MOCKEADA: el webhook n8n, el endpoint CAPI (/api/meta/capi) y wa.me
  * se interceptan con route.fulfill → NO se toca producción. El Pixel se stubea
  * antes de cargar la página para grabar las llamadas a fbq().
  *
- * Cubre los criterios de aceptación observables en runtime (1, 2, 3). Los
- * criterios 4 (MQL_TRIGGER = "qualified_step2") y 5 (cambiar umbrales) son
- * cambios de constantes en el código → se validan con Meta Test Events.
+ * Nota: el paso 2 ya no filtra por tamaño ni tiene lista de espera — toda clínica
+ * que completa el filtro califica (el precio de entrada de US$279 auto-selecciona).
+ * Por eso ya no existen los eventos Waitlist/Contact.
  */
 
 const WEBHOOK_URL =
@@ -76,6 +76,14 @@ async function fbqNames(page: Page): Promise<FbqCall[]> {
   return page.evaluate(() => (window as unknown as { __fbqCalls: FbqCall[] }).__fbqCalls);
 }
 
+// Recorre el paso 2 (filtro): 1 sucursal + 200–500 pacientes → prioridad_alta false.
+async function fillSizeStep(page: Page) {
+  await expect(page.getByRole("heading", { level: 2 })).toContainText(/tu clínica/i);
+  await page.getByRole("button", { name: "1", exact: true }).click();
+  await page.getByRole("button", { name: "200–500", exact: true }).click();
+  await page.getByRole("button", { name: /Continuar/i }).click();
+}
+
 async function fillContactStep(page: Page) {
   await page.locator('input[autocomplete="name"]').fill("QA Dueño");
   await page.locator('input[autocomplete="organization"]').fill("QA Clinica");
@@ -86,7 +94,7 @@ async function fillContactStep(page: Page) {
 
 test.describe("Meta events — /ventas wizard", () => {
   // --- Criterio 1: lead calificado → UN MQL (Pixel+CAPI dedup) --------------
-  test("calificado completa Paso 3 → un solo MQL con custom_data + user_data hasheado", async ({ page }) => {
+  test("completa Paso 3 → un solo MQL con custom_data + user_data hasheado", async ({ page }) => {
     await installFbqRecorder(page);
     const capi = mockNetwork(page);
 
@@ -96,11 +104,7 @@ test.describe("Meta events — /ventas wizard", () => {
     await page.getByRole("button", { name: "AgendaPro", exact: true }).click();
     await page.getByRole("button", { name: /Continuar/i }).click();
 
-    await expect(page.getByRole("heading", { level: 2 })).toContainText(/tamaño/i);
-    await page.getByRole("button", { name: "2", exact: true }).click(); // sucursales>=2 → califica
-    await page.getByRole("button", { name: "100–200", exact: true }).click();
-    await page.getByRole("button", { name: "1–3", exact: true }).click();
-    await page.getByRole("button", { name: /Continuar/i }).click();
+    await fillSizeStep(page);
 
     await expect(page.getByRole("heading", { level: 2 })).toContainText(/datos/i);
     await fillContactStep(page);
@@ -131,9 +135,8 @@ test.describe("Meta events — /ventas wizard", () => {
 
     // custom_data: atributos de calificación, SIN PII
     expect(mql.custom_data?.software_actual).toBe("agendapro");
-    expect(mql.custom_data?.sucursales).toBe("2");
-    expect(mql.custom_data?.pacientes_mes).toBe("100_200");
-    expect(mql.custom_data?.profesionales).toBe("1_3");
+    expect(mql.custom_data?.sucursales).toBe("1");
+    expect(mql.custom_data?.pacientes_mes).toBe("200_500");
     expect(mql.custom_data?.prioridad_alta).toBe(false);
     expect(mql.custom_data?.pais).toBe("Chile");
     expect(JSON.stringify(mql.custom_data)).not.toContain("example.com"); // sin email
@@ -145,68 +148,34 @@ test.describe("Meta events — /ventas wizard", () => {
     expect(pixelMqls[0].opts?.eventID).toBe(mql.event_id);
   });
 
-  // --- Criterio 2: no calificado → sin MQL; Waitlist + Contact --------------
-  test("no calificado → NO MQL; Waitlist al llegar; Contact al click de WhatsApp", async ({ page }) => {
+  // --- Criterio 2: prioridad_alta se marca con sucursales>=2 o pacientes>=500 -
+  test("2 sucursales → prioridad_alta true en el MQL", async ({ page }) => {
     await installFbqRecorder(page);
     const capi = mockNetwork(page);
 
-    await page.goto("/hablar-con-ventas", { waitUntil: "domcontentloaded" });
+    await page.goto("/ventas", { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(400);
 
-    await page.getByRole("button", { name: "Reservo", exact: true }).click();
+    await page.getByRole("button", { name: "Medilink", exact: true }).click();
+    await page.getByRole("button", { name: /Continuar/i }).click();
+    await page.getByRole("button", { name: "2", exact: true }).click();
+    await page.getByRole("button", { name: "200–500", exact: true }).click();
     await page.getByRole("button", { name: /Continuar/i }).click();
 
-    const waitlistCapi = page.waitForRequest(
-      (r) => {
-        if (!r.url().includes("/api/meta/capi")) return false;
-        try {
-          return (r.postDataJSON() as CapiBody).event_name === "Waitlist";
-        } catch {
-          return false;
-        }
-      },
+    await expect(page.getByRole("heading", { level: 2 })).toContainText(/datos/i);
+    await fillContactStep(page);
+
+    const mqlCapi = page.waitForRequest(
+      (r) => r.url().includes("/api/meta/capi") && (() => { try { return (r.postDataJSON() as CapiBody).event_name === "MQL"; } catch { return false; } })(),
       { timeout: 8000 },
     );
-    await page.getByRole("button", { name: "1", exact: true }).click();
-    await page.getByRole("button", { name: "Menos de 100", exact: true }).click();
-    await page.getByRole("button", { name: "1–3", exact: true }).click();
-    await page.getByRole("button", { name: /Continuar/i }).click();
-    await waitlistCapi;
+    await page.getByRole("button", { name: /Agenda con tu ingeniero/i }).click();
+    await mqlCapi;
+    await page.waitForTimeout(300);
 
-    await expect(page.getByRole("heading", { level: 2 })).toContainText(/Clinera aún no es para tu clínica/i);
-
-    // Waitlist llegó, con atributos y SIN PII
-    const waitlist = capi.filter((c) => c.event_name === "Waitlist");
-    expect(waitlist.length).toBe(1);
-    expect(waitlist[0].custom_data?.software_actual).toBe("reservo");
-    expect(waitlist[0].custom_data?.prioridad_alta).toBe(false);
-    expect(waitlist[0].user_data?.em).toBeUndefined();
-    expect(waitlist[0].user_data?.ph).toBeUndefined();
-
-    // Ningún MQL
-    expect(capi.some((c) => c.event_name === "MQL")).toBe(false);
-    expect((await fbqNames(page)).some((c) => c.name === "MQL")).toBe(false);
-
-    // Click WhatsApp → Contact (antes de abrir wa.me)
-    const contactCapi = page.waitForRequest(
-      (r) => {
-        if (!r.url().includes("/api/meta/capi")) return false;
-        try {
-          return (r.postDataJSON() as CapiBody).event_name === "Contact";
-        } catch {
-          return false;
-        }
-      },
-      { timeout: 8000 },
-    );
-    await page.getByRole("link", { name: /Quiero quedar en la lista de espera/i }).click();
-    await contactCapi;
-
-    const contact = capi.filter((c) => c.event_name === "Contact");
-    expect(contact.length).toBe(1);
-    const pixelContact = (await fbqNames(page)).filter((c) => c.name === "Contact");
-    expect(pixelContact.length).toBe(1);
-    expect(pixelContact[0].opts?.eventID).toBe(contact[0].event_id);
+    const mql = capi.filter((c) => c.event_name === "MQL")[0];
+    expect(mql.custom_data?.sucursales).toBe("2");
+    expect(mql.custom_data?.prioridad_alta).toBe(true);
   });
 
   // --- Criterio 3: recarga tras submit NO genera un segundo MQL -------------
@@ -214,13 +183,10 @@ test.describe("Meta events — /ventas wizard", () => {
     await installFbqRecorder(page);
     const capi = mockNetwork(page);
 
-    async function runQualifiedFlow() {
+    async function runFlow() {
       await page.getByRole("button", { name: "AgendaPro", exact: true }).click();
       await page.getByRole("button", { name: /Continuar/i }).click();
-      await page.getByRole("button", { name: "2", exact: true }).click();
-      await page.getByRole("button", { name: "100–200", exact: true }).click();
-      await page.getByRole("button", { name: "1–3", exact: true }).click();
-      await page.getByRole("button", { name: /Continuar/i }).click();
+      await fillSizeStep(page);
       await expect(page.getByRole("heading", { level: 2 })).toContainText(/datos/i);
       await fillContactStep(page);
       await page.getByRole("button", { name: /Agenda con tu ingeniero/i }).click();
@@ -233,7 +199,7 @@ test.describe("Meta events — /ventas wizard", () => {
       (r) => r.url().includes("/api/meta/capi") && (() => { try { return (r.postDataJSON() as CapiBody).event_name === "MQL"; } catch { return false; } })(),
       { timeout: 8000 },
     );
-    await runQualifiedFlow();
+    await runFlow();
     await firstMql;
     await page.waitForTimeout(300);
     expect(capi.filter((c) => c.event_name === "MQL").length).toBe(1);
@@ -241,7 +207,7 @@ test.describe("Meta events — /ventas wizard", () => {
     // Recarga (misma sesión/pestaña → sessionStorage persiste) + rehacer flujo
     await page.reload({ waitUntil: "domcontentloaded" });
     await page.waitForTimeout(400);
-    await runQualifiedFlow();
+    await runFlow();
     await page.waitForTimeout(1500);
 
     // Sigue habiendo UN solo MQL en CAPI; y tras recarga no hubo MQL en el Pixel.
