@@ -7,6 +7,13 @@ import {
   getAttributionPayload,
 } from "@/lib/gclid";
 import { getClineraMetaIds } from "@/lib/metaIds";
+import {
+  MQL_TRIGGER,
+  fireMqlEvent,
+  fireWaitlistEvent,
+  fireContactEvent,
+  type QualCustomData,
+} from "@/lib/metaEvents";
 
 // ============== SHARED CONSTANTS ==============
 const GRAD = "linear-gradient(135deg,#3B82F6 0%,#7C3AED 50%,#D946EF 100%)";
@@ -104,9 +111,11 @@ type SizeAnswers = {
   profesionales: SizeChoice | null;
 };
 
-type Qualification = { califica: boolean; prioridadAlta: boolean; metCount: number };
+export type Qualification = { califica: boolean; prioridadAlta: boolean; metCount: number };
 
 // Regla de calificación PURA — sin efectos, un solo lugar, fácil de testear/ajustar.
+// FUENTE DE VERDAD única de "califica": el código de tracking (src/lib/metaEvents.ts)
+// consume el RESULTADO de esta función, nunca reimplementa la regla ni los umbrales.
 function evaluateQualification(size: SizeAnswers): Qualification {
   const conds = [
     (size.sucursales?.value ?? 0) >= QUALIFY_THRESHOLDS.sucursales,
@@ -185,6 +194,12 @@ function pushDL(event: string, data: Record<string, unknown> = {}) {
   window.dataLayer.push({ event, ...data });
 }
 
+// event_id único del lead. Se comparte entre el webhook n8n (upsert del lead) y,
+// según MQL_TRIGGER, el par Pixel+CAPI del evento MQL → una sola señal deduplicada.
+function newLeadEventId(): string {
+  return "ventas_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+}
+
 // Atributos NO personales del lead (software + tamaño + calificación). Se usan
 // tanto en los eventos de analytics como en el payload del webhook.
 function sizeAttributes(
@@ -203,6 +218,25 @@ function sizeAttributes(
     profesionales_label: size.profesionales?.label ?? "",
     prioridad_alta: qual?.prioridadAlta ?? false,
     califica: qual?.califica ?? false,
+  };
+}
+
+// custom_data para los eventos de Meta (MQL / Waitlist / Contact): SOLO atributos
+// de calificación, SIN PII y SIN los labels legibles. `pais` sale del prefijo
+// telefónico cuando ya hay contacto (Paso 3); "" mientras no lo tengamos.
+function qualCustomData(
+  software: SoftwareId | null,
+  size: SizeAnswers,
+  qual: Qualification | null,
+  pais: string,
+): QualCustomData {
+  return {
+    software_actual: software ?? "",
+    sucursales: size.sucursales?.id ?? "",
+    pacientes_mes: size.pacientes?.id ?? "",
+    profesionales: size.profesionales?.id ?? "",
+    prioridad_alta: qual?.prioridadAlta ?? false,
+    pais,
   };
 }
 
@@ -693,20 +727,34 @@ function Wizard({
               if (typeof window !== "undefined" && typeof window.fbq === "function") {
                 window.fbq("track", "ViewContent", { content_name: "Clinera Ventas", ...attrs });
               }
+              // event_id único del lead — compartido con el webhook n8n y, si
+              // MQL_TRIGGER === "qualified_step2", con el par Pixel+CAPI del MQL.
+              const eventId = newLeadEventId();
               // Persistir el lead parcial YA (apenas se completa el paso 2): así queda
               // capturado aunque el usuario abandone antes de dejar sus datos.
-              submitSizeLead({ software, size, qual }).then((ctx) => {
+              submitSizeLead({ software, size, qual, eventId }).then((ctx) => {
                 if (ctx) setLeadCtx(ctx);
               });
+              // MQL en el Paso 2 sólo si el equipo lo activó. Sin user_data:
+              // todavía no hay datos de contacto (email/teléfono).
+              if (MQL_TRIGGER === "qualified_step2") {
+                void fireMqlEvent({
+                  eventId,
+                  qual,
+                  customData: qualCustomData(software, size, qual, ""),
+                });
+              }
               setStep(contactStep);
               return;
             }
 
-            // No califica → registrar como waitlist y mostrar pantalla de lista de espera.
+            // No califica → evento Waitlist (Pixel+CAPI deduplicado, sin PII) +
+            // registrar lead waitlist + mostrar pantalla de lista de espera.
             pushDL("no_calificado_waitlist", attrs);
-            if (typeof window !== "undefined" && typeof window.fbq === "function") {
-              window.fbq("trackCustom", "LeadUnderMinimum", { content_name: "Clinera Ventas", ...attrs });
-            }
+            void fireWaitlistEvent({
+              qual,
+              customData: qualCustomData(software, size, qual, ""),
+            });
             submitWaitlistLead({ software, size, qual });
             setStep(totalSteps);
             setTerminalState("waitlist");
@@ -728,6 +776,27 @@ function Wizard({
             // Reutiliza el event_id del lead parcial (paso 2) para que n8n haga upsert.
             submitContactLead({ form, software, size, qual: qualification, leadCtx }).then((ctx) => {
               if (ctx) setLeadCtx(ctx);
+              // MQL (default): SOLO con submit OK del backend y lead CALIFICADO.
+              // Idempotente por sesión → recarga/doble-click/atrás no lo redisparan.
+              // fireMqlEvent consume qual.califica (fuente de verdad); si no califica,
+              // no se dispara jamás.
+              if (ctx?.ok && MQL_TRIGGER === "contact_submitted") {
+                const digits = form.phone.replace(/\D/g, "");
+                void fireMqlEvent({
+                  eventId: ctx.eventId,
+                  qual: {
+                    califica: qualification?.califica ?? false,
+                    prioridadAlta: qualification?.prioridadAlta ?? false,
+                  },
+                  customData: qualCustomData(
+                    software,
+                    size,
+                    qualification,
+                    PHONE_RULES[form.prefix]?.name ?? "",
+                  ),
+                  contact: { email: form.email, phoneE164: form.prefix + digits },
+                });
+              }
             });
             setStep(calStep);
           }}
@@ -784,16 +853,20 @@ function getMetaSignals() {
   return { fbp, fbc };
 }
 
-async function postWebhook(payload: Record<string, unknown>, errLabel: string) {
+// Devuelve true si el backend respondió OK. El MQL (contact_submitted) se gatea
+// con este resultado: "submit exitoso, respuesta OK del backend".
+async function postWebhook(payload: Record<string, unknown>, errLabel: string): Promise<boolean> {
   try {
-    await fetch(WEBHOOK_URL, {
+    const res = await fetch(WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
       keepalive: true,
     });
+    return res.ok;
   } catch (e) {
     console.error(`${errLabel} webhook failed`, e);
+    return false;
   }
 }
 
@@ -804,26 +877,28 @@ async function submitSizeLead({
   software,
   size,
   qual,
+  eventId,
 }: {
   software: SoftwareId | null;
   size: SizeAnswers;
   qual: Qualification;
+  eventId?: string;
 }): Promise<{ eventId: string; leadSource: string } | null> {
   if (!qual.califica) return null;
 
-  const eventId = "ventas_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+  const resolvedEventId = eventId ?? newLeadEventId();
   const leadSource = detectLeadSource();
   const { fbp, fbc } = getMetaSignals();
 
   pushDL("ventas_size_lead", {
     lead_source: leadSource,
-    event_id: eventId,
+    event_id: resolvedEventId,
     booking_status: "pending",
     ...sizeAttributes(software, size, qual),
   });
 
   const payload = {
-    event_id: eventId,
+    event_id: resolvedEventId,
     event_time: Math.floor(Date.now() / 1000),
     event_source_url: typeof window !== "undefined" ? window.location.href : "",
     action_source: "website",
@@ -847,7 +922,7 @@ async function submitSizeLead({
   };
 
   await postWebhook(payload, "Size lead");
-  return { eventId, leadSource };
+  return { eventId: resolvedEventId, leadSource };
 }
 
 // (2) Lead de WAITLIST — se dispara al completar el paso 2 si NO califica.
@@ -916,31 +991,17 @@ async function submitContactLead({
   size: SizeAnswers;
   qual: Qualification | null;
   leadCtx: { eventId: string; leadSource: string } | null;
-}): Promise<{ eventId: string; leadSource: string } | null> {
-  const eventId = leadCtx?.eventId ?? "ventas_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+}): Promise<{ eventId: string; leadSource: string; ok: boolean } | null> {
+  const eventId = leadCtx?.eventId ?? newLeadEventId();
   const leadSource = leadCtx?.leadSource ?? detectLeadSource();
   const { fbp, fbc } = getMetaSignals();
 
   const rule = PHONE_RULES[form.prefix];
   const digits = form.phone.replace(/\D/g, "");
 
-  // MQL pixel — mismo eventID que el webhook → dedup con el evento server-side (CAPI).
-  if (typeof window !== "undefined" && typeof window.fbq === "function") {
-    window.fbq(
-      "track",
-      "MQL",
-      {
-        content_name: "Clinera Ventas",
-        content_category: "booking",
-        lead_source: leadSource,
-        booking_status: "pending",
-        value: 10,
-        currency: "USD",
-        ...sizeAttributes(software, size, qual),
-      },
-      { eventID: eventId },
-    );
-  }
+  // El evento MQL de Meta (Pixel + CAPI) ya NO se dispara aquí: lo maneja
+  // src/lib/metaEvents.ts (fireMqlEvent) tras confirmar el OK del backend, con
+  // dedup por event_id, user_data hasheado e idempotencia por sesión.
 
   pushDL("ventas_submit_lead", {
     lead_source: leadSource,
@@ -982,8 +1043,8 @@ async function submitContactLead({
     timestamp: Date.now(),
   };
 
-  await postWebhook(payload, "Contact lead");
-  return { eventId, leadSource };
+  const ok = await postWebhook(payload, "Contact lead");
+  return { eventId, leadSource, ok };
 }
 
 // (4) Confirmación de reserva — cuando Cal.com dispara `bookingSuccessful`.
@@ -1196,12 +1257,14 @@ function StepSoftware({
         </div>
       )}
 
-      <SubmitBtn enabled={!!software} onClick={() => software && onNext()}>
-        Continuar
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M5 12h14M12 5l7 7-7 7" />
-        </svg>
-      </SubmitBtn>
+      <div style={{ marginTop: 18 }}>
+        <SubmitBtn enabled={!!software} onClick={() => software && onNext()}>
+          Continuar
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </SubmitBtn>
+      </div>
     </div>
   );
 }
@@ -2006,7 +2069,12 @@ function StepWaitlistClose({
             href={waUrl}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => pushDL("click_whatsapp_waitlist", sizeAttributes(software, size, qual))}
+            onClick={() => {
+              pushDL("click_whatsapp_waitlist", sizeAttributes(software, size, qual));
+              // Evento Contact (estándar Meta) ANTES de abrir wa.me. Pixel + CAPI
+              // (con fbp/fbc, sin PII); event_id propio.
+              fireContactEvent({ customData: qualCustomData(software, size, qual, "") });
+            }}
             style={{
               display: "inline-flex",
               alignItems: "center",
