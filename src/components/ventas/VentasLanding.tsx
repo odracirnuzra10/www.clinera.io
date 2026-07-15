@@ -1546,10 +1546,10 @@ function StepContact({
           Inversión transparente
         </div>
         <div style={{ fontFamily: "Inter", fontSize: 19, fontWeight: 800, letterSpacing: "-.02em", color: "#0A0A0A", lineHeight: 1.15 }}>
-          Planes desde US$279/mes
+          Implementación única de US$450
         </div>
         <div style={{ marginTop: 7, fontFamily: "Inter", fontSize: 13, color: "#4B5563", lineHeight: 1.5 }}>
-          + implementación única de US$450 — incluye tu ingeniero dedicado: migración completa, configuración de IA y capacitación del equipo.
+          Incluye tu ingeniero dedicado: migración completa, configuración de IA y capacitación del equipo.
         </div>
         <div style={{ marginTop: 10, fontFamily: "Inter", fontSize: 12, color: "#9CA3AF", lineHeight: 1.5 }}>
           1 de cada 5 horas agendadas se pierde por inasistencias. Eso empieza a recuperarse desde la primera semana.
