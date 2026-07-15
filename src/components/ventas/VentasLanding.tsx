@@ -1522,40 +1522,6 @@ function StepContact({
         sub="Te confirmamos por WhatsApp."
       />
 
-      {/* Card de inversión transparente — siempre visible, sin acordeón */}
-      <div
-        style={{
-          background: "#FAFBFD",
-          border: "1px solid #E7EBF0",
-          borderRadius: 14,
-          padding: "15px 17px",
-          marginBottom: 18,
-        }}
-      >
-        <div
-          style={{
-            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-            fontSize: 10.5,
-            fontWeight: 600,
-            letterSpacing: ".14em",
-            textTransform: "uppercase",
-            color: "#6B7280",
-            marginBottom: 8,
-          }}
-        >
-          Inversión transparente
-        </div>
-        <div style={{ fontFamily: "Inter", fontSize: 19, fontWeight: 800, letterSpacing: "-.02em", color: "#0A0A0A", lineHeight: 1.15 }}>
-          Implementación única de US$450
-        </div>
-        <div style={{ marginTop: 7, fontFamily: "Inter", fontSize: 13, color: "#4B5563", lineHeight: 1.5 }}>
-          Incluye tu ingeniero dedicado: migración completa, configuración de IA y capacitación del equipo.
-        </div>
-        <div style={{ marginTop: 10, fontFamily: "Inter", fontSize: 12, color: "#9CA3AF", lineHeight: 1.5 }}>
-          1 de cada 5 horas agendadas se pierde por inasistencias. Eso empieza a recuperarse desde la primera semana.
-        </div>
-      </div>
-
       <Field label="Nombre" required error={attempted && !nameOk ? "Ingresa tu nombre." : undefined}>
         <Input value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} placeholder="Tu nombre completo" autoComplete="name" error={attempted && !nameOk} />
       </Field>
