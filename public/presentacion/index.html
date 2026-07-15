@@ -3073,6 +3073,66 @@
   .ig-card .ig-cap{ padding:8px 10px; font-size:11px; color:var(--ink-2); line-height:1.3; }
   .ig-play{ position:absolute; top:7px; right:7px; width:20px; height:20px; border-radius:50%; background:rgba(11,11,15,.55); color:#fff; display:flex; align-items:center; justify-content:center; font-size:8px; }
   @media (max-width:980px){ .proof-grid{ grid-template-columns:1fr; gap:24px; } }
+
+  /* === Slide: Prueba social · clínicas que usan Clinera + prensa === */
+  .trust-inner{ max-width: 1080px; margin: 0 auto; text-align: center; }
+  .trust-inner .kicker{ justify-content: center; }
+  .trust-inner .h-display{ text-align: center; margin-bottom: 14px; }
+  .trust-inner .lead{ margin-left: auto; margin-right: auto; text-align: center; margin-bottom: 30px; }
+  .trust-logos{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .trust-logo{
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    height: 116px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 18px 26px;
+    box-shadow: 0 10px 30px -22px rgba(11,11,15,.18), 0 1px 0 rgba(11,11,15,.02);
+    transition: transform .3s cubic-bezier(.6,.1,.2,1), box-shadow .3s ease;
+  }
+  .trust-logo:hover{ transform: translateY(-2px); box-shadow: 0 16px 40px -24px rgba(11,11,15,.28), 0 1px 0 rgba(11,11,15,.02); }
+  .trust-logo img{ max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+  /* Everest es un tile azul de marca (fondo plano #014C8F, logo centrado) */
+  .trust-logo.tile{ padding: 0; overflow: hidden; border-color: transparent; background: #014C8F; }
+  .trust-logo.tile img{ width: 100%; height: 100%; object-fit: cover; }
+
+  .trust-press{
+    margin-top: 30px;
+    padding-top: 26px;
+    border-top: 1px solid var(--line);
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+  .trust-press-lbl{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+  }
+  .trust-press-row{
+    display: flex; align-items: center; justify-content: center;
+    gap: clamp(30px, 4.5vw, 62px);
+    flex-wrap: wrap;
+  }
+  .trust-press-row .pl{ display: flex; align-items: center; height: 32px; opacity: .82; transition: opacity .25s ease; }
+  .trust-press-row .pl:hover{ opacity: 1; }
+  .trust-press-row .pl svg{ display: block; height: 100%; width: auto; }
+  .trust-forbes{ font-family: Georgia, 'Times New Roman', 'Times', serif; font-weight: 700; font-size: 31px; letter-spacing: -0.005em; color: #26262E; line-height: 1; }
+  .trust-emol{ font-family: var(--sans); font-weight: 800; font-size: 27px; letter-spacing: .015em; color: #26262E; line-height: 1; }
+  @media (max-width: 980px){
+    .trust-logos{ grid-template-columns: repeat(2, 1fr); max-width: 460px; }
+    .trust-logo{ height: 96px; }
+  }
+
+  /* === Refinamientos de jerarquía global (ritmo eyebrow → título → lead) === */
+  .kicker{ margin-bottom: 20px; font-weight: 500; letter-spacing: .14em; }
+  .lead{ font-size: clamp(14.5px, 1.08vw, 17px); line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -3082,7 +3142,7 @@
   <div class="meta-tag">Presentación · Clinera</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 09</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 10</div>
 <div class="hint">
   Click o <span class="arrow">→</span> para continuar
 </div>
@@ -3591,8 +3651,40 @@
     </div>
   </section>
 
-  <!-- 08 — Clinera en la prensa · CNN -->
+  <!-- 08 — Prueba social · clínicas que usan Clinera + prensa -->
   <section class="slide" id="slide7">
+    <div class="slide-inner trust-inner">
+      <div class="kicker"><span class="pip"></span>Referente nacional</div>
+      <h2 class="h-display">El software con IA que usan las clínicas que <span class="em">crecen</span>.</h2>
+      <p class="lead">Desde clínicas dentales y estéticas hasta grandes centros de salud — equipos que eligen Clinera para operar con IA.</p>
+
+      <div class="trust-logos">
+        <div class="trust-logo"><img src="/presentacion/clientes/andes.png" alt="Andes Salud" loading="lazy" /></div>
+        <div class="trust-logo tile"><img src="/presentacion/clientes/everest.png" alt="Everest Clínicas Dentales" loading="lazy" /></div>
+        <div class="trust-logo"><img src="/presentacion/clientes/sanatorio.png" alt="Sanatorio Alemán" loading="lazy" /></div>
+        <div class="trust-logo"><img src="/presentacion/clientes/sonrie.png" alt="Sonríe" loading="lazy" /></div>
+        <div class="trust-logo"><img src="/presentacion/clientes/lumina.png" alt="Lumina · Clínica Facial" loading="lazy" /></div>
+        <div class="trust-logo"><img src="/presentacion/clientes/hebe.png" alt="Método Hebe" loading="lazy" /></div>
+      </div>
+
+      <div class="trust-press">
+        <div class="trust-press-lbl">Nos han entrevistado en</div>
+        <div class="trust-press-row">
+          <span class="trust-emol">EMOL</span>
+          <span class="pl">
+            <svg role="img" aria-label="CNN" viewBox="0 6 24 12" xmlns="http://www.w3.org/2000/svg">
+              <title>CNN</title>
+              <path fill="#26262E" d="M23.9962 15.514c0 2.0638-2.6676 3.0547-4.0789.6576-.1012-.173-2.3252-4.0032-2.3252-4.0032v3.3457c0 2.0637-2.6663 3.0546-4.0776.6575-.1025-.173-2.3253-4.0032-2.3253-4.0032v3.1547c0 1.4318-.8498 2.2073-2.1791 2.2073H5.5299a5.5299 5.5299 0 010-11.0598h1.7946v1.328H5.5299a4.2019 4.2019 0 100 8.4038h3.4494a.8973.8973 0 00.8794-.878V8.524a.2692.2692 0 01.1935-.273c.141-.0384.2897.0487.3987.2333l2.1522 3.7084c1.251 2.1573 2.0728 3.5738 2.083 3.5892.2807.4742.6986.5576.9973.4755a.7973.7973 0 00.582-.787v-6.945a.2705.2705 0 01.191-.2744c.1397-.0384.287.0487.3947.2333l1.9946 3.4366 2.242 3.8648c.2191.3717.5242.5038.7896.5038a.7691.7691 0 00.2063-.0282.7986.7986 0 00.591-.791V6.4707H24zM8.0026 13.9695V8.4857c0-2.0638 2.6675-3.0546 4.0788-.6563.1025.173 2.3253 4.002 2.3253 4.002V8.4856c0-2.0638 2.6662-3.0546 4.0775-.6563.1026.173 2.3253 4.002 2.3253 4.002V6.4705H22.14v8.9999a.2705.2705 0 01-.1935.2743c-.141.0384-.2897-.0487-.3987-.2333a1360.4277 1360.4277 0 01-2.2406-3.8622l-1.9946-3.434c-.2794-.4744-.696-.5577-.9921-.477a.7986.7986 0 00-.5833.7858v6.9464a.2718.2718 0 01-.1935.2743c-.1423.0384-.291-.0487-.3987-.2333-.0192-.032-1.069-1.8407-2.083-3.5892a6211.7971 6211.7971 0 00-2.1535-3.711c-.2794-.4755-.6973-.5575-.996-.4768a.7999.7999 0 00-.5845.7858v6.8002a.3717.3717 0 01-.3487.3474h-3.452a3.6712 3.6712 0 010-7.3424H7.322v1.328H5.5427a2.3432 2.3432 0 100 4.6864H7.636a.364.364 0 00.3666-.3705Z"/>
+            </svg>
+          </span>
+          <span class="trust-forbes">Forbes</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 — Clinera en la prensa · CNN -->
+  <section class="slide" id="slide8">
     <div class="slide-inner">
       <div class="cnn-press-card">
         <div class="cnn-press-glow" aria-hidden="true"></div>
@@ -3625,8 +3717,8 @@
     </div>
   </section>
 
-  <!-- 09 — Cierre -->
-  <section class="slide" id="slide8">
+  <!-- 10 — Cierre -->
+  <section class="slide" id="slide9">
     <div class="slide-inner" style="max-width:940px;text-align:center;">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Un solo sistema · todo incluido</div>
       <h2 class="h-display" style="text-align:center;">Un sistema, <span class="em">todo incluido</span>.</h2>
@@ -3648,7 +3740,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 9;
+  const TOTAL_SLIDES = 10;
   let currentSlide = 0;
   let currentSubStep = 0;
   let isAnimating = false;
