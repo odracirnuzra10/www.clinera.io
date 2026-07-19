@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Reestructuración interna · Julio 2026 | Clinera</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="description" content="Comunicación interna: el criterio detrás de la reestructuración de julio 2026." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --bg: #FBFBFA;
+    --ink: #111111;
+    --sub: #6B6B6B;
+    --line: #EAEAEA;
+    --accent: #009FE3;
+    --sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  *,*::before,*::after{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .slide{
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    padding: 60px 48px;
+  }
+  .wrap{
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  /* Eyebrow */
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+  }
+
+  /* Título */
+  .title{
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: clamp(30px, 3.7vw, 50px);
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    color: var(--ink);
+    margin: 20px 0 0;
+    max-width: 900px;
+  }
+  .title .accent{ color: var(--accent); }
+
+  /* Bajada */
+  .subtitle{
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height: 1.55;
+    color: var(--sub);
+    margin: 18px 0 0;
+    max-width: 720px;
+  }
+
+  /* Barra de proporción 70/20/10 */
+  .bar{
+    display: flex;
+    gap: 4px;
+    height: 8px;
+    margin: 44px 0 0;
+  }
+  .bar span{ border-radius: 4px; display: block; height: 100%; }
+  .bar .s70{ flex: 0 0 70%; background: var(--accent); }
+  .bar .s20{ flex: 0 0 calc(20% - 8px); background: #CFCFCF; }
+  .bar .s10{ flex: 0 0 calc(10% - 8px); background: #E4E4E4; }
+
+  /* Columnas 70 / 20 / 10 */
+  .cols{
+    display: grid;
+    grid-template-columns: 1.42fr 1fr 1fr;
+    margin: 30px 0 0;
+  }
+  .col{ padding: 6px 34px; }
+  .col:first-child{ padding-left: 0; }
+  .col + .col{ border-left: 1px solid var(--line); }
+
+  .pct{
+    font-family: var(--mono);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--ink);
+    font-size: 40px;
+  }
+  .clabel{
+    font-family: var(--sans);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-size: 18px;
+    color: var(--ink);
+    margin: 12px 0 0;
+  }
+  .cdesc{
+    font-family: var(--sans);
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--sub);
+    margin: 8px 0 0;
+    max-width: 300px;
+  }
+
+  /* Columna dominante (70%) */
+  .col.lead .pct{ font-size: 72px; color: var(--accent); }
+  .col.lead .clabel{ font-size: 23px; margin-top: 14px; }
+  .col.lead .cdesc{ font-size: 15.5px; max-width: 340px; }
+
+  /* Cierre */
+  .close{
+    margin: 42px 0 0;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 26px;
+    max-width: 860px;
+  }
+  .badge{
+    display: inline-block;
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(0,159,227,0.08);
+    border: 1px solid rgba(0,159,227,0.22);
+    border-radius: 8px;
+    padding: 6px 11px;
+  }
+  .close p{
+    font-family: var(--sans);
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin: 14px 0 0;
+    max-width: 780px;
+  }
+  .close p b{ font-weight: 600; }
+
+  /* Movimiento de entrada */
+  .reveal{
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .6s ease-out, transform .6s ease-out;
+    transition-delay: calc(var(--i, 0) * 70ms);
+  }
+  .reveal.in{ opacity: 1; transform: none; }
+
+  /* Responsive: bajo 860px una sola columna, separadas por border-top */
+  @media (max-width: 860px){
+    .slide{ padding: 48px 24px; }
+    .cols{ grid-template-columns: 1fr; }
+    .col{ padding: 24px 0; }
+    .col:first-child{ padding-top: 4px; }
+    .col + .col{ border-left: 0; border-top: 1px solid var(--line); }
+    .col .cdesc, .col.lead .cdesc{ max-width: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ transition: none; opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<section class="slide">
+  <div class="wrap">
+    <p class="eyebrow reveal" style="--i:0">Reestructuración interna · Julio 2026</p>
+
+    <h1 class="title reveal" style="--i:1">El éxito de un software no se decide en el producto. Se decide en la <span class="accent">adopción</span>.</h1>
+
+    <p class="subtitle reveal" style="--i:2">Este es el criterio detrás de todos los cambios de estructura, roles y comisiones que estamos ejecutando.</p>
+
+    <div class="bar reveal" style="--i:3" aria-hidden="true">
+      <span class="s70"></span>
+      <span class="s20"></span>
+      <span class="s10"></span>
+    </div>
+
+    <div class="cols">
+      <div class="col lead reveal" style="--i:4">
+        <div class="pct">70%</div>
+        <div class="clabel">Adopción</div>
+        <p class="cdesc">Se logra solo si el cliente usa todas las funciones, no una parte. Ahí va el foco del equipo.</p>
+      </div>
+      <div class="col reveal" style="--i:5">
+        <div class="pct">20%</div>
+        <div class="clabel">Venta</div>
+        <p class="cdesc">Traer clínicas que calcen con el producto.</p>
+      </div>
+      <div class="col reveal" style="--i:6">
+        <div class="pct">10%</div>
+        <div class="clabel">Producto</div>
+        <p class="cdesc">Construir lo que la adopción pide.</p>
+      </div>
+    </div>
+
+    <div class="close reveal" style="--i:7">
+      <span class="badge">Foco 2026</span>
+      <p>Sin adopción, la venta genera churn y el producto no sostiene nada. Por eso quien vende ahora también <b>configura, activa y capacita</b>.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)){
+      els.forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
