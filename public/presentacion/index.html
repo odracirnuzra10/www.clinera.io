@@ -524,6 +524,61 @@
   .fc-desc{ font-size:12.5px; color:var(--muted); line-height:1.45; margin-top:4px; }
   @media (max-width:980px){ .fc{ grid-template-columns:1fr 1fr; } }
   @media (max-width:640px){ .fc{ grid-template-columns:1fr; } }
+
+  /* === Ficha: media/mockup en cada card === */
+  .fc{ grid-template-columns:repeat(4,1fr); gap:14px; }
+  .fc-card{ display:flex; flex-direction:column; }
+  .fc-media{ height:104px; display:flex; align-items:center; justify-content:center; overflow:hidden; background:#F4F4F7; border-bottom:1px solid var(--line-2); }
+  .fc-img{ width:100%; height:104px; object-fit:contain; display:block; background:#ECECF0; }
+  .fc-body{ padding:13px 15px; }
+  .fc-title{ font-size:13.5px; }
+  .fc-desc{ font-size:11.5px; margin-top:3px; }
+  .mk{ width:100%; height:100%; padding:14px 16px; display:flex; flex-direction:column; gap:6px; justify-content:center; }
+  .mk-l{ height:7px; border-radius:4px; background:#D6D6DE; width:70%; }
+  .mk-l.m{ width:90%; } .mk-l.s{ width:44%; }
+  .mk-i{ height:11px; border-radius:4px; background:#fff; border:1px solid var(--line); width:100%; }
+  .mk-doc .sign{ font-family:var(--mono); font-size:9px; letter-spacing:.05em; color:var(--green); margin-top:4px; display:inline-flex; align-items:center; gap:4px; }
+  .mk-doc .sign svg{ width:11px; height:11px; }
+  .mk-wa{ gap:7px; }
+  .wb{ height:15px; border-radius:8px; }
+  .wb.in{ width:54%; background:#fff; border:1px solid var(--line); align-self:flex-start; }
+  .wb.out{ width:66%; background:#D9F5E3; align-self:flex-end; }
+  .mk-rem{ flex-direction:row; align-items:center; justify-content:center; gap:9px; }
+  .mk-rem .bell{ color:var(--violet); } .mk-rem .bell svg{ width:22px; height:22px; }
+  .mk-chip{ font-family:var(--mono); font-size:9px; letter-spacing:.05em; text-transform:uppercase; padding:4px 8px; border-radius:6px; background:rgba(124,58,237,.08); color:var(--violet); }
+  .mk-price .pr{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .mk-price .pr .b{ height:7px; width:48%; background:#D6D6DE; border-radius:4px; }
+  .mk-price .pr .p{ height:7px; width:22%; background:linear-gradient(90deg,var(--cyan),var(--violet)); border-radius:4px; }
+  .mk-tags{ flex-direction:row; flex-wrap:wrap; gap:5px; align-content:center; }
+  .mk-tags span{ font-family:var(--mono); font-size:8.5px; letter-spacing:.04em; text-transform:uppercase; padding:4px 8px; border-radius:999px; background:#fff; border:1px solid var(--line); color:var(--ink-2); }
+  @media(max-width:980px){ .fc{ grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:640px){ .fc{ grid-template-columns:1fr; } }
+
+  /* === Fuel: 8 fuentes en 2 columnas === */
+  .fuel{ grid-template-columns:1.4fr auto 0.9fr; }
+  #fuelSources{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .fuel-src, .fuel-out{ padding:10px 12px; }
+  @media(max-width:980px){ .fuel{ grid-template-columns:1fr; } #fuelSources{ grid-template-columns:1fr; } }
+
+  /* === AURA en acción: mini-mockups visuales === */
+  .aa-viz{ margin-top:auto; background:#F9FAFB; border:1px solid var(--line-2); border-radius:11px; padding:12px 13px; min-height:108px; display:flex; flex-direction:column; gap:7px; justify-content:center; }
+  .aa-viz.wa{ gap:6px; }
+  .wa-bub{ font-size:11.5px; line-height:1.35; padding:7px 10px; border-radius:10px; max-width:90%; }
+  .wa-bub.in{ background:#fff; border:1px solid var(--line); align-self:flex-start; border-top-left-radius:3px; color:var(--ink-2); }
+  .wa-bub.out{ background:#D9F5E3; align-self:flex-end; border-top-right-radius:3px; color:var(--ink); }
+  .wa-typing{ align-self:flex-start; background:#fff; border:1px solid var(--line); border-radius:10px; border-top-left-radius:3px; padding:8px 11px; display:inline-flex; gap:4px; }
+  .wa-typing span{ width:5px; height:5px; border-radius:50%; background:var(--muted-2); animation:aaTyp 1.2s infinite; }
+  .wa-typing span:nth-child(2){ animation-delay:.15s; } .wa-typing span:nth-child(3){ animation-delay:.3s; }
+  @keyframes aaTyp{ 0%,60%,100%{opacity:.3;transform:translateY(0)} 30%{opacity:1;transform:translateY(-2px)} }
+  .aa-viz.flow{ gap:0; }
+  .fl-node{ font-size:11px; font-weight:500; color:var(--ink-2); background:#fff; border:1px solid var(--line); border-radius:8px; padding:6px 10px; text-align:center; }
+  .fl-node.on{ background:rgba(16,185,129,.1); border-color:rgba(16,185,129,.35); color:var(--green); font-weight:600; animation:aaPulse 2s ease-in-out infinite; }
+  @keyframes aaPulse{ 0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0)} 50%{box-shadow:0 0 0 4px rgba(16,185,129,.12)} }
+  .fl-conn{ width:2px; height:9px; background:var(--line); margin:0 auto; }
+  .aa-viz.cast{ gap:9px; }
+  .cast-msg{ font-size:11.5px; color:var(--ink); background:#fff; border:1px solid var(--line); border-radius:8px; padding:7px 10px; }
+  .cast-fan{ display:flex; align-items:center; gap:5px; font-family:var(--mono); font-size:11px; color:var(--magenta); font-weight:600; }
+  .cast-fan i{ width:15px; height:15px; border-radius:50%; background:linear-gradient(135deg,rgba(200,80,192,.25),rgba(124,58,237,.25)); border:1px solid rgba(200,80,192,.3); }
 </style>
 </head>
 <body>
@@ -585,18 +640,31 @@
       <div class="aa" id="auraActions">
         <div class="aa-card" data-aa="0">
           <div class="aa-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M9 15l2 2 4-4"/></svg></div>
-          <div><div class="aa-title">Agenda en tiempo real</div><div class="aa-desc">Reserva, reagenda y cancela citas en tu agenda — sin colisiones.</div></div>
-          <div class="aa-demo"><span class="k">Nueva cita · WhatsApp</span><b>María T.</b> · Limpieza facial · <b>mañana 11:00</b> <span class="ok">· Agendada</span></div>
+          <div><div class="aa-title">Agenda en tiempo real</div><div class="aa-desc">Reserva, reagenda y cancela citas — sin colisiones.</div></div>
+          <div class="aa-viz wa">
+            <div class="wa-bub in">Hola, ¿tienen hora para mañana?</div>
+            <div class="wa-bub out">¡Sí! Te dejo mañana 11:00 con la Dra. Meza</div>
+            <div class="wa-typing"><span></span><span></span><span></span></div>
+          </div>
         </div>
         <div class="aa-card" data-aa="1">
           <div class="aa-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
-          <div><div class="aa-title">Automatizaciones</div><div class="aa-desc">Recordatorios y confirmaciones que se disparan solos, sin que programes nada.</div></div>
-          <div class="aa-demo"><span class="k">Recordatorio · 2 h antes</span>"Hola María, te esperamos hoy a las 11:00" <span class="ok">· Enviado</span></div>
+          <div><div class="aa-title">Automatizaciones</div><div class="aa-desc">Recordatorios y confirmaciones que se disparan solos.</div></div>
+          <div class="aa-viz flow">
+            <div class="fl-node">Cita agendada</div>
+            <div class="fl-conn"></div>
+            <div class="fl-node">Espera · 2 h antes</div>
+            <div class="fl-conn"></div>
+            <div class="fl-node on">Recordatorio enviado</div>
+          </div>
         </div>
         <div class="aa-card" data-aa="2">
           <div class="aa-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l16-5v13L3 14z"/><path d="M11 15.5a3 3 0 0 1-5.5-1.5"/></svg></div>
-          <div><div class="aa-title">Difusiones segmentadas</div><div class="aa-desc">Campañas por WhatsApp a la base correcta, para volver a llenar la agenda.</div></div>
-          <div class="aa-demo"><span class="k">Difusión · pacientes dormidos</span><b>20% off</b> a <b>181 pacientes</b> <span class="ok">· Enviada</span></div>
+          <div><div class="aa-title">Difusiones segmentadas</div><div class="aa-desc">Campañas por WhatsApp a la base correcta.</div></div>
+          <div class="aa-viz cast">
+            <div class="cast-msg">"20% off esta semana, te esperamos"</div>
+            <div class="cast-fan"><i></i><i></i><i></i><i></i><i></i><i></i><span>+ 181 enviados</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -604,34 +672,39 @@
 
   <!-- 04 — Ficha clínica -->
   <section class="slide" id="slide3">
-    <div class="slide-inner" style="max-width:1080px;">
+    <div class="slide-inner" style="max-width:1120px;">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Ficha clínica · Clinera Vault</div>
       <h2 class="h-display" style="text-align:center;">Toda tu clínica, <span class="em">acá</span>.</h2>
-      <p class="lead" style="text-align:center; max-width:660px; margin:0 auto 30px;">Fichas a tu manera, con todo lo que tu especialidad necesita — cifrado y respaldado.</p>
+      <p class="lead" style="text-align:center; max-width:680px; margin:0 auto 28px;">Fichas a tu manera, con todo lo que tu especialidad necesita — cifrado y respaldado.</p>
       <div class="fc" id="fichaCards">
-        <div class="fc-card" data-fc="0"><div class="fc-body"><div class="fc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div><div class="fc-title">Fichas editables</div><div class="fc-desc">Agrega o quita campos según tu especialidad.</div></div></div>
-        <div class="fc-card" data-fc="1"><img class="fc-img" src="/presentacion/eval-facial.jpg" alt="Ficha de evaluación facial" loading="lazy" decoding="async" /><div class="fc-body"><div class="fc-title">Ficha facial</div><div class="fc-desc">Marca zonas, tercios y simetría.</div></div></div>
-        <div class="fc-card" data-fc="2"><img class="fc-img" src="/presentacion/eval-corporal.jpg" alt="Ficha de evaluación corporal" loading="lazy" decoding="async" /><div class="fc-body"><div class="fc-title">Ficha corporal</div><div class="fc-desc">Evaluación por región del cuerpo.</div></div></div>
-        <div class="fc-card" data-fc="3"><div class="fc-body"><div class="fc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 15l2 2 4-4"/></svg></div><div class="fc-title">Consentimiento informado</div><div class="fc-desc">Firmado digitalmente y archivado en la ficha.</div></div></div>
-        <div class="fc-card" data-fc="4"><div class="fc-body"><div class="fc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></div><div class="fc-title">Tratamientos</div><div class="fc-desc">Catálogo con precios y protocolos.</div></div></div>
-        <div class="fc-card" data-fc="5"><div class="fc-body"><div class="fc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M10 13v2a5 5 0 0 0 10 0v-1"/><circle cx="20" cy="11" r="2"/></svg></div><div class="fc-title">Especialidades</div><div class="fc-desc">Estética, dermatología, medicina y más.</div></div></div>
+        <div class="fc-card" data-fc="0"><div class="fc-media"><div class="mk"><span class="mk-l s"></span><span class="mk-i"></span><span class="mk-l s"></span><span class="mk-i"></span></div></div><div class="fc-body"><div class="fc-title">Fichas editables</div><div class="fc-desc">Agrega o quita campos según tu especialidad.</div></div></div>
+        <div class="fc-card" data-fc="1"><div class="fc-media"><img class="fc-img" src="/presentacion/eval-facial.jpg" alt="Ficha de evaluación facial" loading="lazy" decoding="async" /></div><div class="fc-body"><div class="fc-title">Ficha facial</div><div class="fc-desc">Marca zonas, tercios y simetría.</div></div></div>
+        <div class="fc-card" data-fc="2"><div class="fc-media"><img class="fc-img" src="/presentacion/eval-corporal.jpg" alt="Ficha de evaluación corporal" loading="lazy" decoding="async" /></div><div class="fc-body"><div class="fc-title">Ficha corporal</div><div class="fc-desc">Evaluación por región del cuerpo.</div></div></div>
+        <div class="fc-card" data-fc="3"><div class="fc-media"><div class="mk mk-doc"><span class="mk-l m"></span><span class="mk-l"></span><span class="mk-l s"></span><span class="sign"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Firmado</span></div></div><div class="fc-body"><div class="fc-title">Consentimiento informado</div><div class="fc-desc">Firmado digitalmente y archivado en la ficha.</div></div></div>
+        <div class="fc-card" data-fc="4"><div class="fc-media"><div class="mk mk-wa"><span class="wb in"></span><span class="wb out"></span><span class="wb in"></span></div></div><div class="fc-body"><div class="fc-title">Mensajería WhatsApp</div><div class="fc-desc">Toda la conversación del paciente, en su ficha.</div></div></div>
+        <div class="fc-card" data-fc="5"><div class="fc-media"><div class="mk mk-rem"><span class="bell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span><span class="mk-chip">Recordatorio · 2 h</span></div></div><div class="fc-body"><div class="fc-title">Recordatorios</div><div class="fc-desc">Automáticos antes de cada cita.</div></div></div>
+        <div class="fc-card" data-fc="6"><div class="fc-media"><div class="mk mk-price"><span class="pr"><span class="b"></span><span class="p"></span></span><span class="pr"><span class="b"></span><span class="p"></span></span><span class="pr"><span class="b"></span><span class="p"></span></span></div></div><div class="fc-body"><div class="fc-title">Tratamientos</div><div class="fc-desc">Catálogo con precios y protocolos.</div></div></div>
+        <div class="fc-card" data-fc="7"><div class="fc-media"><div class="mk mk-tags"><span>Estética</span><span>Dermatología</span><span>Medicina</span><span>Kinesiología</span></div></div><div class="fc-body"><div class="fc-title">Especialidades</div><div class="fc-desc">Cada una con su ficha a medida.</div></div></div>
       </div>
     </div>
   </section>
 
   <!-- 05 — Todo esto vive de tus datos -->
   <section class="slide" id="slide4">
-    <div class="slide-inner" style="max-width:1060px;">
+    <div class="slide-inner" style="max-width:1120px;">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>El secreto · por qué funciona de verdad</div>
       <h2 class="h-display" style="text-align:center;">La IA es tan potente como lo que <span class="em">le das</span>.</h2>
       <p class="lead" style="text-align:center; max-width:700px; margin:0 auto 28px;">Nada de esto es magia. AURA y el agente interno viven de tus datos. Por eso Clinera es también tu agenda, tus fichas y tus ventas: mientras más lo usas, más sabe tu clínica.</p>
       <div class="fuel">
         <div class="fuel-col" id="fuelSources">
-          <div class="fuel-src" data-fs="0"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span><span class="fuel-name">Agenda<small>Horas y profesionales</small></span></div>
-          <div class="fuel-src" data-fs="1"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 13h6M9 17h6"/></svg></span><span class="fuel-name">Fichas clínicas<small>Historial de cada paciente</small></span></div>
-          <div class="fuel-src" data-fs="2"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 2 5-6"/></svg></span><span class="fuel-name">Ventas<small>Qué se vende y cuánto</small></span></div>
-          <div class="fuel-src" data-fs="3"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M16 5.5a3 3 0 0 1 0 5M18.5 20c0-2-1-3.5-2.6-4.4"/></svg></span><span class="fuel-name">Pacientes<small>Tu base completa</small></span></div>
-          <div class="fuel-src" data-fs="4"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6z"/><path d="M18 15l.7 1.8L20.5 17l-1.8.7L18 19.5l-.7-1.8L15.5 17l1.8-.5z"/></svg></span><span class="fuel-name">Tratamientos<small>Precios y protocolos</small></span></div>
+          <div class="fuel-src" data-fs="0"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span><span class="fuel-name">Agenda<small>Horas y bloqueos</small></span></div>
+          <div class="fuel-src" data-fs="1"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="2"/><path d="M13 9h5M13 13h5M5 16c0-1.4 1.2-2.3 3-2.3s3 .9 3 2.3"/></svg></span><span class="fuel-name">Profesionales<small>Cada uno y su especialidad</small></span></div>
+          <div class="fuel-src" data-fs="2"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 13h6M9 17h6"/></svg></span><span class="fuel-name">Fichas clínicas<small>Historial de cada paciente</small></span></div>
+          <div class="fuel-src" data-fs="3"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 15l1.5 1.5L14 13"/></svg></span><span class="fuel-name">Consentimientos<small>Firmados y archivados</small></span></div>
+          <div class="fuel-src" data-fs="4"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 2 5-6"/></svg></span><span class="fuel-name">Ventas<small>Qué se vende y cuánto</small></span></div>
+          <div class="fuel-src" data-fs="5"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M16 5.5a3 3 0 0 1 0 5M18.5 20c0-2-1-3.5-2.6-4.4"/></svg></span><span class="fuel-name">Pacientes<small>Tu base completa</small></span></div>
+          <div class="fuel-src" data-fs="6"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6z"/></svg></span><span class="fuel-name">Tratamientos<small>Precios y protocolos</small></span></div>
+          <div class="fuel-src" data-fs="7"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M10 21v-5h4v5"/></svg></span><span class="fuel-name">Sucursales<small>Toda tu operación</small></span></div>
         </div>
         <div class="fuel-core">
           <div>
