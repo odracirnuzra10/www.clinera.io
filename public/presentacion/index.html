@@ -3133,6 +3133,63 @@
   /* === Refinamientos de jerarquía global (ritmo eyebrow → título → lead) === */
   .kicker{ margin-bottom: 20px; font-weight: 500; letter-spacing: .14em; }
   .lead{ font-size: clamp(14.5px, 1.08vw, 17px); line-height: 1.6; }
+
+  /* ═══ Rebuild WOW (6 slides) — piezas nuevas ═══ */
+  .hidden{ display:none !important; }
+  .wow-split{ display:grid; grid-template-columns:1fr 0.94fr; gap:clamp(30px,4vw,56px); align-items:center; }
+  .wow-split .mockup-text .h-display{ margin-bottom:14px; }
+  @media (max-width:980px){ .wow-split{ grid-template-columns:1fr; gap:26px; } }
+
+  /* Transcripción de llamada — revela líneas en secuencia */
+  .m-call-transcript{ margin-top:6px; }
+  .m-call-line{ opacity:0; transform:translateY(6px); transition:opacity .45s ease, transform .45s ease; }
+  .m-call-line.show{ opacity:1; transform:none; }
+
+  /* Acentos disponibles (chips visuales, sin audio) */
+  .accent-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+  .accent-chip{ display:inline-flex; align-items:center; gap:8px; padding:7px 13px 7px 9px; border-radius:999px; border:1px solid var(--line); background:#fff; font-size:12.5px; font-weight:500; color:var(--ink-2); box-shadow:0 6px 16px -12px rgba(11,11,15,.3); }
+  .accent-chip .fl{ font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:#fff; background:linear-gradient(135deg,var(--cyan),var(--violet)); border-radius:4px; padding:2px 5px; }
+
+  /* Feed del agente autónomo */
+  .agent-feed{ background:#fff; border:1px solid var(--line); border-radius:18px; padding:8px; width:100%; max-width:460px; justify-self:end; box-shadow:0 18px 50px -20px rgba(11,11,15,.16); }
+  .af-head{ display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid var(--line-2); }
+  .af-head .t{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+  .af-head .live{ display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:11px; color:var(--violet); letter-spacing:.06em; }
+  .af-head .live .pulse{ width:7px; height:7px; border-radius:50%; background:var(--violet); animation:m-blink 1s infinite; }
+  .af-item{ display:grid; grid-template-columns:34px 1fr; gap:12px; align-items:start; padding:13px 14px; opacity:0; transform:translateY(8px); transition:opacity .5s ease, transform .5s ease; }
+  .af-item + .af-item{ border-top:1px solid var(--line-2); }
+  .af-item.show{ opacity:1; transform:none; }
+  .af-ic{ width:34px; height:34px; border-radius:9px; display:grid; place-items:center; }
+  .af-ic svg{ width:17px; height:17px; }
+  .af-ic.book{ background:rgba(16,185,129,.12); color:var(--green); }
+  .af-ic.mora{ background:rgba(245,158,11,.14); color:var(--amber); }
+  .af-ic.rank{ background:rgba(124,58,237,.12); color:var(--violet); }
+  .af-txt{ font-size:13px; line-height:1.5; color:var(--ink-2); }
+  .af-txt b{ color:var(--ink); font-weight:600; }
+  .af-txt .tag{ display:block; font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); margin-bottom:4px; }
+
+  /* Diagrama "vive de tus datos" */
+  .fuel{ display:grid; grid-template-columns:1fr auto 1fr; gap:clamp(18px,3vw,40px); align-items:center; margin-top:6px; }
+  .fuel-col{ display:flex; flex-direction:column; gap:9px; }
+  .fuel-src, .fuel-out{ display:flex; align-items:center; gap:11px; padding:11px 14px; border-radius:13px; border:1px solid var(--line); background:#fff; box-shadow:0 8px 22px -16px rgba(11,11,15,.22); opacity:0; transform:translateX(-12px); transition:opacity .5s ease, transform .5s ease; }
+  .fuel-out{ transform:translateX(12px); }
+  .fuel-src.show, .fuel-out.show{ opacity:1; transform:none; }
+  .fuel-ic{ width:30px; height:30px; border-radius:8px; display:grid; place-items:center; background:rgba(0,159,227,.1); color:var(--cyan); flex:none; }
+  .fuel-out .fuel-ic{ background:rgba(124,58,237,.12); color:var(--violet); }
+  .fuel-ic svg{ width:15px; height:15px; }
+  .fuel-name{ font-size:13.5px; font-weight:600; color:var(--ink); line-height:1.15; }
+  .fuel-name small{ display:block; font-family:var(--mono); font-size:9px; letter-spacing:.04em; color:var(--muted); font-weight:400; margin-top:3px; text-transform:uppercase; }
+  .fuel-core{ position:relative; width:clamp(118px,13vw,160px); aspect-ratio:1; border-radius:26px; display:grid; place-items:center; text-align:center; color:#fff; background:linear-gradient(150deg,#0E1116,#241633); box-shadow:0 26px 60px -24px rgba(124,58,237,.6); }
+  .fuel-core::before{ content:""; position:absolute; inset:-7px; border-radius:32px; border:1px solid rgba(124,58,237,.35); animation:m-blink 2.2s infinite; }
+  .fuel-core .fc-k{ font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#A78BFA; }
+  .fuel-core .fc-n{ font-size:19px; font-weight:800; margin-top:3px; letter-spacing:-.01em; }
+  .fuel-core .fc-s{ font-size:10.5px; color:#9CA3AF; margin-top:6px; padding:0 12px; line-height:1.35; }
+  @media (max-width:980px){ .fuel{ grid-template-columns:1fr; gap:14px; } .fuel-core{ margin:8px auto; } .fuel-out{ transform:translateX(-12px); } }
+
+  /* Strip CNN compacto en el cierre */
+  .cnn-strip{ display:flex; justify-content:center; align-items:center; gap:12px; margin-top:28px; font-family:var(--mono); font-size:10.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); }
+  .cnn-strip .sep{ width:1px; height:13px; background:var(--line); display:inline-block; }
+  .cnn-strip b{ color:var(--ink-2); font-weight:700; }
 </style>
 </head>
 <body>
@@ -3142,7 +3199,7 @@
   <div class="meta-tag">Presentación · Clinera</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 10</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 06</div>
 <div class="hint">
   Click o <span class="arrow">→</span> para continuar
 </div>
@@ -3161,196 +3218,12 @@
     </div>
   </section>
 
-  <!-- 02 — Agentes de IA (AURA · CAMILA · LIA) -->
+  <!-- 02 — La IA que conversa (chat de texto) -->
   <section class="slide" id="slide1">
-    <div class="slide-inner agents-mini">
-      <div class="kicker"><span class="pip"></span>Tu equipo de IA</div>
-      <h2 class="h-display">Tres agentes. Una clínica que <span class="em">opera sola</span>.</h2>
-      <p class="lead">Cada uno con su especialidad — todos incluidos en Clinera.</p>
-      <div class="agents-row">
-        <div class="agent-mini">
-          <div class="am-head">
-            <img src="/agents/aura.jpg" alt="AURA" />
-            <div class="am-id"><span class="am-name">AURA</span><span class="am-role">Asistente IA · WhatsApp</span></div>
-            <span class="am-status live">Activa</span>
-          </div>
-          <p class="am-title">Confirma como una persona.</p>
-          <p class="am-desc">Agenda, confirma y responde por WhatsApp 24/7. El paciente no nota que es IA.</p>
-        </div>
-        <div class="agent-mini">
-          <div class="am-head">
-            <img src="/agents/camila.png" alt="CAMILA" />
-            <div class="am-id"><span class="am-name">CAMILA</span><span class="am-role">Voz humana · llamadas</span></div>
-            <span class="am-status live">Activa</span>
-          </div>
-          <p class="am-title">También contesta el teléfono.</p>
-          <p class="am-desc">Voz natural que toma la reserva por llamada. Incluida desde el plan Atlas.</p>
-        </div>
-        <div class="agent-mini">
-          <div class="am-head">
-            <img src="/agents/lia.jpg" alt="LIA" />
-            <div class="am-id"><span class="am-name">LIA</span><span class="am-role">Llena tu agenda sola</span></div>
-            <span class="am-status soon">Pronto</span>
-          </div>
-          <p class="am-title">Detecta espacios y morosidades.</p>
-          <p class="am-desc">Escanea tu agenda, llena los huecos libres y dispara los cobros — sola.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 03 — 3 Modos de agendamiento -->
-  <section class="slide" id="slide2">
-    <div class="slide-inner modos-slide-inner">
-      <div class="kicker"><span class="pip"></span>Implementación · un ingeniero se encarga de todo</div>
-      <h2 class="h-display">Tú no haces nada. Nuestro ingeniero <span class="em">hace todo</span>.</h2>
-      <p class="lead">Un ingeniero E2E de Clinera toma tu clínica tal como está hoy y te la entrega funcionando — en 3 etapas.</p>
-
-      <div class="impl-timeline">
-        <div class="impl-card">
-          <span class="impl-num">1</span>
-          <span class="impl-stage">Etapa 1</span>
-          <div class="impl-title">Migración de datos</div>
-          <div class="impl-text">Migramos tus fichas clínicas, pacientes y tratamientos desde tu software actual, con conciliación registro por registro. Nada se pierde.</div>
-          <div class="impl-logos">
-            <span class="impl-logos-label">Migramos desde</span>
-            <div class="impl-logos-row">
-              <img src="/images/badges/agendapro.svg" alt="AgendaPro" />
-              <img src="/images/badges/dentalink.svg" alt="Dentalink" />
-              <img src="/images/badges/medilink.svg" alt="Medilink" />
-              <img src="/images/badges/reservo.svg" alt="Reservo" />
-              <img src="/images/badges/doctoralia.svg" alt="Doctoralia" />
-            </div>
-          </div>
-        </div>
-        <span class="impl-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        <div class="impl-card">
-          <span class="impl-num">2</span>
-          <span class="impl-stage">Etapa 2</span>
-          <div class="impl-title">Configuración total</div>
-          <div class="impl-text">Dejamos tu clínica configurada completa: IA, automatizaciones, difusiones, embudo de marketing y plantillas — todo listo para operar.</div>
-          <div class="impl-brian">
-            <img src="/images/team/brian.png" alt="Brian, ingeniero E2E de Clinera" />
-            <div class="impl-brian-id">
-              <span class="impl-brian-name">Brian</span>
-              <span class="impl-brian-role">Ingeniero E2E</span>
-            </div>
-          </div>
-        </div>
-        <span class="impl-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        <div class="impl-card">
-          <span class="impl-num">3</span>
-          <span class="impl-stage">Etapa 3</span>
-          <div class="impl-title">Entrega + capacitación maestra</div>
-          <div class="impl-text">Entrenamos a tu equipo con una capacitación maestra y te entregamos la operación corriendo en Clinera, con todo funcionando.</div>
-        </div>
-      </div>
-
-      <div class="impl-note">
-        <div class="impl-note-title">¿No tienes software actual?</div>
-        <div class="impl-note-text">No es problema: con la información que tengas hoy — planillas, agenda, papel — pasamos todo a Clinera igual. El ingeniero se encarga.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 04 — Ficha clínica -->
-  <section class="slide" id="slide3">
-    <div class="slide-inner ficha-slide-inner">
-      <div class="ficha-slide-grid">
-        <div class="ficha-slide-left">
-          <div class="kicker"><span class="pip"></span>Ficha clínica · Clinera Vault</div>
-          <h2 class="h-display">Una ficha <span class="em">a tu manera</span>.</h2>
-          <p class="lead">Agrega o quita campos según tu especialidad. Tú decides qué guarda cada ficha — mírala armarse en vivo.</p>
-          <div class="ficha-import">
-            <div class="ficha-import-ic">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
-            </div>
-            <div>
-              <div class="ficha-import-title">¿Vienes de otro software?</div>
-              <div class="ficha-import-desc">Importa tus fichas clínicas existentes en minutos. No empiezas de cero.</div>
-              <div class="ficha-import-formats"><span class="fmt">Excel .xlsx</span><span class="fmt">CSV</span></div>
-            </div>
-          </div>
-          <div style="margin-top:18px;display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--muted);line-height:1.45;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span>Datos cifrados y respaldados. <b style="color:var(--ink-2);">Cumple automáticamente la normativa de datos de salud de tu país.</b></span>
-          </div>
-        </div>
-
-        <div class="ficha-slide-right">
-          <div class="ficha-modes">
-            <span class="fmode active" data-fmode="0">Ficha</span>
-            <span class="fmode" data-fmode="1">Facial</span>
-            <span class="fmode" data-fmode="2">Corporal</span>
-          </div>
-
-          <div class="ficha-stage">
-
-            <!-- Vista 0: Ficha texto -->
-            <div class="ficha-view active" data-fview="0">
-              <div class="ficha">
-                <div class="ficha-head">
-                  <div class="ficha-patient">
-                    <div class="ficha-avatar">CM</div>
-                    <div class="ficha-name-block">
-                      <span class="ficha-name">Camila Mella</span>
-                      <span class="ficha-rut">17.xxx.xxx-3 · 28 años</span>
-                    </div>
-                  </div>
-                  <div style="display:flex; align-items:center; gap:8px;">
-                    <span class="ficha-edit-chip" id="ficha-chip"></span>
-                    <span class="ficha-spec-pill" id="ficha-spec">Estética facial</span>
-                  </div>
-                </div>
-                <div class="ficha-fields">
-                  <div class="ficha-field"><span class="lbl">Motivo</span><span class="val" id="ff-1">Limpieza facial profunda</span></div>
-                  <div class="ficha-field"><span class="lbl">Última visita</span><span class="val" id="ff-2">14 nov 2025</span></div>
-                  <div class="ficha-field"><span class="lbl">Alergias</span><span class="val" id="ff-3">Penicilina</span></div>
-                  <div class="ficha-field"><span class="lbl">Tratamiento previo</span><span class="val" id="ff-4">Ácido hialurónico 2024</span></div>
-                  <div class="ficha-field opt" id="ff-opt-1"><span class="lbl">Presión arterial</span><span class="val">120 / 80</span></div>
-                  <div class="ficha-field opt" id="ff-opt-2"><span class="lbl">Tipo de piel</span><span class="val">Mixta</span></div>
-                  <div class="ficha-field full"><span class="lbl">Notas del profesional</span><span class="val" id="ff-5">Flacidez leve en zona malar<span class="cursor"></span></span></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Vista 1: Evaluación facial -->
-            <div class="ficha-view" data-fview="1">
-              <div class="fv-card is-photo">
-                <img class="fv-photo" src="/presentacion/eval-facial.jpg" alt="Evaluación facial: eje de simetría y tercios faciales" loading="lazy" decoding="async" />
-              </div>
-            </div>
-
-            <!-- Vista 2: Evaluación corporal -->
-            <div class="ficha-view" data-fview="2">
-              <div class="fv-card is-photo">
-                <img class="fv-photo" src="/presentacion/eval-corporal.jpg" alt="Evaluación corporal: abdomen, flancos y muslos" loading="lazy" decoding="async" />
-              </div>
-            </div>
-
-          </div>
-
-          <div class="vault-strip">
-            <div class="vault-strip-head">
-              <div class="vault-icon">🛡</div>
-              <div class="vault-name">Clinera Vault</div>
-              <div class="vault-tag">Cumplimiento activo</div>
-            </div>
-            <div class="vault-laws">
-              <span class="law">Cumple la normativa local de datos de salud — Chile y México</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 05 — Agente conversacional interno -->
-  <section class="slide" id="slide4">
-    <div class="slide-inner" style="max-width:840px;">
-      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Próximamente · Chat IA interno</div>
-      <h2 class="h-display" style="text-align:center;">Pregúntale a tu <span class="em">clínica</span>.</h2>
-      <p class="lead" style="text-align:center; max-width:580px; margin:0 auto;">Un agente IA interno que responde en lenguaje natural sobre tus ventas, tu agenda y tus pacientes — y hasta te arma otros agentes.</p>
+    <div class="slide-inner" style="max-width:860px;">
+      <div class="kicker" style="justify-content:center;"><span class="pip"></span>La IA por dentro · pregúntale lo que sea</div>
+      <h2 class="h-display" style="text-align:center;">Habla con tu clínica.<br/>Te responde en <span class="em">segundos</span>.</h2>
+      <p class="lead" style="text-align:center; max-width:600px; margin:0 auto;">Ventas, morosos, quién vende más, tu próximo paciente. Le preguntas en lenguaje natural — como a tu mejor administradora, pero 24/7.</p>
       <div class="cia">
         <div class="cia-input" id="ciaInput">
           <span class="cia-plus">+</span>
@@ -3359,392 +3232,142 @@
           <span class="cia-send"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="9" width="2" height="6" rx="1"/><rect x="8" y="6" width="2" height="12" rx="1"/><rect x="12" y="3" width="2" height="18" rx="1"/><rect x="16" y="7" width="2" height="10" rx="1"/><rect x="20" y="10" width="2" height="4" rx="1"/></svg></span>
         </div>
         <div class="cia-chat" id="ciaChat">
-          <div class="cia-user" id="ciaUser">¿cuánto vendí el mes pasado?</div>
+          <div class="cia-user" id="ciaUser">¿cuánto vendí este mes?</div>
           <div class="cia-ai">
             <div class="cia-typing" id="ciaDots"><span></span><span></span><span></span></div>
-            <div class="cia-ans" id="ciaAns"><span class="cia-lead">Cerraste $4.820.000 el mes pasado.</span><ul><li><b>Tratamientos</b> — $3.100.000</li><li><b>Productos</b> — $920.000</li><li><b>Membresías</b> — $800.000</li></ul><div class="cia-total">+12% vs. el mes anterior</div></div>
+            <div class="cia-ans" id="ciaAns"></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 06 — ¿Qué más incluye? -->
+  <!-- 03 — La IA que llama (voz CAMILA, acento local) -->
+  <section class="slide" id="slide2">
+    <div class="slide-inner">
+      <div class="wow-split">
+        <div class="mockup-text">
+          <div class="kicker"><span class="pip"></span>Voz humana · CAMILA</div>
+          <h2 class="h-display">Y si prefieren que <span class="em">los llamen</span>… los llama.</h2>
+          <p class="lead">CAMILA contesta el teléfono y llama a tus pacientes para confirmar y recordar sus horas — con voz natural y acento local. No suena a robot: suena de tu país.</p>
+          <div class="accent-row">
+            <span class="accent-chip"><span class="fl">CL</span> Chileno</span>
+            <span class="accent-chip"><span class="fl">MX</span> Mexicano</span>
+            <span class="accent-chip"><span class="fl">CO</span> Colombiano</span>
+            <span class="accent-chip"><span class="fl">AR</span> Argentino</span>
+            <span class="accent-chip" style="color:var(--muted);">+5 acentos</span>
+          </div>
+        </div>
+        <div class="m-call">
+          <div class="m-call-head">
+            <div class="m-call-info">
+              <div class="m-call-av">CA</div>
+              <div>
+                <div class="m-call-name">CAMILA · Clínica Aurora</div>
+                <div class="m-call-status"><span class="liveDot"></span>En llamada</div>
+              </div>
+            </div>
+            <div class="m-call-timer" id="callTimer">00:00</div>
+          </div>
+          <div class="m-wave" id="callWave"></div>
+          <div class="m-call-transcript">
+            <div class="m-call-line" data-cl="0"><span class="who">CAMILA</span><span class="said">Hola, ¿hablo con la señora <em>Javiera</em>? La llamo de <em>Clínica Aurora</em>, es por su hora de mañana.</span></div>
+            <div class="m-call-line" data-cl="1"><span class="who">Paciente</span><span class="said">Ah, hola sí… ¿a qué hora era?</span></div>
+            <div class="m-call-line" data-cl="2"><span class="who">CAMILA</span><span class="said">Mañana <em>martes a las 16:00</em>, con la <em>Dra. Meza</em>. ¿Le acomoda o se la busco más tardecito?</span></div>
+            <div class="m-call-line" data-cl="3"><span class="who">Paciente</span><span class="said">No, a las cuatro está perfecto.</span></div>
+            <div class="m-call-line" data-cl="4"><span class="who">CAMILA</span><span class="said">Dale, se la <em>confirmo</em> entonces. Cualquier cosa me escribe. ¡Que tenga buen día!</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 — La IA que actúa sola (agente autónomo) -->
+  <section class="slide" id="slide3">
+    <div class="slide-inner">
+      <div class="wow-split">
+        <div class="mockup-text">
+          <div class="kicker"><span class="pip"></span>Agente interno · vigila y actúa</div>
+          <h2 class="h-display">No espera a que le preguntes. <span class="em">Actúa sola</span>.</h2>
+          <p class="lead">Mientras atiendes, el agente interno revisa tu operación y mueve ficha: llena los huecos de la agenda, cobra a los morosos y te avisa quién está vendiendo más — y quién bajó.</p>
+        </div>
+        <div class="agent-feed" id="agentFeed">
+          <div class="af-head">
+            <span class="t">Actividad del agente</span>
+            <span class="live"><span class="pulse"></span>En vivo</span>
+          </div>
+          <div class="af-item" data-af="0">
+            <div class="af-ic book"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M9 15l2 2 4-4"/></svg></div>
+            <div class="af-txt"><span class="tag">Hueco detectado · hoy 14:00</span>Le escribí a <b>Camila P.</b> (control vencido) para llenar el espacio libre de las <b>14:00</b>. <b>Agendada.</b></div>
+          </div>
+          <div class="af-item" data-af="1">
+            <div class="af-ic mora"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg></div>
+            <div class="af-txt"><span class="tag">Morosidad · 30 días</span><b>Juan R.</b> debía <b>$85.000</b> hace 30 días. Le envié el cobro por WhatsApp. <b>Pagó.</b></div>
+          </div>
+          <div class="af-item" data-af="2">
+            <div class="af-ic rank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/></svg></div>
+            <div class="af-txt"><span class="tag">Ranking de ventas · este mes</span><b>Dra. Meza</b> lidera con <b>$5.2M</b> (+27%). <b>Dr. Cohen</b> bajó 12% — te dejé el detalle.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — Todo esto vive de tus datos -->
+  <section class="slide" id="slide4">
+    <div class="slide-inner" style="max-width:1060px;">
+      <div class="kicker" style="justify-content:center;"><span class="pip"></span>El secreto · por qué funciona de verdad</div>
+      <h2 class="h-display" style="text-align:center;">La IA es tan potente como lo que <span class="em">le das</span>.</h2>
+      <p class="lead" style="text-align:center; max-width:700px; margin:0 auto 28px;">Nada de esto es magia. AURA, CAMILA y el agente interno viven de tus datos. Por eso Clinera es también tu agenda, tus fichas y tus ventas: mientras más lo usas, más sabe tu clínica.</p>
+      <div class="fuel">
+        <div class="fuel-col" id="fuelSources">
+          <div class="fuel-src" data-fs="0"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span><span class="fuel-name">Agenda<small>Horas y profesionales</small></span></div>
+          <div class="fuel-src" data-fs="1"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 13h6M9 17h6"/></svg></span><span class="fuel-name">Fichas clínicas<small>Historial de cada paciente</small></span></div>
+          <div class="fuel-src" data-fs="2"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 2 5-6"/></svg></span><span class="fuel-name">Ventas<small>Qué se vende y cuánto</small></span></div>
+          <div class="fuel-src" data-fs="3"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M16 5.5a3 3 0 0 1 0 5M18.5 20c0-2-1-3.5-2.6-4.4"/></svg></span><span class="fuel-name">Pacientes<small>Tu base completa</small></span></div>
+          <div class="fuel-src" data-fs="4"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6z"/><path d="M18 15l.7 1.8L20.5 17l-1.8.7L18 19.5l-.7-1.8L15.5 17l1.8-.5z"/></svg></span><span class="fuel-name">Tratamientos<small>Precios y protocolos</small></span></div>
+        </div>
+        <div class="fuel-core">
+          <div>
+            <div class="fc-k">Clinera</div>
+            <div class="fc-n">IA</div>
+            <div class="fc-s">Aprende de todo lo tuyo</div>
+          </div>
+        </div>
+        <div class="fuel-col" id="fuelOutputs">
+          <div class="fuel-out" data-fo="0"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg></span><span class="fuel-name">Conversa<small>Te responde al instante</small></span></div>
+          <div class="fuel-out" data-fo="1"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.6a11 11 0 0 0 5 5L16 13l5 2v4a2 2 0 0 1-2.2 2A16 16 0 0 1 3 6.2 2 2 0 0 1 5 4z"/></svg></span><span class="fuel-name">Llama<small>Confirma y recuerda</small></span></div>
+          <div class="fuel-out" data-fo="2"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></span><span class="fuel-name">Actúa<small>Agenda y cobra sola</small></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — Cierre -->
   <section class="slide" id="slide5">
-    <div class="slide-inner caps-slide-inner">
-      <div class="kicker"><span class="pip"></span>Clinera · más allá de AURA</div>
-      <h2 class="h-display">¿Qué <span class="em">más</span> incluye?</h2>
-      <p class="lead">Cuatro capacidades. Click en cada una.</p>
-
-      <div class="caps-grid">
-
-        <!-- Left: List -->
-        <div class="caps-list">
-          <div class="cap-item active" data-cap="0">
-            <div class="num">01</div>
-            <div class="text-block">
-              <div class="title">Recordatorios y confirmaciones</div>
-              <div class="desc">Recordatorios automáticos. Sin programar nada.</div>
-            </div>
-            <div class="arrow">→</div>
-          </div>
-          <div class="cap-item" data-cap="1">
-            <div class="num">02</div>
-            <div class="text-block">
-              <div class="title">Agenda médica multi-profesional</div>
-              <div class="desc">AURA reserva en tiempo real, sin colisiones.</div>
-            </div>
-            <div class="arrow">→</div>
-          </div>
-          <div class="cap-item" data-cap="2">
-            <div class="num">03</div>
-            <div class="text-block">
-              <div class="title">WhatsApp marketing por embudo</div>
-              <div class="desc">Difusiones segmentadas a tu base de datos.</div>
-            </div>
-            <div class="arrow">→</div>
-          </div>
-          <div class="cap-item" data-cap="3">
-            <div class="num">04</div>
-            <div class="text-block">
-              <div class="title">Resumen de ventas</div>
-              <div class="desc">Cuánto vende tu clínica, sin planillas.</div>
-            </div>
-            <div class="arrow">→</div>
-          </div>
-        </div>
-
-        <!-- Right: Stage -->
-        <div class="cap-stage">
-
-          <!-- Cap 0: Automatizaciones -->
-          <div class="cap-panel active" data-panel="0">
-            <div class="cap-stage-head">
-              <div class="cap-stage-tag"><span class="pip"></span>Automatización</div>
-            </div>
-            <div class="cap-stage-title" style="margin-bottom: 18px;">Cita agendada → recordatorio en WhatsApp.</div>
-
-            <div class="flow-builder">
-              <div class="flow-node trigger" id="fn-1">
-                <div class="icon-circle">⚡</div>
-                <div class="node-text">
-                  <div class="node-label">Trigger · cuando ocurre</div>
-                  <div class="node-title">Cita agendada</div>
-                  <div class="node-meta">Cualquier profesional · cualquier canal</div>
-                </div>
-                <div class="flow-handle">⋮⋮</div>
-              </div>
-              <div class="flow-line" id="fl-1"></div>
-              <div class="flow-node delay" id="fn-2">
-                <div class="icon-circle">⏱</div>
-                <div class="node-text">
-                  <div class="node-label">Espera</div>
-                  <div class="node-title">2 horas antes de la cita</div>
-                  <div class="node-meta">Calculado dinámicamente</div>
-                </div>
-                <div class="flow-handle">⋮⋮</div>
-              </div>
-              <div class="flow-line" id="fl-2"></div>
-              <div class="flow-node action" id="fn-3">
-                <div class="icon-circle">💬</div>
-                <div class="node-text">
-                  <div class="node-label">Acción</div>
-                  <div class="node-title">Enviar WhatsApp</div>
-                  <div class="node-meta">"Hola {{nombre}}, te recordamos tu cita a las {{hora}}…"</div>
-                </div>
-                <div class="flow-handle">⋮⋮</div>
-              </div>
-            </div>
-
-            <div class="flow-foot">
-              <span class="dnd-pill">Drag &amp; drop</span>
-              <span>Configurás un flujo en menos de 1 minuto.</span>
-            </div>
-          </div>
-
-          <!-- Cap 1: Agenda multi-pro -->
-          <div class="cap-panel" data-panel="1">
-            <div class="cap-stage-head">
-              <div class="cap-stage-tag"><span class="pip"></span>Agenda médica</div>
-            </div>
-            <div class="cap-stage-title" style="margin-bottom: 16px;">Una agenda. Tres canales. Cero colisiones.</div>
-
-            <div class="agenda-multi">
-              <div class="col-head">Hora</div>
-              <div class="col-head">
-                <span class="pro-name">Dra. Meza</span>
-                <span class="pro-spec">Medicina estética</span>
-              </div>
-              <div class="col-head">
-                <span class="pro-name">Dr. Cohen</span>
-                <span class="pro-spec">Estética</span>
-              </div>
-              <div class="col-head">
-                <span class="pro-name">Dra. Soto</span>
-                <span class="pro-spec">Dermatología</span>
-              </div>
-
-              <div class="time-cell">10:00</div>
-              <div class="slot-cell">
-                <div class="booking wa" data-bk="0">
-                  <span class="ch">WhatsApp</span>
-                  <span>María T. · Limpieza facial</span>
-                </div>
-              </div>
-              <div class="slot-cell">
-                <div class="booking ig" data-bk="1">
-                  <span class="ch">Instagram</span>
-                  <span>Ana P. · Botox</span>
-                </div>
-              </div>
-              <div class="slot-cell"></div>
-
-              <div class="time-cell">11:00</div>
-              <div class="slot-cell">
-                <div class="booking wa" data-bk="2">
-                  <span class="ch">WhatsApp</span>
-                  <span>Camila M. · Limpieza facial</span>
-                </div>
-              </div>
-              <div class="slot-cell"></div>
-              <div class="slot-cell">
-                <div class="booking gg" data-bk="3">
-                  <span class="ch">Google</span>
-                  <span>Pablo R. · Consulta</span>
-                </div>
-              </div>
-
-              <div class="time-cell">12:00</div>
-              <div class="slot-cell"></div>
-              <div class="slot-cell">
-                <div class="booking gg" data-bk="4">
-                  <span class="ch">Google</span>
-                  <span>Sofía G. · Lifting</span>
-                </div>
-              </div>
-              <div class="slot-cell">
-                <div class="booking ig" data-bk="5">
-                  <span class="ch">Instagram</span>
-                  <span>Diego L. · Manchas</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="channels-legend">
-              <span class="ch-dot">WhatsApp</span>
-              <span class="ch-dot ig">Instagram</span>
-              <span class="ch-dot gg">Google</span>
-            </div>
-          </div>
-
-          <!-- Cap 2: WhatsApp marketing -->
-          <div class="cap-panel" data-panel="2">
-            <div class="cap-stage-head">
-              <div class="cap-stage-tag"><span class="pip"></span>WhatsApp marketing</div>
-            </div>
-            <div class="cap-stage-title" style="margin-bottom: 16px;">Mensajes masivos. Pero certeros.</div>
-
-            <div class="funnel">
-              <div class="funnel-stage">
-                <div class="stage-name">Leads totales<span class="sub">Consultas entrantes</span></div>
-                <div>
-                  <div class="stage-count">847</div>
-                  <div class="conv">100%</div>
-                </div>
-              </div>
-              <div class="funnel-stage">
-                <div class="stage-name">Evaluación agendada<span class="sub">Asistieron a primera consulta</span></div>
-                <div>
-                  <div class="stage-count">312</div>
-                  <div class="conv">36.8%</div>
-                </div>
-              </div>
-              <div class="funnel-stage target" id="funnel-target">
-                <div class="stage-name">Agendaron sin comprar<span class="sub">No avanzaron al tratamiento</span></div>
-                <div>
-                  <div class="stage-count">181</div>
-                  <div class="conv">21.4%</div>
-                </div>
-              </div>
-              <div class="funnel-stage">
-                <div class="stage-name">Compraron tratamiento<span class="sub">Venta cerrada</span></div>
-                <div>
-                  <div class="stage-count">131</div>
-                  <div class="conv">15.5%</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="blast-card" id="blast-card">
-              <div class="blast-msg">
-                <span class="lbl">Difusión segmentada · WhatsApp</span>
-                "Hola {{nombre}}, vimos que evaluaste tu tratamiento. Esta semana tenemos 20% off para retomar la conversación. ¿Te ayudo con un cupo?"
-              </div>
-              <div class="blast-cta">Enviar a 181 →</div>
-            </div>
-          </div>
-
-          <!-- Cap 3: Resumen de ventas -->
-          <div class="cap-panel" data-panel="3">
-            <div class="cap-stage-head">
-              <div class="cap-stage-tag"><span class="pip"></span>Ventas</div>
-            </div>
-            <div class="cap-stage-title" style="margin-bottom: 16px;">Cuánto vende tu clínica, de un vistazo.</div>
-
-            <div class="sales-table">
-              <div class="sale-row new" id="sale-new" style="grid-template-columns: 1fr auto;">
-                <div class="lead">Ventas del mes<span class="sub">Total facturado</span></div>
-                <div class="amt" style="font-size: 19px; font-weight: 700; color: var(--green);">$12.400.000</div>
-              </div>
-              <div class="sale-row" style="grid-template-columns: 1fr auto;">
-                <div class="lead">Tratamiento que más vende<span class="sub">Limpieza facial</span></div>
-                <div class="amt">38 ventas</div>
-              </div>
-            </div>
-
-            <div style="font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-2); margin: 16px 0 4px;">Por profesional</div>
-            <div class="sales-foot" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 0; padding-top: 12px;">
-              <div class="stat">
-                <div class="k">Dra. Meza</div>
-                <div class="v">$5.200.000</div>
-              </div>
-              <div class="stat">
-                <div class="k">Dr. Cohen</div>
-                <div class="v">$4.100.000</div>
-              </div>
-              <div class="stat" style="display:block;">
-                <div class="k">Dra. Soto</div>
-                <div class="v">$3.100.000</div>
-              </div>
-            </div>
-
-            <div class="flow-foot" style="margin-top: 18px;">
-              <span>Ves cuánto facturas, qué se vende más y cómo le va a cada profesional.</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 07 — Proceso de inicio (foto + migración) -->
-  <section class="slide" id="slide6">
-    <div class="slide-inner">
-      <div class="setup-split">
-        <div>
-          <div class="kicker"><span class="pip"></span>Proceso de inicio · con acompañamiento</div>
-          <h2 class="h-display">Te dejamos <span class="em">funcionando</span>, con lo que ya tienes.</h2>
-          <p class="lead">No partes de cero: migramos tus pacientes y te creamos la cuenta — con un especialista de Clinera acompañándote, no lo haces solo.</p>
-          <div class="setup-points">
-            <div class="setup-point"><span class="sp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></span><span>Migramos tus pacientes — <b>no empiezas de cero</b></span></div>
-            <div class="setup-point"><span class="sp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span><span>Implementación con tu ingeniero — <b>US$450, pago único</b></span></div>
-            <div class="setup-point"><span class="sp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span><span>Facturación mensual, <b>sin contrato de permanencia</b></span></div>
-            <div class="setup-point"><span class="sp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="2.5" y="13" width="4" height="6" rx="1.5"/><rect x="17.5" y="13" width="4" height="6" rx="1.5"/><path d="M20 19a4 4 0 0 1-4 3h-2"/></svg></span><span>Conexión, capacitación y <b>soporte técnico 24/7</b></span></div>
-          </div>
-        </div>
-
-        <div class="setup-photo">
-          <img src="/images/doctor-setup.webp" alt="Médico conectando su WhatsApp y configurando su clínica en Clinera" />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 08 — Prueba social · clínicas que usan Clinera + prensa -->
-  <section class="slide" id="slide7">
-    <div class="slide-inner trust-inner">
-      <div class="kicker"><span class="pip"></span>Referente nacional</div>
-      <h2 class="h-display">El software con IA que usan las clínicas que <span class="em">crecen</span>.</h2>
-      <p class="lead">Desde clínicas dentales y estéticas hasta grandes centros de salud — equipos que eligen Clinera para operar con IA.</p>
-
-      <div class="trust-logos">
-        <div class="trust-logo"><img src="/presentacion/clientes/andes.png" alt="Andes Salud" loading="lazy" /></div>
-        <div class="trust-logo tile"><img src="/presentacion/clientes/everest.png" alt="Everest Clínicas Dentales" loading="lazy" /></div>
-        <div class="trust-logo"><img src="/presentacion/clientes/sanatorio.png" alt="Sanatorio Alemán" loading="lazy" /></div>
-        <div class="trust-logo"><img src="/presentacion/clientes/sonrie.png" alt="Sonríe" loading="lazy" /></div>
-        <div class="trust-logo"><img src="/presentacion/clientes/lumina.png" alt="Lumina · Clínica Facial" loading="lazy" /></div>
-        <div class="trust-logo"><img src="/presentacion/clientes/hebe.png" alt="Método Hebe" loading="lazy" /></div>
-      </div>
-
-      <div class="trust-press">
-        <div class="trust-press-lbl">Nos han entrevistado en</div>
-        <div class="trust-press-row">
-          <span class="trust-emol">EMOL</span>
-          <span class="pl">
-            <svg role="img" aria-label="CNN" viewBox="0 6 24 12" xmlns="http://www.w3.org/2000/svg">
-              <title>CNN</title>
-              <path fill="#26262E" d="M23.9962 15.514c0 2.0638-2.6676 3.0547-4.0789.6576-.1012-.173-2.3252-4.0032-2.3252-4.0032v3.3457c0 2.0637-2.6663 3.0546-4.0776.6575-.1025-.173-2.3253-4.0032-2.3253-4.0032v3.1547c0 1.4318-.8498 2.2073-2.1791 2.2073H5.5299a5.5299 5.5299 0 010-11.0598h1.7946v1.328H5.5299a4.2019 4.2019 0 100 8.4038h3.4494a.8973.8973 0 00.8794-.878V8.524a.2692.2692 0 01.1935-.273c.141-.0384.2897.0487.3987.2333l2.1522 3.7084c1.251 2.1573 2.0728 3.5738 2.083 3.5892.2807.4742.6986.5576.9973.4755a.7973.7973 0 00.582-.787v-6.945a.2705.2705 0 01.191-.2744c.1397-.0384.287.0487.3947.2333l1.9946 3.4366 2.242 3.8648c.2191.3717.5242.5038.7896.5038a.7691.7691 0 00.2063-.0282.7986.7986 0 00.591-.791V6.4707H24zM8.0026 13.9695V8.4857c0-2.0638 2.6675-3.0546 4.0788-.6563.1025.173 2.3253 4.002 2.3253 4.002V8.4856c0-2.0638 2.6662-3.0546 4.0775-.6563.1026.173 2.3253 4.002 2.3253 4.002V6.4705H22.14v8.9999a.2705.2705 0 01-.1935.2743c-.141.0384-.2897-.0487-.3987-.2333a1360.4277 1360.4277 0 01-2.2406-3.8622l-1.9946-3.434c-.2794-.4744-.696-.5577-.9921-.477a.7986.7986 0 00-.5833.7858v6.9464a.2718.2718 0 01-.1935.2743c-.1423.0384-.291-.0487-.3987-.2333-.0192-.032-1.069-1.8407-2.083-3.5892a6211.7971 6211.7971 0 00-2.1535-3.711c-.2794-.4755-.6973-.5575-.996-.4768a.7999.7999 0 00-.5845.7858v6.8002a.3717.3717 0 01-.3487.3474h-3.452a3.6712 3.6712 0 010-7.3424H7.322v1.328H5.5427a2.3432 2.3432 0 100 4.6864H7.636a.364.364 0 00.3666-.3705Z"/>
-            </svg>
-          </span>
-          <span class="trust-forbes">Forbes</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 09 — Clinera en la prensa · CNN -->
-  <section class="slide" id="slide8">
-    <div class="slide-inner">
-      <div class="cnn-press-card">
-        <div class="cnn-press-glow" aria-hidden="true"></div>
-        <div class="cnn-slide-grid">
-          <div>
-            <div class="cnn-eyebrow"><span class="ln"></span>Clinera en la prensa</div>
-            <div class="cnn-seen">
-              <span class="lbl">Visto en</span>
-              <svg role="img" aria-label="CNN" viewBox="0 6 24 12" height="30" width="60" xmlns="http://www.w3.org/2000/svg" style="display:block;">
-                <title>CNN</title>
-                <path fill="#F23A30" d="M23.9962 15.514c0 2.0638-2.6676 3.0547-4.0789.6576-.1012-.173-2.3252-4.0032-2.3252-4.0032v3.3457c0 2.0637-2.6663 3.0546-4.0776.6575-.1025-.173-2.3253-4.0032-2.3253-4.0032v3.1547c0 1.4318-.8498 2.2073-2.1791 2.2073H5.5299a5.5299 5.5299 0 010-11.0598h1.7946v1.328H5.5299a4.2019 4.2019 0 100 8.4038h3.4494a.8973.8973 0 00.8794-.878V8.524a.2692.2692 0 01.1935-.273c.141-.0384.2897.0487.3987.2333l2.1522 3.7084c1.251 2.1573 2.0728 3.5738 2.083 3.5892.2807.4742.6986.5576.9973.4755a.7973.7973 0 00.582-.787v-6.945a.2705.2705 0 01.191-.2744c.1397-.0384.287.0487.3947.2333l1.9946 3.4366 2.242 3.8648c.2191.3717.5242.5038.7896.5038a.7691.7691 0 00.2063-.0282.7986.7986 0 00.591-.791V6.4707H24zM8.0026 13.9695V8.4857c0-2.0638 2.6675-3.0546 4.0788-.6563.1025.173 2.3253 4.002 2.3253 4.002V8.4856c0-2.0638 2.6662-3.0546 4.0775-.6563.1026.173 2.3253 4.002 2.3253 4.002V6.4705H22.14v8.9999a.2705.2705 0 01-.1935.2743c-.141.0384-.2897-.0487-.3987-.2333a1360.4277 1360.4277 0 01-2.2406-3.8622l-1.9946-3.434c-.2794-.4744-.696-.5577-.9921-.477a.7986.7986 0 00-.5833.7858v6.9464a.2718.2718 0 01-.1935.2743c-.1423.0384-.291-.0487-.3987-.2333-.0192-.032-1.069-1.8407-2.083-3.5892a6211.7971 6211.7971 0 00-2.1535-3.711c-.2794-.4755-.6973-.5575-.996-.4768a.7999.7999 0 00-.5845.7858v6.8002a.3717.3717 0 01-.3487.3474h-3.452a3.6712 3.6712 0 010-7.3424H7.322v1.328H5.5427a2.3432 2.3432 0 100 4.6864H7.636a.364.364 0 00.3666-.3705Z"/>
-              </svg>
-            </div>
-            <h2 class="cnn-title">Un gran paso para <span class="em">Clinera</span>.</h2>
-            <p class="cnn-desc">Ricardo Oyarzún, fundador de Clinera, fue entrevistado por <b style="color:#fff;font-weight:600;">CNN</b> sobre cómo la IA está transformando la atención de las clínicas en LATAM. Un reconocimiento que confirma hacia dónde vamos.</p>
-            <a class="cnn-orig" href="https://www.youtube.com/watch?v=Gskr4kELyx4" target="_blank" rel="noopener">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.2 3.6Z"/></svg>
-              Ver emisión original en YouTube ↗
-            </a>
-          </div>
-          <div>
-            <div class="cnn-video-frame">
-              <div style="padding:56.25% 0 0 0;position:relative;">
-                <iframe src="https://player.vimeo.com/video/1205127087?badge=0&autopause=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" title="CNN entrevista a Clinera"></iframe>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 10 — Cierre -->
-  <section class="slide" id="slide9">
     <div class="slide-inner" style="max-width:940px;text-align:center;">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Un solo sistema · todo incluido</div>
       <h2 class="h-display" style="text-align:center;">Un sistema, <span class="em">todo incluido</span>.</h2>
-      <p class="lead" style="max-width:680px;margin:0 auto;">No pagas cinco plataformas: pagas una sola — y de paso ayudas y supervisas a tu equipo. Sin permanencia.</p>
-
-      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:38px auto 0;max-width:760px;">
+      <p class="lead" style="max-width:680px;margin:0 auto;">No pagas cinco plataformas: pagas una — con la IA y todos tus datos en el mismo lugar. Sin permanencia.</p>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:34px auto 0;max-width:760px;">
         <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.02em;color:#3A3A42;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;">Agenda</span>
-        <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.02em;color:#3A3A42;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;">Recordatorios · WhatsApp + correo</span>
-        <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.02em;color:#3A3A42;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;">Ficha clínica</span>
-        <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.02em;color:#3A3A42;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;">Marketing</span>
+        <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.02em;color:#3A3A42;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;">Fichas clínicas</span>
         <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.02em;color:#3A3A42;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;">Ventas</span>
+        <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.02em;color:#3A3A42;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;">Marketing</span>
+        <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.02em;color:#3A3A42;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;">Voz IA</span>
         <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.02em;color:#3A3A42;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;">IA 24/7</span>
       </div>
-
-      <a href="https://www.clinera.io/planes" target="_self" style="display:inline-flex;align-items:center;gap:8px;margin-top:38px;background:linear-gradient(90deg,var(--cyan),var(--violet));color:#fff;font-weight:600;font-size:15px;padding:15px 30px;border-radius:999px;text-decoration:none;box-shadow:0 10px 28px rgba(124,58,237,.24);">Ver planes en clinera.io →</a>
+      <a href="https://www.clinera.io/planes" target="_self" style="display:inline-flex;align-items:center;gap:8px;margin-top:34px;background:linear-gradient(90deg,var(--cyan),var(--violet));color:#fff;font-weight:600;font-size:15px;padding:15px 30px;border-radius:999px;text-decoration:none;box-shadow:0 10px 28px rgba(124,58,237,.24);">Ver planes en clinera.io →</a>
+      <div class="cnn-strip"><b>Visto en CNN</b><span class="sep"></span>El software con IA que usan las clínicas que crecen</div>
     </div>
   </section>
 
 </div>
 
 <script>
-  const TOTAL_SLIDES = 10;
+  const TOTAL_SLIDES = 6;
   let currentSlide = 0;
-  let currentSubStep = 0;
   let isAnimating = false;
-
   function $(id){ return document.getElementById(id); }
 
   function updateProgress(){
@@ -3766,291 +3389,59 @@
       oldSlide.classList.remove('exit');
       newSlide.classList.add('active');
       currentSlide = n;
-      currentSubStep = 0;
       updateProgress();
-      resetSlideState(n);
-      if (n === 5) setActiveCap(0);
-      if (n === 3){ if (fichaLoopTimer) clearTimeout(fichaLoopTimer); showFichaView(0); }
-      if (n === 4) playChatIA();
+      triggerSlide(n);
       setTimeout(function(){ isAnimating = false; }, 200);
     }, 300);
   }
 
-  function resetSlideState(n){
-    if (n === 5){
-      ['fn-1','fn-2','fn-3','fl-1','fl-2'].forEach(function(id){
-        const el = $(id); if (el) el.classList.remove('show');
-      });
-      document.querySelectorAll('.booking').forEach(function(el){ el.classList.remove('show'); });
-      const bc = $('blast-card'); if (bc) bc.classList.remove('show');
-      const sn = $('sale-new'); if (sn) sn.classList.remove('show');
-    }
+  function triggerSlide(n){
+    if (n === 1) playChatIA();
+    if (n === 2) playCamilaCall();
+    if (n === 3) playAgentFeed();
+    if (n === 4) playFuel();
   }
 
-  // Capability tabs
-  function setActiveCap(idx){
-    document.querySelectorAll('.cap-item').forEach(function(el){
-      el.classList.toggle('active', parseInt(el.dataset.cap, 10) === idx);
-    });
-    document.querySelectorAll('.cap-panel').forEach(function(el){
-      el.classList.toggle('active', parseInt(el.dataset.panel, 10) === idx);
-    });
-    triggerCapAnimations(idx);
-  }
+  function advanceSubStep(){ if (!isAnimating) goToSlide(currentSlide + 1); }
 
-  function triggerCapAnimations(idx){
-    if (idx === 0){
-      ['fn-1','fl-1','fn-2','fl-2','fn-3'].forEach(function(id){
-        const el = $(id); if (el) el.classList.remove('show');
-      });
-      const seq = ['fn-1','fl-1','fn-2','fl-2','fn-3'];
-      seq.forEach(function(id, i){
-        setTimeout(function(){ const el = $(id); if (el) el.classList.add('show'); }, 120 + i * 220);
-      });
-    }
-    if (idx === 1){
-      document.querySelectorAll('.booking').forEach(function(el){ el.classList.remove('show'); });
-      document.querySelectorAll('.booking').forEach(function(el, i){
-        setTimeout(function(){ el.classList.add('show'); }, 120 + i * 130);
-      });
-    }
-    if (idx === 2){
-      const bc = $('blast-card'); if (bc) bc.classList.remove('show');
-      setTimeout(function(){ if (bc) bc.classList.add('show'); }, 350);
-    }
-    if (idx === 3){
-      const sn = $('sale-new'); if (sn) sn.classList.remove('show');
-      setTimeout(function(){ if (sn) sn.classList.add('show'); }, 350);
-    }
-  }
-
-  function getActiveTabIdx(selector){
-    const items = document.querySelectorAll(selector);
-    let idx = 0;
-    items.forEach(function(el, i){ if (el.classList.contains('active')) idx = i; });
-    return { idx: idx, total: items.length };
-  }
-
-  function advanceSubStep(){
-    if (isAnimating) return;
-    if (currentSlide === 5){
-      const s = getActiveTabIdx('.cap-item');
-      if (s.idx < s.total - 1){ setActiveCap(s.idx + 1); return; }
-      goToSlide(currentSlide + 1); return;
-    }
-    if (currentSlide === 3){
-      const s = getActiveTabIdx('.fmode');
-      if (s.idx < s.total - 1){ showFichaView(s.idx + 1); return; }
-      goToSlide(currentSlide + 1); return;
-    }
-    goToSlide(currentSlide + 1);
-  }
-
-  // Mobile detection — under 980px uses scroll layout, slide nav disabled
   const mobileMQ = window.matchMedia('(max-width: 980px)');
   function isMobile(){ return mobileMQ.matches; }
 
-  // Click handlers
   document.addEventListener('click', function(e){
     if (isMobile()) return;
-    const capItem = e.target.closest('.cap-item');
-    if (capItem){ e.stopPropagation(); setActiveCap(parseInt(capItem.dataset.cap, 10)); return; }
-    const fmodeTab = e.target.closest('.fmode');
-    if (fmodeTab){ e.stopPropagation(); showFichaView(parseInt(fmodeTab.dataset.fmode, 10)); return; }
-    const igArrow = e.target.closest('.ig-arrow');
-    if (igArrow){ const t = document.getElementById('igTrack'); if (t) t.scrollBy({ left: parseInt(igArrow.dataset.igDir, 10) * 440, behavior: 'smooth' }); return; }
-    if (e.target.closest('a') || e.target.closest('.price-card') || e.target.closest('.proof-ig') || e.target.closest('.billing-switch')) return;
+    if (e.target.closest('a')) return;
     advanceSubStep();
   });
 
-  // Billing toggle (mensual / anual · default anual) — direct listeners so it works on desktop + mobile
-  function setBilling(mode){
-    const grid = document.querySelector('.pricing-grid');
-    if (!grid) return;
-    const annual = mode === 'annual';
-    grid.classList.toggle('is-annual', annual);
-    document.querySelectorAll('.billing-toggle button[data-bt]').forEach(function(b){
-      b.classList.toggle('active', b.getAttribute('data-bt') === mode);
-    });
-    grid.querySelectorAll('.amt[data-a]').forEach(function(el){
-      el.textContent = annual ? el.getAttribute('data-a') : el.getAttribute('data-m');
-    });
-    grid.querySelectorAll('.plan-sub[data-a]').forEach(function(el){
-      el.innerHTML = annual ? el.getAttribute('data-a') : el.getAttribute('data-m');
-    });
-  }
-  document.querySelectorAll('.billing-toggle button[data-bt]').forEach(function(b){
-    b.addEventListener('click', function(e){ e.stopPropagation(); setBilling(b.getAttribute('data-bt')); });
-  });
-  setBilling('monthly');
-
-  // Keyboard
   document.addEventListener('keydown', function(e){
     if (isMobile()) return;
-    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter'){
-      e.preventDefault();
-      advanceSubStep();
-    }
-    if (e.key === 'ArrowLeft'){
-      e.preventDefault();
-      if (currentSlide === 5){
-        const s = getActiveTabIdx('.cap-item');
-        if (s.idx > 0){ setActiveCap(s.idx - 1); return; }
-      }
-      if (currentSlide === 3){
-        const s = getActiveTabIdx('.fmode');
-        if (s.idx > 0){ showFichaView(s.idx - 1); return; }
-      }
-      if (currentSlide > 0) goToSlide(currentSlide - 1);
-    }
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); advanceSubStep(); }
+    if (e.key === 'ArrowLeft'){ e.preventDefault(); if (currentSlide > 0) goToSlide(currentSlide - 1); }
   });
 
-  // Touch — desktop horizontal swipe; on mobile let native vertical scroll work
-  let touchStartX = 0, touchStartY = 0, touchEndX = 0, touchEndY = 0;
-  document.addEventListener('touchstart', function(e){
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
-  }, { passive: true });
+  let tsX = 0, tsY = 0;
+  document.addEventListener('touchstart', function(e){ tsX = e.changedTouches[0].screenX; tsY = e.changedTouches[0].screenY; }, { passive: true });
   document.addEventListener('touchend', function(e){
     if (isMobile()) return;
-    touchEndX = e.changedTouches[0].screenX;
-    touchEndY = e.changedTouches[0].screenY;
-    const dx = touchStartX - touchEndX;
-    const dy = touchStartY - touchEndY;
+    const dx = tsX - e.changedTouches[0].screenX;
+    const dy = tsY - e.changedTouches[0].screenY;
     if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
     if (dx > 0) advanceSubStep();
     else if (currentSlide > 0) goToSlide(currentSlide - 1);
   }, { passive: true });
 
-  // Genera barras dinámicas para el waveform de CAMILA (slide2).
-  let camilaWaveInited = false;
-  function initCamilaWave(){
-    if (camilaWaveInited) return;
-    const wave = document.getElementById('m-camila-wave');
-    if (!wave) return;
-    const pattern = [18,32,52,28,68,45,22,58,72,38,15,42,65,30,80,55,25,48,72,40,18,35,60,28,50,75,32,20,55,68,42,28,15,38,62,48,72,30,55,42,20,35,58,72,45,28,18,32];
-    for (let i = 0; i < pattern.length; i++){
-      const s = document.createElement('span');
-      s.style.height = pattern[i] + 'px';
-      s.style.animationDelay = (i * 0.05) + 's';
-      s.style.animationDuration = (0.9 + Math.random() * 0.6) + 's';
-      wave.appendChild(s);
-    }
-    camilaWaveInited = true;
-  }
-
-  // AURA chat — secuencia animada de mensajes (slide1)
-  let auraTimers = [];
-  function playAuraChat(){
-    const chat = document.querySelector('#slide1 .m-chat');
-    if (!chat) return;
-    auraTimers.forEach(function(t){ clearTimeout(t); });
-    auraTimers = [];
-    const items = chat.querySelectorAll('.m-msg, .m-typing');
-    items.forEach(function(it){ it.classList.remove('visible'); });
-    // items: 0=paciente1, 1=typing, 2=AURA1, 3=paciente2, 4=AURA2
-    function run(){
-      items.forEach(function(it){ it.classList.remove('visible'); });
-      auraTimers.push(setTimeout(function(){ items[0] && items[0].classList.add('visible'); }, 500));
-      auraTimers.push(setTimeout(function(){ items[1] && items[1].classList.add('visible'); }, 1600));
-      auraTimers.push(setTimeout(function(){ items[1] && items[1].classList.remove('visible'); items[2] && items[2].classList.add('visible'); }, 3300));
-      auraTimers.push(setTimeout(function(){ items[3] && items[3].classList.add('visible'); }, 5200));
-      auraTimers.push(setTimeout(function(){ items[4] && items[4].classList.add('visible'); }, 6600));
-      auraTimers.push(setTimeout(run, 10500));
-    }
-    run();
-  }
-
-  // LIA scan — recorrido + detección de espacio libre + acción (slide3)
-  let liaTimers = [];
-  function playLiaScan(){
-    const lia = document.querySelector('#slide3 .m-lia');
-    if (!lia) return;
-    liaTimers.forEach(function(t){ clearTimeout(t); });
-    liaTimers = [];
-    const scanline = lia.querySelector('.m-lia-scanline');
-    const gap = lia.querySelector('.m-slot.gap');
-    const action = lia.querySelector('.m-lia-action');
-    const ACT_GAP = '<span class="arrow-ic">→</span><div>Espacio 14:00 → <em>Camila P.</em> · control vencido · <em>AURA escribiendo</em></div>';
-    const ACT_MORA = '<span class="arrow-ic">→</span><div>Morosidad: <em>Juan R.</em> · pago vencido 30 días · $85.000 · <em>AURA cobrando</em></div>';
-    if (scanline) scanline.classList.add('run');
-    function run(){
-      if (gap) gap.classList.remove('detected');
-      if (action){ action.classList.remove('visible'); action.classList.remove('mora'); }
-      liaTimers.push(setTimeout(function(){ if (gap) gap.classList.add('detected'); }, 1500));
-      liaTimers.push(setTimeout(function(){ if (action){ action.innerHTML = ACT_GAP; action.classList.add('visible'); } }, 2800));
-      liaTimers.push(setTimeout(function(){ if (action) action.classList.remove('visible'); }, 5000));
-      liaTimers.push(setTimeout(function(){ if (action){ action.innerHTML = ACT_MORA; action.classList.add('mora'); action.classList.add('visible'); } }, 5400));
-      liaTimers.push(setTimeout(run, 8800));
-    }
-    run();
-  }
-
-  // Ficha clínica — demo de campos personalizables: agrega y quita campos en loop (cap 2)
-  let fichaTimers = [];
-  function runFichaEdit(){
-    const a = $('ff-opt-1');
-    const b = $('ff-opt-2');
-    const chip = $('ficha-chip');
-    if (!a || !b || !chip) return;
-    fichaTimers.forEach(function(t){ clearTimeout(t); });
-    fichaTimers = [];
-    function setChip(text, cls){
-      chip.textContent = text;
-      chip.className = 'ficha-edit-chip show ' + cls;
-      fichaTimers.push(setTimeout(function(){ chip.classList.remove('show'); }, 1100));
-    }
-    function run(){
-      a.classList.remove('show'); b.classList.remove('show');
-      chip.className = 'ficha-edit-chip';
-      fichaTimers.push(setTimeout(function(){ a.classList.add('show'); setChip('+ Presión arterial', 'add'); }, 550));
-      fichaTimers.push(setTimeout(function(){ b.classList.add('show'); setChip('+ Tipo de piel', 'add'); }, 1800));
-      fichaTimers.push(setTimeout(function(){ a.classList.remove('show'); setChip('– Presión arterial', 'rm'); }, 3300));
-      fichaTimers.push(setTimeout(function(){ b.classList.remove('show'); setChip('– Tipo de piel', 'rm'); }, 4200));
-    }
-    run();
-  }
-
-  // Showcase de Ficha clínica: cicla texto → facial → corporal
-  let fichaMarkTimers = [];
-  let fichaLoopTimer = null;
-  function animFichaView(i){
-    fichaMarkTimers.forEach(function(t){ clearTimeout(t); });
-    fichaMarkTimers = [];
-    if (i === 0){ runFichaEdit(); return; }
-    const view = document.querySelector('.ficha-view[data-fview="' + i + '"]');
-    if (!view) return;
-    const marks = view.querySelectorAll('.fmark');
-    marks.forEach(function(m){ m.classList.remove('show'); });
-    marks.forEach(function(m, k){
-      fichaMarkTimers.push(setTimeout(function(){ m.classList.add('show'); }, 260 + k * 300));
-    });
-  }
-  function showFichaView(i){
-    document.querySelectorAll('.fmode').forEach(function(el){ el.classList.toggle('active', parseInt(el.dataset.fmode, 10) === i); });
-    document.querySelectorAll('.ficha-view').forEach(function(el){ el.classList.toggle('active', parseInt(el.dataset.fview, 10) === i); });
-    animFichaView(i);
-  }
-
-  // Chat IA interno — cicla preguntas/respuestas en lenguaje natural
-  let ciaTimers = [];
-  let ciaIdx = 0;
+  // ── Chat IA interno ──
   const CIA_QA = [
-    { q: '¿cuánto vendí el mes pasado?', a: '<span class="cia-lead">Cerraste $4.820.000 el mes pasado.</span><ul><li><b>Tratamientos</b> — $3.100.000</li><li><b>Productos</b> — $920.000</li><li><b>Membresías</b> — $800.000</li></ul><div class="cia-total">+12% vs. el mes anterior</div>' },
-    { q: '¿cuál es mi próximo paciente?', a: '<span class="cia-lead">Tu próximo paciente:</span><ul><li><b>Camila P.</b> — 14:00 · Limpieza facial<span class="meta">box 2 · Dra. Meza</span></li></ul>' },
-    { q: '¿cuáles pacientes están morosos?', a: '<span class="cia-lead">3 pacientes morosos:</span><ul><li><b>Juan R.</b> — $85.000<span class="meta">30 días</span></li><li><b>Ana M.</b> — $12.300<span class="meta">18 días</span></li><li><b>Luis A.</b> — $45.000<span class="meta">22 días</span></li></ul><div class="cia-total">Total · $142.300</div>' },
-    { q: 'ayúdame a construir un agente de voz para calificar leads', a: '<span class="cia-lead">Listo, te armo el agente de voz:</span><ul><li>Saluda y pregunta el <b>motivo de consulta</b></li><li>Califica <b>presupuesto y urgencia</b></li><li>Agenda o <b>deriva a un humano</b></li></ul><div class="cia-total">¿Lo activo?</div>' },
+    { q: '¿cuánto vendí este mes?', a: '<span class="cia-lead">Llevas $4.820.000 este mes.</span><ul><li><b>Tratamientos</b> — $3.100.000</li><li><b>Productos</b> — $920.000</li><li><b>Membresías</b> — $800.000</li></ul><div class="cia-total">+12% vs. el mes anterior</div>' },
+    { q: '¿quién está moroso?', a: '<span class="cia-lead">3 pacientes con pago vencido:</span><ul><li><b>Juan R.</b> — $85.000<span class="meta">30 días</span></li><li><b>Ana M.</b> — $12.300<span class="meta">18 días</span></li><li><b>Luis A.</b> — $45.000<span class="meta">22 días</span></li></ul><div class="cia-total">Total por cobrar · $142.300</div>' },
+    { q: '¿qué profesional vende más?', a: '<span class="cia-lead">Este mes lidera la Dra. Meza:</span><ul><li><b>Dra. Meza</b> — $5.200.000<span class="meta">+27%</span></li><li><b>Dr. Cohen</b> — $4.100.000<span class="meta">-12%</span></li><li><b>Dra. Soto</b> — $3.100.000<span class="meta">estable</span></li></ul><div class="cia-total">Dra. Meza cerró 38 tratamientos</div>' },
+    { q: '¿cuál es mi próximo paciente?', a: '<span class="cia-lead">Tu próximo paciente:</span><ul><li><b>Camila P.</b> — 14:00 · Limpieza facial<span class="meta">box 2 · Dra. Meza</span></li></ul>' }
   ];
+  let ciaTimers = [], ciaIdx = 0;
   function playChatIA(){
     ciaTimers.forEach(function(t){ clearTimeout(t); }); ciaTimers = [];
-    const input = document.getElementById('ciaInput');
-    const ph = document.getElementById('ciaPh');
-    const type = document.getElementById('ciaType');
-    const cur = document.getElementById('ciaCur');
-    const chat = document.getElementById('ciaChat');
-    const user = document.getElementById('ciaUser');
-    const dots = document.getElementById('ciaDots');
-    const ans = document.getElementById('ciaAns');
+    const input = $('ciaInput'), ph = $('ciaPh'), type = $('ciaType'), cur = $('ciaCur');
+    const chat = $('ciaChat'), user = $('ciaUser'), dots = $('ciaDots'), ans = $('ciaAns');
     if (!input || !chat) return;
     function reset(){
       ph.classList.remove('hidden'); cur.classList.add('hidden'); type.textContent = '';
@@ -4069,12 +3460,11 @@
             ciaTimers.push(setTimeout(typeChar, 40 + Math.random() * 30));
           } else {
             ciaTimers.push(setTimeout(function(){
-              user.textContent = item.q;
-              chat.classList.add('visible');
+              user.textContent = item.q; chat.classList.add('visible');
               type.textContent = ''; cur.classList.add('hidden'); ph.classList.remove('hidden'); input.classList.remove('focused');
               ciaTimers.push(setTimeout(function(){
                 dots.classList.add('hidden'); ans.innerHTML = item.a; ans.classList.add('visible');
-                ciaTimers.push(setTimeout(cycle, 5000));
+                ciaTimers.push(setTimeout(cycle, 5200));
               }, 1500));
             }, 650));
           }
@@ -4084,28 +3474,61 @@
     cycle();
   }
 
-  // CAMILA · acentos (slide2): ahora son enlaces de descarga directa (.va-btn
-  // como <a download target="_blank">). No hay reproducción inline; el audio se
-  // abre/descarga por link para poder compartirlo (ej. WhatsApp) y escucharlo
-  // aparte. El handler global de click ya ignora los <a> (no avanza el slide).
+  // ── Waveform helper ──
+  function fillWave(el, count){
+    if (!el || el.childElementCount) return;
+    const pattern = [18,32,52,28,68,45,22,58,72,38,15,42,65,30,80,55,25,48,72,40,18,35,60,28,50,75,32,20,55,68,42,28,15,38,62,48,72,30,55,42];
+    for (let i = 0; i < count; i++){
+      const s = document.createElement('span');
+      s.style.height = pattern[i % pattern.length] + 'px';
+      s.style.animationDelay = (i * 0.05) + 's';
+      s.style.animationDuration = (0.9 + Math.random() * 0.6) + 's';
+      el.appendChild(s);
+    }
+  }
 
-  // On mobile: load all slides visible from the start, no animations gating content
+  // ── CAMILA · llamada ──
+  let callTimers = [], callInterval = null;
+  function playCamilaCall(){
+    callTimers.forEach(function(t){ clearTimeout(t); }); callTimers = [];
+    if (callInterval){ clearInterval(callInterval); callInterval = null; }
+    fillWave($('callWave'), 40);
+    const lines = document.querySelectorAll('#slide2 .m-call-line');
+    lines.forEach(function(l){ l.classList.remove('show'); });
+    lines.forEach(function(l, i){ callTimers.push(setTimeout(function(){ l.classList.add('show'); }, 500 + i * 1400)); });
+    const t = $('callTimer');
+    if (t){ let sec = 0; t.textContent = '00:00'; callInterval = setInterval(function(){ sec = (sec + 1) % 60; t.textContent = '00:' + String(sec).padStart(2,'0'); }, 1000); }
+  }
+
+  // ── Agente autónomo · feed ──
+  let feedTimers = [];
+  function playAgentFeed(){
+    feedTimers.forEach(function(t){ clearTimeout(t); }); feedTimers = [];
+    const items = document.querySelectorAll('#slide3 .af-item');
+    items.forEach(function(it){ it.classList.remove('show'); });
+    items.forEach(function(it, i){ feedTimers.push(setTimeout(function(){ it.classList.add('show'); }, 400 + i * 1100)); });
+  }
+
+  // ── Diagrama "vive de tus datos" ──
+  let fuelTimers = [];
+  function playFuel(){
+    fuelTimers.forEach(function(t){ clearTimeout(t); }); fuelTimers = [];
+    const srcs = document.querySelectorAll('#slide4 .fuel-src');
+    const outs = document.querySelectorAll('#slide4 .fuel-out');
+    srcs.forEach(function(s){ s.classList.remove('show'); });
+    outs.forEach(function(o){ o.classList.remove('show'); });
+    srcs.forEach(function(s, i){ fuelTimers.push(setTimeout(function(){ s.classList.add('show'); }, 200 + i * 170)); });
+    outs.forEach(function(o, i){ fuelTimers.push(setTimeout(function(){ o.classList.add('show'); }, 200 + srcs.length * 170 + i * 240)); });
+  }
+
+  // ── Mobile: mostrar todo (layout scroll) ──
   if (isMobile()){
     document.querySelectorAll('.slide').forEach(function(s){ s.classList.add('active'); });
-    document.querySelectorAll('.cap-panel').forEach(function(p){ p.classList.add('active'); });
-    document.querySelectorAll('.flow-node, .flow-line, .booking, .blast-card, .reveal').forEach(function(el){ el.classList.add('show', 'visible'); });
-    document.querySelectorAll('.m-chat .m-msg, .m-chat .m-typing').forEach(function(el){ el.classList.add('visible'); });
-    const liaAction = document.querySelector('.m-lia .m-lia-action'); if (liaAction) liaAction.classList.add('visible');
-    const liaGap = document.querySelector('.m-lia .m-slot.gap'); if (liaGap) liaGap.classList.add('detected');
-    document.querySelectorAll('.ficha-field.opt').forEach(function(el){ el.classList.add('show'); });
-    document.querySelectorAll('.fmark').forEach(function(el){ el.classList.add('show'); });
-    const ciaC = document.getElementById('ciaChat'); if (ciaC) ciaC.classList.add('visible');
-    const ciaD = document.getElementById('ciaDots'); if (ciaD) ciaD.classList.add('hidden');
-    const ciaA = document.getElementById('ciaAns'); if (ciaA) ciaA.classList.add('visible');
-    const sn = document.getElementById('sale-new'); if (sn) sn.classList.add('show');
-    const an = document.getElementById('ag-new'); if (an) an.classList.add('show');
-    const ae = document.getElementById('ag-empty'); if (ae) ae.style.display = 'none';
-    initCamilaWave();
+    fillWave($('callWave'), 40);
+    document.querySelectorAll('.m-call-line, .af-item, .fuel-src, .fuel-out').forEach(function(el){ el.classList.add('show'); });
+    const chat = $('ciaChat'); if (chat) chat.classList.add('visible');
+    const dots = $('ciaDots'); if (dots) dots.classList.add('hidden');
+    const ans = $('ciaAns'); if (ans){ ans.innerHTML = CIA_QA[0].a; ans.classList.add('visible'); }
   } else {
     updateProgress();
   }
