@@ -495,6 +495,35 @@
   .mig-from .lbl{ font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted-2); }
   .mig-from img{ height:20px; width:auto; opacity:.65; filter:grayscale(1); }
   @media (max-width:980px){ .mig{ grid-template-columns:1fr; gap:12px; } }
+
+  /* AURA en acción — 3 capacidades */
+  .aa{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:8px; }
+  .aa-card{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:20px; box-shadow:0 12px 34px -22px rgba(11,11,15,.2); opacity:0; transform:translateY(12px); transition:opacity .5s ease, transform .5s ease; display:flex; flex-direction:column; gap:13px; }
+  .aa-card.show{ opacity:1; transform:none; }
+  .aa-ic{ width:38px; height:38px; border-radius:11px; display:grid; place-items:center; background:rgba(0,159,227,.1); color:var(--cyan); }
+  .aa-ic svg{ width:19px; height:19px; }
+  .aa-card:nth-child(2) .aa-ic{ background:rgba(124,58,237,.1); color:var(--violet); }
+  .aa-card:nth-child(3) .aa-ic{ background:rgba(200,80,192,.1); color:var(--magenta); }
+  .aa-title{ font-size:16px; font-weight:700; color:var(--ink); letter-spacing:-.01em; }
+  .aa-desc{ font-size:13px; color:var(--muted); line-height:1.5; margin-top:4px; }
+  .aa-demo{ margin-top:auto; background:#F9FAFB; border:1px solid var(--line-2); border-radius:10px; padding:11px 13px; font-size:12.5px; color:var(--ink-2); line-height:1.55; }
+  .aa-demo .k{ font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); display:block; margin-bottom:5px; }
+  .aa-demo b{ color:var(--ink); font-weight:600; }
+  .aa-demo .ok{ color:var(--green); font-weight:600; }
+  @media (max-width:980px){ .aa{ grid-template-columns:1fr; gap:12px; } }
+
+  /* Ficha clínica — bento 6 */
+  .fc{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:8px; }
+  .fc-card{ background:#fff; border:1px solid var(--line); border-radius:14px; box-shadow:0 10px 30px -22px rgba(11,11,15,.2); opacity:0; transform:translateY(10px); transition:opacity .45s ease, transform .45s ease; overflow:hidden; }
+  .fc-card.show{ opacity:1; transform:none; }
+  .fc-img{ width:100%; height:120px; object-fit:cover; display:block; background:#EEE; }
+  .fc-body{ padding:16px 18px; }
+  .fc-ic{ width:32px; height:32px; border-radius:9px; display:grid; place-items:center; background:rgba(124,58,237,.1); color:var(--violet); margin-bottom:12px; }
+  .fc-ic svg{ width:16px; height:16px; }
+  .fc-title{ font-size:14.5px; font-weight:700; color:var(--ink); letter-spacing:-.01em; }
+  .fc-desc{ font-size:12.5px; color:var(--muted); line-height:1.45; margin-top:4px; }
+  @media (max-width:980px){ .fc{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:640px){ .fc{ grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -504,7 +533,7 @@
   <div class="meta-tag">Presentación · Clinera</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 05</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 07</div>
 <div class="hint">
   Click o <span class="arrow">→</span> para continuar
 </div>
@@ -547,8 +576,51 @@
     </div>
   </section>
 
-  <!-- 03 — Todo esto vive de tus datos -->
+  <!-- 03 — AURA en acción -->
   <section class="slide" id="slide2">
+    <div class="slide-inner" style="max-width:1080px;">
+      <div class="kicker" style="justify-content:center;"><span class="pip"></span>AURA · no solo conversa, ejecuta</div>
+      <h2 class="h-display" style="text-align:center;">AURA <span class="em">agenda, recuerda y reactiva</span>. Sola.</h2>
+      <p class="lead" style="text-align:center; max-width:660px; margin:0 auto 30px;">Mientras tú atiendes, AURA trabaja tu agenda, dispara los recordatorios y reactiva a los pacientes dormidos — todo por WhatsApp.</p>
+      <div class="aa" id="auraActions">
+        <div class="aa-card" data-aa="0">
+          <div class="aa-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M9 15l2 2 4-4"/></svg></div>
+          <div><div class="aa-title">Agenda en tiempo real</div><div class="aa-desc">Reserva, reagenda y cancela citas en tu agenda — sin colisiones.</div></div>
+          <div class="aa-demo"><span class="k">Nueva cita · WhatsApp</span><b>María T.</b> · Limpieza facial · <b>mañana 11:00</b> <span class="ok">· Agendada</span></div>
+        </div>
+        <div class="aa-card" data-aa="1">
+          <div class="aa-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
+          <div><div class="aa-title">Automatizaciones</div><div class="aa-desc">Recordatorios y confirmaciones que se disparan solos, sin que programes nada.</div></div>
+          <div class="aa-demo"><span class="k">Recordatorio · 2 h antes</span>"Hola María, te esperamos hoy a las 11:00" <span class="ok">· Enviado</span></div>
+        </div>
+        <div class="aa-card" data-aa="2">
+          <div class="aa-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l16-5v13L3 14z"/><path d="M11 15.5a3 3 0 0 1-5.5-1.5"/></svg></div>
+          <div><div class="aa-title">Difusiones segmentadas</div><div class="aa-desc">Campañas por WhatsApp a la base correcta, para volver a llenar la agenda.</div></div>
+          <div class="aa-demo"><span class="k">Difusión · pacientes dormidos</span><b>20% off</b> a <b>181 pacientes</b> <span class="ok">· Enviada</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 — Ficha clínica -->
+  <section class="slide" id="slide3">
+    <div class="slide-inner" style="max-width:1080px;">
+      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Ficha clínica · Clinera Vault</div>
+      <h2 class="h-display" style="text-align:center;">Toda tu clínica, <span class="em">acá</span>.</h2>
+      <p class="lead" style="text-align:center; max-width:660px; margin:0 auto 30px;">Fichas a tu manera, con todo lo que tu especialidad necesita — cifrado y respaldado.</p>
+      <div class="fc" id="fichaCards">
+        <div class="fc-card" data-fc="0"><div class="fc-body"><div class="fc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div><div class="fc-title">Fichas editables</div><div class="fc-desc">Agrega o quita campos según tu especialidad.</div></div></div>
+        <div class="fc-card" data-fc="1"><img class="fc-img" src="/presentacion/eval-facial.jpg" alt="Ficha de evaluación facial" loading="lazy" decoding="async" /><div class="fc-body"><div class="fc-title">Ficha facial</div><div class="fc-desc">Marca zonas, tercios y simetría.</div></div></div>
+        <div class="fc-card" data-fc="2"><img class="fc-img" src="/presentacion/eval-corporal.jpg" alt="Ficha de evaluación corporal" loading="lazy" decoding="async" /><div class="fc-body"><div class="fc-title">Ficha corporal</div><div class="fc-desc">Evaluación por región del cuerpo.</div></div></div>
+        <div class="fc-card" data-fc="3"><div class="fc-body"><div class="fc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 15l2 2 4-4"/></svg></div><div class="fc-title">Consentimiento informado</div><div class="fc-desc">Firmado digitalmente y archivado en la ficha.</div></div></div>
+        <div class="fc-card" data-fc="4"><div class="fc-body"><div class="fc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></div><div class="fc-title">Tratamientos</div><div class="fc-desc">Catálogo con precios y protocolos.</div></div></div>
+        <div class="fc-card" data-fc="5"><div class="fc-body"><div class="fc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M10 13v2a5 5 0 0 0 10 0v-1"/><circle cx="20" cy="11" r="2"/></svg></div><div class="fc-title">Especialidades</div><div class="fc-desc">Estética, dermatología, medicina y más.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — Todo esto vive de tus datos -->
+  <section class="slide" id="slide4">
     <div class="slide-inner" style="max-width:1060px;">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>El secreto · por qué funciona de verdad</div>
       <h2 class="h-display" style="text-align:center;">La IA es tan potente como lo que <span class="em">le das</span>.</h2>
@@ -577,8 +649,8 @@
     </div>
   </section>
 
-  <!-- 04 — Migración / cómo empiezas -->
-  <section class="slide" id="slide3">
+  <!-- 06 — Migración / cómo empiezas -->
+  <section class="slide" id="slide5">
     <div class="slide-inner" style="max-width:1060px;">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Cómo empiezas · lo hacemos nosotros</div>
       <h2 class="h-display" style="text-align:center;">Cambiarte a Clinera es <span class="em">simple</span>.</h2>
@@ -611,8 +683,8 @@
     </div>
   </section>
 
-  <!-- 05 — Cierre -->
-  <section class="slide" id="slide4">
+  <!-- 07 — Cierre -->
+  <section class="slide" id="slide6">
     <div class="slide-inner" style="max-width:940px;text-align:center;">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Un solo sistema · todo incluido</div>
       <h2 class="h-display" style="text-align:center;">Un sistema, <span class="em">todo incluido</span>.</h2>
@@ -632,7 +704,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 5;
+  const TOTAL_SLIDES = 7;
   let currentSlide = 0;
   let isAnimating = false;
   function $(id){ return document.getElementById(id); }
@@ -664,8 +736,10 @@
 
   function triggerSlide(n){
     if (n === 1) playChatIA();
-    if (n === 2) playFuel();
-    if (n === 3) playMigration();
+    if (n === 2) playAuraActions();
+    if (n === 3) playFicha();
+    if (n === 4) playFuel();
+    if (n === 5) playMigration();
   }
 
   function advanceSubStep(){ if (!isAnimating) goToSlide(currentSlide + 1); }
@@ -740,12 +814,30 @@
     cycle();
   }
 
+  // ── AURA en acción ──
+  let auraTimers = [];
+  function playAuraActions(){
+    auraTimers.forEach(function(t){ clearTimeout(t); }); auraTimers = [];
+    const cards = document.querySelectorAll('#slide2 .aa-card');
+    cards.forEach(function(c){ c.classList.remove('show'); });
+    cards.forEach(function(c, i){ auraTimers.push(setTimeout(function(){ c.classList.add('show'); }, 300 + i * 450)); });
+  }
+
+  // ── Ficha clínica ──
+  let fichaCardTimers = [];
+  function playFicha(){
+    fichaCardTimers.forEach(function(t){ clearTimeout(t); }); fichaCardTimers = [];
+    const cards = document.querySelectorAll('#slide3 .fc-card');
+    cards.forEach(function(c){ c.classList.remove('show'); });
+    cards.forEach(function(c, i){ fichaCardTimers.push(setTimeout(function(){ c.classList.add('show'); }, 200 + i * 200)); });
+  }
+
   // ── Diagrama "vive de tus datos" ──
   let fuelTimers = [];
   function playFuel(){
     fuelTimers.forEach(function(t){ clearTimeout(t); }); fuelTimers = [];
-    const srcs = document.querySelectorAll('#slide2 .fuel-src');
-    const outs = document.querySelectorAll('#slide2 .fuel-out');
+    const srcs = document.querySelectorAll('#slide4 .fuel-src');
+    const outs = document.querySelectorAll('#slide4 .fuel-out');
     srcs.forEach(function(s){ s.classList.remove('show'); });
     outs.forEach(function(o){ o.classList.remove('show'); });
     srcs.forEach(function(s, i){ fuelTimers.push(setTimeout(function(){ s.classList.add('show'); }, 200 + i * 170)); });
@@ -756,7 +848,7 @@
   let migTimers = [];
   function playMigration(){
     migTimers.forEach(function(t){ clearTimeout(t); }); migTimers = [];
-    const steps = document.querySelectorAll('#slide3 .mig-step');
+    const steps = document.querySelectorAll('#slide5 .mig-step');
     steps.forEach(function(s){ s.classList.remove('show'); });
     steps.forEach(function(s, i){ migTimers.push(setTimeout(function(){ s.classList.add('show'); }, 300 + i * 450)); });
   }
@@ -764,7 +856,7 @@
   // ── Mobile: mostrar todo (layout scroll) ──
   if (isMobile()){
     document.querySelectorAll('.slide').forEach(function(s){ s.classList.add('active'); });
-    document.querySelectorAll('.fuel-src, .fuel-out, .mig-step').forEach(function(el){ el.classList.add('show'); });
+    document.querySelectorAll('.aa-card, .fc-card, .fuel-src, .fuel-out, .mig-step').forEach(function(el){ el.classList.add('show'); });
     const chat = $('ciaChat'); if (chat) chat.classList.add('visible');
     const dots = $('ciaDots'); if (dots) dots.classList.add('hidden');
     const ans = $('ciaAns'); if (ans){ ans.innerHTML = CIA_QA[0].a; ans.classList.add('visible'); }
