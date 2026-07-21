@@ -496,6 +496,70 @@
   .mig-from img{ height:20px; width:auto; opacity:.65; filter:grayscale(1); }
   @media (max-width:980px){ .mig{ grid-template-columns:1fr; gap:12px; } }
 
+  /* Llave en mano — chip + teaser puente hacia el solapamiento */
+  .lead b{ color:var(--ink); font-weight:700; }
+  .mig-key{ display:flex; align-items:center; gap:8px; width:max-content; max-width:100%; margin:0 auto 18px; font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--violet); background:rgba(124,58,237,.07); border:1px solid rgba(124,58,237,.22); border-radius:999px; padding:7px 15px; }
+  .mig-key svg{ width:14px; height:14px; flex:none; }
+  .mig-teaser{ display:flex; align-items:center; justify-content:center; gap:9px; margin-top:24px; font-size:13.5px; color:var(--ink-2); text-align:center; }
+  .mig-teaser b{ color:var(--ink); font-weight:700; }
+  .mig-teaser .dot{ width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 0 4px rgba(16,185,129,.16); animation:rmPulse 2s infinite; flex:none; }
+
+  /* ═══ Cero interrupción — solapamiento de plataformas (parallel run) ═══ */
+  .zdt{ max-width:900px; margin:4px auto 0; }
+  .zdt-scale{ position:relative; height:20px; margin:0 0 6px 152px; }
+  .zdt-scale span{ position:absolute; top:0; font-family:var(--mono); font-size:9.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--muted-2); white-space:nowrap; }
+  .zdt-scale span:first-child{ left:0; }
+  .zdt-scale span:last-child{ right:0; }
+  .zdt-scale span.mid{ left:50%; transform:translateX(-50%); color:var(--violet); font-weight:500; }
+
+  .zdt-row{ display:grid; grid-template-columns:140px 1fr; align-items:center; gap:12px; }
+  .zdt-row + .zdt-row{ margin-top:4px; }
+  .zdt-rowname{ font-size:12.5px; font-weight:600; color:var(--ink-2); text-align:right; line-height:1.2; }
+  .zdt-rowname small{ display:block; font-family:var(--mono); font-size:8.5px; letter-spacing:.03em; text-transform:uppercase; color:var(--muted-2); font-weight:400; margin-top:3px; }
+  .zdt-track{ position:relative; height:44px; }
+
+  .zdt-band{ position:absolute; left:36%; width:28%; top:-4px; bottom:-4px; background:rgba(124,58,237,.07); border-left:1px dashed rgba(124,58,237,.42); border-right:1px dashed rgba(124,58,237,.42); border-radius:5px; opacity:0; transition:opacity .5s ease .2s; z-index:0; }
+  .zdt.play .zdt-band{ opacity:1; }
+
+  .zdt-bar{ position:absolute; top:9px; height:26px; border-radius:8px; width:0; z-index:1; display:flex; align-items:center; box-shadow:0 8px 22px -14px rgba(11,11,15,.45); overflow:hidden; }
+  .zdt-bar-t{ font-size:10.5px; font-weight:600; color:#fff; padding:0 12px; white-space:nowrap; opacity:0; transition:opacity .4s ease .8s; }
+  .zdt.play .zdt-bar-t{ opacity:1; }
+  .zdt-bar.old{ left:0; background:linear-gradient(90deg,var(--cyan),var(--violet)); transition:width .9s cubic-bezier(.6,.1,.2,1) .4s; }
+  .zdt.play .zdt-bar.old{ width:64%; }
+  .zdt-bar.old::after{ content:''; position:absolute; right:0; top:0; bottom:0; width:24px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.4)); }
+  .zdt-bar.new{ left:36%; background:linear-gradient(90deg,var(--violet),var(--magenta)); transition:width .9s cubic-bezier(.6,.1,.2,1) .95s; }
+  .zdt.play .zdt-bar.new{ width:64%; }
+
+  .zdt-row.op .zdt-track{ height:30px; }
+  .zdt-opline{ position:absolute; left:0; top:50%; height:3px; width:0; transform:translateY(-50%); background:linear-gradient(90deg,var(--cyan),var(--violet) 50%,var(--magenta)); border-radius:3px; transition:width 1s cubic-bezier(.6,.1,.2,1) 1.45s; }
+  .zdt.play .zdt-opline{ width:100%; }
+  .zdt-opdot{ position:absolute; top:50%; width:11px; height:11px; border-radius:50%; transform:translate(-50%,-50%); background:var(--cyan); border:2px solid #fff; box-shadow:0 0 0 3px rgba(0,159,227,.16); opacity:0; transition:opacity .3s ease; }
+  .zdt-opdot.s{ left:0; }
+  .zdt-opdot.e{ left:100%; background:var(--magenta); box-shadow:0 0 0 3px rgba(200,80,192,.16); }
+  .zdt.play .zdt-opdot.s{ opacity:1; transition-delay:1.45s; }
+  .zdt.play .zdt-opdot.e{ opacity:1; transition-delay:2.35s; }
+
+  .zdt-note{ display:flex; flex-wrap:wrap; align-items:stretch; justify-content:center; gap:10px; margin-top:24px; opacity:0; transform:translateY(8px); transition:opacity .6s ease 2.2s, transform .6s ease 2.2s; }
+  .zdt.play .zdt-note{ opacity:1; transform:none; }
+  .zdt-pill{ display:inline-flex; align-items:center; gap:9px; font-size:12.5px; color:var(--ink-2); font-weight:500; background:#fff; border:1px solid var(--line); border-radius:12px; padding:9px 14px; box-shadow:0 8px 22px -18px rgba(11,11,15,.35); }
+  .zdt-pill b{ color:var(--ink); font-weight:700; }
+  .zdt-pill .ic{ width:26px; height:26px; border-radius:8px; display:grid; place-items:center; background:rgba(16,185,129,.12); color:var(--green); flex:none; }
+  .zdt-pill .ic svg{ width:14px; height:14px; }
+  .zdt-pill:nth-child(2) .ic{ background:rgba(0,159,227,.12); color:var(--cyan); }
+  .zdt-pill:nth-child(3) .ic{ background:rgba(124,58,237,.12); color:var(--violet); }
+
+  @media (max-width:980px){
+    .zdt-scale{ margin-left:104px; }
+    .zdt-row{ grid-template-columns:92px 1fr; gap:9px; }
+    .zdt-rowname{ font-size:11px; }
+    .zdt-note{ flex-direction:column; align-items:stretch; }
+    .zdt-pill{ justify-content:flex-start; }
+  }
+  @media (max-width:560px){
+    .zdt-bar-t{ font-size:9px; padding:0 7px; }
+    .zdt-scale span.mid{ font-size:8.5px; }
+  }
+
   /* AURA en acción — 3 capacidades */
   .aa{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:8px; }
   .aa-card{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:20px; box-shadow:0 12px 34px -22px rgba(11,11,15,.2); opacity:0; transform:translateY(12px); transition:opacity .5s ease, transform .5s ease; display:flex; flex-direction:column; gap:13px; }
@@ -588,7 +652,7 @@
   <div class="meta-tag">Presentación · Clinera</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 07</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 08</div>
 <div class="hint">
   Click o <span class="arrow">→</span> para continuar
 </div>
@@ -725,9 +789,10 @@
   <!-- 06 — Migración / cómo empiezas -->
   <section class="slide" id="slide5">
     <div class="slide-inner" style="max-width:1060px;">
-      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Cómo empiezas · lo hacemos nosotros</div>
-      <h2 class="h-display" style="text-align:center;">Cambiarte a Clinera es <span class="em">simple</span>.</h2>
-      <p class="lead" style="text-align:center; max-width:640px; margin:0 auto 30px;">Un ingeniero de Clinera toma tu clínica como está hoy y te la deja funcionando. Tú no migras nada — nosotros lo hacemos.</p>
+      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Migración llave en mano · lo hacemos nosotros</div>
+      <div class="mig-key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="16" r="4"/><path d="M10.8 13.2 19 5"/><path d="M15.5 8.5l3 3M18.5 5.5l2 2"/></svg>Llave en mano · 0 esfuerzo de tu parte</div>
+      <h2 class="h-display" style="text-align:center;">Tú entregas las llaves.<br/><span class="em">Nosotros hacemos el resto</span>.</h2>
+      <p class="lead" style="text-align:center; max-width:700px; margin:0 auto 30px;">No mueves un solo dato. Un ingeniero de Clinera toma tu clínica tal como está hoy y te la deja funcionando — pacientes, fichas, tratamientos, agenda y automatizaciones. Migración <b>llave en mano</b>, registro por registro, sin que pierdas nada.</p>
       <div class="mig" id="migSteps">
         <div class="mig-step" data-ms="0">
           <div class="mig-head"><span class="mig-num">1</span><span class="mig-when">1 hora</span></div>
@@ -753,11 +818,56 @@
         <img src="/images/badges/reservo.svg" alt="Reservo" />
         <img src="/images/badges/doctoralia.svg" alt="Doctoralia" />
       </div>
+      <div class="mig-teaser"><span class="dot"></span>Y durante todo el cambio, <b>tu operación nunca se detiene</b> →</div>
     </div>
   </section>
 
-  <!-- 07 — Cierre -->
+  <!-- 07 — Cero interrupción · solapamiento de plataformas -->
   <section class="slide" id="slide6">
+    <div class="slide-inner" style="max-width:1040px;">
+      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Cero interrupción · migración solapada</div>
+      <h2 class="h-display" style="text-align:center;">Tu clínica <span class="em">nunca deja de operar</span>.</h2>
+      <p class="lead" style="text-align:center; max-width:730px; margin:0 auto 32px;">Durante el cambio, tu plataforma actual y Clinera conviven <b>3–4 días</b> con toda tu información en ambas. Solapamos a propósito: recién apagamos la anterior cuando ya estás operando sin problemas en Clinera. Nunca se corta el servicio.</p>
+
+      <div class="zdt" id="zdt">
+        <div class="zdt-scale">
+          <span>Inicio</span>
+          <span class="mid">Solapamiento · 3–4 días</span>
+          <span>Listo</span>
+        </div>
+        <div class="zdt-row">
+          <div class="zdt-rowname">Plataforma actual<small>La que usas hoy</small></div>
+          <div class="zdt-track">
+            <div class="zdt-band"></div>
+            <div class="zdt-bar old"><span class="zdt-bar-t">Sigue activa</span></div>
+          </div>
+        </div>
+        <div class="zdt-row">
+          <div class="zdt-rowname">Clinera<small>Con toda tu info</small></div>
+          <div class="zdt-track">
+            <div class="zdt-band"></div>
+            <div class="zdt-bar new"><span class="zdt-bar-t">Activa en paralelo</span></div>
+          </div>
+        </div>
+        <div class="zdt-row op">
+          <div class="zdt-rowname">Tu operación<small>Sin cortes</small></div>
+          <div class="zdt-track">
+            <div class="zdt-opline"></div>
+            <div class="zdt-opdot s"></div>
+            <div class="zdt-opdot e"></div>
+          </div>
+        </div>
+        <div class="zdt-note">
+          <span class="zdt-pill"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><b>0 h de caída</b> · atiendes igual todos los días</span>
+          <span class="zdt-pill"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span>Toda tu info <b>en las dos a la vez</b></span>
+          <span class="zdt-pill"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><path d="M9.2 12l2 2 3.6-3.6"/></svg></span>Apagamos la anterior <b>solo cuando confirmas</b></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 — Cierre -->
+  <section class="slide" id="slide7">
     <div class="slide-inner" style="max-width:940px;text-align:center;">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Un solo sistema · todo incluido</div>
       <h2 class="h-display" style="text-align:center;">Un sistema, <span class="em">todo incluido</span>.</h2>
@@ -777,7 +887,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 7;
+  const TOTAL_SLIDES = 8;
   let currentSlide = 0;
   let isAnimating = false;
   function $(id){ return document.getElementById(id); }
@@ -813,6 +923,7 @@
     if (n === 3) playFicha();
     if (n === 4) playFuel();
     if (n === 5) playMigration();
+    if (n === 6) playZeroDowntime();
   }
 
   function advanceSubStep(){ if (!isAnimating) goToSlide(currentSlide + 1); }
@@ -926,10 +1037,19 @@
     steps.forEach(function(s, i){ migTimers.push(setTimeout(function(){ s.classList.add('show'); }, 300 + i * 450)); });
   }
 
+  // -- Cero interrupcion: parallel run (solapamiento) --
+  function playZeroDowntime(){
+    const z = $('zdt'); if (!z) return;
+    z.classList.remove('play');
+    void z.offsetWidth;            // reflow: reinicia las transiciones al revisitar
+    z.classList.add('play');
+  }
+
   // ── Mobile: mostrar todo (layout scroll) ──
   if (isMobile()){
     document.querySelectorAll('.slide').forEach(function(s){ s.classList.add('active'); });
     document.querySelectorAll('.aa-card, .fc-card, .fuel-src, .fuel-out, .mig-step').forEach(function(el){ el.classList.add('show'); });
+    document.querySelectorAll('.zdt').forEach(function(z){ z.classList.add('play'); });
     const chat = $('ciaChat'); if (chat) chat.classList.add('visible');
     const dots = $('ciaDots'); if (dots) dots.classList.add('hidden');
     const ans = $('ciaAns'); if (ans){ ans.innerHTML = CIA_QA[0].a; ans.classList.add('visible'); }
