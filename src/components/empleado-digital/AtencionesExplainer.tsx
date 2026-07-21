@@ -9,9 +9,9 @@ const CARDS = [
   },
   {
     icon: "📅",
-    title: "Agendamiento",
-    desc: "AURA agenda, re-agenda o confirma la cita ejecutando tool calls a tu agenda y BD. Cierra la cita sin gastar tu bolsa.",
-    creditos: "0 créditos",
+    title: "Agendamiento automático (Agentic)",
+    desc: "AURA agenda, re-agenda o confirma la cita ejecutando tool calls a tu agenda y BD. Razona y da varios pasos: consume más que una conversación simple.",
+    creditos: "~195 créditos",
     featured: true,
   },
   {
@@ -70,7 +70,7 @@ export default function AtencionesExplainer() {
               color: "#0A0A0A",
             }}
           >
-            Una bolsa mensual de créditos. Y el agendamiento no consume nada.
+            Una bolsa mensual de créditos. Cada acción descuenta según su esfuerzo.
           </h2>
           <p
             style={{
@@ -81,8 +81,9 @@ export default function AtencionesExplainer() {
               margin: 0,
             }}
           >
-            Cada acción de IA descuenta créditos de tu bolsa mensual en tiempo real. El
-            agendamiento no consume créditos y el cupo se renueva cada mes.
+            Cada acción de IA descuenta créditos de tu bolsa mensual en tiempo real, según el
+            esfuerzo que le tomó resolverla. Un agendamiento automático consume más que una
+            conversación simple, y el cupo se renueva cada mes.
           </p>
         </div>
 
@@ -172,9 +173,9 @@ export default function AtencionesExplainer() {
           }}
         >
           <strong style={{ color: "#0A0A0A" }}>Tu plan incluye una bolsa mensual de créditos: 28.000 (Vortex) · 37.000 (Atlas) · 46.000 (Summit).</strong>{" "}
-          El texto de AURA consume 10 créditos y un minuto de voz de CAMILA 25 — el agendamiento
-          no consume créditos. Los cupos se dimensionaron con margen para que nunca te quedes
-          corto ni pases por sorpresa del cupo.
+          El texto simple de AURA consume ~10 créditos, un agendamiento automático (Agentic) ~195
+          y un minuto de voz de CAMILA 25. Los cupos se dimensionaron con margen para que nunca te
+          quedes corto ni pases por sorpresa del cupo.
         </p>
 
         <p

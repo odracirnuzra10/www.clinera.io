@@ -3941,7 +3941,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
         { t: "Módulo Clínico", ok: true },
       ],
       features: [
-        "~2.800 conversaciones · ~560 agendamientos",
+        "~2.800 conversaciones o ~143 agendamientos automáticos",
         "10 usuarios / profesionales",
         "1 sucursal",
       ],
@@ -3961,7 +3961,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
       ],
       headline: "Todo de Vortex, más",
       features: [
-        "~3.700 conversaciones · ~735 agendamientos · ~320 min de voz (pronto)",
+        "~3.700 conversaciones o ~190 agendamientos · ~320 min de voz (pronto)",
         "15 usuarios / profesionales",
         "2 sucursales",
       ],
@@ -3983,7 +3983,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
       ],
       headline: "Todo de Atlas, más",
       features: [
-        "~4.600 conversaciones · ~910 agendamientos · ~440 min de voz (pronto)",
+        "~4.600 conversaciones o ~236 agendamientos · ~440 min de voz (pronto)",
         "25 usuarios / profesionales",
         "Sucursales ilimitadas",
       ],
@@ -4462,7 +4462,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
             color: "#6B7280",
           }}
         >
-          $20 USD = 5.000 créditos ≈ 500 conversaciones · el agendamiento no consume créditos
+          $20 USD = 5.000 créditos ≈ 500 conversaciones simples o ~25 agendamientos automáticos
         </div>
 
         <div

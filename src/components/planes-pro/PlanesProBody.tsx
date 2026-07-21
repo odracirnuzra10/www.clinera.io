@@ -88,8 +88,8 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
         </p>
 
         <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 20, marginTop: 30 }}>
-          <ModeCompare tag="Modo Eficiente" cr="~10" color={GREEN} titulo="El día a día de la clínica" ejemplos={["Agendar una hora", "Confirmar o recordar una cita", "Responder preguntas frecuentes", "Reprogramar un control"]} />
-          <ModeCompare tag="Modo Agentic" cr="~195" color={ACCENT} big titulo="Cuando hay que razonar" ejemplos={["Cotizar un tratamiento a medida", "Resolver objeciones y dudas complejas", "Decidir entre varias opciones", "Cerrar una venta multi-paso"]} />
+          <ModeCompare tag="Modo Eficiente" cr="~10" color={GREEN} titulo="El día a día de la clínica" ejemplos={["Confirmar o recordar una cita", "Responder preguntas frecuentes", "Enviar info de la clínica", "Pasar un link para que el paciente se agende"]} />
+          <ModeCompare tag="Modo Agentic" cr="~195" color={ACCENT} big titulo="Cuando la IA agenda y razona" ejemplos={["Agendar o reprogramar la hora sola", "Cotizar un tratamiento a medida", "Resolver objeciones y dudas complejas", "Cerrar una venta multi-paso"]} />
         </div>
 
         <div style={callout}>
@@ -107,8 +107,8 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
         </p>
         <div className="reveal" style={{ display: "grid", gap: 0, marginTop: 6, maxWidth: 640 }}>
           {[
-            ["Texto (AURA)", "~10 créditos por conversación"],
-            ["Agendamiento", "0 créditos · el agendamiento no consume créditos"],
+            ["Texto (AURA)", "~10 créditos por conversación simple"],
+            ["Agendamiento automático (Agentic)", "~195 créditos · la IA agenda sola: razona + tool calls"],
             ["Minuto de voz (CAMILA)", "25 créditos por minuto"],
             ["LIA fiscaliza", "0 créditos"],
             ["Informes de LIA", "≈4.000 créditos / mes"],
@@ -145,9 +145,8 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
         </div>
         <p style={footnote}>
           Eficiente = conversaciones simples (créditos ÷ ~10). Agentic = conversaciones de
-          razonamiento multi-paso (créditos ÷ ~195). El agendamiento no consume créditos, así que
-          suma por encima de estas cifras. Son referencias orientativas: usa la calculadora para tu
-          mezcla real.
+          razonamiento multi-paso, como un agendamiento automático (créditos ÷ ~195). Son
+          referencias orientativas: usa la calculadora para tu mezcla real.
         </p>
       </Section>
 

@@ -41,7 +41,7 @@ const PLANS: Plan[] = [
     desc: (
       <>
         Para clínicas que ya operan con volumen. Incluye{" "}
-        <strong>10 usuarios</strong> y <strong>28.000 créditos al mes</strong> con AURA por WhatsApp. El agendamiento no consume créditos.
+        <strong>10 usuarios</strong> y <strong>28.000 créditos al mes</strong> con AURA por WhatsApp. La IA agenda sola en modo Agentic.
       </>
     ),
     price: { amount: "US$279", per: "/mes" },

@@ -4,8 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { track } from "@/lib/tracking";
 
 // ── Tarifario de créditos ──
-const CR_TEXTO = 10; // por conversación de texto
-// El agendamiento = 0 créditos (incluido, no se cuenta)
+const CR_TEXTO = 10; // por conversación de texto simple (Eficiente)
+const CR_AGENDA = 195; // por agendamiento automático (Agentic)
 const CR_VOZ = 25; // por minuto de voz (CAMILA)
 const CR_LIA = 4000; // fiscalización + informes (LIA), por mes
 
@@ -37,11 +37,12 @@ const PRESETS = [
 const FONT_BODY = "Inter, system-ui, sans-serif";
 const FONT_MONO = "'JetBrains Mono', ui-monospace, monospace";
 
-function recomendar(conversaciones: number, minutosVoz: number, lia: boolean) {
+function recomendar(conversaciones: number, agendamientos: number, minutosVoz: number, lia: boolean) {
   const crTexto = conversaciones * CR_TEXTO;
+  const crAgenda = agendamientos * CR_AGENDA;
   const crVoz = minutosVoz * CR_VOZ;
   const crLia = lia ? CR_LIA : 0;
-  const creditsNeeded = crTexto + crVoz + crLia;
+  const creditsNeeded = crTexto + crAgenda + crVoz + crLia;
 
   // Mínimo por feature: LIA solo en Summit; la voz (CAMILA) desde Atlas.
   const minTier: 1 | 2 | 3 = lia ? 3 : minutosVoz > 0 ? 2 : 1;
@@ -52,7 +53,7 @@ function recomendar(conversaciones: number, minutosVoz: number, lia: boolean) {
 
   return {
     creditsNeeded,
-    breakdown: { texto: crTexto, voz: crVoz, lia: crLia },
+    breakdown: { texto: crTexto, agenda: crAgenda, voz: crVoz, lia: crLia },
     minTier,
     best,
     corporativo,
@@ -65,12 +66,13 @@ function fmt(n: number) {
 
 export default function ConsumptionCalculator() {
   const [conversaciones, setConversaciones] = useState<number>(600);
+  const [agendamientos, setAgendamientos] = useState<number>(0);
   const [minutosVoz, setMinutosVoz] = useState<number>(0);
   const [lia, setLia] = useState<boolean>(false);
 
   const result = useMemo(
-    () => recomendar(conversaciones, minutosVoz, lia),
-    [conversaciones, minutosVoz, lia],
+    () => recomendar(conversaciones, agendamientos, minutosVoz, lia),
+    [conversaciones, agendamientos, minutosVoz, lia],
   );
 
   // Tracking: view event una sola vez al entrar a viewport (≥50%)
@@ -106,6 +108,7 @@ export default function ConsumptionCalculator() {
     const t = setTimeout(() => {
       track("calc_consumo_input_change", {
         conversaciones,
+        agendamientos,
         minutos_voz: minutosVoz,
         lia,
         credits_needed: result.creditsNeeded,
@@ -114,7 +117,7 @@ export default function ConsumptionCalculator() {
       });
     }, 500);
     return () => clearTimeout(t);
-  }, [conversaciones, minutosVoz, lia, result]);
+  }, [conversaciones, agendamientos, minutosVoz, lia, result]);
 
   return (
     <section
@@ -174,7 +177,7 @@ export default function ConsumptionCalculator() {
           >
             {[
               { k: "Texto", v: "10 cr" },
-              { k: "Agendamiento", v: "0 cr" },
+              { k: "Agendamiento", v: "195 cr" },
               { k: "Min. voz", v: "25 cr" },
               { k: "LIA · informes", v: "≈4.000 cr/mes" },
             ].map((it) => (
@@ -296,11 +299,89 @@ export default function ConsumptionCalculator() {
               margin: "2px 0 28px",
             }}
           >
-            El agendamiento va incluido: no consume créditos.
+            Conversaciones simples de AURA (~10 cr c/u).
           </p>
 
-          {/* Step 02 — Minutos de voz */}
-          <StepLabel num="02" text="¿Cuántos minutos de voz al mes? (CAMILA)" />
+          {/* Step 02 — Agendamientos automáticos (Agentic) */}
+          <StepLabel num="02" text="¿Cuántos agendamientos automáticos al mes? (Agentic)" />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              gap: 12,
+              marginTop: 14,
+              marginBottom: 14,
+            }}
+          >
+            <input
+              type="number"
+              min={0}
+              max={2000}
+              step={10}
+              value={agendamientos}
+              onChange={(e) => {
+                const v = Number(e.target.value);
+                if (!Number.isFinite(v)) return;
+                setAgendamientos(Math.max(0, Math.min(2000, Math.round(v))));
+              }}
+              aria-label="Agendamientos automáticos por mes"
+              style={{
+                width: 140,
+                fontFamily: FONT_MONO,
+                fontSize: 32,
+                fontWeight: 700,
+                color: "#0A0A0A",
+                letterSpacing: "-0.02em",
+                border: "1px solid #EEECEA",
+                borderRadius: 12,
+                padding: "8px 12px",
+                outline: "none",
+                background: "#fff",
+              }}
+            />
+            <span style={{ fontSize: 14, color: "#6B7280" }}>agendamientos / mes · 195 cr c/u</span>
+          </div>
+
+          <input
+            type="range"
+            min={0}
+            max={2000}
+            step={10}
+            value={agendamientos}
+            onChange={(e) => setAgendamientos(Number(e.target.value))}
+            aria-label="Agendamientos automáticos por mes (slider)"
+            style={{
+              width: "100%",
+              accentColor: "#009FE3",
+              marginBottom: 8,
+            }}
+          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              fontFamily: FONT_MONO,
+              fontSize: 11,
+              color: "#9CA3AF",
+              marginBottom: 14,
+            }}
+          >
+            <span>0</span>
+            <span>2.000</span>
+          </div>
+          <p
+            style={{
+              fontFamily: FONT_MONO,
+              fontSize: 12,
+              color: "#9CA3AF",
+              margin: "2px 0 28px",
+            }}
+          >
+            Cuando la IA agenda sola (modo Agentic): razona, consulta tu agenda y ejecuta varios pasos.
+          </p>
+
+          {/* Step 03 — Minutos de voz */}
+          <StepLabel num="03" text="¿Cuántos minutos de voz al mes? (CAMILA)" />
           <div
             style={{
               display: "flex",
@@ -377,8 +458,8 @@ export default function ConsumptionCalculator() {
             La voz (CAMILA) está disponible desde el plan ATLAS.
           </p>
 
-          {/* Step 03 — LIA */}
-          <StepLabel num="03" text="¿Quieres fiscalización + informes con LIA?" />
+          {/* Step 04 — LIA */}
+          <StepLabel num="04" text="¿Quieres fiscalización + informes con LIA?" />
           <button
             type="button"
             role="switch"
@@ -575,6 +656,7 @@ export default function ConsumptionCalculator() {
                 }}
               >
                 <BreakdownCell label="Créditos texto" value={fmt(result.breakdown.texto)} />
+                <BreakdownCell label="Créditos agenda" value={fmt(result.breakdown.agenda)} />
                 <BreakdownCell label="Créditos voz" value={fmt(result.breakdown.voz)} />
                 <BreakdownCell label="Créditos LIA" value={fmt(result.breakdown.lia)} />
                 <BreakdownCell label="Créditos totales" value={fmt(result.creditsNeeded)} />
@@ -772,7 +854,7 @@ export default function ConsumptionCalculator() {
               marginTop: 18,
             }}
           >
-            El agendamiento va incluido (0 cr). Todos los planes suman USD ${fmt(IMPL)} de implementación (pago único).
+            Un agendamiento automático (Agentic) consume ~195 cr; una conversación simple ~10 cr. Todos los planes suman USD ${fmt(IMPL)} de implementación (pago único).
             Sobre 46.000 créditos → Plan Corporativo (desde USD ${fmt(CORP_FROM)}/mes).
           </p>
         </div>
