@@ -14,13 +14,13 @@ const MODOS: Modo[] = [
   {
     idx: "01",
     title: "Eficiente",
-    desc: "Tu IA conversa. Tu paciente confirma con un link a tu calendario propio o al de Clinera. La opción más liviana — y el agendamiento no consume créditos.",
+    desc: "Tu IA conversa. Tu paciente confirma con un link a tu calendario propio o al de Clinera. La opción más liviana en créditos.",
     innerEyebrow: "Desde Plan Vortex",
   },
   {
     idx: "02",
     title: "Agentic",
-    desc: "Tu IA agenda sola, sin links, sin fricción. La mejor relación capacidad agéntica / simplicidad. Lo que usa la mayoría de las clínicas — el agendamiento no consume créditos.",
+    desc: "Tu IA agenda sola, sin links, sin fricción. La mejor relación capacidad agéntica / simplicidad. Lo que usa la mayoría de las clínicas.",
     tag: "RECOMENDADO",
     featured: true,
     innerEyebrow: "Desde Plan Vortex",
@@ -28,7 +28,7 @@ const MODOS: Modo[] = [
   {
     idx: "03",
     title: "Agentic Pro",
-    desc: "Mismo nivel agéntico que Agentic, respuesta inmediata (289 tokens/s). Para clínicas que no toleran latencia. El agendamiento no consume créditos.",
+    desc: "Mismo nivel agéntico que Agentic, respuesta inmediata (289 tokens/s). Para clínicas que no toleran latencia.",
     tag: "VELOCIDAD MÁX",
     innerEyebrow: "Desde Plan Atlas",
   },

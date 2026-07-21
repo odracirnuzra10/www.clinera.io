@@ -184,7 +184,7 @@ function SellingPoints() {
     {
       num: "04",
       title: "Una sola bolsa de créditos",
-      desc: "Cada plan trae su bolsa mensual de créditos y el agendamiento no consume créditos. Texto de AURA = 10 cr; minuto de voz de CAMILA = 25 cr.",
+      desc: "Cada plan trae su bolsa mensual de créditos. Texto de AURA = 10 cr; un agendamiento automático (Agentic) consume más, y un minuto de voz de CAMILA = 25 cr.",
     },
   ];
   return (
@@ -843,8 +843,8 @@ function ModosCompact() {
           }}
         >
           Tu cliente elige el modo según su volumen y la velocidad que necesita. La
-          unidad atómica es el crédito: una sola bolsa mensual, sin costo por
-          agendamiento.
+          unidad atómica es el crédito: una sola bolsa mensual para conversaciones,
+          agendamientos y voz.
         </p>
 
         <div
@@ -923,7 +923,7 @@ function ModosCompact() {
           >
             Todo sale de una sola bolsa mensual.{" "}
             <b style={{ color: "#0A0A0A", fontWeight: 600 }}>
-              El agendamiento no consume créditos.
+              Un agendamiento automático (Agentic) consume más que una conversación simple.
             </b>{" "}
             Texto de AURA = 10 cr · minuto de voz de CAMILA = 25 cr.
           </p>

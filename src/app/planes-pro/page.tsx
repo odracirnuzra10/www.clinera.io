@@ -37,7 +37,7 @@ const FAQS: { q: string; a: string; confirmar?: boolean }[] = [
   },
   {
     q: "¿Por qué una conversación no siempre cuesta lo mismo?",
-    a: "Depende del modo en que responde tu agente. En modo Eficiente (respuestas directas: agendar, confirmar, recordar, FAQ) una conversación gasta ~10 créditos. En modo Agentic (razonamiento multi-paso: cotizar tratamientos, resolver objeciones, decisiones) gasta ~195: casi 20× más, porque la IA piensa, consulta y ejecuta varios pasos. La mayoría de la operación diaria es Eficiente; el modo Agentic se usa para los casos que de verdad lo ameritan.",
+    a: "Depende del modo en que responde tu agente. En modo Eficiente (respuestas directas: confirmar, recordar, responder dudas frecuentes o pasar un link de agenda) una conversación gasta ~10 créditos. En modo Agentic (razonamiento multi-paso: agendar la hora sola, cotizar tratamientos, resolver objeciones) gasta ~195: casi 20× más, porque la IA piensa, consulta tu agenda y ejecuta varios pasos. La mayoría de la operación diaria es Eficiente; el modo Agentic entra cuando la IA agenda sola y en los casos que de verdad lo ameritan.",
   },
   {
     q: "¿Cómo sé en qué modo responde mi agente?",
@@ -54,7 +54,7 @@ const FAQS: { q: string; a: string; confirmar?: boolean }[] = [
   },
   {
     q: "¿Las llamadas de voz (CAMILA) consumen créditos?",
-    a: "Sí. CAMILA atiende por voz y consume de la misma bolsa: cada minuto de voz gasta 25 créditos, aparte de las conversaciones de texto de AURA. El agendamiento que resulte de esa llamada no consume créditos.",
+    a: "Sí. CAMILA atiende por voz y consume de la misma bolsa: cada minuto de voz gasta 25 créditos, aparte de las conversaciones de texto de AURA. Si esa llamada termina en un agendamiento automático (modo Agentic), ese cierre consume como una conversación Agentic (~195 créditos).",
   },
   {
     q: "¿Puedo cambiar de plan cuando quiera?",

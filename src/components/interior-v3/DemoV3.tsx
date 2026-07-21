@@ -15,7 +15,7 @@ const PLANS = [
     features: [
       "28.000 créditos / mes (bolsa única)",
       "AURA por texto — WhatsApp 24/7",
-      "El agendamiento no consume créditos",
+      "Agendamiento automático (la IA agenda sola)",
       "10 usuarios / profesionales",
       "1 sucursal",
       "Modos Eficiente + Agentic",
@@ -33,7 +33,7 @@ const PLANS = [
     features: [
       "37.000 créditos / mes (bolsa única)",
       "AURA por texto + CAMILA por voz",
-      "El agendamiento no consume créditos",
+      "Agendamiento automático (la IA agenda sola)",
       "15 usuarios / profesionales",
       "2 sucursales",
       "+ Agentic Pro",
@@ -54,7 +54,7 @@ const PLANS = [
     features: [
       "46.000 créditos / mes (bolsa única)",
       "AURA + CAMILA + LIA (fiscaliza)",
-      "El agendamiento no consume créditos",
+      "Agendamiento automático (la IA agenda sola)",
       "25 usuarios / profesionales",
       "Sucursales ilimitadas",
       "Webhooks + API pública",
@@ -440,7 +440,7 @@ function PlansSection() {
                   </div>
                   <div style={{ minHeight: 20, marginBottom: 20, display: "flex", alignItems: "center" }}>
                     <span style={{ fontFamily: "Inter", fontSize: 12.5, color: popular ? "rgba(255,255,255,.7)" : "#6B7280" }}>
-                      Bolsa única de créditos · sin costo por conversación
+                      Bolsa única de créditos · sin permanencia
                     </span>
                   </div>
                   <ul style={{ listStyle: "none", padding: 0, margin: "0 0 16px", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
