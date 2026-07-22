@@ -6,13 +6,13 @@ import FooterV3 from "@/components/brand-v3/Footer";
 export const metadata: Metadata = {
   title: "Seguridad de datos y Ley 20.584 — Clinera.io",
   description:
-    "Cómo Clinera protege los datos clínicos: cifrado en reposo AES-256-GCM con envelope encryption, una llave por clínica, trazabilidad de acceso a la ficha (Ley 20.584) y el roadmap de cumplimiento hacia la Ley 21.719.",
+    "Cómo Clinera protege los datos clínicos: cifrado en reposo AES-256-GCM con envelope encryption, una llave por clínica y trazabilidad de acceso a la ficha, bajo las leyes 20.584 y 21.719.",
   alternates: { canonical: "https://www.clinera.io/ley20584" },
   openGraph: {
     url: "https://www.clinera.io/ley20584",
     title: "Seguridad de datos y Ley 20.584 — Clinera.io",
     description:
-      "Seguridad de datos de nivel enterprise: cifrado, aislamiento por clínica, trazabilidad de la ficha (Ley 20.584) y roadmap hacia la Ley 21.719.",
+      "Seguridad de datos de nivel enterprise: cifrado, aislamiento por clínica y trazabilidad de la ficha, bajo las leyes 20.584 y 21.719.",
     type: "article",
   },
 };
@@ -79,12 +79,11 @@ export default function Ley20584Page() {
             >
               <p style={p}>
                 La ficha clínica es la categoría de datos más sensible que existe. En Clinera la
-                tratamos con estándares de nivel enterprise, con separación clara entre lo que ya
-                está <strong>vigente en producción</strong> y lo que está en nuestro roadmap de
-                cumplimiento. Esta página resume ambos de forma honesta.
+                tratamos con estándares de seguridad de nivel enterprise: cifrado, aislamiento por
+                clínica y trazabilidad de acceso a cada ficha.
               </p>
 
-              <h2 style={h2}>Vigente hoy en producción</h2>
+              <h2 style={h2}>Cómo protegemos tus datos</h2>
               <p style={p}>
                 Estas medidas están activas para todas las clínicas de la plataforma:
               </p>
@@ -139,26 +138,6 @@ export default function Ley20584Page() {
                 datos expone solo texto ilegible.
               </p>
 
-              <div style={roadmapCard}>
-                <div style={roadmapTag}>En roadmap · Q3–Q4 2026 · trabajo en progreso</div>
-                <h2 style={{ ...h2, marginTop: 8 }}>Lo que estamos construyendo</h2>
-                <p style={{ ...p, color: "var(--ink-secondary)" }}>
-                  Los siguientes puntos <strong>aún no están disponibles</strong>: están en
-                  desarrollo como parte de nuestra hoja de ruta de cumplimiento.
-                </p>
-                <ul style={ul}>
-                  <li style={li}>Contrato de tratamiento de datos con clínicas (DPA).</li>
-                  <li style={li}>Registro de consentimiento de paciente y clínica.</li>
-                  <li style={li}>
-                    Portal de derechos del titular (acceso, rectificación, borrado).
-                  </li>
-                  <li style={li}>Evaluación de impacto (EIPD) actualizada.</li>
-                </ul>
-                <p style={{ fontFamily: "var(--font-tech)", fontSize: "0.8rem", color: "var(--ink-tertiary)", margin: 0 }}>
-                  Alineación con la Ley 21.719, vigente dic-2026.
-                </p>
-              </div>
-
               <h2 style={h2}>Ley 20.584 — derechos del paciente y la ficha clínica</h2>
               <p style={p}>
                 La Ley 20.584 regula los derechos y deberes de las personas en su atención de salud.
@@ -178,9 +157,9 @@ export default function Ley20584Page() {
               <p style={p}>
                 La Ley 21.719 moderniza la protección de datos personales en Chile y entra en
                 vigencia en diciembre de 2026. Trata los datos de salud como una categoría especial,
-                con obligaciones reforzadas de seguridad, consentimiento y derechos del titular.
-                Nuestro roadmap de cumplimiento —el bloque de arriba— está orientado a esa
-                alineación.
+                con obligaciones reforzadas de seguridad, consentimiento y derechos del titular. En
+                Clinera aplicamos ese estándar de exigencia sobre los datos clínicos: cifrado,
+                aislamiento por clínica y trazabilidad de acceso a cada ficha.
               </p>
 
               <p style={{ ...p, fontSize: "0.85rem", color: "var(--ink-tertiary)", marginTop: 28 }}>
@@ -242,27 +221,6 @@ const badge = {
   border: "1px solid var(--surface-2)",
   borderRadius: 6,
   padding: "2px 8px",
-} as const;
-
-const roadmapCard = {
-  marginTop: 32,
-  padding: "24px 26px",
-  borderRadius: 16,
-  border: "1px dashed #D9A441",
-  background: "rgba(217, 164, 65, 0.06)",
-} as const;
-
-const roadmapTag = {
-  display: "inline-block",
-  fontFamily: "var(--font-tech)",
-  fontSize: "0.7rem",
-  letterSpacing: "0.08em",
-  textTransform: "uppercase",
-  color: "#B45309",
-  background: "rgba(217, 164, 65, 0.14)",
-  border: "1px solid rgba(217, 164, 65, 0.4)",
-  borderRadius: 999,
-  padding: "3px 10px",
 } as const;
 
 const linkStyle = {
