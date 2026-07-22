@@ -62,6 +62,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Future dedicated pages (stubs / planned)
     { url: `${baseUrl}/casos-de-exito`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/seguridad`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${baseUrl}/ley20584`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
 
     // Legal
     { url: `${baseUrl}/privacidad`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
