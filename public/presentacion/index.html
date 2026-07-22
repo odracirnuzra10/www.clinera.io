@@ -643,6 +643,116 @@
   .cast-msg{ font-size:11.5px; color:var(--ink); background:#fff; border:1px solid var(--line); border-radius:8px; padding:7px 10px; }
   .cast-fan{ display:flex; align-items:center; gap:5px; font-family:var(--mono); font-size:11px; color:var(--magenta); font-weight:600; }
   .cast-fan i{ width:15px; height:15px; border-radius:50%; background:linear-gradient(135deg,rgba(200,80,192,.25),rgba(124,58,237,.25)); border:1px solid rgba(200,80,192,.3); }
+
+  /* ═══ Funciones únicas — grid 4+3 + mini-vizzes ═══ */
+  .fx{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin-top:6px; }
+  .fx-card{ position:relative; flex:1 1 232px; max-width:250px; display:flex; flex-direction:column; gap:8px; background:#fff; border:1px solid var(--line); border-radius:15px; padding:15px 16px; box-shadow:0 12px 34px -24px rgba(11,11,15,.2); opacity:0; transform:translateY(12px); transition:opacity .5s ease, transform .5s ease; }
+  .fx-card.show{ opacity:1; transform:none; }
+  .fx-card.soon{ border-style:dashed; }
+  .fx-ic{ width:34px; height:34px; border-radius:10px; display:grid; place-items:center; background:rgba(0,159,227,.1); color:var(--cyan); }
+  .fx-ic svg{ width:17px; height:17px; }
+  .fx-card:nth-child(3n+2) .fx-ic{ background:rgba(124,58,237,.1); color:var(--violet); }
+  .fx-card:nth-child(3n) .fx-ic{ background:rgba(200,80,192,.1); color:var(--magenta); }
+  .fx-title{ font-size:13.5px; font-weight:700; color:var(--ink); letter-spacing:-.01em; line-height:1.25; }
+  .fx-desc{ font-size:11.5px; color:var(--muted); line-height:1.4; }
+  .fx-viz{ margin-top:auto; background:#F9FAFB; border:1px solid var(--line-2); border-radius:10px; padding:9px 11px; min-height:60px; display:flex; flex-direction:column; gap:6px; justify-content:center; }
+  #slide3 .aa-viz{ min-height:60px; padding:8px 10px; }
+  #slide3 .wa-bub{ font-size:10.5px; padding:6px 9px; }
+  #slide3 .fl-node{ font-size:10px; padding:5px 8px; }
+  #slide3 .cast-msg{ font-size:10.5px; padding:6px 9px; }
+  #slide3 .cast-fan{ font-size:10px; }
+  .fx-cobros{ align-items:center; text-align:center; gap:2px; }
+  .fx-amount{ font-family:var(--sans); font-weight:800; font-size:22px; letter-spacing:-.02em; background:linear-gradient(90deg,var(--cyan),var(--violet) 60%,var(--magenta)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .fx-amount-lbl{ font-family:var(--mono); font-size:9px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted-2); }
+  .fx-call{ flex-direction:row; align-items:center; justify-content:center; gap:12px; }
+  .fx-call-ic{ width:32px; height:32px; border-radius:50%; display:grid; place-items:center; background:rgba(124,58,237,.1); color:var(--violet); animation:rmPulse 1.8s ease-in-out infinite; }
+  .fx-call-ic svg{ width:16px; height:16px; }
+  .fx-wave{ display:flex; align-items:flex-end; gap:3px; height:26px; }
+  .fx-wave i{ width:3px; height:100%; border-radius:2px; transform:scaleY(.4); transform-origin:center bottom; background:linear-gradient(180deg,var(--cyan),var(--violet)); animation:m-wave 1s ease-in-out infinite; }
+  .fx-wave i:nth-child(2){ animation-delay:.12s } .fx-wave i:nth-child(3){ animation-delay:.24s }
+  .fx-wave i:nth-child(4){ animation-delay:.36s } .fx-wave i:nth-child(5){ animation-delay:.48s }
+  .fx-wave i:nth-child(6){ animation-delay:.60s } .fx-wave i:nth-child(7){ animation-delay:.72s }
+  .fx-soon{ position:absolute; top:10px; right:10px; font-family:var(--mono); font-size:8.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--amber); background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.32); border-radius:999px; padding:3px 8px; }
+  .fx-chat{ gap:5px; }
+  #slide3 .cia-user{ padding:6px 11px; font-size:12px; max-width:100%; }
+  #slide3 .cia-ans{ font-size:12px; line-height:1.45; padding:0 2px; }
+  #slide3 .cia-ans b{ color:var(--ink); font-weight:700; }
+  @media (max-width:980px){ .fx-card{ flex:1 1 100%; max-width:none; } }
+  @media (max-height:820px) and (min-width:981px){
+    .fx-card{ padding:12px 13px; gap:6px; }
+    .fx-viz, #slide3 .aa-viz{ min-height:52px; }
+    .fx-amount{ font-size:19px; }
+  }
+
+  /* ═══ Nodo (slide1) — 11 fuentes: último nodo ocupa 2 columnas + compactación laptop ═══ */
+  #fuelSources .fuel-src:last-child{ grid-column:1 / -1; }
+  @media (max-height:820px) and (min-width:981px){
+    #slide1 .fuel-src, #slide1 .fuel-out{ padding:8px 11px; }
+    #slide1 #fuelSources{ gap:7px; }
+    #slide1 .fuel-ic{ width:26px; height:26px; }
+    #slide1 .fuel-name small{ display:none; }
+  }
+
+  /* ═══ Solapamiento (slide2) — compactar timeline + zdt a una pantalla ═══ */
+  #slide2 .mig{ margin-top:4px; }
+  #slide2 .mig-step{ padding:16px 16px; }
+  #slide2 .mig-desc{ font-size:12px; }
+  #slide2 .zdt{ margin-top:22px; }
+  #slide2 .zdt-track{ height:34px; }
+  #slide2 .zdt-bar{ top:6px; height:22px; }
+  #slide2 .zdt-row.op .zdt-track{ height:24px; }
+  #slide2 .zdt-note{ margin-top:16px; }
+  @media (max-height:820px) and (min-width:981px){
+    #slide2 .mig{ gap:12px; }
+    #slide2 .mig-step{ padding:13px 14px; }
+    #slide2 .mig-desc{ font-size:11.5px; }
+    #slide2 .zdt{ margin-top:14px; }
+    #slide2 .zdt-track{ height:28px; }
+  }
+
+  /* ═══ CNN en la prensa (portado de la versión anterior del deck) ═══ */
+  .cnn-press-card{ border-radius: 28px; position: relative; overflow: hidden; background:#0A0A0F; color:#fff; }
+  .cnn-press-glow{ position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(ellipse 55% 75% at 88% 12%, rgba(200,80,192,.26) 0%, rgba(124,58,237,.12) 42%, transparent 72%),
+                radial-gradient(ellipse 50% 60% at 8% 100%, rgba(0,159,227,.18) 0%, transparent 65%); }
+  .cnn-slide-grid{ position:relative; padding: clamp(28px,3vw,52px); display:grid; grid-template-columns: 0.92fr 1.08fr; gap: clamp(28px,3vw,48px); align-items:center; }
+  .cnn-eyebrow{ font-family: var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.55); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+  .cnn-eyebrow .ln{ width:24px; height:1px; background:linear-gradient(90deg,#009FE3,#C850C0); display:inline-block; }
+  .cnn-seen{ display:flex; align-items:center; gap:13px; margin-bottom:20px; }
+  .cnn-seen .lbl{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.45); }
+  .cnn-title{ font-family:var(--sans); font-size:clamp(28px,3.1vw,44px); font-weight:800; letter-spacing:-.03em; line-height:1.05; margin:0 0 16px; color:#fff; }
+  .cnn-title .em{ background:linear-gradient(90deg,#009FE3,#7C3AED 55%,#C850C0); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .cnn-desc{ font-family:var(--sans); font-size:clamp(14px,1.05vw,16.5px); line-height:1.6; color:rgba(255,255,255,.72); margin:0 0 22px; max-width:440px; }
+  .cnn-orig{ display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:10.5px; letter-spacing:.07em; text-transform:uppercase; color:rgba(255,255,255,.5); text-decoration:none; transition:color .2s; }
+  .cnn-orig:hover{ color:rgba(255,255,255,.85); }
+  .cnn-video-frame{ border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,.12); box-shadow:0 40px 90px -20px rgba(0,0,0,.6); background:#000; }
+  @media (max-width: 980px){
+    .cnn-slide-grid{ grid-template-columns: 1fr; gap: 24px; }
+    .cnn-desc{ max-width:none; }
+  }
+
+  /* ═══ Muro de logos de clínicas (portado) ═══ */
+  .trust-logos{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 880px; margin: 0 auto; }
+  .trust-logo{ background: #fff; border: 1px solid var(--line); border-radius: 16px; height: 116px; display: flex; align-items: center; justify-content: center; padding: 18px 26px; box-shadow: 0 10px 30px -22px rgba(11,11,15,.18), 0 1px 0 rgba(11,11,15,.02); transition: transform .3s cubic-bezier(.6,.1,.2,1), box-shadow .3s ease; }
+  .trust-logo:hover{ transform: translateY(-2px); box-shadow: 0 16px 40px -24px rgba(11,11,15,.28), 0 1px 0 rgba(11,11,15,.02); }
+  .trust-logo img{ max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+  .trust-logo.tile{ padding: 0; overflow: hidden; border-color: transparent; background: #014C8F; }
+  .trust-logo.tile img{ width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 980px){ .trust-logos{ grid-template-columns: repeat(2, 1fr); max-width: 460px; } .trust-logo{ height: 96px; } }
+
+  /* CNN + logos combinados en slide4 */
+  .trust-logos-strip{ margin:26px auto 0; text-align:center; }
+  .trust-strip-lbl{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-2); margin-bottom:14px; }
+  #slide4 .cnn-slide-grid{ padding:clamp(20px,2.4vw,34px); gap:clamp(20px,2.6vw,36px); }
+  #slide4 .cnn-title{ font-size:clamp(22px,2.4vw,34px); }
+  #slide4 .cnn-desc{ font-size:clamp(13px,1vw,15px); margin-bottom:16px; }
+  #slide4 .trust-logos{ grid-template-columns:repeat(6,1fr); max-width:100%; gap:12px; }
+  #slide4 .trust-logo{ height:74px; padding:12px 16px; border-radius:13px; }
+  @media (max-width:980px){ #slide4 .trust-logos{ grid-template-columns:repeat(3,1fr); } }
+  @media (max-height:820px) and (min-width:981px){
+    #slide4 .trust-logo{ height:62px; }
+    .trust-logos-strip{ margin-top:18px; }
+  }
 </style>
 </head>
 <body>
@@ -652,7 +762,7 @@
   <div class="meta-tag">Presentación · Clinera</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 08</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 06</div>
 <div class="hint">
   Click o <span class="arrow">→</span> para continuar
 </div>
@@ -661,114 +771,48 @@
 
 <div class="stage" id="stage">
 
-  <!-- 01 — Portada -->
+  <!-- 01 — ¿Por qué quieres migrar? -->
   <section class="slide active" id="slide0">
-    <div class="slide-inner cover">
-      <div class="kicker"><span class="pip"></span>Antes de empezar · conversemos</div>
-      <h1 class="cover-title" style="font-size:clamp(28px,4.4vw,58px);line-height:1.1;max-width:920px;margin:0 auto 24px;">¿Cómo es un día normal en tu clínica…<br/>y en qué momento sientes que <span class="grad">se te escapa de las manos</span>?</h1>
-      <p class="cover-sub">Cuéntame con tus palabras — mientras más me cuentes, mejor te muestro lo que de verdad te sirve.</p>
-      <div class="cover-cta"><span class="pip"></span>Cuando quieras, seguimos →</div>
-    </div>
-  </section>
-
-  <!-- 02 — La IA que conversa (chat de texto) -->
-  <section class="slide" id="slide1">
-    <div class="slide-inner" style="max-width:860px;">
-      <div class="kicker" style="justify-content:center;"><span class="pip"></span>La IA por dentro · pregúntale lo que sea</div>
-      <h2 class="h-display" style="text-align:center;">Habla con tu clínica.<br/>Te responde en <span class="em">segundos</span>.</h2>
-      <p class="lead" style="text-align:center; max-width:600px; margin:0 auto;">Ventas, morosos, quién vende más, tu próximo paciente. Le preguntas en lenguaje natural — como a tu mejor administradora, pero 24/7.</p>
-      <div class="cia">
-        <div class="cia-input" id="ciaInput">
-          <span class="cia-plus">+</span>
-          <div class="cia-text"><span class="cia-ph" id="ciaPh">Pregunta lo que quieras</span><span id="ciaType"></span><span class="cia-cur hidden" id="ciaCur"></span></div>
-          <span class="cia-model">Thinking ▾</span>
-          <span class="cia-send"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="9" width="2" height="6" rx="1"/><rect x="8" y="6" width="2" height="12" rx="1"/><rect x="12" y="3" width="2" height="18" rx="1"/><rect x="16" y="7" width="2" height="10" rx="1"/><rect x="20" y="10" width="2" height="4" rx="1"/></svg></span>
-        </div>
-        <div class="cia-chat" id="ciaChat">
-          <div class="cia-user" id="ciaUser">¿cuánto vendí este mes?</div>
-          <div class="cia-ai">
-            <div class="cia-typing" id="ciaDots"><span></span><span></span><span></span></div>
-            <div class="cia-ans" id="ciaAns"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 03 — AURA en acción -->
-  <section class="slide" id="slide2">
     <div class="slide-inner" style="max-width:1080px;">
-      <div class="kicker" style="justify-content:center;"><span class="pip"></span>AURA · no solo conversa, ejecuta</div>
-      <h2 class="h-display" style="text-align:center;">AURA <span class="em">agenda, recuerda y reactiva</span>. Sola.</h2>
-      <p class="lead" style="text-align:center; max-width:660px; margin:0 auto 30px;">Mientras tú atiendes, AURA trabaja tu agenda, dispara los recordatorios y reactiva a los pacientes dormidos — todo por WhatsApp.</p>
-      <div class="aa" id="auraActions">
+      <div class="kicker" style="justify-content:center;"><span class="pip"></span>El punto de partida · por qué cambiarte</div>
+      <h2 class="h-display" style="text-align:center;">¿Por qué quieres <span class="em">migrar a Clinera</span>?</h2>
+      <p class="lead" style="text-align:center; max-width:660px; margin:0 auto 30px;">La pregunta no es <b>si</b> migrar, es cuánto te cuesta no hacerlo. Tres razones que te devuelven plata, datos y tiempo.</p>
+      <div class="aa" id="reasonCards">
         <div class="aa-card" data-aa="0">
-          <div class="aa-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M9 15l2 2 4-4"/></svg></div>
-          <div><div class="aa-title">Agenda en tiempo real</div><div class="aa-desc">Reserva, reagenda y cancela citas — sin colisiones.</div></div>
-          <div class="aa-viz wa">
-            <div class="wa-bub in">Hola, ¿tienen hora para mañana?</div>
-            <div class="wa-bub out">¡Sí! Te dejo mañana 11:00 con la Dra. Meza</div>
-            <div class="wa-typing"><span></span><span></span><span></span></div>
-          </div>
+          <div class="aa-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div><div class="aa-title">01 · Ahorro</div><div class="aa-desc">Pagas una sola herramienta, no cinco. Un proveedor, un solo cobro y sin permanencia.</div></div>
         </div>
         <div class="aa-card" data-aa="1">
-          <div class="aa-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
-          <div><div class="aa-title">Automatizaciones</div><div class="aa-desc">Recordatorios y confirmaciones que se disparan solos.</div></div>
-          <div class="aa-viz flow">
-            <div class="fl-node">Cita agendada</div>
-            <div class="fl-conn"></div>
-            <div class="fl-node">Espera · 2 h antes</div>
-            <div class="fl-conn"></div>
-            <div class="fl-node on">Recordatorio enviado</div>
-          </div>
+          <div class="aa-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+          <div><div class="aa-title">02 · Centralización</div><div class="aa-desc">Cada interacción del paciente en un solo lugar: agenda, ficha, WhatsApp y ventas conectadas.</div></div>
         </div>
         <div class="aa-card" data-aa="2">
-          <div class="aa-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l16-5v13L3 14z"/><path d="M11 15.5a3 3 0 0 1-5.5-1.5"/></svg></div>
-          <div><div class="aa-title">Difusiones segmentadas</div><div class="aa-desc">Campañas por WhatsApp a la base correcta.</div></div>
-          <div class="aa-viz cast">
-            <div class="cast-msg">"20% off esta semana, te esperamos"</div>
-            <div class="cast-fan"><i></i><i></i><i></i><i></i><i></i><i></i><span>+ 181 enviados</span></div>
-          </div>
+          <div class="aa-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 8.5 22 9.3 17 14 18.2 21 12 17.8 5.8 21 7 14 2 9.3 9 8.5 12 2"/></svg></div>
+          <div><div class="aa-title">03 · Modernización</div><div class="aa-desc">Software con IA en el núcleo, no pegada después. Tu clínica lista para lo que viene.</div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 04 — Ficha clínica -->
-  <section class="slide" id="slide3">
+  <!-- 02 — Toda tu clínica conectada con IA -->
+  <section class="slide" id="slide1">
     <div class="slide-inner" style="max-width:1120px;">
-      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Ficha clínica · Clinera Vault</div>
-      <h2 class="h-display" style="text-align:center;">Toda tu clínica, <span class="em">acá</span>.</h2>
-      <p class="lead" style="text-align:center; max-width:680px; margin:0 auto 28px;">Fichas a tu manera, con todo lo que tu especialidad necesita — cifrado y respaldado.</p>
-      <div class="fc" id="fichaCards">
-        <div class="fc-card" data-fc="0"><div class="fc-media"><div class="mk"><span class="mk-l s"></span><span class="mk-i"></span><span class="mk-l s"></span><span class="mk-i"></span></div></div><div class="fc-body"><div class="fc-title">Fichas editables</div><div class="fc-desc">Agrega o quita campos según tu especialidad.</div></div></div>
-        <div class="fc-card" data-fc="1"><div class="fc-media"><img class="fc-img" src="/presentacion/eval-facial.jpg" alt="Ficha de evaluación facial" loading="lazy" decoding="async" /></div><div class="fc-body"><div class="fc-title">Ficha facial</div><div class="fc-desc">Marca zonas, tercios y simetría.</div></div></div>
-        <div class="fc-card" data-fc="2"><div class="fc-media"><img class="fc-img" src="/presentacion/eval-corporal.jpg" alt="Ficha de evaluación corporal" loading="lazy" decoding="async" /></div><div class="fc-body"><div class="fc-title">Ficha corporal</div><div class="fc-desc">Evaluación por región del cuerpo.</div></div></div>
-        <div class="fc-card" data-fc="3"><div class="fc-media"><div class="mk mk-doc"><span class="mk-l m"></span><span class="mk-l"></span><span class="mk-l s"></span><span class="sign"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Firmado</span></div></div><div class="fc-body"><div class="fc-title">Consentimiento informado</div><div class="fc-desc">Firmado digitalmente y archivado en la ficha.</div></div></div>
-        <div class="fc-card" data-fc="4"><div class="fc-media"><div class="mk mk-wa"><span class="wb in"></span><span class="wb out"></span><span class="wb in"></span></div></div><div class="fc-body"><div class="fc-title">Mensajería WhatsApp</div><div class="fc-desc">Toda la conversación del paciente, en su ficha.</div></div></div>
-        <div class="fc-card" data-fc="5"><div class="fc-media"><div class="mk mk-rem"><span class="bell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span><span class="mk-chip">Recordatorio · 2 h</span></div></div><div class="fc-body"><div class="fc-title">Recordatorios</div><div class="fc-desc">Automáticos antes de cada cita.</div></div></div>
-        <div class="fc-card" data-fc="6"><div class="fc-media"><div class="mk mk-price"><span class="pr"><span class="b"></span><span class="p"></span></span><span class="pr"><span class="b"></span><span class="p"></span></span><span class="pr"><span class="b"></span><span class="p"></span></span></div></div><div class="fc-body"><div class="fc-title">Tratamientos</div><div class="fc-desc">Catálogo con precios y protocolos.</div></div></div>
-        <div class="fc-card" data-fc="7"><div class="fc-media"><div class="mk mk-tags"><span>Estética</span><span>Dermatología</span><span>Medicina</span><span>Kinesiología</span></div></div><div class="fc-body"><div class="fc-title">Especialidades</div><div class="fc-desc">Cada una con su ficha a medida.</div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 05 — Todo esto vive de tus datos -->
-  <section class="slide" id="slide4">
-    <div class="slide-inner" style="max-width:1120px;">
-      <div class="kicker" style="justify-content:center;"><span class="pip"></span>El secreto · por qué funciona de verdad</div>
-      <h2 class="h-display" style="text-align:center;">La IA es tan potente como lo que <span class="em">le das</span>.</h2>
-      <p class="lead" style="text-align:center; max-width:700px; margin:0 auto 28px;">Nada de esto es magia. AURA y el agente interno viven de tus datos. Por eso Clinera es también tu agenda, tus fichas y tus ventas: mientras más lo usas, más sabe tu clínica.</p>
+      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Todo conectado · un solo cerebro</div>
+      <h2 class="h-display" style="text-align:center;">Toda tu clínica, <span class="em">conectada con IA</span>.</h2>
+      <p class="lead" style="text-align:center; max-width:720px; margin:0 auto 24px;">Tratamientos, sedes, fichas, ventas, marketing y WhatsApp alimentan un solo núcleo. Clinera aprende de todo lo tuyo y actúa: agenda, responde, reagenda y automatiza.</p>
       <div class="fuel">
         <div class="fuel-col" id="fuelSources">
-          <div class="fuel-src" data-fs="0"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span><span class="fuel-name">Agenda<small>Horas y bloqueos</small></span></div>
-          <div class="fuel-src" data-fs="1"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="2"/><path d="M13 9h5M13 13h5M5 16c0-1.4 1.2-2.3 3-2.3s3 .9 3 2.3"/></svg></span><span class="fuel-name">Profesionales<small>Cada uno y su especialidad</small></span></div>
-          <div class="fuel-src" data-fs="2"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 13h6M9 17h6"/></svg></span><span class="fuel-name">Fichas clínicas<small>Historial de cada paciente</small></span></div>
+          <div class="fuel-src" data-fs="0"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6z"/></svg></span><span class="fuel-name">Tratamientos<small>Precios y protocolos</small></span></div>
+          <div class="fuel-src" data-fs="1"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M10 21v-5h4v5"/></svg></span><span class="fuel-name">Sedes<small>Toda tu operación</small></span></div>
+          <div class="fuel-src" data-fs="2"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 13h6M9 17h6"/></svg></span><span class="fuel-name">Fichas<small>Historial de cada paciente</small></span></div>
           <div class="fuel-src" data-fs="3"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 15l1.5 1.5L14 13"/></svg></span><span class="fuel-name">Consentimientos<small>Firmados y archivados</small></span></div>
-          <div class="fuel-src" data-fs="4"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 2 5-6"/></svg></span><span class="fuel-name">Ventas<small>Qué se vende y cuánto</small></span></div>
-          <div class="fuel-src" data-fs="5"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M16 5.5a3 3 0 0 1 0 5M18.5 20c0-2-1-3.5-2.6-4.4"/></svg></span><span class="fuel-name">Pacientes<small>Tu base completa</small></span></div>
-          <div class="fuel-src" data-fs="6"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6z"/></svg></span><span class="fuel-name">Tratamientos<small>Precios y protocolos</small></span></div>
-          <div class="fuel-src" data-fs="7"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M10 21v-5h4v5"/></svg></span><span class="fuel-name">Sucursales<small>Toda tu operación</small></span></div>
+          <div class="fuel-src" data-fs="4"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><span class="fuel-name">Exámenes<small>Resultados y controles</small></span></div>
+          <div class="fuel-src" data-fs="5"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></span><span class="fuel-name">Imágenes<small>Antes y después</small></span></div>
+          <div class="fuel-src" data-fs="6"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5 3.5 13.5a5 5 0 0 1 7-7l7 7a5 5 0 0 1-7 7z"/><path d="M8.5 8.5l7 7"/></svg></span><span class="fuel-name">Recetas<small>Indicaciones y dosis</small></span></div>
+          <div class="fuel-src" data-fs="7"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 2 5-6"/></svg></span><span class="fuel-name">Ventas<small>Qué se vende y cuánto</small></span></div>
+          <div class="fuel-src" data-fs="8"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l16-5v13L3 14z"/><path d="M11 15.5a3 3 0 0 1-5.5-1.5"/></svg></span><span class="fuel-name">Marketing<small>Campañas y difusiones</small></span></div>
+          <div class="fuel-src" data-fs="9"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg></span><span class="fuel-name">WhatsApp<small>Toda la conversación</small></span></div>
+          <div class="fuel-src" data-fs="10"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span><span class="fuel-name">Agenda<small>Horas y bloqueos</small></span></div>
         </div>
         <div class="fuel-core">
           <div>
@@ -778,96 +822,187 @@
           </div>
         </div>
         <div class="fuel-col" id="fuelOutputs">
-          <div class="fuel-out" data-fo="0"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg></span><span class="fuel-name">Conversa<small>Responde por WhatsApp 24/7</small></span></div>
-          <div class="fuel-out" data-fo="1"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span><span class="fuel-name">Agenda<small>Reserva la cita sola</small></span></div>
-          <div class="fuel-out" data-fo="2"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><span class="fuel-name">Confirma<small>Recuerda y confirma</small></span></div>
+          <div class="fuel-out" data-fo="0"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M9 15l2 2 4-4"/></svg></span><span class="fuel-name">Agendar<small>Reserva la cita sola</small></span></div>
+          <div class="fuel-out" data-fo="1"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg></span><span class="fuel-name">Responder<small>WhatsApp 24/7</small></span></div>
+          <div class="fuel-out" data-fo="2"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg></span><span class="fuel-name">Reagendar<small>Mueve y confirma horas</small></span></div>
+          <div class="fuel-out" data-fo="3"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h8l-1 8 10-12h-8z"/></svg></span><span class="fuel-name">Automatizaciones<small>Flujos que se disparan solos</small></span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 06 — Migración / cómo empiezas -->
-  <section class="slide" id="slide5">
+  <!-- 03 — Proceso de solapamiento (timeline + zero-downtime) -->
+  <section class="slide" id="slide2">
     <div class="slide-inner" style="max-width:1060px;">
-      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Migración llave en mano · lo hacemos nosotros</div>
-      <div class="mig-key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="16" r="4"/><path d="M10.8 13.2 19 5"/><path d="M15.5 8.5l3 3M18.5 5.5l2 2"/></svg>Llave en mano · 0 esfuerzo de tu parte</div>
-      <h2 class="h-display" style="text-align:center;">Tú entregas las llaves.<br/><span class="em">Nosotros hacemos el resto</span>.</h2>
-      <p class="lead" style="text-align:center; max-width:700px; margin:0 auto 30px;">No mueves un solo dato. Un ingeniero de Clinera toma tu clínica tal como está hoy y te la deja funcionando — pacientes, fichas, tratamientos, agenda y automatizaciones. Migración <b>llave en mano</b>, registro por registro, sin que pierdas nada.</p>
+      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Proceso de solapamiento · migración sin cortes</div>
+      <h2 class="h-display" style="text-align:center;">Migras sin <span class="em">apagar tu clínica</span>.</h2>
+      <p class="lead" style="text-align:center;max-width:720px;margin:0 auto 26px;">Tomamos tu clínica tal como está hoy y la dejamos operando en Clinera — en paralelo, sin que dejes de atender un solo día.</p>
+
       <div class="mig" id="migSteps">
         <div class="mig-step" data-ms="0">
-          <div class="mig-head"><span class="mig-num">1</span><span class="mig-when">1 hora</span></div>
-          <div class="mig-title">Conexión inicial</div>
-          <div class="mig-desc">Conectamos tu WhatsApp, tu agenda y tus canales. Tu cuenta queda activa enseguida.</div>
+          <div class="mig-head"><span class="mig-num">1</span><span class="mig-when">Día 1</span></div>
+          <div class="mig-title">Conexión</div>
+          <div class="mig-desc">Conectamos tu WhatsApp, agenda y canales. Tu cuenta queda activa el mismo día.</div>
         </div>
         <div class="mig-step" data-ms="1">
-          <div class="mig-head"><span class="mig-num">2</span><span class="mig-when">2 semanas</span></div>
-          <div class="mig-title">Configuración y migración in-house</div>
-          <div class="mig-desc">Nuestro equipo migra tus pacientes, fichas y tratamientos desde tu software actual y deja todo configurado — IA, agenda, automatizaciones y plantillas — listo para operar. Registro por registro, sin que pierdas nada.</div>
+          <div class="mig-head"><span class="mig-num">2</span><span class="mig-when">Día 2–14</span></div>
+          <div class="mig-title">Migración y configuración</div>
+          <div class="mig-desc">Migramos pacientes, fichas y tratamientos, y dejamos la IA lista — registro por registro.</div>
         </div>
         <div class="mig-step" data-ms="2">
-          <div class="mig-head"><span class="mig-num">3</span><span class="mig-when">2 horas</span></div>
+          <div class="mig-head"><span class="mig-num">3</span><span class="mig-when">Día 15</span></div>
           <div class="mig-title">Capacitación y onboarding</div>
-          <div class="mig-desc">Entrenamos a tu equipo y te entregamos la operación corriendo. Quedas usando Clinera a pleno.</div>
+          <div class="mig-desc">Entrenamos a tu equipo y te entregamos la operación corriendo.</div>
         </div>
       </div>
-      <div class="mig-from">
-        <span class="lbl">Migramos desde</span>
-        <img src="/images/badges/agendapro.svg" alt="AgendaPro" />
-        <img src="/images/badges/dentalink.svg" alt="Dentalink" />
-        <img src="/images/badges/medilink.svg" alt="Medilink" />
-        <img src="/images/badges/reservo.svg" alt="Reservo" />
-        <img src="/images/badges/doctoralia.svg" alt="Doctoralia" />
-      </div>
-      <div class="mig-teaser"><span class="dot"></span>Y durante todo el cambio, <b>tu operación nunca se detiene</b> →</div>
-    </div>
-  </section>
-
-  <!-- 07 — Cero interrupción · solapamiento de plataformas -->
-  <section class="slide" id="slide6">
-    <div class="slide-inner" style="max-width:1040px;">
-      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Cero interrupción · migración solapada</div>
-      <h2 class="h-display" style="text-align:center;">Tu clínica <span class="em">nunca deja de operar</span>.</h2>
-      <p class="lead" style="text-align:center; max-width:730px; margin:0 auto 32px;">Durante el cambio, tu plataforma actual y Clinera conviven <b>3–4 días</b> con toda tu información en ambas. Solapamos a propósito: recién apagamos la anterior cuando ya estás operando sin problemas en Clinera. Nunca se corta el servicio.</p>
 
       <div class="zdt" id="zdt">
         <div class="zdt-scale">
-          <span>Inicio</span>
-          <span class="mid">Solapamiento · 3–4 días</span>
-          <span>Listo</span>
+          <span>Inicio</span><span class="mid">Solapamiento · 3–4 días</span><span>Listo</span>
         </div>
         <div class="zdt-row">
           <div class="zdt-rowname">Plataforma actual<small>La que usas hoy</small></div>
-          <div class="zdt-track">
-            <div class="zdt-band"></div>
-            <div class="zdt-bar old"><span class="zdt-bar-t">Sigue activa</span></div>
-          </div>
+          <div class="zdt-track"><div class="zdt-band"></div><div class="zdt-bar old"><span class="zdt-bar-t">Sigue activa</span></div></div>
         </div>
         <div class="zdt-row">
           <div class="zdt-rowname">Clinera<small>Con toda tu info</small></div>
-          <div class="zdt-track">
-            <div class="zdt-band"></div>
-            <div class="zdt-bar new"><span class="zdt-bar-t">Activa en paralelo</span></div>
-          </div>
+          <div class="zdt-track"><div class="zdt-band"></div><div class="zdt-bar new"><span class="zdt-bar-t">Activa en paralelo</span></div></div>
         </div>
         <div class="zdt-row op">
           <div class="zdt-rowname">Tu operación<small>Sin cortes</small></div>
-          <div class="zdt-track">
-            <div class="zdt-opline"></div>
-            <div class="zdt-opdot s"></div>
-            <div class="zdt-opdot e"></div>
-          </div>
+          <div class="zdt-track"><div class="zdt-opline"></div><div class="zdt-opdot s"></div><div class="zdt-opdot e"></div></div>
         </div>
         <div class="zdt-note">
-          <span class="zdt-pill"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><b>0 h de caída</b> · atiendes igual todos los días</span>
-          <span class="zdt-pill"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></span>Toda tu info <b>en las dos a la vez</b></span>
-          <span class="zdt-pill"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><path d="M9.2 12l2 2 3.6-3.6"/></svg></span>Apagamos la anterior <b>solo cuando confirmas</b></span>
+          <span class="zdt-pill"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><b>0 h de caída</b> · tu clínica siempre está atendiendo</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 08 — Cierre -->
-  <section class="slide" id="slide7">
+  <!-- 04 — Funciones únicas -->
+  <section class="slide" id="slide3">
+    <div class="slide-inner" style="max-width:1120px;">
+      <div class="kicker" style="justify-content:center;"><span class="pip"></span>Funciones únicas · solo en Clinera</div>
+      <h2 class="h-display" style="text-align:center;">Lo que <span class="em">nadie más</span> hace por tu clínica.</h2>
+      <p class="lead" style="text-align:center;max-width:680px;margin:0 auto 26px;">IA que agenda, identifica, cobra y difunde — todo dentro del mismo sistema.</p>
+      <div class="fx" id="fxCards">
+        <div class="fx-card" data-fx="0">
+          <div class="fx-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M9 15l2 2 4-4"/></svg></div>
+          <div class="fx-title">Agendamiento y reagendamiento con IA</div>
+          <div class="fx-desc">Reserva y mueve horas por WhatsApp, sola.</div>
+          <div class="aa-viz wa">
+            <div class="wa-bub in">¿Tienen hora mañana?</div>
+            <div class="wa-bub out">Sí — mañana 11:00 con la Dra. Meza ✓</div>
+          </div>
+        </div>
+        <div class="fx-card" data-fx="1">
+          <div class="fx-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.7-5 6-5 1 0 1.9.2 2.7.5"/><path d="M15 18l2 2 4-4"/></svg></div>
+          <div class="fx-title">Identificación de pacientes agendadas con IA</div>
+          <div class="fx-desc">Reconoce quién escribe y abre su ficha.</div>
+          <div class="aa-viz flow">
+            <div class="fl-node">Mensaje entrante</div>
+            <div class="fl-conn"></div>
+            <div class="fl-node on">Paciente identificada · ficha lista</div>
+          </div>
+        </div>
+        <div class="fx-card" data-fx="2">
+          <div class="fx-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .9-3 2s1.3 1.8 3 1.8 3 .8 3 1.9-1.3 2-3 2c-1.4 0-2.5-.6-3-1.5M12 6.5v11"/></svg></div>
+          <div class="fx-title">Cobros recuperados por IA</div>
+          <div class="fx-desc">Detecta y recupera pagos pendientes solo.</div>
+          <div class="fx-viz fx-cobros">
+            <span class="fx-amount" data-to="1240000">$0</span>
+            <span class="fx-amount-lbl">recuperados este mes</span>
+          </div>
+        </div>
+        <div class="fx-card soon" data-fx="3">
+          <span class="fx-soon">Próximamente</span>
+          <div class="fx-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7A2 2 0 0 1 22 17z"/></svg></div>
+          <div class="fx-title">Llamadas para confirmar y reagendar con IA</div>
+          <div class="fx-desc">Tu IA llama por voz para confirmar citas.</div>
+          <div class="fx-viz fx-call">
+            <span class="fx-call-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7A2 2 0 0 1 22 17z"/></svg></span>
+            <span class="fx-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+        </div>
+        <div class="fx-card" data-fx="4">
+          <div class="fx-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l16-5v13L3 14z"/><path d="M11 15.5a3 3 0 0 1-5.5-1.5"/></svg></div>
+          <div class="fx-title">Difusiones masivas por WhatsApp</div>
+          <div class="fx-desc">Campañas a la base correcta, segmentadas.</div>
+          <div class="aa-viz cast">
+            <div class="cast-msg">"20% off esta semana ✨"</div>
+            <div class="cast-fan"><i></i><i></i><i></i><i></i><i></i><span>+181</span></div>
+          </div>
+        </div>
+        <div class="fx-card" data-fx="5">
+          <div class="fx-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h8l-1 8 10-12h-8z"/></svg></div>
+          <div class="fx-title">Automatizaciones personalizadas</div>
+          <div class="fx-desc">Flujos a medida que se disparan solos.</div>
+          <div class="aa-viz flow">
+            <div class="fl-node">Cita agendada</div>
+            <div class="fl-conn"></div>
+            <div class="fl-node on">Recordatorio enviado</div>
+          </div>
+        </div>
+        <div class="fx-card" data-fx="6">
+          <div class="fx-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg></div>
+          <div class="fx-title">Agente IA interno para resolver dudas</div>
+          <div class="fx-desc">Pregúntale a tu clínica en lenguaje natural.</div>
+          <div class="fx-viz fx-chat">
+            <span class="cia-user">¿Cuánto vendí hoy?</span>
+            <span class="cia-ans visible">Llevas <b>$4.820.000</b> hoy.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — Entrevista CNN + logos de clínicas -->
+  <section class="slide" id="slide4">
+    <div class="slide-inner" style="max-width:1160px;">
+
+      <div class="cnn-press-card" style="max-width:1000px;margin:0 auto;">
+        <div class="cnn-press-glow" aria-hidden="true"></div>
+        <div class="cnn-slide-grid">
+          <div>
+            <div class="cnn-eyebrow"><span class="ln"></span>Clinera en la prensa</div>
+            <div class="cnn-seen">
+              <span class="lbl">Visto en</span>
+              <svg role="img" aria-label="CNN" viewBox="0 6 24 12" height="30" width="60" xmlns="http://www.w3.org/2000/svg" style="display:block;"><title>CNN</title><path fill="#F23A30" d="M23.9962 15.514c0 2.0638-2.6676 3.0547-4.0789.6576-.1012-.173-2.3252-4.0032-2.3252-4.0032v3.3457c0 2.0637-2.6663 3.0546-4.0776.6575-.1025-.173-2.3253-4.0032-2.3253-4.0032v3.1547c0 1.4318-.8498 2.2073-2.1791 2.2073H5.5299a5.5299 5.5299 0 010-11.0598h1.7946v1.328H5.5299a4.2019 4.2019 0 100 8.4038h3.4494a.8973.8973 0 00.8794-.878V8.524a.2692.2692 0 01.1935-.273c.141-.0384.2897.0487.3987.2333l2.1522 3.7084c1.251 2.1573 2.0728 3.5738 2.083 3.5892.2807.4742.6986.5576.9973.4755a.7973.7973 0 00.582-.787v-6.945a.2705.2705 0 01.191-.2744c.1397-.0384.287.0487.3947.2333l1.9946 3.4366 2.242 3.8648c.2191.3717.5242.5038.7896.5038a.7691.7691 0 00.2063-.0282.7986.7986 0 00.591-.791V6.4707H24zM8.0026 13.9695V8.4857c0-2.0638 2.6675-3.0546 4.0788-.6563.1025.173 2.3253 4.002 2.3253 4.002V8.4856c0-2.0638 2.6662-3.0546 4.0775-.6563.1026.173 2.3253 4.002 2.3253 4.002V6.4705H22.14v8.9999a.2705.2705 0 01-.1935.2743c-.141.0384-.2897-.0487-.3987-.2333a1360.4277 1360.4277 0 01-2.2406-3.8622l-1.9946-3.434c-.2794-.4744-.696-.5577-.9921-.477a.7986.7986 0 00-.5833.7858v6.9464a.2718.2718 0 01-.1935.2743c-.1423.0384-.291-.0487-.3987-.2333-.0192-.032-1.069-1.8407-2.083-3.5892a6211.7971 6211.7971 0 00-2.1535-3.711c-.2794-.4755-.6973-.5575-.996-.4768a.7999.7999 0 00-.5845.7858v6.8002a.3717.3717 0 01-.3487.3474h-3.452a3.6712 3.6712 0 010-7.3424H7.322v1.328H5.5427a2.3432 2.3432 0 100 4.6864H7.636a.364.364 0 00.3666-.3705Z"/></svg>
+            </div>
+            <h2 class="cnn-title">Un gran paso para <span class="em">Clinera</span>.</h2>
+            <p class="cnn-desc">Ricardo Oyarzún, fundador de Clinera, fue entrevistado por <b style="color:#fff;font-weight:600;">CNN</b> sobre cómo la IA está transformando la atención de las clínicas en LATAM.</p>
+            <a class="cnn-orig" href="https://www.youtube.com/watch?v=Gskr4kELyx4" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.2 3.6Z"/></svg>
+              Ver emisión original en YouTube ↗
+            </a>
+          </div>
+          <div>
+            <div class="cnn-video-frame">
+              <div style="padding:56.25% 0 0 0;position:relative;">
+                <iframe src="https://player.vimeo.com/video/1205127087?badge=0&autopause=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" title="CNN entrevista a Clinera"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trust-logos-strip">
+        <div class="trust-strip-lbl">Clínicas que ya operan con Clinera</div>
+        <div class="trust-logos">
+          <div class="trust-logo"><img src="/presentacion/clientes/andes.png" alt="Andes Salud" loading="lazy" /></div>
+          <div class="trust-logo tile"><img src="/presentacion/clientes/everest.png" alt="Everest Clínicas Dentales" loading="lazy" /></div>
+          <div class="trust-logo"><img src="/presentacion/clientes/sanatorio.png" alt="Sanatorio Alemán" loading="lazy" /></div>
+          <div class="trust-logo"><img src="/presentacion/clientes/sonrie.png" alt="Sonríe" loading="lazy" /></div>
+          <div class="trust-logo"><img src="/presentacion/clientes/lumina.png" alt="Lumina · Clínica Facial" loading="lazy" /></div>
+          <div class="trust-logo"><img src="/presentacion/clientes/hebe.png" alt="Método Hebe" loading="lazy" /></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 06 — Cierre -->
+  <section class="slide" id="slide5">
     <div class="slide-inner" style="max-width:940px;text-align:center;">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Un solo sistema · todo incluido</div>
       <h2 class="h-display" style="text-align:center;">Un sistema, <span class="em">todo incluido</span>.</h2>
@@ -880,14 +1015,13 @@
         <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.02em;color:#3A3A42;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;">IA 24/7</span>
       </div>
       <a href="https://www.clinera.io/planes" target="_self" style="display:inline-flex;align-items:center;gap:8px;margin-top:34px;background:linear-gradient(90deg,var(--cyan),var(--violet));color:#fff;font-weight:600;font-size:15px;padding:15px 30px;border-radius:999px;text-decoration:none;box-shadow:0 10px 28px rgba(124,58,237,.24);">Ver planes en clinera.io →</a>
-      <div class="cnn-strip"><b>Visto en CNN</b><span class="sep"></span>El software con IA que usan las clínicas que crecen</div>
     </div>
   </section>
 
 </div>
 
 <script>
-  const TOTAL_SLIDES = 8;
+  const TOTAL_SLIDES = 6;
   let currentSlide = 0;
   let isAnimating = false;
   function $(id){ return document.getElementById(id); }
@@ -918,12 +1052,11 @@
   }
 
   function triggerSlide(n){
-    if (n === 1) playChatIA();
-    if (n === 2) playAuraActions();
-    if (n === 3) playFicha();
-    if (n === 4) playFuel();
-    if (n === 5) playMigration();
-    if (n === 6) playZeroDowntime();
+    if (n === 0) playReasons();
+    if (n === 1) playFuel();
+    if (n === 2) playOverlap();
+    if (n === 3) playFunciones();
+    // n===4 (CNN+logos) y n===5 (cierre) no requieren animación JS
   }
 
   function advanceSubStep(){ if (!isAnimating) goToSlide(currentSlide + 1); }
@@ -934,6 +1067,7 @@
   document.addEventListener('click', function(e){
     if (isMobile()) return;
     if (e.target.closest('a')) return;
+    if (e.target.closest('.cnn-press-card')) return;
     advanceSubStep();
   });
 
@@ -954,107 +1088,75 @@
     else if (currentSlide > 0) goToSlide(currentSlide - 1);
   }, { passive: true });
 
-  // ── Chat IA interno ──
-  const CIA_QA = [
-    { q: '¿cuánto vendí este mes?', a: '<span class="cia-lead">Llevas $4.820.000 este mes.</span><ul><li><b>Tratamientos</b> — $3.100.000</li><li><b>Productos</b> — $920.000</li><li><b>Membresías</b> — $800.000</li></ul><div class="cia-total">+12% vs. el mes anterior</div>' },
-    { q: '¿quién está moroso?', a: '<span class="cia-lead">3 pacientes con pago vencido:</span><ul><li><b>Juan R.</b> — $85.000<span class="meta">30 días</span></li><li><b>Ana M.</b> — $12.300<span class="meta">18 días</span></li><li><b>Luis A.</b> — $45.000<span class="meta">22 días</span></li></ul><div class="cia-total">Total por cobrar · $142.300</div>' },
-    { q: '¿qué profesional vende más?', a: '<span class="cia-lead">Este mes lidera la Dra. Meza:</span><ul><li><b>Dra. Meza</b> — $5.200.000<span class="meta">+27%</span></li><li><b>Dr. Cohen</b> — $4.100.000<span class="meta">-12%</span></li><li><b>Dra. Soto</b> — $3.100.000<span class="meta">estable</span></li></ul><div class="cia-total">Dra. Meza cerró 38 tratamientos</div>' },
-    { q: '¿cuál es mi próximo paciente?', a: '<span class="cia-lead">Tu próximo paciente:</span><ul><li><b>Fernanda P.</b> — 14:00 · Limpieza facial<span class="meta">box 2 · Dra. Meza</span></li></ul>' }
-  ];
-  let ciaTimers = [], ciaIdx = 0;
-  function playChatIA(){
-    ciaTimers.forEach(function(t){ clearTimeout(t); }); ciaTimers = [];
-    const input = $('ciaInput'), ph = $('ciaPh'), type = $('ciaType'), cur = $('ciaCur');
-    const chat = $('ciaChat'), user = $('ciaUser'), dots = $('ciaDots'), ans = $('ciaAns');
-    if (!input || !chat) return;
-    function reset(){
-      ph.classList.remove('hidden'); cur.classList.add('hidden'); type.textContent = '';
-      input.classList.remove('focused'); chat.classList.remove('visible');
-      dots.classList.remove('hidden'); ans.classList.remove('visible');
-    }
-    function cycle(){
-      reset();
-      const item = CIA_QA[ciaIdx % CIA_QA.length]; ciaIdx++;
-      ciaTimers.push(setTimeout(function(){
-        ph.classList.add('hidden'); cur.classList.remove('hidden'); input.classList.add('focused');
-        let i = 0;
-        (function typeChar(){
-          if (i <= item.q.length){
-            type.textContent = item.q.slice(0, i); i++;
-            ciaTimers.push(setTimeout(typeChar, 40 + Math.random() * 30));
-          } else {
-            ciaTimers.push(setTimeout(function(){
-              user.textContent = item.q; chat.classList.add('visible');
-              type.textContent = ''; cur.classList.add('hidden'); ph.classList.remove('hidden'); input.classList.remove('focused');
-              ciaTimers.push(setTimeout(function(){
-                dots.classList.add('hidden'); ans.innerHTML = item.a; ans.classList.add('visible');
-                ciaTimers.push(setTimeout(cycle, 5200));
-              }, 1500));
-            }, 650));
-          }
-        })();
-      }, 900));
-    }
-    cycle();
-  }
-
-  // ── AURA en acción ──
-  let auraTimers = [];
-  function playAuraActions(){
-    auraTimers.forEach(function(t){ clearTimeout(t); }); auraTimers = [];
-    const cards = document.querySelectorAll('#slide2 .aa-card');
+  // ── Razones para migrar (slide0) ──
+  let reasonTimers = [];
+  function playReasons(){
+    reasonTimers.forEach(function(t){ clearTimeout(t); }); reasonTimers = [];
+    const cards = document.querySelectorAll('#slide0 .aa-card');
     cards.forEach(function(c){ c.classList.remove('show'); });
-    cards.forEach(function(c, i){ auraTimers.push(setTimeout(function(){ c.classList.add('show'); }, 300 + i * 450)); });
+    cards.forEach(function(c, i){ reasonTimers.push(setTimeout(function(){ c.classList.add('show'); }, 200 + i * 180)); });
   }
 
-  // ── Ficha clínica ──
-  let fichaCardTimers = [];
-  function playFicha(){
-    fichaCardTimers.forEach(function(t){ clearTimeout(t); }); fichaCardTimers = [];
-    const cards = document.querySelectorAll('#slide3 .fc-card');
-    cards.forEach(function(c){ c.classList.remove('show'); });
-    cards.forEach(function(c, i){ fichaCardTimers.push(setTimeout(function(){ c.classList.add('show'); }, 200 + i * 200)); });
-  }
-
-  // ── Diagrama "vive de tus datos" ──
+  // ── Nodo "conectada con IA" (slide1) ──
   let fuelTimers = [];
   function playFuel(){
     fuelTimers.forEach(function(t){ clearTimeout(t); }); fuelTimers = [];
-    const srcs = document.querySelectorAll('#slide4 .fuel-src');
-    const outs = document.querySelectorAll('#slide4 .fuel-out');
+    const srcs = document.querySelectorAll('#slide1 .fuel-src');
+    const outs = document.querySelectorAll('#slide1 .fuel-out');
     srcs.forEach(function(s){ s.classList.remove('show'); });
     outs.forEach(function(o){ o.classList.remove('show'); });
-    srcs.forEach(function(s, i){ fuelTimers.push(setTimeout(function(){ s.classList.add('show'); }, 200 + i * 170)); });
-    outs.forEach(function(o, i){ fuelTimers.push(setTimeout(function(){ o.classList.add('show'); }, 200 + srcs.length * 170 + i * 240)); });
+    srcs.forEach(function(s, i){ fuelTimers.push(setTimeout(function(){ s.classList.add('show'); }, 150 + i * 80)); });
+    outs.forEach(function(o, i){ fuelTimers.push(setTimeout(function(){ o.classList.add('show'); }, 150 + srcs.length * 80 + i * 140)); });
   }
 
-  // -- Migracion timeline --
-  let migTimers = [];
-  function playMigration(){
-    migTimers.forEach(function(t){ clearTimeout(t); }); migTimers = [];
-    const steps = document.querySelectorAll('#slide5 .mig-step');
+  // ── Proceso de solapamiento: timeline + zdt (slide2) ──
+  let overlapTimers = [];
+  function playOverlap(){
+    overlapTimers.forEach(function(t){ clearTimeout(t); }); overlapTimers = [];
+    const steps = document.querySelectorAll('#slide2 .mig-step');
     steps.forEach(function(s){ s.classList.remove('show'); });
-    steps.forEach(function(s, i){ migTimers.push(setTimeout(function(){ s.classList.add('show'); }, 300 + i * 450)); });
+    steps.forEach(function(s, i){ overlapTimers.push(setTimeout(function(){ s.classList.add('show'); }, 200 + i * 300)); });
+    const z = $('zdt');
+    if (z){
+      z.classList.remove('play');
+      void z.offsetWidth;            // reflow: reinicia las transiciones al revisitar
+      overlapTimers.push(setTimeout(function(){ z.classList.add('play'); }, 200 + steps.length * 300 + 150));
+    }
   }
 
-  // -- Cero interrupcion: parallel run (solapamiento) --
-  function playZeroDowntime(){
-    const z = $('zdt'); if (!z) return;
-    z.classList.remove('play');
-    void z.offsetWidth;            // reflow: reinicia las transiciones al revisitar
-    z.classList.add('play');
+  // ── Funciones únicas: entrada escalonada + count-up de cobros (slide3) ──
+  let fxTimers = [];
+  function playFunciones(){
+    fxTimers.forEach(function(t){ clearTimeout(t); }); fxTimers = [];
+    const cards = document.querySelectorAll('#slide3 .fx-card');
+    cards.forEach(function(c){ c.classList.remove('show'); });
+    cards.forEach(function(c, i){ fxTimers.push(setTimeout(function(){ c.classList.add('show'); }, 120 + i * 110)); });
+    const amt = document.querySelector('#slide3 .fx-amount');
+    if (amt){
+      amt.textContent = '$0';
+      const target = +amt.dataset.to || 1240000;
+      fxTimers.push(setTimeout(function(){ countUp(amt, target, 1300); }, 120 + 2 * 110 + 250));
+    }
+  }
+  function countUp(el, target, dur){
+    const t0 = performance.now();
+    (function frame(now){
+      const p = Math.min(1, (now - t0) / dur);
+      const e = 1 - Math.pow(1 - p, 3);            // easeOutCubic
+      el.textContent = '$' + Math.round(target * e).toLocaleString('es-CL');
+      if (p < 1) requestAnimationFrame(frame);
+    })(t0);
   }
 
   // ── Mobile: mostrar todo (layout scroll) ──
   if (isMobile()){
     document.querySelectorAll('.slide').forEach(function(s){ s.classList.add('active'); });
-    document.querySelectorAll('.aa-card, .fc-card, .fuel-src, .fuel-out, .mig-step').forEach(function(el){ el.classList.add('show'); });
+    document.querySelectorAll('.aa-card, .fx-card, .fuel-src, .fuel-out, .mig-step').forEach(function(el){ el.classList.add('show'); });
     document.querySelectorAll('.zdt').forEach(function(z){ z.classList.add('play'); });
-    const chat = $('ciaChat'); if (chat) chat.classList.add('visible');
-    const dots = $('ciaDots'); if (dots) dots.classList.add('hidden');
-    const ans = $('ciaAns'); if (ans){ ans.innerHTML = CIA_QA[0].a; ans.classList.add('visible'); }
+    document.querySelectorAll('#slide3 .fx-amount').forEach(function(a){ a.textContent = '$' + (+a.dataset.to || 1240000).toLocaleString('es-CL'); });
   } else {
     updateProgress();
+    triggerSlide(0);
   }
 </script>
 
