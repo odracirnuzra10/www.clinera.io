@@ -753,6 +753,64 @@
     #slide4 .trust-logo{ height:62px; }
     .trust-logos-strip{ margin-top:18px; }
   }
+
+  /* ═══ Seguridad de datos (slide dark · due diligence) ═══ */
+  .sec-card{ position:relative; overflow:hidden; background:#111318; border:1px solid rgba(255,255,255,.08); border-radius:24px; padding:clamp(26px,3vw,44px); color:#fff; box-shadow:0 40px 90px -30px rgba(0,0,0,.6); }
+  .sec-glow{ position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(ellipse 46% 60% at 92% 4%, rgba(124,58,237,.22) 0%, rgba(0,159,227,.08) 46%, transparent 72%),
+                radial-gradient(ellipse 42% 55% at 3% 100%, rgba(0,159,227,.12) 0%, transparent 66%); }
+  .sec-head{ position:relative; display:flex; align-items:flex-start; gap:16px; margin-bottom:clamp(20px,2.4vw,30px); }
+  .sec-hero{ flex:none; width:50px; height:50px; border-radius:14px; display:grid; place-items:center; background:linear-gradient(135deg,#009FE3,#7C3AED 55%,#C850C0); box-shadow:0 14px 34px -12px rgba(124,58,237,.6); }
+  .sec-hero svg{ width:26px; height:26px; color:#fff; }
+  .sec-title{ font-family:var(--sans); font-weight:800; letter-spacing:-.03em; line-height:1.06; font-size:clamp(23px,2.7vw,38px); margin:0 0 8px; color:#fff; }
+  .sec-sub{ font-family:var(--mono); font-size:clamp(11px,1vw,13px); letter-spacing:.02em; color:rgba(255,255,255,.5); margin:0; }
+  .sec-cols{ position:relative; display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,3vw,44px); }
+  .sec-cols::before{ content:""; position:absolute; left:50%; top:4px; bottom:4px; width:1px; background:linear-gradient(180deg,transparent,rgba(255,255,255,.1),transparent); transform:translateX(-50%); }
+  .sec-colhead{ display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.72); margin-bottom:18px; }
+  .sec-dot{ width:8px; height:8px; border-radius:50%; background:var(--cyan); box-shadow:0 0 0 4px rgba(0,159,227,.16); flex:none; }
+  .sec-dot.road{ background:var(--violet); box-shadow:0 0 0 4px rgba(124,58,237,.16); }
+  .sec-tag{ margin-left:auto; font-family:var(--mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase; padding:3px 9px; border-radius:999px; }
+  .sec-tag.live{ color:var(--cyan); background:rgba(0,159,227,.12); border:1px solid rgba(0,159,227,.3); }
+  .sec-tag.road{ color:var(--amber); background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.32); }
+  .sec-list{ display:flex; flex-direction:column; gap:14px; }
+  .sec-list.road{ padding-left:16px; border-left:1px dashed rgba(124,58,237,.32); }
+  .sec-item{ display:flex; gap:12px; align-items:flex-start; opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease; }
+  .sec-item.show{ opacity:1; transform:none; }
+  .sec-item-body{ flex:1 1 auto; min-width:0; }
+  .sec-check{ flex:none; width:22px; height:22px; border-radius:7px; display:grid; place-items:center; background:rgba(0,159,227,.14); color:var(--cyan); margin-top:1px; }
+  .sec-check svg{ width:13px; height:13px; }
+  .sec-marker{ flex:none; width:14px; height:14px; border-radius:50%; border:2px solid rgba(124,58,237,.55); margin-top:3px; }
+  .sec-item-t{ font-size:13.5px; line-height:1.4; color:rgba(255,255,255,.9); font-weight:500; }
+  .sec-list.road .sec-item-t{ color:rgba(255,255,255,.6); font-weight:400; }
+  .sec-badges{ display:flex; flex-wrap:wrap; gap:6px; margin-top:7px; }
+  .sec-badge{ font-family:var(--mono); font-size:10px; letter-spacing:.02em; color:rgba(255,255,255,.62); background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:6px; padding:3px 8px; white-space:nowrap; }
+  .sec-note{ font-family:var(--mono); font-size:10.5px; letter-spacing:.02em; color:rgba(255,255,255,.42); margin-top:16px; padding-left:16px; }
+  .sec-foot{ position:relative; font-family:var(--mono); font-size:10.5px; line-height:1.6; letter-spacing:.01em; color:rgba(255,255,255,.4); margin-top:clamp(20px,2.4vw,28px); padding-top:18px; border-top:1px solid rgba(255,255,255,.08); }
+  .sec-foot b{ color:rgba(255,255,255,.7); font-weight:600; }
+  @media (max-width:980px){
+    .sec-cols{ grid-template-columns:1fr; gap:26px; }
+    .sec-cols::before{ display:none; }
+  }
+  @media (max-height:820px) and (min-width:981px){
+    .sec-card{ padding:24px 30px; }
+    .sec-head{ margin-bottom:18px; }
+    .sec-list{ gap:11px; }
+    .sec-item-t{ font-size:12.5px; }
+    .sec-foot{ margin-top:16px; padding-top:14px; }
+  }
+
+  /* ═══ Nodo central = empleado digital con rostro cibernético (slide1) ═══ */
+  .fuel-core{ width:clamp(150px,14vw,174px); aspect-ratio:auto; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:20px 16px; }
+  .fc-face{ width:clamp(52px,5.4vw,66px); height:auto; display:block; }
+  .fc-face .fc-eye{ filter:drop-shadow(0 0 3px rgba(124,58,237,.85)); animation:fcEye 3s ease-in-out infinite; }
+  .fuel-core .fc-n{ font-size:16px; margin-top:2px; }
+  .fc-role{ font-family:var(--mono); font-size:8.5px; letter-spacing:.12em; text-transform:uppercase; color:#A78BFA; }
+  @keyframes fcEye{ 0%,42%,100%{ opacity:1 } 47%{ opacity:.28 } 52%{ opacity:1 } }
+  @media (max-height:820px) and (min-width:981px){
+    .fuel-core{ width:clamp(132px,13vw,158px); padding:15px 13px; gap:6px; }
+    .fc-face{ width:50px; }
+    .fuel-core .fc-n{ font-size:15px; }
+  }
 </style>
 </head>
 <body>
@@ -762,7 +820,7 @@
   <div class="meta-tag">Presentación · Clinera</div>
 </div>
 
-<div class="step-counter" id="stepCounter"><span class="current">01</span> / 06</div>
+<div class="step-counter" id="stepCounter"><span class="current">01</span> / 07</div>
 <div class="hint">
   Click o <span class="arrow">→</span> para continuar
 </div>
@@ -815,11 +873,27 @@
           <div class="fuel-src" data-fs="10"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span><span class="fuel-name">Agenda<small>Horas y bloqueos</small></span></div>
         </div>
         <div class="fuel-core">
-          <div>
-            <div class="fc-k">Clinera</div>
-            <div class="fc-n">IA</div>
-            <div class="fc-s">Aprende de todo lo tuyo</div>
-          </div>
+          <svg class="fc-face" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Empleado digital de Clinera">
+            <defs>
+              <linearGradient id="fcGrad" x1="6" y1="16" x2="52" y2="50" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#009FE3"/>
+                <stop offset="0.55" stop-color="#7C3AED"/>
+                <stop offset="1" stop-color="#C850C0"/>
+              </linearGradient>
+            </defs>
+            <path d="M16 31 C16 16 48 16 48 31" stroke="rgba(255,255,255,.82)" stroke-width="2.2" stroke-linecap="round"/>
+            <rect x="12.5" y="27" width="6" height="12" rx="3" fill="rgba(255,255,255,.85)"/>
+            <rect x="45.5" y="27" width="6" height="12" rx="3" fill="rgba(255,255,255,.85)"/>
+            <path d="M15.5 39 C15 46 21 48 26.5 46.4" stroke="rgba(255,255,255,.8)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="27" cy="46" r="1.7" fill="url(#fcGrad)"/>
+            <rect x="18" y="18" width="28" height="31" rx="10" stroke="rgba(255,255,255,.85)" stroke-width="2"/>
+            <circle cx="32" cy="23.6" r="1.3" fill="url(#fcGrad)"/>
+            <rect class="fc-eye" x="25.2" y="29" width="3.6" height="7.6" rx="1.8" fill="url(#fcGrad)"/>
+            <rect class="fc-eye" x="35.2" y="29" width="3.6" height="7.6" rx="1.8" fill="url(#fcGrad)"/>
+            <path d="M27.5 41.6 Q32 44.6 36.5 41.6" stroke="rgba(255,255,255,.5)" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <div class="fc-n">Clinera IA</div>
+          <div class="fc-role">Tu empleado digital</div>
         </div>
         <div class="fuel-col" id="fuelOutputs">
           <div class="fuel-out" data-fo="0"><span class="fuel-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M9 15l2 2 4-4"/></svg></span><span class="fuel-name">Agendar<small>Reserva la cita sola</small></span></div>
@@ -1001,8 +1075,83 @@
     </div>
   </section>
 
-  <!-- 06 — Cierre -->
+  <!-- 06 — Seguridad de datos · due diligence (dark) -->
   <section class="slide" id="slide5">
+    <div class="slide-inner" style="max-width:1180px;">
+      <div class="sec-card">
+        <div class="sec-glow" aria-hidden="true"></div>
+
+        <div class="sec-head">
+          <div class="sec-hero">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><rect x="9.2" y="11" width="5.6" height="4.8" rx="1"/><path d="M10.2 11V9.6a1.8 1.8 0 0 1 3.6 0V11"/></svg>
+          </div>
+          <div>
+            <h2 class="sec-title">Seguridad de datos de nivel enterprise</h2>
+            <p class="sec-sub">Datos de salud — la categoría más sensible bajo la Ley 21.719</p>
+          </div>
+        </div>
+
+        <div class="sec-cols">
+          <div class="sec-col">
+            <div class="sec-colhead"><span class="sec-dot"></span>Live en producción<span class="sec-tag live">Activo</span></div>
+            <div class="sec-list">
+              <div class="sec-item">
+                <span class="sec-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <div class="sec-item-body">
+                  <div class="sec-item-t">Cifrado en reposo del 100% del contenido clínico</div>
+                  <div class="sec-badges"><span class="sec-badge">AES-256-GCM</span><span class="sec-badge">Envelope encryption</span></div>
+                </div>
+              </div>
+              <div class="sec-item">
+                <span class="sec-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <div class="sec-item-body">
+                  <div class="sec-item-t">Una llave de cifrado por clínica (aislamiento total entre clínicas)</div>
+                  <div class="sec-badges"><span class="sec-badge">1 DEK per clinic</span><span class="sec-badge">Cloud KMS</span></div>
+                </div>
+              </div>
+              <div class="sec-item">
+                <span class="sec-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <div class="sec-item-body">
+                  <div class="sec-item-t">Llave maestra en bóveda gestionada, nunca expuesta</div>
+                  <div class="sec-badges"><span class="sec-badge">KMS</span><span class="sec-badge">IAM mínimo</span><span class="sec-badge">rotación 90d</span></div>
+                </div>
+              </div>
+              <div class="sec-item">
+                <span class="sec-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <div class="sec-item-body">
+                  <div class="sec-item-t">Trazabilidad completa de acceso a la ficha</div>
+                  <div class="sec-badges"><span class="sec-badge">Access log</span><span class="sec-badge">Ley 20.584</span></div>
+                </div>
+              </div>
+              <div class="sec-item">
+                <span class="sec-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <div class="sec-item-body">
+                  <div class="sec-item-t">Respaldos automáticos + recuperación punto en el tiempo</div>
+                  <div class="sec-badges"><span class="sec-badge">Backups + PITR 7d</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sec-col">
+            <div class="sec-colhead"><span class="sec-dot road"></span>En roadmap · Q3–Q4 2026<span class="sec-tag road">En progreso</span></div>
+            <div class="sec-list road">
+              <div class="sec-item"><span class="sec-marker"></span><div class="sec-item-body"><div class="sec-item-t">Contrato de tratamiento de datos con clínicas (DPA)</div></div></div>
+              <div class="sec-item"><span class="sec-marker"></span><div class="sec-item-body"><div class="sec-item-t">Registro de consentimiento de paciente y clínica</div></div></div>
+              <div class="sec-item"><span class="sec-marker"></span><div class="sec-item-body"><div class="sec-item-t">Portal de derechos del titular (acceso, rectificación, borrado)</div></div></div>
+              <div class="sec-item"><span class="sec-marker"></span><div class="sec-item-body"><div class="sec-item-t">Evaluación de impacto (EIPD) actualizada</div></div></div>
+            </div>
+            <div class="sec-note">Alineación con Ley 21.719, vigente dic-2026</div>
+          </div>
+        </div>
+
+        <div class="sec-foot"><b>Envelope encryption:</b> cada ficha se cifra con una llave única por clínica; esa llave se guarda cifrada por una llave maestra en un servicio de custodia especializado. Un robo de la base de datos expone solo texto ilegible.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 — Cierre -->
+  <section class="slide" id="slide6">
     <div class="slide-inner" style="max-width:940px;text-align:center;">
       <div class="kicker" style="justify-content:center;"><span class="pip"></span>Un solo sistema · todo incluido</div>
       <h2 class="h-display" style="text-align:center;">Un sistema, <span class="em">todo incluido</span>.</h2>
@@ -1021,7 +1170,7 @@
 </div>
 
 <script>
-  const TOTAL_SLIDES = 6;
+  const TOTAL_SLIDES = 7;
   let currentSlide = 0;
   let isAnimating = false;
   function $(id){ return document.getElementById(id); }
@@ -1056,7 +1205,8 @@
     if (n === 1) playFuel();
     if (n === 2) playOverlap();
     if (n === 3) playFunciones();
-    // n===4 (CNN+logos) y n===5 (cierre) no requieren animación JS
+    if (n === 5) playSecurity();
+    // n===4 (CNN+logos) y n===6 (cierre) no requieren animación JS
   }
 
   function advanceSubStep(){ if (!isAnimating) goToSlide(currentSlide + 1); }
@@ -1148,10 +1298,19 @@
     })(t0);
   }
 
+  // ── Seguridad de datos: entrada escalonada de los ítems (slide5) ──
+  let secTimers = [];
+  function playSecurity(){
+    secTimers.forEach(function(t){ clearTimeout(t); }); secTimers = [];
+    const items = document.querySelectorAll('#slide5 .sec-item');
+    items.forEach(function(el){ el.classList.remove('show'); });
+    items.forEach(function(el, i){ secTimers.push(setTimeout(function(){ el.classList.add('show'); }, 150 + i * 90)); });
+  }
+
   // ── Mobile: mostrar todo (layout scroll) ──
   if (isMobile()){
     document.querySelectorAll('.slide').forEach(function(s){ s.classList.add('active'); });
-    document.querySelectorAll('.aa-card, .fx-card, .fuel-src, .fuel-out, .mig-step').forEach(function(el){ el.classList.add('show'); });
+    document.querySelectorAll('.aa-card, .fx-card, .fuel-src, .fuel-out, .mig-step, .sec-item').forEach(function(el){ el.classList.add('show'); });
     document.querySelectorAll('.zdt').forEach(function(z){ z.classList.add('play'); });
     document.querySelectorAll('#slide3 .fx-amount').forEach(function(a){ a.textContent = '$' + (+a.dataset.to || 1240000).toLocaleString('es-CL'); });
   } else {
