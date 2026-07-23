@@ -615,7 +615,7 @@ export function Features() {
                 color: "#0A0A0A",
               }}
             >
-              Tres empleados digitales que{" "}
+              Tres agentes de IA que{" "}
               <span
                 style={{
                   background: GRAD,
@@ -624,9 +624,9 @@ export function Features() {
                   color: "transparent",
                 }}
               >
-                ejecutan tu front-desk
+                estandarizan tu operación
               </span>{" "}
-              — 24/7, sin licencias.
+              — 24/7, sin que se escape un lead.
             </h2>
             <p
               style={{

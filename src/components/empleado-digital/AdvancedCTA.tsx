@@ -6,7 +6,7 @@ const STRIPE_SUMMIT = "https://buy.stripe.com/5kQ6oJbtf3UmdN94NR1441w";
 const BULLETS = [
   "46.000 créditos / mes · bolsa mensual de IA",
   "Una sola bolsa para texto, voz y agendamiento",
-  "3 empleados digitales: AURA (texto) + CAMILA (voz) + LIA (fiscaliza)",
+  "3 agentes de IA: AURA (texto) + CAMILA (voz) + LIA (fiscaliza)",
   "3 modos de agendamiento (incluye Agentic Pro)",
   "3 modelos IA: Gemini 3.0 Flash · Kimi K2.6 · Gemini 3.5 Flash",
   "Módulo clínico completo (agenda + fichas + Vault)",

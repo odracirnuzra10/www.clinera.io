@@ -554,7 +554,7 @@ function PlansSection() {
                           marginBottom: 8,
                         }}
                       >
-                        {plan.agents.length === 1 ? "Empleado digital incluido" : "Empleados digitales incluidos"}
+                        {plan.agents.length === 1 ? "Agente de IA incluido" : "Agentes de IA incluidos"}
                       </div>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
                         {plan.agents.map((a) => {
