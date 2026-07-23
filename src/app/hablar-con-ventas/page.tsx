@@ -7,7 +7,7 @@ import VentasLanding from "@/components/ventas/VentasLanding";
 export const metadata: Metadata = {
   title: "Hablar con ventas — Clinera.io",
   description:
-    "30 min con el equipo comercial de Clinera. IA que responde, agenda y cobra 24/7 en tu clínica.",
+    "30 min con el equipo comercial de Clinera. IA que opera la agenda de todo tu equipo y todas tus sedes por WhatsApp 24/7.",
   alternates: { canonical: "https://www.clinera.io/hablar-con-ventas" },
   openGraph: { url: "https://www.clinera.io/hablar-con-ventas" },
 };

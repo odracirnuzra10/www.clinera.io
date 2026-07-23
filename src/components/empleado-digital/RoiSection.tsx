@@ -11,7 +11,7 @@ const ROWS: Array<{ label: string; human: string; aura: string }> = [
 ];
 
 const MOBILE_METRICS: Array<{ label: string; aura: string; human: string }> = [
-  { label: "Costo mensual", aura: "$479", human: "~$950 USD recepcionista humana" },
+  { label: "Costo mensual", aura: "$479", human: "~$950 USD por recepcionista" },
   { label: "Disponibilidad", aura: "24 / 7 / 365", human: "45 h / semana + licencias y vacaciones" },
   { label: "Conversaciones simultáneas", aura: "Ilimitadas", human: "1 a 2 conversaciones a la vez" },
 ];
@@ -50,7 +50,7 @@ export default function RoiSection() {
               display: "inline-block",
             }}
           />
-          ROI · Humano vs AURA Summit
+          ROI · Escalar con IA vs. sumar planilla
         </p>
         <h2
           id="roi-h2"
@@ -64,7 +64,7 @@ export default function RoiSection() {
             color: "#0A0A0A",
           }}
         >
-          $479 vs <span style={{ color: "#7C3AED" }}>$950</span>.
+          Crece sin <span style={{ color: "#7C3AED" }}>inflar tu planilla</span>.
         </h2>
         <p
           style={{
@@ -76,7 +76,7 @@ export default function RoiSection() {
             maxWidth: 640,
           }}
         >
-          Costo laboral fijo vs. costo de software variable.
+          Cada recepcionista que sumas al crecer cuesta ~$950/mes y trabaja 45 horas. Clinera coordina a todo tu equipo y todas tus sedes por un costo fijo de software, sin sumar planilla.
         </p>
 
         <div
@@ -170,7 +170,7 @@ export default function RoiSection() {
             className="roi-row-head"
           >
             <div>Concepto</div>
-            <div>Recepcionista humana</div>
+            <div>Sumar recepción</div>
             <div style={{ color: "#7C3AED" }}>AURA Summit</div>
           </div>
           {ROWS.map((row, i) => (
@@ -267,7 +267,7 @@ export default function RoiSection() {
               ~$471
             </div>
             <div style={{ fontFamily: "Inter", fontSize: 13, color: "#6B7280", lineHeight: 1.5 }}>
-              USD vs. una recepcionista en Chile
+              USD por cada recepcionista que no sumas
             </div>
           </div>
           <div
@@ -369,9 +369,9 @@ export default function RoiSection() {
             maxWidth: 880,
           }}
         >
-          &ldquo;Por $479 al mes tienes un{" "}
-          <span style={{ color: "#7C3AED" }}>empleado 24/7</span>. Tu próxima recepcionista te
-          va a costar mil dólares y va a trabajar 45 horas a la semana.&rdquo;
+          &ldquo;Cada recepcionista que sumas al crecer cuesta{" "}
+          <span style={{ color: "#7C3AED" }}>mil dólares al mes</span>. Con Clinera coordinas a
+          todo tu equipo y todas tus sedes por un costo fijo — y escalas sin inflar la planilla.&rdquo;
         </p>
       </div>
 

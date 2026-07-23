@@ -5,15 +5,15 @@ import HomeV3 from "@/components/home-v3/HomeV3";
 import { HOME_FAQ } from "@/content/home-faq";
 
 export const metadata: Metadata = {
-  title: "Clinera.io | Tu empleado digital para clínicas · 24/7 por WhatsApp",
+  title: "Clinera.io | El sistema con IA que opera y estandariza tus clínicas",
   description:
-    "No es un chatbot. Es un empleado digital que ejecuta funciones: crea citas, re-agenda, consulta pagos y revisa sesiones. Desde $279 USD/mes. +52 clínicas en Chile y LATAM.",
+    "Agentes de IA que operan la agenda de todo tu equipo y todas tus sedes por WhatsApp: agendan, confirman, cobran y recuperan pacientes 24/7. Visibilidad y control central. +52 clínicas en Chile y LATAM.",
   alternates: { canonical: "https://www.clinera.io/" },
   openGraph: {
     url: "https://www.clinera.io/",
-    title: "Clinera.io — Tu empleado digital. 24/7. Por WhatsApp.",
+    title: "Clinera.io — Opera y estandariza todas tus clínicas con IA",
     description:
-      "AURA agenda, re-agenda, consulta pagos y revisa sesiones. Hace el 100% del trabajo de tu recepcionista. Activa tu clínica en menos de 1 hora.",
+      "Agentes de IA sobre la agenda de tu equipo y tus sedes por WhatsApp: agendan, confirman, cobran y recuperan pacientes 24/7, sin que se te escape un lead. Visibilidad y control central.",
   },
 };
 
@@ -37,7 +37,7 @@ const softwareLd = {
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web, iOS, Android",
   description:
-    "Empleado digital con IA para clínicas: agenda, re-agenda, consulta pagos y revisa sesiones por WhatsApp, 24/7. Ejecuta el 100% del trabajo de una recepcionista.",
+    "Plataforma con IA para grupos clínicos y clínicas con volumen: agentes que agendan, confirman, cobran y recuperan pacientes por WhatsApp 24/7, con visibilidad y control central de toda la operación.",
   url: "https://www.clinera.io",
   offers: {
     "@type": "AggregateOffer",

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import WhatsAppMockup from "./WhatsAppMockup";
 import styles from "@/app/empleado-digital/empleado-digital.module.css";
 
@@ -9,24 +10,18 @@ export default function HeroEquipo() {
       <div className={styles.heroInner}>
         <div className={styles.heroCopy}>
           <h1 id="empleado-digital-hero" className={styles.heroH1}>
-            Tu próximo empleado <span style={{ color: "#7C3AED" }}>no es humano</span>.
+            Suma agentes de IA a <span style={{ color: "#7C3AED" }}>todo tu equipo</span>.
           </h1>
 
           <p className={styles.heroSub}>
-            No es un chatbot. Es un agente que <strong>ejecuta funciones</strong> — crea citas,
-            re-agenda, consulta pagos y revisa sesiones. Hace el 100% del trabajo de tu
-            recepcionista por WhatsApp, sin descanso.
+            No es un chatbot. Es un agente que <strong>ejecuta funciones</strong> — agenda,
+            reagenda, confirma, cobra y recupera pacientes por WhatsApp 24/7, sobre la agenda de
+            todo tu equipo y todas tus sedes.
           </p>
 
           <div className={styles.heroCtaRow}>
-            <a
-              href={STRIPE_SUMMIT}
-              className={styles.heroCta}
-              data-plan="summit"
-              data-plan-value="479"
-              data-plan-name="Summit signup hero empleado-digital"
-            >
-              Contratar Summit — USD 479/mes
+            <Link href="/hablar-con-ventas" className={styles.heroCta}>
+              Agendar demo
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path
                   d="M6 3l5 5-5 5"
@@ -36,20 +31,30 @@ export default function HeroEquipo() {
                   strokeLinejoin="round"
                 />
               </svg>
+            </Link>
+
+            <a
+              href={STRIPE_SUMMIT}
+              className={styles.ctaDemoLink}
+              data-plan="summit"
+              data-plan-value="479"
+              data-plan-name="Summit checkout hero empleado-digital"
+            >
+              Contratar Summit — USD 479/mes →
             </a>
 
             <div className={styles.statBar} role="list">
               <span role="listitem">
                 <span className={styles.statDot} aria-hidden />
-                <strong>$479</strong> vs ~$950 recepcionista
+                <strong>24/7</strong> · sobre la agenda de todo tu equipo
               </span>
               <span role="listitem">
-                <strong>24/7</strong> · sin licencias ni vacaciones
+                Visibilidad y control central de tus sedes
               </span>
             </div>
 
             <p className={styles.trustLine}>
-              Desde USD 279/mes · Implementación USD 450 pago único · Cancela cuando quieras · Pago seguro vía Stripe
+              Desde USD 279/mes · Implementación USD 450 (onboarding asistido) · Pago seguro vía Stripe
             </p>
           </div>
         </div>

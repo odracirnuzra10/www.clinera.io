@@ -23,7 +23,7 @@ export default function EmpleadoDigitalLanding() {
         id="aura"
         eyebrow="01 · El que ejecuta funciones"
         headline="Crea, re-agenda y confirma sola."
-        body="AURA no responde — ejecuta. Crea citas en tu calendario, las mueve, consulta pagos, revisa sesiones. Hace el 100% del trabajo de tu recepcionista por WhatsApp, 24/7."
+        body="AURA no responde — ejecuta. Crea citas en tu calendario, las mueve, consulta pagos, revisa sesiones. Trabaja sobre la agenda de todo tu equipo por WhatsApp, 24/7 — sin que se escape un lead."
         imageSrc="/agents/aura-fullbody.png"
         imageAlt="AURA — asistente IA de WhatsApp para clínicas"
         floatingCard={<AuraConfirmCard />}

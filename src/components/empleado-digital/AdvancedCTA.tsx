@@ -6,7 +6,7 @@ const STRIPE_SUMMIT = "https://buy.stripe.com/5kQ6oJbtf3UmdN94NR1441w";
 const BULLETS = [
   "46.000 créditos / mes · bolsa mensual de IA",
   "Una sola bolsa para texto, voz y agendamiento",
-  "3 empleados digitales: AURA (texto) + CAMILA (voz) + LIA (fiscaliza)",
+  "3 agentes de IA: AURA (texto) + CAMILA (voz) + LIA (fiscaliza)",
   "3 modos de agendamiento (incluye Agentic Pro)",
   "3 modelos IA: Gemini 3.0 Flash · Kimi K2.6 · Gemini 3.5 Flash",
   "Módulo clínico completo (agenda + fichas + Vault)",
@@ -23,7 +23,7 @@ export default function AdvancedCTA() {
         <span className={styles.ctaBadge}>Recomendado · Summit</span>
 
         <h2 id="cta-h2" className={styles.ctaH2}>
-          Activa tu empleado digital hoy
+          Estandariza tu operación con Summit
         </h2>
 
         <div className={styles.ctaPriceRow}>
@@ -39,14 +39,8 @@ export default function AdvancedCTA() {
           ))}
         </ul>
 
-        <a
-          href={STRIPE_SUMMIT}
-          className={styles.ctaButton}
-          data-plan="summit"
-          data-plan-value="479"
-          data-plan-name="Summit signup final empleado-digital"
-        >
-          Contratar Summit — USD 479/mes
+        <Link href="/hablar-con-ventas" className={styles.ctaButton}>
+          Agendar demo
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path
               d="M6 3l5 5-5 5"
@@ -56,10 +50,20 @@ export default function AdvancedCTA() {
               strokeLinejoin="round"
             />
           </svg>
+        </Link>
+
+        <a
+          href={STRIPE_SUMMIT}
+          className={styles.ctaDemoLink}
+          data-plan="summit"
+          data-plan-value="479"
+          data-plan-name="Summit checkout final empleado-digital"
+        >
+          Contratar Summit — USD 479/mes →
         </a>
 
         <p className={styles.ctaTrust}>
-          Implementación USD 450 pago único · Cancela cuando quieras · Pago seguro vía Stripe
+          Implementación USD 450 (onboarding asistido) · Pago seguro vía Stripe
         </p>
 
         <Link href="/demo" className={styles.ctaDemoLink}>

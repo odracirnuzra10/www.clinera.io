@@ -75,10 +75,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
 
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
           <Link
-            href="/planes"
-            data-plan="vortex"
-            data-plan-name="Vortex signup"
-            data-plan-value="279"
+            href="/hablar-con-ventas"
             style={{
               background: "linear-gradient(135deg, #7C3AED 0%, #D946EF 100%)",
               color: "#fff",
@@ -90,10 +87,10 @@ export default function TrialBanner({ variant = "light" }: Props) {
               boxShadow: "0 10px 26px -8px rgba(124,58,237,0.45)",
             }}
           >
-            Activar Vortex $279 →
+            Agendar demo →
           </Link>
           <Link
-            href="/hablar-con-ventas"
+            href="/planes"
             style={{
               background: dark ? "rgba(255,255,255,0.08)" : "#fff",
               color: dark ? "#fff" : "#0A0A0A",
@@ -107,7 +104,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
               fontSize: 14.5,
             }}
           >
-            Hablar con ventas
+            Ver planes
           </Link>
         </div>
       </div>

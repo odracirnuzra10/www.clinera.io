@@ -7,7 +7,7 @@ export const HOME_FAQ = [
   },
   {
     q: "¿Cuánto demora en estar funcionando?",
-    a: "Menos de una hora. Conectas tu WhatsApp, le cargas tu agenda y tus servicios, y AURA empieza a responder el mismo día.",
+    a: "El mismo día. Nuestro equipo hace el onboarding asistido: conecta tu WhatsApp, carga tu agenda y tus servicios, y AURA empieza a responder — sin frenar tu operación.",
   },
   {
     q: "¿Y si AURA no entiende algo?",
