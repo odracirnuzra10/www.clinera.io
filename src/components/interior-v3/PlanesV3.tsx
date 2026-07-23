@@ -54,7 +54,7 @@ function PlanesHero() {
         >
           Elige tu plan.{" "}
           <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-            Activa hoy.
+            Escala sin perder el control.
           </span>
         </h1>
         <p
@@ -67,7 +67,7 @@ function PlanesHero() {
             maxWidth: 600,
           }}
         >
-          Sin permanencia. Precios en USD. Calcula tu plan abajo.
+          Del equipo de recepción a varias sedes. Precios en USD, sin permanencia. Calcula tu plan abajo.
         </p>
       </div>
       <style jsx>{`
