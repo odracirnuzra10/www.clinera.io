@@ -536,14 +536,14 @@ function HeroMockup() {
    ============================================================ */
 export function Logos() {
   const clinics = [
+    "Hospital del Valle",
     "Clínica Andes",
+    "Clínica Providencia",
     "Dermaclinic",
     "Centro Estético Aurora",
-    "protocololumina.cl",
     "Vitaderma",
+    "protocololumina.cl",
     "Nuevo Ser",
-    "Hospital del Valle",
-    "Clínica Providencia",
   ];
   return (
     <section
@@ -655,7 +655,7 @@ export function Features() {
         accentBorder="#DDD6FE"
         nameGrad
         sectionEyebrow="El equipo IA"
-        status={{ kind: "live", label: "Activa ahora" }}
+        status={{ kind: "live", label: "En vivo" }}
         stat={{ value: "94%", label: "confirmaciones automáticas" }}
         cta={{ label: "Ver a AURA en acción", href: "/demo" }}
         bg="#fff"
@@ -1261,7 +1261,7 @@ export function AgentSection({
                   }}
                 >
                   {status.kind === "live"
-                    ? "Sin tarjeta · activá en 1 hora"
+                    ? "En vivo · onboarding asistido"
                     : status.kind === "soon"
                     ? "Reservá tu acceso · 0 costo extra"
                     : "Beta privada · cupos limitados"}
@@ -4687,7 +4687,7 @@ export function FinalCTA() {
           }}
         >
           <div>
-            <Eyebrow style={{ color: "#D946EF" }}>Empieza hoy</Eyebrow>
+            <Eyebrow style={{ color: "#D946EF" }}>Agenda tu demo</Eyebrow>
             <h2
               style={{
                 fontFamily: "Inter",
@@ -4700,7 +4700,7 @@ export function FinalCTA() {
               }}
               className="home-final-cta-title"
             >
-              Contrata a AURA hoy. Esta noche ya está agendando.
+              Coordina todo tu equipo y tus sedes con IA.
             </h2>
             <p
               style={{
@@ -4712,7 +4712,7 @@ export function FinalCTA() {
                 lineHeight: 1.55,
               }}
             >
-              30 minutos con ventas y te mostramos cómo quedaría tu empleado digital — con tu agenda, tu base de datos y tus precios. Sin compromiso.
+              30 minutos con ventas y te mostramos cómo quedaría tu operación con IA — sobre la agenda de todo tu equipo, tu base de datos y tus precios. Sin compromiso.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link
@@ -4733,7 +4733,7 @@ export function FinalCTA() {
                   boxShadow: "0 12px 32px -8px rgba(217,70,239,.5)",
                 }}
               >
-                Hablar con ventas <span>→</span>
+                Agendar demo <span>→</span>
               </Link>
               <Link
                 href="/demo"
@@ -4755,7 +4755,7 @@ export function FinalCTA() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polygon points="5 3 19 12 5 21 5 3" />
                 </svg>
-                Ver demo
+                Ver cómo funciona
               </Link>
             </div>
             <div
@@ -4768,7 +4768,7 @@ export function FinalCTA() {
                 color: "#A0A6B2",
               }}
             >
-              ● Activación en &lt; 1 hora · Soporte en Chile y México · Factura en USD
+              ● Onboarding asistido · Soporte en Chile y México · Factura en USD
             </div>
           </div>
           <div
@@ -4798,7 +4798,7 @@ export function FinalCTA() {
                 ✦
               </div>
               <div style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 600, color: "#fff" }}>
-                Así parte AURA en tu clínica
+                Así parte AURA en tu operación
               </div>
             </div>
             {[
