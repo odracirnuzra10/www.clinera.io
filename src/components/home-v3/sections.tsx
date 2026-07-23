@@ -116,10 +116,10 @@ export function Hero() {
                 color: "#0A0A0A",
               }}
             >
-              {/* H1 — opción primaria. Alternativas para que Ricardo elija:
-                  · "Coordina todas tus sedes y a todo tu equipo con agentes de IA."
-                  · "Opera 2, 5 o 20 sedes con la misma precisión que una." */}
-              El sistema con IA que{" "}
+              {/* H1 — opción elegida (alternativa 2). Otras opciones:
+                  · "El sistema con IA que opera y estandariza todas tus clínicas."
+                  · "Coordina todas tus sedes y a todo tu equipo con agentes de IA." */}
+              Opera 2, 5 o 20 sedes{" "}
               <span
                 style={{
                   background: GRAD,
@@ -128,9 +128,9 @@ export function Hero() {
                   color: "transparent",
                 }}
               >
-                opera y estandariza
-              </span>{" "}
-              todas tus clínicas.
+                con la misma precisión que una
+              </span>
+              .
             </h1>
             <p
               style={{
