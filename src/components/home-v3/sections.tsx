@@ -254,35 +254,12 @@ export function Hero() {
             <HeroMockup />
           </div>
         </div>
-
-        {/* Tira de ecosistema: cada sede → una sola IA (comunica el concepto en el hero) */}
-        <div className="reveal home-hero-eco" style={{ marginTop: 48, borderTop: "1px solid #EEECEA", paddingTop: 28 }}>
-          <div className="home-hero-eco-row" style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-              <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10.5, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6B7280", whiteSpace: "nowrap" }}>Todo conectado</span>
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                {["Agenda", "Fichas", "Tratamientos", "Pagos", "Marketing", "WhatsApp", "Ventas", "Sedes"].map((s) => (
-                  <span key={s} style={{ fontFamily: "Inter", fontSize: 12.5, fontWeight: 500, color: "#374151", background: "#fff", border: "1px solid #E5E7EB", borderRadius: 999, padding: "5px 11px", whiteSpace: "nowrap", boxShadow: "0 1px 2px rgba(0,0,0,.03)" }}>{s}</span>
-                ))}
-              </div>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <span aria-hidden style={{ color: "#C4B5FD", fontSize: 20 }}>→</span>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "Inter", fontSize: 13.5, fontWeight: 600, color: "#fff", background: GRAD, borderRadius: 999, padding: "8px 15px", whiteSpace: "nowrap", boxShadow: "0 10px 24px -8px rgba(124,58,237,.5)" }}>
-                <span style={{ fontSize: 12 }}>✦</span> Una sola IA para todas tus sedes
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
 
       <style jsx>{`
         @media (max-width: 980px) {
           :global(.home-hero-grid) { grid-template-columns: 1fr !important; gap: 40px !important; }
           :global(.home-hero-title) { font-size: 48px !important; }
-        }
-        @media (max-width: 620px) {
-          :global(.home-hero-eco-row) { flex-direction: column !important; align-items: flex-start !important; }
         }
         @media (max-width: 560px) {
           :global(.home-hero-title) { font-size: 38px !important; }
@@ -407,8 +384,9 @@ function HeroMockup() {
         </div>
       </div>
 
-      {/* Floating chat card */}
+      {/* Floating chat card — WhatsApp (borde neón verde titilando) */}
       <div
+        className="wa-glow"
         style={{
           position: "absolute",
           bottom: -36,
@@ -416,7 +394,7 @@ function HeroMockup() {
           background: "#fff",
           borderRadius: 16,
           boxShadow: "0 20px 48px rgba(15,10,30,.18)",
-          border: "1px solid #F0F0F0",
+          border: "2px solid #25D366",
           padding: 16,
           width: 320,
           zIndex: 3,

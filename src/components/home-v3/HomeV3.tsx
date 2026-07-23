@@ -39,6 +39,11 @@ export default function HomeV3() {
           100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
         .live-dot { animation: pulseDot 2.2s infinite; }
+        @keyframes waGlow {
+          0%, 100% { box-shadow: 0 20px 48px rgba(15,10,30,.18), 0 0 0 0 rgba(37,211,102,.5); }
+          50% { box-shadow: 0 20px 48px rgba(15,10,30,.18), 0 0 22px 3px rgba(37,211,102,.9); }
+        }
+        .wa-glow { animation: waGlow 1.6s ease-in-out infinite; }
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(6px); }
           to { opacity: 1; transform: none; }
@@ -56,10 +61,10 @@ export default function HomeV3() {
         }
       `}</style>
       <Hero />
+      <EcosistemaIA />
       <TrialBanner />
       <Logos />
       <Features />
-      <EcosistemaIA />
       <ModosAgendamiento />
       <Integraciones />
       <Estudios />
