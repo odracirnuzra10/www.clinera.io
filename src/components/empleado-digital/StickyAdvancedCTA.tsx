@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-const STRIPE_SUMMIT = "https://buy.stripe.com/5kQ6oJbtf3UmdN94NR1441w";
-
 export default function StickyAdvancedCTA() {
   const pathname = usePathname();
   const isEmpleadoDigital = pathname?.startsWith("/empleado-digital") === true;
@@ -32,15 +30,12 @@ export default function StickyAdvancedCTA() {
 
   return (
     <>
-      <div className="equipo-sticky" role="region" aria-label="Contratar Summit">
+      <div className="equipo-sticky" role="region" aria-label="Agendar demo">
         <a
-          href={STRIPE_SUMMIT}
+          href="/hablar-con-ventas"
           className="equipo-sticky-primary"
-          data-plan="summit"
-          data-plan-value="479"
-          data-plan-name="Summit sticky mobile empleado-digital"
         >
-          Contratar Summit — USD 479/mes
+          Agendar demo
         </a>
         <button
           onClick={dismiss}
