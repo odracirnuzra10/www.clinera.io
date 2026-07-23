@@ -3938,8 +3938,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
       impl: "+ USD 450 implementación (pago único)",
       sub: "Para clínicas con equipo de recepción y varios profesionales que empiezan a ordenar su operación.",
       tags: [
-        { t: "Texto 24/7", ok: true },
-        { t: "Módulo Clínico", ok: true },
+        { t: "Texto", ok: true },
       ],
       features: [
         "~2.800 conversaciones o ~143 agendamientos automáticos",
@@ -3956,8 +3955,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
       impl: "+ USD 450 implementación (pago único)",
       sub: "Para clínicas con alto volumen o 2+ sedes que necesitan estandarizar la atención.",
       tags: [
-        { t: "Voz · pronto", ok: true },
-        { t: "Webhooks + API", ok: true },
+        { t: "Texto + voz", ok: true },
       ],
       headline: "Todo de Vortex, más",
       features: [
@@ -3979,8 +3977,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
       sub: "Para grupos clínicos y clínicas de alto volumen —una o varias sedes— que necesitan control central de toda la operación.",
       featured: true,
       tags: [
-        { t: "Voz + fiscalización · pronto", ok: true },
-        { t: "Webhooks + API", ok: true },
+        { t: "Texto + voz + API", ok: true },
       ],
       headline: "Todo de Atlas, más",
       features: [
@@ -4057,7 +4054,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
               style={{
                 background: "#fff",
                 borderRadius: 20,
-                padding: p.featured ? "40px 34px" : "34px 30px",
+                padding: "34px 30px",
                 border: p.featured ? "2px solid #7C3AED" : "1px solid #E5E7EB",
                 boxShadow: p.featured
                   ? "0 36px 80px -16px rgba(124,58,237,.30), 0 12px 28px rgba(217,70,239,.12)"
@@ -4065,7 +4062,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
                 position: "relative",
                 display: "flex",
                 flexDirection: "column",
-                transform: p.featured ? "translateY(-8px)" : "none",
+                transform: "none",
               }}
             >
               {p.featured && (
@@ -4150,7 +4147,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
                   color: "#4B5563",
                   marginBottom: 18,
                   lineHeight: 1.5,
-                  minHeight: 42,
+                  minHeight: 66,
                 }}
               >
                 {p.sub}
