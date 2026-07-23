@@ -1307,8 +1307,7 @@ function StepSize({
         }}
       >
         <p style={{ fontFamily: "Inter", fontSize: 14, color: "#374151", lineHeight: 1.5, margin: "0 0 12px" }}>
-          Clinera es para clínicas en crecimiento que necesitan ordenarse con IA, desde{" "}
-          <strong style={{ color: "#0A0A0A" }}>US$279/mes</strong>. ¿Te interesa?
+          Clinera es para clínicas con <strong style={{ color: "#0A0A0A" }}>equipo y volumen</strong> —una o varias sedes— que necesitan estandarizar y controlar su operación con IA. ¿Te interesa?
         </p>
         <div style={{ display: "flex", gap: 8 }}>
           <button

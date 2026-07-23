@@ -623,7 +623,7 @@ function PlansSection() {
                       boxShadow: popular ? "0 12px 32px -8px rgba(217,70,239,.5)" : "none",
                     }}
                   >
-                    Hablar con ventas
+                    Agendar demo
                   </Link>
                   <a
                     href={plan.stripeUrl}
@@ -646,7 +646,7 @@ function PlansSection() {
                       textAlign: "center",
                     }}
                   >
-                    Activar plan →
+                    Contratar {plan.name} →
                   </a>
                   <p
                     style={{
@@ -657,7 +657,7 @@ function PlansSection() {
                       margin: "10px 0 0",
                     }}
                   >
-                    Sin permanencia · cancela en 1 click
+                    Onboarding asistido · sin permanencia
                   </p>
                 </div>
               </div>

@@ -7,7 +7,7 @@ import styles from "../reunion/reunion.module.css";
 export const metadata: Metadata = {
   title: "Reunión comercial — Clinera.io",
   description:
-    "Agenda una reunión comercial de 30 minutos con el equipo de Clinera.io. Te mostramos cómo nuestra IA puede responder en WhatsApp, agendar y cobrar por tu clínica.",
+    "Agenda una reunión comercial de 30 minutos con el equipo de Clinera.io. Te mostramos cómo nuestra IA opera la agenda de todo tu equipo y todas tus sedes por WhatsApp: agenda, confirma y cobra.",
   alternates: { canonical: "https://www.clinera.io/reunion-comercial" },
   openGraph: {
     title: "Reunión comercial — Clinera.io",
@@ -34,7 +34,7 @@ export default function ReunionComercialPage() {
             </h1>
             <p className={styles.subtitle}>
               Elige el día y hora que mejor te acomode. Un especialista te mostrará
-              cómo Clinera puede responder WhatsApp, agendar y cobrar por tu clínica.
+              cómo Clinera opera la agenda de todo tu equipo y todas tus sedes por WhatsApp.
             </p>
           </div>
         </section>

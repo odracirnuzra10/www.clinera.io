@@ -88,8 +88,8 @@ function Hero() {
             maxWidth: 720,
           }}
         >
-          AURA es un agente IA con tool calls que reemplaza casi por completo a la
-          recepcionista. Agenda, cobra y reactiva por WhatsApp 24/7. Tu agencia conecta
+          AURA es un agente IA con tool calls que opera la agenda de todo el equipo de tu
+          cliente: agenda, cobra y reactiva pacientes por WhatsApp 24/7. Tu agencia conecta
           cada campaña de Meta o Google directamente a la operación — y rentabiliza
           cada lead.
         </p>
@@ -173,12 +173,12 @@ function SellingPoints() {
     },
     {
       num: "02",
-      title: "Reemplaza casi por completo a la recepcionista",
-      desc: "24/7 por WhatsApp, sin licencias, sin vacaciones. La clínica deja de perder ventas fuera de horario.",
+      title: "Estandariza la atención de todo el equipo",
+      desc: "24/7 por WhatsApp, en uno o varios profesionales y sedes. La clínica deja de perder leads y horas-box fuera de horario.",
     },
     {
       num: "03",
-      title: "Setup en menos de 1 hora",
+      title: "Onboarding asistido por el equipo",
       desc: "Configuración asistida por humano del equipo de Clinera. AURA queda operando esa misma tarde.",
     },
     {
@@ -221,8 +221,8 @@ function SellingPoints() {
             maxWidth: 640,
           }}
         >
-          Posicionar Clinera con tus clientes es directo: una recepcionista digital que
-          atiende, agenda y cobra por WhatsApp.
+          Posicionar Clinera con tus clientes es directo: un sistema con IA que opera la
+          agenda de todo su equipo y estandariza la atención por WhatsApp.
         </p>
         <div
           style={{
