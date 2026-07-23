@@ -97,7 +97,7 @@ export function Hero() {
               >
                 ✦
               </span>
-              EMPLEADO DIGITAL · AURA
+              PLATAFORMA IA · OPERACIÓN CLÍNICA
               <span style={{ color: "#9CA3AF" }}>·</span>
               <span style={{ color: "#10B981", textTransform: "none", letterSpacing: "0.08em" }}>
                 en vivo en Chile y México
@@ -116,7 +116,10 @@ export function Hero() {
                 color: "#0A0A0A",
               }}
             >
-              Contrata un{" "}
+              {/* H1 — opción primaria. Alternativas para que Ricardo elija:
+                  · "Coordina todas tus sedes y a todo tu equipo con agentes de IA."
+                  · "Opera 2, 5 o 20 sedes con la misma precisión que una." */}
+              El sistema con IA que{" "}
               <span
                 style={{
                   background: GRAD,
@@ -125,10 +128,9 @@ export function Hero() {
                   color: "transparent",
                 }}
               >
-                empleado digital
-              </span>
-              .<br />
-              Atiende 24/7.
+                opera y estandariza
+              </span>{" "}
+              todas tus clínicas.
             </h1>
             <p
               style={{
@@ -141,12 +143,12 @@ export function Hero() {
                 maxWidth: 580,
               }}
             >
-              No es un chatbot. Es un agente que <b style={{ color: "#0A0A0A" }}>ejecuta funciones</b>: crea citas, re-agenda, consulta pagos y revisa sesiones. Hace el 100% del trabajo de tu recepcionista — por WhatsApp, sin descanso.
+              Clinera pone agentes de IA a trabajar sobre la agenda de <b style={{ color: "#0A0A0A" }}>todo tu equipo y todas tus sedes</b> por WhatsApp: agendan, reagendan, confirman, cobran y recuperan pacientes 24/7 — sin que se te escape un lead ni quede una hora-box vacía. Toda tu operación bajo control, con visibilidad central.
             </p>
 
             <div style={{ display: "flex", gap: 12, marginTop: 30, flexWrap: "wrap" }}>
               <CtaPrimary as={Link} href="/hablar-con-ventas" style={{ padding: "15px 26px", fontSize: 16 }}>
-                Hablar con ventas <span>→</span>
+                Agendar demo <span>→</span>
               </CtaPrimary>
               <CtaSecondary as={Link} href="/demo" style={{ padding: "15px 26px", fontSize: 16 }}>
                 <svg
@@ -161,7 +163,7 @@ export function Hero() {
                 >
                   <polygon points="5 3 19 12 5 21 5 3" />
                 </svg>
-                Ver demo
+                Ver cómo funciona
               </CtaSecondary>
             </div>
 
@@ -199,8 +201,7 @@ export function Hero() {
                 ))}
               </div>
               <div style={{ fontFamily: "Inter", fontSize: 13.5, color: "#4B5563" }}>
-                <b style={{ color: "#0A0A0A" }}>+500 médicos</b> en 10 países · Sin tarjeta · Cancela
-                cuando quieras
+                <b style={{ color: "#0A0A0A" }}>+500 profesionales</b> coordinados en 10 países
               </div>
             </div>
 
@@ -229,10 +230,10 @@ export function Hero() {
               />
               <span>+52 clínicas activas</span>
               <span style={{ color: "#9CA3AF" }}>·</span>
-              <span>+2.400 citas agendadas por IA</span>
+              <span>+2.400 citas gestionadas por IA</span>
               <span style={{ color: "#9CA3AF" }}>·</span>
               <span>
-                Desde <b style={{ color: "#0A0A0A" }}>$279</b> vs ~$950 recepcionista
+                <b style={{ color: "#0A0A0A" }}>95%</b> agendadas al primer intento
               </span>
               <Link
                 href="/efectividad"
