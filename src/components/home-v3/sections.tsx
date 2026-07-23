@@ -3938,7 +3938,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
       impl: "+ USD 450 implementación (pago único)",
       sub: "Para clínicas con equipo de recepción y varios profesionales que empiezan a ordenar su operación.",
       tags: [
-        { t: "AURA (texto)", ok: true },
+        { t: "Texto 24/7", ok: true },
         { t: "Módulo Clínico", ok: true },
       ],
       features: [
@@ -3956,7 +3956,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
       impl: "+ USD 450 implementación (pago único)",
       sub: "Para clínicas con alto volumen o 2+ sedes que necesitan estandarizar la atención.",
       tags: [
-        { t: "AURA + CAMILA · pronto", ok: true },
+        { t: "Voz · pronto", ok: true },
         { t: "Webhooks + API", ok: true },
       ],
       headline: "Todo de Vortex, más",
@@ -3979,7 +3979,7 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
       sub: "Para grupos clínicos y clínicas de alto volumen —una o varias sedes— que necesitan control central de toda la operación.",
       featured: true,
       tags: [
-        { t: "AURA + CAMILA + LIA · pronto", ok: true },
+        { t: "Voz + fiscalización · pronto", ok: true },
         { t: "Webhooks + API", ok: true },
       ],
       headline: "Todo de Atlas, más",
@@ -4045,8 +4045,8 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
           className="reveal home-pricing-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 20,
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: 24,
             alignItems: "stretch",
           }}
         >
@@ -4415,68 +4415,14 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
                 >
                   Contratar {p.name}
                 </a>
-                <div
-                  style={{
-                    textAlign: "center",
-                    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                    fontSize: 11,
-                    letterSpacing: "0.02em",
-                    color: "#3D4250",
-                    marginTop: 2,
-                  }}
-                >
-                  Ingeniero E2E · Soporte prioritario · Sin permanencia
-                </div>
               </div>
             </article>
           ))}
-          {/* Corporativo — 4ª tarjeta, al mismo nivel que los otros planes (antes iba "al pie") */}
-          <article
-            className="home-plan-card home-plan-card-corp"
-            style={{
-              background: "linear-gradient(160deg, #0E1014 0%, #1F1B2E 100%)",
-              borderRadius: 20,
-              padding: "34px 30px",
-              border: "1px solid #2A2540",
-              boxShadow: "0 36px 80px -16px rgba(124,58,237,.30), 0 12px 28px rgba(217,70,239,.12)",
-              position: "relative",
-              display: "flex",
-              flexDirection: "column",
-              overflow: "hidden",
-            }}
-          >
-            <div aria-hidden style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: GRAD, borderRadius: "20px 20px 0 0" }} />
-            <div style={{ fontFamily: "Inter", fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>Corporativo</div>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 10, marginBottom: 4 }}>
-              <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 12, color: "rgba(255,255,255,.55)", letterSpacing: "0.06em", textTransform: "uppercase" }}>Desde</span>
-              <div style={{ fontFamily: "Inter", fontSize: 44, fontWeight: 800, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}>$1.900</div>
-              <div style={{ fontFamily: "Inter", fontSize: 14, color: "rgba(255,255,255,.55)" }}>/mes</div>
-            </div>
-            <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "rgba(255,255,255,.55)", fontWeight: 500, marginTop: 2, marginBottom: 16 }}>Implementación cotizada aparte</div>
-            <div style={{ fontFamily: "Inter", fontSize: 14, color: "rgba(255,255,255,.78)", marginBottom: 18, lineHeight: 1.5, minHeight: 42 }}>Para cadenas, redes y hospitales: onboarding white-glove, SLA e integraciones a medida.</div>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 22 }}>
-              {["White-glove + SLA", "Integraciones a medida"].map((t, i) => (
-                <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "Inter", fontSize: 12.5, fontWeight: 500, color: "#E9D5FF", background: "rgba(124,58,237,.14)", border: "1px solid rgba(124,58,237,.35)", padding: "5px 10px", borderRadius: 999 }}>{t}</span>
-              ))}
-            </div>
-            <div style={{ borderTop: "1px solid rgba(255,255,255,.10)", paddingTop: 18, marginBottom: 20, flex: 1, display: "flex", flexDirection: "column" }}>
-              <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10.5, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,.5)", marginBottom: 12 }}>Todo de Summit, más</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {["Capacidad y usuarios a medida", "Sedes ilimitadas + consolidado central", "Soporte dedicado y facturación adaptada"].map((f, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontFamily: "Inter", fontSize: 14, color: "rgba(255,255,255,.9)", lineHeight: 1.5 }}>
-                    <span style={{ flex: "0 0 16px", width: 16, height: 16, borderRadius: 999, background: "rgba(124,58,237,.25)", border: "1px solid rgba(124,58,237,.5)", display: "inline-flex", alignItems: "center", justifyContent: "center", marginTop: 2 }}>
-                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#D8B4FE" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7" /></svg>
-                    </span>
-                    {f}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 18 }}>
-              <Link href="/hablar-con-ventas" data-plan="corporativo" data-plan-value="1900" data-plan-name="Corporativo talk-to-sales" style={{ textDecoration: "none", textAlign: "center", background: GRAD, color: "#fff", border: 0, padding: "13px 20px", borderRadius: 10, fontWeight: 600, fontSize: 14.5, fontFamily: "Inter", boxShadow: "0 10px 24px -8px rgba(124,58,237,.55)", boxSizing: "border-box" }}>Agendar demo</Link>
-              <div style={{ textAlign: "center", fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 11, letterSpacing: "0.02em", color: "rgba(255,255,255,.5)", marginTop: 2 }}>Onboarding white-glove · SLA · Soporte dedicado</div>
-            </div>
-          </article>
+        </div>
+
+        {/* Info compartida de los 3 planes de autoservicio */}
+        <div className="reveal" style={{ textAlign: "center", marginTop: 20, fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 11.5, letterSpacing: "0.06em", color: "#6B7280" }}>
+          Todos los planes: ingeniero E2E · soporte prioritario · sin permanencia
         </div>
 
         {/* Captura explícita de la clínica grande de una sola sede */}
@@ -4484,6 +4430,53 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
           <div style={{ display: "inline-flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "center", textAlign: "center", background: "#fff", border: "1px solid #E5E7EB", borderRadius: 14, padding: "14px 22px", fontFamily: "Inter", fontSize: 15, color: "#4B5563", lineHeight: 1.5, boxShadow: "0 4px 24px rgba(0,0,0,.03)", maxWidth: 760 }}>
             <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10.5, letterSpacing: "0.12em", textTransform: "uppercase", color: "#7C3AED", background: "rgba(124,58,237,.08)", border: "1px solid rgba(124,58,237,.22)", borderRadius: 999, padding: "4px 10px", whiteSpace: "nowrap" }}>¿Una sola sede?</span>
             <span>¿Varios box, equipo grande y cientos de citas al mes? Tu plan es <b style={{ color: "#0A0A0A" }}>Summit</b> o <b style={{ color: "#0A0A0A" }}>Corporativo</b>.</span>
+          </div>
+        </div>
+
+        {/* Corporativo — banda horizontal abajo (cadenas, redes y hospitales) */}
+        <div
+          className="reveal home-corp-band"
+          style={{
+            marginTop: 28,
+            background: "linear-gradient(135deg, #0E1014 0%, #1F1B2E 100%)",
+            borderRadius: 18,
+            padding: "32px 36px",
+            position: "relative",
+            overflow: "hidden",
+            boxShadow: "0 24px 48px -16px rgba(124,58,237,.25)",
+            display: "grid",
+            gridTemplateColumns: "1.5fr 1fr",
+            gap: 32,
+            alignItems: "center",
+          }}
+        >
+          <div aria-hidden style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: GRAD }} />
+          <div>
+            <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(255,255,255,.6)", marginBottom: 12, display: "inline-flex", alignItems: "center", gap: 8 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#D946EF", display: "inline-block" }} />
+              Corporativo · plan personalizado
+            </div>
+            <h3 style={{ fontFamily: "Inter", fontSize: 26, fontWeight: 700, color: "#fff", letterSpacing: "-0.02em", margin: "0 0 10px" }}>
+              Cadenas, redes y hospitales
+            </h3>
+            <p style={{ fontFamily: "Inter", fontSize: 14.5, color: "rgba(255,255,255,.75)", lineHeight: 1.6, margin: "0 0 16px", maxWidth: 560 }}>
+              Todo de Summit + capacidad y usuarios a medida, sedes ilimitadas con consolidado central, onboarding white-glove, SLA e integraciones a medida. Implementación cotizada aparte.
+            </p>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {["White-glove + SLA", "Integraciones a medida", "Sedes ilimitadas"].map((t, i) => (
+                <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "Inter", fontSize: 12.5, fontWeight: 500, color: "#E9D5FF", background: "rgba(124,58,237,.14)", border: "1px solid rgba(124,58,237,.35)", padding: "5px 10px", borderRadius: 999 }}>{t}</span>
+              ))}
+            </div>
+          </div>
+          <div className="home-corp-band-right" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 14 }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 5 }}>
+              <span style={{ fontSize: 12, color: "rgba(255,255,255,.55)", fontFamily: "'JetBrains Mono', ui-monospace, monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}>Desde</span>
+              <span style={{ fontFamily: "Inter", fontSize: 40, fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>$1.900</span>
+              <span style={{ fontSize: 14, color: "rgba(255,255,255,.55)" }}>USD/mes</span>
+            </div>
+            <Link href="/hablar-con-ventas" data-plan="corporativo" data-plan-value="1900" data-plan-name="Corporativo talk-to-sales" style={{ background: GRAD, color: "#fff", padding: "13px 26px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, fontSize: 14.5, textDecoration: "none", whiteSpace: "nowrap", boxShadow: "0 10px 24px -8px rgba(124,58,237,.55)" }}>
+              Agendar demo →
+            </Link>
           </div>
         </div>
 
@@ -4537,15 +4530,14 @@ export function Pricing({ showCredits = true }: { showCredits?: boolean } = {}) 
 
       </div>
       <style jsx>{`
-        @media (max-width: 1180px) {
-          :global(.home-pricing-grid) { grid-template-columns: 1fr 1fr !important; gap: 20px !important; }
-        }
         @media (max-width: 980px) {
+          :global(.home-pricing-grid) { grid-template-columns: 1fr !important; gap: 28px !important; }
           :global(.home-plan-card) { transform: none !important; }
           :global(.home-plan-card-featured) { order: -1; }
+          :global(.home-corp-band) { grid-template-columns: 1fr !important; gap: 20px !important; padding: 24px !important; }
+          :global(.home-corp-band-right) { align-items: flex-start !important; }
         }
-        @media (max-width: 620px) {
-          :global(.home-pricing-grid) { grid-template-columns: 1fr !important; gap: 20px !important; }
+        @media (max-width: 600px) {
           :global(.home-ia-label) { display: none !important; }
         }
         @media (max-width: 560px) {
