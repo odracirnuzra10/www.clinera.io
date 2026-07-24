@@ -772,8 +772,13 @@ function SegmentoOperacion() {
               Varios profesionales, recepción y cientos de citas al mes que ordenar.
             </p>
             <div style={{ marginTop: "auto" }}>
-              <div style={{ paddingTop: 18, borderTop: "1px solid #F1EFEC" }}>
-                <Mono color="#6B7280" size={11}>Vortex · desde USD 279/mes</Mono>
+              <div style={{ paddingTop: 18, borderTop: "1px solid #F1EFEC", display: "flex", alignItems: "baseline", gap: 8 }}>
+                <Mono color="#6B7280" size={10.5}>Desde</Mono>
+                <span style={{ fontFamily: "Inter", fontSize: 32, fontWeight: 800, color: "#0A0A0A", letterSpacing: "-0.02em", lineHeight: 1 }}>$279</span>
+                <Mono color="#6B7280" size={10.5}>USD/mes</Mono>
+              </div>
+              <div style={{ marginTop: 8 }}>
+                <Mono color="#9AA0AE" size={10.5}>Plan Vortex</Mono>
               </div>
               <Link
                 href="/ventas"
@@ -825,8 +830,13 @@ function SegmentoOperacion() {
               Estandariza la atención y consolida el control central de todas tus sucursales.
             </p>
             <div style={{ marginTop: "auto" }}>
-              <div style={{ paddingTop: 18, borderTop: "1px solid #F1EFEC" }}>
-                <Mono color="#6B7280" size={11}>Atlas USD 379 · Summit USD 479 · sucursales ilimitadas</Mono>
+              <div style={{ paddingTop: 18, borderTop: "1px solid #F1EFEC", display: "flex", alignItems: "baseline", gap: 8 }}>
+                <Mono color="#6B7280" size={10.5}>Desde</Mono>
+                <span style={{ fontFamily: "Inter", fontSize: 32, fontWeight: 800, color: "#0A0A0A", letterSpacing: "-0.02em", lineHeight: 1 }}>$379</span>
+                <Mono color="#6B7280" size={10.5}>USD/mes</Mono>
+              </div>
+              <div style={{ marginTop: 8 }}>
+                <Mono color="#9AA0AE" size={10.5}>Atlas · Summit $479 · sucursales ilimitadas</Mono>
               </div>
               <Link
                 href="/ventas"
@@ -866,6 +876,9 @@ function SegmentoOperacion() {
                 <Mono color="rgba(255,255,255,0.5)" size={10.5}>Desde</Mono>
                 <span style={{ fontFamily: "Inter", fontSize: 32, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", lineHeight: 1 }}>$1.900</span>
                 <Mono color="rgba(255,255,255,0.5)" size={10.5}>USD/mes</Mono>
+              </div>
+              <div style={{ marginTop: 8 }}>
+                <Mono color="rgba(255,255,255,0.4)" size={10.5}>Plan Corporativo a medida</Mono>
               </div>
               <Link
                 href="/ventas"
