@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { CtaPrimary, CtaSecondary, GRAD, Wordmark } from "@/components/brand-v3/Brand";
+import EcosistemaDiagram from "@/components/plataforma/EcosistemaDiagram";
 
 /* ============================================================
    /plataforma — Landing de lectura previa al wizard (/ventas)
@@ -35,109 +36,11 @@ function Eyebrow({ children, color = "#10B981" }: { children: ReactNode; color?:
   );
 }
 
-// Íconos stroke afilados propios (sin Lucide / sin emoji)
-function IcoAgenda() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="4.5" width="18" height="16" rx="2" />
-      <path d="M3 9h18M8 2.5v4M16 2.5v4" />
-      <path d="M7.5 13h2M11 13h2M14.5 13h2M7.5 16.5h2M11 16.5h2" />
-    </svg>
-  );
-}
-function IcoWhatsapp() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 19l1.3-3.2A7.5 7.5 0 1 1 8.2 18.7L4 19z" />
-      <path d="M9 10c0 2.5 2.5 5 5 5" />
-      <path d="M9 10c0-.8.6-1.2 1.1-1 .5.2.9 1.4.9 1.7 0 .4-.5.7-.7 1M14 15c.8 0 1.2-.6 1-1.1-.2-.5-1.4-.9-1.7-.9-.4 0-.7.5-1 .7" />
-    </svg>
-  );
-}
-function IcoFicha() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="5" y="3.5" width="14" height="17" rx="2" />
-      <path d="M9 3.5V6h6V3.5M9 11h6M9 14.5h4" />
-    </svg>
-  );
-}
-function IcoCobros() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="6" width="18" height="12" rx="2" />
-      <path d="M3 10h18M6.5 14.5h3" />
-    </svg>
-  );
-}
-function IcoRecupera() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 12a8 8 0 1 1-2.3-5.6" />
-      <path d="M20 4v4h-4" />
-    </svg>
-  );
-}
-function IcoControl() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />
-    </svg>
-  );
-}
-
-const UNIFICA: { icon: ReactNode; title: string; desc: string }[] = [
-  {
-    icon: <IcoAgenda />,
-    title: "Agenda unificada",
-    desc: "La agenda de todo tu equipo y todas tus sedes en una sola vista. Sin choques ni horas-box vacías.",
-  },
-  {
-    icon: <IcoWhatsapp />,
-    title: "WhatsApp con IA",
-    desc: "Agenda, reagenda, confirma, cobra y recupera pacientes por WhatsApp 24/7. Ningún mensaje sin responder.",
-  },
-  {
-    icon: <IcoFicha />,
-    title: "Ficha clínica",
-    desc: "Historia, tratamientos y consentimientos de cada paciente, iguales en toda tu red de sedes.",
-  },
-  {
-    icon: <IcoCobros />,
-    title: "Cobros y pagos",
-    desc: "Abonos y links de pago conectados a la agenda. La plata deja de perseguirse a mano.",
-  },
-  {
-    icon: <IcoRecupera />,
-    title: "Recuperación de pacientes",
-    desc: "La IA detecta quién no volvió y lo reactiva. El paciente que ya tienes vale más que uno nuevo.",
-  },
-  {
-    icon: <IcoControl />,
-    title: "Control central",
-    desc: "Ocupación, ingresos y rendimiento por sede y por profesional, en tiempo real y en un solo lugar.",
-  },
-];
-
 const STATS: { n: string; l: string }[] = [
   { n: "+52", l: "clínicas activas" },
   { n: "+500", l: "profesionales coordinados" },
   { n: "10", l: "países en LATAM" },
   { n: "24/7", l: "operación con IA" },
-];
-
-const SI = [
-  "Tienes un equipo: varios profesionales, recepción o coordinación.",
-  "Ves cientos de pacientes al mes, en una sede grande o en varias.",
-  "Ya usas un software y se te quedó corto para coordinar todo.",
-  "Pierdes horas y dinero en no-shows y leads que nadie responde a tiempo.",
-];
-
-const NO = [
-  "Eres un profesional independiente que atiende solo o sola.",
-  "Estás recién partiendo y ves pocos pacientes al mes.",
-  "Buscas la opción más barata o una herramienta gratis.",
-  "No tienes a nadie operando el día a día de la clínica.",
 ];
 
 export default function PlataformaLanding() {
@@ -208,14 +111,33 @@ export default function PlataformaLanding() {
         }
         .plt-typing i:nth-child(2) { animation-delay: 0.18s; }
         .plt-typing i:nth-child(3) { animation-delay: 0.36s; }
+        @keyframes pltWave {
+          0%, 100% { height: 5px; }
+          50% { height: 17px; }
+        }
+        .plt-wave { display: inline-flex; align-items: center; gap: 3px; height: 20px; }
+        .plt-wave i {
+          display: inline-block;
+          width: 3px;
+          height: 6px;
+          border-radius: 2px;
+          background: #A78BFA;
+          animation: pltWave 0.9s ease-in-out infinite;
+        }
+        .plt-wave i:nth-child(2) { animation-delay: 0.12s; }
+        .plt-wave i:nth-child(3) { animation-delay: 0.24s; }
+        .plt-wave i:nth-child(4) { animation-delay: 0.36s; }
+        .plt-wave i:nth-child(5) { animation-delay: 0.48s; }
+        .plt-wave i:nth-child(6) { animation-delay: 0.60s; }
+        .plt-wave i:nth-child(7) { animation-delay: 0.72s; }
         @media (prefers-reduced-motion: reduce) {
           .reveal { opacity: 1 !important; transform: none !important; }
-          .plt-dot, .plt-msg, .plt-typing i { animation: none; }
+          .plt-dot, .plt-msg, .plt-typing i, .plt-wave i { animation: none; }
           .plt-msg { opacity: 1; transform: none; }
         }
         @media (max-width: 900px) {
           .plt-hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
-          .plt-qual-grid { grid-template-columns: 1fr !important; }
+          .plt-canales-grid { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 760px) {
           .plt-section { padding-left: 28px !important; padding-right: 28px !important; }
@@ -347,8 +269,8 @@ export default function PlataformaLanding() {
                 <CtaPrimary as={Link} href="/ventas" style={{ padding: "15px 26px", fontSize: 16 }}>
                   Ver si tu clínica califica <span>→</span>
                 </CtaPrimary>
-                <CtaSecondary as={Link} href="#para-quien" style={{ padding: "15px 24px", fontSize: 16 }}>
-                  ¿Es para mi clínica?
+                <CtaSecondary as={Link} href="#la-ia" style={{ padding: "15px 24px", fontSize: 16 }}>
+                  Ver la IA en acción
                 </CtaSecondary>
               </div>
 
@@ -416,49 +338,8 @@ export default function PlataformaLanding() {
             </p>
           </div>
 
-          <div
-            className="plt-unifica-grid"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: 20,
-              marginTop: 44,
-            }}
-          >
-            {UNIFICA.map((f, i) => (
-              <div
-                key={f.title}
-                className="reveal"
-                style={{
-                  background: "#fff",
-                  border: "1px solid #EAEAEA",
-                  borderRadius: 14,
-                  padding: "26px 24px",
-                  transitionDelay: `${i * 55}ms`,
-                }}
-              >
-                <div
-                  style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: 11,
-                    background: ACCENT_SOFT,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginBottom: 16,
-                  }}
-                >
-                  {f.icon}
-                </div>
-                <h3 style={{ fontFamily: "Inter", fontSize: 17, fontWeight: 700, color: "#0A0A0A", margin: 0, letterSpacing: "-0.01em" }}>
-                  {f.title}
-                </h3>
-                <p style={{ fontFamily: "Inter", fontSize: 14.5, lineHeight: 1.55, color: "#4B5563", margin: "8px 0 0" }}>
-                  {f.desc}
-                </p>
-              </div>
-            ))}
+          <div style={{ marginTop: 48 }}>
+            <EcosistemaDiagram />
           </div>
 
           {/* Stat band */}
@@ -496,10 +377,11 @@ export default function PlataformaLanding() {
         </div>
       </section>
 
-      {/* ============== SLIDE NEGRO — chat IA interno + calificación ============== */}
+      {/* ============== SLIDE NEGRO — chat IA interno + 2 canales ============== */}
       <section
+        id="la-ia"
         className="plt-section"
-        style={{ position: "relative", background: "#0D0F14", padding: "92px 80px", overflow: "hidden" }}
+        style={{ position: "relative", background: "#0D0F14", padding: "92px 80px", overflow: "hidden", scrollMarginTop: 70 }}
       >
         <div
           aria-hidden
@@ -539,13 +421,9 @@ export default function PlataformaLanding() {
 
           <AuraChat />
 
-          {/* ---- Calificación (auto-descarte) ---- */}
-          <div
-            id="para-quien"
-            className="reveal"
-            style={{ maxWidth: 680, marginTop: 96, scrollMarginTop: 80 }}
-          >
-            <Eyebrow color="#A78BFA">Honestos desde el principio</Eyebrow>
+          {/* ---- Una IA, 2 canales: voz + WhatsApp ---- */}
+          <div className="reveal" style={{ maxWidth: 680, marginTop: 100 }}>
+            <Eyebrow color="#A78BFA">Una IA · dos canales</Eyebrow>
             <h2
               className="plt-h2"
               style={{
@@ -558,103 +436,80 @@ export default function PlataformaLanding() {
                 margin: "12px 0 0",
               }}
             >
-              Eso sí: no es para toda clínica.
+              Una IA, 2 canales para atender a tus pacientes.
             </h2>
             <p style={{ fontFamily: "Inter", fontSize: 18, lineHeight: 1.55, color: "rgba(255,255,255,0.65)", margin: "14px 0 0" }}>
-              Toda esa potencia solo rinde con volumen y equipo. Antes de que dejes tus datos, mira si de
-              verdad es para ti.
+              Tus pacientes eligen: por teléfono o por WhatsApp. La misma IA llama, confirma, reagenda y
+              responde en ambos — sin que se te escape ninguno.
             </p>
           </div>
 
           <div
-            className="plt-qual-grid reveal"
-            style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginTop: 44 }}
+            className="plt-canales-grid reveal"
+            style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginTop: 40 }}
           >
-            {/* SÍ */}
-            <div
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(16,185,129,0.35)",
-                borderRadius: 16,
-                padding: "30px 28px",
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                  fontSize: 12,
-                  fontWeight: 600,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  color: "#34D399",
-                  marginBottom: 18,
-                }}
-              >
-                Es para ti si
+            {/* Canal 1 — Llamada de voz */}
+            <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 16, padding: "24px 24px 22px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 18 }}>
+                <span style={{ width: 38, height: 38, borderRadius: 10, background: "rgba(124,58,237,0.18)", border: "1px solid rgba(124,58,237,0.32)", display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C4B5FD" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7A2 2 0 0 1 22 17z"/></svg>
+                </span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontFamily: "Inter", fontSize: 14.5, fontWeight: 700, color: "#fff", lineHeight: 1.1 }}>Llamada de voz</div>
+                  <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "rgba(255,255,255,0.5)" }}>La IA llama y confirma</div>
+                </div>
+                <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "#C4B5FD", background: "rgba(124,58,237,0.16)", border: "1px solid rgba(124,58,237,0.3)", padding: "3px 8px", borderRadius: 999 }}>AURA</span>
               </div>
-              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 15 }}>
-                {SI.map((t) => (
-                  <li key={t} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, marginTop: 1 }}>
-                      <circle cx="12" cy="12" r="10" fill="rgba(16,185,129,0.15)" />
-                      <path d="M8 12.5l2.5 2.5L16 9" stroke="#34D399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span style={{ fontFamily: "Inter", fontSize: 15.5, lineHeight: 1.5, color: "rgba(255,255,255,0.9)" }}>{t}</span>
-                  </li>
-                ))}
-              </ul>
+
+              <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", background: "rgba(0,0,0,0.25)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 12, marginBottom: 14 }}>
+                <span style={{ width: 34, height: 34, borderRadius: 999, background: "rgba(255,255,255,0.08)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "Inter", fontSize: 12, fontWeight: 700, color: "#fff", flexShrink: 0 }}>MR</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontFamily: "Inter", fontSize: 13.5, fontWeight: 600, color: "#fff" }}>Sra. Rojas</div>
+                  <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 11, color: "#34D399" }}>en llamada · 00:14</div>
+                </div>
+                <span className="plt-wave" aria-hidden="true"><i /><i /><i /><i /><i /><i /><i /></span>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{ fontFamily: "Inter", fontSize: 13.5, lineHeight: 1.45, color: "rgba(255,255,255,0.9)" }}>
+                  <span style={{ color: "#C4B5FD", fontWeight: 600 }}>IA:</span> «Hola, le confirmo su hora del martes 15:00 con la Dra. Vera.»
+                </div>
+                <div style={{ fontFamily: "Inter", fontSize: 13.5, lineHeight: 1.45, color: "rgba(255,255,255,0.6)" }}>
+                  <span style={{ fontWeight: 600 }}>Paciente:</span> «Sí, ahí estaré.»
+                </div>
+              </div>
+
+              <div style={{ marginTop: 16, display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "Inter", fontSize: 13, fontWeight: 600, color: "#34D399" }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34D399" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                Cita confirmada por teléfono
+              </div>
             </div>
 
-            {/* NO */}
-            <div
-              style={{
-                background: "rgba(255,255,255,0.02)",
-                border: "1px solid rgba(255,255,255,0.09)",
-                borderRadius: 16,
-                padding: "30px 28px",
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                  fontSize: 12,
-                  fontWeight: 600,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  color: "#6B7280",
-                  marginBottom: 18,
-                }}
-              >
-                Todavía no es para ti si
+            {/* Canal 2 — WhatsApp */}
+            <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 16, padding: "24px 24px 22px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 18 }}>
+                <span style={{ width: 38, height: 38, borderRadius: 10, background: "rgba(37,211,102,0.14)", border: "1px solid rgba(37,211,102,0.3)", display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg>
+                </span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontFamily: "Inter", fontSize: 14.5, fontWeight: 700, color: "#fff", lineHeight: 1.1 }}>WhatsApp</div>
+                  <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "rgba(255,255,255,0.5)" }}>La IA responde y confirma</div>
+                </div>
+                <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "#C4B5FD", background: "rgba(124,58,237,0.16)", border: "1px solid rgba(124,58,237,0.3)", padding: "3px 8px", borderRadius: 999 }}>AURA</span>
               </div>
-              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 15 }}>
-                {NO.map((t) => (
-                  <li key={t} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, marginTop: 1 }}>
-                      <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.05)" />
-                      <path d="M8 12h8" stroke="#7B8496" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                    <span style={{ fontFamily: "Inter", fontSize: 15.5, lineHeight: 1.5, color: "rgba(255,255,255,0.55)" }}>{t}</span>
-                  </li>
-                ))}
-              </ul>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 8, padding: "6px 2px 2px" }}>
+                <div style={{ alignSelf: "flex-start", maxWidth: "88%", background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.92)", fontFamily: "Inter", fontSize: 13, lineHeight: 1.4, padding: "9px 12px", borderRadius: 12, borderBottomLeftRadius: 3 }}>¿Le confirmo su hora de mañana a las 11:00?</div>
+                <div style={{ alignSelf: "flex-end", maxWidth: "80%", background: "rgba(37,211,102,0.16)", border: "1px solid rgba(37,211,102,0.28)", color: "#fff", fontFamily: "Inter", fontSize: 13, lineHeight: 1.4, padding: "9px 12px", borderRadius: 12, borderBottomRightRadius: 3 }}>Sí, gracias</div>
+                <div style={{ alignSelf: "flex-start", maxWidth: "88%", background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.92)", fontFamily: "Inter", fontSize: 13, lineHeight: 1.4, padding: "9px 12px", borderRadius: 12, borderBottomLeftRadius: 3 }}>¡Listo! Quedó confirmada.</div>
+              </div>
+
+              <div style={{ marginTop: 16, display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "Inter", fontSize: 13, fontWeight: 600, color: "#34D399" }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34D399" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                Confirmada por WhatsApp
+              </div>
             </div>
           </div>
-
-          <p
-            className="reveal"
-            style={{
-              fontFamily: "Inter",
-              fontSize: 16,
-              lineHeight: 1.6,
-              color: "rgba(255,255,255,0.7)",
-              margin: "28px 0 0",
-              maxWidth: 720,
-            }}
-          >
-            Si te describe la columna de la derecha, hoy Clinera te va a quedar grande — y preferimos
-            decírtelo ahora, no venderte algo que no vas a aprovechar.
-          </p>
         </div>
       </section>
 
