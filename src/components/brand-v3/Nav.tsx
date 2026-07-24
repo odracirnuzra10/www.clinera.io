@@ -134,7 +134,7 @@ export default function NavV3() {
         <div className="nav-v3-actions" style={{ display: "flex", gap: 10, alignItems: "center" }}>
           <CtaPrimary
             as={Link}
-            href="/hablar-con-ventas"
+            href="/plataforma"
             style={{ padding: "10px 16px", fontSize: 14 }}
           >
             Hablar con ventas <span style={{ marginLeft: 2 }}>→</span>
@@ -185,7 +185,7 @@ export default function NavV3() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 18 }}>
             <CtaPrimary
               as={Link}
-              href="/hablar-con-ventas"
+              href="/plataforma"
               onClick={() => setMobileOpen(false)}
               style={{ width: "100%", justifyContent: "center", padding: "14px 20px" }}
             >
