@@ -2,19 +2,52 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import type { ReactNode } from "react";
-import { CtaPrimary, CtaSecondary, GRAD, Wordmark } from "@/components/brand-v3/Brand";
+import type { CSSProperties, ReactNode } from "react";
+import {
+  CnnLogo,
+  CtaPrimary,
+  CtaSecondary,
+  GRAD,
+  Mono,
+  Wordmark,
+} from "@/components/brand-v3/Brand";
 import EcosistemaDiagram from "@/components/plataforma/EcosistemaDiagram";
 
 /* ============================================================
    /plataforma — Landing de lectura previa al wizard (/ventas).
-   Rediseño v4: jerarquía visual fuerte, hero centrado dominante,
-   intros de sección numeradas y centradas, y mucho aire. Sistema
-   del repo (brand-v3, Inter + JetBrains Mono), acento violeta.
+   Rediseño v5 "enterprise": restraint cromático (blanco + near-
+   black, violeta quirúrgico), marcador de segmento repetido
+   (clínicas medianas y grandes · 2+ sedes o alto volumen),
+   franjas institucionales (partners, tamaños de operación,
+   seguridad Ley 20.584) y ritmo vertical de 150-160px.
+   Sistema del repo: brand-v3, Inter + JetBrains Mono.
    ============================================================ */
 
 const ACCENT = "#7C3AED";
 const ACCENT_SOFT = "rgba(124,58,237,0.08)";
+const DARK = "#0A0A0F"; // negro del patrón enterprise de la home (DarkBreak)
+const HAIR = "#F1EFEC"; // hairline claro entre secciones
+
+const MONO_STACK = "'JetBrains Mono', ui-monospace, monospace";
+
+// Retícula estructural light (eco del patrón DarkBreak) — textura sin color.
+function gridLight(maskAt: "top" | "bottom"): CSSProperties {
+  const mask =
+    maskAt === "top"
+      ? "radial-gradient(ellipse 75% 60% at 50% 0%, #000 30%, transparent 78%)"
+      : "radial-gradient(ellipse 75% 60% at 50% 100%, #000 30%, transparent 78%)";
+  return {
+    position: "absolute",
+    inset: 0,
+    backgroundImage:
+      "linear-gradient(rgba(10,10,10,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.03) 1px, transparent 1px)",
+    backgroundSize: "48px 48px",
+    maskImage: mask,
+    WebkitMaskImage: mask,
+    pointerEvents: "none",
+    zIndex: 0,
+  };
+}
 
 const STATS: { n: string; l: string }[] = [
   { n: "+52", l: "clínicas activas" },
@@ -23,7 +56,7 @@ const STATS: { n: string; l: string }[] = [
   { n: "24/7", l: "operación con IA" },
 ];
 
-// Intro de sección centrada y numerada — la unidad de jerarquía del rediseño.
+// Intro de sección centrada y numerada — unidad de jerarquía de la página.
 function SectionIntro({
   num,
   eyebrow,
@@ -49,16 +82,16 @@ function SectionIntro({
           display: "inline-flex",
           alignItems: "center",
           gap: 12,
-          marginBottom: 24,
-          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-          fontSize: 12,
+          marginBottom: 26,
+          fontFamily: MONO_STACK,
+          fontSize: 11,
           fontWeight: 500,
           letterSpacing: "0.16em",
           textTransform: "uppercase",
         }}
       >
         <span style={{ color: numColor, fontWeight: 600 }}>{num}</span>
-        <span style={{ width: 22, height: 1, background: line }} />
+        <span style={{ width: 24, height: 1, background: line }} />
         <span style={{ color: eyeColor }}>{eyebrow}</span>
       </div>
       <h2
@@ -175,15 +208,21 @@ export default function PlataformaLanding() {
         }
         @media (max-width: 900px) {
           .plt-canales-grid { grid-template-columns: 1fr !important; }
+          .plt-seg-grid { grid-template-columns: 1fr !important; }
+          .plt-sec-band { grid-template-columns: 1fr !important; }
+          .plt-sec-chips { justify-content: flex-start !important; max-width: none !important; }
+          .plt-cred { flex-direction: column !important; gap: 26px !important; text-align: center; }
+          .plt-cred-sep { display: none !important; }
         }
         @media (max-width: 760px) {
           .plt-section { padding-left: 24px !important; padding-right: 24px !important; }
           .plt-header-inner { padding-left: 24px !important; padding-right: 24px !important; }
+          .plt-seg-chip { display: none !important; }
           .plt-stats { grid-template-columns: 1fr 1fr !important; gap: 36px 12px !important; padding: 36px 24px !important; }
           .plt-stats > div { border-left: none !important; }
-          .plt-h1 { font-size: 38px !important; }
+          .plt-h1 { font-size: 40px !important; }
           .plt-h2 { font-size: 30px !important; }
-          .plt-section-pad { padding-top: 88px !important; padding-bottom: 88px !important; }
+          .plt-section-pad { padding-top: 96px !important; padding-bottom: 96px !important; }
         }
         @media (max-width: 460px) {
           .plt-cta-row { flex-direction: column; align-items: stretch; }
@@ -191,7 +230,7 @@ export default function PlataformaLanding() {
         }
       `}</style>
 
-      {/* ============== HEADER MÍNIMO — solo logo + CTA ============== */}
+      {/* ============== HEADER MÍNIMO — logo + segmento + CTA ============== */}
       <header
         style={{
           position: "sticky",
@@ -200,7 +239,7 @@ export default function PlataformaLanding() {
           background: "rgba(255,255,255,0.85)",
           backdropFilter: "blur(14px)",
           WebkitBackdropFilter: "blur(14px)",
-          borderBottom: "1px solid #EEECEA",
+          borderBottom: "1px solid #E5E7EB",
         }}
       >
         <div
@@ -212,11 +251,30 @@ export default function PlataformaLanding() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            gap: 16,
           }}
         >
           <Link href="/" aria-label="Clinera.io" style={{ textDecoration: "none" }}>
             <Wordmark size={20} />
           </Link>
+          <span
+            className="plt-seg-chip"
+            style={{
+              fontFamily: MONO_STACK,
+              fontSize: 11,
+              fontWeight: 500,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "#6B7280",
+              background: "#FAFAFA",
+              border: "1px solid #E5E7EB",
+              borderRadius: 999,
+              padding: "6px 14px",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Para clínicas medianas y grandes
+          </span>
           <CtaPrimary as={Link} href="/ventas" style={{ padding: "10px 18px", fontSize: 14 }}>
             Ver si califico <span>→</span>
           </CtaPrimary>
@@ -224,52 +282,52 @@ export default function PlataformaLanding() {
       </header>
 
       {/* ============== HERO (centrado, dominante) ============== */}
-      <section className="plt-section" style={{ position: "relative", padding: "84px 80px 96px", overflow: "hidden" }}>
+      <section className="plt-section" style={{ position: "relative", padding: "88px 80px 110px", overflow: "hidden", background: "#fff" }}>
         <div
           aria-hidden
           style={{
             position: "absolute",
             inset: 0,
-            background: "radial-gradient(ellipse 70% 50% at 50% -8%, #EEE4FF 0%, #F5EFFF 32%, #FFFFFF 68%)",
+            background: "radial-gradient(ellipse 62% 44% at 50% -12%, #F4F2FA 0%, #FFFFFF 58%)",
             zIndex: 0,
             pointerEvents: "none",
           }}
         />
-        <div style={{ maxWidth: 900, margin: "0 auto", position: "relative", zIndex: 1, textAlign: "center" }}>
+        <div aria-hidden style={gridLight("top")} />
+        <div style={{ maxWidth: 920, margin: "0 auto", position: "relative", zIndex: 1, textAlign: "center" }}>
           <span
             className="reveal"
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: 9,
-              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-              fontSize: 12,
+              fontFamily: MONO_STACK,
+              fontSize: 11.5,
               fontWeight: 500,
-              letterSpacing: "0.11em",
+              letterSpacing: "0.14em",
               textTransform: "uppercase",
-              color: "#0A0A0A",
+              color: "#374151",
               background: "#fff",
-              border: "1px solid #E9E4F5",
-              padding: "7px 14px",
+              border: "1px solid #E5E7EB",
+              padding: "8px 16px",
               borderRadius: 999,
               boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+              lineHeight: 1.6,
             }}
           >
-            <span className="plt-dot" style={{ width: 7, height: 7, borderRadius: 999, background: "#10B981", display: "inline-block" }} />
-            Una sola plataforma · Operación clínica con IA
+            Para clínicas medianas y grandes · 2+ sedes o alto volumen
           </span>
 
           <h1
             className="plt-h1 reveal"
             style={{
               fontFamily: "Inter",
-              fontSize: 62,
+              fontSize: 68,
               fontWeight: 700,
-              letterSpacing: "-0.038em",
-              lineHeight: 1.03,
-              margin: "28px auto 0",
+              letterSpacing: "-0.04em",
+              lineHeight: 1.02,
+              margin: "30px auto 0",
               color: "#0A0A0A",
-              maxWidth: 860,
+              maxWidth: 880,
             }}
           >
             Una clínica que crece no se opera en cinco sistemas.{" "}
@@ -285,8 +343,8 @@ export default function PlataformaLanding() {
               fontSize: 20,
               lineHeight: 1.58,
               color: "#4B5563",
-              margin: "26px auto 0",
-              maxWidth: 620,
+              margin: "28px auto 0",
+              maxWidth: 640,
             }}
           >
             Clinera unifica agenda, WhatsApp, fichas, cobros y recuperación de pacientes de{" "}
@@ -294,7 +352,7 @@ export default function PlataformaLanding() {
             operan el día a día 24/7 y tú ves y controlas todo desde un solo lugar.
           </p>
 
-          <div className="plt-cta-row reveal" style={{ display: "flex", gap: 12, marginTop: 36, justifyContent: "center", flexWrap: "wrap" }}>
+          <div className="plt-cta-row reveal" style={{ display: "flex", gap: 12, marginTop: 38, justifyContent: "center", flexWrap: "wrap" }}>
             <CtaPrimary as={Link} href="/ventas" style={{ padding: "16px 30px", fontSize: 16 }}>
               Ver si tu clínica califica <span>→</span>
             </CtaPrimary>
@@ -305,26 +363,27 @@ export default function PlataformaLanding() {
 
           <div className="reveal" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginTop: 30, flexWrap: "wrap" }}>
             <div style={{ display: "flex" }}>
-              {["#EDE9FE", "#FCE7F3", "#DBEAFE", "#D1FAE5"].map((c, i) => (
+              {["CM", "TE", "SP", "JS"].map((ini, i) => (
                 <div
-                  key={i}
+                  key={ini}
                   style={{
                     width: 30,
                     height: 30,
                     borderRadius: 999,
-                    background: c,
+                    background: "#F3F4F6",
                     border: "2px solid #fff",
+                    outline: "1px solid #E5E7EB",
                     marginLeft: i === 0 ? 0 : -9,
                     fontFamily: "Inter",
                     fontSize: 11,
                     fontWeight: 600,
-                    color: "#0A0A0A",
+                    color: "#374151",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                   }}
                 >
-                  {["CM", "TE", "SP", "JS"][i]}
+                  {ini}
                 </div>
               ))}
             </div>
@@ -333,25 +392,48 @@ export default function PlataformaLanding() {
             </div>
           </div>
 
+          {/* Puente multi-sede */}
+          <div className="reveal" style={{ marginTop: 76 }}>
+            <Mono color="#9AA0AE" size={11}>Multi-sede por diseño</Mono>
+            <div
+              style={{
+                fontFamily: "Inter",
+                fontSize: 21,
+                fontWeight: 600,
+                letterSpacing: "-0.02em",
+                color: "#0A0A0A",
+                marginTop: 10,
+              }}
+            >
+              Opera 2, 5 o 20 sedes con la misma precisión que una.
+            </div>
+          </div>
+
           {/* Visual: una capa (Clinera) sobre operaciones sueltas */}
-          <div className="reveal" style={{ maxWidth: 620, margin: "64px auto 0", transitionDelay: "90ms" }}>
+          <div className="reveal" style={{ maxWidth: 680, margin: "44px auto 0", transitionDelay: "90ms" }}>
             <UnifyVisual accent={ACCENT} accentSoft={ACCENT_SOFT} />
           </div>
         </div>
       </section>
 
+      {/* ============== FRANJA DE CREDENCIALES ============== */}
+      <CredencialesStrip />
+
       {/* ============== 01 · ECOSISTEMA ============== */}
-      <section className="plt-section plt-section-pad" style={{ padding: "120px 80px", borderTop: "1px solid #F1EFEC", background: "#FBFBFA" }}>
+      <section className="plt-section plt-section-pad" style={{ padding: "150px 80px", background: "#FBFBFA" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto" }}>
           <SectionIntro
             num="01"
-            eyebrow="Una capa sobre todo"
+            eyebrow="Estandariza toda tu red"
             title="Unifica todas tus operaciones con IA."
-            sub="Una sola fuente de verdad para tu equipo y tus sedes. Sin planillas paralelas, sin datos que no cuadran, sin herramientas que no se hablan entre sí."
+            sub="Una sola fuente de verdad para tu equipo y todas tus sedes — el mismo estándar en 2, 5 o 20 sucursales. Sin planillas paralelas, sin datos que no cuadran, sin herramientas que no se hablan entre sí."
           />
 
-          <div className="reveal" style={{ marginTop: 72 }}>
+          <div className="reveal" style={{ marginTop: 76 }}>
             <EcosistemaDiagram />
+            <div style={{ textAlign: "center", marginTop: 30 }}>
+              <Mono color="#9AA0AE" size={11}>El mismo estándar de atención en cada sucursal</Mono>
+            </div>
           </div>
 
           {/* Stat band */}
@@ -361,19 +443,19 @@ export default function PlataformaLanding() {
               display: "grid",
               gridTemplateColumns: "repeat(4, 1fr)",
               gap: 20,
-              marginTop: 72,
-              padding: "44px 40px",
+              marginTop: 76,
+              padding: "48px 40px",
               background: "#fff",
               border: "1px solid #ECEAE6",
-              borderRadius: 20,
+              borderRadius: 16,
             }}
           >
             {STATS.map((s, i) => (
               <div key={s.l} style={{ textAlign: "center", borderLeft: i > 0 ? "1px solid #EDEBE7" : "none" }}>
                 <div
                   style={{
-                    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                    fontSize: 38,
+                    fontFamily: MONO_STACK,
+                    fontSize: 44,
                     fontWeight: 600,
                     color: "#0A0A0A",
                     letterSpacing: "-0.02em",
@@ -386,6 +468,9 @@ export default function PlataformaLanding() {
               </div>
             ))}
           </div>
+          <div className="reveal" style={{ textAlign: "center", marginTop: 20 }}>
+            <Mono color="#9AA0AE" size={11}>94% de confirmaciones automáticas · resultados sobre clínicas reales en producción</Mono>
+          </div>
         </div>
       </section>
 
@@ -393,17 +478,46 @@ export default function PlataformaLanding() {
       <section
         id="la-ia"
         className="plt-section plt-section-pad"
-        style={{ position: "relative", background: "#0D0F14", padding: "128px 80px", overflow: "hidden", scrollMarginTop: 70 }}
+        style={{ position: "relative", background: DARK, padding: "160px 80px", overflow: "hidden", scrollMarginTop: 70 }}
       >
+        {/* hairline superior con gradiente de marca */}
+        <div aria-hidden style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: GRAD, opacity: 0.7 }} />
+        {/* retícula estructural */}
         <div
           aria-hidden
           style={{
             position: "absolute",
-            top: -180,
-            right: -140,
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+            maskImage: "radial-gradient(ellipse 70% 70% at 50% 40%, #000 40%, transparent 85%)",
+            WebkitMaskImage: "radial-gradient(ellipse 70% 70% at 50% 40%, #000 40%, transparent 85%)",
+            pointerEvents: "none",
+          }}
+        />
+        {/* glows sobrios */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: -200,
+            right: -160,
             width: 560,
             height: 560,
-            background: "radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 65%)",
+            background: "radial-gradient(circle, rgba(217,70,239,0.16) 0%, transparent 65%)",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            bottom: -220,
+            left: -180,
+            width: 560,
+            height: 560,
+            background: "radial-gradient(circle, rgba(59,130,246,0.14) 0%, transparent 65%)",
             pointerEvents: "none",
           }}
         />
@@ -417,9 +531,12 @@ export default function PlataformaLanding() {
             dark
           />
           <AuraChat />
+          <div className="reveal" style={{ textAlign: "center", marginTop: 22 }}>
+            <Mono color="rgba(255,255,255,0.4)" size={10.5}>Datos consolidados de todas tus sedes, en tiempo real</Mono>
+          </div>
 
           {/* 03 — Dos canales */}
-          <div style={{ marginTop: 128 }}>
+          <div style={{ marginTop: 144 }}>
             <SectionIntro
               num="03"
               eyebrow="Una IA · dos canales"
@@ -430,7 +547,7 @@ export default function PlataformaLanding() {
 
             <div
               className="plt-canales-grid reveal"
-              style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginTop: 56, maxWidth: 900, marginLeft: "auto", marginRight: "auto" }}
+              style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginTop: 60, maxWidth: 900, marginLeft: "auto", marginRight: "auto" }}
             >
               {/* Canal 1 — Llamada de voz */}
               <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 18, padding: "26px 26px 24px" }}>
@@ -442,14 +559,14 @@ export default function PlataformaLanding() {
                     <div style={{ fontFamily: "Inter", fontSize: 14.5, fontWeight: 700, color: "#fff", lineHeight: 1.1 }}>Llamada de voz</div>
                     <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "rgba(255,255,255,0.5)" }}>La IA llama y confirma</div>
                   </div>
-                  <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "#C4B5FD", background: "rgba(124,58,237,0.16)", border: "1px solid rgba(124,58,237,0.3)", padding: "3px 8px", borderRadius: 999 }}>AURA</span>
+                  <span style={{ fontFamily: MONO_STACK, fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "#C4B5FD", background: "rgba(124,58,237,0.16)", border: "1px solid rgba(124,58,237,0.3)", padding: "3px 8px", borderRadius: 999 }}>AURA</span>
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", background: "rgba(0,0,0,0.25)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 12, marginBottom: 14 }}>
                   <span style={{ width: 34, height: 34, borderRadius: 999, background: "rgba(255,255,255,0.08)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "Inter", fontSize: 12, fontWeight: 700, color: "#fff", flexShrink: 0 }}>MR</span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontFamily: "Inter", fontSize: 13.5, fontWeight: 600, color: "#fff" }}>Sra. Rojas</div>
-                    <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 11, color: "#34D399" }}>en llamada · 00:14</div>
+                    <div style={{ fontFamily: MONO_STACK, fontSize: 11, color: "#34D399" }}>en llamada · 00:14</div>
                   </div>
                   <span className="plt-wave" aria-hidden="true"><i /><i /><i /><i /><i /><i /><i /></span>
                 </div>
@@ -479,7 +596,7 @@ export default function PlataformaLanding() {
                     <div style={{ fontFamily: "Inter", fontSize: 14.5, fontWeight: 700, color: "#fff", lineHeight: 1.1 }}>WhatsApp</div>
                     <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "rgba(255,255,255,0.5)" }}>La IA responde y confirma</div>
                   </div>
-                  <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "#C4B5FD", background: "rgba(124,58,237,0.16)", border: "1px solid rgba(124,58,237,0.3)", padding: "3px 8px", borderRadius: 999 }}>AURA</span>
+                  <span style={{ fontFamily: MONO_STACK, fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "#C4B5FD", background: "rgba(124,58,237,0.16)", border: "1px solid rgba(124,58,237,0.3)", padding: "3px 8px", borderRadius: 999 }}>AURA</span>
                 </div>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: 8, padding: "6px 2px 2px" }}>
@@ -498,43 +615,43 @@ export default function PlataformaLanding() {
         </div>
       </section>
 
+      {/* ============== 04 · TAMAÑO DE OPERACIÓN ============== */}
+      <SegmentoOperacion />
+
+      {/* ============== SEGURIDAD / COMPLIANCE ============== */}
+      <SeguridadBand />
+
       {/* ============== CTA FINAL ============== */}
-      <section className="plt-section plt-section-pad" style={{ position: "relative", padding: "120px 80px", overflow: "hidden", borderTop: "1px solid #F1EFEC" }}>
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "radial-gradient(ellipse 55% 60% at 50% 120%, #F1EBFF 0%, #FFFFFF 68%)",
-            zIndex: 0,
-            pointerEvents: "none",
-          }}
-        />
-        <div className="reveal" style={{ maxWidth: 720, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 }}>
+      <section
+        className="plt-section plt-section-pad"
+        style={{ position: "relative", padding: "150px 80px 170px", overflow: "hidden", borderTop: `1px solid ${HAIR}`, background: "#fff" }}
+      >
+        <div aria-hidden style={gridLight("bottom")} />
+        <div className="reveal" style={{ maxWidth: 760, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 }}>
           <h2
             className="plt-h2"
             style={{
               fontFamily: "Inter",
-              fontSize: 50,
+              fontSize: 54,
               fontWeight: 700,
-              letterSpacing: "-0.036em",
-              lineHeight: 1.06,
+              letterSpacing: "-0.038em",
+              lineHeight: 1.05,
               color: "#0A0A0A",
               margin: 0,
             }}
           >
-            Si tu clínica ya opera con volumen,{" "}
+            Hablemos de{" "}
             <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-              hablemos.
+              tu operación.
             </span>
           </h2>
-          <p style={{ fontFamily: "Inter", fontSize: 19, lineHeight: 1.58, color: "#4B5563", margin: "22px auto 0", maxWidth: 560 }}>
-            30 minutos con nuestro equipo. Te mostramos cómo se vería tu operación unificada — con tus
-            números y tus sedes, no una demo genérica.
+          <p style={{ fontFamily: "Inter", fontSize: 19, lineHeight: 1.58, color: "#4B5563", margin: "24px auto 0", maxWidth: 580 }}>
+            Si operas una clínica con equipo — o una red con varias sedes — en 30 minutos te mostramos
+            cómo se vería unificada: con tus números y tus sedes, no una demo genérica.
           </p>
 
-          <div className="plt-cta-row" style={{ display: "flex", gap: 12, marginTop: 36, justifyContent: "center", flexWrap: "wrap" }}>
-            <CtaPrimary as={Link} href="/ventas" style={{ padding: "17px 34px", fontSize: 16 }}>
+          <div className="plt-cta-row" style={{ display: "flex", gap: 12, marginTop: 38, justifyContent: "center", flexWrap: "wrap" }}>
+            <CtaPrimary as={Link} href="/ventas" style={{ padding: "17px 36px", fontSize: 16 }}>
               Ver si califico <span>→</span>
             </CtaPrimary>
           </div>
@@ -545,8 +662,8 @@ export default function PlataformaLanding() {
               gap: 10,
               justifyContent: "center",
               flexWrap: "wrap",
-              marginTop: 28,
-              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              marginTop: 30,
+              fontFamily: MONO_STACK,
               fontSize: 12,
               letterSpacing: "0.06em",
               textTransform: "uppercase",
@@ -563,6 +680,266 @@ export default function PlataformaLanding() {
         </div>
       </section>
     </>
+  );
+}
+
+/* ============ Franja de credenciales — partners + prensa + evidencia ============ */
+function CredencialesStrip() {
+  const badges = [
+    { src: "/images/badges/meta-business-partner.svg", alt: "Meta Business Partner" },
+    { src: "/images/badges/whatsapp-business.svg", alt: "WhatsApp Business API oficial" },
+    { src: "/images/badges/stripe.svg", alt: "Stripe — pagos certificados" },
+    { src: "/images/badges/google-calendar.svg", alt: "Google Calendar — integración oficial" },
+  ];
+  return (
+    <section
+      className="plt-section"
+      aria-label="Respaldo: partners oficiales, prensa y evidencia auditada"
+      style={{ background: "#fff", borderTop: `1px solid ${HAIR}`, borderBottom: `1px solid ${HAIR}`, padding: "36px 80px" }}
+    >
+      <div
+        className="plt-cred reveal"
+        style={{ maxWidth: 1180, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center", gap: 36 }}
+      >
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+          <span aria-hidden style={{ width: 24, height: 1, background: "#D8DBE2" }} />
+          <Mono color="#9AA0AE" size={11}>Respaldo y partners</Mono>
+        </span>
+
+        <span className="plt-cred-sep" aria-hidden style={{ width: 1, height: 36, background: "#EFEDEA" }} />
+
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
+          {badges.map((b) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={b.src} src={b.src} alt={b.alt} width={147} height={44} loading="lazy" decoding="async" style={{ display: "block" }} />
+          ))}
+        </span>
+
+        <span className="plt-cred-sep" aria-hidden style={{ width: 1, height: 36, background: "#EFEDEA" }} />
+
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+          <Mono color="#9AA0AE" size={11}>Visto en</Mono>
+          <CnnLogo height={20} />
+          <span aria-hidden style={{ color: "#D1D5DB" }}>·</span>
+          <Mono color="#6B7280" size={11}>100% de agendamientos en ≤3 intentos · estudio auditado · 42 casos</Mono>
+        </span>
+      </div>
+    </section>
+  );
+}
+
+/* ============ 04 · Tamaño de operación — escalera de segmentos (auto-calificación) ============ */
+function SegmentoOperacion() {
+  return (
+    <section className="plt-section plt-section-pad" style={{ background: "#fff", borderTop: `1px solid ${HAIR}`, padding: "150px 80px" }}>
+      <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+        <SectionIntro
+          num="04"
+          eyebrow="Para operaciones con volumen"
+          title="¿De qué tamaño es tu operación?"
+          sub="Clinera está diseñada para clínicas con equipo — desde una sede con alto volumen hasta cadenas con decenas de sucursales. Elige tu plan por el tamaño de tu operación."
+        />
+
+        <div
+          className="plt-seg-grid reveal"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: 20,
+            marginTop: 64,
+            maxWidth: 1080,
+            marginLeft: "auto",
+            marginRight: "auto",
+            alignItems: "stretch",
+          }}
+        >
+          {/* A — Una sede con equipo */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              background: "#fff",
+              border: "1px solid #E5E7EB",
+              borderRadius: 18,
+              padding: "30px 28px",
+            }}
+          >
+            <Mono color={ACCENT} size={10.5}>01 · Una sede con equipo</Mono>
+            <div style={{ fontFamily: "Inter", fontSize: 20, fontWeight: 700, color: "#0A0A0A", letterSpacing: "-0.015em", margin: "14px 0 0" }}>
+              Clínica con equipo y volumen
+            </div>
+            <p style={{ fontFamily: "Inter", fontSize: 14.5, lineHeight: 1.55, color: "#4B5563", margin: "10px 0 22px" }}>
+              Varios profesionales, recepción y cientos de citas al mes que ordenar.
+            </p>
+            <div style={{ marginTop: "auto" }}>
+              <div style={{ paddingTop: 18, borderTop: "1px solid #F1EFEC" }}>
+                <Mono color="#6B7280" size={11}>Vortex · desde USD 279/mes</Mono>
+              </div>
+              <Link
+                href="/ventas"
+                style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "Inter", fontSize: 14, fontWeight: 600, color: "#0A0A0A", textDecoration: "none", marginTop: 16 }}
+              >
+                Ver si califico <span aria-hidden>→</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* B — Multi-sede (destacada) */}
+          <div
+            style={{
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              background: "#fff",
+              border: "1px solid #0A0A0A",
+              borderRadius: 18,
+              padding: "30px 28px",
+              overflow: "hidden",
+            }}
+          >
+            <div aria-hidden style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: GRAD }} />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+              <Mono color={ACCENT} size={10.5}>02 · Dos o más sedes</Mono>
+              <span
+                style={{
+                  fontFamily: MONO_STACK,
+                  fontSize: 10,
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color: "#0A0A0A",
+                  background: "#F5F3FF",
+                  border: "1px solid #DDD6FE",
+                  borderRadius: 999,
+                  padding: "3px 9px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                El más elegido
+              </span>
+            </div>
+            <div style={{ fontFamily: "Inter", fontSize: 20, fontWeight: 700, color: "#0A0A0A", letterSpacing: "-0.015em", margin: "14px 0 0" }}>
+              Clínicas multi-sede
+            </div>
+            <p style={{ fontFamily: "Inter", fontSize: 14.5, lineHeight: 1.55, color: "#4B5563", margin: "10px 0 22px" }}>
+              Estandariza la atención y consolida el control central de todas tus sucursales.
+            </p>
+            <div style={{ marginTop: "auto" }}>
+              <div style={{ paddingTop: 18, borderTop: "1px solid #F1EFEC" }}>
+                <Mono color="#6B7280" size={11}>Atlas USD 379 · Summit USD 479 · sucursales ilimitadas</Mono>
+              </div>
+              <Link
+                href="/ventas"
+                style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "Inter", fontSize: 14, fontWeight: 600, color: "#0A0A0A", textDecoration: "none", marginTop: 16 }}
+              >
+                Ver si califico <span aria-hidden>→</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* C — Cadenas y redes (ancla enterprise, dark) */}
+          <div
+            style={{
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              background: DARK,
+              border: "1px solid rgba(255,255,255,0.1)",
+              borderRadius: 18,
+              padding: "30px 28px",
+              overflow: "hidden",
+            }}
+          >
+            <div aria-hidden style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: GRAD }} />
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+              <span aria-hidden style={{ width: 6, height: 6, borderRadius: 999, background: "#D946EF", display: "inline-block" }} />
+              <Mono color="rgba(255,255,255,0.65)" size={10.5}>03 · Cadenas y redes</Mono>
+            </span>
+            <div style={{ fontFamily: "Inter", fontSize: 20, fontWeight: 700, color: "#fff", letterSpacing: "-0.015em", margin: "14px 0 0" }}>
+              Cadenas, redes y hospitales
+            </div>
+            <p style={{ fontFamily: "Inter", fontSize: 14.5, lineHeight: 1.55, color: "rgba(255,255,255,0.72)", margin: "10px 0 22px" }}>
+              White-glove, SLA, integraciones a medida y consolidado central de toda la red.
+            </p>
+            <div style={{ marginTop: "auto" }}>
+              <div style={{ paddingTop: 18, borderTop: "1px solid rgba(255,255,255,0.12)", display: "flex", alignItems: "baseline", gap: 8 }}>
+                <Mono color="rgba(255,255,255,0.5)" size={10.5}>Desde</Mono>
+                <span style={{ fontFamily: "Inter", fontSize: 32, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", lineHeight: 1 }}>$1.900</span>
+                <Mono color="rgba(255,255,255,0.5)" size={10.5}>USD/mes</Mono>
+              </div>
+              <Link
+                href="/ventas"
+                style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: "Inter", fontSize: 14, fontWeight: 600, color: "#fff", textDecoration: "none", marginTop: 16 }}
+              >
+                Ver si califico <span aria-hidden>→</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="reveal" style={{ textAlign: "center", marginTop: 28 }}>
+          <Mono color="#9AA0AE" size={11}>
+            El wizard te ubica en el plan correcto según tus sucursales y pacientes al mes — toma 2 minutos
+          </Mono>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============ Banda de seguridad / compliance — Ley 20.584 ============ */
+function SeguridadBand() {
+  const chips = ["AES-256-GCM", "1 llave por clínica · Cloud KMS", "Access log Ley 20.584", "Backups + PITR"];
+  return (
+    <section className="plt-section" style={{ background: "#FBFBFA", borderTop: `1px solid ${HAIR}`, padding: "64px 80px" }}>
+      <div
+        className="plt-sec-band reveal"
+        style={{ maxWidth: 1080, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr auto", gap: 40, alignItems: "center" }}
+      >
+        <div>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z" />
+              <path d="M9 12l2 2 4-4" />
+            </svg>
+            <Mono color="#9AA0AE" size={11}>Seguridad y cumplimiento</Mono>
+          </span>
+          <div style={{ fontFamily: "Inter", fontSize: 22, fontWeight: 700, color: "#0A0A0A", letterSpacing: "-0.02em", margin: "12px 0 0" }}>
+            Seguridad de nivel enterprise.
+          </div>
+          <p style={{ fontFamily: "Inter", fontSize: 15, lineHeight: 1.55, color: "#4B5563", margin: "8px 0 0", maxWidth: 520 }}>
+            Cifrado, aislamiento por clínica y trazabilidad de acceso a cada ficha — bajo la Ley 20.584
+            de derechos del paciente.
+          </p>
+        </div>
+        <div
+          className="plt-sec-chips"
+          style={{ display: "flex", flexWrap: "wrap", gap: 10, maxWidth: 520, justifyContent: "flex-end" }}
+        >
+          {chips.map((c) => (
+            <span
+              key={c}
+              style={{
+                fontFamily: MONO_STACK,
+                fontSize: 11,
+                fontWeight: 500,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                color: "#4B5563",
+                background: "#fff",
+                border: "1px solid #E5E7EB",
+                borderRadius: 8,
+                padding: "8px 12px",
+                whiteSpace: "nowrap",
+                textAlign: "center",
+              }}
+            >
+              {c}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -586,7 +963,7 @@ function AuraChat() {
   const answered = step % 2 === 1;
 
   return (
-    <div className="reveal" style={{ maxWidth: 480, margin: "56px auto 0" }}>
+    <div className="reveal" style={{ maxWidth: 480, margin: "60px auto 0" }}>
       <div
         style={{
           background: "rgba(255,255,255,0.04)",
@@ -619,7 +996,7 @@ function AuraChat() {
               display: "inline-flex",
               alignItems: "center",
               gap: 6,
-              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontFamily: MONO_STACK,
               fontSize: 10.5,
               letterSpacing: "0.06em",
               textTransform: "uppercase",
@@ -734,6 +1111,7 @@ function AuraChat() {
 /* ============ Visual del hero: una capa (Clinera) sobre módulos sueltos ============ */
 function UnifyVisual({ accent, accentSoft }: { accent: string; accentSoft: string }) {
   const modulos = ["Agenda", "WhatsApp", "Fichas", "Cobros", "Recuperación", "Reportes"];
+  const sedes = ["Providencia", "Las Condes", "Viña del Mar"];
   return (
     <div
       style={{
@@ -742,17 +1120,18 @@ function UnifyVisual({ accent, accentSoft }: { accent: string; accentSoft: strin
         borderRadius: 20,
         boxShadow: "0 40px 90px -44px rgba(17,19,24,0.28)",
         padding: 24,
+        textAlign: "left",
       }}
     >
       {/* barra tipo app */}
-      <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 18 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 16 }}>
         <span style={{ width: 10, height: 10, borderRadius: 999, background: "#FF5F57" }} />
         <span style={{ width: 10, height: 10, borderRadius: 999, background: "#FEBC2E" }} />
         <span style={{ width: 10, height: 10, borderRadius: 999, background: "#28C840" }} />
         <span
           style={{
             marginLeft: 8,
-            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontFamily: MONO_STACK,
             fontSize: 11,
             letterSpacing: "0.08em",
             color: "#9CA3AF",
@@ -760,6 +1139,39 @@ function UnifyVisual({ accent, accentSoft }: { accent: string; accentSoft: strin
           }}
         >
           clinera · panel único
+        </span>
+      </div>
+
+      {/* fila de sedes — consolidado multi-sucursal */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14, flexWrap: "wrap" }}>
+        {sedes.map((s, i) => (
+          <span
+            key={s}
+            style={{
+              fontFamily: "Inter",
+              fontSize: 12,
+              fontWeight: 600,
+              padding: "5px 10px",
+              borderRadius: 8,
+              background: i === 0 ? "#F6F5FF" : "#FAFAFA",
+              border: i === 0 ? "1px solid rgba(124,58,237,0.3)" : "1px solid #EFEDEA",
+              color: i === 0 ? "#5B21B6" : "#6B7280",
+            }}
+          >
+            {s}
+          </span>
+        ))}
+        <span
+          style={{
+            marginLeft: "auto",
+            fontFamily: MONO_STACK,
+            fontSize: 10.5,
+            letterSpacing: "0.06em",
+            textTransform: "uppercase",
+            color: "#059669",
+          }}
+        >
+          3 sedes · consolidado central
         </span>
       </div>
 
@@ -804,7 +1216,7 @@ function UnifyVisual({ accent, accentSoft }: { accent: string; accentSoft: strin
             display: "inline-flex",
             alignItems: "center",
             gap: 6,
-            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontFamily: MONO_STACK,
             fontSize: 10.5,
             letterSpacing: "0.06em",
             textTransform: "uppercase",

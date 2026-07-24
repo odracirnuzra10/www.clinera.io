@@ -4,7 +4,7 @@ import PlataformaLanding from "@/components/plataforma/PlataformaLanding";
 export const metadata: Metadata = {
   title: "La plataforma con IA que unifica toda la operación de tu clínica",
   description:
-    "Clinera unifica agenda, WhatsApp, fichas, cobros y recuperación de pacientes de todas tus sedes en una sola plataforma operada con IA. Para clínicas con volumen y equipo.",
+    "Clinera unifica agenda, WhatsApp, fichas, cobros y recuperación de pacientes de todas tus sedes en una sola plataforma operada con IA. Para clínicas medianas y grandes: 2+ sedes o alto volumen.",
   alternates: { canonical: "https://www.clinera.io/plataforma" },
   openGraph: {
     url: "https://www.clinera.io/plataforma",

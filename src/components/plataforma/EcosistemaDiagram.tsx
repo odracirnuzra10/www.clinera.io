@@ -10,7 +10,7 @@ import { GRAD, Mono } from "@/components/brand-v3/Brand";
 
 const sources = [
   { n: "Agenda", s: "Horas y bloqueos", d: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>' },
-  { n: "Sedes", s: "Toda tu operación", d: '<path d="M3 21h18M5 21V8l7-5 7 5v13M10 21v-5h4v5"/>' },
+  { n: "Sedes", s: "Todas tus sucursales", d: '<path d="M3 21h18M5 21V8l7-5 7 5v13M10 21v-5h4v5"/>' },
   { n: "Fichas", s: "Historial de cada paciente", d: '<path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 13h6M9 17h6"/>' },
   { n: "Tratamientos", s: "Precios y protocolos", d: '<path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6z"/>' },
   { n: "Ventas", s: "Qué se vende y cuánto", d: '<path d="M3 3v18h18"/><path d="M7 15l3-4 3 2 5-6"/>' },
