@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import { CtaPrimary, CtaSecondary, GRAD } from "@/components/brand-v3/Brand";
+import { CtaPrimary, CtaSecondary, GRAD, Wordmark } from "@/components/brand-v3/Brand";
 
 /* ============================================================
    /plataforma — Landing de lectura previa al wizard (/ventas)
@@ -188,9 +188,30 @@ export default function PlataformaLanding() {
           100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
         .plt-dot { animation: pltPulse 2.2s infinite; }
+        @keyframes pltMsgIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: none; }
+        }
+        .plt-msg { animation: pltMsgIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        @keyframes pltBlink {
+          0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+          40% { opacity: 1; transform: translateY(-2px); }
+        }
+        .plt-typing i {
+          display: inline-block;
+          width: 5px;
+          height: 5px;
+          border-radius: 999px;
+          background: rgba(196, 181, 253, 0.9);
+          margin: 0 2px;
+          animation: pltBlink 1.2s infinite;
+        }
+        .plt-typing i:nth-child(2) { animation-delay: 0.18s; }
+        .plt-typing i:nth-child(3) { animation-delay: 0.36s; }
         @media (prefers-reduced-motion: reduce) {
           .reveal { opacity: 1 !important; transform: none !important; }
-          .plt-dot { animation: none; }
+          .plt-dot, .plt-msg, .plt-typing i { animation: none; }
+          .plt-msg { opacity: 1; transform: none; }
         }
         @media (max-width: 900px) {
           .plt-hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
@@ -198,6 +219,7 @@ export default function PlataformaLanding() {
         }
         @media (max-width: 760px) {
           .plt-section { padding-left: 28px !important; padding-right: 28px !important; }
+          .plt-header-inner { padding-left: 28px !important; padding-right: 28px !important; }
           .plt-unifica-grid { grid-template-columns: 1fr !important; }
           .plt-stats { grid-template-columns: 1fr 1fr !important; gap: 28px 16px !important; }
           .plt-h1 { font-size: 40px !important; }
@@ -209,10 +231,42 @@ export default function PlataformaLanding() {
         }
       `}</style>
 
+      {/* ============== HEADER MÍNIMO — solo logo + CTA (landing sin nav) ============== */}
+      <header
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 50,
+          background: "rgba(255,255,255,0.86)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          borderBottom: "1px solid #EEECEA",
+        }}
+      >
+        <div
+          className="plt-header-inner"
+          style={{
+            maxWidth: 1200,
+            margin: "0 auto",
+            padding: "13px 80px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Link href="/" aria-label="Clinera.io" style={{ textDecoration: "none" }}>
+            <Wordmark size={20} />
+          </Link>
+          <CtaPrimary as={Link} href="/ventas" style={{ padding: "10px 18px", fontSize: 14 }}>
+            Ver si califico <span>→</span>
+          </CtaPrimary>
+        </div>
+      </header>
+
       {/* ============== HERO ============== */}
       <section
         className="plt-section"
-        style={{ position: "relative", padding: "76px 80px 64px", overflow: "hidden" }}
+        style={{ position: "relative", padding: "64px 80px 64px", overflow: "hidden" }}
       >
         <div
           aria-hidden
@@ -354,7 +408,7 @@ export default function PlataformaLanding() {
                 margin: "12px 0 0",
               }}
             >
-              Todo lo que hoy vive en herramientas sueltas, integrado.
+              Unifica todas tus operaciones con IA.
             </h2>
             <p style={{ fontFamily: "Inter", fontSize: 18, lineHeight: 1.55, color: "#4B5563", margin: "14px 0 0" }}>
               Una sola fuente de verdad para tu equipo y tus sedes. Sin planillas paralelas, sin datos
@@ -442,11 +496,10 @@ export default function PlataformaLanding() {
         </div>
       </section>
 
-      {/* ============== PARA QUIÉN ES / NO ES (calificación, dark) ============== */}
+      {/* ============== SLIDE NEGRO — chat IA interno + calificación ============== */}
       <section
-        id="para-quien"
         className="plt-section"
-        style={{ position: "relative", background: "#0D0F14", padding: "92px 80px", overflow: "hidden", scrollMarginTop: 80 }}
+        style={{ position: "relative", background: "#0D0F14", padding: "92px 80px", overflow: "hidden" }}
       >
         <div
           aria-hidden
@@ -461,7 +514,37 @@ export default function PlataformaLanding() {
           }}
         />
         <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
-          <div className="reveal" style={{ maxWidth: 680 }}>
+          {/* ---- Chat IA interno (estilo /presentacion) ---- */}
+          <div className="reveal" style={{ maxWidth: 640, margin: "0 auto", textAlign: "center" }}>
+            <Eyebrow color="#A78BFA">Una sola IA · toda tu operación</Eyebrow>
+            <h2
+              className="plt-h2"
+              style={{
+                fontFamily: "Inter",
+                fontSize: 38,
+                fontWeight: 700,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.12,
+                color: "#fff",
+                margin: "12px 0 0",
+              }}
+            >
+              Y le puedes preguntar lo que sea.
+            </h2>
+            <p style={{ fontFamily: "Inter", fontSize: 18, lineHeight: 1.55, color: "rgba(255,255,255,0.65)", margin: "14px auto 0", maxWidth: 560 }}>
+              Como Clinera unifica todo, su IA conoce cada venta, cada hora y cada paciente de tus sedes.
+              Pregúntale en español, como a un miembro más del equipo.
+            </p>
+          </div>
+
+          <AuraChat />
+
+          {/* ---- Calificación (auto-descarte) ---- */}
+          <div
+            id="para-quien"
+            className="reveal"
+            style={{ maxWidth: 680, marginTop: 96, scrollMarginTop: 80 }}
+          >
             <Eyebrow color="#A78BFA">Honestos desde el principio</Eyebrow>
             <h2
               className="plt-h2"
@@ -475,11 +558,11 @@ export default function PlataformaLanding() {
                 margin: "12px 0 0",
               }}
             >
-              Clinera no es para toda clínica.
+              Eso sí: no es para toda clínica.
             </h2>
             <p style={{ fontFamily: "Inter", fontSize: 18, lineHeight: 1.55, color: "rgba(255,255,255,0.65)", margin: "14px 0 0" }}>
-              Es una plataforma para operaciones con volumen y equipo. Antes de que dejes tus datos,
-              mira si de verdad es para ti.
+              Toda esa potencia solo rinde con volumen y equipo. Antes de que dejes tus datos, mira si de
+              verdad es para ti.
             </p>
           </div>
 
@@ -640,6 +723,171 @@ export default function PlataformaLanding() {
         </div>
       </section>
     </>
+  );
+}
+
+/* ============ Chat IA interno — AURA responde sobre tus operaciones ============ */
+const AURA_TURNS: { q: string; a: ReactNode }[] = [
+  { q: "¿Cuánto vendí este mes?", a: <>Vas en <b>$18.240.000</b> — 12% sobre el mes pasado.</> },
+  { q: "¿Cuántos no-shows tuve esta semana?", a: <>9 no-shows. Ya reagendé <b>6</b> por WhatsApp, sola.</> },
+  { q: "¿Qué sede rinde más?", a: <>Providencia: <b>91%</b> de ocupación. Ñuñoa va en 73%.</> },
+  { q: "¿Cuánto tengo por cobrar?", a: <><b>$3.180.000</b> pendientes. Envié 14 recordatorios hoy.</> },
+];
+
+function AuraChat() {
+  // Un solo intervalo → estado derivado (lint-safe: setState va en el callback del timer).
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    const id = window.setInterval(() => setStep((s) => s + 1), 2200);
+    return () => window.clearInterval(id);
+  }, []);
+  const ti = Math.floor(step / 2) % AURA_TURNS.length;
+  const turn = AURA_TURNS[ti];
+  const answered = step % 2 === 1;
+
+  return (
+    <div className="reveal" style={{ maxWidth: 470, margin: "40px auto 0" }}>
+      <div
+        style={{
+          background: "rgba(255,255,255,0.04)",
+          border: "1px solid rgba(255,255,255,0.1)",
+          borderRadius: 18,
+          padding: 16,
+          backdropFilter: "blur(8px)",
+          boxShadow: "0 30px 70px -34px rgba(0,0,0,0.8)",
+        }}
+      >
+        {/* header */}
+        <div style={{ display: "flex", alignItems: "center", gap: 11, paddingBottom: 14, borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/agents/aura.jpg"
+            alt="AURA — agente de IA de Clinera"
+            width={38}
+            height={38}
+            loading="lazy"
+            decoding="async"
+            style={{ borderRadius: 999, objectFit: "cover", border: "1px solid rgba(255,255,255,0.15)" }}
+          />
+          <div>
+            <div style={{ fontFamily: "Inter", fontSize: 14, fontWeight: 700, color: "#fff", lineHeight: 1.1 }}>AURA</div>
+            <div style={{ fontFamily: "Inter", fontSize: 12, color: "rgba(255,255,255,0.5)" }}>Núcleo IA · toda tu operación</div>
+          </div>
+          <span
+            style={{
+              marginLeft: "auto",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontSize: 10.5,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              color: "#34D399",
+            }}
+          >
+            <span className="plt-dot" style={{ width: 7, height: 7, borderRadius: 999, background: "#10B981" }} />
+            en línea
+          </span>
+        </div>
+
+        {/* cuerpo del chat */}
+        <div style={{ minHeight: 128, display: "flex", flexDirection: "column", gap: 10, padding: "16px 2px 8px" }}>
+          <div
+            key={`q-${ti}`}
+            className="plt-msg"
+            style={{
+              alignSelf: "flex-end",
+              maxWidth: "82%",
+              background: "rgba(255,255,255,0.08)",
+              color: "#fff",
+              fontFamily: "Inter",
+              fontSize: 14,
+              lineHeight: 1.45,
+              padding: "10px 13px",
+              borderRadius: 13,
+              borderBottomRightRadius: 3,
+            }}
+          >
+            {turn.q}
+          </div>
+          {answered ? (
+            <div
+              key={`a-${ti}`}
+              className="plt-msg"
+              style={{
+                alignSelf: "flex-start",
+                maxWidth: "90%",
+                background: "rgba(124,58,237,0.18)",
+                border: "1px solid rgba(124,58,237,0.32)",
+                color: "rgba(255,255,255,0.96)",
+                fontFamily: "Inter",
+                fontSize: 14,
+                lineHeight: 1.45,
+                padding: "10px 13px",
+                borderRadius: 13,
+                borderBottomLeftRadius: 3,
+              }}
+            >
+              {turn.a}
+            </div>
+          ) : (
+            <div
+              key={`t-${ti}`}
+              className="plt-msg"
+              style={{
+                alignSelf: "flex-start",
+                background: "rgba(124,58,237,0.14)",
+                border: "1px solid rgba(124,58,237,0.28)",
+                padding: "13px 15px",
+                borderRadius: 13,
+                borderBottomLeftRadius: 3,
+              }}
+            >
+              <span className="plt-typing" style={{ display: "inline-flex", alignItems: "center" }}>
+                <i />
+                <i />
+                <i />
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* input decorativo */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            marginTop: 6,
+            padding: "11px 14px",
+            background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: 12,
+          }}
+        >
+          <span style={{ fontFamily: "Inter", fontSize: 13.5, color: "rgba(255,255,255,0.42)", flex: 1 }}>
+            Pregúntale a tu operación…
+          </span>
+          <span
+            style={{
+              width: 28,
+              height: 28,
+              borderRadius: 8,
+              background: GRAD,
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+            </svg>
+          </span>
+        </div>
+      </div>
+    </div>
   );
 }
 
