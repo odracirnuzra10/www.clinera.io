@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import NavV3 from "@/components/brand-v3/Nav";
-import FooterV3 from "@/components/brand-v3/Footer";
 import PlataformaLanding from "@/components/plataforma/PlataformaLanding";
 
 export const metadata: Metadata = {
@@ -55,11 +53,9 @@ export default function PlataformaPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareLd) }}
       />
 
-      <NavV3 />
       <main>
         <PlataformaLanding />
       </main>
-      <FooterV3 />
     </>
   );
 }
