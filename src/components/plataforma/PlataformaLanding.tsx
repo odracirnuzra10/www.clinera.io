@@ -7,34 +7,14 @@ import { CtaPrimary, CtaSecondary, GRAD, Wordmark } from "@/components/brand-v3/
 import EcosistemaDiagram from "@/components/plataforma/EcosistemaDiagram";
 
 /* ============================================================
-   /plataforma — Landing de lectura previa al wizard (/ventas)
-   Objetivo: dejar claro que Clinera unifica e integra TODA la
-   operación de la clínica con IA, y calificar por volumen + equipo
-   para que una clínica demasiado pequeña se descarte sola.
-   Sistema visual: brand-v3 (Inter + JetBrains Mono), light-first,
-   acento dominante violeta (#7C3AED). CTAs → /ventas.
+   /plataforma — Landing de lectura previa al wizard (/ventas).
+   Rediseño v4: jerarquía visual fuerte, hero centrado dominante,
+   intros de sección numeradas y centradas, y mucho aire. Sistema
+   del repo (brand-v3, Inter + JetBrains Mono), acento violeta.
    ============================================================ */
 
 const ACCENT = "#7C3AED";
 const ACCENT_SOFT = "rgba(124,58,237,0.08)";
-
-// Eyebrow mono reutilizable (convención del sitio)
-function Eyebrow({ children, color = "#10B981" }: { children: ReactNode; color?: string }) {
-  return (
-    <span
-      style={{
-        fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-        fontSize: 12,
-        fontWeight: 500,
-        letterSpacing: "0.12em",
-        textTransform: "uppercase",
-        color,
-      }}
-    >
-      {children}
-    </span>
-  );
-}
 
 const STATS: { n: string; l: string }[] = [
   { n: "+52", l: "clínicas activas" },
@@ -43,11 +23,71 @@ const STATS: { n: string; l: string }[] = [
   { n: "24/7", l: "operación con IA" },
 ];
 
+// Intro de sección centrada y numerada — la unidad de jerarquía del rediseño.
+function SectionIntro({
+  num,
+  eyebrow,
+  title,
+  sub,
+  dark = false,
+}: {
+  num: string;
+  eyebrow: string;
+  title: ReactNode;
+  sub?: ReactNode;
+  dark?: boolean;
+}) {
+  const numColor = dark ? "#A78BFA" : ACCENT;
+  const eyeColor = dark ? "rgba(255,255,255,0.5)" : "#9AA0AE";
+  const line = dark ? "rgba(255,255,255,0.2)" : "#D8DBE2";
+  const titleColor = dark ? "#fff" : "#0A0A0A";
+  const subColor = dark ? "rgba(255,255,255,0.6)" : "#4B5563";
+  return (
+    <div className="reveal" style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
+      <div
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 12,
+          marginBottom: 24,
+          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+          fontSize: 12,
+          fontWeight: 500,
+          letterSpacing: "0.16em",
+          textTransform: "uppercase",
+        }}
+      >
+        <span style={{ color: numColor, fontWeight: 600 }}>{num}</span>
+        <span style={{ width: 22, height: 1, background: line }} />
+        <span style={{ color: eyeColor }}>{eyebrow}</span>
+      </div>
+      <h2
+        className="plt-h2"
+        style={{
+          fontFamily: "Inter",
+          fontSize: 46,
+          fontWeight: 700,
+          letterSpacing: "-0.033em",
+          lineHeight: 1.08,
+          color: titleColor,
+          margin: 0,
+        }}
+      >
+        {title}
+      </h2>
+      {sub && (
+        <p style={{ fontFamily: "Inter", fontSize: 19, lineHeight: 1.55, color: subColor, margin: "22px auto 0", maxWidth: 600 }}>
+          {sub}
+        </p>
+      )}
+    </div>
+  );
+}
+
 export default function PlataformaLanding() {
   // Nota de atribución: gclid/fbclid se capturan y persisten globalmente en el
   // primer pageview (GclidCapture, montado en layout) → cookie .clinera.io + storage.
-  // El wizard /ventas lee esa atribución desde storage, así que basta con links
-  // planos y crawleables (sin arrastrar el query string) para no perder tracking.
+  // El wizard /ventas lee esa atribución desde storage; basta con links planos.
   useEffect(() => {
     const io = new IntersectionObserver(
       (entries) =>
@@ -60,12 +100,10 @@ export default function PlataformaLanding() {
       { threshold: 0, rootMargin: "0px 0px -8% 0px" },
     );
     document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-    // Fallback: si el observer no dispara, revela igual (paridad con el resto del sitio).
     const t = window.setTimeout(
       () => document.querySelectorAll(".reveal").forEach((el) => el.classList.add("in")),
       1200,
     );
-
     return () => {
       io.disconnect();
       window.clearTimeout(t);
@@ -77,9 +115,9 @@ export default function PlataformaLanding() {
       <style jsx global>{`
         .reveal {
           opacity: 0;
-          transform: translateY(14px);
-          transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-            transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+          transform: translateY(16px);
+          transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+            transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .reveal.in {
           opacity: 1;
@@ -136,16 +174,16 @@ export default function PlataformaLanding() {
           .plt-msg { opacity: 1; transform: none; }
         }
         @media (max-width: 900px) {
-          .plt-hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           .plt-canales-grid { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 760px) {
-          .plt-section { padding-left: 28px !important; padding-right: 28px !important; }
-          .plt-header-inner { padding-left: 28px !important; padding-right: 28px !important; }
-          .plt-unifica-grid { grid-template-columns: 1fr !important; }
-          .plt-stats { grid-template-columns: 1fr 1fr !important; gap: 28px 16px !important; }
-          .plt-h1 { font-size: 40px !important; }
+          .plt-section { padding-left: 24px !important; padding-right: 24px !important; }
+          .plt-header-inner { padding-left: 24px !important; padding-right: 24px !important; }
+          .plt-stats { grid-template-columns: 1fr 1fr !important; gap: 36px 12px !important; padding: 36px 24px !important; }
+          .plt-stats > div { border-left: none !important; }
+          .plt-h1 { font-size: 38px !important; }
           .plt-h2 { font-size: 30px !important; }
+          .plt-section-pad { padding-top: 88px !important; padding-bottom: 88px !important; }
         }
         @media (max-width: 460px) {
           .plt-cta-row { flex-direction: column; align-items: stretch; }
@@ -153,24 +191,24 @@ export default function PlataformaLanding() {
         }
       `}</style>
 
-      {/* ============== HEADER MÍNIMO — solo logo + CTA (landing sin nav) ============== */}
+      {/* ============== HEADER MÍNIMO — solo logo + CTA ============== */}
       <header
         style={{
           position: "sticky",
           top: 0,
           zIndex: 50,
-          background: "rgba(255,255,255,0.86)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
+          background: "rgba(255,255,255,0.85)",
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
           borderBottom: "1px solid #EEECEA",
         }}
       >
         <div
           className="plt-header-inner"
           style={{
-            maxWidth: 1200,
+            maxWidth: 1180,
             margin: "0 auto",
-            padding: "13px 80px",
+            padding: "15px 80px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -185,160 +223,134 @@ export default function PlataformaLanding() {
         </div>
       </header>
 
-      {/* ============== HERO ============== */}
-      <section
-        className="plt-section"
-        style={{ position: "relative", padding: "64px 80px 64px", overflow: "hidden" }}
-      >
+      {/* ============== HERO (centrado, dominante) ============== */}
+      <section className="plt-section" style={{ position: "relative", padding: "84px 80px 96px", overflow: "hidden" }}>
         <div
           aria-hidden
           style={{
             position: "absolute",
             inset: 0,
-            background:
-              "radial-gradient(ellipse 78% 50% at 15% -10%, #EDE4FF 0%, #F4EEFF 34%, #FFFFFF 72%)",
+            background: "radial-gradient(ellipse 70% 50% at 50% -8%, #EEE4FF 0%, #F5EFFF 32%, #FFFFFF 68%)",
             zIndex: 0,
             pointerEvents: "none",
           }}
         />
-        <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
-          <div
-            className="plt-hero-grid"
-            style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 56, alignItems: "center" }}
+        <div style={{ maxWidth: 900, margin: "0 auto", position: "relative", zIndex: 1, textAlign: "center" }}>
+          <span
+            className="reveal"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 9,
+              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontSize: 12,
+              fontWeight: 500,
+              letterSpacing: "0.11em",
+              textTransform: "uppercase",
+              color: "#0A0A0A",
+              background: "#fff",
+              border: "1px solid #E9E4F5",
+              padding: "7px 14px",
+              borderRadius: 999,
+              boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+            }}
           >
-            <div className="reveal">
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 9,
-                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                  fontSize: 12,
-                  fontWeight: 500,
-                  letterSpacing: "0.11em",
-                  textTransform: "uppercase",
-                  color: "#0A0A0A",
-                  background: "#fff",
-                  border: "1px solid #E9E4F5",
-                  padding: "6px 12px",
-                  borderRadius: 999,
-                  boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
-                }}
-              >
-                <span
-                  className="plt-dot"
-                  style={{ width: 7, height: 7, borderRadius: 999, background: "#10B981", display: "inline-block" }}
-                />
-                Una sola plataforma · Operación clínica con IA
-              </span>
+            <span className="plt-dot" style={{ width: 7, height: 7, borderRadius: 999, background: "#10B981", display: "inline-block" }} />
+            Una sola plataforma · Operación clínica con IA
+          </span>
 
-              <h1
-                className="plt-h1"
-                style={{
-                  fontFamily: "Inter",
-                  fontSize: 56,
-                  fontWeight: 700,
-                  letterSpacing: "-0.035em",
-                  lineHeight: 1.04,
-                  margin: "20px 0 0",
-                  color: "#0A0A0A",
-                }}
-              >
-                Una clínica que crece no se opera en cinco sistemas.{" "}
-                <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-                  Se opera en uno solo, con IA.
-                </span>
-              </h1>
+          <h1
+            className="plt-h1 reveal"
+            style={{
+              fontFamily: "Inter",
+              fontSize: 62,
+              fontWeight: 700,
+              letterSpacing: "-0.038em",
+              lineHeight: 1.03,
+              margin: "28px auto 0",
+              color: "#0A0A0A",
+              maxWidth: 860,
+            }}
+          >
+            Una clínica que crece no se opera en cinco sistemas.{" "}
+            <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
+              Se opera en uno solo, con IA.
+            </span>
+          </h1>
 
-              <p
-                style={{
-                  fontFamily: "Inter",
-                  fontSize: 18.5,
-                  lineHeight: 1.58,
-                  color: "#4B5563",
-                  margin: "22px 0 0",
-                  maxWidth: 560,
-                }}
-              >
-                Clinera unifica agenda, WhatsApp, fichas, cobros y recuperación de pacientes de{" "}
-                <b style={{ color: "#0A0A0A" }}>todas tus sedes</b> en una sola plataforma. Agentes de
-                IA operan el día a día 24/7 y tú ves y controlas todo desde un solo lugar.
-              </p>
+          <p
+            className="reveal"
+            style={{
+              fontFamily: "Inter",
+              fontSize: 20,
+              lineHeight: 1.58,
+              color: "#4B5563",
+              margin: "26px auto 0",
+              maxWidth: 620,
+            }}
+          >
+            Clinera unifica agenda, WhatsApp, fichas, cobros y recuperación de pacientes de{" "}
+            <b style={{ color: "#0A0A0A" }}>todas tus sedes</b> en una sola plataforma. Agentes de IA
+            operan el día a día 24/7 y tú ves y controlas todo desde un solo lugar.
+          </p>
 
-              <div className="plt-cta-row" style={{ display: "flex", gap: 12, marginTop: 30, flexWrap: "wrap" }}>
-                <CtaPrimary as={Link} href="/ventas" style={{ padding: "15px 26px", fontSize: 16 }}>
-                  Ver si tu clínica califica <span>→</span>
-                </CtaPrimary>
-                <CtaSecondary as={Link} href="#la-ia" style={{ padding: "15px 24px", fontSize: 16 }}>
-                  Ver la IA en acción
-                </CtaSecondary>
-              </div>
+          <div className="plt-cta-row reveal" style={{ display: "flex", gap: 12, marginTop: 36, justifyContent: "center", flexWrap: "wrap" }}>
+            <CtaPrimary as={Link} href="/ventas" style={{ padding: "16px 30px", fontSize: 16 }}>
+              Ver si tu clínica califica <span>→</span>
+            </CtaPrimary>
+            <CtaSecondary as={Link} href="#la-ia" style={{ padding: "16px 26px", fontSize: 16 }}>
+              Ver la IA en acción
+            </CtaSecondary>
+          </div>
 
-              <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 24, flexWrap: "wrap" }}>
-                <div style={{ display: "flex" }}>
-                  {["#EDE9FE", "#FCE7F3", "#DBEAFE", "#D1FAE5"].map((c, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        width: 28,
-                        height: 28,
-                        borderRadius: 999,
-                        background: c,
-                        border: "2px solid #fff",
-                        marginLeft: i === 0 ? 0 : -8,
-                        fontFamily: "Inter",
-                        fontSize: 11,
-                        fontWeight: 600,
-                        color: "#0A0A0A",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {["CM", "TE", "SP", "JS"][i]}
-                    </div>
-                  ))}
+          <div className="reveal" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginTop: 30, flexWrap: "wrap" }}>
+            <div style={{ display: "flex" }}>
+              {["#EDE9FE", "#FCE7F3", "#DBEAFE", "#D1FAE5"].map((c, i) => (
+                <div
+                  key={i}
+                  style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: 999,
+                    background: c,
+                    border: "2px solid #fff",
+                    marginLeft: i === 0 ? 0 : -9,
+                    fontFamily: "Inter",
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: "#0A0A0A",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {["CM", "TE", "SP", "JS"][i]}
                 </div>
-                <div style={{ fontFamily: "Inter", fontSize: 13.5, color: "#4B5563" }}>
-                  <b style={{ color: "#0A0A0A" }}>+500 profesionales</b> coordinados en 10 países
-                </div>
-              </div>
+              ))}
             </div>
+            <div style={{ fontFamily: "Inter", fontSize: 14, color: "#4B5563" }}>
+              <b style={{ color: "#0A0A0A" }}>+500 profesionales</b> coordinados en 10 países
+            </div>
+          </div>
 
-            {/* Visual: capa única sobre operaciones sueltas */}
-            <div className="reveal" style={{ transitionDelay: "90ms" }}>
-              <UnifyVisual accent={ACCENT} accentSoft={ACCENT_SOFT} />
-            </div>
+          {/* Visual: una capa (Clinera) sobre operaciones sueltas */}
+          <div className="reveal" style={{ maxWidth: 620, margin: "64px auto 0", transitionDelay: "90ms" }}>
+            <UnifyVisual accent={ACCENT} accentSoft={ACCENT_SOFT} />
           </div>
         </div>
       </section>
 
-      {/* ============== LO QUE UNIFICA ============== */}
-      <section className="plt-section" style={{ padding: "24px 80px 88px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div className="reveal" style={{ maxWidth: 720 }}>
-            <Eyebrow>Una capa sobre toda tu operación</Eyebrow>
-            <h2
-              className="plt-h2"
-              style={{
-                fontFamily: "Inter",
-                fontSize: 38,
-                fontWeight: 700,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.12,
-                color: "#0A0A0A",
-                margin: "12px 0 0",
-              }}
-            >
-              Unifica todas tus operaciones con IA.
-            </h2>
-            <p style={{ fontFamily: "Inter", fontSize: 18, lineHeight: 1.55, color: "#4B5563", margin: "14px 0 0" }}>
-              Una sola fuente de verdad para tu equipo y tus sedes. Sin planillas paralelas, sin datos
-              que no cuadran, sin herramientas que no se hablan entre sí.
-            </p>
-          </div>
+      {/* ============== 01 · ECOSISTEMA ============== */}
+      <section className="plt-section plt-section-pad" style={{ padding: "120px 80px", borderTop: "1px solid #F1EFEC", background: "#FBFBFA" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <SectionIntro
+            num="01"
+            eyebrow="Una capa sobre todo"
+            title="Unifica todas tus operaciones con IA."
+            sub="Una sola fuente de verdad para tu equipo y tus sedes. Sin planillas paralelas, sin datos que no cuadran, sin herramientas que no se hablan entre sí."
+          />
 
-          <div style={{ marginTop: 48 }}>
+          <div className="reveal" style={{ marginTop: 72 }}>
             <EcosistemaDiagram />
           </div>
 
@@ -349,19 +361,19 @@ export default function PlataformaLanding() {
               display: "grid",
               gridTemplateColumns: "repeat(4, 1fr)",
               gap: 20,
-              marginTop: 40,
-              padding: "30px 32px",
-              background: "#FAFAFA",
-              border: "1px solid #EFEDEA",
-              borderRadius: 16,
+              marginTop: 72,
+              padding: "44px 40px",
+              background: "#fff",
+              border: "1px solid #ECEAE6",
+              borderRadius: 20,
             }}
           >
-            {STATS.map((s) => (
-              <div key={s.l}>
+            {STATS.map((s, i) => (
+              <div key={s.l} style={{ textAlign: "center", borderLeft: i > 0 ? "1px solid #EDEBE7" : "none" }}>
                 <div
                   style={{
                     fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                    fontSize: 30,
+                    fontSize: 38,
                     fontWeight: 600,
                     color: "#0A0A0A",
                     letterSpacing: "-0.02em",
@@ -370,143 +382,116 @@ export default function PlataformaLanding() {
                 >
                   {s.n}
                 </div>
-                <div style={{ fontFamily: "Inter", fontSize: 13.5, color: "#6B7280", marginTop: 8 }}>{s.l}</div>
+                <div style={{ fontFamily: "Inter", fontSize: 14, color: "#6B7280", marginTop: 12 }}>{s.l}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ============== SLIDE NEGRO — chat IA interno + 2 canales ============== */}
+      {/* ============== SLIDE NEGRO — 02 chat + 03 canales ============== */}
       <section
         id="la-ia"
-        className="plt-section"
-        style={{ position: "relative", background: "#0D0F14", padding: "92px 80px", overflow: "hidden", scrollMarginTop: 70 }}
+        className="plt-section plt-section-pad"
+        style={{ position: "relative", background: "#0D0F14", padding: "128px 80px", overflow: "hidden", scrollMarginTop: 70 }}
       >
         <div
           aria-hidden
           style={{
             position: "absolute",
-            top: -160,
+            top: -180,
             right: -140,
-            width: 520,
-            height: 520,
-            background: "radial-gradient(circle, rgba(124,58,237,0.16) 0%, transparent 65%)",
+            width: 560,
+            height: 560,
+            background: "radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 65%)",
             pointerEvents: "none",
           }}
         />
         <div style={{ maxWidth: 1080, margin: "0 auto", position: "relative", zIndex: 1 }}>
-          {/* ---- Chat IA interno (estilo /presentacion) ---- */}
-          <div className="reveal" style={{ maxWidth: 640, margin: "0 auto", textAlign: "center" }}>
-            <Eyebrow color="#A78BFA">Una sola IA · toda tu operación</Eyebrow>
-            <h2
-              className="plt-h2"
-              style={{
-                fontFamily: "Inter",
-                fontSize: 38,
-                fontWeight: 700,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.12,
-                color: "#fff",
-                margin: "12px 0 0",
-              }}
-            >
-              Y le puedes preguntar lo que sea.
-            </h2>
-            <p style={{ fontFamily: "Inter", fontSize: 18, lineHeight: 1.55, color: "rgba(255,255,255,0.65)", margin: "14px auto 0", maxWidth: 560 }}>
-              Como Clinera unifica todo, su IA conoce cada venta, cada hora y cada paciente de tus sedes.
-              Pregúntale en español, como a un miembro más del equipo.
-            </p>
-          </div>
-
+          {/* 02 — Inteligencia interna */}
+          <SectionIntro
+            num="02"
+            eyebrow="Una sola IA · toda tu operación"
+            title="Y le puedes preguntar lo que sea."
+            sub="Como Clinera unifica todo, su IA conoce cada venta, cada hora y cada paciente de tus sedes. Pregúntale en español, como a un miembro más del equipo."
+            dark
+          />
           <AuraChat />
 
-          {/* ---- Una IA, 2 canales: voz + WhatsApp ---- */}
-          <div className="reveal" style={{ maxWidth: 680, marginTop: 100 }}>
-            <Eyebrow color="#A78BFA">Una IA · dos canales</Eyebrow>
-            <h2
-              className="plt-h2"
-              style={{
-                fontFamily: "Inter",
-                fontSize: 38,
-                fontWeight: 700,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.12,
-                color: "#fff",
-                margin: "12px 0 0",
-              }}
+          {/* 03 — Dos canales */}
+          <div style={{ marginTop: 128 }}>
+            <SectionIntro
+              num="03"
+              eyebrow="Una IA · dos canales"
+              title="Una IA, 2 canales para atender a tus pacientes."
+              sub="Tus pacientes eligen: por teléfono o por WhatsApp. La misma IA llama, confirma, reagenda y responde en ambos — sin que se te escape ninguno."
+              dark
+            />
+
+            <div
+              className="plt-canales-grid reveal"
+              style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginTop: 56, maxWidth: 900, marginLeft: "auto", marginRight: "auto" }}
             >
-              Una IA, 2 canales para atender a tus pacientes.
-            </h2>
-            <p style={{ fontFamily: "Inter", fontSize: 18, lineHeight: 1.55, color: "rgba(255,255,255,0.65)", margin: "14px 0 0" }}>
-              Tus pacientes eligen: por teléfono o por WhatsApp. La misma IA llama, confirma, reagenda y
-              responde en ambos — sin que se te escape ninguno.
-            </p>
-          </div>
-
-          <div
-            className="plt-canales-grid reveal"
-            style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginTop: 40 }}
-          >
-            {/* Canal 1 — Llamada de voz */}
-            <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 16, padding: "24px 24px 22px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 18 }}>
-                <span style={{ width: 38, height: 38, borderRadius: 10, background: "rgba(124,58,237,0.18)", border: "1px solid rgba(124,58,237,0.32)", display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C4B5FD" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7A2 2 0 0 1 22 17z"/></svg>
-                </span>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontFamily: "Inter", fontSize: 14.5, fontWeight: 700, color: "#fff", lineHeight: 1.1 }}>Llamada de voz</div>
-                  <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "rgba(255,255,255,0.5)" }}>La IA llama y confirma</div>
+              {/* Canal 1 — Llamada de voz */}
+              <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 18, padding: "26px 26px 24px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 18 }}>
+                  <span style={{ width: 38, height: 38, borderRadius: 10, background: "rgba(124,58,237,0.18)", border: "1px solid rgba(124,58,237,0.32)", display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C4B5FD" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7A2 2 0 0 1 22 17z"/></svg>
+                  </span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontFamily: "Inter", fontSize: 14.5, fontWeight: 700, color: "#fff", lineHeight: 1.1 }}>Llamada de voz</div>
+                    <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "rgba(255,255,255,0.5)" }}>La IA llama y confirma</div>
+                  </div>
+                  <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "#C4B5FD", background: "rgba(124,58,237,0.16)", border: "1px solid rgba(124,58,237,0.3)", padding: "3px 8px", borderRadius: 999 }}>AURA</span>
                 </div>
-                <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "#C4B5FD", background: "rgba(124,58,237,0.16)", border: "1px solid rgba(124,58,237,0.3)", padding: "3px 8px", borderRadius: 999 }}>AURA</span>
-              </div>
 
-              <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", background: "rgba(0,0,0,0.25)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 12, marginBottom: 14 }}>
-                <span style={{ width: 34, height: 34, borderRadius: 999, background: "rgba(255,255,255,0.08)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "Inter", fontSize: 12, fontWeight: 700, color: "#fff", flexShrink: 0 }}>MR</span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: "Inter", fontSize: 13.5, fontWeight: 600, color: "#fff" }}>Sra. Rojas</div>
-                  <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 11, color: "#34D399" }}>en llamada · 00:14</div>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", background: "rgba(0,0,0,0.25)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 12, marginBottom: 14 }}>
+                  <span style={{ width: 34, height: 34, borderRadius: 999, background: "rgba(255,255,255,0.08)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontFamily: "Inter", fontSize: 12, fontWeight: 700, color: "#fff", flexShrink: 0 }}>MR</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontFamily: "Inter", fontSize: 13.5, fontWeight: 600, color: "#fff" }}>Sra. Rojas</div>
+                    <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 11, color: "#34D399" }}>en llamada · 00:14</div>
+                  </div>
+                  <span className="plt-wave" aria-hidden="true"><i /><i /><i /><i /><i /><i /><i /></span>
                 </div>
-                <span className="plt-wave" aria-hidden="true"><i /><i /><i /><i /><i /><i /><i /></span>
-              </div>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <div style={{ fontFamily: "Inter", fontSize: 13.5, lineHeight: 1.45, color: "rgba(255,255,255,0.9)" }}>
-                  <span style={{ color: "#C4B5FD", fontWeight: 600 }}>IA:</span> «Hola, le confirmo su hora del martes 15:00 con la Dra. Vera.»
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  <div style={{ fontFamily: "Inter", fontSize: 13.5, lineHeight: 1.45, color: "rgba(255,255,255,0.9)" }}>
+                    <span style={{ color: "#C4B5FD", fontWeight: 600 }}>IA:</span> «Hola, le confirmo su hora del martes 15:00 con la Dra. Vera.»
+                  </div>
+                  <div style={{ fontFamily: "Inter", fontSize: 13.5, lineHeight: 1.45, color: "rgba(255,255,255,0.6)" }}>
+                    <span style={{ fontWeight: 600 }}>Paciente:</span> «Sí, ahí estaré.»
+                  </div>
                 </div>
-                <div style={{ fontFamily: "Inter", fontSize: 13.5, lineHeight: 1.45, color: "rgba(255,255,255,0.6)" }}>
-                  <span style={{ fontWeight: 600 }}>Paciente:</span> «Sí, ahí estaré.»
+
+                <div style={{ marginTop: 16, display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "Inter", fontSize: 13, fontWeight: 600, color: "#34D399" }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34D399" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  Cita confirmada por teléfono
                 </div>
               </div>
 
-              <div style={{ marginTop: 16, display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "Inter", fontSize: 13, fontWeight: 600, color: "#34D399" }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34D399" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                Cita confirmada por teléfono
-              </div>
-            </div>
-
-            {/* Canal 2 — WhatsApp */}
-            <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 16, padding: "24px 24px 22px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 18 }}>
-                <span style={{ width: 38, height: 38, borderRadius: 10, background: "rgba(37,211,102,0.14)", border: "1px solid rgba(37,211,102,0.3)", display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg>
-                </span>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontFamily: "Inter", fontSize: 14.5, fontWeight: 700, color: "#fff", lineHeight: 1.1 }}>WhatsApp</div>
-                  <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "rgba(255,255,255,0.5)" }}>La IA responde y confirma</div>
+              {/* Canal 2 — WhatsApp */}
+              <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 18, padding: "26px 26px 24px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 18 }}>
+                  <span style={{ width: 38, height: 38, borderRadius: 10, background: "rgba(37,211,102,0.14)", border: "1px solid rgba(37,211,102,0.3)", display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg>
+                  </span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontFamily: "Inter", fontSize: 14.5, fontWeight: 700, color: "#fff", lineHeight: 1.1 }}>WhatsApp</div>
+                    <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "rgba(255,255,255,0.5)" }}>La IA responde y confirma</div>
+                  </div>
+                  <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "#C4B5FD", background: "rgba(124,58,237,0.16)", border: "1px solid rgba(124,58,237,0.3)", padding: "3px 8px", borderRadius: 999 }}>AURA</span>
                 </div>
-                <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: "#C4B5FD", background: "rgba(124,58,237,0.16)", border: "1px solid rgba(124,58,237,0.3)", padding: "3px 8px", borderRadius: 999 }}>AURA</span>
-              </div>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 8, padding: "6px 2px 2px" }}>
-                <div style={{ alignSelf: "flex-start", maxWidth: "88%", background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.92)", fontFamily: "Inter", fontSize: 13, lineHeight: 1.4, padding: "9px 12px", borderRadius: 12, borderBottomLeftRadius: 3 }}>¿Le confirmo su hora de mañana a las 11:00?</div>
-                <div style={{ alignSelf: "flex-end", maxWidth: "80%", background: "rgba(37,211,102,0.16)", border: "1px solid rgba(37,211,102,0.28)", color: "#fff", fontFamily: "Inter", fontSize: 13, lineHeight: 1.4, padding: "9px 12px", borderRadius: 12, borderBottomRightRadius: 3 }}>Sí, gracias</div>
-                <div style={{ alignSelf: "flex-start", maxWidth: "88%", background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.92)", fontFamily: "Inter", fontSize: 13, lineHeight: 1.4, padding: "9px 12px", borderRadius: 12, borderBottomLeftRadius: 3 }}>¡Listo! Quedó confirmada.</div>
-              </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8, padding: "6px 2px 2px" }}>
+                  <div style={{ alignSelf: "flex-start", maxWidth: "88%", background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.92)", fontFamily: "Inter", fontSize: 13, lineHeight: 1.4, padding: "9px 12px", borderRadius: 12, borderBottomLeftRadius: 3 }}>¿Le confirmo su hora de mañana a las 11:00?</div>
+                  <div style={{ alignSelf: "flex-end", maxWidth: "80%", background: "rgba(37,211,102,0.16)", border: "1px solid rgba(37,211,102,0.28)", color: "#fff", fontFamily: "Inter", fontSize: 13, lineHeight: 1.4, padding: "9px 12px", borderRadius: 12, borderBottomRightRadius: 3 }}>Sí, gracias</div>
+                  <div style={{ alignSelf: "flex-start", maxWidth: "88%", background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.92)", fontFamily: "Inter", fontSize: 13, lineHeight: 1.4, padding: "9px 12px", borderRadius: 12, borderBottomLeftRadius: 3 }}>¡Listo! Quedó confirmada.</div>
+                </div>
 
-              <div style={{ marginTop: 16, display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "Inter", fontSize: 13, fontWeight: 600, color: "#34D399" }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34D399" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                Confirmada por WhatsApp
+                <div style={{ marginTop: 16, display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "Inter", fontSize: 13, fontWeight: 600, color: "#34D399" }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34D399" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  Confirmada por WhatsApp
+                </div>
               </div>
             </div>
           </div>
@@ -514,13 +499,13 @@ export default function PlataformaLanding() {
       </section>
 
       {/* ============== CTA FINAL ============== */}
-      <section className="plt-section" style={{ position: "relative", padding: "88px 80px", overflow: "hidden" }}>
+      <section className="plt-section plt-section-pad" style={{ position: "relative", padding: "120px 80px", overflow: "hidden", borderTop: "1px solid #F1EFEC" }}>
         <div
           aria-hidden
           style={{
             position: "absolute",
             inset: 0,
-            background: "radial-gradient(ellipse 60% 60% at 50% 120%, #F1EBFF 0%, #FFFFFF 70%)",
+            background: "radial-gradient(ellipse 55% 60% at 50% 120%, #F1EBFF 0%, #FFFFFF 68%)",
             zIndex: 0,
             pointerEvents: "none",
           }}
@@ -530,10 +515,10 @@ export default function PlataformaLanding() {
             className="plt-h2"
             style={{
               fontFamily: "Inter",
-              fontSize: 42,
+              fontSize: 50,
               fontWeight: 700,
-              letterSpacing: "-0.035em",
-              lineHeight: 1.08,
+              letterSpacing: "-0.036em",
+              lineHeight: 1.06,
               color: "#0A0A0A",
               margin: 0,
             }}
@@ -543,13 +528,13 @@ export default function PlataformaLanding() {
               hablemos.
             </span>
           </h2>
-          <p style={{ fontFamily: "Inter", fontSize: 18, lineHeight: 1.58, color: "#4B5563", margin: "18px auto 0", maxWidth: 560 }}>
+          <p style={{ fontFamily: "Inter", fontSize: 19, lineHeight: 1.58, color: "#4B5563", margin: "22px auto 0", maxWidth: 560 }}>
             30 minutos con nuestro equipo. Te mostramos cómo se vería tu operación unificada — con tus
             números y tus sedes, no una demo genérica.
           </p>
 
-          <div className="plt-cta-row" style={{ display: "flex", gap: 12, marginTop: 30, justifyContent: "center", flexWrap: "wrap" }}>
-            <CtaPrimary as={Link} href="/ventas" style={{ padding: "16px 30px", fontSize: 16 }}>
+          <div className="plt-cta-row" style={{ display: "flex", gap: 12, marginTop: 36, justifyContent: "center", flexWrap: "wrap" }}>
+            <CtaPrimary as={Link} href="/ventas" style={{ padding: "17px 34px", fontSize: 16 }}>
               Ver si califico <span>→</span>
             </CtaPrimary>
           </div>
@@ -560,7 +545,7 @@ export default function PlataformaLanding() {
               gap: 10,
               justifyContent: "center",
               flexWrap: "wrap",
-              marginTop: 22,
+              marginTop: 28,
               fontFamily: "'JetBrains Mono', ui-monospace, monospace",
               fontSize: 12,
               letterSpacing: "0.06em",
@@ -601,15 +586,15 @@ function AuraChat() {
   const answered = step % 2 === 1;
 
   return (
-    <div className="reveal" style={{ maxWidth: 470, margin: "40px auto 0" }}>
+    <div className="reveal" style={{ maxWidth: 480, margin: "56px auto 0" }}>
       <div
         style={{
           background: "rgba(255,255,255,0.04)",
           border: "1px solid rgba(255,255,255,0.1)",
-          borderRadius: 18,
-          padding: 16,
+          borderRadius: 20,
+          padding: 18,
           backdropFilter: "blur(8px)",
-          boxShadow: "0 30px 70px -34px rgba(0,0,0,0.8)",
+          boxShadow: "0 40px 90px -40px rgba(0,0,0,0.85)",
         }}
       >
         {/* header */}
@@ -754,9 +739,9 @@ function UnifyVisual({ accent, accentSoft }: { accent: string; accentSoft: strin
       style={{
         background: "#fff",
         border: "1px solid #EAEAEA",
-        borderRadius: 18,
-        boxShadow: "0 24px 60px -30px rgba(17,19,24,0.22)",
-        padding: 22,
+        borderRadius: 20,
+        boxShadow: "0 40px 90px -44px rgba(17,19,24,0.28)",
+        padding: 24,
       }}
     >
       {/* barra tipo app */}
