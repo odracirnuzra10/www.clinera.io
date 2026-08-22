@@ -228,6 +228,31 @@ elige camino según `{{cal_booking_uid}}`:
   calendario y dejaría la original ocupada. Pregunta cuándo le acomoda, llama a
   `solicitar_reagenda` con esa preferencia textual y cierra sin prometer hora.
 
+## clinera-vigia-disponibilidad.workflow.json
+
+Avisa a Google Chat cuando `/agenda` se queda **sin ninguna hora que ofrecer**.
+
+Es la clase de falla que no se nota sola: la página no se cae, muestra "sin
+horas disponibles" y el visitante se va. Con campaña activa eso es pagar por
+tráfico que rebota. Pasó dos veces el 14 de agosto — una porque el profesional
+quedó desasignado del tratamiento en app.clinera.io, otra por el desfase UTC
+del día en curso.
+
+- Corre **cada 30 minutos entre las 8 y las 21** (hora de Chile).
+- Pide el resumen `?desde=<mañana>&dias=14`. **Empieza en mañana a propósito**:
+  la página no ofrece el día en curso, así que incluirlo daría una alarma falsa
+  todas las tardes.
+- Cuenta rota cuando ningún día hábil de la ventana tiene hora, o cuando todos
+  vuelven como desconocidos (`-1`).
+- **Avisa en los bordes**: cuando se rompe y cuando se recupera, con las horas
+  que estuvo caída. Mientras siga rota repite el aviso una vez cada dos horas,
+  no en cada corrida.
+
+El mensaje incluye los conteos de los próximos días y las dos causas probables
+por orden, para que quien lo lea sepa dónde mirar sin abrir n8n.
+
+Placeholder de secreto: `__GOOGLE_CHAT_WEBHOOK__`.
+
 ## camila-tool-solicitar-reagenda.workflow.json
 
 Tool de Vapi para **Camila**, la IA que llama a confirmar la reunión agendada.
