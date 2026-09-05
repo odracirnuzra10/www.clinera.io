@@ -25,7 +25,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     name: "Jorge Cheul",
-    role: "Comercial y Soporte",
+    role: "Gerente de Operaciones",
     slug: "jorge-cheul",
     image: "/images/team/jorge-cheul.webp",
   },
@@ -55,7 +55,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     name: "Rebeca Navarro",
-    role: "Jefa soporte técnico",
+    role: "Ventas",
     slug: "rebeca-navarro",
     image: "/images/team/rebeca-navarro.webp",
   },
