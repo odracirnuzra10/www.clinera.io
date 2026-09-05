@@ -9,7 +9,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
   const dark = variant === "dark";
   return (
     <section
-      aria-label="Implementación de Clinera: pago único, gratis en plan anual"
+      aria-label="Implementación de Clinera: pago único en mensual, gratis en semestral y anual"
       style={{
         padding: "32px 24px",
         background: dark ? "#0A0A0A" : "#FAF8FF",
@@ -76,7 +76,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
                   verticalAlign: "middle",
                 }}
               >
-                Gratis en plan anual
+                Gratis en semestral y anual
               </span>
             </p>
             <p
@@ -87,7 +87,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
                 color: dark ? "rgba(255,255,255,0.72)" : "#4B5563",
               }}
             >
-              Onboarding asistido por un humano: configura AURA, conecta tu WhatsApp e importa tu base. Quedas operando el mismo día. Pago único en mensual y semestral; si contratas el año, va incluida.
+              Onboarding asistido por un humano: configura AURA, conecta tu WhatsApp e importa tu base. Quedas operando el mismo día. En mensual es pago único al inicio; en semestral y anual va incluida y el plan se cobra de inmediato.
             </p>
           </div>
         </div>

@@ -370,8 +370,9 @@ function PlansSection() {
             Elige tu plan y activa hoy.
           </h2>
           <p style={{ fontFamily: "Inter", fontSize: 17, color: "#4B5563", margin: 0 }}>
-            Precios anuales con {ANNUAL_DISCOUNT_PERCENT}% OFF e implementación gratis · en mensual y semestral, el mes 1 suma la
-            implementación de USD 450 (pago único) · permanencia mínima de 6 meses · precios en USD.
+            Precios semestrales y anuales con {ANNUAL_DISCOUNT_PERCENT}% OFF e implementación gratis · en
+            mensual se cobra la implementación de USD 450 al inicio y el plan después · permanencia
+            mínima de 6 meses · precios en USD.
           </p>
         </div>
         <div
@@ -521,7 +522,7 @@ function PlansSection() {
                       </span>
                     </div>
                     <div style={{ fontFamily: "Inter", fontSize: 11.5, lineHeight: 1.45, color: "#4A6B52", marginTop: 5 }}>
-                      Incluida en el plan anual — no se cobra
+                      Incluida — no se cobra (anual / semestral)
                     </div>
                   </div>
                   <ul style={{ listStyle: "none", padding: 0, margin: "0 0 16px", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>

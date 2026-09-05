@@ -140,10 +140,10 @@ export function construirCotizacion(cruda: unknown): CotizacionSnapshot | null {
 
   const extraUsuarios = clampQty(c.extraUsuarios);
   const extraPacks = clampQty(c.extraPacks);
-  // El plan anual incluye la implementación: aunque el navegador mande
-  // incluirSetup en true, acá no se cobra. Es política comercial, no una
-  // preferencia del cotizador.
-  const incluirSetup = billing !== "annual" && c.incluirSetup === true;
+  // El plan anual y el semestral incluyen la implementación: aunque el
+  // navegador mande incluirSetup en true, acá no se cobra. Es política
+  // comercial, no una preferencia del cotizador.
+  const incluirSetup = billing === "monthly" && c.incluirSetup === true;
 
   // Mismo cálculo que QuoteBuilder: descuento por línea y luego el global
   // sobre todo (incluido el setup).

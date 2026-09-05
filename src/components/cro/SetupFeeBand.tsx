@@ -79,7 +79,7 @@ export default function SetupFeeBand({
           <span style={{ fontFamily: "Inter", fontSize: 13, color: "rgba(255,255,255,.55)" }}>USD</span>
         </div>
         <small style={{ color: "rgba(255,255,255,.60)", fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 9.5, letterSpacing: ".04em", textAlign: "right" }}>
-          Mensual y semestral · gratis en anual
+          Mensual · gratis en semestral y anual
         </small>
       </div>
       <style>{`

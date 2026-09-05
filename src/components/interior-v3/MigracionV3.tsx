@@ -555,7 +555,7 @@ function CompareSection() {
                 textAlign: "right",
               }}
             >
-              + USD 450 configuración inicial (pago único) · gratis en plan anual
+              + USD 450 configuración inicial (pago único) · gratis en semestral y anual
             </p>
           </div>
         </div>
@@ -1273,7 +1273,7 @@ function Faq() {
     },
     {
       q: "¿Hay permanencia o costo de configuración?",
-      a: "La permanencia mínima es de 6 meses y puedes pagar mensual, semestral con 20% OFF o anual con 20% OFF e implementación gratis. En mensual y semestral el costo de configuración es un pago único de USD 450 — onboarding asistido por un humano que migra tus fichas clínicas, datos históricos, pacientes y tratamientos, configura tus agentes de IA, conecta tu WhatsApp Business, integra tu agenda y capacita a tu equipo. Quedas operando el mismo día.",
+      a: "La permanencia mínima es de 6 meses y puedes pagar mensual, semestral con 20% OFF e implementación gratis, o anual con 20% OFF e implementación gratis. En mensual el costo de configuración es un pago único de USD 450 — onboarding asistido por un humano que migra tus fichas clínicas, datos históricos, pacientes y tratamientos, configura tus agentes de IA, conecta tu WhatsApp Business, integra tu agenda y capacita a tu equipo. Quedas operando el mismo día. En semestral y anual esa implementación va incluida y el plan se cobra de inmediato.",
     },
     {
       q: "¿Cuánto tiempo toma la migración completa?",

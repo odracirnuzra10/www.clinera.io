@@ -62,7 +62,7 @@ export default function AdvancedCTA() {
         </Link>
 
         <p className={styles.ctaTrust}>
-          Configuración inicial USD 450 (onboarding asistido), gratis en plan anual
+          Configuración inicial USD 450 (onboarding asistido), gratis en semestral y anual
         </p>
 
         <Link href="/demo" className={styles.ctaDemoLink}>

@@ -2,8 +2,8 @@
 // Lo consumen <SetupFeeBand />, las tarjetas de planes de home-v3
 // (home, /planes, /planes-pro y /plataforma) y las calculadoras de consumo.
 //
-// OJO: el plan ANUAL no paga implementación. No leas SETUP_FEE_USD directo
-// cuando la modalidad esté en juego — usa setupFeeFor(billing).
+// OJO: semestral y anual NO pagan implementación. No leas SETUP_FEE_USD
+// directo cuando la modalidad esté en juego — usa setupFeeFor(billing).
 export const SETUP_FEE_USD = 450;
 
 /** Monto formateado en es-CL, sin símbolo ni moneda: "450". */
@@ -12,13 +12,13 @@ export const SETUP_FEE_NUMBER = "450";
 /** Monto con símbolo, para el precio de la banda: "$450". */
 export const SETUP_FEE_AMOUNT = `$${SETUP_FEE_NUMBER}`;
 
-/** Línea corta para poner debajo del precio de cada plan. */
+/** Línea corta para poner debajo del precio de cada plan (solo mensual). */
 export const SETUP_FEE_INLINE = `+ USD ${SETUP_FEE_NUMBER} configuración inicial (pago único)`;
 
 export const SETUP_FEE_TITLE = "Costo de configuración: una sola vez";
 
 export const SETUP_FEE_COPY =
-  "Migramos fichas clínicas, datos históricos, pacientes y tratamientos, y configuramos tus agentes de IA. Se paga al inicio y no se repite — y si contratas el plan anual, va incluida sin costo.";
+  "Migramos fichas clínicas, datos históricos, pacientes y tratamientos, y configuramos tus agentes de IA. En mensual se cobra al inicio (el plan arranca después). En semestral y anual va incluida sin costo: pagas el plan de inmediato.";
 
 export const SEMESTER_MONTHS = 6;
 export const SEMESTER_DISCOUNT_PERCENT = 20;
@@ -35,16 +35,27 @@ export const BILLING_PERIODS = ["annual", "semester", "monthly"] as const;
 export type Billing = (typeof BILLING_PERIODS)[number];
 
 /**
- * El plan anual absorbe la implementación: quien paga el año NO paga los
- * USD 450. Cualquier copy, tarjeta, calculadora o cotización que muestre el
- * costo de configuración tiene que pasar por acá en vez de asumir SETUP_FEE_USD.
+ * Semestral y anual absorben la implementación: quien anticipa el período NO
+ * paga los USD 450. Solo el mensual la cobra (y el plan corre después).
+ * Cualquier copy, tarjeta, calculadora o cotización que muestre el costo de
+ * configuración tiene que pasar por acá en vez de asumir SETUP_FEE_USD.
  */
 export function setupFeeFor(billing: Billing): number {
-  return billing === "annual" ? 0 : SETUP_FEE_USD;
+  return billing === "monthly" ? SETUP_FEE_USD : 0;
 }
 
-export const ANNUAL_SETUP_PERK = "Implementación gratis";
-export const ANNUAL_SETUP_PERK_LONG = `Implementación gratis (ahorras USD ${SETUP_FEE_NUMBER})`;
+/** true cuando la modalidad regala la implementación (semestral o anual). */
+export function includesFreeSetup(billing: Billing): boolean {
+  return setupFeeFor(billing) === 0;
+}
+
+export const FREE_SETUP_PERK = "Implementación gratis";
+export const FREE_SETUP_PERK_LONG = `Implementación gratis (ahorras USD ${SETUP_FEE_NUMBER})`;
+
+/** @deprecated Preferí FREE_SETUP_PERK — el perk ya no es exclusivo del anual. */
+export const ANNUAL_SETUP_PERK = FREE_SETUP_PERK;
+/** @deprecated Preferí FREE_SETUP_PERK_LONG. */
+export const ANNUAL_SETUP_PERK_LONG = FREE_SETUP_PERK_LONG;
 
 export const EXTRA_CREDIT_PACK_USD = 15;
 export const EXTRA_CREDIT_PACK_CREDITS = 5_000;
@@ -180,4 +191,12 @@ export function planMonthlyEquivalent(plan: ClineraPlan, billing: Billing): numb
  */
 export function annualFirstYearSavings(plan: ClineraPlan): number {
   return plan.monthlyPrice * ANNUAL_MONTHS - plan.annualTotal + SETUP_FEE_USD;
+}
+
+/**
+ * Ahorro del semestre anticipado vs 6 meses mensuales + implementación:
+ * el 20% del plan más los USD 450 que el semestral no cobra.
+ */
+export function semesterFirstPeriodSavings(plan: ClineraPlan): number {
+  return plan.monthlyPrice * SEMESTER_MONTHS - plan.semesterTotal + SETUP_FEE_USD;
 }

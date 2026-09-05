@@ -38,14 +38,14 @@ créditos; fiscalización de LIA = 0; informes de LIA ≈ 4.000 créditos/mes.
 - ATLAS — USD 3.638/año (≈ USD 303,17/mes) o USD 379/mes — 37.000 créditos/mes, AURA + CAMILA (voz), 15 usuarios, 2 sucursales, Webhooks + API
 - SUMMIT — USD 4.598/año (≈ USD 383,17/mes) o USD 479/mes (el más elegido) — 46.000 créditos/mes, AURA + CAMILA + LIA, 25 usuarios, sucursales ilimitadas, Webhooks + API
 
-Tres modalidades de pago. (1) ANUAL — la recomendada y la que el sitio destaca:
-12 meses anticipados con 20% de descuento Y la implementación de USD 450 gratis
-(Vortex USD 2.678, Atlas USD 3.638, Summit USD 4.598 al año); ahorra entre
-USD 1.120 y USD 1.600 el primer año. (2) SEMESTRAL: 6 meses anticipados con 20%
-de descuento (Vortex USD 1.339,20, Atlas USD 1.819,20, Summit USD 2.299,20) más
-la implementación. (3) MENSUAL: precio de lista mes a mes más la implementación.
-En semestral y mensual el pago es secuencial: mes 1 = implementación USD 450
-(pago único), mes 2 en adelante = el plan. La implementación incluye onboarding asistido por humano
+Tres modalidades de pago. (1) ANUAL — recomendada: 12 meses anticipados con
+20% de descuento Y la implementación de USD 450 gratis (Vortex USD 2.678,
+Atlas USD 3.638, Summit USD 4.598 al año). (2) SEMESTRAL: 6 meses anticipados
+con 20% de descuento Y la implementación gratis (Vortex USD 1.339,20, Atlas
+USD 1.819,20, Summit USD 2.299,20). (3) MENSUAL: se cobra la implementación
+USD 450 al inicio y el plan (USD 279 / 379 / 479) después. En semestral y
+anual el plan se cobra de inmediato. La implementación incluye onboarding
+asistido por humano
 (config de AURA, conexión de WhatsApp Business, importación de pacientes y
 tratamientos, integración de agenda, capacitación). Operando el mismo día.
 Add-ons: recarga USD 15 → 5.000 créditos; usuario extra USD 9/mes. Referencia

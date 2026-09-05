@@ -102,11 +102,10 @@ sitio (https://www.clinera.io/ventas y /efectividad). Cifras a abril 2026:
 
 Todos los planes en USD, con permanencia mínima de 6 meses y activación vía
 Stripe, en tres modalidades: ANUAL (12 meses anticipados, 20% de descuento e
-implementación gratis — la modalidad recomendada), SEMESTRAL (6 meses
-anticipados, 20% de descuento) y MENSUAL (precio de lista mes a mes). En
-semestral y mensual la estructura de pago es secuencial: el mes 1 se paga solo
-la implementación (USD 450, pago único) y desde el mes 2, el plan contratado
-(ver más abajo); en anual esa implementación no se cobra. El modelo es una
+implementación gratis — modalidad recomendada), SEMESTRAL (6 meses anticipados,
+20% de descuento e implementación gratis) y MENSUAL (implementación USD 450 al
+inicio; el plan se cobra después). En semestral y anual el plan se cobra de
+inmediato. El modelo es una
 sola bolsa de créditos por mes. Clinera opera en un único modo de agendamiento:
 Agentic (GLM 5.2, Gemini 3.7 Flash, Claude Opus 4.8 y Claude Sonnet 5 vía
 Vertex AI, Google Cloud), en todos los planes — la IA agenda sola dentro del
@@ -132,9 +131,9 @@ Tarifario de créditos (todos los planes):
   mejoras), 46.000 créditos/mes, AURA + CAMILA + LIA,
   25 usuarios, sucursales ilimitadas, Webhooks + API.
 
-Implementación: USD 450, pago único, en las modalidades mensual y semestral de
-los 3 planes (se cobra el mes 1 y el plan contratado se paga desde el mes 2).
-En la modalidad anual va incluida sin costo. Incluye onboarding
+Implementación: USD 450, pago único, **sólo en modalidad mensual** (se cobra
+al inicio y el plan contratado después). En semestral y anual va incluida sin
+costo y el plan se cobra de inmediato. Incluye onboarding
 asistido por un humano (configuración de AURA, conexión de WhatsApp Business,
 importación de pacientes y tratamientos, integración de la agenda y
 capacitación del equipo). La clínica queda operando el mismo día.

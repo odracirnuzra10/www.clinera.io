@@ -218,9 +218,10 @@ export default function QuoteBuilder({
   const isAnnual = billing === "annual";
   const periodMonths = isAnnual ? ANNUAL_MONTHS : billing === "semester" ? SEMESTER_MONTHS : 1;
   const periodLabel = isAnnual ? "Anual" : billing === "semester" ? "Semestral" : "Mensual";
-  // El anual incluye la implementación: el checkbox queda anulado en esa
-  // modalidad para que la cotización no prometa un cobro que Stripe no hará.
-  const setupCharged = includeSetup && !isAnnual;
+  // Semestral y anual incluyen la implementación: el checkbox queda anulado
+  // para que la cotización no prometa un cobro que Stripe no hará.
+  const freeSetup = billing !== "monthly";
+  const setupCharged = includeSetup && !freeSetup;
 
   const rows = useMemo<QuoteRow[]>(() => {
     const planBase = planPeriodTotal(selectedPlan, billing);
@@ -235,8 +236,8 @@ export default function QuoteBuilder({
           billing === "annual"
             ? `${ANNUAL_MONTHS} meses · ${ANNUAL_DISCOUNT_PERCENT}% de ahorro anual e implementación incluida`
             : billing === "semester"
-              ? `${SEMESTER_MONTHS} meses · ${SEMESTER_DISCOUNT_PERCENT}% de ahorro semestral incluido`
-              : "Facturación mes a mes",
+              ? `${SEMESTER_MONTHS} meses · ${SEMESTER_DISCOUNT_PERCENT}% de ahorro semestral e implementación incluida`
+              : "Facturación mes a mes · implementación cobrada al inicio",
         quantity: "1",
         base: planBase,
         discount: discounts.plan,
@@ -668,7 +669,7 @@ export default function QuoteBuilder({
                 <input
                   type="checkbox"
                   checked={setupCharged}
-                  disabled={isAnnual}
+                  disabled={freeSetup}
                   onChange={(event) => setIncludeSetup(event.target.checked)}
                 />
                 <i aria-hidden="true" />
@@ -676,12 +677,12 @@ export default function QuoteBuilder({
               <span>
                 <strong>Incluir configuración inicial</strong>
                 <small>
-                  {isAnnual
-                    ? "Incluida sin costo en el plan anual"
-                    : "Migración, configuración y capacitación · pago único"}
+                  {freeSetup
+                    ? `Incluida sin costo en el plan ${billing === "annual" ? "anual" : "semestral"}`
+                    : "Migración, configuración y capacitación · pago único · el plan se cobra después"}
                 </small>
               </span>
-              <b>{isAnnual ? "Gratis" : formatUsd(SETUP_FEE_USD)}</b>
+              <b>{freeSetup ? "Gratis" : formatUsd(SETUP_FEE_USD)}</b>
             </label>
           </section>
 
@@ -751,7 +752,7 @@ export default function QuoteBuilder({
               <DiscountField
                 label="Configuración inicial"
                 value={discounts.setup}
-                disabled={!includeSetup}
+                disabled={!setupCharged}
                 onChange={(value) => updateDiscount("setup", value)}
               />
             </div>
@@ -1084,8 +1085,8 @@ export default function QuoteBuilder({
                     {billing === "annual"
                       ? `El plan ya incorpora ${ANNUAL_DISCOUNT_PERCENT}% de ahorro por pago anual e incluye la configuración inicial de ${formatUsd(SETUP_FEE_USD)} sin costo.`
                       : billing === "semester"
-                        ? `El plan ya incorpora ${SEMESTER_DISCOUNT_PERCENT}% de ahorro por pago semestral.`
-                        : `Facturación mensual con permanencia mínima de ${SEMESTER_MONTHS} meses.`}
+                        ? `El plan ya incorpora ${SEMESTER_DISCOUNT_PERCENT}% de ahorro por pago semestral e incluye la configuración inicial de ${formatUsd(SETUP_FEE_USD)} sin costo.`
+                        : `Facturación mensual: primero la implementación (${formatUsd(SETUP_FEE_USD)}), después el plan. Permanencia mínima de ${SEMESTER_MONTHS} meses.`}
                   </p>
                   {itemDiscountSavings + globalDiscountAmount > 0 && (
                     <strong>

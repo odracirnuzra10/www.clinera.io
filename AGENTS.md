@@ -155,13 +155,20 @@ valor de `SETUP_FEE_USD` en `pricing.ts`, el mismo que va a los contratos
 firmados. El US$ 750 que existió en `/planes-pro`, FAQ, calculadoras y
 `public/llms*.txt` era residuo y ya se corrigió; si reaparece, es un error.
 
-La estructura de pago se comunica en secuencia (estilo Vambe), y así la
-renderizan las tarjetas de `<Pricing />` en home, `/planes` y `/planes-pro`:
+**Actualizado 2026-09:** la implementación se cobra **sólo en mensual**. En
+semestral y anual va **gratis** y el plan se cobra de inmediato (objetivo
+comercial: empujar prepago). En cotización formal (`cotizacion.oacg.cl`) el
+anual puede llevar hasta **−10% adicional** vía Desc. % (máx. −30% sobre
+lista); el sitio público sigue mostrando −20%.
 
-- **Mes 1:** implementación, US$ 450, pago único.
-- **Mes 2 en adelante:** el plan contratado (Vortex US$ 279 / Atlas US$ 379 /
-  Summit US$ 479 al mes).
+Así lo comunican las tarjetas de `<Pricing />` en home, `/planes` y `/planes-pro`:
 
+- **Mensual:** cobro de implementación US$ 450 → el plan se cobra después.
+- **Semestral / anual:** implementación gratis → se cobra el período de inmediato
+  (con 20% OFF de catálogo).
+
+Usa `setupFeeFor(billing)` / `includesFreeSetup(billing)` — no asumas
+`SETUP_FEE_USD` a ciegas.
 ## Modelo de venta en dos reuniones
 
 Deck interno del equipo comercial: `public/presentacion-venta-2-reuniones.html`

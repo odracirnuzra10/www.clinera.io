@@ -43,7 +43,7 @@ export const FAQ = [
   },
   {
     q: "¿Cuánto demora la implementación y cuánto cuesta?",
-    a: "Depende del volumen de datos, las sedes y las integraciones; el alcance y el calendario quedan definidos antes de comenzar. La implementación tiene un costo único de USD 450, incluido sin costo si contratas el plan anual.",
+    a: "Depende del volumen de datos, las sedes y las integraciones; el alcance y el calendario quedan definidos antes de comenzar. La implementación tiene un costo único de USD 450 en mensual; en semestral y anual va incluida sin costo.",
   },
   {
     q: "¿Hay permanencia?",
