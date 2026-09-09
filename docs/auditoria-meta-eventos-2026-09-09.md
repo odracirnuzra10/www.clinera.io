@@ -19,9 +19,10 @@ sigue siendo cierto *para ese día*; el estado vivo cambió el 7-sep.
 | MQL | 5 | **agendó** (wizard, IA, Camila, `/reserva-tu-hora`) |
 | SQL | 10 | closer → `MEETING` / `SQL` |
 | HOT | 100 | closer → `PROPOSAL` / `HOT` |
+| NQL | 0 | closer → no califica |
 | Customer (`Purchase`) | 279 / 379 / 479 | `CUSTOMER` según `planClinera` |
 
-Sin SCREENING, NQL, NoContesta ni `Lead`. El pedido de la mañana
+Sin SCREENING, NoContesta ni `Lead`. El pedido de la mañana
 (Instant Form 5 / MQL 10 / SQL 100 / HOT 300) quedó atrás el mismo día.
 
 **Veredicto en una línea:** el pixel no está “sucio” como caja. Desde el
@@ -242,7 +243,7 @@ no aplicado). El vivo sigue invertido hasta el OK de Ricardo.
 
 Fuente: `integrations/n8n/crm-etapas-meta-capi.mapeo.js`.
 Sustituye el mapeo de la mañana (SCREENING→MQL 10, PQL→NoContesta 0,
-SQL 100, HOT 300). Los mismos seis estados en CRM y en el pixel.
+SQL 100, HOT 300). Los mismos estados en CRM y en el pixel.
 
 | stage | evento | value | condición |
 |---|---|---|---|
@@ -251,14 +252,15 @@ SQL 100, HOT 300). Los mismos seis estados en CRM y en el pixel.
 | MQL | `MQL` | 5 | |
 | MEETING | `SQL` | 10 | alias `SQL` |
 | PROPOSAL | `HOT` | 100 | alias `HOT` |
+| NQL | `NQL` | 0 | no calificado |
 | CUSTOMER | `Purchase` | valor del plan | VORTEX 279 / ATLAS 379 / SUMMIT 479 |
-| SCREENING / NQL / SQL_Plus / NoContesta | — | — | no emiten |
+| SCREENING / SQL_Plus / NoContesta | — | — | no emiten |
 
 Se mantiene ledger, `event_id = {oppId}_{stage}`, `lead_id` entero,
 ventana 28 d. Nombre del workflow al aplicar: «Clinera | Twenty etapas →
 Meta CAPI» (sin «inactivo»).
 
-En Twenty: borrar las etapas SCREENING y NQL; crear/dejar `MQL`.
+En Twenty: borrar SCREENING; crear/dejar `MQL`. `NQL` se queda.
 Sub A (repo `baserow`) debe dejar de mandar `Lead` US$ 5.
 
 ---
@@ -276,8 +278,8 @@ pixel a las que ya gastan.
 ## 6. Checklist manual (UI de Meta — Ricardo)
 
 1. Events Manager → dataset `1104567405156111` → Conversion Leads →
-   embudo: `Nuevo → PQL → MQL → SQL → HOT → Purchase`. Sin SCREENING,
-   NQL, NoContesta ni Lead. El conector no lee ni edita esto.
+   embudo: `Nuevo → PQL → MQL → SQL → HOT → Purchase`, con `NQL` ($0)
+   como descalificado. Sin SCREENING, NoContesta ni Lead. El conector no lee ni edita esto.
 2. Custom MQL `1562704878613075`: default **5**, quitar filtro URL,
    descripción «agendó demo». Custom SQL: default **10**, sin filtro URL.
    Archivar `Demo Ready` y `Clinera.io/gracias`.

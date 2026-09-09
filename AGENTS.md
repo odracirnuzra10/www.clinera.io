@@ -239,9 +239,9 @@ la recomendación del partner + CTA a reunión.
 > Embudo CRM→CAPI: workflow `W1SybZZSEZqAItIt`. El mapeo canónico
 > (Ricardo, 09-sep tarde) vive en
 > `integrations/n8n/crm-etapas-meta-capi.mapeo.js`: Nuevo $0 · PQL $1 ·
-> MQL $5 · SQL $10 · HOT $100 · Customer = valor del plan. Sin SCREENING,
-> NQL, NoContesta ni `Lead`. El vivo sigue invertido hasta el PUT — no
-> hay PUT por mergear docs. Instant Form deja de ser `Lead` US$ 5 (Sub A,
+> MQL $5 · SQL $10 · HOT $100 · Customer = valor del plan · NQL $0
+> (no calificado). Sin SCREENING, NoContesta ni `Lead`. El vivo sigue
+> invertido hasta el PUT — no hay PUT por mergear docs. Instant Form deja de ser `Lead` US$ 5 (Sub A,
 > repo `baserow`): es `Nuevo` US$ 0. MQL US$ 5 = agendó.
 >
 > **El MQL se gana agendando, en los tres caminos.** Ninguno lo gana
@@ -300,6 +300,7 @@ la recomendación del partner + CTA a reunión.
 | `MQL` | agendó en `/agenda`, **o** la IA / Camila, **o** `/reserva-tu-hora` | US$ 5 | sitio + Meet; W1 si el stage es `MQL` |
 | `SQL` | closer → SQL (`MEETING`) | US$ 10 | W1 |
 | `HOT` | closer → HOT (`PROPOSAL`) | US$ 100 | W1 |
+| `NQL` | closer → no califica | US$ 0 | W1 |
 | `Purchase` | Customer | valor del plan | W1 (`planClinera`) |
 
 > [!WARNING]
@@ -329,9 +330,9 @@ URL `clinera.io`) solo la usan las campañas pausadas.
 Mapeo canónico `stage` → evento CAPI → value USD (`currency: USD`).
 Fuente: `integrations/n8n/crm-etapas-meta-capi.mapeo.js`. El vivo todavía
 cruza SCREENING↔PQL (H1 de la auditoría del 09-sep) hasta el PUT.
-En Twenty hay que **borrar SCREENING y NQL** y dejar (o crear) `MQL`
-como etapa; `MEETING`/`PROPOSAL` siguen siendo los valores internos de
-SQL/HOT.
+En Twenty hay que **borrar SCREENING** y dejar (o crear) `MQL`
+como etapa; `NQL` se queda (no calificado, $0); `MEETING`/`PROPOSAL`
+siguen siendo los valores internos de SQL/HOT.
 
 | stage | event_name | value | condición |
 |---|---|---|---|
@@ -340,8 +341,9 @@ SQL/HOT.
 | `MQL` | `MQL` | 5 | |
 | `MEETING` | `SQL` | 10 | alias `SQL` |
 | `PROPOSAL` | `HOT` | 100 | alias `HOT` |
+| `NQL` | `NQL` | 0 | no calificado |
 | `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 | |
-| `SCREENING` / `NQL` / `SQL_Plus` | — | — | no emiten |
+| `SCREENING` / `SQL_Plus` | — | — | no emiten |
 
 `event_id` = `{opportunityId}_{stage}`. `user_data.lead_id` = `leadgenId` (entero,
 sin hash) si existe. `action_source` = `system_generated`. Detalle:
@@ -351,7 +353,7 @@ sin hash) si existe. `action_source` = `system_generated`. Detalle:
 sino porque los workflows de SQL/HOT marcan Baserow 152 y un feed en
 `baserow` (`sales/n8n/gads-conversiones-sql-csv.js`) se lo sirve a Google
 Ads Data Manager por HTTPS. Los montos canónicos desde el 09-sep tarde
-son MQL 5 / SQL 10 / HOT 100; el feed hay que realinear. Detalle en
+son Nuevo 0 / PQL 1 / MQL 5 / SQL 10 / HOT 100 / NQL 0; el feed hay que realinear. Detalle en
 `baserow/sales/HANDOFF.md`.
 
 Ids, disparos y el detalle completo: `integrations/n8n/README.md`.

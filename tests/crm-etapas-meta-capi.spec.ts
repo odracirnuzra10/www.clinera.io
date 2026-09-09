@@ -39,7 +39,7 @@ function loadHelpers() {
 }
 
 test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
-  test("los seis estados y ningún otro", () => {
+  test("los estados canónicos y ningún otro", () => {
     const { mapearEtapa, valorPurchase } = loadHelpers();
     expect(mapearEtapa("NEW")).toEqual({ event_name: "Nuevo", value: 0 });
     expect(mapearEtapa("Nuevo")).toEqual({ event_name: "Nuevo", value: 0 });
@@ -49,6 +49,8 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
     expect(mapearEtapa("SQL")).toEqual({ event_name: "SQL", value: 10 });
     expect(mapearEtapa("PROPOSAL")).toEqual({ event_name: "HOT", value: 100 });
     expect(mapearEtapa("HOT")).toEqual({ event_name: "HOT", value: 100 });
+    expect(mapearEtapa("NQL")).toEqual({ event_name: "NQL", value: 0 });
+    expect(mapearEtapa("no califica")).toEqual({ event_name: "NQL", value: 0 });
     expect(mapearEtapa("CUSTOMER", { planClinera: "SUMMIT" })).toEqual({
       event_name: "Purchase",
       value: 479,
@@ -57,15 +59,15 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
     expect(valorPurchase("ATLAS")).toBe(379);
   });
 
-  test("SCREENING, NQL y lo demás no emiten", () => {
+  test("SCREENING y lo demás no emiten", () => {
     const { mapearEtapa } = loadHelpers();
     expect(mapearEtapa("SCREENING")).toEqual({ skip: true, motivo: "screening_eliminado" });
     expect(mapearEtapa("SCREENING", { leadgenId: 1542457337898951 }).skip).toBe(true);
-    expect(mapearEtapa("NQL")).toEqual({ skip: true, motivo: "nql_eliminado" });
     expect(mapearEtapa("NoContesta")).toEqual({ skip: true, motivo: "etapa_eliminada" });
     expect(mapearEtapa("SQL_Plus")).toEqual({ skip: true, motivo: "etapa_eliminada" });
     expect(mapearEtapa("PQL").event_name).not.toBe("MQL");
     expect(mapearEtapa("PQL").event_name).not.toBe("NoContesta");
+    expect(mapearEtapa("NQL").event_name).not.toBe("MQL");
   });
 
   test("lead_id es entero positivo, nunca hash", () => {
@@ -83,11 +85,12 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
     expect(AGENTS).toContain("| `MQL` | `MQL` | 5 |");
     expect(AGENTS).toContain("| `MEETING` | `SQL` | 10 |");
     expect(AGENTS).toContain("| `PROPOSAL` | `HOT` | 100 |");
+    expect(AGENTS).toContain("| `NQL` | `NQL` | 0 |");
     expect(README).toContain("| `NEW` | `Nuevo` | 0 |");
     expect(README).toContain("| `PQL` | `PQL` | 1 |");
+    expect(README).toContain("| `NQL` | `NQL` | 0 |");
     expect(AGENTS).not.toMatch(/\|\s*`SCREENING`\s*\|\s*`MQL`\s*\|/);
     expect(AGENTS).not.toMatch(/\|\s*`PQL`\s*\|\s*`NoContesta`\s*\|/);
-    expect(AGENTS).not.toMatch(/\|\s*`NQL`\s*\|\s*`NQL`\s*\|/);
     expect(README).not.toMatch(/\|\s*`PQL`\s*\|\s*`NoContesta`\s*\|/);
     expect(SRC).not.toContain('event_name: "NoContesta"');
     expect(SRC).toMatch(/event_id\s+= \{opportunityId\}_\{stage\}/);

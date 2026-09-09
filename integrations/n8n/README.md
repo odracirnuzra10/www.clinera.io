@@ -26,8 +26,8 @@ widget embebido).
 
 ### Tracking de conversión (Meta CAPI + GA4)
 
-El embudo tiene seis estados (Ricardo, 09-sep-2026), los mismos en CRM y
-en el pixel:
+El embudo tiene los mismos estados en CRM y en el pixel
+(Ricardo, 09-sep-2026):
 
 | Evento | Cuándo | Dónde vive | Valor |
 |---|---|---|---|
@@ -36,6 +36,7 @@ en el pixel:
 | **MQL** | alguien agenda en `/agenda` **o** la IA / Camila | este workflow (wizard) · `clinera-meet-por-profesional.workflow.json` (IA) · W1 si el stage es `MQL` | US$ 5 |
 | **SQL** | closer → SQL (`MEETING`) | W1 | US$ 10 |
 | **HOT** | closer → HOT (`PROPOSAL`) | W1 | US$ 100 |
+| **NQL** | closer → no califica | W1 | US$ 0 |
 | **Purchase** | Customer | W1 (`planClinera`) | valor del plan |
 
 Al crear la cita, el workflow dispara **en paralelo** a la respuesta del
@@ -349,8 +350,8 @@ Los emisores viejos están **apagados**:
 Fuente versionada: `crm-etapas-meta-capi.mapeo.js` (nodo `Mapear etapa y
 cifrar datos`). El vivo de W1 **todavía cruza** SCREENING↔PQL (H1,
 `docs/auditoria-meta-eventos-2026-09-09.md`) hasta el PUT. No aplicar
-este archivo por mergear el PR. En Twenty: borrar SCREENING y NQL;
-crear/dejar la etapa `MQL`.
+este archivo por mergear el PR. En Twenty: borrar SCREENING;
+crear/dejar la etapa `MQL`. `NQL` se queda (no calificado, $0).
 
 | stage | event_name | value | condición |
 |---|---|---|---|
@@ -359,8 +360,9 @@ crear/dejar la etapa `MQL`.
 | `MQL` | `MQL` | 5 | |
 | `MEETING` | `SQL` | 10 | alias `SQL` |
 | `PROPOSAL` | `HOT` | 100 | alias `HOT` |
+| `NQL` | `NQL` | 0 | no calificado |
 | `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 | |
-| `SCREENING` / `NQL` / `SQL_Plus` | — | — | no emiten |
+| `SCREENING` / `SQL_Plus` | — | — | no emiten |
 
 `custom_data.currency = "USD"`. `event_id` = `{opportunityId}_{stage}`.
 `user_data.lead_id` = `leadgenId` (entero, sin hash) si existe.
@@ -395,8 +397,8 @@ se ve en el tablero. El mapa del workspace OACG es:
 | `MEETING` | SQL | `SQL` / 10 |
 | `PROPOSAL` | HOT | `HOT` / 100 |
 | `CUSTOMER` | Customer | `Purchase` / planClinera |
+| `NQL` | No califica | `NQL` / 0 |
 | `SCREENING` | *(eliminar)* | no emite |
-| `NQL` | *(eliminar)* | no emite |
 
 `ETAPAS_SQL` acepta `meeting` y `proposal` (y también las etiquetas `sql` /
 `sql+`, por si el webhook llegara desde otra vista).
@@ -506,7 +508,7 @@ Además de los placeholders del workflow de reserva, este archivo lleva
 ### Google Ads entró al mismo embudo (2026-08-21)
 
 Ricardo pidió alinear Google Ads al mismo vocabulario y montos que Meta ya usa
-acá (Nuevo=0 / PQL=1 / MQL=5 / SQL=10 / HOT=100 USD; Customer = plan).
+acá (Nuevo=0 / PQL=1 / MQL=5 / SQL=10 / HOT=100 / NQL=0 USD; Customer = plan).
 El feed de Baserow 152 hay que realinear en el repo `baserow`. Google Ads no tiene un camino de push
 por evento sin developer token — a diferencia de Meta CAPI — así que en vez de
 un envío paralelo, los workflows de SQL y SQL+ de esta página (no el de MQL) ahora **además**

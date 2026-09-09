@@ -6,9 +6,10 @@
 // únicamente este jsCode y el nombre del workflow (sacar «inactivo»).
 // Antes de un PUT: guardar el JSON actual en integrations/n8n/backup/.
 //
-// Embudo canónico (Ricardo, 2026-09-09 tarde). Los mismos seis estados
-// en CRM y en el pixel. SCREENING, NQL, NoContesta, Lead y SQL_Plus
-// no existen. Auditoría: docs/auditoria-meta-eventos-2026-09-09.md.
+// Embudo canónico (Ricardo, 2026-09-09 tarde). Los mismos estados
+// en CRM y en el pixel. SCREENING, NoContesta, Lead y SQL_Plus
+// no existen. NQL es no calificado, value 0.
+// Auditoría: docs/auditoria-meta-eventos-2026-09-09.md.
 //
 // Contratos que NO se tocan:
 //   event_id      = {opportunityId}_{stage}
@@ -65,8 +66,9 @@ function valorPurchase(planClinera) {
  *   MEETING / SQL   → SQL      10
  *   PROPOSAL / HOT  → HOT     100
  *   CUSTOMER        → Purchase  valor del plan (vacío → 279)
+ *   NQL             → NQL       0  (no calificado)
  *
- * SCREENING, NQL, NoContesta, SQL_Plus: no emiten.
+ * SCREENING, NoContesta, SQL_Plus: no emiten.
  */
 function mapearEtapa(stage, opts) {
   const s = norm(stage);
@@ -86,14 +88,14 @@ function mapearEtapa(stage, opts) {
   if (s === "proposal" || s === "hot") {
     return { event_name: "HOT", value: 100 };
   }
+  if (s === "nql" || s === "no califica" || s === "nocalifica") {
+    return { event_name: "NQL", value: 0 };
+  }
   if (s === "customer" || s === "contrata") {
     return { event_name: "Purchase", value: valorPurchase(opts && opts.planClinera) };
   }
   if (s === "screening") {
     return { skip: true, motivo: "screening_eliminado" };
-  }
-  if (s === "nql") {
-    return { skip: true, motivo: "nql_eliminado" };
   }
   if (s === "sql+" || s === "sqlplus" || s === "sql_plus" || s === "nocontesta") {
     return { skip: true, motivo: "etapa_eliminada" };
