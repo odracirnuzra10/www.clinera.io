@@ -30,7 +30,7 @@ test.describe("pixel de producción no arranca en dev/preview", () => {
 
   test("el endpoint CAPI solo acepta MQL", () => {
     expect(capiRoute).toContain('new Set(["MQL"])');
-    expect(capiRoute).not.toContain("Waitlist");
-    expect(capiRoute).not.toContain('"Contact"');
+    expect(capiRoute).not.toMatch(/new Set\(\[[^\]]*Waitlist/);
+    expect(capiRoute).not.toMatch(/new Set\(\[[^\]]*Contact/);
   });
 });

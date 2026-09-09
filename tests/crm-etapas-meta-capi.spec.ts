@@ -88,6 +88,7 @@ test.describe("W1 mapeo corregido", () => {
     expect(README).toContain("| `PQL` | `NoContesta` | 0 |");
     expect(README).not.toMatch(/\|\s*`PQL`\s*\|\s*`MQL`\s*\|\s*10\s*\|/);
     expect(SRC).toContain('event_name: "NoContesta"');
-    expect(SRC).toContain("event_id = {opportunityId}_{stage}");
+    expect(SRC).toMatch(/event_id\s+= \{opportunityId\}_\{stage\}/);
+    expect(SRC).toContain('recordId + "_" + String(etapa)');
   });
 });
