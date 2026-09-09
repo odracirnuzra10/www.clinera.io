@@ -236,13 +236,13 @@ la recomendación del partner + CTA a reunión.
 > Auditoría del **2026-09-09** (Conversion Leads, W1 cruzado, BM del pixel):
 > `docs/auditoria-meta-eventos-2026-09-09.md`. La del 26-ago quedó superada
 > en §1, §3, §4 y §10-P1; se conserva como foto de ese día.
-> Embudo CRM→CAPI: workflow `W1SybZZSEZqAItIt`. El mapeo **corregido** vive
-> en `integrations/n8n/crm-etapas-meta-capi.mapeo.js` (tabla más abajo). El
-> vivo sigue invertido hasta el OK de Ricardo para aplicarlo — no hay PUT
-> por mergear docs. El Instant Form emite `Lead` US$ 5 al enviarse y el
-> agendamiento web/IA emite `MQL` US$ 10 al confirmar hora. El «MQL US$ 5
-> para wizard e Instant Form» del 26-ago duró un día; si aparece, es residuo.
-> **`SQL_Plus` murió:** PROPOSAL manda `HOT` US$ 300.
+> Embudo CRM→CAPI: workflow `W1SybZZSEZqAItIt`. El mapeo canónico
+> (Ricardo, 09-sep tarde) vive en
+> `integrations/n8n/crm-etapas-meta-capi.mapeo.js`: Nuevo $0 · PQL $1 ·
+> MQL $5 · SQL $10 · HOT $100 · Customer = valor del plan. Sin SCREENING,
+> NQL, NoContesta ni `Lead`. El vivo sigue invertido hasta el PUT — no
+> hay PUT por mergear docs. Instant Form deja de ser `Lead` US$ 5 (Sub A,
+> repo `baserow`): es `Nuevo` US$ 0. MQL US$ 5 = agendó.
 >
 > **El MQL se gana agendando, en los tres caminos.** Ninguno lo gana
 > marcando «PQL · No contesta» en Twenty. W1 vivo (desde el 7-sep 21:17Z)
@@ -264,7 +264,8 @@ la recomendación del partner + CTA a reunión.
 > **Intake Instant Form:** el HUB `qOGjfU1AgubcOHvt` (`/webhook/meta-leadads`)
 > enruta el page_id Clinera `697874326752777` a Sub A `YmauqyDqrZNKIYlg`.
 > Ese sub crea contacto en Clinera (funnel 890), fila Baserow 152, negocio
-> Twenty y CAPI `Lead` US$ 5 con `lead_id`. Spec:
+> Twenty y todavía manda CAPI `Lead` US$ 5 con `lead_id` — hay que
+> cambiarlo a `Nuevo` US$ 0 (embudo del 09-sep tarde). Spec:
 > `baserow/openspec/changes/lanzamiento-instant-forms-embudo/`. En anuncios
 > no prometer CAMILA/LIA. Graph del form en español usa `correo_electrónico`
 > / `nombre_y_apellidos` / `número_de_teléfono` (no los nombres en inglés) —
@@ -294,8 +295,12 @@ la recomendación del partner + CTA a reunión.
 
 | Evento | Cuándo | Valor | Dónde vive |
 |---|---|---|---|
-| `Lead` | rellenó el Instant Form de Meta | US$ 5 | n8n Sub A (aplicador: `baserow/sales/n8n/aplicar_instant_form_mql.py`) |
-| `MQL` | agendó en `/agenda`, **o** la IA agendó por WhatsApp **o por teléfono (Camila)**, **o** un lead de formulario agendó en `/reserva-tu-hora` | US$ 10 | wizard: `clinera-agenda-reserva` · IA: `clinera-meet-por-profesional` · formulario: `/reserva-tu-hora` (este repo) |
+| `Nuevo` | entró al CRM (Instant Form o alta) | US$ 0 | W1 (`NEW`); Sub A debe dejar de mandar `Lead` US$ 5 |
+| `PQL` | closer → PQL | US$ 1 | W1 |
+| `MQL` | agendó en `/agenda`, **o** la IA / Camila, **o** `/reserva-tu-hora` | US$ 5 | sitio + Meet; W1 si el stage es `MQL` |
+| `SQL` | closer → SQL (`MEETING`) | US$ 10 | W1 |
+| `HOT` | closer → HOT (`PROPOSAL`) | US$ 100 | W1 |
+| `Purchase` | Customer | valor del plan | W1 (`planClinera`) |
 
 > [!WARNING]
 > **Las demos que Camila agenda por teléfono NO emitían MQL hasta el
@@ -321,29 +326,33 @@ Remarketing SQL) optimizan `QUALITY_LEAD` (Conversion Leads) sobre Instant
 Form, no la custom MQL `1562704878613075`. Esa custom (default 0, filtro
 URL `clinera.io`) solo la usan las campañas pausadas.
 
-Mapeo **corregido** `stage` → evento CAPI → value USD (`currency: USD`).
+Mapeo canónico `stage` → evento CAPI → value USD (`currency: USD`).
 Fuente: `integrations/n8n/crm-etapas-meta-capi.mapeo.js`. El vivo todavía
-cruza SCREENING↔PQL (H1 de la auditoría del 09-sep) hasta que Ricardo
-autorice el PUT.
+cruza SCREENING↔PQL (H1 de la auditoría del 09-sep) hasta el PUT.
+En Twenty hay que **borrar SCREENING y NQL** y dejar (o crear) `MQL`
+como etapa; `MEETING`/`PROPOSAL` siguen siendo los valores internos de
+SQL/HOT.
 
 | stage | event_name | value | condición |
 |---|---|---|---|
-| `NEW` | — | — | no emite: Sub A ya mandó `Lead` US$ 5 |
-| `SCREENING` | `MQL` | 10 | **solo si hay `leadgenId`** (el lead web ya emitió su MQL) |
-| `PQL` | `NoContesta` | 0 | señal negativa; nunca `MQL` |
-| `NQL` | `NQL` | 0 | |
-| `MEETING` | `SQL` | 100 | |
-| `PROPOSAL` | `HOT` | 300 | |
+| `NEW` | `Nuevo` | 0 | alta; también si lo escribió n8n (`API`) |
+| `PQL` | `PQL` | 1 | |
+| `MQL` | `MQL` | 5 | |
+| `MEETING` | `SQL` | 10 | alias `SQL` |
+| `PROPOSAL` | `HOT` | 100 | alias `HOT` |
 | `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 | |
+| `SCREENING` / `NQL` / `SQL_Plus` | — | — | no emiten |
 
 `event_id` = `{opportunityId}_{stage}`. `user_data.lead_id` = `leadgenId` (entero,
 sin hash) si existe. `action_source` = `system_generated`. Detalle:
 `integrations/n8n/README.md` y `baserow/sales/etiqueta-hot-y-capi.md`.
 
-**Desde el 2026-08-21, Google Ads recibe el mismo embudo** (montos alineados a
-Meta) — no por CAPI, sino porque los workflows de SQL/HOT marcan Baserow 152
-y un feed en `baserow` (`sales/n8n/gads-conversiones-sql-csv.js`) se lo sirve
-a Google Ads Data Manager por HTTPS. Detalle en `baserow/sales/HANDOFF.md`.
+**Desde el 2026-08-21, Google Ads recibe el mismo embudo** — no por CAPI,
+sino porque los workflows de SQL/HOT marcan Baserow 152 y un feed en
+`baserow` (`sales/n8n/gads-conversiones-sql-csv.js`) se lo sirve a Google
+Ads Data Manager por HTTPS. Los montos canónicos desde el 09-sep tarde
+son MQL 5 / SQL 10 / HOT 100; el feed hay que realinear. Detalle en
+`baserow/sales/HANDOFF.md`.
 
 Ids, disparos y el detalle completo: `integrations/n8n/README.md`.
 
@@ -368,7 +377,7 @@ formulario y no tenía dónde agendar — el embudo se cortaba ahí.
   volver a darlo de alta sería una segunda llamada de la IA al mismo teléfono.
   Sin él, la página lo crea. Ese id viaja en el payload hasta el campo
   `leadgenId` del negocio en Twenty, que es lo que habilita Conversion Leads.
-- Al confirmar la hora sale el **`MQL` US$ 10**, el mismo que `/agenda`: el lead
+- Al confirmar la hora sale el **`MQL` US$ 5**, el mismo que `/agenda`: el lead
   de formulario gana su MQL agendando, no por cambiar de etapa en el CRM.
 - `noindex` en tres capas (metadata, `robots.ts`, fuera del sitemap): es un paso
   de un anuncio, no contenido, y no debe competir con `/agenda`.

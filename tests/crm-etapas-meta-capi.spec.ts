@@ -5,7 +5,7 @@ import { join } from "node:path";
 import vm from "node:vm";
 
 /**
- * Mapeo corregido de W1. El archivo es jsCode de n8n (return de primer
+ * Embudo canónico de W1. El archivo es jsCode de n8n (return de primer
  * nivel): no se puede require(). Se evalúan los helpers hasta el marcador.
  */
 const SRC = readFileSync(
@@ -38,38 +38,34 @@ function loadHelpers() {
   };
 }
 
-test.describe("W1 mapeo corregido", () => {
-  test("PQL no contesta → NoContesta 0, nunca MQL", () => {
-    const { mapearEtapa } = loadHelpers();
-    expect(mapearEtapa("PQL")).toEqual({ event_name: "NoContesta", value: 0 });
-    expect(mapearEtapa("PQL", { leadgenId: 999 }).event_name).not.toBe("MQL");
-  });
-
-  test("SCREENING sin leadgenId no emite; con leadgenId → MQL 10", () => {
-    const { mapearEtapa } = loadHelpers();
-    expect(mapearEtapa("SCREENING")).toEqual({
-      skip: true,
-      motivo: "screening_sin_leadgen",
-    });
-    expect(mapearEtapa("SCREENING", { leadgenId: 1542457337898951 })).toEqual({
-      event_name: "MQL",
-      value: 10,
-    });
-    expect(mapearEtapa("SCREENING", { leadgenId: "no-es-entero" }).skip).toBe(true);
-  });
-
-  test("NEW no emite; NQL / SQL / HOT / Purchase siguen", () => {
+test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
+  test("los seis estados y ningún otro", () => {
     const { mapearEtapa, valorPurchase } = loadHelpers();
-    expect(mapearEtapa("NEW")).toEqual({ skip: true, motivo: "new_no_emite" });
-    expect(mapearEtapa("NQL")).toEqual({ event_name: "NQL", value: 0 });
-    expect(mapearEtapa("MEETING")).toEqual({ event_name: "SQL", value: 100 });
-    expect(mapearEtapa("PROPOSAL")).toEqual({ event_name: "HOT", value: 300 });
+    expect(mapearEtapa("NEW")).toEqual({ event_name: "Nuevo", value: 0 });
+    expect(mapearEtapa("Nuevo")).toEqual({ event_name: "Nuevo", value: 0 });
+    expect(mapearEtapa("PQL")).toEqual({ event_name: "PQL", value: 1 });
+    expect(mapearEtapa("MQL")).toEqual({ event_name: "MQL", value: 5 });
+    expect(mapearEtapa("MEETING")).toEqual({ event_name: "SQL", value: 10 });
+    expect(mapearEtapa("SQL")).toEqual({ event_name: "SQL", value: 10 });
+    expect(mapearEtapa("PROPOSAL")).toEqual({ event_name: "HOT", value: 100 });
+    expect(mapearEtapa("HOT")).toEqual({ event_name: "HOT", value: 100 });
     expect(mapearEtapa("CUSTOMER", { planClinera: "SUMMIT" })).toEqual({
       event_name: "Purchase",
       value: 479,
     });
     expect(valorPurchase("")).toBe(279);
     expect(valorPurchase("ATLAS")).toBe(379);
+  });
+
+  test("SCREENING, NQL y lo demás no emiten", () => {
+    const { mapearEtapa } = loadHelpers();
+    expect(mapearEtapa("SCREENING")).toEqual({ skip: true, motivo: "screening_eliminado" });
+    expect(mapearEtapa("SCREENING", { leadgenId: 1542457337898951 }).skip).toBe(true);
+    expect(mapearEtapa("NQL")).toEqual({ skip: true, motivo: "nql_eliminado" });
+    expect(mapearEtapa("NoContesta")).toEqual({ skip: true, motivo: "etapa_eliminada" });
+    expect(mapearEtapa("SQL_Plus")).toEqual({ skip: true, motivo: "etapa_eliminada" });
+    expect(mapearEtapa("PQL").event_name).not.toBe("MQL");
+    expect(mapearEtapa("PQL").event_name).not.toBe("NoContesta");
   });
 
   test("lead_id es entero positivo, nunca hash", () => {
@@ -82,12 +78,18 @@ test.describe("W1 mapeo corregido", () => {
   });
 
   test("AGENTS.md y el README no tienen dos tablas de mapeo distintas", () => {
-    expect(AGENTS).toContain("| `PQL` | `NoContesta` | 0 |");
-    expect(AGENTS).not.toMatch(/\|\s*`PQL`\s*\|\s*`MQL`\s*\|\s*10\s*\|/);
-    expect(AGENTS).not.toMatch(/\|\s*`SCREENING`\s*\|\s*`PQL`\s*\|\s*2\s*\|/);
-    expect(README).toContain("| `PQL` | `NoContesta` | 0 |");
-    expect(README).not.toMatch(/\|\s*`PQL`\s*\|\s*`MQL`\s*\|\s*10\s*\|/);
-    expect(SRC).toContain('event_name: "NoContesta"');
+    expect(AGENTS).toContain("| `NEW` | `Nuevo` | 0 |");
+    expect(AGENTS).toContain("| `PQL` | `PQL` | 1 |");
+    expect(AGENTS).toContain("| `MQL` | `MQL` | 5 |");
+    expect(AGENTS).toContain("| `MEETING` | `SQL` | 10 |");
+    expect(AGENTS).toContain("| `PROPOSAL` | `HOT` | 100 |");
+    expect(README).toContain("| `NEW` | `Nuevo` | 0 |");
+    expect(README).toContain("| `PQL` | `PQL` | 1 |");
+    expect(AGENTS).not.toMatch(/\|\s*`SCREENING`\s*\|\s*`MQL`\s*\|/);
+    expect(AGENTS).not.toMatch(/\|\s*`PQL`\s*\|\s*`NoContesta`\s*\|/);
+    expect(AGENTS).not.toMatch(/\|\s*`NQL`\s*\|\s*`NQL`\s*\|/);
+    expect(README).not.toMatch(/\|\s*`PQL`\s*\|\s*`NoContesta`\s*\|/);
+    expect(SRC).not.toContain('event_name: "NoContesta"');
     expect(SRC).toMatch(/event_id\s+= \{opportunityId\}_\{stage\}/);
     expect(SRC).toContain('recordId + "_" + String(etapa)');
   });

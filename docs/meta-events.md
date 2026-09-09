@@ -48,7 +48,7 @@ endpoint agrega `client_ip_address` y `client_user_agent` del request.
 | **Trigger (default)** | Lead **confirma la hora** en `/agenda` (`booking_confirmed`). El submit del Paso 3 ya no dispara MQL. |
 | **Envío** | Pixel + CAPI (dedup por `event_id` del lead, compartido con el webhook n8n). |
 | **`user_data`** | `em`, `ph` (SHA-256 de email y teléfono E.164), `fbp`, `fbc`, `client_ip_address`, `client_user_agent`. |
-| **`custom_data`** | `software_actual`, `sucursales`, `pacientes_mes`, `prioridad_alta`, `pais`, `value: 10`, `currency: "USD"`. |
+| **`custom_data`** | `software_actual`, `sucursales`, `pacientes_mes`, `prioridad_alta`, `pais`, `value: 5`, `currency: "USD"`. |
 | **Idempotencia** | Flag `cl_mql_fired` en `sessionStorage` → recarga, doble-click de submit y volver-atrás **no** lo redisparan. |
 
 > El wizard ya no tiene lista de espera, así que se eliminaron los eventos

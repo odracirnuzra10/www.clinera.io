@@ -26,10 +26,10 @@ test.describe("/reunion — MQL solo al agendar", () => {
     expect(fn).not.toMatch(/fbq\(\s*"track",\s*"MQL"/);
   });
 
-  test("submitBookingConfirmation dispara MQL 10, no Schedule", () => {
+  test("submitBookingConfirmation dispara MQL 5, no Schedule", () => {
     const fn = sliceFn("submitBookingConfirmation");
     expect(fn).toContain('"MQL"');
-    expect(fn).toContain("value: 10");
+    expect(fn).toContain("value: 5");
     expect(fn).not.toMatch(/fbq\(\s*"track",\s*"Schedule"/);
   });
 });

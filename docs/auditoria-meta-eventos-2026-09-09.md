@@ -10,15 +10,19 @@ No hay tokens en este archivo.
 §10-P1 (`SQL_Plus` ya no se pide). Lo que esa auditoría midió ese día
 sigue siendo cierto *para ese día*; el estado vivo cambió el 7-sep.
 
-**Pedido de Ricardo (valores canónicos, no cambiaron):**
+**Pedido de Ricardo (canónico desde la tarde del 09-sep):**
 
 | Peldaño | Valor USD | Quién lo gana |
 |---|---|---|
-| Instant Form | 5 | envió el formulario nativo (`Lead`) |
-| MQL | 10 | **agendó** (wizard, IA, Camila, `/reserva-tu-hora`) |
-| SQL | 100 | closer → `MEETING` |
-| HOT (antes SQL+) | 300 | closer → `PROPOSAL` |
-| Purchase | 279 / 379 / 479 | `CUSTOMER` según `planClinera` |
+| Nuevo | 0 | entró al CRM |
+| PQL | 1 | closer → `PQL` |
+| MQL | 5 | **agendó** (wizard, IA, Camila, `/reserva-tu-hora`) |
+| SQL | 10 | closer → `MEETING` / `SQL` |
+| HOT | 100 | closer → `PROPOSAL` / `HOT` |
+| Customer (`Purchase`) | 279 / 379 / 479 | `CUSTOMER` según `planClinera` |
+
+Sin SCREENING, NQL, NoContesta ni `Lead`. El pedido de la mañana
+(Instant Form 5 / MQL 10 / SQL 100 / HOT 300) quedó atrás el mismo día.
 
 **Veredicto en una línea:** el pixel no está “sucio” como caja. Desde el
 **7-sep 23:00** las campañas activas optimizan **Conversion Leads** y el
@@ -199,7 +203,7 @@ duplicadas.
 
 - Hosts: 2.574 eventos desde `localhost`, 90 desde `127.0.0.1`, 18 desde
   previews de Vercel, 3 desde `review.allot-wsp.local`.
-- `/reunion` (`ReunionLanding.tsx`) dispara `MQL` US$ 10 **al enviar el
+- `/reunion` (`ReunionLanding.tsx`) disparaba `MQL` US$ 10 **al enviar el
   formulario**, sin agendar. La ruta pública `/reunion` redirige a
   `/agenda` (308 en `next.config.ts`); el componente sigue vivo.
 - `public/inicia-2` manda `Lead` value 19 y `Programar` value 75;
@@ -234,23 +238,28 @@ no aplicado). El vivo sigue invertido hasta el OK de Ricardo.
 
 ---
 
-## 4. Mapeo corregido (repo; no vivo hasta aplicarlo)
+## 4. Mapeo canónico (Ricardo, 09-sep tarde — repo; no vivo hasta aplicarlo)
 
 Fuente: `integrations/n8n/crm-etapas-meta-capi.mapeo.js`.
+Sustituye el mapeo de la mañana (SCREENING→MQL 10, PQL→NoContesta 0,
+SQL 100, HOT 300). Los mismos seis estados en CRM y en el pixel.
 
 | stage | evento | value | condición |
 |---|---|---|---|
-| NEW | — | — | no emite: `Lead` US$ 5 ya lo mandó Sub A |
-| SCREENING (agendó) | `MQL` | 10 | **solo si hay `leadgenId`** |
-| PQL (no contesta) | `NoContesta` | 0 | señal negativa, nunca `MQL` |
-| NQL | `NQL` | 0 | igual |
-| MEETING | `SQL` | 100 | igual |
-| PROPOSAL | `HOT` | 300 | igual |
-| CUSTOMER | `Purchase` | plan | igual |
+| NEW | `Nuevo` | 0 | alta; también si lo escribió n8n |
+| PQL | `PQL` | 1 | |
+| MQL | `MQL` | 5 | |
+| MEETING | `SQL` | 10 | alias `SQL` |
+| PROPOSAL | `HOT` | 100 | alias `HOT` |
+| CUSTOMER | `Purchase` | valor del plan | VORTEX 279 / ATLAS 379 / SUMMIT 479 |
+| SCREENING / NQL / SQL_Plus / NoContesta | — | — | no emiten |
 
 Se mantiene ledger, `event_id = {oppId}_{stage}`, `lead_id` entero,
 ventana 28 d. Nombre del workflow al aplicar: «Clinera | Twenty etapas →
 Meta CAPI» (sin «inactivo»).
+
+En Twenty: borrar las etapas SCREENING y NQL; crear/dejar `MQL`.
+Sub A (repo `baserow`) debe dejar de mandar `Lead` US$ 5.
 
 ---
 
@@ -267,11 +276,11 @@ pixel a las que ya gastan.
 ## 6. Checklist manual (UI de Meta — Ricardo)
 
 1. Events Manager → dataset `1104567405156111` → Conversion Leads →
-   embudo: `Lead → MQL → SQL → HOT → Purchase`. `NoContesta` y `NQL`
-   como descalificados. El conector no lee ni edita esto.
-2. Custom MQL `1562704878613075`: default **10**, quitar filtro URL,
-   descripción «agendó demo». Custom SQL: quitar filtro URL. Archivar
-   `Demo Ready` y `Clinera.io/gracias`.
+   embudo: `Nuevo → PQL → MQL → SQL → HOT → Purchase`. Sin SCREENING,
+   NQL, NoContesta ni Lead. El conector no lee ni edita esto.
+2. Custom MQL `1562704878613075`: default **5**, quitar filtro URL,
+   descripción «agendó demo». Custom SQL: default **10**, sin filtro URL.
+   Archivar `Demo Ready` y `Clinera.io/gracias`.
 3. Borrar las 9 reglas del Event Setup Tool.
 4. Rotar: token Meta pegado el 09-sep, API key n8n del mismo día, y el
    token CAPI que estuvo commiteado (pendiente desde agosto).
@@ -291,10 +300,9 @@ GET /{campaign_id}/adsets
 GET {N8N}/api/v1/workflows/W1SybZZSEZqAItIt
 ```
 
-Tras aplicar W1 (solo con OK): mover un negocio de prueba a
-`PQL · No contesta` → la ejecución debe salir `NoContesta` value 0.
-Mover a SCREENING sin `leadgenId` → no emite. Después,
+Tras aplicar W1 (solo con OK): mover un negocio de prueba a `PQL` →
+`PQL` value 1. A `MQL` → `MQL` value 5. A `SCREENING` → no emite.
 `ads_get_dataset_stats` `event_name=MQL` `SERVER_ONLY` 48 h: los MQL
-deben corresponder solo a citas.
+deben corresponder solo a citas (value 5).
 
 H3 sigue abierto hasta Test Events en `/agenda`.

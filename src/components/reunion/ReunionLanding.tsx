@@ -511,7 +511,7 @@ function Wizard({
 //    InitiateCheckout (no MQL: MQL = agendó). Garantiza que n8n
 //    reciba el lead aunque después abandone el embed de Cal.com.
 // 2) submitBookingConfirmation — cuando Cal.com dispara `bookingSuccessful`.
-//    Acá sale el MQL US$ 10 (mismo contrato que VentasLanding).
+//    Acá sale el MQL US$ 5 (mismo contrato que VentasLanding).
 //    Manda los detalles del calendario y referencia al lead anterior.
 
 type CalBooking = {
@@ -659,7 +659,7 @@ async function submitBookingConfirmation({
         lead_source: leadCtx?.leadSource,
         cal_booking_uid: booking?.booking?.uid,
         booking_status: "confirmed",
-        value: 10,
+        value: 5,
         currency: "USD",
         ...getMigrationMeta(migrationIntent ?? null),
       },

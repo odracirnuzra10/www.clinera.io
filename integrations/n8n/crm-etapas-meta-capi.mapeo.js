@@ -6,10 +6,9 @@
 // únicamente este jsCode y el nombre del workflow (sacar «inactivo»).
 // Antes de un PUT: guardar el JSON actual en integrations/n8n/backup/.
 //
-// Por qué existe: desde el 2026-09-07 21:17Z el mapeo vivo cruzaba las
-// etiquetas. PQL («No contesta») salía como MQL US$ 10, y las campañas
-// Conversion Leads (QUALITY_LEAD desde el 7-sep) aprendían de eso.
-// Auditoría: docs/auditoria-meta-eventos-2026-09-09.md (H1).
+// Embudo canónico (Ricardo, 2026-09-09 tarde). Los mismos seis estados
+// en CRM y en el pixel. SCREENING, NQL, NoContesta, Lead y SQL_Plus
+// no existen. Auditoría: docs/auditoria-meta-eventos-2026-09-09.md.
 //
 // Contratos que NO se tocan:
 //   event_id      = {opportunityId}_{stage}
@@ -58,44 +57,46 @@ function valorPurchase(planClinera) {
 }
 
 /**
- * Mapeo corregido (2026-09-09). Las etiquetas del tablero NO son el valor
- * interno: SCREENING se lee «MQL»; PQL se lee «PQL · No contesta».
+ * Embudo canónico. Etiqueta del tablero = evento del pixel.
  *
- *   NEW        → no emite (Sub A ya mandó Lead US$ 5)
- *   SCREENING  → MQL 10 solo con leadgenId (el lead web ya emitió MQL)
- *   PQL        → NoContesta 0 (señal negativa, NUNCA MQL)
- *   NQL        → NQL 0
- *   MEETING    → SQL 100
- *   PROPOSAL   → HOT 300
- *   CUSTOMER   → Purchase según planClinera (vacío → 279)
+ *   NEW / Nuevo     → Nuevo     0
+ *   PQL             → PQL       1
+ *   MQL             → MQL       5
+ *   MEETING / SQL   → SQL      10
+ *   PROPOSAL / HOT  → HOT     100
+ *   CUSTOMER        → Purchase  valor del plan (vacío → 279)
+ *
+ * SCREENING, NQL, NoContesta, SQL_Plus: no emiten.
  */
 function mapearEtapa(stage, opts) {
   const s = norm(stage);
-  const leadgenId = opts && opts.leadgenId;
 
   if (s === "new" || s === "nuevo") {
-    return { skip: true, motivo: "new_no_emite" };
-  }
-  if (s === "screening") {
-    if (!leadIdEntero(leadgenId)) {
-      return { skip: true, motivo: "screening_sin_leadgen" };
-    }
-    return { event_name: "MQL", value: 10 };
+    return { event_name: "Nuevo", value: 0 };
   }
   if (s === "pql") {
-    return { event_name: "NoContesta", value: 0 };
+    return { event_name: "PQL", value: 1 };
   }
-  if (s === "nql") {
-    return { event_name: "NQL", value: 0 };
+  if (s === "mql") {
+    return { event_name: "MQL", value: 5 };
   }
   if (s === "meeting" || s === "sql") {
-    return { event_name: "SQL", value: 100 };
+    return { event_name: "SQL", value: 10 };
   }
-  if (s === "proposal" || s === "hot" || s === "sql+" || s === "sqlplus" || s === "sql_plus") {
-    return { event_name: "HOT", value: 300 };
+  if (s === "proposal" || s === "hot") {
+    return { event_name: "HOT", value: 100 };
   }
   if (s === "customer" || s === "contrata") {
     return { event_name: "Purchase", value: valorPurchase(opts && opts.planClinera) };
+  }
+  if (s === "screening") {
+    return { skip: true, motivo: "screening_eliminado" };
+  }
+  if (s === "nql") {
+    return { skip: true, motivo: "nql_eliminado" };
+  }
+  if (s === "sql+" || s === "sqlplus" || s === "sql_plus" || s === "nocontesta") {
+    return { skip: true, motivo: "etapa_eliminada" };
   }
   return { skip: true, motivo: "etapa_desconocida" };
 }
@@ -157,12 +158,15 @@ if (mapped.skip) {
   return [{ json: { ok: false, motivo: mapped.motivo, etapa: etapa } }];
 }
 
-// SQL / HOT / Purchase los declara una persona. SCREENING/PQL/NQL también
-// los mueve el closer en el tablero; si la etapa la escribió n8n
-// (updatedBy.source = API) no se emite — el MQL del sitio o del Meet
-// ya cubrió ese salto y un segundo event_id {oppId}_SCREENING duplicaría.
+// SQL / HOT / Purchase / PQL / MQL los declara una persona o el sitio.
+// NEW lo crea n8n (Sub A, wizard): hay que emitir Nuevo aunque
+// updatedBy.source = API. El resto, si lo movió una automatización,
+// no se emite — el MQL del sitio o del Meet ya cubrió ese salto.
 if (fuenteCambio === "API") {
-  return [{ json: { ok: false, motivo: "etapa_movida_por_automatizacion", etapa: etapa } }];
+  const etapaNorm = norm(etapa);
+  if (etapaNorm !== "new" && etapaNorm !== "nuevo") {
+    return [{ json: { ok: false, motivo: "etapa_movida_por_automatizacion", etapa: etapa } }];
+  }
 }
 
 const recordId = String(registro.id || deepFind(body, ["recordid", "opportunityid"]) || "");
