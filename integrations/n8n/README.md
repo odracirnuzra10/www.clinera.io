@@ -409,8 +409,20 @@ se ve en el tablero. El mapa del workspace OACG es:
 | `MEETING` | SQL | `SQL` / 10 |
 | `PROPOSAL` | HOT | `HOT` / 100 |
 | `CUSTOMER` | Customer | `Purchase` / planClinera |
-| `NQL` | No califica | `NQL` / 0 |
-| `SCREENING` | *(eliminar)* | no emite |
+| `NQL` | NQL | `NQL` / 0 |
+| `SCREENING` | Screening (migrar a MQL) — *se borra tras `aplicar_etapa_mql.py`* | no emite |
+
+**Estado real al 09-sep-2026 (tarde).** El 07-sep se habían cruzado las
+etiquetas para calzar con el W1 viejo: el valor `SCREENING` decía «PQL» y
+el valor `PQL` decía «MQL». Los datos decían lo contrario (130 negocios en
+SCREENING eran leads que agendaron, 86 con fecha de demo). Ese día se creó
+la opción `MQL`, se re-etiquetó `PQL` como «PQL» y se movieron los 131
+SCREENING a `MQL`. La opción SCREENING sigue existiendo sólo porque el
+Wizard, el Meet y Sub A todavía la escriben/comparan: eso lo corrige
+`aplicar_etapa_mql.py` (`etapaDestino`/`DESTINO` → `MQL`, escalera
+`NEW < PQL < MQL < MEETING < PROPOSAL < CUSTOMER`). **Orden obligatorio:**
+primero ese aplicador, después borrar SCREENING en Twenty; al revés, cada
+lead que agenda falla al crearse.
 
 `ETAPAS_SQL` acepta `meeting` y `proposal` (y también las etiquetas `sql` /
 `sql+`, por si el webhook llegara desde otra vista).

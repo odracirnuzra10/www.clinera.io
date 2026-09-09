@@ -333,9 +333,16 @@ URL `clinera.io`) solo la usan las campañas pausadas.
 Mapeo canónico `stage` → evento CAPI → value USD (`currency: USD`).
 Fuente: `integrations/n8n/crm-etapas-meta-capi.mapeo.js`. Aplicado al vivo
 el 2026-09-09. El cruce SCREENING↔PQL (H1) es histórico.
-En Twenty hay que **borrar SCREENING** y dejar (o crear) `MQL`
-como etapa; `NQL` se queda (no calificado, $0); `MEETING`/`PROPOSAL`
-siguen siendo los valores internos de SQL/HOT.
+En Twenty (09-sep tarde) ya existe la etapa `MQL`, `PQL` se etiqueta
+«PQL» y los 131 negocios que estaban en SCREENING (leads que agendaron)
+se movieron a `MQL`. **Ojo con el relabel del 07-sep:** había dejado el
+valor `SCREENING` con etiqueta «PQL» y el valor `PQL` con etiqueta «MQL»,
+al revés de los datos; con el W1 canónico, mover a «PQL» no emitía nada y
+mover a «MQL» emitía `PQL` 1. La opción SCREENING queda sólo hasta que
+`integrations/n8n/aplicar_etapa_mql.py` cambie Wizard, Meet y Sub A a
+`MQL` (primero n8n, después borrar la opción; al revés, cada lead que
+agenda falla al crearse). `NQL` se queda (no calificado, $0);
+`MEETING`/`PROPOSAL` siguen siendo los valores internos de SQL/HOT.
 
 | stage | event_name | value | condición |
 |---|---|---|---|
