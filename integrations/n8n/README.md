@@ -26,15 +26,18 @@ widget embebido).
 
 ### Tracking de conversión (Meta CAPI + GA4)
 
-El embudo tiene cuatro eventos (valores fijados por Ricardo el 27-ago-2026),
-y cada uno se dispara desde donde realmente ocurre:
+El embudo tiene los mismos estados en CRM y en el pixel
+(Ricardo, 09-sep-2026):
 
 | Evento | Cuándo | Dónde vive | Valor |
 |---|---|---|---|
-| **Lead** | alguien envía el **Instant Form** de Meta Ads | HUB `qOGjfU1AgubcOHvt` → Sub A en n8n (aplicador en repo `baserow`, `sales/n8n/aplicar_instant_form_mql.py`) | US$ 5 |
-| **MQL** | alguien agenda en `www.clinera.io/agenda` **o** la IA agenda por WhatsApp **o** Camila por teléfono | este workflow (wizard) · `clinera-meet-por-profesional.workflow.json` (IA) | US$ 10 |
-| **SQL** / **HOT** / resto CRM | el closer mueve `stage` en `crm.oacg.cl` | n8n `W1SybZZSEZqAItIt` (webhook `crm-sql`) — ver «CRM Twenty → Meta CAPI» | ver mapeo |
-| ~~**SQL_Plus**~~ | ~~propuesta~~ | **retirado** (sep-2026): PROPOSAL ahora emite `HOT` | — |
+| **Nuevo** | alta en el CRM (Instant Form o wizard) | W1; Sub A debe dejar de mandar `Lead` US$ 5 | US$ 0 |
+| **PQL** | closer → PQL | W1 | US$ 1 |
+| **MQL** | alguien agenda en `/agenda` **o** la IA / Camila | este workflow (wizard) · `clinera-meet-por-profesional.workflow.json` (IA) · W1 si el stage es `MQL` | US$ 5 |
+| **SQL** | closer → SQL (`MEETING`) | W1 | US$ 10 |
+| **HOT** | closer → HOT (`PROPOSAL`) | W1 | US$ 100 |
+| **NQL** | closer → no califica | W1 | US$ 0 |
+| **Purchase** | Customer | W1 (`planClinera`) | valor del plan |
 
 Al crear la cita, el workflow dispara **en paralelo** a la respuesta del
 navegador (nunca la demora ni la rompe):
@@ -46,7 +49,7 @@ navegador (nunca la demora ni la rompe):
 
 **Dedupe con el Pixel del navegador**: `/agenda` genera el `event_id` *antes*
 de llamar al webhook, lo manda en el body y usa el mismo en
-`fbq('track','Schedule', …, { eventID })`. Meta deduplica por
+`fbq('track','MQL', …, { eventID })`. Meta deduplica por
 (`event_name`, `event_id`), así que Pixel + CAPI cuentan **una** conversión.
 El navegador también manda `meta_fbp` / `meta_fbc`, el `client_id` de la
 cookie `_ga` y la atribución de Google Ads, de modo que el evento
@@ -172,7 +175,7 @@ forma que el fallback del MQL del wizard, con el fallback a teléfono del
 SQL. Una reagenda (otra fecha/hora) es un segundo MQL — aceptado, igual
 que hoy en el wizard.
 
-**Valores:** `action_source: system_generated`, `value: 10`,
+**Valores:** `action_source: system_generated`, `value: 5`,
 `currency: USD`, `lead_source: clinera_agente_ia`. Token CAPI:
 `$env.META_CAPI_ACCESS_TOKEN`. El `api_secret` de GA4 se copia del nodo
 vivo `GA4 - MQL` del workflow de reserva al aplicar; no viaja por el repo.
@@ -183,7 +186,7 @@ Chile), `metadata{origen,estado,createdAt}`. `origenCita` y `bookingId`
 los calcula `Normalizar Reserva` una sola vez.
 
 **Twenty:** el nodo `Twenty - Agendó (Meet)` hace upsert **solo** para
-`agente-ia` (contrato del wizard: `SCREENING`, Vortex US$ 279). Wizard/web
+`agente-ia` (contrato del wizard: etapa `MQL`, Vortex US$ 279). Wizard/web
 siguen igual: solo refresco. Al crear o refrescar copia el teléfono del
 contacto a `telefonoContacto` del negocio — es lo que se ve en la tabla
 de Negocios, porque Twenty no muestra el de la Persona como columna de
@@ -344,28 +347,37 @@ Los emisores viejos están **apagados**:
 
 ### Mapeo `stage` → evento CAPI → value (USD)
 
-| stage | event_name | value |
-|---|---|---|
-| `NEW` | `Lead` | 1 |
-| `SCREENING` | `PQL` | 2 |
-| `PQL` | `MQL` | 10 |
-| `MEETING` | `SQL` | 100 |
-| `PROPOSAL` | `HOT` | 300 |
-| `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 |
-| `NQL` | `NQL` | 0 |
+Fuente versionada: `crm-etapas-meta-capi.mapeo.js` (nodo `Mapear etapa y
+cifrar datos`). El vivo de W1 **todavía cruza** SCREENING↔PQL (H1,
+`docs/auditoria-meta-eventos-2026-09-09.md`) hasta el PUT. No aplicar
+este archivo por mergear el PR. En Twenty: borrar SCREENING;
+crear/dejar la etapa `MQL`. `NQL` se queda (no calificado, $0).
 
-Todos con `custom_data.currency = "USD"`. Ningún stage queda sin evento.
-`event_id` = `{opportunityId}_{stage}`. `user_data.lead_id` = `leadgenId`
-(entero, sin hash) si existe; si no, el evento sale igual.
-`action_source` = `system_generated`. Dedup: ledger del workflow + `event_id`.
+| stage | event_name | value | condición |
+|---|---|---|---|
+| `NEW` | `Nuevo` | 0 | alta; también si lo escribió n8n |
+| `PQL` | `PQL` | 1 | |
+| `MQL` | `MQL` | 5 | |
+| `MEETING` | `SQL` | 10 | alias `SQL` |
+| `PROPOSAL` | `HOT` | 100 | alias `HOT` |
+| `NQL` | `NQL` | 0 | no calificado |
+| `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 | |
+| `SCREENING` / `SQL_Plus` | — | — | no emiten |
 
-El export `crm-sql-twenty.workflow.json` de este repo es el **grafo viejo**
-(solo SQL); ya no es el runtime. Bajar el vivo por API antes de tocar nodos.
+`custom_data.currency = "USD"`. `event_id` = `{opportunityId}_{stage}`.
+`user_data.lead_id` = `leadgenId` (entero, sin hash) si existe.
+`action_source` = `system_generated`. Dedup: ledger del workflow (28 d) +
+`event_id`.
+
+El export `crm-sql-twenty.workflow.json` de este repo es el **grafo
+histórico** (solo SQL, agosto 2026); ya no es el runtime. Bajar el vivo
+por API antes de tocar nodos.
 
 ## crm-sql-twenty.workflow.json
 
-El segundo evento del embudo: **SQL** (US$ 100), cuando el closer marca el
-lead como calificado en **crm.oacg.cl** (Twenty).
+El segundo evento del embudo histórico: **SQL** (hoy US$ 10), cuando el
+closer marca el lead como calificado en **crm.oacg.cl** (Twenty).
+Este JSON es el grafo de agosto 2026, no el runtime.
 
 Webhook: `POST https://n8n.oacg.cl/webhook/crm-sql`
 
@@ -377,15 +389,16 @@ a esa URL y suscrito a `opportunity.updated` / `opportunity.created`.
 Twenty manda en el webhook el **valor** del enum de etapa, no la etiqueta que
 se ve en el tablero. El mapa del workspace OACG es:
 
-| Valor en el webhook | Etiqueta en el tablero |
-|---|---|
-| `NEW` | (etiqueta visible puede cambiar; valor interno estable) → CAPI `Lead` / 1 |
-| `SCREENING` | → CAPI `PQL` / 2 |
-| `PQL` | → CAPI `MQL` / 10 |
-| `MEETING` | → CAPI `SQL` / 100 |
-| `PROPOSAL` | → CAPI **`HOT`** / 300 (antes `SQL_Plus`) |
-| `CUSTOMER` | → CAPI `Purchase` / planClinera |
-| `NQL` | → CAPI `NQL` / 0 |
+| Valor en el webhook | Etiqueta en el tablero | CAPI (canónico) |
+|---|---|---|
+| `NEW` | Nuevo | `Nuevo` / 0 |
+| `PQL` | PQL | `PQL` / 1 |
+| `MQL` | MQL | `MQL` / 5 |
+| `MEETING` | SQL | `SQL` / 10 |
+| `PROPOSAL` | HOT | `HOT` / 100 |
+| `CUSTOMER` | Customer | `Purchase` / planClinera |
+| `NQL` | No califica | `NQL` / 0 |
+| `SCREENING` | *(eliminar)* | no emite |
 
 `ETAPAS_SQL` acepta `meeting` y `proposal` (y también las etiquetas `sql` /
 `sql+`, por si el webhook llegara desde otra vista).
@@ -439,7 +452,7 @@ embudo mirando solo este repo.
 
 | Workflow en n8n | Id | Evento | Valor | Disparo | Estado |
 |---|---|---|---|---|---|
-| `Clinera \| Twenty etapas → Meta CAPI` | `W1SybZZSEZqAItIt` | mapeo completo (Lead/PQL/MQL/SQL/**HOT**/Purchase/NQL) | ver tabla arriba | webhook Twenty `crm-sql` | **activo** |
+| `Clinera \| Twenty etapas → Meta CAPI` | `W1SybZZSEZqAItIt` | mapeo corregido en `crm-etapas-meta-capi.mapeo.js` (vivo aún cruza PQL→MQL) | ver tabla arriba | webhook Twenty `crm-sql` | **activo** (el nombre UI dice «inactivo») |
 | `Clinera — SQL desde CRM (Twenty)` | `dhwqS9oW3qfvq6Y4` | `SQL` | US$ 100 | webhook (reemplazado por W1) | **apagado** |
 | `CRM · SQL+ → Meta CAPI` | `rWZDSfi8RJ780q76` | ~~`SQL_Plus`~~ | US$ 300 | sondeo PROPOSAL | **apagado** (`HOT` lo manda W1) |
 | `OACG TECH \| SQL Conversión Alto Valor` | `1erGwPkeneXUkqzG` | `SQL` | US$ 100 | Baserow tabla 152 + backstop 24 h | activo (Baserow, no Twenty) |
@@ -485,7 +498,7 @@ Dos cosas que hay que respetar al tocar cualquiera de los dos:
    CADA workflow reenvíe lo suyo; el `event_id` compartido es lo que evita que
    los DOS cuenten el mismo lead.
 
-`SQL` (US$ 100) y `HOT` (US$ 300, antes `SQL_Plus`) son peldaños distintos.
+`SQL` (US$ 10) y `HOT` (US$ 100) son peldaños distintos.
 `SQL_Plus` ya no se emite.
 
 Además de los placeholders del workflow de reserva, este archivo lleva
@@ -495,7 +508,8 @@ Además de los placeholders del workflow de reserva, este archivo lleva
 ### Google Ads entró al mismo embudo (2026-08-21)
 
 Ricardo pidió alinear Google Ads al mismo vocabulario y montos que Meta ya usa
-acá (MQL=10 / SQL=100 / HOT=300 USD). Google Ads no tiene un camino de push
+acá (Nuevo=0 / PQL=1 / MQL=5 / SQL=10 / HOT=100 / NQL=0 USD; Customer = plan).
+El feed de Baserow 152 hay que realinear en el repo `baserow`. Google Ads no tiene un camino de push
 por evento sin developer token — a diferencia de Meta CAPI — así que en vez de
 un envío paralelo, los workflows de SQL y SQL+ de esta página (no el de MQL) ahora **además**
 marcan en Baserow 152 (`🎯 SQL a Google` / `🎯 SQL+ a Google`) justo después
@@ -532,10 +546,10 @@ cosas suyas:
   `cal_organizer_name` y pone el negocio a su nombre (Rebeca, Nohelymar), en
   vez del sorteo de encargada. Se aplica también cuando el negocio ya existía;
   si no hay profesional, no se reasigna a nadie.
-- **Todo lead entra como MQL.** "Twenty - Crear Lead" y "Twenty - Agendó
-  (Cal.com)" dejan el negocio en `SCREENING` (MQL), siempre. Subirlo a SQL o
-  SQL+ es decisión de ventas (Nohe, Rebe o Cheul) en el CRM: ni el formulario ni
-  el agendamiento lo hacen solos. Antes el agendamiento subía a `MEETING` (SQL)
+- **Todo lead que agenda entra como MQL.** "Twenty - Crear Lead" y "Twenty - Agendó
+  (Cal.com)" deben dejar el negocio en `MQL`, no en `SCREENING` (esa etapa
+  se elimina). Subirlo a SQL o HOT es decisión de ventas en el CRM: ni el
+  formulario ni el agendamiento lo hacen solos. Antes el agendamiento subía a `MEETING` (SQL)
   y el embudo se saltaba el paso del closer.
 - **Teléfono en la vista de Negocios.** "Twenty - Crear Lead" (Wizard y Sub A)
   y "Twenty - Agendó (Meet)" escriben `telefonoContacto` en la Opportunity,
