@@ -234,7 +234,9 @@ la recomendación del partner + CTA a reunión.
 > mostraba. Antes de tocar el embudo, mira la instancia de n8n.
 >
 > Auditoría del **2026-09-09** (Conversion Leads, W1 cruzado, BM del pixel):
-> `docs/auditoria-meta-eventos-2026-09-09.md`. La del 26-ago quedó superada
+> `docs/auditoria-meta-eventos-2026-09-09.md`. Handoff para auditar si
+> el PUT y el repo quedaron bien:
+> `docs/handoff-auditoria-embudo-meta-2026-09-09.md`. La del 26-ago quedó superada
 > en §1, §3, §4 y §10-P1; se conserva como foto de ese día.
 > Embudo CRM→CAPI: workflow `W1SybZZSEZqAItIt`. El mapeo canónico
 > (Ricardo, 09-sep tarde) vive en
