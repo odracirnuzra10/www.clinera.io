@@ -376,7 +376,15 @@ filtro dejaba pasar todo y el HTTP fallaba con «JSON Body is not valid
 JSON» (`events_received: 0`) — W1 no mandó nada a Meta desde el PUT de
 las 16:38Z hasta el arreglo (auditoría 09-sep, H8). `ledgerKey` =
 `{evento}:{opportunityId}`. Guardián: `tests/crm-etapas-meta-capi.spec.ts`
-(bloque «nodo completo»).
+(bloque «nodo completo»). **Arreglo aplicado el 09-sep 19:44Z**; prueba
+funcional con negocio de prueba: `Nuevo` 0 → `events_received: 1`.
+
+**El IF «Corresponde enviar?» tiene que estar en formato v2.** Es
+`typeVersion: 2`; con parámetros en forma v1 (`conditions.boolean`) no
+define ninguna condición y deja pasar todo al HTTP (H9). Hoy la condición
+es `$json.omitido` es false → enviar (`aplicar_w1_filtro.py`). Si alguien
+lo edita en la UI y n8n lo reescribe, revisar que los ítems omitidos
+salgan por la rama «false».
 `user_data.lead_id` = `leadgenId` (entero, sin hash) si existe.
 `action_source` = `system_generated`. Dedup: ledger del workflow (28 d) +
 `event_id`.
@@ -417,12 +425,14 @@ etiquetas para calzar con el W1 viejo: el valor `SCREENING` decía «PQL» y
 el valor `PQL` decía «MQL». Los datos decían lo contrario (130 negocios en
 SCREENING eran leads que agendaron, 86 con fecha de demo). Ese día se creó
 la opción `MQL`, se re-etiquetó `PQL` como «PQL» y se movieron los 131
-SCREENING a `MQL`. La opción SCREENING sigue existiendo sólo porque el
-Wizard, el Meet y Sub A todavía la escriben/comparan: eso lo corrige
-`aplicar_etapa_mql.py` (`etapaDestino`/`DESTINO` → `MQL`, escalera
-`NEW < PQL < MQL < MEETING < PROPOSAL < CUSTOMER`). **Orden obligatorio:**
-primero ese aplicador, después borrar SCREENING en Twenty; al revés, cada
-lead que agenda falla al crearse.
+SCREENING a `MQL`. A las 19:46Z se aplicó `aplicar_etapa_mql.py` (Wizard,
+Meet y Sub A escriben/comparan `MQL`, escalera
+`NEW < PQL < MQL < MEETING < PROPOSAL < CUSTOMER`) y a las 19:48Z se
+**borró la opción SCREENING** del campo `stage`. Trampa que ya costó un
+susto: al editar las opciones de un SELECT en Twenty hay que conservar el
+`id` de cada opción; quitar la opción que llevaba el valor `MQL` (aunque
+otra opción tomara el mismo valor) mandó los 130 negocios a `NEW` y hubo
+que volver a moverlos por id.
 
 `ETAPAS_SQL` acepta `meeting` y `proposal` (y también las etiquetas `sql` /
 `sql+`, por si el webhook llegara desde otra vista).

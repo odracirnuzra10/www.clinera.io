@@ -134,10 +134,16 @@ Contratos del nodo que **no** se cambiaron a propósito:
 > sin mandar nada a Meta. El jsCode no devolvía `payload` ni `omitido`,
 > que son lo que leen los nodos de abajo; el HTTP fallaba con «JSON Body
 > is not valid JSON» y `events_received: 0`. Detalle en
-> `docs/auditoria-meta-eventos-2026-09-09.md` §H8. El archivo ya está
-> corregido en el repo; **hay que volver a aplicar** con
-> `aplicar_w1_mapeo.py --aplicar` y confirmar `events_received ≥ 1` en
-> la primera ejecución real. Nombre, `active` y webhook no bastan.
+> `docs/auditoria-meta-eventos-2026-09-09.md` §H8.
+>
+> **Cerrado el 2026-09-09 19:44Z:** se volvió a aplicar el jsCode
+> (`aplicar_w1_mapeo.py`), se corrigió el IF «Corresponde enviar?» que
+> dejaba pasar todo (`aplicar_w1_filtro.py`, §H9) y la prueba funcional
+> con un negocio de prueba dio `Nuevo` 0 → `events_received: 1` a las
+> 19:53:38Z. Ese mismo bloque aplicó `aplicar_etapa_mql.py` (Wizard, Meet
+> y Sub A escriben `MQL`) y `aplicar_wizard_volvio_a_cotizar.py`; en
+> Twenty se borró la opción SCREENING. Lo que sigue abierto del §4 es
+> Sub A `Lead` US$ 5, Events Manager y el feed de Google Ads.
 
 ---
 

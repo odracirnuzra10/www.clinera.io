@@ -252,9 +252,27 @@ Comprobado por GET a la API de n8n (ejecuciones con datos), sin PUT:
 Arreglo: el jsCode vuelve a devolver `omitido`, `payload` (`data: [...]`),
 `ledgerKey` (`{evento}:{opportunityId}`), `evento`, `leadgen_id` y
 `opportunity_id`, y deja de escribir el ledger. Guardián nuevo: bloque
-«nodo completo» de `tests/crm-etapas-meta-capi.spec.ts`. Hay que volver a
-aplicar con `aplicar_w1_mapeo.py --aplicar` y mirar `events_received`
-en la primera ejecución real.
+«nodo completo» de `tests/crm-etapas-meta-capi.spec.ts`.
+
+**Aplicado el 2026-09-09 19:44:46Z** (`aplicar_w1_mapeo.py --aplicar`,
+respaldo `backup/W1SybZZSEZqAItIt-20260909-194446.json`). Prueba
+funcional a las 19:53:38Z con un negocio de prueba creado por API
+(`[E2E TEST] W1 payload b`, borrado después): `Nuevo` 0 →
+`events_received: 1`, `fbtrace_id` presente. W1 vuelve a mandar.
+
+### H9 · «Corresponde enviar?» no filtraba nada (desde siempre)
+
+Visto al revisar las ejecuciones post-arreglo: el IF es `typeVersion: 2`
+pero tenía parámetros con la forma v1 (`conditions.boolean[{value1,
+value2}]`). En v2 esa forma no define ninguna condición y todo sale por
+la rama «true»: cada webhook de Twenty que W1 descartaba (notas,
+personas, metadata, `objeto_no_es_oportunidad`) llegaba igual al HTTP y
+fallaba con `JSON.stringify(undefined)`. Inofensivo para Meta, pero
+explica los «JSON Body is not valid JSON» que ya existían antes del PUT
+de las 16:38Z y ensucia cada diagnóstico por ejecuciones. Corregido el
+2026-09-09 19:49Z con `aplicar_w1_filtro.py` (condición v2:
+`$json.omitido` es false → enviar). Verificado: el ítem omitido del
+negocio de prueba salió por la rama «false» (`IF: [0, 1]`).
 
 ---
 

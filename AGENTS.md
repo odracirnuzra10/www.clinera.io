@@ -338,11 +338,14 @@ En Twenty (09-sep tarde) ya existe la etapa `MQL`, `PQL` se etiqueta
 se movieron a `MQL`. **Ojo con el relabel del 07-sep:** había dejado el
 valor `SCREENING` con etiqueta «PQL» y el valor `PQL` con etiqueta «MQL»,
 al revés de los datos; con el W1 canónico, mover a «PQL» no emitía nada y
-mover a «MQL» emitía `PQL` 1. La opción SCREENING queda sólo hasta que
-`integrations/n8n/aplicar_etapa_mql.py` cambie Wizard, Meet y Sub A a
-`MQL` (primero n8n, después borrar la opción; al revés, cada lead que
-agenda falla al crearse). `NQL` se queda (no calificado, $0);
-`MEETING`/`PROPOSAL` siguen siendo los valores internos de SQL/HOT.
+mover a «MQL» emitía `PQL` 1. El 09-sep 19:46Z se aplicó
+`integrations/n8n/aplicar_etapa_mql.py` (Wizard, Meet y Sub A escriben
+`MQL`) y a las 19:48Z **se borró SCREENING** de Twenty. `NQL` se queda
+(no calificado, $0); `MEETING`/`PROPOSAL` siguen siendo los valores
+internos de SQL/HOT. **Al editar opciones de un SELECT en Twenty,
+conservá el `id` de cada opción:** quitar una opción, aunque otra tome
+el mismo valor, manda sus registros al default (130 negocios cayeron a
+`NEW` y hubo que devolverlos por id).
 
 | stage | event_name | value | condición |
 |---|---|---|---|
@@ -366,9 +369,13 @@ Meta CAPI» manda `JSON.stringify($json.payload)`, «Confirmar y auditar» lee
 16:38Z pegó un jsCode que devolvía `ok` + `event_name` sin `payload` ni
 `omitido`: las ejecuciones salían en verde en n8n, pero el HTTP fallaba con
 «JSON Body is not valid JSON» y `events_received: 0`. W1 no mandó nada a
-Meta hasta el arreglo. Verificar «aplicado» mirando `events_received` en
-una ejecución real, no el nombre ni el `active`. El bloque «nodo completo»
-de `tests/crm-etapas-meta-capi.spec.ts` corre el jsCode entero con stubs.
+Meta hasta el arreglo (aplicado el 09-sep 19:44Z; prueba funcional
+`Nuevo` 0 → `events_received: 1`). Verificar «aplicado» mirando
+`events_received` en una ejecución real, no el nombre ni el `active`. El
+bloque «nodo completo» de `tests/crm-etapas-meta-capi.spec.ts` corre el
+jsCode entero con stubs. Segunda trampa del mismo workflow: el IF
+«Corresponde enviar?» es v2 y con parámetros v1 no filtra nada
+(`aplicar_w1_filtro.py`, H9).
 
 **Desde el 2026-08-21, Google Ads recibe el mismo embudo** — no por CAPI,
 sino porque los workflows de SQL/HOT marcan Baserow 152 y un feed en
