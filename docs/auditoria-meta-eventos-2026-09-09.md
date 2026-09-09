@@ -65,7 +65,7 @@ de Ricardo en el chat. El mapeo corregido vive en
 | Página Clinera | `697874326752777` · **no** está en Método Hebe ni en Metricads Marketing (Hebe tiene Clinera Brasil y Calendaria.io; Metricads tiene Hebe, Lumina, Alta Qualita, Blindaje Legal). Confirmar dueño con Ricardo. |
 | Custom MQL | `1562704878613075` · default **0** · regla URL `clinera.io` · solo campañas **pausadas** |
 | Custom SQL | `1389593139704601` · default 100 · misma regla URL · sin disparar la custom desde 2026-07-08 |
-| Workflow W1 | `W1SybZZSEZqAItIt` · nombre UI «… (corregido · inactivo)» · **activo** desde 2026-09-07 21:17Z · webhook `POST …/webhook/crm-sql` |
+| Workflow W1 | `W1SybZZSEZqAItIt` · nombre «Clinera \| Twenty etapas → Meta CAPI» · **activo** · mapeo canónico aplicado 2026-09-09 · webhook `POST …/webhook/crm-sql` |
 | W1 viejos | `dhwqS9oW3qfvq6Y4` (SQL) y `rWZDSfi8RJ780q76` (`SQL_Plus`) · **apagados** |
 | HUB Instant Form | `qOGjfU1AgubcOHvt` → Sub A `YmauqyDqrZNKIYlg` |
 
@@ -239,7 +239,7 @@ no aplicado). El vivo sigue invertido hasta el OK de Ricardo.
 
 ---
 
-## 4. Mapeo canónico (Ricardo, 09-sep tarde — repo; no vivo hasta aplicarlo)
+## 4. Mapeo canónico (Ricardo, 09-sep tarde — aplicado a W1 el 2026-09-09)
 
 Fuente: `integrations/n8n/crm-etapas-meta-capi.mapeo.js`.
 Sustituye el mapeo de la mañana (SCREENING→MQL 10, PQL→NoContesta 0,

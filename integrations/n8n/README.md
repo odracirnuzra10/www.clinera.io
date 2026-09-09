@@ -348,9 +348,8 @@ Los emisores viejos están **apagados**:
 ### Mapeo `stage` → evento CAPI → value (USD)
 
 Fuente versionada: `crm-etapas-meta-capi.mapeo.js` (nodo `Mapear etapa y
-cifrar datos`). El vivo de W1 **todavía cruza** SCREENING↔PQL (H1,
-`docs/auditoria-meta-eventos-2026-09-09.md`) hasta el PUT. No aplicar
-este archivo por mergear el PR. En Twenty: borrar SCREENING;
+cifrar datos`). El cruce SCREENING↔PQL (H1) era el vivo hasta el PUT
+del 2026-09-09. El vivo ya lleva este archivo. En Twenty: borrar SCREENING;
 crear/dejar la etapa `MQL`. `NQL` se queda (no calificado, $0).
 
 | stage | event_name | value | condición |
@@ -452,7 +451,7 @@ embudo mirando solo este repo.
 
 | Workflow en n8n | Id | Evento | Valor | Disparo | Estado |
 |---|---|---|---|---|---|
-| `Clinera \| Twenty etapas → Meta CAPI` | `W1SybZZSEZqAItIt` | mapeo corregido en `crm-etapas-meta-capi.mapeo.js` (vivo aún cruza PQL→MQL) | ver tabla arriba | webhook Twenty `crm-sql` | **activo** (el nombre UI dice «inactivo») |
+| `Clinera \| Twenty etapas → Meta CAPI` | `W1SybZZSEZqAItIt` | `crm-etapas-meta-capi.mapeo.js` (aplicado 2026-09-09) | ver tabla arriba | webhook Twenty `crm-sql` | **activo** |
 | `Clinera — SQL desde CRM (Twenty)` | `dhwqS9oW3qfvq6Y4` | `SQL` | US$ 100 | webhook (reemplazado por W1) | **apagado** |
 | `CRM · SQL+ → Meta CAPI` | `rWZDSfi8RJ780q76` | ~~`SQL_Plus`~~ | US$ 300 | sondeo PROPOSAL | **apagado** (`HOT` lo manda W1) |
 | `OACG TECH \| SQL Conversión Alto Valor` | `1erGwPkeneXUkqzG` | `SQL` | US$ 100 | Baserow tabla 152 + backstop 24 h | activo (Baserow, no Twenty) |

@@ -1,9 +1,9 @@
 // Code node «Mapear etapa y cifrar datos»
 // Workflow vivo: W1SybZZSEZqAItIt — Clinera | Twenty etapas → Meta CAPI
 //
-// ESTE ARCHIVO ES el jsCode que se pega en ese nodo. No aplicar a n8n
-// hasta el OK explícito de Ricardo en el chat. El aplicador reemplaza
-// únicamente este jsCode y el nombre del workflow (sacar «inactivo»).
+// ESTE ARCHIVO ES el jsCode del nodo. Aplicado a n8n el 2026-09-09
+// (Ricardo: «hay que tocar el n8n»). Aplicador: aplicar_w1_mapeo.py
+// Reemplaza únicamente este jsCode y el nombre (sin «inactivo»).
 // Antes de un PUT: guardar el JSON actual en integrations/n8n/backup/.
 //
 // Embudo canónico (Ricardo, 2026-09-09 tarde). Los mismos estados
