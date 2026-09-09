@@ -46,7 +46,7 @@ navegador (nunca la demora ni la rompe):
 
 **Dedupe con el Pixel del navegador**: `/agenda` genera el `event_id` *antes*
 de llamar al webhook, lo manda en el body y usa el mismo en
-`fbq('track','Schedule', …, { eventID })`. Meta deduplica por
+`fbq('track','MQL', …, { eventID })`. Meta deduplica por
 (`event_name`, `event_id`), así que Pixel + CAPI cuentan **una** conversión.
 El navegador también manda `meta_fbp` / `meta_fbc`, el `client_id` de la
 cookie `_ga` y la atribución de Google Ads, de modo que el evento
@@ -344,23 +344,29 @@ Los emisores viejos están **apagados**:
 
 ### Mapeo `stage` → evento CAPI → value (USD)
 
-| stage | event_name | value |
-|---|---|---|
-| `NEW` | `Lead` | 1 |
-| `SCREENING` | `PQL` | 2 |
-| `PQL` | `MQL` | 10 |
-| `MEETING` | `SQL` | 100 |
-| `PROPOSAL` | `HOT` | 300 |
-| `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 |
-| `NQL` | `NQL` | 0 |
+Fuente versionada: `crm-etapas-meta-capi.mapeo.js` (nodo `Mapear etapa y
+cifrar datos`). El vivo de W1 **todavía cruza** SCREENING↔PQL (H1,
+`docs/auditoria-meta-eventos-2026-09-09.md`) hasta el OK de Ricardo para
+el PUT. No aplicar este archivo por mergear el PR.
 
-Todos con `custom_data.currency = "USD"`. Ningún stage queda sin evento.
-`event_id` = `{opportunityId}_{stage}`. `user_data.lead_id` = `leadgenId`
-(entero, sin hash) si existe; si no, el evento sale igual.
-`action_source` = `system_generated`. Dedup: ledger del workflow + `event_id`.
+| stage | event_name | value | condición |
+|---|---|---|---|
+| `NEW` | — | — | no emite: Sub A ya mandó `Lead` US$ 5 |
+| `SCREENING` | `MQL` | 10 | solo si hay `leadgenId` |
+| `PQL` | `NoContesta` | 0 | señal negativa; nunca `MQL` |
+| `NQL` | `NQL` | 0 | |
+| `MEETING` | `SQL` | 100 | |
+| `PROPOSAL` | `HOT` | 300 | |
+| `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 | |
 
-El export `crm-sql-twenty.workflow.json` de este repo es el **grafo viejo**
-(solo SQL); ya no es el runtime. Bajar el vivo por API antes de tocar nodos.
+`custom_data.currency = "USD"`. `event_id` = `{opportunityId}_{stage}`.
+`user_data.lead_id` = `leadgenId` (entero, sin hash) si existe.
+`action_source` = `system_generated`. Dedup: ledger del workflow (28 d) +
+`event_id`.
+
+El export `crm-sql-twenty.workflow.json` de este repo es el **grafo
+histórico** (solo SQL, agosto 2026); ya no es el runtime. Bajar el vivo
+por API antes de tocar nodos.
 
 ## crm-sql-twenty.workflow.json
 
@@ -377,15 +383,15 @@ a esa URL y suscrito a `opportunity.updated` / `opportunity.created`.
 Twenty manda en el webhook el **valor** del enum de etapa, no la etiqueta que
 se ve en el tablero. El mapa del workspace OACG es:
 
-| Valor en el webhook | Etiqueta en el tablero |
-|---|---|
-| `NEW` | (etiqueta visible puede cambiar; valor interno estable) → CAPI `Lead` / 1 |
-| `SCREENING` | → CAPI `PQL` / 2 |
-| `PQL` | → CAPI `MQL` / 10 |
-| `MEETING` | → CAPI `SQL` / 100 |
-| `PROPOSAL` | → CAPI **`HOT`** / 300 (antes `SQL_Plus`) |
-| `CUSTOMER` | → CAPI `Purchase` / planClinera |
-| `NQL` | → CAPI `NQL` / 0 |
+| Valor en el webhook | Etiqueta en el tablero | CAPI (mapeo corregido) |
+|---|---|---|
+| `NEW` | Nuevo | no emite |
+| `SCREENING` | MQL (agendó) | `MQL` / 10 si hay `leadgenId` |
+| `PQL` | PQL · No contesta | `NoContesta` / 0 |
+| `MEETING` | SQL | `SQL` / 100 |
+| `PROPOSAL` | HOT | **`HOT`** / 300 (antes `SQL_Plus`) |
+| `CUSTOMER` | Contrata | `Purchase` / planClinera |
+| `NQL` | No califica | `NQL` / 0 |
 
 `ETAPAS_SQL` acepta `meeting` y `proposal` (y también las etiquetas `sql` /
 `sql+`, por si el webhook llegara desde otra vista).
@@ -439,7 +445,7 @@ embudo mirando solo este repo.
 
 | Workflow en n8n | Id | Evento | Valor | Disparo | Estado |
 |---|---|---|---|---|---|
-| `Clinera \| Twenty etapas → Meta CAPI` | `W1SybZZSEZqAItIt` | mapeo completo (Lead/PQL/MQL/SQL/**HOT**/Purchase/NQL) | ver tabla arriba | webhook Twenty `crm-sql` | **activo** |
+| `Clinera \| Twenty etapas → Meta CAPI` | `W1SybZZSEZqAItIt` | mapeo corregido en `crm-etapas-meta-capi.mapeo.js` (vivo aún cruza PQL→MQL) | ver tabla arriba | webhook Twenty `crm-sql` | **activo** (el nombre UI dice «inactivo») |
 | `Clinera — SQL desde CRM (Twenty)` | `dhwqS9oW3qfvq6Y4` | `SQL` | US$ 100 | webhook (reemplazado por W1) | **apagado** |
 | `CRM · SQL+ → Meta CAPI` | `rWZDSfi8RJ780q76` | ~~`SQL_Plus`~~ | US$ 300 | sondeo PROPOSAL | **apagado** (`HOT` lo manda W1) |
 | `OACG TECH \| SQL Conversión Alto Valor` | `1erGwPkeneXUkqzG` | `SQL` | US$ 100 | Baserow tabla 152 + backstop 24 h | activo (Baserow, no Twenty) |

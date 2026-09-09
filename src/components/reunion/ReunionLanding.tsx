@@ -507,9 +507,11 @@ function Wizard({
 
 // ============== SUBMIT + META DEDUP ==============
 // El lead se captura en DOS etapas:
-// 1) submitPartialLead — al final del paso 2 (datos de contacto). Garantiza que n8n
+// 1) submitPartialLead — al final del paso 2 (datos de contacto). Pixel:
+//    InitiateCheckout (no MQL: MQL = agendó). Garantiza que n8n
 //    reciba el lead aunque después abandone el embed de Cal.com.
 // 2) submitBookingConfirmation — cuando Cal.com dispara `bookingSuccessful`.
+//    Acá sale el MQL US$ 10 (mismo contrato que VentasLanding).
 //    Manda los detalles del calendario y referencia al lead anterior.
 
 type CalBooking = {
@@ -549,19 +551,18 @@ async function submitPartialLead({
   const digits = form.phone.replace(/\D/g, "");
   const migrationMeta = getMigrationMeta(migrationIntent ?? null);
 
-  // Fire Pixel MQL — el lead está calificado: nombre + clínica + tel + email.
-  // El booking en Cal.com es un upgrade adicional, no un requisito para considerarlo MQL.
-  // Mismo eventID que va al webhook n8n → dedup con el evento server-side MQL (CAPI).
+  // MQL = agendó. Acá el lead recién dejó datos: InitiateCheckout, no MQL.
+  // El MQL sale en submitBookingConfirmation, igual que VentasLanding.
   if (typeof window !== "undefined" && typeof window.fbq === "function") {
     window.fbq(
       "track",
-      "MQL",
+      "InitiateCheckout",
       {
         content_name: "Clinera Reunion Organico",
         content_category: "booking",
         lead_source: leadSource,
         booking_status: "pending",
-        value: 10,
+        value: 0,
         currency: "USD",
         ...migrationMeta,
       },
@@ -647,16 +648,19 @@ async function submitBookingConfirmation({
   const confirmEventId =
     "reunion_confirm_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
 
-  // Disparar Schedule pixel — funnel step posterior al Lead.
+  // MQL: la reunión agendada ES el MQL. No se dispara al enviar el form.
   if (typeof window !== "undefined" && typeof window.fbq === "function") {
     window.fbq(
       "track",
-      "Schedule",
+      "MQL",
       {
         content_name: "Clinera Reunion Organico",
         content_category: "booking",
         lead_source: leadCtx?.leadSource,
         cal_booking_uid: booking?.booking?.uid,
+        booking_status: "confirmed",
+        value: 10,
+        currency: "USD",
         ...getMigrationMeta(migrationIntent ?? null),
       },
       { eventID: confirmEventId },

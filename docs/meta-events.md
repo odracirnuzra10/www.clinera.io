@@ -87,6 +87,9 @@ que, sea cual sea el trigger, el MQL se envíe **una sola vez por sesión**.
 | `META_TEST_EVENT_CODE` | No | — | Código de **Meta Test Events** para QA (ver abajo). |
 | `META_GRAPH_VERSION` | No | `v21.0` | Versión de la Graph API. |
 
+`ALLOWED_EVENTS` del endpoint es solo `MQL`. `Waitlist` y `Contact` murieron
+con el filtro viejo; un POST con esos nombres responde `400 bad_event`.
+
 El token **nunca** se expone al navegador (vive solo en el servidor). El seam del
 cliente es la constante `CAPI_ENDPOINT` en `metaEvents.ts` — se puede repuntar a
 un webhook de n8n que haga el forward si el equipo lo prefiere.

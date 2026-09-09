@@ -233,21 +233,29 @@ la recomendación del partner + CTA a reunión.
 > premisa —falsa— de que SQL+ no generaba ninguna señal, porque el repo no lo
 > mostraba. Antes de tocar el embudo, mira la instancia de n8n.
 >
-> Auditoría Graph API del 2026-08-26 (valores, custom conversions, campañas
-> Chile/LATAM, por qué el MQL de WhatsApp no entrena):
-> `docs/auditoria-meta-eventos-2026-08-26.md`. Embudo CRM→CAPI vigente
-> (sep-2026, workflow `W1SybZZSEZqAItIt`): ver tabla de etapas más abajo.
-> El Instant Form sigue emitiendo `Lead` US$ 5 al enviarse y el agendamiento
-> web/IA sigue emitiendo `MQL` US$ 10 al confirmar hora. El «MQL US$ 5 para
-> wizard e Instant Form» del 26-ago duró un día; si aparece, es residuo.
-> **`SQL_Plus` murió:** PROPOSAL ahora manda `HOT` US$ 300.
+> Auditoría del **2026-09-09** (Conversion Leads, W1 cruzado, BM del pixel):
+> `docs/auditoria-meta-eventos-2026-09-09.md`. La del 26-ago quedó superada
+> en §1, §3, §4 y §10-P1; se conserva como foto de ese día.
+> Embudo CRM→CAPI: workflow `W1SybZZSEZqAItIt`. El mapeo **corregido** vive
+> en `integrations/n8n/crm-etapas-meta-capi.mapeo.js` (tabla más abajo). El
+> vivo sigue invertido hasta el OK de Ricardo para aplicarlo — no hay PUT
+> por mergear docs. El Instant Form emite `Lead` US$ 5 al enviarse y el
+> agendamiento web/IA emite `MQL` US$ 10 al confirmar hora. El «MQL US$ 5
+> para wizard e Instant Form» del 26-ago duró un día; si aparece, es residuo.
+> **`SQL_Plus` murió:** PROPOSAL manda `HOT` US$ 300.
 >
-> **El MQL se gana agendando, en los tres caminos**, y ninguno lo gana
-> cambiando de etapa en Twenty. La versión anterior de esta línea decía «lead
-> de formulario: al pasar a PQL en Twenty» y era un error: en ese workspace
-> `PQL` está rotulado «PQL · No contesta» y va en rojo, así que ese emisor le
-> habría enseñado a Meta a buscar gente que no contesta. Se canceló; el lead
-> de formulario gana su MQL en `/reserva-tu-hora`.
+> **El MQL se gana agendando, en los tres caminos.** Ninguno lo gana
+> marcando «PQL · No contesta» en Twenty. W1 vivo (desde el 7-sep 21:17Z)
+> hace exactamente eso: `PQL` → CAPI `MQL` US$ 10, y las campañas activas
+> ya optimizan Conversion Leads (`QUALITY_LEAD`). Por eso el pixel «manda
+> basura»: no es el contenedor, es el emisor. Un pixel nuevo con el mismo
+> W1 lo repite (`Obsoleto`, `Obsoleto2`). El lead de formulario gana su
+> MQL en `/reserva-tu-hora`.
+>
+> Pixel de producción `1104567405156111` (`[2026] OACG TECH`) pertenece al
+> BM **Método Hebe** `1162184321174513`, no a Metricads Marketing. La
+> cuenta que gasta (`act_774716223970185`) sí es de Metricads. El dataset
+> `Clinera.io` `1410371181304151` ya existe (0 eventos); no crear otro.
 >
 > Instant Form de Chile se activó el **26-ago noche**. Hasta entonces las
 > campañas iban 100 % a `clinera.io/agenda`. La basura histórica (abandono
@@ -301,28 +309,36 @@ la recomendación del partner + CTA a reunión.
 
 ### CRM Twenty → Meta CAPI (workflow unificado, sep-2026)
 
-Workflow vivo: **`W1SybZZSEZqAItIt`** (*Clinera \| Twenty etapas → Meta CAPI*),
-webhook `POST …/webhook/crm-sql`, suscrito en Twenty a `*.*` (incluye
-`opportunity.updated` sin filtro de stage). Los viejos `dhwqS9oW3qfvq6Y4`
-(SQL) y `rWZDSfi8RJ780q76` (`SQL_Plus`) están **apagados**. `SQL_Plus` ya no
-se emite.
+Workflow vivo: **`W1SybZZSEZqAItIt`** (*Clinera \| Twenty etapas → Meta CAPI*;
+el nombre en n8n todavía dice «inactivo», **está activo** desde el
+2026-09-07 21:17Z), webhook `POST …/webhook/crm-sql`, suscrito en Twenty a
+`*.*` (incluye `opportunity.updated` sin filtro de stage). Los viejos
+`dhwqS9oW3qfvq6Y4` (SQL) y `rWZDSfi8RJ780q76` (`SQL_Plus`) están
+**apagados**. `SQL_Plus` ya no se emite.
 
-Mapeo `stage` (valor interno) → evento CAPI → value USD (`currency: USD`):
+**Campañas (desde el 7-sep):** las tres activas (SQL 🇨🇱, SQL 🇲🇽,
+Remarketing SQL) optimizan `QUALITY_LEAD` (Conversion Leads) sobre Instant
+Form, no la custom MQL `1562704878613075`. Esa custom (default 0, filtro
+URL `clinera.io`) solo la usan las campañas pausadas.
 
-| stage | event_name | value |
-|---|---|---|
-| `NEW` | `Lead` | 1 |
-| `SCREENING` | `PQL` | 2 |
-| `PQL` | `MQL` | 10 |
-| `MEETING` | `SQL` | 100 |
-| `PROPOSAL` | `HOT` | 300 |
-| `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 |
-| `NQL` | `NQL` | 0 |
+Mapeo **corregido** `stage` → evento CAPI → value USD (`currency: USD`).
+Fuente: `integrations/n8n/crm-etapas-meta-capi.mapeo.js`. El vivo todavía
+cruza SCREENING↔PQL (H1 de la auditoría del 09-sep) hasta que Ricardo
+autorice el PUT.
+
+| stage | event_name | value | condición |
+|---|---|---|---|
+| `NEW` | — | — | no emite: Sub A ya mandó `Lead` US$ 5 |
+| `SCREENING` | `MQL` | 10 | **solo si hay `leadgenId`** (el lead web ya emitió su MQL) |
+| `PQL` | `NoContesta` | 0 | señal negativa; nunca `MQL` |
+| `NQL` | `NQL` | 0 | |
+| `MEETING` | `SQL` | 100 | |
+| `PROPOSAL` | `HOT` | 300 | |
+| `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 | |
 
 `event_id` = `{opportunityId}_{stage}`. `user_data.lead_id` = `leadgenId` (entero,
-sin hash) si existe; si no, el evento sale igual. `action_source` =
-`system_generated`. Detalle: `integrations/n8n/README.md` y
-`baserow/sales/etiqueta-hot-y-capi.md`.
+sin hash) si existe. `action_source` = `system_generated`. Detalle:
+`integrations/n8n/README.md` y `baserow/sales/etiqueta-hot-y-capi.md`.
 
 **Desde el 2026-08-21, Google Ads recibe el mismo embudo** (montos alineados a
 Meta) — no por CAPI, sino porque los workflows de SQL/HOT marcan Baserow 152

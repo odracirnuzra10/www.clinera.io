@@ -32,8 +32,8 @@ const ACCESS_TOKEN = process.env.META_CAPI_ACCESS_TOKEN || "";
 const TEST_EVENT_CODE = process.env.META_TEST_EVENT_CODE || "";
 const GRAPH_VERSION = process.env.META_GRAPH_VERSION || "v21.0";
 
-// Solo los 3 eventos del wizard pueden pasar por acá.
-const ALLOWED_EVENTS = new Set(["MQL", "Waitlist", "Contact"]);
+// El wizard ya no emite Waitlist/Contact. Solo MQL (agendó) pasa por acá.
+const ALLOWED_EVENTS = new Set(["MQL"]);
 
 type HashedUserData = { em?: string; ph?: string };
 

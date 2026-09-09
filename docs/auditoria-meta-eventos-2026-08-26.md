@@ -1,5 +1,12 @@
 # Auditoría Meta — eventos, valores y campañas (2026-08-26)
 
+> **Superada el 2026-09-09** en §1 (ids/campañas), §3 (qué optimiza de
+> verdad), §4 (adsets activas) y §10-P1 (`SQL_Plus` ya no se pide).
+> El estado vivo —Conversion Leads desde el 7-sep, W1 cruzando PQL→MQL,
+> BM real del pixel— está en
+> [`auditoria-meta-eventos-2026-09-09.md`](./auditoria-meta-eventos-2026-09-09.md).
+> Este archivo se conserva como foto de ese día.
+
 Documento para que **otra sesión/IA** revise sin repetir la pesquisa.
 Hechos medidos el 2026-08-26 contra Graph API `v21.0` (cuenta `act_774716223970185`
 **OAGC - TECH**, pixel `1104567405156111`) y contra repos `www.clinera.io` +

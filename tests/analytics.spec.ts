@@ -36,13 +36,20 @@ async function readDataLayer(page: Page) {
 }
 
 test.describe("Meta Pixel & dataLayer events", () => {
-  test("1) PageView fires on initial load of home", async ({ page }) => {
+  test("1) localhost no inicializa el pixel de producción", async ({ page }) => {
     const hits = await installPixelRecorder(page);
     await page.goto("/", { waitUntil: "networkidle" });
     await page.waitForTimeout(2000);
 
     const pageviews = hits.filter((h) => h.event === "PageView");
-    expect(pageviews.length, "expected at least 1 PageView on home load").toBeGreaterThanOrEqual(1);
+    expect(pageviews.length, "localhost no debe pegarle al pixel 1104567405156111").toBe(0);
+
+    const script = await page.locator("#meta-pixel").textContent();
+    expect(script).toContain("1104567405156111");
+    expect(script).toContain("localhost");
+    expect(await page.evaluate(() => typeof (window as unknown as { fbq?: unknown }).fbq)).toBe(
+      "undefined",
+    );
 
     const dl = await readDataLayer(page);
     console.log("dataLayer after load:", JSON.stringify(dl, null, 2));

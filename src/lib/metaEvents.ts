@@ -22,18 +22,23 @@ import type { Qualification } from "@/components/ventas/VentasLanding";
 
 // ---------------------------------------------------------------------------
 // MQL_TRIGGER — punto de disparo del MQL. Constante configurable.
-//   "contact_submitted" (default) → dispara cuando un lead CALIFICADO completa
-//        el Paso 3 (submit OK del backend). Incluye user_data hasheado.
-//   "qualified_step2"             → dispara al CALIFICAR en el Paso 2 (más
-//        volumen de señal para ads). Sin user_data: aún no hay datos de contacto.
-// Ambos caminos están implementados; sólo el default está activo.
+//   "booking_confirmed" (actual)  → el lead CALIFICADO confirma la reunión.
+//        Definición vigente: "MQL = alguien agendó". Quien deja datos y no
+//        agenda NO es MQL. Incluye user_data hasheado.
+//   "contact_submitted"           → Paso 3 (submit OK). Residuo; no usar.
+//   "qualified_step2"             → al completar el Paso 2, sin user_data.
+// Los tres caminos están implementados; sólo booking_confirmed está activo.
 // ---------------------------------------------------------------------------
-//   "booking_confirmed" (actual)  → dispara cuando el lead CALIFICADO confirma
-//        la reunión. Es la definición vigente de MQL del equipo comercial:
-//        "MQL = alguien agendó". Un lead que deja sus datos y no agenda NO es
-//        MQL, así que el costo por MQL de las campañas refleja reuniones reales.
 export type MqlTrigger = "contact_submitted" | "qualified_step2" | "booking_confirmed";
 export const MQL_TRIGGER: MqlTrigger = "booking_confirmed";
+
+/** El pixel de producción no se inicializa en dev, preview ni loopback. */
+export function shouldInitMetaPixel(hostname: string): boolean {
+  const h = hostname.toLowerCase();
+  if (h === "localhost" || h === "127.0.0.1") return false;
+  if (h.endsWith(".vercel.app")) return false;
+  return true;
+}
 
 // Endpoint server-side que reenvía a la Conversions API de Meta. Único seam
 // configurable: por defecto la route del propio sitio; se puede repuntar a un
