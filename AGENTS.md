@@ -617,6 +617,19 @@ ficha (ver el repo `baserow`, `sales/n8n/recablear_aviso_unico.py`).
 Si cambiás las claves `lead_stage` / `booking_status`, ese corte deja de
 funcionar y los avisos vuelven a duplicarse sin ningún error visible.
 
+**Lead que vuelve a completar `/agenda` (Ricardo, 09-sep-2026):** el nodo
+«Twenty - Crear Lead» del Wizard encuentra el negocio abierto del contacto
+y lo refresca. Además de `horaRegistro` nuevo (sube a «Leads del día»),
+le agrega la etiqueta `VOLVIO_A_COTIZAR` («Volvió a cotizar», opción del
+multi-select `etiquetas` de Twenty) sin pisar las que tenía, y la nota de
+la columna dice «🔁 Volvió a cotizar». **La etapa no se toca**: un PQL o
+NQL que vuelve a cotizar sigue en su etapa, sólo con la etiqueta. Todo eso
+va dentro del guard `booking_status !== 'confirmed'`, porque el
+`booking_confirmed` del mismo lead entra por la misma rama un minuto
+después del `contact` y no es un lead que volvió. Aplicador:
+`integrations/n8n/aplicar_wizard_volvio_a_cotizar.py`; la fuente canónica
+del Wizard sigue en el repo `baserow`.
+
 # Pack AEO agosto 2026 — punteros post-migración
 
 Decisiones consolidadas en la rama `feat/aeo-fase1-contenido` (agosto 2026):

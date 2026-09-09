@@ -571,3 +571,10 @@ cosas suyas:
 - **Qué cambia cuando un lead que ya existe agenda.** Solo la fecha de la demo y
   el responsable (el profesional con quien quedó el Meet). La etapa no baja
   nunca y tampoco sube: si ventas ya lo había marcado SQL, ahí se queda.
+- **Lead que vuelve a completar el formulario (09-sep-2026).** "Twenty - Crear
+  Lead" le agrega la etiqueta `VOLVIO_A_COTIZAR` («Volvió a cotizar», opción
+  nueva del multi-select `etiquetas`) sin pisar las que tenía, pone la nota
+  «🔁 Volvió a cotizar» y refresca `horaRegistro` (sube a «Leads del día»).
+  La etapa no se toca. Vive dentro del guard `booking_status !== 'confirmed'`:
+  el `booking_confirmed` del mismo lead pasa por la misma rama y no es un
+  lead que volvió. Aplicador: `integrations/n8n/aplicar_wizard_volvio_a_cotizar.py`.
