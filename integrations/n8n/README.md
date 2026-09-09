@@ -364,6 +364,19 @@ crear/dejar la etapa `MQL`. `NQL` se queda (no calificado, $0).
 | `SCREENING` / `SQL_Plus` | — | — | no emiten |
 
 `custom_data.currency = "USD"`. `event_id` = `{opportunityId}_{stage}`.
+
+**Contrato de salida del nodo (no romperlo otra vez).** Los tres nodos que
+siguen no se tocan y leen claves fijas: «Corresponde enviar?» filtra por
+`$json.omitido`; «Enviar evento a Meta CAPI» manda
+`JSON.stringify($json.payload)`; «Confirmar y auditar» lee `ledgerKey`,
+`event_id`, `evento`, `leadgen_id`, `opportunity_id` y escribe el ledger
+sólo si Meta devuelve `events_received ≥ 1`. La primera versión del jsCode
+del 09-sep devolvía `ok` + `event_name` sin `payload` ni `omitido`: el
+filtro dejaba pasar todo y el HTTP fallaba con «JSON Body is not valid
+JSON» (`events_received: 0`) — W1 no mandó nada a Meta desde el PUT de
+las 16:38Z hasta el arreglo (auditoría 09-sep, H8). `ledgerKey` =
+`{evento}:{opportunityId}`. Guardián: `tests/crm-etapas-meta-capi.spec.ts`
+(bloque «nodo completo»).
 `user_data.lead_id` = `leadgenId` (entero, sin hash) si existe.
 `action_source` = `system_generated`. Dedup: ledger del workflow (28 d) +
 `event_id`.

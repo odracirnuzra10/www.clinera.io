@@ -229,6 +229,35 @@ no aplicado). El vivo sigue invertido hasta el OK de Ricardo.
 
 ---
 
+### H8 · El PUT de las 16:38Z dejó a W1 sin mandar nada a Meta (auditoría posterior, mismo día)
+
+Comprobado por GET a la API de n8n (ejecuciones con datos), sin PUT:
+
+- El jsCode nuevo devolvía `ok` + `event_name` + `user_data`. Los nodos
+  siguientes, que no se tocaron, leen otras claves: «Corresponde enviar?»
+  filtra por `$json.omitido`; «Enviar evento a Meta CAPI» manda
+  `JSON.stringify($json.payload)`; «Confirmar y auditar» lee `ledgerKey`.
+- Efecto: `!undefined` deja pasar todo al HTTP (15 ejecuciones post-PUT
+  llegaron al nodo CAPI, incluso `objeto_no_es_oportunidad`), y el HTTP
+  falla con «The value in the JSON Body field is not valid JSON». La única
+  emisión real (un `Nuevo` 0 a las 17:51:32Z) terminó en
+  `events_received: 0`. A las 16:08Z, antes del PUT, el mismo nodo daba
+  `events_received: 1`.
+- Además el jsCode escribía el ledger antes de confirmar: ese lead quedó
+  marcado como enviado 28 días sin que Meta lo recibiera.
+- Las ejecuciones se ven en verde en n8n porque el nodo HTTP tiene
+  `neverError` y `continueRegularOutput`. Por eso el aplicador y los
+  docs decían «aplicado».
+
+Arreglo: el jsCode vuelve a devolver `omitido`, `payload` (`data: [...]`),
+`ledgerKey` (`{evento}:{opportunityId}`), `evento`, `leadgen_id` y
+`opportunity_id`, y deja de escribir el ledger. Guardián nuevo: bloque
+«nodo completo» de `tests/crm-etapas-meta-capi.spec.ts`. Hay que volver a
+aplicar con `aplicar_w1_mapeo.py --aplicar` y mirar `events_received`
+en la primera ejecución real.
+
+---
+
 ## 3. Matriz pedido vs realidad (2026-09-09)
 
 | Pedido | ¿Evento crudo? | ¿Entrena la campaña activa? | ¿Valor alineado? |

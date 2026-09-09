@@ -352,6 +352,17 @@ siguen siendo los valores internos de SQL/HOT.
 sin hash) si existe. `action_source` = `system_generated`. Detalle:
 `integrations/n8n/README.md` y `baserow/sales/etiqueta-hot-y-capi.md`.
 
+**El jsCode de W1 tiene un contrato de salida con los nodos de abajo, y ya
+se rompió una vez.** «Corresponde enviar?» lee `omitido`, «Enviar evento a
+Meta CAPI» manda `JSON.stringify($json.payload)`, «Confirmar y auditar» lee
+`ledgerKey` y escribe el ledger sólo si Meta confirma. El PUT del 09-sep
+16:38Z pegó un jsCode que devolvía `ok` + `event_name` sin `payload` ni
+`omitido`: las ejecuciones salían en verde en n8n, pero el HTTP fallaba con
+«JSON Body is not valid JSON» y `events_received: 0`. W1 no mandó nada a
+Meta hasta el arreglo. Verificar «aplicado» mirando `events_received` en
+una ejecución real, no el nombre ni el `active`. El bloque «nodo completo»
+de `tests/crm-etapas-meta-capi.spec.ts` corre el jsCode entero con stubs.
+
 **Desde el 2026-08-21, Google Ads recibe el mismo embudo** — no por CAPI,
 sino porque los workflows de SQL/HOT marcan Baserow 152 y un feed en
 `baserow` (`sales/n8n/gads-conversiones-sql-csv.js`) se lo sirve a Google

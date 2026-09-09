@@ -129,6 +129,16 @@ Contratos del nodo que **no** se cambiaron a propósito:
 - `NEW` emite aunque `updatedBy.source === API` (el alta la escribe n8n)
 - el resto, si lo mueve API, se salta (el MQL del sitio/Meet ya cubrió)
 
+> [!CAUTION]
+> **Resultado de la auditoría (mismo día, más tarde):** el PUT dejó a W1
+> sin mandar nada a Meta. El jsCode no devolvía `payload` ni `omitido`,
+> que son lo que leen los nodos de abajo; el HTTP fallaba con «JSON Body
+> is not valid JSON» y `events_received: 0`. Detalle en
+> `docs/auditoria-meta-eventos-2026-09-09.md` §H8. El archivo ya está
+> corregido en el repo; **hay que volver a aplicar** con
+> `aplicar_w1_mapeo.py --aplicar` y confirmar `events_received ≥ 1` en
+> la primera ejecución real. Nombre, `active` y webhook no bastan.
+
 ---
 
 ## 4. Qué no se hizo (y por qué)
