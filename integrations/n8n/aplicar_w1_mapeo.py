@@ -118,7 +118,21 @@ def main() -> int:
     BACKUP.mkdir(parents=True, exist_ok=True)
     marca = time.strftime("%Y%m%d-%H%M%S")
     respaldo = BACKUP / f"W1SybZZSEZqAItIt-{marca}.json"
-    respaldo.write_text(json.dumps(wf, indent=1))
+    respaldo.write_text(
+        json.dumps(
+            {
+                "id": wf.get("id"),
+                "name": wf.get("name"),
+                "active": wf.get("active"),
+                "nodes": wf.get("nodes"),
+                "connections": wf.get("connections"),
+                "settings": wf.get("settings"),
+                "staticData": wf.get("staticData"),
+                "pinData": wf.get("pinData") or {},
+            },
+            indent=1,
+        )
+    )
     print("respaldo:", respaldo)
 
     vivo["parameters"]["jsCode"] = nuevo
