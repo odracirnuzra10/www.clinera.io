@@ -240,13 +240,14 @@ la recomendación del partner + CTA a reunión.
 > (Ricardo, 09-sep tarde) vive en
 > `integrations/n8n/crm-etapas-meta-capi.mapeo.js`: Nuevo $0 · PQL $1 ·
 > MQL $5 · SQL $10 · HOT $100 · Customer = valor del plan · NQL $0
-> (no calificado). Sin SCREENING, NoContesta ni `Lead`. El vivo sigue
-> invertido hasta el PUT — no hay PUT por mergear docs. Instant Form deja de ser `Lead` US$ 5 (Sub A,
+> (no calificado). Sin SCREENING, NoContesta ni `Lead`. W1 se aplicó el
+> 2026-09-09 (PUT del jsCode + nombre). Instant Form deja de ser `Lead` US$ 5 (Sub A,
 > repo `baserow`): es `Nuevo` US$ 0. MQL US$ 5 = agendó.
 >
 > **El MQL se gana agendando, en los tres caminos.** Ninguno lo gana
 > marcando «PQL · No contesta» en Twenty. W1 vivo (desde el 7-sep 21:17Z)
-> hace exactamente eso: `PQL` → CAPI `MQL` US$ 10, y las campañas activas
+> hacía exactamente eso: `PQL` → CAPI `MQL` US$ 10. El PUT del 09-sep
+> ya no lo hace; las campañas activas
 > ya optimizan Conversion Leads (`QUALITY_LEAD`). Por eso el pixel «manda
 > basura»: no es el contenedor, es el emisor. Un pixel nuevo con el mismo
 > W1 lo repite (`Obsoleto`, `Obsoleto2`). El lead de formulario gana su
@@ -316,11 +317,11 @@ la recomendación del partner + CTA a reunión.
 ### CRM Twenty → Meta CAPI (workflow unificado, sep-2026)
 
 Workflow vivo: **`W1SybZZSEZqAItIt`** (*Clinera \| Twenty etapas → Meta CAPI*;
-el nombre en n8n todavía dice «inactivo», **está activo** desde el
-2026-09-07 21:17Z), webhook `POST …/webhook/crm-sql`, suscrito en Twenty a
-`*.*` (incluye `opportunity.updated` sin filtro de stage). Los viejos
-`dhwqS9oW3qfvq6Y4` (SQL) y `rWZDSfi8RJ780q76` (`SQL_Plus`) están
-**apagados**. `SQL_Plus` ya no se emite.
+activo desde el 2026-09-07 21:17Z; mapeo canónico aplicado el 2026-09-09),
+webhook `POST …/webhook/crm-sql`, suscrito en Twenty a `*.*` (incluye
+`opportunity.updated` sin filtro de stage). Los viejos `dhwqS9oW3qfvq6Y4`
+(SQL) y `rWZDSfi8RJ780q76` (`SQL_Plus`) están **apagados**. `SQL_Plus`
+ya no se emite.
 
 **Campañas (desde el 7-sep):** las tres activas (SQL 🇨🇱, SQL 🇲🇽,
 Remarketing SQL) optimizan `QUALITY_LEAD` (Conversion Leads) sobre Instant
@@ -328,8 +329,8 @@ Form, no la custom MQL `1562704878613075`. Esa custom (default 0, filtro
 URL `clinera.io`) solo la usan las campañas pausadas.
 
 Mapeo canónico `stage` → evento CAPI → value USD (`currency: USD`).
-Fuente: `integrations/n8n/crm-etapas-meta-capi.mapeo.js`. El vivo todavía
-cruza SCREENING↔PQL (H1 de la auditoría del 09-sep) hasta el PUT.
+Fuente: `integrations/n8n/crm-etapas-meta-capi.mapeo.js`. Aplicado al vivo
+el 2026-09-09. El cruce SCREENING↔PQL (H1) es histórico.
 En Twenty hay que **borrar SCREENING** y dejar (o crear) `MQL`
 como etapa; `NQL` se queda (no calificado, $0); `MEETING`/`PROPOSAL`
 siguen siendo los valores internos de SQL/HOT.
