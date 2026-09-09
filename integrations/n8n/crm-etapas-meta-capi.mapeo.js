@@ -18,6 +18,16 @@
 //   ledger        = staticData.global.enviados, ventana 28 días
 //   currency      = USD
 //
+// Contrato de SALIDA con los nodos que siguen. No se tocaron el 09-sep y
+// la primera versión de este archivo lo rompió: W1 no mandó nada a Meta
+// desde el PUT hasta este arreglo (auditoría, H8).
+//   «Corresponde enviar?»        lee  $json.omitido  (true = no enviar)
+//   «Enviar evento a Meta CAPI»  manda JSON.stringify($json.payload)
+//   «Confirmar y auditar»        lee  ledgerKey / event_id / evento /
+//                                leadgen_id / opportunity_id y escribe el
+//                                ledger SOLO si Meta devuelve events_received.
+// Por eso acá el ledger se consulta y NO se escribe.
+//
 // --- helpers puros (los tests los extraen hasta el marcador) ---
 const crypto = require("crypto");
 
@@ -126,153 +136,185 @@ function deepFind(obj, claves, validar) {
   }
   return "";
 }
+
+/**
+ * true si la entrada del ledger sigue dentro de la ventana de 28 días.
+ * «Confirmar y auditar» guarda objetos { at, event_id, evento, fbtrace_id };
+ * versiones viejas guardaron números (Date.now()). Se aceptan ambas.
+ */
+function ledgerVigente(entrada, ahora) {
+  if (entrada == null) return false;
+  let t = NaN;
+  if (typeof entrada === "number") t = entrada;
+  else if (typeof entrada === "string") t = Date.parse(entrada);
+  else if (typeof entrada === "object" && entrada.at) t = Date.parse(entrada.at);
+  if (!Number.isFinite(t)) return true; // forma desconocida: no se reenvía
+  return ahora - t <= VENTANA_MS;
+}
 // --- fin helpers puros ---
 
-const wh = $json || {};
-const body = wh.body || wh;
-const registro = body.record || {};
-const objeto = norm((body.objectMetadata || {}).nameSingular || "");
-const evento = String(body.eventName || "");
-const tocados = Array.isArray(body.updatedFields) ? body.updatedFields : [];
-const fuenteCambio = String((registro.updatedBy || {}).source || "").toUpperCase();
-
-if (objeto && objeto !== "opportunity") {
-  return [{ json: { ok: false, motivo: "objeto_no_es_oportunidad", objeto: objeto } }];
+function omitir(motivo, extra) {
+  return { json: Object.assign({ omitido: true, ok: false, motivo: motivo }, extra || {}) };
 }
 
-if (/\.updated$/.test(evento) && tocados.length && tocados.indexOf("stage") === -1) {
-  return [{ json: { ok: false, motivo: "no_cambio_la_etapa", campos: tocados } }];
-}
+async function procesar(wh, helpers) {
+  const body = wh.body || wh;
+  const registro = body.record || {};
+  const objeto = norm((body.objectMetadata || {}).nameSingular || "");
+  const evento = String(body.eventName || "");
+  const tocados = Array.isArray(body.updatedFields) ? body.updatedFields : [];
+  const fuenteCambio = String((registro.updatedBy || {}).source || "").toUpperCase();
 
-const etapa = String(
-  registro.stage ||
-    deepFind(body, ["stage", "etapa", "status", "estado", "pipelinestage", "dealstage"]) ||
-    "",
-);
-const leadgenId =
-  registro.leadgenId ||
-  registro.leadgen_id ||
-  deepFind(body, ["leadgenid", "leadgen_id", "lead_id"]);
-const planClinera = registro.planClinera || registro.plan || "";
-
-const mapped = mapearEtapa(etapa, { leadgenId: leadgenId, planClinera: planClinera });
-if (mapped.skip) {
-  return [{ json: { ok: false, motivo: mapped.motivo, etapa: etapa } }];
-}
-
-// SQL / HOT / Purchase / PQL / MQL los declara una persona o el sitio.
-// NEW lo crea n8n (Sub A, wizard): hay que emitir Nuevo aunque
-// updatedBy.source = API. El resto, si lo movió una automatización,
-// no se emite — el MQL del sitio o del Meet ya cubrió ese salto.
-if (fuenteCambio === "API") {
-  const etapaNorm = norm(etapa);
-  if (etapaNorm !== "new" && etapaNorm !== "nuevo") {
-    return [{ json: { ok: false, motivo: "etapa_movida_por_automatizacion", etapa: etapa } }];
+  if (objeto && objeto !== "opportunity") {
+    return omitir("objeto_no_es_oportunidad", { objeto: objeto });
   }
-}
 
-const recordId = String(registro.id || deepFind(body, ["recordid", "opportunityid"]) || "");
-if (!recordId) {
-  return [{ json: { ok: false, motivo: "sin_opportunity_id", etapa: etapa } }];
-}
+  if (/\.updated$/.test(evento) && tocados.length && tocados.indexOf("stage") === -1) {
+    return omitir("no_cambio_la_etapa", { campos: tocados });
+  }
 
-const eventId = recordId + "_" + String(etapa);
-const estado = $getWorkflowStaticData("global");
-estado.enviados = estado.enviados && typeof estado.enviados === "object" ? estado.enviados : {};
-const ahora = Date.now();
-for (const k of Object.keys(estado.enviados)) {
-  if (ahora - estado.enviados[k] > VENTANA_MS) delete estado.enviados[k];
-}
-if (estado.enviados[eventId]) {
-  return [{ json: { ok: false, motivo: "evento_ya_enviado", event_id: eventId } }];
-}
+  const etapa = String(
+    registro.stage ||
+      deepFind(body, ["stage", "etapa", "status", "estado", "pipelinestage", "dealstage"]) ||
+      "",
+  );
+  const leadgenId =
+    registro.leadgenId ||
+    registro.leadgen_id ||
+    deepFind(body, ["leadgenid", "leadgen_id", "lead_id"]);
+  const planClinera = registro.planClinera || registro.plan || "";
 
-let email = deepFind(body, ["email", "primaryemail", "emails", "correo"], function (s) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
-}).toLowerCase();
-let telefonoRaw = deepFind(body, [
-  "phone",
-  "primaryphonenumber",
-  "telefono",
-  "celular",
-  "whatsapp",
-]);
-let nombre = deepFind(body, ["firstname", "nombre", "fullname"]);
-let apellido = deepFind(body, ["lastname", "apellido"]);
+  const mapped = mapearEtapa(etapa, { leadgenId: leadgenId, planClinera: planClinera });
+  if (mapped.skip) {
+    return omitir(mapped.motivo, { etapa: etapa });
+  }
 
-const contactoId = String(registro.pointOfContactId || "");
-if (!email && contactoId) {
-  try {
-    const resp = await this.helpers.httpRequest({
-      method: "GET",
+  // SQL / HOT / Purchase / PQL / MQL los declara una persona o el sitio.
+  // NEW lo crea n8n (Sub A, wizard): hay que emitir Nuevo aunque
+  // updatedBy.source = API. El resto, si lo movió una automatización,
+  // no se emite — el MQL del sitio o del Meet ya cubrió ese salto.
+  if (fuenteCambio === "API") {
+    const etapaNorm = norm(etapa);
+    if (etapaNorm !== "new" && etapaNorm !== "nuevo") {
+      return omitir("etapa_movida_por_automatizacion", { etapa: etapa });
+    }
+  }
+
+  const recordId = String(registro.id || deepFind(body, ["recordid", "opportunityid"]) || "");
+  if (!recordId) {
+    return omitir("sin_opportunity_id", { etapa: etapa });
+  }
+
+  const eventId = recordId + "_" + String(etapa);
+  const ledgerKey = mapped.event_name + ":" + recordId;
+  const estado = $getWorkflowStaticData("global");
+  const enviados =
+    estado.enviados && typeof estado.enviados === "object" ? estado.enviados : {};
+  const ahora = Date.now();
+  if (ledgerVigente(enviados[ledgerKey], ahora)) {
+    return omitir("ya_enviado_ledger", { ledgerKey: ledgerKey, event_id: eventId });
+  }
+
+  let email = deepFind(body, ["email", "primaryemail", "emails", "correo"], function (s) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+  }).toLowerCase();
+  let telefonoRaw = deepFind(body, [
+    "phone",
+    "primaryphonenumber",
+    "telefono",
+    "celular",
+    "whatsapp",
+  ]);
+  let nombre = deepFind(body, ["firstname", "nombre", "fullname"]);
+  let apellido = deepFind(body, ["lastname", "apellido"]);
+
+  const contactoId = String(registro.pointOfContactId || "");
+  if (!email && contactoId) {
+    try {
+      const resp = await helpers.httpRequest({
+        method: "GET",
         url: $env.TWENTY_URL + "/rest/people/" + contactoId,
-      headers: { Authorization: "Bearer " + $env.TWENTY_API_KEY },
-      json: true,
-      timeout: 15000,
-    });
-    const p = (resp && resp.data && (resp.data.person || resp.data)) || {};
-    email = String((p.emails || {}).primaryEmail || "").toLowerCase();
-    const tel =
-      String((p.phones || {}).primaryPhoneCallingCode || "") +
-      String((p.phones || {}).primaryPhoneNumber || "");
-    if (tel.replace(/\D/g, "")) telefonoRaw = tel;
-    nombre = String((p.name || {}).firstName || nombre || "");
-    apellido = String((p.name || {}).lastName || apellido || "");
-  } catch {
-    // Se sigue: abajo se decide si con lo que hay alcanza.
+        headers: { Authorization: "Bearer " + $env.TWENTY_API_KEY },
+        json: true,
+        timeout: 15000,
+      });
+      const p = (resp && resp.data && (resp.data.person || resp.data)) || {};
+      email = String((p.emails || {}).primaryEmail || "").toLowerCase();
+      const tel =
+        String((p.phones || {}).primaryPhoneCallingCode || "") +
+        String((p.phones || {}).primaryPhoneNumber || "");
+      if (tel.replace(/\D/g, "")) telefonoRaw = tel;
+      nombre = String((p.name || {}).firstName || nombre || "");
+      apellido = String((p.name || {}).lastName || apellido || "");
+    } catch {
+      // Se sigue: abajo se decide si con lo que hay alcanza.
+    }
   }
-}
 
-const telefono = String(telefonoRaw || "").replace(/\D/g, "");
-const leadId = leadIdEntero(leadgenId);
-if (!leadId && !email && telefono.length < 10) {
-  return [
-    {
-      json: {
-        ok: false,
-        motivo: "sin_email_ni_telefono_ni_lead_id",
-        contacto: contactoId,
-        etapa: etapa,
+  const telefono = String(telefonoRaw || "").replace(/\D/g, "");
+  const leadId = leadIdEntero(leadgenId);
+  if (!leadId && !email && telefono.length < 10) {
+    return omitir("sin_email_ni_telefono_ni_lead_id", { contacto: contactoId, etapa: etapa });
+  }
+
+  const userData = {};
+  if (email) userData.em = [hash(email)];
+  if (telefono.length >= 10) userData.ph = [hash(telefono)];
+  if (nombre) userData.fn = [hash(nombre)];
+  if (apellido) userData.ln = [hash(apellido)];
+  if (leadId) userData.lead_id = leadId;
+
+  const fbc = deepFind(body, ["fbc", "metafbc", "fbclid"]);
+  const fbp = deepFind(body, ["fbp", "metafbp"]);
+  if (fbc) userData.fbc = fbc;
+  if (fbp) userData.fbp = fbp;
+
+  const customData = {
+    event_source: "crm",
+    lead_event_source: "Twenty CRM",
+    currency: MONEDA,
+    value: mapped.value,
+    lead_stage: etapa,
+    opportunity_id: recordId,
+  };
+  if (leadId) customData.leadgen_id = leadId;
+
+  // Lo que se manda a Meta, tal cual. «Enviar evento a Meta CAPI» hace
+  // JSON.stringify($json.payload): si esta clave falta, no sale nada.
+  const payload = {
+    data: [
+      {
+        event_name: mapped.event_name,
+        event_time: Math.floor(ahora / 1000),
+        event_id: eventId,
+        action_source: "system_generated",
+        user_data: userData,
+        custom_data: customData,
       },
-    },
-  ];
-}
+    ],
+  };
 
-estado.enviados = Object.assign({}, estado.enviados);
-estado.enviados[eventId] = ahora;
-
-const eventTime = Math.floor(Date.now() / 1000);
-const userData = {};
-if (email) userData.em = [hash(email)];
-if (telefono.length >= 10) userData.ph = [hash(telefono)];
-if (nombre) userData.fn = [hash(nombre)];
-if (apellido) userData.ln = [hash(apellido)];
-if (leadId) userData.lead_id = leadId;
-
-const fbc = deepFind(body, ["fbc", "metafbc", "fbclid"]);
-const fbp = deepFind(body, ["fbp", "metafbp"]);
-if (fbc) userData.fbc = fbc;
-if (fbp) userData.fbp = fbp;
-
-return [
-  {
+  return {
     json: {
+      omitido: false,
       ok: true,
+      etapa: etapa,
+      evento: mapped.event_name,
       event_name: mapped.event_name,
       value: mapped.value,
       currency: MONEDA,
       event_id: eventId,
-      event_time: eventTime,
-      action_source: "system_generated",
-      etapa: etapa,
-      opportunity_id: recordId,
+      leadgen_id: leadId,
       lead_id: leadId,
-      user_data: userData,
-      custom_data: { value: mapped.value, currency: MONEDA },
-      em: userData.em ? userData.em[0] : "",
-      ph: userData.ph ? userData.ph[0] : "",
-      fn: userData.fn ? userData.fn[0] : "",
-      ln: userData.ln ? userData.ln[0] : "",
+      opportunity_id: recordId,
+      ledgerKey: ledgerKey,
+      payload: payload,
     },
-  },
-];
+  };
+}
+
+const salida = [];
+for (const item of $input.all()) {
+  salida.push(await procesar(item.json || {}, this.helpers));
+}
+return salida;

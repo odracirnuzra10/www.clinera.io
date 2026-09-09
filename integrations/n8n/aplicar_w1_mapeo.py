@@ -90,6 +90,12 @@ def main() -> int:
     if "function mapearEtapa" not in nuevo or 'event_name: "NQL"' not in nuevo:
         print("El archivo de mapeo no parece el canónico.", file=sys.stderr)
         return 2
+    # Contrato con los nodos siguientes (H8): sin estas claves el HTTP manda
+    # JSON.stringify(undefined) y el filtro deja pasar todo.
+    for clave in ("omitido: false", "payload: payload", "ledgerKey: ledgerKey"):
+        if clave not in nuevo:
+            print(f"El archivo no devuelve {clave!r}: rompería el nodo CAPI.", file=sys.stderr)
+            return 2
 
     wf = api("GET", f"/workflows/{WID}")
     nodos = [n.get("name") for n in wf.get("nodes") or []]
@@ -161,6 +167,14 @@ def main() -> int:
     chequeo("vivo ya no tiene value: 10 de PQL", "value: 10" not in code2 or 'event_name: "SQL"' in code2)
     chequeo("vivo emite NQL 0", 'event_name: "NQL"' in code2)
     chequeo("vivo no emite NoContesta", 'event_name: "NoContesta"' not in code2)
+    chequeo(
+        "vivo devuelve payload + omitido (contrato con el nodo CAPI)",
+        "payload: payload" in code2 and "omitido: false" in code2,
+    )
+    print(
+        "Falta la prueba real: en la próxima ejecución con omitido=false, "
+        "«Confirmar y auditar» debe mostrar events_received >= 1."
+    )
 
     if not ok:
         print("HAY ALGO EN ROJO. Restaurar desde", respaldo)

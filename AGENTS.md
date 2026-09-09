@@ -300,8 +300,8 @@ la recomendación del partner + CTA a reunión.
 |---|---|---|---|
 | `Nuevo` | entró al CRM (Instant Form o alta) | US$ 0 | W1 (`NEW`); Sub A debe dejar de mandar `Lead` US$ 5 |
 | `PQL` | closer → PQL | US$ 1 | W1 |
-| `MQL` | agendó en `/agenda`, **o** la IA / Camila, **o** `/reserva-tu-hora` | US$ 5 | sitio + Meet; W1 si el stage es `MQL` |
-| `SQL` | closer → SQL (`MEETING`) | US$ 10 | W1 |
+| `MQL` | agendó en `/agenda`, **o** la IA / Camila, **o** `/reserva-tu-hora`. Si agendó y no avanzó, se queda acá | US$ 5 | sitio + Meet; W1 si el stage es `MQL` |
+| `SQL` | closer → SQL (`MEETING`): **la videollamada se realizó**. Ricardo, 09-sep-2026: agendar no es SQL; asistir sí | US$ 10 | W1 |
 | `HOT` | closer → HOT (`PROPOSAL`) | US$ 100 | W1 |
 | `NQL` | closer → no califica | US$ 0 | W1 |
 | `Purchase` | Customer | valor del plan | W1 (`planClinera`) |
@@ -333,9 +333,19 @@ URL `clinera.io`) solo la usan las campañas pausadas.
 Mapeo canónico `stage` → evento CAPI → value USD (`currency: USD`).
 Fuente: `integrations/n8n/crm-etapas-meta-capi.mapeo.js`. Aplicado al vivo
 el 2026-09-09. El cruce SCREENING↔PQL (H1) es histórico.
-En Twenty hay que **borrar SCREENING** y dejar (o crear) `MQL`
-como etapa; `NQL` se queda (no calificado, $0); `MEETING`/`PROPOSAL`
-siguen siendo los valores internos de SQL/HOT.
+En Twenty (09-sep tarde) ya existe la etapa `MQL`, `PQL` se etiqueta
+«PQL» y los 131 negocios que estaban en SCREENING (leads que agendaron)
+se movieron a `MQL`. **Ojo con el relabel del 07-sep:** había dejado el
+valor `SCREENING` con etiqueta «PQL» y el valor `PQL` con etiqueta «MQL»,
+al revés de los datos; con el W1 canónico, mover a «PQL» no emitía nada y
+mover a «MQL» emitía `PQL` 1. El 09-sep 19:46Z se aplicó
+`integrations/n8n/aplicar_etapa_mql.py` (Wizard, Meet y Sub A escriben
+`MQL`) y a las 19:48Z **se borró SCREENING** de Twenty. `NQL` se queda
+(no calificado, $0); `MEETING`/`PROPOSAL` siguen siendo los valores
+internos de SQL/HOT. **Al editar opciones de un SELECT en Twenty,
+conservá el `id` de cada opción:** quitar una opción, aunque otra tome
+el mismo valor, manda sus registros al default (130 negocios cayeron a
+`NEW` y hubo que devolverlos por id).
 
 | stage | event_name | value | condición |
 |---|---|---|---|
@@ -351,6 +361,21 @@ siguen siendo los valores internos de SQL/HOT.
 `event_id` = `{opportunityId}_{stage}`. `user_data.lead_id` = `leadgenId` (entero,
 sin hash) si existe. `action_source` = `system_generated`. Detalle:
 `integrations/n8n/README.md` y `baserow/sales/etiqueta-hot-y-capi.md`.
+
+**El jsCode de W1 tiene un contrato de salida con los nodos de abajo, y ya
+se rompió una vez.** «Corresponde enviar?» lee `omitido`, «Enviar evento a
+Meta CAPI» manda `JSON.stringify($json.payload)`, «Confirmar y auditar» lee
+`ledgerKey` y escribe el ledger sólo si Meta confirma. El PUT del 09-sep
+16:38Z pegó un jsCode que devolvía `ok` + `event_name` sin `payload` ni
+`omitido`: las ejecuciones salían en verde en n8n, pero el HTTP fallaba con
+«JSON Body is not valid JSON» y `events_received: 0`. W1 no mandó nada a
+Meta hasta el arreglo (aplicado el 09-sep 19:44Z; prueba funcional
+`Nuevo` 0 → `events_received: 1`). Verificar «aplicado» mirando
+`events_received` en una ejecución real, no el nombre ni el `active`. El
+bloque «nodo completo» de `tests/crm-etapas-meta-capi.spec.ts` corre el
+jsCode entero con stubs. Segunda trampa del mismo workflow: el IF
+«Corresponde enviar?» es v2 y con parámetros v1 no filtra nada
+(`aplicar_w1_filtro.py`, H9).
 
 **Desde el 2026-08-21, Google Ads recibe el mismo embudo** — no por CAPI,
 sino porque los workflows de SQL/HOT marcan Baserow 152 y un feed en
@@ -605,6 +630,19 @@ ficha (ver el repo `baserow`, `sales/n8n/recablear_aviso_unico.py`).
 
 Si cambiás las claves `lead_stage` / `booking_status`, ese corte deja de
 funcionar y los avisos vuelven a duplicarse sin ningún error visible.
+
+**Lead que vuelve a completar `/agenda` (Ricardo, 09-sep-2026):** el nodo
+«Twenty - Crear Lead» del Wizard encuentra el negocio abierto del contacto
+y lo refresca. Además de `horaRegistro` nuevo (sube a «Leads del día»),
+le agrega la etiqueta `VOLVIO_A_COTIZAR` («Volvió a cotizar», opción del
+multi-select `etiquetas` de Twenty) sin pisar las que tenía, y la nota de
+la columna dice «🔁 Volvió a cotizar». **La etapa no se toca**: un PQL o
+NQL que vuelve a cotizar sigue en su etapa, sólo con la etiqueta. Todo eso
+va dentro del guard `booking_status !== 'confirmed'`, porque el
+`booking_confirmed` del mismo lead entra por la misma rama un minuto
+después del `contact` y no es un lead que volvió. Aplicador:
+`integrations/n8n/aplicar_wizard_volvio_a_cotizar.py`; la fuente canónica
+del Wizard sigue en el repo `baserow`.
 
 # Pack AEO agosto 2026 — punteros post-migración
 
