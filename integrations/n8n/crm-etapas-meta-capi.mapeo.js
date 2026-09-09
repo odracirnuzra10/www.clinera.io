@@ -212,7 +212,7 @@ if (!email && contactoId) {
     if (tel.replace(/\D/g, "")) telefonoRaw = tel;
     nombre = String((p.name || {}).firstName || nombre || "");
     apellido = String((p.name || {}).lastName || apellido || "");
-  } catch (e) {
+  } catch {
     // Se sigue: abajo se decide si con lo que hay alcanza.
   }
 }

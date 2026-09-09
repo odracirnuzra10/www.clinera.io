@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // jsCode de nodos n8n (require/crypto, $env, return de items).
+    "integrations/n8n/**",
   ]),
 ]);
 

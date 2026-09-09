@@ -153,7 +153,9 @@ Stats del dataset `1104567405156111` (12-ago → 09-sep):
 `fbq('track','MQL')` con `eventID`. O no dispara en producción, o Meta
 lo cuenta solo en el lado servidor por dedup. **Pendiente:** Test Events
 en `/agenda` (el guardián `tests/ventas-meta-events.spec.ts` prueba contra
-un stub, no contra Meta).
+un stub, no contra Meta; además espera MQL al enviar el paso 3 y un
+botón «Médica» que ya es `<select>` — `MQL_TRIGGER` vigente es
+`booking_confirmed`).
 
 EMQ de MQL = **2,8** (email 12,5 %, fbp 6,3 %): la mayoría viene de
 caminos sin navegador. `Lead` (Instant Form) tiene EMQ 7,5.
