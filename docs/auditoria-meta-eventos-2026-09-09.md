@@ -1,6 +1,8 @@
 # Auditoría Meta — embudo, Conversion Leads y W1 (2026-09-09)
 
 Documento para que **otra sesión/IA** revise sin repetir la pesquisa.
+Para auditar *si el trabajo del 09-sep quedó bien* (repo + PUT a W1):
+`docs/handoff-auditoria-embudo-meta-2026-09-09.md`.
 Hechos medidos el 2026-09-09 contra el conector Meta Ads, la API de n8n
 (solo lecturas) y el inventario del repo `www.clinera.io` + `baserow`.
 No hay tokens en este archivo.
