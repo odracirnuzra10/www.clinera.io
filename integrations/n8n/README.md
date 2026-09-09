@@ -34,7 +34,7 @@ El embudo tiene los mismos estados en CRM y en el pixel
 | **Nuevo** | alta en el CRM (Instant Form o wizard) | W1; Sub A debe dejar de mandar `Lead` US$ 5 | US$ 0 |
 | **PQL** | closer → PQL | W1 | US$ 1 |
 | **MQL** | alguien agenda en `/agenda` **o** la IA / Camila | este workflow (wizard) · `clinera-meet-por-profesional.workflow.json` (IA) · W1 si el stage es `MQL` | US$ 5 |
-| **SQL** | closer → SQL (`MEETING`) | W1 | US$ 10 |
+| **SQL** | closer → SQL (`MEETING`) **cuando la videollamada se realizó**. Agendar y no asistir = sigue MQL (Ricardo, 09-sep-2026) | W1 | US$ 10 |
 | **HOT** | closer → HOT (`PROPOSAL`) | W1 | US$ 100 |
 | **NQL** | closer → no califica | W1 | US$ 0 |
 | **Purchase** | Customer | W1 (`planClinera`) | valor del plan |

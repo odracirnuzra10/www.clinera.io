@@ -300,8 +300,8 @@ la recomendación del partner + CTA a reunión.
 |---|---|---|---|
 | `Nuevo` | entró al CRM (Instant Form o alta) | US$ 0 | W1 (`NEW`); Sub A debe dejar de mandar `Lead` US$ 5 |
 | `PQL` | closer → PQL | US$ 1 | W1 |
-| `MQL` | agendó en `/agenda`, **o** la IA / Camila, **o** `/reserva-tu-hora` | US$ 5 | sitio + Meet; W1 si el stage es `MQL` |
-| `SQL` | closer → SQL (`MEETING`) | US$ 10 | W1 |
+| `MQL` | agendó en `/agenda`, **o** la IA / Camila, **o** `/reserva-tu-hora`. Si agendó y no avanzó, se queda acá | US$ 5 | sitio + Meet; W1 si el stage es `MQL` |
+| `SQL` | closer → SQL (`MEETING`): **la videollamada se realizó**. Ricardo, 09-sep-2026: agendar no es SQL; asistir sí | US$ 10 | W1 |
 | `HOT` | closer → HOT (`PROPOSAL`) | US$ 100 | W1 |
 | `NQL` | closer → no califica | US$ 0 | W1 |
 | `Purchase` | Customer | valor del plan | W1 (`planClinera`) |
