@@ -236,6 +236,8 @@ la recomendación del partner + CTA a reunión.
 > Handoff para auditar el embudo del **2026-09-10** (sin PQL; Nuevo $0;
 > MQL $10 cuando el closer verifica que es real; campañas deben optimizar
 > `MQL`, no `SQL`): `docs/handoff-embudo-etapas-2026-09-10.md`.
+> Fiscalización de ese handoff (D1–D8 y D10 OK; D9 pendiente en Ads):
+> `docs/fiscalizacion-embudo-etapas-2026-09-10.md`.
 > Auditoría del **2026-09-09** (Conversion Leads, W1 cruzado, BM del pixel):
 > `docs/auditoria-meta-eventos-2026-09-09.md`. Handoff para auditar si
 > el PUT y el repo quedaron bien:
@@ -329,10 +331,20 @@ webhook `POST …/webhook/crm-sql`, suscrito en Twenty a `*.*` (incluye
 (SQL) y `rWZDSfi8RJ780q76` (`SQL_Plus`) están **apagados**. `SQL_Plus`
 ya no se emite.
 
-**Campañas (desde el 7-sep):** las tres activas (SQL 🇨🇱, SQL 🇲🇽,
-Remarketing SQL) optimizan `QUALITY_LEAD` (Conversion Leads) sobre Instant
-Form, no la custom MQL `1562704878613075`. Esa custom (default 0, filtro
-URL `clinera.io`) solo la usan las campañas pausadas.
+**Campañas (10-sep, verificado por Marketing API vía MCP):** las tres del
+7-sep (SQL 🇨🇱 `120247984833660218`, SQL 🇲🇽 `120247986964290218`,
+Remarketing SQL `120247987023130218`) están **archivadas**: dos se borraron
+el 09-sep 15:08 (-03) y la última el 10-sep 13:01 (-03). Las activas son
+**MQL 🇨🇱 `120248035606070218`** y **MQL 🇲🇽 `120248035556840218`**
+(creadas el 10-sep 12:59–13:00 -03, tres conjuntos cada una, `QUALITY_LEAD`
+sobre el pixel `1104567405156111`, `promoted_object.custom_event_type:
+OTHER`). El **nombre** del evento custom elegido en el conjunto (MQL o SQL)
+**no lo devuelve** el `promoted_object` que expone el MCP de Meta ni el
+activity log («Conversion leads» a secas): confirmar en Ads Manager que sea
+el evento `MQL` del pixel, no la custom conversion «MQL»
+`1562704878613075` (default 0, filtro URL `clinera.io`, de las campañas
+pausadas) ni la custom «SQL» `1389593139704601`. Fiscalización:
+`docs/fiscalizacion-embudo-etapas-2026-09-10.md`.
 
 Mapeo canónico `stage` → evento CAPI → value USD (`currency: USD`).
 Fuente: `integrations/n8n/crm-etapas-meta-capi.mapeo.js`. Aplicado al vivo
