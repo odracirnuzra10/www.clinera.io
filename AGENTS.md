@@ -477,6 +477,14 @@ formulario y no tenía dónde agendar — el embudo se cortaba ahí.
 - **WhatsApp por país:** la validación vive en `src/lib/telefono.ts` (CL = 9
   dígitos `9XXXXXXXX`; MX/CO = 10; etc.). Si pegan `+56`/`56` se normaliza al
   local; el webhook recibe E.164. No reaplicar la regla de Chile a todos.
+  El selector de `/reserva-tu-hora` (`RESERVA_PHONE_PREFIXES`) incluye
+  Uruguay (+598), Estados Unidos y Puerto Rico. **US y PR comparten `+1`**:
+  el `<option>` de PR usa `id: "PR"`; el webhook igual manda
+  `celular_prefix: "+1"`. La regla de `+1` es NANP (10 dígitos, área 2–9);
+  PR en el selector es más estricta (787/939). El API
+  (`src/app/api/wizard/validation.ts`) acepta el NANP completo — si se deja
+  el patrón viejo de solo 787/939, un lead de EE.UU. pasa el navegador y lo
+  rechaza el servidor.
 
 Guardián: `tests/reserva-tu-hora.spec.ts` + `tests/telefono.spec.ts`.
 

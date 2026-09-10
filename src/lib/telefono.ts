@@ -33,8 +33,14 @@ export type PhoneRule = {
  * | +507    | Panamá      | 8     | 6XXXXXXX                             |
  * | +506    | Costa Rica  | 8     | [678]XXXXXXX                         |
  * | +595    | Paraguay    | 9     | 9[2-9]XXXXXXX                        |
+ * | +598    | Uruguay     | 8     | 9XXXXXXX                             |
  * | +34     | España      | 9     | [67]XXXXXXXX                         |
- * | +1      | Puerto Rico | 10    | 787/939 + 7                          |
+ * | +1      | EE.UU.      | 10    | NANP [2-9]XXXXXXXXX                  |
+ *
+ * Puerto Rico también es `+1` (NANP). En el selector de reserva es una
+ * opción aparte (`id: "PR"`) con patrón 787/939; el webhook igual manda
+ * `celular_prefix: "+1"`. No poner `+1PR` en esta tabla: el API rechazaría
+ * el prefijo y el E.164 saldría mal.
  */
 export const PHONE_RULES: Record<string, PhoneRule> = {
   "+56": {
@@ -115,16 +121,33 @@ export const PHONE_RULES: Record<string, PhoneRule> = {
     invalidHint: "Debe empezar con 6 o 7",
   },
   "+1": {
-    name: "Puerto Rico",
+    name: "Estados Unidos",
     len: 10,
-    placeholder: "787 123 4567",
-    pattern: /^(787|939)\d{7}$/,
-    invalidHint: "Debe empezar con 787 o 939",
+    placeholder: "415 555 1234",
+    pattern: /^[2-9]\d{9}$/,
+    invalidHint: "Código de área inválido",
   },
 };
 
+/** Puerto Rico comparte `+1` con EE.UU.; el selector lo distingue por `id`. */
+const PR_RULE: PhoneRule = {
+  name: "Puerto Rico",
+  len: 10,
+  placeholder: "787 123 4567",
+  pattern: /^(787|939)\d{7}$/,
+  invalidHint: "Debe empezar con 787 o 939",
+};
+
+export type PhonePrefixOption = {
+  prefix: string;
+  flag: string;
+  label: string;
+  /** Valor del <option> cuando dos países comparten prefijo (NANP +1). */
+  id?: string;
+};
+
 /** Prefijos del selector de `/reserva-tu-hora` (subset de `PHONE_RULES`). */
-export const RESERVA_PHONE_PREFIXES = [
+export const RESERVA_PHONE_PREFIXES: readonly PhonePrefixOption[] = [
   { prefix: "+56", flag: "🇨🇱", label: "Chile" },
   { prefix: "+52", flag: "🇲🇽", label: "México" },
   { prefix: "+57", flag: "🇨🇴", label: "Colombia" },
@@ -134,8 +157,38 @@ export const RESERVA_PHONE_PREFIXES = [
   { prefix: "+507", flag: "🇵🇦", label: "Panamá" },
   { prefix: "+506", flag: "🇨🇷", label: "Costa Rica" },
   { prefix: "+595", flag: "🇵🇾", label: "Paraguay" },
+  { prefix: "+598", flag: "🇺🇾", label: "Uruguay" },
   { prefix: "+34", flag: "🇪🇸", label: "España" },
-] as const;
+  { prefix: "+1", flag: "🇺🇸", label: "Estados Unidos" },
+  { prefix: "+1", flag: "🇵🇷", label: "Puerto Rico", id: "PR" },
+];
+
+export function idOpcionTelefono(p: PhonePrefixOption): string {
+  return p.id ?? p.prefix;
+}
+
+/** Prefijo E.164 de una opción del selector (`PR` → `+1`). */
+export function prefixDeOpcionTelefono(
+  id: string,
+  opciones: readonly PhonePrefixOption[] = RESERVA_PHONE_PREFIXES,
+): string {
+  const opt = opciones.find((p) => idOpcionTelefono(p) === id);
+  if (opt) return opt.prefix;
+  if (id === "PR" || id === "US") return "+1";
+  return id;
+}
+
+export function reglaOpcionTelefono(id: string): PhoneRule {
+  if (id === "PR") return PR_RULE;
+  return reglaTelefono(prefixDeOpcionTelefono(id));
+}
+
+/** Elige la opción del selector (PR si el local es 787/939). */
+export function idOpcionReservaDesdeTelefono(crudo: string): string {
+  const { prefix, phone } = separarTelefono(crudo);
+  if (prefix === "+1" && /^(787|939)/.test(digitosTelefono(phone))) return "PR";
+  return prefix;
+}
 
 /**
  * Prefijos del formulario «Aplicar al programa» en `/partners`.
@@ -166,8 +219,9 @@ export function reglaTelefono(prefix: string): PhoneRule {
  * se quita cuando sobra exactamente un dígito.
  */
 export function normalizarDigitosLocales(crudo: string, prefix: string): string {
-  const rule = reglaTelefono(prefix);
-  const cc = prefix.replace(/\D/g, "");
+  const real = prefixDeOpcionTelefono(prefix);
+  const rule = reglaOpcionTelefono(prefix);
+  const cc = real.replace(/\D/g, "");
   let d = digitosTelefono(crudo);
 
   if (cc && d.startsWith(cc) && d.length > rule.len) {
@@ -175,7 +229,7 @@ export function normalizarDigitosLocales(crudo: string, prefix: string): string 
   }
 
   // MX histórico: +52 1 + 10 dígitos locales
-  if (prefix === "+52" && d.length === rule.len + 1 && d.startsWith("1")) {
+  if (real === "+52" && d.length === rule.len + 1 && d.startsWith("1")) {
     d = d.slice(1);
   }
 
@@ -184,33 +238,34 @@ export function normalizarDigitosLocales(crudo: string, prefix: string): string 
 
 /** Formatea dígitos locales con espacios según el país (solo UX). */
 export function formatearTelefono(crudo: string, prefix: string): string {
+  const real = prefixDeOpcionTelefono(prefix);
   const d = normalizarDigitosLocales(crudo, prefix);
 
-  if (prefix === "+56") {
+  if (real === "+56") {
     if (d.length <= 1) return d;
     if (d.length <= 5) return `${d[0]} ${d.slice(1)}`;
     return `${d[0]} ${d.slice(1, 5)} ${d.slice(5)}`;
   }
-  if (prefix === "+34" || prefix === "+51" || prefix === "+595" || prefix === "+598") {
+  if (real === "+34" || real === "+51" || real === "+595" || real === "+598") {
     if (d.length <= 3) return d;
     if (d.length <= 6) return `${d.slice(0, 3)} ${d.slice(3)}`;
     return `${d.slice(0, 3)} ${d.slice(3, 6)} ${d.slice(6)}`;
   }
-  if (prefix === "+507" || prefix === "+506") {
+  if (real === "+507" || real === "+506") {
     if (d.length <= 4) return d;
     return `${d.slice(0, 4)} ${d.slice(4)}`;
   }
-  if (prefix === "+593") {
+  if (real === "+593") {
     if (d.length <= 2) return d;
     if (d.length <= 5) return `${d.slice(0, 2)} ${d.slice(2)}`;
     return `${d.slice(0, 2)} ${d.slice(2, 5)} ${d.slice(5)}`;
   }
-  if (prefix === "+57") {
+  if (real === "+57") {
     if (d.length <= 3) return d;
     if (d.length <= 6) return `${d.slice(0, 3)} ${d.slice(3)}`;
     return `${d.slice(0, 3)} ${d.slice(3, 6)} ${d.slice(6)}`;
   }
-  if (prefix === "+1") {
+  if (real === "+1") {
     if (d.length <= 3) return d;
     if (d.length <= 6) return `${d.slice(0, 3)} ${d.slice(3)}`;
     return `${d.slice(0, 3)} ${d.slice(3, 6)} ${d.slice(6)}`;
@@ -222,7 +277,7 @@ export function formatearTelefono(crudo: string, prefix: string): string {
 }
 
 export function telefonoLocalValido(prefix: string, digitos: string): boolean {
-  const rule = PHONE_RULES[prefix];
+  const rule = prefix === "PR" ? PR_RULE : PHONE_RULES[prefixDeOpcionTelefono(prefix)];
   if (!rule) return false;
   const d = digitosTelefono(digitos);
   return d.length === rule.len && rule.pattern.test(d);
@@ -233,7 +288,7 @@ export function telefonoLocalValido(prefix: string, digitos: string): boolean {
  * `null` = válido.
  */
 export function mensajeErrorTelefono(prefix: string, digitos: string): string | null {
-  const rule = reglaTelefono(prefix);
+  const rule = reglaOpcionTelefono(prefix);
   const d = digitosTelefono(digitos);
   if (!d.length) {
     return `Ingresa tu WhatsApp (${rule.len} dígitos para ${rule.name})`;
@@ -253,7 +308,8 @@ export function mensajeErrorTelefono(prefix: string, digitos: string): string | 
 
 /** E.164: `+` + código país + dígitos nacionales, sin espacios. */
 export function aE164(prefix: string, digitos: string): string {
-  const p = prefix.startsWith("+") ? prefix : `+${prefix}`;
+  const real = prefixDeOpcionTelefono(prefix);
+  const p = real.startsWith("+") ? real : `+${real}`;
   return `${p}${digitosTelefono(digitos)}`;
 }
 
