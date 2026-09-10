@@ -42,6 +42,19 @@ que nombra ya no existen) y sigue pendiente en Ads Manager.
    `Meta CAPI - MQL (IA)` del Meet. El handoff §1 ya lo declara.
 3. `Prepare Lead Data` de Sub A conserva un comentario que dice que `PQL`
    está rotulado «PQL · No contesta». Solo texto; ya no es cierto.
+4. **W1 manda solo `lead_id` en `user_data`.** En los 8 eventos reales de
+   hoy revisados (Nuevo, MQL y NQL entre 12:02 y 15:58Z) `user_data` fue
+   `['lead_id']`: sin `em`, `ph`, `fn` ni `ln`, aunque el negocio tenía
+   `pointOfContactId`. El cuerpo del webhook no trae el correo y la lectura
+   a `/rest/people/{id}` (con `$env.TWENTY_URL` + `$env.TWENTY_API_KEY`
+   dentro del Code node) falla en silencio (`catch {}`). Meta confirma
+   igual (`events_received: 1`) porque cruza por `lead_id`, y el EMQ del
+   canal CRM lo refleja: `Nuevo` 0,7 (teléfono 16,7 %), `NQL` 2,0, `MQL`
+   2,9 (el teléfono del MQL viene de los otros emisores). Consecuencia: un
+   negocio **sin** `leadgenId` (wizard, Camila, orgánico, Google) sale
+   como `sin_email_ni_telefono_ni_lead_id` y su MQL/SQL/HOT/Purchase nunca
+   llega a Meta. Pendiente: verificar que n8n tenga esas dos variables y
+   que el Code node pueda leer `$env`.
 
 ## Si algo está mal, qué riesgo tiene
 
