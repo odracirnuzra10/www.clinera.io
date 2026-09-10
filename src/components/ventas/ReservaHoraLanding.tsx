@@ -11,9 +11,9 @@
 // no tenía dónde agendar. Esta página es ese destino.
 //
 // Con esto el embudo queda parejo en los tres caminos:
-//   Instant Form / alta .......... `Nuevo` US$ 0   (W1; Sub A deja de mandar Lead)
-//   agenda acá / en /agenda / IA .. `MQL`   US$ 5   (lo manda esta página)
-//   closer → PQL / SQL / HOT / NQL · `PQL` 1 · `SQL` 10 · `HOT` 100 · `NQL` 0
+//   Instant Form / alta .......... `Nuevo` US$ 0   (W1; Sub A no manda Lead)
+//   closer verifica que es real ... `MQL`   US$ 10  (W1; campañas optimizan acá)
+//   closer → SQL / HOT / NQL ...... `SQL` 100 · `HOT` 200 · `NQL` 0
 //   contrata ..................... `Purchase` valor del plan
 // El MQL se GANA agendando, en los tres. Por eso acá no hay wizard: el lead ya
 // dejó sus datos en el formulario de Meta y volvérselos a pedir sería la forma

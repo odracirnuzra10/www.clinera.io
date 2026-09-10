@@ -2,7 +2,7 @@
 //
 // Lo que se prueba es la razón de ser de la página: que un lead que YA dejó sus
 // datos en el formulario de Meta llegue directo al calendario, que al confirmar
-// la hora salga UN MQL de US$ 5 (que es el peldaño que Meta necesita para
+// la hora salga UN MQL de US$ 10 (que es el peldaño que Meta necesita para
 // «maximizar clientes cualificados»), y que el `leadgen_id` sobreviva hasta el
 // CRM. Y el caso opuesto: sin datos en la URL, la página los pide en vez de
 // mandar una reserva vacía.
@@ -160,7 +160,7 @@ test.describe("/reserva-tu-hora — destino del Instant Form", () => {
     await expect(page.locator(".ventas-back-btn")).toBeHidden();
   });
 
-  test("al confirmar la hora manda UN MQL de US$ 5 y lleva el leadgen_id al CRM", async ({ page }) => {
+  test("al confirmar la hora manda UN MQL de US$ 10 y lleva el leadgen_id al CRM", async ({ page }) => {
     const id = nonce();
     await installFbqRecorder(page);
     await mockRed(page);
@@ -179,10 +179,10 @@ test.describe("/reserva-tu-hora — destino del Instant Form", () => {
     });
     await page.waitForTimeout(600);
 
-    // --- El MQL: uno solo, a 5 USD, con el contacto hasheado ---
+    // --- El MQL: uno solo, a 10 USD, con el contacto hasheado ---
     const mqls = capi.filter((c) => c.event_name === "MQL");
     expect(mqls).toHaveLength(1);
-    expect(mqls[0].custom_data?.value).toBe(5);
+    expect(mqls[0].custom_data?.value).toBe(10);
     expect(mqls[0].custom_data?.currency).toBe("USD");
     expect(mqls[0].user_data?.em).toMatch(HEX64);
     expect(mqls[0].user_data?.ph).toMatch(HEX64);
