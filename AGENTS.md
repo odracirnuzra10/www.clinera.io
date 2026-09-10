@@ -233,6 +233,9 @@ la recomendación del partner + CTA a reunión.
 > premisa —falsa— de que SQL+ no generaba ninguna señal, porque el repo no lo
 > mostraba. Antes de tocar el embudo, mira la instancia de n8n.
 >
+> Handoff para auditar el embudo del **2026-09-10** (sin PQL; Nuevo $0;
+> MQL $10 cuando el closer verifica que es real; campañas deben optimizar
+> `MQL`, no `SQL`): `docs/handoff-embudo-etapas-2026-09-10.md`.
 > Auditoría del **2026-09-09** (Conversion Leads, W1 cruzado, BM del pixel):
 > `docs/auditoria-meta-eventos-2026-09-09.md`. Handoff para auditar si
 > el PUT y el repo quedaron bien:
