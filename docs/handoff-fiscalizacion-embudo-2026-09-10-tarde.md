@@ -68,9 +68,10 @@ con `MQL:{id}` y `SQL:{id}`. **Si no hubo ninguna todavía, decirlo; no
 mover negocios reales para provocarla.** Un `opportunity.updated` a `MQL`
 sigue siendo un solo ítem.
 
-Respaldos del JSON vivo (no commiteados; existen solo en el environment
-donde se aplicó): `integrations/n8n/backup/W1SybZZSEZqAItIt-20260910-160250.json`
-(antes del mapeo sin PQL) y `…-20260910-185007.json` (antes del relleno).
+Respaldo del JSON vivo antes del relleno, commiteado:
+`integrations/n8n/backup/W1SybZZSEZqAItIt-20260910-185007.json`. El de las
+16:02:50Z (antes del mapeo sin PQL) existió solo en el environment de esa
+sesión y no está en el repo.
 
 Trampa conocida: la guarda de `aplicar_w1_mapeo.py` exige los literales
 `payload: payload`, `ledgerKey: ledgerKey` y `omitido: false` en el
@@ -146,7 +147,7 @@ conjuntos; enviar el borrador de Gmail.
 
 ## 8. Cómo revertir (solo si hay que abortar)
 
-1. W1: PUT del respaldo `W1SybZZSEZqAItIt-20260910-185007.json`, o
+1. W1: PUT del respaldo `integrations/n8n/backup/W1SybZZSEZqAItIt-20260910-185007.json`, o
    `git show 97c0914^:integrations/n8n/crm-etapas-meta-capi.mapeo.js >
    integrations/n8n/crm-etapas-meta-capi.mapeo.js` y
    `python3 integrations/n8n/aplicar_w1_mapeo.py --aplicar`.
