@@ -389,6 +389,33 @@ son Nuevo 0 / PQL 1 / MQL 5 / SQL 10 / HOT 100 / NQL 0; el feed hay que realinea
 
 Ids, disparos y el detalle completo: `integrations/n8n/README.md`.
 
+# tech.oacg.cl/movimiento: dónde se registra una venta de Stripe (y por qué puede no aparecer)
+
+`/movimiento` de tech.oacg.cl **no vive en este repo**: es la tabla **940** de
+Baserow (base 97) y el panel está en el repo `baserow` (`tech/index.html`,
+`GMOV`). La fila la crea n8n, workflow **`7jgtp669q8pWJKm6`** («OACG TECH |
+Suscripción (Stripe)», evento `customer.subscription.created`), que además
+escribe Ventas (156) y Activación (957) y avisa por Telegram y Google Chat.
+Export, jsCode canónicos y aplicador en vivo:
+`baserow/n8n/suscripcion-stripe*.{json,js}` y
+`baserow/scripts/aplicar_suscripcion_por_empresa_en_vivo.py`; el porqué en
+`baserow/n8n/README.md`. Ni `/firma` ni nada de acá le avisa a ese tablero:
+todo entra por el webhook de Stripe.
+
+**Lo que costó una venta (ERNESTO, 9-sep-2026, Vortex 279 + Marketing 250 =
+US$529):** con dos o más productos en una suscripción Stripe manda `plan: null`,
+y el nodo de producto hacía `plan.product` → la ejecución moría antes de
+escribir nada y sin aviso. Desde el 10-sep el workflow recorre todos los ítems
+y Movimiento recibe **una fila por empresa** (`clinera` / `metricads`): un
+cliente con Clinera + Marketing son dos clientes, uno por empresa (Ricardo).
+
+Ojo con este repo: el checkout de `/firma` (`src/lib/firma/stripe.ts`) arma la
+suscripción con `price_data` y **varias líneas** (plan + usuarios extra + packs),
+o sea también multi-ítem. Sus nombres («Plan Summit · Clinera», «Usuario
+adicional · Clinera», «Pack de créditos IA · Clinera») se clasifican Clinera por
+nombre; si algún día se vende otra empresa por ahí, que el nombre diga
+«Marketing»/«MetricAds» o que el producto lleve `metadata.empresa` en Stripe.
+
 # `/reserva-tu-hora`: el destino del Instant Form, solo calendario
 
 Creada el 27-ago-2026. Es la URL que el Instant Form de Meta abre sola al
