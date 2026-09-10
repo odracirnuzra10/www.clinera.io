@@ -66,8 +66,9 @@ Dato nuevo: `attribution_spec` = 1 día clic en los 6 (ver pendientes).
    optimizando `MQL`, ese lead no sumaba en «Clientes potenciales
    cualificados» ni le enseñaba nada a Meta. **Corrección (10-sep, pedido
    de Ricardo), aplicada al vivo a las 18:50:07Z con
-   `aplicar_w1_mapeo.py --aplicar` (respaldo `…-20260910-185007.json`,
-   fuera del commit):** W1 rellena la escalera `MQL < SQL <
+   `aplicar_w1_mapeo.py --aplicar` (respaldo
+   `integrations/n8n/backup/W1SybZZSEZqAItIt-20260910-185007.json`):** W1
+   rellena la escalera `MQL < SQL <
    HOT < Purchase` con las etapas que falten en el ledger antes de mandar
    la actual (ítems separados; ver AGENTS.md, «Un estado implica los
    anteriores»). Al equipo comercial se le comunicó la regla: todo SQL

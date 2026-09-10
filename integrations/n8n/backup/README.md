@@ -4,3 +4,8 @@ Respaldos del JSON vivo de W1 antes de un PUT. Restaurar:
 
 `W1SybZZSEZqAItIt-20260909-163845.json` es el mapeo cruzado
 (PQL→MQL 10) que se reemplazó el 2026-09-09.
+
+`W1SybZZSEZqAItIt-20260910-185007.json` es el mapeo sin PQL del 10-sep
+(16:02Z) tal como estaba antes del relleno de etapas implícitas, que lo
+reemplazó el 2026-09-10 18:50Z. El respaldo de las 16:02:50Z (previo al
+mapeo sin PQL) no se conservó en el repo.
