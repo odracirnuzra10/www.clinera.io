@@ -1,15 +1,24 @@
 // Code node «Mapear etapa y cifrar datos»
 // Workflow vivo: W1SybZZSEZqAItIt — Clinera | Twenty etapas → Meta CAPI
 //
-// ESTE ARCHIVO ES el jsCode del nodo. Aplicado a n8n el 2026-09-10
-// (Ricardo: embudo sin PQL). Aplicador: aplicar_w1_mapeo.py
+// ESTE ARCHIVO ES el jsCode del nodo. Mapeo sin PQL aplicado a n8n el
+// 2026-09-10 16:02Z; el relleno de etapas implícitas, el mismo día a las
+// 18:50Z, con el mismo aplicador. Aplicador: aplicar_w1_mapeo.py
 // Reemplaza únicamente este jsCode y el nombre (sin «inactivo»).
 // Antes de un PUT: guardar el JSON actual en integrations/n8n/backup/.
 //
 // Embudo canónico (Ricardo, 2026-09-10). Los mismos estados en CRM
 // y en el pixel. PQL, SCREENING, NoContesta, Lead y SQL_Plus no
 // existen. NQL es «no responde», value 0.
-// Auditoría: docs/handoff-embudo-etapas-2026-09-10.md.
+// Auditoría: docs/handoff-embudo-etapas-2026-09-10.md y
+// docs/fiscalizacion-embudo-etapas-2026-09-10.md.
+//
+// Etapas implícitas (Ricardo, 10-sep): un lead en SQL fue MQL sí o sí.
+// Si el closer salta etapas en Twenty (Nuevo → SQL), Meta no recibe el
+// MQL y la campaña que optimiza MQL no aprende de ese lead. Por eso,
+// antes de mandar la etapa actual, este nodo emite las anteriores de la
+// escalera MQL < SQL < HOT < Purchase que no consten en el ledger, como
+// ítems separados (un HTTP y una entrada de ledger por cada una).
 //
 // Contratos que NO se tocan:
 //   event_id      = {opportunityId}_{stage}
@@ -159,12 +168,46 @@ function ledgerVigente(entrada, ahora) {
   if (!Number.isFinite(t)) return true; // forma desconocida: no se reenvía
   return ahora - t <= VENTANA_MS;
 }
+/**
+ * Escalera del embudo pagado, en orden. Un estado implica los anteriores.
+ * Nuevo y NQL quedan fuera: no son peldaños de calificación.
+ * `stage` es el valor de Twenty que va en event_id y lead_stage.
+ */
+const ESCALERA = [
+  { event_name: "MQL", value: 10, stage: "MQL" },
+  { event_name: "SQL", value: 100, stage: "MEETING" },
+  { event_name: "HOT", value: 200, stage: "PROPOSAL" },
+  { event_name: "Purchase", value: null, stage: "CUSTOMER" },
+];
+
+/**
+ * Etapas anteriores a `evento` que no constan en el ledger para este
+ * negocio, a cualquier fecha (acá no corre la ventana de 28 días: si el
+ * MQL se mandó alguna vez, no se rellena). Devuelve [] si el evento no
+ * está en la escalera (Nuevo, NQL) o es el primer peldaño.
+ */
+function etapasImplicitas(evento, enviados, recordId) {
+  const pos = ESCALERA.findIndex(function (e) {
+    return e.event_name === evento;
+  });
+  if (pos <= 0) return [];
+  const ledger = enviados && typeof enviados === "object" ? enviados : {};
+  return ESCALERA.slice(0, pos).filter(function (e) {
+    return ledger[e.event_name + ":" + recordId] == null;
+  });
+}
 // --- fin helpers puros ---
 
 function omitir(motivo, extra) {
   return { json: Object.assign({ omitido: true, ok: false, motivo: motivo }, extra || {}) };
 }
 
+/**
+ * Devuelve SIEMPRE un array de ítems: uno omitido, o las etapas implícitas
+ * seguidas de la actual. Cada ítem cumple el contrato con los nodos que
+ * siguen (omitido / payload / ledgerKey / event_id / evento / leadgen_id /
+ * opportunity_id).
+ */
 async function procesar(wh, helpers) {
   const body = wh.body || wh;
   const registro = body.record || {};
@@ -174,11 +217,11 @@ async function procesar(wh, helpers) {
   const fuenteCambio = String((registro.updatedBy || {}).source || "").toUpperCase();
 
   if (objeto && objeto !== "opportunity") {
-    return omitir("objeto_no_es_oportunidad", { objeto: objeto });
+    return [omitir("objeto_no_es_oportunidad", { objeto: objeto })];
   }
 
   if (/\.updated$/.test(evento) && tocados.length && tocados.indexOf("stage") === -1) {
-    return omitir("no_cambio_la_etapa", { campos: tocados });
+    return [omitir("no_cambio_la_etapa", { campos: tocados })];
   }
 
   const etapa = String(
@@ -194,7 +237,7 @@ async function procesar(wh, helpers) {
 
   const mapped = mapearEtapa(etapa, { leadgenId: leadgenId, planClinera: planClinera });
   if (mapped.skip) {
-    return omitir(mapped.motivo, { etapa: etapa });
+    return [omitir(mapped.motivo, { etapa: etapa })];
   }
 
   // SQL / HOT / Purchase / MQL / NQL los declara una persona o el sitio.
@@ -204,13 +247,13 @@ async function procesar(wh, helpers) {
   if (fuenteCambio === "API") {
     const etapaNorm = norm(etapa);
     if (etapaNorm !== "new" && etapaNorm !== "nuevo") {
-      return omitir("etapa_movida_por_automatizacion", { etapa: etapa });
+      return [omitir("etapa_movida_por_automatizacion", { etapa: etapa })];
     }
   }
 
   const recordId = String(registro.id || deepFind(body, ["recordid", "opportunityid"]) || "");
   if (!recordId) {
-    return omitir("sin_opportunity_id", { etapa: etapa });
+    return [omitir("sin_opportunity_id", { etapa: etapa })];
   }
 
   const eventId = recordId + "_" + String(etapa);
@@ -220,7 +263,7 @@ async function procesar(wh, helpers) {
     estado.enviados && typeof estado.enviados === "object" ? estado.enviados : {};
   const ahora = Date.now();
   if (ledgerVigente(enviados[ledgerKey], ahora)) {
-    return omitir("ya_enviado_ledger", { ledgerKey: ledgerKey, event_id: eventId });
+    return [omitir("ya_enviado_ledger", { ledgerKey: ledgerKey, event_id: eventId })];
   }
 
   let email = deepFind(body, ["email", "primaryemail", "emails", "correo"], function (s) {
@@ -262,7 +305,7 @@ async function procesar(wh, helpers) {
   const telefono = String(telefonoRaw || "").replace(/\D/g, "");
   const leadId = leadIdEntero(leadgenId);
   if (!leadId && !email && telefono.length < 10) {
-    return omitir("sin_email_ni_telefono_ni_lead_id", { contacto: contactoId, etapa: etapa });
+    return [omitir("sin_email_ni_telefono_ni_lead_id", { contacto: contactoId, etapa: etapa })];
   }
 
   const userData = {};
@@ -277,52 +320,72 @@ async function procesar(wh, helpers) {
   if (fbc) userData.fbc = fbc;
   if (fbp) userData.fbp = fbp;
 
-  const customData = {
-    event_source: "crm",
-    lead_event_source: "Twenty CRM",
-    currency: MONEDA,
-    value: mapped.value,
-    lead_stage: etapa,
-    opportunity_id: recordId,
-  };
-  if (leadId) customData.leadgen_id = leadId;
+  const ahoraSeg = Math.floor(ahora / 1000);
 
-  // Lo que se manda a Meta, tal cual. «Enviar evento a Meta CAPI» hace
-  // JSON.stringify($json.payload): si esta clave falta, no sale nada.
-  const payload = {
-    data: [
-      {
-        event_name: mapped.event_name,
-        event_time: Math.floor(ahora / 1000),
-        event_id: eventId,
-        action_source: "system_generated",
-        user_data: userData,
-        custom_data: customData,
-      },
-    ],
-  };
-
-  return {
-    json: {
-      omitido: false,
-      ok: true,
-      etapa: etapa,
-      evento: mapped.event_name,
-      event_name: mapped.event_name,
-      value: mapped.value,
+  // Un ítem por evento. Lo que se manda a Meta va tal cual en `payload`:
+  // «Enviar evento a Meta CAPI» hace JSON.stringify($json.payload); si
+  // esta clave falta, no sale nada.
+  function armar(nombre, valor, stage, eventTime, implicita) {
+    const customData = {
+      event_source: "crm",
+      lead_event_source: "Twenty CRM",
       currency: MONEDA,
-      event_id: eventId,
-      leadgen_id: leadId,
-      lead_id: leadId,
+      value: valor,
+      lead_stage: stage,
       opportunity_id: recordId,
-      ledgerKey: ledgerKey,
-      payload: payload,
-    },
-  };
+    };
+    if (leadId) customData.leadgen_id = leadId;
+    const idEvento = recordId + "_" + stage;
+    const ledgerKey = nombre + ":" + recordId;
+    const payload = {
+      data: [
+        {
+          event_name: nombre,
+          event_time: eventTime,
+          event_id: idEvento,
+          action_source: "system_generated",
+          user_data: userData,
+          custom_data: customData,
+        },
+      ],
+    };
+    return {
+      json: {
+        omitido: false,
+        ok: true,
+        etapa: etapa,
+        evento: nombre,
+        event_name: nombre,
+        value: valor,
+        currency: MONEDA,
+        event_id: idEvento,
+        leadgen_id: leadId,
+        lead_id: leadId,
+        opportunity_id: recordId,
+        ledgerKey: ledgerKey,
+        implicita: implicita,
+        payload: payload,
+      },
+    };
+  }
+
+  // Etapas que el closer saltó: se mandan antes, un segundo aparte cada
+  // una, para que Meta las lea en orden.
+  const implicadas = etapasImplicitas(mapped.event_name, enviados, recordId);
+  const salida = implicadas.map(function (e, i) {
+    return armar(e.event_name, e.value, e.stage, ahoraSeg - (implicadas.length - i), true);
+  });
+  salida.push(armar(mapped.event_name, mapped.value, String(etapa), ahoraSeg, false));
+  return salida;
 }
 
 const salida = [];
-for (const item of $input.all()) {
-  salida.push(await procesar(item.json || {}, this.helpers));
+const entradas = $input.all();
+for (let idx = 0; idx < entradas.length; idx++) {
+  const items = await procesar(entradas[idx].json || {}, this.helpers);
+  for (const it of items) {
+    it.pairedItem = { item: idx };
+    salida.push(it);
+  }
 }
 return salida;
