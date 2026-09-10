@@ -370,6 +370,22 @@ valores internos de SQL/HOT. `NQL` = no responde, $0.
 sin hash) si existe. `action_source` = `system_generated`. Detalle:
 `integrations/n8n/README.md` y `baserow/sales/etiqueta-hot-y-capi.md`.
 
+**Un estado implica los anteriores (Ricardo, 10-sep): un lead en SQL fue MQL
+sí o sí.** Las campañas optimizan `MQL`; si el closer pasa un negocio de
+Nuevo a SQL sin pasar por MQL, Meta nunca recibe el MQL y ese lead no le
+enseña nada a la campaña (la columna «Clientes potenciales cualificados»
+cuenta los leads que llegan a la etapa optimizada). Por eso W1 **rellena la
+escalera** `MQL < SQL < HOT < Purchase`: antes de mandar la etapa actual
+emite, como ítems separados y un segundo aparte, las anteriores que no
+consten en el ledger para ese negocio (a cualquier fecha, no solo 28 días).
+`Nuevo` y `NQL` no son peldaños y no se rellenan. Los nodos de abajo no
+cambian: «Confirmar y auditar» empareja por índice y escribe una entrada de
+ledger por ítem. La regla operativa sigue siendo pasar por MQL en la UI: el
+relleno cubre el salto en Meta, no el historial del CRM. En el repo desde el
+10-sep; **se aplica al vivo con `aplicar_w1_mapeo.py --aplicar`** (verificar
+con el simulacro que diga «Ya estaba aplicado»). Guardián: bloque «Nuevo → SQL
+directo» de `tests/crm-etapas-meta-capi.spec.ts`.
+
 **El jsCode de W1 tiene un contrato de salida con los nodos de abajo, y ya
 se rompió una vez.** «Corresponde enviar?» lee `omitido`, «Enviar evento a
 Meta CAPI» manda `JSON.stringify($json.payload)`, «Confirmar y auditar» lee

@@ -363,6 +363,14 @@ en Twenty: las filas pasan a `NQL` **antes** de borrar la opción.
 
 `custom_data.currency = "USD"`. `event_id` = `{opportunityId}_{stage}`.
 
+**Etapas implícitas (10-sep):** un estado implica los anteriores. Si el
+closer salta peldaños (Nuevo → SQL), el nodo emite antes las etapas de la
+escalera `MQL < SQL < HOT < Purchase` que no estén en el ledger para ese
+negocio, como ítems separados (un HTTP y una entrada de ledger cada uno) y
+con `event_time` un segundo aparte, para que la campaña que optimiza `MQL`
+reciba el MQL de ese lead. `Nuevo` y `NQL` no se rellenan. La puerta de
+`updatedBy.source = API` y la de contacto aplican igual al relleno.
+
 **Contrato de salida del nodo (no romperlo otra vez).** Los tres nodos que
 siguen no se tocan y leen claves fijas: «Corresponde enviar?» filtra por
 `$json.omitido`; «Enviar evento a Meta CAPI» manda

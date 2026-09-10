@@ -55,6 +55,16 @@ que nombra ya no existen) y sigue pendiente en Ads Manager.
    como `sin_email_ni_telefono_ni_lead_id` y su MQL/SQL/HOT/Purchase nunca
    llega a Meta. Pendiente: verificar que n8n tenga esas dos variables y
    que el Code node pueda leer `$env`.
+5. **Nuevo → SQL directo no emitía MQL** (corrido sobre el jsCode vivo:
+   el nodo solo mira la etapa en que queda el negocio). Con la campaña
+   optimizando `MQL`, ese lead no sumaba en «Clientes potenciales
+   cualificados» ni le enseñaba nada a Meta. **Corrección (10-sep, pedido
+   de Ricardo), en el repo y pendiente de aplicar al vivo con
+   `aplicar_w1_mapeo.py --aplicar`:** W1 rellena la escalera `MQL < SQL <
+   HOT < Purchase` con las etapas que falten en el ledger antes de mandar
+   la actual (ítems separados; ver AGENTS.md, «Un estado implica los
+   anteriores»). Al equipo comercial se le comunicó la regla: todo SQL
+   pasa antes por MQL.
 
 ## Si algo está mal, qué riesgo tiene
 
