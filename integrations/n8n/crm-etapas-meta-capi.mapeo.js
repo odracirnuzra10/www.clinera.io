@@ -2,8 +2,8 @@
 // Workflow vivo: W1SybZZSEZqAItIt — Clinera | Twenty etapas → Meta CAPI
 //
 // ESTE ARCHIVO ES el jsCode del nodo. Mapeo sin PQL aplicado a n8n el
-// 2026-09-10 16:02Z; el relleno de etapas implícitas (misma fecha) se
-// aplica con el mismo aplicador. Aplicador: aplicar_w1_mapeo.py
+// 2026-09-10 16:02Z; el relleno de etapas implícitas, el mismo día a las
+// 18:50Z, con el mismo aplicador. Aplicador: aplicar_w1_mapeo.py
 // Reemplaza únicamente este jsCode y el nombre (sin «inactivo»).
 // Antes de un PUT: guardar el JSON actual en integrations/n8n/backup/.
 //
@@ -336,6 +336,19 @@ async function procesar(wh, helpers) {
     };
     if (leadId) customData.leadgen_id = leadId;
     const idEvento = recordId + "_" + stage;
+    const ledgerKey = nombre + ":" + recordId;
+    const payload = {
+      data: [
+        {
+          event_name: nombre,
+          event_time: eventTime,
+          event_id: idEvento,
+          action_source: "system_generated",
+          user_data: userData,
+          custom_data: customData,
+        },
+      ],
+    };
     return {
       json: {
         omitido: false,
@@ -349,20 +362,9 @@ async function procesar(wh, helpers) {
         leadgen_id: leadId,
         lead_id: leadId,
         opportunity_id: recordId,
-        ledgerKey: nombre + ":" + recordId,
+        ledgerKey: ledgerKey,
         implicita: implicita,
-        payload: {
-          data: [
-            {
-              event_name: nombre,
-              event_time: eventTime,
-              event_id: idEvento,
-              action_source: "system_generated",
-              user_data: userData,
-              custom_data: customData,
-            },
-          ],
-        },
+        payload: payload,
       },
     };
   }

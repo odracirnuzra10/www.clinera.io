@@ -16,6 +16,12 @@ Twenty, MCP de Meta Ads (cuenta `774716223970185` consultable), Playwright.
 **D1 y D4 OK → no hubo que parar.** D9 falla en su premisa (las campañas
 que nombra ya no existen) y sigue pendiente en Ads Manager.
 
+**Actualización 18:48Z (Graph API con token de usuario de Ricardo):** los 6
+conjuntos activos tienen `promoted_object.custom_event_str: "MQL"`,
+`ads_signal_source_type: capi_crm`, `page_id 697874326752777`, pixel
+`1104567405156111`: **optimizan el evento MQL del CRM**. D9 queda resuelto.
+Dato nuevo: `attribution_spec` = 1 día clic en los 6 (ver pendientes).
+
 | # | Declaración | Veredicto | Evidencia (comando → recorte) |
 |---|---|---|---|
 | D1 | jsCode de W1 = `crm-etapas-meta-capi.mapeo.js`; devuelve `omitido`, `payload`, `ledgerKey` | **OK** | `python3 integrations/n8n/aplicar_w1_mapeo.py` → `jsCode vivo bytes: 11023 archivo bytes: 11023 · webhook crm-sql: registrado · Ya estaba aplicado`. `GET /workflows/W1SybZZSEZqAItIt` → sha256 vivo = archivo `04bb9c2c8fbe393dde54…`, `active: True`, `updatedAt 2026-09-10T16:02:50.705Z`; IF v2 `={{ $json.omitido }}` is false; HTTP `={{ JSON.stringify($json.payload) }}` → `graph.facebook.com/v26.0/1104567405156111/events`; «Confirmar y auditar» lee `ledgerKey` + `events_received`. Twenty `GET /rest/webhooks` → `https://n8n.oacg.cl/webhook/crm-sql` `['*.*']` |
@@ -59,8 +65,9 @@ que nombra ya no existen) y sigue pendiente en Ads Manager.
    el nodo solo mira la etapa en que queda el negocio). Con la campaña
    optimizando `MQL`, ese lead no sumaba en «Clientes potenciales
    cualificados» ni le enseñaba nada a Meta. **Corrección (10-sep, pedido
-   de Ricardo), en el repo y pendiente de aplicar al vivo con
-   `aplicar_w1_mapeo.py --aplicar`:** W1 rellena la escalera `MQL < SQL <
+   de Ricardo), aplicada al vivo a las 18:50:07Z con
+   `aplicar_w1_mapeo.py --aplicar` (respaldo `…-20260910-185007.json`,
+   fuera del commit):** W1 rellena la escalera `MQL < SQL <
    HOT < Purchase` con las etapas que falten en el ledger antes de mandar
    la actual (ítems separados; ver AGENTS.md, «Un estado implica los
    anteriores»). Al equipo comercial se le comunicó la regla: todo SQL
@@ -88,14 +95,17 @@ que nombra ya no existen) y sigue pendiente en Ads Manager.
    entre el jsCode del 09 y el del 10-sep (14 confirmaciones hoy con el
    anterior), pero la primera prueba real con el nuevo sigue pendiente.
 
-## Pendiente de Ricardo (cambio manual en Ads Manager)
+## Pendientes de Ricardo
 
-Abrir cada uno de los 6 conjuntos de **MQL 🇨🇱** y **MQL 🇲🇽** y confirmar que
-el evento de conversión sea el **evento `MQL` del pixel `1104567405156111`**
-— no `SQL`, no `Nuevo` (vale 0), no la custom conversion «MQL»
-`1562704878613075` ni la «SQL» `1389593139704601`. Esta sesión no tiene un
-tool que lea ni escriba ese campo; el MCP de Meta devuelve
-`custom_event_type: OTHER` sin el nombre.
+1. **Resuelto (18:48Z):** el evento de conversión de los 6 conjuntos es el
+   evento `MQL` del CRM (`custom_event_str: "MQL"`, `capi_crm`). No hay
+   cambio que hacer en Ads Manager por ese lado.
+2. **Nuevo: ventana de atribución 1 día clic** en los 6 conjuntos
+   (`attribution_spec: [{CLICK_THROUGH, 1}]`). El MQL lo declara el closer;
+   si lo hace después del día siguiente al clic, ese MQL llega al pixel
+   pero no se le atribuye a la campaña ni entrena la entrega. Recomendación:
+   7 días clic. Decisión de Ricardo; cambio en Ads Manager o por API.
+3. Arreglar la lectura de persona en W1 (hallazgo lateral 4).
 
 ## Cómo se corrió (reproducible, sin tokens)
 

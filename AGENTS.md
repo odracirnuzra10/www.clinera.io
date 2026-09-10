@@ -236,8 +236,11 @@ la recomendación del partner + CTA a reunión.
 > Handoff para auditar el embudo del **2026-09-10** (sin PQL; Nuevo $0;
 > MQL $10 cuando el closer verifica que es real; campañas deben optimizar
 > `MQL`, no `SQL`): `docs/handoff-embudo-etapas-2026-09-10.md`.
-> Fiscalización de ese handoff (D1–D8 y D10 OK; D9 pendiente en Ads):
-> `docs/fiscalizacion-embudo-etapas-2026-09-10.md`.
+> Fiscalización de ese handoff (D1–D8 y D10 OK; D9 resuelto por Graph API
+> el 10-sep 18:48Z): `docs/fiscalizacion-embudo-etapas-2026-09-10.md`.
+> Handoff para fiscalizar el bloque de la tarde del 10-sep (relleno de
+> etapas en W1, evento MQL en Ads, aviso al equipo):
+> `docs/handoff-fiscalizacion-embudo-2026-09-10-tarde.md`.
 > Auditoría del **2026-09-09** (Conversion Leads, W1 cruzado, BM del pixel):
 > `docs/auditoria-meta-eventos-2026-09-09.md`. Handoff para auditar si
 > el PUT y el repo quedaron bien:
@@ -338,12 +341,16 @@ el 09-sep 15:08 (-03) y la última el 10-sep 13:01 (-03). Las activas son
 **MQL 🇨🇱 `120248035606070218`** y **MQL 🇲🇽 `120248035556840218`**
 (creadas el 10-sep 12:59–13:00 -03, tres conjuntos cada una, `QUALITY_LEAD`
 sobre el pixel `1104567405156111`, `promoted_object.custom_event_type:
-OTHER`). El **nombre** del evento custom elegido en el conjunto (MQL o SQL)
-**no lo devuelve** el `promoted_object` que expone el MCP de Meta ni el
-activity log («Conversion leads» a secas): confirmar en Ads Manager que sea
-el evento `MQL` del pixel, no la custom conversion «MQL»
-`1562704878613075` (default 0, filtro URL `clinera.io`, de las campañas
-pausadas) ni la custom «SQL» `1389593139704601`. Fiscalización:
+OTHER`). El MCP de Meta **no devuelve** el nombre del evento custom; por
+Graph API con token de usuario (`GET /act_774716223970185/adsets?fields=
+promoted_object,attribution_spec`) los 6 conjuntos tienen
+`custom_event_str: "MQL"`, `ads_signal_source_type: capi_crm`, `page_id
+697874326752777` (verificado el 10-sep 18:48Z): optimizan el **evento `MQL`
+del CRM**, no la custom conversion «MQL» `1562704878613075` (default 0,
+filtro URL `clinera.io`, de las campañas pausadas) ni la custom «SQL»
+`1389593139704601`. **Ventana de atribución: 1 día clic** en los 6: un MQL
+que el closer declara después de ese día no se le atribuye a la campaña
+(decisión pendiente de Ricardo: 7 días clic). Fiscalización:
 `docs/fiscalizacion-embudo-etapas-2026-09-10.md`.
 
 Mapeo canónico `stage` → evento CAPI → value USD (`currency: USD`).
@@ -381,10 +388,11 @@ consten en el ledger para ese negocio (a cualquier fecha, no solo 28 días).
 `Nuevo` y `NQL` no son peldaños y no se rellenan. Los nodos de abajo no
 cambian: «Confirmar y auditar» empareja por índice y escribe una entrada de
 ledger por ítem. La regla operativa sigue siendo pasar por MQL en la UI: el
-relleno cubre el salto en Meta, no el historial del CRM. En el repo desde el
-10-sep; **se aplica al vivo con `aplicar_w1_mapeo.py --aplicar`** (verificar
-con el simulacro que diga «Ya estaba aplicado»). Guardián: bloque «Nuevo → SQL
-directo» de `tests/crm-etapas-meta-capi.spec.ts`.
+relleno cubre el salto en Meta, no el historial del CRM. **Aplicado al vivo
+el 10-sep 18:50Z** con `aplicar_w1_mapeo.py --aplicar` (el simulacro dice
+«Ya estaba aplicado»); la guarda del aplicador exige los literales
+`payload: payload` y `ledgerKey: ledgerKey` en el archivo. Guardián: bloque
+«Nuevo → SQL directo» de `tests/crm-etapas-meta-capi.spec.ts`.
 
 **El jsCode de W1 tiene un contrato de salida con los nodos de abajo, y ya
 se rompió una vez.** «Corresponde enviar?» lee `omitido`, «Enviar evento a
