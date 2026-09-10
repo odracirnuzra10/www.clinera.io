@@ -1,15 +1,15 @@
 // Code node «Mapear etapa y cifrar datos»
 // Workflow vivo: W1SybZZSEZqAItIt — Clinera | Twenty etapas → Meta CAPI
 //
-// ESTE ARCHIVO ES el jsCode del nodo. Aplicado a n8n el 2026-09-09
-// (Ricardo: «hay que tocar el n8n»). Aplicador: aplicar_w1_mapeo.py
+// ESTE ARCHIVO ES el jsCode del nodo. Aplicado a n8n el 2026-09-10
+// (Ricardo: embudo sin PQL). Aplicador: aplicar_w1_mapeo.py
 // Reemplaza únicamente este jsCode y el nombre (sin «inactivo»).
 // Antes de un PUT: guardar el JSON actual en integrations/n8n/backup/.
 //
-// Embudo canónico (Ricardo, 2026-09-09 tarde). Los mismos estados
-// en CRM y en el pixel. SCREENING, NoContesta, Lead y SQL_Plus
-// no existen. NQL es no calificado, value 0.
-// Auditoría: docs/auditoria-meta-eventos-2026-09-09.md.
+// Embudo canónico (Ricardo, 2026-09-10). Los mismos estados en CRM
+// y en el pixel. PQL, SCREENING, NoContesta, Lead y SQL_Plus no
+// existen. NQL es «no responde», value 0.
+// Auditoría: docs/handoff-embudo-etapas-2026-09-10.md.
 //
 // Contratos que NO se tocan:
 //   event_id      = {opportunityId}_{stage}
@@ -70,15 +70,14 @@ function valorPurchase(planClinera) {
 /**
  * Embudo canónico. Etiqueta del tablero = evento del pixel.
  *
- *   NEW / Nuevo     → Nuevo     0
- *   PQL             → PQL       1
- *   MQL             → MQL       5
- *   MEETING / SQL   → SQL      10
- *   PROPOSAL / HOT  → HOT     100
+ *   NEW / Nuevo     → Nuevo     0   rellenó el formulario
+ *   MQL             → MQL      10   closer verifica que es real
+ *   MEETING / SQL   → SQL     100   lead calificado (la demo se hizo)
+ *   PROPOSAL / HOT  → HOT     200   a punto de cerrar
  *   CUSTOMER        → Purchase  valor del plan (vacío → 279)
- *   NQL             → NQL       0  (no calificado)
+ *   NQL             → NQL       0   no responde
  *
- * SCREENING, NoContesta, SQL_Plus: no emiten.
+ * PQL, SCREENING, NoContesta, SQL_Plus: no emiten.
  */
 function mapearEtapa(stage, opts) {
   const s = norm(stage);
@@ -86,19 +85,22 @@ function mapearEtapa(stage, opts) {
   if (s === "new" || s === "nuevo") {
     return { event_name: "Nuevo", value: 0 };
   }
-  if (s === "pql") {
-    return { event_name: "PQL", value: 1 };
-  }
   if (s === "mql") {
-    return { event_name: "MQL", value: 5 };
+    return { event_name: "MQL", value: 10 };
   }
   if (s === "meeting" || s === "sql") {
-    return { event_name: "SQL", value: 10 };
+    return { event_name: "SQL", value: 100 };
   }
   if (s === "proposal" || s === "hot") {
-    return { event_name: "HOT", value: 100 };
+    return { event_name: "HOT", value: 200 };
   }
-  if (s === "nql" || s === "no califica" || s === "nocalifica") {
+  if (
+    s === "nql" ||
+    s === "no responde" ||
+    s === "noresponde" ||
+    s === "no califica" ||
+    s === "nocalifica"
+  ) {
     return { event_name: "NQL", value: 0 };
   }
   if (s === "customer" || s === "contrata") {
@@ -107,7 +109,13 @@ function mapearEtapa(stage, opts) {
   if (s === "screening") {
     return { skip: true, motivo: "screening_eliminado" };
   }
-  if (s === "sql+" || s === "sqlplus" || s === "sql_plus" || s === "nocontesta") {
+  if (
+    s === "pql" ||
+    s === "sql+" ||
+    s === "sqlplus" ||
+    s === "sql_plus" ||
+    s === "nocontesta"
+  ) {
     return { skip: true, motivo: "etapa_eliminada" };
   }
   return { skip: true, motivo: "etapa_desconocida" };
@@ -189,7 +197,7 @@ async function procesar(wh, helpers) {
     return omitir(mapped.motivo, { etapa: etapa });
   }
 
-  // SQL / HOT / Purchase / PQL / MQL los declara una persona o el sitio.
+  // SQL / HOT / Purchase / MQL / NQL los declara una persona o el sitio.
   // NEW lo crea n8n (Sub A, wizard): hay que emitir Nuevo aunque
   // updatedBy.source = API. El resto, si lo movió una automatización,
   // no se emite — el MQL del sitio o del Meet ya cubrió ese salto.

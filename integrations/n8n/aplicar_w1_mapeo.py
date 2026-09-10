@@ -164,7 +164,8 @@ def main() -> int:
         d = api("GET", f"/workflows/{WID}")
     chequeo("sigue activo", bool(d.get("active")))
     chequeo("webhook sigue registrado", sondear_webhook() == webhook_antes == "registrado")
-    chequeo("vivo ya no tiene value: 10 de PQL", "value: 10" not in code2 or 'event_name: "SQL"' in code2)
+    chequeo("vivo emite Nuevo 0", 'event_name: "Nuevo"' in code2 and "value: 0" in code2)
+    chequeo("vivo emite MQL 10 (no PQL)", 'event_name: "MQL"' in code2 and 'event_name: "PQL"' not in code2)
     chequeo("vivo emite NQL 0", 'event_name: "NQL"' in code2)
     chequeo("vivo no emite NoContesta", 'event_name: "NoContesta"' not in code2)
     chequeo(

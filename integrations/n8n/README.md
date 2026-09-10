@@ -31,12 +31,11 @@ El embudo tiene los mismos estados en CRM y en el pixel
 
 | Evento | Cuándo | Dónde vive | Valor |
 |---|---|---|---|
-| **Nuevo** | alta en el CRM (Instant Form o wizard) | W1; Sub A debe dejar de mandar `Lead` US$ 5 | US$ 0 |
-| **PQL** | closer → PQL | W1 | US$ 1 |
-| **MQL** | alguien agenda en `/agenda` **o** la IA / Camila | este workflow (wizard) · `clinera-meet-por-profesional.workflow.json` (IA) · W1 si el stage es `MQL` | US$ 5 |
-| **SQL** | closer → SQL (`MEETING`) **cuando la videollamada se realizó**. Agendar y no asistir = sigue MQL (Ricardo, 09-sep-2026) | W1 | US$ 10 |
-| **HOT** | closer → HOT (`PROPOSAL`) | W1 | US$ 100 |
-| **NQL** | closer → no califica | W1 | US$ 0 |
+| **Nuevo** | rellenó el formulario (Instant Form o wizard) | W1; Sub A ya no manda `Lead` | US$ 0 |
+| **MQL** | closer verifica que el lead es real (paso anterior a SQL) | W1 si el stage es `MQL`. Campañas activas optimizan este evento | US$ 10 |
+| **SQL** | closer → SQL (`MEETING`) **cuando la videollamada se realizó**. Agendar y no asistir = sigue MQL | W1 | US$ 100 |
+| **HOT** | closer → HOT (`PROPOSAL`) — a punto de cerrar | W1 | US$ 200 |
+| **NQL** | closer → no responde | W1 | US$ 0 |
 | **Purchase** | Customer | W1 (`planClinera`) | valor del plan |
 
 Al crear la cita, el workflow dispara **en paralelo** a la respuesta del
@@ -175,7 +174,7 @@ forma que el fallback del MQL del wizard, con el fallback a teléfono del
 SQL. Una reagenda (otra fecha/hora) es un segundo MQL — aceptado, igual
 que hoy en el wizard.
 
-**Valores:** `action_source: system_generated`, `value: 5`,
+**Valores:** `action_source: system_generated`, `value: 10`,
 `currency: USD`, `lead_source: clinera_agente_ia`. Token CAPI:
 `$env.META_CAPI_ACCESS_TOKEN`. El `api_secret` de GA4 se copia del nodo
 vivo `GA4 - MQL` del workflow de reserva al aplicar; no viaja por el repo.
@@ -348,20 +347,19 @@ Los emisores viejos están **apagados**:
 ### Mapeo `stage` → evento CAPI → value (USD)
 
 Fuente versionada: `crm-etapas-meta-capi.mapeo.js` (nodo `Mapear etapa y
-cifrar datos`). El cruce SCREENING↔PQL (H1) era el vivo hasta el PUT
-del 2026-09-09. El vivo ya lleva este archivo. En Twenty: borrar SCREENING;
-crear/dejar la etapa `MQL`. `NQL` se queda (no calificado, $0).
+cifrar datos`). Tabla vigente 2026-09-10 (Ricardo). `PQL` se elimina
+en Twenty: las filas pasan a `NQL` **antes** de borrar la opción.
+`SCREENING` ya no existe.
 
 | stage | event_name | value | condición |
 |---|---|---|---|
-| `NEW` | `Nuevo` | 0 | alta; también si lo escribió n8n |
-| `PQL` | `PQL` | 1 | |
-| `MQL` | `MQL` | 5 | |
-| `MEETING` | `SQL` | 10 | alias `SQL` |
-| `PROPOSAL` | `HOT` | 100 | alias `HOT` |
-| `NQL` | `NQL` | 0 | no calificado |
+| `NEW` | `Nuevo` | 0 | rellenó el formulario; también si lo escribió n8n |
+| `MQL` | `MQL` | 10 | closer verifica que es real |
+| `MEETING` | `SQL` | 100 | alias `SQL` — calificado (la demo ocurrió) |
+| `PROPOSAL` | `HOT` | 200 | alias `HOT` — a punto de cerrar |
 | `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 | |
-| `SCREENING` / `SQL_Plus` | — | — | no emiten |
+| `NQL` | `NQL` | 0 | no responde |
+| `PQL` / `SCREENING` / `SQL_Plus` | — | — | no emiten |
 
 `custom_data.currency = "USD"`. `event_id` = `{opportunityId}_{stage}`.
 
@@ -377,7 +375,8 @@ JSON» (`events_received: 0`) — W1 no mandó nada a Meta desde el PUT de
 las 16:38Z hasta el arreglo (auditoría 09-sep, H8). `ledgerKey` =
 `{evento}:{opportunityId}`. Guardián: `tests/crm-etapas-meta-capi.spec.ts`
 (bloque «nodo completo»). **Arreglo aplicado el 09-sep 19:44Z**; prueba
-funcional con negocio de prueba: `Nuevo` 0 → `events_received: 1`.
+funcional (09-sep): `Nuevo` 0 → `events_received: 1`. El 10-sep el
+mismo contrato, con `Nuevo` 0.
 
 **El IF «Corresponde enviar?» tiene que estar en formato v2.** Es
 `typeVersion: 2`; con parámetros en forma v1 (`conditions.boolean`) no
@@ -412,13 +411,11 @@ se ve en el tablero. El mapa del workspace OACG es:
 | Valor en el webhook | Etiqueta en el tablero | CAPI (canónico) |
 |---|---|---|
 | `NEW` | Nuevo | `Nuevo` / 0 |
-| `PQL` | PQL | `PQL` / 1 |
-| `MQL` | MQL | `MQL` / 5 |
-| `MEETING` | SQL | `SQL` / 10 |
-| `PROPOSAL` | HOT | `HOT` / 100 |
+| `MQL` | MQL | `MQL` / 10 |
+| `MEETING` | SQL | `SQL` / 100 |
+| `PROPOSAL` | HOT | `HOT` / 200 |
 | `CUSTOMER` | Customer | `Purchase` / planClinera |
-| `NQL` | NQL | `NQL` / 0 |
-| `SCREENING` | Screening (migrar a MQL) — *se borra tras `aplicar_etapa_mql.py`* | no emite |
+| `NQL` | NQL · No responde | `NQL` / 0 |
 
 **Estado real al 09-sep-2026 (tarde).** El 07-sep se habían cruzado las
 etiquetas para calzar con el W1 viejo: el valor `SCREENING` decía «PQL» y
@@ -542,7 +539,7 @@ Además de los placeholders del workflow de reserva, este archivo lleva
 ### Google Ads entró al mismo embudo (2026-08-21)
 
 Ricardo pidió alinear Google Ads al mismo vocabulario y montos que Meta ya usa
-acá (Nuevo=0 / PQL=1 / MQL=5 / SQL=10 / HOT=100 / NQL=0 USD; Customer = plan).
+acá (Nuevo=0 / MQL=10 / SQL=100 / HOT=200 / NQL=0 USD; Customer = plan).
 El feed de Baserow 152 hay que realinear en el repo `baserow`. Google Ads no tiene un camino de push
 por evento sin developer token — a diferencia de Meta CAPI — así que en vez de
 un envío paralelo, los workflows de SQL y SQL+ de esta página (no el de MQL) ahora **además**

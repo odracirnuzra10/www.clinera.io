@@ -43,13 +43,14 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
     const { mapearEtapa, valorPurchase } = loadHelpers();
     expect(mapearEtapa("NEW")).toEqual({ event_name: "Nuevo", value: 0 });
     expect(mapearEtapa("Nuevo")).toEqual({ event_name: "Nuevo", value: 0 });
-    expect(mapearEtapa("PQL")).toEqual({ event_name: "PQL", value: 1 });
-    expect(mapearEtapa("MQL")).toEqual({ event_name: "MQL", value: 5 });
-    expect(mapearEtapa("MEETING")).toEqual({ event_name: "SQL", value: 10 });
-    expect(mapearEtapa("SQL")).toEqual({ event_name: "SQL", value: 10 });
-    expect(mapearEtapa("PROPOSAL")).toEqual({ event_name: "HOT", value: 100 });
-    expect(mapearEtapa("HOT")).toEqual({ event_name: "HOT", value: 100 });
+    expect(mapearEtapa("PQL")).toEqual({ skip: true, motivo: "etapa_eliminada" });
+    expect(mapearEtapa("MQL")).toEqual({ event_name: "MQL", value: 10 });
+    expect(mapearEtapa("MEETING")).toEqual({ event_name: "SQL", value: 100 });
+    expect(mapearEtapa("SQL")).toEqual({ event_name: "SQL", value: 100 });
+    expect(mapearEtapa("PROPOSAL")).toEqual({ event_name: "HOT", value: 200 });
+    expect(mapearEtapa("HOT")).toEqual({ event_name: "HOT", value: 200 });
     expect(mapearEtapa("NQL")).toEqual({ event_name: "NQL", value: 0 });
+    expect(mapearEtapa("no responde")).toEqual({ event_name: "NQL", value: 0 });
     expect(mapearEtapa("no califica")).toEqual({ event_name: "NQL", value: 0 });
     expect(mapearEtapa("CUSTOMER", { planClinera: "SUMMIT" })).toEqual({
       event_name: "Purchase",
@@ -65,6 +66,7 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
     expect(mapearEtapa("SCREENING", { leadgenId: 1542457337898951 }).skip).toBe(true);
     expect(mapearEtapa("NoContesta")).toEqual({ skip: true, motivo: "etapa_eliminada" });
     expect(mapearEtapa("SQL_Plus")).toEqual({ skip: true, motivo: "etapa_eliminada" });
+    expect(mapearEtapa("PQL")).toEqual({ skip: true, motivo: "etapa_eliminada" });
     expect(mapearEtapa("PQL").event_name).not.toBe("MQL");
     expect(mapearEtapa("PQL").event_name).not.toBe("NoContesta");
     expect(mapearEtapa("NQL").event_name).not.toBe("MQL");
@@ -81,14 +83,15 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
 
   test("AGENTS.md y el README no tienen dos tablas de mapeo distintas", () => {
     expect(AGENTS).toContain("| `NEW` | `Nuevo` | 0 |");
-    expect(AGENTS).toContain("| `PQL` | `PQL` | 1 |");
-    expect(AGENTS).toContain("| `MQL` | `MQL` | 5 |");
-    expect(AGENTS).toContain("| `MEETING` | `SQL` | 10 |");
-    expect(AGENTS).toContain("| `PROPOSAL` | `HOT` | 100 |");
+    expect(AGENTS).toContain("| `MQL` | `MQL` | 10 |");
+    expect(AGENTS).toContain("| `MEETING` | `SQL` | 100 |");
+    expect(AGENTS).toContain("| `PROPOSAL` | `HOT` | 200 |");
     expect(AGENTS).toContain("| `NQL` | `NQL` | 0 |");
+    expect(AGENTS).not.toContain("| `PQL` | `PQL` | 1 |");
     expect(README).toContain("| `NEW` | `Nuevo` | 0 |");
-    expect(README).toContain("| `PQL` | `PQL` | 1 |");
+    expect(README).toContain("| `MQL` | `MQL` | 10 |");
     expect(README).toContain("| `NQL` | `NQL` | 0 |");
+    expect(README).not.toContain("| `PQL` | `PQL` | 1 |");
     expect(AGENTS).not.toMatch(/\|\s*`SCREENING`\s*\|\s*`MQL`\s*\|/);
     expect(AGENTS).not.toMatch(/\|\s*`PQL`\s*\|\s*`NoContesta`\s*\|/);
     expect(README).not.toMatch(/\|\s*`PQL`\s*\|\s*`NoContesta`\s*\|/);
@@ -204,16 +207,20 @@ test.describe("W1 nodo completo: lo que leen los nodos siguientes", () => {
     expect(staticData.enviados).toBeUndefined();
   });
 
-  test("PQL movido por una persona → PQL 1 (nunca MQL); por API → omitido", async () => {
-    const humano = await runNode([webhook("PQL", { email: "lead@clinica.cl" })]);
-    const j = humano.out[0].json;
-    expect(j.omitido).toBe(false);
-    expect(j.payload.data[0].event_name).toBe("PQL");
-    expect(j.payload.data[0].custom_data.value).toBe(1);
-    expect(j.payload.data[0].user_data.em).toHaveLength(1);
-    expect(j.evento).not.toBe("MQL");
+  test("PQL ya no emite (etapa eliminada); NQL humano sí; API no-NEW se omite", async () => {
+    const pql = await runNode([webhook("PQL", { email: "lead@clinica.cl" })]);
+    expect(pql.out[0].json.omitido).toBe(true);
+    expect(pql.out[0].json.motivo).toBe("etapa_eliminada");
+    expect(pql.out[0].json.payload).toBeUndefined();
+    expect(pql.out[0].json.evento).not.toBe("MQL");
 
-    const api = await runNode([webhook("PQL", { email: "lead@clinica.cl", source: "API" })]);
+    const nql = await runNode([webhook("NQL", { email: "lead@clinica.cl" })]);
+    expect(nql.out[0].json.omitido).toBe(false);
+    expect(nql.out[0].json.payload.data[0].event_name).toBe("NQL");
+    expect(nql.out[0].json.payload.data[0].custom_data.value).toBe(0);
+    expect(nql.out[0].json.payload.data[0].user_data.em).toHaveLength(1);
+
+    const api = await runNode([webhook("MQL", { email: "lead@clinica.cl", source: "API" })]);
     expect(api.out[0].json.omitido).toBe(true);
     expect(api.out[0].json.motivo).toBe("etapa_movida_por_automatizacion");
     expect(api.out[0].json.payload).toBeUndefined();
@@ -229,7 +236,7 @@ test.describe("W1 nodo completo: lo que leen los nodos siguientes", () => {
     expect(out.map((i) => i.json.motivo)).toEqual([
       "objeto_no_es_oportunidad",
       "screening_eliminado",
-      "sin_opportunity_id",
+      "etapa_eliminada",
       "sin_email_ni_telefono_ni_lead_id",
     ]);
     for (const item of out) {
@@ -238,21 +245,21 @@ test.describe("W1 nodo completo: lo que leen los nodos siguientes", () => {
     }
   });
 
-  test("ledger de «Confirmar y auditar» (objeto con at) evita el reenvío; un MQL viejo no bloquea un PQL", async () => {
-    const reciente = { at: new Date().toISOString(), event_id: "x", evento: "PQL" };
-    const bloqueado = await runNode([webhook("PQL", { id: "opp-2", email: "a@b.cl" })], {
-      ledger: { "PQL:opp-2": reciente },
+  test("ledger de «Confirmar y auditar» (objeto con at) evita el reenvío; un MQL viejo no bloquea un NQL", async () => {
+    const reciente = { at: new Date().toISOString(), event_id: "x", evento: "NQL" };
+    const bloqueado = await runNode([webhook("NQL", { id: "opp-2", email: "a@b.cl" })], {
+      ledger: { "NQL:opp-2": reciente },
     });
     expect(bloqueado.out[0].json.omitido).toBe(true);
     expect(bloqueado.out[0].json.motivo).toBe("ya_enviado_ledger");
 
-    const otroEvento = await runNode([webhook("PQL", { id: "opp-2", email: "a@b.cl" })], {
+    const otroEvento = await runNode([webhook("NQL", { id: "opp-2", email: "a@b.cl" })], {
       ledger: { "MQL:opp-2": reciente },
     });
     expect(otroEvento.out[0].json.omitido).toBe(false);
 
-    const vencido = await runNode([webhook("PQL", { id: "opp-2", email: "a@b.cl" })], {
-      ledger: { "PQL:opp-2": { at: new Date(Date.now() - 29 * 86400000).toISOString() } },
+    const vencido = await runNode([webhook("NQL", { id: "opp-2", email: "a@b.cl" })], {
+      ledger: { "NQL:opp-2": { at: new Date(Date.now() - 29 * 86400000).toISOString() } },
     });
     expect(vencido.out[0].json.omitido).toBe(false);
   });

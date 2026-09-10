@@ -182,7 +182,7 @@ export async function fireMqlEvent(opts: {
   await sendMetaEvent({
     eventName: "MQL",
     eventId: opts.eventId,
-    customData: { ...opts.customData, value: 5, currency: "USD" },
+    customData: { ...opts.customData, value: 10, currency: "USD" },
     userData,
     capi: true,
   });
