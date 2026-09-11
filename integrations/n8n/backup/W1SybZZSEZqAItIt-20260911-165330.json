@@ -1,0 +1,806 @@
+{
+ "id": "W1SybZZSEZqAItIt",
+ "name": "Clinera | Twenty etapas \u2192 Meta CAPI",
+ "active": true,
+ "nodes": [
+  {
+   "id": "wh-twenty",
+   "name": "Webhook Twenty",
+   "type": "n8n-nodes-base.webhook",
+   "typeVersion": 2,
+   "position": [
+    0,
+    0
+   ],
+   "webhookId": "twenty-etapa-a-meta-corregido",
+   "parameters": {
+    "httpMethod": "POST",
+    "path": "crm-sql",
+    "responseMode": "responseNode",
+    "options": {}
+   }
+  },
+  {
+   "id": "code-map",
+   "name": "Mapear etapa y cifrar datos",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    260,
+    0
+   ],
+   "parameters": {
+    "jsCode": "// Code node \u00abMapear etapa y cifrar datos\u00bb\n// Workflow vivo: W1SybZZSEZqAItIt \u2014 Clinera | Twenty etapas \u2192 Meta CAPI\n//\n// ESTE ARCHIVO ES el jsCode del nodo. Mapeo sin PQL aplicado a n8n el\n// 2026-09-10 16:02Z; el relleno de etapas impl\u00edcitas (misma fecha) se\n// aplica con el mismo aplicador. Aplicador: aplicar_w1_mapeo.py\n// Reemplaza \u00fanicamente este jsCode y el nombre (sin \u00abinactivo\u00bb).\n// Antes de un PUT: guardar el JSON actual en integrations/n8n/backup/.\n//\n// Embudo can\u00f3nico (Ricardo, 2026-09-10). Los mismos estados en CRM\n// y en el pixel. PQL, SCREENING, NoContesta, Lead y SQL_Plus no\n// existen. NQL es \u00abno responde\u00bb, value 0.\n// Auditor\u00eda: docs/handoff-embudo-etapas-2026-09-10.md y\n// docs/fiscalizacion-embudo-etapas-2026-09-10.md.\n//\n// Etapas impl\u00edcitas (Ricardo, 10-sep): un lead en SQL fue MQL s\u00ed o s\u00ed.\n// Si el closer salta etapas en Twenty (Nuevo \u2192 SQL), Meta no recibe el\n// MQL y la campa\u00f1a que optimiza MQL no aprende de ese lead. Por eso,\n// antes de mandar la etapa actual, este nodo emite las anteriores de la\n// escalera MQL < SQL < HOT < Purchase que no consten en el ledger, como\n// \u00edtems separados (un HTTP y una entrada de ledger por cada una).\n//\n// Contratos que NO se tocan:\n//   event_id      = {opportunityId}_{stage}\n//   lead_id       = leadgenId entero, sin hash (Conversion Leads)\n//   action_source = system_generated\n//   ledger        = staticData.global.enviados, ventana 28 d\u00edas\n//   currency      = USD\n//\n// Contrato de SALIDA con los nodos que siguen. No se tocaron el 09-sep y\n// la primera versi\u00f3n de este archivo lo rompi\u00f3: W1 no mand\u00f3 nada a Meta\n// desde el PUT hasta este arreglo (auditor\u00eda, H8).\n//   \u00abCorresponde enviar?\u00bb        lee  $json.omitido  (true = no enviar)\n//   \u00abEnviar evento a Meta CAPI\u00bb  manda JSON.stringify($json.payload)\n//   \u00abConfirmar y auditar\u00bb        lee  ledgerKey / event_id / evento /\n//                                leadgen_id / opportunity_id y escribe el\n//                                ledger SOLO si Meta devuelve events_received.\n// Por eso ac\u00e1 el ledger se consulta y NO se escribe.\n//\n// --- helpers puros (los tests los extraen hasta el marcador) ---\nconst crypto = require(\"crypto\");\n\nconst MONEDA = \"USD\";\nconst VENTANA_MS = 28 * 86400000;\nconst PLAN_PURCHASE = { VORTEX: 279, ATLAS: 379, SUMMIT: 479 };\n\nfunction hash(v) {\n  return v\n    ? crypto.createHash(\"sha256\").update(String(v).trim().toLowerCase()).digest(\"hex\")\n    : \"\";\n}\n\nfunction norm(s) {\n  return String(s == null ? \"\" : s)\n    .normalize(\"NFD\")\n    .replace(/[\\u0300-\\u036f]/g, \"\")\n    .toLowerCase()\n    .trim();\n}\n\n/** lead_id de Conversion Leads: entero positivo, nunca hash. */\nfunction leadIdEntero(raw) {\n  if (raw == null || raw === \"\") return null;\n  const n = Number(String(raw).trim());\n  if (!Number.isFinite(n) || n <= 0 || Math.floor(n) !== n) return null;\n  return n;\n}\n\nfunction valorPurchase(planClinera) {\n  const p = String(planClinera || \"\")\n    .normalize(\"NFD\")\n    .replace(/[\\u0300-\\u036f]/g, \"\")\n    .toUpperCase();\n  if (p.includes(\"SUMMIT\")) return PLAN_PURCHASE.SUMMIT;\n  if (p.includes(\"ATLAS\")) return PLAN_PURCHASE.ATLAS;\n  return PLAN_PURCHASE.VORTEX;\n}\n\n/**\n * Embudo can\u00f3nico. Etiqueta del tablero = evento del pixel.\n *\n *   NEW / Nuevo     \u2192 Nuevo     0   rellen\u00f3 el formulario\n *   MQL             \u2192 MQL      10   closer verifica que es real\n *   MEETING / SQL   \u2192 SQL     100   lead calificado (la demo se hizo)\n *   PROPOSAL / HOT  \u2192 HOT     200   a punto de cerrar\n *   CUSTOMER        \u2192 Purchase  valor del plan (vac\u00edo \u2192 279)\n *   NQL             \u2192 NQL       0   no responde\n *\n * PQL, SCREENING, NoContesta, SQL_Plus: no emiten.\n */\nfunction mapearEtapa(stage, opts) {\n  const s = norm(stage);\n\n  if (s === \"new\" || s === \"nuevo\") {\n    return { event_name: \"Nuevo\", value: 0 };\n  }\n  if (s === \"mql\") {\n    return { event_name: \"MQL\", value: 10 };\n  }\n  if (s === \"meeting\" || s === \"sql\") {\n    return { event_name: \"SQL\", value: 100 };\n  }\n  if (s === \"proposal\" || s === \"hot\") {\n    return { event_name: \"HOT\", value: 200 };\n  }\n  if (\n    s === \"nql\" ||\n    s === \"no responde\" ||\n    s === \"noresponde\" ||\n    s === \"no califica\" ||\n    s === \"nocalifica\"\n  ) {\n    return { event_name: \"NQL\", value: 0 };\n  }\n  if (s === \"customer\" || s === \"contrata\") {\n    return { event_name: \"Purchase\", value: valorPurchase(opts && opts.planClinera) };\n  }\n  if (s === \"screening\") {\n    return { skip: true, motivo: \"screening_eliminado\" };\n  }\n  if (\n    s === \"pql\" ||\n    s === \"sql+\" ||\n    s === \"sqlplus\" ||\n    s === \"sql_plus\" ||\n    s === \"nocontesta\"\n  ) {\n    return { skip: true, motivo: \"etapa_eliminada\" };\n  }\n  return { skip: true, motivo: \"etapa_desconocida\" };\n}\n\nfunction deepFind(obj, claves, validar) {\n  const objetivo = claves.map(norm);\n  const visto = new Set();\n  const cola = [obj];\n  while (cola.length) {\n    const cur = cola.shift();\n    if (!cur || typeof cur !== \"object\" || visto.has(cur)) continue;\n    visto.add(cur);\n    for (const k of Object.keys(cur)) {\n      const v = cur[k];\n      if (v && typeof v === \"object\") {\n        cola.push(v);\n        continue;\n      }\n      if (!objetivo.includes(norm(k))) continue;\n      const s = String(v == null ? \"\" : v).trim();\n      if (!s) continue;\n      if (validar && !validar(s)) continue;\n      return s;\n    }\n  }\n  return \"\";\n}\n\n/**\n * true si la entrada del ledger sigue dentro de la ventana de 28 d\u00edas.\n * \u00abConfirmar y auditar\u00bb guarda objetos { at, event_id, evento, fbtrace_id };\n * versiones viejas guardaron n\u00fameros (Date.now()). Se aceptan ambas.\n */\nfunction ledgerVigente(entrada, ahora) {\n  if (entrada == null) return false;\n  let t = NaN;\n  if (typeof entrada === \"number\") t = entrada;\n  else if (typeof entrada === \"string\") t = Date.parse(entrada);\n  else if (typeof entrada === \"object\" && entrada.at) t = Date.parse(entrada.at);\n  if (!Number.isFinite(t)) return true; // forma desconocida: no se reenv\u00eda\n  return ahora - t <= VENTANA_MS;\n}\n/**\n * Escalera del embudo pagado, en orden. Un estado implica los anteriores.\n * Nuevo y NQL quedan fuera: no son pelda\u00f1os de calificaci\u00f3n.\n * `stage` es el valor de Twenty que va en event_id y lead_stage.\n */\nconst ESCALERA = [\n  { event_name: \"MQL\", value: 10, stage: \"MQL\" },\n  { event_name: \"SQL\", value: 100, stage: \"MEETING\" },\n  { event_name: \"HOT\", value: 200, stage: \"PROPOSAL\" },\n  { event_name: \"Purchase\", value: null, stage: \"CUSTOMER\" },\n];\n\n/**\n * Etapas anteriores a `evento` que no constan en el ledger para este\n * negocio, a cualquier fecha (ac\u00e1 no corre la ventana de 28 d\u00edas: si el\n * MQL se mand\u00f3 alguna vez, no se rellena). Devuelve [] si el evento no\n * est\u00e1 en la escalera (Nuevo, NQL) o es el primer pelda\u00f1o.\n */\nfunction etapasImplicitas(evento, enviados, recordId) {\n  const pos = ESCALERA.findIndex(function (e) {\n    return e.event_name === evento;\n  });\n  if (pos <= 0) return [];\n  const ledger = enviados && typeof enviados === \"object\" ? enviados : {};\n  return ESCALERA.slice(0, pos).filter(function (e) {\n    return ledger[e.event_name + \":\" + recordId] == null;\n  });\n}\n// --- fin helpers puros ---\n\nfunction omitir(motivo, extra) {\n  return { json: Object.assign({ omitido: true, ok: false, motivo: motivo }, extra || {}) };\n}\n\n/**\n * Devuelve SIEMPRE un array de \u00edtems: uno omitido, o las etapas impl\u00edcitas\n * seguidas de la actual. Cada \u00edtem cumple el contrato con los nodos que\n * siguen (omitido / payload / ledgerKey / event_id / evento / leadgen_id /\n * opportunity_id).\n */\nasync function procesar(wh, helpers) {\n  const body = wh.body || wh;\n  const registro = body.record || {};\n  const objeto = norm((body.objectMetadata || {}).nameSingular || \"\");\n  const evento = String(body.eventName || \"\");\n  const tocados = Array.isArray(body.updatedFields) ? body.updatedFields : [];\n  const fuenteCambio = String((registro.updatedBy || {}).source || \"\").toUpperCase();\n\n  if (objeto && objeto !== \"opportunity\") {\n    return [omitir(\"objeto_no_es_oportunidad\", { objeto: objeto })];\n  }\n\n  if (/\\.updated$/.test(evento) && tocados.length && tocados.indexOf(\"stage\") === -1) {\n    return [omitir(\"no_cambio_la_etapa\", { campos: tocados })];\n  }\n\n  const etapa = String(\n    registro.stage ||\n      deepFind(body, [\"stage\", \"etapa\", \"status\", \"estado\", \"pipelinestage\", \"dealstage\"]) ||\n      \"\",\n  );\n  const leadgenId =\n    registro.leadgenId ||\n    registro.leadgen_id ||\n    deepFind(body, [\"leadgenid\", \"leadgen_id\", \"lead_id\"]);\n  const planClinera = registro.planClinera || registro.plan || \"\";\n\n  const mapped = mapearEtapa(etapa, { leadgenId: leadgenId, planClinera: planClinera });\n  if (mapped.skip) {\n    return [omitir(mapped.motivo, { etapa: etapa })];\n  }\n\n  // SQL / HOT / Purchase / MQL / NQL los declara una persona o el sitio.\n  // NEW lo crea n8n (Sub A, wizard): hay que emitir Nuevo aunque\n  // updatedBy.source = API. El resto, si lo movi\u00f3 una automatizaci\u00f3n,\n  // no se emite \u2014 el MQL del sitio o del Meet ya cubri\u00f3 ese salto.\n  if (fuenteCambio === \"API\") {\n    const etapaNorm = norm(etapa);\n    if (etapaNorm !== \"new\" && etapaNorm !== \"nuevo\") {\n      return [omitir(\"etapa_movida_por_automatizacion\", { etapa: etapa })];\n    }\n  }\n\n  const recordId = String(registro.id || deepFind(body, [\"recordid\", \"opportunityid\"]) || \"\");\n  if (!recordId) {\n    return [omitir(\"sin_opportunity_id\", { etapa: etapa })];\n  }\n\n  const eventId = recordId + \"_\" + String(etapa);\n  const ledgerKey = mapped.event_name + \":\" + recordId;\n  const estado = $getWorkflowStaticData(\"global\");\n  const enviados =\n    estado.enviados && typeof estado.enviados === \"object\" ? estado.enviados : {};\n  const ahora = Date.now();\n  if (ledgerVigente(enviados[ledgerKey], ahora)) {\n    return [omitir(\"ya_enviado_ledger\", { ledgerKey: ledgerKey, event_id: eventId })];\n  }\n\n  let email = deepFind(body, [\"email\", \"primaryemail\", \"emails\", \"correo\"], function (s) {\n    return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(s);\n  }).toLowerCase();\n  let telefonoRaw = deepFind(body, [\n    \"phone\",\n    \"primaryphonenumber\",\n    \"telefono\",\n    \"celular\",\n    \"whatsapp\",\n  ]);\n  let nombre = deepFind(body, [\"firstname\", \"nombre\", \"fullname\"]);\n  let apellido = deepFind(body, [\"lastname\", \"apellido\"]);\n\n  const contactoId = String(registro.pointOfContactId || \"\");\n  if (!email && contactoId) {\n    try {\n      const resp = await helpers.httpRequest({\n        method: \"GET\",\n        url: $env.TWENTY_URL + \"/rest/people/\" + contactoId,\n        headers: { Authorization: \"Bearer \" + $env.TWENTY_API_KEY },\n        json: true,\n        timeout: 15000,\n      });\n      const p = (resp && resp.data && (resp.data.person || resp.data)) || {};\n      email = String((p.emails || {}).primaryEmail || \"\").toLowerCase();\n      const tel =\n        String((p.phones || {}).primaryPhoneCallingCode || \"\") +\n        String((p.phones || {}).primaryPhoneNumber || \"\");\n      if (tel.replace(/\\D/g, \"\")) telefonoRaw = tel;\n      nombre = String((p.name || {}).firstName || nombre || \"\");\n      apellido = String((p.name || {}).lastName || apellido || \"\");\n    } catch {\n      // Se sigue: abajo se decide si con lo que hay alcanza.\n    }\n  }\n\n  const telefono = String(telefonoRaw || \"\").replace(/\\D/g, \"\");\n  const leadId = leadIdEntero(leadgenId);\n  if (!leadId && !email && telefono.length < 10) {\n    return [omitir(\"sin_email_ni_telefono_ni_lead_id\", { contacto: contactoId, etapa: etapa })];\n  }\n\n  const userData = {};\n  if (email) userData.em = [hash(email)];\n  if (telefono.length >= 10) userData.ph = [hash(telefono)];\n  if (nombre) userData.fn = [hash(nombre)];\n  if (apellido) userData.ln = [hash(apellido)];\n  if (leadId) userData.lead_id = leadId;\n\n  const fbc = deepFind(body, [\"fbc\", \"metafbc\", \"fbclid\"]);\n  const fbp = deepFind(body, [\"fbp\", \"metafbp\"]);\n  if (fbc) userData.fbc = fbc;\n  if (fbp) userData.fbp = fbp;\n\n  const ahoraSeg = Math.floor(ahora / 1000);\n\n  // Un \u00edtem por evento. Lo que se manda a Meta va tal cual en `payload`:\n  // \u00abEnviar evento a Meta CAPI\u00bb hace JSON.stringify($json.payload); si\n  // esta clave falta, no sale nada.\n  function armar(nombre, valor, stage, eventTime, implicita) {\n    const customData = {\n      event_source: \"crm\",\n      lead_event_source: \"Twenty CRM\",\n      currency: MONEDA,\n      value: valor,\n      lead_stage: stage,\n      opportunity_id: recordId,\n    };\n    if (leadId) customData.leadgen_id = leadId;\n    const idEvento = recordId + \"_\" + stage;\n    const ledgerKey = nombre + \":\" + recordId;\n    const payload = {\n      data: [\n        {\n          event_name: nombre,\n          event_time: eventTime,\n          event_id: idEvento,\n          action_source: \"system_generated\",\n          user_data: userData,\n          custom_data: customData,\n        },\n      ],\n    };\n    return {\n      json: {\n        omitido: false,\n        ok: true,\n        etapa: etapa,\n        evento: nombre,\n        event_name: nombre,\n        value: valor,\n        currency: MONEDA,\n        event_id: idEvento,\n        leadgen_id: leadId,\n        lead_id: leadId,\n        opportunity_id: recordId,\n        ledgerKey: ledgerKey,\n        implicita: implicita,\n        payload: payload,\n      },\n    };\n  }\n\n  // Etapas que el closer salt\u00f3: se mandan antes, un segundo aparte cada\n  // una, para que Meta las lea en orden.\n  const implicadas = etapasImplicitas(mapped.event_name, enviados, recordId);\n  const salida = implicadas.map(function (e, i) {\n    return armar(e.event_name, e.value, e.stage, ahoraSeg - (implicadas.length - i), true);\n  });\n  salida.push(armar(mapped.event_name, mapped.value, String(etapa), ahoraSeg, false));\n  return salida;\n}\n\nconst salida = [];\nconst entradas = $input.all();\nfor (let idx = 0; idx < entradas.length; idx++) {\n  const items = await procesar(entradas[idx].json || {}, this.helpers);\n  for (const it of items) {\n    it.pairedItem = { item: idx };\n    salida.push(it);\n  }\n}\nreturn salida;\n"
+   }
+  },
+  {
+   "id": "if-send",
+   "name": "Corresponde enviar?",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2,
+   "position": [
+    520,
+    0
+   ],
+   "parameters": {
+    "conditions": {
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose",
+      "version": 2
+     },
+     "conditions": [
+      {
+       "id": "omitido-es-false",
+       "leftValue": "={{ $json.omitido }}",
+       "rightValue": "",
+       "operator": {
+        "type": "boolean",
+        "operation": "false",
+        "singleValue": true
+       }
+      }
+     ],
+     "combinator": "and"
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "http-capi",
+   "name": "Enviar evento a Meta CAPI",
+   "type": "n8n-nodes-base.httpRequest",
+   "typeVersion": 4.2,
+   "position": [
+    760,
+    -40
+   ],
+   "retryOnFail": true,
+   "maxTries": 3,
+   "waitBetweenTries": 5000,
+   "onError": "continueRegularOutput",
+   "parameters": {
+    "method": "POST",
+    "url": "https://graph.facebook.com/v26.0/1104567405156111/events",
+    "sendBody": true,
+    "specifyBody": "json",
+    "jsonBody": "={{ JSON.stringify($json.payload) }}",
+    "options": {
+     "timeout": 20000,
+     "response": {
+      "response": {
+       "fullResponse": false,
+       "neverError": true
+      }
+     }
+    },
+    "sendQuery": true,
+    "queryParameters": {
+     "parameters": [
+      {
+       "name": "access_token",
+       "value": "={{ $env.META_CAPI_ACCESS_TOKEN }}"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "code-confirm",
+   "name": "Confirmar y auditar",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    1000,
+    -40
+   ],
+   "parameters": {
+    "jsCode": "const ledger = $getWorkflowStaticData('global');\nconst enviados = (ledger.enviados && typeof ledger.enviados === 'object') ? { ...ledger.enviados } : {};\nconst preparada = $('Mapear etapa y cifrar datos').all();\nconst respuestas = $input.all();\nconst out = [];\n\nfor (let i = 0; i < respuestas.length; i++) {\n  const resp = respuestas[i].json || {};\n  const prev = (preparada[i] && preparada[i].json) || {};\n  const ok = Number(resp.events_received || 0) >= 1;\n  if (ok && prev.ledgerKey) {\n    enviados[prev.ledgerKey] = {\n      at: new Date().toISOString(),\n      event_id: prev.event_id,\n      evento: prev.evento,\n      fbtrace_id: resp.fbtrace_id || null,\n    };\n  }\n  out.push({\n    json: {\n      ok,\n      events_received: resp.events_received ?? 0,\n      mensajes: resp.messages || [],\n      fbtrace_id: resp.fbtrace_id || null,\n      event_id: prev.event_id || null,\n      evento: prev.evento || null,\n      leadgen_id: prev.leadgen_id || null,\n      opportunity_id: prev.opportunity_id || null,\n      enviado_en: new Date().toISOString(),\n    },\n  });\n}\n\nledger.enviados = enviados;\nreturn out;\n"
+   }
+  },
+  {
+   "id": "resp-ok",
+   "name": "Responder OK",
+   "type": "n8n-nodes-base.respondToWebhook",
+   "typeVersion": 1.1,
+   "position": [
+    1240,
+    0
+   ],
+   "parameters": {
+    "respondWith": "json",
+    "responseBody": "={{ { ok: true, result: $json } }}"
+   }
+  }
+ ],
+ "connections": {
+  "Webhook Twenty": {
+   "main": [
+    [
+     {
+      "node": "Mapear etapa y cifrar datos",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Mapear etapa y cifrar datos": {
+   "main": [
+    [
+     {
+      "node": "Corresponde enviar?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Corresponde enviar?": {
+   "main": [
+    [
+     {
+      "node": "Enviar evento a Meta CAPI",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "Responder OK",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Enviar evento a Meta CAPI": {
+   "main": [
+    [
+     {
+      "node": "Confirmar y auditar",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Confirmar y auditar": {
+   "main": [
+    [
+     {
+      "node": "Responder OK",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1"
+ },
+ "staticData": {
+  "global": {
+   "enviados": {
+    "HOT:e2e-test-hot-20260907": {
+     "at": "2026-09-07T21:17:46.904Z",
+     "event_id": "e2e-test-hot-20260907_PROPOSAL",
+     "evento": "HOT",
+     "fbtrace_id": "A0nMqAu9fbwC6fGUPQv5GOe"
+    },
+    "SQL:00249e12-4013-4df1-aee0-ecb5bee4c2bc": {
+     "at": "2026-09-07T21:24:04.715Z",
+     "event_id": "00249e12-4013-4df1-aee0-ecb5bee4c2bc_MEETING",
+     "evento": "SQL",
+     "fbtrace_id": "AVPk2zuJZxOMOrKGDhAkRrU"
+    },
+    "SQL:24928f7e-f7af-4e8c-ab91-4aca14f375f5": {
+     "at": "2026-09-08T15:06:18.571Z",
+     "event_id": "24928f7e-f7af-4e8c-ab91-4aca14f375f5_MEETING",
+     "evento": "SQL",
+     "fbtrace_id": "A4uqgy8tK3_anY5rMvowg8s"
+    },
+    "SQL:31a7b46a-fd5a-4dbf-9cac-4f10fba17908": {
+     "at": "2026-09-08T15:06:28.921Z",
+     "event_id": "31a7b46a-fd5a-4dbf-9cac-4f10fba17908_MEETING",
+     "evento": "SQL",
+     "fbtrace_id": "A6mQs2_U_-E9PTsDY5lXcOe"
+    },
+    "MQL:9e1e100b-c75a-4b53-81b9-e7d778fe99be": {
+     "at": "2026-09-08T15:07:54.257Z",
+     "event_id": "9e1e100b-c75a-4b53-81b9-e7d778fe99be_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AkfRWMw0aVXKEr1qzI6kerc"
+    },
+    "HOT:1a8834e5-c334-4c35-8cbf-7e77668faa24": {
+     "at": "2026-09-08T15:08:19.630Z",
+     "event_id": "1a8834e5-c334-4c35-8cbf-7e77668faa24_PROPOSAL",
+     "evento": "HOT",
+     "fbtrace_id": "A9D7KPv-Wrx6D__fYuSTUqc"
+    },
+    "MQL:ccbcfe6b-ab56-4165-a45b-f232282c4dd3": {
+     "at": "2026-09-08T15:15:06.407Z",
+     "event_id": "ccbcfe6b-ab56-4165-a45b-f232282c4dd3_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AZHVwsg5dBRlHcjcHGLQgvt"
+    },
+    "NQL:eed3e686-067c-4b86-aff8-c27b268a528d": {
+     "at": "2026-09-08T15:42:26.147Z",
+     "event_id": "eed3e686-067c-4b86-aff8-c27b268a528d_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "AKZEr96oS6Or4TeKVo12LGG"
+    },
+    "NQL:022b5b69-6e0e-49b1-a58b-1fb3ebb8387f": {
+     "at": "2026-09-08T16:39:16.232Z",
+     "event_id": "022b5b69-6e0e-49b1-a58b-1fb3ebb8387f_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "AZJa_SMrns334e22RH2_e6U"
+    },
+    "MQL:00249e12-4013-4df1-aee0-ecb5bee4c2bc": {
+     "at": "2026-09-08T18:43:02.363Z",
+     "event_id": "00249e12-4013-4df1-aee0-ecb5bee4c2bc_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "A90RKAVgvBMGfQEmLNmxAAP"
+    },
+    "SQL:19b3918c-1a55-4d00-85cf-94c13072324a": {
+     "at": "2026-09-08T18:44:16.715Z",
+     "event_id": "19b3918c-1a55-4d00-85cf-94c13072324a_MEETING",
+     "evento": "SQL",
+     "fbtrace_id": "A4kXiM4Kp6XJRlOX_E3eWQw"
+    },
+    "MQL:bc3658bc-4793-4eac-a504-81e1843dd37f": {
+     "at": "2026-09-08T18:46:50.073Z",
+     "event_id": "bc3658bc-4793-4eac-a504-81e1843dd37f_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AtbdHDghaPMlaJauuKol4b-"
+    },
+    "MQL:8b0287d0-89f4-4bb1-971c-75ef621ba94b": {
+     "at": "2026-09-08T18:50:36.339Z",
+     "event_id": "8b0287d0-89f4-4bb1-971c-75ef621ba94b_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AyBzTQe95DNNnBRECTrMiLF"
+    },
+    "MQL:d570db1f-9362-4a90-8ed2-e3aa044d6b57": {
+     "at": "2026-09-08T20:14:28.888Z",
+     "event_id": "d570db1f-9362-4a90-8ed2-e3aa044d6b57_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AdVBJ0YQPMsNmD4Z0wMHmaC"
+    },
+    "PQL:bfb74f65-b976-4166-beda-76eab584970d": {
+     "at": "2026-09-09T13:45:00.824Z",
+     "event_id": "bfb74f65-b976-4166-beda-76eab584970d_SCREENING",
+     "evento": "PQL",
+     "fbtrace_id": "Ao-m-YX_1HCsYtti_2rtjOV"
+    },
+    "NQL:f4b396c0-46c3-4926-ae12-c3405e6bcad4": {
+     "at": "2026-09-09T13:46:44.187Z",
+     "event_id": "f4b396c0-46c3-4926-ae12-c3405e6bcad4_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "AS5UvUFu7ehvrzv-Bj-9_P8"
+    },
+    "PQL:f4b396c0-46c3-4926-ae12-c3405e6bcad4": {
+     "at": "2026-09-09T13:46:56.270Z",
+     "event_id": "f4b396c0-46c3-4926-ae12-c3405e6bcad4_SCREENING",
+     "evento": "PQL",
+     "fbtrace_id": "A1Z0yJqNEdhrJ1Kjp5E6WQt"
+    },
+    "MQL:3863e3e0-e094-4f0c-a455-d12095a89d08": {
+     "at": "2026-09-09T13:47:48.568Z",
+     "event_id": "3863e3e0-e094-4f0c-a455-d12095a89d08_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "A3_7JjRXqPdEEJaixwWzrk5"
+    },
+    "MQL:7b584233-89ec-443d-b43a-1b8f242a2f90": {
+     "at": "2026-09-09T13:48:11.507Z",
+     "event_id": "7b584233-89ec-443d-b43a-1b8f242a2f90_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AG73z9ZgSFZpu_A1v01tLV3"
+    },
+    "MQL:70c8eb7c-b98b-47a5-baf9-d51aea44869a": {
+     "at": "2026-09-09T13:51:02.138Z",
+     "event_id": "70c8eb7c-b98b-47a5-baf9-d51aea44869a_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AqRlBB7hRze3OVmkJ8a8ZUK"
+    },
+    "MQL:c779ae3b-1b0b-44e7-a699-4ceda9a867d8": {
+     "at": "2026-09-09T13:51:27.631Z",
+     "event_id": "c779ae3b-1b0b-44e7-a699-4ceda9a867d8_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "APloIqlJjy14fa_AEErhAgr"
+    },
+    "MQL:3511d2f2-9e16-4036-bdbd-0d3f54d7cdf9": {
+     "at": "2026-09-09T13:53:17.630Z",
+     "event_id": "3511d2f2-9e16-4036-bdbd-0d3f54d7cdf9_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AlHfXl3F2NHNn3E12i69Iae"
+    },
+    "MQL:6aaebb9f-807e-41bc-b4bf-ed60078bf5d9": {
+     "at": "2026-09-09T13:58:21.425Z",
+     "event_id": "6aaebb9f-807e-41bc-b4bf-ed60078bf5d9_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "Aor8FN8JBZWi_BLbFubUJ2n"
+    },
+    "NQL:1c256b62-3ff2-40e2-b1be-8e673a44ce6a": {
+     "at": "2026-09-09T14:03:24.463Z",
+     "event_id": "1c256b62-3ff2-40e2-b1be-8e673a44ce6a_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "AkfKdnWjVVAKVcL6WcBNc5D"
+    },
+    "NQL:bfb74f65-b976-4166-beda-76eab584970d": {
+     "at": "2026-09-09T14:07:17.363Z",
+     "event_id": "bfb74f65-b976-4166-beda-76eab584970d_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "AXyNEv1Jotbp8a5d-fMGLpP"
+    },
+    "NQL:3511d2f2-9e16-4036-bdbd-0d3f54d7cdf9": {
+     "at": "2026-09-09T14:15:18.195Z",
+     "event_id": "3511d2f2-9e16-4036-bdbd-0d3f54d7cdf9_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "AbEarFQrNV6fp1JYEs6kQDc"
+    },
+    "Lead:f4b396c0-46c3-4926-ae12-c3405e6bcad4": {
+     "at": "2026-09-09T14:17:43.246Z",
+     "event_id": "f4b396c0-46c3-4926-ae12-c3405e6bcad4_NEW",
+     "evento": "Lead",
+     "fbtrace_id": "Aome6tR5r0qyH1gGILxBzZJ"
+    },
+    "Lead:988cb651-e9a7-4431-9e81-bf399cf58910": {
+     "at": "2026-09-09T14:17:44.657Z",
+     "event_id": "988cb651-e9a7-4431-9e81-bf399cf58910_NEW",
+     "evento": "Lead",
+     "fbtrace_id": "AKCOVmTvFHJ4P5kVeXbGLK4"
+    },
+    "Lead:4c66f000-4190-4865-9928-99f02740a0fa": {
+     "at": "2026-09-09T14:17:46.052Z",
+     "event_id": "4c66f000-4190-4865-9928-99f02740a0fa_NEW",
+     "evento": "Lead",
+     "fbtrace_id": "AiUJUSPjbxbtotukOw8IaiJ"
+    },
+    "Lead:aa2a64bd-99f5-4fe6-820e-852c0664a7d2": {
+     "at": "2026-09-09T14:17:47.415Z",
+     "event_id": "aa2a64bd-99f5-4fe6-820e-852c0664a7d2_NEW",
+     "evento": "Lead",
+     "fbtrace_id": "AJQmg4AJYoNQC4swzsyfhBc"
+    },
+    "Lead:14b92620-de30-49db-b18b-5b10757faff6": {
+     "at": "2026-09-09T14:17:48.905Z",
+     "event_id": "14b92620-de30-49db-b18b-5b10757faff6_NEW",
+     "evento": "Lead",
+     "fbtrace_id": "AdYXR46Al5jaHAQnBnJ7PZM"
+    },
+    "NQL:aa2a64bd-99f5-4fe6-820e-852c0664a7d2": {
+     "at": "2026-09-09T14:24:06.537Z",
+     "event_id": "aa2a64bd-99f5-4fe6-820e-852c0664a7d2_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "ACjM6iQCxMgQo6H7SbgNbkE"
+    },
+    "PQL:988cb651-e9a7-4431-9e81-bf399cf58910": {
+     "at": "2026-09-09T14:25:56.887Z",
+     "event_id": "988cb651-e9a7-4431-9e81-bf399cf58910_SCREENING",
+     "evento": "PQL",
+     "fbtrace_id": "A2HsT2Lun2ElXwZLSmmb9zN"
+    },
+    "MQL:49db3881-823f-467c-ae3c-647e7fcbf057": {
+     "at": "2026-09-09T14:27:03.171Z",
+     "event_id": "49db3881-823f-467c-ae3c-647e7fcbf057_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AG8Qij8PDXySDxS9IbieXJ7"
+    },
+    "NQL:da25be08-d073-4e5f-9f2e-e583d1e047d9": {
+     "at": "2026-09-09T14:43:06.093Z",
+     "event_id": "da25be08-d073-4e5f-9f2e-e583d1e047d9_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "AMf9sNrGdaBkJTbAmd9Ibbf"
+    },
+    "NQL:14b92620-de30-49db-b18b-5b10757faff6": {
+     "at": "2026-09-09T14:55:03.640Z",
+     "event_id": "14b92620-de30-49db-b18b-5b10757faff6_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "Aw3pVYHa8u3IGi0mX_yOH6y"
+    },
+    "MQL:442fce05-15b4-4021-9ed7-44a6c6a85680": {
+     "at": "2026-09-09T15:46:04.487Z",
+     "event_id": "442fce05-15b4-4021-9ed7-44a6c6a85680_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "ABger7uOxwJUGDEMxNiScKr"
+    },
+    "MQL:fff27785-11f9-4401-8529-cc49dc35edfc": {
+     "at": "2026-09-09T15:46:27.308Z",
+     "event_id": "fff27785-11f9-4401-8529-cc49dc35edfc_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AbCHHEroKx5_y4gSGdezJDb"
+    },
+    "MQL:e945ab8d-059d-4e4e-8aa8-32272f4f4ee6": {
+     "at": "2026-09-09T15:46:55.755Z",
+     "event_id": "e945ab8d-059d-4e4e-8aa8-32272f4f4ee6_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "Adut3J9IIIchUDY_p1QrUc1"
+    },
+    "NQL:586403d8-ab7d-44fc-bb59-28de6a763536": {
+     "at": "2026-09-09T15:47:10.978Z",
+     "event_id": "586403d8-ab7d-44fc-bb59-28de6a763536_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "Amc7ECoS66D544_cO0TA0ON"
+    },
+    "MQL:1d6ef38e-47b5-4a8f-a748-9aefe33e291d": {
+     "at": "2026-09-09T15:47:25.571Z",
+     "event_id": "1d6ef38e-47b5-4a8f-a748-9aefe33e291d_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "Agz0SJ8H-7HwvVbTaZ8SDDY"
+    },
+    "MQL:6bf7241b-6434-4573-a812-2dccb84d9fcb": {
+     "at": "2026-09-09T15:47:34.511Z",
+     "event_id": "6bf7241b-6434-4573-a812-2dccb84d9fcb_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "Av34kmEj-RHpNc0Jzb462qU"
+    },
+    "MQL:9a514e66-f664-404c-b4ea-2b10dc764a25": {
+     "at": "2026-09-09T15:47:40.981Z",
+     "event_id": "9a514e66-f664-404c-b4ea-2b10dc764a25_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AcbxEP5L0kFpc0ejZggxJxr"
+    },
+    "MQL:7ee92809-bf2e-47c9-9cbd-61a8703bfff9": {
+     "at": "2026-09-09T15:47:54.724Z",
+     "event_id": "7ee92809-bf2e-47c9-9cbd-61a8703bfff9_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AWzZTEqrj2favyRBhEg1znW"
+    },
+    "MQL:a8f8ae69-136d-4077-befd-e32d02ee402a": {
+     "at": "2026-09-09T15:48:20.995Z",
+     "event_id": "a8f8ae69-136d-4077-befd-e32d02ee402a_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "A1m8oP86DD26gGR4Pjarm0Y"
+    },
+    "MQL:3a61d9bb-84c2-49be-8098-b231dbc60b8d": {
+     "at": "2026-09-09T15:49:42.713Z",
+     "event_id": "3a61d9bb-84c2-49be-8098-b231dbc60b8d_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "A5NWM843F8wYslXvUmuBfBP"
+    },
+    "MQL:1a4e4572-e3e0-49d5-b687-bf517823d5c7": {
+     "at": "2026-09-09T15:50:09.864Z",
+     "event_id": "1a4e4572-e3e0-49d5-b687-bf517823d5c7_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AJsMEzEWJqGISTcxvFV01fj"
+    },
+    "NQL:edc349cd-3015-4497-be0b-bcc7957c1170": {
+     "at": "2026-09-09T15:51:18.307Z",
+     "event_id": "edc349cd-3015-4497-be0b-bcc7957c1170_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "ATCzKtiau9HQwyvuvduTs_3"
+    },
+    "MQL:39dc57fd-d9cf-4362-a503-0cd605a04f07": {
+     "at": "2026-09-09T15:51:41.637Z",
+     "event_id": "39dc57fd-d9cf-4362-a503-0cd605a04f07_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AOlA1uVt_Ywe5uwqElNFmfu"
+    },
+    "MQL:1651d6f3-c349-4d14-8df5-2fad256119f0": {
+     "at": "2026-09-09T15:51:57.185Z",
+     "event_id": "1651d6f3-c349-4d14-8df5-2fad256119f0_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "A4XBWrQUpu1hOyxTcKFzwKR"
+    },
+    "NQL:21d394fc-2566-45f1-8a91-6b0a1bd11e90": {
+     "at": "2026-09-09T15:52:37.749Z",
+     "event_id": "21d394fc-2566-45f1-8a91-6b0a1bd11e90_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "A-Z-fMYPPEOhVxRVls1zpxH"
+    },
+    "MQL:ccfd74fa-cb79-4c6e-8a82-dffa0d9f7957": {
+     "at": "2026-09-09T16:00:47.947Z",
+     "event_id": "ccfd74fa-cb79-4c6e-8a82-dffa0d9f7957_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "ABG3Ju9Rje2HCUemrp3kRHe"
+    },
+    "MQL:75eceae4-45a0-493f-8f7c-f2297bbceb5e": {
+     "at": "2026-09-09T16:00:58.820Z",
+     "event_id": "75eceae4-45a0-493f-8f7c-f2297bbceb5e_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "ApMhfpyT6BlhvPwoIFq7n4X"
+    },
+    "NQL:d0cafe56-e178-4f14-9147-f16cfaaf071b": {
+     "at": "2026-09-09T16:01:50.124Z",
+     "event_id": "d0cafe56-e178-4f14-9147-f16cfaaf071b_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "AF1KNH0krS8V66GMa-GS0KB"
+    },
+    "NQL:ede44408-79da-4722-b0c5-9ac5313d3385": {
+     "at": "2026-09-09T16:02:15.897Z",
+     "event_id": "ede44408-79da-4722-b0c5-9ac5313d3385_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "A17_2qDeYMx3wSHGcsVwWOw"
+    },
+    "NQL:3da1e4dd-e71a-4de9-9e32-4cb778a0eeaf": {
+     "at": "2026-09-09T16:02:33.647Z",
+     "event_id": "3da1e4dd-e71a-4de9-9e32-4cb778a0eeaf_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "A3qXXv947CqKR5KDTxmcVYi"
+    },
+    "NQL:71b83302-edd3-490b-8a59-2fadb51a0bfb": {
+     "at": "2026-09-09T16:02:50.652Z",
+     "event_id": "71b83302-edd3-490b-8a59-2fadb51a0bfb_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "AWclUpb4iuscNlQYz-FUl1K"
+    },
+    "MQL:02c7ae97-20e5-45e2-9330-aac444df9ea5": {
+     "at": "2026-09-09T16:03:01.278Z",
+     "event_id": "02c7ae97-20e5-45e2-9330-aac444df9ea5_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AVAHB1Ljw0sHffSt5DWuF5-"
+    },
+    "NQL:85ed1f97-2bbb-4c1a-9f46-f8e3dac3e4c8": {
+     "at": "2026-09-09T16:03:20.277Z",
+     "event_id": "85ed1f97-2bbb-4c1a-9f46-f8e3dac3e4c8_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "Axx8AXw9hBXze-OmHB5Omti"
+    },
+    "NQL:e637b92b-a252-4478-8020-40edbf9537f7": {
+     "at": "2026-09-09T16:03:36.237Z",
+     "event_id": "e637b92b-a252-4478-8020-40edbf9537f7_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "AOjYhqqxK3iRWb2lhNLXyKB"
+    },
+    "NQL:506f35cd-39b2-4dbf-88ff-1c4490423b0f": {
+     "at": "2026-09-09T16:03:49.918Z",
+     "event_id": "506f35cd-39b2-4dbf-88ff-1c4490423b0f_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "AQBLAq7pSwurbg6qXkPfy5n"
+    },
+    "NQL:a0a73c46-e0ef-4794-a7a6-c63be8e5170d": {
+     "at": "2026-09-09T16:04:56.324Z",
+     "event_id": "a0a73c46-e0ef-4794-a7a6-c63be8e5170d_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "Al8YQgyvPb_q4omXfvAI95H"
+    },
+    "MQL:0195d0dc-7e2d-4b58-a310-475c8e518e29": {
+     "at": "2026-09-09T16:06:33.769Z",
+     "event_id": "0195d0dc-7e2d-4b58-a310-475c8e518e29_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AgyZK-GfGu9k2Br20Eiqcps"
+    },
+    "MQL:998d4dd0-d75d-4cd3-b7dd-e5ac3e5b63a9": {
+     "at": "2026-09-09T16:08:06.153Z",
+     "event_id": "998d4dd0-d75d-4cd3-b7dd-e5ac3e5b63a9_PQL",
+     "evento": "MQL",
+     "fbtrace_id": "AqTjI5q7OmnAl4xKNK-ladD"
+    },
+    "5751c74a-8844-4f60-a9d5-9b32fbc5b04b_NEW": 1788976292487,
+    "Nuevo:4ec0215a-8395-4772-86c3-0c1d06bf9c0f": {
+     "at": "2026-09-09T19:53:39.520Z",
+     "event_id": "4ec0215a-8395-4772-86c3-0c1d06bf9c0f_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "AYEvBNL94SunVxqryUdcsj-"
+    },
+    "Nuevo:9833c2d2-4d05-4a4d-9546-62602db56ac3": {
+     "at": "2026-09-09T20:59:24.360Z",
+     "event_id": "9833c2d2-4d05-4a4d-9546-62602db56ac3_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "As7Yyyt4UkxQFOr-jX-zdQR"
+    },
+    "Nuevo:c563184c-5acb-4e3b-94d5-af8b7526c545": {
+     "at": "2026-09-09T21:51:58.303Z",
+     "event_id": "c563184c-5acb-4e3b-94d5-af8b7526c545_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "A5sxLfjJoKeq_3igvvgBM4k"
+    },
+    "Nuevo:fb39825c-124f-4875-8d94-59bb2bfd282e": {
+     "at": "2026-09-09T22:58:01.461Z",
+     "event_id": "fb39825c-124f-4875-8d94-59bb2bfd282e_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "ATQwyDDsak-82PeTkBCztoO"
+    },
+    "Nuevo:d1d65fbb-11d1-4eb2-b28d-4014945eaa5e": {
+     "at": "2026-09-09T23:39:06.984Z",
+     "event_id": "d1d65fbb-11d1-4eb2-b28d-4014945eaa5e_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "Ay5g_RGfcFgU69J-DYkh6xx"
+    },
+    "Nuevo:febb78b9-6591-49ba-b10b-894d04cb5298": {
+     "at": "2026-09-10T00:17:11.662Z",
+     "event_id": "febb78b9-6591-49ba-b10b-894d04cb5298_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "A3oMwTT_r8_FnFQA_7ih1cZ"
+    },
+    "Nuevo:f5fa30a6-0498-4d2f-840e-1ebadd5ed4bf": {
+     "at": "2026-09-10T01:34:14.532Z",
+     "event_id": "f5fa30a6-0498-4d2f-840e-1ebadd5ed4bf_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "AMKrTb4aZYz5gcF7VTVdfP6"
+    },
+    "Nuevo:a2ea24f3-ae25-40b0-b6eb-c832502471d0": {
+     "at": "2026-09-10T06:51:55.756Z",
+     "event_id": "a2ea24f3-ae25-40b0-b6eb-c832502471d0_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "A46HT_KgRhtBKJ_WSyKIo8S"
+    },
+    "Nuevo:8c41d558-9e3e-4bef-9e12-3bdc6aa32941": {
+     "at": "2026-09-10T10:46:20.877Z",
+     "event_id": "8c41d558-9e3e-4bef-9e12-3bdc6aa32941_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "ADv_l-MmxmO5qfrWvBKVrdE"
+    },
+    "Nuevo:524cfc71-6d6b-48df-b4a2-8896746a5c81": {
+     "at": "2026-09-10T12:02:27.566Z",
+     "event_id": "524cfc71-6d6b-48df-b4a2-8896746a5c81_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "AIEJKq7jhgWX2nyRl130KZT"
+    },
+    "Nuevo:c5a6d5ea-fbe3-4427-9c04-9ef3ddfc65be": {
+     "at": "2026-09-10T13:37:52.880Z",
+     "event_id": "c5a6d5ea-fbe3-4427-9c04-9ef3ddfc65be_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "ADNeexvychYyjN5SaFV13j8"
+    },
+    "NQL:d1d65fbb-11d1-4eb2-b28d-4014945eaa5e": {
+     "at": "2026-09-10T15:33:27.884Z",
+     "event_id": "d1d65fbb-11d1-4eb2-b28d-4014945eaa5e_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "A0_oMvuiW0PKudqZIPvWNDh"
+    },
+    "Nuevo:dac95205-5766-46d6-9c77-fa21b5a3e3cd": {
+     "at": "2026-09-10T15:44:17.306Z",
+     "event_id": "dac95205-5766-46d6-9c77-fa21b5a3e3cd_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "AUsWOwHL4Q06bL567y0WblA"
+    },
+    "MQL:fb39825c-124f-4875-8d94-59bb2bfd282e": {
+     "at": "2026-09-10T15:50:35.401Z",
+     "event_id": "fb39825c-124f-4875-8d94-59bb2bfd282e_MQL",
+     "evento": "MQL",
+     "fbtrace_id": "AQYQSZlzpWwtMTpc9ufEX-o"
+    },
+    "MQL:febb78b9-6591-49ba-b10b-894d04cb5298": {
+     "at": "2026-09-10T15:51:50.230Z",
+     "event_id": "febb78b9-6591-49ba-b10b-894d04cb5298_MQL",
+     "evento": "MQL",
+     "fbtrace_id": "AxSk7nBr3O8oWdTBhlpE73A"
+    },
+    "MQL:c563184c-5acb-4e3b-94d5-af8b7526c545": {
+     "at": "2026-09-10T15:56:35.415Z",
+     "event_id": "c563184c-5acb-4e3b-94d5-af8b7526c545_MQL",
+     "evento": "MQL",
+     "fbtrace_id": "AS3s3W93B1kGY__ZL2280oT"
+    },
+    "NQL:4c66f000-4190-4865-9928-99f02740a0fa": {
+     "at": "2026-09-10T15:58:31.673Z",
+     "event_id": "4c66f000-4190-4865-9928-99f02740a0fa_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "Ap8i8YNBpOKJg-zz24Zt-Fe"
+    },
+    "MQL:c5a6d5ea-fbe3-4427-9c04-9ef3ddfc65be": {
+     "at": "2026-09-10T16:03:14.636Z",
+     "event_id": "c5a6d5ea-fbe3-4427-9c04-9ef3ddfc65be_MQL",
+     "evento": "MQL",
+     "fbtrace_id": "AxYsGAnY1y1hEyZ8o9vhrr5"
+    },
+    "MQL:f5fa30a6-0498-4d2f-840e-1ebadd5ed4bf": {
+     "at": "2026-09-10T16:04:18.529Z",
+     "event_id": "f5fa30a6-0498-4d2f-840e-1ebadd5ed4bf_MQL",
+     "evento": "MQL",
+     "fbtrace_id": "AGfwMRO1ecqwCqcyZ--WhcP"
+    },
+    "Nuevo:e0b73fe5-d80f-404c-a454-803edcfaf0b7": {
+     "at": "2026-09-10T19:53:27.343Z",
+     "event_id": "e0b73fe5-d80f-404c-a454-803edcfaf0b7_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "Amm_J9WuDlBzQK_tFKPFdg4"
+    },
+    "NQL:e0b73fe5-d80f-404c-a454-803edcfaf0b7": {
+     "at": "2026-09-10T19:57:47.540Z",
+     "event_id": "e0b73fe5-d80f-404c-a454-803edcfaf0b7_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "A2Ysg30j1RJ3-C_Y0dU4q5r"
+    },
+    "Nuevo:a5916890-ef88-4089-8d4c-d0dc3d046e9f": {
+     "at": "2026-09-10T20:25:00.671Z",
+     "event_id": "a5916890-ef88-4089-8d4c-d0dc3d046e9f_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "A5RmKIhUo4ZgeOvyxlf-d5Z"
+    },
+    "NQL:a5916890-ef88-4089-8d4c-d0dc3d046e9f": {
+     "at": "2026-09-10T20:35:18.059Z",
+     "event_id": "a5916890-ef88-4089-8d4c-d0dc3d046e9f_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "A8Z7X6tJ3JZf06mkq565FaK"
+    },
+    "Nuevo:6ae78be9-c1da-4a23-aa1a-b089ee2b93c9": {
+     "at": "2026-09-10T22:30:15.089Z",
+     "event_id": "6ae78be9-c1da-4a23-aa1a-b089ee2b93c9_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "A52g8AIm24whxraF2RrBVGv"
+    },
+    "Nuevo:90f58dde-065b-4dd4-a6c1-f898974b1b3e": {
+     "at": "2026-09-10T23:44:01.173Z",
+     "event_id": "90f58dde-065b-4dd4-a6c1-f898974b1b3e_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "ANlHJWYVMzOdueOPV_wz-0E"
+    },
+    "Nuevo:95747ccc-21f3-404e-9406-840b48e3154a": {
+     "at": "2026-09-11T02:07:08.705Z",
+     "event_id": "95747ccc-21f3-404e-9406-840b48e3154a_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "AkwxNn2CuLN6taGRqHXJaht"
+    },
+    "Nuevo:fbda13ae-67bd-4cde-902f-88b0a3728674": {
+     "at": "2026-09-11T05:37:59.956Z",
+     "event_id": "fbda13ae-67bd-4cde-902f-88b0a3728674_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "AQ-Kn41GaO8r5vrFqFPR-Lc"
+    },
+    "Nuevo:6e883268-b35c-492e-b247-1e06a54f62a6": {
+     "at": "2026-09-11T13:33:58.516Z",
+     "event_id": "6e883268-b35c-492e-b247-1e06a54f62a6_NEW",
+     "evento": "Nuevo",
+     "fbtrace_id": "A2q7KeQk2ZREgB02k3PmNOn"
+    },
+    "MQL:90f58dde-065b-4dd4-a6c1-f898974b1b3e": {
+     "at": "2026-09-11T13:41:11.631Z",
+     "event_id": "90f58dde-065b-4dd4-a6c1-f898974b1b3e_MQL",
+     "evento": "MQL",
+     "fbtrace_id": "AjaZ2ITV4VdaGVYAlvX8EY-"
+    },
+    "MQL:6e883268-b35c-492e-b247-1e06a54f62a6": {
+     "at": "2026-09-11T13:44:23.992Z",
+     "event_id": "6e883268-b35c-492e-b247-1e06a54f62a6_MQL",
+     "evento": "MQL",
+     "fbtrace_id": "Aq1U0__wv3w4y35wqz2a_0_"
+    },
+    "MQL:95747ccc-21f3-404e-9406-840b48e3154a": {
+     "at": "2026-09-11T14:13:38.169Z",
+     "event_id": "95747ccc-21f3-404e-9406-840b48e3154a_MQL",
+     "evento": "MQL",
+     "fbtrace_id": "AFt-i4wpHIsM2SEU7yKjfEE"
+    },
+    "MQL:6ae78be9-c1da-4a23-aa1a-b089ee2b93c9": {
+     "at": "2026-09-11T14:23:35.269Z",
+     "event_id": "6ae78be9-c1da-4a23-aa1a-b089ee2b93c9_MQL",
+     "evento": "MQL",
+     "fbtrace_id": "ApIXIiGuLfr9a18JzO2V730"
+    },
+    "MQL:524cfc71-6d6b-48df-b4a2-8896746a5c81": {
+     "at": "2026-09-11T14:25:42.925Z",
+     "event_id": "524cfc71-6d6b-48df-b4a2-8896746a5c81_MQL",
+     "evento": "MQL",
+     "fbtrace_id": "A70rgw-Yt2-nGChTXrSL0EX"
+    },
+    "NQL:8c41d558-9e3e-4bef-9e12-3bdc6aa32941": {
+     "at": "2026-09-11T14:25:54.486Z",
+     "event_id": "8c41d558-9e3e-4bef-9e12-3bdc6aa32941_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "AsFUgfmrKjfZlMFpMUFa1kd"
+    },
+    "NQL:dac95205-5766-46d6-9c77-fa21b5a3e3cd": {
+     "at": "2026-09-11T14:27:42.372Z",
+     "event_id": "dac95205-5766-46d6-9c77-fa21b5a3e3cd_NQL",
+     "evento": "NQL",
+     "fbtrace_id": "AzATE1wztKhnQTdHE3_skCS"
+    }
+   }
+  }
+ },
+ "pinData": {}
+}

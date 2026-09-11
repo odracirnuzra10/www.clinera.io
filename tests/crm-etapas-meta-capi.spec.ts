@@ -367,6 +367,6 @@ test.describe("W1 nodo completo: lo que leen los nodos siguientes", () => {
       ledger: { "MQL:opp-d": { at: "2026-08-01T00:00:00.000Z" }, "SQL:opp-d": { at: "2026-08-02T00:00:00.000Z" } },
     });
     expect(conSql.out.map((i) => i.json.evento)).toEqual(["Purchase"]);
-    expect(conSql.out[1].json.value).toBe(279);
+    expect(conSql.out[0].json.value).toBe(279);
   });
 });
