@@ -175,6 +175,17 @@ devuelven 450 / false; no asumas implementación gratis.
 implementación (100% hoy/mañana, 50% esta semana) con una excusa que vence.
 Anual solo si el cliente lo pide, y ahí 10% o 20%. Hasta 200 clientes.
 Guardián: `tests/nuevo-discurso.spec.ts`.
+
+## `/ventas2026`: reunión interna de la campaña MQL
+
+Deck interno (sep 2026) para el equipo comercial. Archivo
+`public/presentacion-campana-mql.html`, URL corta `/ventas2026`. **Interno:**
+`noindex`, `Disallow` en robots, fuera del sitemap y del menú. No es el deck
+de ventas al dueño (`/presentacion`).
+
+La campaña aprende **solo de MQL**. Camino obligatorio: Nuevo → MQL → SQL.
+Nunca Nuevo → SQL: ese salto se ve eficiente y no enseña nada. Guardián:
+`tests/ventas2026.spec.ts`.
 ## Modelo de venta en dos reuniones
 
 Deck interno del equipo comercial: `public/presentacion-venta-2-reuniones.html`

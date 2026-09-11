@@ -62,6 +62,8 @@ const STAR_DISALLOW = [
   "/nueva-reunion/",
   "/nuevodiscurso",
   "/nuevodiscurso/",
+  "/ventas2026",
+  "/ventas2026/",
   "/vision-2027",
   "/vision-2027/",
   "/triage",
