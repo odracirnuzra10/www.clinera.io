@@ -52,8 +52,8 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
     expect(mapearEtapa("MQL")).toEqual({ event_name: "MQL", value: 10 });
     expect(mapearEtapa("MEETING")).toEqual({ event_name: "SQL", value: 100 });
     expect(mapearEtapa("SQL")).toEqual({ event_name: "SQL", value: 100 });
-    expect(mapearEtapa("PROPOSAL")).toEqual({ event_name: "HOT", value: 200 });
-    expect(mapearEtapa("HOT")).toEqual({ event_name: "HOT", value: 200 });
+    expect(mapearEtapa("PROPOSAL")).toEqual({ skip: true, motivo: "etapa_eliminada" });
+    expect(mapearEtapa("HOT")).toEqual({ skip: true, motivo: "etapa_eliminada" });
     expect(mapearEtapa("NQL")).toEqual({ event_name: "NQL", value: 0 });
     expect(mapearEtapa("no responde")).toEqual({ event_name: "NQL", value: 0 });
     expect(mapearEtapa("no califica")).toEqual({ event_name: "NQL", value: 0 });
@@ -71,6 +71,9 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
     expect(mapearEtapa("SCREENING", { leadgenId: 1542457337898951 }).skip).toBe(true);
     expect(mapearEtapa("NoContesta")).toEqual({ skip: true, motivo: "etapa_eliminada" });
     expect(mapearEtapa("SQL_Plus")).toEqual({ skip: true, motivo: "etapa_eliminada" });
+    expect(mapearEtapa("sql+")).toEqual({ skip: true, motivo: "etapa_eliminada" });
+    expect(mapearEtapa("HOT")).toEqual({ skip: true, motivo: "etapa_eliminada" });
+    expect(mapearEtapa("PROPOSAL")).toEqual({ skip: true, motivo: "etapa_eliminada" });
     expect(mapearEtapa("PQL")).toEqual({ skip: true, motivo: "etapa_eliminada" });
     expect(mapearEtapa("PQL").event_name).not.toBe("MQL");
     expect(mapearEtapa("PQL").event_name).not.toBe("NoContesta");
@@ -86,13 +89,13 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
     expect(leadIdEntero("abc")).toBeNull();
   });
 
-  test("un estado implica los anteriores: MQL < SQL < HOT < Purchase (Ricardo, 10-sep)", () => {
+  test("un estado implica los anteriores: MQL < SQL < Purchase (Ricardo, 11-sep)", () => {
     const { etapasImplicitas } = loadHelpers();
     const nombres = (evento: string, ledger: Record<string, unknown> = {}) =>
       etapasImplicitas(evento, ledger, "o").map((e) => e.event_name);
     expect(nombres("SQL")).toEqual(["MQL"]);
-    expect(nombres("HOT")).toEqual(["MQL", "SQL"]);
-    expect(nombres("Purchase")).toEqual(["MQL", "SQL", "HOT"]);
+    expect(nombres("HOT")).toEqual([]);
+    expect(nombres("Purchase")).toEqual(["MQL", "SQL"]);
     expect(nombres("MQL")).toEqual([]);
     expect(nombres("Nuevo")).toEqual([]);
     expect(nombres("NQL")).toEqual([]);
@@ -100,7 +103,7 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
     const viejo = { at: new Date(Date.now() - 90 * 86400000).toISOString() };
     expect(nombres("SQL", { "MQL:o": viejo })).toEqual([]);
     expect(nombres("SQL", { "MQL:otro": viejo })).toEqual(["MQL"]);
-    expect(nombres("Purchase", { "SQL:o": viejo })).toEqual(["MQL", "HOT"]);
+    expect(nombres("Purchase", { "SQL:o": viejo })).toEqual(["MQL"]);
     expect(etapasImplicitas("SQL", {}, "o")[0]).toEqual({ event_name: "MQL", value: 10, stage: "MQL" });
   });
 
@@ -108,7 +111,8 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
     expect(AGENTS).toContain("| `NEW` | `Nuevo` | 0 |");
     expect(AGENTS).toContain("| `MQL` | `MQL` | 10 |");
     expect(AGENTS).toContain("| `MEETING` | `SQL` | 100 |");
-    expect(AGENTS).toContain("| `PROPOSAL` | `HOT` | 200 |");
+    expect(AGENTS).not.toContain("| `PROPOSAL` | `HOT` | 200 |");
+    expect(AGENTS).toContain("| `PQL` / `SCREENING` / `SQL_Plus`");
     expect(AGENTS).toContain("| `NQL` | `NQL` | 0 |");
     expect(AGENTS).not.toContain("| `PQL` | `PQL` | 1 |");
     expect(README).toContain("| `NEW` | `Nuevo` | 0 |");
@@ -331,9 +335,12 @@ test.describe("W1 nodo completo: lo que leen los nodos siguientes", () => {
     expect(api.out).toHaveLength(1);
     expect(api.out[0].json.omitido).toBe(true);
     expect(api.out[0].json.motivo).toBe("etapa_movida_por_automatizacion");
-    const sinContacto = await runNode([webhook("PROPOSAL")]);
+    const sinContacto = await runNode([webhook("CUSTOMER")]);
     expect(sinContacto.out).toHaveLength(1);
     expect(sinContacto.out[0].json.motivo).toBe("sin_email_ni_telefono_ni_lead_id");
+    const hot = await runNode([webhook("HOT", { email: "a@b.cl" })]);
+    expect(hot.out).toHaveLength(1);
+    expect(hot.out[0].json.motivo).toBe("etapa_eliminada");
     // MQL y NQL no tienen peldaños anteriores: un solo ítem.
     const mql = await runNode([webhook("MQL", { email: "a@b.cl" })]);
     expect(mql.out.map((i) => i.json.evento)).toEqual(["MQL"]);
@@ -345,22 +352,21 @@ test.describe("W1 nodo completo: lo que leen los nodos siguientes", () => {
     const { out } = await runNode([
       webhook("CUSTOMER", { id: "opp-c", email: "a@b.cl", planClinera: "SUMMIT" }),
     ]);
-    expect(out.map((i) => i.json.evento)).toEqual(["MQL", "SQL", "HOT", "Purchase"]);
-    expect(out.map((i) => i.json.value)).toEqual([10, 100, 200, 479]);
+    expect(out.map((i) => i.json.evento)).toEqual(["MQL", "SQL", "Purchase"]);
+    expect(out.map((i) => i.json.value)).toEqual([10, 100, 479]);
     expect(out.map((i) => i.json.event_id)).toEqual([
       "opp-c_MQL",
       "opp-c_MEETING",
-      "opp-c_PROPOSAL",
       "opp-c_CUSTOMER",
     ]);
     const tiempos = out.map((i) => i.json.payload.data[0].event_time as number);
     expect([...tiempos].sort((a, b) => a - b)).toEqual(tiempos);
-    expect(out[3].json.payload.data[0].custom_data.value).toBe(479);
+    expect(out[2].json.payload.data[0].custom_data.value).toBe(479);
 
     const conSql = await runNode([webhook("CUSTOMER", { id: "opp-d", email: "a@b.cl" })], {
       ledger: { "MQL:opp-d": { at: "2026-08-01T00:00:00.000Z" }, "SQL:opp-d": { at: "2026-08-02T00:00:00.000Z" } },
     });
-    expect(conSql.out.map((i) => i.json.evento)).toEqual(["HOT", "Purchase"]);
-    expect(conSql.out[1].json.value).toBe(279);
+    expect(conSql.out.map((i) => i.json.evento)).toEqual(["Purchase"]);
+    expect(conSql.out[0].json.value).toBe(279);
   });
 });

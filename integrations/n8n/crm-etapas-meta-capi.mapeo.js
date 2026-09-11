@@ -7,9 +7,9 @@
 // Reemplaza únicamente este jsCode y el nombre (sin «inactivo»).
 // Antes de un PUT: guardar el JSON actual en integrations/n8n/backup/.
 //
-// Embudo canónico (Ricardo, 2026-09-10). Los mismos estados en CRM
-// y en el pixel. PQL, SCREENING, NoContesta, Lead y SQL_Plus no
-// existen. NQL es «no responde», value 0.
+// Embudo canónico (Ricardo, 2026-09-11). Los mismos estados en CRM
+// y en el pixel. HOT/PROPOSAL se retiró. PQL, SCREENING, NoContesta,
+// Lead y SQL_Plus no emiten. NQL es «no responde», value 0.
 // Auditoría: docs/handoff-embudo-etapas-2026-09-10.md y
 // docs/fiscalizacion-embudo-etapas-2026-09-10.md.
 //
@@ -17,7 +17,7 @@
 // Si el closer salta etapas en Twenty (Nuevo → SQL), Meta no recibe el
 // MQL y la campaña que optimiza MQL no aprende de ese lead. Por eso,
 // antes de mandar la etapa actual, este nodo emite las anteriores de la
-// escalera MQL < SQL < HOT < Purchase que no consten en el ledger, como
+// escalera MQL < SQL < Purchase que no consten en el ledger, como
 // ítems separados (un HTTP y una entrada de ledger por cada una).
 //
 // Contratos que NO se tocan:
@@ -82,11 +82,10 @@ function valorPurchase(planClinera) {
  *   NEW / Nuevo     → Nuevo     0   rellenó el formulario
  *   MQL             → MQL      10   closer verifica que es real
  *   MEETING / SQL   → SQL     100   lead calificado (la demo se hizo)
- *   PROPOSAL / HOT  → HOT     200   a punto de cerrar
  *   CUSTOMER        → Purchase  valor del plan (vacío → 279)
  *   NQL             → NQL       0   no responde
  *
- * PQL, SCREENING, NoContesta, SQL_Plus: no emiten.
+ * PQL, SCREENING, NoContesta, SQL_Plus, HOT, PROPOSAL: no emiten.
  */
 function mapearEtapa(stage, opts) {
   const s = norm(stage);
@@ -99,9 +98,6 @@ function mapearEtapa(stage, opts) {
   }
   if (s === "meeting" || s === "sql") {
     return { event_name: "SQL", value: 100 };
-  }
-  if (s === "proposal" || s === "hot") {
-    return { event_name: "HOT", value: 200 };
   }
   if (
     s === "nql" ||
@@ -123,7 +119,9 @@ function mapearEtapa(stage, opts) {
     s === "sql+" ||
     s === "sqlplus" ||
     s === "sql_plus" ||
-    s === "nocontesta"
+    s === "nocontesta" ||
+    s === "proposal" ||
+    s === "hot"
   ) {
     return { skip: true, motivo: "etapa_eliminada" };
   }
@@ -176,7 +174,6 @@ function ledgerVigente(entrada, ahora) {
 const ESCALERA = [
   { event_name: "MQL", value: 10, stage: "MQL" },
   { event_name: "SQL", value: 100, stage: "MEETING" },
-  { event_name: "HOT", value: 200, stage: "PROPOSAL" },
   { event_name: "Purchase", value: null, stage: "CUSTOMER" },
 ];
 
@@ -240,7 +237,7 @@ async function procesar(wh, helpers) {
     return [omitir(mapped.motivo, { etapa: etapa })];
   }
 
-  // SQL / HOT / Purchase / MQL / NQL los declara una persona o el sitio.
+  // SQL / Purchase / MQL / NQL los declara una persona o el sitio.
   // NEW lo crea n8n (Sub A, wizard): hay que emitir Nuevo aunque
   // updatedBy.source = API. El resto, si lo movió una automatización,
   // no se emite — el MQL del sitio o del Meet ya cubrió ese salto.

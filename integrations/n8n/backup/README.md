@@ -9,3 +9,7 @@ Respaldos del JSON vivo de W1 antes de un PUT. Restaurar:
 (16:02Z) tal como estaba antes del relleno de etapas implícitas, que lo
 reemplazó el 2026-09-10 18:50Z. El respaldo de las 16:02:50Z (previo al
 mapeo sin PQL) no se conservó en el repo.
+
+`W1SybZZSEZqAItIt-20260911-165330.json` es el mapeo con HOT del 10-sep
+(relleno de etapas) tal como estaba antes de retirar HOT, aplicado
+el 2026-09-11 16:53Z. SQL_Plus no se tocó.

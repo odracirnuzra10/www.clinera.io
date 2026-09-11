@@ -34,7 +34,6 @@ El embudo tiene los mismos estados en CRM y en el pixel
 | **Nuevo** | rellenó el formulario (Instant Form o wizard) | W1; Sub A ya no manda `Lead` | US$ 0 |
 | **MQL** | closer verifica que el lead es real (paso anterior a SQL) | W1 si el stage es `MQL`. Campañas activas optimizan este evento | US$ 10 |
 | **SQL** | closer → SQL (`MEETING`) **cuando la videollamada se realizó**. Agendar y no asistir = sigue MQL | W1 | US$ 100 |
-| **HOT** | closer → HOT (`PROPOSAL`) — a punto de cerrar | W1 | US$ 200 |
 | **NQL** | closer → no responde | W1 | US$ 0 |
 | **Purchase** | Customer | W1 (`planClinera`) | valor del plan |
 
@@ -356,16 +355,15 @@ en Twenty: las filas pasan a `NQL` **antes** de borrar la opción.
 | `NEW` | `Nuevo` | 0 | rellenó el formulario; también si lo escribió n8n |
 | `MQL` | `MQL` | 10 | closer verifica que es real |
 | `MEETING` | `SQL` | 100 | alias `SQL` — calificado (la demo ocurrió) |
-| `PROPOSAL` | `HOT` | 200 | alias `HOT` — a punto de cerrar |
 | `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 | |
 | `NQL` | `NQL` | 0 | no responde |
-| `PQL` / `SCREENING` / `SQL_Plus` | — | — | no emiten |
+| `PQL` / `SCREENING` / `SQL_Plus` / `HOT` / `PROPOSAL` | — | — | no emiten |
 
 `custom_data.currency = "USD"`. `event_id` = `{opportunityId}_{stage}`.
 
 **Etapas implícitas (10-sep):** un estado implica los anteriores. Si el
 closer salta peldaños (Nuevo → SQL), el nodo emite antes las etapas de la
-escalera `MQL < SQL < HOT < Purchase` que no estén en el ledger para ese
+escalera `MQL < SQL < Purchase` que no estén en el ledger para ese
 negocio, como ítems separados (un HTTP y una entrada de ledger cada uno) y
 con `event_time` un segundo aparte, para que la campaña que optimiza `MQL`
 reciba el MQL de ese lead. `Nuevo` y `NQL` no se rellenan. La puerta de
@@ -421,7 +419,6 @@ se ve en el tablero. El mapa del workspace OACG es:
 | `NEW` | Nuevo | `Nuevo` / 0 |
 | `MQL` | MQL | `MQL` / 10 |
 | `MEETING` | SQL | `SQL` / 100 |
-| `PROPOSAL` | HOT | `HOT` / 200 |
 | `CUSTOMER` | Customer | `Purchase` / planClinera |
 | `NQL` | NQL · No responde | `NQL` / 0 |
 
@@ -493,7 +490,7 @@ embudo mirando solo este repo.
 |---|---|---|---|---|---|
 | `Clinera \| Twenty etapas → Meta CAPI` | `W1SybZZSEZqAItIt` | `crm-etapas-meta-capi.mapeo.js` (aplicado 2026-09-09) | ver tabla arriba | webhook Twenty `crm-sql` | **activo** |
 | `Clinera — SQL desde CRM (Twenty)` | `dhwqS9oW3qfvq6Y4` | `SQL` | US$ 100 | webhook (reemplazado por W1) | **apagado** |
-| `CRM · SQL+ → Meta CAPI` | `rWZDSfi8RJ780q76` | ~~`SQL_Plus`~~ | US$ 300 | sondeo PROPOSAL | **apagado** (`HOT` lo manda W1) |
+| `CRM · SQL+ → Meta CAPI` | `rWZDSfi8RJ780q76` | ~~`SQL_Plus`~~ | US$ 300 | sondeo PROPOSAL | **apagado** (`SQL_Plus` no se tocó; `HOT` ya no se emite) |
 | `OACG TECH \| SQL Conversión Alto Valor` | `1erGwPkeneXUkqzG` | `SQL` | US$ 100 | Baserow tabla 152 + backstop 24 h | activo (Baserow, no Twenty) |
 
 Los dos últimos siguen sin exportarse completos —siguen siendo grafos que sólo
@@ -547,7 +544,7 @@ Además de los placeholders del workflow de reserva, este archivo lleva
 ### Google Ads entró al mismo embudo (2026-08-21)
 
 Ricardo pidió alinear Google Ads al mismo vocabulario y montos que Meta ya usa
-acá (Nuevo=0 / MQL=10 / SQL=100 / HOT=200 / NQL=0 USD; Customer = plan).
+acá (Nuevo=0 / MQL=10 / SQL=100 / NQL=0 USD; Customer = plan; SQL+ 200 sin cambio).
 El feed de Baserow 152 hay que realinear en el repo `baserow`. Google Ads no tiene un camino de push
 por evento sin developer token — a diferencia de Meta CAPI — así que en vez de
 un envío paralelo, los workflows de SQL y SQL+ de esta página (no el de MQL) ahora **además**

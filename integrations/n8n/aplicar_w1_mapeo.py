@@ -168,6 +168,8 @@ def main() -> int:
     chequeo("vivo emite MQL 10 (no PQL)", 'event_name: "MQL"' in code2 and 'event_name: "PQL"' not in code2)
     chequeo("vivo emite NQL 0", 'event_name: "NQL"' in code2)
     chequeo("vivo no emite NoContesta", 'event_name: "NoContesta"' not in code2)
+    chequeo("vivo no emite HOT", 'event_name: "HOT"' not in code2)
+    chequeo("vivo no cambia SQL_Plus (sigue omitido)", "sql_plus" in code2)
     chequeo(
         "vivo devuelve payload + omitido (contrato con el nodo CAPI)",
         "payload: payload" in code2 and "omitido: false" in code2,

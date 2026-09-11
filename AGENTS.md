@@ -329,7 +329,6 @@ la recomendación del partner + CTA a reunión.
 | `Nuevo` | rellenó el formulario (Instant Form o alta) | US$ 0 | W1 (`NEW`); Sub A ya no manda `Lead` |
 | `MQL` | closer verifica que el lead es **real** (paso anterior a SQL) | US$ 10 | W1 si el stage es `MQL`. Campañas activas optimizan este evento |
 | `SQL` | closer → SQL (`MEETING`): **la videollamada se realizó**. Agendar no es SQL; asistir sí | US$ 100 | W1 |
-| `HOT` | closer → HOT (`PROPOSAL`): a punto de cerrar | US$ 200 | W1 |
 | `NQL` | closer → no responde | US$ 0 | W1 |
 | `Purchase` | Customer | valor del plan | W1 (`planClinera`) |
 
@@ -373,23 +372,23 @@ que el closer declara después de ese día no se le atribuye a la campaña
 
 Mapeo canónico `stage` → evento CAPI → value USD (`currency: USD`).
 Fuente: `integrations/n8n/crm-etapas-meta-capi.mapeo.js`. Aplicado al vivo
-el 2026-09-10. El cruce SCREENING↔PQL (H1) y la tabla Nuevo 0 / PQL 1 /
+el 2026-09-11 (sin HOT). El cruce SCREENING↔PQL (H1) y la tabla Nuevo 0 / PQL 1 /
 MQL 5 / SQL 10 / HOT 100 son históricos (09-sep). El 10-sep se borró
-`PQL`: las filas «no contesta» pasaron a `NQL` **antes** de quitar la
-opción. **Al editar opciones de un SELECT en Twenty, conservá el `id`
-de cada opción:** el 09-sep 19:48Z se perdió el id de `MQL` y 130
-negocios cayeron a `NEW`. `MEETING`/`PROPOSAL` siguen siendo los
-valores internos de SQL/HOT. `NQL` = no responde, $0.
+`PQL`. El 11-sep se retiró `HOT` (`PROPOSAL`): los SQL pasaron a MQL y
+los HOT a SQL **antes** de quitar la opción. **Al editar opciones de un
+SELECT en Twenty, conservá el `id` de cada opción:** el 09-sep 19:48Z se
+perdió el id de `MQL` y 130 negocios cayeron a `NEW`. `MEETING` sigue
+siendo el valor interno de SQL. `SQL_Plus` no se tocó (sigue sin emitir).
+`NQL` = no responde, $0.
 
 | stage | event_name | value | condición |
 |---|---|---|---|
 | `NEW` | `Nuevo` | 0 | rellenó el formulario; también si lo escribió n8n (`API`) |
 | `MQL` | `MQL` | 10 | closer verifica que es real |
 | `MEETING` | `SQL` | 100 | alias `SQL` — calificado (la demo ocurrió) |
-| `PROPOSAL` | `HOT` | 200 | alias `HOT` — a punto de cerrar |
 | `NQL` | `NQL` | 0 | no responde |
 | `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 | |
-| `PQL` / `SCREENING` / `SQL_Plus` | — | — | no emiten |
+| `PQL` / `SCREENING` / `SQL_Plus` / `HOT` / `PROPOSAL` | — | — | no emiten |
 
 `event_id` = `{opportunityId}_{stage}`. `user_data.lead_id` = `leadgenId` (entero,
 sin hash) si existe. `action_source` = `system_generated`. Detalle:
@@ -400,7 +399,7 @@ sí o sí.** Las campañas optimizan `MQL`; si el closer pasa un negocio de
 Nuevo a SQL sin pasar por MQL, Meta nunca recibe el MQL y ese lead no le
 enseña nada a la campaña (la columna «Clientes potenciales cualificados»
 cuenta los leads que llegan a la etapa optimizada). Por eso W1 **rellena la
-escalera** `MQL < SQL < HOT < Purchase`: antes de mandar la etapa actual
+escalera** `MQL < SQL < Purchase`: antes de mandar la etapa actual
 emite, como ítems separados y un segundo aparte, las anteriores que no
 consten en el ledger para ese negocio (a cualquier fecha, no solo 28 días).
 `Nuevo` y `NQL` no son peldaños y no se rellenan. Los nodos de abajo no
@@ -428,11 +427,11 @@ jsCode entero con stubs. Segunda trampa del mismo workflow: el IF
 (`aplicar_w1_filtro.py`, H9).
 
 **Desde el 2026-08-21, Google Ads recibe el mismo embudo** — no por CAPI,
-sino porque los workflows de SQL/HOT marcan Baserow 152 y un feed en
+sino porque los workflows de SQL/SQL+ marcan Baserow 152 y un feed en
 `baserow` (`sales/n8n/gads-conversiones-sql-csv.js`) se lo sirve a Google
-Ads Data Manager por HTTPS. Los montos canónicos desde el 09-sep tarde
-son Nuevo 0 / MQL 10 / SQL 100 / HOT 200 / NQL 0. El feed de GAds
-usa SQL 100 y el alias `SQL+` = HOT 200. Detalle en
+Ads Data Manager por HTTPS. Los montos canónicos vivos son Nuevo 0 /
+MQL 10 / SQL 100 / NQL 0. El feed de GAds usa SQL 100 y `SQL+` 200
+(sin cambio). `HOT` ya no se emite. Detalle en
 `baserow/sales/HANDOFF.md`.
 
 Ids, disparos y el detalle completo: `integrations/n8n/README.md`.
