@@ -4,6 +4,7 @@ import "./globals.css";
 import Analytics from "@/components/Analytics";
 import StickyMobileCTA from "@/components/cro/StickyMobileCTA";
 import GclidCapture from "@/components/GclidCapture";
+import { PriceModalityProvider } from "@/components/pricing/PriceModalityProvider";
 import SkipLink from "@/components/SkipLink";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { entityGraph } from "@/components/seo/schemas";
@@ -94,7 +95,7 @@ export default function RootLayout({
 
         <GclidCapture />
 
-        {children}
+        <PriceModalityProvider>{children}</PriceModalityProvider>
 
         <StickyMobileCTA />
 

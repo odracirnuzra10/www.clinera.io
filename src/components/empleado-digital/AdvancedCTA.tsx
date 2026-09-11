@@ -1,4 +1,10 @@
+"use client";
+
 import Link from "next/link";
+import CatalogPrice from "@/components/pricing/CatalogPrice";
+import PriceIvaNote from "@/components/pricing/PriceIvaNote";
+import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
+import { SETUP_FEE_USD } from "@/content/pricing";
 import styles from "@/app/empleado-digital/empleado-digital.module.css";
 import { VERTEX_IA_MODELS_PROSE } from "@/content/ia-stack";
 
@@ -26,8 +32,14 @@ export default function AdvancedCTA() {
         </h2>
 
         <div className={styles.ctaPriceRow}>
-          <span className={styles.ctaPrice}>USD 479</span>
+          <span className={styles.ctaPrice}><CatalogPrice usd={479} variant="code" /></span>
           <span className={styles.ctaPriceUnit}>/ mes</span>
+        </div>
+        <p className={styles.ctaTrust} style={{ marginTop: 8 }}>
+          <PriceIvaNote />
+        </p>
+        <div style={{ margin: "12px 0 8px" }}>
+          <PriceModalitySwitch size="compact" />
         </div>
 
         <ul className={styles.ctaBullets}>
@@ -62,7 +74,7 @@ export default function AdvancedCTA() {
         </Link>
 
         <p className={styles.ctaTrust}>
-          Configuración inicial USD 450 (onboarding asistido) · se cobra con el primer mes
+          Configuración inicial <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> (onboarding asistido) · se cobra con el primer mes · <PriceIvaNote />
         </p>
 
         <Link href="/demo" className={styles.ctaDemoLink}>
@@ -86,7 +98,7 @@ export default function AdvancedCTA() {
             data-plan-value="379"
             data-plan-name="Atlas view from empleado-digital"
           >
-            Ver plan Atlas — USD 379/mes →
+            Ver plan Atlas — <CatalogPrice usd={379} variant="code" />/mes →
           </Link>
           <Link
             href="/planes"
@@ -95,7 +107,7 @@ export default function AdvancedCTA() {
             data-plan-value="279"
             data-plan-name="Vortex view from empleado-digital"
           >
-            Ver plan Vortex — USD 279/mes →
+            Ver plan Vortex — <CatalogPrice usd={279} variant="code" />/mes →
           </Link>
         </div>
       </div>

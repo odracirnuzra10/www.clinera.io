@@ -4,11 +4,13 @@ import { useState } from "react";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { FinalCTA, Pricing, useReveal } from "@/components/home-v3/sections";
 import { PLANES_FAQ } from "@/content/planes-faq";
+import CatalogPrice from "@/components/pricing/CatalogPrice";
+import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import {
   EXTRA_CREDIT_PACK_CREDITS,
   EXTRA_CREDIT_PACK_USD,
   EXTRA_USER_USD,
-  SETUP_FEE_NUMBER,
+  SETUP_FEE_USD,
 } from "@/content/pricing";
 
 const FAQ = PLANES_FAQ;
@@ -73,8 +75,10 @@ function PlanesHero() {
             maxWidth: 620,
           }}
         >
-          Del equipo de recepción a varias sedes. Precios en USD y permanencia mínima de 6 meses.
-          El primer cobro es implementación USD {SETUP_FEE_NUMBER} más el primer mes del plan.
+          Del equipo de recepción a varias sedes. Permanencia mínima de 6 meses.
+          El primer cobro es implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> más el primer mes del plan.
+          {" "}
+          <PriceIvaNote />.
         </p>
       </div>
       <style jsx>{`
@@ -89,13 +93,13 @@ function PlanesHero() {
 function Addons() {
   const items = [
     {
-      price: `$${EXTRA_CREDIT_PACK_USD}`,
+      usd: EXTRA_CREDIT_PACK_USD,
       unit: "recarga",
       label: `${EXTRA_CREDIT_PACK_CREDITS.toLocaleString("es-CL")} créditos extras`,
       sub: "≈166 conversaciones o ~25 agendamientos de emergencia cuando agotas la bolsa del mes.",
     },
     {
-      price: `$${EXTRA_USER_USD}`,
+      usd: EXTRA_USER_USD,
       unit: "/mes",
       label: "Usuario / profesional extra",
       sub: "Suma asientos sin cambiar de plan.",
@@ -137,11 +141,14 @@ function Addons() {
               }}
             >
               <div style={{ fontFamily: "Inter", fontSize: 36, fontWeight: 700, letterSpacing: "-0.02em", color: "#0A0A0A" }}>
-                {it.price}
+                <CatalogPrice usd={it.usd} />
                 <span style={{ fontSize: 16, fontWeight: 500, color: "#6B7280", marginLeft: 4 }}>{it.unit}</span>
               </div>
               <div style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 600, color: "#0A0A0A", marginTop: 8 }}>{it.label}</div>
               <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "#6B7280", marginTop: 6, lineHeight: 1.5 }}>{it.sub}</div>
+              <div style={{ fontFamily: "Inter", fontSize: 12, color: "#6B7280", marginTop: 8 }}>
+                <PriceIvaNote variant="short" />
+              </div>
             </div>
           ))}
         </div>

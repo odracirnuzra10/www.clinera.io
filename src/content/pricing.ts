@@ -54,6 +54,92 @@ export const EXTRA_CREDIT_PACK_CREDITS = 5_000;
 export const EXTRA_USER_USD = 9;
 
 /**
+ * Modalidades públicas de precio. Default: dólar.
+ * Ricardo (2026-09-11): el listado publicado NO incluye IVA.
+ * CLP/MXN son el catálogo USD convertido a un FX congelado — no live-update.
+ */
+export const PRICE_MODALITIES = ["usd", "clp", "mxn"] as const;
+export type PriceModality = (typeof PRICE_MODALITIES)[number];
+export const DEFAULT_PRICE_MODALITY: PriceModality = "usd";
+
+/**
+ * Tipo de cambio congelado el 2026-09-11. No refrescar ni interpolar.
+ * La fuente de verdad del catálogo sigue siendo USD
+ * (279 / 379 / 479 / 450 / 15 / 9).
+ */
+export const FX_LOCKED_ON = "2026-09-11";
+export const USD_TO_CLP = 940;
+export const USD_TO_MXN = 16.95;
+
+/** Redondeo del *precio mostrado*, no de la tasa. */
+export const DISPLAY_ROUND_CLP = 1_000;
+export const DISPLAY_ROUND_MXN = 10;
+
+export const PRICE_MODALITY = {
+  usd: {
+    id: "usd" as const,
+    label: "Dólar",
+    country: null,
+    currency: "USD",
+    locale: "en-US",
+    ivaNote: "No incluye IVA",
+    ivaNoteLong: "USD · no incluye IVA",
+  },
+  clp: {
+    id: "clp" as const,
+    label: "Peso chileno",
+    country: "Chile",
+    currency: "CLP",
+    locale: "es-CL",
+    ivaNote: "No incluye IVA",
+    ivaNoteLong: "CLP · no incluye IVA en Chile",
+  },
+  mxn: {
+    id: "mxn" as const,
+    label: "Peso mexicano",
+    country: "México",
+    currency: "MXN",
+    locale: "es-MX",
+    ivaNote: "No incluye IVA",
+    ivaNoteLong: "MXN · no incluye IVA en México",
+  },
+} as const;
+
+export type PriceModalityMeta = (typeof PRICE_MODALITY)[PriceModality];
+
+export function isPriceModality(value: unknown): value is PriceModality {
+  return value === "usd" || value === "clp" || value === "mxn";
+}
+
+function roundTo(value: number, step: number): number {
+  return Math.round(value / step) * step;
+}
+
+/** Convierte un monto del catálogo USD a la moneda de pantalla. */
+export function usdToDisplayAmount(usd: number, modality: PriceModality): number {
+  if (modality === "usd") return usd;
+  if (modality === "clp") return roundTo(usd * USD_TO_CLP, DISPLAY_ROUND_CLP);
+  return roundTo(usd * USD_TO_MXN, DISPLAY_ROUND_MXN);
+}
+
+export function formatCatalogNumber(amount: number, modality: PriceModality): string {
+  return amount.toLocaleString(PRICE_MODALITY[modality].locale, {
+    maximumFractionDigits: 0,
+  });
+}
+
+/** `$279` / `$262.000` / `$4,730` */
+export function formatCatalogPrice(usd: number, modality: PriceModality): string {
+  return `$${formatCatalogNumber(usdToDisplayAmount(usd, modality), modality)}`;
+}
+
+/** `USD 279` / `CLP 262.000` / `MXN 4,730` */
+export function formatCatalogPriceWithCode(usd: number, modality: PriceModality): string {
+  const meta = PRICE_MODALITY[modality];
+  return `${meta.currency} ${formatCatalogNumber(usdToDisplayAmount(usd, modality), modality)}`;
+}
+
+/**
  * Catálogo comercial. La web publica monthlyPrice + implementación.
  * annualTotal / annualMonthly / stripeAnnual se quedan para el constructor
  * y la firma; no se muestran en clinera.io.
