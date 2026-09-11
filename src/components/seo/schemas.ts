@@ -104,7 +104,7 @@ export const softwareOffers = CLINERA_PLANS.map((plan) => ({
   priceCurrency: "USD",
   availability: "https://schema.org/InStock",
   url: `${SITE_URL}/planes`,
-  description: `${plan.name}: USD ${plan.monthlyPrice}/mes; implementación USD 450 con el primer cobro.`,
+  description: `${plan.name}: USD ${plan.monthlyPrice}/mes; implementación USD 450 con el primer cobro. No incluye IVA.`,
 }));
 
 export const softwareSchema = {

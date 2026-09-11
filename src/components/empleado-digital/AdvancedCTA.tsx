@@ -1,4 +1,6 @@
 import Link from "next/link";
+import PriceIvaNote from "@/components/pricing/PriceIvaNote";
+import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import styles from "@/app/empleado-digital/empleado-digital.module.css";
 import { VERTEX_IA_MODELS_PROSE } from "@/content/ia-stack";
 
@@ -28,6 +30,12 @@ export default function AdvancedCTA() {
         <div className={styles.ctaPriceRow}>
           <span className={styles.ctaPrice}>USD 479</span>
           <span className={styles.ctaPriceUnit}>/ mes</span>
+        </div>
+        <p className={styles.ctaTrust} style={{ marginTop: 8 }}>
+          <PriceIvaNote />
+        </p>
+        <div style={{ margin: "12px 0 8px" }}>
+          <PriceModalitySwitch size="compact" />
         </div>
 
         <ul className={styles.ctaBullets}>
@@ -62,7 +70,7 @@ export default function AdvancedCTA() {
         </Link>
 
         <p className={styles.ctaTrust}>
-          Configuración inicial USD 450 (onboarding asistido) · se cobra con el primer mes
+          Configuración inicial USD 450 (onboarding asistido) · se cobra con el primer mes · <PriceIvaNote />
         </p>
 
         <Link href="/demo" className={styles.ctaDemoLink}>

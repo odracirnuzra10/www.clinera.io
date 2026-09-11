@@ -1,4 +1,6 @@
 import Link from "next/link";
+import PriceIvaNote from "@/components/pricing/PriceIvaNote";
+import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import WhatsAppMockup from "./WhatsAppMockup";
 import styles from "@/app/empleado-digital/empleado-digital.module.css";
 
@@ -53,7 +55,12 @@ export default function HeroEquipo() {
 
             <p className={styles.trustLine}>
               Desde USD 279/mes · Implementación USD 450 con el primer mes · permanencia mínima 6 meses
+              {" · "}
+              <PriceIvaNote />
             </p>
+            <div style={{ marginTop: 14 }}>
+              <PriceModalitySwitch size="compact" align="start" />
+            </div>
           </div>
         </div>
 

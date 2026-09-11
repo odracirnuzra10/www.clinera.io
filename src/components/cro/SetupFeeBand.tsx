@@ -1,3 +1,4 @@
+import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import { SETUP_FEE_AMOUNT, SETUP_FEE_COPY, SETUP_FEE_TITLE } from "@/content/pricing";
 
 const GRAD = "linear-gradient(90deg, #009FE3 0%, #7C3AED 55%, #D946EF 100%)";
@@ -79,7 +80,7 @@ export default function SetupFeeBand({
           <span style={{ fontFamily: "Inter", fontSize: 13, color: "rgba(255,255,255,.55)" }}>USD</span>
         </div>
         <small style={{ color: "rgba(255,255,255,.60)", fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 9.5, letterSpacing: ".04em", textAlign: "right" }}>
-          Con el primer mes del plan
+          Con el primer mes del plan · <PriceIvaNote variant="short" />
         </small>
       </div>
       <style>{`

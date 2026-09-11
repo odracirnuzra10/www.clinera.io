@@ -54,6 +54,41 @@ export const EXTRA_CREDIT_PACK_CREDITS = 5_000;
 export const EXTRA_USER_USD = 9;
 
 /**
+ * Modalidades públicas de precio: Chile vs México.
+ * Ricardo (2026-09-11): el listado publicado NO incluye IVA.
+ * No hay montos MXN/CLP oficiales — las dos muestran el catálogo USD
+ * y la nota fiscal del país. No convertir. No sumar IVA al número.
+ */
+export const PRICE_MODALITIES = ["cl", "mx"] as const;
+export type PriceModality = (typeof PRICE_MODALITIES)[number];
+export const DEFAULT_PRICE_MODALITY: PriceModality = "cl";
+
+export const PRICE_MODALITY = {
+  cl: {
+    id: "cl" as const,
+    label: "Precios chilenos",
+    country: "Chile",
+    currency: "USD",
+    ivaNote: "No incluye IVA",
+    ivaNoteLong: "USD · no incluye IVA en Chile",
+  },
+  mx: {
+    id: "mx" as const,
+    label: "Precios mexicanos",
+    country: "México",
+    currency: "USD",
+    ivaNote: "No incluye IVA",
+    ivaNoteLong: "USD · no incluye IVA en México",
+  },
+} as const;
+
+export type PriceModalityMeta = (typeof PRICE_MODALITY)[PriceModality];
+
+export function isPriceModality(value: unknown): value is PriceModality {
+  return value === "cl" || value === "mx";
+}
+
+/**
  * Catálogo comercial. La web publica monthlyPrice + implementación.
  * annualTotal / annualMonthly / stripeAnnual se quedan para el constructor
  * y la firma; no se muestran en clinera.io.

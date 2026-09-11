@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { useReveal } from "@/components/home-v3/sections";
+import PriceIvaNote from "@/components/pricing/PriceIvaNote";
+import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import {
   CLINERA_PLANS,
   SETUP_FEE_AMOUNT,
@@ -368,8 +370,11 @@ function PlansSection() {
           </h2>
           <p style={{ fontFamily: "Inter", fontSize: 17, color: "#4B5563", margin: 0 }}>
             Plan mensual · implementación USD {SETUP_FEE_NUMBER} con el primer mes · permanencia
-            mínima de 6 meses · precios en USD.
+            mínima de 6 meses · precios en USD. <PriceIvaNote />.
           </p>
+          <div style={{ marginTop: 20 }}>
+            <PriceModalitySwitch />
+          </div>
         </div>
         <div
           className="demo-plans-grid"
@@ -459,7 +464,7 @@ function PlansSection() {
                       {plan.price}
                     </span>
                     <span style={{ fontFamily: "Inter", fontSize: 14, color: popular ? "rgba(255,255,255,.7)" : "#6B7280", marginLeft: 4 }}>
-                      USD/mes
+                      USD/mes · <PriceIvaNote variant="short" />
                     </span>
                   </div>
                   <div style={{ minHeight: 20, marginBottom: 12, display: "flex", alignItems: "center" }}>

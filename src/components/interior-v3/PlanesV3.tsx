@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { FinalCTA, Pricing, useReveal } from "@/components/home-v3/sections";
 import { PLANES_FAQ } from "@/content/planes-faq";
+import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import {
   EXTRA_CREDIT_PACK_CREDITS,
   EXTRA_CREDIT_PACK_USD,
@@ -75,6 +76,8 @@ function PlanesHero() {
         >
           Del equipo de recepción a varias sedes. Precios en USD y permanencia mínima de 6 meses.
           El primer cobro es implementación USD {SETUP_FEE_NUMBER} más el primer mes del plan.
+          {" "}
+          <PriceIvaNote />.
         </p>
       </div>
       <style jsx>{`
@@ -142,6 +145,9 @@ function Addons() {
               </div>
               <div style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 600, color: "#0A0A0A", marginTop: 8 }}>{it.label}</div>
               <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "#6B7280", marginTop: 6, lineHeight: 1.5 }}>{it.sub}</div>
+              <div style={{ fontFamily: "Inter", fontSize: 12, color: "#6B7280", marginTop: 8 }}>
+                <PriceIvaNote variant="short" />
+              </div>
             </div>
           ))}
         </div>

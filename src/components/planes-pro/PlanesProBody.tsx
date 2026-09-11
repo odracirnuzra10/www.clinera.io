@@ -68,7 +68,7 @@ export default function PlanesProBody({ faqs }: { faqs: Faq[] }) {
             </a>
           </div>
           <div style={{ display: "flex", gap: 24, flexWrap: "wrap", marginTop: 32 }}>
-            {["Permanencia mínima: 6 meses", "Implementación USD 450 con el primer mes", "Facturación en USD"].map((t) => (
+            {["Permanencia mínima: 6 meses", "Implementación USD 450 con el primer mes", "Facturación en USD · no incluye IVA"].map((t) => (
               <span key={t} style={chip}>
                 <Check /> {t}
               </span>

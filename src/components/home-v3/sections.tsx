@@ -13,6 +13,9 @@ import {
 } from "@/content/pricing";
 import { VERTEX_IA_MODELS } from "@/content/ia-stack";
 import AvisoNoReemplaza from "@/components/empleado-digital/AvisoNoReemplaza";
+import PriceIvaNote from "@/components/pricing/PriceIvaNote";
+import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
+import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 
 /* ============================================================
    Reveal-on-scroll helper
@@ -4178,6 +4181,7 @@ export function Pricing({
   ctaHref?: string;
 } = {}) {
   const billing: Billing = "monthly";
+  const { meta } = usePriceModality();
   const isComparisonIntro = intro === "comparison";
   // "none": la página ya trae su propio hero (p. ej. /planes) — sin header duplicado.
   const hideHeader = intro === "none";
@@ -4272,6 +4276,10 @@ export function Pricing({
         </div>
         )}
 
+        <div className="reveal" style={{ margin: hideHeader ? "8px auto 22px" : "4px auto 22px" }}>
+          <PriceModalitySwitch />
+        </div>
+
         <div
           className="reveal"
           aria-live="polite"
@@ -4285,7 +4293,7 @@ export function Pricing({
             color: "#6B7280",
           }}
         >
-          Tres planes · primer cobro = implementación USD {SETUP_FEE_AMOUNT.replace("$", "")} + el primer mes · permanencia mínima de {SEMESTER_MONTHS} meses
+          Tres planes · primer cobro = implementación USD {SETUP_FEE_AMOUNT.replace("$", "")} + el primer mes · permanencia mínima de {SEMESTER_MONTHS} meses · {meta.ivaNoteLong}
         </div>
 
         <div
@@ -4476,6 +4484,9 @@ export function Pricing({
                         {p.price}
                       </div>
                       <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 6 }}>USD/mes</div>
+                      <div style={{ fontFamily: "Inter", fontSize: 11, fontWeight: 600, color: th.sub, marginTop: 4 }}>
+                        <PriceIvaNote variant="short" />
+                      </div>
                     </div>
                   </div>
 
@@ -4673,7 +4684,7 @@ export function Pricing({
             color: "#6B7280",
           }}
         >
-          Facturación en USD · Stripe · MercadoPago · WebPay · Boleta o factura según país
+          Facturación en USD · {meta.ivaNote} en {meta.country} · Stripe · MercadoPago · WebPay · Boleta o factura según país
         </div>
 
       </div>

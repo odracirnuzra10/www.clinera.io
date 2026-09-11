@@ -571,7 +571,7 @@ function FinalCta({
               color: "#A0A6B2",
             }}
           >
-            Desde USD {vortex.monthlyPrice}/mes · Implementación USD {SETUP_FEE_NUMBER} con el primer mes · Permanencia 6 meses
+            Desde USD {vortex.monthlyPrice}/mes · Implementación USD {SETUP_FEE_NUMBER} con el primer mes · Permanencia 6 meses · no incluye IVA
           </div>
         </div>
       </div>

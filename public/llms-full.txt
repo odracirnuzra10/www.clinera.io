@@ -101,7 +101,8 @@ sitio (https://www.clinera.io/ventas y /efectividad). Cifras a abril 2026:
 ## Planes y precios
 
 Todos los planes en USD, con permanencia mínima de 6 meses y activación vía
-Stripe en modalidad mensual. El primer cobro es implementación USD 450 más el
+Stripe en modalidad mensual. El listado publicado no incluye IVA (Chile o
+México); no hay montos en pesos. El primer cobro es implementación USD 450 más el
 primer mes del plan; después, el plan se renueva mes a mes. El modelo es una
 sola bolsa de créditos por mes. Clinera opera en un único modo de agendamiento:
 Agentic (GLM 5.2, Gemini 3.7 Flash, Claude Opus 4.8 y Claude Sonnet 5 vía

@@ -170,6 +170,14 @@ Así lo comunican las tarjetas de `<Pricing />` en home, `/planes` y `/planes-pr
 Usa `setupFeeFor(billing)` / `includesFreeSetup(billing)` — en catálogo ambos
 devuelven 450 / false; no asumas implementación gratis.
 
+**Modalidad Chile / México (2026-09-11):** el listado publicado **no incluye IVA**.
+No hay montos oficiales en CLP ni MXN: el switch «Precios chilenos» /
+«Precios mexicanos» muestra el mismo catálogo USD y la nota fiscal del país.
+Fuente: `PRICE_MODALITY` en `src/content/pricing.ts`. Control:
+`PriceModalitySwitch` (misma pieza en `/planes`, home, `/planes-pro`,
+calculadoras, `/demo`, `/empleado-digital`). No convertir a pesos ni sumar IVA
+al número. Guardián: `tests/price-modality.spec.ts`.
+
 **Discurso de cierre (sep 2026):** deck interno `public/presentacion-nuevo-discurso.html`
 (`/nuevodiscurso`). La web no ofrece anual ni semestral. El closer regala la
 implementación (100% hoy/mañana, 50% esta semana) con una excusa que vence.
