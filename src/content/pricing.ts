@@ -56,9 +56,10 @@ export const EXTRA_USER_USD = 9;
 /**
  * Modalidades públicas de precio. Default: dólar.
  * Ricardo (2026-09-11): el listado publicado NO incluye IVA.
- * CLP/MXN son el catálogo USD convertido a un FX congelado — no live-update.
+ * MXN es el catálogo USD a un FX congelado — no live-update.
+ * No hay peso chileno en la web.
  */
-export const PRICE_MODALITIES = ["usd", "clp", "mxn"] as const;
+export const PRICE_MODALITIES = ["usd", "mxn"] as const;
 export type PriceModality = (typeof PRICE_MODALITIES)[number];
 export const DEFAULT_PRICE_MODALITY: PriceModality = "usd";
 
@@ -68,11 +69,9 @@ export const DEFAULT_PRICE_MODALITY: PriceModality = "usd";
  * (279 / 379 / 479 / 450 / 15 / 9).
  */
 export const FX_LOCKED_ON = "2026-09-11";
-export const USD_TO_CLP = 940;
 export const USD_TO_MXN = 16.95;
 
 /** Redondeo del *precio mostrado*, no de la tasa. */
-export const DISPLAY_ROUND_CLP = 1_000;
 export const DISPLAY_ROUND_MXN = 10;
 
 export const PRICE_MODALITY = {
@@ -84,15 +83,6 @@ export const PRICE_MODALITY = {
     locale: "en-US",
     ivaNote: "No incluye IVA",
     ivaNoteLong: "USD · no incluye IVA",
-  },
-  clp: {
-    id: "clp" as const,
-    label: "Peso chileno",
-    country: "Chile",
-    currency: "CLP",
-    locale: "es-CL",
-    ivaNote: "No incluye IVA",
-    ivaNoteLong: "CLP · no incluye IVA en Chile",
   },
   mxn: {
     id: "mxn" as const,
@@ -108,7 +98,7 @@ export const PRICE_MODALITY = {
 export type PriceModalityMeta = (typeof PRICE_MODALITY)[PriceModality];
 
 export function isPriceModality(value: unknown): value is PriceModality {
-  return value === "usd" || value === "clp" || value === "mxn";
+  return value === "usd" || value === "mxn";
 }
 
 function roundTo(value: number, step: number): number {
@@ -118,7 +108,6 @@ function roundTo(value: number, step: number): number {
 /** Convierte un monto del catálogo USD a la moneda de pantalla. */
 export function usdToDisplayAmount(usd: number, modality: PriceModality): number {
   if (modality === "usd") return usd;
-  if (modality === "clp") return roundTo(usd * USD_TO_CLP, DISPLAY_ROUND_CLP);
   return roundTo(usd * USD_TO_MXN, DISPLAY_ROUND_MXN);
 }
 
@@ -128,12 +117,12 @@ export function formatCatalogNumber(amount: number, modality: PriceModality): st
   });
 }
 
-/** `$279` / `$262.000` / `$4,730` */
+/** `$279` / `$4,730` */
 export function formatCatalogPrice(usd: number, modality: PriceModality): string {
   return `$${formatCatalogNumber(usdToDisplayAmount(usd, modality), modality)}`;
 }
 
-/** `USD 279` / `CLP 262.000` / `MXN 4,730` */
+/** `USD 279` / `MXN 4,730` */
 export function formatCatalogPriceWithCode(usd: number, modality: PriceModality): string {
   const meta = PRICE_MODALITY[modality];
   return `${meta.currency} ${formatCatalogNumber(usdToDisplayAmount(usd, modality), modality)}`;

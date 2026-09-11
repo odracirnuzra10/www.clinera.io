@@ -171,12 +171,11 @@ Usa `setupFeeFor(billing)` / `includesFreeSetup(billing)` — en catálogo ambos
 devuelven 450 / false; no asumas implementación gratis.
 
 **Monedas en la web (2026-09-11):** el listado publicado **no incluye IVA**.
-El catálogo vive en USD. El switch de 3 opciones — **Dólar** (default),
-**Peso chileno**, **Peso mexicano** — convierte con un FX **congelado**
-en `src/content/pricing.ts`: `USD_TO_CLP = 940`, `USD_TO_MXN = 16.95`,
-fecha `FX_LOCKED_ON`. No live-update. Redondeo de pantalla: CLP al millar,
-MXN a la decena. Control: `PriceModalitySwitch`. Guardián:
-`tests/price-modality.spec.ts`.
+El catálogo vive en USD. El switch tiene **2 opciones** — **Dólar** (default)
+y **Peso mexicano**. MXN usa un FX **congelado** en `src/content/pricing.ts`:
+`USD_TO_MXN = 16.95`, fecha `FX_LOCKED_ON`. No live-update. Redondeo de
+pantalla: MXN a la decena. No hay peso chileno. Control: `PriceModalitySwitch`.
+Guardián: `tests/price-modality.spec.ts`.
 
 **Discurso de cierre (sep 2026):** deck interno `public/presentacion-nuevo-discurso.html`
 (`/nuevodiscurso`). La web no ofrece anual ni semestral. El closer regala la
