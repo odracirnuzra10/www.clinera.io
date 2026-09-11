@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Clinera — La campaña ahora aprende de ustedes</title>
+  <meta name="description" content="Reunión interna con ventas: la campaña aprende del marcado MQL." />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <link rel="canonical" href="https://www.clinera.io/ventas2026" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='4' fill='%237C3AED'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --canvas: #ffffff;
+      --ink: #111318;
+      --muted: #656a76;
+      --mid: #8b929e;
+      --line: #e3e3df;
+      --old: #f4f4f2;
+      --teal: #10B981;
+      --grad: linear-gradient(135deg, #3B82F6 0%, #7C3AED 50%, #C850C0 100%);
+      --display: "Outfit", sans-serif;
+      --mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      --ease: cubic-bezier(.22, .8, .25, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: var(--display);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    body { overflow: hidden; }
+    button {
+      border: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+    }
+    :focus-visible {
+      outline: 2px solid rgba(124, 58, 237, .35);
+      outline-offset: 3px;
+    }
+
+    .g {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      min-height: 100dvh;
+      isolation: isolate;
+    }
+
+    .hud {
+      position: fixed;
+      z-index: 40;
+      inset: 0 0 auto;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 4vw, 56px);
+      pointer-events: none;
+    }
+    .brand {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -.045em;
+    }
+    .brand-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin: 0 7px 1px 0;
+      vertical-align: middle;
+      background: var(--grad);
+    }
+    .hud-meta {
+      color: var(--mid);
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .counter {
+      position: fixed;
+      z-index: 40;
+      right: clamp(20px, 4vw, 56px);
+      bottom: 22px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    .nav {
+      position: fixed;
+      z-index: 40;
+      left: clamp(20px, 4vw, 56px);
+      bottom: 16px;
+      display: flex;
+      gap: 8px;
+    }
+    .nav button {
+      width: 44px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--canvas);
+    }
+    .nav button:disabled { opacity: .28; cursor: default; }
+    .nav svg { width: 16px; height: 16px; }
+
+    .progress {
+      position: fixed;
+      z-index: 41;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3px;
+      background: var(--line);
+    }
+    .progress > i {
+      display: block;
+      height: 100%;
+      width: 11.11%;
+      background: var(--grad);
+      transition: width .35s var(--ease);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      display: grid;
+      place-items: center;
+      overflow: auto;
+      padding: 72px clamp(22px, 5.5vw, 88px) 72px;
+      background: var(--canvas);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translate3d(0, 12px, 0);
+      transition:
+        opacity .42s var(--ease),
+        transform .5s var(--ease),
+        visibility .42s;
+    }
+    .slide.active {
+      z-index: 2;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translate3d(0, 0, 0);
+    }
+    .inner {
+      width: min(1120px, 100%);
+      margin: auto;
+    }
+
+    .cover {
+      background:
+        radial-gradient(ellipse 78% 68% at 4% -8%, rgba(232, 164, 196, 0.42) 0%, rgba(200, 80, 192, 0.12) 32%, transparent 62%),
+        radial-gradient(ellipse 64% 54% at 46% 10%, rgba(196, 181, 253, 0.38) 0%, rgba(124, 58, 237, 0.10) 38%, transparent 64%),
+        radial-gradient(ellipse 72% 62% at 98% -4%, rgba(147, 197, 253, 0.48) 0%, rgba(59, 130, 246, 0.12) 34%, transparent 60%),
+        #ffffff;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--grad);
+    }
+
+    .display {
+      margin: 0;
+      font-size: clamp(40px, 6.4vw, 84px);
+      font-weight: 800;
+      letter-spacing: -.065em;
+      line-height: .94;
+      text-wrap: balance;
+    }
+    .lead strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .kicker {
+      margin: 18px 0 0;
+      color: var(--ink);
+      font-size: clamp(18px, 1.6vw, 22px);
+      font-weight: 600;
+      letter-spacing: -.02em;
+      line-height: 1.35;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .panel {
+      min-width: 0;
+      padding: clamp(22px, 3vw, 36px);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .panel-old {
+      background: var(--old);
+      border-color: #dddcd6;
+    }
+    .panel-new {
+      position: relative;
+      background:
+        radial-gradient(ellipse 90% 80% at 100% 0%, rgba(200, 80, 192, 0.10), transparent 55%),
+        radial-gradient(ellipse 80% 70% at 0% 100%, rgba(59, 130, 246, 0.10), transparent 55%),
+        #ffffff;
+      border-color: transparent;
+    }
+    .panel-new::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 1.5px;
+      border-radius: 8px;
+      background: var(--grad);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .panel .label {
+      margin: 0 0 14px;
+      color: var(--mid);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .panel-new .label {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .panel h3 {
+      margin: 0 0 12px;
+      font-size: clamp(26px, 2.6vw, 34px);
+      font-weight: 700;
+      letter-spacing: -.04em;
+      line-height: 1.1;
+    }
+    .panel p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .panel-old h3,
+    .panel-old p { color: #6b6f78; }
+
+    .quote {
+      margin: 0;
+      font-size: clamp(36px, 5.6vw, 72px);
+      font-weight: 800;
+      letter-spacing: -.06em;
+      line-height: .98;
+      text-wrap: balance;
+    }
+    .facts {
+      display: grid;
+      gap: 10px;
+      max-width: 36em;
+      margin: 0 0 28px;
+      padding: 0;
+      list-style: none;
+    }
+    .facts li {
+      color: var(--muted);
+      font-size: clamp(17px, 1.5vw, 20px);
+      line-height: 1.45;
+    }
+
+    .path-steps {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 10px;
+      margin: 0 0 14px;
+      font-family: var(--mono);
+      font-size: clamp(14px, 1.5vw, 18px);
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .step {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+    }
+    .step-mql {
+      border-color: transparent;
+      background: var(--grad);
+      color: #fff;
+    }
+    .step-ghost {
+      color: var(--mid);
+      background: transparent;
+      border-style: dashed;
+      text-decoration: line-through;
+    }
+    .arr {
+      color: var(--mid);
+      font-size: 18px;
+    }
+    .quote-sm {
+      margin-top: 28px;
+      font-size: clamp(28px, 4.2vw, 48px);
+    }
+
+    .weeks { display: grid; gap: 22px; margin-top: 8px; }
+    .week {
+      display: grid;
+      grid-template-columns: minmax(96px, 140px) minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 18px;
+    }
+    .week-meta {
+      color: var(--mid);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .bar {
+      display: flex;
+      height: 14px;
+      overflow: hidden;
+      border-radius: 3px;
+      background: #ecece8;
+    }
+    .bar-bad { background: #d8d8d2; }
+    .bar-mql { background: var(--grad); }
+    .week-count {
+      min-width: 11.5em;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -.015em;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .week-count b { font-weight: 700; }
+
+    .risk-grid {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: end;
+      gap: 28px 48px;
+    }
+    .big-eq {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      line-height: .85;
+    }
+    .big-eq .n {
+      font-size: clamp(88px, 14vw, 160px);
+      font-weight: 800;
+      letter-spacing: -.07em;
+    }
+    .big-eq .op {
+      color: var(--mid);
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 500;
+    }
+    .risk-copy p {
+      max-width: 28em;
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: clamp(17px, 1.5vw, 20px);
+      line-height: 1.45;
+    }
+    .risk-copy p:last-child { margin: 0; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin: 22px 0 22px;
+    }
+    .card {
+      padding: clamp(20px, 2.4vw, 28px);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .card-mql {
+      position: relative;
+      border-color: transparent;
+      background:
+        radial-gradient(ellipse 90% 80% at 100% 0%, rgba(200, 80, 192, 0.08), transparent 55%),
+        #ffffff;
+    }
+    .card-mql::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 1.5px;
+      border-radius: 8px;
+      background: var(--grad);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -.04em;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.45;
+    }
+    .discards {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .discards li {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .edit {
+      margin-top: 22px;
+      padding: 16px 18px;
+      border-left: 3px solid transparent;
+      border-image: var(--grad) 1;
+      background: #fafafa;
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .placeholder {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .rules {
+      display: grid;
+      gap: 16px;
+      max-width: 38em;
+      margin: 8px 0 0;
+    }
+    .rule {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+    .rule-mark {
+      width: 10px;
+      height: 10px;
+      margin-top: 8px;
+      background: var(--grad);
+    }
+    .rule p {
+      margin: 0;
+      font-size: clamp(20px, 2vw, 26px);
+      font-weight: 600;
+      letter-spacing: -.03em;
+      line-height: 1.25;
+    }
+    .rule small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .live {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      margin: 0 8px 1px 0;
+      vertical-align: middle;
+      background: var(--teal);
+    }
+
+    .report {
+      margin: 22px 0 18px;
+      padding: clamp(16px, 2vw, 22px) clamp(16px, 2.2vw, 24px);
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fafafa;
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: clamp(13px, 1.25vw, 15px);
+      line-height: 1.7;
+      white-space: pre;
+    }
+    .close {
+      display: grid;
+      gap: clamp(18px, 3vh, 28px);
+    }
+    .close p {
+      margin: 0;
+      font-size: clamp(32px, 4.6vw, 56px);
+      font-weight: 800;
+      letter-spacing: -.055em;
+      line-height: 1.05;
+    }
+
+    @media (max-width: 820px) {
+      .slide { padding: 68px 20px 84px; }
+      .split, .cards, .risk-grid, .week, .paths {
+        grid-template-columns: 1fr;
+      }
+      .quote-sm { font-size: clamp(24px, 7vw, 36px); }
+      .week-count { text-align: left; min-width: 0; }
+      .hud-meta { display: none; }
+      .display { font-size: clamp(34px, 10vw, 52px); }
+      .quote { font-size: clamp(30px, 9vw, 44px); }
+      .close p { font-size: clamp(26px, 8vw, 40px); }
+      .report { white-space: pre-wrap; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <header class="hud">
+      <div class="brand"><span class="brand-dot" aria-hidden="true"></span>clinera</div>
+      <div class="hud-meta">Reunión con ventas</div>
+    </header>
+
+    <section class="slide cover active" id="portada" aria-hidden="false">
+      <div class="inner">
+        <p class="eyebrow">Reunión con ventas</p>
+        <h1 class="display">La campaña ahora<br />aprende de <span class="g">ustedes</span>.</h1>
+        <p class="lead">Dejó de optimizar por “llenó el formulario”. Ahora aprende de quién marcan como MQL. Mañana el trabajo cambia: marcar bien, todos los días.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="cambio" aria-hidden="true">
+      <div class="inner">
+        <p class="eyebrow">Qué cambió</p>
+        <h2 class="display" style="font-size: clamp(32px, 4.2vw, 52px); margin-bottom: 28px;">Misma campaña. Otra señal.</h2>
+        <div class="split">
+          <article class="panel panel-old">
+            <p class="label">Antes</p>
+            <h3>Formulario enviado</h3>
+            <p>Optimizaba por cualquiera que llenaba el form. Un curioso y un dueño de clínica contaban igual.</p>
+          </article>
+          <article class="panel panel-new">
+            <p class="label">Ahora</p>
+            <h3 class="g">Persona calificada</h3>
+            <p>Optimiza por MQL. La campaña aprende de la gente que ustedes marcan, no del volumen del form.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="ensena" aria-hidden="true">
+      <div class="inner">
+        <p class="eyebrow">Quién le enseña</p>
+        <p class="lead" style="margin: 0 0 24px;">La herramienta aprende <strong>solo de MQL</strong>. Si el lead va de Nuevo a SQL sin MQL, la campaña no recibe la señal. No aprende.</p>
+        <div class="split">
+          <article class="panel panel-old">
+            <p class="label">Nunca</p>
+            <div class="path-steps" aria-label="Camino incorrecto">
+              <span class="step">Nuevo</span>
+              <span class="arr" aria-hidden="true">→</span>
+              <span class="step step-ghost">MQL</span>
+              <span class="arr" aria-hidden="true">→</span>
+              <span class="step">SQL</span>
+            </div>
+            <h3>Nuevo → SQL</h3>
+            <p>Se ve eficiente. Un lead super calificado el día 1 igual se salta la señal. La campaña no aprende nada.</p>
+          </article>
+          <article class="panel panel-new">
+            <p class="label">Siempre</p>
+            <div class="path-steps" aria-label="Camino correcto">
+              <span class="step">Nuevo</span>
+              <span class="arr" aria-hidden="true">→</span>
+              <span class="step step-mql">MQL</span>
+              <span class="arr" aria-hidden="true">→</span>
+              <span class="step">SQL</span>
+            </div>
+            <h3 class="g">Nuevo → MQL → SQL</h3>
+            <p>Aunque llegue listo para SQL hoy. Marca MQL primero. Esa es la única señal que recibe la campaña.</p>
+          </article>
+        </div>
+        <p class="quote quote-sm">Sin su marcado, la campaña <span class="g">no aprende</span>.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="curva" aria-hidden="true">
+      <div class="inner">
+        <p class="eyebrow">La curva</p>
+        <h2 class="display" style="font-size: clamp(32px, 4.2vw, 52px);">Al principio se ve mal. Es el proceso.</h2>
+        <p class="lead" style="margin-top: 12px; margin-bottom: 28px;">Ilustrativo. No es una promesa de números.</p>
+        <div class="weeks">
+          <div class="week">
+            <div class="week-meta">Semana 1</div>
+            <div class="bar" aria-hidden="true">
+              <span class="bar-bad" style="flex: 9"></span>
+              <span class="bar-mql" style="flex: 1"></span>
+            </div>
+            <div class="week-count">10 leads · 9 malos · <b class="g">1 MQL</b></div>
+          </div>
+          <div class="week">
+            <div class="week-meta">Semana 2</div>
+            <div class="bar" aria-hidden="true">
+              <span class="bar-bad" style="flex: 8"></span>
+              <span class="bar-mql" style="flex: 2"></span>
+            </div>
+            <div class="week-count">10 leads · 8 malos · <b class="g">2 MQL</b></div>
+          </div>
+          <div class="week">
+            <div class="week-meta">Semana 3</div>
+            <div class="bar" aria-hidden="true">
+              <span class="bar-bad" style="flex: 7"></span>
+              <span class="bar-mql" style="flex: 3"></span>
+            </div>
+            <div class="week-count">10 leads · 7 malos · <b class="g">3 MQL</b></div>
+          </div>
+        </div>
+        <p class="kicker">El marcado se acumula. El volumen no baja. Baja la basura.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="riesgo" aria-hidden="true">
+      <div class="inner">
+        <p class="eyebrow">El riesgo</p>
+        <div class="risk-grid">
+          <div class="big-eq" aria-hidden="true">
+            <span class="n g">1</span>
+            <span class="op">→</span>
+            <span class="n g">10</span>
+          </div>
+          <div class="risk-copy">
+            <p>Un MQL falso le enseña a la campaña lo contrario. Uno hoy son diez leads malos en tres semanas.</p>
+            <p>Dejar de marcar también cuesta. Un lead bueno sin marcar es una señal perdida.</p>
+            <p class="kicker" style="margin-top: 8px;">Marca lo que es. Ni más ni menos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="mql" aria-hidden="true">
+      <div class="inner">
+        <p class="eyebrow">Qué cuenta como MQL</p>
+        <div class="cards">
+          <article class="card card-mql">
+            <h3 class="g">MQL</h3>
+            <p>Lead real. El closer verificó que hay clínica y persona. Paso obligatorio antes de SQL. Nunca se salta.</p>
+          </article>
+          <article class="card">
+            <h3>NQL</h3>
+            <p>No responde. No es un lead de verdad. No le enseña a la campaña a buscar más de esos.</p>
+          </article>
+        </div>
+        <p class="kicker" style="margin: 0 0 18px;">Aunque esté super calificado el día 1: <span class="g">Nuevo → MQL → SQL</span>. Nunca Nuevo → SQL.</p>
+        <p class="eyebrow" style="margin-bottom: 12px;">Descartes típicos</p>
+        <ul class="discards">
+          <li>Sin clínica</li>
+          <li>Curioso</li>
+          <li>País fuera de alcance</li>
+          <li>Número malo</li>
+        </ul>
+        <p class="edit">
+          Definición operativa (editable):<br />
+          <span class="placeholder">[MQL = closer verificó que el lead es real. Hay clínica, hay persona, hay intención. Camino: Nuevo → MQL → SQL. Nunca Nuevo → SQL.]</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="slide" id="reuniones" aria-hidden="true">
+      <div class="inner">
+        <p class="eyebrow">Reuniones del día</p>
+        <h2 class="display" style="font-size: clamp(32px, 4.4vw, 56px);">Cuántas confirmadas. Con qué clínica.</h2>
+        <div class="rules">
+          <div class="rule">
+            <span class="rule-mark" aria-hidden="true"></span>
+            <p>Confirmadas. <small>No “agendadas esperando respuesta”.</small></p>
+          </div>
+          <div class="rule">
+            <span class="rule-mark" aria-hidden="true"></span>
+            <p>Con nombre de clínica. <small>Si no está, se dice [clínica pendiente].</small></p>
+          </div>
+          <div class="rule">
+            <span class="rule-mark" aria-hidden="true"></span>
+            <p>Si una se cayó o se reagendó, se dice. <small>El dato malo también es dato.</small></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="reporte" aria-hidden="true">
+      <div class="inner">
+        <p class="eyebrow"><span class="live" aria-hidden="true"></span>El reporte diario</p>
+        <h2 class="display" style="font-size: clamp(30px, 3.8vw, 48px);">Slack <span class="g">#comercial</span>. Todos los días, antes de las 10:00.</h2>
+        <p class="lead" style="margin-top: 12px;">No es burocracia. Es el mismo dato que alimenta la campaña.</p>
+        <pre class="report">Reporte comercial · [fecha]
+Reuniones confirmadas hoy: X
+- [Clínica 1] · [hora]
+- [Clínica 2] · [hora]
+Leads nuevos ayer: X
+MQL reales: X
+Descartados: X (motivo principal)</pre>
+        <p class="kicker">Mejor incompleto a las 10:00 que completo a las 14:00.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="cierre" aria-hidden="true">
+      <div class="inner">
+        <p class="eyebrow">Cierre</p>
+        <div class="close">
+          <p>Marca todos los días.</p>
+          <p>Marca con <span class="g">honestidad</span>.</p>
+          <p>Aguanta las primeras semanas.</p>
+        </div>
+      </div>
+    </section>
+
+    <nav class="nav" aria-label="Navegación del deck">
+      <button type="button" id="prevBtn" aria-label="Diapositiva anterior">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg>
+      </button>
+      <button type="button" id="nextBtn" aria-label="Siguiente diapositiva">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+      </button>
+    </nav>
+    <div class="counter" id="counter">01 / 09</div>
+    <div class="progress" aria-hidden="true"><i id="progressFill"></i></div>
+  </div>
+
+  <script>
+    (() => {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const counter = document.getElementById("counter");
+      const progressFill = document.getElementById("progressFill");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const total = slides.length;
+      let current = 0;
+      let startX = 0;
+      let startY = 0;
+
+      const pad = (n) => String(n).padStart(2, "0");
+
+      const render = (next) => {
+        current = Math.max(0, Math.min(next, total - 1));
+        slides.forEach((slide, i) => {
+          const on = i === current;
+          slide.classList.toggle("active", on);
+          slide.setAttribute("aria-hidden", String(!on));
+          if (on) slide.scrollTop = 0;
+        });
+        counter.textContent = pad(current + 1) + " / " + pad(total);
+        progressFill.style.width = ((current + 1) / total) * 100 + "%";
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === total - 1;
+      };
+
+      const goPrev = () => render(current - 1);
+      const goNext = () => render(current + 1);
+
+      prevBtn.addEventListener("click", (e) => { e.stopPropagation(); goPrev(); });
+      nextBtn.addEventListener("click", (e) => { e.stopPropagation(); goNext(); });
+
+      document.addEventListener("keydown", (e) => {
+        if (["ArrowRight", "PageDown", " "].includes(e.key)) {
+          if (e.key === " " && e.target.closest("button")) return;
+          e.preventDefault();
+          goNext();
+        }
+        if (["ArrowLeft", "PageUp"].includes(e.key)) {
+          e.preventDefault();
+          goPrev();
+        }
+        if (e.key === "Home") { e.preventDefault(); render(0); }
+        if (e.key === "End") { e.preventDefault(); render(total - 1); }
+      });
+
+      document.addEventListener("touchstart", (e) => {
+        startX = e.changedTouches[0].clientX;
+        startY = e.changedTouches[0].clientY;
+      }, { passive: true });
+
+      document.addEventListener("touchend", (e) => {
+        const dx = startX - e.changedTouches[0].clientX;
+        const dy = startY - e.changedTouches[0].clientY;
+        if (Math.abs(dx) < 48 || Math.abs(dy) > Math.abs(dx)) return;
+        if (dx > 0) goNext();
+        else goPrev();
+      }, { passive: true });
+
+      render(0);
+    })();
+  </script>
+</body>
+</html>
