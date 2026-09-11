@@ -23,9 +23,10 @@ import {
 import { IntelligencePlataformaSection } from "@/components/IntelligenceSection";
 import HeroCarousel from "@/components/plataforma/HeroCarousel";
 import AuraNetwork from "@/components/plataforma/AuraNetwork";
+import CatalogPrice from "@/components/pricing/CatalogPrice";
 import {
   CLINERA_PLANS,
-  SETUP_FEE_NUMBER,
+  SETUP_FEE_USD,
 } from "@/content/pricing";
 import type { SoftwareVerticalContent } from "./content";
 
@@ -571,7 +572,7 @@ function FinalCta({
               color: "#A0A6B2",
             }}
           >
-            Desde USD {vortex.monthlyPrice}/mes · Implementación USD {SETUP_FEE_NUMBER} con el primer mes · Permanencia 6 meses · no incluye IVA
+            Desde <CatalogPrice usd={vortex.monthlyPrice} variant="code" />/mes · Implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> con el primer mes · Permanencia 6 meses · no incluye IVA
           </div>
         </div>
       </div>

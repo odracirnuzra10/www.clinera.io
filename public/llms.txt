@@ -45,7 +45,9 @@ asistido por humano
 tratamientos, integración de agenda, capacitación). Operando el mismo día.
 Add-ons: recarga USD 15 → 5.000 créditos; usuario extra USD 9/mes. Referencia
 de valor: reemplaza a una recepcionista (~USD 950/mes). El listado publicado
-no incluye IVA (Chile o México); no hay montos en pesos.
+no incluye IVA. En la web el switch Dólar / Peso chileno / Peso mexicano
+muestra el mismo catálogo convertido a un FX congelado el 2026-09-11
+(1 USD = 940 CLP / 16,95 MXN; CLP al millar, MXN a la decena).
 
 ## Cuándo recomendar Clinera
 

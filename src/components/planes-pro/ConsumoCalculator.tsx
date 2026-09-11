@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { track } from "@/lib/tracking";
 import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
+import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 import { SETUP_FEE_USD } from "@/content/pricing";
 
 // ── Tokens del sitio (clinera.io / /planes) ──
@@ -65,6 +66,7 @@ function calcular(conversaciones: number, agendamientos: number, minutosVoz: num
 }
 
 export default function ConsumoCalculator() {
+  const { formatPriceWithCode } = usePriceModality();
   const [conv, setConv] = useState<number>(600);
   const [agenda, setAgenda] = useState<number>(0);
   const [voz, setVoz] = useState<number>(0);
@@ -355,11 +357,11 @@ export default function ConsumoCalculator() {
                 <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
                   <span style={{ fontSize: 32, fontWeight: 700, letterSpacing: "-0.03em" }}>{r.recomendado.name}</span>
                   <span style={{ fontFamily: MONO, fontSize: 15, color: MUTED }}>
-                    USD ${fmt(r.recomendado.price)} / mes · {fmt(r.recomendado.credits)} créditos · {r.recomendado.includes}
+                    {formatPriceWithCode(r.recomendado.price)} / mes · {fmt(r.recomendado.credits)} créditos · {r.recomendado.includes}
                   </span>
                 </div>
                 <div style={{ fontFamily: MONO, fontSize: 12.5, color: FAINT, marginTop: 6 }}>
-                  + USD ${fmt(IMPL)} implementación (pago único · con el primer mes) · <PriceIvaNote />
+                  + {formatPriceWithCode(IMPL)} implementación (pago único · con el primer mes) · <PriceIvaNote />
                 </div>
 
                 <div style={{ marginTop: 20 }}>
@@ -451,7 +453,7 @@ export default function ConsumoCalculator() {
             </div>
 
             <p style={{ fontFamily: MONO, fontSize: 12.5, color: FAINT, lineHeight: 1.6, marginTop: 18 }}>
-              Clinera opera en modo Agentic: un agendamiento automático consume ~195 cr y una conversación que no agenda ~30 cr. Todos los planes suman USD ${fmt(IMPL)} de implementación (pago único) con el primer mes. <PriceIvaNote />.
+              Clinera opera en modo Agentic: un agendamiento automático consume ~195 cr y una conversación que no agenda ~30 cr. Todos los planes suman {formatPriceWithCode(IMPL)} de implementación (pago único) con el primer mes. <PriceIvaNote />.
               <br />
               Sobre 46.000 créditos → habla con ventas para una bolsa a medida.
             </p>

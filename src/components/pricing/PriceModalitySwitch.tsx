@@ -23,7 +23,7 @@ export default function PriceModalitySwitch({
       className={["home-billing-toggle", className].filter(Boolean).join(" ")}
       data-price-modality-switch
       data-price-modality={modality}
-      data-price-currency="USD"
+      data-price-currency={meta.currency}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -36,6 +36,8 @@ export default function PriceModalitySwitch({
         aria-label="Modalidad de precios"
         style={{
           display: "inline-flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
           background: "#fff",
           border: "1px solid #E5E7EB",
           borderRadius: 999,
@@ -61,8 +63,8 @@ export default function PriceModalitySwitch({
                 border: 0,
                 cursor: "pointer",
                 borderRadius: 999,
-                padding: compact ? "8px 14px" : "9px 18px",
-                minWidth: compact ? 0 : 148,
+                padding: compact ? "8px 12px" : "9px 14px",
+                minWidth: compact ? 0 : 118,
                 fontFamily: "Inter, system-ui, sans-serif",
                 fontSize: compact ? 13 : 14,
                 fontWeight: selected ? 700 : 600,

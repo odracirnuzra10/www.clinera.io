@@ -48,7 +48,7 @@ export type SoftwareVerticalContent = {
   };
 };
 
-const PRICE_FAQ = `Vortex desde USD ${vortex.monthlyPrice}/mes, Atlas USD ${atlas.monthlyPrice}, Summit USD ${summit.monthlyPrice}. Permanencia mínima 6 meses. El primer cobro es implementación USD ${SETUP_FEE_NUMBER} más el primer mes del plan; después, el plan mes a mes. Los precios publicados están en USD y no incluyen IVA.`;
+const PRICE_FAQ = `Vortex desde USD ${vortex.monthlyPrice}/mes, Atlas USD ${atlas.monthlyPrice}, Summit USD ${summit.monthlyPrice}. Permanencia mínima 6 meses. El primer cobro es implementación USD ${SETUP_FEE_NUMBER} más el primer mes del plan; después, el plan mes a mes. El catálogo está en USD; en la web puedes ver CLP o MXN a un tipo de cambio fijo. Los precios no incluyen IVA.`;
 
 const INTEGRATION_FAQ =
   "No. Clinera no se sincroniza con Reservo, AgendaPro, Medilink ni Dentalink: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Para conectar otras herramientas tienes Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit.";

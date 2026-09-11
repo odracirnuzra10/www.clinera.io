@@ -170,13 +170,13 @@ Así lo comunican las tarjetas de `<Pricing />` en home, `/planes` y `/planes-pr
 Usa `setupFeeFor(billing)` / `includesFreeSetup(billing)` — en catálogo ambos
 devuelven 450 / false; no asumas implementación gratis.
 
-**Modalidad Chile / México (2026-09-11):** el listado publicado **no incluye IVA**.
-No hay montos oficiales en CLP ni MXN: el switch «Precios chilenos» /
-«Precios mexicanos» muestra el mismo catálogo USD y la nota fiscal del país.
-Fuente: `PRICE_MODALITY` en `src/content/pricing.ts`. Control:
-`PriceModalitySwitch` (misma pieza en `/planes`, home, `/planes-pro`,
-calculadoras, `/demo`, `/empleado-digital`). No convertir a pesos ni sumar IVA
-al número. Guardián: `tests/price-modality.spec.ts`.
+**Monedas en la web (2026-09-11):** el listado publicado **no incluye IVA**.
+El catálogo vive en USD. El switch de 3 opciones — **Dólar** (default),
+**Peso chileno**, **Peso mexicano** — convierte con un FX **congelado**
+en `src/content/pricing.ts`: `USD_TO_CLP = 940`, `USD_TO_MXN = 16.95`,
+fecha `FX_LOCKED_ON`. No live-update. Redondeo de pantalla: CLP al millar,
+MXN a la decena. Control: `PriceModalitySwitch`. Guardián:
+`tests/price-modality.spec.ts`.
 
 **Discurso de cierre (sep 2026):** deck interno `public/presentacion-nuevo-discurso.html`
 (`/nuevodiscurso`). La web no ofrece anual ni semestral. El closer regala la

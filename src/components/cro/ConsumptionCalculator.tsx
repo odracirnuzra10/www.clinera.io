@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { track } from "@/lib/tracking";
 import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
+import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 import { SETUP_FEE_USD } from "@/content/pricing";
 
 // ── Tarifario de créditos ──
@@ -69,6 +70,7 @@ function fmt(n: number) {
 }
 
 export default function ConsumptionCalculator() {
+  const { formatPriceWithCode } = usePriceModality();
   const [conversaciones, setConversaciones] = useState<number>(600);
   const [agendamientos, setAgendamientos] = useState<number>(0);
   const [minutosVoz, setMinutosVoz] = useState<number>(0);
@@ -636,7 +638,7 @@ export default function ConsumptionCalculator() {
                     letterSpacing: "0.02em",
                   }}
                 >
-                  USD ${fmt(result.best.price)} / mes · {fmt(result.best.credits)} créditos · {result.best.includes}
+                  {formatPriceWithCode(result.best.price)} / mes · {fmt(result.best.credits)} créditos · {result.best.includes}
                 </div>
                 <div
                   style={{
@@ -646,7 +648,7 @@ export default function ConsumptionCalculator() {
                     marginTop: 6,
                   }}
                 >
-                  + USD ${fmt(IMPL)} implementación (pago único · con el primer mes) · <PriceIvaNote />
+                  + {formatPriceWithCode(IMPL)} implementación (pago único · con el primer mes) · <PriceIvaNote />
                 </div>
               </div>
 
@@ -861,7 +863,7 @@ export default function ConsumptionCalculator() {
               marginTop: 18,
             }}
           >
-            Clinera opera en modo Agentic: un agendamiento automático consume ~195 cr y una conversación que no agenda ~30 cr. Todos los planes suman USD ${fmt(IMPL)} de implementación (pago único) con el primer mes. <PriceIvaNote />.
+            Clinera opera en modo Agentic: un agendamiento automático consume ~195 cr y una conversación que no agenda ~30 cr. Todos los planes suman {formatPriceWithCode(IMPL)} de implementación (pago único) con el primer mes. <PriceIvaNote />.
             Sobre 46.000 créditos → habla con ventas para una bolsa a medida.
           </p>
         </div>

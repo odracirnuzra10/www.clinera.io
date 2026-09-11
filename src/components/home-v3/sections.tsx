@@ -8,11 +8,12 @@ import { HOME_FAQ } from "@/content/home-faq";
 import {
   CLINERA_PLANS,
   SEMESTER_MONTHS,
-  SETUP_FEE_AMOUNT,
+  SETUP_FEE_USD,
   type Billing,
 } from "@/content/pricing";
 import { VERTEX_IA_MODELS } from "@/content/ia-stack";
 import AvisoNoReemplaza from "@/components/empleado-digital/AvisoNoReemplaza";
+import CatalogPrice from "@/components/pricing/CatalogPrice";
 import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
@@ -4181,7 +4182,7 @@ export function Pricing({
   ctaHref?: string;
 } = {}) {
   const billing: Billing = "monthly";
-  const { meta } = usePriceModality();
+  const { meta, formatPrice } = usePriceModality();
   const isComparisonIntro = intro === "comparison";
   // "none": la página ya trae su propio hero (p. ej. /planes) — sin header duplicado.
   const hideHeader = intro === "none";
@@ -4189,7 +4190,7 @@ export function Pricing({
   const plans = CLINERA_PLANS.map((plan) => ({
     id: plan.id,
     name: plan.name,
-    price: `$${plan.monthlyPrice}`,
+    price: formatPrice(plan.monthlyPrice),
     monthlyValue: plan.monthlyPrice,
     credits: plan.credits.toLocaleString("es-CL"),
     channel: plan.channel,
@@ -4293,7 +4294,7 @@ export function Pricing({
             color: "#6B7280",
           }}
         >
-          Tres planes · primer cobro = implementación USD {SETUP_FEE_AMOUNT.replace("$", "")} + el primer mes · permanencia mínima de {SEMESTER_MONTHS} meses · {meta.ivaNoteLong}
+          Tres planes · primer cobro = implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> + el primer mes · permanencia mínima de {SEMESTER_MONTHS} meses · {meta.ivaNoteLong}
         </div>
 
         <div
@@ -4419,8 +4420,8 @@ export function Pricing({
                     </div>
                     <div role="cell" style={{ textAlign: "right", flex: "0 0 auto" }}>
                       <span style={{ display: "inline-flex", alignItems: "baseline", gap: 6, fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 24, fontWeight: 800, color: th.ink, letterSpacing: "-0.04em", whiteSpace: "nowrap" }}>
-                        {SETUP_FEE_AMOUNT}
-                        <span style={{ fontFamily: "Inter", fontSize: 11, fontWeight: 600, letterSpacing: 0, color: th.sub }}>USD</span>
+                        <CatalogPrice usd={SETUP_FEE_USD} />
+                        <span style={{ fontFamily: "Inter", fontSize: 11, fontWeight: 600, letterSpacing: 0, color: th.sub }}>{meta.currency}</span>
                       </span>
                     </div>
                   </div>
@@ -4483,7 +4484,7 @@ export function Pricing({
                       <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 38, fontWeight: 800, color: th.ink, letterSpacing: "-0.05em", lineHeight: 1.05 }}>
                         {p.price}
                       </div>
-                      <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 6 }}>USD/mes</div>
+                      <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 6 }}>{meta.currency}/mes</div>
                       <div style={{ fontFamily: "Inter", fontSize: 11, fontWeight: 600, color: th.sub, marginTop: 4 }}>
                         <PriceIvaNote variant="short" />
                       </div>

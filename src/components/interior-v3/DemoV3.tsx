@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { useReveal } from "@/components/home-v3/sections";
+import CatalogPrice from "@/components/pricing/CatalogPrice";
 import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
+import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 import {
   CLINERA_PLANS,
-  SETUP_FEE_AMOUNT,
-  SETUP_FEE_NUMBER,
+  SETUP_FEE_USD,
   type ClineraPlan,
   stripeLink,
 } from "@/content/pricing";
@@ -350,6 +351,7 @@ function CapabilitiesSection() {
 }
 
 function PlansSection() {
+  const { meta } = usePriceModality();
   return (
     <section style={{ padding: "96px 80px", background: "#FAFAFA", borderTop: "1px solid #F0F0F0" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -369,8 +371,8 @@ function PlansSection() {
             Elige tu plan y activa hoy.
           </h2>
           <p style={{ fontFamily: "Inter", fontSize: 17, color: "#4B5563", margin: 0 }}>
-            Plan mensual · implementación USD {SETUP_FEE_NUMBER} con el primer mes · permanencia
-            mínima de 6 meses · precios en USD. <PriceIvaNote />.
+            Plan mensual · implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> con el primer mes · permanencia
+            mínima de 6 meses. <PriceIvaNote />.
           </p>
           <div style={{ marginTop: 20 }}>
             <PriceModalitySwitch />
@@ -459,17 +461,16 @@ function PlansSection() {
                     {plan.tagline}
                   </p>
                   <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 6, flexWrap: "wrap" }}>
-                    <span style={{ fontFamily: "Inter", fontSize: 20, fontWeight: 600 }}>$</span>
                     <span style={{ fontFamily: "Inter", fontSize: 48, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1 }}>
-                      {plan.price}
+                      <CatalogPrice usd={plan.monthlyValue} />
                     </span>
                     <span style={{ fontFamily: "Inter", fontSize: 14, color: popular ? "rgba(255,255,255,.7)" : "#6B7280", marginLeft: 4 }}>
-                      USD/mes · <PriceIvaNote variant="short" />
+                      {meta.currency}/mes · <PriceIvaNote variant="short" />
                     </span>
                   </div>
                   <div style={{ minHeight: 20, marginBottom: 12, display: "flex", alignItems: "center" }}>
                     <span style={{ fontFamily: "Inter", fontSize: 12.5, color: popular ? "rgba(255,255,255,.7)" : "#6B7280" }}>
-                      Primer cobro = {SETUP_FEE_AMOUNT} implementación + primer mes
+                      Primer cobro = <CatalogPrice usd={SETUP_FEE_USD} /> implementación + primer mes
                     </span>
                   </div>
 
@@ -497,7 +498,7 @@ function PlansSection() {
                         Implementación
                       </span>
                       <span style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 700, color: popular ? "#fff" : "#0A0A0A", whiteSpace: "nowrap" }}>
-                        {SETUP_FEE_AMOUNT} USD
+                        <CatalogPrice usd={SETUP_FEE_USD} variant="code" />
                       </span>
                     </div>
                     <div style={{ fontFamily: "Inter", fontSize: 11.5, lineHeight: 1.45, color: popular ? "rgba(255,255,255,.65)" : "#6B7280", marginTop: 5 }}>

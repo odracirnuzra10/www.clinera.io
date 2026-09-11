@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
+import CatalogPrice from "@/components/pricing/CatalogPrice";
 import PriceIvaNote from "@/components/pricing/PriceIvaNote";
-import { SETUP_FEE_NUMBER } from "@/content/pricing";
+import { SETUP_FEE_USD } from "@/content/pricing";
 
 type Props = {
   variant?: "light" | "dark";
@@ -10,7 +13,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
   const dark = variant === "dark";
   return (
     <section
-      aria-label="Implementación de Clinera: USD 450 pago único con el primer mes del plan"
+      aria-label="Implementación de Clinera: pago único con el primer mes del plan"
       style={{
         padding: "32px 24px",
         background: dark ? "#0A0A0A" : "#FAF8FF",
@@ -60,7 +63,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
                 letterSpacing: "-0.01em",
               }}
             >
-              Configuración inicial USD {SETUP_FEE_NUMBER}
+              Configuración inicial <CatalogPrice usd={SETUP_FEE_USD} variant="code" />
               <span
                 style={{
                   marginLeft: 8,

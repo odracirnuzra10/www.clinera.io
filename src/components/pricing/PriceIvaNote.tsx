@@ -4,7 +4,7 @@ import type { CSSProperties } from "react";
 import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 
 type Props = {
-  /** `long` = "USD · no incluye IVA en Chile". `short` = "No incluye IVA". */
+  /** `long` = "USD · no incluye IVA". `short` = "No incluye IVA". */
   variant?: "long" | "short";
   className?: string;
   style?: CSSProperties;
@@ -16,7 +16,7 @@ export default function PriceIvaNote({ variant = "long", className, style }: Pro
     <span
       data-price-iva
       data-price-modality={modality}
-      data-price-currency="USD"
+      data-price-currency={meta.currency}
       className={className}
       style={style}
     >

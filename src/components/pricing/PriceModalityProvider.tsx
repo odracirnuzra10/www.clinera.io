@@ -11,6 +11,9 @@ import {
 import {
   DEFAULT_PRICE_MODALITY,
   PRICE_MODALITY,
+  formatCatalogPrice,
+  formatCatalogPriceWithCode,
+  usdToDisplayAmount,
   type PriceModality,
   type PriceModalityMeta,
 } from "@/content/pricing";
@@ -24,6 +27,9 @@ type PriceModalityContextValue = {
   modality: PriceModality;
   meta: PriceModalityMeta;
   setModality: (next: PriceModality) => void;
+  amount: (usd: number) => number;
+  formatPrice: (usd: number) => string;
+  formatPriceWithCode: (usd: number) => string;
 };
 
 const PriceModalityContext = createContext<PriceModalityContextValue | null>(null);
@@ -73,7 +79,14 @@ export function PriceModalityProvider({ children }: { children: React.ReactNode 
   }, []);
 
   const value = useMemo<PriceModalityContextValue>(
-    () => ({ modality, meta: PRICE_MODALITY[modality], setModality }),
+    () => ({
+      modality,
+      meta: PRICE_MODALITY[modality],
+      setModality,
+      amount: (usd) => usdToDisplayAmount(usd, modality),
+      formatPrice: (usd) => formatCatalogPrice(usd, modality),
+      formatPriceWithCode: (usd) => formatCatalogPriceWithCode(usd, modality),
+    }),
     [modality, setModality],
   );
 
@@ -89,6 +102,9 @@ export function usePriceModality(): PriceModalityContextValue {
       modality: DEFAULT_PRICE_MODALITY,
       meta: PRICE_MODALITY[DEFAULT_PRICE_MODALITY],
       setModality: () => {},
+      amount: (usd) => usdToDisplayAmount(usd, DEFAULT_PRICE_MODALITY),
+      formatPrice: (usd) => formatCatalogPrice(usd, DEFAULT_PRICE_MODALITY),
+      formatPriceWithCode: (usd) => formatCatalogPriceWithCode(usd, DEFAULT_PRICE_MODALITY),
     };
   }
   return ctx;
