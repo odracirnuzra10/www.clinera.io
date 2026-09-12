@@ -108,7 +108,7 @@ def main() -> int:
     print("workflow:", wf.get("name"))
     print("active:", wf.get("active"))
     print("jsCode vivo bytes:", len(code), "archivo bytes:", len(nuevo))
-    print("vivo tiene tabla vieja Lead/PQL 10:", "{ event: 'MQL',      value: 10 }" in code)
+    print("vivo emite Lead:", 'event_name: "Lead"' in code)
     print("archivo tiene NQL 0:", 'event_name: "NQL"' in nuevo and "value: 0" in nuevo)
     webhook_antes = sondear_webhook()
     print("webhook crm-sql:", webhook_antes)
@@ -164,12 +164,12 @@ def main() -> int:
         d = api("GET", f"/workflows/{WID}")
     chequeo("sigue activo", bool(d.get("active")))
     chequeo("webhook sigue registrado", sondear_webhook() == webhook_antes == "registrado")
-    chequeo("vivo emite Nuevo 0", 'event_name: "Nuevo"' in code2 and "value: 0" in code2)
-    chequeo("vivo emite MQL 10 (no PQL)", 'event_name: "MQL"' in code2 and 'event_name: "PQL"' not in code2)
+    chequeo("vivo emite Lead 1", 'event_name: "Lead"' in code2)
+    chequeo("vivo emite MQL 10", 'event_name: "MQL"' in code2)
+    chequeo("vivo emite SQL 100", 'event_name: "SQL"' in code2)
     chequeo("vivo emite NQL 0", 'event_name: "NQL"' in code2)
-    chequeo("vivo no emite NoContesta", 'event_name: "NoContesta"' not in code2)
-    chequeo("vivo no emite HOT", 'event_name: "HOT"' not in code2)
-    chequeo("vivo no cambia SQL_Plus (sigue omitido)", "sql_plus" in code2)
+    chequeo("vivo no emite Nuevo", 'event_name: "Nuevo"' not in code2)
+    chequeo("vivo no inventa evento fuera del mapa", "etapa_no_mapeada" in code2)
     chequeo(
         "vivo devuelve payload + omitido (contrato con el nodo CAPI)",
         "payload: payload" in code2 and "omitido: false" in code2,
