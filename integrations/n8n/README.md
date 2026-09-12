@@ -346,28 +346,21 @@ Los emisores viejos están **apagados**:
 ### Mapeo `stage` → evento CAPI → value (USD)
 
 Fuente versionada: `crm-etapas-meta-capi.mapeo.js` (nodo `Mapear etapa y
-cifrar datos`). Tabla vigente 2026-09-10 (Ricardo). `PQL` se elimina
-en Twenty: las filas pasan a `NQL` **antes** de borrar la opción.
-`SCREENING` ya no existe.
+cifrar datos`). Tabla vigente 2026-09-12 (Ricardo). Cinco etapas.
+Cualquier otra no emite: se loguea el valor recibido y se omite.
 
 | stage | event_name | value | condición |
 |---|---|---|---|
-| `NEW` | `Nuevo` | 0 | rellenó el formulario; también si lo escribió n8n |
+| `NEW` | `Lead` | 1 | rellenó el formulario; también si lo escribió n8n |
 | `MQL` | `MQL` | 10 | closer verifica que es real |
-| `MEETING` | `SQL` | 100 | alias `SQL` — calificado (la demo ocurrió) |
+| `MEETING` | `SQL` | 100 | calificado (la demo ocurrió) |
 | `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 | |
 | `NQL` | `NQL` | 0 | no responde |
-| `PQL` / `SCREENING` / `SQL_Plus` / `HOT` / `PROPOSAL` | — | — | no emiten |
 
 `custom_data.currency = "USD"`. `event_id` = `{opportunityId}_{stage}`.
 
-**Etapas implícitas (10-sep):** un estado implica los anteriores. Si el
-closer salta peldaños (Nuevo → SQL), el nodo emite antes las etapas de la
-escalera `MQL < SQL < Purchase` que no estén en el ledger para ese
-negocio, como ítems separados (un HTTP y una entrada de ledger cada uno) y
-con `event_time` un segundo aparte, para que la campaña que optimiza `MQL`
-reciba el MQL de ese lead. `Nuevo` y `NQL` no se rellenan. La puerta de
-`updatedBy.source = API` y la de contacto aplican igual al relleno.
+W1 emite **solo la etapa actual**. No rellena peldaños anteriores ni
+inventa un evento para una etapa que no está en la tabla.
 
 **Contrato de salida del nodo (no romperlo otra vez).** Los tres nodos que
 siguen no se tocan y leen claves fijas: «Corresponde enviar?» filtra por
@@ -381,8 +374,8 @@ JSON» (`events_received: 0`) — W1 no mandó nada a Meta desde el PUT de
 las 16:38Z hasta el arreglo (auditoría 09-sep, H8). `ledgerKey` =
 `{evento}:{opportunityId}`. Guardián: `tests/crm-etapas-meta-capi.spec.ts`
 (bloque «nodo completo»). **Arreglo aplicado el 09-sep 19:44Z**; prueba
-funcional (09-sep): `Nuevo` 0 → `events_received: 1`. El 10-sep el
-mismo contrato, con `Nuevo` 0.
+funcional (09-sep): `Lead` 1 → `events_received: 1`. El 12-sep el
+mismo contrato, con `Lead` 1.
 
 **El IF «Corresponde enviar?» tiene que estar en formato v2.** Es
 `typeVersion: 2`; con parámetros en forma v1 (`conditions.boolean`) no
@@ -534,7 +527,7 @@ Dos cosas que hay que respetar al tocar cualquiera de los dos:
    CADA workflow reenvíe lo suyo; el `event_id` compartido es lo que evita que
    los DOS cuenten el mismo lead.
 
-`SQL` (US$ 10) y `HOT` (US$ 100) son peldaños distintos.
+`SQL` (US$ 100) es el evento de `MEETING`.
 `SQL_Plus` ya no se emite.
 
 Además de los placeholders del workflow de reserva, este archivo lleva
@@ -544,7 +537,7 @@ Además de los placeholders del workflow de reserva, este archivo lleva
 ### Google Ads entró al mismo embudo (2026-08-21)
 
 Ricardo pidió alinear Google Ads al mismo vocabulario y montos que Meta ya usa
-acá (Nuevo=0 / MQL=10 / SQL=100 / NQL=0 USD; Customer = plan; SQL+ 200 sin cambio).
+acá (Lead=1 / MQL=10 / SQL=100 / NQL=0 USD; Customer = plan; SQL+ 200 sin cambio).
 El feed de Baserow 152 hay que realinear en el repo `baserow`. Google Ads no tiene un camino de push
 por evento sin developer token — a diferencia de Meta CAPI — así que en vez de
 un envío paralelo, los workflows de SQL y SQL+ de esta página (no el de MQL) ahora **además**
