@@ -16,3 +16,5 @@ el 2026-09-11 16:53Z. SQL_Plus no se tocó.
 
 `W1SybZZSEZqAItIt-20260912-164253.json` es el mapeo previo al de cinco
 etapas del 12-sep (NEW→Lead 1; sin relleno de peldaños).
+`W1SybZZSEZqAItIt-20260912-164830.json` es el mismo mapa, tomado por el
+aplicador justo antes del PUT.
