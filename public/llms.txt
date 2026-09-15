@@ -107,6 +107,16 @@ Hub completo: https://www.clinera.io/comparativas
   reales en 3 clínicas): https://www.clinera.io/efectividad
 - Metodología técnica completa: https://www.clinera.io/blog/efectividad
 
+## Clinera Podcast (serie de 5 capítulos)
+
+Conversaciones con Ricardo Oyarzún (fundador) y Jorge Cheul sobre cómo
+escalar una clínica: operación, caja, equipo, marketing e IA.
+
+- Hub de la serie: https://www.clinera.io/podcast
+- Cap. 1 — Cómo escalar una clínica de forma correcta:
+  https://www.clinera.io/blog/clinera-podcast-1-como-escalar-clinica
+  (video Vimeo embebido; caps. 2–5 próximamente en /podcast)
+
 ## Guías de ficha clínica (cluster educativo)
 
 Pilar sobre ficha clínica electrónica en Chile: marco legal (Ley 20.584),

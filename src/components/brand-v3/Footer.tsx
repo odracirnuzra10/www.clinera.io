@@ -31,6 +31,7 @@ const cols: Col[] = [
       ["Caso Katherine Meza", "/casos/katherine-meza"],
       ["Estudio de confianza", "/blog/estudio-ia-respuesta-humana-confianza-pacientes"],
       ["Novedades Clinera", "/novedades"],
+      ["Clinera Podcast", "/podcast"],
     ],
   },
   {

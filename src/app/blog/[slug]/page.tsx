@@ -118,7 +118,9 @@ export default async function BlogPostPage({
                     post.video.thumbnailUrl ??
                     `https://vumbnail.com/${post.video.id}.jpg`,
                   uploadDate: post.video.uploadDate ?? post.publishedAt,
-                  embedUrl: `https://player.vimeo.com/video/${post.video.id}`,
+                  embedUrl: post.video.hash
+                    ? `https://player.vimeo.com/video/${post.video.id}?h=${post.video.hash}`
+                    : `https://player.vimeo.com/video/${post.video.id}`,
                 }),
               ]
             : []),

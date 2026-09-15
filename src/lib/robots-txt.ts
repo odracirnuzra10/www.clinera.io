@@ -16,6 +16,7 @@ export const AEO_ALLOW = [
   "/blog/",
   "/novedades/",
   "/casos/",
+  "/podcast",
   "/sitemap.xml",
 ] as const;
 

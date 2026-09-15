@@ -47,6 +47,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     staticEntry('/partners', 'monthly', 0.85),
     staticEntry('/convenio-doctores', 'monthly', 0.7),
     staticEntry('/webinars', 'weekly', 0.8),
+    staticEntry('/podcast', 'weekly', 0.85),
     staticEntry('/reserva', 'weekly', 0.85),
     staticEntry('/migracion', 'monthly', 0.85),
     staticEntry('/calculadora-de-consumo', 'monthly', 0.8),
