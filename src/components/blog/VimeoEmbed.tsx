@@ -1,5 +1,7 @@
 type Props = {
   videoId: string;
+  /** Hash unlisted de Vimeo (`h=`). Obligatorio si el video no es público. */
+  hash?: string;
   title?: string;
   aspect?: "16 / 9" | "16 / 10" | "4 / 3" | "1 / 1" | "9 / 16";
   // Limita el ancho (px) y centra el embed. Útil para videos verticales (9/16),
@@ -7,13 +9,25 @@ type Props = {
   maxWidth?: number;
 };
 
+export function vimeoPlayerSrc(videoId: string, hash?: string): string {
+  const params = new URLSearchParams({
+    badge: "0",
+    autopause: "0",
+    player_id: "0",
+    app_id: "58479",
+  });
+  if (hash) params.set("h", hash);
+  return `https://player.vimeo.com/video/${videoId}?${params.toString()}`;
+}
+
 export default function VimeoEmbed({
   videoId,
+  hash,
   title = "Video",
   aspect = "16 / 9",
   maxWidth,
 }: Props) {
-  const src = `https://player.vimeo.com/video/${videoId}?badge=0&autopause=0&player_id=0&app_id=58479`;
+  const src = vimeoPlayerSrc(videoId, hash);
   return (
     <div
       style={{

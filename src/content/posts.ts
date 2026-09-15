@@ -38,6 +38,8 @@ export type PostFrontmatter = {
   // se usa publishedAt. El embed visual va en el body con <VimeoEmbed/>.
   video?: {
     id: string;
+    /** Hash unlisted de Vimeo (`h=`). */
+    hash?: string;
     name: string;
     description: string;
     thumbnailUrl?: string;

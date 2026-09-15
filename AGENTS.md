@@ -723,6 +723,15 @@ del Wizard sigue en el repo `baserow`.
 
 # Pack AEO agosto 2026 — punteros post-migración
 
+## Clinera Podcast (sep 2026)
+
+Serie de **5 capítulos** en `/podcast` (`src/content/podcast.ts`). Cada
+capítulo publicado tiene artículo en `src/content/posts/` con `<VimeoEmbed
+hash=…>` (videos unlisted). Cap. 1:
+`/blog/clinera-podcast-1-como-escalar-clinica` (Vimeo `1227087546` /
+`f809ac4f9a`). Al subir caps. 2–5: actualizar el catálogo + MDX + llms.
+Guardián: `tests/podcast.spec.ts`.
+
 Decisiones consolidadas en la rama `feat/aeo-fase1-contenido` (agosto 2026):
 
 - **Stack IA (desde 01-08-2026):** GLM 5.2, Gemini 3.7 Flash, Claude Opus 4.8 y
