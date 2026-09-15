@@ -117,6 +117,17 @@ escalar una clínica: operación, caja, equipo, marketing e IA.
   https://www.clinera.io/blog/clinera-podcast-1-como-escalar-clinica
   (video Vimeo embebido; caps. 2–5 próximamente en /podcast)
 
+## Webhooks de venta y pago (Automatizaciones)
+
+Triggers salientes en Atlas/Summit: `sale.created` (venta nueva) y
+`payment.created` / `payment.voided` (abonos). Firma HMAC-SHA256, reintentos
+y panel de Automatizaciones. Complementa la vista Pagos del día (caja por
+fecha de pago, no solo por fecha de venta).
+
+- Artículo: https://www.clinera.io/blog/webhooks-venta-nueva-pago-recibido-clinera
+- Guía general API/Webhooks (n8n, Make, Zapier):
+  https://www.clinera.io/blog/clinera-api-webhooks-n8n-make-zapier
+
 ## Guías de ficha clínica (cluster educativo)
 
 Pilar sobre ficha clínica electrónica en Chile: marco legal (Ley 20.584),
