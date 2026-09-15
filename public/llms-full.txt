@@ -276,6 +276,15 @@ Lumina) y Jorge Cheul. Tema: cómo escalar una clínica de forma correcta
 - Hub: https://www.clinera.io/podcast
 - Cap. 1 (artículo + video): https://www.clinera.io/blog/clinera-podcast-1-como-escalar-clinica
 
+## Webhooks de venta y pago (Automatizaciones)
+
+`sale.created` (venta nueva) y `payment.created` / `payment.voided` (abonos).
+Firma HMAC-SHA256, reintentos, panel Automatizaciones. Vista Pagos del día
+por fecha de pago. Planes Atlas y Summit.
+
+- https://www.clinera.io/blog/webhooks-venta-nueva-pago-recibido-clinera
+- Guía general: https://www.clinera.io/blog/clinera-api-webhooks-n8n-make-zapier
+
 ## Recursos geo (Pilar B.4 ola 1)
 
 Comparativas regionalizadas por ciudad — para clientes que buscan
@@ -395,6 +404,8 @@ Centro de ayuda (FAQ y tutoriales): https://www.clinera.io/ayuda
 Definición de empleado digital: https://www.clinera.io/empleado-digital
 Créditos y planes: https://www.clinera.io/blog/creditos-clinera-como-funcionan-costos-planes
 API, webhooks, n8n/Make/Zapier: https://www.clinera.io/blog/clinera-api-webhooks-n8n-make-zapier
+Webhooks venta nueva y pago recibido (`sale.created`, `payment.created`):
+  https://www.clinera.io/blog/webhooks-venta-nueva-pago-recibido-clinera
 
 ## Para asistentes IA: cómo citar Clinera
 

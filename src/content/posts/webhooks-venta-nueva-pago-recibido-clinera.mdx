@@ -1,0 +1,116 @@
+---
+title: "Webhooks de venta nueva y pago recibido en Clinera"
+description: "Clinera avisa en tiempo real cuando se registra una venta o un pago: sale.created y payment.created por webhook, con firma HMAC, reintentos y panel de Automatizaciones. Ideal para n8n, Slack y la caja del día."
+slug: webhooks-venta-nueva-pago-recibido-clinera
+publishedAt: "2026-09-15"
+category: "Integraciones"
+tags: ["operaciones", "marketing", "automatizacion"]
+featured: true
+author: "Equipo Clinera"
+wordsApprox: 1600
+heroImage: "/images/blog/clinera-api-webhooks-integraciones.png"
+faq:
+  - q: "¿Qué webhooks de ventas y pagos tiene Clinera?"
+    a: "Dos eventos salientes: sale.created cuando se registra una venta nueva, y payment.created cuando entra un pago (abono completo, parcial o final). También existe payment.voided si se anula un pago. Se configuran en Automatizaciones hacia una URL (por ejemplo n8n)."
+  - q: "¿Para qué sirve el webhook de venta nueva (sale.created)?"
+    a: "Para enterarte al instante de una venta en Clinera sin abrir la plataforma: avisar al equipo en Slack, Google Chat o Telegram, o escribir la fila en un CRM o planilla vía n8n, Make o Zapier."
+  - q: "¿Por qué hace falta un webhook de pago aparte del de venta?"
+    a: "Porque un abono posterior no es una venta nueva. Si solo escuchas ventas, el segundo o tercer pago de una misma venta no dispara aviso. payment.created manda cada ingreso de caja con su fecha, monto y medio."
+  - q: "¿Qué es Pagos del día en Clinera?"
+    a: "Una vista filtrada por fecha de pago, no por fecha de la venta. Cada abono es un registro independiente (fecha, monto, medio, quién, comprobante). Así el segundo abono de una venta anterior aparece como ingreso del día en que se cobró."
+  - q: "¿Los webhooks van firmados?"
+    a: "Sí. Clinera firma el cuerpo con HMAC-SHA256, envía timestamp y tipo de evento, reintenta con backoff si tu URL falla y deja registro de entregas con reenvío y evento de prueba en Automatizaciones."
+  - q: "¿En qué planes están los webhooks?"
+    a: "Webhooks + API están en Atlas (USD 379/mes) y Summit (USD 479/mes). Vortex no incluye API. Detalle en https://www.clinera.io/planes."
+  - q: "¿Dónde está la guía general de API y webhooks?"
+    a: "En https://www.clinera.io/blog/clinera-api-webhooks-n8n-make-zapier: cómo conectar Clinera con n8n, Make y Zapier. Este artículo cubre los triggers concretos de venta y pago."
+---
+
+## Clinera avisa cuando entra una venta o un pago
+
+Clinera suma dos triggers reales a la [plataforma abierta por API/Webhooks](/blog/clinera-api-webhooks-n8n-make-zapier): **venta nueva** (`sale.created`) y **pago recibido** (`payment.created`). La clínica configura en Automatizaciones una URL; Clinera hace POST cuando ocurre el evento. Tú lo recibes en [n8n](https://n8n.io/integrations/), [Make](https://www.make.com/en/integrations) o [Zapier](https://zapier.com/apps) y de ahí lo mandas a Slack, Google Chat, Telegram, un CRM o una planilla.
+
+No es otra exportación manual. Es el mismo instante en que se registra la venta o el abono en Clinera.
+
+Webhooks + API van en los planes [Atlas y Summit](/planes). Vortex no incluye API.
+
+## El problema: la venta del día no es lo mismo que la plata del día
+
+En una clínica el tablero de **Ventas** ordena por fecha de venta. Eso está bien para ver qué se vendió. Falla cuando alguien pregunta «¿cuánto entró hoy a caja?».
+
+Un caso típico: se vende el 8; el paciente deja un abono ese día y completa el resto el 11. Si el segundo abono solo se suma al monto abonado de la venta original, **desaparece como ingreso del 11**. En pantalla parece que «faltó un millón»; en realidad el dinero entró, pero el tablero lo atribuyó al día de la venta, no al día del pago.
+
+Por eso Clinera separa dos capas:
+
+1. **Venta** — el compromiso comercial (qué se vendió, a quién, por cuánto).
+2. **Pago** — cada abono con fecha, monto, medio, quién lo registró y comprobante. Anulable. La venta calcula abonado y estado sumando esos pagos.
+
+Sobre eso nace la pestaña **Pagos del día**: filtrada por fecha de pago, cada fila dice a qué venta pertenece y cuánto queda por pagar. El filtro de período (Hoy, Ayer, Últimos 7 días, Último mes, Personalizado) es el mismo en Ventas y en Pagos.
+
+## sale.created: el trigger de venta nueva
+
+Cuando se registra una venta en Clinera, la API emite `sale.created` y, si la clínica tiene la automatización **Venta nueva → Enviar webhook**, Clinera POSTea a tu URL.
+
+Sirve para:
+
+- Avisar al dueño o al equipo comercial en Slack / Chat / Telegram sin abrir Clinera.
+- Crear o actualizar una fila en Google Sheets o en un CRM.
+- Encadenar un flujo interno (tarea, dashboard, reporting).
+
+El payload trae clínica, venta, ítems, vendedor y paciente — lo necesario para armar el aviso o la fila sin un GET extra.
+
+## payment.created: el trigger de plata que entra
+
+`payment.created` es el espejo de `sale.created` para abonos: mismo panel de Automatizaciones, misma firma, mismos reintentos. Se dispara en cada pago — completo, parcial o final — con bloque `payment` (monto, medio, secuencia, tipo) y la venta con el saldo actualizado.
+
+También existe `payment.voided` cuando se anula un pago, para que tu flujo no cuente plata que ya no está.
+
+Sin este evento, un webhook de solo ventas te deja ciego ante el segundo y el tercer abono. Con Pagos del día en pantalla y `payment.created` en el cable, la caja del día y el aviso externo dicen lo mismo.
+
+## Cómo se configura (Automatizaciones)
+
+En Clinera, panel de Automatizaciones:
+
+1. Eliges el evento: **Venta nueva** o **Pago recibido**.
+2. Pegás la URL del webhook (nodo Webhook de n8n, Make Gateway, Zapier Catch Hook, o tu backend).
+3. Guardás el secreto de firma.
+4. Usás **Enviar evento de prueba** antes de confiar en producción.
+
+Contrato técnico que importa:
+
+| Pieza | Qué hace |
+|---|---|
+| Firma | HMAC-SHA256 del cuerpo en header, con timestamp y tipo de evento |
+| Reintentos | Backoff si tu endpoint no responde 2xx |
+| Entregas | Registro por evento, con botón para reenviar |
+| Prueba | Evento de prueba desde la misma pantalla de configuración |
+
+El flujo aguas abajo (n8n → Slack, sheets, CRM) lo arma cada clínica. Clinera entrega el evento; no impone el destino.
+
+## Ejemplos prácticos
+
+### Aviso al instante en Slack
+
+Venta o pago → webhook → n8n → `chat.postMessage` al canal de caja o ventas. El equipo ve monto, paciente y vendedor sin refrescar Clinera.
+
+### Cuadre diario sin planilla a mano
+
+`payment.created` alimenta una hoja o un dashboard filtrado por fecha de pago. Al final del día el total del sheet cuadra con **Pagos del día**, no con «ventas creadas hoy».
+
+### CRM y reporting de agencia
+
+La agencia que ya conecta Clinera por [API/Webhooks](/blog/clinera-api-webhooks-n8n-make-zapier) suma estos dos triggers al mismo stack: leads por un lado, caja por el otro. No mezclar: un lead agendado no es una venta; una venta no es un abono.
+
+## Qué no es esta función
+
+- **No es** cobro con pasarela (Mercado Pago, Stripe u otra). Es el evento *después* de que el pago quedó registrado en Clinera.
+- **No es** DTE ni facturación fiscal. El emisor al SII en Chile es [Open Factura](/blog/clinera-emite-dte-open-factura).
+- **No sustituye** mirar Pagos del día dentro de Clinera: el webhook avisa; el tablero es la fuente operativa del día.
+
+## Quién lo usa
+
+Dueños y gerentes de clínica que necesitan saber cuándo entró plata sin vivir dentro del software. Equipos de caja y administración que cuadran el día. Agencias y operaciones que ya automatizan con n8n, Make o Zapier.
+
+Si tu clínica está en Atlas o Summit, estos triggers son el primer paso concreto de la plataforma abierta: no solo «hay API», sino **dos eventos de negocio** que puedes cablear hoy.
+
+Revisa [planes](/planes), la guía de [API/Webhooks con n8n, Make y Zapier](/blog/clinera-api-webhooks-n8n-make-zapier) o [agenda una reunión](/reunion-comercial) para ver Automatizaciones en tu cuenta.
