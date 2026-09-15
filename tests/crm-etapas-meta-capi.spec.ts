@@ -25,59 +25,46 @@ function loadHelpers() {
   expect(end).toBeGreaterThan(start);
   const box = { module: { exports: {} }, exports: {}, require: createRequire(__filename) };
   vm.runInNewContext(
-    `${SRC.slice(start, end)}\nmodule.exports = { mapearEtapa, leadIdEntero, valorPurchase, etapasImplicitas };`,
+    `${SRC.slice(start, end)}\nmodule.exports = { mapearEtapa, leadIdEntero, valorPurchase };`,
     box,
   );
   return box.module.exports as {
     mapearEtapa: (
       stage: string,
       opts?: { leadgenId?: unknown; planClinera?: string },
-    ) => { skip?: boolean; motivo?: string; event_name?: string; value?: number };
+    ) => { skip?: boolean; motivo?: string; event_name?: string; value?: number; etapa?: string };
     leadIdEntero: (raw: unknown) => number | null;
     valorPurchase: (plan?: string) => number;
-    etapasImplicitas: (
-      evento: string,
-      enviados: Record<string, unknown>,
-      recordId: string,
-    ) => { event_name: string; value: number | null; stage: string }[];
   };
 }
 
-test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
-  test("los estados canónicos y ningún otro", () => {
+test.describe("W1 embudo canónico (Lead → Customer)", () => {
+  test("los cinco estados y ningún otro", () => {
     const { mapearEtapa, valorPurchase } = loadHelpers();
-    expect(mapearEtapa("NEW")).toEqual({ event_name: "Nuevo", value: 0 });
-    expect(mapearEtapa("Nuevo")).toEqual({ event_name: "Nuevo", value: 0 });
-    expect(mapearEtapa("PQL")).toEqual({ skip: true, motivo: "etapa_eliminada" });
+    expect(mapearEtapa("NEW")).toEqual({ event_name: "Lead", value: 1 });
     expect(mapearEtapa("MQL")).toEqual({ event_name: "MQL", value: 10 });
     expect(mapearEtapa("MEETING")).toEqual({ event_name: "SQL", value: 100 });
-    expect(mapearEtapa("SQL")).toEqual({ event_name: "SQL", value: 100 });
-    expect(mapearEtapa("PROPOSAL")).toEqual({ skip: true, motivo: "etapa_eliminada" });
-    expect(mapearEtapa("HOT")).toEqual({ skip: true, motivo: "etapa_eliminada" });
     expect(mapearEtapa("NQL")).toEqual({ event_name: "NQL", value: 0 });
-    expect(mapearEtapa("no responde")).toEqual({ event_name: "NQL", value: 0 });
-    expect(mapearEtapa("no califica")).toEqual({ event_name: "NQL", value: 0 });
     expect(mapearEtapa("CUSTOMER", { planClinera: "SUMMIT" })).toEqual({
       event_name: "Purchase",
       value: 479,
     });
     expect(valorPurchase("")).toBe(279);
     expect(valorPurchase("ATLAS")).toBe(379);
+    expect(valorPurchase("VORTEX")).toBe(279);
   });
 
-  test("SCREENING y lo demás no emiten", () => {
+  test("una etapa fuera del mapa no inventa evento", () => {
     const { mapearEtapa } = loadHelpers();
-    expect(mapearEtapa("SCREENING")).toEqual({ skip: true, motivo: "screening_eliminado" });
-    expect(mapearEtapa("SCREENING", { leadgenId: 1542457337898951 }).skip).toBe(true);
-    expect(mapearEtapa("NoContesta")).toEqual({ skip: true, motivo: "etapa_eliminada" });
-    expect(mapearEtapa("SQL_Plus")).toEqual({ skip: true, motivo: "etapa_eliminada" });
-    expect(mapearEtapa("sql+")).toEqual({ skip: true, motivo: "etapa_eliminada" });
-    expect(mapearEtapa("HOT")).toEqual({ skip: true, motivo: "etapa_eliminada" });
-    expect(mapearEtapa("PROPOSAL")).toEqual({ skip: true, motivo: "etapa_eliminada" });
-    expect(mapearEtapa("PQL")).toEqual({ skip: true, motivo: "etapa_eliminada" });
-    expect(mapearEtapa("PQL").event_name).not.toBe("MQL");
-    expect(mapearEtapa("PQL").event_name).not.toBe("NoContesta");
-    expect(mapearEtapa("NQL").event_name).not.toBe("MQL");
+    expect(mapearEtapa("FOO")).toEqual({
+      skip: true,
+      motivo: "etapa_no_mapeada",
+      etapa: "FOO",
+    });
+    expect(mapearEtapa("SQL").skip).toBe(true);
+    expect(mapearEtapa("SQL").motivo).toBe("etapa_no_mapeada");
+    expect(mapearEtapa("Nuevo").skip).toBe(true);
+    expect(mapearEtapa("").skip).toBe(true);
   });
 
   test("lead_id es entero positivo, nunca hash", () => {
@@ -89,40 +76,21 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
     expect(leadIdEntero("abc")).toBeNull();
   });
 
-  test("un estado implica los anteriores: MQL < SQL < Purchase (Ricardo, 11-sep)", () => {
-    const { etapasImplicitas } = loadHelpers();
-    const nombres = (evento: string, ledger: Record<string, unknown> = {}) =>
-      etapasImplicitas(evento, ledger, "o").map((e) => e.event_name);
-    expect(nombres("SQL")).toEqual(["MQL"]);
-    expect(nombres("HOT")).toEqual([]);
-    expect(nombres("Purchase")).toEqual(["MQL", "SQL"]);
-    expect(nombres("MQL")).toEqual([]);
-    expect(nombres("Nuevo")).toEqual([]);
-    expect(nombres("NQL")).toEqual([]);
-    // Si el MQL se mandó alguna vez, no se rellena: acá no corre la ventana de 28 días.
-    const viejo = { at: new Date(Date.now() - 90 * 86400000).toISOString() };
-    expect(nombres("SQL", { "MQL:o": viejo })).toEqual([]);
-    expect(nombres("SQL", { "MQL:otro": viejo })).toEqual(["MQL"]);
-    expect(nombres("Purchase", { "SQL:o": viejo })).toEqual(["MQL"]);
-    expect(etapasImplicitas("SQL", {}, "o")[0]).toEqual({ event_name: "MQL", value: 10, stage: "MQL" });
+  test("el nodo no rellena peldaños anteriores", () => {
+    expect(SRC).not.toContain("etapasImplicitas");
+    expect(SRC).not.toContain("ESCALERA");
+    expect(SRC).toContain("W1 etapa no mapeada");
   });
 
-  test("AGENTS.md y el README no tienen dos tablas de mapeo distintas", () => {
-    expect(AGENTS).toContain("| `NEW` | `Nuevo` | 0 |");
+  test("AGENTS.md y el README comparten la tabla de cinco etapas", () => {
+    expect(AGENTS).toContain("| `NEW` | `Lead` | 1 |");
     expect(AGENTS).toContain("| `MQL` | `MQL` | 10 |");
     expect(AGENTS).toContain("| `MEETING` | `SQL` | 100 |");
-    expect(AGENTS).not.toContain("| `PROPOSAL` | `HOT` | 200 |");
-    expect(AGENTS).toContain("| `PQL` / `SCREENING` / `SQL_Plus`");
     expect(AGENTS).toContain("| `NQL` | `NQL` | 0 |");
-    expect(AGENTS).not.toContain("| `PQL` | `PQL` | 1 |");
-    expect(README).toContain("| `NEW` | `Nuevo` | 0 |");
+    expect(README).toContain("| `NEW` | `Lead` | 1 |");
     expect(README).toContain("| `MQL` | `MQL` | 10 |");
     expect(README).toContain("| `NQL` | `NQL` | 0 |");
-    expect(README).not.toContain("| `PQL` | `PQL` | 1 |");
-    expect(AGENTS).not.toMatch(/\|\s*`SCREENING`\s*\|\s*`MQL`\s*\|/);
-    expect(AGENTS).not.toMatch(/\|\s*`PQL`\s*\|\s*`NoContesta`\s*\|/);
-    expect(README).not.toMatch(/\|\s*`PQL`\s*\|\s*`NoContesta`\s*\|/);
-    expect(SRC).not.toContain('event_name: "NoContesta"');
+    expect(SRC).not.toContain('event_name: "Nuevo"');
     expect(SRC).toMatch(/event_id\s+= \{opportunityId\}_\{stage\}/);
     expect(SRC).toContain('recordId + "_" + String(etapa)');
   });
@@ -154,6 +122,7 @@ async function runNode(
     $json: items[0]?.json,
     $env: { TWENTY_URL: "http://twenty.test", TWENTY_API_KEY: "test" },
     $getWorkflowStaticData: () => staticData,
+    console,
   };
   const fn = vm.runInNewContext(`(async function () {\n${SRC}\n})`, ctx) as (
     this: unknown,
@@ -198,7 +167,7 @@ function webhook(
 }
 
 test.describe("W1 nodo completo: lo que leen los nodos siguientes", () => {
-  test("NEW creado por n8n → Nuevo 0 con payload, omitido=false y ledgerKey", async () => {
+  test("NEW creado por n8n → Lead 1 con payload, omitido=false y ledgerKey", async () => {
     const { out, staticData } = await runNode([
       webhook("NEW", {
         eventName: "opportunity.created",
@@ -209,37 +178,35 @@ test.describe("W1 nodo completo: lo que leen los nodos siguientes", () => {
     expect(out).toHaveLength(1);
     const j = out[0].json;
     expect(j.omitido).toBe(false);
-    expect(j.evento).toBe("Nuevo");
+    expect(j.evento).toBe("Lead");
     expect(j.event_id).toBe("opp-test-1_NEW");
-    expect(j.ledgerKey).toBe("Nuevo:opp-test-1");
+    expect(j.ledgerKey).toBe("Lead:opp-test-1");
     expect(j.leadgen_id).toBe(1058798810462323);
     expect(j.opportunity_id).toBe("opp-test-1");
-    // Lo que va a Meta, serializable tal cual por el nodo HTTP.
     const payload = JSON.parse(JSON.stringify(j.payload));
     expect(payload.data).toHaveLength(1);
     const ev = payload.data[0];
-    expect(ev.event_name).toBe("Nuevo");
+    expect(ev.event_name).toBe("Lead");
     expect(ev.event_id).toBe("opp-test-1_NEW");
     expect(ev.action_source).toBe("system_generated");
     expect(ev.user_data.lead_id).toBe(1058798810462323);
     expect(ev.custom_data).toMatchObject({
       currency: "USD",
-      value: 0,
+      value: 1,
       lead_stage: "NEW",
       opportunity_id: "opp-test-1",
       leadgen_id: 1058798810462323,
       lead_event_source: "Twenty CRM",
     });
-    // El ledger lo escribe «Confirmar y auditar» cuando Meta confirma, no acá.
     expect(staticData.enviados).toBeUndefined();
   });
 
-  test("PQL ya no emite (etapa eliminada); NQL humano sí; API no-NEW se omite", async () => {
-    const pql = await runNode([webhook("PQL", { email: "lead@clinica.cl" })]);
-    expect(pql.out[0].json.omitido).toBe(true);
-    expect(pql.out[0].json.motivo).toBe("etapa_eliminada");
-    expect(pql.out[0].json.payload).toBeUndefined();
-    expect(pql.out[0].json.evento).not.toBe("MQL");
+  test("etapa fuera del mapa se omite; NQL humano sí; API no-NEW se omite", async () => {
+    const fuera = await runNode([webhook("FOO", { email: "lead@clinica.cl" })]);
+    expect(fuera.out[0].json.omitido).toBe(true);
+    expect(fuera.out[0].json.motivo).toBe("etapa_no_mapeada");
+    expect(fuera.out[0].json.payload).toBeUndefined();
+    expect(fuera.out[0].json.evento).toBeUndefined();
 
     const nql = await runNode([webhook("NQL", { email: "lead@clinica.cl" })]);
     expect(nql.out[0].json.omitido).toBe(false);
@@ -256,14 +223,12 @@ test.describe("W1 nodo completo: lo que leen los nodos siguientes", () => {
   test("todo lo que no se manda sale con omitido=true y sin payload", async () => {
     const { out } = await runNode([
       webhook("NEW", { objeto: "person", eventName: "person.updated" }),
-      webhook("SCREENING", { email: "a@b.cl" }),
-      webhook("PQL", { id: "", email: "a@b.cl" }),
+      webhook("FOO", { email: "a@b.cl" }),
       webhook("MEETING"),
     ]);
     expect(out.map((i) => i.json.motivo)).toEqual([
       "objeto_no_es_oportunidad",
-      "screening_eliminado",
-      "etapa_eliminada",
+      "etapa_no_mapeada",
       "sin_email_ni_telefono_ni_lead_id",
     ]);
     for (const item of out) {
@@ -291,82 +256,51 @@ test.describe("W1 nodo completo: lo que leen los nodos siguientes", () => {
     expect(vencido.out[0].json.omitido).toBe(false);
   });
 
-  test("Nuevo → SQL directo: sale el MQL que faltaba y después el SQL, en ítems separados", async () => {
+  test("MEETING emite solo SQL 100, sin inventar un MQL", async () => {
     const { out } = await runNode([
-      webhook("MEETING", { id: "opp-salto", email: "lead@clinica.cl", leadgenId: "1058798810462323" }),
+      webhook("MEETING", {
+        id: "opp-salto",
+        email: "lead@clinica.cl",
+        leadgenId: "1058798810462323",
+      }),
     ]);
-    expect(out.map((i) => i.json.evento)).toEqual(["MQL", "SQL"]);
-    const [mql, sql] = out.map((i) => i.json);
-    expect(mql.omitido).toBe(false);
-    expect(mql.implicita).toBe(true);
-    expect(mql.value).toBe(10);
-    expect(mql.event_id).toBe("opp-salto_MQL");
-    expect(mql.ledgerKey).toBe("MQL:opp-salto");
-    expect(mql.payload.data[0]).toMatchObject({
-      event_name: "MQL",
-      event_id: "opp-salto_MQL",
-      action_source: "system_generated",
-      custom_data: { value: 10, lead_stage: "MQL", opportunity_id: "opp-salto" },
-    });
-    expect(sql.implicita).toBe(false);
+    expect(out).toHaveLength(1);
+    const sql = out[0].json;
+    expect(sql.omitido).toBe(false);
+    expect(sql.evento).toBe("SQL");
     expect(sql.value).toBe(100);
     expect(sql.event_id).toBe("opp-salto_MEETING");
     expect(sql.ledgerKey).toBe("SQL:opp-salto");
-    expect(sql.payload.data[0].custom_data.lead_stage).toBe("MEETING");
-    // Mismo lead, mismos datos de contacto, y el MQL un segundo antes.
-    expect(mql.payload.data[0].user_data).toEqual(sql.payload.data[0].user_data);
-    expect(mql.payload.data[0].user_data.lead_id).toBe(1058798810462323);
-    expect(mql.payload.data[0].event_time).toBeLessThan(sql.payload.data[0].event_time);
-    // «Confirmar y auditar» empareja por índice con el mismo ítem de entrada.
-    for (const item of out) expect((item as { pairedItem?: unknown }).pairedItem).toEqual({ item: 0 });
-  });
-
-  test("si el MQL ya se mandó (aunque haga más de 28 días), Nuevo → SQL manda solo el SQL", async () => {
-    const hace40d = { at: new Date(Date.now() - 40 * 86400000).toISOString(), evento: "MQL" };
-    const { out } = await runNode([webhook("MEETING", { id: "opp-2", email: "a@b.cl" })], {
-      ledger: { "MQL:opp-2": hace40d },
+    expect(sql.payload.data[0]).toMatchObject({
+      event_name: "SQL",
+      event_id: "opp-salto_MEETING",
+      action_source: "system_generated",
+      custom_data: { value: 100, lead_stage: "MEETING", opportunity_id: "opp-salto" },
     });
-    expect(out.map((i) => i.json.evento)).toEqual(["SQL"]);
-    expect(out[0].json.implicita).toBe(false);
+    expect(sql.payload.data[0].user_data.lead_id).toBe(1058798810462323);
   });
 
-  test("el relleno respeta las mismas puertas: movido por automatización o sin contacto, nada", async () => {
-    const api = await runNode([webhook("MEETING", { email: "a@b.cl", source: "API" })]);
-    expect(api.out).toHaveLength(1);
-    expect(api.out[0].json.omitido).toBe(true);
-    expect(api.out[0].json.motivo).toBe("etapa_movida_por_automatizacion");
-    const sinContacto = await runNode([webhook("CUSTOMER")]);
-    expect(sinContacto.out).toHaveLength(1);
-    expect(sinContacto.out[0].json.motivo).toBe("sin_email_ni_telefono_ni_lead_id");
-    const hot = await runNode([webhook("HOT", { email: "a@b.cl" })]);
-    expect(hot.out).toHaveLength(1);
-    expect(hot.out[0].json.motivo).toBe("etapa_eliminada");
-    // MQL y NQL no tienen peldaños anteriores: un solo ítem.
-    const mql = await runNode([webhook("MQL", { email: "a@b.cl" })]);
-    expect(mql.out.map((i) => i.json.evento)).toEqual(["MQL"]);
-    const nql = await runNode([webhook("NQL", { email: "a@b.cl" })]);
-    expect(nql.out.map((i) => i.json.evento)).toEqual(["NQL"]);
+  test("MQL emite solo MQL 10", async () => {
+    const { out } = await runNode([
+      webhook("MQL", { id: "opp-mql", email: "a@b.cl", leadgenId: "1058798810462323" }),
+    ]);
+    expect(out.map((i) => i.json.evento)).toEqual(["MQL"]);
+    expect(out[0].json.value).toBe(10);
+    expect(out[0].json.event_id).toBe("opp-mql_MQL");
+    expect(out[0].json.payload.data[0].user_data.lead_id).toBe(1058798810462323);
   });
 
-  test("CUSTOMER → Purchase con el valor del plan, precedido por lo que falte de la escalera", async () => {
+  test("CUSTOMER → Purchase con el valor del plan, un solo ítem", async () => {
     const { out } = await runNode([
       webhook("CUSTOMER", { id: "opp-c", email: "a@b.cl", planClinera: "SUMMIT" }),
     ]);
-    expect(out.map((i) => i.json.evento)).toEqual(["MQL", "SQL", "Purchase"]);
-    expect(out.map((i) => i.json.value)).toEqual([10, 100, 479]);
-    expect(out.map((i) => i.json.event_id)).toEqual([
-      "opp-c_MQL",
-      "opp-c_MEETING",
-      "opp-c_CUSTOMER",
-    ]);
-    const tiempos = out.map((i) => i.json.payload.data[0].event_time as number);
-    expect([...tiempos].sort((a, b) => a - b)).toEqual(tiempos);
-    expect(out[2].json.payload.data[0].custom_data.value).toBe(479);
+    expect(out.map((i) => i.json.evento)).toEqual(["Purchase"]);
+    expect(out[0].json.value).toBe(479);
+    expect(out[0].json.event_id).toBe("opp-c_CUSTOMER");
+    expect(out[0].json.payload.data[0].custom_data.value).toBe(479);
 
-    const conSql = await runNode([webhook("CUSTOMER", { id: "opp-d", email: "a@b.cl" })], {
-      ledger: { "MQL:opp-d": { at: "2026-08-01T00:00:00.000Z" }, "SQL:opp-d": { at: "2026-08-02T00:00:00.000Z" } },
-    });
-    expect(conSql.out.map((i) => i.json.evento)).toEqual(["Purchase"]);
-    expect(conSql.out[0].json.value).toBe(279);
+    const vacio = await runNode([webhook("CUSTOMER", { id: "opp-d", email: "a@b.cl" })]);
+    expect(vacio.out.map((i) => i.json.evento)).toEqual(["Purchase"]);
+    expect(vacio.out[0].json.value).toBe(279);
   });
 });
