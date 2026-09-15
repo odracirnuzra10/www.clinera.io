@@ -6,6 +6,7 @@ import "@/app/speech/speech.css";
 const SLIDES = [
   { id: "hielo", label: "Romper el hielo" },
   { id: "descubrimiento", label: "Descubrimiento" },
+  { id: "presentacion", label: "Mostrar presentación" },
   { id: "software", label: "Mostrar software" },
   { id: "cierre", label: "Cerrar negocio" },
 ] as const;
@@ -102,10 +103,53 @@ function SlideDescubrimiento() {
   );
 }
 
+function SlidePresentacion() {
+  return (
+    <section className="sp-slide" aria-label="Etapa 3: Mostrar presentación">
+      <p className="sp-kicker">Etapa 03</p>
+      <h1 className="sp-title">Mostrar presentación</h1>
+      <p className="sp-lede">
+        Terminado el descubrimiento, comparte pantalla y muestra el PDF de presentación de
+        Clinera antes de entrar al software.
+      </p>
+
+      <Quote>
+        &ldquo;Perfecto, doctor(a). Con lo que me cuenta, déjeme mostrarle brevemente qué es
+        Clinera y cómo trabajamos, y después le muestro el sistema en vivo.&rdquo;
+      </Quote>
+
+      <div className="sp-play" style={{ marginTop: 28 }}>
+        <div className="sp-play-step">
+          <span className="sp-play-num" aria-hidden="true" />
+          <div>
+            <h3>Abre el PDF de presentación</h3>
+            <p>
+              En este momento debes mostrar el otro PDF: la presentación oficial de Clinera.
+              Tenla abierta y lista antes de la reunión.
+            </p>
+          </div>
+        </div>
+        <div className="sp-play-step">
+          <span className="sp-play-num" aria-hidden="true" />
+          <div>
+            <h3>Recórrela breve y conecta con lo que escuchaste</h3>
+            <p>
+              No la leas completa: destaca los puntos que se relacionan con los problemas que
+              el doctor mencionó en el descubrimiento.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <Why>La presentación ordena el relato y prepara el terreno para la demo del software.</Why>
+    </section>
+  );
+}
+
 function SlideSoftware() {
   return (
-    <section className="sp-slide" aria-label="Etapa 3: Mostrar software">
-      <p className="sp-kicker">Etapa 03</p>
+    <section className="sp-slide" aria-label="Etapa 4: Mostrar software">
+      <p className="sp-kicker">Etapa 04</p>
       <h1 className="sp-title">Mostrar software</h1>
       <p className="sp-lede">
         No muestres todo: solo lo que resuelve los problemas que el doctor mencionó en el
@@ -160,8 +204,8 @@ function SlideSoftware() {
 
 function SlideCierre() {
   return (
-    <section className="sp-slide" aria-label="Etapa 4: Cerrar negocio">
-      <p className="sp-kicker">Etapa 04</p>
+    <section className="sp-slide" aria-label="Etapa 5: Cerrar negocio">
+      <p className="sp-kicker">Etapa 05</p>
       <h1 className="sp-title">Cerrar negocio</h1>
       <p className="sp-lede">
         Al cerrar el negocio: si el cliente objeta que el precio es alto, usa esta jugada.
@@ -250,8 +294,9 @@ export default function SpeechDeck() {
       <main className="sp-stage" id="main">
         {index === 0 && <SlideHielo />}
         {index === 1 && <SlideDescubrimiento />}
-        {index === 2 && <SlideSoftware />}
-        {index === 3 && <SlideCierre />}
+        {index === 2 && <SlidePresentacion />}
+        {index === 3 && <SlideSoftware />}
+        {index === 4 && <SlideCierre />}
       </main>
 
       <nav className="sp-nav" aria-label="Navegación de etapas">
