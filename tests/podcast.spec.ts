@@ -13,6 +13,10 @@ const postPath = join(
   process.cwd(),
   `src/content/posts/${postSlug}.mdx`,
 );
+const podcastContentSrc = readFileSync(
+  join(process.cwd(), "src/content/podcast.ts"),
+  "utf8",
+);
 const landingSrc = readFileSync(
   join(process.cwd(), "src/components/podcast/PodcastLanding.tsx"),
   "utf8",
@@ -79,8 +83,10 @@ test.describe("Clinera Podcast: hub + capítulo 1", () => {
     expect(pageSrc).toMatch(/PodcastSeries/);
     expect(pageSrc).toMatch(/faqSchema/);
     expect(pageSrc).toMatch(/PodcastLanding/);
+    expect(podcastContentSrc).toContain('vimeoId: "1227087546"');
+    expect(podcastContentSrc).toContain('vimeoHash: "f809ac4f9a"');
     expect(landingSrc).toContain("Los 5 capítulos");
-    expect(landingSrc).toContain("1227087546");
+    expect(landingSrc).toContain("videoId={episode.vimeoId}");
   });
 
   test("sitemap, robots y llms exponen el podcast", () => {
@@ -113,6 +119,7 @@ test.describe("Clinera Podcast: hub + capítulo 1", () => {
     await page.goto(`/blog/${postSlug}`);
     await expect(
       page.getByRole("heading", {
+        level: 1,
         name: /cómo escalar una clínica de forma correcta/i,
       }),
     ).toBeVisible();
