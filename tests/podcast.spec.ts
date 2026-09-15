@@ -103,7 +103,11 @@ test.describe("Clinera Podcast: hub + capítulo 1", () => {
   });
 
   test("el hub y el artículo del cap. 1 cargan", async ({ page }) => {
-    await page.goto("/podcast");
+    await page.goto("/");
+    const navPodcast = page.locator('a[href="/podcast"]').filter({ hasText: "Podcast" }).first();
+    await expect(navPodcast).toBeVisible();
+    await navPodcast.click();
+    await page.waitForURL(/\/podcast$/);
     await expect(
       page.getByRole("heading", { name: /Clinera Podcast/i }).first(),
     ).toBeVisible();

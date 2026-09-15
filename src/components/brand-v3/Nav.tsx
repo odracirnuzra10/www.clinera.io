@@ -64,7 +64,7 @@ export default function NavV3({
           </div>
           <div style={{ display: "flex", gap: 22, alignItems: "center" }}>
             <Link
-              href="/webinars"
+              href="/podcast"
               style={{
                 color: "#7C3AED",
                 textDecoration: "none",
@@ -84,7 +84,7 @@ export default function NavV3({
                 }}
                 className="live-dot"
               />
-              Webinar
+              Podcast
             </Link>
             <Link href="/ayuda" style={{ color: "#6B7280", textDecoration: "none" }}>
               Ayuda y soporte
@@ -194,7 +194,7 @@ export default function NavV3({
             <Link href="/planes" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Planes</Link>
             <Link href="/prensa" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Prensa</Link>
             <Link href="/novedades" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Novedades</Link>
-            <Link href="/webinars" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub" style={{ color: "#7C3AED" }}>Webinar semanal · gratis</Link>
+            <Link href="/podcast" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub" style={{ color: "#7C3AED" }}>Clinera Podcast</Link>
             <Link href="/ayuda" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub">Ayuda y soporte</Link>
             <a
               href="https://app.clinera.io/"
