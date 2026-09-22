@@ -12,9 +12,11 @@ export default function VerDemoFloat() {
     <>
       <Link href="/demo" className="ver-demo-float">
         <span className="ver-demo-float-cam" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-            <circle cx="12" cy="13" r="4" />
+          <svg width="18" height="13" viewBox="0 0 24 17" fill="#fff">
+            <path
+              fillRule="evenodd"
+              d="M4 0h16a4 4 0 0 1 4 4v9a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4zm6.1 4.4 6.4 4.1-6.4 4.1V4.4z"
+            />
           </svg>
         </span>
         Ver demo
