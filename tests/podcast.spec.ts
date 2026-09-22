@@ -119,7 +119,8 @@ test.describe("Clinera Podcast: hub + capítulo 1", () => {
     expect(nav).toContain("Ver demo 3 min");
     expect(nav).not.toContain("/podcast");
     expect(footer).toContain('["Clinera Podcast", "/podcast"]');
-    expect(footer).toContain("DemoVideoFrame");
+    expect(footer).toContain("VerDemoFloat");
+    expect(footer).not.toContain("DemoVideoFrame");
     expect(home).toContain("<DemoEnVivo />");
   });
 
@@ -135,10 +136,8 @@ test.describe("Clinera Podcast: hub + capítulo 1", () => {
       "src",
       /player\.vimeo\.com\/video\/1229275734/,
     );
-    await expect(page.locator("footer iframe")).toHaveAttribute(
-      "src",
-      /player\.vimeo\.com\/video\/1229275734/,
-    );
+    await expect(page.locator("footer iframe")).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "Ver demo", exact: true })).toBeVisible();
     await footerPodcast.click();
     await page.waitForURL(/\/podcast$/);
     await expect(
