@@ -19,8 +19,8 @@ export default function VerDemoFloat() {
         </span>
         Ver demo
       </Link>
-      <style jsx>{`
-        :global(.ver-demo-float) {
+      <style>{`
+        .ver-demo-float {
           position: fixed;
           z-index: 45;
           left: 16px;
@@ -41,7 +41,7 @@ export default function VerDemoFloat() {
           font-weight: 600;
           line-height: 1;
         }
-        :global(.ver-demo-float-cam) {
+        .ver-demo-float-cam {
           width: 32px;
           height: 32px;
           border-radius: 999px;
@@ -52,7 +52,7 @@ export default function VerDemoFloat() {
           flex: 0 0 32px;
         }
         @media (max-width: 768px) {
-          :global(.ver-demo-float) {
+          .ver-demo-float {
             top: auto;
             bottom: 92px;
             left: 12px;
