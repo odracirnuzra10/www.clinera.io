@@ -733,10 +733,11 @@ hash=…>` (videos unlisted). Cap. 1:
 Guardián: `tests/podcast.spec.ts`.
 
 El botón de la barra superior (y el menú móvil) **no** es el podcast: es
-«Ver demo 3 min» → `/demo`. El podcast queda en el footer, columna Recursos.
-El video de la demo (`src/content/demo-video.ts`) se embebe en el home
-(`DemoEnVivo`, justo bajo el hero) y en la columna de marca del footer, para
-que no haya que entrar a `/demo` para verlo.
+«Ver demo 3 min» → `/demo`, con el punto verde y el texto violeta (sin caja).
+El podcast queda en el footer, columna Recursos. El video de la demo
+(`src/content/demo-video.ts`) se embebe solo en el home (`DemoEnVivo`, justo
+bajo el hero). En el resto del sitio el atajo es el flotante de la izquierda
+(`VerDemoFloat`): ícono de cámara + «Ver demo». No va un player en el footer.
 
 Decisiones consolidadas en la rama `feat/aeo-fase1-contenido` (agosto 2026):
 

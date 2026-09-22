@@ -66,18 +66,12 @@ export default function NavV3({
             <Link
               href="/demo"
               style={{
-                color: "#fff",
-                background: "#0A0A0A",
+                color: "#7C3AED",
                 textDecoration: "none",
-                fontWeight: 600,
-                fontSize: 12,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
+                fontWeight: 500,
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 6,
-                padding: "5px 10px 5px 8px",
-                borderRadius: 999,
               }}
             >
               <span

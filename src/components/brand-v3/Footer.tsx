@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import DemoVideoFrame from "@/components/demo/DemoVideoFrame";
+import VerDemoFloat from "@/components/demo/VerDemoFloat";
 import { Wordmark } from "./Brand";
 
 type Col = { t: string; l: Array<[string, string, boolean?]> };
@@ -98,89 +98,7 @@ export default function FooterV3() {
         borderTop: "1px solid #F0F0F0",
       }}
     >
-      <div
-        className="footer-demo"
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto 48px",
-          display: "grid",
-          gridTemplateColumns: "0.8fr 1.2fr",
-          gap: 40,
-          alignItems: "center",
-        }}
-      >
-        <div>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-              fontSize: 12,
-              fontWeight: 600,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "#0A0A0A",
-              marginBottom: 12,
-            }}
-          >
-            <span
-              className="live-dot"
-              style={{
-                width: 8,
-                height: 8,
-                borderRadius: 999,
-                background: "#10B981",
-                display: "inline-block",
-              }}
-            />
-            Ver demo 3 min
-          </div>
-          <div
-            style={{
-              fontFamily: "Inter",
-              fontSize: 28,
-              fontWeight: 700,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.15,
-              color: "#0A0A0A",
-              marginBottom: 16,
-            }}
-          >
-            Mira Clinera en 3 minutos
-          </div>
-          <Link
-            href="/demo"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-              background: "#0A0A0A",
-              color: "#fff",
-              textDecoration: "none",
-              fontFamily: "Inter",
-              fontSize: 14,
-              fontWeight: 600,
-              padding: "12px 18px",
-              borderRadius: 10,
-            }}
-          >
-            Ver la demo
-            <span aria-hidden>→</span>
-          </Link>
-        </div>
-        <div
-          style={{
-            borderRadius: 16,
-            overflow: "hidden",
-            border: "1px solid #EEECEA",
-            background: "#0E1014",
-            boxShadow: "0 24px 60px rgba(15,10,30,.10)",
-          }}
-        >
-          <DemoVideoFrame playerId="footer" lazy />
-        </div>
-      </div>
+      <VerDemoFloat />
       <div
         className="footer-v3-grid"
         style={{
@@ -310,10 +228,6 @@ export default function FooterV3() {
 
       <style jsx>{`
         @media (max-width: 900px) {
-          :global(.footer-demo) {
-            grid-template-columns: 1fr !important;
-            gap: 20px !important;
-          }
           :global(.footer-v3-grid) {
             grid-template-columns: 1fr 1fr !important;
             gap: 32px !important;
