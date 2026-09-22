@@ -8,8 +8,10 @@ import {
   faqSchema,
   orgSchema,
   softwareSchema,
+  videoObjectSchema,
   webPageSchema,
 } from "@/components/seo/schemas";
+import { DEMO_VIDEO } from "@/content/demo-video";
 import { PageUpdated } from "@/components/seo/PageUpdated";
 import { HOME_FAQ } from "@/content/home-faq";
 import {
@@ -43,6 +45,13 @@ export default function Home() {
           }),
           definedTermSetSchema,
           faqSchema(HOME_FAQ),
+          videoObjectSchema({
+            name: DEMO_VIDEO.title,
+            description: HOME_META_DESCRIPTION,
+            thumbnailUrl: "https://www.clinera.io/og-demo.png",
+            uploadDate: "2026-05-01",
+            embedUrl: DEMO_VIDEO.embedUrl,
+          }),
         ]}
       />
       <p data-entity-phrase className="sr-only">

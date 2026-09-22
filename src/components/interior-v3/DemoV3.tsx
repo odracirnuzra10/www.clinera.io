@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import DemoVideoFrame from "@/components/demo/DemoVideoFrame";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { useReveal } from "@/components/home-v3/sections";
 import CatalogPrice from "@/components/pricing/CatalogPrice";
@@ -236,15 +237,7 @@ function VideoSection() {
             background: "#0E1014",
           }}
         >
-          <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
-            <iframe
-              src="https://player.vimeo.com/video/1229275734?h=6bb3791685&badge=0&autopause=0&player_id=0&app_id=58479"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
-              title="Demo | Clinera.io"
-            />
-          </div>
+          <DemoVideoFrame playerId="demo" />
         </div>
         <p
           className="reveal"

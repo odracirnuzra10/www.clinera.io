@@ -732,6 +732,12 @@ hash=…>` (videos unlisted). Cap. 1:
 `f809ac4f9a`). Al subir caps. 2–5: actualizar el catálogo + MDX + llms.
 Guardián: `tests/podcast.spec.ts`.
 
+El botón de la barra superior (y el menú móvil) **no** es el podcast: es
+«Ver demo 3 min» → `/demo`. El podcast queda en el footer, columna Recursos.
+El video de la demo (`src/content/demo-video.ts`) se embebe en el home
+(`DemoEnVivo`, justo bajo el hero) y en la columna de marca del footer, para
+que no haya que entrar a `/demo` para verlo.
+
 Decisiones consolidadas en la rama `feat/aeo-fase1-contenido` (agosto 2026):
 
 - **Stack IA (desde 01-08-2026):** GLM 5.2, Gemini 3.7 Flash, Claude Opus 4.8 y

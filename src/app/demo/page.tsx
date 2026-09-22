@@ -10,6 +10,7 @@ import {
   videoObjectSchema,
   webPageSchema,
 } from "@/components/seo/schemas";
+import { DEMO_VIDEO } from "@/content/demo-video";
 
 const TITLE = "Demo en vivo: agente IA para clínicas";
 const DESCRIPTION =
@@ -66,12 +67,12 @@ export default function DemoPage() {
             description: DESCRIPTION,
           }),
           videoObjectSchema({
-            name: "Demo | Clinera.io",
+            name: DEMO_VIDEO.title,
             description:
               "Demostración en vivo del agente IA de Clinera para clínicas: agendamiento automático por WhatsApp, gestión de pacientes y automatización clínica.",
             thumbnailUrl: "https://www.clinera.io/og-demo.png",
             uploadDate: "2026-05-01",
-            embedUrl: "https://player.vimeo.com/video/1229275734?h=6bb3791685",
+            embedUrl: DEMO_VIDEO.embedUrl,
           }),
         ]}
       />

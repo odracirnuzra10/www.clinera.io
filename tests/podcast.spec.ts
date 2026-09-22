@@ -102,11 +102,44 @@ test.describe("Clinera Podcast: hub + capítulo 1", () => {
     );
   });
 
+  test("el podcast sale del nav y queda en el footer; la demo ocupa ese lugar", () => {
+    const nav = readFileSync(
+      join(process.cwd(), "src/components/brand-v3/Nav.tsx"),
+      "utf8",
+    );
+    const footer = readFileSync(
+      join(process.cwd(), "src/components/brand-v3/Footer.tsx"),
+      "utf8",
+    );
+    const home = readFileSync(
+      join(process.cwd(), "src/components/home-v3/HomeV3.tsx"),
+      "utf8",
+    );
+    expect(nav).toContain('href="/demo"');
+    expect(nav).toContain("Ver demo 3 min");
+    expect(nav).not.toContain("/podcast");
+    expect(footer).toContain('["Clinera Podcast", "/podcast"]');
+    expect(footer).toContain("DemoVideoFrame");
+    expect(home).toContain("<DemoEnVivo />");
+  });
+
   test("el hub y el artículo del cap. 1 cargan", async ({ page }) => {
     await page.goto("/");
-    const navPodcast = page.locator('a[href="/podcast"]').filter({ hasText: "Podcast" }).first();
-    await expect(navPodcast).toBeVisible();
-    await navPodcast.click();
+    const footerPodcast = page
+      .locator('footer a[href="/podcast"]')
+      .filter({ hasText: "Clinera Podcast" });
+    await expect(footerPodcast).toBeVisible();
+    await expect(page.locator('header a[href="/podcast"]')).toHaveCount(0);
+    await expect(page.getByRole("link", { name: /ver demo 3 min/i }).first()).toBeVisible();
+    await expect(page.locator("#demo-3-min iframe")).toHaveAttribute(
+      "src",
+      /player\.vimeo\.com\/video\/1229275734/,
+    );
+    await expect(page.locator("footer iframe")).toHaveAttribute(
+      "src",
+      /player\.vimeo\.com\/video\/1229275734/,
+    );
+    await footerPodcast.click();
     await page.waitForURL(/\/podcast$/);
     await expect(
       page.getByRole("heading", { name: /Clinera Podcast/i }).first(),
