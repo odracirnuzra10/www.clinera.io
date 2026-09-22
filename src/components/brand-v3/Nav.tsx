@@ -64,14 +64,20 @@ export default function NavV3({
           </div>
           <div style={{ display: "flex", gap: 22, alignItems: "center" }}>
             <Link
-              href="/podcast"
+              href="/demo"
               style={{
-                color: "#7C3AED",
+                color: "#fff",
+                background: "#0A0A0A",
                 textDecoration: "none",
-                fontWeight: 500,
+                fontWeight: 600,
+                fontSize: 12,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 6,
+                padding: "5px 10px 5px 8px",
+                borderRadius: 999,
               }}
             >
               <span
@@ -84,7 +90,7 @@ export default function NavV3({
                 }}
                 className="live-dot"
               />
-              Podcast
+              Ver demo 3 min
             </Link>
             <Link href="/ayuda" style={{ color: "#6B7280", textDecoration: "none" }}>
               Ayuda y soporte
@@ -194,7 +200,7 @@ export default function NavV3({
             <Link href="/planes" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Planes</Link>
             <Link href="/prensa" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Prensa</Link>
             <Link href="/novedades" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Novedades</Link>
-            <Link href="/podcast" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub" style={{ color: "#7C3AED" }}>Clinera Podcast</Link>
+            <Link href="/demo" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link" style={{ color: "#7C3AED" }}>Ver demo 3 min</Link>
             <Link href="/ayuda" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub">Ayuda y soporte</Link>
             <a
               href="https://app.clinera.io/"

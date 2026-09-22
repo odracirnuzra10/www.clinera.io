@@ -162,7 +162,7 @@ export function Hero() {
               <CtaPrimary as={Link} href="/agenda" style={{ padding: "15px 26px", fontSize: 16 }}>
                 Agendar demo <span>→</span>
               </CtaPrimary>
-              <CtaSecondary as={Link} href="/demo" style={{ padding: "15px 26px", fontSize: 16 }}>
+              <CtaSecondary as={Link} href="#demo-3-min" style={{ padding: "15px 26px", fontSize: 16 }}>
                 <svg
                   width="14"
                   height="14"
@@ -175,7 +175,7 @@ export function Hero() {
                 >
                   <polygon points="5 3 19 12 5 21 5 3" />
                 </svg>
-                Ver cómo funciona
+                Ver demo 3 min
               </CtaSecondary>
             </div>
 
@@ -4926,7 +4926,7 @@ export function FinalCTA() {
                 Agendar demo <span>→</span>
               </Link>
               <Link
-                href="/demo"
+                href="#demo-3-min"
                 style={{
                   background: "rgba(255,255,255,.08)",
                   color: "#fff",
@@ -4945,7 +4945,7 @@ export function FinalCTA() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polygon points="5 3 19 12 5 21 5 3" />
                 </svg>
-                Ver cómo funciona
+                Ver demo 3 min
               </Link>
             </div>
             <div
