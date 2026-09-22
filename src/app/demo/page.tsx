@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
 import DemoV3 from "@/components/interior-v3/DemoV3";
@@ -65,12 +66,12 @@ export default function DemoPage() {
             description: DESCRIPTION,
           }),
           videoObjectSchema({
-            name: "Presentación + Demo de Clinera O.S.",
+            name: "Demo | Clinera.io",
             description:
               "Demostración en vivo del agente IA de Clinera para clínicas: agendamiento automático por WhatsApp, gestión de pacientes y automatización clínica.",
             thumbnailUrl: "https://www.clinera.io/og-demo.png",
             uploadDate: "2026-05-01",
-            embedUrl: "https://player.vimeo.com/video/1199567468",
+            embedUrl: "https://player.vimeo.com/video/1229275734?h=6bb3791685",
           }),
         ]}
       />
@@ -78,6 +79,7 @@ export default function DemoPage() {
         <DemoV3 />
       </main>
       <FooterV3 />
+      <Script src="https://player.vimeo.com/api/player.js" strategy="afterInteractive" />
       <script
         dangerouslySetInnerHTML={{
           __html: `

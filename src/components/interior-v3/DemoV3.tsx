@@ -236,13 +236,13 @@ function VideoSection() {
             background: "#0E1014",
           }}
         >
-          <div style={{ padding: "47.29% 0 0 0", position: "relative" }}>
+          <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
             <iframe
-              src="https://player.vimeo.com/video/1199567468?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1"
+              src="https://player.vimeo.com/video/1229275734?h=6bb3791685&badge=0&autopause=0&player_id=0&app_id=58479"
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
               style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
-              title="Presentación + Demo | Clinera.io"
+              title="Demo | Clinera.io"
             />
           </div>
         </div>
