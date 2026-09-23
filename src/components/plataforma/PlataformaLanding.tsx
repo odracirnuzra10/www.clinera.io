@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
+import DemoEnVivo from "@/components/home-v3/DemoEnVivo";
 import { CnnLogo } from "@/components/brand-v3/Brand";
 import AuraNetwork from "./AuraNetwork";
 import CtaLink from "./CtaLink";
@@ -294,6 +295,7 @@ export default function PlataformaLanding() {
       <NavV3 ctaHref="/agenda" />
       <div className={styles.page}>
         <Hero />
+        <DemoEnVivo />
         <ClientProof />
         <AuraNetwork />
         <CustomerResult />

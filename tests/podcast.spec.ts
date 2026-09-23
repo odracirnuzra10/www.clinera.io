@@ -122,6 +122,11 @@ test.describe("Clinera Podcast: hub + capítulo 1", () => {
     expect(footer).toContain("VerDemoFloat");
     expect(footer).not.toContain("DemoVideoFrame");
     expect(home).toContain("<DemoEnVivo />");
+    const plataforma = readFileSync(
+      join(process.cwd(), "src/components/plataforma/PlataformaLanding.tsx"),
+      "utf8",
+    );
+    expect(plataforma).toContain("<DemoEnVivo />");
   });
 
   test("el hub y el artículo del cap. 1 cargan", async ({ page }) => {

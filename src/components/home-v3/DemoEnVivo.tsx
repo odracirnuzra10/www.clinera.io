@@ -63,6 +63,14 @@ export default function DemoEnVivo() {
           <DemoVideoFrame playerId="home" />
         </div>
       </div>
+      <style>{`
+        @media (max-width: 720px) {
+          #demo-3-min {
+            padding-left: 32px !important;
+            padding-right: 32px !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
