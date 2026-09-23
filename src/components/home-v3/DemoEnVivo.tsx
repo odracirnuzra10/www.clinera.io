@@ -64,6 +64,10 @@ export default function DemoEnVivo() {
         </div>
       </div>
       <style>{`
+        #demo-3-min {
+          position: relative;
+          z-index: 46;
+        }
         @media (max-width: 720px) {
           #demo-3-min {
             padding-left: 12px !important;
