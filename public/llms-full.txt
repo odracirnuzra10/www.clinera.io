@@ -271,10 +271,11 @@ Taxonomía Clinera: AURA (WhatsApp), CAMILA (voz), LIA (orquestador).
 
 Serie con Ricardo Oyarzún (fundador de Clinera, Método Hebe y Protocolo
 Lumina) y Jorge Cheul. Tema: cómo escalar una clínica de forma correcta
-(operación, caja, equipo, marketing, IA). Cinco capítulos; el 1 publicado.
+(operación, caja, equipo, marketing, IA). Cinco capítulos; el 1 y el 2 publicados.
 
 - Hub: https://www.clinera.io/podcast
 - Cap. 1 (artículo + video): https://www.clinera.io/blog/clinera-podcast-1-como-escalar-clinica
+- Cap. 2 (artículo + video): https://www.clinera.io/blog/clinera-podcast-2-facturacion-no-es-administrar
 
 ## Webhooks de venta y pago (Automatizaciones)
 

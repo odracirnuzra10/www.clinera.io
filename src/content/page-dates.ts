@@ -40,7 +40,7 @@ export const PAGE_DATES: Record<
   "/demo": { published: "2025-06-01", modified: "2026-05-01" },
   "/app": { published: "2026-03-01", modified: "2026-08-01" },
   "/webinars": { published: "2026-04-01", modified: "2026-08-15" },
-  "/podcast": { published: "2026-09-15", modified: "2026-09-15" },
+  "/podcast": { published: "2026-09-15", modified: "2026-09-23" },
   "/partners": { published: "2026-08-01", modified: "2026-09-07" },
   "/convenio-doctores": { published: "2026-09-06", modified: "2026-09-06" },
   "/comparativas": { published: "2026-04-01", modified: "2026-08-26" },
@@ -62,8 +62,8 @@ export const PAGE_DATES: Record<
   "/cookies": { published: "2025-06-01", modified: "2026-08-01" },
   "/recursos": { published: "2026-06-01", modified: "2026-08-01" },
   "/recursos/calculadora-roi": { published: "2026-06-01", modified: "2026-08-01" },
-  "/llms.txt": { published: "2026-04-01", modified: "2026-09-15" },
-  "/llms-full.txt": { published: "2026-04-01", modified: "2026-09-15" },
+  "/llms.txt": { published: "2026-04-01", modified: "2026-09-23" },
+  "/llms-full.txt": { published: "2026-04-01", modified: "2026-09-23" },
 };
 
 export function pageDate(path: string): { published: string; modified: string } {

@@ -115,7 +115,9 @@ escalar una clínica: operación, caja, equipo, marketing e IA.
 - Hub de la serie: https://www.clinera.io/podcast
 - Cap. 1 — Cómo escalar una clínica de forma correcta:
   https://www.clinera.io/blog/clinera-podcast-1-como-escalar-clinica
-  (video Vimeo embebido; caps. 2–5 próximamente en /podcast)
+- Cap. 2 — Por qué mirar la facturación no es administrar:
+  https://www.clinera.io/blog/clinera-podcast-2-facturacion-no-es-administrar
+  (video Vimeo embebido; caps. 3–5 próximamente en /podcast)
 
 ## Webhooks de venta y pago (Automatizaciones)
 

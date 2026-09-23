@@ -8,6 +8,7 @@ import { useReveal } from "@/components/home-v3/sections";
 import {
   PODCAST_EPISODES,
   PODCAST_SERIES,
+  featuredPodcastEpisode,
   podcastEpisodePath,
   type PodcastEpisode,
 } from "@/content/podcast";
@@ -28,7 +29,7 @@ function fmtDuration(seconds?: number) {
 
 export default function PodcastLanding() {
   useReveal();
-  const featured = PODCAST_EPISODES.find((e) => e.status === "published");
+  const featured = featuredPodcastEpisode();
 
   return (
     <>
@@ -303,8 +304,9 @@ function EpisodeList({ episodes }: { episodes: PodcastEpisode[] }) {
             lineHeight: 1.55,
           }}
         >
-          La primera temporada tiene cinco episodios. El capítulo 1 ya está al
-          aire; los siguientes se publican aquí y en el blog a medida que salen.
+          La primera temporada tiene cinco episodios. Los capítulos 1 y 2 ya
+          están al aire; los siguientes se publican aquí y en el blog a medida
+          que salen.
         </p>
         <div className="podcast-grid">
           {episodes.map((ep) => (

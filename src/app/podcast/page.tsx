@@ -58,11 +58,11 @@ const FAQ = [
   },
   {
     q: "¿Cuántos capítulos tiene la serie?",
-    a: "Cinco. El capítulo 1 ya está publicado; los capítulos 2 a 5 se irán subiendo en esta página y en el blog de Clinera.",
+    a: "Cinco. Los capítulos 1 y 2 ya están publicados; los capítulos 3 a 5 se irán subiendo en esta página y en el blog de Clinera.",
   },
   {
-    q: "¿Dónde veo el capítulo 1?",
-    a: "En esta página (/podcast) y en el artículo del blog https://www.clinera.io/blog/clinera-podcast-1-como-escalar-clinica, con el video embebido de Vimeo.",
+    q: "¿Dónde veo los capítulos publicados?",
+    a: "En esta página (/podcast) y en el blog: capítulo 1 en https://www.clinera.io/blog/clinera-podcast-1-como-escalar-clinica y capítulo 2 en https://www.clinera.io/blog/clinera-podcast-2-facturacion-no-es-administrar, cada uno con el video embebido de Vimeo.",
   },
   {
     q: "¿De qué habla el capítulo 1?",
@@ -121,8 +121,19 @@ function itemListSchema() {
 }
 
 export default function PodcastPage() {
-  const ep1 = PODCAST_EPISODES[0];
-  const embed = podcastVimeoEmbedUrl(ep1);
+  const videos = publishedPodcastEpisodes()
+    .map((ep) => {
+      const embedUrl = podcastVimeoEmbedUrl(ep);
+      if (!embedUrl || !ep.vimeoId) return null;
+      return videoObjectSchema({
+        name: `Clinera Podcast #${ep.number} — ${ep.title}`,
+        description: ep.summary,
+        thumbnailUrl: `https://vumbnail.com/${ep.vimeoId}.jpg`,
+        uploadDate: ep.date,
+        embedUrl,
+      });
+    })
+    .filter((v) => v != null);
 
   return (
     <>
@@ -142,17 +153,7 @@ export default function PodcastPage() {
           podcastSeriesSchema(),
           itemListSchema(),
           faqSchema(FAQ),
-          ...(embed
-            ? [
-                videoObjectSchema({
-                  name: `Clinera Podcast #${ep1.number} — ${ep1.title}`,
-                  description: ep1.summary,
-                  thumbnailUrl: `https://vumbnail.com/${ep1.vimeoId}.jpg`,
-                  uploadDate: ep1.date,
-                  embedUrl: embed,
-                }),
-              ]
-            : []),
+          ...videos,
         ]}
       />
       <main>
