@@ -198,8 +198,8 @@ function DemoHero() {
 
 function VideoSection() {
   return (
-    <section style={{ padding: "40px 80px 80px", background: "#fff" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+    <section style={{ padding: "40px 24px 80px", background: "#fff" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <div className="reveal" style={{ textAlign: "center", marginBottom: 28 }}>
           <h2
             style={{

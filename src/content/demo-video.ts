@@ -17,6 +17,8 @@ export function demoVideoPlayerSrc(playerId = "0"): string {
     autopause: "0",
     player_id: playerId,
     app_id: "58479",
+    // Menú de velocidad de Vimeo (incluye 2x). Sin este parámetro el control no aparece.
+    speed: "1",
   });
   return `https://player.vimeo.com/video/${DEMO_VIDEO.id}?${params.toString()}`;
 }

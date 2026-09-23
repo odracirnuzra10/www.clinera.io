@@ -7,8 +7,10 @@ import {
   faqSchema,
   orgSchema,
   softwareSchema,
+  videoObjectSchema,
   webPageSchema,
 } from "@/components/seo/schemas";
+import { DEMO_VIDEO } from "@/content/demo-video";
 import { PRODUCT_NAME } from "@/content/entidad";
 
 const TITLE = `${PRODUCT_NAME} | Sistema operativo de tu clínica`;
@@ -44,6 +46,13 @@ export default function PlataformaPage() {
             { name: "Plataforma", url: "https://www.clinera.io/plataforma" },
           ]),
           faqSchema(FAQ),
+          videoObjectSchema({
+            name: DEMO_VIDEO.title,
+            description: DESCRIPTION,
+            thumbnailUrl: "https://www.clinera.io/og-demo.png",
+            uploadDate: "2026-05-01",
+            embedUrl: DEMO_VIDEO.embedUrl,
+          }),
         ]}
       />
       <PlataformaLanding />
