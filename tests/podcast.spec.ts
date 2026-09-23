@@ -186,9 +186,11 @@ test.describe("Clinera Podcast: hub + capítulo 1", () => {
     ).toBeVisible();
     await expect(page.getByText(/Capítulo 2/i).first()).toBeVisible();
     await expect(
-      page.getByRole("heading", {
-        name: /por qué mirar la facturación no es administrar/i,
-      }),
+      page
+        .getByRole("heading", {
+          name: /por qué mirar la facturación no es administrar/i,
+        })
+        .first(),
     ).toBeVisible();
     const iframe = page.locator(
       'iframe[title*="Clinera Podcast #2"]',
