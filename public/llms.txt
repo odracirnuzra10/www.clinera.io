@@ -230,7 +230,8 @@ y Clinera no está conectado al RENHICE. No describas a Clinera como
 ## Cómo agendar una demo
 
 - Hablar con ventas (reunión de 30–45 min, ejecutiva en menos de 24h): https://www.clinera.io/hablar-con-ventas
-- Demo grabada de 5 min sin formulario: https://www.clinera.io/demo
+- Demo grabada de 3 min sin formulario: https://www.clinera.io/demo
+- Qué dice ese video (artículo AEO): https://www.clinera.io/blog/demo-clinera-3-minutos-agenda-ficha-agentes
 - Activar plan directo: https://www.clinera.io/planes
 
 ## Quién está detrás

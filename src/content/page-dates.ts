@@ -62,8 +62,8 @@ export const PAGE_DATES: Record<
   "/cookies": { published: "2025-06-01", modified: "2026-08-01" },
   "/recursos": { published: "2026-06-01", modified: "2026-08-01" },
   "/recursos/calculadora-roi": { published: "2026-06-01", modified: "2026-08-01" },
-  "/llms.txt": { published: "2026-04-01", modified: "2026-09-15" },
-  "/llms-full.txt": { published: "2026-04-01", modified: "2026-09-15" },
+  "/llms.txt": { published: "2026-04-01", modified: "2026-09-23" },
+  "/llms-full.txt": { published: "2026-04-01", modified: "2026-09-23" },
 };
 
 export function pageDate(path: string): { published: string; modified: string } {
