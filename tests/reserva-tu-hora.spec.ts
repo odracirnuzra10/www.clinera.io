@@ -279,4 +279,31 @@ test.describe("/reserva-tu-hora — destino del Instant Form", () => {
       timeout: 15000,
     });
   });
+
+  test("ofrece Uruguay, Estados Unidos y Puerto Rico; US manda E.164 +1", async ({ page }) => {
+    const id = nonce();
+    await mockRed(page);
+    const wizard = grabarWizard(page);
+
+    await page.goto("/reserva-tu-hora", { waitUntil: "domcontentloaded" });
+    const pais = page.getByLabel("Código de país");
+    await expect(pais.locator("option[value='+598']")).toHaveCount(1);
+    await expect(pais.locator("option[value='+1']")).toHaveCount(1);
+    await expect(pais.locator("option[value='PR']")).toHaveCount(1);
+
+    await page.getByLabel("Tu nombre").fill(`[E2E TEST] ${id}`);
+    await page.getByLabel("Correo").fill(`${id}@e2e.clinera.io`);
+    await pais.selectOption("+1");
+    await page.getByLabel("WhatsApp").fill("4155551234");
+    await page.getByRole("button", { name: /Ver horas disponibles/i }).click();
+
+    await expect(page.getByRole("heading", { name: /Elige el día y la hora/i })).toBeVisible({
+      timeout: 15000,
+    });
+    await page.waitForTimeout(400);
+
+    const contactos = wizard.filter((w) => w.lead_stage === "contact");
+    expect(contactos).toHaveLength(1);
+    expect(contactos[0].celular).toBe("+14155551234");
+  });
 });
