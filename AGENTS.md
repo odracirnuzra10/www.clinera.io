@@ -740,6 +740,15 @@ El podcast queda en el footer, columna Recursos. El video de la demo
 flotante de la izquierda (`VerDemoFloat`): ícono de cámara de video + «Ver
 demo». No va un player en el footer.
 
+El artículo que sigue el relato de esa demo (subtítulos de Vimeo
+`1229275734`) es
+`/blog/demo-clinera-3-minutos-agenda-ficha-agentes`. El autogen dice mal
+tres cosas y el post las deja en la fuente canónica: la marca es Clinera
+(el video se llama «Demo | Clinera.io»); WhatsApp lo atiende AURA, no LIA;
+Isapre es previsión privada y Fonasa es la pública. `public/llms*.txt`
+apuntan a la demo de **3 min**, no a una de 5. Guardián:
+`tests/demo-articulo.spec.ts`.
+
 Decisiones consolidadas en la rama `feat/aeo-fase1-contenido` (agosto 2026):
 
 - **Stack IA (desde 01-08-2026):** GLM 5.2, Gemini 3.7 Flash, Claude Opus 4.8 y
