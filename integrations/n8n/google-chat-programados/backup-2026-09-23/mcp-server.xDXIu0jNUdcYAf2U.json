@@ -1,0 +1,351 @@
+{
+ "id": "xDXIu0jNUdcYAf2U",
+ "name": "MCP · Google Chat",
+ "nodes": [
+  {
+   "parameters": {
+    "authentication": "bearerAuth",
+    "path": "google-chat-ricardo",
+    "instructions": "Actúas sobre el Google Chat de Ricardo Oyarzún (OACG) con su propia cuenta: lo que leas y escribas es en su nombre. Los ids de espacio tienen el formato spaces/XXX y salen de listar_espacios o abrir_dm. Para un resumen del día usa leer_novedades. Nunca envíes un mensaje sin haber confirmado con el usuario el destinatario y el texto exacto. Fechas en hora de Chile."
+   },
+   "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+   "typeVersion": 2,
+   "position": [
+    0,
+    0
+   ],
+   "name": "MCP Server Trigger",
+   "webhookId": "ce4e990e-f85f-4315-a6c3-14d770cecab6",
+   "credentials": {
+    "httpBearerAuth": {
+     "id": "iKdnYaUw4TR7nV7o",
+     "name": "MCP · Google Chat · Bearer · 20260922"
+    }
+   },
+   "id": "1cfc39c8-5d6f-4132-aa85-326d72f46d7e"
+  },
+  {
+   "parameters": {
+    "description": "Lista los espacios de Google Chat de Ricardo (DMs, grupos y espacios), ordenados por última actividad. Para los DMs y grupos sin nombre devuelve el nombre de la(s) otra(s) persona(s). Úsala primero para obtener el id (spaces/XXX) que piden las otras herramientas.",
+    "workflowId": {
+     "__rl": true,
+     "value": "9th5ayeRpGov2bmW",
+     "mode": "id"
+    },
+    "workflowInputs": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "tipo": "={{ $fromAI('tipo', 'Tipo de espacio: DIRECT_MESSAGE, GROUP_CHAT o SPACE. Déjalo vacío para traer todos.', 'string', '') }}",
+      "limite": "={{ $fromAI('limite', 'Máximo de espacios a devolver. Por defecto 50.', 'number', 50) }}"
+     },
+     "matchingColumns": [],
+     "schema": [
+      {
+       "id": "tipo",
+       "displayName": "tipo",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "canBeUsedToMatch": true,
+       "type": "string",
+       "removed": false
+      },
+      {
+       "id": "limite",
+       "displayName": "limite",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "canBeUsedToMatch": true,
+       "type": "number",
+       "removed": false
+      }
+     ],
+     "attemptToConvertTypes": false,
+     "convertFieldsToString": false
+    }
+   },
+   "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+   "typeVersion": 2.2,
+   "position": [
+    -460,
+    260
+   ],
+   "name": "listar_espacios",
+   "id": "f94f4589-e394-44ca-a98a-97fb98c41e28"
+  },
+  {
+   "parameters": {
+    "description": "Lee los mensajes de un espacio o DM desde una fecha (por defecto, las últimas 24 horas), en orden cronológico, con autor, correo, fecha en hora de Chile, texto e hilo. Necesita el id del espacio (spaces/XXX): sácalo de listar_espacios o abrir_dm.",
+    "workflowId": {
+     "__rl": true,
+     "value": "8GI9tnUxls0GKGSW",
+     "mode": "id"
+    },
+    "workflowInputs": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "espacio": "={{ $fromAI('espacio', 'Id del espacio, formato spaces/XXX.', 'string') }}",
+      "desde": "={{ $fromAI('desde', 'Fecha y hora ISO 8601 desde la que leer (ej. 2026-09-20T00:00:00-03:00). Vacío = últimas 24 horas.', 'string', '') }}",
+      "limite": "={{ $fromAI('limite', 'Máximo de mensajes a devolver. Por defecto 100.', 'number', 100) }}"
+     },
+     "matchingColumns": [],
+     "schema": [
+      {
+       "id": "espacio",
+       "displayName": "espacio",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "canBeUsedToMatch": true,
+       "type": "string",
+       "removed": false
+      },
+      {
+       "id": "desde",
+       "displayName": "desde",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "canBeUsedToMatch": true,
+       "type": "string",
+       "removed": false
+      },
+      {
+       "id": "limite",
+       "displayName": "limite",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "canBeUsedToMatch": true,
+       "type": "number",
+       "removed": false
+      }
+     ],
+     "attemptToConvertTypes": false,
+     "convertFieldsToString": false
+    }
+   },
+   "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+   "typeVersion": 2.2,
+   "position": [
+    -230,
+    260
+   ],
+   "name": "leer_mensajes",
+   "id": "47197cfb-b02f-4c77-af3b-f04d8007e7de"
+  },
+  {
+   "parameters": {
+    "description": "Trae de una vez los mensajes nuevos de todos los espacios con actividad desde una fecha (por defecto, las últimas 24 horas), agrupados por espacio y en hora de Chile. Es la herramienta para «¿qué hay de nuevo?» o para un resumen del día. Si hay mucho, recorta: revisa truncado y mensajesOmitidos y pide un espacio puntual con leer_mensajes.",
+    "workflowId": {
+     "__rl": true,
+     "value": "OtLQKuMh1bABXnaZ",
+     "mode": "id"
+    },
+    "workflowInputs": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "desde": "={{ $fromAI('desde', 'Fecha y hora ISO 8601 desde la que buscar novedades. Vacío = últimas 24 horas.', 'string', '') }}",
+      "max_espacios": "={{ $fromAI('max_espacios', 'Máximo de espacios a revisar, los más recientes primero. Por defecto 20.', 'number', 20) }}"
+     },
+     "matchingColumns": [],
+     "schema": [
+      {
+       "id": "desde",
+       "displayName": "desde",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "canBeUsedToMatch": true,
+       "type": "string",
+       "removed": false
+      },
+      {
+       "id": "max_espacios",
+       "displayName": "max_espacios",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "canBeUsedToMatch": true,
+       "type": "number",
+       "removed": false
+      }
+     ],
+     "attemptToConvertTypes": false,
+     "convertFieldsToString": false
+    }
+   },
+   "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+   "typeVersion": 2.2,
+   "position": [
+    0,
+    260
+   ],
+   "name": "leer_novedades",
+   "id": "e660fc83-f8cd-4a09-a159-8b009ba28750"
+  },
+  {
+   "parameters": {
+    "description": "Envía un mensaje de Google Chat en nombre de Ricardo a un espacio, grupo o DM; si le pasas un hilo, responde dentro de ese hilo. Antes de usar, confirma con el usuario el destinatario y el texto exacto. Para escribirle a una persona, primero consigue el id del DM con abrir_dm.",
+    "workflowId": {
+     "__rl": true,
+     "value": "9Fdns86ZWNK5dX0x",
+     "mode": "id"
+    },
+    "workflowInputs": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "espacio": "={{ $fromAI('espacio', 'Id del espacio o DM destino, formato spaces/XXX.', 'string') }}",
+      "texto": "={{ $fromAI('texto', 'Texto exacto del mensaje, ya confirmado con el usuario.', 'string') }}",
+      "hilo": "={{ $fromAI('hilo', 'Opcional: nombre del hilo a responder (campo hilo de leer_mensajes, formato spaces/XXX/threads/YYY). Vacío = mensaje nuevo.', 'string', '') }}"
+     },
+     "matchingColumns": [],
+     "schema": [
+      {
+       "id": "espacio",
+       "displayName": "espacio",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "canBeUsedToMatch": true,
+       "type": "string",
+       "removed": false
+      },
+      {
+       "id": "texto",
+       "displayName": "texto",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "canBeUsedToMatch": true,
+       "type": "string",
+       "removed": false
+      },
+      {
+       "id": "hilo",
+       "displayName": "hilo",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "canBeUsedToMatch": true,
+       "type": "string",
+       "removed": false
+      }
+     ],
+     "attemptToConvertTypes": false,
+     "convertFieldsToString": false
+    }
+   },
+   "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+   "typeVersion": 2.2,
+   "position": [
+    230,
+    260
+   ],
+   "name": "enviar_mensaje",
+   "id": "d54bd0f4-9595-4b40-a444-4f165c58b647"
+  },
+  {
+   "parameters": {
+    "description": "Devuelve el id del DM entre Ricardo y una persona a partir de su correo (normalmente @oacg.cl). Si todavía no existe conversación, la crea. Úsala antes de enviar_mensaje cuando el destinatario es una persona y no un espacio.",
+    "workflowId": {
+     "__rl": true,
+     "value": "EhaXPqLON8Jyx3JZ",
+     "mode": "id"
+    },
+    "workflowInputs": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "correo": "={{ $fromAI('correo', 'Correo de la persona, por ejemplo nombre@oacg.cl.', 'string') }}"
+     },
+     "matchingColumns": [],
+     "schema": [
+      {
+       "id": "correo",
+       "displayName": "correo",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "canBeUsedToMatch": true,
+       "type": "string",
+       "removed": false
+      }
+     ],
+     "attemptToConvertTypes": false,
+     "convertFieldsToString": false
+    }
+   },
+   "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+   "typeVersion": 2.2,
+   "position": [
+    460,
+    260
+   ],
+   "name": "abrir_dm",
+   "id": "c5f54ca6-b9a2-4b94-a7ec-f3c3365718cd"
+  }
+ ],
+ "connections": {
+  "listar_espacios": {
+   "ai_tool": [
+    [
+     {
+      "node": "MCP Server Trigger",
+      "type": "ai_tool",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "leer_mensajes": {
+   "ai_tool": [
+    [
+     {
+      "node": "MCP Server Trigger",
+      "type": "ai_tool",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "leer_novedades": {
+   "ai_tool": [
+    [
+     {
+      "node": "MCP Server Trigger",
+      "type": "ai_tool",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "enviar_mensaje": {
+   "ai_tool": [
+    [
+     {
+      "node": "MCP Server Trigger",
+      "type": "ai_tool",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "abrir_dm": {
+   "ai_tool": [
+    [
+     {
+      "node": "MCP Server Trigger",
+      "type": "ai_tool",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1",
+  "timezone": "America/Santiago",
+  "saveManualExecutions": true
+ }
+}

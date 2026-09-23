@@ -1,0 +1,421 @@
+{
+ "id": "9Fdns86ZWNK5dX0x",
+ "name": "MCP · Google Chat · enviar_mensaje",
+ "nodes": [
+  {
+   "parameters": {
+    "inputSource": "workflowInputs",
+    "workflowInputs": {
+     "values": [
+      {
+       "name": "espacio",
+       "type": "string"
+      },
+      {
+       "name": "texto",
+       "type": "string"
+      },
+      {
+       "name": "hilo",
+       "type": "string"
+      }
+     ]
+    }
+   },
+   "type": "n8n-nodes-base.executeWorkflowTrigger",
+   "typeVersion": 1.1,
+   "position": [
+    0,
+    0
+   ],
+   "name": "Trigger",
+   "id": "bc6be382-be45-4669-ab46-33f57acd6622"
+  },
+  {
+   "parameters": {
+    "jsCode": "const TZ = 'America/Santiago';\nconst CORREO_PROPIO = 'ricardo@oacg.cl'; // pragma: allowlist secret (es el correo público de Ricardo, no una clave)\nconst NOMBRE_CRED = 'Google Chat - Ricardo (OAuth)';\nfunction fechaCL(iso) {\n  if (!iso) return '';\n  const d = DateTime.fromISO(String(iso), { setZone: true }).setZone(TZ);\n  return d.isValid ? d.toFormat('yyyy-LL-dd HH:mm') : String(iso);\n}\nfunction statusDe(r) {\n  const s = Number(r && (r.statusCode !== undefined ? r.statusCode : r.status));\n  return Number.isFinite(s) ? s : 0;\n}\n/* 0 = no hubo respuesta HTTP (credencial sin token, red): también es error. */\nfunction esError(status) { return status === 0 || status >= 400; }\nfunction detalleGoogle(r) {\n  const b = r && r.body;\n  const m = b && b.error && (b.error.message || b.error.status);\n  return m ? ' Google dijo: «' + String(m).slice(0, 200) + '».' : '';\n}\nfunction mensajeError(status, r, contexto) {\n  const d = detalleGoogle(r);\n  if (status === 401 || status === 403) {\n    return 'Google rechazó la credencial (HTTP ' + status + '): revisa que «' + NOMBRE_CRED +\n      '» esté conectada con la cuenta de Ricardo y tenga los scopes de Chat y directory.readonly.' + d;\n  }\n  if (status === 404) return (contexto || 'El espacio') + ' no existe o Ricardo no es miembro (HTTP 404).' + d;\n  if (status === 429) return 'Google limitó las llamadas (HTTP 429). Espera un minuto y vuelve a intentar.' + d;\n  if (status === 0) {\n    const e = (r && r.error) || {};\n    const msg = String(e.message || e.description || (typeof r.error === 'string' ? r.error : '') || '');\n    if (/access token|sign without|credential|unauthorized|invalid_grant|refresh/i.test(msg)) {\n      return 'n8n no pudo autenticar con Google: la credencial «' + NOMBRE_CRED +\n        '» no está conectada o venció. Ábrela en n8n, revisa Client ID / Client Secret y vuelve a hacer «Sign in with Google» con la cuenta de Ricardo. (' + msg.slice(0, 160) + ')';\n    }\n    return 'No hubo respuesta de Google Chat' + (msg ? ': ' + msg.slice(0, 200) : '.');\n  }\n  return 'Google Chat respondió HTTP ' + status + '.' + d;\n}\nfunction falla(error) { return [{ json: { ok: false, error: String(error) } }]; }\nfunction exito(data) { return [{ json: { ok: true, data } }]; }\nfunction idEspacio(v) {\n  v = String(v || '').trim();\n  if (!v) return '';\n  if (/^spaces\\/[A-Za-z0-9_-]+$/.test(v)) return v;\n  if (/^[A-Za-z0-9_-]+$/.test(v)) return 'spaces/' + v;\n  return '';\n}\nfunction isoDesde(v, horas) {\n  if (v) {\n    const d = DateTime.fromISO(String(v), { setZone: true });\n    return d.isValid ? d.toUTC().startOf('second').toISO({ suppressMilliseconds: true }) : null;\n  }\n  return DateTime.utc().minus({ hours: horas }).startOf('second').toISO({ suppressMilliseconds: true });\n}\nfunction indicePar(item) {\n  const p = item && item.pairedItem;\n  if (p === undefined || p === null) return null;\n  if (Array.isArray(p)) return p.length ? p[0].item : null;\n  return typeof p === 'object' ? p.item : p;\n}\nfunction formatoMensaje(m, mapa, maxChars) {\n  const s = m.sender || {};\n  const u = mapa[s.name] || {};\n  let texto = String(m.text || m.formattedText || '');\n  let cortado = false;\n  if (maxChars && texto.length > maxChars) { texto = texto.slice(0, maxChars) + '…'; cortado = true; }\n  const out = {\n    id: m.name,\n    autor: u.nombre || s.displayName || (s.type === 'BOT' ? 'App' : (s.name || '')),\n    correo: u.correo || '',\n    fecha: fechaCL(m.createTime),\n    fechaIso: m.createTime || '',\n    texto,\n    hilo: (m.thread && m.thread.name) || '',\n    adjuntos: Array.isArray(m.attachment) ? m.attachment.length : 0,\n  };\n  if (cortado) out.textoCortado = true;\n  if (Array.isArray(m.attachedGifs) && m.attachedGifs.length) out.gifs = m.attachedGifs.length;\n  return out;\n}\n\nconst t = $('Trigger').first().json;\nconst espacio = idEspacio(t.espacio);\nif (!espacio) return [{ json: { error: 'Falta el id del espacio (formato spaces/XXXX). Usa listar_espacios o abrir_dm para obtenerlo.' } }];\nconst texto = String(t.texto || '').trim();\nif (!texto) return [{ json: { error: 'El texto del mensaje está vacío.' } }];\nif (texto.length > 4000) return [{ json: { error: 'El mensaje supera los 4.000 caracteres que acepta Google Chat.' } }];\nconst hilo = String(t.hilo || '').trim();\nif (hilo && !/^spaces\\/[A-Za-z0-9_-]+\\/threads\\/[A-Za-z0-9_-]+$/.test(hilo)) return [{ json: { error: 'El hilo debe tener el formato spaces/XXX/threads/YYY (es el campo hilo de leer_mensajes).' } }];\nif (hilo && hilo.indexOf(espacio + '/') !== 0) return [{ json: { error: 'El hilo no pertenece al espacio indicado.' } }];\nconst url = 'https://chat.googleapis.com/v1/' + espacio + '/messages' + (hilo ? '?messageReplyOption=REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD' : '');\nconst cuerpo = { text: texto };\nif (hilo) cuerpo.thread = { name: hilo };\nreturn [{ json: { espacio, texto, hilo, url, cuerpo } }];\n"
+   },
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    220,
+    0
+   ],
+   "name": "Preparar",
+   "id": "2b179b56-b09a-4816-af92-9fe9eba016db"
+  },
+  {
+   "parameters": {
+    "conditions": {
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose",
+      "version": 2
+     },
+     "conditions": [
+      {
+       "id": "c6c0c08b-9088-4dbc-ad15-e20a0a90950b",
+       "leftValue": "={{ !$json.error }}",
+       "rightValue": "",
+       "operator": {
+        "type": "boolean",
+        "operation": "true",
+        "singleValue": true
+       }
+      }
+     ],
+     "combinator": "and"
+    },
+    "options": {}
+   },
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2.2,
+   "position": [
+    440,
+    0
+   ],
+   "name": "¿Entrada válida?",
+   "id": "fe23d4b2-0f0f-45ce-a377-4d1aadbaf02f"
+  },
+  {
+   "parameters": {
+    "method": "GET",
+    "url": "=https://chat.googleapis.com/v1/{{ $json.espacio }}",
+    "authentication": "predefinedCredentialType",
+    "nodeCredentialType": "googleOAuth2Api",
+    "options": {
+     "response": {
+      "response": {
+       "fullResponse": true,
+       "neverError": true
+      }
+     }
+    }
+   },
+   "type": "n8n-nodes-base.httpRequest",
+   "typeVersion": 4.2,
+   "position": [
+    660,
+    -140
+   ],
+   "name": "GET espacio",
+   "credentials": {
+    "googleOAuth2Api": {
+     "id": "L7tpOcuXqVBa2QFj",
+     "name": "Google Chat - Ricardo (OAuth)"
+    }
+   },
+   "onError": "continueErrorOutput",
+   "id": "a9fad500-5046-4a1b-adea-e211cbc0ff58"
+  },
+  {
+   "parameters": {
+    "jsCode": "const TZ = 'America/Santiago';\nconst CORREO_PROPIO = 'ricardo@oacg.cl'; // pragma: allowlist secret (es el correo público de Ricardo, no una clave)\nconst NOMBRE_CRED = 'Google Chat - Ricardo (OAuth)';\nfunction fechaCL(iso) {\n  if (!iso) return '';\n  const d = DateTime.fromISO(String(iso), { setZone: true }).setZone(TZ);\n  return d.isValid ? d.toFormat('yyyy-LL-dd HH:mm') : String(iso);\n}\nfunction statusDe(r) {\n  const s = Number(r && (r.statusCode !== undefined ? r.statusCode : r.status));\n  return Number.isFinite(s) ? s : 0;\n}\n/* 0 = no hubo respuesta HTTP (credencial sin token, red): también es error. */\nfunction esError(status) { return status === 0 || status >= 400; }\nfunction detalleGoogle(r) {\n  const b = r && r.body;\n  const m = b && b.error && (b.error.message || b.error.status);\n  return m ? ' Google dijo: «' + String(m).slice(0, 200) + '».' : '';\n}\nfunction mensajeError(status, r, contexto) {\n  const d = detalleGoogle(r);\n  if (status === 401 || status === 403) {\n    return 'Google rechazó la credencial (HTTP ' + status + '): revisa que «' + NOMBRE_CRED +\n      '» esté conectada con la cuenta de Ricardo y tenga los scopes de Chat y directory.readonly.' + d;\n  }\n  if (status === 404) return (contexto || 'El espacio') + ' no existe o Ricardo no es miembro (HTTP 404).' + d;\n  if (status === 429) return 'Google limitó las llamadas (HTTP 429). Espera un minuto y vuelve a intentar.' + d;\n  if (status === 0) {\n    const e = (r && r.error) || {};\n    const msg = String(e.message || e.description || (typeof r.error === 'string' ? r.error : '') || '');\n    if (/access token|sign without|credential|unauthorized|invalid_grant|refresh/i.test(msg)) {\n      return 'n8n no pudo autenticar con Google: la credencial «' + NOMBRE_CRED +\n        '» no está conectada o venció. Ábrela en n8n, revisa Client ID / Client Secret y vuelve a hacer «Sign in with Google» con la cuenta de Ricardo. (' + msg.slice(0, 160) + ')';\n    }\n    return 'No hubo respuesta de Google Chat' + (msg ? ': ' + msg.slice(0, 200) : '.');\n  }\n  return 'Google Chat respondió HTTP ' + status + '.' + d;\n}\nfunction falla(error) { return [{ json: { ok: false, error: String(error) } }]; }\nfunction exito(data) { return [{ json: { ok: true, data } }]; }\nfunction idEspacio(v) {\n  v = String(v || '').trim();\n  if (!v) return '';\n  if (/^spaces\\/[A-Za-z0-9_-]+$/.test(v)) return v;\n  if (/^[A-Za-z0-9_-]+$/.test(v)) return 'spaces/' + v;\n  return '';\n}\nfunction isoDesde(v, horas) {\n  if (v) {\n    const d = DateTime.fromISO(String(v), { setZone: true });\n    return d.isValid ? d.toUTC().startOf('second').toISO({ suppressMilliseconds: true }) : null;\n  }\n  return DateTime.utc().minus({ hours: horas }).startOf('second').toISO({ suppressMilliseconds: true });\n}\nfunction indicePar(item) {\n  const p = item && item.pairedItem;\n  if (p === undefined || p === null) return null;\n  if (Array.isArray(p)) return p.length ? p[0].item : null;\n  return typeof p === 'object' ? p.item : p;\n}\nfunction formatoMensaje(m, mapa, maxChars) {\n  const s = m.sender || {};\n  const u = mapa[s.name] || {};\n  let texto = String(m.text || m.formattedText || '');\n  let cortado = false;\n  if (maxChars && texto.length > maxChars) { texto = texto.slice(0, maxChars) + '…'; cortado = true; }\n  const out = {\n    id: m.name,\n    autor: u.nombre || s.displayName || (s.type === 'BOT' ? 'App' : (s.name || '')),\n    correo: u.correo || '',\n    fecha: fechaCL(m.createTime),\n    fechaIso: m.createTime || '',\n    texto,\n    hilo: (m.thread && m.thread.name) || '',\n    adjuntos: Array.isArray(m.attachment) ? m.attachment.length : 0,\n  };\n  if (cortado) out.textoCortado = true;\n  if (Array.isArray(m.attachedGifs) && m.attachedGifs.length) out.gifs = m.attachedGifs.length;\n  return out;\n}\n\nconst r = $input.first().json;\nconst p = $('Preparar').first().json;\nconst st = statusDe(r);\nif (esError(st)) return [{ json: { error: mensajeError(st, r, 'El espacio ' + p.espacio) } }];\nconst b = r.body || {};\nreturn [{ json: { nombre: b.displayName || '', tipo: b.spaceType || '' } }];\n"
+   },
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    880,
+    -140
+   ],
+   "name": "Revisar espacio",
+   "id": "87744412-4178-4e80-af9d-699ac6071b0d"
+  },
+  {
+   "parameters": {
+    "conditions": {
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose",
+      "version": 2
+     },
+     "conditions": [
+      {
+       "id": "23c18252-91eb-45b9-a6e5-0967a9c3e08d",
+       "leftValue": "={{ !$json.error }}",
+       "rightValue": "",
+       "operator": {
+        "type": "boolean",
+        "operation": "true",
+        "singleValue": true
+       }
+      }
+     ],
+     "combinator": "and"
+    },
+    "options": {}
+   },
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2.2,
+   "position": [
+    1100,
+    -140
+   ],
+   "name": "¿Espacio existe?",
+   "id": "093c5685-7256-488e-af88-002d40250e58"
+  },
+  {
+   "parameters": {
+    "method": "POST",
+    "url": "={{ $('Preparar').first().json.url }}",
+    "authentication": "predefinedCredentialType",
+    "nodeCredentialType": "googleOAuth2Api",
+    "options": {
+     "response": {
+      "response": {
+       "fullResponse": true,
+       "neverError": true
+      }
+     }
+    },
+    "sendBody": true,
+    "specifyBody": "json",
+    "jsonBody": "={{ JSON.stringify($('Preparar').first().json.cuerpo) }}"
+   },
+   "type": "n8n-nodes-base.httpRequest",
+   "typeVersion": 4.2,
+   "position": [
+    1320,
+    -280
+   ],
+   "name": "POST mensaje",
+   "credentials": {
+    "googleOAuth2Api": {
+     "id": "L7tpOcuXqVBa2QFj",
+     "name": "Google Chat - Ricardo (OAuth)"
+    }
+   },
+   "onError": "continueErrorOutput",
+   "id": "8e2a9ba2-40da-4476-a6cc-077a733ad37c"
+  },
+  {
+   "parameters": {
+    "jsCode": "const TZ = 'America/Santiago';\nconst CORREO_PROPIO = 'ricardo@oacg.cl'; // pragma: allowlist secret (es el correo público de Ricardo, no una clave)\nconst NOMBRE_CRED = 'Google Chat - Ricardo (OAuth)';\nfunction fechaCL(iso) {\n  if (!iso) return '';\n  const d = DateTime.fromISO(String(iso), { setZone: true }).setZone(TZ);\n  return d.isValid ? d.toFormat('yyyy-LL-dd HH:mm') : String(iso);\n}\nfunction statusDe(r) {\n  const s = Number(r && (r.statusCode !== undefined ? r.statusCode : r.status));\n  return Number.isFinite(s) ? s : 0;\n}\n/* 0 = no hubo respuesta HTTP (credencial sin token, red): también es error. */\nfunction esError(status) { return status === 0 || status >= 400; }\nfunction detalleGoogle(r) {\n  const b = r && r.body;\n  const m = b && b.error && (b.error.message || b.error.status);\n  return m ? ' Google dijo: «' + String(m).slice(0, 200) + '».' : '';\n}\nfunction mensajeError(status, r, contexto) {\n  const d = detalleGoogle(r);\n  if (status === 401 || status === 403) {\n    return 'Google rechazó la credencial (HTTP ' + status + '): revisa que «' + NOMBRE_CRED +\n      '» esté conectada con la cuenta de Ricardo y tenga los scopes de Chat y directory.readonly.' + d;\n  }\n  if (status === 404) return (contexto || 'El espacio') + ' no existe o Ricardo no es miembro (HTTP 404).' + d;\n  if (status === 429) return 'Google limitó las llamadas (HTTP 429). Espera un minuto y vuelve a intentar.' + d;\n  if (status === 0) {\n    const e = (r && r.error) || {};\n    const msg = String(e.message || e.description || (typeof r.error === 'string' ? r.error : '') || '');\n    if (/access token|sign without|credential|unauthorized|invalid_grant|refresh/i.test(msg)) {\n      return 'n8n no pudo autenticar con Google: la credencial «' + NOMBRE_CRED +\n        '» no está conectada o venció. Ábrela en n8n, revisa Client ID / Client Secret y vuelve a hacer «Sign in with Google» con la cuenta de Ricardo. (' + msg.slice(0, 160) + ')';\n    }\n    return 'No hubo respuesta de Google Chat' + (msg ? ': ' + msg.slice(0, 200) : '.');\n  }\n  return 'Google Chat respondió HTTP ' + status + '.' + d;\n}\nfunction falla(error) { return [{ json: { ok: false, error: String(error) } }]; }\nfunction exito(data) { return [{ json: { ok: true, data } }]; }\nfunction idEspacio(v) {\n  v = String(v || '').trim();\n  if (!v) return '';\n  if (/^spaces\\/[A-Za-z0-9_-]+$/.test(v)) return v;\n  if (/^[A-Za-z0-9_-]+$/.test(v)) return 'spaces/' + v;\n  return '';\n}\nfunction isoDesde(v, horas) {\n  if (v) {\n    const d = DateTime.fromISO(String(v), { setZone: true });\n    return d.isValid ? d.toUTC().startOf('second').toISO({ suppressMilliseconds: true }) : null;\n  }\n  return DateTime.utc().minus({ hours: horas }).startOf('second').toISO({ suppressMilliseconds: true });\n}\nfunction indicePar(item) {\n  const p = item && item.pairedItem;\n  if (p === undefined || p === null) return null;\n  if (Array.isArray(p)) return p.length ? p[0].item : null;\n  return typeof p === 'object' ? p.item : p;\n}\nfunction formatoMensaje(m, mapa, maxChars) {\n  const s = m.sender || {};\n  const u = mapa[s.name] || {};\n  let texto = String(m.text || m.formattedText || '');\n  let cortado = false;\n  if (maxChars && texto.length > maxChars) { texto = texto.slice(0, maxChars) + '…'; cortado = true; }\n  const out = {\n    id: m.name,\n    autor: u.nombre || s.displayName || (s.type === 'BOT' ? 'App' : (s.name || '')),\n    correo: u.correo || '',\n    fecha: fechaCL(m.createTime),\n    fechaIso: m.createTime || '',\n    texto,\n    hilo: (m.thread && m.thread.name) || '',\n    adjuntos: Array.isArray(m.attachment) ? m.attachment.length : 0,\n  };\n  if (cortado) out.textoCortado = true;\n  if (Array.isArray(m.attachedGifs) && m.attachedGifs.length) out.gifs = m.attachedGifs.length;\n  return out;\n}\n\nconst p = $('Preparar').first().json;\nif (p.error) return falla(p.error);\nlet esp = null;\ntry { esp = $('Revisar espacio').first().json; } catch (e) { esp = null; }\nif (!esp) return falla('No se llegó a revisar el espacio.');\nif (esp.error) return falla(esp.error);\nlet r = null;\ntry { r = $('POST mensaje').first().json; } catch (e) { r = null; }\nif (!r) return falla('No se llegó a enviar el mensaje.');\nconst st = statusDe(r);\nif (esError(st)) return falla(mensajeError(st, r, 'El espacio ' + p.espacio));\nconst m = r.body || {};\nconst sid = p.espacio.replace(/^spaces\\//, '');\nconst tid = String((m.thread && m.thread.name) || '').split('/threads/')[1] || '';\nconst mid = String(m.name || '').split('/messages/')[1] || '';\nconst base = esp.tipo === 'DIRECT_MESSAGE' ? 'https://chat.google.com/dm/' : 'https://chat.google.com/room/';\nconst link = base + sid + (tid ? '/' + tid : '') + (mid ? '/' + mid : '');\nreturn exito({\n  id: m.name || '',\n  espacio: p.espacio,\n  nombreEspacio: esp.nombre,\n  tipoEspacio: esp.tipo,\n  hilo: (m.thread && m.thread.name) || '',\n  enHilo: !!p.hilo,\n  fecha: fechaCL(m.createTime),\n  link,\n});\n"
+   },
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    1540,
+    0
+   ],
+   "name": "Final",
+   "id": "6ced3fc1-9f1e-4795-aa66-a5fcd64b87cd"
+  },
+  {
+   "parameters": {
+    "conditions": {
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose",
+      "version": 2
+     },
+     "conditions": [
+      {
+       "id": "8eb414a0-9c36-401d-a7de-8476b6046e1d",
+       "leftValue": "={{ $json.ok === false && String($json.error || '').indexOf('429') >= 0 && $runIndex < 1 }}",
+       "rightValue": "",
+       "operator": {
+        "type": "boolean",
+        "operation": "true",
+        "singleValue": true
+       }
+      }
+     ],
+     "combinator": "and"
+    },
+    "options": {}
+   },
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2.2,
+   "position": [
+    1760,
+    0
+   ],
+   "name": "¿Reintentar por 429?",
+   "id": "aeef0482-2941-4f72-a96a-3d9439318299"
+  },
+  {
+   "parameters": {
+    "amount": 3,
+    "unit": "seconds"
+   },
+   "type": "n8n-nodes-base.wait",
+   "typeVersion": 1.1,
+   "position": [
+    1980,
+    -180
+   ],
+   "name": "Esperar 3 s",
+   "webhookId": "f79cddff-6f10-4a56-af7d-06a7c18733ea",
+   "id": "0a2655d2-07ce-446a-a8b8-ec1b87c7dc09"
+  },
+  {
+   "parameters": {
+    "jsCode": "return [{ json: $input.first().json }];\n"
+   },
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    1980,
+    120
+   ],
+   "name": "Respuesta",
+   "id": "06aea8eb-093b-4b32-adba-5ea2dc693fd2"
+  }
+ ],
+ "connections": {
+  "Trigger": {
+   "main": [
+    [
+     {
+      "node": "Preparar",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Preparar": {
+   "main": [
+    [
+     {
+      "node": "¿Entrada válida?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "¿Entrada válida?": {
+   "main": [
+    [
+     {
+      "node": "GET espacio",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "Final",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "GET espacio": {
+   "main": [
+    [
+     {
+      "node": "Revisar espacio",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "Revisar espacio",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Revisar espacio": {
+   "main": [
+    [
+     {
+      "node": "¿Espacio existe?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "¿Espacio existe?": {
+   "main": [
+    [
+     {
+      "node": "POST mensaje",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "Final",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "POST mensaje": {
+   "main": [
+    [
+     {
+      "node": "Final",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "Final",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Final": {
+   "main": [
+    [
+     {
+      "node": "¿Reintentar por 429?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "¿Reintentar por 429?": {
+   "main": [
+    [
+     {
+      "node": "Esperar 3 s",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "Respuesta",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Esperar 3 s": {
+   "main": [
+    [
+     {
+      "node": "Preparar",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1",
+  "timezone": "America/Santiago",
+  "saveManualExecutions": true
+ }
+}
