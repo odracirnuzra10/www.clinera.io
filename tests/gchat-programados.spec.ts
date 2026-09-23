@@ -41,6 +41,7 @@ function load() {
       esp: { nombre?: string; tipo?: string },
       miembros: { id: string; nombre?: string }[],
       mapa: Record<string, { nombre?: string; correo?: string }>,
+      yoId?: string,
     ) => string;
     validarMensaje: (t: Record<string, unknown>) => { error?: string; espacio?: string };
     formatoProgramado: (r: Record<string, unknown>) => Record<string, unknown>;
@@ -108,6 +109,9 @@ test.describe("programar_mensaje: validación", () => {
     expect(nombreDestino({ tipo: "DIRECT_MESSAGE" }, [{ id: "users/1" }, { id: "users/2" }], mapa)).toBe("Rebeca");
     expect(nombreDestino({ tipo: "DIRECT_MESSAGE" }, [{ id: "users/1" }], mapa)).toBe("Ricardo Oyarzún (DM contigo mismo)");
     expect(nombreDestino({ tipo: "DIRECT_MESSAGE" }, [], {})).toBe("DM sin resolver");
+    // El directorio no trae el correo propio: se reconoce por el id de members/{correo}.
+    const sinCorreo = { "users/2": { nombre: "Rebeca Navarro", correo: "rebeca@oacg.cl" } };
+    expect(nombreDestino({ tipo: "DIRECT_MESSAGE" }, [{ id: "users/1", nombre: "Ricardo Oyarzún" }, { id: "users/2" }], sinCorreo, "users/1")).toBe("Rebeca Navarro");
   });
 });
 

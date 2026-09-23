@@ -103,13 +103,17 @@ function validarMensaje(t) {
   return { espacio, texto, hilo };
 }
 
-/* Nombre legible del destino. Para DMs y grupos sin displayName usa los miembros. */
-function nombreDestino(espacio, miembros, mapa) {
+/*
+ * Nombre legible del destino. Para DMs y grupos sin displayName usa los
+ * miembros. `yoId` (users/NNN de Ricardo) sale de members/{correo}:
+ * el directorio no siempre devuelve el correo propio.
+ */
+function nombreDestino(espacio, miembros, mapa, yoId) {
   if (espacio.nombre) return espacio.nombre;
   mapa = mapa || {};
   miembros = miembros || [];
   const nombreDe = m => m.nombre || (mapa[m.id] && mapa[m.id].nombre) || m.id;
-  const esYo = m => String((mapa[m.id] && mapa[m.id].correo) || '').toLowerCase() === CORREO_PROPIO;
+  const esYo = m => (yoId && m.id === yoId) || String((mapa[m.id] && mapa[m.id].correo) || '').toLowerCase() === CORREO_PROPIO;
   const otros = miembros.filter(m => !esYo(m));
   if (otros.length) return otros.map(nombreDe).join(' · ');
   if (miembros.length) return nombreDe(miembros[0]) + ' (DM contigo mismo)';

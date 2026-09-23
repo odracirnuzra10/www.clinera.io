@@ -339,8 +339,14 @@ return [{ json: { nombre: b.displayName || '', tipo: b.spaceType || '' } }];
 """, [-680, -120]),
         iff("¿Sin nombre?", "!$json.error && !$json.nombre", [-460, -120]),
         http_get("GET miembros", "=https://chat.googleapis.com/v1/{{ $('Preparar').first().json.espacio }}/members", [-240, -260], {"pageSize": "100"}),
+        http_get("GET yo", "=https://chat.googleapis.com/v1/{{ $('Preparar').first().json.espacio }}/members/ricardo@oacg.cl", [-20, -380]),
         code("Ids a resolver", """
-const r = $input.first().json;
+const r = $('GET miembros').first().json;
+let yoId = '';
+try {
+  const y = $('GET yo').first().json;
+  if (!esError(statusDe(y))) yoId = String((y.body && y.body.member && y.body.member.name) || '');
+} catch (e) { yoId = ''; }
 const miembros = [];
 if (!esError(statusDe(r))) {
   for (const m of ((r.body && r.body.memberships) || [])) {
@@ -349,7 +355,7 @@ if (!esError(statusDe(r))) {
     if (u.name) miembros.push({ id: u.name, nombre: u.displayName || '' });
   }
 }
-return [{ json: { miembros, ids: miembros.map(m => m.id) } }];
+return [{ json: { miembros, yoId, ids: miembros.map(m => m.id) } }];
 """, [-20, -260]),
         call_wf("Resolver usuarios", RESOLVER, {"ids": ("={{ $json.ids }}", "array")}, [200, -260]),
         code("Armar fila", """
@@ -357,12 +363,17 @@ const p = $('Preparar').first().json;
 const esp = $('Revisar espacio').first().json;
 if (esp.error) return [{ json: { error: esp.error } }];
 let miembros = [];
+let yoId = '';
 let mapa = {};
-try { miembros = $('Ids a resolver').first().json.miembros || []; } catch (e) { miembros = []; }
+try {
+  const ir = $('Ids a resolver').first().json;
+  miembros = ir.miembros || [];
+  yoId = ir.yoId || '';
+} catch (e) { miembros = []; }
 try { mapa = $('Resolver usuarios').first().json.mapa || {}; } catch (e) { mapa = {}; }
 return [{ json: {
   espacio: p.espacio,
-  nombreEspacio: nombreDestino(esp, miembros, mapa),
+  nombreEspacio: nombreDestino(esp, miembros, mapa, yoId),
   tipoEspacio: esp.tipo,
   texto: p.texto,
   hilo: p.hilo,
@@ -412,7 +423,8 @@ return exito(data);
         ("GET espacio", ["Revisar espacio"]),
         ("Revisar espacio", ["¿Sin nombre?"]),
         ("¿Sin nombre?", ["GET miembros"], ["Armar fila"]),
-        ("GET miembros", ["Ids a resolver"]),
+        ("GET miembros", ["GET yo"]),
+        ("GET yo", ["Ids a resolver"]),
         ("Ids a resolver", ["Resolver usuarios"]),
         ("Resolver usuarios", ["Armar fila"]),
         ("Armar fila", ["¿Fila lista?"]),
