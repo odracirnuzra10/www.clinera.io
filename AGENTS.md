@@ -251,7 +251,7 @@ la recomendación del partner + CTA a reunión.
 > premisa —falsa— de que SQL+ no generaba ninguna señal, porque el repo no lo
 > mostraba. Antes de tocar el embudo, mira la instancia de n8n.
 >
-> Handoff para auditar el embudo del **2026-09-10** (sin PQL; Nuevo $0;
+> Handoff para auditar el embudo del **2026-09-10** (Lead $1;
 > MQL $10 cuando el closer verifica que es real; campañas deben optimizar
 > `MQL`, no `SQL`): `docs/handoff-embudo-etapas-2026-09-10.md`.
 > Fiscalización de ese handoff (D1–D8 y D10 OK; D9 resuelto por Graph API
@@ -269,19 +269,16 @@ la recomendación del partner + CTA a reunión.
 > en §1, §3, §4 y §10-P1; se conserva como foto de ese día.
 > Embudo CRM→CAPI: workflow `W1SybZZSEZqAItIt`. El mapeo canónico
 > (Ricardo, 10-sep) vive en
-> `integrations/n8n/crm-etapas-meta-capi.mapeo.js`: Nuevo $0 · MQL $10 ·
-> SQL $100 · HOT $200 · Customer = valor del plan · NQL $0 (no responde).
-> Sin PQL, SCREENING, NoContesta ni `Lead`. W1 se reaplicó el 2026-09-10.
-> Formulario = `Nuevo` US$ 0. MQL US$ 10 = el closer verifica que es real.
+> `integrations/n8n/crm-etapas-meta-capi.mapeo.js`: Lead $1 · MQL $10 ·
+> SQL $100 · Customer = valor del plan · NQL $0 (no responde). W1 se
+> reaplicó el 2026-09-12. Formulario = `Lead` US$ 1. MQL US$ 10 = el
+> closer verifica que es real.
 > Las campañas activas deben optimizar el evento `MQL`, no `SQL`.
 >
 > **El MQL lo declara el closer** al verificar que el lead es real
-> (paso anterior a SQL). Rellenar el formulario es `Nuevo` US$ 0, no MQL.
-> W1 vivo (desde el 7-sep 21:17Z) cruzaba `PQL` → CAPI `MQL` US$ 10
-> («no contesta»). El PUT del 09-sep ya no lo hace; el del 10-sep
-> tampoco emite PQL. Las campañas activas deben optimizar el evento
-> `MQL` (no `SQL`). Un pixel nuevo con el W1 viejo lo repite
-> (`Obsoleto`, `Obsoleto2`).
+> (paso anterior a SQL). Rellenar el formulario es `Lead` US$ 1, no MQL.
+> Las campañas activas deben optimizar el evento `MQL` (no `SQL`). Un
+> pixel nuevo con un W1 viejo lo repite (`Obsoleto`, `Obsoleto2`).
 >
 > Pixel de producción `1104567405156111` (`[2026] OACG TECH`) pertenece al
 > BM **Método Hebe** `1162184321174513`, no a Metricads Marketing. La
@@ -296,7 +293,7 @@ la recomendación del partner + CTA a reunión.
 > enruta el page_id Clinera `697874326752777` a Sub A `YmauqyDqrZNKIYlg`.
 > Ese sub crea contacto en Clinera (funnel 890), fila Baserow 152, negocio
 > Twenty. El nodo `Meta CAPI - Lead` de Sub A se apagó el 2026-09-10:
-> el alta emite `Nuevo` US$ 0 por W1, no `Lead` US$ 5. Spec:
+> el alta emite `Lead` US$ 1 por W1. Spec:
 > `baserow/openspec/changes/lanzamiento-instant-forms-embudo/`. En anuncios
 > no prometer CAMILA/LIA. Graph del form en español usa `correo_electrónico`
 > / `nombre_y_apellidos` / `número_de_teléfono` (no los nombres en inglés) —
@@ -326,7 +323,7 @@ la recomendación del partner + CTA a reunión.
 
 | Evento | Cuándo | Valor | Dónde vive |
 |---|---|---|---|
-| `Nuevo` | rellenó el formulario (Instant Form o alta) | US$ 0 | W1 (`NEW`); Sub A ya no manda `Lead` |
+| `Lead` | rellenó el formulario (Instant Form o alta) | US$ 1 | W1 (`NEW`) |
 | `MQL` | closer verifica que el lead es **real** (paso anterior a SQL) | US$ 10 | W1 si el stage es `MQL`. Campañas activas optimizan este evento |
 | `SQL` | closer → SQL (`MEETING`): **la videollamada se realizó**. Agendar no es SQL; asistir sí | US$ 100 | W1 |
 | `NQL` | closer → no responde | US$ 0 | W1 |
@@ -345,7 +342,7 @@ la recomendación del partner + CTA a reunión.
 ### CRM Twenty → Meta CAPI (workflow unificado, sep-2026)
 
 Workflow vivo: **`W1SybZZSEZqAItIt`** (*Clinera \| Twenty etapas → Meta CAPI*;
-activo desde el 2026-09-07 21:17Z; mapeo sin PQL aplicado el 2026-09-10),
+activo desde el 2026-09-07 21:17Z; mapa de cinco etapas el 2026-09-12),
 webhook `POST …/webhook/crm-sql`, suscrito en Twenty a `*.*` (incluye
 `opportunity.updated` sin filtro de stage). Los viejos `dhwqS9oW3qfvq6Y4`
 (SQL) y `rWZDSfi8RJ780q76` (`SQL_Plus`) están **apagados**. `SQL_Plus`
@@ -372,44 +369,29 @@ que el closer declara después de ese día no se le atribuye a la campaña
 
 Mapeo canónico `stage` → evento CAPI → value USD (`currency: USD`).
 Fuente: `integrations/n8n/crm-etapas-meta-capi.mapeo.js`. Aplicado al vivo
-el 2026-09-11 (sin HOT). El cruce SCREENING↔PQL (H1) y la tabla Nuevo 0 / PQL 1 /
-MQL 5 / SQL 10 / HOT 100 son históricos (09-sep). El 10-sep se borró
-`PQL`. El 11-sep se retiró `HOT` (`PROPOSAL`): los SQL pasaron a MQL y
-los HOT a SQL **antes** de quitar la opción. **Al editar opciones de un
-SELECT en Twenty, conservá el `id` de cada opción:** el 09-sep 19:48Z se
-perdió el id de `MQL` y 130 negocios cayeron a `NEW`. `MEETING` sigue
-siendo el valor interno de SQL. `SQL_Plus` no se tocó (sigue sin emitir).
-`NQL` = no responde, $0.
+el 2026-09-12. Cinco etapas. Cualquier otra no emite (se loguea y se omite).
+**Al editar opciones de un SELECT en Twenty, conservá el `id` de cada
+opción:** el 09-sep 19:48Z se perdió el id de `MQL` y 130 negocios
+cayeron a `NEW`. `MEETING` es el valor interno de SQL. `NQL` = no
+responde, $0.
 
 | stage | event_name | value | condición |
 |---|---|---|---|
-| `NEW` | `Nuevo` | 0 | rellenó el formulario; también si lo escribió n8n (`API`) |
+| `NEW` | `Lead` | 1 | rellenó el formulario; también si lo escribió n8n (`API`) |
 | `MQL` | `MQL` | 10 | closer verifica que es real |
-| `MEETING` | `SQL` | 100 | alias `SQL` — calificado (la demo ocurrió) |
-| `NQL` | `NQL` | 0 | no responde |
+| `MEETING` | `SQL` | 100 | calificado (la demo ocurrió) |
 | `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 | |
-| `PQL` / `SCREENING` / `SQL_Plus` / `HOT` / `PROPOSAL` | — | — | no emiten |
+| `NQL` | `NQL` | 0 | no responde |
 
 `event_id` = `{opportunityId}_{stage}`. `user_data.lead_id` = `leadgenId` (entero,
 sin hash) si existe. `action_source` = `system_generated`. Detalle:
 `integrations/n8n/README.md` y `baserow/sales/etiqueta-hot-y-capi.md`.
 
-**Un estado implica los anteriores (Ricardo, 10-sep): un lead en SQL fue MQL
-sí o sí.** Las campañas optimizan `MQL`; si el closer pasa un negocio de
-Nuevo a SQL sin pasar por MQL, Meta nunca recibe el MQL y ese lead no le
-enseña nada a la campaña (la columna «Clientes potenciales cualificados»
-cuenta los leads que llegan a la etapa optimizada). Por eso W1 **rellena la
-escalera** `MQL < SQL < Purchase`: antes de mandar la etapa actual
-emite, como ítems separados y un segundo aparte, las anteriores que no
-consten en el ledger para ese negocio (a cualquier fecha, no solo 28 días).
-`Nuevo` y `NQL` no son peldaños y no se rellenan. Los nodos de abajo no
-cambian: «Confirmar y auditar» empareja por índice y escribe una entrada de
-ledger por ítem. La regla operativa sigue siendo pasar por MQL en la UI: el
-relleno cubre el salto en Meta, no el historial del CRM. **Aplicado al vivo
-el 10-sep 18:50Z** con `aplicar_w1_mapeo.py --aplicar` (el simulacro dice
-«Ya estaba aplicado»); la guarda del aplicador exige los literales
-`payload: payload` y `ledgerKey: ledgerKey` en el archivo. Guardián: bloque
-«Nuevo → SQL directo» de `tests/crm-etapas-meta-capi.spec.ts`.
+W1 emite **solo la etapa actual**. No rellena peldaños anteriores. Una
+etapa que no está en la tabla de cinco no inventa evento: se loguea y se
+omite. La guarda del aplicador exige los literales `payload: payload` y
+`ledgerKey: ledgerKey` en el archivo. Guardián:
+`tests/crm-etapas-meta-capi.spec.ts`.
 
 **El jsCode de W1 tiene un contrato de salida con los nodos de abajo, y ya
 se rompió una vez.** «Corresponde enviar?» lee `omitido`, «Enviar evento a
@@ -429,9 +411,9 @@ jsCode entero con stubs. Segunda trampa del mismo workflow: el IF
 **Desde el 2026-08-21, Google Ads recibe el mismo embudo** — no por CAPI,
 sino porque los workflows de SQL/SQL+ marcan Baserow 152 y un feed en
 `baserow` (`sales/n8n/gads-conversiones-sql-csv.js`) se lo sirve a Google
-Ads Data Manager por HTTPS. Los montos canónicos vivos son Nuevo 0 /
+Ads Data Manager por HTTPS. Los montos canónicos vivos son Lead 1 /
 MQL 10 / SQL 100 / NQL 0. El feed de GAds usa SQL 100 y `SQL+` 200
-(sin cambio). `HOT` ya no se emite. Detalle en
+(sin cambio). Detalle en
 `baserow/sales/HANDOFF.md`.
 
 Ids, disparos y el detalle completo: `integrations/n8n/README.md`.
@@ -713,8 +695,8 @@ funcionar y los avisos vuelven a duplicarse sin ningún error visible.
 y lo refresca. Además de `horaRegistro` nuevo (sube a «Leads del día»),
 le agrega la etiqueta `VOLVIO_A_COTIZAR` («Volvió a cotizar», opción del
 multi-select `etiquetas` de Twenty) sin pisar las que tenía, y la nota de
-la columna dice «🔁 Volvió a cotizar». **La etapa no se toca**: un PQL o
-NQL que vuelve a cotizar sigue en su etapa, sólo con la etiqueta. Todo eso
+la columna dice «🔁 Volvió a cotizar». **La etapa no se toca**: un NQL
+que vuelve a cotizar sigue en su etapa, sólo con la etiqueta. Todo eso
 va dentro del guard `booking_status !== 'confirmed'`, porque el
 `booking_confirmed` del mismo lead entra por la misma rama un minuto
 después del `contact` y no es un lead que volvió. Aplicador:
