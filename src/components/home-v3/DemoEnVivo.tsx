@@ -3,8 +3,8 @@ import DemoVideoFrame from "@/components/demo/DemoVideoFrame";
 /** El video de /demo, arriba en el home, en 16:9. */
 export default function DemoEnVivo() {
   return (
-    <section id="demo-3-min" style={{ padding: "8px 80px 72px", background: "#fff" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+    <section id="demo-3-min" style={{ padding: "8px 24px 72px", background: "#fff" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <div className="reveal" style={{ textAlign: "center", marginBottom: 22 }}>
           <div
             style={{
@@ -66,8 +66,8 @@ export default function DemoEnVivo() {
       <style>{`
         @media (max-width: 720px) {
           #demo-3-min {
-            padding-left: 32px !important;
-            padding-right: 32px !important;
+            padding-left: 12px !important;
+            padding-right: 12px !important;
           }
         }
       `}</style>

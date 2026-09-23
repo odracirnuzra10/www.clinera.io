@@ -127,6 +127,11 @@ test.describe("Clinera Podcast: hub + capítulo 1", () => {
       "utf8",
     );
     expect(plataforma).toContain("<DemoEnVivo />");
+    const demoVideo = readFileSync(
+      join(process.cwd(), "src/content/demo-video.ts"),
+      "utf8",
+    );
+    expect(demoVideo).toContain('speed: "1"');
   });
 
   test("el hub y el artículo del cap. 1 cargan", async ({ page }) => {
@@ -139,7 +144,7 @@ test.describe("Clinera Podcast: hub + capítulo 1", () => {
     await expect(page.getByRole("link", { name: /ver demo 3 min/i }).first()).toBeVisible();
     await expect(page.locator("#demo-3-min iframe")).toHaveAttribute(
       "src",
-      /player\.vimeo\.com\/video\/1229275734/,
+      /player\.vimeo\.com\/video\/1229275734.*speed=1/,
     );
     await expect(page.locator("footer iframe")).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Ver demo", exact: true })).toBeVisible();
