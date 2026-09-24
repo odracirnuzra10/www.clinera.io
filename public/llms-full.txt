@@ -271,10 +271,17 @@ Taxonomía Clinera: AURA (WhatsApp), CAMILA (voz), LIA (orquestador).
 
 Serie con Ricardo Oyarzún (fundador de Clinera, Método Hebe y Protocolo
 Lumina) y Jorge Cheul. Tema: cómo escalar una clínica de forma correcta
-(operación, caja, equipo, marketing, IA). Cinco capítulos; el 1 publicado.
+(operación, caja, equipo, marketing, IA). Cinco capítulos; el 1 y el 2 publicados.
 
 - Hub: https://www.clinera.io/podcast
 - Cap. 1 (artículo + video): https://www.clinera.io/blog/clinera-podcast-1-como-escalar-clinica
+- Cap. 2 (artículo + video): https://www.clinera.io/blog/clinera-podcast-2-facturacion-no-es-administrar
+  Mirar la facturación no es administrar. Rangos que nombra Ricardo Oyarzún
+  (no son tarifario de Clinera): sueldos 25–40 % de la venta; arriendo 15–30 %;
+  costo por lead US$ 20–100 (tradicional), hasta US$ 200–300 en high ticket y
+  cerca de US$ 10 en tratamientos económicos; equilibrio en las 3 primeras
+  semanas del mes; rentabilidad de referencia 15–20 %; meta por sucursal =
+  promedio de 12 meses + 20 %.
 
 ## Webhooks de venta y pago (Automatizaciones)
 

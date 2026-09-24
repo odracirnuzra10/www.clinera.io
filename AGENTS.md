@@ -727,9 +727,15 @@ del Wizard sigue en el repo `baserow`.
 
 Serie de **5 capítulos** en `/podcast` (`src/content/podcast.ts`). Cada
 capítulo publicado tiene artículo en `src/content/posts/` con `<VimeoEmbed
-hash=…>` (videos unlisted). Cap. 1:
+hash=…>` (videos unlisted). El hub destaca el publicado más reciente
+(`featuredPodcastEpisode`). Cap. 1:
 `/blog/clinera-podcast-1-como-escalar-clinica` (Vimeo `1227087546` /
-`f809ac4f9a`). Al subir caps. 2–5: actualizar el catálogo + MDX + llms.
+`f809ac4f9a`). Cap. 2:
+`/blog/clinera-podcast-2-facturacion-no-es-administrar` (Vimeo `1229666017` /
+`505f8b4905`) — facturar no es administrar: sueldos 25–40 %, arriendo
+15–30 %, costo por lead según ticket, equilibrio en las 3 primeras semanas,
+meta = promedio 12 meses + 20 %. Esos rangos son lo que dice Ricardo en el
+episodio, no tarifario de Clinera. Al subir caps. 3–5: catálogo + MDX + llms.
 Guardián: `tests/podcast.spec.ts`.
 
 El botón de la barra superior (y el menú móvil) **no** es el podcast: es

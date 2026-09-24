@@ -67,12 +67,25 @@ export const PODCAST_EPISODES: PodcastEpisode[] = [
   },
   {
     number: 2,
-    title: "Capítulo 2 — Próximamente",
+    title: "Por qué mirar la facturación no es administrar",
     summary:
-      "Segundo capítulo de la serie. Se publica la próxima semana: sigue a Clinera para no perderte el lanzamiento.",
-    status: "upcoming",
-    date: "2026-09-22",
-    topics: ["escalar clínica", "operación clínica"],
+      "Sueldos (25–40 %), arriendo (15–30 %), costo por lead según el ticket, punto de equilibrio en las tres primeras semanas y meta por sucursal: promedio de 12 meses más 20 %.",
+    status: "published",
+    date: "2026-09-23",
+    durationSeconds: 418,
+    vimeoId: "1229666017",
+    vimeoHash: "505f8b4905",
+    blogSlug: "clinera-podcast-2-facturacion-no-es-administrar",
+    topics: [
+      "facturación clínica",
+      "administrar clínica",
+      "sueldos clínica",
+      "arriendo clínica",
+      "costo por lead",
+      "punto de equilibrio",
+      "rentabilidad clínica",
+      "sucursales",
+    ],
   },
   {
     number: 3,
@@ -105,6 +118,12 @@ export const PODCAST_EPISODES: PodcastEpisode[] = [
 
 export function publishedPodcastEpisodes(): PodcastEpisode[] {
   return PODCAST_EPISODES.filter((e) => e.status === "published");
+}
+
+/** El hub destaca el capítulo publicado más reciente. */
+export function featuredPodcastEpisode(): PodcastEpisode | undefined {
+  const published = publishedPodcastEpisodes();
+  return published[published.length - 1];
 }
 
 export function getPodcastEpisode(n: number): PodcastEpisode | undefined {
