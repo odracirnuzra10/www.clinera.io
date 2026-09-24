@@ -92,7 +92,8 @@ export const SAME_AS = [
 
 export const FOUNDER = {
   name: "Ricardo Oyarzún Acuña",
-  jobTitle: "Co-fundador y CEO, Clinera",
+  jobTitle:
+    "Fundador de Clinera, Método Hebe, Protocolo Lumina y Metricads",
   sameAs: "https://www.linkedin.com/in/ricardooyarzunmarketingdigital/",
   slug: "ricardo-oyarzun",
 } as const;

@@ -47,7 +47,7 @@ export const ricardoPersonNode = {
   "@type": "Person" as const,
   "@id": RICARDO_PERSON_ID,
   name: "Ricardo Oyarzún",
-  jobTitle: "Creador de Clinera, fundador de Método Hebe y Protocolo Lumina",
+  jobTitle: FOUNDER.jobTitle,
   alumniOf: {
     "@type": "CollegeOrUniversity" as const,
     name: "Universidad de Concepción",
@@ -242,11 +242,11 @@ export const KNOWN_AUTHORS: Record<
 > = {
   "Ricardo Oyarzún": {
     name: "Ricardo Oyarzún",
-    jobTitle: "Co-fundador y Head of Growth, Clinera",
+    jobTitle: FOUNDER.jobTitle,
     slug: "ricardo-oyarzun",
     sameAs: ["https://www.linkedin.com/in/ricardooyarzunmarketingdigital/"],
     description:
-      "Marketing digital para clínicas en LATAM. Co-fundador de Clinera, Método Hebe y Protocolo Lumina.",
+      "Fundador de Clinera, Método Hebe, Protocolo Lumina y Metricads.",
   },
   "Jorge Cheul": {
     name: "Jorge Cheul",

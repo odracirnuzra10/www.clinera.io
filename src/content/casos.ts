@@ -89,7 +89,7 @@ export const CASO_HEBE: CasoEstudio = {
     {
       h2: "Quién lo construyó",
       body: [
-        "Ricardo Oyarzún, de la Universidad de Concepción, es el creador de Clinera y fundador de Método Hebe. El producto se usa primero en las clínicas del grupo —éstas, con operación real y tres sedes— y después se ofrece a otras clínicas.",
+        "Ricardo Oyarzún, de la Universidad de Concepción, es fundador de Clinera, Método Hebe, Protocolo Lumina y Metricads. El producto se usa primero en las clínicas del grupo —éstas, con operación real y tres sedes— y después se ofrece a otras clínicas.",
       ],
     },
   ],

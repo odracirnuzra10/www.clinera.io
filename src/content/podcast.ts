@@ -10,7 +10,7 @@ export const PODCAST_SERIES = {
   path: "/podcast",
   tagline: "Cómo escalar una clínica de forma correcta",
   description:
-    "Serie de cinco capítulos con Ricardo Oyarzún (fundador de Clinera, Método Hebe y Protocolo Lumina) y Jorge Cheul. Operación, marketing, caja, equipo y tecnología para crecer sin ahogarse en el crecimiento.",
+    "Serie de cinco capítulos con Ricardo Oyarzún (fundador de Clinera, Método Hebe, Protocolo Lumina y Metricads) y Jorge Cheul. Operación, marketing, caja, equipo y tecnología para crecer sin ahogarse en el crecimiento.",
   totalEpisodes: 5,
   host: {
     name: "Jorge Cheul",
