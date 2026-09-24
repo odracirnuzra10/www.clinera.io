@@ -28,6 +28,95 @@ export function stripeConfigurado(): boolean {
   return Boolean(process.env.STRIPE_SECRET_KEY);
 }
 
+/** Empresa que cobra un checkout de `/firma`. n8n la copia a Movimiento (940). */
+export const EMPRESA_STRIPE_CLINERA = "clinera";
+
+/**
+ * Quien cerró la venta, para n8n. `closer` en el sobre es el CEO (firma
+ * legal); el ejecutivo real es `gestor`. Sin gestor no se inventa: el
+ * workflow sigue el hash Catalina/Nohe de siempre.
+ */
+export function closerParaStripe(
+  meta: Pick<SobreMeta, "gestor">,
+): { nombre: string; email: string } | null {
+  const nombre = meta.gestor?.nombre?.trim() ?? "";
+  const email = meta.gestor?.email?.trim() ?? "";
+  if (!nombre || !email) return null;
+  return { nombre, email };
+}
+
+/**
+ * Metadata de la Checkout Session y de la suscripción. n8n
+ * (`7jgtp669q8pWJKm6`) lee `closer` / `closer_email` / `empresa` al dar de
+ * alta Movimiento (940) y Activación (957). Valores ≤ 500 caracteres (límite
+ * de Stripe).
+ */
+export function metadataStripeAlta(meta: SobreMeta): Record<string, string> {
+  const out: Record<string, string> = {
+    folio_firma: meta.id,
+    empresa: EMPRESA_STRIPE_CLINERA,
+  };
+  if (meta.cotizacion?.numero) out.cotizacion = meta.cotizacion.numero;
+  if (meta.cotizacion?.planNombre) out.plan = meta.cotizacion.planNombre.slice(0, 40);
+  const cliente = meta.cliente.nombre?.trim();
+  if (cliente) out.cliente = cliente.slice(0, 100);
+  const closer = closerParaStripe(meta);
+  if (closer) {
+    out.closer = closer.nombre.slice(0, 100);
+    out.closer_email = closer.email.slice(0, 100);
+  }
+  return out;
+}
+
+/**
+ * Lo que `checkout.sessions.create` recibe aparte de line_items: la misma
+ * metadata en sesión y suscripción, y el nombre del cliente en la
+ * descripción (Stripe no copia `customer_email` al name del Customer).
+ */
+export function payloadSesionAlta(meta: SobreMeta): {
+  metadata: Record<string, string>;
+  subscription_data: {
+    metadata: Record<string, string>;
+    description?: string;
+  };
+} {
+  const metadata = metadataStripeAlta(meta);
+  const nombre = meta.cliente.nombre.trim();
+  return {
+    metadata,
+    subscription_data: {
+      metadata,
+      ...(nombre ? { description: nombre.slice(0, 350) } : {}),
+    },
+  };
+}
+
+/**
+ * Customer con nombre, reutilizado por email. `customer_creation` no aplica
+ * en mode=subscription (solo payment/setup); sin este paso Stripe deja el
+ * Customer sin `name` y n8n arma el alta con el correo.
+ */
+async function customerParaCheckout(
+  stripe: Stripe,
+  meta: SobreMeta,
+): Promise<Pick<Stripe.Checkout.SessionCreateParams, "customer" | "customer_email">> {
+  const email = meta.cliente.email?.trim();
+  const name = meta.cliente.nombre.trim();
+  if (!email) return {};
+  if (!name) return { customer_email: email };
+
+  const existentes = await stripe.customers.list({ email, limit: 1 });
+  const actual = existentes.data[0];
+  if (actual) {
+    if (actual.name !== name) {
+      await stripe.customers.update(actual.id, { name });
+    }
+    return { customer: actual.id };
+  }
+  const creado = await stripe.customers.create({ email, name });
+  return { customer: creado.id };
+}
+
 function descripcionDuracion(meta: SobreMeta): Stripe.CouponCreateParams {
   const cotizacion = meta.cotizacion!;
   const base: Stripe.CouponCreateParams = {
@@ -116,21 +205,17 @@ export async function crearSesionPago(
     descuentos = [{ coupon: cupon.id }];
   }
 
+  const alta = payloadSesionAlta(meta);
+  const customer = await customerParaCheckout(stripe, meta);
   const sesion = await stripe.checkout.sessions.create({
     mode: "subscription",
-    customer_email: meta.cliente.email,
+    ...customer,
     line_items: lineas,
     discounts: descuentos,
     success_url: urls.exito,
     cancel_url: urls.cancelado,
-    metadata: {
-      folio_firma: meta.id,
-      cotizacion: cotizacion.numero,
-      cliente: meta.cliente.nombre.slice(0, 100),
-    },
-    subscription_data: {
-      metadata: { folio_firma: meta.id, cotizacion: cotizacion.numero },
-    },
+    metadata: alta.metadata,
+    subscription_data: alta.subscription_data,
   });
 
   if (!sesion.url) throw new Error("Stripe no devolvió URL de checkout.");

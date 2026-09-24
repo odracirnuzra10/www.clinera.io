@@ -463,6 +463,21 @@ adicional · Clinera», «Pack de créditos IA · Clinera») se clasifican Cline
 nombre; si algún día se vende otra empresa por ahí, que el nombre diga
 «Marketing»/«MetricAds» o que el producto lleve `metadata.empresa` en Stripe.
 
+**Aviso ≠ fila 940.** Google Chat / Telegram «Nueva Venta» salen en paralelo a
+la cadena 957 → 612 → 940. Chat puede llegar y movimiento no (ALTACURA 14-ago;
+Dental Fresh 15-sep). El 15-sep Nohe cerró Vortex 20 % off (US$223.20): 957
+`Precio plan USD` es entero y el POST 400 cortó 612/940; el aviso dijo
+**Catalina** porque el encargado era un hash del email, no el closer real.
+Backfill: 957 #47, 612 #203, 940 #364 (`empresa: clinera`, encargado Nohelymar).
+
+Desde entonces `/firma` manda en metadata de sesión **y** de suscripción
+`empresa=clinera`, `closer`/`closer_email` del **gestor** (nunca del CEO:
+`meta.closer` es la firma legal), folio, cotización, plan y el nombre del
+cliente. n8n usa ese `closer`; el hash Catalina/Nohe queda de fallback para
+Payment Links viejos. Guardián de este repo: `tests/firma-stripe-metadata.spec.ts`.
+El jsCode vivo: `baserow/n8n/suscripcion-stripe.prepare-data.js` (aplicar en
+vivo; arreglar el export no basta).
+
 # `/reserva-tu-hora`: el destino del Instant Form, solo calendario
 
 Creada el 27-ago-2026. Es la URL que el Instant Form de Meta abre sola al
