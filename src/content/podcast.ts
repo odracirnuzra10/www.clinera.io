@@ -14,7 +14,7 @@ export const PODCAST_SERIES = {
   totalEpisodes: 5,
   host: {
     name: "Jorge Cheul",
-    role: "Operaciones · Clinera",
+    role: "COO · Clinera",
     teamSlug: "jorge-cheul",
   },
   guest: {

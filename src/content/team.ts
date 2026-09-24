@@ -25,13 +25,13 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     name: "Jorge Cheul",
-    role: "Comercial y Soporte",
+    role: "COO",
     slug: "jorge-cheul",
     image: "/images/team/jorge-cheul.webp",
   },
   {
     name: "Nicolás Agurto",
-    role: "Desarrollador de Soporte y Soluciones Técnicas",
+    role: "Customer Success",
     slug: "nicolas-agurto",
     image: "/images/team/nicolas-agurto.webp",
   },
@@ -43,7 +43,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     name: "Jorge Quispe",
-    role: "Desarrollo",
+    role: "Jefe de área de desarrollo",
     slug: "jorge-quispe",
     image: "/images/team/jorge-quispe.webp",
   },
@@ -55,7 +55,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     name: "Rebeca Navarro",
-    role: "Jefa soporte técnico",
+    role: "Líder de ventas",
     slug: "rebeca-navarro",
     image: "/images/team/rebeca-navarro.webp",
   },
