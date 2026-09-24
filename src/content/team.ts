@@ -13,7 +13,7 @@ export type TeamMember = {
 export const TEAM_MEMBERS: TeamMember[] = [
   {
     name: "Ricardo Oyarzún",
-    role: "Founder & CEO",
+    role: "Fundador",
     slug: "ricardo-oyarzun",
     image: "/images/team/ricardo-oyarzun.webp",
   },

@@ -54,7 +54,7 @@ export const metadata: Metadata = {
 const FAQ = [
   {
     q: "¿Qué es Clinera Podcast?",
-    a: "Una serie de cinco capítulos con Ricardo Oyarzún (fundador de Clinera, Método Hebe y Protocolo Lumina) y Jorge Cheul sobre cómo escalar una clínica de forma correcta: operación, caja, equipo, marketing e inteligencia artificial.",
+    a: "Una serie de cinco capítulos con Ricardo Oyarzún (fundador de Clinera, Método Hebe, Protocolo Lumina y Metricads) y Jorge Cheul sobre cómo escalar una clínica de forma correcta: operación, caja, equipo, marketing e inteligencia artificial.",
   },
   {
     q: "¿Cuántos capítulos tiene la serie?",

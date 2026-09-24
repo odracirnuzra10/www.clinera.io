@@ -47,7 +47,7 @@ export const ricardoPersonNode = {
   "@type": "Person" as const,
   "@id": RICARDO_PERSON_ID,
   name: "Ricardo Oyarzún",
-  jobTitle: "Creador de Clinera, fundador de Método Hebe y Protocolo Lumina",
+  jobTitle: FOUNDER.jobTitle,
   alumniOf: {
     "@type": "CollegeOrUniversity" as const,
     name: "Universidad de Concepción",
@@ -242,11 +242,11 @@ export const KNOWN_AUTHORS: Record<
 > = {
   "Ricardo Oyarzún": {
     name: "Ricardo Oyarzún",
-    jobTitle: "Co-fundador y Head of Growth, Clinera",
+    jobTitle: FOUNDER.jobTitle,
     slug: "ricardo-oyarzun",
     sameAs: ["https://www.linkedin.com/in/ricardooyarzunmarketingdigital/"],
     description:
-      "Marketing digital para clínicas en LATAM. Co-fundador de Clinera, Método Hebe y Protocolo Lumina.",
+      "Fundador de Clinera, Método Hebe, Protocolo Lumina y Metricads.",
   },
   "Jorge Cheul": {
     name: "Jorge Cheul",
@@ -305,6 +305,24 @@ export const KNOWN_AUTHORS: Record<
     slug: "jorge-quispe",
     sameAs: ["https://www.linkedin.com/in/jorge-ed-quispe/"],
     description: "Jefe de área de desarrollo en Clinera.",
+  },
+  "Mitzi Guajardo Soto": {
+    name: "Mitzi Guajardo Soto",
+    jobTitle: "Directora de finanzas, Clinera",
+    slug: "mitzi-guajardo",
+    sameAs: [
+      "https://www.linkedin.com/in/mitzi-guajardo-soto-b568a6253/",
+    ],
+    description: "Directora de finanzas de Clinera.",
+  },
+  "Karla Barros Gordon": {
+    name: "Karla Barros Gordon",
+    jobTitle: "Gestora de RRHH, Clinera",
+    slug: "karla-barros",
+    sameAs: [
+      "https://www.linkedin.com/in/karla-barros-gordon-b55270206/",
+    ],
+    description: "Gestora de RRHH de Clinera.",
   },
 };
 

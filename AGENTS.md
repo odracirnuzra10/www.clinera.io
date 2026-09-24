@@ -777,7 +777,8 @@ Decisiones consolidadas en la rama `feat/aeo-fase1-contenido` (agosto 2026):
   `https://kmestetica.cl/fundador/#person`. No reabrir `/casos-de-exito`.
   `/equipo` es la página de autores; el Person de Ricardo usa el `@id` de Hebe
   (`https://www.metodohebe.cl/fundador/#person`), no un Person duplicado en
-  Clinera. Organization Clinera: `https://clinera.io/#organization` (sin www),
+  Clinera. Ricardo es **fundador** (no co-fundador) de Clinera, Método Hebe,
+  Protocolo Lumina y Metricads. El cargo vive en `FOUNDER.jobTitle`. Organization Clinera: `https://clinera.io/#organization` (sin www),
   padre OACG `https://oacg.cl/#organization`. Guardián: `tests/aeo-entidad.spec.ts`
   y `tests/aeo-puente-clinicas.spec.ts`.
 

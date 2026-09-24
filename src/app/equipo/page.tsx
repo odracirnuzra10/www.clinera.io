@@ -14,7 +14,7 @@ import {
 
 const TITLE = "Equipo Clinera";
 const DESCRIPTION =
-  "Quién está detrás de Clinera: Ricardo Oyarzún (co-fundador) y el equipo de producto y operaciones que implementa empleados digitales en clínicas LATAM.";
+  "Quién está detrás de Clinera: Ricardo Oyarzún (fundador) y el equipo de producto y operaciones que implementa empleados digitales en clínicas LATAM.";
 
 export const metadata: Metadata = {
   title: TITLE,
