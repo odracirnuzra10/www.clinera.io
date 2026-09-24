@@ -306,6 +306,24 @@ export const KNOWN_AUTHORS: Record<
     sameAs: ["https://www.linkedin.com/in/jorge-ed-quispe/"],
     description: "Jefe de área de desarrollo en Clinera.",
   },
+  "Mitzi Guajardo Soto": {
+    name: "Mitzi Guajardo Soto",
+    jobTitle: "Directora de finanzas, Clinera",
+    slug: "mitzi-guajardo",
+    sameAs: [
+      "https://www.linkedin.com/in/mitzi-guajardo-soto-b568a6253/",
+    ],
+    description: "Directora de finanzas de Clinera.",
+  },
+  "Karla Barros Gordon": {
+    name: "Karla Barros Gordon",
+    jobTitle: "Gestora de RRHH, Clinera",
+    slug: "karla-barros",
+    sameAs: [
+      "https://www.linkedin.com/in/karla-barros-gordon-b55270206/",
+    ],
+    description: "Gestora de RRHH de Clinera.",
+  },
 };
 
 export const personSchema = (key: string) => {
