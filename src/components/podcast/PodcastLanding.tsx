@@ -141,7 +141,14 @@ function Hero() {
           }}
         >
           <span>
-            Con {PODCAST_SERIES.guest.name} · {PODCAST_SERIES.host.name}
+            Con{" "}
+            <Link href={`/equipo#${PODCAST_SERIES.guest.teamSlug}`} style={{ color: "inherit" }}>
+              {PODCAST_SERIES.guest.name}
+            </Link>
+            {" · "}
+            <Link href={`/equipo#${PODCAST_SERIES.host.teamSlug}`} style={{ color: "inherit" }}>
+              {PODCAST_SERIES.host.name}
+            </Link>
           </span>
           <span aria-hidden>·</span>
           <span>{PODCAST_SERIES.totalEpisodes} episodios</span>
@@ -456,8 +463,15 @@ function SeriesAbout() {
           comercial con la agenda, la ficha y la inteligencia artificial.
         </p>
         <p style={{ fontSize: 16, lineHeight: 1.7, color: "#374151", margin: "0 0 14px" }}>
-          No es un pitch de producto. Es la conversación que Ricardo Oyarzún y
-          Jorge Cheul tienen con dueños de clínica que quieren crecer sin
+          No es un pitch de producto. Es la conversación que{" "}
+          <Link href="/equipo#ricardo-oyarzun" style={{ color: "#7C3AED" }}>
+            Ricardo Oyarzún
+          </Link>{" "}
+          y{" "}
+          <Link href="/equipo#jorge-cheul" style={{ color: "#7C3AED" }}>
+            Jorge Cheul
+          </Link>{" "}
+          tienen con dueños de clínica que quieren crecer sin
           depender de una sola persona, sin quemar caja y sin quedarse atrás en
           IA.
         </p>

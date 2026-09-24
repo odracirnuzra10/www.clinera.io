@@ -248,6 +248,15 @@ export const KNOWN_AUTHORS: Record<
     description:
       "Marketing digital para clínicas en LATAM. Co-fundador de Clinera, Método Hebe y Protocolo Lumina.",
   },
+  "Jorge Cheul": {
+    name: "Jorge Cheul",
+    jobTitle: "COO, Clinera",
+    slug: "jorge-cheul",
+    sameAs: [
+      "https://www.linkedin.com/in/jorge-sebasti%C3%A1n-cheul-arzumendi-653076178/",
+    ],
+    description: "COO de Clinera.",
+  },
   "Mauricio López": {
     name: "Mauricio López",
     jobTitle: "Operaciones y producto, Clinera",
@@ -255,6 +264,47 @@ export const KNOWN_AUTHORS: Record<
     sameAs: ["https://www.linkedin.com/in/mauro-l%C3%B3pez-5b5642179/"],
     description:
       "Operaciones y producto en Clinera, con foco en agenda inteligente, ficha clínica electrónica e implementación en clínicas LATAM.",
+  },
+  "Rebeca Navarro": {
+    name: "Rebeca Navarro",
+    jobTitle: "Líder de ventas, Clinera",
+    slug: "rebeca-navarro",
+    sameAs: ["https://www.linkedin.com/in/rebeca-navarro-99a096277/"],
+    description: "Líder de ventas de Clinera.",
+  },
+  "Nohelymar Sánchez León": {
+    name: "Nohelymar Sánchez León",
+    jobTitle: "Ventas, Clinera",
+    slug: "nohelymar-sanchez",
+    sameAs: [
+      "https://www.linkedin.com/in/nohelymar-s%C3%A1nchez-le%C3%B3n-5916a0151/",
+    ],
+    description: "Ventas en Clinera.",
+  },
+  "Nicolás Agurto Cea": {
+    name: "Nicolás Agurto Cea",
+    jobTitle: "Customer Success, Clinera",
+    slug: "nicolas-agurto",
+    sameAs: [
+      "https://www.linkedin.com/in/nicol%C3%A1s-agurto-cea-a64ab82b6/",
+    ],
+    description: "Customer Success en Clinera.",
+  },
+  "Mauricio Toloza Pino": {
+    name: "Mauricio Toloza Pino",
+    jobTitle: "Customer Success, Clinera",
+    slug: "mauricio-toloza",
+    sameAs: [
+      "https://www.linkedin.com/in/mauricio-toloza-pino-8865b917a/",
+    ],
+    description: "Customer Success en Clinera.",
+  },
+  "Jorge Quispe": {
+    name: "Jorge Quispe",
+    jobTitle: "Jefe de área de desarrollo, Clinera",
+    slug: "jorge-quispe",
+    sameAs: ["https://www.linkedin.com/in/jorge-ed-quispe/"],
+    description: "Jefe de área de desarrollo en Clinera.",
   },
 };
 
