@@ -463,6 +463,19 @@ adicional · Clinera», «Pack de créditos IA · Clinera») se clasifican Cline
 nombre; si algún día se vende otra empresa por ahí, que el nombre diga
 «Marketing»/«MetricAds» o que el producto lleve `metadata.empresa` en Stripe.
 
+# MCP «Google Chat Ricardo»: vive en n8n, con mensajes programados
+
+El conector MCP de Google Chat de Ricardo **no está en este repo**: es el
+workflow `xDXIu0jNUdcYAf2U` (`MCP · Google Chat`) + un sub-workflow por tool,
+con la credencial `Google Chat - Ricardo (OAuth)`. Desde el 23-sep-2026 tiene
+`programar_mensaje` / `listar_programados` / `cancelar_programado`: la cola es
+la Data Table de n8n `gchat_mensajes_programados` y un cron de n8n la vacía
+cada minuto. Aplicador, backup y el porqué del anti-doble-envío (reclamo
+atómico + `requestId` de Google):
+`integrations/n8n/google-chat-programados/README.md`. Guardián:
+`tests/gchat-programados.spec.ts`. Trampa: Google no permite un DM de Ricardo
+consigo mismo; para pruebas usar el espacio privado `spaces/AAQAJkH0DMs`.
+
 # `/reserva-tu-hora`: el destino del Instant Form, solo calendario
 
 Creada el 27-ago-2026. Es la URL que el Instant Form de Meta abre sola al
