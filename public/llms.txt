@@ -117,6 +117,8 @@ escalar una clínica: operación, caja, equipo, marketing e IA.
   https://www.clinera.io/blog/clinera-podcast-1-como-escalar-clinica
 - Cap. 2 — Por qué mirar la facturación no es administrar:
   https://www.clinera.io/blog/clinera-podcast-2-facturacion-no-es-administrar
+  Sueldos 25–40 % de la venta, arriendo 15–30 %, costo por lead según ticket,
+  equilibrio en las 3 primeras semanas, meta = promedio 12 meses + 20 %.
   (video Vimeo embebido; caps. 3–5 próximamente en /podcast)
 
 ## Webhooks de venta y pago (Automatizaciones)

@@ -68,6 +68,10 @@ const FAQ = [
     q: "¿De qué habla el capítulo 1?",
     a: "Del origen de Clinera y Método Hebe, del momento correcto para abrir una segunda sucursal y de cinco tips: gente con la misma visión, disciplina financiera y caja, capacitación continua (IA), no despegarse de la operación, y tecnología para crecer sin inflar costos.",
   },
+  {
+    q: "¿De qué habla el capítulo 2?",
+    a: "De por qué mirar la facturación no es administrar. Ricardo Oyarzún da rangos de sueldos (25–40 % de la venta), arriendo (15–30 %), costo por lead según el ticket, punto de equilibrio en las tres primeras semanas y meta por sucursal (promedio de 12 meses más 20 %). Artículo: https://www.clinera.io/blog/clinera-podcast-2-facturacion-no-es-administrar.",
+  },
 ];
 
 function podcastSeriesSchema() {
@@ -98,6 +102,14 @@ function podcastSeriesSchema() {
         podcastEpisodePath(ep) != null
           ? `${SITE_URL}${podcastEpisodePath(ep)}`
           : `${SITE_URL}${PODCAST_SERIES.path}#cap-${ep.number}`,
+      associatedMedia: podcastVimeoEmbedUrl(ep)
+        ? {
+            "@type": "VideoObject",
+            name: `Clinera Podcast #${ep.number} — ${ep.title}`,
+            embedUrl: podcastVimeoEmbedUrl(ep),
+            uploadDate: ep.date,
+          }
+        : undefined,
     })),
   };
 }
