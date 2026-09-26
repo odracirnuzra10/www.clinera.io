@@ -24,6 +24,9 @@ test.describe("Planes en /presentacion", () => {
     expect(chunk).toContain('aria-label="Dólar"');
     expect(chunk).toContain('aria-label="Peso mexicano"');
     expect(chunk).toContain('data-billing="annual"');
+    expect(chunk).toContain("12 cuotas a precio de contado");
+    expect(chunk).toContain("pagando con Mercado Pago");
+    expect(chunk).toContain("/brand/mercadopago.svg");
   });
 
   test("los montos del deck coinciden con pricing.ts", () => {

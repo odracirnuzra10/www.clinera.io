@@ -20,6 +20,7 @@ import AvisoNoReemplaza from "@/components/empleado-digital/AvisoNoReemplaza";
 import CatalogPrice from "@/components/pricing/CatalogPrice";
 import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import BillingToggle from "@/components/pricing/BillingToggle";
+import MercadoPagoCuotas from "@/components/pricing/MercadoPagoCuotas";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 
@@ -4303,6 +4304,10 @@ export function Pricing({
           <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: 6 }}>
             <PriceModalitySwitch size="compact" align="start" />
           </div>
+        </div>
+
+        <div className="reveal">
+          <MercadoPagoCuotas />
         </div>
 
         <div

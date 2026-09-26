@@ -164,6 +164,7 @@ las dos modalidades publicadas.
 Así lo comunican las tarjetas de `<Pricing />` en home, `/planes` y `/planes-pro`:
 
 - **Lo primero:** plan anual, con el total del año en grande y el mensual debajo, más chico.
+- **Cómo se paga el anual (26-sep):** 12 cuotas a precio de contado con Mercado Pago. El isotipo está en `public/brand/mercadopago.svg` y el texto en `MercadoPagoCuotas` y en la diapo `#planes`. No es un recargo: el total de las cuotas es el precio de contado del año.
 - **Primer cobro:** implementación US$ 450 + el año (si es anual) o el primer mes (si es mensual).
 - El switch dólar / peso mexicano no compite con esa elección: va a la derecha, chico, con las banderas de Estados Unidos y México (`PriceModalitySwitch`).
 

@@ -82,7 +82,7 @@ export default function BillingToggle({
           </span>
         </span>
         <small style={{ color: annual ? "#F5E9FF" : "#7C3AED", fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10, letterSpacing: ".04em" }}>
-          Mejor valor · se factura el año
+          12 cuotas a precio de contado
         </small>
       </button>
       <button

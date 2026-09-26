@@ -37,6 +37,8 @@ test("/planes muestra implementación USD 450 junto al plan anual", async ({ pag
   await expect(precios.getByText("Implementación").first()).toBeVisible();
   await expect(precios.getByText(`$${SETUP_FEE_NUMBER}`).first()).toBeVisible();
   await expect(precios.getByText(/con el plan anual/i).first()).toBeVisible();
+  await expect(precios.getByText(/12 cuotas a precio de contado/i).first()).toBeVisible();
+  await expect(precios.getByRole("img", { name: "Mercado Pago" }).first()).toBeVisible();
   await expect(precios.getByText(/incluida en el plan/i)).toHaveCount(0);
   await expect(precios.getByRole("radio", { name: /semestral/i })).toHaveCount(0);
   await expect(precios.getByRole("radio", { name: /anual/i })).toHaveAttribute("aria-checked", "true");
