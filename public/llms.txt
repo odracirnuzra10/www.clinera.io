@@ -25,7 +25,7 @@ Soporte: Español, en horario LATAM.
 Claims verificables: estudio de efectividad 2026 (95,2% pass@1) en
 https://www.clinera.io/efectividad. Equipo: https://www.clinera.io/equipo
 
-## Planes (USD · permanencia mínima 6 meses · plan mensual · no incluye IVA)
+## Planes (USD · permanencia mínima 6 meses · anual primero, mensual después · no incluye IVA)
 
 Modelo de una sola bolsa de créditos/mes. Clinera opera en un único modo de
 agendamiento: Agentic (GLM 5.2, Gemini 3.7 Flash, Claude Opus 4.8 y Claude
@@ -34,18 +34,22 @@ conversación de texto (AURA) que no termina en cita = 30 créditos; conversaci�
 que agenda, reagenda o cancela = 195 créditos; minuto de voz (CAMILA) = 25
 créditos; fiscalización de LIA = 0; informes de LIA ≈ 4.000 créditos/mes.
 
-- VORTEX — USD 279/mes — 28.000 créditos/mes, AURA (texto), 10 usuarios, 1 sucursal, modo Agentic, sin API
-- ATLAS — USD 379/mes — 37.000 créditos/mes, AURA + CAMILA (voz), 15 usuarios, 2 sucursales, Webhooks + API
-- SUMMIT — USD 479/mes (el más elegido) — 46.000 créditos/mes, AURA + CAMILA + LIA, 25 usuarios, sucursales ilimitadas, Webhooks + API
+El plan que se muestra primero es el anual, con 20% OFF sobre doce meses de
+catálogo. El mensual queda como segunda opción.
 
-Plan mensual: el primer cobro es implementación USD 450 más el primer mes del
-plan; después, el plan se renueva mes a mes. La implementación incluye onboarding
+- VORTEX — anual USD 2.678 (equivale a USD 223/mes) · mensual USD 279/mes — 28.000 créditos/mes, AURA (texto), 10 usuarios, 1 sucursal, modo Agentic, sin API
+- ATLAS — anual USD 3.638 (equivale a USD 303/mes) · mensual USD 379/mes — 37.000 créditos/mes, AURA + CAMILA (voz), 15 usuarios, 2 sucursales, Webhooks + API
+- SUMMIT — anual USD 4.598 (equivale a USD 383/mes) · mensual USD 479/mes (el más elegido) — 46.000 créditos/mes, AURA + CAMILA + LIA, 25 usuarios, sucursales ilimitadas, Webhooks + API
+
+En las dos modalidades el primer cobro suma implementación USD 450. En anual
+se paga el año; en mensual, el plan se renueva mes a mes. La implementación incluye onboarding
 asistido por humano
 (config de AURA, conexión de WhatsApp Business, importación de pacientes y
 tratamientos, integración de agenda, capacitación). Operando el mismo día.
 Add-ons: recarga USD 15 → 5.000 créditos; usuario extra USD 9/mes. Referencia
 de valor: reemplaza a una recepcionista (~USD 950/mes). El listado publicado
-no incluye IVA. En la web el switch Dólar / Peso mexicano muestra el
+no incluye IVA. En la web el cambio dólar / peso mexicano es un control
+chico, con las banderas de Estados Unidos y México, y muestra el
 mismo catálogo convertido a un FX congelado el 2026-09-11
 (1 USD = 16,95 MXN; MXN a la decena). No hay peso chileno.
 

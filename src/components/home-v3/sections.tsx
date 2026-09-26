@@ -6,15 +6,20 @@ import { useEffect, useState, ReactNode } from "react";
 import { CtaPrimary, CtaSecondary, Eyebrow, Mono, GRAD, CnnLogo } from "@/components/brand-v3/Brand";
 import { HOME_FAQ } from "@/content/home-faq";
 import {
+  ANNUAL_DISCOUNT_PERCENT,
   CLINERA_PLANS,
   SEMESTER_MONTHS,
   SETUP_FEE_USD,
+  annualFirstYearSavings,
+  planCheckoutUrl,
+  planPeriodTotal,
   type Billing,
 } from "@/content/pricing";
 import { VERTEX_IA_MODELS } from "@/content/ia-stack";
 import AvisoNoReemplaza from "@/components/empleado-digital/AvisoNoReemplaza";
 import CatalogPrice from "@/components/pricing/CatalogPrice";
 import PriceIvaNote from "@/components/pricing/PriceIvaNote";
+import BillingToggle from "@/components/pricing/BillingToggle";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 
@@ -4165,8 +4170,8 @@ function ChannelIcons({ channel, color }: { channel: string; color: string }) {
 export type { Billing };
 
 /**
- * La web pública no ofrece selector de modalidad: sólo mensual.
- * El anual vive en cotizacion.oacg.cl/constructor.
+ * El anual va primero y es el default. El mensual queda como segunda opción.
+ * El semestral no se publica. La implementación se cobra en las dos.
  */
 
 export function Pricing({
@@ -4181,8 +4186,9 @@ export function Pricing({
   // la venta con tarjeta (p. ej. /plataforma) pasan una ruta interna acá.
   ctaHref?: string;
 } = {}) {
-  const billing: Billing = "monthly";
-  const { meta, formatPrice } = usePriceModality();
+  const [billing, setBilling] = useState<Billing>("annual");
+  const isAnnual = billing === "annual";
+  const { meta } = usePriceModality();
   const isComparisonIntro = intro === "comparison";
   // "none": la página ya trae su propio hero (p. ej. /planes) — sin header duplicado.
   const hideHeader = intro === "none";
@@ -4190,13 +4196,16 @@ export function Pricing({
   const plans = CLINERA_PLANS.map((plan) => ({
     id: plan.id,
     name: plan.name,
-    price: formatPrice(plan.monthlyPrice),
-    monthlyValue: plan.monthlyPrice,
+    monthlyUsd: plan.monthlyPrice,
+    annualTotalUsd: plan.annualTotal,
+    annualMonthlyUsd: plan.annualMonthly,
+    savingsUsd: annualFirstYearSavings(plan),
     credits: plan.credits.toLocaleString("es-CL"),
     channel: plan.channel,
     chips: planChipData(plan),
     features: planFeatures(plan),
-    stripe: plan.stripe,
+    stripe: planCheckoutUrl(plan, billing),
+    checkoutValue: planPeriodTotal(plan, billing),
     featured: plan.featured,
   }));
 
@@ -4209,7 +4218,7 @@ export function Pricing({
   };
   const ctaIsExternal = !ctaHref;
   const demoUrl = (p: (typeof plans)[number]) => `/agenda?plan=${p.id}`;
-  const checkoutValue = (p: (typeof plans)[number]) => p.monthlyValue;
+  const checkoutValue = (p: (typeof plans)[number]) => p.checkoutValue;
 
   return (
     <section
@@ -4277,15 +4286,30 @@ export function Pricing({
         </div>
         )}
 
-        <div className="reveal" style={{ margin: hideHeader ? "8px auto 22px" : "4px auto 22px" }}>
-          <PriceModalitySwitch />
+        <div
+          className="reveal home-price-controls"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(0, 1fr) minmax(300px, 520px) minmax(0, 1fr)",
+            alignItems: "start",
+            gap: 12,
+            margin: hideHeader ? "8px auto 18px" : "4px auto 18px",
+          }}
+        >
+          <div aria-hidden />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <BillingToggle billing={billing} onChange={setBilling} />
+          </div>
+          <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: 6 }}>
+            <PriceModalitySwitch size="compact" align="start" />
+          </div>
         </div>
 
         <div
           className="reveal"
           aria-live="polite"
           style={{
-            maxWidth: 660,
+            maxWidth: 720,
             margin: "0 auto 20px",
             textAlign: "center",
             fontFamily: "'JetBrains Mono', ui-monospace, monospace",
@@ -4294,7 +4318,16 @@ export function Pricing({
             color: "#6B7280",
           }}
         >
-          Tres planes · primer cobro = implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> + el primer mes · permanencia mínima de {SEMESTER_MONTHS} meses · {meta.ivaNoteLong}
+          {isAnnual ? (
+            <>
+              Plan anual primero · {ANNUAL_DISCOUNT_PERCENT}% OFF · primer cobro = implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> + el año
+            </>
+          ) : (
+            <>
+              Plan mensual · primer cobro = implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> + el primer mes
+            </>
+          )}
+          {" · "}permanencia mínima de {SEMESTER_MONTHS} meses · {meta.ivaNoteLong}
         </div>
 
         <div
@@ -4375,7 +4408,7 @@ export function Pricing({
                   </span>
                 </div>
 
-                {/* Primer cobro = implementación + primer mes del plan. */}
+                {/* Primer cobro = implementación + el período elegido (año o mes). */}
                 <div
                   className="home-plan-economics"
                   role="table"
@@ -4415,7 +4448,7 @@ export function Pricing({
                         Implementación
                       </div>
                       <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 12.5, fontWeight: 600, lineHeight: 1.35, color: th.ink, marginTop: 4, whiteSpace: "nowrap" }}>
-                        Pago único · con el primer mes
+                        {isAnnual ? "Pago único · con el plan anual" : "Pago único · con el primer mes"}
                       </div>
                     </div>
                     <div role="cell" style={{ textAlign: "right", flex: "0 0 auto" }}>
@@ -4431,12 +4464,14 @@ export function Pricing({
                   <div
                     className="home-plan-payment-row"
                     role="row"
+                    data-plan-period-row="annual"
                     style={{
                       display: "grid",
                       gridTemplateColumns: "minmax(0, 1fr) auto",
                       alignItems: "center",
                       gap: 16,
-                      padding: "16px 0 18px",
+                      padding: "16px 0 14px",
+                      opacity: isAnnual ? 1 : 0.72,
                     }}
                   >
                     <div role="cell" style={{ minWidth: 0 }}>
@@ -4444,19 +4479,19 @@ export function Pricing({
                         style={{
                           fontFamily: "'JetBrains Mono', ui-monospace, monospace",
                           fontSize: 10.5,
-                          fontWeight: 600,
+                          fontWeight: 700,
                           letterSpacing: "0.08em",
                           lineHeight: 1.5,
                           textTransform: "uppercase",
-                          color: th.sub,
+                          color: isAnnual ? "#6D28D9" : th.sub,
                         }}
                       >
-                        Plan mensual
+                        Plan anual
                       </div>
                       <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10.5, lineHeight: 1.5, color: th.sub, marginTop: 5 }}>
-                        Se cobra desde el primer mes
+                        {ANNUAL_DISCOUNT_PERCENT}% OFF · equivale a <CatalogPrice usd={p.annualMonthlyUsd} />/mes
                       </div>
-                      {showCredits && (
+                      {showCredits && isAnnual && (
                         <div
                           className="home-plan-credit-pill"
                           style={{
@@ -4481,13 +4516,82 @@ export function Pricing({
                       )}
                     </div>
                     <div role="cell" style={{ textAlign: "right", flex: "0 0 auto" }}>
-                      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 38, fontWeight: 800, color: th.ink, letterSpacing: "-0.05em", lineHeight: 1.05 }}>
-                        {p.price}
+                      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isAnnual ? 36 : 22, fontWeight: 800, color: th.ink, letterSpacing: "-0.05em", lineHeight: 1.05 }}>
+                        <CatalogPrice usd={p.annualTotalUsd} />
                       </div>
-                      <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 6 }}>{meta.currency}/mes</div>
-                      <div style={{ fontFamily: "Inter", fontSize: 11, fontWeight: 600, color: th.sub, marginTop: 4 }}>
-                        <PriceIvaNote variant="short" />
+                      <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 6 }}>{meta.currency}/año</div>
+                      <div style={{ fontFamily: "Inter", fontSize: 11, fontWeight: 600, color: "#6D28D9", marginTop: 4 }}>
+                        Ahorras <CatalogPrice usd={p.savingsUsd} />
                       </div>
+                    </div>
+                  </div>
+
+                  <div aria-hidden style={{ borderTop: `1px solid ${th.divider}` }} />
+
+                  <div
+                    className="home-plan-payment-row"
+                    role="row"
+                    data-plan-period-row="monthly"
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "minmax(0, 1fr) auto",
+                      alignItems: "center",
+                      gap: 16,
+                      padding: "12px 0 16px",
+                      opacity: isAnnual ? 0.78 : 1,
+                    }}
+                  >
+                    <div role="cell" style={{ minWidth: 0 }}>
+                      <div
+                        style={{
+                          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                          fontSize: 10.5,
+                          fontWeight: isAnnual ? 600 : 700,
+                          letterSpacing: "0.08em",
+                          lineHeight: 1.5,
+                          textTransform: "uppercase",
+                          color: th.sub,
+                        }}
+                      >
+                        Plan mensual
+                      </div>
+                      <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10.5, lineHeight: 1.5, color: th.sub, marginTop: 5 }}>
+                        Se cobra desde el primer mes
+                      </div>
+                      {showCredits && !isAnnual && (
+                        <div
+                          className="home-plan-credit-pill"
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 5,
+                            background: th.chipBg,
+                            border: `1px solid ${th.chipBorder}`,
+                            borderRadius: 999,
+                            padding: "5px 9px",
+                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            lineHeight: 1.2,
+                            color: th.ink,
+                            marginTop: 10,
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          <span style={{ fontSize: 12 }}>{p.credits}</span> créditos/mes
+                        </div>
+                      )}
+                    </div>
+                    <div role="cell" style={{ textAlign: "right", flex: "0 0 auto" }}>
+                      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isAnnual ? 22 : 36, fontWeight: 800, color: th.ink, letterSpacing: "-0.05em", lineHeight: 1.05 }}>
+                        <CatalogPrice usd={p.monthlyUsd} />
+                      </div>
+                      <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 4 }}>{meta.currency}/mes</div>
+                      {!isAnnual && (
+                        <div style={{ fontFamily: "Inter", fontSize: 11, fontWeight: 600, color: th.sub, marginTop: 4 }}>
+                          <PriceIvaNote variant="short" />
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -4685,7 +4789,7 @@ export function Pricing({
             color: "#6B7280",
           }}
         >
-          Facturación en USD · {meta.ivaNote} en {meta.country} · Stripe · MercadoPago · WebPay · Boleta o factura según país
+          Facturación en {meta.currency} · {meta.ivaNote} · Stripe · MercadoPago · WebPay · Boleta o factura según país
         </div>
 
       </div>
@@ -4705,9 +4809,14 @@ export function Pricing({
             white-space: normal !important;
           }
         }
+        @media (max-width: 800px) {
+          :global(.home-price-controls) { grid-template-columns: 1fr !important; justify-items: center; }
+          :global(.home-price-controls > div:first-child) { display: none !important; }
+          :global(.home-price-controls > div:last-child) { justify-content: center !important; padding-top: 0 !important; }
+        }
         @media (max-width: 560px) {
           :global(.home-h2-big) { font-size: 32px !important; }
-          :global(.home-billing-toggle > div) { width: 100% !important; }
+          :global(.billing-period-toggle) { width: 100% !important; }
           :global(.billing-toggle-option) { min-width: 0 !important; padding-left: 11px !important; padding-right: 11px !important; }
         }
         :global(.home-plan-card) {

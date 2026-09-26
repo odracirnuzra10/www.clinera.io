@@ -75,8 +75,9 @@ function PlanesHero() {
             maxWidth: 620,
           }}
         >
-          Del equipo de recepción a varias sedes. Permanencia mínima de 6 meses.
-          El primer cobro es implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> más el primer mes del plan.
+          Del equipo de recepción a varias sedes. El plan anual va primero, con 20% OFF.
+          El mensual queda debajo. Permanencia mínima de 6 meses.
+          El primer cobro suma la implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" />.
           {" "}
           <PriceIvaNote />.
         </p>

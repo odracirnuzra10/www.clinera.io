@@ -155,17 +155,17 @@ valor de `SETUP_FEE_USD` en `pricing.ts`, el mismo que va a los contratos
 firmados. El US$ 750 que existió en `/planes-pro`, FAQ, calculadoras y
 `public/llms*.txt` era residuo y ya se corrigió; si reaparece, es un error.
 
-**Actualizado 2026-09:** la web pública (`clinera.io`) muestra **sólo plan mensual**.
-El primer cobro es implementación US$ 450 **más el primer mes** del plan; después,
-el plan mes a mes. No hay semestral ni anual en la web: las dos viven en el
-constructor de cotización (`cotizacion.oacg.cl`), donde la cotización es
-privada. El catálogo también cobra la implementación salvo que el closer la
-regale.
+**Actualizado 2026-09-26:** la web pública muestra **el anual primero** y el
+mensual después. El anual es el default (20% OFF de catálogo, totales en
+`pricing.ts`: 2.678 / 3.638 / 4.598). El semestral sigue fuera de la web, en
+el constructor (`cotizacion.oacg.cl`). La implementación se cobra igual en
+las dos modalidades publicadas.
 
 Así lo comunican las tarjetas de `<Pricing />` en home, `/planes` y `/planes-pro`:
 
-- **Primer cobro:** implementación US$ 450 + primer mes del plan (Vortex 279 / Atlas 379 / Summit 479).
-- **Después:** el plan se renueva mes a mes a precio de lista.
+- **Lo primero:** plan anual, con el total del año en grande y el mensual debajo, más chico.
+- **Primer cobro:** implementación US$ 450 + el año (si es anual) o el primer mes (si es mensual).
+- El switch dólar / peso mexicano no compite con esa elección: va a la derecha, chico, con las banderas de Estados Unidos y México (`PriceModalitySwitch`).
 
 Usa `setupFeeFor(billing)` / `includesFreeSetup(billing)` — en catálogo ambos
 devuelven 450 / false; no asumas implementación gratis.
@@ -177,10 +177,11 @@ y **Peso mexicano**. MXN usa un FX **congelado** en `src/content/pricing.ts`:
 pantalla: MXN a la decena. No hay peso chileno. Control: `PriceModalitySwitch`.
 Guardián: `tests/price-modality.spec.ts`.
 
-**Discurso de cierre (sep 2026):** deck interno `public/presentacion-nuevo-discurso.html`
-(`/nuevodiscurso`). La web no ofrece anual ni semestral. El closer regala la
-implementación (100% hoy/mañana, 50% esta semana) con una excusa que vence.
-Anual solo si el cliente lo pide, y ahí 10% o 20%. Hasta 200 clientes.
+**Discurso de cierre (sep 2026, actualizado el 26):** deck interno
+`public/presentacion-nuevo-discurso.html` (`/nuevodiscurso`). La web ofrece
+el anual primero (20% OFF publicado) y el mensual después. El semestral sigue
+solo en el constructor. El closer regala la implementación (100% hoy/mañana,
+50% esta semana) con una excusa que vence. Hasta 200 clientes.
 Guardián: `tests/nuevo-discurso.spec.ts`.
 
 ## `/ventas2026`: reunión interna de la campaña MQL
@@ -574,12 +575,18 @@ Metricads/agencia 2017, Método Hebe y Protocolo Lumina (tres sedes), lanzamient
 octubre 2025 — **nada de cifras nuevas**. No nombrar competidores ni Open
 Factura. Guardián: `tests/presentacion-por-que-clinera.spec.ts`.
 
-**Tope de 12 diapos (sep 2026):** al sumar origen + por-qué se retiró
-`#la-fuga` — el hero ya lleva las mismas cifras (20 %, US$ 1.500, 300 leads /
-60 que se escapan). No reponer esa diapo sin sacar otra. Orden canónico:
+**Tope narrativo de 12 diapos (sep 2026) más el cierre de precio (26-sep):**
+al sumar origen + por-qué se retiró `#la-fuga` — el hero ya lleva las mismas
+cifras (20 %, US$ 1.500, 300 leads / 60 que se escapan). No reponer esa diapo
+sin sacar otra del relato. Orden del relato:
 `clinera` → `origen` → `por-que-clinera` → `aura` → `intelligence` →
 `inteligencia` → `inteligencia-deudas` → `inteligencia-profesionales` →
 `empleados-digitales` → `canales` → `normativa` → `migracion`.
+Después, `#planes`: lo primero que se lee es el plan anual y debajo el
+mensual. El dólar/MXN va chico, con banderas, al lado del selector. Los
+números salen de `pricing.ts` y están duplicados en el HTML porque el deck
+no importa TS: si cambia un anual, hay que tocar la diapo. Guardián:
+`tests/presentacion-planes.spec.ts`.
 
 **Clinera Intelligence (sep 2026):** el WOW del deck ya **no** es el QR
 «Prueba tú mismo» (`#demostracion` eliminado). Son **3 diapos** seguidas
