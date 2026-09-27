@@ -47,13 +47,16 @@ test.describe("Planes en /presentacion", () => {
     await expect(slide).toHaveClass(/active/);
     await expect(slide).toHaveAttribute("data-billing", "annual");
     const vortex = slide.locator(".px-card").first();
+    await expect(vortex.locator(".px-annual")).toBeVisible();
     await expect(vortex.locator("[data-slot='annual']")).toHaveText("$223");
     await expect(vortex.locator("[data-slot='equiv']")).toContainText("ahorras $56/mes");
-    await expect(vortex.locator("[data-slot='monthly']")).toHaveText("$279");
+    await expect(vortex.locator(".px-monthly")).toBeHidden();
     await expect(vortex).not.toContainText("$2,678");
 
     await slide.getByRole("radio", { name: /Mensual/ }).click();
     await expect(slide).toHaveAttribute("data-billing", "monthly");
+    await expect(vortex.locator(".px-annual")).toBeHidden();
+    await expect(vortex.locator(".px-monthly")).toBeVisible();
     await expect(vortex.locator("[data-slot='monthly']")).toHaveText("$279");
 
     await slide.getByRole("radio", { name: "Peso mexicano" }).click();

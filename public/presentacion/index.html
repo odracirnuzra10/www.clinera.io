@@ -4457,25 +4457,17 @@
       align-items: end;
     }
 
-    #planes .px-annual { padding-bottom: 10px; }
-    #planes .px-monthly {
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid var(--line);
-    }
+    #planes[data-billing="annual"] .px-monthly,
+    #planes[data-billing="monthly"] .px-annual { display: none; }
 
     #planes .px-annual strong,
     #planes .px-monthly strong {
       font-family: var(--display);
+      font-size: 36px;
       letter-spacing: -.04em;
       line-height: .95;
       text-align: right;
     }
-
-    #planes[data-billing="annual"] .px-annual strong { font-size: 36px; }
-    #planes[data-billing="annual"] .px-monthly strong { font-size: 20px; color: var(--muted); }
-    #planes[data-billing="monthly"] .px-annual strong { font-size: 20px; color: var(--muted); }
-    #planes[data-billing="monthly"] .px-monthly strong { font-size: 36px; }
 
     #planes .px-equiv,
     #planes .px-unit {
@@ -5259,7 +5251,7 @@
             <div>
               <div class="blk-eyebrow">PLANES</div>
               <h2 class="blk-h2">El <span class="blk-grad-text">anual</span> primero.</h2>
-              <p class="blk-lead">20% OFF sobre doce meses. El mensual queda debajo.</p>
+              <p class="blk-lead">20% OFF sobre doce meses.</p>
             </div>
             <div class="px-tools">
               <div class="px-billing" role="radiogroup" aria-label="Frecuencia de facturación">

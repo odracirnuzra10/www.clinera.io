@@ -4465,6 +4465,7 @@ export function Pricing({
 
                   <div aria-hidden style={{ borderTop: `1px solid ${th.divider}` }} />
 
+                  {isAnnual ? (
                   <div
                     className="home-plan-payment-row"
                     role="row"
@@ -4475,7 +4476,6 @@ export function Pricing({
                       alignItems: "center",
                       gap: 16,
                       padding: "16px 0 14px",
-                      opacity: isAnnual ? 1 : 0.72,
                     }}
                   >
                     <div role="cell" style={{ minWidth: 0 }}>
@@ -4487,7 +4487,7 @@ export function Pricing({
                           letterSpacing: "0.08em",
                           lineHeight: 1.5,
                           textTransform: "uppercase",
-                          color: isAnnual ? "#6D28D9" : th.sub,
+                          color: th.accent,
                         }}
                       >
                         Plan anual
@@ -4495,7 +4495,7 @@ export function Pricing({
                       <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10.5, lineHeight: 1.5, color: th.sub, marginTop: 5 }}>
                         {ANNUAL_DISCOUNT_PERCENT}% OFF
                       </div>
-                      {showCredits && isAnnual && (
+                      {showCredits && (
                         <div
                           className="home-plan-credit-pill"
                           style={{
@@ -4520,7 +4520,7 @@ export function Pricing({
                       )}
                     </div>
                     <div role="cell" style={{ textAlign: "right", flex: "0 0 auto" }}>
-                      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isAnnual ? 36 : 22, fontWeight: 800, color: th.ink, letterSpacing: "-0.05em", lineHeight: 1.05 }}>
+                      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 36, fontWeight: 800, color: th.ink, letterSpacing: "-0.05em", lineHeight: 1.05 }}>
                         <CatalogPrice usd={p.annualMonthlyUsd} />
                       </div>
                       <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 6 }}>{meta.currency}/mes</div>
@@ -4529,9 +4529,7 @@ export function Pricing({
                       </div>
                     </div>
                   </div>
-
-                  <div aria-hidden style={{ borderTop: `1px solid ${th.divider}` }} />
-
+                  ) : (
                   <div
                     className="home-plan-payment-row"
                     role="row"
@@ -4542,7 +4540,6 @@ export function Pricing({
                       alignItems: "center",
                       gap: 16,
                       padding: "12px 0 16px",
-                      opacity: isAnnual ? 0.78 : 1,
                     }}
                   >
                     <div role="cell" style={{ minWidth: 0 }}>
@@ -4550,11 +4547,11 @@ export function Pricing({
                         style={{
                           fontFamily: "'JetBrains Mono', ui-monospace, monospace",
                           fontSize: 10.5,
-                          fontWeight: isAnnual ? 600 : 700,
+                          fontWeight: 700,
                           letterSpacing: "0.08em",
                           lineHeight: 1.5,
                           textTransform: "uppercase",
-                          color: th.sub,
+                          color: th.accent,
                         }}
                       >
                         Plan mensual
@@ -4562,7 +4559,7 @@ export function Pricing({
                       <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10.5, lineHeight: 1.5, color: th.sub, marginTop: 5 }}>
                         Se cobra desde el primer mes
                       </div>
-                      {showCredits && !isAnnual && (
+                      {showCredits && (
                         <div
                           className="home-plan-credit-pill"
                           style={{
@@ -4587,17 +4584,16 @@ export function Pricing({
                       )}
                     </div>
                     <div role="cell" style={{ textAlign: "right", flex: "0 0 auto" }}>
-                      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isAnnual ? 22 : 36, fontWeight: 800, color: th.ink, letterSpacing: "-0.05em", lineHeight: 1.05 }}>
+                      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 36, fontWeight: 800, color: th.ink, letterSpacing: "-0.05em", lineHeight: 1.05 }}>
                         <CatalogPrice usd={p.monthlyUsd} />
                       </div>
                       <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 4 }}>{meta.currency}/mes</div>
-                      {!isAnnual && (
-                        <div style={{ fontFamily: "Inter", fontSize: 11, fontWeight: 600, color: th.sub, marginTop: 4 }}>
-                          <PriceIvaNote variant="short" />
-                        </div>
-                      )}
+                      <div style={{ fontFamily: "Inter", fontSize: 11, fontWeight: 600, color: th.sub, marginTop: 4 }}>
+                        <PriceIvaNote variant="short" />
+                      </div>
                     </div>
                   </div>
+                  )}
 
                 </div>
 

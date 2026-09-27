@@ -163,7 +163,7 @@ las dos modalidades publicadas.
 
 Así lo comunican las tarjetas de `<Pricing />` en home, `/planes` y `/planes-pro`:
 
-- **Lo primero:** plan anual expresado como valor mensual (la cuota: 223 / 303 / 383), con el ahorro al lado. El total del año no se imprime en la tarjeta; sigue en `annualTotal` porque es lo que cobra Stripe. El mensual queda debajo, más chico, para que el ahorro se lea de un vistazo.
+- **Lo primero:** plan anual expresado como valor mensual (la cuota: 223 / 303 / 383), con el ahorro en una línea. El total del año no se imprime; sigue en `annualTotal` porque es lo que cobra Stripe. La tarjeta muestra un solo precio: el de la modalidad activa. Al pasar a mensual, desaparece el anual.
 - **Cómo se paga el anual (26-sep):** 12 cuotas a precio de contado con Mercado Pago. El isotipo está en `public/brand/mercadopago.svg` y el texto en `MercadoPagoCuotas` y en la diapo `#planes`. No es un recargo: el total de las cuotas es el precio de contado del año.
 - **Primer cobro:** implementación US$ 450 + el año (si es anual) o el primer mes (si es mensual).
 - El switch dólar / peso mexicano no compite con esa elección: va a la derecha, chico, con las banderas de Estados Unidos y México (`PriceModalitySwitch`).
