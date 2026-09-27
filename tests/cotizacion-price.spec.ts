@@ -42,6 +42,17 @@ test("/planes muestra implementación USD 450 junto al plan anual", async ({ pag
   await expect(precios.getByText(/incluida en el plan/i)).toHaveCount(0);
   await expect(precios.getByRole("radio", { name: /semestral/i })).toHaveCount(0);
   await expect(precios.getByRole("radio", { name: /anual/i })).toHaveAttribute("aria-checked", "true");
+  await expect(precios.getByText("$223").first()).toBeVisible();
+  await expect(precios.getByText(/Ahorras/).first()).toBeVisible();
+  await expect(precios.locator("[data-plan-period-row='monthly']")).toHaveCount(0);
+  await expect(precios.getByText("$2,678")).toHaveCount(0);
+  await expect(precios.getByText(/\/año/)).toHaveCount(0);
+
+  await page.getByRole("radio", { name: /Mensual/ }).click();
+  await expect(precios.locator("[data-plan-period-row='monthly']")).toHaveCount(3);
+  await expect(precios.locator("[data-plan-period-row='annual']")).toHaveCount(0);
+  await expect(precios.getByText("$279").first()).toBeVisible();
+  await expect(precios.getByText("$223")).toHaveCount(0);
 });
 
 test("los links de pago de /planes abren en el anual y pasan al mensual", async ({ page }) => {

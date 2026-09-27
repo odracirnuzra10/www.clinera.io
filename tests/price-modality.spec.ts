@@ -68,10 +68,10 @@ function visibleAmount(usd: number, modality: "usd" | "mxn") {
   return formatCatalogNumber(usdToDisplayAmount(usd, modality), modality);
 }
 
-async function expectCatalog(scope: Page | Locator, modality: "usd" | "mxn") {
-  await expect(scope.getByText(visibleAmount(279, modality), { exact: false }).first()).toBeVisible();
-  await expect(scope.getByText(visibleAmount(379, modality), { exact: false }).first()).toBeVisible();
-  await expect(scope.getByText(visibleAmount(479, modality), { exact: false }).first()).toBeVisible();
+async function expectAnnualCatalog(scope: Page | Locator, modality: "usd" | "mxn") {
+  for (const plan of CLINERA_PLANS) {
+    await expect(scope.getByText(visibleAmount(plan.annualMonthly, modality), { exact: false }).first()).toBeVisible();
+  }
   await expect(scope.getByText(visibleAmount(450, modality), { exact: false }).first()).toBeVisible();
 }
 
@@ -84,13 +84,13 @@ test("/planes: default dólar y el switch solo tiene dólar y MXN", async ({ pag
   await expect(control.getByRole("radio", { name: "Peso mexicano" })).toBeVisible();
   await expect(control.getByRole("radio", { name: "Peso chileno" })).toHaveCount(0);
   await expect(precios.getByText(/USD · no incluye IVA/i).first()).toBeVisible();
-  await expectCatalog(precios, "usd");
+  await expectAnnualCatalog(precios, "usd");
   const periodos = precios.getByRole("radiogroup", { name: "Frecuencia de facturación" });
   await expect(periodos.getByRole("radio", { name: /anual/i })).toHaveAttribute("aria-checked", "true");
   await expect(periodos.getByRole("radio", { name: /mensual/i })).toHaveAttribute("aria-checked", "false");
   await expect(precios.getByRole("radio", { name: /semestral/i })).toHaveCount(0);
-  await expect(precios.getByText("Plan anual").first()).toBeVisible();
-  await expect(precios.getByText("Plan mensual").first()).toBeVisible();
+  await expect(precios.locator("[data-plan-period-row='annual']")).toHaveCount(3);
+  await expect(precios.locator("[data-plan-period-row='monthly']")).toHaveCount(0);
 
   await control.getByRole("radio", { name: "Peso mexicano" }).click();
   await expect(control.getByRole("radio", { name: "Peso mexicano" })).toHaveAttribute(
@@ -98,7 +98,7 @@ test("/planes: default dólar y el switch solo tiene dólar y MXN", async ({ pag
     "true",
   );
   await expect(precios.getByText(/MXN · no incluye IVA en México/i).first()).toBeVisible();
-  await expectCatalog(precios, "mxn");
+  await expectAnnualCatalog(precios, "mxn");
   expect(new URL(page.url()).searchParams.get("precios")).toBe("mxn");
 });
 
