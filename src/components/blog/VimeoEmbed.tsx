@@ -7,9 +7,15 @@ type Props = {
   // Limita el ancho (px) y centra el embed. Útil para videos verticales (9/16),
   // que de otro modo ocuparían toda la columna en desktop.
   maxWidth?: number;
+  /** Menú nativo de velocidad de Vimeo (incluye 2x). Default apagado. */
+  speed?: boolean;
 };
 
-export function vimeoPlayerSrc(videoId: string, hash?: string): string {
+export function vimeoPlayerSrc(
+  videoId: string,
+  hash?: string,
+  speed?: boolean,
+): string {
   const params = new URLSearchParams({
     badge: "0",
     autopause: "0",
@@ -17,6 +23,7 @@ export function vimeoPlayerSrc(videoId: string, hash?: string): string {
     app_id: "58479",
   });
   if (hash) params.set("h", hash);
+  if (speed) params.set("speed", "1");
   return `https://player.vimeo.com/video/${videoId}?${params.toString()}`;
 }
 
@@ -26,8 +33,9 @@ export default function VimeoEmbed({
   title = "Video",
   aspect = "16 / 9",
   maxWidth,
+  speed,
 }: Props) {
-  const src = vimeoPlayerSrc(videoId, hash);
+  const src = vimeoPlayerSrc(videoId, hash, speed);
   return (
     <div
       style={{

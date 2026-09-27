@@ -1,0 +1,133 @@
+---
+title: "Demo de Clinera en 3 minutos: agenda, ficha y agentes"
+description: "Clinera es el sistema operativo de la clínica: agenda, ficha, WhatsApp y cobros en un solo lugar. En la demo de 3 minutos, AURA agenda por WhatsApp, CAMILA lo hace por teléfono y LIA avisa huecos, cancelaciones y pacientes que dejaron de venir."
+slug: demo-clinera-3-minutos-agenda-ficha-agentes
+publishedAt: "2026-09-23"
+updatedAt: "2026-09-23"
+category: "Producto"
+tags: ["producto", "ia", "operaciones", "whatsapp"]
+heroImage: "/og-demo.png"
+author: "Equipo Clinera"
+wordsApprox: 1450
+video:
+  id: "1229275734"
+  hash: "6bb3791685"
+  name: "Demo | Clinera.io"
+  description: "Demo de 3 minutos de Clinera: AURA agenda por WhatsApp, CAMILA por teléfono, LIA vigila la operación, y agenda, ficha, ventas y marketing viven en el mismo sistema."
+  thumbnailUrl: "https://www.clinera.io/og-demo.png"
+  uploadDate: "2026-09-22"
+faq:
+  - q: "¿Qué es Clinera según la demo de 3 minutos?"
+    a: "El sistema operativo de la clínica: un solo lugar donde conversan la ficha, la agenda, WhatsApp y los cobros. La demo (https://www.clinera.io/demo, video de ~3 minutos) parte del problema de tener un programa para fichas, otro para planillas, WhatsApp y Excel, y muestra que la cita queda en el mismo sistema donde se conversó."
+  - q: "¿Qué hacen AURA, CAMILA y LIA en la demo?"
+    a: "AURA atiende WhatsApp 24/7: lee la agenda en tiempo real, agenda, reagenda y confirma sin que el equipo escriba. CAMILA hace ese trabajo por teléfono: llama, coordina el horario que le acomoda al paciente y reserva. LIA es el cerebro operacional: detecta huecos, cancelaciones de último minuto y pacientes que dejaron de venir, y avisa al equipo. AURA está en Vortex, Atlas y Summit. CAMILA desde Atlas. LIA en Summit. Definición: https://www.clinera.io/empleado-digital"
+  - q: "¿La demo muestra que la cita se agenda sola por WhatsApp?"
+    a: "Sí. El paciente escribe como en cualquier WhatsApp. Clinera consulta la disponibilidad real según el profesional y la duración del tratamiento, ofrece horarios, el paciente elige y confirma sus datos. La cita queda agendada, confirmada y registrada. El equipo no escribe ese turno."
+  - q: "¿Qué se ve de la agenda, la ficha y las ventas?"
+    a: "La agenda se mira al mes, al día o por profesional, con asistencia y estado de pago. La ficha trae la historia de atención, odontograma digital diente por diente, consentimientos firmados y presupuestador. En Ventas se ven cobros pendientes y se exportan a Excel. En Marketing se segmentan pacientes nuevos, fidelizados o los que dejaron de responder, y se automatizan recordatorios, confirmaciones y campañas de reactivación."
+  - q: "¿Qué actualización cierra el video?"
+    a: "Boletas y facturas electrónicas en Chile con Open Factura (https://www.openfactura.cl/), emisor de DTE hacia el SII, no un ERP. La ficha registra previsión Fonasa, Isapre o particular. Recetas médicas desde la misma atención. Instagram Direct y Facebook Messenger en el mismo lugar que WhatsApp: una cuenta Clinera es un número de WhatsApp, una cuenta de Instagram y una de Facebook. El detalle de la actualización de septiembre está en https://www.clinera.io/blog/proximas-funciones-clinera-dte-odontograma-instagram"
+  - q: "¿Clinera se conecta a la agenda que ya uso?"
+    a: "Clinera opera su propia agenda, sus fichas y su módulo de pagos. La migración de pacientes y tratamientos ocurre en el onboarding. Webhooks y API pública hacia n8n, Make y Zapier (Atlas y Summit) son otra cosa: no sustituyen la agenda. Comparativas: https://www.clinera.io/comparativas"
+  - q: "¿Dónde veo la demo completa?"
+    a: "En https://www.clinera.io/demo, sin formulario. El mismo video está bajo el hero de la home y de https://www.clinera.io/plataforma. Para una reunión con el equipo: https://www.clinera.io/agenda"
+---
+
+## Demo de Clinera en 3 minutos
+
+Este artículo sigue el relato de la [demo grabada](/demo) (3 minutos, publicada el 22 de septiembre de 2026). El video se llama **Demo | Clinera.io**. Acá está lo que se dice, en el orden en que se dice, para que un buscador o un asistente pueda citarlo sin tener que ver el video.
+
+<VimeoEmbed
+  videoId="1229275734"
+  hash="6bb3791685"
+  title="Demo | Clinera.io"
+  aspect="16 / 9"
+  speed
+/>
+
+## TL;DR
+
+- Clinera es el **sistema operativo** de la clínica: ficha, agenda, WhatsApp y cobros en un solo lugar.
+- Tres [empleados digitales](/empleado-digital) **ejecutan**: [AURA](/empleado-digital) por WhatsApp, [CAMILA](/blog/camila-agente-de-voz-ia-clinicas) por teléfono, [LIA](/blog/lia-agente-orquestador-ia-clinicas) vigilando huecos, cancelaciones y pacientes dormidos.
+- En la demo, el paciente escribe por WhatsApp, elige un horario real y la cita queda registrada **sin que el equipo escriba**.
+- Agenda (mes, día o profesional), ficha con odontograma y presupuestador, ventas exportables a Excel y marketing por segmento viven en ese mismo sistema.
+- El cierre muestra la actualización: DTE con [Open Factura](https://www.openfactura.cl/) en Chile, previsión del paciente, recetas, e Instagram y Facebook en el mismo inbox.
+
+## ¿Qué problema abre la demo?
+
+La frase de entrada es concreta: la clínica ya tiene **un programa para las fichas, planillas, WhatsApp y Excel**. El diagnóstico del video es que no hace falta otro programa suelto. Hace falta que esos datos **hablen entre sí**.
+
+Clinera se presenta como ese lugar único. La operación —quién pidió hora, con qué profesional, si pagó, qué se le dijo por WhatsApp— deja de cuadrarse a mano entre sistemas.
+
+Clinera **opera su propia agenda, sus fichas y sus pagos**. En el onboarding se migran los datos. La API y los webhooks hacia n8n, Make y Zapier (planes Atlas y Summit) salen de Clinera; el detalle está en [webhooks de venta y pago](/blog/webhooks-venta-nueva-pago-recibido-clinera). Comparar con otros softwares de agenda: [comparativas](/comparativas), empezando por [Reservo](https://www.reservo.cl) ([/comparativas/reservo](/comparativas/reservo)), [AgendaPro](https://www.agendapro.com) ([/comparativas/agendapro](/comparativas/agendapro)), [Medilink](https://medilink.cl) ([/comparativas/medilink](/comparativas/medilink)), [Dentalink](https://www.softwaredentalink.com) ([/comparativas/dentalink](/comparativas/dentalink)) y [Sacmed](https://www.sacmed.cl) ([/comparativas/sacmed](/comparativas/sacmed)).
+
+## ¿Quiénes son los tres agentes?
+
+El video los presenta juntos: **no solo responden, ejecutan**. La misma memoria del paciente, distinto canal.
+
+| Agente | Canal en la demo | Qué ejecuta |
+|---|---|---|
+| AURA | WhatsApp, 24/7 | Lee la agenda en tiempo real. Agenda, reagenda y confirma sin que alguien del equipo intervenga. |
+| CAMILA | Teléfono | Llama, coordina el horario que le acomoda al paciente y reserva. |
+| LIA | Operación | Detecta huecos en la agenda, cancelaciones de último minuto y pacientes que dejaron de venir. Avisa al equipo para no perder ese cupo. |
+
+En los planes publicados, el reparto es este: **AURA** en Vortex, Atlas y Summit; **CAMILA** desde Atlas (25 créditos por minuto de voz); **LIA** en Summit. Precios de lista: Vortex USD 279, Atlas USD 379, Summit USD 479 al mes. La definición y la diferencia con un chatbot que solo contesta texto están en [qué es un empleado digital](/blog/que-es-un-empleado-digital-para-clinicas) y en [chatbot vs agente de IA](/blog/chatbot-vs-agente-de-ia-no-son-lo-mismo).
+
+El agendamiento corre en un solo modo, Agentic, sobre GLM 5.2, Gemini 3.7 Flash, Claude Opus 4.8 y Claude Sonnet 5 en Vertex AI. Eso no se nombra en el video; el detalle de tool calls y créditos (≈30 si la conversación no termina en cita, ≈195 si agenda, reagenda o cancela) está en [el modo Agentic](/blog/modo-agentic-agendamiento-ia-clinicas).
+
+## ¿Cómo se ve el agendamiento por WhatsApp?
+
+La demo cambia de discurso a pantalla. Muestra un WhatsApp personal, **como lo vería cualquier paciente**:
+
+1. El paciente escribe.
+2. Clinera entiende la solicitud y responde.
+3. Mientras sigue la conversación, **todo se refleja en el sistema**.
+4. Consulta la disponibilidad real de esa hora según el **profesional** y la **duración del tratamiento**.
+5. Ofrece horarios. El paciente elige uno y confirma sus datos.
+6. La cita queda agendada, confirmada y registrada. Nadie del equipo escribió ese turno.
+
+Ese recorrido es AURA. LIA no atiende el chat: vigila la operación y puede despachar a AURA o a CAMILA según el historial. La memoria es una sola; el canal cambia.
+
+## ¿Qué pasa con el Excel, la planilla y el programa de fichas?
+
+El video vuelve a la pregunta: el Excel, la planilla de agenda y el programa de fichas **pasan a vivir en un solo sistema**.
+
+**Agenda.** Vista mensual para administrarla, vista diaria, o por profesional. Cada cita muestra asistencia y estado de pago.
+
+**Ficha.** Historia de atención, odontograma digital diente por diente, consentimientos firmados y presupuestador en la misma ficha. El flujo dental (hallazgo, presupuesto, evolución) está desarrollado en [odontograma digital](/blog/odontograma-digital-presupuesto-diagnostico-evolucion) y en la comparativa con [Dentalink](https://www.softwaredentalink.com) y [Dentalsoft](https://www.dentalsoft.cl) ([artículo](/blog/odontograma-presupuestador-clinera-vs-dentalink-dentalsoft)).
+
+**Ventas.** Cobros pendientes, y exportar ese listado a Excel en un clic. El Excel deja de ser la fuente: es una salida.
+
+**Marketing.** Segmentos que la demo nombra: pacientes **nuevos**, **fidelizados** y los que **dejaron de responder**. Desde ahí se automatizan recordatorios, confirmaciones y campañas de reactivación.
+
+## ¿Qué actualización cierra los tres minutos?
+
+El video dice que se suman funciones cada mes y muestra la actualización reciente. Cuatro cosas, en este orden:
+
+### Boletas y facturas con Open Factura
+
+En Chile se emiten boletas y facturas electrónicas desde la plataforma, con [Open Factura](https://www.openfactura.cl/). Open Factura es el **emisor de DTE**: las ventas salen al [SII](https://www.sii.cl/). El alcance es esa emisión, en Chile. Contabilidad, inventario y liquidaciones de sueldos no entran por ahí. Guía: [Clinera emite DTE con Open Factura](/blog/clinera-emite-dte-open-factura).
+
+### Previsión del paciente
+
+La demo nombra los convenios con Isapres. En la ficha, la identificación del paciente guarda la previsión como **Fonasa, Isapre o particular**. Fonasa es la previsión pública en Chile; la Isapre es privada. Registrar ese dato en la ficha es lo que permite atender sin mezclar el tipo de previsión. No es una certificación de telemedicina ni un convenio de facturación a Fonasa: ese es otro producto, y la comparativa con [Sacmed](https://www.sacmed.cl) lo dice en [/comparativas/sacmed](/comparativas/sacmed).
+
+### Recetas desde la atención
+
+La demo muestra recetas médicas emitidas en la misma atención, en segundos. En el sitio, fichas, recetas y consentimientos van juntos en el flujo de la clínica.
+
+### Instagram y Facebook en el mismo lugar
+
+«Desde hoy» el video conecta la clínica con Instagram y Facebook para gestionar las conversaciones junto con WhatsApp. El inbox unificado (Instagram Direct y Messenger, con la ficha del paciente) está en [este artículo](/blog/instagram-direct-facebook-messenger-clinera).
+
+El recorte comercial se mantiene: **1 cuenta Clinera = 1 número de WhatsApp, 1 cuenta de Instagram y 1 cuenta de Facebook**. Si la clínica opera con más de un número o más de un perfil, son más cuentas.
+
+El video no alcanza a nombrar email marketing ni el trigger de cumpleaños. Esas dos piezas sí están en la [actualización de septiembre](/blog/proximas-funciones-clinera-dte-odontograma-instagram), junto con DTE, odontograma e Instagram.
+
+## Cómo verla y qué hacer después
+
+1. Mira los 3 minutos en [/demo](/demo), o en la home y en [/plataforma](/plataforma), justo bajo el hero. El reproductor permite acelerar (incluida 2x).
+2. Si el cuello es WhatsApp que nadie contesta, el recorrido de la demo es el de AURA: disponibilidad real, horario elegido por el paciente, cita registrada.
+3. Si el cuello es el teléfono, el rol es CAMILA (desde Atlas).
+4. Si el cuello son huecos y cancelaciones, el rol es LIA (Summit).
+5. Para verlo con los datos de tu clínica, [agenda una reunión](/agenda). Los planes están en [/planes](/planes): el primer cobro es la implementación (USD 450) más el primer mes; después, el plan mes a mes. El listado publicado no incluye IVA.
