@@ -2,9 +2,10 @@
 // Lo consumen <SetupFeeBand />, las tarjetas de planes de home-v3
 // (home, /planes, /planes-pro y /plataforma) y las calculadoras de consumo.
 //
-// Catálogo público (clinera.io): sólo mensual. El anual vive en el
-// constructor (cotizacion.oacg.cl), no en la web. En las dos modalidades
-// el primer cobro es implementación + primer período del plan.
+// Catálogo público (clinera.io): el anual va primero (default, 20% OFF)
+// y el mensual queda como segunda opción. El semestral sigue sólo en el
+// constructor (cotizacion.oacg.cl). En las dos modalidades publicadas
+// el primer cobro es implementación + el período del plan.
 export const SETUP_FEE_USD = 450;
 
 /** Monto formateado en es-CL, sin símbolo ni moneda: "450". */
@@ -19,7 +20,7 @@ export const SETUP_FEE_INLINE = `+ USD ${SETUP_FEE_NUMBER} configuración inicia
 export const SETUP_FEE_TITLE = "Costo de configuración: una sola vez";
 
 export const SETUP_FEE_COPY =
-  "Migramos fichas clínicas, datos históricos, pacientes y tratamientos, y configuramos tus agentes de IA. El primer cobro es la implementación más el primer mes del plan. Después, el plan mes a mes.";
+  "Migramos fichas clínicas, datos históricos, pacientes y tratamientos, y configuramos tus agentes de IA. El primer cobro es la implementación más el período del plan: el año, si es anual, o el primer mes, si es mensual.";
 
 /** Permanencia mínima de todos los planes, en meses. */
 export const SEMESTER_MONTHS = 6;
@@ -29,9 +30,9 @@ export const ANNUAL_MONTHS = 12;
 export const ANNUAL_DISCOUNT_PERCENT = 20;
 
 /**
- * Modalidades que todavía existen en el producto. La web pública sólo
- * muestra mensual; semestral y anual son herramienta del constructor
- * (cotizacion.oacg.cl). Este tipo cubre mensual/anual para firma y catálogo.
+ * Modalidades del catálogo público: anual (primero) y mensual.
+ * El semestral queda en el constructor (cotizacion.oacg.cl).
+ * Este tipo cubre mensual/anual para la web, la firma y el catálogo.
  */
 export const BILLING_PERIODS = ["annual", "monthly"] as const;
 export type Billing = (typeof BILLING_PERIODS)[number];
@@ -129,9 +130,8 @@ export function formatCatalogPriceWithCode(usd: number, modality: PriceModality)
 }
 
 /**
- * Catálogo comercial. La web publica monthlyPrice + implementación.
- * annualTotal / annualMonthly / stripeAnnual se quedan para el constructor
- * y la firma; no se muestran en clinera.io.
+ * Catálogo comercial. La web publica el anual (annualTotal, default)
+ * y el mensual (monthlyPrice). La implementación se cobra en los dos.
  *
  * Los anuales son doce meses con −20% de catálogo, redondeado al dólar
  * (así están en Stripe: 2.678 / 3.638 / 4.598). `annualMonthly` es el
@@ -212,7 +212,7 @@ export type ClineraPlan = (typeof CLINERA_PLANS)[number];
 /**
  * Link de pago de Stripe de un plan. Úsalo SIEMPRE en vez de pegar la URL:
  * los payment links viven acá y en ningún otro lado, igual que los precios.
- * La web pública siempre manda al mensual. El anual no se publica.
+ * La web pública abre en el anual. El mensual es la segunda opción.
  */
 export function stripeLink(
   id: ClineraPlan["id"],

@@ -4269,6 +4269,237 @@
       margin-bottom: 10px;
     }
 
+    /* Cierre comercial: el anual se lee primero, el mensual después. */
+    #planes .slide-inner {
+      padding: clamp(22px, 2.4vw, 36px) clamp(28px, 3vw, 48px) clamp(20px, 2vh, 28px);
+      min-height: 0;
+    }
+
+    #planes .px-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    #planes .blk-h2 {
+      font-size: clamp(32px, 3.2vw, 46px);
+    }
+
+    #planes .blk-lead {
+      margin-top: 8px;
+      font-size: 16px;
+    }
+
+    #planes .px-tools {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    #planes .px-billing {
+      display: inline-grid;
+      grid-template-columns: 1.45fr 1fr;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #f6f6f7;
+      min-width: 280px;
+    }
+
+    #planes .px-billing button {
+      appearance: none;
+      border: 0;
+      cursor: pointer;
+      border-radius: 9px;
+      min-height: 52px;
+      padding: 8px 14px;
+      text-align: left;
+      font-family: var(--display);
+      background: transparent;
+      color: #4b5563;
+    }
+
+    #planes .px-billing button[data-billing="annual"] {
+      box-shadow: inset 0 0 0 1.5px rgba(124, 58, 237, .4);
+      color: #6d28d9;
+      background: #fff;
+    }
+
+    #planes .px-billing button[aria-checked="true"] {
+      background: linear-gradient(135deg, #7c3aed, #d946ef);
+      color: #fff;
+      box-shadow: none;
+    }
+
+    #planes .px-billing button span {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    #planes .px-billing button small {
+      display: block;
+      margin-top: 2px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .04em;
+      opacity: .85;
+    }
+
+    #planes .px-fx {
+      display: inline-flex;
+      gap: 2px;
+      padding: 2px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+    }
+
+    #planes .px-fx button {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 3px 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--display);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    #planes .px-fx button[aria-checked="true"] {
+      background: #f3f4f6;
+      color: var(--ink);
+    }
+
+    #planes .px-fx svg {
+      display: block;
+      border-radius: 1px;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, .08);
+    }
+
+    #planes .px-mp {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 16px;
+      padding: 8px 16px;
+      border: 1px solid #d6f3ff;
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    #planes .px-mp img {
+      display: block;
+      width: 36px;
+      height: 36px;
+      flex: 0 0 auto;
+    }
+
+    #planes .px-mp p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+
+    #planes .px-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    #planes .px-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 16px 14px;
+      background: #fafafa;
+    }
+
+    #planes .px-card.is-featured {
+      border-color: #ddd6fe;
+      background: #fff;
+      box-shadow: 0 14px 32px -20px rgba(124, 58, 237, .55);
+    }
+
+    #planes .px-name {
+      margin: 2px 0 12px;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+    }
+
+    #planes .px-kicker {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    #planes .px-annual .px-kicker { color: var(--violet); }
+    #planes .px-monthly .px-kicker { color: var(--muted); }
+
+    #planes .px-annual,
+    #planes .px-monthly {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 2px 10px;
+      align-items: end;
+    }
+
+    #planes .px-annual { padding-bottom: 10px; }
+    #planes .px-monthly {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    #planes .px-annual strong,
+    #planes .px-monthly strong {
+      font-family: var(--display);
+      letter-spacing: -.04em;
+      line-height: .95;
+      text-align: right;
+    }
+
+    #planes[data-billing="annual"] .px-annual strong { font-size: 36px; }
+    #planes[data-billing="annual"] .px-monthly strong { font-size: 20px; color: var(--muted); }
+    #planes[data-billing="monthly"] .px-annual strong { font-size: 20px; color: var(--muted); }
+    #planes[data-billing="monthly"] .px-monthly strong { font-size: 36px; }
+
+    #planes .px-equiv,
+    #planes .px-unit {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    #planes .px-unit { text-align: right; }
+
+    #planes .px-note {
+      margin: 14px 0 0;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) {
+      #planes .px-top { flex-direction: column; align-items: stretch; }
+      #planes .px-tools { align-items: flex-start; }
+      #planes .px-grid { grid-template-columns: 1fr; }
+    }
 
   </style>
 </head>
@@ -5014,11 +5245,124 @@
           </div>
         </div>
       </section>
+
+      <section
+        class="slide blk"
+        id="planes"
+        data-name="Planes"
+        data-billing="annual"
+        data-fx="usd"
+        aria-hidden="true"
+      >
+        <div class="slide-inner">
+          <div class="px-top">
+            <div>
+              <div class="blk-eyebrow">PLANES</div>
+              <h2 class="blk-h2">El <span class="blk-grad-text">anual</span> primero.</h2>
+              <p class="blk-lead">20% OFF sobre doce meses. El mensual queda debajo.</p>
+            </div>
+            <div class="px-tools">
+              <div class="px-billing" role="radiogroup" aria-label="Frecuencia de facturación">
+                <button type="button" role="radio" data-billing="annual" aria-checked="true">
+                  <span>Anual</span>
+                  <small>12 cuotas precio contado</small>
+                </button>
+                <button type="button" role="radio" data-billing="monthly" aria-checked="false">
+                  <span>Mensual</span>
+                  <small>Mes a mes</small>
+                </button>
+              </div>
+              <div class="px-fx" role="radiogroup" aria-label="Modalidad de precios">
+                <button type="button" role="radio" data-fx="usd" aria-checked="true" aria-label="Dólar">
+                  <svg width="16" height="11" viewBox="0 0 16 11" aria-hidden="true"><rect width="16" height="11" fill="#B22234"/><g fill="#fff"><rect y="1.57" width="16" height="1.57"/><rect y="4.71" width="16" height="1.57"/><rect y="7.86" width="16" height="1.57"/></g><rect width="7" height="5.9" fill="#3C3B6E"/></svg>
+                  USD
+                </button>
+                <button type="button" role="radio" data-fx="mxn" aria-checked="false" aria-label="Peso mexicano">
+                  <svg width="16" height="11" viewBox="0 0 16 11" aria-hidden="true"><rect width="5.34" height="11" fill="#006847"/><rect x="5.34" width="5.33" height="11" fill="#fff"/><rect x="10.67" width="5.33" height="11" fill="#CE1126"/></svg>
+                  MXN
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-mp">
+            <img src="/brand/mercadopago.svg" alt="Mercado Pago" width="36" height="36" />
+            <p>El plan anual, en <strong>12 cuotas a precio de contado</strong>, pagando con Mercado Pago.</p>
+          </div>
+
+          <div class="px-grid">
+            <article class="px-card" data-monthly="279" data-annual="2678" data-equiv="223.17" data-savings="670">
+              <div class="px-kicker">Plan</div>
+              <h3 class="px-name">Vortex</h3>
+              <div class="px-annual">
+                <div>
+                  <div class="px-kicker">Plan anual</div>
+                  <div class="px-equiv" data-slot="equiv">equivale a $223/mes · ahorras $670</div>
+                </div>
+                <div>
+                  <strong data-slot="annual">$2,678</strong>
+                  <div class="px-unit"><span data-slot="code">USD</span>/año</div>
+                </div>
+              </div>
+              <div class="px-monthly">
+                <div class="px-kicker">Plan mensual</div>
+                <div>
+                  <strong data-slot="monthly">$279</strong>
+                  <div class="px-unit"><span data-slot="code">USD</span>/mes</div>
+                </div>
+              </div>
+            </article>
+            <article class="px-card" data-monthly="379" data-annual="3638" data-equiv="303.17" data-savings="910">
+              <div class="px-kicker">Plan</div>
+              <h3 class="px-name">Atlas</h3>
+              <div class="px-annual">
+                <div>
+                  <div class="px-kicker">Plan anual</div>
+                  <div class="px-equiv" data-slot="equiv">equivale a $303/mes · ahorras $910</div>
+                </div>
+                <div>
+                  <strong data-slot="annual">$3,638</strong>
+                  <div class="px-unit"><span data-slot="code">USD</span>/año</div>
+                </div>
+              </div>
+              <div class="px-monthly">
+                <div class="px-kicker">Plan mensual</div>
+                <div>
+                  <strong data-slot="monthly">$379</strong>
+                  <div class="px-unit"><span data-slot="code">USD</span>/mes</div>
+                </div>
+              </div>
+            </article>
+            <article class="px-card is-featured" data-monthly="479" data-annual="4598" data-equiv="383.17" data-savings="1150">
+              <div class="px-kicker">Plan · el más elegido</div>
+              <h3 class="px-name">Summit</h3>
+              <div class="px-annual">
+                <div>
+                  <div class="px-kicker">Plan anual</div>
+                  <div class="px-equiv" data-slot="equiv">equivale a $383/mes · ahorras $1,150</div>
+                </div>
+                <div>
+                  <strong data-slot="annual">$4,598</strong>
+                  <div class="px-unit"><span data-slot="code">USD</span>/año</div>
+                </div>
+              </div>
+              <div class="px-monthly">
+                <div class="px-kicker">Plan mensual</div>
+                <div>
+                  <strong data-slot="monthly">$479</strong>
+                  <div class="px-unit"><span data-slot="code">USD</span>/mes</div>
+                </div>
+              </div>
+            </article>
+          </div>
+          <p class="px-note">Implementación <span data-slot="fee">$450</span> en el primer cobro · permanencia 6 meses · no incluye IVA</p>
+        </div>
+      </section>
     </main>
 
     <footer class="deck-footer" aria-label="Navegación de la presentación">
       <div class="counter" aria-live="polite">
-        <span id="currentCount">01</span> / <span id="totalCount">12</span>
+        <span id="currentCount">01</span> / <span id="totalCount">13</span>
       </div>
       <div class="progress" aria-hidden="true">
         <div class="progress-fill" id="progressFill"></div>
@@ -5140,6 +5484,59 @@
       });
 
       render(current, hashIndex < 0);
+    })();
+
+    (() => {
+      const slide = document.getElementById("planes");
+      if (!slide) return;
+      const FX = 16.95;
+      const cards = Array.from(slide.querySelectorAll(".px-card"));
+      let billing = "annual";
+      let modality = "usd";
+
+      const money = (usd) => {
+        const amount = modality === "usd"
+          ? Math.round(usd)
+          : Math.round((usd * FX) / 10) * 10;
+        return "$" + amount.toLocaleString(modality === "mxn" ? "es-MX" : "en-US");
+      };
+
+      const paint = () => {
+        slide.dataset.billing = billing;
+        slide.dataset.fx = modality;
+        const code = modality === "mxn" ? "MXN" : "USD";
+        cards.forEach((card) => {
+          card.querySelector("[data-slot='annual']").textContent = money(Number(card.dataset.annual));
+          card.querySelector("[data-slot='equiv']").textContent =
+            "equivale a " + money(Number(card.dataset.equiv)) + "/mes · ahorras " + money(Number(card.dataset.savings));
+          card.querySelector("[data-slot='monthly']").textContent = money(Number(card.dataset.monthly));
+          card.querySelectorAll("[data-slot='code']").forEach((el) => {
+            el.textContent = code;
+          });
+        });
+        const fee = slide.querySelector("[data-slot='fee']");
+        if (fee) fee.textContent = money(450);
+        slide.querySelectorAll(".px-billing button").forEach((button) => {
+          button.setAttribute("aria-checked", String(button.dataset.billing === billing));
+        });
+        slide.querySelectorAll(".px-fx button").forEach((button) => {
+          button.setAttribute("aria-checked", String(button.dataset.fx === modality));
+        });
+      };
+
+      slide.querySelectorAll(".px-billing button").forEach((button) => {
+        button.addEventListener("click", () => {
+          billing = button.dataset.billing;
+          paint();
+        });
+      });
+      slide.querySelectorAll(".px-fx button").forEach((button) => {
+        button.addEventListener("click", () => {
+          modality = button.dataset.fx;
+          paint();
+        });
+      });
+      paint();
     })();
   </script>
 </body>

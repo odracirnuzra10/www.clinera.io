@@ -85,8 +85,12 @@ test("/planes: default dólar y el switch solo tiene dólar y MXN", async ({ pag
   await expect(control.getByRole("radio", { name: "Peso chileno" })).toHaveCount(0);
   await expect(precios.getByText(/USD · no incluye IVA/i).first()).toBeVisible();
   await expectCatalog(precios, "usd");
-  await expect(precios.getByRole("button", { name: /semestral/i })).toHaveCount(0);
-  await expect(precios.getByRole("button", { name: /anual/i })).toHaveCount(0);
+  const periodos = precios.getByRole("radiogroup", { name: "Frecuencia de facturación" });
+  await expect(periodos.getByRole("radio", { name: /anual/i })).toHaveAttribute("aria-checked", "true");
+  await expect(periodos.getByRole("radio", { name: /mensual/i })).toHaveAttribute("aria-checked", "false");
+  await expect(precios.getByRole("radio", { name: /semestral/i })).toHaveCount(0);
+  await expect(precios.getByText("Plan anual").first()).toBeVisible();
+  await expect(precios.getByText("Plan mensual").first()).toBeVisible();
 
   await control.getByRole("radio", { name: "Peso mexicano" }).click();
   await expect(control.getByRole("radio", { name: "Peso mexicano" })).toHaveAttribute(

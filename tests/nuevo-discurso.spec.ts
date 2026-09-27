@@ -25,13 +25,15 @@ test.describe("nuevo discurso comercial — contrato del deck", () => {
     expect(html).not.toMatch(/\b(hacé|agendá|confirmá|volvé|mostrá|tenés|sos |podés)\b/i);
   });
 
-  test("web pública: tres planes mensuales; semestral y anual solo en constructor", () => {
-    expect(html).toMatch(/Sólo mensual/i);
-    expect(html).toContain("Vortex USD 279");
-    expect(html).toContain("Atlas USD 379");
-    expect(html).toContain("Summit USD 479");
+  test("web pública: el anual primero y el mensual después", () => {
+    expect(html).toMatch(/el anual primero/i);
+    expect(html).toMatch(/Luego el mensual/i);
+    expect(html).toContain("Vortex 279");
+    expect(html).toContain("Atlas 379");
+    expect(html).toContain("Summit 479");
+    expect(html).toContain("20% OFF");
     expect(html).toContain("USD 450");
-    expect(html).toMatch(/Anual y semestral:.*solo en el constructor/i);
+    expect(html).not.toMatch(/Sólo mensual/i);
   });
 
   test("empuje: 100% hoy/mañana, 50% esta semana, no bajar el plan", () => {
@@ -43,10 +45,11 @@ test.describe("nuevo discurso comercial — contrato del deck", () => {
     expect(html).toMatch(/10, 15, 20, 25 o 30/);
   });
 
-  test("anual solo si lo pide, y hasta 200 clientes", () => {
-    expect(html).toMatch(/solo en el constructor/i);
-    expect(html).toMatch(/10% o 20%/);
-    expect(html).toMatch(/Nunca lo ofrezcas primero/);
+  test("el anual se ofrece primero; el semestral sigue en el constructor", () => {
+    expect(html).toMatch(/ofrece primero/i);
+    expect(html).toMatch(/20% OFF de catálogo/);
+    expect(html).toMatch(/Semestral solo en el constructor/i);
+    expect(html).not.toMatch(/Nunca lo ofrezcas primero/);
     expect(html).toMatch(/Hasta 200 clientes/);
   });
 

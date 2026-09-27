@@ -177,7 +177,8 @@ export default function QuoteBuilder({
   const [validUntil, setValidUntil] = useState(initialValidUntil);
   const [selectedPlanId, setSelectedPlanId] =
     useState<(typeof CLINERA_PLANS)[number]["id"]>("atlas");
-  /* La web no ofrece anual ni semestral: eso vive en cotizacion.oacg.cl. */
+  /* Este constructor interno sigue en mensual. El anual de cara al cliente
+     vive en /planes y en /presentacion; el semestral sigue en cotizacion.oacg.cl. */
   const billing: Billing = "monthly";
   const [extraUsers, setExtraUsers] = useState(0);
   const [extraCreditPacks, setExtraCreditPacks] = useState(0);
