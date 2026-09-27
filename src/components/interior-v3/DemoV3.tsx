@@ -5,7 +5,6 @@ import DemoVideoFrame from "@/components/demo/DemoVideoFrame";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { useReveal } from "@/components/home-v3/sections";
 import CatalogPrice from "@/components/pricing/CatalogPrice";
-import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 import {
@@ -365,7 +364,7 @@ function PlansSection() {
           </h2>
           <p style={{ fontFamily: "Inter", fontSize: 17, color: "#4B5563", margin: 0 }}>
             Plan mensual · implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> con el primer mes · permanencia
-            mínima de 6 meses. <PriceIvaNote />.
+            mínima de 6 meses.
           </p>
           <div style={{ marginTop: 20 }}>
             <PriceModalitySwitch />
@@ -458,7 +457,7 @@ function PlansSection() {
                       <CatalogPrice usd={plan.monthlyValue} />
                     </span>
                     <span style={{ fontFamily: "Inter", fontSize: 14, color: popular ? "rgba(255,255,255,.7)" : "#6B7280", marginLeft: 4 }}>
-                      {meta.currency}/mes · <PriceIvaNote variant="short" />
+                      {meta.currency}/mes
                     </span>
                   </div>
                   <div style={{ minHeight: 20, marginBottom: 12, display: "flex", alignItems: "center" }}>

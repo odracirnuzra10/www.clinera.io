@@ -18,7 +18,6 @@ import {
 import { VERTEX_IA_MODELS } from "@/content/ia-stack";
 import AvisoNoReemplaza from "@/components/empleado-digital/AvisoNoReemplaza";
 import CatalogPrice from "@/components/pricing/CatalogPrice";
-import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import BillingToggle from "@/components/pricing/BillingToggle";
 import MercadoPagoCuotas from "@/components/pricing/MercadoPagoCuotas";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
@@ -4331,7 +4330,7 @@ export function Pricing({
               Plan mensual · primer cobro = implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> + el primer mes
             </>
           )}
-          {" · "}permanencia mínima de {SEMESTER_MONTHS} meses · {meta.ivaNoteLong}
+          {" · "}permanencia mínima de {SEMESTER_MONTHS} meses
         </div>
 
         <div
@@ -4588,9 +4587,6 @@ export function Pricing({
                         <CatalogPrice usd={p.monthlyUsd} />
                       </div>
                       <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 4 }}>{meta.currency}/mes</div>
-                      <div style={{ fontFamily: "Inter", fontSize: 11, fontWeight: 600, color: th.sub, marginTop: 4 }}>
-                        <PriceIvaNote variant="short" />
-                      </div>
                     </div>
                   </div>
                   )}
@@ -4789,7 +4785,7 @@ export function Pricing({
             color: "#6B7280",
           }}
         >
-          Facturación en {meta.currency} · {meta.ivaNote} · Stripe · MercadoPago · WebPay · Boleta o factura según país
+          Facturación en {meta.currency} · Stripe · MercadoPago · WebPay · Boleta o factura según país
         </div>
 
       </div>

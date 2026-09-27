@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import CatalogPrice from "@/components/pricing/CatalogPrice";
-import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import { SETUP_FEE_USD } from "@/content/pricing";
 import styles from "@/app/empleado-digital/empleado-digital.module.css";
@@ -35,9 +34,6 @@ export default function AdvancedCTA() {
           <span className={styles.ctaPrice}><CatalogPrice usd={479} variant="code" /></span>
           <span className={styles.ctaPriceUnit}>/ mes</span>
         </div>
-        <p className={styles.ctaTrust} style={{ marginTop: 8 }}>
-          <PriceIvaNote />
-        </p>
         <div style={{ margin: "12px 0 8px" }}>
           <PriceModalitySwitch size="compact" />
         </div>
@@ -74,7 +70,7 @@ export default function AdvancedCTA() {
         </Link>
 
         <p className={styles.ctaTrust}>
-          Configuración inicial <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> (onboarding asistido) · se cobra con el primer mes · <PriceIvaNote />
+          Configuración inicial <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> (onboarding asistido) · se cobra con el primer mes
         </p>
 
         <Link href="/demo" className={styles.ctaDemoLink}>

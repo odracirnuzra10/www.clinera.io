@@ -102,7 +102,7 @@ sitio (https://www.clinera.io/ventas y /efectividad). Cifras a abril 2026:
 
 Todos los planes en USD, con permanencia mínima de 6 meses. La web muestra
 primero el plan anual (20% OFF) y después el mensual. Activación vía Stripe.
-El listado publicado no incluye IVA. El catálogo
+El catálogo
 es USD; la web puede mostrar MXN a un FX congelado el 2026-09-11
 (1 USD = 16,95 MXN), en un control chico con las banderas de Estados Unidos
 y México. No hay peso chileno. El primer cobro suma implementación USD 450
