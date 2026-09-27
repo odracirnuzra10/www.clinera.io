@@ -5297,11 +5297,11 @@
               <div class="px-annual">
                 <div>
                   <div class="px-kicker">Plan anual</div>
-                  <div class="px-equiv" data-slot="equiv">equivale a $223/mes · ahorras $670</div>
+                  <div class="px-equiv" data-slot="equiv">20% OFF · ahorras $56/mes</div>
                 </div>
                 <div>
-                  <strong data-slot="annual">$2,678</strong>
-                  <div class="px-unit"><span data-slot="code">USD</span>/año</div>
+                  <strong data-slot="annual">$223</strong>
+                  <div class="px-unit"><span data-slot="code">USD</span>/mes</div>
                 </div>
               </div>
               <div class="px-monthly">
@@ -5318,11 +5318,11 @@
               <div class="px-annual">
                 <div>
                   <div class="px-kicker">Plan anual</div>
-                  <div class="px-equiv" data-slot="equiv">equivale a $303/mes · ahorras $910</div>
+                  <div class="px-equiv" data-slot="equiv">20% OFF · ahorras $76/mes</div>
                 </div>
                 <div>
-                  <strong data-slot="annual">$3,638</strong>
-                  <div class="px-unit"><span data-slot="code">USD</span>/año</div>
+                  <strong data-slot="annual">$303</strong>
+                  <div class="px-unit"><span data-slot="code">USD</span>/mes</div>
                 </div>
               </div>
               <div class="px-monthly">
@@ -5339,11 +5339,11 @@
               <div class="px-annual">
                 <div>
                   <div class="px-kicker">Plan anual</div>
-                  <div class="px-equiv" data-slot="equiv">equivale a $383/mes · ahorras $1,150</div>
+                  <div class="px-equiv" data-slot="equiv">20% OFF · ahorras $96/mes</div>
                 </div>
                 <div>
-                  <strong data-slot="annual">$4,598</strong>
-                  <div class="px-unit"><span data-slot="code">USD</span>/año</div>
+                  <strong data-slot="annual">$383</strong>
+                  <div class="px-unit"><span data-slot="code">USD</span>/mes</div>
                 </div>
               </div>
               <div class="px-monthly">
@@ -5506,9 +5506,9 @@
         slide.dataset.fx = modality;
         const code = modality === "mxn" ? "MXN" : "USD";
         cards.forEach((card) => {
-          card.querySelector("[data-slot='annual']").textContent = money(Number(card.dataset.annual));
+          card.querySelector("[data-slot='annual']").textContent = money(Number(card.dataset.equiv));
           card.querySelector("[data-slot='equiv']").textContent =
-            "equivale a " + money(Number(card.dataset.equiv)) + "/mes · ahorras " + money(Number(card.dataset.savings));
+            "20% OFF · ahorras " + money(Number(card.dataset.monthly) - Number(card.dataset.equiv)) + "/mes";
           card.querySelector("[data-slot='monthly']").textContent = money(Number(card.dataset.monthly));
           card.querySelectorAll("[data-slot='code']").forEach((el) => {
             el.textContent = code;

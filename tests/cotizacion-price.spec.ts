@@ -42,6 +42,10 @@ test("/planes muestra implementación USD 450 junto al plan anual", async ({ pag
   await expect(precios.getByText(/incluida en el plan/i)).toHaveCount(0);
   await expect(precios.getByRole("radio", { name: /semestral/i })).toHaveCount(0);
   await expect(precios.getByRole("radio", { name: /anual/i })).toHaveAttribute("aria-checked", "true");
+  await expect(precios.getByText("$223").first()).toBeVisible();
+  await expect(precios.getByText(/Ahorras/).first()).toBeVisible();
+  await expect(precios.getByText("$2,678")).toHaveCount(0);
+  await expect(precios.getByText(/\/año/)).toHaveCount(0);
 });
 
 test("los links de pago de /planes abren en el anual y pasan al mensual", async ({ page }) => {

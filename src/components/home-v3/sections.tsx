@@ -10,7 +10,7 @@ import {
   CLINERA_PLANS,
   SEMESTER_MONTHS,
   SETUP_FEE_USD,
-  annualFirstYearSavings,
+  annualMonthlySavings,
   planCheckoutUrl,
   planPeriodTotal,
   type Billing,
@@ -4198,9 +4198,8 @@ export function Pricing({
     id: plan.id,
     name: plan.name,
     monthlyUsd: plan.monthlyPrice,
-    annualTotalUsd: plan.annualTotal,
     annualMonthlyUsd: plan.annualMonthly,
-    savingsUsd: annualFirstYearSavings(plan),
+    savingsUsd: annualMonthlySavings(plan),
     credits: plan.credits.toLocaleString("es-CL"),
     channel: plan.channel,
     chips: planChipData(plan),
@@ -4325,7 +4324,7 @@ export function Pricing({
         >
           {isAnnual ? (
             <>
-              Plan anual primero · {ANNUAL_DISCOUNT_PERCENT}% OFF · primer cobro = implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> + el año
+              Plan anual · {ANNUAL_DISCOUNT_PERCENT}% OFF en el valor mensual · primer cobro = implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> + la cuota
             </>
           ) : (
             <>
@@ -4494,7 +4493,7 @@ export function Pricing({
                         Plan anual
                       </div>
                       <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10.5, lineHeight: 1.5, color: th.sub, marginTop: 5 }}>
-                        {ANNUAL_DISCOUNT_PERCENT}% OFF · equivale a <CatalogPrice usd={p.annualMonthlyUsd} />/mes
+                        {ANNUAL_DISCOUNT_PERCENT}% OFF
                       </div>
                       {showCredits && isAnnual && (
                         <div
@@ -4522,11 +4521,11 @@ export function Pricing({
                     </div>
                     <div role="cell" style={{ textAlign: "right", flex: "0 0 auto" }}>
                       <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: isAnnual ? 36 : 22, fontWeight: 800, color: th.ink, letterSpacing: "-0.05em", lineHeight: 1.05 }}>
-                        <CatalogPrice usd={p.annualTotalUsd} />
+                        <CatalogPrice usd={p.annualMonthlyUsd} />
                       </div>
-                      <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 6 }}>{meta.currency}/año</div>
-                      <div style={{ fontFamily: "Inter", fontSize: 11, fontWeight: 600, color: "#6D28D9", marginTop: 4 }}>
-                        Ahorras <CatalogPrice usd={p.savingsUsd} />
+                      <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 6 }}>{meta.currency}/mes</div>
+                      <div style={{ fontFamily: "Inter", fontSize: 11, fontWeight: 600, color: th.accent, marginTop: 4 }}>
+                        Ahorras <CatalogPrice usd={p.savingsUsd} />/mes
                       </div>
                     </div>
                   </div>

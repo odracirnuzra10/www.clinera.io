@@ -130,13 +130,14 @@ export function formatCatalogPriceWithCode(usd: number, modality: PriceModality)
 }
 
 /**
- * Catálogo comercial. La web publica el anual (annualTotal, default)
- * y el mensual (monthlyPrice). La implementación se cobra en los dos.
+ * Catálogo comercial. La web publica el anual como valor mensual
+ * (`annualMonthly`) y el mensual (`monthlyPrice`) debajo, para que el
+ * ahorro se vea. `annualTotal` es lo que cobra Stripe y no se imprime
+ * en las tarjetas. La implementación se cobra en los dos.
  *
  * Los anuales son doce meses con −20% de catálogo, redondeado al dólar
- * (así están en Stripe: 2.678 / 3.638 / 4.598). `annualMonthly` es el
- * equivalente para mostrar en cotización — no multipliques por 12
- * esperando `annualTotal`.
+ * (así están en Stripe: 2.678 / 3.638 / 4.598). No multipliques
+ * `annualMonthly` por 12 esperando `annualTotal`.
  */
 export const CLINERA_PLANS = [
   {
@@ -244,4 +245,9 @@ export function planMonthlyEquivalent(plan: ClineraPlan, billing: Billing): numb
  */
 export function annualFirstYearSavings(plan: ClineraPlan): number {
   return plan.monthlyPrice * ANNUAL_MONTHS - plan.annualTotal;
+}
+
+/** Lo que se ahorra cada mes al pagar el anual, frente al precio mensual. */
+export function annualMonthlySavings(plan: ClineraPlan): number {
+  return plan.monthlyPrice - plan.annualMonthly;
 }

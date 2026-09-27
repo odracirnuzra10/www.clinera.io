@@ -13,9 +13,9 @@ import {
 } from "@/components/seo/schemas";
 import { PLANES_FAQ } from "@/content/planes-faq";
 
-const TITLE = "Planes: anual con 20% OFF, desde USD 2.678";
+const TITLE = "Planes: anual con 20% OFF, desde USD 223/mes";
 const DESCRIPTION =
-  "Vortex, Atlas y Summit. El plan anual va primero (20% OFF: Vortex USD 2.678/año). El mensual queda después, desde USD 279/mes. El primer cobro suma implementación USD 450.";
+  "Vortex, Atlas y Summit. El plan anual va primero a valor mensual (20% OFF: Vortex USD 223/mes). El mensual queda después, desde USD 279/mes. El primer cobro suma implementación USD 450.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     url: "https://www.clinera.io/planes",
     title: TITLE,
     description:
-      "3 planes. El anual va primero, con 20% OFF. El mensual queda después. Implementación USD 450 en el primer cobro.",
+      "3 planes. El anual va primero, a valor mensual con 20% OFF. El mensual queda después. Implementación USD 450 en el primer cobro.",
     type: "website",
   },
 };
