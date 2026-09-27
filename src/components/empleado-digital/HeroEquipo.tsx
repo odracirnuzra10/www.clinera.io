@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import CatalogPrice from "@/components/pricing/CatalogPrice";
-import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import { SETUP_FEE_USD } from "@/content/pricing";
 import WhatsAppMockup from "./WhatsAppMockup";
@@ -59,8 +58,6 @@ export default function HeroEquipo() {
 
             <p className={styles.trustLine}>
               Desde <CatalogPrice usd={279} variant="code" />/mes · Implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> con el primer mes · permanencia mínima 6 meses
-              {" · "}
-              <PriceIvaNote />
             </p>
             <div style={{ marginTop: 14 }}>
               <PriceModalitySwitch size="compact" align="start" />

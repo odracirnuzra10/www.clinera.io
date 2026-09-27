@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { track } from "@/lib/tracking";
-import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 import { SETUP_FEE_USD } from "@/content/pricing";
@@ -361,7 +360,7 @@ export default function ConsumoCalculator() {
                   </span>
                 </div>
                 <div style={{ fontFamily: MONO, fontSize: 12.5, color: FAINT, marginTop: 6 }}>
-                  + {formatPriceWithCode(IMPL)} implementación (pago único · con el primer mes) · <PriceIvaNote />
+                  + {formatPriceWithCode(IMPL)} implementación (pago único · con el primer mes)
                 </div>
 
                 <div style={{ marginTop: 20 }}>
@@ -453,7 +452,7 @@ export default function ConsumoCalculator() {
             </div>
 
             <p style={{ fontFamily: MONO, fontSize: 12.5, color: FAINT, lineHeight: 1.6, marginTop: 18 }}>
-              Clinera opera en modo Agentic: un agendamiento automático consume ~195 cr y una conversación que no agenda ~30 cr. Todos los planes suman {formatPriceWithCode(IMPL)} de implementación (pago único) con el primer mes. <PriceIvaNote />.
+              Clinera opera en modo Agentic: un agendamiento automático consume ~195 cr y una conversación que no agenda ~30 cr. Todos los planes suman {formatPriceWithCode(IMPL)} de implementación (pago único) con el primer mes.
               <br />
               Sobre 46.000 créditos → habla con ventas para una bolsa a medida.
             </p>

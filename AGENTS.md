@@ -171,7 +171,8 @@ Así lo comunican las tarjetas de `<Pricing />` en home, `/planes` y `/planes-pr
 Usa `setupFeeFor(billing)` / `includesFreeSetup(billing)` — en catálogo ambos
 devuelven 450 / false; no asumas implementación gratis.
 
-**Monedas en la web (2026-09-11):** el listado publicado **no incluye IVA**.
+**Monedas en la web (2026-09-27):** no se menciona el IVA. El servicio no lo
+cobra y la nota «no incluye IVA» hacía pensar que el impuesto venía aparte.
 El catálogo vive en USD. El switch tiene **2 opciones** — **Dólar** (default)
 y **Peso mexicano**. MXN usa un FX **congelado** en `src/content/pricing.ts`:
 `USD_TO_MXN = 16.95`, fecha `FX_LOCKED_ON`. No live-update. Redondeo de

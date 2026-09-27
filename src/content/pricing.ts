@@ -56,7 +56,8 @@ export const EXTRA_USER_USD = 9;
 
 /**
  * Modalidades públicas de precio. Default: dólar.
- * Ricardo (2026-09-11): el listado publicado NO incluye IVA.
+ * Ricardo (2026-09-27): no mencionar IVA. El servicio no lo cobra y
+ * la nota «no incluye IVA» hacía pensar que el impuesto venía aparte.
  * MXN es el catálogo USD a un FX congelado — no live-update.
  * No hay peso chileno en la web.
  */
@@ -82,8 +83,6 @@ export const PRICE_MODALITY = {
     country: null,
     currency: "USD",
     locale: "en-US",
-    ivaNote: "No incluye IVA",
-    ivaNoteLong: "USD · no incluye IVA",
   },
   mxn: {
     id: "mxn" as const,
@@ -91,8 +90,6 @@ export const PRICE_MODALITY = {
     country: "México",
     currency: "MXN",
     locale: "es-MX",
-    ivaNote: "No incluye IVA",
-    ivaNoteLong: "MXN · no incluye IVA en México",
   },
 } as const;
 

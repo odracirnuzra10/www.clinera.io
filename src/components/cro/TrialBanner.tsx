@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import CatalogPrice from "@/components/pricing/CatalogPrice";
-import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import { SETUP_FEE_USD } from "@/content/pricing";
 
 type Props = {
@@ -91,7 +90,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
                 color: dark ? "rgba(255,255,255,0.72)" : "#4B5563",
               }}
             >
-              Onboarding asistido por un humano: configura AURA, conecta tu WhatsApp e importa tu base. Quedas operando el mismo día. El primer cobro es la implementación más el primer mes del plan. <PriceIvaNote />.
+              Onboarding asistido por un humano: configura AURA, conecta tu WhatsApp e importa tu base. Quedas operando el mismo día. El primer cobro es la implementación más el primer mes del plan.
             </p>
           </div>
         </div>

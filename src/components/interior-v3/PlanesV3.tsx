@@ -5,7 +5,6 @@ import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { FinalCTA, Pricing, useReveal } from "@/components/home-v3/sections";
 import { PLANES_FAQ } from "@/content/planes-faq";
 import CatalogPrice from "@/components/pricing/CatalogPrice";
-import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import {
   EXTRA_CREDIT_PACK_CREDITS,
   EXTRA_CREDIT_PACK_USD,
@@ -78,8 +77,6 @@ function PlanesHero() {
           Del equipo de recepción a varias sedes. El plan anual va primero, con 20% OFF.
           El mensual queda debajo. Permanencia mínima de 6 meses.
           El primer cobro suma la implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" />.
-          {" "}
-          <PriceIvaNote />.
         </p>
       </div>
       <style jsx>{`
@@ -147,9 +144,6 @@ function Addons() {
               </div>
               <div style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 600, color: "#0A0A0A", marginTop: 8 }}>{it.label}</div>
               <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "#6B7280", marginTop: 6, lineHeight: 1.5 }}>{it.sub}</div>
-              <div style={{ fontFamily: "Inter", fontSize: 12, color: "#6B7280", marginTop: 8 }}>
-                <PriceIvaNote variant="short" />
-              </div>
             </div>
           ))}
         </div>

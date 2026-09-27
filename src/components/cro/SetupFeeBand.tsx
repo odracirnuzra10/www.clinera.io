@@ -1,7 +1,6 @@
 "use client";
 
 import CatalogPrice from "@/components/pricing/CatalogPrice";
-import PriceIvaNote from "@/components/pricing/PriceIvaNote";
 import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 import { SETUP_FEE_COPY, SETUP_FEE_TITLE, SETUP_FEE_USD } from "@/content/pricing";
 
@@ -85,7 +84,7 @@ export default function SetupFeeBand({
           <span style={{ fontFamily: "Inter", fontSize: 13, color: "rgba(255,255,255,.55)" }}>{meta.currency}</span>
         </div>
         <small style={{ color: "rgba(255,255,255,.60)", fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 9.5, letterSpacing: ".04em", textAlign: "right" }}>
-          Con el primer mes del plan · <PriceIvaNote variant="short" />
+          Con el primer mes del plan
         </small>
       </div>
       <style>{`

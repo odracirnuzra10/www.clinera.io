@@ -124,21 +124,6 @@ export default function PriceModalitySwitch({
           );
         })}
       </div>
-      <p
-        data-price-iva
-        aria-live="polite"
-        style={{
-          margin: 0,
-          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-          fontSize: 9,
-          letterSpacing: "0.04em",
-          textTransform: "uppercase",
-          color: "#9CA3AF",
-          textAlign: align === "center" ? "center" : "left",
-        }}
-      >
-        {meta.ivaNoteLong}
-      </p>
     </div>
   );
 }

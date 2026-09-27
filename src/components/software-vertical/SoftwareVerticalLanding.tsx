@@ -572,7 +572,7 @@ function FinalCta({
               color: "#A0A6B2",
             }}
           >
-            Desde <CatalogPrice usd={vortex.monthlyPrice} variant="code" />/mes · Implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> con el primer mes · Permanencia 6 meses · no incluye IVA
+            Desde <CatalogPrice usd={vortex.monthlyPrice} variant="code" />/mes · Implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> con el primer mes · Permanencia 6 meses
           </div>
         </div>
       </div>
