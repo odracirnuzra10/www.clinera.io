@@ -9,6 +9,7 @@ import FooterV3 from "@/components/brand-v3/Footer";
 import PostCTA from "@/components/blog/PostCTA";
 import VimeoEmbed from "@/components/blog/VimeoEmbed";
 import DownloadCTA from "@/components/blog/DownloadCTA";
+import FichaCTA from "@/components/blog/FichaCTA";
 import ChannelMarks from "@/components/blog/ChannelMarks";
 import HeroCarousel, { type HeroViewId } from "@/components/plataforma/HeroCarousel";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -228,7 +229,7 @@ export default async function BlogPostPage({
             <MDXRemote
               source={post.content}
               options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
-              components={{ VimeoEmbed, DownloadCTA, ChannelMarks, table: BlogTable }}
+              components={{ VimeoEmbed, DownloadCTA, FichaCTA, ChannelMarks, table: BlogTable }}
             />
           </article>
 
