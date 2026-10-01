@@ -42,6 +42,9 @@ type Competitor = {
   siteLabel: string;
   title: string;
   intro: string;
+  /** Opcional: título/descr. de <head> cuando la intención de búsqueda es «alternativa a X». */
+  metaTitle?: string;
+  metaDescription?: string;
   tldr: { clinera: string; them: string };
   clineraWins: string[]; // Long list — always heavier than themWins
   themWins: string[]; // Short list — honest acknowledgement
@@ -241,9 +244,12 @@ const competitors: Record<Slug, Competitor> = {
   agendapro: {
     name: "AgendaPro",
     siteLabel: "agendapro.com",
-    title: "Clinera vs AgendaPro: ¿cuál es mejor para tu clínica en 2026?",
+    title: "Alternativa a AgendaPro: Clinera vs AgendaPro para clínicas (2026)",
+    metaTitle: "Alternativa a AgendaPro 2026: Clinera vs AgendaPro",
+    metaDescription:
+      "Clinera como alternativa a AgendaPro para clínicas: IA en WhatsApp 24/7, ficha clínica y precios desde USD 279/mes. Cuándo conviene cada una, con datos.",
     intro:
-      "AgendaPro es el software de agendamiento más grande de LATAM (20.000+ negocios en 10+ países, US$35M levantados en 2025). Clinera está enfocada 100% en clínicas con IA conversacional. Esta es la comparativa honesta.",
+      "Clinera es una alternativa a AgendaPro pensada solo para clínicas: AURA agenda y responde por WhatsApp 24/7 sobre la agenda y la ficha clínica de Clinera, con planes desde USD 279/mes. AgendaPro conviene si tu negocio mezcla estética, spa o peluquería y quieres apps nativas. Esta es la comparativa honesta.",
     tldr: {
       clinera:
         "Clinera es mejor si necesitas profundidad clínica real (ficha médica, consentimientos, memoria contextual en WhatsApp) y precios transparentes desde USD 279/mes.",
@@ -275,7 +281,6 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Difusiones masivas de WhatsApp marketing", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Landing pages de conversión con analítica medible", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Atribución de ventas a campañas de marketing", clinera: "yes", them: "partial", themNote: "tracking básico Meta/Google", clineraHighlight: true },
-      { feature: "IA integrable con agenda externa", clinera: "yes", them: "no", clineraHighlight: true },
       // Core capabilities
       { feature: "IA con memoria contextual (LangChain)", clinera: "yes", them: "no" },
       { feature: "Integración MCP", clinera: "yes", them: "no" },
@@ -326,6 +331,10 @@ const competitors: Record<Slug, Competitor> = {
     ],
     faqs: [
       {
+        q: "¿Clinera se integra con la agenda de AgendaPro?",
+        a: "No. Clinera no se sincroniza con AgendaPro ni con otras agendas de terceros: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Para conectar otras herramientas están los Webhooks y la API pública (n8n, Make, Zapier) en los planes Atlas y Summit.",
+      },
+      {
         q: "¿Puedo migrar de AgendaPro a Clinera?",
         a: "Sí. Exportamos tus pacientes y agenda vía API o CSV, y migramos conversaciones recientes de WhatsApp para que AURA arranque con contexto. Sin costo durante el onboarding.",
       },
@@ -351,9 +360,12 @@ const competitors: Record<Slug, Competitor> = {
   medilink: {
     name: "Medilink",
     siteLabel: "softwaremedilink.com",
-    title: "Clinera vs Medilink: ¿cuál es mejor para tu clínica en 2026?",
+    title: "Alternativa a Medilink: Clinera vs Medilink para clínicas (2026)",
+    metaTitle: "Alternativa a Medilink 2026: Clinera vs Medilink",
+    metaDescription:
+      "Clinera como alternativa a Medilink: agente IA que ya agenda por WhatsApp 24/7, precios públicos desde USD 279/mes y migración de tus datos. Comparativa honesta.",
     intro:
-      "Medilink tiene uno de los relatos IA más fuertes en Chile pero su agente conversacional aún no está en producción generalizada. Clinera ya opera 24/7 con AURA, memoria contextual LangChain, coexistencia nativa con WhatsApp Business y precios públicos. Acá la comparativa honesta.",
+      "Clinera es una alternativa a Medilink si quieres un agente de IA que ya agenda por WhatsApp 24/7, con precios públicos desde USD 279/mes y migración de tus datos en el onboarding. Medilink conviene si necesitas llamadas telefónicas con IA o integraciones con BSale, Nubox y Kame. Esta es la comparativa honesta.",
     tldr: {
       clinera:
         "Clinera es mejor si quieres IA conversacional que YA está operando en producción, con coexistencia con WhatsApp Business, difusiones masivas, landing pages de conversión y atribución de ventas — todo en un mismo panel. Precios desde USD 279/mes.",
@@ -367,7 +379,7 @@ const competitors: Record<Slug, Competitor> = {
       "Landing pages de conversión con analítica medible.",
       "Atribución de ventas a campañas de marketing.",
       "Memoria contextual LangChain documentada y operativa.",
-      "IA integrable con agendas externas (Reservo, Dentalink, etc.) vía MCP + API.",
+      "Webhooks y API pública (n8n, Make, Zapier) en los planes Atlas y Summit para conectar tus otras herramientas.",
       "Precios públicos: VORTEX $279, ATLAS $379, SUMMIT $479 USD/mes.",
       "Contratación self-service sin cotización telefónica.",
       "Setup en menos de 1 hora.",
@@ -386,7 +398,6 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Difusiones masivas de WhatsApp marketing", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Landing pages de conversión con analítica medible", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Atribución de ventas a campañas de marketing", clinera: "yes", them: "no", clineraHighlight: true },
-      { feature: "IA integrable con agenda externa", clinera: "yes", them: "no", clineraHighlight: true },
       // Core capabilities
       { feature: "Llamadas telefónicas con IA", clinera: "no", them: "yes" },
       { feature: "Memoria contextual (LangChain)", clinera: "yes", them: "partial" },
@@ -437,6 +448,10 @@ const competitors: Record<Slug, Competitor> = {
     ],
     faqs: [
       {
+        q: "¿Clinera se integra con la agenda de Medilink?",
+        a: "No. Clinera no se sincroniza con Medilink: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Quien necesita integración nativa con BSale, Nubox o Kame hoy está mejor servido por Medilink.",
+      },
+      {
         q: "¿Puedo migrar de Medilink a Clinera?",
         a: "Sí. Exportamos pacientes y fichas desde Medilink vía CSV/API. La mayoría de los datos críticos (paciente, historial, agenda) se mueven sin fricción durante el onboarding.",
       },
@@ -446,7 +461,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Clinera se integra con BSale o Nubox como Medilink?",
-        a: "Clinera conecta vía API y MCP con cualquier sistema que exponga integración. A abril 2026, Medilink tiene integraciones nativas más maduras con el stack chileno tradicional (BSale, Nubox, Kame). Clinera suele requerir una integración inicial por API.",
+        a: "No de forma nativa. A abril 2026, Medilink tiene integraciones más maduras con el stack chileno tradicional (BSale, Nubox, Kame). Clinera opera sobre su propia agenda, ficha y pagos; para conectar otras herramientas ofrece Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit.",
       },
       {
         q: "¿Cuánto cuesta Medilink vs Clinera?",
@@ -1059,12 +1074,14 @@ export async function generateMetadata({
   const data = competitors[slug as Slug];
   if (!data) return {};
   return {
-    title: `Clinera vs ${data.name} 2026 — Comparativa completa`,
-    description: `Comparamos Clinera con ${data.name}: IA, agenda, WhatsApp, ficha clínica, precio, soporte y casos de migración. Guía honesta para decidir en 2026.`,
+    title: data.metaTitle ?? `Clinera vs ${data.name} 2026 — Comparativa completa`,
+    description:
+      data.metaDescription ??
+      `Comparamos Clinera con ${data.name}: IA, agenda, WhatsApp, ficha clínica, precio, soporte y casos de migración. Guía honesta para decidir en 2026.`,
     alternates: { canonical: `https://www.clinera.io/comparativas/${slug}` },
     openGraph: {
       url: `https://www.clinera.io/comparativas/${slug}`,
-      title: `Clinera vs ${data.name} 2026 — Comparativa completa`,
+      title: data.metaTitle ?? `Clinera vs ${data.name} 2026 — Comparativa completa`,
       description: `Tabla, análisis por dimensión, precios y casos reales de migración desde ${data.name} a Clinera.`,
     },
   };
