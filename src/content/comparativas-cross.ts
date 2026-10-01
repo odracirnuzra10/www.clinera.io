@@ -131,7 +131,7 @@ export const cruzadas: Record<string, Cruzada> = {
       },
       {
         q: "¿Tengo que elegir solo uno?",
-        a: "No necesariamente. Clinera puede convivir con AgendaPro o Reservo: tú mantenés tu agenda donde está y AURA opera el canal WhatsApp + analítica de marketing por encima vía API. Es la decisión típica de clínicas que ya invirtieron mucho tiempo en su sistema actual.",
+        a: "Sí, es uno u otro. Clinera no se sincroniza con AgendaPro ni con Reservo: opera sobre su propia agenda, ficha y pagos, y migramos tus datos en el onboarding. Si ya invertiste mucho tiempo en tu sistema actual, compara con calma qué te falta hoy: WhatsApp 24/7 con IA y atribución de marketing son lo que Clinera trae en el mismo sistema.",
       },
     ],
     publishedAt: "2026-04-25",
@@ -217,7 +217,7 @@ export const cruzadas: Record<string, Cruzada> = {
       },
       {
         q: "¿Puedo combinar Medilink (voz) con WhatsApp IA?",
-        a: "Sí. Clinera puede operar el canal WhatsApp encima de Medilink vía API/MCP. Tus llamadas siguen entrando a Medilink y los chats van a AURA. Es una arquitectura común en clínicas que recién están migrando hacia IA.",
+        a: "No. Clinera no se sincroniza con Medilink: opera sobre su propia agenda, ficha y pagos, así que no hay una arquitectura en que las llamadas sigan entrando a Medilink y los chats a AURA. Si las llamadas telefónicas con IA son críticas, Medilink las cubre; Clinera atiende WhatsApp 24/7.",
       },
     ],
     publishedAt: "2026-04-25",
@@ -308,7 +308,7 @@ export const cruzadas: Record<string, Cruzada> = {
       },
       {
         q: "¿Puedo usar Clinera sin migrar de Reservo o Medilink?",
-        a: "Sí. Clinera se integra vía API y MCP con Reservo, Medilink y otros. AURA opera el canal WhatsApp por encima y sincroniza la agenda con tu sistema actual. Es la decisión común de clínicas que ya tienen mucha data en su software.",
+        a: "No. Clinera no se sincroniza con Reservo, Medilink ni otras agendas de terceros: opera sobre su propia agenda, ficha y pagos. Migramos tus pacientes, fichas y agenda en el onboarding, incluso si tienes mucha data en tu software actual.",
       },
     ],
     publishedAt: "2026-04-25",
@@ -398,7 +398,7 @@ export const cruzadas: Record<string, Cruzada> = {
       },
       {
         q: "¿Puedo combinar AgendaPro o Doctocliq con Clinera?",
-        a: "Sí. Clinera se integra vía API/MCP con ambos. Mantenés tu agenda donde está y AURA opera el canal WhatsApp + analítica de campañas por encima. No hay que migrar para empezar.",
+        a: "No. Clinera no se sincroniza con AgendaPro ni con Doctocliq: opera sobre su propia agenda, ficha y pagos. Para usar AURA y la analítica de campañas, migras tus datos con acompañamiento en el onboarding.",
       },
     ],
     publishedAt: "2026-04-25",
@@ -488,7 +488,7 @@ export const cruzadas: Record<string, Cruzada> = {
       },
       {
         q: "¿Puedo combinar Reservo o Doctocliq con Clinera?",
-        a: "Sí. Clinera se integra vía API y MCP con ambos. AURA opera el canal WhatsApp por encima y sincroniza la agenda con tu sistema actual. No hace falta migrar.",
+        a: "No. Clinera no se sincroniza con Reservo ni con Doctocliq: opera sobre su propia agenda, ficha y pagos. Usar Clinera implica migrar tus datos, algo que hacemos en el onboarding.",
       },
     ],
     publishedAt: "2026-04-25",
@@ -578,7 +578,7 @@ export const cruzadas: Record<string, Cruzada> = {
       },
       {
         q: "¿Puedo combinar Medilink (voz) + Doctocliq (telemedicina) + Clinera (WhatsApp)?",
-        a: "En teoría sí — Clinera se integra vía API/MCP. La práctica recomendada es elegir una sola plataforma como núcleo y agregar otra solo para canales complementarios. Tener tres sistemas exige sincronización rigurosa de la agenda.",
+        a: "No lo recomendamos: Clinera no se sincroniza con Medilink ni con Doctocliq, y tener tres sistemas exige duplicar la agenda a mano. Conviene elegir una sola plataforma como núcleo.",
       },
     ],
     publishedAt: "2026-04-25",
@@ -602,7 +602,7 @@ cruzadas["dentalink-vs-reservo"] = {
     A: "Dentalink es mejor si tu clínica es 100% dental y necesitas odontograma + ortodoncia + análisis IA de RX con la profundidad del líder vertical.",
     B: "Reservo es mejor si tu clínica mezcla dental con otras especialidades médicas y necesitas DTE chileno con ficha clínica multi-especialidad.",
     clinera:
-      "Clinera es mejor si tu cuello de botella son los WhatsApps sin responder. AURA atiende 24/7 e integra encima de Dentalink o Reservo vía API.",
+      "Clinera es mejor si tu cuello de botella son los WhatsApps sin responder. AURA atiende 24/7 sobre la propia agenda y ficha de Clinera; migramos tus datos en el onboarding.",
   },
   table: [
     { feature: "IA conversacional WhatsApp 24/7 (paciente real)", A: "yes", B: "no", clinera: "yes" },
@@ -632,7 +632,7 @@ cruzadas["dentalink-vs-reservo"] = {
     {
       title: "IA — los tres tienen una propuesta distinta",
       body:
-        "Dentalink incorporó IA especializada en flujos dentales (asistente CRM, análisis de RX). Reservo no tiene IA conversacional. Clinera (con AURA) opera con IA agnóstica de vertical, integrable encima de cualquier sistema vía API/MCP. Para clínica dental: Dentalink + Clinera es una arquitectura común (clínica en Dentalink, WhatsApp en AURA).",
+        "Dentalink incorporó IA especializada en flujos dentales (asistente CRM, análisis de RX). Reservo no tiene IA conversacional. Clinera (con AURA) opera con IA agnóstica de vertical sobre su propia agenda y ficha. Para clínica dental pura con odontograma y ortodoncia profundos, Dentalink sigue siendo la opción nativa; Clinera no se sincroniza con él.",
     },
     {
       title: "Geografía",
@@ -657,7 +657,7 @@ cruzadas["dentalink-vs-reservo"] = {
     },
     {
       q: "¿Cuál tiene mejor IA?",
-      a: "Distintas IAs. Dentalink tiene IA especializada en RX y CRM dental. Clinera tiene AURA, IA conversacional WhatsApp 24/7 agnóstica de vertical. Reservo no tiene IA conversacional. Para una clínica dental: combinar Dentalink + Clinera vía API es la arquitectura más común.",
+      a: "Distintas IAs. Dentalink tiene IA especializada en RX y CRM dental. Clinera tiene AURA, IA conversacional WhatsApp 24/7 agnóstica de vertical. Reservo no tiene IA conversacional. Clinera no se sincroniza con Dentalink: para una clínica dental pura con odontograma profundo, Dentalink; si operas más de una vertical, Clinera.",
     },
     {
       q: "¿Reservo cubre dental con la misma profundidad que Dentalink?",
@@ -665,7 +665,7 @@ cruzadas["dentalink-vs-reservo"] = {
     },
     {
       q: "¿Se puede usar Clinera con Dentalink o Reservo al mismo tiempo?",
-      a: "Sí. Clinera se integra vía API/MCP con ambos. AURA opera el canal WhatsApp por encima y sincroniza la agenda con tu Dentalink o Reservo. Mantienes la ficha clínica donde está y agregas la capa de IA conversacional + atribución de marketing.",
+      a: "No. Clinera no se sincroniza con Dentalink ni con Reservo: opera sobre su propia agenda, ficha y pagos. Usar Clinera implica migrar tus datos (lo hacemos en el onboarding); no se usan en paralelo.",
     },
     {
       q: "¿Cuál es más caro?",
@@ -760,7 +760,7 @@ cruzadas["sacmed-vs-medilink"] = {
     },
     {
       q: "¿Puedo combinar Sacmed (telemedicina) + Clinera (WhatsApp)?",
-      a: "Sí. Clinera se integra vía API/MCP con Sacmed. Mantienes telemedicina Fonasa y receta QR en Sacmed, y AURA opera el canal WhatsApp + atribución de marketing por encima.",
+      a: "No. Clinera no se sincroniza con Sacmed: opera sobre su propia agenda, ficha y pagos. Si la telemedicina Fonasa y la receta QR son indispensables hoy, Sacmed las cubre; si lo es WhatsApp 24/7 con IA, Clinera, migrando tus datos en el onboarding.",
     },
   ],
   publishedAt: "2026-04-25",
@@ -783,7 +783,7 @@ cruzadas["dentalink-vs-sacmed"] = {
     A: "Dentalink es mejor si tu clínica es 100% odontológica — odontograma, periodontograma, ortodoncia y análisis IA de RX dentales.",
     B: "Sacmed es mejor si tu clínica es médica general (no dental) y necesitas telemedicina certificada por Fonasa con receta QR.",
     clinera:
-      "Clinera es mejor si tu clínica atiende dental + médico + estética (multi-vertical) o quieres IA WhatsApp 24/7 encima de cualquiera de los dos sistemas.",
+      "Clinera es mejor si tu clínica atiende dental + médico + estética (multi-vertical) o quieres IA WhatsApp 24/7 en el mismo sistema que la agenda y la ficha (migramos tus datos en el onboarding).",
   },
   table: [
     { feature: "IA conversacional WhatsApp 24/7", A: "yes", B: "no", clinera: "yes" },
@@ -822,7 +822,7 @@ cruzadas["dentalink-vs-sacmed"] = {
     {
       title: "WhatsApp e IA conversacional",
       body:
-        "Dentalink incorporó asistente IA dental especializado. Sacmed integra WhatsApp como canal complementario sin agente IA. Clinera (AURA) opera con IA conversacional WhatsApp 24/7 agnóstica de vertical, integrable encima de cualquiera de los dos vía API/MCP.",
+        "Dentalink incorporó asistente IA dental especializado. Sacmed integra WhatsApp como canal complementario sin agente IA. Clinera (AURA) opera con IA conversacional WhatsApp 24/7 agnóstica de vertical, sobre su propia agenda y ficha; no se sincroniza con Dentalink ni con Sacmed.",
     },
     {
       title: "Cobertura geográfica",
@@ -849,7 +849,7 @@ cruzadas["dentalink-vs-sacmed"] = {
     },
     {
       q: "¿Puedo combinar Clinera con Dentalink o Sacmed?",
-      a: "Sí. Clinera se integra vía API/MCP con ambos. Mantienes la ficha clínica especializada en Dentalink (dental) o Sacmed (médico) y AURA opera el canal WhatsApp + atribución de marketing por encima.",
+      a: "No. Clinera no se sincroniza con Dentalink ni con Sacmed: opera sobre su propia agenda, ficha y pagos. Si necesitas la ficha especializada de Dentalink (dental) o Sacmed (médico), conviene quedarte en ellos; si buscas un solo software con IA en WhatsApp, migrar a Clinera tiene sentido.",
     },
   ],
   publishedAt: "2026-04-25",

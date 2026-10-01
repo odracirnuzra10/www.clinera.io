@@ -691,11 +691,11 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
       },
       {
         q: "¿Medifolios o Clinera para una IPS en Bogotá?",
-        a: "Medifolios gana en RIPS + DIAN + operación clínica regulada. Clinera gana en WhatsApp IA 24/7 y atribución de marketing. La combinación más común: Medifolios para la capa clínica + Clinera para WhatsApp y marketing.",
+        a: "Medifolios gana en RIPS + DIAN + operación clínica regulada. Clinera gana en WhatsApp IA 24/7 y atribución de marketing. Clinera no se sincroniza con Medifolios: la decisión es cuál de los dos cuellos de botella pesa más en tu operación.",
       },
       {
         q: "¿Clinera maneja RIPS en Colombia?",
-        a: "Clinera no es ERP médico colombiano — opera la capa de WhatsApp 24/7 y marketing. Para RIPS el sistema autoritativo sigue siendo Medifolios o equivalente local.",
+        a: "Clinera no es ERP médico colombiano — su fuerte es WhatsApp 24/7 y marketing. Para RIPS el sistema autoritativo sigue siendo Medifolios o equivalente local.",
       },
       {
         q: "¿Cumple con la Ley 1581?",

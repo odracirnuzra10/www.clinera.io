@@ -41,11 +41,31 @@ test.describe("páginas de compra nuevas", () => {
 test.describe("comparativas AgendaPro y Medilink", () => {
   const src = leer("src/app/comparativas/[slug]/page.tsx");
 
-  test("ya no afirman integración con agendas externas", () => {
-    const desde = src.indexOf("const competitors");
-    const ap = src.slice(src.indexOf("  agendapro: {", desde), src.indexOf("  manual: {", desde));
-    expect(ap).not.toContain("IA integrable con agenda");
-    expect(ap).not.toContain("vía MCP + API");
+  test("ninguna comparativa afirma integración con agendas de terceros", () => {
+    // AGENTS.md: Clinera no se integra con agendas de terceros (opera sobre su
+    // propia agenda, ficha y pagos). Solo existen Webhooks + API pública.
+    const fuentes = [
+      "src/app/comparativas/[slug]/page.tsx",
+      "src/app/comparativas/page.tsx",
+      "src/content/comparativas-cross.ts",
+      "src/content/recursos-templates.ts",
+      "src/content/mejor-software.ts",
+    ];
+    const prohibido = [
+      /IA integrable con/,
+      /integrable (encima|a cualquier|con cualquier)/,
+      /vía API\/MCP con/,
+      /vía API y MCP con/,
+      /sincroniza la agenda con tu/,
+      /operar (el canal )?WhatsApp (encima|por encima)/i,
+      /(encima|por encima) (de|vía) (tu |Dentalink|Reservo|Sacmed|Medilink|AgendaPro|Medifolios|Saludtools|Doctocliq|cualquier)/,
+      /(combinar|combina|combinarlos)[^.]{0,60}vía API/,
+      /Mantenés|Tenés/,
+    ];
+    for (const f of fuentes) {
+      const t = leer(f);
+      for (const re of prohibido) expect(t, `${f} ${re}`).not.toMatch(re);
+    }
   });
 
   test("titulan por la intención «alternativa a»", () => {

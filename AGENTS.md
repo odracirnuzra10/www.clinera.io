@@ -848,11 +848,14 @@ del deck apunta a `/convenio-doctores#requisitos`. Copy en
   internas (`STAR_DISALLOW`) se aplican también a los bots de IA y SEO en
   `src/lib/robots-txt.ts`. Si agregas una ruta interna, va en esa lista.
   Guardián: `tests/robots.spec.ts`.
-- **Comparativas (`src/app/comparativas/[slug]/page.tsx`):** AgendaPro y
-  Medilink ya no dicen que Clinera se integra con agendas externas (es falso,
-  ver «Un solo modo de agendamiento»). **Pendiente de decisión de Ricardo:** las
-  comparativas con Reservo, Dentalink, Sacmed, Medifolios, Saludtools y
-  Doctocliq todavía venden «Clinera encima de tu sistema vía API/MCP».
+- **Comparativas:** ninguna comparativa dice que Clinera se integra o se sincroniza
+  con agendas de terceros (Ricardo, 1-oct-2026: «siguen prometiendo lo mismo» →
+  se reescribieron todas). Pasó en `src/app/comparativas/[slug]/page.tsx`,
+  `comparativas-cross.ts`, `recursos-templates.ts` y `mejor-software.ts`. La
+  postura vigente: Clinera opera sobre su propia agenda, ficha y pagos; se migran
+  los datos en el onboarding; para conectar herramientas hay Webhooks + API
+  pública (Atlas y Summit). Guardián: `tests/seo-q4-paginas.spec.ts`
+  (patrones prohibidos en esos 5 archivos).
 - **Páginas de compra:** `/software-estetica` y `/agendamiento-whatsapp-ia`
   usan el esqueleto `software-vertical` (`ESTETICA`, `WHATSAPP_IA` en
   `content.ts`). Cada apertura (`thesis`) mide 40–60 palabras: es lo que

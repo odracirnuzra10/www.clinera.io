@@ -67,7 +67,7 @@ const items = [
     headline: "¿Dentalink o Clinera?",
     bullets: [
       "Dentalink: líder dental LATAM (15.000+ clientes), 100% odontología con odontograma + ortodoncia + IA dental.",
-      "Clinera: agnóstico de vertical, AURA WhatsApp 24/7 e integrable encima de Dentalink vía API/MCP.",
+      "Clinera: agnóstico de vertical, AURA WhatsApp 24/7 sobre su propia agenda y ficha; migramos tus datos.",
       "Si tu clínica también atiende otra vertical, Clinera la cubre sin pagar dos sistemas.",
     ],
   },
