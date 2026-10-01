@@ -79,6 +79,14 @@ const STAR_DISALLOW = [
   "/*?ref=*",
 ];
 
+/**
+ * Un bot con bloque propio ignora el bloque `*`. Por eso las rutas internas
+ * van también acá: sin esto GPTBot, ClaudeBot, Bingbot, etc. podían leer
+ * /vision-2027, /ventas2026 y los decks internos. Sin los patrones con `?`
+ * (utm/gclid/ref): esos son para evitar duplicados en buscadores, no secretos.
+ */
+const BOT_DISALLOW = STAR_DISALLOW.filter((d) => !d.includes("?"));
+
 function block(agent: string, allow: readonly string[], disallow: string[]) {
   const lines = [`User-Agent: ${agent}`];
   for (const a of allow) lines.push(`Allow: ${a}`);
@@ -93,10 +101,10 @@ export function buildRobotsTxt(): string {
     block("*", AEO_ALLOW, STAR_DISALLOW),
   ];
   for (const agent of AI_CRAWLERS) {
-    parts.push(block(agent, AEO_ALLOW, ["/admin/", "/api/"]));
+    parts.push(block(agent, AEO_ALLOW, BOT_DISALLOW));
   }
   for (const agent of SEO_TOOLS) {
-    parts.push(block(agent, AEO_ALLOW, ["/admin/", "/api/"]));
+    parts.push(block(agent, AEO_ALLOW, BOT_DISALLOW));
   }
   for (const agent of SCRAPERS) {
     parts.push(`User-Agent: ${agent}\nDisallow: /\n`);
