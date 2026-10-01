@@ -841,3 +841,25 @@ programa partner sigue siendo **solo el bono**. Slide `#convenio-doctores`
 del deck apunta a `/convenio-doctores#requisitos`. Copy en
 `PARTNERS_DOCTORS_CONVENIO` / `CONVENIO_DOCTORES_BENEFICIOS`. Guardián:
 `tests/partners-program.spec.ts`.
+
+# Plan SEO/AEO Q4 2026: reglas que dejó (oct 2026)
+
+- **robots.txt:** un bot con bloque propio ignora el bloque `*`. Las rutas
+  internas (`STAR_DISALLOW`) se aplican también a los bots de IA y SEO en
+  `src/lib/robots-txt.ts`. Si agregas una ruta interna, va en esa lista.
+  Guardián: `tests/robots.spec.ts`.
+- **Comparativas:** ninguna comparativa dice que Clinera se integra o se sincroniza
+  con agendas de terceros (Ricardo, 1-oct-2026: «siguen prometiendo lo mismo» →
+  se reescribieron todas). Pasó en `src/app/comparativas/[slug]/page.tsx`,
+  `comparativas-cross.ts`, `recursos-templates.ts` y `mejor-software.ts`. La
+  postura vigente: Clinera opera sobre su propia agenda, ficha y pagos; se migran
+  los datos en el onboarding; para conectar herramientas hay Webhooks + API
+  pública (Atlas y Summit). Guardián: `tests/seo-q4-paginas.spec.ts`
+  (patrones prohibidos en esos 5 archivos).
+- **Páginas de compra:** `/software-estetica` y `/agendamiento-whatsapp-ia`
+  usan el esqueleto `software-vertical` (`ESTETICA`, `WHATSAPP_IA` en
+  `content.ts`). Cada apertura (`thesis`) mide 40–60 palabras: es lo que
+  extraen las IA. Guardián: `tests/seo-q4-paginas.spec.ts`.
+- **Ficha clínica:** `/ley20584` es la página de seguridad de datos con
+  respuesta directa, FAQ y demo; los 9 artículos de ficha clínica llevan
+  `<FichaCTA />` a mitad de texto (`lead_source=blog_ficha_clinica`).

@@ -42,6 +42,9 @@ type Competitor = {
   siteLabel: string;
   title: string;
   intro: string;
+  /** Opcional: título/descr. de <head> cuando la intención de búsqueda es «alternativa a X». */
+  metaTitle?: string;
+  metaDescription?: string;
   tldr: { clinera: string; them: string };
   clineraWins: string[]; // Long list — always heavier than themWins
   themWins: string[]; // Short list — honest acknowledgement
@@ -146,7 +149,7 @@ const competitors: Record<Slug, Competitor> = {
       "Difusiones masivas de WhatsApp marketing desde el mismo panel.",
       "Landing pages de conversión con analítica medible incluidas.",
       "Atribución de ventas a campañas (Meta/Google → conversación → cita → venta).",
-      "IA integrable con tu agenda actual vía API y MCP (no obliga a migrar).",
+      "Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit para conectar tus otras herramientas.",
       "Derivación automática a humano cuando la conversación lo requiere.",
       "Precios públicos desde USD 279/mes.",
       "Setup en menos de 1 hora, sin programador.",
@@ -164,7 +167,6 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Difusiones masivas de WhatsApp marketing", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Landing pages de conversión con analítica medible", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Atribución de ventas a campañas de marketing", clinera: "yes", them: "no", clineraHighlight: true },
-      { feature: "IA integrable con agenda externa (Reservo/Dentalink/otros)", clinera: "yes", them: "no", clineraHighlight: true },
       // Core capabilities
       { feature: "Memoria contextual (LangChain)", clinera: "yes", them: "no" },
       { feature: "Integración MCP", clinera: "yes", them: "no" },
@@ -225,7 +227,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Puedo mantener Reservo y sumar Clinera solo para la IA?",
-        a: "Sí. El plan VORTEX de Clinera está diseñado justo para eso: clínicas que ya tienen software y solo quieren sumar la capa de mensajería con IA. Conectamos vía API o MCP.",
+        a: "No. Clinera no se sincroniza con Reservo: opera sobre su propia agenda, ficha clínica y módulo de pagos, así que usarla implica migrar tus datos, algo que hacemos en el onboarding. Vortex es el plan de entrada.",
       },
       {
         q: "¿Cuánto cuesta Reservo vs Clinera?",
@@ -241,9 +243,12 @@ const competitors: Record<Slug, Competitor> = {
   agendapro: {
     name: "AgendaPro",
     siteLabel: "agendapro.com",
-    title: "Clinera vs AgendaPro: ¿cuál es mejor para tu clínica en 2026?",
+    title: "Alternativa a AgendaPro: Clinera vs AgendaPro para clínicas (2026)",
+    metaTitle: "Alternativa a AgendaPro 2026: Clinera vs AgendaPro",
+    metaDescription:
+      "Clinera como alternativa a AgendaPro para clínicas: IA en WhatsApp 24/7, ficha clínica y precios desde USD 279/mes. Cuándo conviene cada una, con datos.",
     intro:
-      "AgendaPro es el software de agendamiento más grande de LATAM (20.000+ negocios en 10+ países, US$35M levantados en 2025). Clinera está enfocada 100% en clínicas con IA conversacional. Esta es la comparativa honesta.",
+      "Clinera es una alternativa a AgendaPro pensada solo para clínicas: AURA agenda y responde por WhatsApp 24/7 sobre la agenda y la ficha clínica de Clinera, con planes desde USD 279/mes. AgendaPro conviene si tu negocio mezcla estética, spa o peluquería y quieres apps nativas. Esta es la comparativa honesta.",
     tldr: {
       clinera:
         "Clinera es mejor si necesitas profundidad clínica real (ficha médica, consentimientos, memoria contextual en WhatsApp) y precios transparentes desde USD 279/mes.",
@@ -275,7 +280,6 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Difusiones masivas de WhatsApp marketing", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Landing pages de conversión con analítica medible", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Atribución de ventas a campañas de marketing", clinera: "yes", them: "partial", themNote: "tracking básico Meta/Google", clineraHighlight: true },
-      { feature: "IA integrable con agenda externa", clinera: "yes", them: "no", clineraHighlight: true },
       // Core capabilities
       { feature: "IA con memoria contextual (LangChain)", clinera: "yes", them: "no" },
       { feature: "Integración MCP", clinera: "yes", them: "no" },
@@ -326,6 +330,10 @@ const competitors: Record<Slug, Competitor> = {
     ],
     faqs: [
       {
+        q: "¿Clinera se integra con la agenda de AgendaPro?",
+        a: "No. Clinera no se sincroniza con AgendaPro ni con otras agendas de terceros: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Para conectar otras herramientas están los Webhooks y la API pública (n8n, Make, Zapier) en los planes Atlas y Summit.",
+      },
+      {
         q: "¿Puedo migrar de AgendaPro a Clinera?",
         a: "Sí. Exportamos tus pacientes y agenda vía API o CSV, y migramos conversaciones recientes de WhatsApp para que AURA arranque con contexto. Sin costo durante el onboarding.",
       },
@@ -351,9 +359,12 @@ const competitors: Record<Slug, Competitor> = {
   medilink: {
     name: "Medilink",
     siteLabel: "softwaremedilink.com",
-    title: "Clinera vs Medilink: ¿cuál es mejor para tu clínica en 2026?",
+    title: "Alternativa a Medilink: Clinera vs Medilink para clínicas (2026)",
+    metaTitle: "Alternativa a Medilink 2026: Clinera vs Medilink",
+    metaDescription:
+      "Clinera como alternativa a Medilink: agente IA que ya agenda por WhatsApp 24/7, precios públicos desde USD 279/mes y migración de tus datos. Comparativa honesta.",
     intro:
-      "Medilink tiene uno de los relatos IA más fuertes en Chile pero su agente conversacional aún no está en producción generalizada. Clinera ya opera 24/7 con AURA, memoria contextual LangChain, coexistencia nativa con WhatsApp Business y precios públicos. Acá la comparativa honesta.",
+      "Clinera es una alternativa a Medilink si quieres un agente de IA que ya agenda por WhatsApp 24/7, con precios públicos desde USD 279/mes y migración de tus datos en el onboarding. Medilink conviene si necesitas llamadas telefónicas con IA o integraciones con BSale, Nubox y Kame. Esta es la comparativa honesta.",
     tldr: {
       clinera:
         "Clinera es mejor si quieres IA conversacional que YA está operando en producción, con coexistencia con WhatsApp Business, difusiones masivas, landing pages de conversión y atribución de ventas — todo en un mismo panel. Precios desde USD 279/mes.",
@@ -367,7 +378,7 @@ const competitors: Record<Slug, Competitor> = {
       "Landing pages de conversión con analítica medible.",
       "Atribución de ventas a campañas de marketing.",
       "Memoria contextual LangChain documentada y operativa.",
-      "IA integrable con agendas externas (Reservo, Dentalink, etc.) vía MCP + API.",
+      "Webhooks y API pública (n8n, Make, Zapier) en los planes Atlas y Summit para conectar tus otras herramientas.",
       "Precios públicos: VORTEX $279, ATLAS $379, SUMMIT $479 USD/mes.",
       "Contratación self-service sin cotización telefónica.",
       "Setup en menos de 1 hora.",
@@ -386,7 +397,6 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Difusiones masivas de WhatsApp marketing", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Landing pages de conversión con analítica medible", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Atribución de ventas a campañas de marketing", clinera: "yes", them: "no", clineraHighlight: true },
-      { feature: "IA integrable con agenda externa", clinera: "yes", them: "no", clineraHighlight: true },
       // Core capabilities
       { feature: "Llamadas telefónicas con IA", clinera: "no", them: "yes" },
       { feature: "Memoria contextual (LangChain)", clinera: "yes", them: "partial" },
@@ -437,6 +447,10 @@ const competitors: Record<Slug, Competitor> = {
     ],
     faqs: [
       {
+        q: "¿Clinera se integra con la agenda de Medilink?",
+        a: "No. Clinera no se sincroniza con Medilink: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Quien necesita integración nativa con BSale, Nubox o Kame hoy está mejor servido por Medilink.",
+      },
+      {
         q: "¿Puedo migrar de Medilink a Clinera?",
         a: "Sí. Exportamos pacientes y fichas desde Medilink vía CSV/API. La mayoría de los datos críticos (paciente, historial, agenda) se mueven sin fricción durante el onboarding.",
       },
@@ -446,7 +460,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Clinera se integra con BSale o Nubox como Medilink?",
-        a: "Clinera conecta vía API y MCP con cualquier sistema que exponga integración. A abril 2026, Medilink tiene integraciones nativas más maduras con el stack chileno tradicional (BSale, Nubox, Kame). Clinera suele requerir una integración inicial por API.",
+        a: "No de forma nativa. A abril 2026, Medilink tiene integraciones más maduras con el stack chileno tradicional (BSale, Nubox, Kame). Clinera opera sobre su propia agenda, ficha y pagos; para conectar otras herramientas ofrece Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit.",
       },
       {
         q: "¿Cuánto cuesta Medilink vs Clinera?",
@@ -496,7 +510,6 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Difusiones masivas de WhatsApp marketing", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Landing pages de conversión con analítica medible", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Atribución de ventas a campañas de marketing", clinera: "yes", them: "no", clineraHighlight: true },
-      { feature: "IA integrable con agenda externa", clinera: "yes", them: "no", clineraHighlight: true },
       // Operational reality
       { feature: "Costo mensual directo", clinera: "$279-479 USD", them: "$0 (aparente)" },
       { feature: "Horas/día de recepción en mensajes", clinera: "< 30 min", them: "2-4 horas" },
@@ -573,17 +586,17 @@ const competitors: Record<Slug, Competitor> = {
     siteLabel: "softwaredentalink.com",
     title: "Clinera vs Dentalink: ¿cuál es mejor para tu clínica en 2026?",
     intro:
-      "Dentalink es el software dental más usado en LATAM (15.000+ clientes), 100% vertical en odontología, con odontograma maduro, agenda y asistente IA propio. Clinera es agnóstico de vertical, con AURA atendiendo WhatsApp 24/7 e integrable con cualquier agenda. Comparativa honesta para una clínica que considera ambos.",
+      "Dentalink es el software dental más usado en LATAM (15.000+ clientes), 100% vertical en odontología, con odontograma maduro, agenda y asistente IA propio. Clinera es agnóstico de vertical, con AURA atendiendo WhatsApp 24/7 sobre su propia agenda y ficha. Comparativa honesta para una clínica que considera ambos.",
     tldr: {
       clinera:
-        "Clinera es mejor si tu clínica atiende más de una vertical (estética + odontología, médico + dental, etc.) y quieres un agente IA que opere por WhatsApp con tu agenda actual sin migrar.",
+        "Clinera es mejor si tu clínica atiende más de una vertical (estética + odontología, médico + dental, etc.) y quieres un solo software con agente IA por WhatsApp; migramos tus datos en el onboarding.",
       them:
         "Dentalink es mejor si tu clínica es 100% odontológica y necesitas odontograma + periodontograma + módulo de ortodoncia con la profundidad que solo da un sistema vertical especializado.",
     },
     clineraWins: [
       "Agnóstico de vertical: si abres una sucursal estética junto a la dental, Clinera la cubre sin pagar otro software.",
       "AURA opera por WhatsApp Business con coexistencia (mismo número que ya usa tu clínica).",
-      "Integración MCP + API abierta: Clinera puede operar el WhatsApp encima de Dentalink sin migrar la ficha clínica.",
+      "Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit; migración de tus datos asistida en el onboarding.",
       "Atribución real de ventas a campañas Meta y Google Ads — Dentalink no tiene panel de marketing.",
       "Memoria contextual entre conversaciones (LangChain).",
       "Difusiones masivas de WhatsApp marketing desde el panel.",
@@ -600,7 +613,6 @@ const competitors: Record<Slug, Competitor> = {
       // Diferenciadores Clinera
       { feature: "Agnóstico de vertical (estética, médico, dental)", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Coexistencia con WhatsApp Business (mismo número)", clinera: "yes", them: "partial", clineraHighlight: true },
-      { feature: "Integración MCP / API para que IA opere encima", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Atribución de ventas a campañas Meta/Google", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Difusiones masivas WhatsApp marketing", clinera: "yes", them: "partial", clineraHighlight: true },
       // Capabilities core
@@ -630,7 +642,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "IA conversacional — ambos la tienen, qué cambia",
         body:
-          "Dentalink incorporó asistente IA propio, especializado en flujos dentales. Clinera (con AURA) opera con LangChain + MCP, integrable a cualquier sistema de agenda externo. Si quieres mantener Dentalink como núcleo dental y agregar AURA como capa WhatsApp encima — sin migrar la ficha — Clinera lo soporta vía API. Si quieres todo en un mismo proveedor 100% dental, Dentalink lo da nativo.",
+          "Dentalink incorporó asistente IA propio, especializado en flujos dentales. Clinera (con AURA) opera con LangChain + MCP sobre su propia agenda y ficha. No se sincroniza con Dentalink: la decisión es usar uno u otro, no sumarlos. Si quieres todo en un mismo proveedor 100% dental, Dentalink lo da nativo.",
       },
       {
         title: "Atribución de marketing y trazabilidad de ventas",
@@ -651,7 +663,7 @@ const competitors: Record<Slug, Competitor> = {
     faqs: [
       {
         q: "¿Puedo usar Clinera sin migrar de Dentalink?",
-        a: "Sí. Clinera se integra vía API y MCP con Dentalink. AURA opera el canal WhatsApp por encima y sincroniza la agenda con tu Dentalink. Mantienes el odontograma, periodontograma y ficha en Dentalink, y agregas la capa de IA conversacional WhatsApp + atribución de marketing.",
+        a: "No. Clinera no se sincroniza con Dentalink: opera sobre su propia agenda, ficha y pagos, así que usarla implica migrar tus datos (lo hacemos en el onboarding). Si necesitas periodontograma u ortodoncia con la profundidad de Dentalink, conviene quedarte en Dentalink.",
       },
       {
         q: "¿Dentalink es solo para clínicas dentales?",
@@ -667,7 +679,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Migrar de Dentalink a Clinera tiene sentido?",
-        a: "Solo si tu clínica dejó de ser 100% dental. Si sigue siendo dental pura, Dentalink tiene odontograma y módulo de ortodoncia que Clinera no replica con la misma profundidad. Lo recomendado para clínicas dentales es: mantener Dentalink + agregar Clinera para la capa WhatsApp + marketing.",
+        a: "Solo si tu clínica dejó de ser 100% dental. Si sigue siendo dental pura, Dentalink tiene odontograma y módulo de ortodoncia que Clinera no replica con la misma profundidad. Si sigues siendo dental pura y necesitas esa profundidad, conviene quedarte en Dentalink; si operas más de una vertical o quieres un solo software con IA en WhatsApp, migrar a Clinera tiene sentido.",
       },
     ],
   },
@@ -677,7 +689,7 @@ const competitors: Record<Slug, Competitor> = {
     siteLabel: "sacmed.cl",
     title: "Clinera vs Sacmed: ¿cuál es mejor para tu clínica médica en 2026?",
     intro:
-      "Sacmed es un software médico chileno con telemedicina certificada por Fonasa, recetas electrónicas con QR y agenda. Clinera tiene AURA, agente IA que atiende WhatsApp 24/7, e integra con tu agenda actual. Comparativa honesta para clínicas médicas en Chile.",
+      "Sacmed es un software médico chileno con telemedicina certificada por Fonasa, recetas electrónicas con QR y agenda. Clinera tiene AURA, agente IA que atiende WhatsApp 24/7, sobre su propia agenda y ficha. Comparativa honesta para clínicas médicas en Chile.",
     tldr: {
       clinera:
         "Clinera es mejor si tu cuello de botella son los WhatsApps sin responder y quieres AURA atendiendo, agendando y derivando 24/7 con memoria contextual.",
@@ -687,7 +699,7 @@ const competitors: Record<Slug, Competitor> = {
     clineraWins: [
       "AURA, agente IA conversacional que atiende WhatsApp 24/7 con memoria contextual.",
       "Coexistencia con WhatsApp Business (mismo número que ya usa tu clínica).",
-      "Integración MCP + API: Clinera puede operar el WhatsApp encima de Sacmed sin migrar la ficha.",
+      "Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit; migración de tus datos asistida en el onboarding.",
       "Atribución real de ventas a campañas Meta y Google Ads.",
       "Difusiones masivas de WhatsApp marketing desde el panel.",
       "Derivación automática a humano cuando la conversación lo requiere.",
@@ -706,7 +718,6 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Coexistencia con WhatsApp Business", clinera: "yes", them: "partial", clineraHighlight: true },
       { feature: "Memoria contextual entre conversaciones", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Atribución de ventas a campañas Meta/Google", clinera: "yes", them: "no", clineraHighlight: true },
-      { feature: "Integración MCP / API para que IA opere encima", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Difusiones masivas WhatsApp marketing", clinera: "yes", them: "partial", clineraHighlight: true },
       // Diferenciadores Sacmed
       { feature: "Telemedicina certificada por Fonasa", clinera: "no", them: "yes" },
@@ -753,7 +764,7 @@ const competitors: Record<Slug, Competitor> = {
     faqs: [
       {
         q: "¿Puedo usar Clinera sin migrar de Sacmed?",
-        a: "Sí. Clinera se integra vía API y MCP con Sacmed. AURA opera el canal WhatsApp por encima y sincroniza la agenda con tu Sacmed. Mantienes la telemedicina y la receta electrónica QR en Sacmed, y agregas la capa de IA conversacional WhatsApp + atribución de marketing.",
+        a: "No. Clinera no se sincroniza con Sacmed: opera sobre su propia agenda, ficha y pagos, así que usarla implica migrar tus datos (lo hacemos en el onboarding). Si la telemedicina certificada por Fonasa y la receta electrónica QR son indispensables hoy, Sacmed las cubre y conviene quedarte en Sacmed.",
       },
       {
         q: "¿Sacmed tiene IA conversacional como AURA?",
@@ -769,7 +780,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Vale la pena combinar Sacmed + Clinera?",
-        a: "Es la decisión común para clínicas médicas chilenas que quieren mantener telemedicina Fonasa pero suman IA WhatsApp. Sacmed sigue siendo el sistema clínico/telemedicina; Clinera opera el canal WhatsApp y el marketing por encima vía API.",
+        a: "No se combinan: Clinera no se sincroniza con Sacmed. Si tu prioridad es telemedicina Fonasa y receta QR, quédate en Sacmed; si es WhatsApp 24/7 con IA y marketing en el mismo sistema que la ficha, migrar a Clinera tiene sentido.",
       },
     ],
   },
@@ -781,9 +792,9 @@ const competitors: Record<Slug, Competitor> = {
       "Medifolios es el software clínico colombiano líder (13 años, +900 IPS, +13.000 médicos). Clinera es un software con IA conversacional que atiende WhatsApp 24/7. Aquí la comparativa honesta para clínicas e IPS en Colombia, con tabla, precios en COP y casos de uso reales.",
     tldr: {
       clinera:
-        "Clinera es mejor si el cuello de botella es contestar WhatsApp 24/7, atribuir ventas a campañas digitales (Meta/Google) y operar marketing por encima del sistema clínico.",
+        "Clinera es mejor si el cuello de botella es contestar WhatsApp 24/7, atribuir ventas a campañas digitales (Meta/Google) y tener el marketing en el mismo sistema que la ficha.",
       them:
-        "Medifolios es mejor si tu IPS necesita RIPS automáticos, facturación electrónica DIAN y un módulo clínico maduro para múltiples especialidades. Pueden combinarse vía API.",
+        "Medifolios es mejor si tu IPS necesita RIPS automáticos, facturación electrónica DIAN y un módulo clínico maduro para múltiples especialidades. Clinera no se sincroniza con Medifolios: la decisión es uno u otro.",
     },
     clineraWins: [
       "AURA: agente IA conversacional autónomo que cierra agendamientos por WhatsApp 24/7 (Medifolios tiene chatbot de tareas específicas, no agente).",
@@ -792,7 +803,7 @@ const competitors: Record<Slug, Competitor> = {
       "Setup en menos de 1 hora, sin programador.",
       "Precios públicos en USD; migración ágil asistida por ingeniero (PMA).",
       "Memoria contextual LangChain entre conversaciones.",
-      "Integración MCP + API: puede operar sobre Medifolios sin obligar a migrar.",
+      "Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit; migración de tus datos asistida en el onboarding.",
     ],
     themWins: [
       "Líder colombiano con 13 años: conoce profundamente el mercado regulado local.",
@@ -823,7 +834,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Foco del producto: IA conversacional vs ERP médico colombiano",
         body:
-          "Esta es la diferencia clave. Medifolios resuelve la operación clínica regulada de Colombia: RIPS, DIAN, MinSalud, IPS multi-complejidad, contabilidad médica. Es un ERP médico maduro. Clinera resuelve el otro extremo: contestar WhatsApp 24/7 con IA conversacional autónoma y atribuir ventas a campañas digitales. Si tu clínica/IPS pierde pacientes porque nadie contesta el WhatsApp fuera de horario, Medifolios no resuelve eso (su chatbot es para tareas específicas, no agente IA). Si tu clínica/IPS necesita RIPS automáticos para sobrevivir auditorías MinSalud, Clinera no lo cubre. La combinación más común en clínicas colombianas con marketing activo: Medifolios para la capa clínica regulada + Clinera vía API/MCP para WhatsApp y atribución.",
+          "Esta es la diferencia clave. Medifolios resuelve la operación clínica regulada de Colombia: RIPS, DIAN, MinSalud, IPS multi-complejidad, contabilidad médica. Es un ERP médico maduro. Clinera resuelve el otro extremo: contestar WhatsApp 24/7 con IA conversacional autónoma y atribuir ventas a campañas digitales. Si tu clínica/IPS pierde pacientes porque nadie contesta el WhatsApp fuera de horario, Medifolios no resuelve eso (su chatbot es para tareas específicas, no agente IA). Si tu clínica/IPS necesita RIPS automáticos para sobrevivir auditorías MinSalud, Clinera no lo cubre. Clinera no se sincroniza con Medifolios, así que no se suman: si la auditoría regulada es la prioridad, Medifolios; si lo es contestar WhatsApp y atribuir ventas, Clinera.",
       },
       {
         title: "Precio y modelo comercial",
@@ -831,14 +842,14 @@ const competitors: Record<Slug, Competitor> = {
           "Medifolios publica precios en COP con modelo anual decreciente: año 1 más caro (incluye onboarding), año 2+ baja considerablemente. Consultorio: $1.670.000 año 1 / $840.000 año 2+ (~USD 35/USD 17/mes). Clinera publica precios en USD con modelo mensual con permanencia mínima de 6 meses: VORTEX USD 279/mes, ATLAS USD 379/mes y SUMMIT USD 479/mes (bolsa de créditos: 28.000/37.000/46.000). Configuración inicial USD 450 (pago único) con onboarding asistido — operando el mismo día. Para clínicas que recién arrancan en digital, Medifolios año 1 es más caro upfront pero año 2+ se vuelve más barato. Clinera es predecible mes a mes sin compromiso.",
       },
       {
-        title: "Combinar ambos: Medifolios + Clinera",
+        title: "Cómo decidir entre Medifolios y Clinera",
         body:
-          "La integración vía API/MCP permite que Medifolios siga siendo el sistema clínico/RIPS/DIAN y Clinera opere encima la capa WhatsApp + marketing + atribución. AURA consulta la agenda de Medifolios, agenda en su nombre, registra la cita y dispara los recordatorios. El equipo de la IPS sigue trabajando en la interfaz Medifolios para todo lo clínico-administrativo. Para clínicas en Bogotá/Medellín que ya tienen Medifolios y quieren sumar IA conversacional sin migrar, esta es la decisión correcta.",      },
+          "Clinera no se sincroniza con Medifolios: opera sobre su propia agenda, ficha y pagos, y migramos tus datos en el onboarding. Si tu IPS necesita RIPS, DIAN y MinSalud como sistema autoritativo, Medifolios es la opción. Si el problema es contestar WhatsApp 24/7 y atribuir cada cita a su campaña, Clinera lo resuelve con todo en un mismo sistema.",      },
     ],
     faqs: [
       {
         q: "¿Medifolios y Clinera son competidores directos?",
-        a: "Parcialmente. Compiten en el mismo dueño/decisor (gerente de clínica o IPS) pero resuelven cuellos de botella distintos: Medifolios la operación clínica regulada (RIPS, DIAN, MinSalud), Clinera la conversación con pacientes vía WhatsApp 24/7 y la atribución de marketing. La pregunta correcta no es 'Medifolios o Clinera' sino 'Medifolios solo, Clinera solo, o ambos integrados vía API'.",
+        a: "Parcialmente. Compiten en el mismo dueño/decisor (gerente de clínica o IPS) pero resuelven cuellos de botella distintos: Medifolios la operación clínica regulada (RIPS, DIAN, MinSalud), Clinera la conversación con pacientes vía WhatsApp 24/7 y la atribución de marketing. La pregunta correcta es cuál de los dos cuellos de botella pesa más en tu operación: Clinera no se sincroniza con Medifolios, así que no se usan en paralelo.",
       },
       {
         q: "¿Clinera cumple con la Ley 1581 (Habeas Data) colombiana?",
@@ -846,7 +857,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Pierdo mis datos si migro de Medifolios a Clinera?",
-        a: "No es necesario migrar — la integración por API permite que ambos sistemas convivan. Si igual quisieras consolidar todo en Clinera, Medifolios exporta a CSV; el acompañamiento de migración es parte del onboarding sin costo adicional. Pero la decisión común no es migrar, es sumar Clinera por encima vía API.",
+        a: "No: Medifolios exporta a CSV y el acompañamiento de migración es parte del onboarding, sin costo adicional. Clinera no se sincroniza con Medifolios, así que migrar significa pasar a operar en Clinera. Para RIPS/DIAN, el sistema autoritativo sigue siendo Medifolios (o equivalente).",
       },
       {
         q: "¿En qué ciudades de Colombia opera Clinera hoy?",
@@ -864,7 +875,7 @@ const competitors: Record<Slug, Competitor> = {
       clinera:
         "Clinera es mejor si tu cuello de botella es contestar WhatsApp 24/7 con IA real (no solo recordatorios) y necesitas atribución de ventas a campañas Meta/Google.",
       them:
-        "Saludtools es mejor si necesitas HC + RIPS + facturación DIAN como prioridad #1 y la IA aplicada al dictado clínico te suma valor (plan Premium). Pueden combinarse vía API.",
+        "Saludtools es mejor si necesitas HC + RIPS + facturación DIAN como prioridad #1 y la IA aplicada al dictado clínico te suma valor (plan Premium). Clinera no se sincroniza con Saludtools: la decisión es uno u otro.",
     },
     clineraWins: [
       "AURA: agente IA conversacional autónomo (no solo asistente de triaje como el de Saludtools).",
@@ -912,15 +923,15 @@ const competitors: Record<Slug, Competitor> = {
           "Saludtools tiene 3 planes (Estándar/Plus/Premium) sin precios visibles en home (hay que ir a /precios o contactar comercial). La IA está reservada al plan Premium, que es el más caro. Clinera tiene 3 planes con precios públicos en USD: VORTEX USD 279/mes, ATLAS USD 379/mes, SUMMIT USD 479/mes (bolsa de créditos: 28.000/37.000/46.000). La IA conversacional está en TODOS los planes, no escalonada por tier. Configuración inicial USD 450 (pago único) con onboarding asistido en todos los planes Clinera; Saludtools no especifica setup en home.",
       },
       {
-        title: "Combinar ambos: Saludtools + Clinera",
+        title: "Cómo decidir entre Saludtools y Clinera",
         body:
-          "Si ya usas Saludtools y te cierra el módulo clínico/RIPS, sumar Clinera por encima vía API/MCP es la jugada típica. Saludtools sigue siendo tu sistema clínico (HC, RIPS, DIAN, IA dictado en Premium); Clinera opera la capa WhatsApp con AURA + atribución de marketing + difusiones. AURA consulta la agenda de Saludtools, agenda en su nombre, registra la cita en la HC. El consultorio sigue trabajando en Saludtools para todo lo clínico.",
+          "Clinera no se sincroniza con Saludtools: opera sobre su propia agenda, ficha y pagos, y migramos tus datos en el onboarding. Si te cierra el módulo clínico/RIPS/DIAN de Saludtools (HC, RIPS, DIAN, IA de dictado en Premium), ese es tu sistema. Si el cuello de botella es contestar WhatsApp con AURA y atribuir cada cita a su campaña, Clinera lo trae en el mismo sistema que la ficha.",
       },
     ],
     faqs: [
       {
         q: "¿Saludtools y Clinera son competidores directos?",
-        a: "Solo en la capa WhatsApp/agendamiento. Saludtools es un software médico colombiano completo (HC, RIPS, DIAN, IA clínica). Clinera es agente IA WhatsApp + atribución de marketing. Compiten en quién contesta el primer WhatsApp del paciente, pero el resto del stack lo cubre Saludtools. Lo común: combinarlos vía API.",
+        a: "Solo en la capa WhatsApp/agendamiento. Saludtools es un software médico colombiano completo (HC, RIPS, DIAN, IA clínica). Clinera es agente IA WhatsApp + atribución de marketing. Compiten en quién contesta el primer WhatsApp del paciente, pero el resto del stack lo cubre Saludtools. Clinera no se sincroniza con Saludtools, así que no se usan en paralelo.",
       },
       {
         q: "¿La IA de Saludtools en Premium reemplaza a AURA?",
@@ -946,14 +957,14 @@ const competitors: Record<Slug, Competitor> = {
       clinera:
         "Clinera es mejor si tu cuello de botella es contestar WhatsApp 24/7 con IA real (no solo recordatorios) y necesitas atribuir cada cita a su campaña de marketing.",
       them:
-        "Doctocliq es mejor si recién empiezas a digitalizar y quieres probar sin pagar nada, o si tu clínica es 100% dental con presupuesto bajo. Pueden combinarse vía API.",
+        "Doctocliq es mejor si recién empiezas a digitalizar y quieres probar sin pagar nada, o si tu clínica es 100% dental con presupuesto bajo. Clinera no se sincroniza con Doctocliq: la decisión es uno u otro.",
     },
     clineraWins: [
       "AURA: agente IA conversacional autónomo que cierra agendamientos (Doctocliq tiene asistente IA + recordatorios, no agente autónomo).",
       "Coexistencia con WhatsApp Business — opera en el mismo número que ya usa la clínica.",
       "Atribución end-to-end campaña Meta/Google → conversación → cita → venta.",
       "Memoria contextual LangChain entre conversaciones.",
-      "Integración MCP + API: puede operar sobre Doctocliq sin obligar a migrar.",
+      "Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit; migración de tus datos asistida en el onboarding.",
       "Setup en menos de 1 hora, sin programador.",
       "Foco multi-vertical (dental, médico, estético, fisio, etc) sin sesgos.",
     ],
@@ -992,15 +1003,15 @@ const competitors: Record<Slug, Competitor> = {
           "Doctocliq nació con foco dental fuerte (alianza con el Colegio Odontológico del Perú, casos visibles de clínicas dentales) aunque ya cubre médico, estético y terapia. Clinera es multi-vertical desde el día 1 (estética, dental, médico, fisio, dermatología, ginecología, traumatología, medicina general) sin sesgo a un solo vertical. Para clínicas dentales puras buscando lo más económico, Doctocliq tiene ventaja. Para clínicas multi-vertical, estéticas o médicas con marketing activo, Clinera está mejor diseñado.",
       },
       {
-        title: "Combinar ambos: Doctocliq + Clinera vía API",
+        title: "Cómo decidir entre Doctocliq y Clinera",
         body:
-          "Si ya usas Doctocliq por su precio y te cierra para la capa básica, sumar Clinera por encima vía API/MCP es la jugada para escalar. Doctocliq sigue siendo el sistema clínico (agenda, ficha, recordatorios); Clinera opera AURA en el WhatsApp + atribución de marketing + difusiones. Cuando AURA cierra una cita, la registra en Doctocliq. La clínica sigue trabajando en Doctocliq para todo lo clínico.",
+          "Clinera no se sincroniza con Doctocliq: opera sobre su propia agenda, ficha y pagos, y migramos tus datos en el onboarding. Si Doctocliq te cierra por su precio para la capa básica, es una buena entrada. Cuando necesitas escalar con AURA en WhatsApp, atribución de marketing y difusiones, el paso es migrar a Clinera, donde todo vive en el mismo sistema.",
       },
     ],
     faqs: [
       {
         q: "¿Doctocliq y Clinera son competidores directos?",
-        a: "Parcialmente. Compiten en agenda + recordatorios + asistente IA, pero resuelven cuellos de botella distintos: Doctocliq es la entrada económica para digitalización clínica básica; Clinera es la capa premium de IA conversacional + atribución de marketing. Pueden combinarse vía API.",
+        a: "Parcialmente. Compiten en agenda + recordatorios + asistente IA, pero resuelven cuellos de botella distintos: Doctocliq es la entrada económica para digitalización clínica básica; Clinera es el software completo con IA conversacional + atribución de marketing. No se sincronizan entre sí: la decisión es uno u otro.",
       },
       {
         q: "¿Vale la pena pagar USD 279/mes en Clinera si tengo el plan gratis de Doctocliq?",
@@ -1059,12 +1070,14 @@ export async function generateMetadata({
   const data = competitors[slug as Slug];
   if (!data) return {};
   return {
-    title: `Clinera vs ${data.name} 2026 — Comparativa completa`,
-    description: `Comparamos Clinera con ${data.name}: IA, agenda, WhatsApp, ficha clínica, precio, soporte y casos de migración. Guía honesta para decidir en 2026.`,
+    title: data.metaTitle ?? `Clinera vs ${data.name} 2026 — Comparativa completa`,
+    description:
+      data.metaDescription ??
+      `Comparamos Clinera con ${data.name}: IA, agenda, WhatsApp, ficha clínica, precio, soporte y casos de migración. Guía honesta para decidir en 2026.`,
     alternates: { canonical: `https://www.clinera.io/comparativas/${slug}` },
     openGraph: {
       url: `https://www.clinera.io/comparativas/${slug}`,
-      title: `Clinera vs ${data.name} 2026 — Comparativa completa`,
+      title: data.metaTitle ?? `Clinera vs ${data.name} 2026 — Comparativa completa`,
       description: `Tabla, análisis por dimensión, precios y casos reales de migración desde ${data.name} a Clinera.`,
     },
   };

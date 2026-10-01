@@ -157,6 +157,8 @@ Hub: https://www.clinera.io/novedades/fichas-clinicas
 
 - Software médico (agenda, ficha clínica, agente IA): https://www.clinera.io/software-medico
 - Software dental (agenda, odontograma FDI, agente IA): https://www.clinera.io/software-dental
+- Software para clínicas estéticas (agenda, ficha facial y corporal, CRM, agente IA): https://www.clinera.io/software-estetica
+- Agendamiento por WhatsApp con IA (AURA agenda, reagenda y confirma 24/7): https://www.clinera.io/agendamiento-whatsapp-ia
 
 ## Próximas funciones (agosto 2026)
 
