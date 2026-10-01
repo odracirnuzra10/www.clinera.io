@@ -13,6 +13,8 @@ const cols: Col[] = [
       ["Ver demo 3 min", "/demo", true],
       ["Software médico", "/software-medico"],
       ["Software dental", "/software-dental"],
+      ["Software estético", "/software-estetica"],
+      ["Agendamiento por WhatsApp", "/agendamiento-whatsapp-ia"],
       ["Funciones", "/funciones"],
       ["Planes", "/planes"],
       ["App móvil", "/app"],

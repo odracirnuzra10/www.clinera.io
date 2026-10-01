@@ -9,9 +9,21 @@ const atlas = CLINERA_PLANS[1];
 const summit = CLINERA_PLANS[2];
 
 export type SoftwareVerticalContent = {
-  slug: "software-medico" | "software-dental";
-  leadSource: "software_medico_landing" | "software_dental_landing";
-  contentCategory: "landing_software_medico" | "landing_software_dental";
+  slug:
+    | "software-medico"
+    | "software-dental"
+    | "software-estetica"
+    | "agendamiento-whatsapp-ia";
+  leadSource:
+    | "software_medico_landing"
+    | "software_dental_landing"
+    | "software_estetica_landing"
+    | "agendamiento_whatsapp_ia_landing";
+  contentCategory:
+    | "landing_software_medico"
+    | "landing_software_dental"
+    | "landing_software_estetica"
+    | "landing_agendamiento_whatsapp_ia";
   breadcrumbName: string;
   applicationName: string;
   applicationSubCategory: string;
@@ -270,6 +282,223 @@ export const DENTAL: SoftwareVerticalContent = {
       "CRM para clínicas dentales",
       "odontograma",
       "agenda dental",
+    ],
+  },
+};
+
+export const ESTETICA: SoftwareVerticalContent = {
+  slug: "software-estetica",
+  leadSource: "software_estetica_landing",
+  contentCategory: "landing_software_estetica",
+  breadcrumbName: "Software para clínicas estéticas",
+  applicationName: "Clinera — software para clínicas estéticas",
+  applicationSubCategory: "Aesthetic Clinic Management",
+  eyebrow: "Software para clínicas estéticas · agenda, ficha y agente IA",
+  h1Lead: "El ",
+  h1Accent: "software para clínicas estéticas",
+  h1Rest: " que agenda, ficha y confirma por WhatsApp",
+  thesis:
+    "Clinera es un software para clínicas estéticas con agenda, ficha facial y corporal con consentimientos y fotos del paciente, y un agente de IA (AURA) que agenda y confirma por WhatsApp 24/7. Opera sobre su propia agenda: migramos tus datos en el onboarding.",
+  sub: `Desde USD ${vortex.monthlyPrice}/mes. CRM incluido, sin integrar agendas de terceros. Un solo modo de agendamiento: Agentic.`,
+  heroViews: ["corporal", "ficha", "aura", "intelligence"],
+  includesH2: "Qué incluye el software para clínicas estéticas",
+  includes: [
+    {
+      title: "Agenda por profesional y cabina",
+      body: "Disponibilidad real por profesional, sala y duración del tratamiento. AURA crea, reagenda y cancela dentro de WhatsApp, sin mandar links.",
+    },
+    {
+      title: "Ficha facial",
+      body: "Evaluación, tratamientos y consentimientos en la misma ficha, con seguimiento visual del rostro entre sesiones.",
+    },
+    {
+      title: "Ficha corporal",
+      body: "Evaluación por zonas, plan de tratamiento y evolución. Las fotos quedan atadas al paciente, no a un Drive ni al celular de la clínica.",
+    },
+    {
+      title: "Agente IA (AURA)",
+      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. En vivo en todos los planes. CAMILA (voz) disponible desde Atlas.",
+    },
+    {
+      title: "Clinera Intelligence",
+      body: "Pregunta en lenguaje natural por ventas por tratamiento, asistencia y no-shows. Te responde con los datos de tu clínica.",
+    },
+    {
+      title: "CRM, dentro",
+      body: "Seguimiento de leads, planes de tratamiento y atribución de campañas Meta y Google en el mismo software que la ficha.",
+    },
+  ],
+  deepDive: {
+    eyebrow: "Ficha estética",
+    h2: "Ficha pensada para tratamientos por sesiones",
+    body: "Una clínica estética trabaja en ciclos: evaluación, sesiones, control. La ficha concentra el historial, el consentimiento de cada procedimiento y las fotos de cada etapa, para que el profesional vea todo antes de entrar a sala.",
+    bullets: [
+      "Evaluación facial y corporal atada al paciente",
+      "Consentimiento informado de cada procedimiento en la ficha",
+      "Seguimiento visual entre sesiones",
+    ],
+    imageSrc: "/presentacion/eval-corporal.jpg",
+    imageAlt: "Evaluación corporal en la ficha clínica de Clinera",
+  },
+  aura: {
+    eyebrow: "Agente IA · en vivo",
+    headline: "AURA responde y agenda cuando la clínica no puede.",
+    body: "Atiende consultas fuera de horario, agenda y confirma sobre la agenda del equipo, y deriva a una persona cuando la conversación lo pide. CAMILA (voz) disponible desde Atlas; LIA disponible en Summit.",
+    imageAlt: "AURA — agente IA de WhatsApp para clínicas estéticas",
+  },
+  crm: {
+    eyebrow: "CRM para clínicas estéticas",
+    h2: "¿Buscabas un CRM para tu clínica estética? Viene dentro del software",
+    body: "Pipeline de tratamientos, seguimiento de pacientes y atribución de campañas en el mismo sistema que la ficha. No conectas dos sistemas: es el módulo de ventas del software con el que opera la clínica.",
+  },
+  finalH2: "Te mostramos tu clínica estética dentro de Clinera.",
+  faqs: [
+    {
+      q: "¿Qué es Clinera para una clínica estética?",
+      a: "Un software con agenda, ficha facial y corporal con consentimientos, CRM y un agente de IA por WhatsApp (AURA). Es el sistema con el que opera la clínica, no un bot al lado de otro programa.",
+    },
+    {
+      q: "¿Sirve para una clínica de una sola sucursal?",
+      a: `Sí. Vortex (USD ${vortex.monthlyPrice}/mes) es el plan de entrada: ${vortex.credits.toLocaleString("es-CL")} créditos/mes, ${vortex.consumptionReference}. Agenda, ficha y AURA van incluidos.`,
+    },
+    {
+      q: "¿Reemplaza a AgendaPro o a Reservo?",
+      a: "Si quieres operar la clínica en un solo software —agenda, ficha, WhatsApp con IA y CRM— sí: migramos tus datos en el onboarding. Si tu negocio mezcla estética con spa o peluquería y necesitas apps nativas para todo, revisa la comparativa honesta en https://www.clinera.io/comparativas/agendapro.",
+    },
+    {
+      q: "¿Se integra con la agenda que usamos hoy?",
+      a: INTEGRATION_FAQ,
+    },
+    {
+      q: "¿La ficha incluye consentimientos y fotos?",
+      a: "Sí. Ficha facial y corporal con consentimientos informados e historial de tratamientos, y las fotos de cada etapa quedan atadas al paciente. Para entender las diferencias entre una ficha estética y una médica, lee https://www.clinera.io/blog/ficha-clinica-estetica-vs-medica.",
+    },
+    {
+      q: "¿Cuánto cuesta el software para clínicas estéticas?",
+      a: PRICE_FAQ,
+    },
+    {
+      q: "¿Cómo agenda el agente IA?",
+      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real del equipo y deja la cita creada. Reagenda y cancela en la misma conversación. CAMILA, el agente de voz, está disponible desde Atlas.",
+    },
+  ],
+  meta: {
+    title: "Software para clínicas estéticas: agenda, ficha y agente IA",
+    description: `Software para clínicas estéticas: agenda, ficha facial y corporal, CRM y agente IA que agenda por WhatsApp 24/7. Desde USD ${vortex.monthlyPrice}/mes. Migramos tus datos, sin integrar agendas de terceros.`,
+    keywords: [
+      "software para clínicas estéticas",
+      "software clínica estética",
+      "CRM clínica estética",
+      "CRM clínica",
+      "ficha clínica estética",
+      "agenda para clínica estética",
+    ],
+  },
+};
+
+export const WHATSAPP_IA: SoftwareVerticalContent = {
+  slug: "agendamiento-whatsapp-ia",
+  leadSource: "agendamiento_whatsapp_ia_landing",
+  contentCategory: "landing_agendamiento_whatsapp_ia",
+  breadcrumbName: "Agendamiento por WhatsApp con IA",
+  applicationName: "Clinera AURA — agendamiento por WhatsApp con IA para clínicas",
+  applicationSubCategory: "Appointment Scheduling",
+  eyebrow: "Agendamiento por WhatsApp con IA · AURA",
+  h1Lead: "",
+  h1Accent: "Agendamiento por WhatsApp con IA",
+  h1Rest: " para clínicas: AURA agenda, reagenda y confirma por ti",
+  thesis:
+    "AURA es el agente de IA de Clinera que atiende el WhatsApp de tu clínica 24/7: consulta la disponibilidad real, agenda, reagenda y cancela dentro de la conversación, sin links. Trabaja sobre la agenda y la ficha de Clinera, con tu número conectado vía Meta.",
+  sub: `Desde USD ${vortex.monthlyPrice}/mes. En vivo en todos los planes. Un solo modo de agendamiento: Agentic.`,
+  heroViews: ["aura", "ficha", "intelligence"],
+  includesH2: "Qué hace el agendamiento por WhatsApp con IA de Clinera",
+  includes: [
+    {
+      title: "Agenda dentro de la conversación",
+      body: "El paciente escribe, AURA consulta la disponibilidad real del equipo y deja la cita creada. Sin links ni formularios.",
+    },
+    {
+      title: "Reagenda y cancela",
+      body: "Cambios y cancelaciones en el mismo hilo, con la agenda actualizada al instante.",
+    },
+    {
+      title: "Atiende fuera de horario",
+      body: "Responde precios, horarios y dudas a cualquier hora y agenda sin que nadie de la clínica tenga que estar conectado.",
+    },
+    {
+      title: "Deriva a una persona",
+      body: "Cuando la conversación lo requiere, pasa el caso a tu equipo con el historial a la vista.",
+    },
+    {
+      title: "Sobre la ficha del paciente",
+      body: "AURA trabaja sobre la agenda y la ficha de Clinera: el contexto del paciente está en el mismo sistema, sin sincronizar dos programas.",
+    },
+    {
+      title: "Número propio vía Meta",
+      body: "Conectas tu WhatsApp con Meta Embedded Signup; la cuenta de WhatsApp Business es de tu clínica.",
+    },
+  ],
+  deepDive: {
+    eyebrow: "Cómo se cobra el consumo",
+    h2: "Pagas por conversación, medida en créditos",
+    body: "Conversar sin llegar a una cita consume 30 créditos; una conversación que agenda, reagenda o cancela, 195. Cada plan trae una bolsa mensual y la recarga está disponible. La calculadora te dice qué plan te calza según tu volumen.",
+    bullets: [
+      `Vortex: ${vortex.credits.toLocaleString("es-CL")} créditos, ${vortex.consumptionReference}`,
+      `Atlas: ${atlas.credits.toLocaleString("es-CL")} créditos`,
+      `Summit: ${summit.credits.toLocaleString("es-CL")} créditos`,
+    ],
+  },
+  aura: {
+    eyebrow: "Agente IA · en vivo",
+    headline: "AURA atiende tu WhatsApp las 24 horas.",
+    body: "Agenda sobre la agenda real de tu equipo y confirma la cita. CAMILA (voz) disponible desde Atlas; LIA disponible en Summit.",
+    imageAlt: "AURA — agendamiento por WhatsApp con IA para clínicas",
+  },
+  crm: {
+    eyebrow: "Más que un chatbot",
+    h2: "¿Buscabas un chatbot para clínicas? AURA viene dentro del software",
+    body: "Un chatbot suelto responde, pero la cita vive en otro sistema. En Clinera el agente, la agenda, la ficha y el CRM son el mismo software: lo que agenda AURA queda en la ficha y en el seguimiento de ventas.",
+  },
+  finalH2: "Te mostramos AURA agendando en tu WhatsApp.",
+  faqs: [
+    {
+      q: "¿Cómo agenda citas por WhatsApp un agente de IA?",
+      a: "AURA conversa con el paciente, consulta la disponibilidad real de los profesionales en la agenda de Clinera y deja la cita creada. Reagenda y cancela en la misma conversación y avisa a tu equipo cuando hay que intervenir.",
+    },
+    {
+      q: "¿Necesito cambiar mi número de WhatsApp?",
+      a: "No. Conectas el número de tu clínica con Meta Embedded Signup y la cuenta queda a nombre de tu clínica. Una cuenta de Clinera trabaja con 1 número de WhatsApp, 1 cuenta de Instagram y 1 de Facebook. Más números o perfiles son más cuentas.",
+    },
+    {
+      q: "¿Se integra con la agenda que usamos hoy?",
+      a: INTEGRATION_FAQ,
+    },
+    {
+      q: "¿Cuánto cuesta el agendamiento por WhatsApp con IA?",
+      a: PRICE_FAQ,
+    },
+    {
+      q: "¿Cuántas conversaciones incluye cada plan?",
+      a: `Una conversación que no termina en cita consume 30 créditos y una que agenda, reagenda o cancela, 195. Con eso, Vortex alcanza para ${vortex.consumptionReference}. Atlas y Summit traen bolsas mayores y la recarga está disponible.`,
+    },
+    {
+      q: "¿AURA reemplaza a mi recepcionista?",
+      a: "Toma el trabajo repetitivo —responder, agendar, confirmar, reagendar— y deriva a tu equipo lo que requiere criterio. Tu recepción se libera para atender a quien está en la clínica.",
+    },
+    {
+      q: "¿Qué es un chatbot para clínicas y en qué se diferencia de AURA?",
+      a: "Un chatbot clásico sigue un guion de respuestas. AURA es un empleado digital: entiende la conversación, consulta la agenda real y ejecuta la acción. Lee más en https://www.clinera.io/empleado-digital.",
+    },
+  ],
+  meta: {
+    title: "Agendamiento por WhatsApp con IA para clínicas | Clinera",
+    description: `Agendamiento automático por WhatsApp con IA para clínicas: AURA agenda, reagenda y confirma 24/7 sobre la agenda y la ficha de Clinera. Desde USD ${vortex.monthlyPrice}/mes.`,
+    keywords: [
+      "agendamiento por whatsapp con IA",
+      "agendamiento automático clínicas",
+      "chatbot para clínicas",
+      "agente IA whatsapp clínicas",
+      "agendar citas por whatsapp",
     ],
   },
 };

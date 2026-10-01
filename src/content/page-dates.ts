@@ -14,6 +14,8 @@ export const PAGE_DATES: Record<
   "/empleado-digital": { published: "2026-04-01", modified: "2026-09-03" },
   "/software-medico": { published: "2026-08-01", modified: "2026-08-26" },
   "/software-dental": { published: "2026-08-01", modified: "2026-08-26" },
+  "/software-estetica": { published: "2026-10-01", modified: "2026-10-01" },
+  "/agendamiento-whatsapp-ia": { published: "2026-10-01", modified: "2026-10-01" },
   "/mejor-software-clinicas": { published: "2026-08-25", modified: "2026-08-25" },
   "/mejor-software-clinicas/chile": {
     published: "2026-08-25",

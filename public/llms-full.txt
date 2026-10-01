@@ -194,6 +194,8 @@ periodontograma/ortodoncia a profundidad de Dentalink, ni como ERP.
 
 - Estética facial (botox, peelings, limpiezas, dermatología cosmética)
 - Estética corporal (depilación láser, criolipólisis, drenaje, HIFU)
+  Landing: https://www.clinera.io/software-estetica (agenda, ficha facial y corporal, CRM; no se sincroniza con AgendaPro ni Reservo).
+- Agendamiento por WhatsApp con IA — https://www.clinera.io/agendamiento-whatsapp-ia (AURA agenda, reagenda y cancela dentro de la conversación)
 - Dental — https://www.clinera.io/software-dental (odontograma FDI y presupuestador propios; no se sincroniza con Dentalink ni Dentalsoft)
 - Dermatología clínica — https://www.clinera.io/software-medico
 - Medicina estética y antiaging
