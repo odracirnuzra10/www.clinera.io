@@ -42,11 +42,23 @@ export default function CyberClineraBanner() {
   useEffect(() => {
     const header = document.querySelector("header");
     if (!header) return;
-    const medir = () => setTop(Math.round(header.getBoundingClientRect().height));
+    let raf = 0;
+    const medir = () => {
+      raf = 0;
+      setTop(Math.max(0, Math.round(header.getBoundingClientRect().bottom)));
+    };
+    const pedir = () => { if (!raf) raf = requestAnimationFrame(medir); };
     medir();
-    const ro = new ResizeObserver(medir);
+    const ro = new ResizeObserver(pedir);
     ro.observe(header);
-    return () => ro.disconnect();
+    window.addEventListener("scroll", pedir, { passive: true });
+    window.addEventListener("resize", pedir);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("scroll", pedir);
+      window.removeEventListener("resize", pedir);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, [vigente]);
 
   if (!vigente) return null;
@@ -127,6 +139,9 @@ export default function CyberClineraBanner() {
         .cyber-strip__text {
           margin: 0; font-size: 15px; font-weight: 600; letter-spacing: -.01em; line-height: 1.3;
         }
+        .cyber-strip .cyber-strip__text { color: #fff; }
+        .cyber-strip .cyber-strip__tag { color: #F0ABFC; }
+        .cyber-strip .cyber-strip__cta { color: #fff; }
         .cyber-strip__count {
           font-family: 'JetBrains Mono', ui-monospace, monospace;
           font-size: 12px; color: rgba(255,255,255,.7); white-space: nowrap;
@@ -143,9 +158,10 @@ export default function CyberClineraBanner() {
         }
         .cyber-strip__cta:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -6px rgba(124,58,237,.8); }
         @media (max-width: 900px) {
-          .cyber-strip__inner { padding: 9px 20px; gap: 12px; }
-          .cyber-strip__count, .cyber-strip__tag { display: none; }
-          .cyber-strip__text { font-size: 13px; }
+          .cyber-strip__inner { padding: 9px 14px; gap: 10px; justify-content: space-between; }
+          .cyber-strip__count { display: none; }
+          .cyber-strip__tag { font-size: 10px; letter-spacing: .12em; }
+          .cyber-strip__text { font-size: 12.5px; }
           .cyber-strip__cta { padding: 7px 12px; font-size: 12.5px; }
         }
         @media (prefers-reduced-motion: reduce) {
