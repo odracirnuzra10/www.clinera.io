@@ -24,7 +24,7 @@ export default function CyberClineraBanner() {
     <section
       aria-labelledby="cyber-clinera-title"
       data-promo="cyber-clinera"
-      style={{ padding: "8px 80px 28px", background: "#fff" }}
+      style={{ padding: "12px 80px 36px", background: "#fff" }}
     >
       <div
         className="cyber-clinera-card"
@@ -32,8 +32,9 @@ export default function CyberClineraBanner() {
           maxWidth: 1200,
           margin: "0 auto",
           background: "linear-gradient(135deg, #0E1014 0%, #1F1B2E 100%)",
-          borderRadius: 20,
-          padding: "28px 36px",
+          borderRadius: 24,
+          border: "1px solid rgba(217,70,239,.45)",
+          padding: "44px 48px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -41,21 +42,21 @@ export default function CyberClineraBanner() {
           flexWrap: "wrap",
           position: "relative",
           overflow: "hidden",
-          boxShadow: "0 28px 64px -20px rgba(124,58,237,.3)",
+          boxShadow: "0 0 0 4px rgba(124,58,237,.14), 0 36px 80px -18px rgba(124,58,237,.65)",
         }}
       >
         <div
           aria-hidden
-          style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: GRAD }}
+          style={{ position: "absolute", top: 0, left: 0, right: 0, height: 6, background: GRAD }}
         />
         <div style={{ flex: "1 1 420px", minWidth: 0 }}>
           <p
             style={{
               margin: "0 0 10px",
               fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-              fontSize: 11,
-              fontWeight: 600,
-              letterSpacing: "0.16em",
+              fontSize: 13,
+              fontWeight: 700,
+              letterSpacing: "0.2em",
               textTransform: "uppercase",
               color: "#E9D5FF",
             }}
@@ -66,8 +67,8 @@ export default function CyberClineraBanner() {
             id="cyber-clinera-title"
             style={{
               fontFamily: "Inter, system-ui, sans-serif",
-              fontSize: "clamp(22px, 2.6vw, 32px)",
-              fontWeight: 800,
+              fontSize: "clamp(28px, 3.8vw, 44px)",
+              fontWeight: 900,
               letterSpacing: "-0.025em",
               lineHeight: 1.12,
               color: "#fff",
@@ -80,13 +81,13 @@ export default function CyberClineraBanner() {
         <Link
           href="/agenda"
           style={{
-            background: "#fff",
-            color: "#0E1014",
-            padding: "13px 22px",
+            background: GRAD,
+            color: "#fff",
+            padding: "18px 32px",
             borderRadius: 999,
             fontFamily: "Inter, system-ui, sans-serif",
             fontWeight: 600,
-            fontSize: 14.5,
+            fontSize: 17,
             textDecoration: "none",
             whiteSpace: "nowrap",
             flexShrink: 0,
@@ -97,7 +98,7 @@ export default function CyberClineraBanner() {
       </div>
       <style>{`
         @media (max-width: 720px) {
-          .cyber-clinera-card { padding: 24px 22px !important; }
+          .cyber-clinera-card { padding: 30px 24px !important; }
         }
       `}</style>
     </section>
