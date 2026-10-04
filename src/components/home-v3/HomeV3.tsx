@@ -65,8 +65,8 @@ export default function HomeV3() {
           main > section { padding-left: 32px !important; padding-right: 32px !important; }
         }
       `}</style>
-      <Hero />
       <CyberClineraBanner />
+      <Hero />
       <DemoEnVivo />
       <ActualizacionSeptiembreBanner />
       <EcosistemaIA />
