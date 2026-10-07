@@ -35,6 +35,8 @@ test.describe("/presentacion en 3 diapositivas", () => {
     for (const f of ["Agenda", "Fichas", "Pagos", "Marketing", "Clinera Intelligence", "AURA", "CAMILA", "LIA"]) {
       expect(c).toContain(f);
     }
+    expect(c).toContain("devolverle tiempo al paciente");
+    expect(c).toContain("Roadmap 2027: HL7 FHIR");
     expect(c).toContain("En vivo");
     expect(c.match(/Oct 2026/g)).toHaveLength(2);
     expect(c).not.toMatch(/open\s*factura/i);
