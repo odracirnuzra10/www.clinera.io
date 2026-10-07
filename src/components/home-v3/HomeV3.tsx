@@ -3,7 +3,6 @@
 import TrialBanner from "@/components/cro/TrialBanner";
 import ModosAgendamiento from "@/components/empleado-digital/ModosAgendamiento";
 import { IntelligenceHomeSection } from "@/components/IntelligenceSection";
-import CyberClineraBanner from "./CyberClineraBanner";
 import ActualizacionSeptiembreBanner from "./ActualizacionSeptiembreBanner";
 import DemoEnVivo from "./DemoEnVivo";
 import { TeamSection } from "./TeamSection";
@@ -65,7 +64,6 @@ export default function HomeV3() {
           main > section { padding-left: 32px !important; padding-right: 32px !important; }
         }
       `}</style>
-      <CyberClineraBanner />
       <Hero />
       <DemoEnVivo />
       <ActualizacionSeptiembreBanner />
