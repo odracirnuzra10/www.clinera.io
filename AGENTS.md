@@ -569,7 +569,7 @@ Guardián: `tests/vision-2027.spec.ts`.
 `public/presentacion/index.html`. No hay componente React que tocar ahí.
 
 **Son 3 diapositivas, a propósito:** `#quienes-somos` (historia en 3 hitos:
-agencia 2017 → Hebe/Lumina → Clinera oct 2025), `#que-es-clinera` (funciones +
+agencia 2017 → Hebe/Lumina → Clinera oct 2025), `#funciones` (funciones +
 IA) y `#planes` (precio y detalle por plan). Antes eran 13 (Rebeca, ago–sep
 2026: origen, por qué Clinera, AURA, Intelligence ×3, empleados, canales,
 normativa, migración); se resumieron porque la reunión pide algo ultra breve.

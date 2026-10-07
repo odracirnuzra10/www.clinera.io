@@ -13,7 +13,7 @@ test.describe("Planes en /presentacion", () => {
   test("el deck son 3 diapositivas y la de precio lo cierra, anual antes que mensual", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
     expect(ids.at(-1)).toBe("planes");
-    expect(ids).toEqual(["quienes-somos", "que-es-clinera", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "funciones", "planes"]);
 
     const start = html.indexOf('id="planes"');
     const chunk = html.slice(start, html.indexOf("</section>", start));

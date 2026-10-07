@@ -5,7 +5,7 @@ import { CLINERA_PLANS } from "../src/content/pricing";
 
 /**
  * /presentacion son 3 diapositivas (Ricardo, 7-oct-2026): quiénes somos,
- * qué es Clinera y planes con el detalle. No reponer las 13 anteriores:
+ * funciones Clinera y planes con el detalle. No reponer las 13 anteriores:
  * el deck es breve a propósito. El HTML duplica números porque no importa TS.
  */
 const html = readFileSync(join(process.cwd(), "public/presentacion/index.html"), "utf8");
@@ -16,9 +16,9 @@ const slide = (id: string) => {
 };
 
 test.describe("/presentacion en 3 diapositivas", () => {
-  test("solo existen quiénes somos, qué es Clinera y planes, en ese orden", () => {
+  test("solo existen quiénes somos, funciones Clinera y planes, en ese orden", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "que-es-clinera", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "funciones", "planes"]);
   });
 
   test("quiénes somos cuenta la historia: 2017, clínicas propias, Clinera 2025", () => {
@@ -29,8 +29,8 @@ test.describe("/presentacion en 3 diapositivas", () => {
     expect(c).toContain("Oct 2025");
   });
 
-  test("qué es Clinera: funciones e IA; CAMILA y LIA siguen como próximamente", () => {
-    const c = slide("que-es-clinera");
+  test("funciones Clinera: funciones e IA; CAMILA y LIA siguen como próximamente", () => {
+    const c = slide("funciones");
     for (const f of ["Agenda", "Fichas", "Pagos", "Marketing", "Clinera Intelligence", "AURA", "CAMILA", "LIA"]) {
       expect(c).toContain(f);
     }
