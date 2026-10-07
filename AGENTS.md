@@ -562,62 +562,28 @@ ni funciones. Anexo de producto (no es el deck):
 `/internal/mi-clinera/especificacion` y `/internal/mi-clinera/mockup`.
 Guardián: `tests/vision-2027.spec.ts`.
 
-# `/presentacion`: archivo estático, no componente — rediseño Rebeca (ago 2026)
+# `/presentacion`: archivo estático, 3 diapositivas (Ricardo, 7-oct-2026)
 
 `/presentacion` (el deck de ventas) no es una ruta de Next.js: `next.config.ts` reescribe
 `/presentacion` → `/presentacion/index.html`, un único archivo HTML/CSS/JS en
 `public/presentacion/index.html`. No hay componente React que tocar ahí.
 
-**Rediseño comercial (Rebeca → gerencia, 27-ago-2026):** el hero abre con
-métricas de impacto en fondo oscuro, **sin** la franja «Clínicas que ya operan
-con Clinera»; se borraron `#veredicto` y `#herramientas`; no se prometen
-cobros/conciliación/exámenes; la migración habla de «7 días de Red de
-Seguridad». Fuente: correo de Rebeca con
-`Analisis_Presentacion_Clinera_Gerencia.pdf`. `#canales` y `#empleados-digitales`
-se mantienen (guardians propios). Guardián del rediseño:
-`tests/presentacion-redisenio-rebeca.spec.ts`.
-
-**Quiénes somos antes del producto (Ricardo, sep 2026):** justo después del
-hero van `#origen` («Cómo nació Clinera») y `#por-que-clinera` («¿Por qué
-Clinera y no otro software?»); AURA es la **4.ª** diapositiva. El orden es
-quiénes somos y por qué nosotros → producto. Las cuatro razones salen de la
-tarea Todoist de optimizar esa pregunta. Hechos citables de la historia:
-Metricads/agencia 2017, Método Hebe y Protocolo Lumina (tres sedes), lanzamiento
-octubre 2025 — **nada de cifras nuevas**. No nombrar competidores ni Open
-Factura. Guardián: `tests/presentacion-por-que-clinera.spec.ts`.
-
-**Tope narrativo de 12 diapos (sep 2026) más el cierre de precio (26-sep):**
-al sumar origen + por-qué se retiró `#la-fuga` — el hero ya lleva las mismas
-cifras (20 %, US$ 1.500, 300 leads / 60 que se escapan). No reponer esa diapo
-sin sacar otra del relato. Orden del relato:
-`clinera` → `origen` → `por-que-clinera` → `aura` → `intelligence` →
-`inteligencia` → `inteligencia-deudas` → `inteligencia-profesionales` →
-`empleados-digitales` → `canales` → `normativa` → `migracion`.
-Después, `#planes`: lo primero que se lee es el plan anual y debajo el
-mensual. El dólar/MXN va chico, con banderas, al lado del selector. Los
-números salen de `pricing.ts` y están duplicados en el HTML porque el deck
-no importa TS: si cambia un anual, hay que tocar la diapo. Guardián:
+**Son 3 diapositivas, a propósito:** `#quienes-somos` (historia en 3 hitos:
+agencia 2017 → Hebe/Lumina → Clinera oct 2025), `#que-es-clinera` (funciones +
+IA) y `#planes` (precio y detalle por plan). Antes eran 13 (Rebeca, ago–sep
+2026: origen, por qué Clinera, AURA, Intelligence ×3, empleados, canales,
+normativa, migración); se resumieron porque la reunión pide algo ultra breve.
+No reponer diapos sueltas: si un tema necesita espacio, va dentro de una de
+las tres. Hechos citables: sin cifras nuevas; no nombrar competidores ni Open
+Factura. **CAMILA y LIA van «Oct 2026» (próximamente); AURA es la que está en
+vivo.** En `#planes`, los canales por plan siguen la misma regla que
+`pricing.ts` (Vortex WhatsApp; Atlas +FB/IG; Summit +llamadas con IA); los
+logos son `<symbol>` (`#ch-wa`, `#ch-fb`, `#ch-ig`, `#ch-tel`) en el SVG de
+arriba del `<body>`. Anual primero, dólar/MXN chico con banderas, 12 cuotas
+con Mercado Pago. Los números están duplicados en el HTML porque el deck no
+importa TS: si cambia un precio, crédito o usuario, hay que tocar la diapo.
+Guardianes: `tests/presentacion-3-diapos.spec.ts` y
 `tests/presentacion-planes.spec.ts`.
-
-**Clinera Intelligence (sep 2026):** el WOW del deck ya **no** es el QR
-«Prueba tú mismo» (`#demostracion` eliminado). Son **3 diapos** seguidas
-(`#inteligencia`, `#inteligencia-deudas`, `#inteligencia-profesionales`) con
-pregunta en español + gráfico de respuesta: ventas por tratamiento, top 5
-deudores, top 5 profesionales. Guardián:
-`tests/presentacion-intelligence.spec.ts`.
-
-**1 cuenta Clinera = 1 número de WhatsApp, 1 cuenta de Instagram y 1 cuenta de Facebook.**
-Es el recorte comercial de canales, no un detalle de onboarding. Si la clínica opera con
-más de un número o más de un perfil, son más cuentas (y más planes). Vive en la
-diapositiva `#canales` de ese HTML. No diluirlo en un bullet de AURA: tiene slide propio
-porque en la demo se asume mal. Guardián: `tests/presentacion-canales.spec.ts`.
-
-**CAMILA y LIA en el deck:** próximamente octubre 2026. AURA es la disponible
-hoy. El lead de `#empleados-digitales` no puede volver a decir "Disponibles hoy"
-sobre las tres. Visualmente AURA es la tarjeta protagonista (`.ed-agent-now`);
-CAMILA y LIA van apagadas (`.ed-agent-soon`, foto en gris). No dejar las tres
-al mismo peso: en la demo se lee como que las tres se contratan hoy.
-Guardián: `tests/presentacion-empleados.spec.ts`.
 
 **Próximas funciones.** Catálogo en `src/content/proximas-funciones.ts`.
 Anunciadas en blog + `llms*.txt` (agosto 2026), **no en `/presentacion`**:

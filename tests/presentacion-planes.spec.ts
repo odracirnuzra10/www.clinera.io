@@ -10,11 +10,10 @@ import { ANNUAL_DISCOUNT_PERCENT, CLINERA_PLANS, SETUP_FEE_USD, annualFirstYearS
 const html = readFileSync(join(process.cwd(), "public/presentacion/index.html"), "utf8");
 
 test.describe("Planes en /presentacion", () => {
-  test("la diapositiva de precio cierra el deck, anual antes que mensual", () => {
+  test("el deck son 3 diapositivas y la de precio lo cierra, anual antes que mensual", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
     expect(ids.at(-1)).toBe("planes");
-    expect(ids).toHaveLength(13);
-    expect(ids.indexOf("migracion")).toBe(ids.indexOf("planes") - 1);
+    expect(ids).toEqual(["quienes-somos", "que-es-clinera", "planes"]);
 
     const start = html.indexOf('id="planes"');
     const chunk = html.slice(start, html.indexOf("</section>", start));
