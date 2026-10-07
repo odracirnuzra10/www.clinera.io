@@ -21,11 +21,11 @@ test.describe("/presentacion en 3 diapositivas", () => {
     expect(ids).toEqual(["quienes-somos", "funciones", "planes"]);
   });
 
-  test("quiénes somos cuenta la historia: 2017, clínicas propias, Clinera 2025", () => {
+  test("quiénes somos cuenta la historia: 2017, más de 1.500 clínicas, Clinera 2025", () => {
     const c = slide("quienes-somos");
     expect(c).toContain("2017");
-    expect(c).toContain("Método Hebe");
-    expect(c).toContain("Protocolo Lumina");
+    expect(c).toContain("Más de 1.500 clínicas");
+    expect(c).toContain("ninguno satisfacía");
     expect(c).toContain("Oct 2025");
   });
 
