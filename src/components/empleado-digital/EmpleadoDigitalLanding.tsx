@@ -43,7 +43,7 @@ export default function EmpleadoDigitalLanding() {
         id="camila"
         eyebrow="02 · El call center IA"
         headline="Llama, confirma y reagenda por teléfono."
-        body="CAMILA es el empleado digital de voz: llama a tus pacientes para confirmar y reagendar, con tool-calling sobre la agenda para mover citas durante la llamada. Cinco acentos (chileno, colombiano, peruano, mexicano y español). 25 créditos por minuto, disponible desde Atlas."
+        body="CAMILA es el empleado digital de voz: llama a tus pacientes para confirmar y reagendar, con tool-calling sobre la agenda para mover citas durante la llamada. Cinco acentos (chileno, colombiano, peruano, mexicano y español). 25 créditos por minuto, disponible solo en Summit."
         imageSrc="/agents/camila.png"
         imageAlt="CAMILA — empleado digital de voz para clínicas"
         reverse

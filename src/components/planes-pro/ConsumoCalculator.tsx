@@ -31,7 +31,7 @@ const IMPL = SETUP_FEE_USD; // implementación (mes 1), pago único
 type Plan = { id: string; name: string; price: number; credits: number; tier: 1 | 2 | 3; includes: string };
 const PLANS: Plan[] = [
   { id: "vortex", name: "Vortex", price: 279, credits: 28000, tier: 1, includes: "AURA" },
-  { id: "atlas", name: "Atlas", price: 379, credits: 37000, tier: 2, includes: "AURA + CAMILA" },
+  { id: "atlas", name: "Atlas", price: 379, credits: 37000, tier: 2, includes: "AURA" },
   { id: "summit", name: "Summit", price: 479, credits: 46000, tier: 3, includes: "AURA + CAMILA + LIA" },
 ];
 
@@ -50,8 +50,8 @@ function calcular(conversaciones: number, agendamientos: number, minutosVoz: num
   const crLia = lia ? CR_LIA : 0;
   const necesarios = crTexto + crAgenda + crVoz + crLia;
 
-  // Mínimo por feature: LIA solo en Summit; la voz (CAMILA) desde Atlas.
-  const minTier: 1 | 2 | 3 = lia ? 3 : minutosVoz > 0 ? 2 : 1;
+  // Mínimo por feature: LIA solo en Summit; la voz (CAMILA) y LIA solo en Summit.
+  const minTier: 1 | 2 | 3 = lia ? 3 : minutosVoz > 0 ? 3 : 1;
 
   const perPlan: PlanResult[] = PLANS.map((pl) => ({
     ...pl,
@@ -262,7 +262,7 @@ export default function ConsumoCalculator() {
                 <span style={{ fontSize: 14, color: MUTED }}>minutos / mes · 25 cr c/u</span>
               </div>
               <p style={{ fontFamily: MONO, fontSize: 12, color: FAINT, marginTop: 12 }}>
-                La voz (CAMILA) está disponible desde el plan Atlas.
+                Las llamadas con IA (CAMILA) están disponibles solo en el plan Summit.
               </p>
             </div>
 
@@ -375,7 +375,7 @@ export default function ConsumoCalculator() {
                     <p style={{ fontSize: 13.5, lineHeight: 1.5, color: INK, marginTop: 12, padding: "12px 14px", background: "rgba(124,58,237,0.08)", borderLeft: `3px solid ${ACCENT}`, borderRadius: 8 }}>
                       {lia
                         ? "LIA (fiscalización + informes) solo viene en Summit, así que ese es tu plan mínimo."
-                        : "La voz (CAMILA) está disponible desde Atlas, así que ese es tu plan mínimo."}
+                        : "Las llamadas con IA (CAMILA) son exclusivas de Summit, así que ese es tu plan mínimo."}
                     </p>
                   )}
                 </div>

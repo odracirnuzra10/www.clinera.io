@@ -127,6 +127,13 @@ export function formatCatalogPriceWithCode(usd: number, modality: PriceModality)
 }
 
 /**
+ * Canales de atención por plan (Ricardo, 7-oct-2026): Vortex solo WhatsApp;
+ * Atlas suma Facebook e Instagram; Summit suma llamadas con IA (CAMILA).
+ * La voz es exclusiva de Summit: no la vuelvas a poner en Atlas.
+ */
+export type PlanChannel = "whatsapp" | "facebook" | "instagram" | "llamadas";
+
+/**
  * Catálogo comercial. La web publica el anual como valor mensual
  * (`annualMonthly`) y el mensual (`monthlyPrice`) debajo, para que el
  * ahorro se vea. `annualTotal` es lo que cobra Stripe y no se imprime
@@ -146,7 +153,8 @@ export const CLINERA_PLANS = [
     credits: 28_000,
     users: 10,
     branches: "1 sucursal",
-    channel: "Texto",
+    channel: "WhatsApp",
+    channels: ["whatsapp"],
     consumptionReference: "~933 conversaciones o ~143 agendamientos automáticos",
     description:
       "Para clínicas con equipo de recepción y varios profesionales que empiezan a ordenar su operación.",
@@ -165,17 +173,14 @@ export const CLINERA_PLANS = [
     credits: 37_000,
     users: 15,
     branches: "2 sucursales",
-    channel: "Texto + voz",
-    consumptionReference:
-      "~1.233 conversaciones o ~189 agendamientos · ~320 min de voz",
+    channel: "WhatsApp + Facebook + Instagram",
+    channels: ["whatsapp", "facebook", "instagram"],
+    consumptionReference: "~1.233 conversaciones o ~189 agendamientos",
     description:
       "Para clínicas con alto volumen o 2+ sedes que necesitan estandarizar la atención.",
     headline: "Todo de Vortex, más",
     featured: false,
-    agents: [
-      { id: "aura", name: "AURA" },
-      { id: "camila", name: "CAMILA" },
-    ],
+    agents: [{ id: "aura", name: "AURA" }],
     stripe: "https://buy.stripe.com/5kQ7sN40Nez08sP9471441v",
     stripeAnnual: "https://buy.stripe.com/00w00l7cZ76y24ra8b1441B",
   },
@@ -188,7 +193,8 @@ export const CLINERA_PLANS = [
     credits: 46_000,
     users: 25,
     branches: "Sucursales ilimitadas",
-    channel: "Texto + voz + API",
+    channel: "WhatsApp + Facebook + Instagram + llamadas con IA + API",
+    channels: ["whatsapp", "facebook", "instagram", "llamadas"],
     consumptionReference:
       "~1.533 conversaciones o ~235 agendamientos · ~440 min de voz",
     description:

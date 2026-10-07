@@ -27,7 +27,7 @@ type Plan = {
 
 const PLANS: Plan[] = [
   { id: "vortex", name: "VORTEX", price: 279, credits: 28000, tier: 1, includes: "AURA" },
-  { id: "atlas", name: "ATLAS", price: 379, credits: 37000, tier: 2, includes: "AURA + CAMILA" },
+  { id: "atlas", name: "ATLAS", price: 379, credits: 37000, tier: 2, includes: "AURA" },
   { id: "summit", name: "SUMMIT", price: 479, credits: 46000, tier: 3, includes: "AURA + CAMILA + LIA" },
 ];
 
@@ -48,8 +48,8 @@ function recomendar(conversaciones: number, agendamientos: number, minutosVoz: n
   const crLia = lia ? CR_LIA : 0;
   const creditsNeeded = crTexto + crAgenda + crVoz + crLia;
 
-  // Mínimo por feature: LIA solo en Summit; la voz (CAMILA) desde Atlas.
-  const minTier: 1 | 2 | 3 = lia ? 3 : minutosVoz > 0 ? 2 : 1;
+  // Mínimo por feature: LIA solo en Summit; la voz (CAMILA) y LIA solo en Summit.
+  const minTier: 1 | 2 | 3 = lia ? 3 : minutosVoz > 0 ? 3 : 1;
 
   const eligible = PLANS.filter((p) => p.tier >= minTier && p.credits >= creditsNeeded);
   const best = eligible[0] ?? null; // ya vienen ordenados por tier/precio asc
@@ -463,7 +463,7 @@ export default function ConsumptionCalculator() {
               margin: "2px 0 28px",
             }}
           >
-            La voz (CAMILA) está disponible desde el plan ATLAS.
+            Las llamadas con IA (CAMILA) están disponibles solo en el plan SUMMIT.
           </p>
 
           {/* Step 04 — LIA */}
@@ -729,7 +729,7 @@ export default function ConsumptionCalculator() {
             >
               {lia
                 ? "LIA (fiscalización + informes) solo viene en SUMMIT, así que ese es tu plan mínimo."
-                : "La voz (CAMILA) está disponible desde ATLAS, así que ese es tu plan mínimo."}
+                : "Las llamadas con IA (CAMILA) son exclusivas de SUMMIT, así que ese es tu plan mínimo."}
             </div>
           )}
         </div>

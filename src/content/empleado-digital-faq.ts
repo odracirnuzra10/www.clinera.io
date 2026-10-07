@@ -6,11 +6,11 @@ export const EMPLEADO_DIGITAL_FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "¿Cuál es la diferencia entre CAMILA, AURA y LIA?",
-    a: "AURA atiende por WhatsApp 24/7 en todos los planes. CAMILA llama por teléfono para confirmar y reagendar (desde Atlas, 25 créditos/min). LIA vigila la operación en Summit: fiscaliza sin costo de créditos e informes ≈4.000 créditos/mes, y despacha a CAMILA o AURA según el historial del paciente.",
+    a: "AURA atiende por WhatsApp 24/7 en todos los planes. CAMILA llama por teléfono para confirmar y reagendar (solo en Summit, 25 créditos/min). LIA vigila la operación en Summit: fiscaliza sin costo de créditos e informes ≈4.000 créditos/mes, y despacha a CAMILA o AURA según el historial del paciente.",
   },
   {
     q: "¿Desde qué plan puedo contratar cada una?",
-    a: "AURA viene en Vortex, Atlas y Summit. CAMILA está en Atlas y Summit. LIA está en Summit. Los precios publicados son Vortex USD 279, Atlas USD 379 y Summit USD 479 al mes.",
+    a: "AURA viene en Vortex, Atlas y Summit. CAMILA está solo en Summit. LIA está en Summit. Los precios publicados son Vortex USD 279, Atlas USD 379 y Summit USD 479 al mes.",
   },
   {
     q: "¿Cómo se contrata?",

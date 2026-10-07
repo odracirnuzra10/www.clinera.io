@@ -20,6 +20,7 @@ import AvisoNoReemplaza from "@/components/empleado-digital/AvisoNoReemplaza";
 import CatalogPrice from "@/components/pricing/CatalogPrice";
 import BillingToggle from "@/components/pricing/BillingToggle";
 import MercadoPagoCuotas from "@/components/pricing/MercadoPagoCuotas";
+import { PlanChannelLogos } from "@/components/pricing/PlanChannelLogos";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 
@@ -1442,7 +1443,7 @@ function CamilaPeek() {
                     background: "#10B981",
                   }}
                 />
-                En vivo · desde Atlas
+                En vivo · solo Summit
               </span>
             </div>
             <div
@@ -1475,7 +1476,7 @@ function CamilaPeek() {
                 maxWidth: 600,
               }}
             >
-              <b style={{ color: "#0A0A0A" }}>Disponible hoy desde Atlas</b>
+              <b style={{ color: "#0A0A0A" }}>Disponible hoy solo en Summit</b>
               {" "}— llama para confirmar y reagendar, conectada a tu agenda. 25 créditos por minuto.
             </div>
           </div>
@@ -3992,9 +3993,9 @@ function planFeatures(plan: (typeof CLINERA_PLANS)[number]): string[] {
     case "vortex":
       return ["AURA · IA por WhatsApp 24/7", consumo, "Agenda, fichas y pagos"];
     case "atlas":
-      return ["Todo lo de Vortex", "CAMILA · IA de voz", consumo];
+      return ["Todo lo de Vortex", "Facebook e Instagram en el mismo inbox", consumo];
     case "summit":
-      return ["Todo lo de Atlas", "LIA · fiscalización", consumo];
+      return ["Todo lo de Atlas", "CAMILA · llamadas con IA", "LIA · fiscalización", consumo];
   }
 }
 
@@ -4141,32 +4142,6 @@ function planChipData(plan: (typeof CLINERA_PLANS)[number]): { num: string; labe
   ];
 }
 
-// Canales del plan como fila de íconos (texto / voz / API), estilo Vambe.
-function ChannelIcons({ channel, color }: { channel: string; color: string }) {
-  const hasVoz = channel.includes("voz");
-  const hasApi = channel.includes("API");
-  return (
-    <span role="img" aria-label={channel} title={channel} style={{ display: "inline-flex", alignItems: "center", gap: 9, color }}>
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round">
-        <path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5z" />
-      </svg>
-      {hasVoz && (
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round">
-          <rect x="9" y="3" width="6" height="11" rx="3" />
-          <path d="M5.5 11.5a6.5 6.5 0 0 0 13 0" />
-          <path d="M12 18v3" />
-        </svg>
-      )}
-      {hasApi && (
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M8.5 7 4 12l4.5 5" />
-          <path d="M15.5 7 20 12l-4.5 5" />
-        </svg>
-      )}
-    </span>
-  );
-}
-
 export type { Billing };
 
 /**
@@ -4201,6 +4176,7 @@ export function Pricing({
     savingsUsd: annualMonthlySavings(plan),
     credits: plan.credits.toLocaleString("es-CL"),
     channel: plan.channel,
+    channels: plan.channels,
     chips: planChipData(plan),
     features: planFeatures(plan),
     stripe: planCheckoutUrl(plan, billing),
@@ -4714,18 +4690,12 @@ export function Pricing({
                         <span style={{ fontFamily: "Inter", fontSize: 10.5, fontWeight: 500, color: th.sub }}>{c.label}</span>
                       </span>
                     ))}
-                    <span
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        background: th.chipBg,
-                        border: `1px solid ${th.chipBorder}`,
-                        borderRadius: 12,
-                        padding: "7px 14px",
-                      }}
-                    >
-                      <ChannelIcons channel={p.channel} color={th.iconColor} />
-                    </span>
+                  </div>
+                  <div style={{ marginTop: 14 }}>
+                    <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 10.5, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: th.label, marginBottom: 8 }}>
+                      Canales
+                    </div>
+                    <PlanChannelLogos channels={p.channels} color={th.ink} chipBg={th.chipBg} chipBorder={th.chipBorder} />
                   </div>
                 </div>
               </article>

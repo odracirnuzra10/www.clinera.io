@@ -135,6 +135,15 @@ El piso es obligatorio porque las calculadoras recomiendan plan con la regla
 ~190/~236 que se publicaron hasta agosto 2026) no cabe en la bolsa y hace que
 la calculadora recomiende el plan siguiente al valor exacto prometido.
 
+## Canales por plan (Ricardo, 2026-10-07)
+
+**Vortex:** solo WhatsApp. **Atlas:** WhatsApp + Facebook + Instagram.
+**Summit:** WhatsApp + Facebook + Instagram + llamadas con IA (CAMILA).
+La voz es **exclusiva de Summit**; antes se publicaba "desde Atlas" y es residuo.
+Fuente: `channels` en `pricing.ts`; los logos salen de
+`src/components/pricing/PlanChannelLogos.tsx`. Si ves "CAMILA desde Atlas" en
+copy, FAQ o `llms*.txt`, corrígelo.
+
 ## Política de COGS
 
 El techo operativo interno es que **el costo de IA no supere el 10–20% del

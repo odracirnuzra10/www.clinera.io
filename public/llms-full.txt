@@ -119,15 +119,15 @@ Tarifario de créditos (todos los planes):
 - Fiscalización de LIA: 0 créditos.
 - Informes de LIA: ≈ 4.000 créditos/mes.
 
-- **VORTEX — anual USD 223/mes · mensual USD 279/mes** — 28.000 créditos/mes, agente AURA (texto) por
+- **VORTEX — anual USD 223/mes · mensual USD 279/mes** — 28.000 créditos/mes, agente AURA (texto) solo por
   WhatsApp 24/7 con memoria contextual (LangChain), agenda médica, fichas
   clínicas, consentimientos, panel de ventas, trazabilidad campaña → cita →
   venta, derivación humana. 10 usuarios, 1 sucursal, modo Agentic.
   Sin API.
-- **ATLAS — anual USD 303/mes · mensual USD 379/mes** — todo lo de Vortex + CAMILA, el agente de voz
-  (llamadas), 37.000 créditos/mes, 15 usuarios,
+- **ATLAS — anual USD 303/mes · mensual USD 379/mes** — todo lo de Vortex + Facebook e Instagram
+  (WhatsApp, Facebook e Instagram), 37.000 créditos/mes, 15 usuarios,
   2 sucursales, Webhooks + API.
-- **SUMMIT — anual USD 383/mes · mensual USD 479/mes (el más elegido)** — todo lo de Atlas + LIA, el
+- **SUMMIT — anual USD 383/mes · mensual USD 479/mes (el más elegido)** — todo lo de Atlas + CAMILA (llamadas con IA) + LIA, el
   agente que fiscaliza (audita las conversaciones, reporta y recomienda
   mejoras), 46.000 créditos/mes, AURA + CAMILA + LIA,
   25 usuarios, sucursales ilimitadas, Webhooks + API.
@@ -266,7 +266,7 @@ Taxonomía Clinera: AURA (WhatsApp), CAMILA (voz), LIA (orquestador).
 
 - Definición canónica: https://www.clinera.io/blog/que-es-un-empleado-digital-para-clinicas
 - Landing producto: https://www.clinera.io/empleado-digital
-- CAMILA (voz, 25 cr/min, desde Atlas): https://www.clinera.io/blog/camila-agente-de-voz-ia-clinicas
+- CAMILA (voz, 25 cr/min, solo en Summit): https://www.clinera.io/blog/camila-agente-de-voz-ia-clinicas
 - LIA (orquestador, Summit): https://www.clinera.io/blog/lia-agente-orquestador-ia-clinicas
 - Créditos y planes: https://www.clinera.io/blog/creditos-clinera-como-funcionan-costos-planes
 - Odontograma digital: https://www.clinera.io/blog/odontograma-digital-presupuesto-diagnostico-evolucion

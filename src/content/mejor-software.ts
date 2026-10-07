@@ -37,7 +37,7 @@ const clineraBase: SoftwareRanked = {
     "Clinera es software clínico con empleados digitales (AURA por WhatsApp, CAMILA por voz, LIA como orquestador) que ejecutan tareas reales —agendar, confirmar, cobrar— sobre agenda y ficha propias. Precios públicos desde USD 279/mes.",
   fortalezas: [
     "AURA contesta WhatsApp 24/7 con memoria contextual y cierra agendamientos.",
-    "CAMILA (voz) y LIA (orquestador) disponibles en planes Atlas y Summit.",
+    "Llamadas con IA (CAMILA) y LIA (orquestador) disponibles en el plan Summit; Facebook e Instagram desde Atlas.",
     "Atribución de ventas: trazabilidad desde campaña Meta/Google hasta la cita.",
     "Precios públicos (Vortex USD 279 / Atlas USD 379 / Summit USD 479).",
     "Datos clínicos en Google Cloud región Santiago de Chile (southamerica-west1).",
