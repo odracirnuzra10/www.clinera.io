@@ -18,7 +18,7 @@ const AGENTS: Agent[] = [
     id: "camila",
     name: "CAMILA",
     accent: "#0891B2",
-    pill: "[live · desde Atlas]",
+    pill: "[live · solo Summit]",
     pillBg: "rgba(16,185,129,0.08)",
     pillBorder: "#A7F3D0",
     pillColor: "#047857",

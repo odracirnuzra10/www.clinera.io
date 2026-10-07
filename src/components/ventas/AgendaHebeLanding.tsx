@@ -81,7 +81,7 @@ function planBranchShort(plan: (typeof CLINERA_PLANS)[number]): string {
 
 function planStepFeatures(plan: (typeof CLINERA_PLANS)[number]): string[] {
   const agent =
-    plan.id === "vortex" ? "IA de texto" : plan.id === "atlas" ? "IA texto y voz" : "IA texto, voz y API";
+    plan.id === "vortex" ? "IA por WhatsApp" : plan.id === "atlas" ? "IA WhatsApp, FB e IG" : "IA WhatsApp, FB, IG y llamadas";
   return [`Fichas · agenda · ${agent}`, `${planConsumoShort(plan)} · ${planBranchShort(plan)}`];
 }
 

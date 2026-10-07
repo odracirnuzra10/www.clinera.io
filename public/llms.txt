@@ -37,9 +37,9 @@ créditos; fiscalización de LIA = 0; informes de LIA ≈ 4.000 créditos/mes.
 El plan que se muestra primero es el anual, con 20% OFF sobre doce meses de
 catálogo. El mensual queda como segunda opción.
 
-- VORTEX — anual USD 223/mes (20% OFF frente a USD 279/mes) · mensual USD 279/mes — 28.000 créditos/mes, AURA (texto), 10 usuarios, 1 sucursal, modo Agentic, sin API
-- ATLAS — anual USD 303/mes (20% OFF frente a USD 379/mes) · mensual USD 379/mes — 37.000 créditos/mes, AURA + CAMILA (voz), 15 usuarios, 2 sucursales, Webhooks + API
-- SUMMIT — anual USD 383/mes (20% OFF frente a USD 479/mes) · mensual USD 479/mes (el más elegido) — 46.000 créditos/mes, AURA + CAMILA + LIA, 25 usuarios, sucursales ilimitadas, Webhooks + API
+- VORTEX — anual USD 223/mes (20% OFF frente a USD 279/mes) · mensual USD 279/mes — 28.000 créditos/mes, AURA solo por WhatsApp, 10 usuarios, 1 sucursal, modo Agentic, sin API
+- ATLAS — anual USD 303/mes (20% OFF frente a USD 379/mes) · mensual USD 379/mes — 37.000 créditos/mes, AURA por WhatsApp, Facebook e Instagram, 15 usuarios, 2 sucursales, Webhooks + API
+- SUMMIT — anual USD 383/mes (20% OFF frente a USD 479/mes) · mensual USD 479/mes (el más elegido) — 46.000 créditos/mes, AURA por WhatsApp, Facebook e Instagram + CAMILA (llamadas con IA) + LIA, 25 usuarios, sucursales ilimitadas, Webhooks + API
 
 En las dos modalidades el primer cobro suma implementación USD 450. El anual
 se muestra como valor mensual, en 12 cuotas a precio de contado; el mensual
