@@ -26,7 +26,8 @@ test.describe("/presentacion en 3 diapositivas", () => {
     expect(c).toContain("2017");
     expect(c).toContain("Más de 1.500 clínicas");
     expect(c).toContain("ninguno satisfacía");
-    expect(c).toContain("Oct 2025");
+    expect(c).toContain("Sep 2025");
+    expect(c).toContain("más de 1 año de desarrollo y testeo");
   });
 
   test("funciones Clinera: funciones e IA; CAMILA y LIA siguen como próximamente", () => {
