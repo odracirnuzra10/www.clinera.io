@@ -574,7 +574,7 @@ IA) y `#planes` (precio y detalle por plan). Antes eran 13 (Rebeca, ago–sep
 2026: origen, por qué Clinera, AURA, Intelligence ×3, empleados, canales,
 normativa, migración); se resumieron porque la reunión pide algo ultra breve.
 No reponer diapos sueltas: si un tema necesita espacio, va dentro de una de
-las tres. Hechos citables: sin cifras nuevas; no nombrar competidores ni Open
+las tres. Hechos citables: sin cifras nuevas; HL7 FHIR va **solo como roadmap 2027** (nunca «construido sobre FHIR»: hoy no lo está); no nombrar competidores ni Open
 Factura. **CAMILA y LIA van «Oct 2026» (próximamente); AURA es la que está en
 vivo.** En `#planes`, los canales por plan siguen la misma regla que
 `pricing.ts` (Vortex WhatsApp; Atlas +FB/IG; Summit +llamadas con IA); los
