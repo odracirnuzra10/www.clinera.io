@@ -389,6 +389,8 @@ export type Form = {
   website: string;
   city: string;
   cargo: CargoId;
+  /** Boxes/profesionales (`1_3`, `4_6`…). Sólo lo pregunta /agenda; el resto de los wizards lo deja fuera. */
+  boxes?: { id: string; label: string } | null;
 };
 
 function isValidWebsite(value: string) {
@@ -416,6 +418,9 @@ function clinicCrmFields(form: Form) {
     sitio_web: form.website.trim(),
     ciudad: form.city.trim(),
     cargo: form.cargo,
+    ...(form.boxes
+      ? { boxes_profesionales: form.boxes.id, boxes_profesionales_label: form.boxes.label }
+      : {}),
   };
 }
 
@@ -512,7 +517,7 @@ export function detectLeadSource(): string {
 }
 
 // Empuja un evento a GTM/dataLayer (mecanismo de analytics que ya usa el sitio).
-function pushDL(event: string, data: Record<string, unknown> = {}) {
+export function pushDL(event: string, data: Record<string, unknown> = {}) {
   if (typeof window === "undefined" || !window.dataLayer) return;
   window.dataLayer.push({ event, ...data });
 }

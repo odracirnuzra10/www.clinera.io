@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CLINERA_PLANS } from "@/content/pricing";
 import styles from "./AgendaHebeLanding.module.css";
 import {
@@ -8,6 +8,7 @@ import {
   evaluateQualification,
   newLeadEventId,
   OPERATIONAL_PROFILES,
+  pushDL,
   StepClineraScheduler,
   submitBookingConfirmation,
   submitContactLead,
@@ -19,16 +20,19 @@ import {
 } from "./VentasLanding";
 import { zonaMostrada } from "@/lib/timezone";
 
-const NEED_CARDS: { id: string; label: string; hint: string; features: FeatureId[] }[] = [
-  { id: "comms", label: "Voz, texto y redes", hint: "WhatsApp, Instagram y llamadas", features: ["voz", "texto", "rrss"] },
-  { id: "intelligence", label: "Clinera Intelligence", hint: "Agente IA interno que interactúa con tus operaciones, ventas, agenda, marketing, etc.", features: ["intelligence"] },
-  { id: "fichas", label: "Fichas, recetas y consentimientos", hint: "Ficha facial, ficha corporal, odontograma", features: ["fichas", "consentimientos", "odontograma"] },
+const VOLUMES = [
+  { id: "vol_200_500", label: "200 a 500" },
+  { id: "vol_500_1000", label: "500 a 1.000" },
+  { id: "vol_1000_plus", label: "Más de 1.000" },
 ] as const;
 
-const VOLUMES = [
-  { id: "vol_200_500", label: "200 a 500 pacientes / mes", hint: "Operación en crecimiento" },
-  { id: "vol_500_1000", label: "500 a 1.000 pacientes / mes", hint: "Varios profesionales" },
-  { id: "vol_1000_plus", label: "Más de 1.000 pacientes / mes", hint: "Multi-sede o alto flujo" },
+// Tamaño de la clínica. Las opciones salen del brief de Meta Ads (oct 2026):
+// separan a la clínica pequeña/mediana (el cliente ideal) de las operaciones grandes.
+const BOXES = [
+  { id: "1_3", label: "1–3" },
+  { id: "4_6", label: "4–6" },
+  { id: "7_10", label: "7–10" },
+  { id: "10_plus", label: "Más de 10" },
 ] as const;
 
 const TYPES = [
@@ -68,36 +72,13 @@ const TICKER = [
   { name: "Odontograma", price: "incluido" },
 ];
 
-function planConsumoShort(plan: (typeof CLINERA_PLANS)[number]): string {
-  const m = plan.consumptionReference.match(/~?([\d.]+)\s*conversaciones\s*o\s*~?([\d.]+)\s*agendamientos/i);
-  if (!m) return plan.consumptionReference.split(" · ")[0].replace(/~/g, "").replace(" automáticos", "");
-  return `${m[1]} conv. o ${m[2]} agend.`;
-}
-
-function planBranchShort(plan: (typeof CLINERA_PLANS)[number]): string {
-  if (plan.id === "summit") return "sedes ilimitadas";
-  return plan.branches;
-}
-
-function planStepFeatures(plan: (typeof CLINERA_PLANS)[number]): string[] {
-  const agent =
-    plan.id === "vortex" ? "IA por WhatsApp" : plan.id === "atlas" ? "IA WhatsApp, FB e IG" : "IA WhatsApp, FB, IG y llamadas";
-  return [`Fichas · agenda · ${agent}`, `${planConsumoShort(plan)} · ${planBranchShort(plan)}`];
-}
-
-const PLAN_OPTIONS = CLINERA_PLANS.map((plan) => ({
-  id: plan.id,
-  name: plan.name,
-  price: plan.monthlyPrice,
-  featured: plan.featured,
-  features: planStepFeatures(plan),
-}));
+const PLAN_IDS = new Set<string>(CLINERA_PLANS.map((p) => p.id));
 
 const PHONES: Record<string, { flag: string; label: string; len: number; pattern: RegExp; placeholder: string; hint: string }> = {
   "+56": { flag: "🇨🇱", label: "Chile", len: 9, pattern: /^9\d{8}$/, placeholder: "9 1234 5678", hint: "9 dígitos, empieza con 9" },
+  "+52": { flag: "🇲🇽", label: "México", len: 10, pattern: /^[2-9]\d{9}$/, placeholder: "55 1234 5678", hint: "10 dígitos" },
   "+51": { flag: "🇵🇪", label: "Perú", len: 9, pattern: /^9\d{8}$/, placeholder: "912 345 678", hint: "9 dígitos, empieza con 9" },
   "+57": { flag: "🇨🇴", label: "Colombia", len: 10, pattern: /^3\d{9}$/, placeholder: "300 123 4567", hint: "10 dígitos, empieza con 3" },
-  "+52": { flag: "🇲🇽", label: "México", len: 10, pattern: /^[2-9]\d{9}$/, placeholder: "55 1234 5678", hint: "10 dígitos" },
   "+507": { flag: "🇵🇦", label: "Panamá", len: 8, pattern: /^6\d{7}$/, placeholder: "6123 4567", hint: "8 dígitos, empieza con 6" },
   "+506": { flag: "🇨🇷", label: "Costa Rica", len: 8, pattern: /^[678]\d{7}$/, placeholder: "8312 3456", hint: "8 dígitos" },
 };
@@ -121,18 +102,13 @@ function ChannelLogos() {
   );
 }
 
-const TOTAL = 6;
-const DEFAULT_SOURCE_PATH = "/agenda";
+const TOTAL = 3;
 
-function Check() {
-  return (
-    <span className={styles.check} aria-hidden>
-      <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="20 6 9 17 4 12" />
-      </svg>
-    </span>
-  );
-}
+// Zonas horarias de México (IANA). Si el visitante entra desde ahí, el
+// teléfono arranca en +52 en vez de +56: un mexicano que ve "+56" cree que el
+// formulario no es para él.
+const MX_TZ = /^America\/(Mexico_City|Cancun|Merida|Monterrey|Matamoros|Chihuahua|Ciudad_Juarez|Ojinaga|Mazatlan|Hermosillo|Tijuana|Bahia_Banderas)$/;
+const DEFAULT_SOURCE_PATH = "/agenda";
 
 function Back({ onClick }: { onClick: () => void }) {
   return (
@@ -172,20 +148,23 @@ export default function AgendaHebeLanding({
   const price = CLINERA_PLANS[0].monthlyPrice;
   const [step, setStep] = useState(1);
   const [slide, setSlide] = useState(1);
+  // El plan ya no se elige acá: sólo se conserva si el enlace trae ?plan=
+  // (viene de /planes), para que el closer sepa qué miraba.
   const [selectedPlan, setSelectedPlan] = useState("");
-  const [needs, setNeeds] = useState<string[]>([]);
   const [volume, setVolume] = useState("");
+  const [boxes, setBoxes] = useState("");
   const [clinica, setClinica] = useState("");
-  const [website, setWebsite] = useState("");
   const [tipo, setTipo] = useState("");
   const [nombre, setNombre] = useState("");
   const [cargo, setCargo] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [prefix, setPrefix] = useState("+56");
+  const [prefix, setPrefix] = useState(() => (MX_TZ.test(tzIp) ? "+52" : "+56"));
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
   const [attempted, setAttempted] = useState(false);
   const [booking, setBooking] = useState<CalBooking | null>(null);
+  const formStarted = useRef(false);
+  const bookingSent = useRef(false);
 
   useEffect(() => {
     const t = window.setInterval(() => setSlide((i) => (i + 1) % SLIDES.length), 4200);
@@ -194,14 +173,29 @@ export default function AgendaHebeLanding({
 
   useEffect(() => {
     const fromQuery = new URLSearchParams(window.location.search).get("plan");
-    if (fromQuery && PLAN_OPTIONS.some((p) => p.id === fromQuery)) {
+    if (fromQuery && PLAN_IDS.has(fromQuery)) {
       setSelectedPlan(fromQuery);
     }
   }, []);
 
+  // Medición del embudo (GTM/dataLayer). Visita → inicio → paso 1 → paso 2 →
+  // `ventas_submit_lead` (formulario completo, ya existente) → reserva
+  // (`ventas_booking_confirmed` + Schedule/MQL, sólo tras agendar de verdad).
+  useEffect(() => {
+    pushDL("agenda_landing_view", { source_path: sourcePath });
+  }, [sourcePath]);
+
+  function markStarted() {
+    if (formStarted.current) return;
+    formStarted.current = true;
+    pushDL("agenda_form_start", { source_path: sourcePath });
+  }
+
   const rule = PHONES[prefix];
   const digits = phone.replace(/\D/g, "");
   const phoneOk = digits.length === rule.len && rule.pattern.test(digits);
+
+  const boxesOpt = BOXES.find((b) => b.id === boxes) ?? null;
 
   const form: Form = useMemo(
     () => ({
@@ -211,22 +205,49 @@ export default function AgendaHebeLanding({
       prefix,
       phone,
       email,
-      website,
+      website: "",
       city: "",
       cargo: cargo as Form["cargo"],
+      boxes: boxesOpt ? { id: boxesOpt.id, label: boxesOpt.label } : null,
     }),
-    [nombre, clinica, tipo, prefix, phone, email, website, cargo],
+    [nombre, clinica, tipo, prefix, phone, email, cargo, boxesOpt],
   );
 
-  const features: FeatureId[] = needs.flatMap((id) => NEED_CARDS.find((c) => c.id === id)?.features ?? []);
+  const features: FeatureId[] = [];
 
   function go(n: number) {
     setAttempted(false);
     setStep(n);
   }
 
-  const clinicOk = clinica.trim().length >= 2 && website.trim().length >= 3 && tipo !== "";
+  const clinicOk = clinica.trim().length >= 2 && tipo !== "" && boxes !== "" && volume !== "";
   const personOk = nombre.trim().length >= 2 && cargo !== "" && phoneOk && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
+  function goToContact() {
+    if (!clinicOk) {
+      setAttempted(true);
+      return;
+    }
+    const profile = OPERATIONAL_PROFILES.find((p) => p.id === volume) ?? null;
+    const eventId = leadCtx?.eventId ?? newLeadEventId();
+    const ctx = leadCtx ?? { eventId, leadSource: detectLeadSource() };
+    if (!leadCtx) setLeadCtx(ctx);
+    pushDL("agenda_step_complete", { step: 1, step_name: "clinica", tamano_boxes: boxes, source_path: sourcePath });
+    go(2);
+    // Lead parcial: la clínica queda capturada aunque abandone en el paso 2.
+    void submitSizeLead({
+      software: null,
+      size: { profile },
+      qual: evaluateQualification({ profile }),
+      eventId,
+      sourcePath,
+      features,
+      form,
+      plan: selectedPlan,
+    }).then((next) => {
+      if (next) setLeadCtx(next);
+    });
+  }
 
   function goToScheduler() {
     if (!personOk) {
@@ -239,23 +260,12 @@ export default function AgendaHebeLanding({
     const eventId = leadCtx?.eventId ?? newLeadEventId();
     const ctx = leadCtx ?? { eventId, leadSource: detectLeadSource() };
     if (!leadCtx) setLeadCtx(ctx);
+    pushDL("agenda_step_complete", { step: 2, step_name: "contacto", source_path: sourcePath });
     // El calendario no espera a n8n: si el webhook se cuelga, se pierden leads.
-    go(6);
-    void submitSizeLead({
-      software: features[0] ?? null,
-      size,
-      qual,
-      eventId,
-      sourcePath,
-      features,
-      form,
-      plan: selectedPlan,
-    }).then((next) => {
-      if (next) setLeadCtx(next);
-    });
+    go(3);
     void submitContactLead({
       form,
-      software: features[0] ?? null,
+      software: null,
       size,
       qual,
       leadCtx: ctx,
@@ -269,8 +279,6 @@ export default function AgendaHebeLanding({
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.srOnly}>Agenda una reunión con Clinera</h1>
-
       <aside className={styles.left}>
         <div className={styles.carouselWrap}>
           <div className={styles.carousel}>
@@ -342,6 +350,15 @@ export default function AgendaHebeLanding({
         </div>
 
         <div className={styles.inner}>
+          {step < 3 && (
+            <header className={styles.hero}>
+              <h1 className={styles.heroTitle}>Automatiza el WhatsApp y las citas de tu clínica con inteligencia artificial.</h1>
+              <p className={styles.heroSub}>
+                Clinera ayuda a clínicas pequeñas y medianas a responder consultas, gestionar reservas y reducir tareas administrativas.
+              </p>
+              <p className={styles.heroPrice}>Planes desde USD {price}/mes</p>
+            </header>
+          )}
           <div className={styles.progress}>
             {Array.from({ length: TOTAL }, (_, i) => {
               const n = i + 1;
@@ -354,158 +371,41 @@ export default function AgendaHebeLanding({
             })}
           </div>
 
-          <div className={`${styles.viewport} ${step === 6 ? styles.viewportScheduler : ""}`}>
+          <div className={`${styles.viewport} ${step === 3 ? styles.viewportScheduler : ""}`}>
             <div className={`${styles.step} ${step === 1 ? styles.stepActive : ""}`} aria-hidden={step !== 1}>
+              <div className={styles.viewers}>+52 clínicas en LATAM ya operan con Clinera.</div>
               <div className={styles.label}>Paso 1 de {TOTAL}</div>
               <h2 className={styles.title}>
-                ¿Cuál plan te <em>interesa</em>?
-              </h2>
-              <div className={styles.planGrid}>
-                {PLAN_OPTIONS.map((p) => {
-                  const on = selectedPlan === p.id;
-                  return (
-                    <button
-                      key={p.id}
-                      type="button"
-                      className={`${styles.planCard} ${p.featured ? styles.planCardFeatured : ""} ${on ? styles.planCardSelected : ""}`}
-                      aria-pressed={on}
-                      onClick={() => setSelectedPlan(p.id)}
-                    >
-                      {p.featured && <span className={styles.planBadge}>Más elegido</span>}
-                      <div className={styles.planHead}>
-                        <span className={styles.planName}>{p.name}</span>
-                        <span className={styles.planPrice}>
-                          USD {p.price}
-                          <small>/mes</small>
-                        </span>
-                      </div>
-                      <ul className={styles.planFeatures}>
-                        {p.features.map((f) => (
-                          <li key={f}>{f}</li>
-                        ))}
-                      </ul>
-                      <Check />
-                    </button>
-                  );
-                })}
-              </div>
-              <button type="button" className={styles.cta} disabled={!selectedPlan} onClick={() => selectedPlan && go(2)}>
-                Continuar
-              </button>
-            </div>
-
-            <div className={`${styles.step} ${step === 2 ? styles.stepActive : ""}`} aria-hidden={step !== 2}>
-              <Back onClick={() => go(1)} />
-              <div className={styles.viewers}>Más de 80 clínicas en LATAM unificaron sus operaciones con inteligencia artificial. ¿Qué esperas tú?</div>
-              <div className={styles.reviews}>
-                <span className={styles.stars}>★★★★★</span>
-                <span>Dueños y gerentes de clínicas</span>
-              </div>
-              <div className={styles.label}>Paso 2 de {TOTAL}</div>
-              <h2 className={styles.title}>
-                Hablemos de tus <em>necesidades</em>
-              </h2>
-              <p className={styles.sub}>Elige lo que te interesa. Puedes marcar más de una.</p>
-              <div className={styles.cards}>
-                {NEED_CARDS.map((c) => {
-                  const on = needs.includes(c.id);
-                  return (
-                    <button
-                      key={c.id}
-                      type="button"
-                      className={`${styles.card} ${on ? styles.cardSelected : ""}`}
-                      onClick={() => setNeeds((prev) => (prev.includes(c.id) ? prev.filter((x) => x !== c.id) : [...prev, c.id]))}
-                    >
-                      <span className={styles.icon} aria-hidden>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M12 3v18M3 12h18" />
-                        </svg>
-                      </span>
-                      <span className={styles.info}>
-                        <h3>{c.label}</h3>
-                        <p>{c.hint}</p>
-                      </span>
-                      <Check />
-                    </button>
-                  );
-                })}
-              </div>
-              <button type="button" className={styles.cta} disabled={needs.length === 0} onClick={() => needs.length && go(3)}>
-                Continuar
-              </button>
-            </div>
-
-            <div className={`${styles.step} ${step === 3 ? styles.stepActive : ""}`} aria-hidden={step !== 3}>
-              <Back onClick={() => go(2)} />
-              <div className={styles.label}>Paso 3 de {TOTAL}</div>
-              <h2 className={styles.title}>
-                ¿Cuántos pacientes al <em>mes</em>?
+                Cuéntanos de tu <em>clínica</em>
               </h2>
               <p className={`${styles.sub} ${styles.subRow}`}>
-                Clinera atiende pacientes con IA por WhatsApp, Facebook, Instagram y llamada telefónica.
+                Atendemos pacientes con IA por WhatsApp, Facebook, Instagram y llamada.
                 <ChannelLogos />
               </p>
-              <div className={styles.cards}>
-                {VOLUMES.map((v) => (
-                  <button
-                    key={v.id}
-                    type="button"
-                    className={`${styles.card} ${volume === v.id ? styles.cardSelected : ""}`}
-                    onClick={() => {
-                      setVolume(v.id);
-                      const profile = OPERATIONAL_PROFILES.find((p) => p.id === v.id) ?? null;
-                      const eventId = leadCtx?.eventId ?? newLeadEventId();
-                      const ctx = leadCtx ?? { eventId, leadSource: detectLeadSource() };
-                      if (!leadCtx) setLeadCtx(ctx);
-                      void submitSizeLead({
-                        software: features[0] ?? null,
-                        size: { profile },
-                        qual: evaluateQualification({ profile }),
-                        eventId,
-                        sourcePath,
-                        features,
-                        plan: selectedPlan,
-                      });
-                      window.setTimeout(() => go(4), 280);
-                    }}
-                  >
-                    <span className={styles.icon} aria-hidden>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M4 19V5M4 19h16M8 15l3-6 3 3 4-8" />
-                      </svg>
-                    </span>
-                    <span className={styles.info}>
-                      <h3>{v.label}</h3>
-                      <p>{v.hint}</p>
-                    </span>
-                    <Check />
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className={`${styles.step} ${step === 4 ? styles.stepActive : ""}`} aria-hidden={step !== 4}>
-              <Back onClick={() => go(3)} />
-              <div className={styles.label}>Paso 4 de {TOTAL}</div>
-              <h2 className={styles.title}>
-                Hablemos más de tu <em>clínica</em>
-              </h2>
-              <p className={styles.sub}>Nombre, web o redes y tipo de clínica.</p>
               <div className={styles.group}>
-                <label>Nombre de la clínica</label>
-                <input className={attempted && clinica.trim().length < 2 ? styles.err : undefined} value={clinica} onChange={(e) => setClinica(e.target.value)} placeholder="Ej: Clínica Sonríe" />
+                <label htmlFor="agenda-clinica">Nombre de la clínica</label>
+                <input
+                  id="agenda-clinica"
+                  className={attempted && clinica.trim().length < 2 ? styles.err : undefined}
+                  value={clinica}
+                  onChange={(e) => {
+                    markStarted();
+                    setClinica(e.target.value);
+                  }}
+                  placeholder="Ej: Clínica Sonríe"
+                  autoComplete="organization"
+                />
               </div>
               <div className={styles.group}>
-                <label>Sitio web o redes sociales</label>
-                <input className={attempted && website.trim().length < 3 ? styles.err : undefined} value={website} onChange={(e) => setWebsite(e.target.value)} placeholder="www.tuclinica.cl o @tuclinica" />
-              </div>
-              <div className={styles.group}>
-                <label htmlFor="agenda-tipo-clinica">Tipo de clínica</label>
+                <label htmlFor="agenda-tipo-clinica">Especialidad</label>
                 <select
                   id="agenda-tipo-clinica"
                   className={attempted && !tipo ? styles.err : undefined}
                   value={tipo}
-                  onChange={(e) => setTipo(e.target.value)}
+                  onChange={(e) => {
+                    markStarted();
+                    setTipo(e.target.value);
+                  }}
                 >
                   <option value="">Selecciona…</option>
                   {TYPES.map((t) => (
@@ -515,35 +415,76 @@ export default function AgendaHebeLanding({
                   ))}
                 </select>
               </div>
-              <button
-                type="button"
-                className={styles.cta}
-                onClick={() => {
-                  if (!clinicOk) {
-                    setAttempted(true);
-                    return;
-                  }
-                  go(5);
-                }}
-              >
+              <div className={styles.group} role="group" aria-labelledby="agenda-boxes-label">
+                <label id="agenda-boxes-label">¿Cuántos boxes o profesionales tiene tu clínica?</label>
+                <div className={`${styles.chips} ${attempted && !boxes ? styles.chipsErr : ""}`}>
+                  {BOXES.map((b) => (
+                    <button
+                      key={b.id}
+                      type="button"
+                      className={`${styles.chip} ${boxes === b.id ? styles.chipOn : ""}`}
+                      aria-pressed={boxes === b.id}
+                      onClick={() => {
+                        markStarted();
+                        setBoxes(b.id);
+                      }}
+                    >
+                      {b.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className={styles.group} role="group" aria-labelledby="agenda-vol-label">
+                <label id="agenda-vol-label">Pacientes al mes</label>
+                <div className={`${styles.chips} ${attempted && !volume ? styles.chipsErr : ""}`}>
+                  {VOLUMES.map((v) => (
+                    <button
+                      key={v.id}
+                      type="button"
+                      className={`${styles.chip} ${volume === v.id ? styles.chipOn : ""}`}
+                      aria-pressed={volume === v.id}
+                      onClick={() => {
+                        markStarted();
+                        setVolume(v.id);
+                      }}
+                    >
+                      {v.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <button type="button" className={styles.cta} onClick={goToContact}>
                 Continuar
               </button>
+              <p className={styles.note}>Sin compromiso · demostración de 45 min por videollamada</p>
             </div>
 
-            <div className={`${styles.step} ${step === 5 ? styles.stepActive : ""}`} aria-hidden={step !== 5}>
-              <Back onClick={() => go(4)} />
-              <div className={styles.label}>Paso 5 de {TOTAL}</div>
+            <div className={`${styles.step} ${step === 2 ? styles.stepActive : ""}`} aria-hidden={step !== 2}>
+              <Back onClick={() => go(1)} />
+              <div className={styles.label}>Paso 2 de {TOTAL}</div>
               <h2 className={styles.title}>
                 Tus datos de <em>contacto</em>
               </h2>
               <p className={styles.sub}>Te escribimos directo a quien decide, no a recepción.</p>
               <div className={styles.group}>
-                <label>Nombre</label>
-                <input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Tu nombre completo" />
+                <label htmlFor="agenda-nombre">Nombre</label>
+                <input
+                  id="agenda-nombre"
+                  className={attempted && nombre.trim().length < 2 ? styles.err : undefined}
+                  value={nombre}
+                  onChange={(e) => setNombre(e.target.value)}
+                  placeholder="Tu nombre completo"
+                  autoComplete="name"
+                />
               </div>
               <div className={styles.group}>
                 <label htmlFor="agenda-cargo">Cargo</label>
-                <select id="agenda-cargo" value={cargo} onChange={(e) => setCargo(e.target.value)}>
+                <select
+                  id="agenda-cargo"
+                  className={attempted && !cargo ? styles.err : undefined}
+                  value={cargo}
+                  onChange={(e) => setCargo(e.target.value)}
+                >
                   <option value="">Selecciona…</option>
                   {CARGOS.map((c) => (
                     <option key={c} value={c}>
@@ -553,10 +494,11 @@ export default function AgendaHebeLanding({
                 </select>
               </div>
               <div className={styles.group}>
-                <label>WhatsApp personal</label>
+                <label htmlFor="agenda-whatsapp">WhatsApp</label>
                 <div className={styles.phone}>
                   <select
                     className={styles.prefixSelect}
+                    aria-label="País del WhatsApp"
                     value={prefix}
                     onChange={(e) => {
                       setPrefix(e.target.value);
@@ -565,16 +507,18 @@ export default function AgendaHebeLanding({
                   >
                     {Object.entries(PHONES).map(([code, c]) => (
                       <option key={code} value={code}>
-                        {c.flag} {code}
+                        {c.flag} {c.label} {code}
                       </option>
                     ))}
                   </select>
                   <input
+                    id="agenda-whatsapp"
                     className={attempted && !phoneOk ? styles.err : undefined}
                     value={phone}
                     onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, rule.len))}
                     placeholder={rule.placeholder}
                     inputMode="numeric"
+                    autoComplete="tel-national"
                   />
                 </div>
                 <div className={styles.hint}>
@@ -590,16 +534,25 @@ export default function AgendaHebeLanding({
                 </div>
               </div>
               <div className={styles.group}>
-                <label>Email</label>
-                <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@clinica.cl" />
+                <label htmlFor="agenda-email">Correo</label>
+                <input
+                  id="agenda-email"
+                  className={attempted && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) ? styles.err : undefined}
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="nombre@tuclinica.com"
+                  autoComplete="email"
+                  inputMode="email"
+                />
               </div>
               <button type="button" className={styles.cta} onClick={goToScheduler}>
-                Agenda con tu ingeniero
+                Agenda una demostración
               </button>
               <p className={styles.note}>Sin compromiso · 45 min por videollamada</p>
             </div>
 
-            <div className={`${styles.step} ${styles.stepScheduler} ${step === 6 ? styles.stepActive : ""}`} aria-hidden={step !== 6}>
+            <div className={`${styles.step} ${styles.stepScheduler} ${step === 3 ? styles.stepActive : ""}`} aria-hidden={step !== 3}>
               {booking ? (
                 <div className={styles.success}>
                   <div className={styles.successMark} aria-hidden>
@@ -620,16 +573,20 @@ export default function AgendaHebeLanding({
                 <StepClineraScheduler
                   form={form}
                   tzIp={tzIp}
-                  label={`Paso 5 de ${TOTAL}`}
-                  onBack={() => go(5)}
+                  label={`Paso 3 de ${TOTAL}`}
+                  onBack={() => go(2)}
                   onBooked={(next, via, confirmEventId) => {
+                    // Un solo envío por reserva: Pixel, CAPI y CRM deduplican por
+                    // event_id, pero no hay por qué pedirles que lo hagan.
+                    if (bookingSent.current) return;
+                    bookingSent.current = true;
                     setBooking(next);
                     const profile = OPERATIONAL_PROFILES.find((p) => p.id === volume) ?? null;
                     const size = { profile };
                     const qual = evaluateQualification(size);
                     void submitBookingConfirmation({
                       form,
-                      software: features[0] ?? null,
+                      software: null,
                       size,
                       qual,
                       leadCtx,
@@ -643,6 +600,9 @@ export default function AgendaHebeLanding({
               )}
             </div>
           </div>
+          <p className={styles.legal}>
+            Al continuar aceptas nuestra <a href="/privacidad">política de privacidad</a>.
+          </p>
         </div>
       </section>
     </div>
