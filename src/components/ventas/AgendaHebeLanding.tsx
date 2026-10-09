@@ -37,7 +37,6 @@ const BOXES = [
 
 const TYPES = [
   { id: "medica", label: "Médica" },
-  { id: "dental", label: "Dental" },
   { id: "kinesiologica", label: "Kinesiológica" },
   { id: "estetica", label: "Estética" },
   { id: "salud_mental", label: "Salud mental" },

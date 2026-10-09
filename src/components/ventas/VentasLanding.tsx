@@ -307,8 +307,8 @@ function sizeSummaryLabel(size: SizeAnswers): string {
   return size.profile?.label ?? "";
 }
 
-// Tipo de clínica que atendemos. Dental se reabrió el 9-oct-2026 (ventas).
-type ClinicType = "medica" | "dental" | "kinesiologica" | "estetica" | "salud_mental";
+// Tipo de clínica que atendemos hoy — dentales pausadas: aún no existe la lógica (Ricardo, 9-oct-2026).
+type ClinicType = "medica" | "kinesiologica" | "estetica" | "salud_mental";
 const CLINIC_TYPE_OPTIONS: { id: ClinicType; label: string }[] = [
   { id: "medica", label: "Médica" },
   { id: "kinesiologica", label: "Kinesiológica" },
@@ -317,7 +317,6 @@ const CLINIC_TYPE_OPTIONS: { id: ClinicType; label: string }[] = [
 ];
 const CLINIC_TYPE_LABELS: Record<ClinicType, string> = {
   medica: "Médica",
-  dental: "Dental",
   kinesiologica: "Kinesiológica",
   estetica: "Estética",
   salud_mental: "Salud mental",
