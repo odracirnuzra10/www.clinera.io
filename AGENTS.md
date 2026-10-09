@@ -522,6 +522,26 @@ web/redes, volumen y clínica (ciudad se dejó de pedir en el paso 3 — el
 webhook sigue mandando `ciudad: ""`). El botón «Agenda con tu ingeniero» abre
 el calendario **sin esperar** el webhook — si se vuelve a `await`, se pierden leads.
 
+# `/agenda`: wizard de 3 pasos para Meta Ads (oct 2026)
+
+Brief de optimización de la landing (9-oct-2026). Titular visible y h1:
+«Automatiza el WhatsApp y las citas de tu clínica con inteligencia
+artificial» + «Planes desde USD 279/mes» (de `pricing.ts`, no escrito a
+mano). **Ya no se elige plan** al inicio (solo se conserva `?plan=` si viene
+de `/planes`). Pasos: 1 clínica (nombre, especialidad, boxes, pacientes/mes),
+2 contacto (nombre, cargo, WhatsApp con país, correo), 3 calendario.
+`boxes_profesionales` viaja en el payload (`1_3`, `4_6`, `7_10`, `10_plus`).
+El teléfono arranca en +52 si `x-vercel-ip-timezone` es de México.
+
+**Pendiente de ventas (no implementado a propósito):** opción «menos de 200
+pacientes» y especialidad Dental — el brief pide validar con ventas antes.
+Cifra pública de clínicas: **+52** (layout, home, blog); /agenda decía 80.
+
+**Medición (dataLayer):** `agenda_landing_view` → `agenda_form_start` →
+`agenda_step_complete` (step 1, 2) → `ventas_submit_lead` (formulario
+completo) → `ventas_booking_confirmed` + Schedule/MQL. La reserva solo se
+emite tras agendar de verdad y una sola vez (`bookingSent`).
+
 # `/agenda`: la hora que se guarda es de Chile, siempre
 
 El último paso de `/agenda` (`StepClineraNativo` en

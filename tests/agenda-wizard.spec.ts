@@ -16,6 +16,7 @@ type LeadPayload = {
   plan?: string;
   plan_interes?: string;
   fuente?: string;
+  boxes_profesionales?: string;
 };
 
 function nonce() {
@@ -76,96 +77,61 @@ async function mockAgendaNativa(
   );
 }
 
-async function elegirPlanYContinuar(page: Page, plan = "Atlas") {
-  await expect(page.getByRole("heading", { name: /Cuál plan te interesa/i })).toBeVisible();
-  await page.getByRole("button", { name: new RegExp(`^${plan}`, "i") }).click();
+async function completarClinica(page: Page, id: string) {
+  await expect(page.getByRole("heading", { name: /Cuéntanos de tu clínica/i })).toBeVisible();
+  await page.getByPlaceholder("Ej: Clínica Sonríe").fill(`[E2E TEST] Clinica ${id}`);
+  await page.getByLabel("Especialidad").selectOption("medica");
+  await page.getByRole("button", { name: "1–3", exact: true }).click();
+  await page.getByRole("button", { name: "200 a 500", exact: true }).click();
   await page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true }).click();
+}
+
+async function completarContacto(page: Page, id: string, pais: "+56" | "+52" = "+56") {
+  await expect(page.getByRole("heading", { name: "Tus datos de contacto" })).toBeVisible();
+  await page.getByPlaceholder("Tu nombre completo").fill(`[E2E TEST] ${id}`);
+  await page.getByLabel("Cargo").selectOption("Dueño / Fundador");
+  await page.getByLabel("País del WhatsApp").selectOption(pais);
+  await page.locator("#agenda-whatsapp").fill(pais === "+52" ? "5512345678" : "912345678");
+  await page.getByPlaceholder("nombre@tuclinica.com").fill(`${id}@e2e.clinera.io`);
+  await page.getByRole("button", { name: /Agenda una demostración/i }).click();
 }
 
 async function llegarAlCalendario(page: Page, id: string) {
   await page.goto("/agenda", { waitUntil: "domcontentloaded" });
-  await elegirPlanYContinuar(page);
-  await page.getByRole("button", { name: /Fichas, recetas y consentimientos/i }).click();
-  await page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true }).click();
-  await page.getByRole("button", { name: "200 a 500 pacientes / mes Operación en crecimiento" }).click();
-  await page.getByPlaceholder("Ej: Clínica Sonríe").fill(`[E2E TEST] Clinica ${id}`);
-  await page.getByPlaceholder("www.tuclinica.cl o @tuclinica").fill("www.e2e-clinera.cl");
-  await page.getByLabel("Tipo de clínica").selectOption("medica");
-  await page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true }).click();
-  await page.getByPlaceholder("Tu nombre completo").fill(`[E2E TEST] ${id}`);
-  await page
-    .locator("select")
-    .filter({ has: page.locator('option[value="Dueño / Fundador"]') })
-    .selectOption("Dueño / Fundador");
-  await page.getByPlaceholder("9 1234 5678").fill("912345678");
-  await page.getByPlaceholder("tu@clinica.cl").fill(`${id}@e2e.clinera.io`);
-  await page.getByRole("button", { name: /Agenda con tu ingeniero/i }).click();
+  await completarClinica(page, id);
+  await completarContacto(page, id);
   await expect(page.getByRole("heading", { name: /Elige el día y la hora/i })).toBeVisible({ timeout: 12000 });
 }
 
 test.describe("/agenda — wizard Hebe + agendador Clinera", () => {
-  test("al pinchar un plan queda marcado (checkbox + aria-pressed)", async ({ page }) => {
+  test("el titular es la propuesta de valor y no pide elegir plan", async ({ page }) => {
     await page.goto("/agenda", { waitUntil: "domcontentloaded" });
-    await expect(page.getByRole("heading", { name: /Cuál plan te interesa/i })).toBeVisible();
-
-    const vortex = page.getByRole("button", { name: /^Vortex/i });
-    const atlas = page.getByRole("button", { name: /^Atlas/i });
-    const summit = page.getByRole("button", { name: /Summit/i });
-
-    await expect(vortex).toHaveAttribute("aria-pressed", "false");
-    await expect(atlas).toHaveAttribute("aria-pressed", "false");
-    await expect(summit).toHaveAttribute("aria-pressed", "false");
-    await expect(page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true })).toBeDisabled();
-
-    await atlas.click();
-    await expect(atlas).toHaveAttribute("aria-pressed", "true");
-    await expect(vortex).toHaveAttribute("aria-pressed", "false");
-    await expect(summit).toHaveAttribute("aria-pressed", "false");
-    await expect(atlas.locator('[aria-hidden] svg')).toHaveCSS("opacity", "1");
-    await expect(vortex.locator('[aria-hidden] svg')).toHaveCSS("opacity", "0");
-    await expect(page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true })).toBeEnabled();
-
-    await summit.click();
-    await expect(summit).toHaveAttribute("aria-pressed", "true");
-    await expect(atlas).toHaveAttribute("aria-pressed", "false");
-    await expect(summit.locator('[aria-hidden] svg')).toHaveCSS("opacity", "1");
-    await expect(atlas.locator('[aria-hidden] svg')).toHaveCSS("opacity", "0");
+    await expect(
+      page.getByRole("heading", { level: 1, name: /Automatiza el WhatsApp y las citas de tu clínica con inteligencia artificial/i }),
+    ).toBeVisible();
+    await expect(page.getByText(/Planes desde USD 279/).first()).toBeVisible();
+    await expect(page.getByText(/Cuál plan te interesa/i)).toHaveCount(0);
+    await expect(page.getByRole("link", { name: /política de privacidad/i })).toBeVisible();
   });
 
-  test("empieza con planes, pasa los 6 pasos y manda plan + clínica al webhook", async ({ page }) => {
+  test("tres pasos: clínica, contacto y calendario; manda boxes y tamaño al webhook", async ({ page }) => {
     const id = nonce();
     const hits = recordWizard(page);
 
     await page.goto("/agenda", { waitUntil: "domcontentloaded" });
 
-    await expect(page.getByRole("heading", { name: /Cuál plan te interesa/i })).toBeVisible();
-    await page.getByRole("button", { name: /^Atlas/i }).click();
-    await page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true }).click();
-
-    await expect(page.getByRole("heading", { name: "Hablemos de tus necesidades" })).toBeVisible();
-    await page.getByRole("button", { name: /Fichas, recetas y consentimientos/i }).click();
-    await page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true }).click();
-
-    await expect(page.getByRole("heading", { name: "¿Cuántos pacientes al mes?" })).toBeVisible();
-    await page.getByRole("button", { name: "200 a 500 pacientes / mes Operación en crecimiento" }).click();
-
-    await expect(page.getByRole("heading", { name: "Hablemos más de tu clínica" })).toBeVisible();
+    // El paso 1 no avanza sin boxes ni volumen.
     await page.getByPlaceholder("Ej: Clínica Sonríe").fill(`[E2E TEST] Clinica ${id}`);
-    await page.getByPlaceholder("www.tuclinica.cl o @tuclinica").fill("www.e2e-clinera.cl");
-    await page.getByLabel("Tipo de clínica").selectOption("medica");
+    await page.getByLabel("Especialidad").selectOption("medica");
+    await page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true }).click();
+    await expect(page.getByRole("heading", { name: /Cuéntanos de tu clínica/i })).toBeVisible();
+
+    await page.getByRole("button", { name: "4–6", exact: true }).click();
+    await expect(page.getByRole("button", { name: "4–6", exact: true })).toHaveAttribute("aria-pressed", "true");
+    await page.getByRole("button", { name: "200 a 500", exact: true }).click();
     await page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true }).click();
 
-    await expect(page.getByRole("heading", { name: "Tus datos de contacto" })).toBeVisible();
-    await page.getByPlaceholder("Tu nombre completo").fill(`[E2E TEST] ${id}`);
-    await page
-      .locator("select")
-      .filter({ has: page.locator('option[value="Dueño / Fundador"]') })
-      .selectOption("Dueño / Fundador");
-    await page.getByPlaceholder("9 1234 5678").fill("912345678");
-    await page.getByPlaceholder("tu@clinica.cl").fill(`${id}@e2e.clinera.io`);
-
-    await page.getByRole("button", { name: /Agenda con tu ingeniero/i }).click();
-
+    await completarContacto(page, id);
     await expect(
       page.getByRole("heading", { name: /Elige (el día y la hora|profesional y horario)/i }),
     ).toBeVisible({ timeout: 12000 });
@@ -173,13 +139,21 @@ test.describe("/agenda — wizard Hebe + agendador Clinera", () => {
     await expect.poll(() => hits.some((h) => h.lead_stage === "contact"), { timeout: 12000 }).toBeTruthy();
     const contact = hits.find((h) => h.lead_stage === "contact");
     expect(contact?.nombre_clinica || contact?.clinica).toContain(id);
-    expect(contact?.plan || contact?.plan_interes).toBe("atlas");
     expect(contact?.tamano_operacion).toBe("vol_200_500");
+    expect(contact?.boxes_profesionales).toBe("4_6");
     expect(contact?.cargo).toBe("Dueño / Fundador");
-    expect(contact?.sitio_web).toContain("e2e-clinera");
-    expect(contact?.ciudad ?? "").toBe("");
-    expect(contact?.necesidad_principal).toMatch(/fichas|consentimientos|odontograma/);
     expect(contact?.fuente).toContain("/agenda");
+  });
+
+  test("México: el teléfono se valida con +52 y viaja en E.164", async ({ page }) => {
+    const id = nonce();
+    const hits = recordWizard(page);
+    await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+    await completarClinica(page, id);
+    await completarContacto(page, id, "+52");
+    await expect.poll(() => hits.some((h) => h.lead_stage === "contact"), { timeout: 12000 }).toBeTruthy();
+    const contact = hits.find((h) => h.lead_stage === "contact") as LeadPayload & { celular?: string };
+    expect(contact.celular).toBe("+525512345678");
   });
 });
 
