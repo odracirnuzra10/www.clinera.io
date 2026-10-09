@@ -533,9 +533,9 @@ de `/planes`). Pasos: 1 clínica (nombre, especialidad, boxes, pacientes/mes),
 `boxes_profesionales` viaja en el payload (`1_3`, `4_6`, `7_10`, `10_plus`).
 El teléfono arranca en +52 si `x-vercel-ip-timezone` es de México.
 
-**Ventas aprobó (9-oct-2026):** «Menos de 200 pacientes» (`vol_lt_200`,
-prioridad estándar) y especialidad **Dental** (`dental`) en el wizard de
-`/agenda`. Ojo: el wizard de `/agenda` ya no «excluye Dental a propósito»
+**Ventas (9-oct-2026):** se acepta especialidad **Dental** (`dental`) en el
+wizard de `/agenda`; **NO** se aceptan clínicas con menos de 200 pacientes al
+mes (el mínimo sigue siendo «200 a 500»; no agregar esa opción). Ojo: el wizard de `/agenda` ya no «excluye Dental a propósito»
 como decía la sección de landings de software. Cifra pública de clínicas: **+52** (layout, home, blog); /agenda decía 80.
 
 **Medición (dataLayer):** `agenda_landing_view` → `agenda_form_start` →
