@@ -236,6 +236,7 @@ function step1Fields(id: Step1Id | null, features: FeatureId[] = []) {
 // lo que cambia son sus VALORES. El número de sedes ya no se pregunta: sale
 // vacío en vez de inventado, igual que antes salía vacío el volumen en multisede.
 export type OperationalProfileId =
+  | "vol_lt_200"
   | "vol_200_500"
   | "vol_500_1000"
   | "vol_1000_plus";
@@ -243,7 +244,7 @@ export type OperationalProfileId =
 export type LeadPriority = "standard" | "high" | "strategic";
 
 /** Banda de volumen mensual de pacientes: el único eje del paso 2. */
-type PatientsBand = "200_500" | "500_1000" | "gt_1000";
+type PatientsBand = "lt_200" | "200_500" | "500_1000" | "gt_1000";
 
 type OperationalProfile = {
   id: OperationalProfileId;
@@ -257,6 +258,15 @@ type OperationalProfile = {
 
 // AJUSTA AQUÍ la prioridad comercial (único lugar del código).
 export const OPERATIONAL_PROFILES: OperationalProfile[] = [
+  {
+    // Ventas aceptó clínicas pequeñas (~3 boxes) el 9-oct-2026.
+    id: "vol_lt_200",
+    label: "Menos de 200 pacientes al mes",
+    priority: "standard",
+    prioridadAlta: false,
+    patientsBand: "lt_200",
+    legacy: { pacientesMes: "lt_200", pacientesMesLabel: "menos de 200" },
+  },
   {
     id: "vol_200_500",
     label: "Entre 200 a 500 pacientes al mes",
@@ -307,8 +317,8 @@ function sizeSummaryLabel(size: SizeAnswers): string {
   return size.profile?.label ?? "";
 }
 
-// Tipo de clínica que atendemos hoy — dentales pausadas por el momento.
-type ClinicType = "medica" | "kinesiologica" | "estetica" | "salud_mental";
+// Tipo de clínica que atendemos. Dental se reabrió el 9-oct-2026 (ventas).
+type ClinicType = "medica" | "dental" | "kinesiologica" | "estetica" | "salud_mental";
 const CLINIC_TYPE_OPTIONS: { id: ClinicType; label: string }[] = [
   { id: "medica", label: "Médica" },
   { id: "kinesiologica", label: "Kinesiológica" },
@@ -317,6 +327,7 @@ const CLINIC_TYPE_OPTIONS: { id: ClinicType; label: string }[] = [
 ];
 const CLINIC_TYPE_LABELS: Record<ClinicType, string> = {
   medica: "Médica",
+  dental: "Dental",
   kinesiologica: "Kinesiológica",
   estetica: "Estética",
   salud_mental: "Salud mental",
@@ -596,7 +607,7 @@ function qualCustomData(
 function backCompatFields(software: Step1Id | null, size: SizeAnswers, qual: Qualification | null) {
   // `patient_volume` solo se puede afirmar cuando ya hay banda elegida. Las tres
   // bandas arrancan en 200 pacientes/mes, así que todas caen en "over_100".
-  const patientVolume = size.profile ? "over_100" : "unknown";
+  const patientVolume = size.profile && size.profile.id !== "vol_lt_200" ? "over_100" : "unknown";
   return {
     tamano_clinica: sizeSummaryLabel(size),
     patient_volume: patientVolume,

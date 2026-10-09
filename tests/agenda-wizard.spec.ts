@@ -145,6 +145,22 @@ test.describe("/agenda — wizard Hebe + agendador Clinera", () => {
     expect(contact?.fuente).toContain("/agenda");
   });
 
+  test("acepta clínicas dentales y de menos de 200 pacientes", async ({ page }) => {
+    const id = nonce();
+    const hits = recordWizard(page);
+    await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+    await page.getByPlaceholder("Ej: Clínica Sonríe").fill(`[E2E TEST] Clinica ${id}`);
+    await page.getByLabel("Especialidad").selectOption("dental");
+    await page.getByRole("button", { name: "1–3", exact: true }).click();
+    await page.getByRole("button", { name: "Menos de 200", exact: true }).click();
+    await page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true }).click();
+    await completarContacto(page, id);
+    await expect.poll(() => hits.some((h) => h.lead_stage === "contact"), { timeout: 12000 }).toBeTruthy();
+    const contact = hits.find((h) => h.lead_stage === "contact") as LeadPayload & { tipo_clinica?: string };
+    expect(contact.tamano_operacion).toBe("vol_lt_200");
+    expect(contact.tipo_clinica).toBe("dental");
+  });
+
   test("México: el teléfono se valida con +52 y viaja en E.164", async ({ page }) => {
     const id = nonce();
     const hits = recordWizard(page);

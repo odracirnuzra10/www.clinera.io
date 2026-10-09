@@ -533,9 +533,10 @@ de `/planes`). Pasos: 1 clínica (nombre, especialidad, boxes, pacientes/mes),
 `boxes_profesionales` viaja en el payload (`1_3`, `4_6`, `7_10`, `10_plus`).
 El teléfono arranca en +52 si `x-vercel-ip-timezone` es de México.
 
-**Pendiente de ventas (no implementado a propósito):** opción «menos de 200
-pacientes» y especialidad Dental — el brief pide validar con ventas antes.
-Cifra pública de clínicas: **+52** (layout, home, blog); /agenda decía 80.
+**Ventas aprobó (9-oct-2026):** «Menos de 200 pacientes» (`vol_lt_200`,
+prioridad estándar) y especialidad **Dental** (`dental`) en el wizard de
+`/agenda`. Ojo: el wizard de `/agenda` ya no «excluye Dental a propósito»
+como decía la sección de landings de software. Cifra pública de clínicas: **+52** (layout, home, blog); /agenda decía 80.
 
 **Medición (dataLayer):** `agenda_landing_view` → `agenda_form_start` →
 `agenda_step_complete` (step 1, 2) → `ventas_submit_lead` (formulario
@@ -639,7 +640,7 @@ vive solo en `content.ts`. CTA canónico: `/agenda` **preservando la query**
 demás en `clasificarLeadSource()`, así que perderla degrada la atribución aunque
 ya no la borre (ver abajo).
 `lead_source` de GTM: `software_medico_landing` / `software_dental_landing`.
-El wizard de `/agenda` no tiene opción "Dental" a propósito.
+El wizard de `/agenda` tiene opción "Dental" desde el 9-oct-2026.
 
 **Identidad AEO:** marca = Clinera, producto = Clinera O.S. Fuente:
 `src/content/entidad.ts` (frase de entidad, mercados, sameAs, founder).

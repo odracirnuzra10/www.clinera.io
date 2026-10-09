@@ -21,6 +21,7 @@ import {
 import { zonaMostrada } from "@/lib/timezone";
 
 const VOLUMES = [
+  { id: "vol_lt_200", label: "Menos de 200" },
   { id: "vol_200_500", label: "200 a 500" },
   { id: "vol_500_1000", label: "500 a 1.000" },
   { id: "vol_1000_plus", label: "Más de 1.000" },
@@ -37,6 +38,7 @@ const BOXES = [
 
 const TYPES = [
   { id: "medica", label: "Médica" },
+  { id: "dental", label: "Dental" },
   { id: "kinesiologica", label: "Kinesiológica" },
   { id: "estetica", label: "Estética" },
   { id: "salud_mental", label: "Salud mental" },

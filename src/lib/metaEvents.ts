@@ -52,7 +52,7 @@ export type QualCustomData = {
   operational_profile: string;
   /** Siempre "": el paso 2 ya no pregunta por sedes. */
   locations_band: string;
-  /** "200_500" | "500_1000" | "gt_1000" | "unknown" (sin elegir). */
+  /** "lt_200" | "200_500" | "500_1000" | "gt_1000" | "unknown" (sin elegir). */
   patients_band: string;
   lead_priority: string;
   /** Legacy derivado del perfil: se mantiene para audiencias ya creadas en Meta. */
