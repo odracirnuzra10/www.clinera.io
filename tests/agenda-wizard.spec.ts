@@ -145,6 +145,13 @@ test.describe("/agenda — wizard Hebe + agendador Clinera", () => {
     expect(contact?.fuente).toContain("/agenda");
   });
 
+  test("no ofrece Dental ni menos de 200 pacientes", async ({ page }) => {
+    await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+    await expect(page.getByLabel("Especialidad").locator('option[value="dental"]')).toHaveCount(0);
+    await expect(page.getByLabel("Especialidad").locator("option", { hasText: /dental/i })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: /Menos de 200/ })).toHaveCount(0);
+  });
+
   test("México: el teléfono se valida con +52 y viaja en E.164", async ({ page }) => {
     const id = nonce();
     const hits = recordWizard(page);

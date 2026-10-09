@@ -307,7 +307,7 @@ function sizeSummaryLabel(size: SizeAnswers): string {
   return size.profile?.label ?? "";
 }
 
-// Tipo de clínica que atendemos hoy — dentales pausadas por el momento.
+// Tipo de clínica que atendemos hoy — dentales pausadas: aún no existe la lógica (Ricardo, 9-oct-2026).
 type ClinicType = "medica" | "kinesiologica" | "estetica" | "salud_mental";
 const CLINIC_TYPE_OPTIONS: { id: ClinicType; label: string }[] = [
   { id: "medica", label: "Médica" },
