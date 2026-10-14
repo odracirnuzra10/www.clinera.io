@@ -377,7 +377,7 @@ export default function AgendaHebeLanding({
                     markStarted();
                     setClinica(e.target.value);
                   }}
-                  placeholder="Ej: Clínica Sonríe"
+                  placeholder="Clínica Estética Vela"
                   autoComplete="organization"
                 />
               </div>
