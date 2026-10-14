@@ -337,25 +337,12 @@ export default function AgendaHebeLanding({
               </div>
             </div>
           </div>
-          <div className={styles.mobileTicker}>
-            <div className={styles.tickerBadge}>
-              Lo más
-              <br />
-              pedido
-            </div>
-            <div className={styles.tickerArea}>
-              <TickerTrack />
-            </div>
-          </div>
         </div>
 
         <div className={styles.inner}>
           {step < 3 && (
             <header className={styles.hero}>
               <h1 className={styles.heroTitle}>Automatiza el WhatsApp y las citas de tu clínica con inteligencia artificial.</h1>
-              <p className={styles.heroSub}>
-                Clinera ayuda a clínicas pequeñas y medianas a responder consultas, gestionar reservas y reducir tareas administrativas.
-              </p>
               <p className={styles.heroPrice}>Planes desde USD {price}/mes</p>
             </header>
           )}
@@ -373,13 +360,11 @@ export default function AgendaHebeLanding({
 
           <div className={`${styles.viewport} ${step === 3 ? styles.viewportScheduler : ""}`}>
             <div className={`${styles.step} ${step === 1 ? styles.stepActive : ""}`} aria-hidden={step !== 1}>
-              <div className={styles.viewers}>+52 clínicas en LATAM ya operan con Clinera.</div>
               <div className={styles.label}>Paso 1 de {TOTAL}</div>
               <h2 className={styles.title}>
                 Cuéntanos de tu <em>clínica</em>
               </h2>
               <p className={`${styles.sub} ${styles.subRow}`}>
-                Atendemos pacientes con IA por WhatsApp, Facebook, Instagram y llamada.
                 <ChannelLogos />
               </p>
               <div className={styles.group}>
@@ -465,8 +450,7 @@ export default function AgendaHebeLanding({
               <h2 className={styles.title}>
                 Tus datos de <em>contacto</em>
               </h2>
-              <p className={styles.sub}>Te escribimos directo a quien decide, no a recepción.</p>
-              <div className={styles.group}>
+                            <div className={styles.group}>
                 <label htmlFor="agenda-nombre">Nombre</label>
                 <input
                   id="agenda-nombre"
