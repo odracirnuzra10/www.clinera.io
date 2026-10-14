@@ -79,7 +79,7 @@ async function mockAgendaNativa(
 
 async function completarClinica(page: Page, id: string) {
   await expect(page.getByRole("heading", { name: /Cuéntanos de tu clínica/i })).toBeVisible();
-  await page.getByPlaceholder("Ej: Clínica Sonríe").fill(`[E2E TEST] Clinica ${id}`);
+  await page.getByPlaceholder("Clínica Estética Vela").fill(`[E2E TEST] Clinica ${id}`);
   await page.getByLabel("Especialidad").selectOption("medica");
   await page.getByRole("button", { name: "1–3", exact: true }).click();
   await page.getByRole("button", { name: "200 a 500", exact: true }).click();
@@ -121,7 +121,7 @@ test.describe("/agenda — wizard Hebe + agendador Clinera", () => {
     await page.goto("/agenda", { waitUntil: "domcontentloaded" });
 
     // El paso 1 no avanza sin boxes ni volumen.
-    await page.getByPlaceholder("Ej: Clínica Sonríe").fill(`[E2E TEST] Clinica ${id}`);
+    await page.getByPlaceholder("Clínica Estética Vela").fill(`[E2E TEST] Clinica ${id}`);
     await page.getByLabel("Especialidad").selectOption("medica");
     await page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true }).click();
     await expect(page.getByRole("heading", { name: /Cuéntanos de tu clínica/i })).toBeVisible();
