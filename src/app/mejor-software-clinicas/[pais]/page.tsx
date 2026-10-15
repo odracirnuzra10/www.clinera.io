@@ -8,6 +8,7 @@ const PAIS_LABELS: Record<string, string> = {
   chile: "Chile",
   mexico: "México",
   colombia: "Colombia",
+  peru: "Perú",
 };
 
 export function generateStaticParams() {

@@ -16,6 +16,9 @@ export type SoftwareVerticalContent = {
     | "software-para-clinicas"
     | "recordatorios-citas-whatsapp"
     | "crm-para-clinicas"
+    | "software-kinesiologia"
+    | "software-psicologia"
+    | "software-nutricion"
     | "agendamiento-whatsapp-ia";
   leadSource:
     | "software_medico_landing"
@@ -24,6 +27,9 @@ export type SoftwareVerticalContent = {
     | "software_para_clinicas_landing"
     | "recordatorios_citas_whatsapp_landing"
     | "crm_para_clinicas_landing"
+    | "software_kinesiologia_landing"
+    | "software_psicologia_landing"
+    | "software_nutricion_landing"
     | "agendamiento_whatsapp_ia_landing";
   contentCategory:
     | "landing_software_medico"
@@ -32,6 +38,9 @@ export type SoftwareVerticalContent = {
     | "landing_software_para_clinicas"
     | "landing_recordatorios_citas_whatsapp"
     | "landing_crm_para_clinicas"
+    | "landing_software_kinesiologia"
+    | "landing_software_psicologia"
+    | "landing_software_nutricion"
     | "landing_agendamiento_whatsapp_ia";
   breadcrumbName: string;
   applicationName: string;
@@ -833,3 +842,152 @@ export const CRM: SoftwareVerticalContent = {
     ],
   },
 };
+
+type EspecialidadOpts = {
+  slug: SoftwareVerticalContent["slug"];
+  leadSource: SoftwareVerticalContent["leadSource"];
+  contentCategory: SoftwareVerticalContent["contentCategory"];
+  profesional: string; // "kinesiólogos"
+  centro: string; // "centro de kinesiología"
+  accent: string; // "software para kinesiólogos"
+  thesis: string;
+  tratamiento: string; // "sesiones de rehabilitación"
+  keywords: string[];
+};
+
+function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
+  return {
+    slug: o.slug,
+    leadSource: o.leadSource,
+    contentCategory: o.contentCategory,
+    breadcrumbName: `Software para ${o.profesional}`,
+    applicationName: `Clinera — software para ${o.profesional}`,
+    applicationSubCategory: "Practice Management",
+    eyebrow: `Software para ${o.profesional} · agenda, ficha y agente IA`,
+    h1Lead: "El ",
+    h1Accent: o.accent,
+    h1Rest: " que agenda, ficha y confirma por WhatsApp",
+    thesis: o.thesis,
+    sub: `Desde USD ${vortex.monthlyPrice}/mes. Agenda, ficha y CRM en un solo sistema, sin integrar agendas de terceros. Un solo modo de agendamiento: Agentic.`,
+    heroViews: ["ficha", "aura", "intelligence"],
+    includesH2: `Qué incluye el software para ${o.profesional}`,
+    includes: [
+      {
+        title: "Agenda por profesional",
+        body: "Disponibilidad real por profesional y duración de la atención. AURA crea, reagenda y cancela dentro de WhatsApp, sin mandar links.",
+      },
+      {
+        title: "Ficha clínica",
+        body: `Historial, evolución y consentimientos de cada paciente en un solo lugar, para seguir las ${o.tratamiento} sin papeles sueltos.`,
+      },
+      {
+        title: "Agente IA (AURA)",
+        body: "Atiende el WhatsApp de la consulta 24/7: responde, califica y agenda sobre tu agenda real. En vivo en todos los planes. CAMILA (llamadas con IA) disponible solo en Summit.",
+      },
+      {
+        title: "Recordatorios y confirmación",
+        body: "El agente confirma las citas y reagenda por WhatsApp. Más en https://www.clinera.io/recordatorios-citas-whatsapp.",
+      },
+      {
+        title: "Pagos",
+        body: "Cobros y abonos dentro del mismo sistema que la agenda y la ficha.",
+      },
+      {
+        title: "CRM, dentro",
+        body: "Seguimiento de quienes escriben y de tus pacientes en el mismo software. Detalle en https://www.clinera.io/crm-para-clinicas.",
+      },
+    ],
+    deepDive: {
+      eyebrow: "Un solo sistema",
+      h2: `Menos herramientas sueltas en tu ${o.centro}`,
+      body: `Muchos ${o.profesional} arman su operación con una agenda, una planilla, un WhatsApp personal y carpetas de fichas. Clinera junta todo en un sistema: lo que el paciente escribe por WhatsApp queda en la agenda, en la ficha y en el CRM.`,
+      bullets: [
+        "Agenda, ficha, pagos y CRM en el mismo sistema",
+        "WhatsApp con IA conectado a tu agenda real",
+        "Migración de tus datos incluida en el onboarding",
+      ],
+    },
+    aura: {
+      eyebrow: "Agente IA · en vivo",
+      headline: "AURA responde y agenda cuando tú estás atendiendo.",
+      body: "Atiende consultas fuera de horario, agenda y confirma sobre tu agenda, y deriva a una persona cuando la conversación lo pide. CAMILA (llamadas con IA) disponible solo en Summit; LIA disponible en Summit.",
+      imageAlt: `AURA — agente IA de WhatsApp para ${o.profesional}`,
+    },
+    crm: {
+      eyebrow: `CRM para ${o.profesional}`,
+      h2: "¿Buscabas un CRM aparte? Viene dentro del software",
+      body: "Seguimiento de pacientes y de nuevas consultas en el mismo sistema que la agenda y la ficha. No conectas dos programas.",
+    },
+    finalH2: `Te mostramos Clinera con tu ${o.centro}.`,
+    faqs: [
+      {
+        q: `¿Sirve Clinera para ${o.profesional}?`,
+        a: `Sí. Tiene agenda por profesional, ficha clínica, pagos, CRM y un agente de IA que atiende el WhatsApp. Es el sistema con el que opera la consulta, no un bot al lado de otro programa.`,
+      },
+      {
+        q: "¿Sirve para un profesional que trabaja solo?",
+        a: `Sí. Vortex (USD ${vortex.monthlyPrice}/mes) es el plan de entrada: ${vortex.credits.toLocaleString("es-CL")} créditos/mes, ${vortex.consumptionReference}. Agenda, ficha y AURA van incluidos.`,
+      },
+      {
+        q: "¿Se integra con la agenda que usamos hoy?",
+        a: INTEGRATION_FAQ,
+      },
+      {
+        q: "¿Cómo agenda el agente IA?",
+        a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real y deja la cita creada. Reagenda y cancela en la misma conversación. CAMILA, el agente de voz, está disponible solo en Summit.",
+      },
+      {
+        q: "¿Tiene fichas con campos propios de mi especialidad?",
+        a: "La ficha clínica de Clinera concentra el historial, la evolución y los consentimientos del paciente. Si necesitas campos específicos de tu especialidad, consúltalo en la demo antes de decidir.",
+      },
+      {
+        q: `¿Cuánto cuesta el software para ${o.profesional}?`,
+        a: PRICE_FAQ,
+      },
+    ],
+    meta: {
+      title: `Software para ${o.profesional}: agenda, ficha y agente IA | Clinera`,
+      description: `Software para ${o.profesional}: agenda, ficha clínica, CRM y agente IA que agenda por WhatsApp 24/7. Desde USD ${vortex.monthlyPrice}/mes. Migramos tus datos.`,
+      keywords: o.keywords,
+    },
+  };
+}
+
+export const KINESIOLOGIA = especialidad({
+  slug: "software-kinesiologia",
+  leadSource: "software_kinesiologia_landing",
+  contentCategory: "landing_software_kinesiologia",
+  profesional: "kinesiólogos",
+  centro: "centro de kinesiología",
+  accent: "software para kinesiólogos",
+  tratamiento: "sesiones de rehabilitación",
+  thesis:
+    "Clinera es un software para kinesiólogos con agenda por profesional, ficha clínica para seguir cada sesión de rehabilitación, pagos y un agente de IA (AURA) que agenda y confirma por WhatsApp 24/7. Opera sobre su propia agenda: migramos tus datos en el onboarding, sin integrar agendas de terceros.",
+  keywords: ["software para kinesiólogos", "software kinesiología", "agenda para kinesiólogos", "ficha clínica kinesiología", "programa para centro de kinesiología"],
+});
+
+export const PSICOLOGIA = especialidad({
+  slug: "software-psicologia",
+  leadSource: "software_psicologia_landing",
+  contentCategory: "landing_software_psicologia",
+  profesional: "psicólogos",
+  centro: "consulta psicológica",
+  accent: "software para psicólogos",
+  tratamiento: "sesiones de terapia",
+  thesis:
+    "Clinera es un software para psicólogos con agenda por profesional, ficha clínica para llevar el historial de cada paciente y sus sesiones, pagos y un agente de IA (AURA) que agenda y confirma por WhatsApp 24/7. Opera sobre su propia agenda: migramos tus datos en el onboarding, sin integrar agendas de terceros.",
+  keywords: ["software para psicólogos", "software psicología", "agenda para psicólogos", "ficha clínica psicología", "programa para consulta psicológica"],
+});
+
+export const NUTRICION = especialidad({
+  slug: "software-nutricion",
+  leadSource: "software_nutricion_landing",
+  contentCategory: "landing_software_nutricion",
+  profesional: "nutricionistas",
+  centro: "consulta de nutrición",
+  accent: "software para nutricionistas",
+  tratamiento: "consultas y controles",
+  thesis:
+    "Clinera es un software para nutricionistas con agenda por profesional, ficha clínica para seguir las consultas y controles de cada paciente, pagos y un agente de IA (AURA) que agenda y confirma por WhatsApp 24/7. Opera sobre su propia agenda: migramos tus datos en el onboarding, sin integrar agendas de terceros.",
+  keywords: ["software para nutricionistas", "software nutrición", "agenda para nutricionistas", "ficha clínica nutrición", "programa para consulta de nutrición"],
+});

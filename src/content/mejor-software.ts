@@ -1,4 +1,4 @@
-export type PaisSlug = "latam" | "chile" | "mexico" | "colombia";
+export type PaisSlug = "latam" | "chile" | "mexico" | "colombia" | "peru";
 
 export type SoftwareRanked = {
   nombre: string;
@@ -28,6 +28,7 @@ export type RankingPais = {
 };
 
 const UPDATED = "2026-08-25";
+const UPDATED_PE = "2026-10-15";
 
 const clineraBase: SoftwareRanked = {
   nombre: "Clinera",
@@ -728,9 +729,121 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
       { label: "Empleados digitales", href: "/empleado-digital" },
     ],
   },
+  peru: {
+    pais: "peru",
+    h1: "Mejor software para clínicas en Perú 2026: ranking honesto",
+    metaTitle: "Mejor software para clínicas Perú 2026 — comparativa real",
+    metaDescription:
+      "Ranking del mejor software para clínicas en Perú: Clinera, AgendaPro, Doctocliq y Medesk. Historia clínica, facturación SUNAT y Ley 29733.",
+    updatedAt: UPDATED_PE,
+    intro:
+      "El mejor software para clínicas en Perú en 2026 debe cuidar la historia clínica, la facturación electrónica ante SUNAT y la Ley 29733 de protección de datos personales. Clinera destaca en empleados digitales que agendan por WhatsApp para clínicas con marketing activo; para facturación SUNAT confirma siempre con cada proveedor.",
+    criterios: [
+      "Historia clínica ordenada según la normativa del Minsa.",
+      "Facturación electrónica SUNAT: confirma con cada proveedor si la emite de forma nativa.",
+      "Cumplimiento de la Ley 29733 (protección de datos personales).",
+      "WhatsApp como canal de comunicación con pacientes.",
+      "IA que ejecuta agendamientos — no solo recordatorios.",
+      "Precio accesible para consultorios y clínicas pequeñas.",
+    ],
+    software: [
+      clineraBase,
+      {
+        nombre: "AgendaPro",
+        url: "https://www.agendapro.com",
+        comparativaUrl: "/comparativas/agendapro",
+        resumen:
+          "AgendaPro es una plataforma horizontal de agenda para clínicas, spas y centros estéticos con presencia regional, incluido Perú.",
+        fortalezas: [
+          "Presencia regional con app móvil nativa.",
+          "Precios públicos por usuario.",
+          "Multi-vertical.",
+        ],
+        debilidades: [
+          "Sin IA conversacional autónoma para WhatsApp.",
+          "Ficha clínica liviana.",
+        ],
+        idealPara: "Clínicas multi-vertical que priorizan app móvil.",
+        precioMensual: "Desde USD 19/usuario/mes.",
+      },
+      {
+        nombre: "Doctocliq",
+        url: "https://www.doctocliq.com",
+        comparativaUrl: "/comparativas/doctocliq",
+        resumen:
+          "Doctocliq es una plataforma multi-país. Plan gratuito + planes pagos desde USD 19/mes.",
+        fortalezas: [
+          "Plan GRATIS real + planes desde USD 19/mes.",
+          "Certificado Meta Business Partners (WhatsApp API).",
+          "Multi-vertical (dental, médico, estético).",
+        ],
+        debilidades: [
+          "Asistente IA de recordatorios — no agente conversacional autónomo.",
+          "Sin atribución de ventas a campañas digitales.",
+        ],
+        idealPara:
+          "Clínicas pequeñas que empiezan a digitalizarse con presupuesto limitado.",
+        precioMensual: "Plan gratis + desde USD 19/mes.",
+      },
+      {
+        nombre: "Medesk",
+        url: "https://www.medesk.net",
+        resumen:
+          "Medesk es software clínico en la nube que declara facturación electrónica para Perú, con agenda y ficha.",
+        fortalezas: [
+          "Operación en la nube.",
+          "Agenda y ficha integradas.",
+          "Declara facturación electrónica para Perú (dato del propio proveedor: verifícalo en una demo).",
+        ],
+        debilidades: [
+          "Sin IA conversacional autónoma para WhatsApp 24/7.",
+        ],
+        idealPara: "Consultorios pequeños que quieren agenda, ficha y facturación en una herramienta.",
+        precioMensual: "Consultar con el proveedor.",
+      },
+    ],
+    faqs: [
+      {
+        q: "¿Cuál es el mejor software para clínicas en Perú?",
+        a: "Depende de tu cuello de botella. Para WhatsApp 24/7 con IA y atribución de marketing: Clinera. Para facturación electrónica junto a la agenda: revisa Medesk con una demo. Para empezar gratis: Doctocliq. Para agenda con app móvil: AgendaPro.",
+      },
+      {
+        q: "¿Clinera emite comprobantes electrónicos SUNAT?",
+        a: "Clinera no es un ERP médico peruano ni un emisor de comprobantes SUNAT. Su fuerte es WhatsApp 24/7 con IA, agenda, ficha y CRM. Si necesitas emitir comprobantes desde el mismo sistema, confirma ese punto con ventas antes de decidir.",
+      },
+      {
+        q: "¿Cumple con la Ley 29733?",
+        a: "Clinera aplica cifrado, minimización de datos y DPA. Para una auditoría formal de protección de datos personales solicita la documentación al activar el plan.",
+      },
+      {
+        q: "¿Se integra con la agenda que usamos hoy?",
+        a: "No. Clinera no se sincroniza con otras agendas: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Para conectar otras herramientas tienes Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit.",
+      },
+      {
+        q: "¿Cuánto cuesta el software para clínicas en Perú?",
+        a: "Doctocliq desde USD 19/mes (plan gratis disponible). AgendaPro desde USD 19/usuario/mes. Clinera desde USD 279/mes con precios públicos. El catálogo de Clinera está en USD.",
+      },
+    ],
+    checklist: [
+      "Confirma si el sistema emite comprobantes SUNAT de forma nativa o si necesitas otra herramienta.",
+      "Verifica cómo maneja la historia clínica frente a la normativa del Minsa.",
+      "Pide la documentación de protección de datos (Ley 29733).",
+      "Evalúa WhatsApp como canal — ¿pierdes mensajes fuera de horario?",
+      "Para clínicas con marketing activo, evalúa atribución de ventas.",
+      "Pide export de pacientes antes de migrar.",
+    ],
+    cityLinks: [
+      { label: "Lima", href: "/recursos/mejor-software-clinicas-lima-2026" },
+    ],
+    relatedComparativas: [
+      { label: "Clinera vs AgendaPro", href: "/comparativas/agendapro" },
+      { label: "Clinera vs Doctocliq", href: "/comparativas/doctocliq" },
+      { label: "Empleados digitales", href: "/empleado-digital" },
+    ],
+  },
 };
 
-export const PAISES: PaisSlug[] = ["latam", "chile", "mexico", "colombia"];
+export const PAISES: PaisSlug[] = ["latam", "chile", "mexico", "colombia", "peru"];
 
 export const PAISES_CON_RUTA = PAISES.filter((p) => p !== "latam");
 

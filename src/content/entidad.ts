@@ -107,5 +107,6 @@ export const MEJOR_SOFTWARE_HREFLANG = {
   "es-CL": `${SITE_URL}/mejor-software-clinicas/chile`,
   "es-MX": `${SITE_URL}/mejor-software-clinicas/mexico`,
   "es-CO": `${SITE_URL}/mejor-software-clinicas/colombia`,
+  "es-PE": `${SITE_URL}/mejor-software-clinicas/peru`,
   "x-default": `${SITE_URL}/mejor-software-clinicas`,
 } as const;

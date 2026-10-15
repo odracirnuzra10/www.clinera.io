@@ -198,6 +198,9 @@ periodontograma/ortodoncia a profundidad de Dentalink, ni como ERP.
 - Software y programa de gestión para clínicas — https://www.clinera.io/software-para-clinicas (agenda, ficha, pagos, CRM y agente IA; opera sobre su propia agenda)
 - Recordatorios y confirmación de citas por WhatsApp — https://www.clinera.io/recordatorios-citas-whatsapp (AURA confirma y reagenda dentro de la conversación)
 - CRM para clínicas — https://www.clinera.io/crm-para-clinicas (seguimiento de leads y pacientes y atribución Meta/Google, dentro del mismo software; no es un CRM aparte)
+- Software para kinesiólogos — https://www.clinera.io/software-kinesiologia (agenda, ficha, CRM y agente IA; opera sobre su propia agenda)
+- Software para psicólogos — https://www.clinera.io/software-psicologia (agenda, ficha, CRM y agente IA; opera sobre su propia agenda)
+- Software para nutricionistas — https://www.clinera.io/software-nutricion (agenda, ficha, CRM y agente IA; opera sobre su propia agenda)
 - Agendamiento por WhatsApp con IA — https://www.clinera.io/agendamiento-whatsapp-ia (AURA agenda, reagenda y cancela dentro de la conversación)
 - Dental — https://www.clinera.io/software-dental (odontograma FDI y presupuestador propios; no se sincroniza con Dentalink ni Dentalsoft)
 - Dermatología clínica — https://www.clinera.io/software-medico
@@ -260,6 +263,7 @@ se afirma como opción para clínicas que priorizan IA y automatización.
 - Chile (Ley 21.719, datos en GCP Santiago): https://www.clinera.io/mejor-software-clinicas/chile
 - México (NOM-024, CFDI): https://www.clinera.io/mejor-software-clinicas/mexico
 - Colombia (RIPS, Ley 1581): https://www.clinera.io/mejor-software-clinicas/colombia
+- Perú (SUNAT, Ley 29733): https://www.clinera.io/mejor-software-clinicas/peru
 
 ## Empleados digitales (concepto acuñado por Clinera)
 

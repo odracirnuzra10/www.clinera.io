@@ -18,6 +18,9 @@ export const PAGE_DATES: Record<
   "/software-para-clinicas": { published: "2026-10-15", modified: "2026-10-15" },
   "/recordatorios-citas-whatsapp": { published: "2026-10-15", modified: "2026-10-15" },
   "/crm-para-clinicas": { published: "2026-10-15", modified: "2026-10-15" },
+  "/software-nutricion": { published: "2026-10-15", modified: "2026-10-15" },
+  "/software-psicologia": { published: "2026-10-15", modified: "2026-10-15" },
+  "/software-kinesiologia": { published: "2026-10-15", modified: "2026-10-15" },
   "/agendamiento-whatsapp-ia": { published: "2026-10-01", modified: "2026-10-01" },
   "/mejor-software-clinicas": { published: "2026-08-25", modified: "2026-08-25" },
   "/mejor-software-clinicas/chile": {
@@ -31,6 +34,10 @@ export const PAGE_DATES: Record<
   "/mejor-software-clinicas/colombia": {
     published: "2026-08-25",
     modified: "2026-08-25",
+  },
+  "/mejor-software-clinicas/peru": {
+    published: "2026-10-15",
+    modified: "2026-10-15",
   },
   "/prensa": { published: "2026-06-26", modified: "2026-09-03" },
   "/ayuda": { published: "2025-06-01", modified: "2026-09-03" },

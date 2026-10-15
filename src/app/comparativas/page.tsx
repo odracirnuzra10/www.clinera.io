@@ -242,6 +242,7 @@ export default function ComparativasHub() {
                   { href: "/mejor-software-clinicas/chile", label: "Chile", desc: "Ley 21.719, SII, datos en Chile" },
                   { href: "/mejor-software-clinicas/mexico", label: "México", desc: "NOM-024, CFDI, WhatsApp" },
                   { href: "/mejor-software-clinicas/colombia", label: "Colombia", desc: "RIPS, DIAN, habeas data" },
+                  { href: "/mejor-software-clinicas/peru", label: "Perú", desc: "SUNAT, Ley 29733, historia clínica" },
                 ].map((item) => (
                   <Link
                     key={item.href}
