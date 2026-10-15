@@ -14,6 +14,7 @@ const cols: Col[] = [
       ["Software médico", "/software-medico"],
       ["Software dental", "/software-dental"],
       ["Software estético", "/software-estetica"],
+      ["Software para clínicas", "/software-para-clinicas"],
       ["Agendamiento por WhatsApp", "/agendamiento-whatsapp-ia"],
       ["Funciones", "/funciones"],
       ["Planes", "/planes"],

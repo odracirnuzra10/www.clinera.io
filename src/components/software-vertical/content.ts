@@ -13,16 +13,19 @@ export type SoftwareVerticalContent = {
     | "software-medico"
     | "software-dental"
     | "software-estetica"
+    | "software-para-clinicas"
     | "agendamiento-whatsapp-ia";
   leadSource:
     | "software_medico_landing"
     | "software_dental_landing"
     | "software_estetica_landing"
+    | "software_para_clinicas_landing"
     | "agendamiento_whatsapp_ia_landing";
   contentCategory:
     | "landing_software_medico"
     | "landing_software_dental"
     | "landing_software_estetica"
+    | "landing_software_para_clinicas"
     | "landing_agendamiento_whatsapp_ia";
   breadcrumbName: string;
   applicationName: string;
@@ -499,6 +502,114 @@ export const WHATSAPP_IA: SoftwareVerticalContent = {
       "chatbot para clínicas",
       "agente IA whatsapp clínicas",
       "agendar citas por whatsapp",
+    ],
+  },
+};
+
+export const CLINICAS: SoftwareVerticalContent = {
+  slug: "software-para-clinicas",
+  leadSource: "software_para_clinicas_landing",
+  contentCategory: "landing_software_para_clinicas",
+  breadcrumbName: "Software para clínicas",
+  applicationName: "Clinera — software y sistema de gestión para clínicas",
+  applicationSubCategory: "Clinic Management",
+  eyebrow: "Software para clínicas · agenda, ficha y agente IA",
+  h1Lead: "El ",
+  h1Accent: "software para clínicas",
+  h1Rest: " que agenda, ficha y atiende tu WhatsApp con IA",
+  thesis:
+    "Clinera es el software, o programa de gestión, con el que opera una clínica médica o estética: agenda por profesional, ficha clínica electrónica, módulo de pagos, CRM y un agente de IA (AURA) que atiende y agenda por WhatsApp 24/7. Migramos tus datos en el onboarding.",
+  sub: `Desde USD ${vortex.monthlyPrice}/mes. Un solo sistema de gestión, sin integrar agendas de terceros. Un solo modo de agendamiento: Agentic.`,
+  heroViews: ["ficha", "aura", "intelligence"],
+  includesH2: "Qué incluye un programa de gestión para clínicas",
+  includes: [
+    {
+      title: "Agenda por profesional",
+      body: "Disponibilidad real por profesional, box y duración. AURA crea, reagenda y cancela dentro de WhatsApp, sin mandar links.",
+    },
+    {
+      title: "Ficha clínica electrónica",
+      body: "Historial, evolución y consentimientos del paciente en un solo lugar. Más sobre la normativa en https://www.clinera.io/ley20584.",
+    },
+    {
+      title: "Módulo de pagos",
+      body: "Cobros, planes de tratamiento y abonos dentro del mismo sistema que la agenda y la ficha.",
+    },
+    {
+      title: "Agente IA (AURA)",
+      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. En vivo en todos los planes. CAMILA (llamadas con IA) disponible solo en Summit.",
+    },
+    {
+      title: "Recordatorios y confirmación",
+      body: "El agente confirma las citas y reagenda por WhatsApp para bajar los no-shows. Cómo hacerlo: https://www.clinera.io/blog/como-reducir-no-shows-clinica-estetica.",
+    },
+    {
+      title: "CRM y Clinera Intelligence",
+      body: "Seguimiento de leads y atribución de campañas Meta y Google en el mismo software. Pregunta en lenguaje natural por ventas, asistencia y no-shows.",
+    },
+  ],
+  deepDive: {
+    eyebrow: "Un solo sistema",
+    h2: "Un sistema de gestión, no cuatro programas pegados",
+    body: "Muchas clínicas arman su operación con una agenda, una ficha, un Excel de pagos y un WhatsApp aparte. Clinera junta todo en un sistema: lo que el paciente escribe por WhatsApp queda en la agenda, en la ficha y en el CRM, sin copiar datos a mano.",
+    bullets: [
+      "Agenda, ficha, pagos y CRM en el mismo sistema",
+      "WhatsApp con IA conectado a la agenda real del equipo",
+      "Migración de tus datos incluida en el onboarding",
+    ],
+  },
+  aura: {
+    eyebrow: "Agente IA · en vivo",
+    headline: "AURA responde y agenda cuando la clínica no puede.",
+    body: "Atiende consultas fuera de horario, agenda y confirma sobre la agenda del equipo, y deriva a una persona cuando la conversación lo pide. CAMILA (llamadas con IA) disponible solo en Summit; LIA disponible en Summit.",
+    imageAlt: "AURA — agente IA de WhatsApp para clínicas",
+  },
+  crm: {
+    eyebrow: "CRM para clínicas",
+    h2: "¿Buscabas un CRM para tu clínica? Viene dentro del software",
+    body: "Pipeline de pacientes, seguimiento y atribución de campañas en el mismo sistema que la agenda y la ficha. No conectas dos sistemas: es el módulo de ventas del software con el que opera la clínica.",
+  },
+  finalH2: "Te mostramos tu clínica dentro de Clinera.",
+  faqs: [
+    {
+      q: "¿Qué es un software o programa para clínicas?",
+      a: "Es el sistema con el que opera una clínica: agenda, ficha clínica, pagos y CRM en un solo lugar. Clinera suma un agente de IA que atiende y agenda por WhatsApp, así que no es un bot al lado de otro programa.",
+    },
+    {
+      q: "¿Para qué tipo de clínica sirve Clinera?",
+      a: "Para clínicas médicas y estéticas. Hay páginas con el detalle de cada una: https://www.clinera.io/software-medico, https://www.clinera.io/software-dental y https://www.clinera.io/software-estetica.",
+    },
+    {
+      q: "¿Sirve para una clínica de una sola sucursal?",
+      a: `Sí. Vortex (USD ${vortex.monthlyPrice}/mes) es el plan de entrada: ${vortex.credits.toLocaleString("es-CL")} créditos/mes, ${vortex.consumptionReference}. Agenda, ficha y AURA van incluidos.`,
+    },
+    {
+      q: "¿Se integra con la agenda que usamos hoy?",
+      a: INTEGRATION_FAQ,
+    },
+    {
+      q: "¿Cómo se compara con otros programas de gestión?",
+      a: "Clinera opera en un solo sistema y suma IA conversacional por WhatsApp. Puedes ver las comparativas por herramienta en https://www.clinera.io/comparativas y el ranking en https://www.clinera.io/mejor-software-clinicas.",
+    },
+    {
+      q: "¿Cuánto cuesta el software para clínicas?",
+      a: PRICE_FAQ,
+    },
+    {
+      q: "¿Cómo agenda el agente IA?",
+      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real del equipo y deja la cita creada. Reagenda y cancela en la misma conversación. CAMILA, el agente de voz, está disponible solo en Summit.",
+    },
+  ],
+  meta: {
+    title: "Software para clínicas: agenda, ficha y agente IA | Clinera",
+    description: `Software y programa de gestión para clínicas: agenda, ficha clínica electrónica, pagos, CRM y agente IA que agenda por WhatsApp 24/7. Desde USD ${vortex.monthlyPrice}/mes. Migramos tus datos.`,
+    keywords: [
+      "software para clínicas",
+      "programa para clínicas",
+      "sistema de gestión para clínicas",
+      "software de gestión clínica",
+      "CRM para clínicas",
+      "agenda para clínicas",
     ],
   },
 };

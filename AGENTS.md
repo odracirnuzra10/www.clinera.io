@@ -630,6 +630,18 @@ Las otras dos listas de logos **no se sincronizan** entre sí y siguen vigentes:
 - `src/components/home-v3/sections.tsx` (`Logos()`, para `/`): nombres de clínicas
   **inventados** ("Hospital del Valle", "Dermaclinic"...), no son clientes reales.
 
+# `/software-para-clinicas`: la página genérica (oct 2026)
+
+Pilar para las keywords amplias «software / programa / sistema de gestión para
+clínicas» (usa el esqueleto `software-vertical`, contenido `CLINICAS`). **Por qué
+existe:** «programa para clínicas» en Google Chile devuelve diplomados y
+programas académicos, no software; por eso la página titula con «software» y
+mete «programa» y «sistema de gestión» en tesis, FAQ y keywords. Mapa de
+keywords completo (sin volúmenes: Semrush sin unidades de API al 15-oct) en el
+.xlsx que se entregó a Ricardo; faltan por crear `/recordatorios-citas-whatsapp`,
+`/crm-para-clinicas`, `/mejor-software-clinicas/peru` y páginas por especialidad.
+Guardián: `tests/seo-q4-paginas.spec.ts`.
+
 # Landings `/software-medico` y `/software-dental`
 
 Dueñas de los clusters de Google Ads "Softwares" (software médico / software
