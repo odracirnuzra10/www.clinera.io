@@ -32,6 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     staticEntry('/software-estetica', 'monthly', 0.9),
     staticEntry('/software-para-clinicas', 'monthly', 0.9),
     staticEntry('/recordatorios-citas-whatsapp', 'monthly', 0.9),
+    staticEntry('/crm-para-clinicas', 'monthly', 0.9),
     staticEntry('/agendamiento-whatsapp-ia', 'monthly', 0.9),
     staticEntry('/funciones', 'monthly', 0.9),
     staticEntry('/planes', 'weekly', 0.9),

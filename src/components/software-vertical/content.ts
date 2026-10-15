@@ -15,6 +15,7 @@ export type SoftwareVerticalContent = {
     | "software-estetica"
     | "software-para-clinicas"
     | "recordatorios-citas-whatsapp"
+    | "crm-para-clinicas"
     | "agendamiento-whatsapp-ia";
   leadSource:
     | "software_medico_landing"
@@ -22,6 +23,7 @@ export type SoftwareVerticalContent = {
     | "software_estetica_landing"
     | "software_para_clinicas_landing"
     | "recordatorios_citas_whatsapp_landing"
+    | "crm_para_clinicas_landing"
     | "agendamiento_whatsapp_ia_landing";
   contentCategory:
     | "landing_software_medico"
@@ -29,6 +31,7 @@ export type SoftwareVerticalContent = {
     | "landing_software_estetica"
     | "landing_software_para_clinicas"
     | "landing_recordatorios_citas_whatsapp"
+    | "landing_crm_para_clinicas"
     | "landing_agendamiento_whatsapp_ia";
   breadcrumbName: string;
   applicationName: string;
@@ -720,6 +723,113 @@ export const RECORDATORIOS: SoftwareVerticalContent = {
       "recordatorio de citas clínica",
       "reducir no-shows clínica",
       "confirmar citas por whatsapp",
+    ],
+  },
+};
+
+export const CRM: SoftwareVerticalContent = {
+  slug: "crm-para-clinicas",
+  leadSource: "crm_para_clinicas_landing",
+  contentCategory: "landing_crm_para_clinicas",
+  breadcrumbName: "CRM para clínicas",
+  applicationName: "Clinera — CRM para clínicas",
+  applicationSubCategory: "Clinic CRM",
+  eyebrow: "CRM para clínicas · leads, pacientes y atribución de campañas",
+  h1Lead: "El ",
+  h1Accent: "CRM para clínicas",
+  h1Rest: " que vive dentro de tu agenda, tu ficha y tu WhatsApp",
+  thesis:
+    "Clinera incluye un CRM para clínicas dentro del mismo software de la agenda y la ficha clínica: sigue a cada lead desde el primer mensaje de WhatsApp hasta la cita, conserva el historial del paciente y atribuye las campañas de Meta y Google. No conectas dos sistemas: es un solo programa.",
+  sub: `Desde USD ${vortex.monthlyPrice}/mes. CRM incluido en todos los planes, sin integrar agendas de terceros. Un solo modo de agendamiento: Agentic.`,
+  heroViews: ["aura", "ficha", "intelligence"],
+  includesH2: "Qué incluye el CRM para clínicas de Clinera",
+  includes: [
+    {
+      title: "Seguimiento de leads",
+      body: "Cada persona que escribe por WhatsApp queda registrada con su conversación, para que tu equipo sepa en qué etapa está y qué falta para agendarla.",
+    },
+    {
+      title: "Del lead al paciente",
+      body: "Cuando AURA agenda la cita, el contacto pasa a ser paciente en la misma base, con su ficha clínica y su historial. Sin exportar ni copiar datos.",
+    },
+    {
+      title: "Planes de tratamiento",
+      body: "El seguimiento de cada paciente incluye su plan de tratamiento y lo que falta por agendar o cerrar.",
+    },
+    {
+      title: "Atribución de campañas",
+      body: "Ves qué campañas de Meta y Google traen pacientes que agendan, no solo clics. Cómo se mide: https://www.clinera.io/blog/mide-conversiones-meta-google-clinera.",
+    },
+    {
+      title: "WhatsApp con IA conectado",
+      body: "AURA conversa, califica y agenda sobre el mismo CRM. Lo que dice el paciente queda en su registro sin que nadie lo tipee.",
+    },
+    {
+      title: "Webhooks y API pública",
+      body: "En Atlas y Summit conectas el CRM con n8n, Make o Zapier. Esto no es integración con agendas de terceros: Clinera sigue operando sobre su propia agenda.",
+    },
+  ],
+  deepDive: {
+    eyebrow: "Un solo sistema",
+    h2: "Un CRM separado de la agenda se desactualiza",
+    body: "Cuando el CRM vive en una herramienta y la agenda en otra, alguien tiene que pasar los datos a mano y siempre queda un lado atrasado. En Clinera el lead, la cita, la ficha y el pago comparten la misma base, así que el seguimiento refleja lo que realmente pasó en la clínica.",
+    bullets: [
+      "Lead, cita, ficha y pago en la misma base",
+      "WhatsApp con IA que registra la conversación sola",
+      "Atribución de campañas Meta y Google",
+    ],
+  },
+  aura: {
+    eyebrow: "Agente IA · en vivo",
+    headline: "AURA alimenta el CRM mientras atiende el WhatsApp.",
+    body: "Responde, califica y agenda sobre la agenda real, y deriva a una persona cuando hace falta. CAMILA (llamadas con IA) disponible solo en Summit; LIA disponible en Summit.",
+    imageAlt: "AURA — agente IA de WhatsApp conectado al CRM de la clínica",
+  },
+  crm: {
+    eyebrow: "Más que una base de datos",
+    h2: "¿Buscabas un CRM aparte? No necesitas otro programa",
+    body: "Un CRM útil para una clínica no es una lista de contactos: es saber qué pasó con cada consulta. Por eso en Clinera es un módulo del mismo software de la agenda. Más sobre el tema: https://www.clinera.io/blog/crm-para-clinicas-como-la-mensajeria-omnicanal-aumenta-la-fidelizacion.",
+  },
+  finalH2: "Te mostramos el CRM con los datos de tu clínica.",
+  faqs: [
+    {
+      q: "¿Qué es un CRM para clínicas?",
+      a: "Es el sistema que registra a cada persona que contacta a la clínica, qué conversó y en qué etapa está hasta que agenda y se atiende. En Clinera viene dentro del mismo software que la agenda y la ficha clínica.",
+    },
+    {
+      q: "¿Necesito contratar un CRM aparte?",
+      a: "No. El CRM está incluido en todos los planes de Clinera y comparte base con la agenda, la ficha y los pagos. Si prefieres otra herramienta, en Atlas y Summit tienes Webhooks y API pública.",
+    },
+    {
+      q: "¿Sirve para una clínica estética?",
+      a: "Sí. Funciona igual para clínicas médicas y estéticas. El detalle de la ficha estética está en https://www.clinera.io/software-estetica.",
+    },
+    {
+      q: "¿Se integra con la agenda que usamos hoy?",
+      a: INTEGRATION_FAQ,
+    },
+    {
+      q: "¿Puedo saber qué campañas me traen pacientes?",
+      a: "Sí. Clinera atribuye las campañas de Meta y Google a los pacientes que agendan, no solo a los clics. Cómo funciona la medición: https://www.clinera.io/blog/mide-conversiones-meta-google-clinera.",
+    },
+    {
+      q: "¿Cuánto cuesta el CRM para clínicas?",
+      a: PRICE_FAQ,
+    },
+    {
+      q: "¿El agente de WhatsApp escribe en el CRM?",
+      a: "Sí. AURA conversa con el paciente sobre la agenda real y la conversación queda registrada en su contacto. Más sobre el agente: https://www.clinera.io/agendamiento-whatsapp-ia.",
+    },
+  ],
+  meta: {
+    title: "CRM para clínicas: leads, pacientes y campañas | Clinera",
+    description: `CRM para clínicas incluido en el software de agenda y ficha: seguimiento de leads por WhatsApp, pacientes y atribución de campañas Meta y Google. Desde USD ${vortex.monthlyPrice}/mes.`,
+    keywords: [
+      "CRM para clínicas",
+      "CRM para clínicas estéticas",
+      "CRM médico",
+      "seguimiento de pacientes",
+      "atribución de campañas clínica",
     ],
   },
 };

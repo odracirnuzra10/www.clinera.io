@@ -17,6 +17,7 @@ export const PAGE_DATES: Record<
   "/software-estetica": { published: "2026-10-01", modified: "2026-10-01" },
   "/software-para-clinicas": { published: "2026-10-15", modified: "2026-10-15" },
   "/recordatorios-citas-whatsapp": { published: "2026-10-15", modified: "2026-10-15" },
+  "/crm-para-clinicas": { published: "2026-10-15", modified: "2026-10-15" },
   "/agendamiento-whatsapp-ia": { published: "2026-10-01", modified: "2026-10-01" },
   "/mejor-software-clinicas": { published: "2026-08-25", modified: "2026-08-25" },
   "/mejor-software-clinicas/chile": {
