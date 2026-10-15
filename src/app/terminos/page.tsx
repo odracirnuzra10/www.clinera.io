@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
 };
 
-const LAST_UPDATED = "1 de septiembre de 2026";
+const LAST_UPDATED = "15 de octubre de 2026";
 
 export default function TerminosPage() {
   return (
@@ -198,7 +198,69 @@ export default function TerminosPage() {
                 Compañía.
               </p>
 
-              <h2 style={h2}>7. Modelos de inteligencia artificial y precisión</h2>
+              <h2 style={h2}>7. Deberes y obligaciones del Cliente</h2>
+              <p style={p}>
+                El Cliente se compromete a cumplir las siguientes obligaciones
+                para garantizar la correcta prestación, configuración e
+                implementación del servicio, las cuales deberán completarse en
+                su totalidad dentro de un plazo máximo de{" "}
+                <strong>treinta (30) días corridos</strong> contados desde la
+                fecha de contratación, correspondiente al periodo de
+                Onboarding:
+              </p>
+              <ul style={ul}>
+                <li>
+                  <strong>Entrega oportuna de información y accesos:</strong>{" "}
+                  proporcionar dentro del periodo de Onboarding, de forma
+                  completa, exacta y en los plazos requeridos, toda la
+                  información, credenciales, bases de datos, parámetros de
+                  configuración e insumos necesarios para la puesta en marcha
+                  del sistema. Esto incluye expresamente el envío oportuno de
+                  los tratamientos, horarios de atención y el listado completo
+                  de profesionales junto con sus datos y credenciales. Cualquier
+                  retraso atribuible al Cliente en la entrega de estos insumos
+                  suspenderá los plazos de entrega e implementación fijados por
+                  la Compañía.
+                </li>
+                <li>
+                  <strong>Asistencia a reuniones y capacitaciones:</strong>{" "}
+                  asistir de manera puntual a todas las sesiones de
+                  coordinación, reuniones de integración y capacitaciones
+                  programadas durante el periodo de Onboarding, para asegurar
+                  la correcta adopción de la plataforma por parte de su equipo.
+                </li>
+                <li>
+                  <strong>Designación de un interlocutor responsable:</strong>{" "}
+                  nombrar desde el inicio de la contratación a un encargado o
+                  contraparte técnica/operativa dentro de su organización, quien
+                  actuará como enlace directo con la Compañía para coordinar la
+                  implementación, aprobar configuraciones y tomar decisiones
+                  operativas durante los 30 días de Onboarding.
+                </li>
+                <li>
+                  <strong>Uso adecuado del servicio y credenciales:</strong>{" "}
+                  resguardar la confidencialidad de las credenciales de acceso
+                  otorgadas y asegurar que el uso del software se limite
+                  estrictamente al número de usuarios y sucursales contratados.
+                </li>
+                <li>
+                  <strong>
+                    Responsabilidad sobre la información y datos médicos:
+                  </strong>{" "}
+                  garantizar la titularidad y legitimidad del tratamiento de los
+                  datos personales y fichas clínicas de los pacientes ingresados
+                  o migrados a la plataforma, cumpliendo con la normativa legal
+                  vigente sobre protección de datos personales y sensibles.
+                </li>
+                <li>
+                  <strong>Cumplimiento de pagos:</strong> realizar el pago
+                  oportuno de las tarifas de suscripción y servicios acordados,
+                  en las fechas y condiciones establecidas, para mantener la
+                  continuidad del servicio.
+                </li>
+              </ul>
+
+              <h2 style={h2}>8. Modelos de inteligencia artificial y precisión</h2>
               <p style={p}>
                 Clinera utiliza modelos de lenguaje de gran escala (LLM)
                 avanzados de proveedores líderes (como OpenAI, Anthropic y
@@ -224,7 +286,7 @@ export default function TerminosPage() {
               </p>
 
               <h2 style={h2}>
-                8. Integraciones con Facebook, Instagram y WhatsApp
+                9. Integraciones con Facebook, Instagram y WhatsApp
               </h2>
               <p style={p}>
                 Clinera permite que una clínica conecte determinados activos y
@@ -285,7 +347,7 @@ export default function TerminosPage() {
                 externo modifica, limita o revoca el acceso.
               </p>
 
-              <h2 style={h2}>9. Disposiciones generales</h2>
+              <h2 style={h2}>10. Disposiciones generales</h2>
               <p style={p}>
                 Estos Términos se rigen por las leyes del Estado de Delaware,
                 Estados Unidos. Toda controversia, disputa o reclamación
