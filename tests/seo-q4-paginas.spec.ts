@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync, existsSync } from "node:fs";
-import { ESTETICA, WHATSAPP_IA } from "../src/components/software-vertical/content";
+import { CLINICAS, CRM, ESTETICA, KINESIOLOGIA, NUTRICION, PSICOLOGIA, RECORDATORIOS, WHATSAPP_IA } from "../src/components/software-vertical/content";
 
 // Plan SEO/AEO Q4 2026. Pruebas estáticas: no abren navegador.
 const leer = (p: string) => readFileSync(p, "utf8");
@@ -8,6 +8,12 @@ const leer = (p: string) => readFileSync(p, "utf8");
 test.describe("páginas de compra nuevas", () => {
   for (const [c, ruta] of [
     [ESTETICA, "software-estetica"],
+    [CLINICAS, "software-para-clinicas"],
+    [RECORDATORIOS, "recordatorios-citas-whatsapp"],
+    [CRM, "crm-para-clinicas"],
+    [KINESIOLOGIA, "software-kinesiologia"],
+    [PSICOLOGIA, "software-psicologia"],
+    [NUTRICION, "software-nutricion"],
     [WHATSAPP_IA, "agendamiento-whatsapp-ia"],
   ] as const) {
     test(`/${ruta}: contenido, sitemap y página`, () => {

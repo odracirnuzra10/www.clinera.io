@@ -727,6 +727,7 @@ export function MejorSoftwarePage({ ranking, pageUrl, breadcrumbLabel, parentLin
                   { label: "Chile", href: "/mejor-software-clinicas/chile" },
                   { label: "México", href: "/mejor-software-clinicas/mexico" },
                   { label: "Colombia", href: "/mejor-software-clinicas/colombia" },
+                  { label: "Perú", href: "/mejor-software-clinicas/peru" },
                 ].map((l) => (
                   <li key={l.href}>
                     <Link

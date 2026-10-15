@@ -630,6 +630,27 @@ Las otras dos listas de logos **no se sincronizan** entre sí y siguen vigentes:
 - `src/components/home-v3/sections.tsx` (`Logos()`, para `/`): nombres de clínicas
   **inventados** ("Hospital del Valle", "Dermaclinic"...), no son clientes reales.
 
+# `/software-para-clinicas`: la página genérica (oct 2026)
+
+Pilar para las keywords amplias «software / programa / sistema de gestión para
+clínicas» (usa el esqueleto `software-vertical`, contenido `CLINICAS`). **Por qué
+existe:** «programa para clínicas» en Google Chile devuelve diplomados y
+programas académicos, no software; por eso la página titula con «software» y
+mete «programa» y «sistema de gestión» en tesis, FAQ y keywords. Mapa de
+keywords completo (sin volúmenes: Semrush sin unidades de API al 15-oct) en el
+.xlsx que se entregó a Ricardo; `/mejor-software-clinicas/peru` ya existe (ranking con AgendaPro, Doctocliq y Medesk;
+Clinera aclara que no emite comprobantes SUNAT: confirmar con ventas). Páginas por
+especialidad (kinesiología, psicología, nutrición) salen de una fábrica
+`especialidad()` en `content.ts`; sin campos propios por especialidad (la FAQ lo
+admite). Podología quedó fuera por bajo valor. Todas sin volúmenes de búsqueda.
+Guardián: `tests/seo-q4-paginas.spec.ts`.
+`/recordatorios-citas-whatsapp` (contenido `RECORDATORIOS`) cubre recordatorios y
+confirmación: son plantillas Utility de Meta (solo informan la cita, sin promo);
+no prometer porcentajes de reducción de no-shows, no hay dato propio.
+`/crm-para-clinicas` (contenido `CRM`): el CRM es un módulo del mismo software, no
+un producto aparte; no prometer email marketing ni triggers de cumpleaños (son
+«próximas funciones»). Webhooks/API pública no se presentan como integración de agenda.
+
 # Landings `/software-medico` y `/software-dental`
 
 Dueñas de los clusters de Google Ads "Softwares" (software médico / software

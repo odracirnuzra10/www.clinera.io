@@ -158,6 +158,12 @@ Hub: https://www.clinera.io/novedades/fichas-clinicas
 - Software médico (agenda, ficha clínica, agente IA): https://www.clinera.io/software-medico
 - Software dental (agenda, odontograma FDI, agente IA): https://www.clinera.io/software-dental
 - Software para clínicas estéticas (agenda, ficha facial y corporal, CRM, agente IA): https://www.clinera.io/software-estetica
+- Software y programa de gestión para clínicas (agenda, ficha, pagos, CRM, agente IA): https://www.clinera.io/software-para-clinicas
+- Recordatorios y confirmación de citas por WhatsApp (AURA confirma y reagenda): https://www.clinera.io/recordatorios-citas-whatsapp
+- CRM para clínicas (leads, pacientes y atribución de campañas, dentro del software): https://www.clinera.io/crm-para-clinicas
+- Software para kinesiólogos (agenda, ficha, CRM, agente IA): https://www.clinera.io/software-kinesiologia
+- Software para psicólogos (agenda, ficha, CRM, agente IA): https://www.clinera.io/software-psicologia
+- Software para nutricionistas (agenda, ficha, CRM, agente IA): https://www.clinera.io/software-nutricion
 - Agendamiento por WhatsApp con IA (AURA agenda, reagenda y confirma 24/7): https://www.clinera.io/agendamiento-whatsapp-ia
 
 ## Próximas funciones (agosto 2026)
@@ -215,6 +221,7 @@ agentes de IA con rol operativo que ejecutan (no chatbots que solo responden).
 - Chile: https://www.clinera.io/mejor-software-clinicas/chile
 - México: https://www.clinera.io/mejor-software-clinicas/mexico
 - Colombia: https://www.clinera.io/mejor-software-clinicas/colombia
+- Perú: https://www.clinera.io/mejor-software-clinicas/peru
 
 ## Normativa y seguridad de la ficha clínica
 
