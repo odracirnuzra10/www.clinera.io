@@ -14,18 +14,21 @@ export type SoftwareVerticalContent = {
     | "software-dental"
     | "software-estetica"
     | "software-para-clinicas"
+    | "recordatorios-citas-whatsapp"
     | "agendamiento-whatsapp-ia";
   leadSource:
     | "software_medico_landing"
     | "software_dental_landing"
     | "software_estetica_landing"
     | "software_para_clinicas_landing"
+    | "recordatorios_citas_whatsapp_landing"
     | "agendamiento_whatsapp_ia_landing";
   contentCategory:
     | "landing_software_medico"
     | "landing_software_dental"
     | "landing_software_estetica"
     | "landing_software_para_clinicas"
+    | "landing_recordatorios_citas_whatsapp"
     | "landing_agendamiento_whatsapp_ia";
   breadcrumbName: string;
   applicationName: string;
@@ -610,6 +613,113 @@ export const CLINICAS: SoftwareVerticalContent = {
       "software de gestión clínica",
       "CRM para clínicas",
       "agenda para clínicas",
+    ],
+  },
+};
+
+export const RECORDATORIOS: SoftwareVerticalContent = {
+  slug: "recordatorios-citas-whatsapp",
+  leadSource: "recordatorios_citas_whatsapp_landing",
+  contentCategory: "landing_recordatorios_citas_whatsapp",
+  breadcrumbName: "Recordatorios de citas por WhatsApp",
+  applicationName: "Clinera AURA — recordatorios y confirmación de citas por WhatsApp",
+  applicationSubCategory: "Appointment Reminders",
+  eyebrow: "Recordatorios de citas por WhatsApp · confirmación automática",
+  h1Lead: "",
+  h1Accent: "Recordatorios de citas por WhatsApp",
+  h1Rest: " para clínicas: confirma y reagenda sin llamar uno por uno",
+  thesis:
+    "Clinera envía recordatorios de citas por WhatsApp y pide la confirmación del paciente de forma automática. Si el paciente no puede asistir, AURA, el agente de IA, reagenda en la misma conversación sobre la agenda real de la clínica, para que el horario libre se vuelva a llenar.",
+  sub: `Desde USD ${vortex.monthlyPrice}/mes. Sin llamar paciente por paciente. Un solo modo de agendamiento: Agentic.`,
+  heroViews: ["aura", "ficha", "intelligence"],
+  includesH2: "Qué hacen los recordatorios de citas de Clinera",
+  includes: [
+    {
+      title: "Recordatorio antes de la cita",
+      body: "El paciente recibe un mensaje de WhatsApp con día, hora y profesional, usando una plantilla aprobada por Meta.",
+    },
+    {
+      title: "Confirmación automática",
+      body: "El paciente responde en el mismo chat y la cita queda confirmada en la agenda, sin que nadie de recepción la marque a mano.",
+    },
+    {
+      title: "Reagenda en la conversación",
+      body: "Si no puede ir, AURA ofrece horarios libres reales y deja la cita movida. Sin links ni formularios.",
+    },
+    {
+      title: "Libera el horario cancelado",
+      body: "Una cancelación avisada a tiempo deja el hueco disponible para otro paciente en vez de convertirse en un no-show.",
+    },
+    {
+      title: "Deriva lo que requiere criterio",
+      body: "Si el paciente tiene una duda clínica o un reclamo, AURA pasa el caso a tu equipo con el historial a la vista.",
+    },
+    {
+      title: "Sobre la agenda y la ficha",
+      body: "Los recordatorios salen de la misma agenda donde viven las citas y la ficha del paciente, sin sincronizar dos programas.",
+    },
+  ],
+  deepDive: {
+    eyebrow: "Plantillas de WhatsApp",
+    h2: "Recordar una cita es un mensaje transaccional",
+    body: "Un recordatorio o una confirmación de una cita que el paciente ya pidió se envía como plantilla Utility, no como Marketing. Si el mensaje agrega promociones, Meta lo clasifica distinto. Por eso los recordatorios de Clinera solo informan la cita. El detalle está en https://www.clinera.io/blog/las-plantillas-para-confirmar-citas-en-whatsapp-api-deben-ser-marketing-o-utility.",
+    bullets: [
+      "Plantilla de recordatorio y de confirmación, sin promociones",
+      "Respuesta del paciente en el mismo hilo",
+      "Cita actualizada en la agenda al instante",
+    ],
+  },
+  aura: {
+    eyebrow: "Agente IA · en vivo",
+    headline: "AURA confirma y reagenda cuando la recepción no alcanza.",
+    body: "Escribe el recordatorio, recibe la respuesta y mueve la cita si hace falta. CAMILA (llamadas con IA) disponible solo en Summit; LIA disponible en Summit.",
+    imageAlt: "AURA — recordatorios y confirmación de citas por WhatsApp",
+  },
+  crm: {
+    eyebrow: "Menos no-shows",
+    h2: "¿Buscabas bajar los no-shows? Empieza por confirmar cada cita",
+    body: "El recordatorio es la parte visible. Lo que cambia el resultado es que la confirmación, la reagenda y el seguimiento vivan en el mismo sistema que la agenda y el CRM. Guía completa: https://www.clinera.io/blog/como-reducir-no-shows-clinica-estetica.",
+  },
+  finalH2: "Te mostramos los recordatorios corriendo en tu WhatsApp.",
+  faqs: [
+    {
+      q: "¿Cómo funcionan los recordatorios de citas por WhatsApp?",
+      a: "Clinera envía al paciente un mensaje con los datos de su cita antes de la fecha y le pide confirmar. La respuesta queda registrada en la agenda y, si no puede asistir, AURA le ofrece reagendar en la misma conversación.",
+    },
+    {
+      q: "¿Qué pasa si el paciente no confirma?",
+      a: "Tu equipo decide qué hacer con ese horario, por ejemplo contactarlo o reofrecerlo. Ideas para este caso en https://www.clinera.io/blog/pacientes-no-confirman-cita-que-hacer.",
+    },
+    {
+      q: "¿Los recordatorios usan mi número de WhatsApp?",
+      a: "Sí. Conectas el número de tu clínica con Meta Embedded Signup y la cuenta queda a nombre de tu clínica. Una cuenta de Clinera trabaja con 1 número de WhatsApp, 1 cuenta de Instagram y 1 de Facebook. Más números o perfiles son más cuentas.",
+    },
+    {
+      q: "¿Se integra con la agenda que usamos hoy?",
+      a: INTEGRATION_FAQ,
+    },
+    {
+      q: "¿Cuánto cuesta?",
+      a: PRICE_FAQ,
+    },
+    {
+      q: "¿Cuántos créditos consume una conversación de recordatorio?",
+      a: "Una conversación que no termina en cita consume 30 créditos y una que agenda, reagenda o cancela, 195. Una confirmación que se resuelve con una respuesta corta se mide con esas mismas tarifas. La calculadora te dice qué plan te calza.",
+    },
+    {
+      q: "¿Los recordatorios reemplazan a mi recepcionista?",
+      a: "Toman el trabajo repetitivo de confirmar y reagendar, y dejan a tu equipo lo que requiere criterio. Para entender el agente completo, mira https://www.clinera.io/agendamiento-whatsapp-ia.",
+    },
+  ],
+  meta: {
+    title: "Recordatorios de citas por WhatsApp para clínicas | Clinera",
+    description: `Recordatorios y confirmación automática de citas por WhatsApp para clínicas. AURA confirma y reagenda en la conversación, sobre tu agenda real. Desde USD ${vortex.monthlyPrice}/mes.`,
+    keywords: [
+      "recordatorios de citas por whatsapp",
+      "confirmación automática de citas",
+      "recordatorio de citas clínica",
+      "reducir no-shows clínica",
+      "confirmar citas por whatsapp",
     ],
   },
 };

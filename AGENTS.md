@@ -638,9 +638,12 @@ existe:** «programa para clínicas» en Google Chile devuelve diplomados y
 programas académicos, no software; por eso la página titula con «software» y
 mete «programa» y «sistema de gestión» en tesis, FAQ y keywords. Mapa de
 keywords completo (sin volúmenes: Semrush sin unidades de API al 15-oct) en el
-.xlsx que se entregó a Ricardo; faltan por crear `/recordatorios-citas-whatsapp`,
+.xlsx que se entregó a Ricardo; faltan por crear
 `/crm-para-clinicas`, `/mejor-software-clinicas/peru` y páginas por especialidad.
 Guardián: `tests/seo-q4-paginas.spec.ts`.
+`/recordatorios-citas-whatsapp` (contenido `RECORDATORIOS`) cubre recordatorios y
+confirmación: son plantillas Utility de Meta (solo informan la cita, sin promo);
+no prometer porcentajes de reducción de no-shows, no hay dato propio.
 
 # Landings `/software-medico` y `/software-dental`
 
