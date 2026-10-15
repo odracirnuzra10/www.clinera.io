@@ -19,6 +19,7 @@ export type SoftwareVerticalContent = {
     | "software-kinesiologia"
     | "software-psicologia"
     | "software-nutricion"
+    | "software-podologia"
     | "agendamiento-whatsapp-ia";
   leadSource:
     | "software_medico_landing"
@@ -30,6 +31,7 @@ export type SoftwareVerticalContent = {
     | "software_kinesiologia_landing"
     | "software_psicologia_landing"
     | "software_nutricion_landing"
+    | "software_podologia_landing"
     | "agendamiento_whatsapp_ia_landing";
   contentCategory:
     | "landing_software_medico"
@@ -41,6 +43,7 @@ export type SoftwareVerticalContent = {
     | "landing_software_kinesiologia"
     | "landing_software_psicologia"
     | "landing_software_nutricion"
+    | "landing_software_podologia"
     | "landing_agendamiento_whatsapp_ia";
   breadcrumbName: string;
   applicationName: string;
@@ -990,4 +993,17 @@ export const NUTRICION = especialidad({
   thesis:
     "Clinera es un software para nutricionistas con agenda por profesional, ficha clínica para seguir las consultas y controles de cada paciente, pagos y un agente de IA (AURA) que agenda y confirma por WhatsApp 24/7. Opera sobre su propia agenda: migramos tus datos en el onboarding, sin integrar agendas de terceros.",
   keywords: ["software para nutricionistas", "software nutrición", "agenda para nutricionistas", "ficha clínica nutrición", "programa para consulta de nutrición"],
+});
+
+export const PODOLOGIA = especialidad({
+  slug: "software-podologia",
+  leadSource: "software_podologia_landing",
+  contentCategory: "landing_software_podologia",
+  profesional: "podólogos",
+  centro: "centro de podología",
+  accent: "software para podólogos",
+  tratamiento: "atenciones y controles",
+  thesis:
+    "Clinera es un software para podólogos con agenda por profesional, ficha clínica para seguir las atenciones y controles de cada paciente, pagos y un agente de IA (AURA) que agenda y confirma por WhatsApp 24/7. Opera sobre su propia agenda: migramos tus datos en el onboarding, sin integrar agendas de terceros.",
+  keywords: ["software para podólogos", "software podología", "agenda para podólogos", "ficha clínica podología", "programa para centro de podología"],
 });
