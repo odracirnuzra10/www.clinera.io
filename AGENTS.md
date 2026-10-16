@@ -883,3 +883,19 @@ del deck apunta a `/convenio-doctores#requisitos`. Copy en
 - **Ficha clínica:** `/ley20584` es la página de seguridad de datos con
   respuesta directa, FAQ y demo; los 9 artículos de ficha clínica llevan
   `<FichaCTA />` a mitad de texto (`lead_source=blog_ficha_clinica`).
+
+# `/planes2` y `/go`: modelo Go! / Flux / Vortex (Ricardo, 16-oct-2026)
+
+Vista previa **interna** (`noindex`, `Disallow` en `robots-txt.ts`, fuera del
+sitemap). **No reemplaza `/planes`**: Vortex/Atlas/Summit viejos siguen
+vigentes en `pricing.ts` y en los contratos de `/firma`. Go! US$ 17 (1 sucursal,
+1 profesional), Flux US$ 87 (2/5), Vortex US$ 279 (3/10); AURA solo en Vortex;
+Atlas y Summit no existen en el modelo nuevo. Solo clientes nuevos.
+
+Todo vive en `src/content/planes2.ts`, incluida la lista `PENDIENTES` (copia en
+`docs/planes2-pendientes.md`). Lo que Ricardo no ha decidido (créditos,
+implementación, permanencia, anual, links de Stripe, MXN) es un marcador
+`[PENDIENTE: …]` visible: **no lo rellenes con un número inventado** y no
+reutilices el Stripe del Vortex viejo. Los CTA sin link muestran el marcador en
+vez de un enlace roto. `/go/exito` dispara `Purchase` US$ 17 una vez por pestaña.
+Guardián: `tests/planes2.spec.ts`.

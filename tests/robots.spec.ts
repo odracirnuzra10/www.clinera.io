@@ -21,6 +21,8 @@ test.describe("robots.txt: rutas internas cerradas a los bots de IA", () => {
     "/triage",
     "/internal/",
     "/reserva-tu-hora",
+    "/planes2",
+    "/go/",
     "/admin/",
     "/api/",
   ];
