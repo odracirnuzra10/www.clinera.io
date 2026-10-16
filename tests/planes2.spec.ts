@@ -158,3 +158,23 @@ test("clinera.io: el CTA principal del header es «Iniciar ahora» → /go, y ve
   // Las páginas que pasan su propio CTA (Google Ads → /agenda) no cambian.
   expect(readFileSync("src/components/software-vertical/SoftwareVerticalLanding.tsx", "utf8")).toContain('ctaLabel="Agendar demo"');
 });
+
+test("/go: sin footer, y la FAQ explica los tres planes sin marcadores ni datos viejos", () => {
+  const page = readFileSync("src/app/go/page.tsx", "utf8");
+  expect(page).not.toContain("FooterV3");
+  const preguntas = GO_FAQ.map((f) => f.q).join(" | ");
+  for (const q of ["¿Cuáles son los planes?", "¿Qué incluye Clinera Go!?", "¿Qué incluye Clinera Flux?", "¿Qué incluye Clinera Vortex?"]) {
+    expect(preguntas).toContain(q);
+  }
+  const todo = JSON.stringify(GO_FAQ);
+  expect(todo).not.toContain("PENDIENTE");
+  expect(todo).toContain("USD 17");
+  expect(todo).toContain("USD 87");
+  expect(todo).toContain("USD 279");
+  expect(todo).toContain("100 créditos IA");
+  expect(todo).toContain("200 créditos IA");
+  expect(todo).toContain("28.000 créditos IA");
+  // Go! y Flux no incluyen AURA: la FAQ no puede insinuar lo contrario.
+  expect(GO_FAQ.find((f) => f.q === "¿Qué incluye Clinera Go!?")!.a).toContain("No incluye AURA");
+  expect(GO_FAQ.find((f) => f.q === "¿Qué incluye Clinera Flux?")!.a).toContain("No incluye AURA");
+});

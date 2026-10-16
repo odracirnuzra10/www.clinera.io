@@ -454,6 +454,7 @@ function GoFaq() {
       <div style={{ maxWidth: 820, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 28 }}>
           <Eyebrow>Preguntas frecuentes</Eyebrow>
+          <h2 className="go-h2">Todo sobre los planes.</h2>
         </div>
         <div style={{ borderTop: "1px solid #E5E7EB" }}>
           {GO_FAQ.map((it, i) => {
