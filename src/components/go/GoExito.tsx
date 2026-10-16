@@ -5,6 +5,7 @@ import { GRAD } from "@/components/brand-v3/Brand";
 import Pendiente from "@/components/planes2/Pendiente";
 import { GO_ANALYTICS, REGISTRO_URL_PENDIENTE } from "@/content/planes2";
 import { readGoAttribution } from "@/lib/go-attribution";
+import { purchaseEventId } from "@/lib/meta-purchase-id";
 import { track, trackPixel } from "@/lib/tracking";
 
 const SS_KEY = "cl_go_purchase_sent";
@@ -12,7 +13,8 @@ const SS_KEY = "cl_go_purchase_sent";
 /**
  * Página de éxito de Stripe Checkout de Go!. Dispara `Purchase` (US$ 17) una
  * sola vez por pestaña: recargar la página no debe duplicar la conversión.
- * Si Stripe manda `?session_id=`, ese id es el `eventID` (deduplica con CAPI).
+ * Si Stripe manda `?session_id=`, `purchaseEventId()` es el `eventID`: coincide con el `event_id` del
+ * Purchase por servidor de `/api/stripe/meta-purchase`, así Meta lo cuenta una sola vez.
  */
 export default function GoExito() {
   useEffect(() => {
@@ -23,7 +25,7 @@ export default function GoExito() {
       // Sin sessionStorage el evento puede repetirse al recargar; es lo menos malo.
     }
     const sid = new URLSearchParams(window.location.search).get("session_id");
-    const eventId = sid ? `go_${sid}` : `go_${Date.now()}`;
+    const eventId = sid ? purchaseEventId(sid) : `purchase_${Date.now()}`;
     track("purchase", {
       lead_source: GO_ANALYTICS.leadSource,
       plan: "go",

@@ -1,4 +1,6 @@
 /* eslint-disable @next/next/no-sync-scripts */
+import { META_PIXEL_ID } from "@/lib/meta-pixel-id";
+
 /**
  * Server component. Uses raw <script dangerouslySetInnerHTML> so scripts
  * end up INLINE in the SSR HTML (not in the RSC flight payload), giving
@@ -18,7 +20,7 @@ n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
 n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init','1104567405156111');fbq('track','PageView');})();`;
+fbq('init','${META_PIXEL_ID}');fbq('track','PageView');})();`;
 
 const CLARITY_SRC = `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
 t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
@@ -358,7 +360,7 @@ export default function Analytics() {
           height="1"
           width="1"
           style={{ display: 'none' }}
-          src="https://www.facebook.com/tr?id=1104567405156111&ev=PageView&noscript=1"
+          src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
           alt=""
         />
       </noscript>
