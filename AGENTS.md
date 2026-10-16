@@ -304,6 +304,12 @@ la recomendación del partner + CTA a reunión.
 > GTM. Si el sitio y el servidor apuntan a pixeles distintos, el `event_id` no
 > deduplica. Lo que sigue describe el pixel anterior.
 >
+> **Stripe → Meta (16-oct):** `POST /api/stripe/meta-purchase` manda un `Purchase`
+> al pixel nuevo cuando alguien se suscribe (`checkout.session.completed`). Es un
+> webhook propio, aparte de los de n8n. Requiere secretos en Vercel y registrar el
+> endpoint en Stripe: `docs/stripe-meta-purchase.md`. Su `event_id`
+> (`purchase_{session_id}`) debe ser igual al del navegador en `/go/exito`.
+>
 > Pixel de producción anterior `1104567405156111` (`[2026] OACG TECH`) pertenece al
 > BM **Método Hebe** `1162184321174513`, no a Metricads Marketing. La
 > cuenta que gasta (`act_774716223970185`) sí es de Metricads. El dataset
