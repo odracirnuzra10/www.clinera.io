@@ -12,9 +12,8 @@ import {
   GO_FAQ,
   GO_INCLUYE,
   GO_PASOS,
-  VENTAS_WHATSAPP_PENDIENTE,
+  AGENDA_PATH,
   VORTEX_2,
-  pendiente,
 } from "@/content/planes2";
 import { withStripeAttribution } from "@/lib/gclid";
 import { captureGoAttribution, readGoAttribution } from "@/lib/go-attribution";
@@ -64,8 +63,7 @@ export default function GoLanding() {
               Inicia con Clinera por solo <span style={gradText}>17&nbsp;dólares al&nbsp;mes.</span>
             </h1>
             <p style={{ fontFamily: "Inter", fontSize: 18, color: MUTED, lineHeight: 1.55, margin: "0 0 24px", maxWidth: 520 }}>
-              Tu agenda, tus fichas y tus mensajes de WhatsApp, Facebook e Instagram en un solo lugar. Sin implementación y sin permanencia.{" "}
-              <Pendiente>{pendiente('confirmar "sin implementación y sin permanencia"')}</Pendiente>
+              Tu agenda, tus fichas y tus mensajes de WhatsApp, Facebook e Instagram en un solo lugar. Sin costo de implementación y sin permanencia: cancelas cuando quieras.
             </p>
             <GoCta where="hero" />
           </div>
@@ -134,8 +132,8 @@ export default function GoLanding() {
 
       <section className="go-sec" style={{ padding: "40px 80px 24px", background: "#fff" }}>
         <p style={{ maxWidth: 640, margin: "0 auto", textAlign: "center", fontFamily: "Inter", fontSize: 14.5, color: "#6B7280" }}>
-          ¿Tienes varias sedes o un equipo grande? Habla con ventas.{" "}
-          <Pendiente>{VENTAS_WHATSAPP_PENDIENTE}</Pendiente>
+          ¿Tienes varias sedes o un equipo grande?{" "}
+          <AgendarLink where="alternativo">Agenda una reunión con ventas</AgendarLink>.
         </p>
       </section>
 
@@ -153,6 +151,40 @@ export default function GoLanding() {
 
 /** CTA único de la landing. Si falta el link de Stripe, muestra el marcador. */
 function GoCta({ where }: { where: "hero" | "final" }) {
+  return (
+    <div style={{ display: "grid", gap: 12, justifyItems: where === "final" ? "center" : "start" }}>
+      <GoPay where={where} />
+      <span style={{ fontFamily: "Inter", fontSize: 14, color: "#6B7280" }}>
+        ¿Prefieres verlo antes? <AgendarLink where={where}>Agenda una reunión</AgendarLink>
+      </span>
+    </div>
+  );
+}
+
+/**
+ * Lleva a /agenda conservando la query de la visita (UTM, fbclid, gclid): la
+ * atribución del lead depende de ella, ver `clasificarLeadSource()`.
+ */
+function AgendarLink({ where, children }: { where: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={`${AGENDA_PATH}?plan=go`}
+      data-cta-agendar={where}
+      onClick={(ev) => {
+        ev.preventDefault();
+        track("go_agendar_click", { lead_source: GO_ANALYTICS.leadSource, cta_position: where, page_path: "/go" });
+        const q = new URLSearchParams(window.location.search);
+        q.set("plan", "go");
+        window.location.href = `${AGENDA_PATH}?${q.toString()}`;
+      }}
+      style={{ color: "#7C3AED", fontWeight: 600, textDecoration: "none" }}
+    >
+      {children}
+    </a>
+  );
+}
+
+function GoPay({ where }: { where: "hero" | "final" }) {
   const url = GO.checkoutUrl;
   const base = {
     display: "inline-block",

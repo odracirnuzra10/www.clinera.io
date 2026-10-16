@@ -309,8 +309,8 @@ function PlanCard({ plan }: { plan: Plan2 }) {
           <div style={{ fontFamily: MONO, fontSize: 10.5, fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", color: th.sub }}>
             Implementación
           </div>
-          <div style={{ fontFamily: JAKARTA, fontSize: 12.5, fontWeight: 600, lineHeight: 1.5, color: th.ink, marginTop: 4 }}>
-            <Pendiente>{pendiente("confirmar con Ricardo")}</Pendiente>
+          <div style={{ fontFamily: JAKARTA, fontSize: 15, fontWeight: 800, lineHeight: 1.4, color: th.ink, marginTop: 4 }}>
+            Sin costo
           </div>
         </div>
         <div aria-hidden style={{ borderTop: `1px solid ${th.divider}` }} />

@@ -526,8 +526,8 @@ el calendario **sin esperar** el webhook — si se vuelve a `await`, se pierden 
 
 Brief de optimización de la landing (9-oct-2026). Titular visible y h1:
 «Automatiza el WhatsApp y las citas de tu clínica con inteligencia
-artificial» + «Planes desde USD 279/mes» (de `pricing.ts`, no escrito a
-mano). **Ya no se elige plan** al inicio (solo se conserva `?plan=` si viene
+artificial» + «Planes desde USD 17/mes» y la línea Go!/Flux/Vortex (de
+`PLANS_2` en `planes2.ts` desde el 16-oct-2026, no escrito a mano). **Ya no se elige plan** al inicio (solo se conserva `?plan=` si viene
 de `/planes`). Pasos: 1 clínica (nombre, especialidad, boxes, pacientes/mes),
 2 contacto (nombre, cargo, WhatsApp con país, correo), 3 calendario.
 `boxes_profesionales` viaja en el payload (`1_3`, `4_6`, `7_10`, `10_plus`).
@@ -891,6 +891,8 @@ sitemap). **No reemplaza `/planes`**: Vortex/Atlas/Summit viejos siguen
 vigentes en `pricing.ts` y en los contratos de `/firma`. Go! US$ 17 (1 sucursal,
 1 profesional), Flux US$ 87 (2/5), Vortex US$ 279 (3/10); AURA solo en Vortex;
 Atlas y Summit no existen en el modelo nuevo. Solo clientes nuevos.
+**Sin costo de implementación** en los planes nuevos (Ricardo, 16-oct): el US$ 450 de
+`SETUP_FEE_USD` sigue rigiendo solo los planes viejos y los contratos de `/firma`.
 
 Todo vive en `src/content/planes2.ts`, incluida la lista `PENDIENTES` (copia en
 `docs/planes2-pendientes.md`). Lo que Ricardo no ha decidido (créditos,

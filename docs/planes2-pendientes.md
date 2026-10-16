@@ -3,8 +3,6 @@
 Fuente: `PENDIENTES` en `src/content/planes2.ts`. En pantalla cada uno sale como `[PENDIENTE: …]` resaltado.
 
 - [ ] Precios en MXN de los 3 planes (hoy el switch convierte USD al FX congelado de pricing.ts).
-- [ ] Implementación USD 450: ¿solo Vortex? ¿Go! y Flux sin implementación?
-- [ ] Permanencia de 6 meses: ¿solo Vortex? ¿Go! y Flux cancelables en cualquier momento?
 - [ ] Plan anual 20% OFF y 12 cuotas Mercado Pago: ¿aplican a los 3 planes?
 - [ ] CAMILA (llamadas con IA) y LIA (fiscalización): ¿quedan como add-on?
 - [ ] URL de soporte o WhatsApp para clientes actuales.
@@ -13,6 +11,4 @@ Fuente: `PENDIENTES` en `src/content/planes2.ts`. En pantalla cada uno sale como
 - [ ] success_url / cancel_url configurados en Stripe Checkout de Go!.
 - [ ] Cuenta marcada con plan GO y bloqueada a sus límites (Mauricio López).
 - [ ] Alta del lead/cliente en Twenty con plan GO (confirmar integración con López).
-- [ ] Link de WhatsApp de ventas para el camino alternativo de /go.
-- [ ] Confirmar «sin implementación y sin permanencia» en el hero de /go.
 - [ ] Mockup de bandeja y agenda para el hero de /go (hoy es un esquema dibujado, sin capturas reales).

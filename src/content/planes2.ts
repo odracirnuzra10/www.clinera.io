@@ -125,6 +125,9 @@ export const DEFINICION_AURA =
 export const CLIENTE_ACTUAL_LINEA =
   "¿Ya eres cliente de Clinera? Tu plan actual se mantiene. Escríbenos si quieres revisarlo.";
 export const CLIENTE_ACTUAL_URL_PENDIENTE = pendiente("URL de soporte o WhatsApp");
+/** Los planes nuevos no cobran implementación (Ricardo, 16-oct-2026). `SETUP_FEE_USD` de pricing.ts sigue rigiendo los planes viejos. */
+export const IMPLEMENTACION_USD = 0;
+
 export const SOLO_NUEVOS = "Estos planes son solo para clientes nuevos.";
 
 /** Ruta del éxito de Stripe Checkout de Go!. */
@@ -140,7 +143,8 @@ export const GO_ANALYTICS = {
 export const REGISTRO_URL_PENDIENTE = pendiente(
   "URL y mecanismo exacto del registro en app.clinera.io (con el email del checkout precargado)",
 );
-export const VENTAS_WHATSAPP_PENDIENTE = pendiente("link de WhatsApp de ventas");
+/** Ruta de la reunión con ventas. Se le suma la query de la visita (UTM, click ids). */
+export const AGENDA_PATH = "/agenda";
 
 /** Cómo funciona (/planes2): en Go! y Flux no se conecta AURA. */
 export const COMO_FUNCIONA_2 = [
@@ -194,11 +198,11 @@ export const PLANES2_FAQ = [
   },
   {
     q: "¿Cuánto cuesta la implementación?",
-    a: `${pendiente("confirmar con Ricardo: ¿la implementación de USD 450 aplica solo a Vortex? ¿Go! y Flux sin implementación?")}`,
+    a: "Nada. Ningún plan tiene costo de implementación: pagas solo la mensualidad.",
   },
   {
     q: "¿Hay permanencia?",
-    a: `${pendiente("confirmar con Ricardo: ¿permanencia de 6 meses solo en Vortex? ¿Go! y Flux cancelables en cualquier momento?")}`,
+    a: "No. Puedes cancelar tu plan cuando quieras.",
   },
   {
     q: "¿Hay plan anual y cuotas con Mercado Pago?",
@@ -229,7 +233,7 @@ export const PLANES2_FAQ = [
 export const GO_FAQ = [
   {
     q: "¿Puedo cancelar cuando quiera?",
-    a: pendiente("confirmar con Ricardo: cancelación en cualquier momento y sin permanencia en Go!"),
+    a: "Sí. Puedes cancelar tu plan cuando quieras, sin permanencia.",
   },
   {
     q: "¿Puedo subir de plan?",
@@ -248,8 +252,6 @@ export const GO_FAQ = [
 /** Todo lo que sigue abierto, para la entrega (sección 5 del handoff). */
 export const PENDIENTES = [
   "Precios en MXN de los 3 planes (hoy el switch convierte USD al FX congelado de pricing.ts).",
-  "Implementación USD 450: ¿solo Vortex? ¿Go! y Flux sin implementación?",
-  "Permanencia de 6 meses: ¿solo Vortex? ¿Go! y Flux cancelables en cualquier momento?",
   "Plan anual 20% OFF y 12 cuotas Mercado Pago: ¿aplican a los 3 planes?",
   "CAMILA (llamadas con IA) y LIA (fiscalización): ¿quedan como add-on?",
   "URL de soporte o WhatsApp para clientes actuales.",
@@ -258,7 +260,5 @@ export const PENDIENTES = [
   "success_url / cancel_url configurados en Stripe Checkout de Go!.",
   "Cuenta marcada con plan GO y bloqueada a sus límites (Mauricio López).",
   "Alta del lead/cliente en Twenty con plan GO (confirmar integración con López).",
-  "Link de WhatsApp de ventas para el camino alternativo de /go.",
-  "Confirmar «sin implementación y sin permanencia» en el hero de /go.",
   "Mockup de bandeja y agenda para el hero de /go (hoy es un esquema dibujado, sin capturas reales).",
 ] as const;

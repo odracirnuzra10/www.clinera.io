@@ -1,12 +1,21 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
-import { PENDIENTES, PLANS_2, PLANES2_FAQ, GO_FAQ, VORTEX_2, EXTRA_BRANCH_USD } from "../src/content/planes2";
+import { PENDIENTES, PLANS_2, PLANES2_FAQ, GO_FAQ, VORTEX_2, IMPLEMENTACION_USD, EXTRA_BRANCH_USD } from "../src/content/planes2";
 import { EXTRA_USER_USD, EXTRA_CREDIT_PACK_USD, EXTRA_CREDIT_PACK_CREDITS } from "../src/content/pricing";
 import { buildRobotsTxt } from "../src/lib/robots-txt";
 
 // /planes2 y /go son vista previa interna (Ricardo, 16-oct-2026): no reemplazan
 // a /planes hasta que él apruebe.
 test.describe("planes2 / go: modelo Go! – Flux – Vortex", () => {
+  test("sin costo de implementación: no aparece USD 450 en los planes nuevos", () => {
+    const copy = JSON.stringify([PLANS_2, PLANES2_FAQ, GO_FAQ]);
+    expect(copy).not.toMatch(/\b450\b/);
+    expect(IMPLEMENTACION_USD).toBe(0);
+    for (const f of ["src/components/planes2/Planes2Body.tsx", "src/components/go/GoLanding.tsx"]) {
+      expect(readFileSync(f, "utf8"), f).not.toMatch(/SETUP_FEE|\b450\b/);
+    }
+  });
+
   test("precios y límites decididos el 16-oct", () => {
     expect(PLANS_2.map((p) => [p.name, p.monthlyUsd, p.branches, p.professionals])).toEqual([
       ["Clinera Go!", 17, 1, 1],
@@ -50,7 +59,7 @@ test.describe("planes2 / go: modelo Go! – Flux – Vortex", () => {
   });
 
   test("los datos abiertos quedan listados como PENDIENTE", () => {
-    expect(PENDIENTES.length).toBeGreaterThan(10);
+    expect(PENDIENTES.length).toBeGreaterThan(5);
   });
 
   test("las rutas son noindex y están cerradas en robots.txt", () => {
@@ -70,4 +79,18 @@ test.describe("planes2 / go: modelo Go! – Flux – Vortex", () => {
 test("add-ons confirmados por Ricardo (16-oct): sucursal 15, profesional 9, 5.000 créditos 15", () => {
   expect([EXTRA_BRANCH_USD, EXTRA_USER_USD, EXTRA_CREDIT_PACK_USD, EXTRA_CREDIT_PACK_CREDITS]).toEqual([15, 9, 15, 5000]);
   expect(JSON.stringify(PLANES2_FAQ)).not.toMatch(/PENDIENTE: confirmar si (aplica|la recarga)/);
+});
+
+test("/go: cancelar cuando quiera y salida a /agenda con la query de la visita", () => {
+  const go = readFileSync("src/components/go/GoLanding.tsx", "utf8");
+  expect(go).toContain("cancelas cuando quieras");
+  expect(go).toContain("AGENDA_PATH");
+  expect(go).toContain("window.location.search");
+  expect(JSON.stringify([PLANES2_FAQ, GO_FAQ])).not.toMatch(/PENDIENTE: confirmar con Ricardo: .*(permanencia|cancelación)/);
+});
+
+test("/agenda muestra los precios nuevos, no los de los planes viejos", () => {
+  const ag = readFileSync("src/components/ventas/AgendaHebeLanding.tsx", "utf8");
+  expect(ag).toContain("PLANS_2");
+  expect(ag).not.toMatch(/CLINERA_PLANS\[0\]\.monthlyPrice/);
 });
