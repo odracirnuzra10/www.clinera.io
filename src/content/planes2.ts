@@ -34,6 +34,8 @@ export type Plan2 = {
   checkoutUrl: string | null;
   checkoutPending: string;
   ctaLabel: string;
+  /** Funciones base de la tarjeta. Lo abierto lleva marcador [PENDIENTE]. */
+  features: string[];
   /** Qué NO incluye: se tacha para que se vea qué se desbloquea al subir. */
   excluded: string[];
 };
@@ -53,6 +55,11 @@ export const PLANS_2: readonly Plan2[] = [
     checkoutUrl: null,
     checkoutPending: pendiente("link de Stripe Checkout de Go!"),
     ctaLabel: "Empieza por USD 17",
+    features: [
+      "Agenda y fichas clínicas",
+      "Bandeja de WhatsApp, Facebook e Instagram",
+      `Clinera Intelligence · pocos créditos ${pendiente("cantidad")}`,
+    ],
     excluded: ["AURA · IA que responde a tus pacientes"],
   },
   {
@@ -69,6 +76,10 @@ export const PLANS_2: readonly Plan2[] = [
     checkoutUrl: null,
     checkoutPending: pendiente("link de Stripe de Flux"),
     ctaLabel: "Contratar Flux",
+    features: [
+      "Todo lo de Go!",
+      `Clinera Intelligence · más créditos ${pendiente("cantidad")}`,
+    ],
     excluded: ["AURA · IA que responde a tus pacientes"],
   },
   {
@@ -88,6 +99,12 @@ export const PLANS_2: readonly Plan2[] = [
       "link de Stripe del Vortex nuevo; el actual (buy.stripe.com/5kQ5kF8h3bmO24r9471441A) es del Vortex viejo",
     ),
     ctaLabel: "Contratar Vortex",
+    features: [
+      "Todo lo de Flux",
+      "AURA · IA que responde a tus pacientes y agenda sola",
+      `Clinera Intelligence · muchos más créditos ${pendiente("cantidad")}`,
+      `Créditos de IA para AURA ${pendiente("cantidad")}`,
+    ],
     excluded: [],
   },
 ] as const;
