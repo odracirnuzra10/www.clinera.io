@@ -6,14 +6,29 @@ export function track(event: string, params: Record<string, unknown> = {}) {
   dl.push({ event, ...params });
 }
 
+/**
+ * Evento del Meta Pixel. El pixel lo carga la etiqueta de Meta de GTM, de forma
+ * asíncrona, así que en páginas que disparan un evento al cargar (/go, /go/exito)
+ * `window.fbq` puede no existir todavía: se espera hasta ~8 s en vez de perder el
+ * evento. Si nunca aparece (bloqueador, GTM caído), se descarta sin error.
+ */
 export function trackPixel(
   event: string,
   params: Record<string, unknown> = {},
   eventId?: string,
 ) {
-  if (typeof window === "undefined" || !window.fbq) return;
-  if (eventId) window.fbq("track", event, params, { eventID: eventId });
-  else window.fbq("track", event, params);
+  if (typeof window === "undefined") return;
+  const send = () => {
+    if (!window.fbq) return false;
+    if (eventId) window.fbq("track", event, params, { eventID: eventId });
+    else window.fbq("track", event, params);
+    return true;
+  };
+  if (send()) return;
+  let tries = 0;
+  const timer = window.setInterval(() => {
+    if (send() || ++tries >= 50) window.clearInterval(timer);
+  }, 160);
 }
 
 export async function getGaClientId(): Promise<string> {

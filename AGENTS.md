@@ -304,6 +304,21 @@ la recomendación del partner + CTA a reunión.
 > GTM. Si el sitio y el servidor apuntan a pixeles distintos, el `event_id` no
 > deduplica. Lo que sigue describe el pixel anterior.
 >
+> **El pixel nuevo lo carga GTM, no el código (16-oct, Ricardo):** el contenedor
+> `GTM-NXT8BGS9` trae la etiqueta de Meta Pixel (plantilla de Meta, dataset
+> `2251201709002818`) que traduce eventos de GA4 a eventos de Meta (`purchase` →
+> `Purchase`, `begin_checkout` → `InitiateCheckout`, `generate_lead` → `Lead`,
+> `page_view` → `PageView`, `view_item` → `ViewContent`); lo que no está en el
+> mapeo pasa con su nombre crudo como evento custom. `Analytics.tsx` ya NO inicia el
+> pixel: dos cargadores contaban cada PageView doble. Consecuencias que no se ven
+> leyendo el código: (1) GTM no carga en localhost ni en `*.vercel.app`, para no
+> mandar tráfico de dev/preview a Meta; (2) los `fbq(...)` sueltos del código
+> necesitan que GTM haya cargado: `trackPixel` espera hasta ~8 s; (3) el `event_id`
+> de la etiqueta de GTM lo genera GTM y NO coincide con `purchase_{session_id}`:
+> el `purchase` que `/go/exito` empuja al dataLayer puede contar doble con el
+> `Purchase` del navegador y el del servidor. Revisar en Probar eventos tras la
+> primera venta real.
+>
 > **Stripe → Meta (16-oct):** `POST /api/stripe/meta-purchase` manda un `Purchase`
 > al pixel nuevo cuando alguien se suscribe (`checkout.session.completed`). Es un
 > webhook propio, aparte de los de n8n. Requiere secretos en Vercel y registrar el
