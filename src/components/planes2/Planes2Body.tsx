@@ -452,6 +452,26 @@ function PlanCta({ plan, theme }: { plan: Plan2; theme: PlanTheme }) {
     fontFamily: JAKARTA,
     boxSizing: "border-box",
   } as const;
+  // Go! es la puerta de entrada: "Contrata" lleva a la landing /go, que cierra la
+  // compra. Conserva la query de la visita (UTM, click ids) para la atribución.
+  if (plan.id === "go") {
+    return (
+      <a
+        href="/go"
+        data-plan="go"
+        data-cta-go-landing
+        className="p2-cta"
+        onClick={(ev) => {
+          ev.preventDefault();
+          const qs = window.location.search;
+          window.location.href = qs ? `/go${qs}` : "/go";
+        }}
+        style={{ ...base, background: theme.ctaPrimaryBg, color: theme.ctaPrimaryColor, boxShadow: theme.ctaPrimaryShadow, border: 0 }}
+      >
+        {plan.ctaLabel}
+      </a>
+    );
+  }
   if (!plan.checkoutUrl) {
     return (
       <div>
