@@ -940,3 +940,10 @@ implementación, permanencia, anual, links de Stripe, MXN) es un marcador
 reutilices el Stripe del Vortex viejo. Los CTA sin link muestran el marcador en
 vez de un enlace roto. `/go/exito` dispara `Purchase` US$ 17 una vez por pestaña.
 Guardián: `tests/planes2.spec.ts`.
+
+**Activación tras el pago (Ricardo, 16-oct):** `/go/exito` ya no pide «crear cuenta»:
+manda al cliente a WhatsApp de soporte (`SOPORTE_WHATSAPP` en `planes2.ts`,
++56 9 8558 1524, mensaje precargado) para que soporte active el WhatsApp de su clínica.
+Para que el cliente llegue ahí, el Payment Link de Go! debe redirigir a
+`https://www.clinera.io/go/exito?session_id={CHECKOUT_SESSION_ID}` (se configura en Stripe;
+sin eso se queda en la pantalla de gracias de Stripe).
