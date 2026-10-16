@@ -125,6 +125,9 @@ export const DEFINICION_AURA =
 export const CLIENTE_ACTUAL_LINEA =
   "¿Ya eres cliente de Clinera? Tu plan actual se mantiene. Escríbenos si quieres revisarlo.";
 export const CLIENTE_ACTUAL_URL_PENDIENTE = pendiente("URL de soporte o WhatsApp");
+/** Los planes nuevos no cobran implementación (Ricardo, 16-oct-2026). `SETUP_FEE_USD` de pricing.ts sigue rigiendo los planes viejos. */
+export const IMPLEMENTACION_USD = 0;
+
 export const SOLO_NUEVOS = "Estos planes son solo para clientes nuevos.";
 
 /** Ruta del éxito de Stripe Checkout de Go!. */
@@ -194,7 +197,7 @@ export const PLANES2_FAQ = [
   },
   {
     q: "¿Cuánto cuesta la implementación?",
-    a: `${pendiente("confirmar con Ricardo: ¿la implementación de USD 450 aplica solo a Vortex? ¿Go! y Flux sin implementación?")}`,
+    a: "Nada. Ningún plan tiene costo de implementación: pagas solo la mensualidad.",
   },
   {
     q: "¿Hay permanencia?",
@@ -248,7 +251,6 @@ export const GO_FAQ = [
 /** Todo lo que sigue abierto, para la entrega (sección 5 del handoff). */
 export const PENDIENTES = [
   "Precios en MXN de los 3 planes (hoy el switch convierte USD al FX congelado de pricing.ts).",
-  "Implementación USD 450: ¿solo Vortex? ¿Go! y Flux sin implementación?",
   "Permanencia de 6 meses: ¿solo Vortex? ¿Go! y Flux cancelables en cualquier momento?",
   "Plan anual 20% OFF y 12 cuotas Mercado Pago: ¿aplican a los 3 planes?",
   "CAMILA (llamadas con IA) y LIA (fiscalización): ¿quedan como add-on?",
@@ -259,6 +261,6 @@ export const PENDIENTES = [
   "Cuenta marcada con plan GO y bloqueada a sus límites (Mauricio López).",
   "Alta del lead/cliente en Twenty con plan GO (confirmar integración con López).",
   "Link de WhatsApp de ventas para el camino alternativo de /go.",
-  "Confirmar «sin implementación y sin permanencia» en el hero de /go.",
+  "Confirmar «sin permanencia» antes de afirmarlo en el hero de /go (la implementación ya es sin costo).",
   "Mockup de bandeja y agenda para el hero de /go (hoy es un esquema dibujado, sin capturas reales).",
 ] as const;

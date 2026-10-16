@@ -64,8 +64,8 @@ export default function GoLanding() {
               Inicia con Clinera por solo <span style={gradText}>17&nbsp;dólares al&nbsp;mes.</span>
             </h1>
             <p style={{ fontFamily: "Inter", fontSize: 18, color: MUTED, lineHeight: 1.55, margin: "0 0 24px", maxWidth: 520 }}>
-              Tu agenda, tus fichas y tus mensajes de WhatsApp, Facebook e Instagram en un solo lugar. Sin implementación y sin permanencia.{" "}
-              <Pendiente>{pendiente('confirmar "sin implementación y sin permanencia"')}</Pendiente>
+              Tu agenda, tus fichas y tus mensajes de WhatsApp, Facebook e Instagram en un solo lugar. Sin costo de implementación.{" "}
+              <Pendiente>{pendiente('confirmar "sin permanencia" antes de publicarlo en este texto')}</Pendiente>
             </p>
             <GoCta where="hero" />
           </div>
