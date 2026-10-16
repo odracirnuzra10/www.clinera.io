@@ -649,6 +649,8 @@ Guardián: `tests/seo-q4-paginas.spec.ts`.
 `/recordatorios-citas-whatsapp` (contenido `RECORDATORIOS`) cubre recordatorios y
 confirmación: son plantillas Utility de Meta (solo informan la cita, sin promo);
 no prometer porcentajes de reducción de no-shows, no hay dato propio.
+**No pongas « | Clinera» al final de `meta.title`** en `content.ts`: el layout ya lo agrega y el
+`<title>` sale «… | Clinera | Clinera» (pasó en 8 páginas hasta el 16-oct; el test lo vigila).
 `/crm-para-clinicas` (contenido `CRM`): el CRM es un módulo del mismo software, no
 un producto aparte; no prometer email marketing ni triggers de cumpleaños (son
 «próximas funciones»). Webhooks/API pública no se presentan como integración de agenda.

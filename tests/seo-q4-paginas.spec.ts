@@ -27,6 +27,8 @@ test.describe("páginas de compra nuevas", () => {
       const palabras = c.thesis.trim().split(/\s+/).length;
       expect(palabras).toBeGreaterThanOrEqual(40);
       expect(palabras).toBeLessThanOrEqual(60);
+      // el layout ya agrega « | Clinera»: repetirlo lo duplica en el <title>
+      expect(c.meta.title).not.toMatch(/\|\s*Clinera\s*$/);
       // regla de AGENTS.md: sin integración con agendas de terceros
       const faqs = c.faqs.map((f) => f.a).join(" ");
       expect(faqs).toContain("No. Clinera no se sincroniza");
