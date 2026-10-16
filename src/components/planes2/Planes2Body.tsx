@@ -13,6 +13,7 @@ import {
   COMO_FUNCIONA_2,
   DEFINICION_AURA,
   DEFINICION_INTELLIGENCE,
+  EXTRA_BRANCH_USD,
   PLANES2_FAQ,
   PLANS_2,
   SOLO_NUEVOS,
@@ -300,16 +301,19 @@ function Definiciones() {
 function Addons() {
   const items = [
     {
-      usd: EXTRA_CREDIT_PACK_USD,
-      unit: "recarga",
-      label: `${EXTRA_CREDIT_PACK_CREDITS.toLocaleString("es-CL")} créditos extras`,
-      pend: pendiente("confirmar si aplica a los planes nuevos"),
-    },
-    {
       usd: EXTRA_USER_USD,
       unit: "/mes",
       label: "Profesional extra",
-      pend: pendiente("confirmar si aplica a los planes nuevos"),
+    },
+    {
+      usd: EXTRA_BRANCH_USD,
+      unit: "/mes",
+      label: "Sucursal extra",
+    },
+    {
+      usd: EXTRA_CREDIT_PACK_USD,
+      unit: "recarga",
+      label: `${EXTRA_CREDIT_PACK_CREDITS.toLocaleString("es-CL")} créditos extras`,
     },
   ];
   return (
@@ -319,7 +323,7 @@ function Addons() {
         <h2 style={{ fontFamily: "Inter", fontSize: 34, fontWeight: 700, letterSpacing: "-0.03em", margin: "12px 0 32px", color: INK }}>
           Escala cuando lo necesites.
         </h2>
-        <div className="p2-addons" style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 20, maxWidth: 660, margin: "0 auto" }}>
+        <div className="p2-addons" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, maxWidth: 900, margin: "0 auto" }}>
           {items.map((it) => (
             <div key={it.label} style={{ background: "#fff", border: "1px solid #EEECEA", borderRadius: 16, padding: "26px 24px" }}>
               <div style={{ fontFamily: "Inter", fontSize: 34, fontWeight: 700, letterSpacing: "-0.02em", color: INK }}>
@@ -327,9 +331,6 @@ function Addons() {
                 <span style={{ fontSize: 15, fontWeight: 500, color: "#6B7280", marginLeft: 4 }}>{it.unit}</span>
               </div>
               <div style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 600, color: INK, marginTop: 8 }}>{it.label}</div>
-              <div style={{ fontFamily: "Inter", fontSize: 12.5, marginTop: 8 }}>
-                <Pendiente>{it.pend}</Pendiente>
-              </div>
             </div>
           ))}
         </div>
