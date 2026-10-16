@@ -59,7 +59,7 @@ test.describe("planes2 / go: modelo Go! – Flux – Vortex", () => {
   });
 
   test("los datos abiertos quedan listados como PENDIENTE", () => {
-    expect(PENDIENTES.length).toBeGreaterThan(10);
+    expect(PENDIENTES.length).toBeGreaterThan(5);
   });
 
   test("las rutas son noindex y están cerradas en robots.txt", () => {
@@ -79,4 +79,18 @@ test.describe("planes2 / go: modelo Go! – Flux – Vortex", () => {
 test("add-ons confirmados por Ricardo (16-oct): sucursal 15, profesional 9, 5.000 créditos 15", () => {
   expect([EXTRA_BRANCH_USD, EXTRA_USER_USD, EXTRA_CREDIT_PACK_USD, EXTRA_CREDIT_PACK_CREDITS]).toEqual([15, 9, 15, 5000]);
   expect(JSON.stringify(PLANES2_FAQ)).not.toMatch(/PENDIENTE: confirmar si (aplica|la recarga)/);
+});
+
+test("/go: cancelar cuando quiera y salida a /agenda con la query de la visita", () => {
+  const go = readFileSync("src/components/go/GoLanding.tsx", "utf8");
+  expect(go).toContain("cancelas cuando quieras");
+  expect(go).toContain("AGENDA_PATH");
+  expect(go).toContain("window.location.search");
+  expect(JSON.stringify([PLANES2_FAQ, GO_FAQ])).not.toMatch(/PENDIENTE: confirmar con Ricardo: .*(permanencia|cancelación)/);
+});
+
+test("/agenda muestra los precios nuevos, no los de los planes viejos", () => {
+  const ag = readFileSync("src/components/ventas/AgendaHebeLanding.tsx", "utf8");
+  expect(ag).toContain("PLANS_2");
+  expect(ag).not.toMatch(/CLINERA_PLANS\[0\]\.monthlyPrice/);
 });

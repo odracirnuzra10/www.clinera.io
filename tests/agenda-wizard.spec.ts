@@ -109,7 +109,7 @@ test.describe("/agenda — wizard Hebe + agendador Clinera", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: /Automatiza el WhatsApp y las citas de tu clínica con inteligencia artificial/i }),
     ).toBeVisible();
-    await expect(page.getByText(/Planes desde USD 279/).first()).toBeVisible();
+    await expect(page.getByText(/Planes desde USD 17/).first()).toBeVisible();
     await expect(page.getByText(/Cuál plan te interesa/i)).toHaveCount(0);
     await expect(page.getByRole("link", { name: /política de privacidad/i })).toBeVisible();
   });
