@@ -31,7 +31,9 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
   // atribución de la compra depende de ella.
   const search = useSyncExternalStore(noop, readSearch, readSearchServer);
   const primaryHref = ctaHref ?? `${DEFAULT_CTA_HREF}${search}`;
-  const primaryLabel = ctaLabel ?? DEFAULT_CTA_LABEL;
+  // «Iniciar ahora» es el texto del destino por defecto (/go). Una página que pasa
+  // solo su `ctaHref` (p. ej. /plataforma → /agenda) sigue siendo un CTA de ventas.
+  const primaryLabel = ctaLabel ?? (ctaHref === undefined ? DEFAULT_CTA_LABEL : "Hablar con ventas");
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
