@@ -22,11 +22,23 @@ test.describe("pixel de producción no arranca en dev/preview", () => {
     expect(shouldInitMetaPixel("web-git-feat.vercel.app")).toBe(false);
   });
 
-  test("el script inline de Analytics replica el mismo corte", () => {
+  test("el pixel lo carga GTM: el código no lo inicia (si no, cada PageView cuenta doble)", () => {
+    expect(analytics).not.toContain("fbq('init'");
+    expect(analytics).not.toContain("connect.facebook.net/en_US/fbevents.js");
+    expect(analytics).toContain("tr?id=${META_PIXEL_ID}");
+  });
+
+  test("GTM (y con él el pixel) no carga en localhost, loopback ni *.vercel.app", () => {
     expect(analytics).toContain("h==='localhost'");
     expect(analytics).toContain("h==='127.0.0.1'");
     expect(analytics).toContain("\\\\.vercel\\\\.app$");
-    expect(analytics).toContain("fbq('init','${META_PIXEL_ID}')");
+    expect(analytics.indexOf("h==='localhost'")).toBeLessThan(analytics.indexOf("googletagmanager.com/gtm.js"));
+  });
+
+  test("trackPixel espera a que GTM cargue el pixel en vez de perder el evento", () => {
+    const tracking = readFileSync(join(process.cwd(), "src/lib/tracking.ts"), "utf8");
+    expect(tracking).toContain("setInterval");
+    expect(tracking).toContain("clearInterval");
   });
 
   test("el endpoint CAPI solo acepta MQL", () => {
