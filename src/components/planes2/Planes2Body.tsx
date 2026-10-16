@@ -2,16 +2,11 @@
 
 import { useState } from "react";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
-import CatalogPrice from "@/components/pricing/CatalogPrice";
-import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
-import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 import { PLAN_THEMES, type PlanTheme } from "@/components/home-v3/sections";
 import { PlanChannelLogos } from "@/components/pricing/PlanChannelLogos";
 import Pendiente from "@/components/planes2/Pendiente";
 import {
   CHANNELS_2,
-  CLIENTE_ACTUAL_LINEA,
-  CLIENTE_ACTUAL_URL_PENDIENTE,
   COMO_FUNCIONA_2,
   DEFINICION_AURA,
   DEFINICION_INTELLIGENCE,
@@ -20,10 +15,12 @@ import {
   PLANS_2,
   SOLO_NUEVOS,
   VORTEX_DEMO_URL,
-  pendiente,
   type Plan2,
 } from "@/content/planes2";
 import { EXTRA_CREDIT_PACK_CREDITS, EXTRA_CREDIT_PACK_USD, EXTRA_USER_USD } from "@/content/pricing";
+
+/** Solo dólares: /planes2 no tiene switch de moneda (Ricardo, 16-oct-2026). */
+const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 
 const MONO = "'JetBrains Mono', ui-monospace, monospace";
 const INK = "#0A0A0A";
@@ -76,7 +73,6 @@ export default function Planes2Body() {
       <Addons />
       <ComoFunciona />
       <Faq />
-      <ClienteActual />
     </>
   );
 }
@@ -107,12 +103,6 @@ function Hero() {
         </p>
         <p style={{ fontFamily: MONO, fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", color: "#6B7280", margin: 0 }}>
           {SOLO_NUEVOS}
-        </p>
-        <div style={{ display: "flex", justifyContent: "center", marginTop: 18 }}>
-          <PriceModalitySwitch size="compact" align="start" />
-        </div>
-        <p style={{ fontFamily: "Inter", fontSize: 12.5, margin: "10px 0 0", color: "#6B7280" }}>
-          <Pendiente>{pendiente("precios en MXN de los 3 planes; hoy se convierten al tipo de cambio congelado")}</Pendiente>
         </p>
       </div>
     </section>
@@ -334,9 +324,9 @@ function PlanCard({ plan }: { plan: Plan2 }) {
           </div>
           <div style={{ textAlign: "right" }}>
             <div style={{ fontFamily: JAKARTA, fontSize: 36, fontWeight: 800, color: th.ink, letterSpacing: "-0.05em", lineHeight: 1.05 }}>
-              <CatalogPrice usd={plan.monthlyUsd} />
+              {usd(plan.monthlyUsd)}
             </div>
-            <PriceCurrency color={th.sub} />
+            <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 4 }}>USD/mes</div>
           </div>
         </div>
       </div>
@@ -403,11 +393,6 @@ function PlanCard({ plan }: { plan: Plan2 }) {
       </div>
     </article>
   );
-}
-
-function PriceCurrency({ color }: { color: string }) {
-  const { meta } = usePriceModality();
-  return <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color, marginTop: 4 }}>{meta.currency}/mes</div>;
 }
 
 function FeatureRow({ th, text, off }: { th: PlanTheme; text: string; off?: boolean }) {
@@ -544,7 +529,7 @@ function Addons() {
           {items.map((it) => (
             <div key={it.label} style={{ background: "#fff", border: "1px solid #EEECEA", borderRadius: 16, padding: "26px 24px" }}>
               <div style={{ fontFamily: "Inter", fontSize: 34, fontWeight: 700, letterSpacing: "-0.02em", color: INK }}>
-                <CatalogPrice usd={it.usd} />
+                {usd(it.usd)}
                 <span style={{ fontSize: 15, fontWeight: 500, color: "#6B7280", marginLeft: 4 }}>{it.unit}</span>
               </div>
               <div style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 600, color: INK, marginTop: 8 }}>{it.label}</div>
@@ -626,16 +611,6 @@ function Faq() {
           })}
         </div>
       </div>
-    </section>
-  );
-}
-
-function ClienteActual() {
-  return (
-    <section className="p2-sec" style={{ padding: "48px 80px 88px", background: "#fff" }}>
-      <p style={{ maxWidth: 760, margin: "0 auto", textAlign: "center", fontFamily: "Inter", fontSize: 15.5, color: MUTED, lineHeight: 1.6 }}>
-        {CLIENTE_ACTUAL_LINEA} <Pendiente>{CLIENTE_ACTUAL_URL_PENDIENTE}</Pendiente>
-      </p>
     </section>
   );
 }

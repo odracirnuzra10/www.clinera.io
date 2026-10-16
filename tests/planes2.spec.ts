@@ -86,11 +86,18 @@ test("/go: cancelar cuando quiera y salida a /agenda con la query de la visita",
   expect(go).toContain("cancelas cuando quieras");
   expect(go).toContain("AGENDA_PATH");
   expect(go).toContain("window.location.search");
-  expect(JSON.stringify([PLANES2_FAQ, GO_FAQ])).not.toMatch(/PENDIENTE: confirmar con Ricardo: .*(permanencia|cancelación)/);
+  for (const f of [...PLANES2_FAQ, ...GO_FAQ].filter((x) => /permanencia|cancelar/i.test(x.q))) {
+    expect(f.a, f.q).not.toContain("PENDIENTE");
+  }
 });
 
 test("/agenda muestra los precios nuevos, no los de los planes viejos", () => {
   const ag = readFileSync("src/components/ventas/AgendaHebeLanding.tsx", "utf8");
   expect(ag).toContain("PLANS_2");
   expect(ag).not.toMatch(/CLINERA_PLANS\[0\]\.monthlyPrice/);
+});
+
+test("/planes2 solo en dólares: sin switch ni conversión a MXN", () => {
+  const body = readFileSync("src/components/planes2/Planes2Body.tsx", "utf8");
+  expect(body).not.toMatch(/PriceModalitySwitch|CatalogPrice|usePriceModality|MXN/);
 });
