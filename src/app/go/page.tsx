@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
 import GoLanding from "@/components/go/GoLanding";
 
@@ -17,8 +16,7 @@ export const metadata: Metadata = {
 export default function GoPage() {
   return (
     <>
-      {/* "Hablar con ventas" sigue, pero discreto: el CTA de la página es "Inicia ahora". */}
-      <NavV3 ctaVariant="quiet" ctaHref="/agenda?plan=go" />
+      {/* Landing sin navbar a propósito: una sola salida, "Inicia ahora". El logo va dentro del hero. */}
       <main>
         <GoLanding />
       </main>

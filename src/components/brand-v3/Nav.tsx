@@ -1,25 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { CtaPrimary, GRAD, Wordmark } from "./Brand";
 
 type NavV3Props = {
+  /** Destino del botón principal. Sin esto: `/go` (Clinera Go!, "Iniciar ahora"). */
   ctaHref?: string;
   ctaLabel?: string;
   /**
-   * `quiet`: el CTA del header pasa a enlace discreto, sin gradiente. Lo usan
-   * las páginas con un CTA de compra propio (p. ej. /go), para que "Hablar con
-   * ventas" siga ahí pero no compita con el botón principal.
+   * Enlace discreto «Hablar con ventas» junto al botón principal. Por defecto
+   * solo aparece cuando el botón es el de siempre (`Iniciar ahora`): las páginas
+   * que pasan su propio CTA (p. ej. «Agendar demo») ya son de ventas.
    */
-  ctaVariant?: "primary" | "quiet";
+  salesLink?: boolean;
 };
 
-export default function NavV3({
-  ctaHref = "/plataforma",
-  ctaLabel = "Hablar con ventas",
-  ctaVariant = "primary",
-}: NavV3Props) {
+const DEFAULT_CTA_HREF = "/go";
+const DEFAULT_CTA_LABEL = "Iniciar ahora";
+const SALES_HREF = "/agenda";
+
+const noop = () => () => {};
+const readSearch = () => window.location.search;
+const readSearchServer = () => "";
+
+export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
+  const isDefaultCta = ctaHref === undefined && ctaLabel === undefined;
+  const showSales = salesLink ?? isDefaultCta;
+  // Al ir a /go se conserva la query de la visita (UTM, fbclid, gclid): la
+  // atribución de la compra depende de ella.
+  const search = useSyncExternalStore(noop, readSearch, readSearchServer);
+  const primaryHref = ctaHref ?? `${DEFAULT_CTA_HREF}${search}`;
+  const primaryLabel = ctaLabel ?? DEFAULT_CTA_LABEL;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -160,17 +172,14 @@ export default function NavV3({
         </nav>
 
         <div className="nav-v3-actions" style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          {ctaVariant === "quiet" ? (
-            <QuietCta href={ctaHref} label={ctaLabel} />
-          ) : (
-            <CtaPrimary
-              as={Link}
-              href={ctaHref}
-              style={{ padding: "10px 16px", fontSize: 14 }}
-            >
-              {ctaLabel} <span style={{ marginLeft: 2 }}>→</span>
-            </CtaPrimary>
-          )}
+          {showSales && <QuietCta href={SALES_HREF} label="Hablar con ventas" />}
+          <CtaPrimary
+            as={Link}
+            href={primaryHref}
+            style={{ padding: "10px 16px", fontSize: 14 }}
+          >
+            {primaryLabel} <span style={{ marginLeft: 2 }}>→</span>
+          </CtaPrimary>
         </div>
 
         <button
@@ -216,17 +225,16 @@ export default function NavV3({
             </a>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 18 }}>
-            {ctaVariant === "quiet" ? (
-              <QuietCta href={ctaHref} label={ctaLabel} block onNavigate={() => setMobileOpen(false)} />
-            ) : (
-              <CtaPrimary
-                as={Link}
-                href={ctaHref}
-                onClick={() => setMobileOpen(false)}
-                style={{ width: "100%", justifyContent: "center", padding: "14px 20px" }}
-              >
-                {ctaLabel} <span>→</span>
-              </CtaPrimary>
+            <CtaPrimary
+              as={Link}
+              href={primaryHref}
+              onClick={() => setMobileOpen(false)}
+              style={{ width: "100%", justifyContent: "center", padding: "14px 20px" }}
+            >
+              {primaryLabel} <span>→</span>
+            </CtaPrimary>
+            {showSales && (
+              <QuietCta href={SALES_HREF} label="Hablar con ventas" block onNavigate={() => setMobileOpen(false)} />
             )}
           </div>
         </div>

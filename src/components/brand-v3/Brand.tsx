@@ -33,7 +33,7 @@ export function Isotipo({ size = 32, radius = 8 }: { size?: number; radius?: num
   );
 }
 
-export function Wordmark({ size = 22 }: { size?: number }) {
+export function Wordmark({ size = 22, color = "#0A0A0A" }: { size?: number; color?: string }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
       <Isotipo size={Math.round(size * 1.45)} radius={Math.round(size * 0.36)} />
@@ -42,7 +42,7 @@ export function Wordmark({ size = 22 }: { size?: number }) {
           fontSize: size,
           fontWeight: 700,
           letterSpacing: "-0.02em",
-          color: "#0A0A0A",
+          color,
           fontFamily: "Inter",
         }}
       >
