@@ -809,7 +809,7 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
       },
       {
         q: "¿Clinera emite comprobantes electrónicos SUNAT?",
-        a: "Clinera no es un ERP médico peruano ni un emisor de comprobantes SUNAT. Su fuerte es WhatsApp 24/7 con IA, agenda, ficha y CRM. Si necesitas emitir comprobantes desde el mismo sistema, confirma ese punto con ventas antes de decidir.",
+        a: "No. Clinera no emite comprobantes SUNAT y no es un ERP médico peruano. Su fuerte es WhatsApp 24/7 con IA, agenda, ficha y CRM. Si necesitas emitir comprobantes electrónicos desde el mismo sistema que la agenda, otra herramienta de esta lista puede encajar mejor.",
       },
       {
         q: "¿Cumple con la Ley 29733?",
