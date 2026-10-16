@@ -4002,7 +4002,7 @@ function planFeatures(plan: (typeof CLINERA_PLANS)[number]): string[] {
 // Tema visual por card: el tinte escala con el tier recorriendo el espectro de
 // marca (cyan → violeta → magenta), con superficies suaves para que el precio
 // siga siendo el primer punto de atención. Summit conserva el mayor contraste.
-type PlanTheme = {
+export type PlanTheme = {
   cardBg: string;
   cardBorder: string;
   cardShadow: string;
@@ -4028,7 +4028,7 @@ type PlanTheme = {
   iconColor: string;
 };
 
-const PLAN_THEMES: Record<(typeof CLINERA_PLANS)[number]["id"], PlanTheme> = {
+export const PLAN_THEMES: Record<(typeof CLINERA_PLANS)[number]["id"], PlanTheme> = {
   vortex: {
     cardBg: "linear-gradient(145deg,#F6FCFF 0%,#E6F5FC 100%)",
     cardBorder: "rgba(2,132,199,.20)",

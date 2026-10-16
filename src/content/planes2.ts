@@ -34,6 +34,8 @@ export type Plan2 = {
   checkoutUrl: string | null;
   checkoutPending: string;
   ctaLabel: string;
+  /** Funciones base de la tarjeta. Lo abierto lleva marcador [PENDIENTE]. */
+  features: string[];
   /** Qué NO incluye: se tacha para que se vea qué se desbloquea al subir. */
   excluded: string[];
 };
@@ -53,6 +55,11 @@ export const PLANS_2: readonly Plan2[] = [
     checkoutUrl: null,
     checkoutPending: pendiente("link de Stripe Checkout de Go!"),
     ctaLabel: "Empieza por USD 17",
+    features: [
+      "Agenda y fichas clínicas",
+      "Bandeja de WhatsApp, Facebook e Instagram",
+      `Clinera Intelligence · pocos créditos ${pendiente("cantidad")}`,
+    ],
     excluded: ["AURA · IA que responde a tus pacientes"],
   },
   {
@@ -69,6 +76,10 @@ export const PLANS_2: readonly Plan2[] = [
     checkoutUrl: null,
     checkoutPending: pendiente("link de Stripe de Flux"),
     ctaLabel: "Contratar Flux",
+    features: [
+      "Todo lo de Go!",
+      `Clinera Intelligence · más créditos ${pendiente("cantidad")}`,
+    ],
     excluded: ["AURA · IA que responde a tus pacientes"],
   },
   {
@@ -88,9 +99,18 @@ export const PLANS_2: readonly Plan2[] = [
       "link de Stripe del Vortex nuevo; el actual (buy.stripe.com/5kQ5kF8h3bmO24r9471441A) es del Vortex viejo",
     ),
     ctaLabel: "Contratar Vortex",
+    features: [
+      "Todo lo de Flux",
+      "AURA · IA que responde a tus pacientes y agenda sola",
+      `Clinera Intelligence · muchos más créditos ${pendiente("cantidad")}`,
+      `Créditos de IA para AURA ${pendiente("cantidad")}`,
+    ],
     excluded: [],
   },
 ] as const;
+
+/** Sucursal extra, US$ por mes (Ricardo, 16-oct-2026). Profesional extra y recarga: `pricing.ts`. */
+export const EXTRA_BRANCH_USD = 15;
 
 export const GO = PLANS_2[0];
 export const FLUX = PLANS_2[1];
@@ -190,11 +210,11 @@ export const PLANES2_FAQ = [
   },
   {
     q: "¿Qué pasa si se me acaban los créditos?",
-    a: `Te avisamos antes de que se agoten. Puedes sumar una recarga de USD 15 por 5.000 créditos. ${pendiente("confirmar si la recarga aplica a Go! y Flux")}`,
+    a: "Te avisamos antes de que se agoten. Puedes sumar una recarga de USD 15 por 5.000 créditos.",
   },
   {
-    q: "¿Puedo sumar más profesionales?",
-    a: `Sí, con un profesional extra de USD 9 al mes. ${pendiente("confirmar si aplica a los planes nuevos")}`,
+    q: "¿Puedo sumar más profesionales o sucursales?",
+    a: "Sí. Cada profesional extra cuesta USD 9 al mes y cada sucursal extra USD 15 al mes.",
   },
   {
     q: "¿Se integra con mi software de agenda actual?",
@@ -236,7 +256,6 @@ export const PENDIENTES = [
   "Implementación USD 450: ¿solo Vortex? ¿Go! y Flux sin implementación?",
   "Permanencia de 6 meses: ¿solo Vortex? ¿Go! y Flux cancelables en cualquier momento?",
   "Plan anual 20% OFF y 12 cuotas Mercado Pago: ¿aplican a los 3 planes?",
-  "Recarga de créditos (USD 15 / 5.000) y profesional extra (USD 9): ¿aplican a los planes nuevos?",
   "CAMILA (llamadas con IA) y LIA (fiscalización): ¿quedan como add-on?",
   "URL de soporte o WhatsApp para clientes actuales.",
   "Ruta definitiva de la landing (/go es sugerida).",

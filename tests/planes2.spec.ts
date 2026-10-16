@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
-import { PENDIENTES, PLANS_2, PLANES2_FAQ, GO_FAQ, GO, VORTEX_2 } from "../src/content/planes2";
+import { PENDIENTES, PLANS_2, PLANES2_FAQ, GO_FAQ, GO, VORTEX_2, EXTRA_BRANCH_USD } from "../src/content/planes2";
+import { EXTRA_USER_USD, EXTRA_CREDIT_PACK_USD, EXTRA_CREDIT_PACK_CREDITS } from "../src/content/pricing";
 import { buildRobotsTxt } from "../src/lib/robots-txt";
 
 // /planes2 y /go son vista previa interna (Ricardo, 16-oct-2026): no reemplazan
@@ -53,4 +54,9 @@ test.describe("planes2 / go: modelo Go! – Flux – Vortex", () => {
     const sm = readFileSync("src/app/sitemap.ts", "utf8");
     expect(sm).not.toMatch(/['"]\/planes2['"]|['"]\/go['"]/);
   });
+});
+
+test("add-ons confirmados por Ricardo (16-oct): sucursal 15, profesional 9, 5.000 créditos 15", () => {
+  expect([EXTRA_BRANCH_USD, EXTRA_USER_USD, EXTRA_CREDIT_PACK_USD, EXTRA_CREDIT_PACK_CREDITS]).toEqual([15, 9, 15, 5000]);
+  expect(JSON.stringify(PLANES2_FAQ)).not.toMatch(/PENDIENTE: confirmar si (aplica|la recarga)/);
 });
