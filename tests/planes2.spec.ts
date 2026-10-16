@@ -114,7 +114,11 @@ test("/go: un solo CTA \"Inicia ahora\" (hero, final y flotante) y ventas queda 
   expect(GO_LANDING_CTA).toBe("Inicia ahora");
   expect(go).toContain("FloatingCta");
   expect(go).toContain('where="floating"');
-  expect(readFileSync("src/app/go/page.tsx", "utf8")).toContain('ctaVariant="quiet"');
+  // Landing sin navbar: el logo va dentro del hero y no hay otra salida que el CTA.
+  const page = readFileSync("src/app/go/page.tsx", "utf8");
+  expect(page).not.toContain("<NavV3");
+  expect(go).toContain("Wordmark");
+  expect(go).toContain("#0A0A14");
   // Los flotantes del sitio no se apilan con el de /go.
   expect(readFileSync("src/components/cro/StickyMobileCTA.tsx", "utf8")).toContain('"/go"');
   expect(readFileSync("src/components/demo/VerDemoFloat.tsx", "utf8")).toContain('"/go"');
@@ -124,4 +128,31 @@ test("/planes2: el CTA de Go! dice Contrata y lleva a /go", () => {
   expect(GO.ctaLabel).toBe("Contrata");
   const body = readFileSync("src/components/planes2/Planes2Body.tsx", "utf8");
   expect(body).toContain('href="/go"');
+});
+
+test("el clic de compra se cuenta una sola vez: lo hace el rastreador global de Analytics", () => {
+  const go = readFileSync("src/components/go/GoLanding.tsx", "utf8");
+  const planes = readFileSync("src/components/planes2/Planes2Body.tsx", "utf8");
+  const analytics = readFileSync("src/components/Analytics.tsx", "utf8");
+  // Analytics escucha todo buy.stripe.com y arma el client_reference_id para n8n.
+  expect(analytics).toContain("buy.stripe.com");
+  expect(analytics).toContain("client_reference_id");
+  for (const [nombre, src] of [["GoLanding", go], ["Planes2Body", planes]] as const) {
+    expect(src, nombre).not.toContain('"InitiateCheckout"');
+    expect(src, nombre).not.toContain('"initiate_checkout"');
+    expect(src, nombre).not.toContain("withStripeAttribution");
+  }
+  expect(go).toContain("data-plan-value={GO_ANALYTICS.valueUsd}");
+  expect(planes).toContain("data-plan-value={plan.monthlyUsd}");
+});
+
+test("clinera.io: el CTA principal del header es «Iniciar ahora» → /go, y ventas queda discreto", () => {
+  const nav = readFileSync("src/components/brand-v3/Nav.tsx", "utf8");
+  expect(nav).toContain('DEFAULT_CTA_LABEL = "Iniciar ahora"');
+  expect(nav).toContain('DEFAULT_CTA_HREF = "/go"');
+  // «Hablar con ventas» sigue, pero como enlace discreto (QuietCta), no como botón principal.
+  expect(nav).toContain('label="Hablar con ventas"');
+  expect(nav).not.toMatch(/ctaLabel = "Hablar con ventas"/);
+  // Las páginas que pasan su propio CTA (Google Ads → /agenda) no cambian.
+  expect(readFileSync("src/components/software-vertical/SoftwareVerticalLanding.tsx", "utf8")).toContain('ctaLabel="Agendar demo"');
 });

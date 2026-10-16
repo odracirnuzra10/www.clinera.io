@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CnnLogo, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
+import { CnnLogo, Eyebrow, GRAD, Wordmark } from "@/components/brand-v3/Brand";
 import Pendiente from "@/components/planes2/Pendiente";
 import { ChannelLogo, PlanChannelLogos } from "@/components/pricing/PlanChannelLogos";
 import {
@@ -16,14 +16,16 @@ import {
   AGENDA_PATH,
   VORTEX_2,
 } from "@/content/planes2";
-import { withStripeAttribution } from "@/lib/gclid";
 import { PARTNER_CNN_VIMEO_SRC } from "@/lib/partners";
-import { captureGoAttribution, readGoAttribution } from "@/lib/go-attribution";
+import { captureGoAttribution } from "@/lib/go-attribution";
 import { track, trackPixel } from "@/lib/tracking";
 
 const MONO = "'JetBrains Mono', ui-monospace, monospace";
 const INK = "#0A0A0A";
 const MUTED = "#4B5563";
+// Mismo degradado de marca, en tonos más claros para leerse sobre el hero oscuro.
+const GRAD_LIGHT = "linear-gradient(90deg,#60A5FA 0%,#A78BFA 50%,#F0ABFC 100%)";
+const gradTextLight = { background: GRAD_LIGHT, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" } as const;
 const gradText = { background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" } as const;
 
 export default function GoLanding() {
@@ -77,7 +79,8 @@ export default function GoLanding() {
         }
         @media (max-width: 720px) {
           .go-sec { padding: 44px 20px !important; }
-          .go-sec-hero { padding: 24px 20px 36px !important; }
+          .go-sec-hero { padding: 20px 20px 40px !important; }
+          .go-sec-hero > div:first-child { margin-bottom: 28px !important; }
           .go-h1 { letter-spacing: -0.035em !important; }
           .go-cta-wrap, .go-cta-wrap .go-cta { width: 100%; }
           .go-trust { justify-content: flex-start; }
@@ -94,13 +97,20 @@ export default function GoLanding() {
         }
       `}</style>
 
+      {/* Primer bloque oscuro, para contrastar con el resto de la página (Ricardo, 16-oct).
+          Sin navbar: solo el logo, sin enlace, para que no haya otra salida que el CTA. */}
       <section
         className="go-sec go-sec-hero"
         style={{
-          padding: "64px 80px 80px",
-          background: "radial-gradient(ellipse 60% 70% at 85% 0%, rgba(192,38,211,.10), transparent 60%), #fff",
+          padding: "28px 80px 88px",
+          color: "#fff",
+          background:
+            "radial-gradient(ellipse 55% 75% at 88% 0%, rgba(192,38,211,.38), transparent 62%), radial-gradient(ellipse 50% 60% at 0% 100%, rgba(37,99,235,.28), transparent 62%), #0A0A14",
         }}
       >
+        <div style={{ maxWidth: 1180, margin: "0 auto 44px" }}>
+          <Wordmark size={22} color="#fff" />
+        </div>
         <div className="go-hero" style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: 56, alignItems: "center" }}>
           <div>
             <span
@@ -113,35 +123,35 @@ export default function GoLanding() {
                 fontWeight: 600,
                 letterSpacing: ".12em",
                 textTransform: "uppercase",
-                color: "#6D28D9",
-                background: "rgba(124,58,237,.08)",
-                border: "1px solid rgba(124,58,237,.22)",
+                color: "#DDD6FE",
+                background: "rgba(255,255,255,.07)",
+                border: "1px solid rgba(255,255,255,.2)",
                 borderRadius: 999,
                 padding: "6px 12px",
               }}
             >
               Clinera Go!
             </span>
-            <h1 className="go-h1" style={{ fontFamily: "Inter", fontSize: "clamp(38px, 6.4vw, 64px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.02, margin: "16px 0 16px", color: INK }}>
-              Inicia con Clinera por solo <span style={gradText}>17&nbsp;dólares al&nbsp;mes.</span>
+            <h1 className="go-h1" style={{ fontFamily: "Inter", fontSize: "clamp(38px, 6.4vw, 64px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.02, margin: "16px 0 16px", color: "#fff" }}>
+              Inicia con Clinera por solo <span style={gradTextLight}>17&nbsp;dólares al&nbsp;mes.</span>
             </h1>
-            <p style={{ fontFamily: "Inter", fontSize: "clamp(16px, 2.2vw, 19px)", color: MUTED, lineHeight: 1.55, margin: "0 0 22px", maxWidth: 540 }}>
+            <p style={{ fontFamily: "Inter", fontSize: "clamp(16px, 2.2vw, 19px)", color: "rgba(255,255,255,.72)", lineHeight: 1.55, margin: "0 0 22px", maxWidth: 540 }}>
               Tu agenda, tus fichas y tus mensajes de WhatsApp, Facebook e Instagram en un solo lugar.
             </p>
 
             <div style={{ display: "flex", alignItems: "baseline", gap: 8, margin: "0 0 18px" }}>
-              <span style={{ fontFamily: "Inter", fontSize: "clamp(44px, 9vw, 60px)", fontWeight: 800, letterSpacing: "-0.05em", lineHeight: 1, ...gradText }}>
+              <span style={{ fontFamily: "Inter", fontSize: "clamp(44px, 9vw, 60px)", fontWeight: 800, letterSpacing: "-0.05em", lineHeight: 1, ...gradTextLight }}>
                 USD&nbsp;17
               </span>
-              <span style={{ fontFamily: "Inter", fontSize: 17, fontWeight: 600, color: "#6B7280" }}>/mes</span>
+              <span style={{ fontFamily: "Inter", fontSize: 17, fontWeight: 600, color: "rgba(255,255,255,.6)" }}>/mes</span>
             </div>
 
             <div id="go-hero-cta" className="go-cta-wrap" style={{ display: "inline-block" }}>
               <CheckoutLink where="hero" />
             </div>
-            <TrustChips />
-            <p style={{ fontFamily: "Inter", fontSize: 14.5, color: "#6B7280", margin: "16px 0 0" }}>
-              ¿Prefieres verlo antes? <AgendarLink where="hero">Agenda una reunión</AgendarLink>
+            <TrustChips dark />
+            <p style={{ fontFamily: "Inter", fontSize: 14.5, color: "rgba(255,255,255,.62)", margin: "16px 0 0" }}>
+              ¿Prefieres verlo antes? <AgendarLink where="hero" light>Agenda una reunión</AgendarLink>
             </p>
           </div>
           <Mockup />
@@ -297,7 +307,7 @@ export default function GoLanding() {
 }
 
 /** Tres razones para decidir sin miedo, justo bajo el botón. */
-function TrustChips({ center }: { center?: boolean }) {
+function TrustChips({ center, dark }: { center?: boolean; dark?: boolean }) {
   return (
     <div className="go-trust" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16, justifyContent: center ? "center" : "flex-start" }}>
       {["Sin implementación", "Sin permanencia", "Cancela cuando quieras"].map((t) => (
@@ -310,14 +320,14 @@ function TrustChips({ center }: { center?: boolean }) {
             fontFamily: "Inter",
             fontSize: 13,
             fontWeight: 600,
-            color: INK,
-            background: "#fff",
-            border: "1px solid #E5E7EB",
+            color: dark ? "#fff" : INK,
+            background: dark ? "rgba(255,255,255,.08)" : "#fff",
+            border: dark ? "1px solid rgba(255,255,255,.18)" : "1px solid #E5E7EB",
             borderRadius: 999,
             padding: "6px 12px",
           }}
         >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6D28D9" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={dark ? "#C4B5FD" : "#6D28D9"} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <path d="M5 12l5 5L20 7" />
           </svg>
           {t}
@@ -331,7 +341,7 @@ function TrustChips({ center }: { center?: boolean }) {
  * Lleva a /agenda conservando la query de la visita (UTM, fbclid, gclid): la
  * atribución del lead depende de ella, ver `clasificarLeadSource()`.
  */
-function AgendarLink({ where, children }: { where: string; children: React.ReactNode }) {
+function AgendarLink({ where, children, light }: { where: string; children: React.ReactNode; light?: boolean }) {
   return (
     <a
       href={`${AGENDA_PATH}?plan=go`}
@@ -343,7 +353,7 @@ function AgendarLink({ where, children }: { where: string; children: React.React
         q.set("plan", "go");
         window.location.href = `${AGENDA_PATH}?${q.toString()}`;
       }}
-      style={{ color: "#7C3AED", fontWeight: 600, textDecoration: "none" }}
+      style={{ color: light ? "#C4B5FD" : "#7C3AED", fontWeight: 600, textDecoration: "none" }}
     >
       {children}
     </a>
@@ -368,36 +378,18 @@ function CheckoutLink({ where }: { where: "hero" | "final" | "floating" }) {
       </div>
     );
   }
+  // Sin onClick propio: `Analytics.tsx` ya escucha todo enlace a buy.stripe.com
+  // (InitiateCheckout al dataLayer y al pixel, más el `client_reference_id` con
+  // fbc/fbp/GA que lee n8n). Un handler propio contaba el clic doble y, al
+  // navegar a la URL original, se saltaba ese `client_reference_id`.
   return (
     <a
       href={url}
       data-plan="go"
+      data-plan-name={`${GO_ANALYTICS.contentName} contratar`}
+      data-plan-value={GO_ANALYTICS.valueUsd}
       data-cta-where={where}
       className="go-cta"
-      onClick={(ev) => {
-        ev.preventDefault();
-        track("initiate_checkout", {
-          lead_source: GO_ANALYTICS.leadSource,
-          plan: "go",
-          content_name: GO_ANALYTICS.contentName,
-          value: GO_ANALYTICS.valueUsd,
-          currency: GO_ANALYTICS.currency,
-          cta_position: where,
-          ...readGoAttribution(),
-          page_path: "/go",
-        });
-        trackPixel("InitiateCheckout", {
-          content_name: GO_ANALYTICS.contentName,
-          content_ids: [GO_ANALYTICS.contentId],
-          content_type: "product",
-          currency: GO_ANALYTICS.currency,
-          value: GO_ANALYTICS.valueUsd,
-        });
-        // Un tick para que el pixel y el dataLayer salgan antes de navegar.
-        setTimeout(() => {
-          window.location.href = withStripeAttribution(url);
-        }, 150);
-      }}
     >
       {GO_LANDING_CTA}
     </a>

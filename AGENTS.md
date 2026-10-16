@@ -319,6 +319,14 @@ la recomendación del partner + CTA a reunión.
 > `Purchase` del navegador y el del servidor. Revisar en Probar eventos tras la
 > primera venta real.
 >
+> **El clic a `buy.stripe.com` lo cuenta SOLO `Analytics.tsx`.** Su listener global
+> dispara `InitiateCheckout` (dataLayer y pixel) con `data-plan`, `data-plan-name` y
+> `data-plan-value` del enlace, y arma el `client_reference_id` de 7 segmentos
+> (gclid, GA, fbc, fbp, UA) que lee n8n. Un `onClick` propio en `/go` o `/planes2`
+> contaba el clic doble (visto en Probar eventos el 16-oct) y, si navega a la URL
+> original, se salta ese `client_reference_id`. Todo botón de compra nuevo:
+> `<a href="https://buy.stripe.com/…" data-plan data-plan-name data-plan-value>` y nada más.
+>
 > **Stripe → Meta (16-oct):** `POST /api/stripe/meta-purchase` manda un `Purchase`
 > al pixel nuevo cuando alguien se suscribe (`checkout.session.completed`). Es un
 > webhook propio, aparte de los de n8n. Requiere secretos en Vercel y registrar el
