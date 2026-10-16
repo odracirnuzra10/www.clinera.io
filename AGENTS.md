@@ -890,7 +890,8 @@ Vista previa **interna** (`noindex`, `Disallow` en `robots-txt.ts`, fuera del
 sitemap). **No reemplaza `/planes`**: Vortex/Atlas/Summit viejos siguen
 vigentes en `pricing.ts` y en los contratos de `/firma`. Go! US$ 17 (1 sucursal,
 1 profesional), Flux US$ 87 (2/5), Vortex US$ 279 (3/10); AURA solo en Vortex;
-Atlas y Summit no existen en el modelo nuevo. Solo clientes nuevos.
+Atlas y Summit no existen en el modelo nuevo. Solo clientes nuevos. **Solo dólares: sin switch ni precio en MXN**
+(Ricardo, 16-oct); los precios son texto fijo en USD, no `CatalogPrice`.
 **Sin costo de implementación** en los planes nuevos (Ricardo, 16-oct): el US$ 450 de
 `SETUP_FEE_USD` sigue rigiendo solo los planes viejos y los contratos de `/firma`.
 

@@ -122,9 +122,6 @@ export const DEFINICION_INTELLIGENCE =
 export const DEFINICION_AURA =
   "AURA es el agente de IA que responde los mensajes de tus pacientes y agenda sus horas. Solo está en Vortex.";
 
-export const CLIENTE_ACTUAL_LINEA =
-  "¿Ya eres cliente de Clinera? Tu plan actual se mantiene. Escríbenos si quieres revisarlo.";
-export const CLIENTE_ACTUAL_URL_PENDIENTE = pendiente("URL de soporte o WhatsApp");
 /** Los planes nuevos no cobran implementación (Ricardo, 16-oct-2026). `SETUP_FEE_USD` de pricing.ts sigue rigiendo los planes viejos. */
 export const IMPLEMENTACION_USD = 0;
 
@@ -251,14 +248,11 @@ export const GO_FAQ = [
 
 /** Todo lo que sigue abierto, para la entrega (sección 5 del handoff). */
 export const PENDIENTES = [
-  "Precios en MXN de los 3 planes (hoy el switch convierte USD al FX congelado de pricing.ts).",
   "Plan anual 20% OFF y 12 cuotas Mercado Pago: ¿aplican a los 3 planes?",
   "CAMILA (llamadas con IA) y LIA (fiscalización): ¿quedan como add-on?",
-  "URL de soporte o WhatsApp para clientes actuales.",
   "Ruta definitiva de la landing (/go es sugerida).",
   "URL y mecanismo del registro en app.clinera.io con el email del checkout precargado.",
   "success_url / cancel_url configurados en Stripe Checkout de Go!.",
   "Cuenta marcada con plan GO y bloqueada a sus límites (Mauricio López).",
   "Alta del lead/cliente en Twenty con plan GO (confirmar integración con López).",
-  "Mockup de bandeja y agenda para el hero de /go (hoy es un esquema dibujado, sin capturas reales).",
 ] as const;
