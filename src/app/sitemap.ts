@@ -34,6 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     staticEntry('/recordatorios-citas-whatsapp', 'monthly', 0.9),
     staticEntry('/crm-para-clinicas', 'monthly', 0.9),
     staticEntry('/software-nutricion', 'monthly', 0.8),
+    staticEntry('/software-podologia', 'monthly', 0.8),
     staticEntry('/software-psicologia', 'monthly', 0.8),
     staticEntry('/software-kinesiologia', 'monthly', 0.8),
     staticEntry('/agendamiento-whatsapp-ia', 'monthly', 0.9),

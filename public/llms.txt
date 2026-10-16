@@ -164,6 +164,7 @@ Hub: https://www.clinera.io/novedades/fichas-clinicas
 - Software para kinesiólogos (agenda, ficha, CRM, agente IA): https://www.clinera.io/software-kinesiologia
 - Software para psicólogos (agenda, ficha, CRM, agente IA): https://www.clinera.io/software-psicologia
 - Software para nutricionistas (agenda, ficha, CRM, agente IA): https://www.clinera.io/software-nutricion
+- Software para podólogos (agenda, ficha, CRM, agente IA): https://www.clinera.io/software-podologia
 - Agendamiento por WhatsApp con IA (AURA agenda, reagenda y confirma 24/7): https://www.clinera.io/agendamiento-whatsapp-ia
 
 ## Próximas funciones (agosto 2026)

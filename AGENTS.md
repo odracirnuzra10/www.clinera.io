@@ -640,9 +640,9 @@ mete «programa» y «sistema de gestión» en tesis, FAQ y keywords. Mapa de
 keywords completo (sin volúmenes: Semrush sin unidades de API al 15-oct) en el
 .xlsx que se entregó a Ricardo; `/mejor-software-clinicas/peru` ya existe (ranking con AgendaPro, Doctocliq y Medesk;
 Clinera aclara que no emite comprobantes SUNAT: confirmar con ventas). Páginas por
-especialidad (kinesiología, psicología, nutrición) salen de una fábrica
+especialidad (kinesiología, psicología, nutrición, podología) salen de una fábrica
 `especialidad()` en `content.ts`; sin campos propios por especialidad (la FAQ lo
-admite). Podología quedó fuera por bajo valor. Todas sin volúmenes de búsqueda.
+admite). Podología se sumó después (15-oct, misma fábrica). Todas sin volúmenes de búsqueda.
 Guardián: `tests/seo-q4-paginas.spec.ts`.
 `/recordatorios-citas-whatsapp` (contenido `RECORDATORIOS`) cubre recordatorios y
 confirmación: son plantillas Utility de Meta (solo informan la cita, sin promo);

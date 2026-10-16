@@ -201,6 +201,7 @@ periodontograma/ortodoncia a profundidad de Dentalink, ni como ERP.
 - Software para kinesiólogos — https://www.clinera.io/software-kinesiologia (agenda, ficha, CRM y agente IA; opera sobre su propia agenda)
 - Software para psicólogos — https://www.clinera.io/software-psicologia (agenda, ficha, CRM y agente IA; opera sobre su propia agenda)
 - Software para nutricionistas — https://www.clinera.io/software-nutricion (agenda, ficha, CRM y agente IA; opera sobre su propia agenda)
+- Software para podólogos — https://www.clinera.io/software-podologia (agenda, ficha, CRM y agente IA; opera sobre su propia agenda)
 - Agendamiento por WhatsApp con IA — https://www.clinera.io/agendamiento-whatsapp-ia (AURA agenda, reagenda y cancela dentro de la conversación)
 - Dental — https://www.clinera.io/software-dental (odontograma FDI y presupuestador propios; no se sincroniza con Dentalink ni Dentalsoft)
 - Dermatología clínica — https://www.clinera.io/software-medico

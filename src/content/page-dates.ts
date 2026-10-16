@@ -19,6 +19,7 @@ export const PAGE_DATES: Record<
   "/recordatorios-citas-whatsapp": { published: "2026-10-15", modified: "2026-10-15" },
   "/crm-para-clinicas": { published: "2026-10-15", modified: "2026-10-15" },
   "/software-nutricion": { published: "2026-10-15", modified: "2026-10-15" },
+  "/software-podologia": { published: "2026-10-15", modified: "2026-10-15" },
   "/software-psicologia": { published: "2026-10-15", modified: "2026-10-15" },
   "/software-kinesiologia": { published: "2026-10-15", modified: "2026-10-15" },
   "/agendamiento-whatsapp-ia": { published: "2026-10-01", modified: "2026-10-01" },
