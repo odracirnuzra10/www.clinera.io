@@ -512,7 +512,7 @@ export const WHATSAPP_IA: SoftwareVerticalContent = {
     },
   ],
   meta: {
-    title: "Agendamiento por WhatsApp con IA para clínicas | Clinera",
+    title: "Agendamiento por WhatsApp con IA para clínicas",
     description: `Agendamiento automático por WhatsApp con IA para clínicas: AURA agenda, reagenda y confirma 24/7 sobre la agenda y la ficha de Clinera. Desde USD ${vortex.monthlyPrice}/mes.`,
     keywords: [
       "agendamiento por whatsapp con IA",
@@ -619,7 +619,7 @@ export const CLINICAS: SoftwareVerticalContent = {
     },
   ],
   meta: {
-    title: "Software para clínicas: agenda, ficha y agente IA | Clinera",
+    title: "Software para clínicas: agenda, ficha y agente IA",
     description: `Software y programa de gestión para clínicas: agenda, ficha clínica electrónica, pagos, CRM y agente IA que agenda por WhatsApp 24/7. Desde USD ${vortex.monthlyPrice}/mes. Migramos tus datos.`,
     keywords: [
       "software para clínicas",
@@ -727,7 +727,7 @@ export const RECORDATORIOS: SoftwareVerticalContent = {
     },
   ],
   meta: {
-    title: "Recordatorios de citas por WhatsApp para clínicas | Clinera",
+    title: "Recordatorios de citas por WhatsApp para clínicas",
     description: `Recordatorios y confirmación automática de citas por WhatsApp para clínicas. AURA confirma y reagenda en la conversación, sobre tu agenda real. Desde USD ${vortex.monthlyPrice}/mes.`,
     keywords: [
       "recordatorios de citas por whatsapp",
@@ -834,7 +834,7 @@ export const CRM: SoftwareVerticalContent = {
     },
   ],
   meta: {
-    title: "CRM para clínicas: leads, pacientes y campañas | Clinera",
+    title: "CRM para clínicas: leads, pacientes y campañas",
     description: `CRM para clínicas incluido en el software de agenda y ficha: seguimiento de leads por WhatsApp, pacientes y atribución de campañas Meta y Google. Desde USD ${vortex.monthlyPrice}/mes.`,
     keywords: [
       "CRM para clínicas",
@@ -949,7 +949,7 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
       },
     ],
     meta: {
-      title: `Software para ${o.profesional}: agenda, ficha y agente IA | Clinera`,
+      title: `Software para ${o.profesional}: agenda, ficha y agente IA`,
       description: `Software para ${o.profesional}: agenda, ficha clínica, CRM y agente IA que agenda por WhatsApp 24/7. Desde USD ${vortex.monthlyPrice}/mes. Migramos tus datos.`,
       keywords: o.keywords,
     },
