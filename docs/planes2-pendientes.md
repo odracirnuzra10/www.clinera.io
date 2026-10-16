@@ -11,4 +11,3 @@ Fuente: `PENDIENTES` en `src/content/planes2.ts`. En pantalla cada uno sale como
 - [ ] success_url / cancel_url configurados en Stripe Checkout de Go!.
 - [ ] Cuenta marcada con plan GO y bloqueada a sus límites (Mauricio López).
 - [ ] Alta del lead/cliente en Twenty con plan GO (confirmar integración con López).
-- [ ] Mockup de bandeja y agenda para el hero de /go (hoy es un esquema dibujado, sin capturas reales).

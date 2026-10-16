@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import Pendiente from "@/components/planes2/Pendiente";
-import { PlanChannelLogos } from "@/components/pricing/PlanChannelLogos";
+import { ChannelLogo, PlanChannelLogos } from "@/components/pricing/PlanChannelLogos";
 import {
   CHANNELS_2,
   FLUX,
@@ -289,60 +289,163 @@ function GoFaq() {
   );
 }
 
+// Ciclo de la animación (s). Cada paso entra en `at`% del ciclo y se mantiene
+// hasta el 94%; después todo se apaga y vuelve a empezar.
+const CYCLE_S = 13;
+const STEPS = { m1: 4, m2: 20, m3: 38, m4: 52, slot: 64, toast: 70 } as const;
+
+function stepKeyframes(name: string, at: number) {
+  return `@keyframes go-${name}{0%,${at - 0.01}%{opacity:0;transform:translateY(10px) scale(.98)}${at + 3}%{opacity:1;transform:none}94%{opacity:1;transform:none}100%{opacity:0;transform:translateY(0)}}`;
+}
+
+const MOCKUP_CSS =
+  Object.entries(STEPS).map(([k, v]) => stepKeyframes(k, v)).join("") +
+  Object.keys(STEPS)
+    .map((k) => `.go-a-${k}{opacity:0;animation:go-${k} ${CYCLE_S}s ease-out infinite}`)
+    .join("") +
+  `.go-mock-cols{display:grid;grid-template-columns:1.2fr 1fr}` +
+  `@media (max-width:560px){.go-mock-cols{grid-template-columns:1fr}}` +
+  `@media (prefers-reduced-motion: reduce){${Object.keys(STEPS)
+    .map((k) => `.go-a-${k}`)
+    .join(",")}{animation:none !important;opacity:1 !important;transform:none !important}}`;
+
 /**
- * Esquema de bandeja + agenda dibujado, sin personas de stock ni datos de
- * pacientes. Es un marcador de diseño: el mockup real con capturas del producto
- * está pendiente (ver PENDIENTES).
+ * Animación del hero: un paciente escribe por WhatsApp, el equipo de la clínica
+ * le ofrece la hora desde la bandeja y la cita aparece en la agenda. Es un
+ * ejemplo ilustrativo (paciente ficticio). La respuesta la da una persona de la
+ * clínica, no AURA: la IA que atiende pacientes es solo de Vortex y la landing
+ * de Go! no debe prometerla.
  */
 function Mockup() {
-  const row = (w: number, o = 1) => (
-    <div style={{ height: 8, width: `${w}%`, background: "#E5E7EB", borderRadius: 4, opacity: o }} />
-  );
+  const bubble = (mine: boolean) =>
+    ({
+      maxWidth: "82%",
+      alignSelf: mine ? "flex-end" : "flex-start",
+      background: mine ? "#E3F8EA" : "#fff",
+      border: `1px solid ${mine ? "#BFE9CE" : "#E5E7EB"}`,
+      borderRadius: mine ? "12px 12px 3px 12px" : "12px 12px 12px 3px",
+      padding: "8px 11px",
+      fontFamily: "Inter",
+      fontSize: 13,
+      lineHeight: 1.4,
+      color: INK,
+    }) as const;
+  const slots = [
+    { h: "09:00", busy: "Reservado" },
+    { h: "10:30", mine: true },
+    { h: "12:00" },
+    { h: "15:00", busy: "Reservado" },
+  ];
   return (
     <figure
-      aria-label="Esquema de la bandeja de mensajes y la agenda de Clinera"
-      style={{ margin: 0, border: "1px solid #E5E7EB", borderRadius: 16, background: "#fff", overflow: "hidden" }}
+      aria-label="Ejemplo: un paciente agenda una hora por WhatsApp y la cita queda registrada en la agenda de Clinera"
+      style={{ margin: 0, border: "1px solid #E5E7EB", borderRadius: 16, background: "#fff", overflow: "hidden", boxShadow: "0 24px 60px -30px rgba(124,58,237,.35)" }}
     >
-      <div style={{ display: "flex", gap: 6, padding: "10px 14px", borderBottom: "1px solid #F0F0F0", background: "#FAFAFA" }}>
+      <style>{MOCKUP_CSS}</style>
+      <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 14px", borderBottom: "1px solid #F0F0F0", background: "#FAFAFA" }}>
         {[0, 1, 2].map((i) => (
           <span key={i} style={{ width: 9, height: 9, borderRadius: 99, background: "#E5E7EB" }} />
         ))}
         <span style={{ marginLeft: 8, fontFamily: MONO, fontSize: 10, letterSpacing: ".1em", textTransform: "uppercase", color: "#9CA3AF" }}>
-          Bandeja · Agenda
+          Clinera · ejemplo ilustrativo
         </span>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-        <div style={{ padding: 16, borderRight: "1px solid #F0F0F0", display: "grid", gap: 14 }}>
-          {[
-            { c: "#25D366", w: 70 },
-            { c: "#1877F2", w: 55 },
-            { c: "#D62976", w: 80 },
-            { c: "#25D366", w: 45 },
-          ].map((m, i) => (
-            <div key={i} style={{ display: "flex", gap: 10, alignItems: "center" }}>
-              <span style={{ width: 22, height: 22, borderRadius: 99, background: m.c, flex: "0 0 22px" }} />
-              <div style={{ flex: 1, display: "grid", gap: 6 }}>
-                {row(m.w)}
-                {row(40, 0.6)}
-              </div>
-            </div>
-          ))}
+
+      <div className="go-mock-cols" style={{ minHeight: 300 }}>
+        {/* Bandeja de WhatsApp */}
+        <div style={{ borderRight: "1px solid #F0F0F0", display: "flex", flexDirection: "column", background: "#FBFBFB" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", background: "#fff", borderBottom: "1px solid #F0F0F0" }}>
+            <ChannelLogo channel="whatsapp" size={16} />
+            <span style={{ fontFamily: "Inter", fontSize: 13, fontWeight: 700, color: INK }}>Camila R.</span>
+            <span style={{ marginLeft: "auto", fontFamily: MONO, fontSize: 9.5, letterSpacing: ".08em", textTransform: "uppercase", color: "#9CA3AF" }}>
+              WhatsApp
+            </span>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8, padding: 14, flex: 1 }}>
+            <div className="go-a-m1" style={bubble(false)}>Hola, quiero agendar una evaluación.</div>
+            <div className="go-a-m2" style={bubble(true)}>Hola Camila. Tengo mañana a las 10:30. ¿Te acomoda?</div>
+            <div className="go-a-m3" style={bubble(false)}>Sí, perfecto.</div>
+            <div className="go-a-m4" style={bubble(true)}>Listo, quedó agendada para mañana a las 10:30.</div>
+          </div>
         </div>
-        <div style={{ padding: 16, display: "grid", gap: 8, alignContent: "start" }}>
-          {["09:00", "10:30", "12:00", "15:00"].map((h, i) => (
-            <div key={h} style={{ display: "flex", gap: 10, alignItems: "center" }}>
-              <span style={{ fontFamily: MONO, fontSize: 10, color: "#9CA3AF", width: 34 }}>{h}</span>
-              <div
-                style={{
-                  flex: 1,
-                  height: 26,
-                  borderRadius: 6,
-                  background: i % 2 === 0 ? "linear-gradient(90deg,#2563EB22,#7C3AED22,#C026D322)" : "#F3F4F6",
-                  border: i % 2 === 0 ? "1px solid #7C3AED33" : "1px solid #EEE",
-                }}
-              />
+
+        {/* Agenda de Clinera */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", alignItems: "center", padding: "10px 14px", borderBottom: "1px solid #F0F0F0" }}>
+            <span style={{ fontFamily: "Inter", fontSize: 13, fontWeight: 700, color: INK }}>Agenda</span>
+            <span style={{ marginLeft: "auto", fontFamily: MONO, fontSize: 9.5, letterSpacing: ".08em", textTransform: "uppercase", color: "#9CA3AF" }}>
+              Mañana
+            </span>
+          </div>
+          <div style={{ display: "grid", gap: 8, padding: 14, alignContent: "start", position: "relative" }}>
+            {slots.map((sl) => (
+              <div key={sl.h} style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                <span style={{ fontFamily: MONO, fontSize: 10, color: "#9CA3AF", width: 34 }}>{sl.h}</span>
+                <div style={{ position: "relative", flex: 1, height: 38 }}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      borderRadius: 8,
+                      background: sl.busy ? "#F3F4F6" : "#fff",
+                      border: sl.busy ? "1px solid #EEE" : "1px dashed #E5E7EB",
+                      display: "flex",
+                      alignItems: "center",
+                      padding: "0 10px",
+                      fontFamily: "Inter",
+                      fontSize: 11.5,
+                      color: "#9CA3AF",
+                    }}
+                  >
+                    {sl.busy ?? ""}
+                  </div>
+                  {sl.mine && (
+                    <div
+                      className="go-a-slot"
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        borderRadius: 8,
+                        background: "linear-gradient(90deg,#2563EB22,#7C3AED22,#C026D322)",
+                        border: "1px solid #7C3AED55",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        padding: "0 10px",
+                        fontFamily: "Inter",
+                        fontSize: 12,
+                        fontWeight: 600,
+                        color: INK,
+                      }}
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                        <path d="M5 12l5 5L20 7" />
+                      </svg>
+                      Camila R. · Evaluación
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+            <div
+              className="go-a-toast"
+              style={{
+                justifySelf: "end",
+                marginTop: 4,
+                fontFamily: MONO,
+                fontSize: 9.5,
+                letterSpacing: ".08em",
+                textTransform: "uppercase",
+                color: "#047857",
+                background: "#ECFDF5",
+                border: "1px solid #A7F3D0",
+                borderRadius: 999,
+                padding: "5px 10px",
+              }}
+            >
+              Cita registrada en la agenda
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </figure>
