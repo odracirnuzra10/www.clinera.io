@@ -16,9 +16,8 @@ import {
   AGENDA_PATH,
   VORTEX_2,
 } from "@/content/planes2";
-import { withStripeAttribution } from "@/lib/gclid";
 import { PARTNER_CNN_VIMEO_SRC } from "@/lib/partners";
-import { captureGoAttribution, readGoAttribution } from "@/lib/go-attribution";
+import { captureGoAttribution } from "@/lib/go-attribution";
 import { track, trackPixel } from "@/lib/tracking";
 
 const MONO = "'JetBrains Mono', ui-monospace, monospace";
@@ -368,36 +367,18 @@ function CheckoutLink({ where }: { where: "hero" | "final" | "floating" }) {
       </div>
     );
   }
+  // Sin onClick propio: `Analytics.tsx` ya escucha todo enlace a buy.stripe.com
+  // (InitiateCheckout al dataLayer y al pixel, más el `client_reference_id` con
+  // fbc/fbp/GA que lee n8n). Un handler propio contaba el clic doble y, al
+  // navegar a la URL original, se saltaba ese `client_reference_id`.
   return (
     <a
       href={url}
       data-plan="go"
+      data-plan-name={`${GO_ANALYTICS.contentName} contratar`}
+      data-plan-value={GO_ANALYTICS.valueUsd}
       data-cta-where={where}
       className="go-cta"
-      onClick={(ev) => {
-        ev.preventDefault();
-        track("initiate_checkout", {
-          lead_source: GO_ANALYTICS.leadSource,
-          plan: "go",
-          content_name: GO_ANALYTICS.contentName,
-          value: GO_ANALYTICS.valueUsd,
-          currency: GO_ANALYTICS.currency,
-          cta_position: where,
-          ...readGoAttribution(),
-          page_path: "/go",
-        });
-        trackPixel("InitiateCheckout", {
-          content_name: GO_ANALYTICS.contentName,
-          content_ids: [GO_ANALYTICS.contentId],
-          content_type: "product",
-          currency: GO_ANALYTICS.currency,
-          value: GO_ANALYTICS.valueUsd,
-        });
-        // Un tick para que el pixel y el dataLayer salgan antes de navegar.
-        setTimeout(() => {
-          window.location.href = withStripeAttribution(url);
-        }, 150);
-      }}
     >
       {GO_LANDING_CTA}
     </a>

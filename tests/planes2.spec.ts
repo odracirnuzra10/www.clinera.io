@@ -125,3 +125,19 @@ test("/planes2: el CTA de Go! dice Contrata y lleva a /go", () => {
   const body = readFileSync("src/components/planes2/Planes2Body.tsx", "utf8");
   expect(body).toContain('href="/go"');
 });
+
+test("el clic de compra se cuenta una sola vez: lo hace el rastreador global de Analytics", () => {
+  const go = readFileSync("src/components/go/GoLanding.tsx", "utf8");
+  const planes = readFileSync("src/components/planes2/Planes2Body.tsx", "utf8");
+  const analytics = readFileSync("src/components/Analytics.tsx", "utf8");
+  // Analytics escucha todo buy.stripe.com y arma el client_reference_id para n8n.
+  expect(analytics).toContain("buy.stripe.com");
+  expect(analytics).toContain("client_reference_id");
+  for (const [nombre, src] of [["GoLanding", go], ["Planes2Body", planes]] as const) {
+    expect(src, nombre).not.toContain('"InitiateCheckout"');
+    expect(src, nombre).not.toContain('"initiate_checkout"');
+    expect(src, nombre).not.toContain("withStripeAttribution");
+  }
+  expect(go).toContain("data-plan-value={GO_ANALYTICS.valueUsd}");
+  expect(planes).toContain("data-plan-value={plan.monthlyUsd}");
+});

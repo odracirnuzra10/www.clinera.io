@@ -33,26 +33,6 @@ const gradText = {
   color: "transparent",
 } as const;
 
-function trackCheckout(plan: Plan2) {
-  const w = window as unknown as { dataLayer?: unknown[]; fbq?: (...a: unknown[]) => void };
-  (w.dataLayer = w.dataLayer || []).push({
-    event: "initiate_checkout",
-    lead_source: "planes2_landing",
-    plan: plan.id,
-    content_name: plan.name,
-    value: plan.monthlyUsd,
-    currency: "USD",
-    page_path: "/planes2",
-  });
-  w.fbq?.("track", "InitiateCheckout", {
-    content_name: plan.name,
-    content_category: "planes2",
-    content_type: "product",
-    currency: "USD",
-    value: plan.monthlyUsd,
-  });
-}
-
 export default function Planes2Body() {
   return (
     <>
@@ -494,7 +474,8 @@ function PlanCta({ plan, theme }: { plan: Plan2; theme: PlanTheme }) {
       href={plan.checkoutUrl}
       data-plan={plan.id}
       className="p2-cta"
-      onClick={() => trackCheckout(plan)}
+      data-plan-name={`${plan.name} contratar`}
+      data-plan-value={plan.monthlyUsd}
       style={{ ...base, background: theme.ctaPrimaryBg, color: theme.ctaPrimaryColor, boxShadow: theme.ctaPrimaryShadow, border: 0 }}
     >
       {plan.ctaLabel}
