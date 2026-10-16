@@ -8,6 +8,7 @@
 // `[PENDIENTE: …]` visible en pantalla. `PENDIENTES` los lista para la entrega.
 
 import type { PlanChannel } from "@/content/pricing";
+import { EXTRA_CREDIT_PACK_CREDITS, EXTRA_CREDIT_PACK_USD, EXTRA_USER_USD } from "@/content/pricing";
 
 export type Plan2Id = "go" | "flux" | "vortex";
 
@@ -230,22 +231,55 @@ export const PLANES2_FAQ = [
   },
 ] as const;
 
+const usdn = (n: number) => `USD ${n}`;
+
+// FAQ de /go (la ve quien viene de un anuncio). Se arma desde `PLANS_2` y las
+// constantes de add-ons para que un cambio de precio no deje la FAQ desfasada.
+// Sin marcadores [PENDIENTE]: lo que no está decidido no se pregunta acá.
 export const GO_FAQ = [
+  {
+    q: "¿Cuáles son los planes?",
+    a: `Hay tres. Clinera Go! cuesta ${usdn(GO.monthlyUsd)} al mes (1 profesional y 1 sucursal). Clinera Flux, ${usdn(FLUX.monthlyUsd)} al mes (hasta ${FLUX.professionals} profesionales y ${FLUX.branches} sucursales). Clinera Vortex, ${usdn(VORTEX_2.monthlyUsd)} al mes (hasta ${VORTEX_2.professionals} profesionales y ${VORTEX_2.branches} sucursales). Los tres incluyen WhatsApp, Facebook e Instagram en una sola bandeja.`,
+  },
+  {
+    q: "¿Qué incluye Clinera Go!?",
+    a: `Agenda, fichas clínicas, bandeja de WhatsApp, Facebook e Instagram, 100 créditos IA y Clinera Intelligence, el agente interno que te responde sobre tus ventas y tu agenda. Es para 1 profesional y 1 sucursal. No incluye AURA.`,
+  },
+  {
+    q: "¿Qué incluye Clinera Flux?",
+    a: `Todo lo de Go!, más 200 créditos IA, automatizaciones y difusiones. Es para hasta ${FLUX.professionals} profesionales y ${FLUX.branches} sucursales. No incluye AURA.`,
+  },
+  {
+    q: "¿Qué incluye Clinera Vortex?",
+    a: `Todo lo de Flux, más 28.000 créditos IA y AURA, el agente de IA que responde los mensajes de tus pacientes y agenda sus horas. Es para hasta ${VORTEX_2.professionals} profesionales y ${VORTEX_2.branches} sucursales.`,
+  },
+  {
+    q: "¿Qué es Clinera Intelligence?",
+    a: DEFINICION_INTELLIGENCE,
+  },
+  {
+    q: "¿Qué es AURA y en qué plan está?",
+    a: `${DEFINICION_AURA} En Go! y Flux no se conecta.`,
+  },
+  {
+    q: "¿Qué son los créditos IA?",
+    a: `Es lo que consumen los agentes de IA al trabajar. Go! trae 100, Flux 200 y Vortex 28.000. Si se te acaban, puedes sumar una recarga de ${EXTRA_CREDIT_PACK_CREDITS.toLocaleString("es-CL")} créditos por ${usdn(EXTRA_CREDIT_PACK_USD)}.`,
+  },
+  {
+    q: "¿Hay costo de implementación o permanencia?",
+    a: "No. Ningún plan tiene costo de implementación ni permanencia. Pagas solo la mensualidad.",
+  },
   {
     q: "¿Puedo cancelar cuando quiera?",
     a: "Sí. Puedes cancelar tu plan cuando quieras, sin permanencia.",
   },
   {
-    q: "¿Puedo subir de plan?",
-    a: "Sí. Cuando tu clínica crezca puedes pasar a Flux (2 sucursales, 5 profesionales) o a Vortex (3 sucursales, 10 profesionales y AURA). Nuestro equipo de ventas te contacta para ayudarte.",
+    q: "¿Puedo empezar con Go! y subir de plan después?",
+    a: "Sí. Partes con Go! y subes a Flux o a Vortex cuando tu clínica crezca. Nuestro equipo de ventas te contacta para ayudarte a elegir el momento.",
   },
   {
-    q: "¿Necesito cambiar mi número de WhatsApp?",
-    a: pendiente("confirmar con Mauricio López si se conecta el número actual de la clínica"),
-  },
-  {
-    q: "¿Qué pasa si tengo más profesionales?",
-    a: "Go! incluye 1 profesional. Si tu equipo es más grande, Flux incluye 5 y Vortex 10.",
+    q: "¿Qué pasa si tengo más profesionales o sucursales?",
+    a: `Puedes sumar un profesional extra por ${usdn(EXTRA_USER_USD)} al mes y una sucursal extra por ${usdn(EXTRA_BRANCH_USD)} al mes, o subir a un plan con más capacidad.`,
   },
 ] as const;
 

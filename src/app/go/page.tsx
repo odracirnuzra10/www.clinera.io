@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import FooterV3 from "@/components/brand-v3/Footer";
 import GoLanding from "@/components/go/GoLanding";
 
 const TITLE = "Inicia con Clinera por solo 17 dólares al mes";
@@ -16,11 +15,10 @@ export const metadata: Metadata = {
 export default function GoPage() {
   return (
     <>
-      {/* Landing sin navbar a propósito: una sola salida, "Inicia ahora". El logo va dentro del hero. */}
+      {/* Landing sin navbar ni footer a propósito: una sola salida, "Inicia ahora". El logo va dentro del hero. */}
       <main>
         <GoLanding />
       </main>
-      <FooterV3 />
     </>
   );
 }
