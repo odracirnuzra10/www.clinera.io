@@ -2,8 +2,7 @@
 
 import { useEffect } from "react";
 import { GRAD } from "@/components/brand-v3/Brand";
-import Pendiente from "@/components/planes2/Pendiente";
-import { GO_ANALYTICS, REGISTRO_URL_PENDIENTE } from "@/content/planes2";
+import { GO_ACTIVACION_PASOS, GO_ANALYTICS, SOPORTE_WHATSAPP, SOPORTE_WHATSAPP_URL } from "@/content/planes2";
 import { readGoAttribution } from "@/lib/go-attribution";
 import { purchaseEventId } from "@/lib/meta-purchase-id";
 import { track, trackPixel } from "@/lib/tracking";
@@ -50,20 +49,46 @@ export default function GoExito() {
   }, []);
 
   return (
-    <section style={{ minHeight: "70vh", display: "grid", placeItems: "center", padding: "64px 16px", background: "#fff" }}>
-      <div style={{ maxWidth: 560, textAlign: "center" }}>
-        <h1 style={{ fontFamily: "Inter", fontSize: 40, fontWeight: 800, letterSpacing: "-0.035em", color: "#0A0A0A", margin: "0 0 12px" }}>
+    <section style={{ minHeight: "70vh", display: "grid", placeItems: "center", padding: "48px 16px", background: "#fff" }}>
+      <div style={{ maxWidth: 560, width: "100%", textAlign: "center" }}>
+        <h1 style={{ fontFamily: "Inter", fontSize: "clamp(30px, 8vw, 40px)", fontWeight: 800, letterSpacing: "-0.035em", color: "#0A0A0A", margin: "0 0 12px" }}>
           Pago recibido.{" "}
           <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-            Crea tu cuenta.
+            Activa tu WhatsApp.
           </span>
         </h1>
-        <p style={{ fontFamily: "Inter", fontSize: 17, color: "#4B5563", lineHeight: 1.55, margin: "0 0 20px" }}>
-          Usa el mismo correo del pago para crear tu cuenta en Clinera y conecta tu WhatsApp.
+        <p style={{ fontFamily: "Inter", fontSize: 17, color: "#4B5563", lineHeight: 1.55, margin: "0 0 24px" }}>
+          Escríbele a soporte y dejamos andando el WhatsApp de tu clínica.
         </p>
-        <p style={{ fontFamily: "Inter", fontSize: 13 }}>
-          <Pendiente>{REGISTRO_URL_PENDIENTE}</Pendiente>
+        <a
+          href={SOPORTE_WHATSAPP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-go-activar
+          style={{
+            display: "block",
+            padding: "18px 24px",
+            borderRadius: 14,
+            background: GRAD,
+            color: "#fff",
+            fontFamily: "Inter",
+            fontSize: 18,
+            fontWeight: 700,
+            textDecoration: "none",
+          }}
+        >
+          Activar mi WhatsApp
+        </a>
+        <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 12, letterSpacing: "0.06em", color: "#6B7280", margin: "12px 0 28px" }}>
+          SOPORTE · {SOPORTE_WHATSAPP.display}
         </p>
+        <ol style={{ textAlign: "left", fontFamily: "Inter", fontSize: 15, color: "#374151", lineHeight: 1.6, paddingLeft: 20, margin: 0 }}>
+          {GO_ACTIVACION_PASOS.map((p) => (
+            <li key={p} style={{ marginBottom: 6 }}>
+              {p}
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

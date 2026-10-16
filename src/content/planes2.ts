@@ -141,9 +141,23 @@ export const GO_ANALYTICS = {
   leadSource: "go_landing",
 } as const;
 
-export const REGISTRO_URL_PENDIENTE = pendiente(
-  "URL y mecanismo exacto del registro en app.clinera.io (con el email del checkout precargado)",
-);
+/**
+ * Activación tras el pago (Ricardo, 16-oct): el cliente escribe a soporte por WhatsApp y
+ * soporte le deja andando el WhatsApp de la clínica. Sin registro autoservicio por ahora.
+ */
+export const SOPORTE_WHATSAPP = {
+  phone: "56985581524",
+  display: "+56 9 8558 1524",
+  message: "Hola, acabo de contratar Clinera Go! y quiero activar el WhatsApp de mi clínica.",
+} as const;
+
+export const SOPORTE_WHATSAPP_URL = `https://wa.me/${SOPORTE_WHATSAPP.phone}?text=${encodeURIComponent(SOPORTE_WHATSAPP.message)}`;
+
+export const GO_ACTIVACION_PASOS = [
+  "Toca el botón y escribe a soporte por WhatsApp.",
+  "Soporte te pide el número de WhatsApp de tu clínica y el nombre de tus profesionales.",
+  "Te dejamos andando el agendamiento. Tú empiezas a agendar.",
+] as const;
 /** Ruta de la reunión con ventas. Se le suma la query de la visita (UTM, click ids). */
 export const AGENDA_PATH = "/agenda";
 
@@ -288,7 +302,7 @@ export const PENDIENTES = [
   "Plan anual 20% OFF y 12 cuotas Mercado Pago: ¿aplican a los 3 planes?",
   "CAMILA (llamadas con IA) y LIA (fiscalización): ¿quedan como add-on?",
   "Ruta definitiva de la landing (/go es sugerida).",
-  "URL y mecanismo del registro en app.clinera.io con el email del checkout precargado.",
+  "Registro autoservicio en app.clinera.io: hoy la activación la hace soporte por WhatsApp (+56 9 8558 1524).",
   "success_url / cancel_url configurados en Stripe Checkout de Go!.",
   "Cuenta marcada con plan GO y bloqueada a sus límites (Mauricio López).",
   "Alta del lead/cliente en Twenty con plan GO (confirmar integración con López).",

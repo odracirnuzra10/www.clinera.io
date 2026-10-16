@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
-import { PENDIENTES, PLANS_2, PLANES2_FAQ, GO_FAQ, VORTEX_2, IMPLEMENTACION_USD, GO, GO_LANDING_CTA, EXTRA_BRANCH_USD } from "../src/content/planes2";
+import { PENDIENTES, PLANS_2, PLANES2_FAQ, GO_FAQ, VORTEX_2, IMPLEMENTACION_USD, GO, GO_LANDING_CTA, EXTRA_BRANCH_USD, SOPORTE_WHATSAPP_URL } from "../src/content/planes2";
 import { EXTRA_USER_USD, EXTRA_CREDIT_PACK_USD, EXTRA_CREDIT_PACK_CREDITS } from "../src/content/pricing";
 import { buildRobotsTxt } from "../src/lib/robots-txt";
 
@@ -56,6 +56,13 @@ test.describe("planes2 / go: modelo Go! – Flux – Vortex", () => {
   test("sin voseo", () => {
     const copy = JSON.stringify([PLANS_2, PLANES2_FAQ, GO_FAQ]);
     expect(copy).not.toMatch(/\b(agendá|empezá|conectá|escribinos|tenés|podés)\b/i);
+  });
+
+  test("/go/exito lleva a WhatsApp de soporte para activar", () => {
+    expect(SOPORTE_WHATSAPP_URL).toMatch(/^https:\/\/wa\.me\/56985581524\?text=/);
+    const src = readFileSync("src/components/go/GoExito.tsx", "utf8");
+    expect(src).toContain("SOPORTE_WHATSAPP_URL");
+    expect(src).not.toMatch(/Pendiente/);
   });
 
   test("los datos abiertos quedan listados como PENDIENTE", () => {
