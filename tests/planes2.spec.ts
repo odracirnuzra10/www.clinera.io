@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
-import { PENDIENTES, PLANS_2, PLANES2_FAQ, GO_FAQ, GO, VORTEX_2, EXTRA_BRANCH_USD } from "../src/content/planes2";
+import { PENDIENTES, PLANS_2, PLANES2_FAQ, GO_FAQ, VORTEX_2, EXTRA_BRANCH_USD } from "../src/content/planes2";
 import { EXTRA_USER_USD, EXTRA_CREDIT_PACK_USD, EXTRA_CREDIT_PACK_CREDITS } from "../src/content/pricing";
 import { buildRobotsTxt } from "../src/lib/robots-txt";
 
@@ -22,10 +22,21 @@ test.describe("planes2 / go: modelo Go! – Flux – Vortex", () => {
     }
   });
 
-  test("no se reutiliza el Stripe del Vortex viejo ni se inventan links", () => {
-    for (const p of PLANS_2) expect(p.checkoutUrl).toBeNull();
-    expect(VORTEX_2.checkoutPending).toContain("PENDIENTE");
-    expect(GO.checkoutPending).toContain("PENDIENTE");
+  test("links de Stripe de los planes nuevos; no se reutiliza el del Vortex viejo", () => {
+    expect(PLANS_2.map((p) => p.checkoutUrl)).toEqual([
+      "https://buy.stripe.com/bJeaEZbtf8aC5gD3JN1441G",
+      "https://buy.stripe.com/cNibJ37cZ2QifVh3JN1441H",
+      "https://buy.stripe.com/cNi00ldBnduW24r8031441I",
+    ]);
+    expect(VORTEX_2.checkoutUrl).not.toContain("471441A");
+  });
+
+  test("créditos IA: Go! 100, Flux 200, Vortex 28.000", () => {
+    expect(PLANS_2.map((p) => p.features.find((f) => /créditos IA/.test(f)))).toEqual([
+      "100 créditos IA",
+      "200 créditos IA",
+      "28.000 créditos IA",
+    ]);
   });
 
   test("Atlas, Summit, Kimi y modos viejos no reaparecen en el copy", () => {
