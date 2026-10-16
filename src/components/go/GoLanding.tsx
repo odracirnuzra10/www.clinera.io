@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
+import { CnnLogo, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import Pendiente from "@/components/planes2/Pendiente";
 import { ChannelLogo, PlanChannelLogos } from "@/components/pricing/PlanChannelLogos";
 import {
@@ -16,6 +16,7 @@ import {
   VORTEX_2,
 } from "@/content/planes2";
 import { withStripeAttribution } from "@/lib/gclid";
+import { PARTNER_CNN_VIMEO_SRC } from "@/lib/partners";
 import { captureGoAttribution, readGoAttribution } from "@/lib/go-attribution";
 import { track, trackPixel } from "@/lib/tracking";
 
@@ -85,6 +86,35 @@ export default function GoLanding() {
             ))}
           </ul>
           <PlanChannelLogos channels={[...CHANNELS_2]} />
+        </div>
+      </section>
+
+      {/* Prueba social: el mismo clip de CNN de /plataforma y /partner. */}
+      <section className="go-sec" aria-labelledby="go-cnn-title" style={{ padding: "72px 80px", background: "#fff", borderTop: "1px solid #F0F0F0" }}>
+        <div className="go-2" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1.25fr", gap: 40, alignItems: "center" }}>
+          <div>
+            <CnnLogo height={30} color="#F03A47" />
+            <span style={{ display: "block", fontFamily: MONO, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#6B7280", margin: "14px 0 0" }}>
+              Clinera en CNN
+            </span>
+            <h2 id="go-cnn-title" style={{ fontFamily: "Inter", fontSize: 34, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, margin: "10px 0 12px", color: INK }}>
+              Un gran paso para Clinera.
+            </h2>
+            <p style={{ fontFamily: "Inter", fontSize: 16, color: MUTED, lineHeight: 1.55, margin: 0 }}>
+              CNN conoció cómo Clinera ayuda a las clínicas de LATAM a operar con más control.
+            </p>
+          </div>
+          <div style={{ position: "relative", aspectRatio: "16 / 9", borderRadius: 16, overflow: "hidden", border: "1px solid #E5E7EB", background: "#0A0A0A", boxShadow: "0 24px 60px -30px rgba(124,58,237,.35)" }}>
+            <iframe
+              src={PARTNER_CNN_VIMEO_SRC}
+              title="Reportaje de CNN sobre Clinera"
+              loading="lazy"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
+            />
+          </div>
         </div>
       </section>
 

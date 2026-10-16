@@ -101,3 +101,10 @@ test("/planes2 solo en dólares: sin switch ni conversión a MXN", () => {
   const body = readFileSync("src/components/planes2/Planes2Body.tsx", "utf8");
   expect(body).not.toMatch(/PriceModalitySwitch|CatalogPrice|usePriceModality|MXN/);
 });
+
+test("/go trae el video de CNN (mismo clip que /plataforma)", () => {
+  const go = readFileSync("src/components/go/GoLanding.tsx", "utf8");
+  expect(go).toContain("PARTNER_CNN_VIMEO_SRC");
+  expect(go).toContain("Reportaje de CNN sobre Clinera");
+  expect(readFileSync("src/lib/partners.ts", "utf8")).toContain("player.vimeo.com/video/1205127087");
+});
