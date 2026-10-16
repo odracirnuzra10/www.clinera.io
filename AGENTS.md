@@ -638,7 +638,8 @@ existe:** «programa para clínicas» en Google Chile devuelve diplomados y
 programas académicos, no software; por eso la página titula con «software» y
 mete «programa» y «sistema de gestión» en tesis, FAQ y keywords. Mapa de
 keywords completo (sin volúmenes: Semrush sin unidades de API al 15-oct) en el
-.xlsx que se entregó a Ricardo; `/mejor-software-clinicas/peru` ya existe (ranking con AgendaPro, Doctocliq y Medesk;
+`docs/seo-keyword-map-2026-10.xlsx` (estado, pendientes y trampas de la sesión en
+`docs/seo-keywords-handoff-2026-10-16.md`: léelo antes de seguir); `/mejor-software-clinicas/peru` ya existe (ranking con AgendaPro, Doctocliq y Medesk;
 Clinera no emite comprobantes SUNAT: confirmado por Ricardo, 16-oct). Páginas por
 especialidad (kinesiología, psicología, nutrición, podología) salen de una fábrica
 `especialidad()` en `content.ts`; la ficha es 100% editable y hay una biblioteca de
