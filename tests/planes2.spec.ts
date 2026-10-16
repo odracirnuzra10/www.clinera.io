@@ -1,0 +1,56 @@
+import { test, expect } from "@playwright/test";
+import { readFileSync } from "node:fs";
+import { PENDIENTES, PLANS_2, PLANES2_FAQ, GO_FAQ, GO, VORTEX_2 } from "../src/content/planes2";
+import { buildRobotsTxt } from "../src/lib/robots-txt";
+
+// /planes2 y /go son vista previa interna (Ricardo, 16-oct-2026): no reemplazan
+// a /planes hasta que él apruebe.
+test.describe("planes2 / go: modelo Go! – Flux – Vortex", () => {
+  test("precios y límites decididos el 16-oct", () => {
+    expect(PLANS_2.map((p) => [p.name, p.monthlyUsd, p.branches, p.professionals])).toEqual([
+      ["Clinera Go!", 17, 1, 1],
+      ["Clinera Flux", 87, 2, 5],
+      ["Clinera Vortex", 279, 3, 10],
+    ]);
+  });
+
+  test("AURA solo en Vortex", () => {
+    expect(PLANS_2.filter((p) => p.aura).map((p) => p.id)).toEqual(["vortex"]);
+    for (const p of PLANS_2.filter((p) => !p.aura)) {
+      expect(p.excluded.join(" ")).toContain("AURA");
+    }
+  });
+
+  test("no se reutiliza el Stripe del Vortex viejo ni se inventan links", () => {
+    for (const p of PLANS_2) expect(p.checkoutUrl).toBeNull();
+    expect(VORTEX_2.checkoutPending).toContain("PENDIENTE");
+    expect(GO.checkoutPending).toContain("PENDIENTE");
+  });
+
+  test("Atlas, Summit, Kimi y modos viejos no reaparecen en el copy", () => {
+    const copy = JSON.stringify([PLANS_2, PLANES2_FAQ, GO_FAQ]);
+    expect(copy).not.toMatch(/\bAtlas\b|\bSummit\b|Kimi|Agentic Pro|Eficiente/);
+  });
+
+  test("sin voseo", () => {
+    const copy = JSON.stringify([PLANS_2, PLANES2_FAQ, GO_FAQ]);
+    expect(copy).not.toMatch(/\b(agendá|empezá|conectá|escribinos|tenés|podés)\b/i);
+  });
+
+  test("los datos abiertos quedan listados como PENDIENTE", () => {
+    expect(PENDIENTES.length).toBeGreaterThan(10);
+  });
+
+  test("las rutas son noindex y están cerradas en robots.txt", () => {
+    for (const f of ["src/app/planes2/page.tsx", "src/app/go/page.tsx", "src/app/go/exito/page.tsx"]) {
+      expect(readFileSync(f, "utf8"), f).toContain("index: false");
+    }
+    const txt = buildRobotsTxt();
+    for (const r of ["/planes2", "/go$", "/go/"]) expect(txt).toContain(`Disallow: ${r}`);
+  });
+
+  test("fuera del sitemap", () => {
+    const sm = readFileSync("src/app/sitemap.ts", "utf8");
+    expect(sm).not.toMatch(/['"]\/planes2['"]|['"]\/go['"]/);
+  });
+});
