@@ -153,6 +153,8 @@ test("clinera.io: el CTA principal del header es «Iniciar ahora» → /go, y ve
   // «Hablar con ventas» sigue, pero como enlace discreto (QuietCta), no como botón principal.
   expect(nav).toContain('label="Hablar con ventas"');
   expect(nav).not.toMatch(/ctaLabel = "Hablar con ventas"/);
+  // Una página que pasa solo ctaHref (/plataforma → /agenda) no hereda «Iniciar ahora».
+  expect(nav).toContain('ctaHref === undefined ? DEFAULT_CTA_LABEL : "Hablar con ventas"');
   // Las páginas que pasan su propio CTA (Google Ads → /agenda) no cambian.
   expect(readFileSync("src/components/software-vertical/SoftwareVerticalLanding.tsx", "utf8")).toContain('ctaLabel="Agendar demo"');
 });
