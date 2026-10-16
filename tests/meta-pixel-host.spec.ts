@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { shouldInitMetaPixel } from "@/lib/metaEvents";
+import { META_PIXEL_ID } from "@/lib/meta-pixel-id";
 
 const analytics = readFileSync(
   join(process.cwd(), "src/components/Analytics.tsx"),
@@ -25,12 +26,34 @@ test.describe("pixel de producción no arranca en dev/preview", () => {
     expect(analytics).toContain("h==='localhost'");
     expect(analytics).toContain("h==='127.0.0.1'");
     expect(analytics).toContain("\\\\.vercel\\\\.app$");
-    expect(analytics).toContain("1104567405156111");
+    expect(analytics).toContain("fbq('init','${META_PIXEL_ID}')");
   });
 
   test("el endpoint CAPI solo acepta MQL", () => {
     expect(capiRoute).toContain('new Set(["MQL"])');
     expect(capiRoute).not.toMatch(/new Set\(\[[^\]]*Waitlist/);
     expect(capiRoute).not.toMatch(/new Set\(\[[^\]]*Contact/);
+  });
+
+  test("el pixel nuevo (Clinera Software) está en todo el sitio y el viejo ya no", () => {
+    const OLD = "1104567405156111";
+    expect(META_PIXEL_ID).toBe("2251201709002818");
+    expect(capiRoute).toContain("META_PIXEL_ID");
+    expect(capiRoute).not.toContain(OLD);
+    // Páginas estáticas: no pueden importar la constante, llevan el ID escrito.
+    for (const f of [
+      "infraestructura/index.html",
+      "init/index.html",
+      "leads/index.html",
+      "inicia-2/index.html",
+      "inicia-ahora/index.html",
+      "remarketing/index.html",
+      "js/components.js",
+    ]) {
+      const src = readFileSync(join(process.cwd(), "public", f), "utf8");
+      expect(src, f).toMatch(new RegExp(`fbq\\(\\s*['"]init['"]\\s*,\\s*['"]${META_PIXEL_ID}`));
+      expect(src, f).not.toMatch(new RegExp(`fbq\\(\\s*['"]init['"]\\s*,\\s*['"]${OLD}`));
+      expect(src, f).not.toContain(`tr?id=${OLD}`);
+    }
   });
 });

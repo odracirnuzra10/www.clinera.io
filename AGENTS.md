@@ -295,7 +295,16 @@ la recomendación del partner + CTA a reunión.
 > `MQL` (no `SQL`). Un pixel nuevo con el W1 viejo lo repite
 > (`Obsoleto`, `Obsoleto2`).
 >
-> Pixel de producción `1104567405156111` (`[2026] OACG TECH`) pertenece al
+> **Cambio 2026-10-16 (Ricardo):** el pixel del SITIO pasa a ser el dataset
+> **«Clinera Software» `2251201709002818`** (BM Método Hebe; compartido con la
+> cuenta publicitaria CLINERA.IO `806063489131174`). Fuente única en
+> `src/lib/meta-pixel-id.ts`; las páginas de `public/` llevan el ID escrito. Lo
+> que NO se movió porque no vive acá: el CAPI de n8n (W1 y `crm-sql-twenty`,
+> hacia `1104567405156111`), el token CAPI de Vercel y el pixel del contenedor
+> GTM. Si el sitio y el servidor apuntan a pixeles distintos, el `event_id` no
+> deduplica. Lo que sigue describe el pixel anterior.
+>
+> Pixel de producción anterior `1104567405156111` (`[2026] OACG TECH`) pertenece al
 > BM **Método Hebe** `1162184321174513`, no a Metricads Marketing. La
 > cuenta que gasta (`act_774716223970185`) sí es de Metricads. El dataset
 > `Clinera.io` `1410371181304151` ya existe (0 eventos); no crear otro.

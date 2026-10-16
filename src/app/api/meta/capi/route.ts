@@ -23,11 +23,12 @@
 
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
+import { META_PIXEL_ID } from "@/lib/meta-pixel-id";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const PIXEL_ID = process.env.META_PIXEL_ID || "1104567405156111";
+const PIXEL_ID = process.env.META_PIXEL_ID || META_PIXEL_ID;
 const ACCESS_TOKEN = process.env.META_CAPI_ACCESS_TOKEN || "";
 const TEST_EVENT_CODE = process.env.META_TEST_EVENT_CODE || "";
 const GRAPH_VERSION = process.env.META_GRAPH_VERSION || "v21.0";

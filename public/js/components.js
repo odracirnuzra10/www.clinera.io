@@ -16,7 +16,7 @@ class ClineraHeader extends HTMLElement {
                 s.parentNode.insertBefore(t, s)
             }(window, document, 'script',
                 'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '1104567405156111');
+            fbq('init', '2251201709002818');
             fbq('track', 'PageView');
 
             // Google Ads Code removed — now managed via GTM
