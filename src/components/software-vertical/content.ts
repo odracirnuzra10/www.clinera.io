@@ -881,7 +881,7 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
       },
       {
         title: "Ficha clínica",
-        body: `Historial, evolución y consentimientos de cada paciente en un solo lugar, para seguir las ${o.tratamiento} sin papeles sueltos.`,
+        body: `Historial, evolución y consentimientos de cada paciente en un solo lugar, para seguir las ${o.tratamiento} sin papeles sueltos. La ficha es 100% editable y hay una biblioteca de fichas para copiar dentro de Clinera.`,
       },
       {
         title: "Agente IA (AURA)",
@@ -940,8 +940,8 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
         a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real y deja la cita creada. Reagenda y cancela en la misma conversación. CAMILA, el agente de voz, está disponible solo en Summit.",
       },
       {
-        q: "¿Tiene fichas con campos propios de mi especialidad?",
-        a: "La ficha clínica de Clinera concentra el historial, la evolución y los consentimientos del paciente. Si necesitas campos específicos de tu especialidad, consúltalo en la demo antes de decidir.",
+        q: "¿Puedo adaptar la ficha a mi especialidad?",
+        a: "Sí. Las fichas clínicas de Clinera son 100% editables, así que armas los campos que necesita tu atención. Además hay una biblioteca de fichas que puedes copiar dentro de Clinera y ajustar a tu forma de trabajar.",
       },
       {
         q: `¿Cuánto cuesta el software para ${o.profesional}?`,
