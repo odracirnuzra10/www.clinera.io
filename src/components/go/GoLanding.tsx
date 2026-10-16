@@ -87,9 +87,6 @@ export default function GoLanding() {
             ))}
           </ul>
           <PlanChannelLogos channels={[...CHANNELS_2]} />
-          <p style={{ fontFamily: "Inter", fontSize: 13.5, margin: "14px 0 0" }}>
-            <Pendiente>{`Créditos de Clinera Intelligence en Go!: ${pendiente("cantidad")}`}</Pendiente>
-          </p>
         </div>
       </section>
 
