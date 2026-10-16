@@ -17,7 +17,8 @@ export const metadata: Metadata = {
 export default function GoPage() {
   return (
     <>
-      <NavV3 />
+      {/* "Hablar con ventas" sigue, pero discreto: el CTA de la página es "Inicia ahora". */}
+      <NavV3 ctaVariant="quiet" ctaHref="/agenda?plan=go" />
       <main>
         <GoLanding />
       </main>

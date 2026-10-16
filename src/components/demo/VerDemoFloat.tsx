@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 export default function VerDemoFloat() {
   const pathname = usePathname();
   if (pathname === "/demo" || pathname?.startsWith("/demo/")) return null;
+  // /go tiene su propio botón flotante de compra: no se apilan dos.
+  if (pathname === "/go" || pathname?.startsWith("/go/")) return null;
 
   return (
     <>

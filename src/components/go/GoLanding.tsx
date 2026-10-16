@@ -11,6 +11,7 @@ import {
   GO_ANALYTICS,
   GO_FAQ,
   GO_INCLUYE,
+  GO_LANDING_CTA,
   GO_PASOS,
   AGENDA_PATH,
   VORTEX_2,
@@ -45,59 +46,158 @@ export default function GoLanding() {
   return (
     <>
       <style jsx global>{`
-        @media (max-width: 720px) {
-          .go-sec { padding-left: 16px !important; padding-right: 16px !important; }
-          .go-h1 { font-size: 38px !important; }
+        .go-sec { padding: 72px 80px; }
+        .go-h2 { font-family: Inter; font-size: clamp(26px, 4.4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.08; color: ${INK}; margin: 12px 0 0; }
+        .go-cta {
+          display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+          min-height: 56px; padding: 0 34px; border-radius: 14px; border: 0;
+          font-family: Inter; font-weight: 700; font-size: 17px; letter-spacing: -0.01em;
+          text-decoration: none; color: #fff; background: ${GRAD};
+          box-shadow: 0 16px 36px -12px rgba(124,58,237,.55);
+          transition: transform .2s ease, filter .2s ease;
         }
+        .go-cta:hover { transform: translateY(-2px); filter: brightness(.97); }
+        .go-cta:focus-visible { outline: 3px solid rgba(124,58,237,.55); outline-offset: 3px; }
+        .go-float {
+          position: fixed; z-index: 60; right: 24px; bottom: 24px;
+          display: flex; align-items: center; gap: 14px;
+          padding: 10px 10px 10px 20px; border-radius: 999px;
+          background: rgba(255,255,255,.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+          border: 1px solid #E5E7EB; box-shadow: 0 20px 50px -18px rgba(76,29,149,.45);
+          transform: translateY(24px); opacity: 0; visibility: hidden;
+          transition: transform .3s cubic-bezier(.16,1,.3,1), opacity .25s ease, visibility 0s linear .3s;
+        }
+        .go-float[data-visible="true"] { transform: none; opacity: 1; visibility: visible; transition-delay: 0s; }
+        .go-float .go-cta { min-height: 48px; padding: 0 26px; border-radius: 999px; font-size: 16px; }
+        .go-float-price { display: grid; line-height: 1.15; }
         @media (max-width: 900px) {
-          .go-hero { grid-template-columns: 1fr !important; }
-          .go-3 { grid-template-columns: 1fr !important; }
-          .go-2 { grid-template-columns: 1fr !important; }
+          .go-hero { grid-template-columns: 1fr !important; gap: 28px !important; }
+          .go-3, .go-2 { grid-template-columns: 1fr !important; }
+          .go-incl-list { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 720px) {
+          .go-sec { padding: 44px 20px !important; }
+          .go-sec-hero { padding: 24px 20px 36px !important; }
+          .go-h1 { letter-spacing: -0.035em !important; }
+          .go-cta-wrap, .go-cta-wrap .go-cta { width: 100%; }
+          .go-trust { justify-content: flex-start; }
+          .go-float {
+            left: 0; right: 0; bottom: 0; border-radius: 18px 18px 0 0; border-width: 1px 0 0;
+            padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); justify-content: space-between;
+            box-shadow: 0 -14px 40px -18px rgba(76,29,149,.4);
+          }
+          .go-float .go-cta { flex: 1; max-width: 220px; }
+          .go-final-card { padding: 28px 20px !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .go-float, .go-cta { transition: none !important; }
         }
       `}</style>
 
-      <section className="go-sec" style={{ padding: "64px 80px 72px", background: "#fff" }}>
-        <div className="go-hero" style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: 48, alignItems: "center" }}>
+      <section
+        className="go-sec go-sec-hero"
+        style={{
+          padding: "64px 80px 80px",
+          background: "radial-gradient(ellipse 60% 70% at 85% 0%, rgba(192,38,211,.10), transparent 60%), #fff",
+        }}
+      >
+        <div className="go-hero" style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: 56, alignItems: "center" }}>
           <div>
-            <Eyebrow>Clinera Go!</Eyebrow>
-            <h1 className="go-h1" style={{ fontFamily: "Inter", fontSize: 58, fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.03, margin: "16px 0 16px", color: INK }}>
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                fontFamily: MONO,
+                fontSize: 11,
+                fontWeight: 600,
+                letterSpacing: ".12em",
+                textTransform: "uppercase",
+                color: "#6D28D9",
+                background: "rgba(124,58,237,.08)",
+                border: "1px solid rgba(124,58,237,.22)",
+                borderRadius: 999,
+                padding: "6px 12px",
+              }}
+            >
+              Clinera Go!
+            </span>
+            <h1 className="go-h1" style={{ fontFamily: "Inter", fontSize: "clamp(38px, 6.4vw, 64px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.02, margin: "16px 0 16px", color: INK }}>
               Inicia con Clinera por solo <span style={gradText}>17&nbsp;dólares al&nbsp;mes.</span>
             </h1>
-            <p style={{ fontFamily: "Inter", fontSize: 18, color: MUTED, lineHeight: 1.55, margin: "0 0 24px", maxWidth: 520 }}>
-              Tu agenda, tus fichas y tus mensajes de WhatsApp, Facebook e Instagram en un solo lugar. Sin costo de implementación y sin permanencia: cancelas cuando quieras.
+            <p style={{ fontFamily: "Inter", fontSize: "clamp(16px, 2.2vw, 19px)", color: MUTED, lineHeight: 1.55, margin: "0 0 22px", maxWidth: 540 }}>
+              Tu agenda, tus fichas y tus mensajes de WhatsApp, Facebook e Instagram en un solo lugar.
             </p>
-            <GoCta where="hero" />
+
+            <div style={{ display: "flex", alignItems: "baseline", gap: 8, margin: "0 0 18px" }}>
+              <span style={{ fontFamily: "Inter", fontSize: "clamp(44px, 9vw, 60px)", fontWeight: 800, letterSpacing: "-0.05em", lineHeight: 1, ...gradText }}>
+                USD&nbsp;17
+              </span>
+              <span style={{ fontFamily: "Inter", fontSize: 17, fontWeight: 600, color: "#6B7280" }}>/mes</span>
+            </div>
+
+            <div id="go-hero-cta" className="go-cta-wrap" style={{ display: "inline-block" }}>
+              <CheckoutLink where="hero" />
+            </div>
+            <TrustChips />
+            <p style={{ fontFamily: "Inter", fontSize: 14.5, color: "#6B7280", margin: "16px 0 0" }}>
+              ¿Prefieres verlo antes? <AgendarLink where="hero">Agenda una reunión</AgendarLink>
+            </p>
           </div>
           <Mockup />
         </div>
       </section>
 
-      <section className="go-sec" style={{ padding: "72px 80px", background: "#FAFAFA", borderTop: "1px solid #F0F0F0" }}>
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
-          <Eyebrow>Qué incluye Go!</Eyebrow>
-          <ul style={{ listStyle: "none", padding: 0, margin: "20px 0 20px", display: "grid", gap: 12, fontFamily: "Inter", fontSize: 17, color: INK }}>
-            {GO_INCLUYE.map((x) => (
-              <li key={x} style={{ display: "flex", gap: 10 }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "0 0 18px", marginTop: 3 }} aria-hidden>
-                  <path d="M5 12l5 5L20 7" />
-                </svg>
-                <span>{x}</span>
-              </li>
-            ))}
-          </ul>
-          <PlanChannelLogos channels={[...CHANNELS_2]} />
+      <section className="go-sec" style={{ background: "#FAFAFA", borderTop: "1px solid #F0F0F0" }}>
+        <div style={{ maxWidth: 980, margin: "0 auto" }}>
+          <div
+            style={{
+              background: "#fff",
+              border: "1.5px solid transparent",
+              backgroundImage: `linear-gradient(#fff,#fff), ${GRAD}`,
+              backgroundOrigin: "border-box",
+              backgroundClip: "padding-box, border-box",
+              borderRadius: 24,
+              padding: "clamp(22px, 4vw, 36px)",
+              boxShadow: "0 24px 60px -34px rgba(124,58,237,.45)",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 16, flexWrap: "wrap" }}>
+              <div>
+                <Eyebrow>Qué incluye Go!</Eyebrow>
+                <h2 className="go-h2">Todo lo esencial para operar.</h2>
+              </div>
+              <div style={{ fontFamily: "Inter", textAlign: "right" }}>
+                <span style={{ fontSize: "clamp(34px, 6vw, 44px)", fontWeight: 800, letterSpacing: "-0.04em", color: INK }}>USD&nbsp;17</span>
+                <span style={{ fontSize: 15, fontWeight: 600, color: "#6B7280" }}> /mes</span>
+              </div>
+            </div>
+            <ul className="go-incl-list" style={{ listStyle: "none", padding: 0, margin: "24px 0 22px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px 28px", fontFamily: "Inter", fontSize: 16, color: INK, lineHeight: 1.45 }}>
+              {GO_INCLUYE.map((x) => (
+                <li key={x} style={{ display: "flex", gap: 10 }}>
+                  <span style={{ flex: "0 0 20px", width: 20, height: 20, borderRadius: 999, background: "rgba(124,58,237,.12)", display: "inline-flex", alignItems: "center", justifyContent: "center", marginTop: 1 }}>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#6D28D9" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <path d="M5 12l5 5L20 7" />
+                    </svg>
+                  </span>
+                  <span>{x}</span>
+                </li>
+              ))}
+            </ul>
+            <PlanChannelLogos channels={[...CHANNELS_2]} />
+          </div>
         </div>
       </section>
 
       {/* Prueba social: el mismo clip de CNN de /plataforma y /partner. */}
-      <section className="go-sec" aria-labelledby="go-cnn-title" style={{ padding: "72px 80px", background: "#fff", borderTop: "1px solid #F0F0F0" }}>
+      <section className="go-sec" aria-labelledby="go-cnn-title" style={{ background: "#fff", borderTop: "1px solid #F0F0F0" }}>
         <div className="go-2" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1.25fr", gap: 40, alignItems: "center" }}>
           <div>
             <CnnLogo height={30} color="#F03A47" />
             <span style={{ display: "block", fontFamily: MONO, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#6B7280", margin: "14px 0 0" }}>
               Clinera en CNN
             </span>
-            <h2 id="go-cnn-title" style={{ fontFamily: "Inter", fontSize: 34, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, margin: "10px 0 12px", color: INK }}>
+            <h2 id="go-cnn-title" className="go-h2" style={{ margin: "10px 0 12px" }}>
               Un gran paso para Clinera.
             </h2>
             <p style={{ fontFamily: "Inter", fontSize: 16, color: MUTED, lineHeight: 1.55, margin: 0 }}>
@@ -118,35 +218,31 @@ export default function GoLanding() {
         </div>
       </section>
 
-      <section className="go-sec" style={{ padding: "80px 80px", background: "#fff", borderTop: "1px solid #F0F0F0" }}>
+      <section className="go-sec" style={{ background: "#FAFAFA", borderTop: "1px solid #F0F0F0" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 32 }}>
             <Eyebrow>Cómo empiezas</Eyebrow>
-            <h2 style={{ fontFamily: "Inter", fontSize: 36, fontWeight: 700, letterSpacing: "-0.03em", margin: "12px 0 0", color: INK }}>
-              Tres pasos, el mismo día.
-            </h2>
+            <h2 className="go-h2">Tres pasos, el mismo día.</h2>
           </div>
-          <div className="go-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20 }}>
+          <div className="go-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16 }}>
             {GO_PASOS.map((s) => (
-              <div key={s.n} style={{ border: "1px solid #EEECEA", borderRadius: 16, padding: "24px" }}>
+              <div key={s.n} style={{ background: "#fff", border: "1px solid #EEECEA", borderRadius: 16, padding: "22px 22px 24px" }}>
                 <span style={{ fontFamily: MONO, fontSize: 12, letterSpacing: ".1em", ...gradText }}>{s.n}</span>
                 <h3 style={{ fontFamily: "Inter", fontSize: 20, fontWeight: 700, letterSpacing: "-0.02em", margin: "10px 0 6px", color: INK }}>{s.t}</h3>
-                <p style={{ fontFamily: "Inter", fontSize: 14.5, color: MUTED, lineHeight: 1.55, margin: 0 }}>{s.d}</p>
+                <p style={{ fontFamily: "Inter", fontSize: 15, color: MUTED, lineHeight: 1.55, margin: 0 }}>{s.d}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="go-sec" style={{ padding: "72px 80px", background: "#FAFAFA", borderTop: "1px solid #F0F0F0" }}>
+      <section className="go-sec" style={{ background: "#fff", borderTop: "1px solid #F0F0F0" }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 28 }}>
             <Eyebrow>Cuando crezcas</Eyebrow>
-            <h2 style={{ fontFamily: "Inter", fontSize: 32, fontWeight: 700, letterSpacing: "-0.03em", margin: "12px 0 0", color: INK }}>
-              Subes de plan sin cambiar de herramienta.
-            </h2>
+            <h2 className="go-h2">Subes de plan sin cambiar de herramienta.</h2>
           </div>
-          <div className="go-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+          <div className="go-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             <Mini name={FLUX.name} line="2 sucursales · 5 profesionales" />
             <Mini name={VORTEX_2.name} line="AURA responde a tus pacientes y agenda sola" />
           </div>
@@ -160,33 +256,73 @@ export default function GoLanding() {
 
       <GoFaq />
 
-      <section className="go-sec" style={{ padding: "40px 80px 24px", background: "#fff" }}>
-        <p style={{ maxWidth: 640, margin: "0 auto", textAlign: "center", fontFamily: "Inter", fontSize: 14.5, color: "#6B7280" }}>
-          ¿Tienes varias sedes o un equipo grande?{" "}
-          <AgendarLink where="alternativo">Agenda una reunión con ventas</AgendarLink>.
-        </p>
-      </section>
-
-      <section className="go-sec" style={{ padding: "56px 80px 96px", background: "#fff", textAlign: "center" }}>
-        <h2 style={{ fontFamily: "Inter", fontSize: 40, fontWeight: 800, letterSpacing: "-0.035em", margin: "0 0 20px", color: INK }}>
-          Empieza hoy por <span style={gradText}>USD 17.</span>
-        </h2>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <GoCta where="final" />
+      <section className="go-sec" style={{ background: "#FAFAFA", borderTop: "1px solid #F0F0F0", paddingBottom: 96 }}>
+        <div
+          className="go-final-card"
+          style={{
+            maxWidth: 760,
+            margin: "0 auto",
+            textAlign: "center",
+            background: "#fff",
+            border: "1px solid #E5E7EB",
+            borderRadius: 28,
+            padding: "44px 36px",
+            boxShadow: "0 30px 70px -40px rgba(124,58,237,.5)",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(124,58,237,.10), transparent 70%)", pointerEvents: "none" }} />
+          <div style={{ position: "relative" }}>
+            <h2 className="go-h2" style={{ fontSize: "clamp(30px, 6vw, 46px)", margin: "0 0 18px" }}>
+              Empieza hoy por <span style={gradText}>USD&nbsp;17.</span>
+            </h2>
+            <div id="go-final-cta" className="go-cta-wrap" style={{ display: "inline-block" }}>
+              <CheckoutLink where="final" />
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <TrustChips center />
+            </div>
+            <p style={{ fontFamily: "Inter", fontSize: 14.5, color: "#6B7280", margin: "18px 0 0" }}>
+              ¿Tienes varias sedes o un equipo grande?{" "}
+              <AgendarLink where="alternativo">Habla con ventas</AgendarLink>
+            </p>
+          </div>
         </div>
       </section>
+
+      <FloatingCta />
     </>
   );
 }
 
-/** CTA único de la landing. Si falta el link de Stripe, muestra el marcador. */
-function GoCta({ where }: { where: "hero" | "final" }) {
+/** Tres razones para decidir sin miedo, justo bajo el botón. */
+function TrustChips({ center }: { center?: boolean }) {
   return (
-    <div style={{ display: "grid", gap: 12, justifyItems: where === "final" ? "center" : "start" }}>
-      <GoPay where={where} />
-      <span style={{ fontFamily: "Inter", fontSize: 14, color: "#6B7280" }}>
-        ¿Prefieres verlo antes? <AgendarLink where={where}>Agenda una reunión</AgendarLink>
-      </span>
+    <div className="go-trust" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16, justifyContent: center ? "center" : "flex-start" }}>
+      {["Sin implementación", "Sin permanencia", "Cancela cuando quieras"].map((t) => (
+        <span
+          key={t}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            fontFamily: "Inter",
+            fontSize: 13,
+            fontWeight: 600,
+            color: INK,
+            background: "#fff",
+            border: "1px solid #E5E7EB",
+            borderRadius: 999,
+            padding: "6px 12px",
+          }}
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6D28D9" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M5 12l5 5L20 7" />
+          </svg>
+          {t}
+        </span>
+      ))}
     </div>
   );
 }
@@ -214,23 +350,17 @@ function AgendarLink({ where, children }: { where: string; children: React.React
   );
 }
 
-function GoPay({ where }: { where: "hero" | "final" }) {
+/**
+ * Botón de compra de Go!: abre el checkout de Stripe del plan. Es el único CTA
+ * de la landing (hero, final y flotante). Si faltara el link, muestra el marcador.
+ */
+function CheckoutLink({ where }: { where: "hero" | "final" | "floating" }) {
   const url = GO.checkoutUrl;
-  const base = {
-    display: "inline-block",
-    padding: "16px 28px",
-    borderRadius: 10,
-    fontFamily: "Inter",
-    fontWeight: 600,
-    fontSize: 16,
-    textDecoration: "none",
-  } as const;
-
   if (!url) {
     return (
       <div>
-        <span aria-disabled="true" data-cta-pendiente="go" data-cta-where={where} style={{ ...base, background: "#F3F4F6", color: "#6B7280", cursor: "not-allowed" }}>
-          {GO.ctaLabel}
+        <span aria-disabled="true" data-cta-pendiente="go" data-cta-where={where} className="go-cta" style={{ background: "#F3F4F6", color: "#6B7280", boxShadow: "none", cursor: "not-allowed" }}>
+          {GO_LANDING_CTA}
         </span>
         <p style={{ fontFamily: "Inter", fontSize: 12.5, lineHeight: 1.5, margin: "10px 0 0" }}>
           <Pendiente>{GO.checkoutPending}</Pendiente>
@@ -238,12 +368,12 @@ function GoPay({ where }: { where: "hero" | "final" }) {
       </div>
     );
   }
-
   return (
     <a
       href={url}
       data-plan="go"
       data-cta-where={where}
+      className="go-cta"
       onClick={(ev) => {
         ev.preventDefault();
         track("initiate_checkout", {
@@ -268,10 +398,51 @@ function GoPay({ where }: { where: "hero" | "final" }) {
           window.location.href = withStripeAttribution(url);
         }, 150);
       }}
-      style={{ ...base, background: GRAD, color: "#fff", boxShadow: "0 12px 32px -8px rgba(124,58,237,.35)" }}
     >
-      {GO.ctaLabel}
+      {GO_LANDING_CTA}
     </a>
+  );
+}
+
+/**
+ * Botón flotante "Inicia ahora". Aparece cuando el CTA del hero sale de
+ * pantalla y se esconde al llegar al CTA final (y después), para no tapar el
+ * pie ni duplicar el botón que ya se ve. En móvil es una barra al borde inferior.
+ */
+function FloatingCta() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const hero = document.getElementById("go-hero-cta")?.getBoundingClientRect();
+      const fin = document.getElementById("go-final-cta")?.getBoundingClientRect();
+      if (!hero) return;
+      const heroGone = hero.bottom < 0;
+      const finalReached = fin ? fin.top < window.innerHeight - 40 : false;
+      setVisible(heroGone && !finalReached);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(check);
+    };
+    check();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  return (
+    <div className="go-float" data-visible={visible} data-go-float aria-hidden={!visible} role="region" aria-label="Inicia con Clinera Go!">
+      <div className="go-float-price">
+        <span style={{ fontFamily: MONO, fontSize: 10, letterSpacing: ".12em", textTransform: "uppercase", color: "#6B7280" }}>Clinera Go!</span>
+        <span style={{ fontFamily: "Inter", fontSize: 17, fontWeight: 800, letterSpacing: "-0.02em", color: INK }}>USD 17/mes</span>
+      </div>
+      <CheckoutLink where="floating" />
+    </div>
   );
 }
 
@@ -287,7 +458,7 @@ function Mini({ name, line }: { name: string; line: string }) {
 function GoFaq() {
   const [open, setOpen] = useState(0);
   return (
-    <section className="go-sec" style={{ padding: "72px 80px", background: "#fff", borderTop: "1px solid #F0F0F0" }}>
+    <section className="go-sec" style={{ background: "#fff", borderTop: "1px solid #F0F0F0" }}>
       <div style={{ maxWidth: 820, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 28 }}>
           <Eyebrow>Preguntas frecuentes</Eyebrow>

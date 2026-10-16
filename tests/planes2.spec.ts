@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
-import { PENDIENTES, PLANS_2, PLANES2_FAQ, GO_FAQ, VORTEX_2, IMPLEMENTACION_USD, EXTRA_BRANCH_USD } from "../src/content/planes2";
+import { PENDIENTES, PLANS_2, PLANES2_FAQ, GO_FAQ, VORTEX_2, IMPLEMENTACION_USD, GO, GO_LANDING_CTA, EXTRA_BRANCH_USD } from "../src/content/planes2";
 import { EXTRA_USER_USD, EXTRA_CREDIT_PACK_USD, EXTRA_CREDIT_PACK_CREDITS } from "../src/content/pricing";
 import { buildRobotsTxt } from "../src/lib/robots-txt";
 
@@ -83,7 +83,7 @@ test("add-ons confirmados por Ricardo (16-oct): sucursal 15, profesional 9, 5.00
 
 test("/go: cancelar cuando quiera y salida a /agenda con la query de la visita", () => {
   const go = readFileSync("src/components/go/GoLanding.tsx", "utf8");
-  expect(go).toContain("cancelas cuando quieras");
+  expect(go).toContain("Cancela cuando quieras");
   expect(go).toContain("AGENDA_PATH");
   expect(go).toContain("window.location.search");
   for (const f of [...PLANES2_FAQ, ...GO_FAQ].filter((x) => /permanencia|cancelar/i.test(x.q))) {
@@ -107,4 +107,21 @@ test("/go trae el video de CNN (mismo clip que /plataforma)", () => {
   expect(go).toContain("PARTNER_CNN_VIMEO_SRC");
   expect(go).toContain("Reportaje de CNN sobre Clinera");
   expect(readFileSync("src/lib/partners.ts", "utf8")).toContain("player.vimeo.com/video/1205127087");
+});
+
+test("/go: un solo CTA \"Inicia ahora\" (hero, final y flotante) y ventas queda discreto", () => {
+  const go = readFileSync("src/components/go/GoLanding.tsx", "utf8");
+  expect(GO_LANDING_CTA).toBe("Inicia ahora");
+  expect(go).toContain("FloatingCta");
+  expect(go).toContain('where="floating"');
+  expect(readFileSync("src/app/go/page.tsx", "utf8")).toContain('ctaVariant="quiet"');
+  // Los flotantes del sitio no se apilan con el de /go.
+  expect(readFileSync("src/components/cro/StickyMobileCTA.tsx", "utf8")).toContain('"/go"');
+  expect(readFileSync("src/components/demo/VerDemoFloat.tsx", "utf8")).toContain('"/go"');
+});
+
+test("/planes2: el CTA de Go! dice Contrata y lleva a /go", () => {
+  expect(GO.ctaLabel).toBe("Contrata");
+  const body = readFileSync("src/components/planes2/Planes2Body.tsx", "utf8");
+  expect(body).toContain('href="/go"');
 });

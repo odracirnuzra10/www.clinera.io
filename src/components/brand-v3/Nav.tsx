@@ -7,11 +7,18 @@ import { CtaPrimary, GRAD, Wordmark } from "./Brand";
 type NavV3Props = {
   ctaHref?: string;
   ctaLabel?: string;
+  /**
+   * `quiet`: el CTA del header pasa a enlace discreto, sin gradiente. Lo usan
+   * las páginas con un CTA de compra propio (p. ej. /go), para que "Hablar con
+   * ventas" siga ahí pero no compita con el botón principal.
+   */
+  ctaVariant?: "primary" | "quiet";
 };
 
 export default function NavV3({
   ctaHref = "/plataforma",
   ctaLabel = "Hablar con ventas",
+  ctaVariant = "primary",
 }: NavV3Props) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -153,13 +160,17 @@ export default function NavV3({
         </nav>
 
         <div className="nav-v3-actions" style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          <CtaPrimary
-            as={Link}
-            href={ctaHref}
-            style={{ padding: "10px 16px", fontSize: 14 }}
-          >
-            {ctaLabel} <span style={{ marginLeft: 2 }}>→</span>
-          </CtaPrimary>
+          {ctaVariant === "quiet" ? (
+            <QuietCta href={ctaHref} label={ctaLabel} />
+          ) : (
+            <CtaPrimary
+              as={Link}
+              href={ctaHref}
+              style={{ padding: "10px 16px", fontSize: 14 }}
+            >
+              {ctaLabel} <span style={{ marginLeft: 2 }}>→</span>
+            </CtaPrimary>
+          )}
         </div>
 
         <button
@@ -205,14 +216,18 @@ export default function NavV3({
             </a>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 18 }}>
-            <CtaPrimary
-              as={Link}
-              href={ctaHref}
-              onClick={() => setMobileOpen(false)}
-              style={{ width: "100%", justifyContent: "center", padding: "14px 20px" }}
-            >
-              {ctaLabel} <span>→</span>
-            </CtaPrimary>
+            {ctaVariant === "quiet" ? (
+              <QuietCta href={ctaHref} label={ctaLabel} block onNavigate={() => setMobileOpen(false)} />
+            ) : (
+              <CtaPrimary
+                as={Link}
+                href={ctaHref}
+                onClick={() => setMobileOpen(false)}
+                style={{ width: "100%", justifyContent: "center", padding: "14px 20px" }}
+              >
+                {ctaLabel} <span>→</span>
+              </CtaPrimary>
+            )}
           </div>
         </div>
       )}
@@ -259,5 +274,49 @@ export default function NavV3({
         }
       `}</style>
     </header>
+  );
+}
+
+/**
+ * Enlace discreto del header. Conserva la query de la visita (UTM, click ids):
+ * la atribución del lead que llegue a /agenda depende de ella.
+ */
+function QuietCta({
+  href,
+  label,
+  block,
+  onNavigate,
+}: {
+  href: string;
+  label: string;
+  block?: boolean;
+  onNavigate?: () => void;
+}) {
+  return (
+    <a
+      href={href}
+      onClick={(ev) => {
+        ev.preventDefault();
+        onNavigate?.();
+        const [path, own = ""] = href.split("?");
+        const q = new URLSearchParams(window.location.search);
+        new URLSearchParams(own).forEach((v, k) => q.set(k, v));
+        const qs = q.toString();
+        window.location.href = qs ? `${path}?${qs}` : path;
+      }}
+      style={{
+        display: block ? "block" : "inline-block",
+        textAlign: block ? "center" : undefined,
+        padding: block ? "12px 16px" : "8px 12px",
+        fontFamily: "Inter",
+        fontSize: 14,
+        fontWeight: 500,
+        color: "#6B7280",
+        textDecoration: "none",
+        borderRadius: 8,
+      }}
+    >
+      {label}
+    </a>
   );
 }

@@ -54,7 +54,7 @@ export const PLANS_2: readonly Plan2[] = [
     auraNote: "",
     checkoutUrl: "https://buy.stripe.com/bJeaEZbtf8aC5gD3JN1441G",
     checkoutPending: "",
-    ctaLabel: "Empieza por USD 17",
+    ctaLabel: "Contrata",
     features: [
       "Agenda y fichas clínicas",
       "Bandeja de WhatsApp, Facebook e Instagram",
@@ -112,6 +112,9 @@ export const PLANS_2: readonly Plan2[] = [
 export const EXTRA_BRANCH_USD = 15;
 
 export const GO = PLANS_2[0];
+
+/** Texto del botón de compra en /go (hero, final y flotante). */
+export const GO_LANDING_CTA = "Inicia ahora";
 export const FLUX = PLANS_2[1];
 export const VORTEX_2 = PLANS_2[2];
 
