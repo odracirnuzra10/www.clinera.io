@@ -74,6 +74,7 @@ const STAR_DISALLOW = [
   "/partner/*/kit",
   "/reserva-tu-hora",
   "/planes2",
+  "/activa",
   "/go$",
   "/go/",
   "/*?utm_*",

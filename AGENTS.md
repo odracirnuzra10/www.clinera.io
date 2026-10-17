@@ -948,6 +948,16 @@ Ultra, anual, logos de los modelos de IA, link de soporte) es un marcador
 links de Stripe de 87 y 279**. Los CTA sin link muestran el marcador en vez de un enlace roto.
 Guardián: `tests/planes2.spec.ts`.
 
+**`/activa` es la landing informativa de los 3 planes (Ricardo, 17-oct-2026):**
+hero, reportaje de CNN (Vimeo `1205127087`), funciones y las tarjetas de
+Go! / Flux / Ultra. **Todos los CTA dicen «Activa tu cuenta ahora» y van a `/go`**
+(hoy el único checkout vivo; Flux y Ultra siguen sin link de Stripe). Precios y
+límites salen de `PLANS_2`, el copy propio vive en `src/content/activa.ts`. El
+CTA (`ActivaCta`) reenvía la query de la visita (utm, fbclid, gclid): sin ella un
+lead de anuncio llega a `/go` sin origen. Sin navbar ni footer, igual que `/go`.
+Interna: `noindex`, `Disallow` en `robots-txt.ts`, fuera del sitemap. Sin CAMILA
+ni LIA en las funciones (próximamente). Guardián: `tests/activa.spec.ts`.
+
 **`/go` es un wizard de 3 pantallas** (17-oct), no la landing oscura del 16-oct: 1 oferta
 («Potencia tu clínica por solo $17 dólares», Ricardo 17-oct), 2 datos (nombre, clínica, especialidad, profesionales,
 correo, WhatsApp), 3 pago. Sin navbar ni footer, **sin FAQ ni reproductor** (Ricardo, 17-oct: «solo
