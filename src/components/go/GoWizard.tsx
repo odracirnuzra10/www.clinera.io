@@ -19,6 +19,7 @@ import {
 } from "@/content/planes2";
 import { captureGoAttribution } from "@/lib/go-attribution";
 import { PHONE_RULES, RESERVA_PHONE_PREFIXES, aE164, digitosTelefono, mensajeErrorTelefono, telefonoLocalValido } from "@/lib/telefono";
+import { GO_EMAIL_KEY } from "@/lib/go-email";
 import { fireMqlEvent } from "@/lib/metaEvents";
 import { track, trackPixel } from "@/lib/tracking";
 
@@ -144,6 +145,12 @@ export default function GoWizard() {
       contact: { email: email.trim(), phoneE164: aE164(prefix, digits) },
       value: MQL_GO_USD,
     });
+    // El correo queda en la pestaña para el mensaje a soporte de /go/exito.
+    try {
+      window.sessionStorage.setItem(GO_EMAIL_KEY, email.trim());
+    } catch {
+      // Sin sessionStorage, /go/exito lo pide a Stripe.
+    }
     // Los datos se guardan ANTES del pago para poder contactar a quien lo abandona.
     // La pantalla 3 no espera a n8n: si el webhook se cuelga, se pierden compras.
     goTo(3);

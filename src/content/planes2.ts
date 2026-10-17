@@ -202,6 +202,17 @@ export const SOPORTE_WHATSAPP = {
 
 export const SOPORTE_WHATSAPP_URL = `https://wa.me/${SOPORTE_WHATSAPP.phone}?text=${encodeURIComponent(SOPORTE_WHATSAPP.message)}`;
 
+/**
+ * Enlace a soporte con el correo con el que contrató (Ricardo, 17-oct): soporte necesita saber
+ * qué cuenta activar. El mensaje CONSERVA su comienzo exacto, porque la regla de AURA lo reconoce
+ * («acabo de contratar Clinera Go! y quiero activar el WhatsApp de mi clínica»); el correo va al final.
+ */
+export function soporteWhatsAppUrl(email?: string): string {
+  const correo = (email ?? "").trim();
+  const texto = correo ? `${SOPORTE_WHATSAPP.message} Mi correo es ${correo}.` : SOPORTE_WHATSAPP.message;
+  return `https://wa.me/${SOPORTE_WHATSAPP.phone}?text=${encodeURIComponent(texto)}`;
+}
+
 export const GO_ACTIVACION_PASOS = [
   "Toca el botón y escribe a soporte por WhatsApp.",
   "Soporte te pide el número de WhatsApp de tu clínica y el nombre de tus profesionales.",
