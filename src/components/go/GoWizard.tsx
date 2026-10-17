@@ -241,6 +241,7 @@ export default function GoWizard() {
         .gw-cta:hover { transform: translateY(-2px); filter: brightness(.97); }
         .gw-back { background: transparent; border: 0; padding: 8px 0; cursor: pointer; font-family: Inter, sans-serif; font-size: 14.5px; font-weight: 600; color: #6B7280; }
         .gw-kicker { display: block; font-family: Inter, sans-serif; font-size: clamp(22px, 6.6vw, 30px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: ${INK}; }
+        .gw-price-u { font-size: .3em; letter-spacing: -0.02em; font-weight: 800; }
         .gw-price { display: block; font-family: Inter, sans-serif; font-size: clamp(76px, 25vw, 124px); font-weight: 800; letter-spacing: -0.055em; line-height: .98; margin: 2px 0 0; }
         .gw-stat { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 14px; padding: 12px 16px; border: 1px solid #E5E7EB; border-radius: 16px; background: #FAFAFA; }
         .gw-stat-n { font-family: Inter, sans-serif; font-size: clamp(40px, 12vw, 52px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; min-width: 3.1ch; }
@@ -295,9 +296,9 @@ export default function GoWizard() {
           {step === 1 && (
             <section data-go-step="1">
               <h1 style={{ margin: 0 }}>
-                <span className="gw-kicker">Activa tu cuenta por solo</span>
+                <span className="gw-kicker">Potencia tu clínica por solo</span>
                 <span className="gw-price" style={gradText}>
-                  USD&nbsp;17.
+                  $17<span className="gw-price-u">&nbsp;dólares.</span>
                 </span>
               </h1>
               <div style={{ display: "grid", gap: 8, margin: "14px 0 10px" }} data-go-incluye>
