@@ -957,6 +957,12 @@ usan más de 1.000 clínicas en Chile» (`GO_PRUEBA_SOCIAL`, dictada por Ricardo
 publica «+52 clínicas» en otras páginas). `GO_FAQ` quedó en `planes2.ts` sin uso en pantalla. El
 wizard no puede envolverse en un `<main>` propio: `globals.css` le pone `padding-top: 112px` al
 primer `section`/`div` de todo `main`.
+**Jerarquía y alto (Ricardo, 17-oct):** en la pantalla 1 mandan «USD 17.» (gigante, degradado), «50
+conversaciones por WhatsApp, Facebook e Instagram» y «100 agendamientos» como cifras grandes; el
+wizard completo (y la imagen de CNN, ya compacta) tiene que entrar **sin scroll** en 390×844, 360×740
+y, en las pantallas 2 y 3, también en 375×667 (iPhone SE, por eso los `@media (max-height)` de
+`GoWizard.tsx`). **Sin ningún CTA a ventas** en `/go`: la idea es que pague USD 17 para probar; el
+link «Hablar con ventas» y el de Ultra se sacaron y el test lo vigila.
 Decisiones que se apartan del handoff, con su porqué:
 - **Los datos se guardan antes del pago** reusando `submitContactLead` (el mismo `/api/wizard`
   → n8n de `/agenda`), con `plan: "go"`. Consecuencia: el lead que abandona queda en Twenty/

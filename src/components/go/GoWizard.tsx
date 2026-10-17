@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Eyebrow, GRAD, Wordmark } from "@/components/brand-v3/Brand";
+import { GRAD, Wordmark } from "@/components/brand-v3/Brand";
 import {
   detectLeadSource,
   evaluateQualification,
@@ -10,13 +10,11 @@ import {
   type Form,
 } from "@/components/ventas/VentasLanding";
 import {
-  AGENDA_PATH,
   GO,
   GO_ANALYTICS,
   GO_TAMANOS,
   GO_PRUEBA_SOCIAL,
   GO_WIZARD,
-  ULTRA_DEMO_URL,
 } from "@/content/planes2";
 import { captureGoAttribution } from "@/lib/go-attribution";
 import { PHONE_RULES, RESERVA_PHONE_PREFIXES, digitosTelefono, mensajeErrorTelefono, telefonoLocalValido } from "@/lib/telefono";
@@ -152,48 +150,66 @@ export default function GoWizard() {
     }
   }, [email, emailOk]);
 
-  const verVentas = tamano === "10_plus";
-
   return (
     <>
       <style jsx global>{`
-        .gw-field { display: block; margin: 0 0 18px; }
-        .gw-label { display: block; font-family: ${MONO}; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #6B7280; margin: 0 0 8px; }
+        .gw-field { display: block; margin: 0 0 12px; }
+        .gw-label { display: block; font-family: ${MONO}; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: #6B7280; margin: 0 0 5px; }
         .gw-input {
-          width: 100%; box-sizing: border-box; min-height: 52px; padding: 0 14px; border-radius: 12px;
+          width: 100%; box-sizing: border-box; min-height: 46px; padding: 0 14px; border-radius: 12px;
           border: 1px solid #D1D5DB; background: #fff; color: ${INK}; font-family: Inter, sans-serif; font-size: 16px;
           appearance: none; -webkit-appearance: none;
         }
         select.gw-input {
           background-image: linear-gradient(45deg, transparent 50%, #6B7280 50%), linear-gradient(135deg, #6B7280 50%, transparent 50%);
-          background-position: calc(100% - 20px) 22px, calc(100% - 14px) 22px; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 36px;
+          background-position: calc(100% - 20px) 19px, calc(100% - 14px) 19px; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 36px;
         }
         .gw-input:focus-visible, .gw-chip:focus-visible, .gw-cta:focus-visible, .gw-back:focus-visible { outline: 3px solid rgba(124,58,237,.45); outline-offset: 2px; }
         .gw-input[data-err="true"] { border-color: #DC2626; }
         .gw-phone { display: grid; grid-template-columns: 138px 1fr; gap: 8px; }
         .gw-chips { display: flex; flex-wrap: wrap; gap: 8px; }
         .gw-chip {
-          min-height: 48px; padding: 0 18px; border-radius: 12px; border: 1px solid #D1D5DB; background: #fff; color: ${INK};
+          min-height: 42px; padding: 0 16px; border-radius: 12px; border: 1px solid #D1D5DB; background: #fff; color: ${INK};
           font-family: Inter, sans-serif; font-size: 15px; font-weight: 600; cursor: pointer;
         }
         .gw-chip[aria-pressed="true"] { border-color: transparent; color: #fff; background: ${GRAD}; }
         .gw-cta {
-          display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; min-height: 56px; padding: 0 24px;
+          display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; min-height: 54px; padding: 0 24px;
           border-radius: 14px; border: 0; cursor: pointer; text-decoration: none; color: #fff; background: ${GRAD};
           font-family: Inter, sans-serif; font-size: 17px; font-weight: 700; letter-spacing: -0.01em;
           transition: transform .2s ease, filter .2s ease;
         }
         .gw-cta:hover { transform: translateY(-2px); filter: brightness(.97); }
-        .gw-back { background: transparent; border: 0; padding: 12px 0; cursor: pointer; font-family: Inter, sans-serif; font-size: 14.5px; font-weight: 600; color: #6B7280; }
+        .gw-back { background: transparent; border: 0; padding: 8px 0; cursor: pointer; font-family: Inter, sans-serif; font-size: 14.5px; font-weight: 600; color: #6B7280; }
+        .gw-kicker { display: block; font-family: Inter, sans-serif; font-size: clamp(22px, 6.6vw, 30px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: ${INK}; }
+        .gw-price { display: block; font-family: Inter, sans-serif; font-size: clamp(76px, 25vw, 124px); font-weight: 800; letter-spacing: -0.055em; line-height: .98; margin: 2px 0 0; }
+        .gw-stat { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 14px; padding: 12px 16px; border: 1px solid #E5E7EB; border-radius: 16px; background: #FAFAFA; }
+        .gw-stat-n { font-family: Inter, sans-serif; font-size: clamp(40px, 12vw, 52px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; min-width: 3.1ch; }
+        .gw-stat-l { font-family: Inter, sans-serif; font-size: 16px; font-weight: 600; line-height: 1.3; color: ${INK}; }
+        .gw-proof { display: block; width: 100%; height: auto; aspect-ratio: 16 / 7; object-fit: cover; object-position: 50% 38%; border-radius: 14px; border: 1px solid #E5E7EB; }
         @media (max-width: 720px) {
           .gw-phone { grid-template-columns: 120px 1fr; }
+        }
+        @media (max-height: 700px) {
+          .gw-field { margin-bottom: 7px; }
+          .gw-label { margin-bottom: 3px; }
+          .gw-input { min-height: 41px; }
+          .gw-chip { min-height: 38px; }
+          .gw-sub { display: none; }
+          .gw-back { padding: 4px 0; }
+        }
+        @media (max-height: 760px) {
+          .gw-price { font-size: clamp(60px, 19vw, 92px); }
+          .gw-stat { padding: 8px 14px; }
+          .gw-stat-n { font-size: 36px; }
+          .gw-stat-l { font-size: 14.5px; }
         }
         @media (prefers-reduced-motion: reduce) { .gw-cta { transition: none !important; } .gw-cta:hover { transform: none !important; } }
       `}</style>
 
       {/* paddingTop 0: anula `main > div:first-child { padding-top: 112px }` de globals.css (hecha para el navbar). */}
-      <div style={{ background: "#fff", minHeight: "100vh", paddingTop: 0 }}>
-        <header style={{ maxWidth: 560, margin: "0 auto", padding: "20px 20px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div style={{ background: "#fff", minHeight: "100dvh", paddingTop: 0 }}>
+        <header style={{ maxWidth: 560, margin: "0 auto", padding: "14px 20px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Wordmark />
           <span style={{ fontFamily: MONO, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#6B7280" }}>
             Paso {step} de 3
@@ -206,53 +222,49 @@ export default function GoWizard() {
           aria-valuemax={3}
           aria-valuenow={step}
           aria-label="Progreso"
-          style={{ maxWidth: 560, margin: "16px auto 0", padding: "0 20px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6 }}
+          style={{ maxWidth: 560, margin: "12px auto 0", padding: "0 20px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6 }}
         >
           {[1, 2, 3].map((n) => (
             <span key={n} style={{ height: 4, borderRadius: 999, background: n <= step ? GRAD : "#E5E7EB" }} />
           ))}
         </div>
 
-        <div style={{ maxWidth: 560, margin: "0 auto", padding: "36px 20px 40px" }}>
+        <div style={{ maxWidth: 560, margin: "0 auto", padding: "18px 20px 12px" }}>
           {step === 1 && (
             <section data-go-step="1">
-              <Eyebrow>Clinera Go! · USD 17/mes</Eyebrow>
-              <h1 style={{ fontFamily: "Inter", fontSize: "clamp(34px, 9vw, 48px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.04, color: INK, margin: "14px 0 14px" }}>
-                <span style={gradText}>Activa tu cuenta</span> por solo USD 17.
+              <h1 style={{ margin: 0 }}>
+                <span className="gw-kicker">Activa tu cuenta por solo</span>
+                <span className="gw-price" style={gradText}>
+                  USD&nbsp;17.
+                </span>
               </h1>
-              <p style={{ fontFamily: "Inter", fontSize: 18, lineHeight: 1.55, color: MUTED, margin: "0 0 28px" }}>
-                {GO_WIZARD.ofertaTexto}
-              </p>
-              <p style={{ fontFamily: "Inter", fontSize: 17, fontWeight: 700, color: INK, margin: "0 0 12px" }}>{GO_WIZARD.ofertaPregunta}</p>
+              <div style={{ display: "grid", gap: 8, margin: "14px 0 10px" }} data-go-incluye>
+                <div className="gw-stat">
+                  <span className="gw-stat-n" style={gradText}>{GO.conversations}</span>
+                  <span className="gw-stat-l">conversaciones por WhatsApp, Facebook e Instagram</span>
+                </div>
+                <div className="gw-stat">
+                  <span className="gw-stat-n" style={gradText}>{GO.agendamientos}</span>
+                  <span className="gw-stat-l">agendamientos</span>
+                </div>
+              </div>
+              <p style={{ fontFamily: "Inter", fontSize: 15, color: MUTED, margin: "0 0 14px" }}>Prueba el poder de Clinera ahora.</p>
+              <p style={{ fontFamily: "Inter", fontSize: 16, fontWeight: 700, color: INK, margin: "0 0 8px" }}>{GO_WIZARD.ofertaPregunta}</p>
               <button type="button" id="go-start" className="gw-cta" onClick={() => goTo(2)}>
                 Sí, quiero activarla
               </button>
-              <p style={{ fontFamily: MONO, fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", color: "#6B7280", margin: "16px 0 0", lineHeight: 1.7 }}>
+              <p style={{ fontFamily: MONO, fontSize: 10.5, letterSpacing: ".07em", textTransform: "uppercase", color: "#6B7280", margin: "10px 0 0", lineHeight: 1.6 }}>
                 Sin costo de implementación · Sin permanencia · Cancelas cuando quieras
-              </p>
-              <p style={{ fontFamily: "Inter", fontSize: 14, color: "#6B7280", margin: "22px 0 0" }}>
-                ¿Prefieres hablarlo con una persona?{" "}
-                <a
-                  href={`${AGENDA_PATH}?plan=go`}
-                  data-cta-agendar="wizard"
-                  onClick={(ev) => {
-                    ev.preventDefault();
-                    window.location.href = agendaHref("go");
-                  }}
-                  style={{ color: "#7C3AED", fontWeight: 600, textDecoration: "none" }}
-                >
-                  Agenda una reunión con ventas
-                </a>
               </p>
             </section>
           )}
 
           {step === 2 && (
             <section data-go-step="2">
-              <h1 style={{ fontFamily: "Inter", fontSize: "clamp(28px, 7vw, 36px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.08, color: INK, margin: "0 0 8px" }}>
+              <h1 style={{ fontFamily: "Inter", fontSize: "clamp(24px, 6.4vw, 30px)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.08, color: INK, margin: "0 0 4px" }}>
                 {GO_WIZARD.datosTitulo}
               </h1>
-              <p style={{ fontFamily: "Inter", fontSize: 16, color: MUTED, margin: "0 0 26px" }}>{GO_WIZARD.datosTexto}</p>
+              <p className="gw-sub" style={{ fontFamily: "Inter", fontSize: 14.5, color: MUTED, margin: "0 0 14px" }}>{GO_WIZARD.datosTexto}</p>
 
               <label className="gw-field">
                 <span className="gw-label">Tu nombre</span>
@@ -283,14 +295,6 @@ export default function GoWizard() {
                   ))}
                 </div>
                 {attempted && tamano === "" && <span style={{ fontFamily: "Inter", fontSize: 13, color: "#DC2626", display: "block", marginTop: 6 }}>Elige una opción.</span>}
-                {verVentas && (
-                  <p style={{ fontFamily: "Inter", fontSize: 13.5, color: MUTED, margin: "10px 0 0", lineHeight: 1.5 }}>
-                    Go! es para 1 profesional.{" "}
-                    <a href={ULTRA_DEMO_URL} data-cta-agendar="wizard-ultra" style={{ color: "#7C3AED", fontWeight: 600, textDecoration: "none" }}>
-                      Hablar con ventas · Ultra
-                    </a>
-                  </p>
-                )}
               </div>
               <label className="gw-field">
                 <span className="gw-label">Correo</span>
@@ -383,21 +387,21 @@ export default function GoWizard() {
         {step === 1 && (
           // Imagen fija del reportaje de CNN (no el reproductor): prueba social sin sacar al
           // visitante del wizard. Es un fotograma del mismo video de /plataforma.
-          <figure data-go-cnn style={{ maxWidth: 560, margin: "0 auto", padding: "0 20px 56px" }}>
+          <figure data-go-cnn style={{ maxWidth: 560, margin: "0 auto", padding: "4px 20px 16px" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
+              className="gw-proof"
               src="/images/go/cnn-clinera.jpg"
               alt="Entrevista de CNN Chile a Clinera"
               width={1280}
               height={720}
               loading="lazy"
-              style={{ display: "block", width: "100%", height: "auto", borderRadius: 16, border: "1px solid #E5E7EB" }}
             />
             <figcaption
               style={{
-                marginTop: 14,
+                marginTop: 8,
                 fontFamily: "Inter",
-                fontSize: "clamp(20px, 5.6vw, 26px)",
+                fontSize: "clamp(17px, 4.8vw, 22px)",
                 fontWeight: 800,
                 letterSpacing: "-0.03em",
                 lineHeight: 1.15,
@@ -411,12 +415,4 @@ export default function GoWizard() {
       </div>
     </>
   );
-}
-
-/** Lleva a /agenda conservando la query de la visita (UTM, fbclid, gclid): la atribución del lead depende de ella. */
-function agendaHref(plan: string): string {
-  if (typeof window === "undefined") return `${AGENDA_PATH}?plan=${plan}`;
-  const q = new URLSearchParams(window.location.search);
-  q.set("plan", plan);
-  return `${AGENDA_PATH}?${q.toString()}`;
 }

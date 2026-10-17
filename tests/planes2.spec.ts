@@ -178,11 +178,10 @@ test("/go: pagar Go! es SQL de USD 17, no Purchase (regla de Ricardo, 17-oct)", 
   expect(GO.monthlyUsd).toBe(17);
 });
 
-test("/go: cancelar cuando quiera, salida a /agenda con la query de la visita", () => {
+test("/go: cancelar cuando quiera y SIN salidas a ventas: la idea es que pague USD 17 para probar (Ricardo, 17-oct)", () => {
   const go = readFileSync("src/components/go/GoWizard.tsx", "utf8");
   expect(go).toContain("cancelar cuando quieras");
-  expect(go).toContain("AGENDA_PATH");
-  expect(go).toContain("window.location.search");
+  expect(go).not.toMatch(/AGENDA_PATH|ULTRA_DEMO_URL|data-cta-agendar|hablar con ventas|agenda una reuni|prefieres hablarlo/i);
   for (const f of [...PLANES2_FAQ, ...GO_FAQ].filter((x) => /permanencia|cancelar/i.test(x.q))) {
     expect(f.a, f.q).not.toContain("PENDIENTE");
   }
