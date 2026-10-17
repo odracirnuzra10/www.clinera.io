@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CnnLogo, Eyebrow, GRAD, Wordmark } from "@/components/brand-v3/Brand";
+import { Eyebrow, GRAD, Wordmark } from "@/components/brand-v3/Brand";
 import {
   detectLeadSource,
   evaluateQualification,
@@ -13,13 +13,12 @@ import {
   AGENDA_PATH,
   GO,
   GO_ANALYTICS,
-  GO_FAQ,
   GO_TAMANOS,
+  GO_PRUEBA_SOCIAL,
   GO_WIZARD,
   ULTRA_DEMO_URL,
 } from "@/content/planes2";
 import { captureGoAttribution } from "@/lib/go-attribution";
-import { PARTNER_CNN_VIMEO_SRC } from "@/lib/partners";
 import { PHONE_RULES, RESERVA_PHONE_PREFIXES, digitosTelefono, mensajeErrorTelefono, telefonoLocalValido } from "@/lib/telefono";
 import { track, trackPixel } from "@/lib/tracking";
 
@@ -186,11 +185,7 @@ export default function GoWizard() {
         }
         .gw-cta:hover { transform: translateY(-2px); filter: brightness(.97); }
         .gw-back { background: transparent; border: 0; padding: 12px 0; cursor: pointer; font-family: Inter, sans-serif; font-size: 14.5px; font-weight: 600; color: #6B7280; }
-        .gw-sec { padding: 72px 24px; }
-        .gw-h2 { font-family: Inter; font-size: clamp(26px, 4.4vw, 36px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.08; color: ${INK}; margin: 12px 0 0; }
         @media (max-width: 720px) {
-          .gw-sec { padding: 44px 20px !important; }
-          .gw-2 { grid-template-columns: 1fr !important; }
           .gw-phone { grid-template-columns: 120px 1fr; }
         }
         @media (prefers-reduced-motion: reduce) { .gw-cta { transition: none !important; } .gw-cta:hover { transform: none !important; } }
@@ -218,7 +213,7 @@ export default function GoWizard() {
           ))}
         </div>
 
-        <main style={{ maxWidth: 560, margin: "0 auto", padding: "36px 20px 56px" }}>
+        <div style={{ maxWidth: 560, margin: "0 auto", padding: "36px 20px 40px" }}>
           {step === 1 && (
             <section data-go-step="1">
               <Eyebrow>Clinera Go! · USD 17/mes</Eyebrow>
@@ -383,39 +378,35 @@ export default function GoWizard() {
               </button>
             </section>
           )}
-        </main>
+        </div>
 
         {step === 1 && (
-          <>
-            <section className="gw-sec" aria-labelledby="go-cnn-title" style={{ background: "#fff", borderTop: "1px solid #F0F0F0" }}>
-              <div className="gw-2" style={{ maxWidth: 1000, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1.25fr", gap: 36, alignItems: "center" }}>
-                <div>
-                  <CnnLogo height={30} color="#F03A47" />
-                  <span style={{ display: "block", fontFamily: MONO, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#6B7280", margin: "14px 0 0" }}>
-                    Clinera en CNN
-                  </span>
-                  <h2 id="go-cnn-title" className="gw-h2" style={{ margin: "10px 0 12px" }}>
-                    Un gran paso para Clinera.
-                  </h2>
-                  <p style={{ fontFamily: "Inter", fontSize: 16, color: MUTED, lineHeight: 1.55, margin: 0 }}>
-                    CNN conoció cómo Clinera ayuda a las clínicas de LATAM a operar con más control.
-                  </p>
-                </div>
-                <div style={{ position: "relative", aspectRatio: "16 / 9", borderRadius: 16, overflow: "hidden", border: "1px solid #E5E7EB", background: INK }}>
-                  <iframe
-                    src={PARTNER_CNN_VIMEO_SRC}
-                    title="Reportaje de CNN sobre Clinera"
-                    loading="lazy"
-                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
-                  />
-                </div>
-              </div>
-            </section>
-            <GoFaq />
-          </>
+          // Imagen fija del reportaje de CNN (no el reproductor): prueba social sin sacar al
+          // visitante del wizard. Es un fotograma del mismo video de /plataforma.
+          <figure data-go-cnn style={{ maxWidth: 560, margin: "0 auto", padding: "0 20px 56px" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/go/cnn-clinera.jpg"
+              alt="Entrevista de CNN Chile a Clinera"
+              width={1280}
+              height={720}
+              loading="lazy"
+              style={{ display: "block", width: "100%", height: "auto", borderRadius: 16, border: "1px solid #E5E7EB" }}
+            />
+            <figcaption
+              style={{
+                marginTop: 14,
+                fontFamily: "Inter",
+                fontSize: "clamp(20px, 5.6vw, 26px)",
+                fontWeight: 800,
+                letterSpacing: "-0.03em",
+                lineHeight: 1.15,
+                color: INK,
+              }}
+            >
+              <span style={gradText}>{GO_PRUEBA_SOCIAL}</span>
+            </figcaption>
+          </figure>
         )}
       </div>
     </>
@@ -428,36 +419,4 @@ function agendaHref(plan: string): string {
   const q = new URLSearchParams(window.location.search);
   q.set("plan", plan);
   return `${AGENDA_PATH}?${q.toString()}`;
-}
-
-function GoFaq() {
-  const [open, setOpen] = useState(0);
-  return (
-    <section className="gw-sec" style={{ background: "#FAFAFA", borderTop: "1px solid #F0F0F0" }}>
-      <div style={{ maxWidth: 820, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 28 }}>
-          <Eyebrow>Preguntas frecuentes</Eyebrow>
-          <h2 className="gw-h2">Todo sobre los planes.</h2>
-        </div>
-        <div style={{ borderTop: "1px solid #E5E7EB" }}>
-          {GO_FAQ.map((it, i) => {
-            const isOpen = open === i;
-            return (
-              <div key={it.q} style={{ borderBottom: "1px solid #E5E7EB" }}>
-                <button
-                  onClick={() => setOpen(isOpen ? -1 : i)}
-                  aria-expanded={isOpen}
-                  style={{ width: "100%", textAlign: "left", background: "transparent", border: 0, padding: "18px 4px", display: "flex", justifyContent: "space-between", gap: 20, cursor: "pointer", fontFamily: "Inter" }}
-                >
-                  <span style={{ fontSize: 16.5, fontWeight: 600, color: INK }}>{it.q}</span>
-                  <span aria-hidden style={{ fontSize: 22, color: INK, transform: isOpen ? "rotate(45deg)" : "none", transition: "transform .2s" }}>+</span>
-                </button>
-                {isOpen && <div style={{ padding: "0 4px 18px", fontFamily: "Inter", fontSize: 15, color: MUTED, lineHeight: 1.6 }}>{it.a}</div>}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
 }

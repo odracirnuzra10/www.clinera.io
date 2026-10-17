@@ -215,6 +215,9 @@ export const GO_WIZARD = {
   pagoCta: `Pagar USD ${GO.monthlyUsd}`,
 } as const;
 
+/** Prueba social bajo el wizard de /go (frase dictada por Ricardo, 17-oct). */
+export const GO_PRUEBA_SOCIAL = "Clinera ya lo usan más de 1.000 clínicas en Chile";
+
 /** Tamaño de la clínica en profesionales (pantalla 2 del wizard). */
 export const GO_TAMANOS = [
   { id: "1", label: "1" },

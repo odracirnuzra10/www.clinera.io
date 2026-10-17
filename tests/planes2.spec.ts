@@ -10,6 +10,7 @@ import {
   GO,
   GO_LANDING_CTA,
   GO_WIZARD,
+  GO_PRUEBA_SOCIAL,
   EXTRA_PROFESSIONAL_USD,
   EXTRA_CONVERSATIONS_USD,
   EXTRA_CONVERSATIONS_PACK,
@@ -198,11 +199,17 @@ test("/planes2 solo en dólares: sin switch ni conversión a MXN", () => {
   expect(body).not.toMatch(/PriceModalitySwitch|CatalogPrice|usePriceModality|MXN/);
 });
 
-test("/go trae el video de CNN (mismo clip que /plataforma)", () => {
+test("/go: solo el wizard y una imagen del reportaje de CNN con la frase de las 1.000 clínicas (sin FAQ ni reproductor)", () => {
   const go = readFileSync("src/components/go/GoWizard.tsx", "utf8");
-  expect(go).toContain("PARTNER_CNN_VIMEO_SRC");
-  expect(go).toContain("Reportaje de CNN sobre Clinera");
+  expect(GO_PRUEBA_SOCIAL).toBe("Clinera ya lo usan más de 1.000 clínicas en Chile");
+  expect(go).toContain("GO_PRUEBA_SOCIAL");
+  expect(go).toContain("/images/go/cnn-clinera.jpg");
+  expect(go).not.toMatch(/<iframe|GoFaq|GO_FAQ|PARTNER_CNN_VIMEO_SRC/);
+  // La imagen sale del mismo video de /plataforma y /partner.
   expect(readFileSync("src/lib/partners.ts", "utf8")).toContain("player.vimeo.com/video/1205127087");
+  expect(readFileSync("public/images/go/cnn-clinera.jpg").length).toBeGreaterThan(20000);
+  // Un <main> anidado activaba `main > section:first-child { padding-top: 112px }` de globals.css.
+  expect(go).not.toContain("<main");
 });
 
 test("/go: sin navbar ni footer; los flotantes del sitio no se apilan con el wizard", () => {
