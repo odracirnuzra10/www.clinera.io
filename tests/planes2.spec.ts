@@ -17,6 +17,7 @@ import {
   EXTRA_CREDITS_USD,
   EXTRA_CREDITS_PACK,
   SOPORTE_WHATSAPP_URL,
+  soporteWhatsAppUrl,
   ULTRA_DEMO_URL,
 } from "../src/content/planes2";
 import { buildRobotsTxt } from "../src/lib/robots-txt";
@@ -206,6 +207,26 @@ test("/go: el wizard dispara MQL (pixel nuevo) al completar los datos; TRIAL al 
   const exito = readFileSync("src/components/go/GoExito.tsx", "utf8");
   expect(exito).toContain('"TRIAL"');
   expect(readFileSync("src/lib/meta-purchase.ts", "utf8")).toContain('CLIENTE_EVENT_NAME = "CLIENTE"');
+});
+
+test("/go/exito: el mensaje a soporte lleva el correo con el que contrató y conserva el comienzo que reconoce AURA", () => {
+  const con = decodeURIComponent(soporteWhatsAppUrl("camila@clinica.cl").split("text=")[1]);
+  expect(con).toBe("Hola, acabo de contratar Clinera Go! y quiero activar el WhatsApp de mi clínica. Mi correo es camila@clinica.cl.");
+  // Sin correo es el mensaje de siempre; con correo empieza igual (la regla de AURA lo reconoce por el comienzo).
+  expect(soporteWhatsAppUrl()).toBe(SOPORTE_WHATSAPP_URL);
+  expect(soporteWhatsAppUrl("  ")).toBe(SOPORTE_WHATSAPP_URL);
+  expect(con.startsWith(decodeURIComponent(SOPORTE_WHATSAPP_URL.split("text=")[1]))).toBe(true);
+  expect(soporteWhatsAppUrl("a@b.cl")).toMatch(/^https:\/\/wa\.me\/56985581524\?text=/);
+  const exito = readFileSync("src/components/go/GoExito.tsx", "utf8");
+  expect(exito).toContain("/api/go/session");
+  expect(exito).toContain("GO_EMAIL_KEY");
+  expect(exito).toContain("href={whatsappUrl}");
+  expect(readFileSync("src/components/go/GoWizard.tsx", "utf8")).toContain("GO_EMAIL_KEY");
+  // La ruta solo devuelve el correo de una sesión completada y valida el formato del id.
+  const ruta = readFileSync("src/app/api/go/session/route.ts", "utf8");
+  expect(ruta).toContain('sesion.status !== "complete"');
+  expect(ruta).toContain("cs_(live|test)_");
+  expect(ruta).toContain('"Cache-Control": "no-store"');
 });
 
 test("/go: cancelar cuando quiera y SIN salidas a ventas: la idea es que pague USD 17 para probar (Ricardo, 17-oct)", () => {

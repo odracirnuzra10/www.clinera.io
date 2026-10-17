@@ -997,6 +997,12 @@ Decisiones que se apartan del handoff, con su porqué:
   tarda más de 8 s, el botón sigue con el Payment Link (correo precargado): la compra no depende
   de esta ruta. Si algún día se cambia el precio de Go! en Stripe, hay que cambiar el id.
 
+**El mensaje a soporte lleva el correo con el que contrató (Ricardo, 17-oct):** `/go/exito` agrega «Mi
+correo es …» al final del texto precargado (`soporteWhatsAppUrl` en `planes2.ts`). Toma primero el
+correo del wizard (sessionStorage `cl_go_email`) y luego el que Stripe cobró, vía `GET /api/go/session`
+(solo devuelve el correo de una sesión `complete`). **El comienzo del mensaje no se toca**: la regla de
+AURA («acabo de contratar Clinera Go! y quiere activar su WhatsApp») lo reconoce por ahí.
+
 **Activación tras el pago (Ricardo, 16-oct):** `/go/exito` ya no pide «crear cuenta»:
 manda al cliente a WhatsApp de soporte (`SOPORTE_WHATSAPP` en `planes2.ts`,
 +56 9 8558 1524, mensaje precargado) para que soporte active el WhatsApp de su clínica.

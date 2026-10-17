@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { GRAD } from "@/components/brand-v3/Brand";
-import { GO_ACTIVACION_PASOS, GO_ANALYTICS, SOPORTE_WHATSAPP, SOPORTE_WHATSAPP_URL } from "@/content/planes2";
+import { GO_ACTIVACION_PASOS, GO_ANALYTICS, SOPORTE_WHATSAPP, SOPORTE_WHATSAPP_URL, soporteWhatsAppUrl } from "@/content/planes2";
+import { GO_EMAIL_KEY } from "@/lib/go-email";
 import { trialEventId } from "@/lib/meta-purchase-id";
 import { trackPixel } from "@/lib/tracking";
 
@@ -20,6 +21,36 @@ const SS_KEY = "cl_go_trial_sent";
  * todo evento y duplicaría el TRIAL con otro `event_id`.
  */
 export default function GoExito() {
+  // El mensaje a soporte lleva el correo con el que contrató. Primero el que escribió en el wizard
+  // (instantáneo, queda en la pestaña); luego el que Stripe cobró de verdad, que puede ser otro.
+  const [whatsappUrl, setWhatsappUrl] = useState(SOPORTE_WHATSAPP_URL);
+  useEffect(() => {
+    let vivo = true;
+    // Asíncrono a propósito: leer sessionStorage en el primer render descuadraría la hidratación.
+    void Promise.resolve().then(() => {
+      try {
+        const guardado = window.sessionStorage.getItem(GO_EMAIL_KEY);
+        if (guardado && vivo) setWhatsappUrl(soporteWhatsAppUrl(guardado));
+      } catch {
+        // Sin sessionStorage se queda el mensaje sin correo.
+      }
+    });
+    const sid = new URLSearchParams(window.location.search).get("session_id");
+    const ctrl = new AbortController();
+    if (sid) {
+      fetch(`/api/go/session?session_id=${encodeURIComponent(sid)}`, { signal: ctrl.signal, cache: "no-store" })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d: { email?: string } | null) => {
+          if (d?.email && vivo) setWhatsappUrl(soporteWhatsAppUrl(d.email));
+        })
+        .catch(() => {});
+    }
+    return () => {
+      vivo = false;
+      ctrl.abort();
+    };
+  }, []);
+
   useEffect(() => {
     try {
       if (window.sessionStorage.getItem(SS_KEY)) return;
@@ -55,7 +86,7 @@ export default function GoExito() {
           Escríbele a soporte y dejamos andando el WhatsApp de tu clínica.
         </p>
         <a
-          href={SOPORTE_WHATSAPP_URL}
+          href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
           data-go-activar
