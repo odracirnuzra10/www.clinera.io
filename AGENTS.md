@@ -949,7 +949,7 @@ links de Stripe de 87 y 279**. Los CTA sin link muestran el marcador en vez de u
 Guardián: `tests/planes2.spec.ts`.
 
 **`/activa` es la landing informativa de los 3 planes (Ricardo, 17-oct-2026):**
-hero, reportaje de CNN (Vimeo `1205127087`), funciones y las tarjetas de
+hero, una animación sin JavaScript de la IA agendando por WhatsApp (`DemoIA`: chat → cita en la agenda con la etiqueta «Agendado por IA», datos de ejemplo, no pacientes reales; la hace AURA, solo en Ultra), el «Respaldado por CNN, Forbes y Clínica Alemana» (dictado por Ricardo; Forbes y Clínica Alemana van como texto hasta confirmar el uso de sus logos, ver `PENDIENTES`), funciones y las tarjetas de
 Go! / Flux / Ultra. **Todos los CTA dicen «Activa tu cuenta ahora» y van a `/go`**
 (hoy el único checkout vivo; Flux y Ultra siguen sin link de Stripe). Precios y
 límites salen de `PLANS_2`, el copy propio vive en `src/content/activa.ts`. El

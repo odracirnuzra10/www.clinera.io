@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
-import { ACTIVA_CNN, ACTIVA_CTA, ACTIVA_CTA_HREF, ACTIVA_FUNCIONES } from "../src/content/activa";
+import { ACTIVA_CTA, ACTIVA_CTA_HREF, ACTIVA_DEMO_IA, ACTIVA_FUNCIONES, ACTIVA_RESPALDO } from "../src/content/activa";
 import { PLANS_2 } from "../src/content/planes2";
 import { buildRobotsTxt } from "../src/lib/robots-txt";
 
@@ -29,9 +29,28 @@ test.describe("/activa: landing informativa", () => {
     expect(landing).not.toMatch(/\b(89|179)\b/);
   });
 
-  test("el video es el reportaje de CNN (Vimeo 1205127087)", () => {
-    expect(ACTIVA_CNN.vimeoSrc).toContain("player.vimeo.com/video/1205127087");
-    expect(landing).toMatch(/ACTIVA_CNN\.vimeoSrc/);
+  test("el bloque central es la animación de la IA agendando por WhatsApp, no el video de CNN", () => {
+    const demo = readFileSync("src/components/activa/DemoIA.tsx", "utf8");
+    expect(landing).toMatch(/<DemoIA \/>/);
+    expect(landing).not.toMatch(/<iframe|vimeo/i);
+    expect(demo).not.toMatch(/<iframe|vimeo/i);
+    expect(ACTIVA_DEMO_IA.mensajes.length).toBe(4);
+    expect(ACTIVA_DEMO_IA.cita.etiqueta).toBe("Agendado por IA");
+    expect(demo).toMatch(/data-activa-etiqueta-ia/);
+    expect(demo).toMatch(/prefers-reduced-motion/);
+  });
+
+  test("«Respaldado por» CNN, Forbes y Clínica Alemana", () => {
+    expect(ACTIVA_RESPALDO.medios).toEqual(["CNN", "Forbes", "Clínica Alemana"]);
+    const demo = readFileSync("src/components/activa/DemoIA.tsx", "utf8");
+    expect(demo).toMatch(/Forbes/);
+    expect(demo).toMatch(/Clínica Alemana/);
+    expect(demo).toMatch(/<CnnLogo/);
+  });
+
+  test("la animación usa datos de ejemplo: ninguna paciente real y se avisa que es ilustrativo", () => {
+    expect(ACTIVA_DEMO_IA.ejemplo).toBe("Ejemplo ilustrativo");
+    expect(JSON.stringify(ACTIVA_DEMO_IA)).not.toMatch(/Roc[ií]o|Sandra|Morales|Bustos|Mu[ñn]oz|Vitacura/);
   });
 
   test("funciones sin CAMILA ni LIA (próximamente) ni integraciones con agendas de terceros", () => {

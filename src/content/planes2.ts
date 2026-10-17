@@ -399,5 +399,6 @@ export const PENDIENTES = [
   "Registro autoservicio en app.clinera.io: hoy la activación la hace soporte por WhatsApp (+56 9 8558 1524).",
   "Cuenta marcada con plan GO y bloqueada a sus límites (Mauricio López).",
   "Alta del lead/cliente en Twenty con plan GO/FLUX/ULTRA y mapeo del valor de `planClinera` en W1 para Flux (89) y Ultra (179) (n8n, con López).",
+  "Logos oficiales de Forbes y Clínica Alemana en «Respaldado por» de /activa: hoy van como texto; confirmar la autorización de uso y pasar los archivos.",
   "Especialidad «Dental» en la lista del wizard de /go: sigue fuera, como en /agenda, hasta que ventas lo valide.",
 ] as const;
