@@ -144,6 +144,13 @@ export const PLANS_2: readonly Plan2[] = [
 ] as const;
 
 export const GO = PLANS_2[0];
+
+/**
+ * Precio mensual de Go! en Stripe (USD 17). Lo usa `/api/go/checkout` para crear el
+ * pago con los datos del wizard ya cargados. No es secreto. Si el precio cambia en
+ * Stripe, este id cambia con él.
+ */
+export const GO_STRIPE_PRICE_ID = "price_1URG7IRRk94z5RuMPZsqzP5e";
 export const FLUX = PLANS_2[1];
 export const ULTRA = PLANS_2[2];
 
@@ -376,6 +383,8 @@ export const PENDIENTES = [
   "Logos de Anthropic, Z.ai, Gemini (Google) y OpenAI en la tarjeta de Ultra: confirmar uso (hoy van en texto).",
   "Link de soporte para «¿Ya eres cliente de Clinera?».",
   "CAMILA (llamadas con IA) y LIA (fiscalización): ¿quedan como add-on?",
+  "Llave de Stripe con escritura en Customers y Checkout Sessions: sin ella el pago de /go no precarga nombre ni celular y cae al Payment Link (solo correo).",
+  "TRIAL (Go! pagó) y CLIENTE (Flux/Ultra) como etapas del CRM Twenty (clientes.oacg.cl): hay que crear la opción en el campo stage y adaptar n8n (Wizard y Suscripción).",
   "Registro autoservicio en app.clinera.io: hoy la activación la hace soporte por WhatsApp (+56 9 8558 1524).",
   "Cuenta marcada con plan GO y bloqueada a sus límites (Mauricio López).",
   "Alta del lead/cliente en Twenty con plan GO/FLUX/ULTRA y mapeo del valor de `planClinera` en W1 para Flux (89) y Ultra (179) (n8n, con López).",

@@ -1,9 +1,10 @@
 // ============================================================================
-// Stripe → Meta CAPI — `SQL` (Go!) o `Purchase` (Flux, Ultra) al suscribirse
+// Stripe → Meta CAPI — `TRIAL` (Go!), `CLIENTE` (Flux, Ultra) o `Purchase` (el resto)
 // ----------------------------------------------------------------------------
 // Webhook de Stripe (`checkout.session.completed`). Verifica la firma, filtra
 // las suscripciones de Clinera y reenvía a la Conversions API del pixel del
-// sitio un `SQL` de USD 17 si es Go! (regla de Ricardo, 17-oct) o un `Purchase`. La lógica del evento está en `src/lib/meta-purchase.ts`.
+// sitio: `TRIAL` USD 17 si es Go!, `CLIENTE` USD 89/179 si es Flux/Ultra (regla de
+// Ricardo, 17-oct) o `Purchase` para los planes viejos. La lógica del evento está en `src/lib/meta-purchase.ts`.
 //
 // Es un endpoint PROPIO, distinto de los que Stripe ya tiene hacia n8n: no toca
 // ese flujo (no versionado en este repo) ni lo reemplaza.

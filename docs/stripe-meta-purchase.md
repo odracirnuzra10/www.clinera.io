@@ -49,4 +49,4 @@ venta falsa al pixel real.
 reintenta; el `event_id` fijo evita contar dos veces), `200` con `events_received`.
 Guardián: `tests/meta-purchase.spec.ts`.
 
-> **17-oct:** para Go! el evento es `SQL` USD 17 (`event_id` `sql_{session_id}`), no `Purchase`; Flux y Ultra siguen con `Purchase`. Ver AGENTS.md, «/planes2 y /go».
+> **17-oct:** el evento depende del plan: Go! = `TRIAL` USD 17 (`event_id` `trial_{session_id}`), Flux/Ultra = `CLIENTE` USD 89/179 (`cliente_{session_id}`); los planes viejos siguen con `Purchase`. `MQL` sale del wizard de `/go`. Ver AGENTS.md, «/planes2 y /go».
