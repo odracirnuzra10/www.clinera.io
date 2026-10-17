@@ -16,13 +16,16 @@
 
 import { createHash } from "node:crypto";
 import type Stripe from "stripe";
-import { GO } from "@/content/planes2";
-import { purchaseEventId, sqlEventId } from "@/lib/meta-purchase-id";
+import { FLUX, GO, ULTRA } from "@/content/planes2";
+import { clienteEventId, purchaseEventId, trialEventId } from "@/lib/meta-purchase-id";
 
 export const PURCHASE_EVENT_NAME = "Purchase";
-export const SQL_EVENT_NAME = "SQL";
+/** Go! (USD 17): quien paga es un TRIAL (Ricardo, 17-oct). */
+export const TRIAL_EVENT_NAME = "TRIAL";
+/** Flux (USD 89) y Ultra (USD 179): quien paga es un CLIENTE. */
+export const CLIENTE_EVENT_NAME = "CLIENTE";
 
-export { purchaseEventId, sqlEventId };
+export { clienteEventId, purchaseEventId, trialEventId };
 
 export function sha256Hex(value: string): string {
   return createHash("sha256").update(value).digest("hex");
@@ -108,13 +111,15 @@ export function isSubscriptionPurchase(session: Stripe.Checkout.Session): boolea
   );
 }
 
-/**
- * ¿Es la suscripción de Go! (USD 17)? Se reconoce por el nombre del producto en
- * Stripe («Go!»). Regla de Ricardo (17-oct): pagar Go! es un `SQL` de USD 17, no
- * un `Purchase`; `Purchase` queda para Flux y Ultra.
- */
+/** Los nombres de producto de Stripe: «Go!», «Flux», «Ultra» (con o sin «Clinera» delante). */
 export function isGoPlan(productNames: string[]): boolean {
   return productNames.some((n) => /(^|\s)go!?(\s|$)/i.test(n.trim()));
+}
+export function isFluxPlan(productNames: string[]): boolean {
+  return productNames.some((n) => /(^|\s)flux(\s|$)/i.test(n.trim()));
+}
+export function isUltraPlan(productNames: string[]): boolean {
+  return productNames.some((n) => /(^|\s)ultra(\s|$)/i.test(n.trim()));
 }
 
 /** Monedas sin decimales en Stripe: `amount_total` ya viene entero (CLP 17.401 = 17401). */
@@ -125,16 +130,23 @@ export function sessionValue(session: Stripe.Checkout.Session): number {
   return ZERO_DECIMAL.has((session.currency ?? "usd").toLowerCase()) ? total : total / 100;
 }
 
-/** Evento de conversión de la sesión: `SQL` USD 17 para Go!, `Purchase` para el resto. */
+/**
+ * Evento de conversión de la sesión (Ricardo, 17-oct):
+ *  · Go! (USD 17)            → `TRIAL`   USD 17
+ *  · Flux (89) y Ultra (179) → `CLIENTE` USD 89 / 179
+ *  · cualquier otro (planes viejos, /firma) → `Purchase` con el valor cobrado.
+ * El valor sale del catálogo, en USD: la sesión puede cobrar en CLP o con cupón.
+ */
 export function buildConversionEvent(session: Stripe.Checkout.Session, productNames: string[] = []): CapiEvent {
   const ev = buildPurchaseEvent(session, productNames);
-  if (!isGoPlan(productNames)) return ev;
-  return {
-    ...ev,
-    event_name: SQL_EVENT_NAME,
-    event_id: sqlEventId(session.id),
-    custom_data: { ...ev.custom_data, value: GO.monthlyUsd, currency: "USD" },
-  };
+  if (isGoPlan(productNames)) {
+    return { ...ev, event_name: TRIAL_EVENT_NAME, event_id: trialEventId(session.id), custom_data: { ...ev.custom_data, value: GO.monthlyUsd, currency: "USD" } };
+  }
+  const cliente = isUltraPlan(productNames) ? ULTRA : isFluxPlan(productNames) ? FLUX : null;
+  if (cliente) {
+    return { ...ev, event_name: CLIENTE_EVENT_NAME, event_id: clienteEventId(session.id), custom_data: { ...ev.custom_data, value: cliente.monthlyUsd, currency: "USD" } };
+  }
+  return ev;
 }
 
 export function buildPurchaseEvent(

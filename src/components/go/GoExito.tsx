@@ -3,20 +3,21 @@
 import { useEffect } from "react";
 import { GRAD } from "@/components/brand-v3/Brand";
 import { GO_ACTIVACION_PASOS, GO_ANALYTICS, SOPORTE_WHATSAPP, SOPORTE_WHATSAPP_URL } from "@/content/planes2";
-import { sqlEventId } from "@/lib/meta-purchase-id";
+import { trialEventId } from "@/lib/meta-purchase-id";
 import { trackPixel } from "@/lib/tracking";
 
-const SS_KEY = "cl_go_sql_sent";
+const SS_KEY = "cl_go_trial_sent";
 
 /**
- * Página de éxito de Stripe Checkout de Go!. Regla de Ricardo (17-oct): pagar Go!
- * es un `SQL` de USD 17, NO un `Purchase` (ese queda para Flux y Ultra). Se dispara
- * una sola vez por pestaña: recargar la página no debe duplicar la conversión.
+ * Página de éxito de Stripe Checkout de Go!. Regla de Ricardo (17-oct): quien paga Go!
+ * es un `TRIAL` de USD 17, NO un `Purchase` ni un `SQL`. `CLIENTE` es para Flux y Ultra
+ * y lo manda solo el servidor. Se dispara una sola vez por pestaña: recargar la página
+ * no debe duplicar la conversión.
  *
- * Si Stripe manda `?session_id=`, `sqlEventId()` es el `eventID`: coincide con el
- * `event_id` del SQL por servidor de `/api/stripe/meta-purchase`, así Meta lo cuenta
+ * Si Stripe manda `?session_id=`, `trialEventId()` es el `eventID`: coincide con el
+ * `event_id` del TRIAL por servidor de `/api/stripe/meta-purchase`, así Meta lo cuenta
  * una sola vez. No se empuja nada al dataLayer: la etiqueta de Meta de GTM reenvía
- * todo evento y duplicaría el SQL con otro `event_id`.
+ * todo evento y duplicaría el TRIAL con otro `event_id`.
  */
 export default function GoExito() {
   useEffect(() => {
@@ -27,9 +28,9 @@ export default function GoExito() {
       // Sin sessionStorage el evento puede repetirse al recargar; es lo menos malo.
     }
     const sid = new URLSearchParams(window.location.search).get("session_id");
-    const eventId = sid ? sqlEventId(sid) : `sql_${Date.now()}`;
+    const eventId = sid ? trialEventId(sid) : `trial_${Date.now()}`;
     trackPixel(
-      "SQL",
+      "TRIAL",
       {
         content_name: GO_ANALYTICS.contentName,
         content_ids: [GO_ANALYTICS.contentId],

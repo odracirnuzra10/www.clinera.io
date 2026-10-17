@@ -18,7 +18,8 @@ import {
   GO_WIZARD,
 } from "@/content/planes2";
 import { captureGoAttribution } from "@/lib/go-attribution";
-import { PHONE_RULES, RESERVA_PHONE_PREFIXES, digitosTelefono, mensajeErrorTelefono, telefonoLocalValido } from "@/lib/telefono";
+import { PHONE_RULES, RESERVA_PHONE_PREFIXES, aE164, digitosTelefono, mensajeErrorTelefono, telefonoLocalValido } from "@/lib/telefono";
+import { fireMqlEvent } from "@/lib/metaEvents";
 import { track, trackPixel } from "@/lib/tracking";
 
 const MONO = "'JetBrains Mono', ui-monospace, monospace";
@@ -49,6 +50,7 @@ export default function GoWizard() {
   const [prefix, setPrefix] = useState("+56");
   const [phone, setPhone] = useState("");
   const [attempted, setAttempted] = useState(false);
+  const [paying, setPaying] = useState(false);
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
 
   useEffect(() => {
@@ -120,6 +122,24 @@ export default function GoWizard() {
       content_name: GO_ANALYTICS.contentName,
       page_path: "/go",
     });
+    // MQL (Ricardo, 17-oct): rellenó el wizard = MQL. Pixel nuevo + CAPI con el mismo event_id
+    // y correo/celular hasheados. Una vez por pestaña (`fireMqlEvent` es idempotente).
+    void fireMqlEvent({
+      eventId: ctx.eventId,
+      qual: evaluateQualification({ profile: null }),
+      customData: {
+        software_actual: "",
+        operational_profile: "",
+        locations_band: "",
+        patients_band: "unknown",
+        lead_priority: "standard",
+        sucursales: "",
+        pacientes_mes: "",
+        prioridad_alta: false,
+        pais: PHONE_RULES[prefix]?.name ?? "",
+      },
+      contact: { email: email.trim(), phoneE164: aE164(prefix, digits) },
+    });
     // Los datos se guardan ANTES del pago para poder contactar a quien lo abandona.
     // La pantalla 3 no espera a n8n: si el webhook se cuelga, se pierden compras.
     goTo(3);
@@ -135,6 +155,40 @@ export default function GoWizard() {
     }).then((next) => {
       if (next) setLeadCtx({ eventId: next.eventId, leadSource: next.leadSource });
     });
+  }
+
+  // Al tocar «Pagar», los datos del wizard viajan a Stripe (handoff): `/api/go/checkout` crea la
+  // sesión sobre un Customer con nombre, correo y celular ya cargados, para que no vuelva a tipear.
+  // Si esa ruta falla o tarda (>8 s), se sigue con el Payment Link de siempre, que solo precarga el correo.
+  // `Analytics.tsx` ya contó el clic (InitiateCheckout) y dejó el `client_reference_id` de 7
+  // segmentos en el href: se reenvía tal cual. Este handler no cuenta nada.
+  async function pagar(ev: React.MouseEvent<HTMLAnchorElement>) {
+    ev.preventDefault();
+    if (paying) return;
+    const respaldo = ev.currentTarget.href;
+    setPaying(true);
+    const ctrl = new AbortController();
+    const timer = window.setTimeout(() => ctrl.abort(), 8000);
+    try {
+      let clientRef = "";
+      try {
+        clientRef = new URL(respaldo).searchParams.get("client_reference_id") ?? "";
+      } catch {
+        clientRef = "";
+      }
+      const res = await fetch("/api/go/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, clinica, email, prefix, phone: digits, clientRef, eventId: leadCtx?.eventId ?? "" }),
+        signal: ctrl.signal,
+      });
+      const out = (await res.json().catch(() => ({}))) as { ok?: boolean; url?: string };
+      window.location.assign(res.ok && out.ok && out.url ? out.url : respaldo);
+    } catch {
+      window.location.assign(respaldo);
+    } finally {
+      window.clearTimeout(timer);
+    }
   }
 
   // Stripe precarga el correo del paso 2. El `client_reference_id` no se toca: lo arma
@@ -372,8 +426,8 @@ export default function GoWizard() {
                 <p style={{ fontFamily: "Inter", fontSize: 17, fontWeight: 700, color: INK, lineHeight: 1.45, margin: "8px 0 0" }}>{GO_WIZARD.resumen}</p>
               </div>
               {payUrl ? (
-                // Sin onClick propio: `Analytics.tsx` cuenta el clic (InitiateCheckout) y arma el
-                // `client_reference_id`. Un handler propio contaría el clic doble.
+                // `Analytics.tsx` cuenta el clic (InitiateCheckout) y arma el `client_reference_id`;
+                // `pagar` no cuenta nada: solo hace el handoff de datos y redirige.
                 <a
                   href={payUrl}
                   data-plan="go"
@@ -381,8 +435,10 @@ export default function GoWizard() {
                   data-plan-value={GO_ANALYTICS.valueUsd}
                   data-cta-where="wizard-pago"
                   className="gw-cta"
+                  onClick={pagar}
+                  aria-busy={paying}
                 >
-                  {GO_WIZARD.pagoCta}
+                  {paying ? "Abriendo el pago…" : GO_WIZARD.pagoCta}
                 </a>
               ) : null}
               <p style={{ fontFamily: "Inter", fontSize: 13.5, color: "#6B7280", lineHeight: 1.55, margin: "14px 0 0" }}>

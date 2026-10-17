@@ -974,15 +974,27 @@ Decisiones que se apartan del handoff, con su porqué:
   `clinera:routechange` para que Analytics lo enganche.
 - **El pixel sigue siendo el nuevo `2251201709002818`**, no el `1104567405156111` que traía el
   handoff (es el anterior al cambio del 16-oct).
-- **Pagar Go! es `SQL` de USD 17, no `Purchase`** (regla de Ricardo, 17-oct). `Purchase` queda
-  para Flux y Ultra. Lo manda el navegador en `/go/exito` y el servidor en
-  `/api/stripe/meta-purchase` con el mismo `event_id` `sql_{session_id}` (`sqlEventId`). No
-  puede ser `{oppId}_SQL` porque el navegador no conoce la oportunidad del CRM. El servidor
-  reconoce Go! por el nombre del producto en Stripe (`isGoPlan`) y fija el valor en USD 17: la
-  sesión de prueba cobró en **CLP** (17.401, `amount_total` sin decimales), por eso
-  `sessionValue` no divide por 100 las monedas sin decimales. Pendiente fuera del repo: el
-  mapeo `planClinera` de W1 solo conoce VORTEX/ATLAS/SUMMIT; Flux (89) y Ultra (179) no emiten
-  `Purchase` por el CRM hasta que se agreguen.
+- **Eventos del pixel nuevo (Ricardo, 17-oct, sustituye a «SQL de USD 17»):** `MQL` = rellenó el
+  wizard de `/go` (US$ 10, `fireMqlEvent`, pixel + CAPI con correo/celular hasheados);
+  `TRIAL` = pagó Go! (US$ 17); `CLIENTE` = pagó Flux (US$ 89) o Ultra (US$ 179). Los planes
+  viejos siguen con `Purchase`. `TRIAL` lo manda el navegador en `/go/exito` y el servidor en
+  `/api/stripe/meta-purchase` con el mismo `event_id` `trial_{session_id}`; `CLIENTE`
+  (`cliente_{session_id}`) solo el servidor. No puede ser `{oppId}_…` porque el navegador no conoce
+  la oportunidad del CRM. El servidor reconoce el plan por el nombre del producto en Stripe
+  (`isGoPlan` / `isFluxPlan` / `isUltraPlan`) y fija el valor en USD del catálogo: la sesión de
+  prueba cobró en **CLP** (17.401, `amount_total` sin decimales), por eso `sessionValue` no divide
+  por 100 las monedas sin decimales. Los eventos custom aparecen en el pixel al recibir el primero;
+  no hay que «crearlos» en Events Manager. Pendiente fuera del repo: el mapeo `planClinera` de W1
+  (pixel viejo) solo conoce VORTEX/ATLAS/SUMMIT.
+- **Handoff de datos a Stripe (17-oct):** un Payment Link solo precarga el correo. Para que
+  Checkout traiga también nombre y celular, `/api/go/checkout` busca o crea el Customer (por
+  correo) y abre la sesión de Go! sobre él (`GO_STRIPE_PRICE_ID`, `price_1URG7I…`, USD 17).
+  Conserva el `client_reference_id` de 7 segmentos que Analytics deja en el href del botón (se lee
+  de ahí, no se recalcula), `success_url` a `/go/exito`, código de promoción y celular. **Necesita
+  una llave de Stripe con escritura en Customers y Checkout Sessions**; la restringida que usa el
+  entorno de pruebas (`rk_live_…`) solo lee (403 `more_permissions_required`). Sin permiso, o si
+  tarda más de 8 s, el botón sigue con el Payment Link (correo precargado): la compra no depende
+  de esta ruta. Si algún día se cambia el precio de Go! en Stripe, hay que cambiar el id.
 
 **Activación tras el pago (Ricardo, 16-oct):** `/go/exito` ya no pide «crear cuenta»:
 manda al cliente a WhatsApp de soporte (`SOPORTE_WHATSAPP` en `planes2.ts`,

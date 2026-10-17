@@ -1,7 +1,7 @@
 /**
- * `event_id` del Purchase de una suscripción. Lo usan el navegador (`/go/exito`)
- * y el servidor (`/api/stripe/meta-purchase`): con el mismo `event_id` y el
- * mismo nombre de evento, Meta deduplica y cuenta la venta una sola vez.
+ * `event_id` del Purchase de una suscripción de los planes viejos. Lo usan el servidor
+ * (`/api/stripe/meta-purchase`) y, si hiciera falta, el navegador: con el mismo
+ * `event_id` y el mismo nombre de evento, Meta deduplica y cuenta la venta una sola vez.
  * Va aparte de `meta-purchase.ts` porque ese módulo usa `node:crypto`.
  */
 export function purchaseEventId(checkoutSessionId: string): string {
@@ -9,11 +9,14 @@ export function purchaseEventId(checkoutSessionId: string): string {
 }
 
 /**
- * `event_id` del `SQL` de Go! (Ricardo, 17-oct): pagar Go! cuenta como SQL de
- * USD 17, no como `Purchase`. Mismo criterio que arriba: navegador y servidor
- * mandan este id con el nombre `SQL` y Meta los cuenta una sola vez. No puede
- * ser `{oppId}_SQL` (el id del CRM) porque el navegador no conoce la oportunidad.
+ * `event_id` del `TRIAL` de Go! (Ricardo, 17-oct): quien paga Go! (USD 17) es un TRIAL,
+ * no un Purchase. Lo mandan el navegador (`/go/exito`) y el servidor con este mismo id.
  */
-export function sqlEventId(checkoutSessionId: string): string {
-  return `sql_${checkoutSessionId}`;
+export function trialEventId(checkoutSessionId: string): string {
+  return `trial_${checkoutSessionId}`;
+}
+
+/** `event_id` del `CLIENTE` (Flux USD 89 y Ultra USD 179). Solo lo manda el servidor. */
+export function clienteEventId(checkoutSessionId: string): string {
+  return `cliente_${checkoutSessionId}`;
 }

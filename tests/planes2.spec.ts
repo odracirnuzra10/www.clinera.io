@@ -160,22 +160,47 @@ test("/go: los datos se guardan ANTES del pago (mismo webhook de /agenda) y la p
   expect(go).not.toMatch(/id: "dental"/i);
 });
 
-test("/go: Stripe recibe el correo del paso 2 y el client_reference_id lo arma Analytics (7 segmentos «::»)", () => {
+test("/go: los datos del wizard viajan a Stripe (handoff) y el Payment Link queda de respaldo", () => {
   const go = readFileSync("src/components/go/GoWizard.tsx", "utf8");
+  const ruta = readFileSync("src/app/api/go/checkout/route.ts", "utf8");
+  // Pantalla 3: el botón sigue siendo un enlace a buy.stripe.com (Analytics cuenta el clic y arma el
+  // client_reference_id de 7 segmentos «::»), pero `pagar` pide la sesión con los datos ya cargados.
   expect(go).toContain("prefilled_email");
+  expect(go).toContain("/api/go/checkout");
+  expect(go).toContain("ev.preventDefault()");
+  expect(go).toContain("respaldo");
+  expect(go).toContain('searchParams.get("client_reference_id")');
+  expect(go).toContain("ctrl.abort()");
   // Un client_reference_id propio n8n lo leería entero como gclid (no trae «::»).
   expect(go).not.toContain('searchParams.set("client_reference_id"');
+  expect(go).not.toMatch(/"InitiateCheckout"|"initiate_checkout"/);
   // El botón de pago nace en la pantalla 3: hay que avisarle a Analytics que lo enganche.
   expect(go).toContain('new Event("clinera:routechange")');
   expect(go).toContain('data-plan="go"');
+  // La ruta: Customer con nombre/celular/correo + sesión sobre ese Customer.
+  expect(ruta).toContain("stripe.customers.list");
+  expect(ruta).toContain("name: nombre");
+  expect(ruta).toContain("phone: celular");
+  expect(ruta).toContain("customer: cliente.id");
+  expect(ruta).toContain("GO_STRIPE_PRICE_ID");
+  expect(ruta).toContain("{CHECKOUT_SESSION_ID}");
+  expect(ruta).toContain("allow_promotion_codes: true");
+  expect(ruta).toContain("client_reference_id");
+  expect(ruta).toContain("emailValido");
+  expect(ruta).toContain("telefonoValido");
+  // Sin llave o con error de Stripe responde fallo y el navegador cae al Payment Link.
+  expect(ruta).toContain('fallo("not_configured", 503)');
+  expect(ruta).toContain('fallo("stripe", 502)');
 });
 
-test("/go: pagar Go! es SQL de USD 17, no Purchase (regla de Ricardo, 17-oct)", () => {
+test("/go: el wizard dispara MQL (pixel nuevo) al completar los datos; TRIAL al pagar; CLIENTE para Flux y Ultra", () => {
+  const go = readFileSync("src/components/go/GoWizard.tsx", "utf8");
+  expect(go).toContain("fireMqlEvent");
+  expect(go).toContain("contact: { email: email.trim(), phoneE164:");
+  expect(readFileSync("src/lib/meta-pixel-id.ts", "utf8")).toContain("2251201709002818");
   const exito = readFileSync("src/components/go/GoExito.tsx", "utf8");
-  expect(exito).toContain('"SQL"');
-  expect(exito).toContain("sqlEventId(sid)");
-  expect(exito).not.toMatch(/"Purchase"|track\("purchase"/);
-  expect(GO.monthlyUsd).toBe(17);
+  expect(exito).toContain('"TRIAL"');
+  expect(readFileSync("src/lib/meta-purchase.ts", "utf8")).toContain('CLIENTE_EVENT_NAME = "CLIENTE"');
 });
 
 test("/go: cancelar cuando quiera y SIN salidas a ventas: la idea es que pague USD 17 para probar (Ricardo, 17-oct)", () => {

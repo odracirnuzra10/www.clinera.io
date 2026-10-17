@@ -5,13 +5,16 @@ import type Stripe from "stripe";
 import {
   buildConversionEvent,
   buildPurchaseEvent,
+  clienteEventId,
   isClineraSale,
+  isFluxPlan,
   isGoPlan,
   isSubscriptionPurchase,
+  isUltraPlan,
   normalizePhone,
   purchaseEventId,
   sessionValue,
-  sqlEventId,
+  trialEventId,
 } from "@/lib/meta-purchase";
 
 const sha = (v: string) => createHash("sha256").update(v).digest("hex");
@@ -58,37 +61,52 @@ test.describe("Stripe → Meta CAPI: Purchase de suscripción", () => {
     expect(purchaseEventId("cs_live_a1B2")).toBe("purchase_cs_live_a1B2");
   });
 
-  test("Go! no es Purchase: es SQL de USD 17 y el navegador de /go/exito usa el mismo event_id (deduplica)", () => {
+  test("Go! no es Purchase: es TRIAL de USD 17 y el navegador de /go/exito usa el mismo event_id (deduplica)", () => {
     const ev = buildConversionEvent(session, ["Go!"]);
-    expect(ev.event_name).toBe("SQL");
-    expect(ev.event_id).toBe("sql_cs_live_a1B2");
-    expect(ev.event_id).toBe(sqlEventId("cs_live_a1B2"));
+    expect(ev.event_name).toBe("TRIAL");
+    expect(ev.event_id).toBe("trial_cs_live_a1B2");
+    expect(ev.event_id).toBe(trialEventId("cs_live_a1B2"));
     expect(ev.custom_data.value).toBe(17);
     expect(ev.custom_data.currency).toBe("USD");
-    expect(readFileSync("src/components/go/GoExito.tsx", "utf8")).toContain("sqlEventId(sid)");
+    const exito = readFileSync("src/components/go/GoExito.tsx", "utf8");
+    expect(exito).toContain("trialEventId(sid)");
+    expect(exito).toContain('"TRIAL"');
+    expect(exito).not.toMatch(/"SQL"|"Purchase"/);
   });
 
-  test("el SQL de Go! vale USD 17 aunque Stripe cobre en CLP o con cupón (la sesión de prueba fue CLP 17.401 con 100% de descuento)", () => {
+  test("el TRIAL de Go! vale USD 17 aunque Stripe cobre en CLP o con cupón (la sesión de prueba fue CLP 17.401 con 100% de descuento)", () => {
     const clp = { ...session, currency: "clp", amount_total: 0 } as unknown as Stripe.Checkout.Session;
     const ev = buildConversionEvent(clp, ["Go!"]);
-    expect(ev.event_name).toBe("SQL");
+    expect(ev.event_name).toBe("TRIAL");
     expect(ev.custom_data.value).toBe(17);
     expect(ev.custom_data.currency).toBe("USD");
   });
 
-  test("Flux y Ultra siguen mandando Purchase", () => {
-    for (const nombre of ["Clinera Flux", "Clinera Ultra", "Flux", "Ultra"]) {
+  test("Flux y Ultra mandan CLIENTE con el valor del plan (89 y 179), no Purchase", () => {
+    for (const [nombre, valor] of [["Clinera Flux", 89], ["Flux", 89], ["Clinera Ultra", 179], ["Ultra", 179]] as const) {
+      const ev = buildConversionEvent(session, [nombre]);
+      expect(ev.event_name, nombre).toBe("CLIENTE");
+      expect(ev.event_id, nombre).toBe(clienteEventId("cs_live_a1B2"));
+      expect(ev.custom_data.value, nombre).toBe(valor);
+      expect(ev.custom_data.currency, nombre).toBe("USD");
+    }
+  });
+
+  test("los planes viejos y las ventas sin nombre de producto siguen mandando Purchase", () => {
+    for (const nombre of ["Clinera Vortex", "Clinera Atlas", "Clinera Summit", "Plan Summit · Clinera"]) {
       expect(buildConversionEvent(session, [nombre]).event_name, nombre).toBe("Purchase");
     }
     expect(buildConversionEvent(session, []).event_name).toBe("Purchase");
   });
 
-  test("isGoPlan reconoce «Go!» y no confunde otros nombres", () => {
+  test("isGoPlan / isFluxPlan / isUltraPlan no se confunden con otros nombres", () => {
     expect(isGoPlan(["Go!"])).toBe(true);
     expect(isGoPlan(["Clinera Go!"])).toBe(true);
-    expect(isGoPlan(["Plan Go"])).toBe(true);
-    expect(isGoPlan(["Gold Plan", "Mango"])).toBe(false);
-    expect(isGoPlan(["Clinera Ultra"])).toBe(false);
+    expect(isGoPlan(["Gold Plan", "Mango", "Clinera Ultra"])).toBe(false);
+    expect(isFluxPlan(["Clinera Flux"])).toBe(true);
+    expect(isFluxPlan(["Fluxo"])).toBe(false);
+    expect(isUltraPlan(["Clinera Ultra"])).toBe(true);
+    expect(isUltraPlan(["Ultrasonido"])).toBe(false);
   });
 
   test("monedas sin decimales (CLP) no se dividen por 100", () => {
