@@ -56,14 +56,16 @@ export function DemoIACompact() {
   const c = D.cita;
   const e = D.escenas;
   return (
-    <div data-activa-demo-ia>
+    <div className="dia-root" data-activa-demo-ia>
       <style>{`
         ${KEYFRAMES}
-        .dia-stage { position: relative; height: 124px; }
-        .dia-escena { position: absolute; inset: 0; display: grid; grid-template-columns: 1.15fr 1fr; gap: 8px; align-items: stretch; }
-        .dia-lab { position: absolute; top: -9px; right: 12px; z-index: 2; font-family: ${MONO}; font-size: 9px; letter-spacing: .06em; text-transform: uppercase; background: #fff; border: 1px solid #E5E7EB; border-radius: 999px; padding: 2px 8px; color: #6B7280; }
+        /* Las 3 escenas comparten la MISMA celda de la grilla: la caja mide lo que mide la escena más alta. Con alto fijo, un texto más grande (el navegador interno de Meta infla el texto en Android) se salía de la caja y se superponía con «Respaldado por». */
+        .dia-root { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        .dia-stage { display: grid; min-height: 112px; }
+        .dia-escena { grid-area: 1 / 1; position: relative; display: grid; grid-template-columns: 1.15fr 1fr; gap: 8px; align-items: stretch; }
+        .dia-lab { position: absolute; top: -17px; right: 4px; z-index: 2; font-family: ${MONO}; font-size: 9px; letter-spacing: .06em; text-transform: uppercase; background: #fff; border: 1px solid #E5E7EB; border-radius: 999px; padding: 2px 8px; color: #6B7280; }
         @media (max-height: 800px) {
-          .dia-stage { height: 112px; }
+          .dia-stage { min-height: 100px; }
           .dia-head, .dia-estado { display: none !important; }
           .dia-resp { margin-top: 5px !important; }
         }
@@ -119,11 +121,11 @@ export function DemoIACompact() {
               <div style={{ ...pieza("d1"), ...burbuja("#DCF8C6"), justifySelf: "end" }}>{e.difusion.mensaje}</div>
             </div>
             <div style={{ background: "#fff", borderRadius: 10, padding: 9, border: "1px solid #E5E7EB", display: "grid", alignContent: "center", gap: 6 }}>
-              <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
                 {e.difusion.destinatarios.map((n, i) => (
                   <span
                     key={n + i}
-                    style={{ ...pieza("d2", `${(i * 0.18).toFixed(2)}s`), width: 26, height: 26, borderRadius: "50%", background: "#EDE9FE", color: "#5B21B6", fontFamily: "Inter", fontSize: 12, fontWeight: 700, display: "grid", placeItems: "center" }}
+                    style={{ ...pieza("d2", `${(i * 0.18).toFixed(2)}s`), width: 20, height: 20, borderRadius: "50%", background: "#EDE9FE", color: "#5B21B6", fontFamily: "Inter", fontSize: 10.5, fontWeight: 700, display: "grid", placeItems: "center" }}
                   >
                     {n}
                   </span>

@@ -59,6 +59,17 @@ test.describe("/activa: landing informativa", () => {
     expect(JSON.stringify(e)).not.toMatch(/\d+\s*(%|pacientes|contactos)|reduc/i);
   });
 
+  test("la animación no se superpone si el texto se agranda: las escenas comparten celda y se bloquea el agrandado del navegador de Meta", () => {
+    const demo = readFileSync("src/components/activa/DemoIA.tsx", "utf8");
+    const go = readFileSync("src/components/go/GoWizard.tsx", "utf8");
+    // Alto fijo = el texto inflado se salía de la caja y tapaba «Respaldado por» (visto desde un clic de Meta, 17-oct).
+    expect(demo).not.toMatch(/\.dia-stage \{[^}]*\bheight: \d+px/);
+    expect(demo).toMatch(/\.dia-stage \{ display: grid; min-height/);
+    expect(demo).toMatch(/\.dia-escena \{ grid-area: 1 \/ 1;/);
+    expect(demo).toMatch(/text-size-adjust: 100%/);
+    expect(go).toMatch(/textSizeAdjust: "100%"/);
+  });
+
   test("/go tiene versión de escritorio (≥1024 px, dos columnas) y versión móvil (una columna)", () => {
     const go = readFileSync("src/components/go/GoWizard.tsx", "utf8");
     expect(go).toMatch(/@media \(min-width: 1024px\)/);
