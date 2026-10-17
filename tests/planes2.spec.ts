@@ -137,7 +137,9 @@ test("/planes2: línea «¿Ya eres cliente?», demo de Ultra con la query de ven
 
 test("/go es un wizard de 3 pantallas: oferta, datos y pago", () => {
   const go = readFileSync("src/components/go/GoWizard.tsx", "utf8");
-  expect(GO_WIZARD.ofertaTitulo).toBe("Activa tu cuenta por solo USD 17.");
+  expect(GO_WIZARD.ofertaTitulo).toBe("Potencia tu clínica por solo $17 dólares.");
+  expect(go).toContain("Potencia tu clínica por solo");
+  expect(go).toContain("dólares.");
   expect(GO_WIZARD.ofertaTexto).toContain("50 conversaciones");
   expect(GO_WIZARD.ofertaTexto).toContain("100 agendamientos");
   expect(GO_LANDING_CTA).toBe("Sí, quiero activarla");

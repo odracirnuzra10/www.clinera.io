@@ -212,7 +212,7 @@ export const AGENDA_PATH = "/agenda";
 
 /** Wizard de /go (Ricardo, 17-oct): textos de las tres pantallas. */
 export const GO_WIZARD = {
-  ofertaTitulo: "Activa tu cuenta por solo USD 17.",
+  ofertaTitulo: "Potencia tu clínica por solo $17 dólares.",
   ofertaTexto: `Incluye ${GO.conversations} conversaciones en WhatsApp, Facebook e Instagram y ${GO.agendamientos} agendamientos. Prueba el poder de Clinera ahora.`,
   ofertaPregunta: "¿Te interesa avanzar?",
   datosTitulo: "Cuéntanos de tu clínica.",

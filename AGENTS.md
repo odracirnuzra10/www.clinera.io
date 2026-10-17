@@ -949,7 +949,7 @@ links de Stripe de 87 y 279**. Los CTA sin link muestran el marcador en vez de u
 Guardián: `tests/planes2.spec.ts`.
 
 **`/go` es un wizard de 3 pantallas** (17-oct), no la landing oscura del 16-oct: 1 oferta
-(«Activa tu cuenta por solo USD 17»), 2 datos (nombre, clínica, especialidad, profesionales,
+(«Potencia tu clínica por solo $17 dólares», Ricardo 17-oct), 2 datos (nombre, clínica, especialidad, profesionales,
 correo, WhatsApp), 3 pago. Sin navbar ni footer, **sin FAQ ni reproductor** (Ricardo, 17-oct: «solo
 el wizard»): bajo la pantalla 1 va únicamente un fotograma del reportaje de CNN
 (`public/images/go/cnn-clinera.jpg`, bajado de la miniatura de Vimeo) con la frase «Clinera ya lo
@@ -957,7 +957,7 @@ usan más de 1.000 clínicas en Chile» (`GO_PRUEBA_SOCIAL`, dictada por Ricardo
 publica «+52 clínicas» en otras páginas). `GO_FAQ` quedó en `planes2.ts` sin uso en pantalla. El
 wizard no puede envolverse en un `<main>` propio: `globals.css` le pone `padding-top: 112px` al
 primer `section`/`div` de todo `main`.
-**Jerarquía y alto (Ricardo, 17-oct):** en la pantalla 1 mandan «USD 17.» (gigante, degradado), «50
+**Jerarquía y alto (Ricardo, 17-oct):** en la pantalla 1 manda «$17» (gigante, degradado, con «dólares.» más chico al lado), «50
 conversaciones por WhatsApp, Facebook e Instagram» y «100 agendamientos» como cifras grandes; el
 wizard completo (y la imagen de CNN, ya compacta) tiene que entrar **sin scroll** en 390×844, 360×740
 y, en las pantallas 2 y 3, también en 375×667 (iPhone SE, por eso los `@media (max-height)` de
