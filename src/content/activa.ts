@@ -48,16 +48,16 @@ export const ACTIVA_DEMO_IA = {
     agenda: { etiqueta: "AURA agenda por ti · Ultra" },
     recordatorio: {
       etiqueta: "Recordatorios automáticos · desde Flux",
-      clinica: "Hola Valentina, te recordamos tu cita hoy a las 15:00. ¿La confirmas?",
+      clinica: "Valentina, tu cita es hoy a las 15:00. ¿La confirmas?",
       paciente: "Confirmo ✓",
       tag: "⏰ Recordatorio automático",
     },
     difusion: {
       etiqueta: "Difusiones por WhatsApp · desde Flux",
       mensaje: "Esta semana tenemos horas disponibles. Agenda tu hora.",
-      destinatarios: ["V", "M", "C", "J", "P", "A"],
+      destinatarios: ["V", "M", "C", "J", "P"],
       tag: "📣 Difusión masiva",
-      pie: "Enviada a todos tus contactos",
+      pie: "Enviada a todos",
     },
   },
   /** Textos cortos para la versión compacta de /go. */

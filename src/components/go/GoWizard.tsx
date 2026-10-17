@@ -257,7 +257,7 @@ export default function GoWizard() {
           .gw-shell { display: grid; grid-template-columns: minmax(440px, 560px) 1fr; gap: 64px; align-items: center; max-width: 1240px; margin: 0 auto; padding: 0 40px; min-height: 100dvh; }
           .gw-fig { display: none; }
           .gw-aside { display: block; }
-          .gw-zoom .dia-stage { height: 156px !important; }
+          .gw-zoom .dia-stage { min-height: 156px; }
         }
         .gw-kicker { display: block; font-family: Inter, sans-serif; font-size: clamp(22px, 6.6vw, 30px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: ${INK}; }
         .gw-price-u { font-size: .3em; letter-spacing: -0.02em; font-weight: 800; }
@@ -288,7 +288,7 @@ export default function GoWizard() {
       `}</style>
 
       {/* paddingTop 0: anula `main > div:first-child { padding-top: 112px }` de globals.css (hecha para el navbar). */}
-      <div style={{ background: "#fff", minHeight: "100dvh", paddingTop: 0 }}>
+      <div style={{ background: "#fff", minHeight: "100dvh", paddingTop: 0, WebkitTextSizeAdjust: "100%", textSizeAdjust: "100%" }}>
         <div className="gw-shell">
         <div className="gw-main">
         <header style={{ maxWidth: 560, margin: "0 auto", padding: "14px 20px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
