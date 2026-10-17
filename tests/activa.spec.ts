@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
-import { ACTIVA_CTA, ACTIVA_CTA_HREF, ACTIVA_DEMO_IA, ACTIVA_FUNCIONES, ACTIVA_RESPALDO } from "../src/content/activa";
+import { ACTIVA_CNN, ACTIVA_CTA, ACTIVA_CTA_HREF, ACTIVA_DEMO_IA, ACTIVA_FUNCIONES, ACTIVA_RESPALDO } from "../src/content/activa";
 import { PLANS_2 } from "../src/content/planes2";
 import { buildRobotsTxt } from "../src/lib/robots-txt";
 
@@ -29,12 +29,18 @@ test.describe("/activa: landing informativa", () => {
     expect(landing).not.toMatch(/\b(89|179)\b/);
   });
 
-  test("el bloque central es la animación de la IA agendando por WhatsApp, no el video de CNN", () => {
+  test("/activa mantiene el video de CNN (la animación de la IA va en /go)", () => {
+    expect(ACTIVA_CNN.vimeoSrc).toContain("player.vimeo.com/video/1205127087");
+    expect(landing).toMatch(/ACTIVA_CNN\.vimeoSrc/);
+    expect(landing).not.toMatch(/DemoIA/);
+  });
+
+  test("la animación de la IA agendando por WhatsApp vive en /go, no en un video", () => {
     const demo = readFileSync("src/components/activa/DemoIA.tsx", "utf8");
-    expect(landing).toMatch(/<DemoIA \/>/);
-    expect(landing).not.toMatch(/<iframe|vimeo/i);
+    const go = readFileSync("src/components/go/GoWizard.tsx", "utf8");
+    expect(go).toMatch(/<DemoIACompact/);
+    expect(go).not.toMatch(/cnn-clinera\.jpg|<iframe|vimeo/i);
     expect(demo).not.toMatch(/<iframe|vimeo/i);
-    expect(ACTIVA_DEMO_IA.mensajes.length).toBe(4);
     expect(ACTIVA_DEMO_IA.cita.etiqueta).toBe("Agendado por IA");
     expect(demo).toMatch(/data-activa-etiqueta-ia/);
     expect(demo).toMatch(/prefers-reduced-motion/);

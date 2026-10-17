@@ -949,7 +949,7 @@ links de Stripe de 87 y 279**. Los CTA sin link muestran el marcador en vez de u
 Guardián: `tests/planes2.spec.ts`.
 
 **`/activa` es la landing informativa de los 3 planes (Ricardo, 17-oct-2026):**
-hero, una animación sin JavaScript de la IA agendando por WhatsApp (`DemoIA`: chat → cita en la agenda con la etiqueta «Agendado por IA», datos de ejemplo, no pacientes reales; la hace AURA, solo en Ultra), el «Respaldado por CNN, Forbes y Clínica Alemana» (dictado por Ricardo; Forbes y Clínica Alemana van como texto hasta confirmar el uso de sus logos, ver `PENDIENTES`), funciones y las tarjetas de
+hero, reportaje de CNN (Vimeo `1205127087`), funciones y las tarjetas de
 Go! / Flux / Ultra. **Todos los CTA dicen «Activa tu cuenta ahora» y van a `/go`**
 (hoy el único checkout vivo; Flux y Ultra siguen sin link de Stripe). Precios y
 límites salen de `PLANS_2`, el copy propio vive en `src/content/activa.ts`. El
@@ -961,10 +961,7 @@ ni LIA en las funciones (próximamente). Guardián: `tests/activa.spec.ts`.
 **`/go` es un wizard de 3 pantallas** (17-oct), no la landing oscura del 16-oct: 1 oferta
 («Potencia tu clínica por solo $17 dólares», Ricardo 17-oct), 2 datos (nombre, clínica, especialidad, profesionales,
 correo, WhatsApp), 3 pago. Sin navbar ni footer, **sin FAQ ni reproductor** (Ricardo, 17-oct: «solo
-el wizard»): bajo la pantalla 1 va únicamente un fotograma del reportaje de CNN
-(`public/images/go/cnn-clinera.jpg`, bajado de la miniatura de Vimeo) con la frase «Clinera ya lo
-usan más de 1.000 clínicas en Chile» (`GO_PRUEBA_SOCIAL`, dictada por Ricardo; ojo: el sitio
-publica «+52 clínicas» en otras páginas). `GO_FAQ` quedó en `planes2.ts` sin uso en pantalla. El
+el wizard»): bajo la pantalla 1 va únicamente una animación sin JavaScript de la IA agendando por WhatsApp (`DemoIACompact`, en `src/components/activa/DemoIA.tsx`: chat → cita con la etiqueta «Agendado por IA», datos de ejemplo) y el «Respaldado por CNN, Forbes y Clínica Alemana» (Ricardo, 17-oct: reemplaza la imagen del video de CNN; Forbes y Clínica Alemana van como texto hasta confirmar el uso de sus logos, ver `PENDIENTES`). La frase «Clinera ya lo usan más de 1.000 clínicas en Chile» (`GO_PRUEBA_SOCIAL`) ya no se muestra en `/go`; sigue en `/activa`. La animación es lo que hace AURA, que solo viene en Ultra. Tiene que seguir cabiendo sin scroll en 390×844, 360×740 y 1280×800 (los `@media (max-height)` de `DemoIA` lo logran). `GO_FAQ` quedó en `planes2.ts` sin uso en pantalla. El
 wizard no puede envolverse en un `<main>` propio: `globals.css` le pone `padding-top: 112px` al
 primer `section`/`div` de todo `main`.
 **Jerarquía y alto (Ricardo, 17-oct):** en la pantalla 1 manda «$17» (gigante, degradado, con «dólares.» más chico al lado), «50

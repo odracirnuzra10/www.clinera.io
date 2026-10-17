@@ -249,15 +249,11 @@ test("/planes2 solo en dólares: sin switch ni conversión a MXN", () => {
   expect(body).not.toMatch(/PriceModalitySwitch|CatalogPrice|usePriceModality|MXN/);
 });
 
-test("/go: solo el wizard y una imagen del reportaje de CNN con la frase de las 1.000 clínicas (sin FAQ ni reproductor)", () => {
+test("/go: solo el wizard y la animación de la IA agendando, con «Respaldado por» (sin FAQ, sin reproductor ni imagen de CNN)", () => {
   const go = readFileSync("src/components/go/GoWizard.tsx", "utf8");
   expect(GO_PRUEBA_SOCIAL).toBe("Clinera ya lo usan más de 1.000 clínicas en Chile");
-  expect(go).toContain("GO_PRUEBA_SOCIAL");
-  expect(go).toContain("/images/go/cnn-clinera.jpg");
-  expect(go).not.toMatch(/<iframe|GoFaq|GO_FAQ|PARTNER_CNN_VIMEO_SRC/);
-  // La imagen sale del mismo video de /plataforma y /partner.
-  expect(readFileSync("src/lib/partners.ts", "utf8")).toContain("player.vimeo.com/video/1205127087");
-  expect(readFileSync("public/images/go/cnn-clinera.jpg").length).toBeGreaterThan(20000);
+  expect(go).toContain("DemoIACompact");
+  expect(go).not.toMatch(/<iframe|GoFaq|GO_FAQ|PARTNER_CNN_VIMEO_SRC|cnn-clinera\.jpg/);
   // Un <main> anidado activaba `main > section:first-child { padding-top: 112px }` de globals.css.
   expect(go).not.toContain("<main");
 });

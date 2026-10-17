@@ -3,107 +3,72 @@ import { ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import { ACTIVA_DEMO_IA as D, ACTIVA_RESPALDO } from "@/content/activa";
 
 const MONO = "'JetBrains Mono', ui-monospace, monospace";
-const CICLO = 18; // segundos por vuelta
-// Instante (en % del ciclo) en que entra cada pieza: 4 mensajes, la cita y la etiqueta.
-const ENTRA = [6, 18, 34, 46, 62, 72] as const;
+const CICLO = 14; // segundos por vuelta
+// Instante (en % del ciclo) en que entra cada pieza: mensaje de la paciente, respuesta de la IA, cita y etiqueta.
+const ENTRA = [8, 24, 46, 60] as const;
 
 /** Un keyframe por pieza: invisible → aparece → se queda → se apaga al final de la vuelta. */
 const KEYFRAMES = ENTRA.map(
   (t, i) =>
-    `@keyframes ac-e${i}{0%,${t}%{opacity:0;transform:translateY(10px) scale(.97)}${t + 3}%{opacity:1;transform:none}90%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}`,
+    `@keyframes dia-e${i}{0%,${t}%{opacity:0;transform:translateY(8px) scale(.97)}${t + 4}%{opacity:1;transform:none}90%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}`,
 ).join("");
 
-const pieza = (i: number) => ({ animation: `ac-e${i} ${CICLO}s ease-out infinite` });
+const pieza = (i: number) => ({ opacity: 0, animation: `dia-e${i} ${CICLO}s ease-out infinite` });
 
-/** Animación sin JavaScript: se ve igual en servidor y respeta «reducir movimiento» (queda todo visible). */
-export default function DemoIA() {
+/**
+ * Animación compacta (sin JavaScript) para el wizard de /go: la paciente escribe por WhatsApp, la IA
+ * agenda y la cita aparece con la etiqueta «Agendado por IA». Debajo, «Respaldado por». Cabe en el alto
+ * que ocupaba la imagen del video de CNN para que el wizard siga sin scroll. Con «reducir movimiento»
+ * queda todo visible y quieto.
+ */
+export function DemoIACompact() {
   const c = D.cita;
   return (
     <div data-activa-demo-ia>
       <style>{`
         ${KEYFRAMES}
-        .ac-demo { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; text-align: left; }
-        .ac-flecha { color: #7C3AED; font-size: 28px; font-family: Inter; }
-        @media (max-width: 900px) {
-          .ac-demo { grid-template-columns: 1fr; }
-          .ac-flecha { transform: rotate(90deg); justify-self: center; }
+        .dia { display: grid; grid-template-columns: 1.15fr 1fr; gap: 8px; align-items: stretch; }
+        .dia-fig { padding-bottom: 8px; }
+        @media (max-height: 800px) {
+          .dia { padding: 6px !important; gap: 6px !important; }
+          .dia-head, .dia-estado { display: none !important; }
+          .dia-resp { margin-top: 5px !important; }
         }
         @media (prefers-reduced-motion: reduce) {
-          .ac-demo [style*="ac-e"] { animation: none !important; opacity: 1 !important; transform: none !important; }
+          .dia [style*="dia-e"] { animation: none !important; opacity: 1 !important; transform: none !important; }
         }
       `}</style>
-
-      <div className="ac-demo">
-        <div style={{ background: "#ECE5DD", borderRadius: 16, overflow: "hidden", border: "1px solid #E5E7EB", minHeight: 340 }}>
-          <div style={{ background: "#075E54", color: "#fff", padding: "10px 14px", display: "flex", alignItems: "center", gap: 10 }}>
-            <ChannelLogo channel="whatsapp" size={26} />
-            <div>
-              <div style={{ fontFamily: "Inter", fontWeight: 700, fontSize: 14 }}>{D.chatNombre}</div>
-              <div style={{ fontFamily: "Inter", fontSize: 11.5, opacity: 0.8 }}>{D.chatEstado}</div>
-            </div>
+      <div className="dia" style={{ border: "1px solid #E5E7EB", borderRadius: 14, padding: 8, background: "#FAFAFA" }}>
+        <div style={{ background: "#ECE5DD", borderRadius: 10, padding: 7, display: "grid", gap: 5, alignContent: "start" }}>
+          <div className="dia-head" style={{ display: "flex", alignItems: "center", gap: 5, fontFamily: "Inter", fontSize: 10.5, fontWeight: 700, color: "#075E54" }}>
+            <ChannelLogo channel="whatsapp" size={14} /> {D.chatNombre}
           </div>
-          <div style={{ padding: 14, display: "grid", gap: 8 }}>
-            {D.mensajes.map((m, i) => {
-              const ia = m.de === "ia";
-              return (
-                <div
-                  key={i}
-                  style={{
-                    ...pieza(i),
-                    opacity: 0,
-                    justifySelf: ia ? "start" : "end",
-                    maxWidth: "86%",
-                    background: ia ? "#fff" : "#DCF8C6",
-                    borderRadius: 10,
-                    padding: "8px 10px",
-                    fontFamily: "Inter",
-                    fontSize: 14,
-                    color: "#111827",
-                    boxShadow: "0 1px 1px rgba(0,0,0,.08)",
-                  }}
-                >
-                  {m.t}
-                  <span style={{ display: "block", textAlign: "right", fontSize: 10.5, color: "#6B7280", marginTop: 2 }}>{m.hora}</span>
-                </div>
-              );
-            })}
+          <div style={{ ...pieza(0), justifySelf: "end", maxWidth: "92%", background: "#DCF8C6", borderRadius: 8, padding: "5px 8px", fontFamily: "Inter", fontSize: 11.5, color: "#111827" }}>
+            {D.compacto.paciente}
+          </div>
+          <div style={{ ...pieza(1), justifySelf: "start", maxWidth: "92%", background: "#fff", borderRadius: 8, padding: "5px 8px", fontFamily: "Inter", fontSize: 11.5, color: "#111827" }}>
+            {D.compacto.ia}
           </div>
         </div>
-
-        <div className="ac-flecha" aria-hidden>→</div>
-
-        <div>
-          <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", color: "#6B7280", marginBottom: 8 }}>
-            Tu agenda
+        <div style={{ ...pieza(2), background: "#fff", borderRadius: 10, padding: 9, border: "1px solid #E5E7EB", display: "grid", alignContent: "center", gap: 5 }}>
+          <div style={{ display: "flex", gap: 5, flexWrap: "wrap", alignItems: "center" }}>
+            <span style={{ fontFamily: "Inter", fontSize: 12, fontWeight: 700, background: "#F3F4F6", borderRadius: 6, padding: "3px 7px" }}>🕒 {c.hora}</span>
+            <span className="dia-estado" style={{ fontFamily: "Inter", fontSize: 10.5, fontWeight: 700, background: "#ECFDF5", color: "#047857", borderRadius: 999, padding: "3px 8px" }}>{c.estado}</span>
           </div>
-          <div style={{ ...pieza(4), opacity: 0, background: "#fff", borderRadius: 16, padding: 18, border: "1px solid #E5E7EB", boxShadow: "0 12px 32px -12px rgba(124,58,237,.25)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
-              <span style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 600, background: "#F3F4F6", borderRadius: 8, padding: "6px 10px" }}>🕒 {c.hora}</span>
-              <span style={{ fontFamily: "Inter", fontSize: 13, fontWeight: 700, background: "#ECFDF5", color: "#047857", borderRadius: 999, padding: "5px 11px" }}>{c.estado}</span>
-              <span
-                data-activa-etiqueta-ia
-                style={{ ...pieza(5), opacity: 0, fontFamily: "Inter", fontSize: 12.5, fontWeight: 700, background: "#1F2937", color: "#fff", borderRadius: 7, padding: "5px 9px" }}
-              >
-                ⚡ {c.etiqueta}
-              </span>
-            </div>
-            <div style={{ fontFamily: "Inter", fontSize: 20, fontWeight: 700, color: "#3B5BDB", marginBottom: 6 }}>{c.paciente}</div>
-            <div style={{ fontFamily: "Inter", fontSize: 14, color: "#4B5563" }}>
-              {c.sede} · {c.servicio}
-            </div>
-          </div>
+          <div style={{ fontFamily: "Inter", fontSize: 14, fontWeight: 700, color: "#3B5BDB" }}>{c.paciente}</div>
+          <span
+            data-activa-etiqueta-ia
+            style={{ ...pieza(3), justifySelf: "start", fontFamily: "Inter", fontSize: 11, fontWeight: 700, background: "#1F2937", color: "#fff", borderRadius: 6, padding: "3px 8px" }}
+          >
+            ⚡ {c.etiqueta}
+          </span>
         </div>
       </div>
-
-      <p style={{ fontFamily: MONO, fontSize: 11, letterSpacing: ".06em", textTransform: "uppercase", color: "#9CA3AF", margin: "16px 0 0", textAlign: "center" }}>
-        {D.ejemplo}
-      </p>
-
-      <div data-activa-respaldo style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 22, flexWrap: "wrap", marginTop: 28 }}>
-        <span style={{ fontFamily: MONO, fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "#6B7280" }}>{ACTIVA_RESPALDO.etiqueta}</span>
-        <CnnLogo height={28} color="#F03A47" />
-        <span style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: 24, fontWeight: 700, letterSpacing: "-0.01em", color: "#111827" }}>Forbes</span>
-        <span style={{ fontFamily: "Inter", fontSize: 17, fontWeight: 700, letterSpacing: "-0.02em", color: "#0B4F8A" }}>Clínica Alemana</span>
+      <div className="dia-resp" data-activa-respaldo style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, flexWrap: "wrap", marginTop: 8 }}>
+        <span style={{ fontFamily: MONO, fontSize: 9.5, letterSpacing: ".1em", textTransform: "uppercase", color: "#6B7280" }}>{ACTIVA_RESPALDO.etiqueta}</span>
+        <CnnLogo height={17} color="#F03A47" />
+        <span style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: 16, fontWeight: 700, color: "#111827" }}>Forbes</span>
+        <span style={{ fontFamily: "Inter", fontSize: 12.5, fontWeight: 700, letterSpacing: "-0.02em", color: "#0B4F8A" }}>Clínica Alemana</span>
       </div>
     </div>
   );

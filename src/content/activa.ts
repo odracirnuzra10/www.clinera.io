@@ -17,8 +17,16 @@ export const ACTIVA_HERO = {
 
 export const ACTIVA_PRUEBA_SOCIAL = GO_PRUEBA_SOCIAL;
 
+export const ACTIVA_CNN = {
+  eyebrow: "Clinera en la prensa",
+  titulo: "CNN conoció Clinera.",
+  texto: "Mira el reportaje sobre cómo ayudamos a las clínicas de LATAM a crecer con más control y automatización.",
+  vimeoSrc: "https://player.vimeo.com/video/1205127087?badge=0&autopause=0&player_id=0&app_id=58479",
+  iframeTitle: "Reportaje de CNN sobre Clinera",
+} as const;
+
 /**
- * Animación del bloque central (reemplaza al video de CNN, Ricardo 17-oct-2026): una paciente escribe por
+ * Animación de IA agendando por WhatsApp. Va en /go (reemplaza la imagen del video de CNN, Ricardo 17-oct-2026): una paciente escribe por
  * WhatsApp, la IA agenda y la cita aparece en la agenda con la etiqueta «Agendado por IA». Es un ejemplo
  * ilustrativo con datos inventados (ninguna paciente real). Lo que hace es AURA, que solo está en Ultra.
  */
@@ -35,6 +43,8 @@ export const ACTIVA_DEMO_IA = {
     { de: "paciente", t: "Hoy a las 15:00", hora: "10:03" },
     { de: "ia", t: "Listo ✓ Quedaste agendada hoy a las 15:00. Te llegará un recordatorio.", hora: "10:03" },
   ],
+  /** Textos cortos para la versión compacta de /go. */
+  compacto: { paciente: "Quiero agendar una evaluación", ia: "Listo ✓ Agendada hoy 15:00" },
   cita: { hora: "15:00 - 15:45", estado: "Confirmada", etiqueta: "Agendado por IA", paciente: "Valentina", servicio: "Evaluación", sede: "Sucursal Centro" },
 } as const;
 

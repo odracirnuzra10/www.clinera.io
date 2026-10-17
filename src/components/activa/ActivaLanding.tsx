@@ -1,8 +1,7 @@
-import { GRAD, Eyebrow, Wordmark } from "@/components/brand-v3/Brand";
+import { GRAD, Eyebrow, Wordmark, CnnLogo } from "@/components/brand-v3/Brand";
 import { ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import ActivaCta from "@/components/activa/ActivaCta";
-import DemoIA from "@/components/activa/DemoIA";
-import { ACTIVA_CTA, ACTIVA_DEMO_IA, ACTIVA_FUNCIONES, ACTIVA_HERO, ACTIVA_PRUEBA_SOCIAL } from "@/content/activa";
+import { ACTIVA_CNN, ACTIVA_CTA, ACTIVA_FUNCIONES, ACTIVA_HERO, ACTIVA_PRUEBA_SOCIAL } from "@/content/activa";
 import { PLANS_2, SOLO_NUEVOS, type Plan2 } from "@/content/planes2";
 
 const INK = "#0A0A0A";
@@ -34,6 +33,8 @@ export default function ActivaLanding() {
         .ac-wrap { max-width: 1120px; margin: 0 auto; }
         .ac-planes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         .ac-func { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .ac-video { position: relative; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: #0A0A0A; }
+        .ac-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
         @media (max-width: 900px) {
           .ac-planes, .ac-func { grid-template-columns: 1fr; }
           .ac-sec { padding: 48px 16px; }
@@ -64,14 +65,23 @@ export default function ActivaLanding() {
           </div>
         </section>
 
-        <section className="ac-sec" style={{ background: "#FAFAFA" }} aria-labelledby="ac-demo">
-          <div className="ac-wrap" style={{ maxWidth: 980 }}>
-            <div style={{ textAlign: "center", marginBottom: 28 }}>
-              <Eyebrow>{ACTIVA_DEMO_IA.eyebrow}</Eyebrow>
-              <h2 id="ac-demo" style={{ fontFamily: "Inter", fontSize: 34, fontWeight: 800, letterSpacing: "-0.035em", margin: "12px 0 8px" }}>{ACTIVA_DEMO_IA.titulo}</h2>
-              <p style={{ fontFamily: "Inter", fontSize: 16, color: MUTED, margin: "0 auto", maxWidth: 560 }}>{ACTIVA_DEMO_IA.texto}</p>
+        <section className="ac-sec" style={{ background: "#FAFAFA" }} aria-labelledby="ac-cnn">
+          <div className="ac-wrap" style={{ maxWidth: 860, textAlign: "center" }}>
+            <Eyebrow>{ACTIVA_CNN.eyebrow}</Eyebrow>
+            <div style={{ display: "flex", justifyContent: "center", margin: "12px 0 8px" }}>
+              <CnnLogo height={34} color="#F03A47" />
             </div>
-            <DemoIA />
+            <h2 id="ac-cnn" style={{ fontFamily: "Inter", fontSize: 32, fontWeight: 800, letterSpacing: "-0.03em", margin: "0 0 8px" }}>{ACTIVA_CNN.titulo}</h2>
+            <p style={{ fontFamily: "Inter", fontSize: 16, color: MUTED, margin: "0 auto 24px", maxWidth: 560 }}>{ACTIVA_CNN.texto}</p>
+            <div className="ac-video" data-activa-cnn>
+              <iframe
+                src={ACTIVA_CNN.vimeoSrc}
+                title={ACTIVA_CNN.iframeTitle}
+                loading="lazy"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                allowFullScreen
+              />
+            </div>
           </div>
         </section>
 
