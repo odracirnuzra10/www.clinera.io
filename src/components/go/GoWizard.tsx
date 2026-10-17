@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { GRAD, Wordmark } from "@/components/brand-v3/Brand";
+import { ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import {
   detectLeadSource,
   evaluateQualification,
@@ -186,7 +187,8 @@ export default function GoWizard() {
         .gw-stat { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 14px; padding: 12px 16px; border: 1px solid #E5E7EB; border-radius: 16px; background: #FAFAFA; }
         .gw-stat-n { font-family: Inter, sans-serif; font-size: clamp(40px, 12vw, 52px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; min-width: 3.1ch; }
         .gw-stat-l { font-family: Inter, sans-serif; font-size: 16px; font-weight: 600; line-height: 1.3; color: ${INK}; }
-        .gw-proof { display: block; width: 100%; height: auto; aspect-ratio: 16 / 7; object-fit: cover; object-position: 50% 38%; border-radius: 14px; border: 1px solid #E5E7EB; }
+        .gw-logos { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+        .gw-proof { display: block; width: 100%; height: auto; aspect-ratio: 16 / 6; object-fit: cover; object-position: 50% 36%; }
         @media (max-width: 720px) {
           .gw-phone { grid-template-columns: 120px 1fr; }
         }
@@ -196,6 +198,8 @@ export default function GoWizard() {
           .gw-input { min-height: 41px; }
           .gw-chip { min-height: 38px; }
           .gw-sub { display: none; }
+          .gw-pitch { display: none; }
+          .gw-proof { aspect-ratio: 16 / 5; }
           .gw-back { padding: 4px 0; }
         }
         @media (max-height: 760px) {
@@ -241,14 +245,21 @@ export default function GoWizard() {
               <div style={{ display: "grid", gap: 8, margin: "14px 0 10px" }} data-go-incluye>
                 <div className="gw-stat">
                   <span className="gw-stat-n" style={gradText}>{GO.conversations}</span>
-                  <span className="gw-stat-l">conversaciones por WhatsApp, Facebook e Instagram</span>
+                  <span className="gw-stat-l">
+                    conversaciones por WhatsApp, Facebook e Instagram
+                    <span className="gw-logos" data-go-canales>
+                      <ChannelLogo channel="whatsapp" size={24} />
+                      <ChannelLogo channel="facebook" size={24} />
+                      <ChannelLogo channel="instagram" size={24} />
+                    </span>
+                  </span>
                 </div>
                 <div className="gw-stat">
                   <span className="gw-stat-n" style={gradText}>{GO.agendamientos}</span>
                   <span className="gw-stat-l">agendamientos</span>
                 </div>
               </div>
-              <p style={{ fontFamily: "Inter", fontSize: 15, color: MUTED, margin: "0 0 14px" }}>Prueba el poder de Clinera ahora.</p>
+              <p className="gw-pitch" style={{ fontFamily: "Inter", fontSize: 15, color: MUTED, margin: "0 0 14px" }}>Prueba el poder de Clinera ahora.</p>
               <p style={{ fontFamily: "Inter", fontSize: 16, fontWeight: 700, color: INK, margin: "0 0 8px" }}>{GO_WIZARD.ofertaPregunta}</p>
               <button type="button" id="go-start" className="gw-cta" onClick={() => goTo(2)}>
                 Sí, quiero activarla
@@ -387,29 +398,34 @@ export default function GoWizard() {
         {step === 1 && (
           // Imagen fija del reportaje de CNN (no el reproductor): prueba social sin sacar al
           // visitante del wizard. Es un fotograma del mismo video de /plataforma.
-          <figure data-go-cnn style={{ maxWidth: 560, margin: "0 auto", padding: "4px 20px 16px" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className="gw-proof"
-              src="/images/go/cnn-clinera.jpg"
-              alt="Entrevista de CNN Chile a Clinera"
-              width={1280}
-              height={720}
-              loading="lazy"
-            />
-            <figcaption
-              style={{
-                marginTop: 8,
-                fontFamily: "Inter",
-                fontSize: "clamp(17px, 4.8vw, 22px)",
-                fontWeight: 800,
-                letterSpacing: "-0.03em",
-                lineHeight: 1.15,
-                color: INK,
-              }}
-            >
-              <span style={gradText}>{GO_PRUEBA_SOCIAL}</span>
-            </figcaption>
+          <figure data-go-cnn style={{ maxWidth: 560, margin: "0 auto", padding: "2px 20px 12px" }}>
+            <div style={{ position: "relative", overflow: "hidden", borderRadius: 14, border: "1px solid #E5E7EB", background: INK }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="gw-proof"
+                src="/images/go/cnn-clinera.jpg"
+                alt="Entrevista de CNN Chile a Clinera"
+                width={1280}
+                height={720}
+                loading="lazy"
+              />
+              <figcaption
+                style={{
+                  position: "absolute",
+                  inset: "auto 0 0 0",
+                  padding: "26px 14px 10px",
+                  background: "linear-gradient(180deg, rgba(10,10,20,0) 0%, rgba(10,10,20,.88) 100%)",
+                  fontFamily: "Inter",
+                  fontSize: "clamp(14.5px, 4.2vw, 18px)",
+                  fontWeight: 800,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.2,
+                  color: "#fff",
+                }}
+              >
+                {GO_PRUEBA_SOCIAL}
+              </figcaption>
+            </div>
           </figure>
         )}
       </div>
