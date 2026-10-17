@@ -247,6 +247,18 @@ export default function GoWizard() {
         }
         .gw-cta:hover { transform: translateY(-2px); filter: brightness(.97); }
         .gw-back { background: transparent; border: 0; padding: 8px 0; cursor: pointer; font-family: Inter, sans-serif; font-size: 14.5px; font-weight: 600; color: #6B7280; }
+        .gw-shell { display: block; }
+        .gw-aside { display: none; }
+        .gw-show { border: 1px solid #E5E7EB; border-radius: 24px; padding: 28px 28px 24px; background: linear-gradient(160deg, #FAFAFF 0%, #FFF 55%, #FDF4FF 100%); box-shadow: 0 30px 60px -30px rgba(124,58,237,.25); }
+        .gw-show-k { font-family: ${MONO}; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #6B7280; margin: 0 0 6px; }
+        .gw-show-t { font-family: Inter, sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; color: ${INK}; margin: 0 0 22px; }
+        /* Escritorio (≥1024 px): oferta a la izquierda, demostración grande a la derecha. Móvil: una columna, como siempre. */
+        @media (min-width: 1024px) {
+          .gw-shell { display: grid; grid-template-columns: minmax(440px, 560px) 1fr; gap: 64px; align-items: center; max-width: 1240px; margin: 0 auto; padding: 0 40px; min-height: 100dvh; }
+          .gw-fig { display: none; }
+          .gw-aside { display: block; }
+          .gw-zoom .dia-stage { height: 156px !important; }
+        }
         .gw-kicker { display: block; font-family: Inter, sans-serif; font-size: clamp(22px, 6.6vw, 30px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: ${INK}; }
         .gw-price-u { font-size: .3em; letter-spacing: -0.02em; font-weight: 800; }
         .gw-price { display: block; font-family: Inter, sans-serif; font-size: clamp(76px, 25vw, 124px); font-weight: 800; letter-spacing: -0.055em; line-height: .98; margin: 2px 0 0; }
@@ -277,6 +289,8 @@ export default function GoWizard() {
 
       {/* paddingTop 0: anula `main > div:first-child { padding-top: 112px }` de globals.css (hecha para el navbar). */}
       <div style={{ background: "#fff", minHeight: "100dvh", paddingTop: 0 }}>
+        <div className="gw-shell">
+        <div className="gw-main">
         <header style={{ maxWidth: 560, margin: "0 auto", padding: "14px 20px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Wordmark />
           <span style={{ fontFamily: MONO, fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "#6B7280" }}>
@@ -464,10 +478,21 @@ export default function GoWizard() {
         {step === 1 && (
           // Animación de la IA agendando por WhatsApp (Ricardo, 17-oct): reemplaza la imagen del video de CNN.
           // Ocupa el mismo alto para que el wizard siga sin scroll. «Respaldado por» va dentro.
-          <figure data-go-prueba style={{ maxWidth: 560, margin: "0 auto", padding: "2px 20px 8px" }}>
+          <figure className="gw-fig" data-go-prueba style={{ maxWidth: 560, margin: "0 auto", padding: "2px 20px 8px" }}>
             <DemoIACompact />
           </figure>
         )}
+        </div>
+        <aside className="gw-aside" data-go-escritorio aria-label="Qué hace Clinera por tu clínica">
+          <div className="gw-show">
+            <p className="gw-show-k">Clinera en acción</p>
+            <h2 className="gw-show-t">Agenda, recuerda y avisa a tus pacientes por WhatsApp.</h2>
+            <div className="gw-zoom" style={{ zoom: 1.3 }}>
+              <DemoIACompact />
+            </div>
+          </div>
+        </aside>
+        </div>
       </div>
     </>
   );

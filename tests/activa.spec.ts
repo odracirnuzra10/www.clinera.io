@@ -46,6 +46,29 @@ test.describe("/activa: landing informativa", () => {
     expect(demo).toMatch(/prefers-reduced-motion/);
   });
 
+  test("/go anima 3 escenas (agenda, recordatorio, difusión) y dice desde qué plan existe cada una", () => {
+    const e = ACTIVA_DEMO_IA.escenas;
+    expect(e.agenda.etiqueta).toMatch(/Ultra/);
+    expect(e.recordatorio.etiqueta).toMatch(/desde Flux/);
+    expect(e.difusion.etiqueta).toMatch(/desde Flux/);
+    const demo = readFileSync("src/components/activa/DemoIA.tsx", "utf8");
+    expect(demo).toMatch(/const CICLO = 12/); // más rápida que la versión de una escena (14 s)
+    expect(demo).toMatch(/data-activa-etiqueta-recordatorio/);
+    expect(demo).toMatch(/data-activa-etiqueta-difusion/);
+    // Sin cifras inventadas: ni cantidad de pacientes ni porcentajes de reducción.
+    expect(JSON.stringify(e)).not.toMatch(/\d+\s*(%|pacientes|contactos)|reduc/i);
+  });
+
+  test("/go tiene versión de escritorio (≥1024 px, dos columnas) y versión móvil (una columna)", () => {
+    const go = readFileSync("src/components/go/GoWizard.tsx", "utf8");
+    expect(go).toMatch(/@media \(min-width: 1024px\)/);
+    expect(go).toMatch(/className="gw-shell"/);
+    expect(go).toMatch(/data-go-escritorio/);
+    // El móvil conserva su animación compacta bajo el paso 1; el escritorio muestra la grande al costado.
+    expect(go).toMatch(/className="gw-fig"/);
+    expect(go).toMatch(/\.gw-fig \{ display: none; \}/);
+  });
+
   test("«Respaldado por» CNN, Forbes y Clínica Alemana", () => {
     expect(ACTIVA_RESPALDO.medios).toEqual(["CNN", "Forbes", "Clínica Alemana"]);
     const demo = readFileSync("src/components/activa/DemoIA.tsx", "utf8");
