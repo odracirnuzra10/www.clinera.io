@@ -40,6 +40,11 @@ test.describe("/activa: landing informativa", () => {
     expect(ACTIVA_FUNCIONES.length).toBeGreaterThanOrEqual(6);
   });
 
+  test("sin botones flotantes de demo: el único CTA es «Activa tu cuenta ahora»", () => {
+    expect(readFileSync("src/components/cro/StickyMobileCTA.tsx", "utf8")).toContain('"/activa"');
+    expect(readFileSync("src/components/demo/VerDemoFloat.tsx", "utf8")).toContain('"/activa"');
+  });
+
   test("interna: noindex, Disallow en robots", () => {
     expect(page).toMatch(/index: false/);
     expect(buildRobotsTxt()).toMatch(/Disallow: \/activa/);
