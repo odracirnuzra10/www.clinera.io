@@ -43,6 +43,23 @@ export const ACTIVA_DEMO_IA = {
     { de: "paciente", t: "Hoy a las 15:00", hora: "10:03" },
     { de: "ia", t: "Listo ✓ Quedaste agendada hoy a las 15:00. Te llegará un recordatorio.", hora: "10:03" },
   ],
+  /** Escenas de la versión compacta de /go. Recordatorios y difusiones vienen desde Flux; AURA solo en Ultra (Go! no los trae). */
+  escenas: {
+    agenda: { etiqueta: "AURA agenda por ti · Ultra" },
+    recordatorio: {
+      etiqueta: "Recordatorios automáticos · desde Flux",
+      clinica: "Hola Valentina, te recordamos tu cita hoy a las 15:00. ¿La confirmas?",
+      paciente: "Confirmo ✓",
+      tag: "⏰ Recordatorio automático",
+    },
+    difusion: {
+      etiqueta: "Difusiones por WhatsApp · desde Flux",
+      mensaje: "Esta semana tenemos horas disponibles. Agenda tu hora.",
+      destinatarios: ["V", "M", "C", "J", "P", "A"],
+      tag: "📣 Difusión masiva",
+      pie: "Enviada a todos tus contactos",
+    },
+  },
   /** Textos cortos para la versión compacta de /go. */
   compacto: { paciente: "Quiero agendar una evaluación", ia: "Listo ✓ Agendada hoy 15:00" },
   cita: { hora: "15:00 - 15:45", estado: "Confirmada", etiqueta: "Agendado por IA", paciente: "Valentina", servicio: "Evaluación", sede: "Sucursal Centro" },
