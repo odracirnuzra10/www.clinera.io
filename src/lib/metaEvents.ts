@@ -172,6 +172,8 @@ export async function fireMqlEvent(opts: {
   qual: QualResult;
   customData: QualCustomData;
   contact?: ContactPII; // presente en "contact_submitted"; ausente en "qualified_step2"
+  /** US$ del evento. /agenda usa 10 (agendó); el wizard de /go usa 1 (solo rellenó datos, Ricardo 17-oct). */
+  value?: number;
 }): Promise<void> {
   // Consume la regla: si no califica, MQL NO se dispara jamás.
   if (!opts.qual.califica) return;
@@ -182,7 +184,7 @@ export async function fireMqlEvent(opts: {
   await sendMetaEvent({
     eventName: "MQL",
     eventId: opts.eventId,
-    customData: { ...opts.customData, value: 10, currency: "USD" },
+    customData: { ...opts.customData, value: opts.value ?? 10, currency: "USD" },
     userData,
     capi: true,
   });

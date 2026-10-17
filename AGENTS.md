@@ -974,8 +974,9 @@ Decisiones que se apartan del handoff, con su porqué:
   `clinera:routechange` para que Analytics lo enganche.
 - **El pixel sigue siendo el nuevo `2251201709002818`**, no el `1104567405156111` que traía el
   handoff (es el anterior al cambio del 16-oct).
-- **Eventos del pixel nuevo (Ricardo, 17-oct, sustituye a «SQL de USD 17»):** `MQL` = rellenó el
-  wizard de `/go` (US$ 10, `fireMqlEvent`, pixel + CAPI con correo/celular hasheados);
+- **Eventos del pixel nuevo (Ricardo, 17-oct, sustituye a «SQL de USD 17»). Valores del embudo:
+  MQL US$ 1 · TRIAL US$ 17 · SQL US$ 20 · CLIENTE = plan (Flux 89 / Ultra 179).** `MQL` = rellenó el
+  wizard de `/go` (US$ 1, `fireMqlEvent` con `value`; /agenda sigue en US$ 10, pixel + CAPI con correo/celular hasheados);
   `TRIAL` = pagó Go! (US$ 17); `CLIENTE` = pagó Flux (US$ 89) o Ultra (US$ 179). Los planes
   viejos siguen con `Purchase`. `TRIAL` lo manda el navegador en `/go/exito` y el servidor en
   `/api/stripe/meta-purchase` con el mismo `event_id` `trial_{session_id}`; `CLIENTE`

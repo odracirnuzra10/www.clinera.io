@@ -196,6 +196,9 @@ test("/go: los datos del wizard viajan a Stripe (handoff) y el Payment Link qued
 test("/go: el wizard dispara MQL (pixel nuevo) al completar los datos; TRIAL al pagar; CLIENTE para Flux y Ultra", () => {
   const go = readFileSync("src/components/go/GoWizard.tsx", "utf8");
   expect(go).toContain("fireMqlEvent");
+  expect(go).toContain("const MQL_GO_USD = 1;");
+  expect(go).toContain("value: MQL_GO_USD");
+  expect(readFileSync("src/lib/metaEvents.ts", "utf8")).toContain("opts.value ?? 10");
   expect(go).toContain("contact: { email: email.trim(), phoneE164:");
   expect(readFileSync("src/lib/meta-pixel-id.ts", "utf8")).toContain("2251201709002818");
   const exito = readFileSync("src/components/go/GoExito.tsx", "utf8");

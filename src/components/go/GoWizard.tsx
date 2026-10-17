@@ -36,6 +36,9 @@ const ESPECIALIDADES = [
   { id: "salud_mental", label: "Salud mental" },
 ] as const;
 
+/** US$ del MQL del wizard de /go: solo rellenó datos (Ricardo, 17-oct: MQL 1 · TRIAL 17 · SQL 20 · CLIENTE = plan). */
+const MQL_GO_USD = 1;
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type Step = 1 | 2 | 3;
@@ -139,6 +142,7 @@ export default function GoWizard() {
         pais: PHONE_RULES[prefix]?.name ?? "",
       },
       contact: { email: email.trim(), phoneE164: aE164(prefix, digits) },
+      value: MQL_GO_USD,
     });
     // Los datos se guardan ANTES del pago para poder contactar a quien lo abandona.
     // La pantalla 3 no espera a n8n: si el webhook se cuelga, se pierden compras.
