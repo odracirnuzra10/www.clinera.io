@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { GRAD, Wordmark } from "@/components/brand-v3/Brand";
 import { ChannelLogo } from "@/components/pricing/PlanChannelLogos";
+import { DemoIACompact } from "@/components/activa/DemoIA";
 import {
   detectLeadSource,
   evaluateQualification,
@@ -14,7 +15,6 @@ import {
   GO,
   GO_ANALYTICS,
   GO_TAMANOS,
-  GO_PRUEBA_SOCIAL,
   GO_WIZARD,
 } from "@/content/planes2";
 import { captureGoAttribution } from "@/lib/go-attribution";
@@ -254,7 +254,6 @@ export default function GoWizard() {
         .gw-stat-n { font-family: Inter, sans-serif; font-size: clamp(40px, 12vw, 52px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; min-width: 3.1ch; }
         .gw-stat-l { font-family: Inter, sans-serif; font-size: 16px; font-weight: 600; line-height: 1.3; color: ${INK}; }
         .gw-logos { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
-        .gw-proof { display: block; width: 100%; height: auto; aspect-ratio: 16 / 6; object-fit: cover; object-position: 50% 36%; }
         @media (max-width: 720px) {
           .gw-phone { grid-template-columns: 120px 1fr; }
         }
@@ -265,7 +264,6 @@ export default function GoWizard() {
           .gw-chip { min-height: 38px; }
           .gw-sub { display: none; }
           .gw-pitch { display: none; }
-          .gw-proof { aspect-ratio: 16 / 5; }
           .gw-back { padding: 4px 0; }
         }
         @media (max-height: 760px) {
@@ -464,36 +462,10 @@ export default function GoWizard() {
         </div>
 
         {step === 1 && (
-          // Imagen fija del reportaje de CNN (no el reproductor): prueba social sin sacar al
-          // visitante del wizard. Es un fotograma del mismo video de /plataforma.
-          <figure data-go-cnn style={{ maxWidth: 560, margin: "0 auto", padding: "2px 20px 12px" }}>
-            <div style={{ position: "relative", overflow: "hidden", borderRadius: 14, border: "1px solid #E5E7EB", background: INK }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className="gw-proof"
-                src="/images/go/cnn-clinera.jpg"
-                alt="Entrevista de CNN Chile a Clinera"
-                width={1280}
-                height={720}
-                loading="lazy"
-              />
-              <figcaption
-                style={{
-                  position: "absolute",
-                  inset: "auto 0 0 0",
-                  padding: "26px 14px 10px",
-                  background: "linear-gradient(180deg, rgba(10,10,20,0) 0%, rgba(10,10,20,.88) 100%)",
-                  fontFamily: "Inter",
-                  fontSize: "clamp(14.5px, 4.2vw, 18px)",
-                  fontWeight: 800,
-                  letterSpacing: "-0.02em",
-                  lineHeight: 1.2,
-                  color: "#fff",
-                }}
-              >
-                {GO_PRUEBA_SOCIAL}
-              </figcaption>
-            </div>
+          // Animación de la IA agendando por WhatsApp (Ricardo, 17-oct): reemplaza la imagen del video de CNN.
+          // Ocupa el mismo alto para que el wizard siga sin scroll. «Respaldado por» va dentro.
+          <figure data-go-prueba style={{ maxWidth: 560, margin: "0 auto", padding: "2px 20px 8px" }}>
+            <DemoIACompact />
           </figure>
         )}
       </div>

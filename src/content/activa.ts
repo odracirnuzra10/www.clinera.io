@@ -25,6 +25,35 @@ export const ACTIVA_CNN = {
   iframeTitle: "Reportaje de CNN sobre Clinera",
 } as const;
 
+/**
+ * Animación de IA agendando por WhatsApp. Va en /go (reemplaza la imagen del video de CNN, Ricardo 17-oct-2026): una paciente escribe por
+ * WhatsApp, la IA agenda y la cita aparece en la agenda con la etiqueta «Agendado por IA». Es un ejemplo
+ * ilustrativo con datos inventados (ninguna paciente real). Lo que hace es AURA, que solo está en Ultra.
+ */
+export const ACTIVA_DEMO_IA = {
+  eyebrow: "Así agenda la IA",
+  titulo: "Un mensaje en WhatsApp y la cita queda en tu agenda.",
+  texto: "AURA responde a tu paciente, le ofrece horas y agenda por ti. Disponible en el plan Ultra.",
+  ejemplo: "Ejemplo ilustrativo",
+  chatNombre: "Clínica · AURA",
+  chatEstado: "IA de tu clínica",
+  mensajes: [
+    { de: "paciente", t: "Hola, quiero agendar una evaluación", hora: "10:02" },
+    { de: "ia", t: "¡Hola! Tengo hoy a las 15:00 o mañana a las 09:00. ¿Cuál te acomoda?", hora: "10:02" },
+    { de: "paciente", t: "Hoy a las 15:00", hora: "10:03" },
+    { de: "ia", t: "Listo ✓ Quedaste agendada hoy a las 15:00. Te llegará un recordatorio.", hora: "10:03" },
+  ],
+  /** Textos cortos para la versión compacta de /go. */
+  compacto: { paciente: "Quiero agendar una evaluación", ia: "Listo ✓ Agendada hoy 15:00" },
+  cita: { hora: "15:00 - 15:45", estado: "Confirmada", etiqueta: "Agendado por IA", paciente: "Valentina", servicio: "Evaluación", sede: "Sucursal Centro" },
+} as const;
+
+/** «Respaldado por»: dictado por Ricardo (17-oct-2026). Falta confirmar el uso de los logos oficiales (ver PENDIENTES). */
+export const ACTIVA_RESPALDO = {
+  etiqueta: "Respaldado por",
+  medios: ["CNN", "Forbes", "Clínica Alemana"],
+} as const;
+
 /** Funciones: solo lo que ya está en los planes o en las definiciones de /planes2. Sin CAMILA ni LIA (próximamente). */
 export const ACTIVA_FUNCIONES = [
   { t: "Agenda", d: "Tus horas, tus profesionales y tus sucursales en una agenda propia." },
