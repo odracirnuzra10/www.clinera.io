@@ -73,7 +73,7 @@ const TICKER = [
   { name: "Odontograma", price: "incluido" },
 ];
 
-// Planes viejos (para ?plan= que vengan de /planes) y los nuevos Go!/Flux/Vortex.
+// Planes viejos (para ?plan= que vengan de /planes) y los nuevos Go!/Flux/Ultra.
 const PLAN_IDS = new Set<string>([...CLINERA_PLANS.map((p) => p.id), ...PLANS_2.map((p) => p.id)]);
 
 const PHONES: Record<string, { flag: string; label: string; len: number; pattern: RegExp; placeholder: string; hint: string }> = {

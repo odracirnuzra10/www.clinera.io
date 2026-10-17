@@ -3,9 +3,9 @@ import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
 import Planes2Body from "@/components/planes2/Planes2Body";
 
-const TITLE = "Planes Go!, Flux y Vortex";
+const TITLE = "Planes Go!, Flux y Ultra";
 
-// Vista previa interna del modelo nuevo (16-oct-2026). No reemplaza a /planes
+// Vista previa interna del modelo nuevo (17-oct-2026). No reemplaza a /planes
 // hasta que Ricardo apruebe: noindex en metadata, Disallow en robots-txt.ts y
 // fuera del sitemap. Sin JSON-LD de precios a propósito: los de /planes son los
 // vigentes y los de acá todavía no son públicos.

@@ -7,3 +7,13 @@
 export function purchaseEventId(checkoutSessionId: string): string {
   return `purchase_${checkoutSessionId}`;
 }
+
+/**
+ * `event_id` del `SQL` de Go! (Ricardo, 17-oct): pagar Go! cuenta como SQL de
+ * USD 17, no como `Purchase`. Mismo criterio que arriba: navegador y servidor
+ * mandan este id con el nombre `SQL` y Meta los cuenta una sola vez. No puede
+ * ser `{oppId}_SQL` (el id del CRM) porque el navegador no conoce la oportunidad.
+ */
+export function sqlEventId(checkoutSessionId: string): string {
+  return `sql_${checkoutSessionId}`;
+}

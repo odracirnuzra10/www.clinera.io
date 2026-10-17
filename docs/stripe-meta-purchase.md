@@ -48,3 +48,5 @@ venta falsa al pixel real.
 `200` con `ignored` para eventos que no cuentan, `502` si Meta rechaza (Stripe
 reintenta; el `event_id` fijo evita contar dos veces), `200` con `events_received`.
 Guardián: `tests/meta-purchase.spec.ts`.
+
+> **17-oct:** para Go! el evento es `SQL` USD 17 (`event_id` `sql_{session_id}`), no `Purchase`; Flux y Ultra siguen con `Purchase`. Ver AGENTS.md, «/planes2 y /go».

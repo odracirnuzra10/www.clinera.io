@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import GoLanding from "@/components/go/GoLanding";
+import GoWizard from "@/components/go/GoWizard";
 
 const TITLE = "Inicia con Clinera por solo 17 dólares al mes";
 
-// Landing de Go! en revisión interna: noindex, Disallow en robots-txt.ts y
+// Wizard de Go! (17-oct) en revisión interna: noindex, Disallow en robots-txt.ts y
 // fuera del sitemap. La ruta /go es sugerida y está pendiente de confirmar.
 export const metadata: Metadata = {
   title: TITLE,
@@ -15,9 +15,9 @@ export const metadata: Metadata = {
 export default function GoPage() {
   return (
     <>
-      {/* Landing sin navbar ni footer a propósito: una sola salida, "Inicia ahora". El logo va dentro del hero. */}
+      {/* Wizard sin navbar ni footer a propósito: una sola salida por pantalla. El logo va dentro del wizard. */}
       <main>
-        <GoLanding />
+        <GoWizard />
       </main>
     </>
   );

@@ -922,24 +922,55 @@ del deck apunta a `/convenio-doctores#requisitos`. Copy en
   respuesta directa, FAQ y demo; los 9 artículos de ficha clínica llevan
   `<FichaCTA />` a mitad de texto (`lead_source=blog_ficha_clinica`).
 
-# `/planes2` y `/go`: modelo Go! / Flux / Vortex (Ricardo, 16-oct-2026)
+# `/planes2` y `/go`: modelo Go! / Flux / Ultra (Ricardo, 17-oct-2026)
 
-Vista previa **interna** (`noindex`, `Disallow` en `robots-txt.ts`, fuera del
-sitemap). **No reemplaza `/planes`**: Vortex/Atlas/Summit viejos siguen
-vigentes en `pricing.ts` y en los contratos de `/firma`. Go! US$ 17 (1 sucursal,
-1 profesional), Flux US$ 87 (2/5), Vortex US$ 279 (3/10); AURA solo en Vortex;
-Atlas y Summit no existen en el modelo nuevo. Solo clientes nuevos. **Solo dólares: sin switch ni precio en MXN**
-(Ricardo, 16-oct); los precios son texto fijo en USD, no `CatalogPrice`.
+**El 17-oct reemplazó al modelo Go!/Flux/Vortex del 16-oct** (Flux pasó de 87 a 89
+y Vortex 279 se convirtió en Ultra 179). Vista previa **interna** (`noindex`,
+`Disallow` en `robots-txt.ts`, fuera del sitemap). **No reemplaza `/planes`**:
+Vortex/Atlas/Summit viejos siguen vigentes en `pricing.ts` y en los contratos de
+`/firma` (el «Vortex» que aún aparece en `/partners` y en los decks es ese viejo).
+Go! US$ 17 (1 profesional, 1 sucursal, 50 conversaciones, 100 agendamientos, 100
+créditos), Flux US$ 89 (3 profesionales, 500 conversaciones, 200 créditos), Ultra
+US$ 179 (10 profesionales, 5.000 conversaciones, 10.000 créditos). **Lo que manda es la
+cantidad de profesionales**: las sucursales son ilimitadas en Flux y Ultra. AURA y el
+onboarding dedicado (obligatorio, sin él la IA responde mal) solo en Ultra. El límite se
+expresa siempre en **conversaciones**, nunca en «mensajes». Extras que se compran dentro
+de la app: profesional extra US$ 9/mes (Flux y Ultra), 100 conversaciones US$ 15, 5.000
+créditos US$ 15; ya no hay sucursal extra. Solo clientes nuevos. **Solo dólares: sin switch
+ni precio en MXN** (Ricardo, 16-oct); los precios son texto fijo en USD, no `CatalogPrice`.
 **Sin costo de implementación** en los planes nuevos (Ricardo, 16-oct): el US$ 450 de
 `SETUP_FEE_USD` sigue rigiendo solo los planes viejos y los contratos de `/firma`.
 
 Todo vive en `src/content/planes2.ts`, incluida la lista `PENDIENTES` (copia en
-`docs/planes2-pendientes.md`). Lo que Ricardo no ha decidido (créditos,
-implementación, permanencia, anual, links de Stripe, MXN) es un marcador
-`[PENDIENTE: …]` visible: **no lo rellenes con un número inventado** y no
-reutilices el Stripe del Vortex viejo. Los CTA sin link muestran el marcador en
-vez de un enlace roto. `/go/exito` dispara `Purchase` US$ 17 una vez por pestaña.
+`docs/planes2-pendientes.md`). Lo que Ricardo no ha decidido (links de Stripe de Flux y
+Ultra, anual, logos de los modelos de IA, link de soporte) es un marcador
+`[PENDIENTE: …]` visible: **no lo rellenes con un número inventado** y **no reutilices los
+links de Stripe de 87 y 279**. Los CTA sin link muestran el marcador en vez de un enlace roto.
 Guardián: `tests/planes2.spec.ts`.
+
+**`/go` es un wizard de 3 pantallas** (17-oct), no la landing oscura del 16-oct: 1 oferta
+(«Activa tu cuenta por solo USD 17»), 2 datos (nombre, clínica, especialidad, profesionales,
+correo, WhatsApp), 3 pago. Sin navbar ni footer; el CNN y la FAQ van bajo la pantalla 1.
+Decisiones que se apartan del handoff, con su porqué:
+- **Los datos se guardan antes del pago** reusando `submitContactLead` (el mismo `/api/wizard`
+  → n8n de `/agenda`), con `plan: "go"`. Consecuencia: el lead que abandona queda en Twenty/
+  Baserow como cualquier lead de `/agenda`. La pantalla 3 no espera a n8n.
+- **No se pasa el id del lead como `client_reference_id`.** n8n (`Prepare Data`, workflow
+  `7jgtp669q8pWJKm6`) lo separa por `::` en 7 segmentos y, si no hay `::`, lo lee ENTERO como
+  gclid; un id suelto ensuciaría la atribución. Lo arma `Analytics.tsx`. Lo que sí se manda es
+  `prefilled_email`. El botón de pago nace en la pantalla 3, así que el wizard dispara
+  `clinera:routechange` para que Analytics lo enganche.
+- **El pixel sigue siendo el nuevo `2251201709002818`**, no el `1104567405156111` que traía el
+  handoff (es el anterior al cambio del 16-oct).
+- **Pagar Go! es `SQL` de USD 17, no `Purchase`** (regla de Ricardo, 17-oct). `Purchase` queda
+  para Flux y Ultra. Lo manda el navegador en `/go/exito` y el servidor en
+  `/api/stripe/meta-purchase` con el mismo `event_id` `sql_{session_id}` (`sqlEventId`). No
+  puede ser `{oppId}_SQL` porque el navegador no conoce la oportunidad del CRM. El servidor
+  reconoce Go! por el nombre del producto en Stripe (`isGoPlan`) y fija el valor en USD 17: la
+  sesión de prueba cobró en **CLP** (17.401, `amount_total` sin decimales), por eso
+  `sessionValue` no divide por 100 las monedas sin decimales. Pendiente fuera del repo: el
+  mapeo `planClinera` de W1 solo conoce VORTEX/ATLAS/SUMMIT; Flux (89) y Ultra (179) no emiten
+  `Purchase` por el CRM hasta que se agreguen.
 
 **Activación tras el pago (Ricardo, 16-oct):** `/go/exito` ya no pide «crear cuenta»:
 manda al cliente a WhatsApp de soporte (`SOPORTE_WHATSAPP` en `planes2.ts`,

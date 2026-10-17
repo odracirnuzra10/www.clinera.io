@@ -10,14 +10,20 @@ import {
   COMO_FUNCIONA_2,
   DEFINICION_AURA,
   DEFINICION_INTELLIGENCE,
-  EXTRA_BRANCH_USD,
+  EXTRA_CONVERSATIONS_PACK,
+  EXTRA_CONVERSATIONS_USD,
+  EXTRA_CREDITS_PACK,
+  EXTRA_CREDITS_USD,
+  EXTRA_PROFESSIONAL_USD,
+  LOGOS_MODELOS_PENDIENTE,
   PLANES2_FAQ,
   PLANS_2,
   SOLO_NUEVOS,
-  VORTEX_DEMO_URL,
+  SOPORTE_LINK_PENDIENTE,
+  ULTRA_DEMO_URL,
+  YA_ERES_CLIENTE,
   type Plan2,
 } from "@/content/planes2";
-import { EXTRA_CREDIT_PACK_CREDITS, EXTRA_CREDIT_PACK_USD, EXTRA_USER_USD } from "@/content/pricing";
 
 /** Solo dólares: /planes2 no tiene switch de moneda (Ricardo, 16-oct-2026). */
 const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
@@ -84,17 +90,20 @@ function Hero() {
         <p style={{ fontFamily: MONO, fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", color: "#6B7280", margin: 0 }}>
           {SOLO_NUEVOS}
         </p>
+        <p style={{ fontFamily: "Inter", fontSize: 13.5, color: MUTED, margin: "10px 0 0" }} data-ya-eres-cliente>
+          {YA_ERES_CLIENTE} <Pendiente>{SOPORTE_LINK_PENDIENTE}</Pendiente>
+        </p>
       </div>
     </section>
   );
 }
 
 // Mismo diseño que /planes: tema por tarjeta de home-v3. Go! toma el tema cian
-// (entrada), Flux el violeta y Vortex el violeta intenso, destacado.
+// (entrada), Flux el violeta y Ultra el violeta intenso, destacado.
 const THEME_OF: Record<Plan2["id"], keyof typeof PLAN_THEMES> = {
   go: "vortex",
   flux: "atlas",
-  vortex: "summit",
+  ultra: "summit",
 };
 
 const JAKARTA = "'Plus Jakarta Sans', sans-serif";
@@ -111,7 +120,7 @@ const ICONS: Record<Plan2["id"], React.ReactNode> = {
       <path d="M3 16c3-4 6 4 9 0s6 4 9 0" />
     </svg>
   ),
-  vortex: (
+  ultra: (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round">
       <path d="M21 12a9 9 0 1 1-9-9" />
       <path d="M16.5 12A4.5 4.5 0 1 1 12 7.5" />
@@ -191,7 +200,7 @@ function Cards() {
 
 function PlanCard({ plan }: { plan: Plan2 }) {
   const th = PLAN_THEMES[THEME_OF[plan.id]];
-  const featured = plan.id === "vortex";
+  const featured = plan.id === "ultra";
   const hasBadge = featured || plan.id === "go";
   const monoLabel = {
     fontFamily: MONO,
@@ -298,7 +307,7 @@ function PlanCard({ plan }: { plan: Plan2 }) {
               Plan mensual
             </div>
             <div style={{ fontFamily: MONO, fontSize: 10.5, lineHeight: 1.5, color: th.sub, marginTop: 5 }}>
-              {plan.branches === 1 ? "1 sucursal" : `${plan.branches} sucursales`} ·{" "}
+              {plan.branches === null ? "Sucursales ilimitadas" : plan.branches === 1 ? "1 sucursal" : `${plan.branches} sucursales`} ·{" "}
               {plan.professionals === 1 ? "1 profesional" : `${plan.professionals} profesionales`}
             </div>
           </div>
@@ -315,7 +324,7 @@ function PlanCard({ plan }: { plan: Plan2 }) {
         <PlanCta plan={plan} theme={th} />
         {featured && (
           <a
-            href={VORTEX_DEMO_URL}
+            href={ULTRA_DEMO_URL}
             style={{
               textDecoration: "none",
               textAlign: "center",
@@ -327,7 +336,7 @@ function PlanCard({ plan }: { plan: Plan2 }) {
               opacity: 0.85,
             }}
           >
-            Agendar demo · Vortex
+            Agendar demo · Ultra
           </a>
         )}
       </div>
@@ -345,8 +354,9 @@ function PlanCard({ plan }: { plan: Plan2 }) {
 
         <div style={{ marginTop: "auto", display: "flex", flexWrap: "wrap", gap: 8 }}>
           {[
-            { num: String(plan.professionals), label: "Profesionales" },
-            { num: String(plan.branches), label: plan.branches === 1 ? "Sucursal" : "Sucursales" },
+            { num: String(plan.professionals), label: plan.professionals === 1 ? "Profesional" : "Profesionales" },
+            { num: plan.branches === null ? "Ilimitadas" : String(plan.branches), label: plan.branches === 1 ? "Sucursal" : "Sucursales" },
+            { num: plan.conversations.toLocaleString("es-CL"), label: "Conversaciones/mes" },
           ].map((c) => (
             <span
               key={c.label}
@@ -370,6 +380,17 @@ function PlanCard({ plan }: { plan: Plan2 }) {
           <div style={{ ...monoLabel, marginBottom: 8 }}>Canales</div>
           <PlanChannelLogos channels={[...CHANNELS_2]} color={th.ink} chipBg={th.chipBg} chipBorder={th.chipBorder} />
         </div>
+        {plan.models.length > 0 && (
+          <div style={{ marginTop: 14 }} data-plan-models={plan.id}>
+            <div style={{ ...monoLabel, marginBottom: 8 }}>Modelos de IA</div>
+            <div style={{ fontFamily: "Inter", fontSize: 13.5, fontWeight: 600, color: th.ink, lineHeight: 1.5 }}>
+              {plan.models.join(" · ")}
+            </div>
+            <p style={{ fontFamily: "Inter", fontSize: 11.5, lineHeight: 1.5, margin: "6px 0 0" }}>
+              <Pendiente>{LOGOS_MODELOS_PENDIENTE}</Pendiente>
+            </p>
+          </div>
+        )}
       </div>
     </article>
   );
@@ -504,19 +525,22 @@ function Definiciones() {
 function Addons() {
   const items = [
     {
-      usd: EXTRA_USER_USD,
+      usd: EXTRA_PROFESSIONAL_USD,
       unit: "/mes",
       label: "Profesional extra",
+      note: "En Flux y Ultra. En Go! el límite de 1 es fijo.",
     },
     {
-      usd: EXTRA_BRANCH_USD,
-      unit: "/mes",
-      label: "Sucursal extra",
+      usd: EXTRA_CONVERSATIONS_USD,
+      unit: `por ${EXTRA_CONVERSATIONS_PACK}`,
+      label: "Conversaciones extra",
+      note: "Se compran dentro de la app.",
     },
     {
-      usd: EXTRA_CREDIT_PACK_USD,
+      usd: EXTRA_CREDITS_USD,
       unit: "recarga",
-      label: `${EXTRA_CREDIT_PACK_CREDITS.toLocaleString("es-CL")} créditos extras`,
+      label: `${EXTRA_CREDITS_PACK.toLocaleString("es-CL")} créditos IA extra`,
+      note: "Se compran dentro de la app.",
     },
   ];
   return (
@@ -534,6 +558,7 @@ function Addons() {
                 <span style={{ fontSize: 15, fontWeight: 500, color: "#6B7280", marginLeft: 4 }}>{it.unit}</span>
               </div>
               <div style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 600, color: INK, marginTop: 8 }}>{it.label}</div>
+              <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "#6B7280", lineHeight: 1.5, marginTop: 6 }}>{it.note}</div>
             </div>
           ))}
         </div>
