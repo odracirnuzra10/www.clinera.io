@@ -16,11 +16,13 @@
 
 import { createHash } from "node:crypto";
 import type Stripe from "stripe";
-import { purchaseEventId } from "@/lib/meta-purchase-id";
+import { GO } from "@/content/planes2";
+import { purchaseEventId, sqlEventId } from "@/lib/meta-purchase-id";
 
 export const PURCHASE_EVENT_NAME = "Purchase";
+export const SQL_EVENT_NAME = "SQL";
 
-export { purchaseEventId };
+export { purchaseEventId, sqlEventId };
 
 export function sha256Hex(value: string): string {
   return createHash("sha256").update(value).digest("hex");
@@ -106,6 +108,35 @@ export function isSubscriptionPurchase(session: Stripe.Checkout.Session): boolea
   );
 }
 
+/**
+ * ¿Es la suscripción de Go! (USD 17)? Se reconoce por el nombre del producto en
+ * Stripe («Go!»). Regla de Ricardo (17-oct): pagar Go! es un `SQL` de USD 17, no
+ * un `Purchase`; `Purchase` queda para Flux y Ultra.
+ */
+export function isGoPlan(productNames: string[]): boolean {
+  return productNames.some((n) => /(^|\s)go!?(\s|$)/i.test(n.trim()));
+}
+
+/** Monedas sin decimales en Stripe: `amount_total` ya viene entero (CLP 17.401 = 17401). */
+const ZERO_DECIMAL = new Set(["bif", "clp", "djf", "gnf", "jpy", "kmf", "krw", "mga", "pyg", "rwf", "ugx", "vnd", "vuv", "xaf", "xof", "xpf"]);
+
+export function sessionValue(session: Stripe.Checkout.Session): number {
+  const total = session.amount_total ?? 0;
+  return ZERO_DECIMAL.has((session.currency ?? "usd").toLowerCase()) ? total : total / 100;
+}
+
+/** Evento de conversión de la sesión: `SQL` USD 17 para Go!, `Purchase` para el resto. */
+export function buildConversionEvent(session: Stripe.Checkout.Session, productNames: string[] = []): CapiEvent {
+  const ev = buildPurchaseEvent(session, productNames);
+  if (!isGoPlan(productNames)) return ev;
+  return {
+    ...ev,
+    event_name: SQL_EVENT_NAME,
+    event_id: sqlEventId(session.id),
+    custom_data: { ...ev.custom_data, value: GO.monthlyUsd, currency: "USD" },
+  };
+}
+
 export function buildPurchaseEvent(
   session: Stripe.Checkout.Session,
   productNames: string[] = [],
@@ -120,7 +151,7 @@ export function buildPurchaseEvent(
     action_source: "system_generated",
     user_data: buildUserData(session),
     custom_data: {
-      value: (session.amount_total ?? 0) / 100,
+      value: sessionValue(session),
       currency: (session.currency ?? "usd").toUpperCase(),
       content_name: name,
       content_ids: [name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "")],

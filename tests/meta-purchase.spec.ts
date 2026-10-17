@@ -3,11 +3,15 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import type Stripe from "stripe";
 import {
+  buildConversionEvent,
   buildPurchaseEvent,
   isClineraSale,
+  isGoPlan,
   isSubscriptionPurchase,
   normalizePhone,
   purchaseEventId,
+  sessionValue,
+  sqlEventId,
 } from "@/lib/meta-purchase";
 
 const sha = (v: string) => createHash("sha256").update(v).digest("hex");
@@ -49,10 +53,47 @@ test.describe("Stripe → Meta CAPI: Purchase de suscripción", () => {
     expect(JSON.stringify(ev.user_data)).not.toMatch(/clinica\.cl|56912345678|camila/i);
   });
 
-  test("el event_id es el mismo que usa el navegador en /go/exito (deduplica)", () => {
+  test("el event_id del Purchase (Flux, Ultra) es purchase_{session}", () => {
     expect(buildPurchaseEvent(session).event_id).toBe(purchaseEventId("cs_live_a1B2"));
     expect(purchaseEventId("cs_live_a1B2")).toBe("purchase_cs_live_a1B2");
-    expect(readFileSync("src/components/go/GoExito.tsx", "utf8")).toContain("purchaseEventId(sid)");
+  });
+
+  test("Go! no es Purchase: es SQL de USD 17 y el navegador de /go/exito usa el mismo event_id (deduplica)", () => {
+    const ev = buildConversionEvent(session, ["Go!"]);
+    expect(ev.event_name).toBe("SQL");
+    expect(ev.event_id).toBe("sql_cs_live_a1B2");
+    expect(ev.event_id).toBe(sqlEventId("cs_live_a1B2"));
+    expect(ev.custom_data.value).toBe(17);
+    expect(ev.custom_data.currency).toBe("USD");
+    expect(readFileSync("src/components/go/GoExito.tsx", "utf8")).toContain("sqlEventId(sid)");
+  });
+
+  test("el SQL de Go! vale USD 17 aunque Stripe cobre en CLP o con cupón (la sesión de prueba fue CLP 17.401 con 100% de descuento)", () => {
+    const clp = { ...session, currency: "clp", amount_total: 0 } as unknown as Stripe.Checkout.Session;
+    const ev = buildConversionEvent(clp, ["Go!"]);
+    expect(ev.event_name).toBe("SQL");
+    expect(ev.custom_data.value).toBe(17);
+    expect(ev.custom_data.currency).toBe("USD");
+  });
+
+  test("Flux y Ultra siguen mandando Purchase", () => {
+    for (const nombre of ["Clinera Flux", "Clinera Ultra", "Flux", "Ultra"]) {
+      expect(buildConversionEvent(session, [nombre]).event_name, nombre).toBe("Purchase");
+    }
+    expect(buildConversionEvent(session, []).event_name).toBe("Purchase");
+  });
+
+  test("isGoPlan reconoce «Go!» y no confunde otros nombres", () => {
+    expect(isGoPlan(["Go!"])).toBe(true);
+    expect(isGoPlan(["Clinera Go!"])).toBe(true);
+    expect(isGoPlan(["Plan Go"])).toBe(true);
+    expect(isGoPlan(["Gold Plan", "Mango"])).toBe(false);
+    expect(isGoPlan(["Clinera Ultra"])).toBe(false);
+  });
+
+  test("monedas sin decimales (CLP) no se dividen por 100", () => {
+    expect(sessionValue({ ...session, currency: "clp", amount_total: 17401 } as unknown as Stripe.Checkout.Session)).toBe(17401);
+    expect(sessionValue(session)).toBe(17);
   });
 
   test("sin celular o nombre, esos campos se omiten en vez de mandar vacíos", () => {

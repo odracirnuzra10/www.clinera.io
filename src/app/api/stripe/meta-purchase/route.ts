@@ -1,9 +1,9 @@
 // ============================================================================
-// Stripe → Meta CAPI — `Purchase` cuando alguien se suscribe
+// Stripe → Meta CAPI — `SQL` (Go!) o `Purchase` (Flux, Ultra) al suscribirse
 // ----------------------------------------------------------------------------
 // Webhook de Stripe (`checkout.session.completed`). Verifica la firma, filtra
-// las suscripciones de Clinera y reenvía un `Purchase` a la Conversions API del
-// pixel del sitio. La lógica del evento está en `src/lib/meta-purchase.ts`.
+// las suscripciones de Clinera y reenvía a la Conversions API del pixel del
+// sitio un `SQL` de USD 17 si es Go! (regla de Ricardo, 17-oct) o un `Purchase`. La lógica del evento está en `src/lib/meta-purchase.ts`.
 //
 // Es un endpoint PROPIO, distinto de los que Stripe ya tiene hacia n8n: no toca
 // ese flujo (no versionado en este repo) ni lo reemplaza.
@@ -23,7 +23,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { META_PIXEL_ID } from "@/lib/meta-pixel-id";
 import {
-  buildPurchaseEvent,
+  buildConversionEvent,
   isClineraSale,
   isSubscriptionPurchase,
 } from "@/lib/meta-purchase";
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
 
   const pixelId = process.env.META_PIXEL_ID || META_PIXEL_ID;
   const version = process.env.META_GRAPH_VERSION || "v21.0";
-  const payload: Record<string, unknown> = { data: [buildPurchaseEvent(session, names)] };
+  const payload: Record<string, unknown> = { data: [buildConversionEvent(session, names)] };
   if (process.env.META_TEST_EVENT_CODE) payload.test_event_code = process.env.META_TEST_EVENT_CODE;
 
   const res = await fetch(`https://graph.facebook.com/${version}/${pixelId}/events?access_token=${encodeURIComponent(token)}`, {

@@ -3,17 +3,20 @@
 import { useEffect } from "react";
 import { GRAD } from "@/components/brand-v3/Brand";
 import { GO_ACTIVACION_PASOS, GO_ANALYTICS, SOPORTE_WHATSAPP, SOPORTE_WHATSAPP_URL } from "@/content/planes2";
-import { readGoAttribution } from "@/lib/go-attribution";
-import { purchaseEventId } from "@/lib/meta-purchase-id";
-import { track, trackPixel } from "@/lib/tracking";
+import { sqlEventId } from "@/lib/meta-purchase-id";
+import { trackPixel } from "@/lib/tracking";
 
-const SS_KEY = "cl_go_purchase_sent";
+const SS_KEY = "cl_go_sql_sent";
 
 /**
- * Página de éxito de Stripe Checkout de Go!. Dispara `Purchase` (US$ 17) una
- * sola vez por pestaña: recargar la página no debe duplicar la conversión.
- * Si Stripe manda `?session_id=`, `purchaseEventId()` es el `eventID`: coincide con el `event_id` del
- * Purchase por servidor de `/api/stripe/meta-purchase`, así Meta lo cuenta una sola vez.
+ * Página de éxito de Stripe Checkout de Go!. Regla de Ricardo (17-oct): pagar Go!
+ * es un `SQL` de USD 17, NO un `Purchase` (ese queda para Flux y Ultra). Se dispara
+ * una sola vez por pestaña: recargar la página no debe duplicar la conversión.
+ *
+ * Si Stripe manda `?session_id=`, `sqlEventId()` es el `eventID`: coincide con el
+ * `event_id` del SQL por servidor de `/api/stripe/meta-purchase`, así Meta lo cuenta
+ * una sola vez. No se empuja nada al dataLayer: la etiqueta de Meta de GTM reenvía
+ * todo evento y duplicaría el SQL con otro `event_id`.
  */
 export default function GoExito() {
   useEffect(() => {
@@ -24,19 +27,9 @@ export default function GoExito() {
       // Sin sessionStorage el evento puede repetirse al recargar; es lo menos malo.
     }
     const sid = new URLSearchParams(window.location.search).get("session_id");
-    const eventId = sid ? purchaseEventId(sid) : `purchase_${Date.now()}`;
-    track("purchase", {
-      lead_source: GO_ANALYTICS.leadSource,
-      plan: "go",
-      content_name: GO_ANALYTICS.contentName,
-      value: GO_ANALYTICS.valueUsd,
-      currency: GO_ANALYTICS.currency,
-      transaction_id: eventId,
-      ...readGoAttribution(),
-      page_path: "/go/exito",
-    });
+    const eventId = sid ? sqlEventId(sid) : `sql_${Date.now()}`;
     trackPixel(
-      "Purchase",
+      "SQL",
       {
         content_name: GO_ANALYTICS.contentName,
         content_ids: [GO_ANALYTICS.contentId],
