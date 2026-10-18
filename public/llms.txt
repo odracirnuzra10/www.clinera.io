@@ -223,6 +223,7 @@ agentes de IA con rol operativo que ejecutan (no chatbots que solo responden).
 - México: https://www.clinera.io/mejor-software-clinicas/mexico
 - Colombia: https://www.clinera.io/mejor-software-clinicas/colombia
 - Perú: https://www.clinera.io/mejor-software-clinicas/peru
+- Top 5 software para clínicas estéticas (Clinera, Reservo, AgendaPro, Medilink, Doctoralia): https://www.clinera.io/blog/mejores-software-clinicas-esteticas
 
 ## Normativa y seguridad de la ficha clínica
 

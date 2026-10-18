@@ -1,0 +1,264 @@
+/* «Activa tu agente IA». Lo único oscuro del sitio: corta el ritmo light y
+   obliga a leer. Titular gigante, degradado de marca en la palabra que rota y
+   en el brillo de fondo; metadata en mono mayúscula. */
+
+.wrap {
+  container-type: inline-size;
+  padding: 24px 80px;
+  background: #fff;
+}
+
+.enColumna {
+  padding: 0;
+  margin: 56px 0;
+  background: transparent;
+}
+
+.panel {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 28px;
+  background: #0a0a12;
+  color: #fff;
+  padding: 64px 64px 52px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.glow {
+  position: absolute;
+  inset: -40% -20% auto auto;
+  width: 900px;
+  height: 900px;
+  z-index: -1;
+  background:
+    radial-gradient(closest-side at 70% 40%, rgba(124, 58, 237, 0.55), transparent 70%),
+    radial-gradient(closest-side at 40% 60%, rgba(59, 130, 246, 0.45), transparent 70%),
+    radial-gradient(closest-side at 85% 75%, rgba(217, 70, 239, 0.4), transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.live {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+  animation: livePulse 2.2s infinite;
+}
+
+@keyframes livePulse {
+  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.h2 {
+  margin: 22px 0 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #fff;
+}
+
+.line {
+  display: block;
+}
+
+.line:first-child {
+  font-size: 88px;
+}
+
+.line + .line {
+  margin-top: 14px;
+  font-size: 44px;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* La palabra que rota: las cuatro en la misma celda, la caja mide la más ancha. */
+.rotor {
+  display: inline-grid;
+  vertical-align: bottom;
+}
+
+.word {
+  grid-area: 1 / 1;
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f0abfc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+  animation: rotar 10s infinite both;
+}
+
+@keyframes rotar {
+  0% { opacity: 0; transform: translateY(0.25em); }
+  3% { opacity: 1; transform: none; }
+  22% { opacity: 1; transform: none; }
+  25% { opacity: 0; transform: translateY(-0.25em); }
+  100% { opacity: 0; transform: translateY(-0.25em); }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.channels {
+  list-style: none;
+  padding: 0;
+  margin: 44px 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.channel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.channel b {
+  display: block;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 650;
+  color: #fff;
+}
+
+.channel small {
+  display: block;
+  margin-top: 2px;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.logo {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.foot {
+  margin-top: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 30px;
+  border-radius: 14px;
+  background: #fff;
+  color: #0a0a0a;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2), 0 18px 50px -10px rgba(167, 139, 250, 0.6);
+  transition: transform 0.15s ease;
+}
+
+.cta:hover {
+  transform: translateY(-1px);
+}
+
+.note {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* El ancho lo decide el contenedor: página completa o columna del blog. */
+@container (max-width: 980px) {
+  .panel {
+    padding: 48px 36px 40px;
+  }
+  .line:first-child {
+    font-size: 64px;
+  }
+  .line + .line {
+    font-size: 32px;
+  }
+  .channels {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@container (max-width: 560px) {
+  .panel {
+    padding: 36px 22px 30px;
+    border-radius: 22px;
+  }
+  .meta {
+    font-size: 10.5px;
+  }
+  .line:first-child {
+    font-size: 42px;
+  }
+  .line + .line {
+    font-size: 24px;
+  }
+  .channels {
+    grid-template-columns: 1fr;
+  }
+  .cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 900px) {
+  .wrap:not(.enColumna) {
+    padding: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word,
+  .live {
+    animation: none;
+  }
+  .word:first-child {
+    opacity: 1;
+  }
+}

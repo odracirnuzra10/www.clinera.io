@@ -115,7 +115,7 @@ export function Hero() {
               >
                 ✦
               </span>
-              CLINERA O.S. · EL SISTEMA OPERATIVO DE TU CLÍNICA
+              CLINERA O.S. · SOFTWARE PARA CLÍNICAS ESTÉTICAS
               <span style={{ color: "#9CA3AF" }}>·</span>
               <span style={{ color: "#10B981", textTransform: "none", letterSpacing: "0.08em" }}>
                 en vivo en Chile y México
@@ -134,10 +134,9 @@ export function Hero() {
                 color: "#0A0A0A",
               }}
             >
-              {/* H1 — opción elegida (alternativa 2). Otras opciones:
-                  · "El sistema con IA que opera y estandariza todas tus clínicas."
-                  · "Coordina todas tus sedes y a todo tu equipo con agentes de IA." */}
-              Opera 2, 5 o 20 sedes{" "}
+              {/* H1 — nicho estético (Ricardo, 18-oct-2026). Antes: «Opera 2, 5 o 20
+                  sedes con la misma precisión que una» (multisede). */}
+              El software que{" "}
               <span
                 style={{
                   background: GRAD,
@@ -146,7 +145,7 @@ export function Hero() {
                   color: "transparent",
                 }}
               >
-                con la misma precisión que una
+                entiende tu clínica estética
               </span>
               .
             </h1>
@@ -161,7 +160,8 @@ export function Hero() {
                 maxWidth: 580,
               }}
             >
-              <b style={{ color: "#0A0A0A" }}>Clinera O.S.</b> es el sistema operativo con IA por el que opera tu clínica — agenda, pacientes, fichas, tratamientos, cobros y marketing — y pone agentes a trabajar sobre <b style={{ color: "#0A0A0A" }}>todo tu equipo y todas tus sedes</b> por WhatsApp: agendan, reagendan, confirman, cobran y recuperan pacientes 24/7. Toda tu operación bajo control, con visibilidad central.
+              Fichas de estética facial y corporal, presupuestos y tratamientos como{" "}
+              <b style={{ color: "#0A0A0A" }}>Sculptra, Radiesse, Endoláser y Rinolips</b> ya cargados. AURA agenda, confirma y recupera pacientes por WhatsApp 24/7. Lo construimos para nuestras propias clínicas estéticas: <b style={{ color: "#0A0A0A" }}>Método Hebe y Protocolo Lumina</b>.
             </p>
 
             <div style={{ display: "flex", gap: 12, marginTop: 30, flexWrap: "wrap" }}>

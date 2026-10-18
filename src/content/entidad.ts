@@ -47,7 +47,7 @@ export const DISAMBIGUATING_DESCRIPTION =
   "Empresa chilena de software para clínicas en Latinoamérica (clinera.io). No relacionada con clinera.ai.";
 
 export const HOME_META_DESCRIPTION =
-  "Clinera O.S. es el sistema con IA por el que opera tu clínica: agenda, pacientes, fichas, tratamientos, ventas y marketing, con agentes que agendan, confirman, cobran y recuperan pacientes 24/7.";
+  "Clinera O.S. es el software con IA para clínicas estéticas y médicas: ficha facial y corporal, presupuestos, tratamientos precargados y agentes que agendan, confirman y recuperan pacientes por WhatsApp 24/7.";
 
 export const MARKETS = [
   "Chile",

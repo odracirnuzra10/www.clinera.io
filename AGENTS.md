@@ -693,6 +693,41 @@ no prometer porcentajes de reducción de no-shows, no hay dato propio.
 un producto aparte; no prometer email marketing ni triggers de cumpleaños (son
 «próximas funciones»). Webhooks/API pública no se presentan como integración de agenda.
 
+# Nicho estético: home y `/clinica-estetica` (Ricardo, 18-oct-2026)
+
+Clinera se enfoca en **clínicas estéticas** (enfermeras, médicos estéticos,
+clínicas y centros de estética) y en segundo lugar médicas: es donde el
+producto brilla, porque nació en Método Hebe (corporal) y Protocolo Lumina
+(facial). El copy del nicho vive en `src/content/estetica.ts` y lo consumen
+el home (hero + `EsteticaSection` bajo el video) y la landing de Google Ads.
+Los tratamientos precargados (Sculptra, Radiesse, Endoláser, Rinolips) son los
+que nombró Ricardo: no agregues otros sin que él lo confirme.
+
+`/clinica-estetica` es el **destino de Google Ads** para estética, no la página
+SEO (esa es `/software-estetica`): `noindex`, `Disallow` y fuera del sitemap.
+Copia el patrón de Reservo/Medilink: wizard corto (nombre, tipo de clínica,
+correo, WhatsApp) y después el **mismo calendario de `/agenda`**
+(`StepClineraScheduler` importado, nunca copiado). El perfil exacto viaja como
+`subtipo_clinica` en el payload; `tipo_clinica` sigue siendo `estetica` o
+`medica` para n8n. El MQL sale al reservar, una vez. No toca `/go`.
+Guardián: `tests/clinica-estetica.spec.ts`.
+
+# Banda «Activa tu agente IA» (Ricardo, 18-oct-2026)
+
+`src/components/agente-ia/AgenteIABanda.tsx`: panel oscuro de tipografía
+gigante que rompe el ritmo light del sitio a propósito. **Va siempre** en el
+home, en las landings (`/clinica-estetica`, todas las `software-vertical`) y
+en cada artículo del blog (`/blog/[slug]`, variante `enColumna`). Una por
+página. Canales: WhatsApp, Facebook, Instagram y llamadas; la nota «Llamadas
+con IA (CAMILA) en el plan Summit» no se saca: la voz es exclusiva de Summit.
+CTA a `/go` con la query de la visita; en `/clinica-estetica` baja al
+formulario (`#agenda-demo`), porque esa landing solo vende la reunión. Usa
+`aria-label`, no `aria-labelledby`: un nombre accesible con «WhatsApp» hacía
+que `getByLabel("WhatsApp")` de los tests de formularios encontrara la banda.
+Guardián: `tests/agente-ia-banda.spec.ts` (también vigila el ranking
+`/blog/mejores-software-clinicas-esteticas`: Clinera 1.º, Reservo, AgendaPro,
+Medilink, Doctoralia; cifras de competidores = las que ellos publican, con fecha).
+
 # Landings `/software-medico` y `/software-dental`
 
 Dueñas de los clusters de Google Ads "Softwares" (software médico / software
