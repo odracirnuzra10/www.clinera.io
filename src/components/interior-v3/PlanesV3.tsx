@@ -2,15 +2,10 @@
 
 import { useState } from "react";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
-import { FinalCTA, Pricing, useReveal } from "@/components/home-v3/sections";
+import { FinalCTA, useReveal } from "@/components/home-v3/sections";
 import { PLANES_FAQ } from "@/content/planes-faq";
-import CatalogPrice from "@/components/pricing/CatalogPrice";
-import {
-  EXTRA_CREDIT_PACK_CREDITS,
-  EXTRA_CREDIT_PACK_USD,
-  EXTRA_USER_USD,
-  SETUP_FEE_USD,
-} from "@/content/pricing";
+import PlanesVigentes from "@/components/pricing/PlanesVigentes";
+import { IMPLEMENTACION_USD, PLANES_TITULO, PLANES_TITULO_ACENTO } from "@/content/planes";
 
 const FAQ = PLANES_FAQ;
 
@@ -29,8 +24,7 @@ export default function PlanesV3() {
         }
       `}</style>
       <PlanesHero />
-      <Pricing intro="none" />
-      <Addons />
+      <PlanesVigentes id="planes" conTitulo={false} />
       <PlanesFaq />
       <FinalCTA />
     </>
@@ -59,9 +53,9 @@ function PlanesHero() {
           }}
           className="planes-hero-title"
         >
-          Elige tu plan.{" "}
+          {PLANES_TITULO}{" "}
           <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-            Escala sin perder el control.
+            {PLANES_TITULO_ACENTO}
           </span>
         </h1>
         <p
@@ -74,83 +68,14 @@ function PlanesHero() {
             maxWidth: 620,
           }}
         >
-          Del equipo de recepción a varias sedes. El plan anual va primero, con 20% OFF.
-          El mensual queda debajo. Permanencia mínima de 6 meses.
-          El primer cobro suma la implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" />.
+          Flux, Nexus y Summit: eliges según cuántos profesionales tiene tu equipo.
+          Todos suman una implementación de US$ {IMPLEMENTACION_USD}, pago único.
+          Para contratar, hablas con ventas.
         </p>
       </div>
       <style jsx>{`
         @media (max-width: 720px) {
           :global(.planes-hero-title) { font-size: 36px !important; }
-        }
-      `}</style>
-    </section>
-  );
-}
-
-function Addons() {
-  const items = [
-    {
-      usd: EXTRA_CREDIT_PACK_USD,
-      unit: "recarga",
-      label: `${EXTRA_CREDIT_PACK_CREDITS.toLocaleString("es-CL")} créditos extras`,
-      sub: "≈166 conversaciones o ~25 agendamientos de emergencia cuando agotas la bolsa del mes.",
-    },
-    {
-      usd: EXTRA_USER_USD,
-      unit: "/mes",
-      label: "Usuario / profesional extra",
-      sub: "Suma asientos sin cambiar de plan.",
-    },
-  ];
-  return (
-    <section style={{ padding: "80px 80px", background: "#fff", borderTop: "1px solid #F0F0F0" }}>
-      <div className="reveal" style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <Eyebrow>Add-ons</Eyebrow>
-          <h2
-            style={{
-              fontFamily: "Inter",
-              fontSize: 36,
-              fontWeight: 700,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.05,
-              margin: "12px 0 0",
-              color: "#0A0A0A",
-            }}
-          >
-            Escala cuando lo necesites.
-          </h2>
-        </div>
-        <div
-          className="planes-addons-grid"
-          style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 20, maxWidth: 660, margin: "0 auto" }}
-        >
-          {items.map((it) => (
-            <div
-              key={it.label}
-              style={{
-                background: "#FAFAFA",
-                border: "1px solid #EEECEA",
-                borderRadius: 16,
-                padding: "28px 26px",
-                textAlign: "center",
-                position: "relative",
-              }}
-            >
-              <div style={{ fontFamily: "Inter", fontSize: 36, fontWeight: 700, letterSpacing: "-0.02em", color: "#0A0A0A" }}>
-                <CatalogPrice usd={it.usd} />
-                <span style={{ fontSize: 16, fontWeight: 500, color: "#6B7280", marginLeft: 4 }}>{it.unit}</span>
-              </div>
-              <div style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 600, color: "#0A0A0A", marginTop: 8 }}>{it.label}</div>
-              <div style={{ fontFamily: "Inter", fontSize: 12.5, color: "#6B7280", marginTop: 6, lineHeight: 1.5 }}>{it.sub}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <style jsx>{`
-        @media (max-width: 900px) {
-          :global(.planes-addons-grid) { grid-template-columns: 1fr !important; max-width: 380px !important; }
         }
       `}</style>
     </section>

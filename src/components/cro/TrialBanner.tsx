@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import CatalogPrice from "@/components/pricing/CatalogPrice";
-import { SETUP_FEE_USD } from "@/content/pricing";
+import { IMPLEMENTACION_USD } from "@/content/planes";
 
 type Props = {
   variant?: "light" | "dark";
@@ -12,7 +11,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
   const dark = variant === "dark";
   return (
     <section
-      aria-label="Implementación de Clinera: pago único con el primer mes del plan"
+      aria-label="Implementación de Clinera: pago único en todos los planes"
       style={{
         padding: "32px 24px",
         background: dark ? "#0A0A0A" : "#FAF8FF",
@@ -62,7 +61,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
                 letterSpacing: "-0.01em",
               }}
             >
-              Configuración inicial <CatalogPrice usd={SETUP_FEE_USD} variant="code" />
+              Implementación US${IMPLEMENTACION_USD}
               <span
                 style={{
                   marginLeft: 8,
@@ -90,7 +89,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
                 color: dark ? "rgba(255,255,255,0.72)" : "#4B5563",
               }}
             >
-              Onboarding asistido por un humano: configura AURA, conecta tu WhatsApp e importa tu base. Quedas operando el mismo día. El primer cobro es la implementación más el primer mes del plan.
+              En todos los planes. Configuramos tu cuenta, conectamos tu WhatsApp, Instagram y Facebook e importamos tu base de pacientes.
             </p>
           </div>
         </div>
@@ -109,7 +108,7 @@ export default function TrialBanner({ variant = "light" }: Props) {
               boxShadow: "0 10px 26px -8px rgba(124,58,237,0.45)",
             }}
           >
-            Agendar demo →
+            Hablar con ventas →
           </Link>
           <Link
             href="/planes"

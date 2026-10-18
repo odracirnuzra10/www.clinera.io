@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { IMPLEMENTACION_USD, PLAN_DESDE_USD } from "@/content/planes";
 
 const COMPETITOR_LABELS: Record<string, string> = {
   agendapro: "AgendaPro",
@@ -25,7 +26,7 @@ export default function PostCTA({ relatedComparativa }: Props) {
 
   const subhead = compLabel
     ? `Tabla lado a lado, dimensiones técnicas, FAQ y cuándo elegir cada uno. O agenda 45 min con ventas y resolvemos tu caso puntual.`
-    : `AURA atendiendo WhatsApp 24/7 con tu agenda y tu base de datos. Demo grabada de 5 minutos o reunión con ventas. Planes desde USD 279/mes (permanencia mínima de 6 meses). El primer cobro incluye implementación USD 450 más el primer mes del plan. El catálogo está en USD; en /planes puedes ver MXN.`;
+    : `AURA atendiendo WhatsApp 24/7 con tu agenda y tu base de datos. Demo grabada de 5 minutos o reunión con ventas. Planes desde US$ ${PLAN_DESDE_USD}/mes, más US$ ${IMPLEMENTACION_USD} de implementación (pago único).`;
 
   return (
     <section

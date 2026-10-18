@@ -16,6 +16,7 @@ import {
   type Billing,
 } from "@/content/pricing";
 import { VERTEX_IA_MODELS } from "@/content/ia-stack";
+import ClinicasLogos from "@/components/clinicas/ClinicasLogos";
 import AvisoNoReemplaza from "@/components/empleado-digital/AvisoNoReemplaza";
 import CatalogPrice from "@/components/pricing/CatalogPrice";
 import BillingToggle from "@/components/pricing/BillingToggle";
@@ -554,58 +555,8 @@ function HeroMockup() {
    LOGOS
    ============================================================ */
 export function Logos() {
-  const clinics = [
-    "Hospital del Valle",
-    "Clínica Andes",
-    "Clínica Providencia",
-    "Dermaclinic",
-    "Centro Estético Aurora",
-    "Vitaderma",
-    "protocololumina.cl",
-    "Nuevo Ser",
-  ];
-  return (
-    <section
-      className="reveal"
-      style={{ padding: "56px 80px", borderTop: "1px solid #F0F0F0", background: "#fff" }}
-    >
-      <div style={{ maxWidth: 1200, margin: "0 auto", textAlign: "center" }}>
-        <Mono>Usado por clínicas líderes en Chile y LATAM</Mono>
-        <div
-          className="home-logos-grid"
-          style={{
-            marginTop: 26,
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "16px 40px",
-            alignItems: "center",
-            justifyItems: "center",
-          }}
-        >
-          {clinics.map((n, i) => (
-            <div
-              key={i}
-              style={{
-                fontFamily: "Inter",
-                fontSize: 17,
-                fontWeight: 600,
-                color: "#0A0A0A",
-                letterSpacing: "-0.015em",
-                opacity: 0.55,
-              }}
-            >
-              {n}
-            </div>
-          ))}
-        </div>
-      </div>
-      <style jsx>{`
-        @media (max-width: 720px) {
-          :global(.home-logos-grid) { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-      `}</style>
-    </section>
-  );
+  // Logos reales en blanco y negro (18-oct-2026). La lista vieja de nombres era inventada.
+  return <ClinicasLogos />;
 }
 
 /* ============================================================

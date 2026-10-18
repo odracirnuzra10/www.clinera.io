@@ -129,19 +129,14 @@ test.describe("Meta Pixel & dataLayer events", () => {
     ).toBeGreaterThanOrEqual(1);
   });
 
-  test("4) Plan cards on /planes: Contratar → Stripe; Agendar demo → /agenda (secundario)", async ({ page }) => {
+  // Desde el 18-oct-2026 /planes no tiene checkout: cada tarjeta habla con ventas.
+  test("4) Plan cards on /planes: «Hablar con ventas» → /agenda?plan=…", async ({ page }) => {
     await page.goto("/planes", { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(1500);
-
-    const contratar = page.locator('#precios a[data-plan][data-plan-billing]').first();
-    await expect(contratar).toBeVisible({ timeout: 10_000 });
-    await expect(contratar).toContainText(/Contratar/i);
-    await expect(contratar).toHaveAttribute("href", /buy\.stripe\.com/);
-
-    const demoLink = page.locator('#precios a[data-plan-demo]').first();
-    await expect(demoLink).toBeVisible();
-    await expect(demoLink).toContainText(/Agendar demo/i);
-    await expect(demoLink).toHaveAttribute("href", /\/agenda/);
+    const cta = page.locator('[data-plan-card="nexus"] a[data-cta-ventas="nexus"]');
+    await expect(cta).toBeVisible({ timeout: 10_000 });
+    await expect(cta).toContainText(/Hablar con ventas/i);
+    await expect(cta).toHaveAttribute("href", /^\/agenda\?(.*&)?plan=nexus/);
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
   });
 
   test("5) EngagedSession fires after 60 seconds of visible time", async ({ page }) => {

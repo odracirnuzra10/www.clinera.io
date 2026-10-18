@@ -363,7 +363,7 @@ export default function EsteticaAdsLanding({ tzIp = "" }: { tzIp?: string }) {
         </div>
       </section>
 
-      <EsteticaSection id="hecho-para-estetica" />
+      <EsteticaSection id="hecho-para-estetica" modelo="enfermera" ctaHref="#agenda-demo" />
 
       {/* En la landing de Ads el único destino es la reunión: el CTA de la
           banda baja al formulario en vez de ir a /go. */}
