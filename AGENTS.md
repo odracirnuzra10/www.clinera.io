@@ -553,21 +553,29 @@ Guardián: `tests/reserva-tu-hora.spec.ts` + `tests/telefono.spec.ts`.
 profesionales, 10.000 créditos, bandeja WhatsApp/IG/FB) y Ecosistema US$ 479/mes
 (Vortex + marketing de performance: campañas, propuesta de valor, framework
 comercial; «Recomendado»). Implementación US$ 450 pago único, en el primer
-cobro; promo del mes: gratis en Ecosistema. Fuente única: `src/content/planes.ts`.
+cobro, **siempre** (Ricardo, 18-oct: la promo «implementación gratis en Ecosistema»
+se sacó; el descuento se negocia en la reunión de ventas, no se publica). **Extras del
+software** (`EXTRAS` en `planes.ts`, valen para las dos opciones): profesional extra
+US$ 9/mes, 500 conversaciones extra US$ 15, 5.000 créditos de IA extra US$ 15.
+Fuente única: `src/content/planes.ts`.
 Se acabaron Flux, Hurricane, Nexus, Atlas, Summit, Go!, el cupón y la compra por
-la web. Sin precios de extras, sin permanencia y sin plan anual (pendientes de
+la web. Sin permanencia y sin plan anual (pendientes de
 Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
 `/agenda?servicio=…` con la query de la visita (`agendaHref`).
 
-- **`/agenda` es un wizard de 3 pasos** (`AgendaWizard.tsx`, copy en
-  `agenda-oferta.ts`): 1 datos (tipo de clínica, profesionales, ciudad, país) →
-  CRM con `submitContactLead`; 2 servicio de interés (marketing / software /
-  ambas, preselección por `?servicio=`); 3 videollamada con el calendario nativo
-  (`StepClineraScheduler`). Debajo: «Cómo funciona el ecosistema» (campañas →
-  WhatsApp → la IA agenda). `/clinica-estetica`, `/activar-cuenta`,
+- **`/agenda` es un wizard de 3 pasos, sin scroll de página** (`AgendaWizard.tsx`,
+  copy en `agenda-oferta.ts`), en el formato de `protocololumina.cl/evaluacion`:
+  pantalla partida (panel oscuro con una imagen por paso y wizard blanco; en móvil
+  el panel va arriba, compacto). Paso 1: qué servicio te interesa, **se pueden elegir
+  varios** (marketing con cohete, software; los dos juntos = «ambas», con un rayo);
+  paso 2: **solo nombre, correo, celular y nombre de la clínica** (Ricardo: «el
+  resto lo manejamos nosotros»; el país sale del prefijo y `tipo_clinica`,
+  `boxes_profesionales` y `ciudad` viajan vacíos); paso 3: horario con el calendario
+  nativo (`StepClineraScheduler`). Imágenes en `public/images/agenda/` (generadas en
+  Higgsfield, 16:9, con marcas ficticias). `/clinica-estetica`, `/activar-cuenta`,
   `/reunion-comercial` y similares redirigen ahí (308, con query).
 - **Eventos del sitio (pixel `2251201709002818` vía GTM):** `Lead` US$ 3 al
-  pasar el paso 1; `ViewContent` al elegir servicio; `MQL` US$ 10 al agendar;
+  enviar el paso 2 (datos); `ViewContent` al elegir servicio; `MQL` US$ 10 al agendar;
   `SQL` US$ 30 (asistió, es real y califica) lo emite el CRM, **no el sitio**, y
   hoy W1 de n8n manda SQL US$ 100 al pixel viejo: cambiarlo es en n8n; `Cliente`
   = valor del plan vía Stripe (`planVigenteDe` en `meta-purchase.ts`).
@@ -719,21 +727,22 @@ franja de logos reales en blanco y negro (`ClinicasLogos`, lista en
 tenía nombres **inventados** («Hospital del Valle»…): `Logos()` ahora pinta los
 reales. Everest usa `everest-mono.png` (el original trae fondo azul).
 
-# Banda «Activa tu agente IA» (Ricardo, 18-oct-2026)
+# Banda «Activa tu ecosistema» (Ricardo, 18-oct-2026)
 
-`src/components/agente-ia/AgenteIABanda.tsx`: panel oscuro de tipografía
-gigante que rompe el ritmo light del sitio a propósito. **Va siempre** en el
-home, en las landings (`/clinica-estetica/activar-cuenta`, todas las `software-vertical`) y
-en cada artículo del blog (`/blog/[slug]`, variante `enColumna`). Una por
-página. Canales: WhatsApp, Facebook, Instagram y llamadas; la nota «El agente
-IA de texto y voz viene en el plan Summit» no se saca. CTA «Activar cuenta» a
-la landing con la query de la visita; dentro de la landing baja al formulario
-(`#crear-cuenta`). Usa
-`aria-label`, no `aria-labelledby`: un nombre accesible con «WhatsApp» hacía
-que `getByLabel("WhatsApp")` de los tests de formularios encontrara la banda.
-Guardián: `tests/agente-ia-banda.spec.ts` (también vigila el ranking
-`/blog/mejores-software-clinicas-esteticas`: Clinera 1.º, Reservo, AgendaPro,
-Medilink, Doctoralia; cifras de competidores = las que ellos publican, con fecha).
+`src/components/agente-ia/AgenteIABanda.tsx` (el nombre del archivo quedó del título
+anterior, «Activa tu agente IA»): panel oscuro de tipografía gigante que rompe el
+ritmo light del sitio a propósito. **Va siempre** en el home, en las landings
+(todas las `software-vertical`) y en cada artículo del blog (`/blog/[slug]`,
+variante `enColumna`). Una por página. Ricardo pidió enfocarla en **todo el
+ecosistema, no solo el software**: tres tarjetas — campañas de marketing,
+framework comercial y canales + agenda (la IA responde por WhatsApp, Facebook,
+Instagram y teléfono y deja la cita creada). CTA «Agendar videollamada» a `/agenda`
+con la query de la visita. Usa `aria-label`, no `aria-labelledby`: un nombre accesible con
+«WhatsApp» hacía que `getByLabel("WhatsApp")` de los tests de formularios
+encontrara la banda. Guardián: `tests/agente-ia-banda.spec.ts` (también vigila el
+ranking `/blog/mejores-software-clinicas-esteticas`: Clinera 1.º, Reservo,
+AgendaPro, Medilink, Doctoralia; cifras de competidores = las que ellos publican,
+con fecha).
 
 # Landings `/software-medico` y `/software-dental`
 

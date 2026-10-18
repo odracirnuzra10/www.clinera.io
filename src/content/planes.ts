@@ -65,17 +65,17 @@ export const MARKETING_BLOQUES = [
   {
     id: "campanas",
     titulo: "Campañas de performance en Facebook, Instagram y Google",
-    texto: "Campañas pensadas para traer pacientes a tu clínica, no solo likes.",
+    texto: "Campañas de performance que traen pacientes a tu clínica, no solo likes.",
   },
   {
     id: "propuesta",
     titulo: "Propuesta de valor",
-    texto: "Creamos y optimizamos qué ofrece tu clínica y cómo lo comunica.",
+    texto: "Creamos, optimizamos y perfeccionamos qué ofrece tu clínica y cómo lo comunica.",
   },
   {
     id: "framework",
     titulo: "Framework comercial",
-    texto: "Optimizamos cómo tu equipo atiende, cotiza y cierra, para vender más dentro de la clínica.",
+    texto: "Técnicas de venta que aplicamos contigo para que tu equipo las use con sus pacientes y cierre a los que le llegan.",
   },
 ] as const;
 
@@ -129,7 +129,18 @@ export const PLAN_IA_DESDE = PLANES[0];
 /** Implementación: pago único en el primer cobro, con onboarding asistido por una persona. */
 export const IMPLEMENTACION_USD = 450;
 export const IMPLEMENTACION_LINEA = `Implementación USD ${IMPLEMENTACION_USD}, pago único. Incluye onboarding asistido por una persona.`;
-export const NECESIDADES_LINEA = "¿Necesitas más profesionales o más IA? Lo vemos contigo en la videollamada.";
+/**
+ * Extras del software (Ricardo, 18-oct-2026): se compran dentro de la app cuando al
+ * cliente se le queda corto el plan. Valen para Vortex y Ecosistema, porque son parte
+ * del software. Ojo: el catálogo viejo (`pricing.ts`, `planes2.ts`) tiene otros extras.
+ */
+export const EXTRAS = [
+  { id: "profesional", titulo: "Profesional extra", precioUsd: 9, unidad: "al mes", detalle: "US$ 9 al mes por cada profesional extra" },
+  { id: "conversaciones", titulo: "500 conversaciones extra", precioUsd: 15, unidad: "pago único", detalle: "US$ 15 por 500 conversaciones extra" },
+  { id: "creditos", titulo: "5.000 créditos de IA extra", precioUsd: 15, unidad: "pago único", detalle: "US$ 15 por 5.000 créditos de IA extra" },
+] as const;
+
+export const NECESIDADES_LINEA = `Extras del software: profesional extra US$ ${EXTRAS[0].precioUsd}/mes · 500 conversaciones extra US$ ${EXTRAS[1].precioUsd} · 5.000 créditos de IA extra US$ ${EXTRAS[2].precioUsd}.`;
 
 /** CTA único: lleva a /agenda, que termina en una videollamada con el equipo. */
 export const CTA_VENTAS_LABEL = "Agendar videollamada";

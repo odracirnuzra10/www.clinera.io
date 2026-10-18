@@ -124,8 +124,10 @@ Tarifario de créditos de IA:
 
 Implementación: USD 450, pago único, en el primer cobro. Incluye onboarding
 asistido por una persona (configuración de AURA, conexión de WhatsApp Business,
-importación de pacientes y tratamientos y capacitación del equipo). Promoción
-del mes: implementación gratis en el plan Ecosistema.
+importación de pacientes y tratamientos y capacitación del equipo).
+
+Extras del software (Vortex y Ecosistema): profesional extra USD 9/mes, 500
+conversaciones extra USD 15 y 5.000 créditos de IA extra USD 15.
 
 Referencia de valor: Clinera reemplaza el trabajo de una recepcionista
 (~USD 950/mes) por una fracción del costo. Más profesionales o más IA: se

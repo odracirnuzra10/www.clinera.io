@@ -4410,6 +4410,77 @@
       color: var(--violet);
     }
     .qs-tag-soon { color: var(--muted); }
+    #planes .px-monthly .px-kicker { color: var(--muted); }
+
+
+
+
+
+    #planes .px-unit { text-align: right; }
+
+    #planes .px-note {
+      margin: 14px 0 0;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) {
+      #planes .px-top { flex-direction: column; align-items: stretch; }
+      #planes .px-grid { grid-template-columns: 1fr; }
+    }
+
+
+    /* --- Deck de 3 diapositivas: logos de canal y tarjetas de IA --- */
+    .qs-ch {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px 5px 7px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .qs-ch svg { width: 18px; height: 18px; flex: none; }
+    .qs-chs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .qs-layout { grid-template-rows: auto auto auto; }
+    .qs-agents {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .qs-agent {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fafafa;
+      opacity: .72;
+    }
+    .qs-agent-now {
+      opacity: 1;
+      border-color: #ddd6fe;
+      background: #fff;
+      box-shadow: 0 14px 32px -20px rgba(124, 58, 237, .55);
+    }
+    .qs-agent strong { font-size: 22px; font-weight: 800; letter-spacing: -.03em; }
+    .qs-agent > span:not(.qs-tag) { color: var(--ink-soft); font-size: 13.5px; line-height: 1.4; }
+    .qs-tag {
+      align-self: flex-start;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--violet);
+    }
+    .qs-tag-soon { color: var(--muted); }
     #planes .px-promo {
       display: flex;
       flex-wrap: wrap;
@@ -4549,7 +4620,7 @@
             <div class="hr-item"><strong>Agenda</strong><span>Citas, profesionales y recordatorios en un solo calendario.</span></div>
             <div class="hr-item"><strong>Fichas y odontograma</strong><span>Ficha clínica facial, corporal y dental.</span></div>
             <div class="hr-item"><strong>Pagos y ventas</strong><span>Cobros, seguimiento y panel de ventas.</span></div>
-            <div class="hr-item"><strong>Marketing de performance</strong><span>Campañas en Facebook, Instagram y Google, propuesta de valor y framework comercial: de la campaña a la cita y a la venta.</span></div>
+            <div class="hr-item"><strong>Marketing de performance</strong><span>Campañas de performance en Facebook, Instagram y Google, más la creación, optimización y perfeccionamiento de tu propuesta de valor y un framework comercial: técnicas de venta para cerrar a los pacientes que llegan.</span></div>
             <div class="hr-item"><strong>Clinera Intelligence</strong><span>Le preguntas a tus datos y responde con gráficos.</span></div>
             <div class="hr-item"><strong>Webhooks + API</strong><span>Conecta n8n, Make y Zapier.</span></div>
           </div>
@@ -4589,11 +4660,6 @@
             </div>
           </div>
 
-          <div class="px-promo" role="note">
-            <strong>Promoción del mes</strong>
-            <span>Implementación gratis en el plan Ecosistema.</span>
-          </div>
-
           <div class="px-grid">
             <article class="px-card" data-plan="vortex">
               <div class="px-kicker">Software con IA</div>
@@ -4631,14 +4697,15 @@
               <div class="px-mkt" aria-label="Qué incluye el marketing de performance">
                 <div class="px-kicker">Marketing de performance incluye</div>
                 <ul>
-                  <li><strong>Campañas en Facebook, Instagram y Google</strong><span>Campañas pensadas para traer pacientes, no solo likes.</span></li>
-                  <li><strong>Propuesta de valor</strong><span>Creamos y optimizamos qué ofrece tu clínica y cómo lo comunica.</span></li>
-                  <li><strong>Framework comercial</strong><span>Optimizamos cómo tu equipo atiende, cotiza y cierra, para vender más.</span></li>
+                  <li><strong>Campañas de performance en Facebook, Instagram y Google</strong><span>Campañas pensadas para traer pacientes, no solo likes.</span></li>
+                  <li><strong>Propuesta de valor</strong><span>Creamos, optimizamos y perfeccionamos qué ofrece tu clínica y cómo lo comunica.</span></li>
+                  <li><strong>Framework comercial</strong><span>Técnicas de venta que aplicamos contigo para que tu equipo las use con sus pacientes y cierre a los que le llegan.</span></li>
                 </ul>
               </div>
             </article>
           </div>
-          <p class="px-note">Implementación USD 450, pago único, en el primer cobro · este mes, gratis en Ecosistema</p>
+          <p class="px-note">Implementación USD 450, pago único, en el primer cobro</p>
+          <p class="px-note" data-extras>Extras del software: profesional extra US$ 9/mes · 500 conversaciones extra US$ 15 · 5.000 créditos de IA extra US$ 15</p>
         </div>
       </section>
     </main>
