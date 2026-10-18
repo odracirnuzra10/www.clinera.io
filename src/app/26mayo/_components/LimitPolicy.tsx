@@ -125,13 +125,13 @@ export default function LimitPolicy() {
           </p>
         </div>
         <a
-          href="https://www.clinera.io/calculadora-de-consumo"
+          href="https://www.clinera.io/planes"
           target="_blank"
           rel="noreferrer"
           className="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
           style={{ background: "var(--grad)", color: "#0a0c11" }}
         >
-          Abrir calculadora →
+          Ver planes →
         </a>
       </div>
     </section>

@@ -172,35 +172,10 @@ export default function AtencionesExplainer() {
             borderLeft: "3px solid #E5E7EB",
           }}
         >
-          <strong style={{ color: "#0A0A0A" }}>Tu plan incluye una bolsa mensual de créditos: 28.000 (Vortex) · 37.000 (Atlas) · 46.000 (Summit).</strong>{" "}
+          <strong style={{ color: "#0A0A0A" }}>Tu plan incluye una bolsa mensual de 10.000 créditos de IA.</strong>{" "}
           El texto simple de AURA consume ~30 créditos, un agendamiento automático (Agentic) ~195
           y un minuto de voz de CAMILA 25. Los cupos se dimensionaron con margen para que nunca te
           quedes corto ni pases por sorpresa del cupo.
-        </p>
-
-        <p
-          style={{
-            marginTop: 18,
-            textAlign: "center",
-            fontFamily: "Inter",
-            fontSize: 14,
-            color: "#6B7280",
-            lineHeight: 1.5,
-          }}
-        >
-          ¿Cuánto consume tu clínica al mes?{" "}
-          <a
-            href="/calculadora-de-consumo"
-            style={{
-              color: "#7C3AED",
-              textDecoration: "underline",
-              textDecorationThickness: 1,
-              textUnderlineOffset: 3,
-              fontWeight: 600,
-            }}
-          >
-            Calcula tu plan ideal →
-          </a>
         </p>
       </div>
 

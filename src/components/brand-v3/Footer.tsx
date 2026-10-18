@@ -27,7 +27,6 @@ const cols: Col[] = [
   {
     t: "Recursos",
     l: [
-      ["Calcula tu consumo", "/calculadora-de-consumo"],
       ["Estudio de efectividad", "/efectividad"],
       ["Equipo", "/equipo"],
       ["Caso Método Hebe", "/casos/metodo-hebe"],
@@ -43,8 +42,7 @@ const cols: Col[] = [
     l: [
       ["Centro de ayuda", "/ayuda"],
       ["Migrar a Clinera", "/migracion"],
-      ["Activar cuenta", "/clinica-estetica/activar-cuenta"],
-      ["Agendar reunión", "/reunion-comercial"],
+      ["Agendar videollamada", "/agenda"],
       ["Ley de Datos N° 21.719", "/seguridad"],
       ["Seguridad de datos", "/ley20584"],
       ["Normativa y acreditación", "/acreditacion"],

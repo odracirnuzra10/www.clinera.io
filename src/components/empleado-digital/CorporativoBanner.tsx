@@ -89,7 +89,7 @@ export default function CorporativoBanner() {
               maxWidth: 500,
             }}
           >
-            Todo de Summit + onboarding white-glove + SLA personalizado + integraciones a
+            Todo de Ecosistema + onboarding white-glove + SLA personalizado + integraciones a
             medida + soporte dedicado + facturación adaptada. Capacidad a medida según tu volumen.
           </p>
         </div>
@@ -112,7 +112,7 @@ export default function CorporativoBanner() {
                 color: "rgba(255,255,255,.55)",
               }}
             >
-              Sobre Summit
+              Sobre Ecosistema
             </span>
             <span
               style={{

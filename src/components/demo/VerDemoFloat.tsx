@@ -9,8 +9,6 @@ export default function VerDemoFloat() {
   if (pathname === "/demo" || pathname?.startsWith("/demo/")) return null;
   // /go tiene su propio botón flotante de compra: no se apilan dos.
   if (pathname === "/go" || pathname?.startsWith("/go/")) return null;
-  // /activa tiene un solo CTA («Activa tu cuenta ahora»): sin atajos a la demo.
-  if (pathname === "/activa") return null;
 
   return (
     <>

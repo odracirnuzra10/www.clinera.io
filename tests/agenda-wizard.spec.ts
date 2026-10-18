@@ -1,33 +1,22 @@
-// Desde el 18-oct-2026 /agenda es la landing de cuenta + oferta (`AgendaCuentaLanding`).
-// El wizard con calendario sigue vivo en /reunion-comercial: estos tests lo cubren ahí.
-import { expect, test, type Page, type Request } from "@playwright/test";
-import { PLAN_DESDE_USD } from "../src/content/planes";
+// /agenda — wizard de 3 pasos (Ricardo, 18-oct-2026): datos → servicio → videollamada.
+// Paso 1 manda el lead al CRM y dispara Lead US$ 3; paso 2 ViewContent; el MQL sale
+// al agendar. Sin cupón ni compra desde la web. Red mockeada.
 
-type LeadPayload = {
-  event_id?: string;
+import { expect, test, type Page, type Request } from "@playwright/test";
+
+type WizardBody = {
   lead_stage?: string;
-  nombre?: string;
-  clinica?: string;
   nombre_clinica?: string;
-  tamano_operacion?: string;
-  tamano_operacion_label?: string;
-  cargo?: string;
-  sitio_web?: string;
-  ciudad?: string;
-  necesidad_principal?: string;
-  necesidad_principal_label?: string;
-  plan?: string;
-  plan_interes?: string;
-  fuente?: string;
   boxes_profesionales?: string;
+  tipo_clinica?: string;
+  celular?: string;
+  fuente?: string;
+  ciudad?: string;
+  pais_clinica?: string;
 };
 
-function nonce() {
-  return `e2e_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`;
-}
-
-function recordWizard(page: Page) {
-  const hits: LeadPayload[] = [];
+function grabarWizard(page: Page) {
+  const hits: WizardBody[] = [];
   page.on("request", (req: Request) => {
     if (!req.url().includes("/api/wizard") || req.method() !== "POST") return;
     try {
@@ -39,156 +28,89 @@ function recordWizard(page: Page) {
   return hits;
 }
 
-async function mockAgendaNativa(
-  page: Page,
-  slots: { horaInicio: string }[],
-) {
-  await page.route("**/webhook/clinera-agenda-config", (route) =>
-    route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: JSON.stringify({ ok: true, duracionMin: 45 }),
-    }),
-  );
-  await page.route(/n8n\.oacg\.cl\/webhook\/clinera-agenda-disponibilidad/, (route) => {
-    const url = new URL(route.request().url());
-    if (url.searchParams.has("desde")) {
-      return route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({ dias: { "2099-01-01": 2 } }),
-      });
-    }
-    return route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: JSON.stringify({
-        data: {
-          horariosDisponibles: slots.map((s) => ({
-            ...s,
-            duracionMin: 45,
-            profesional: { id: "a", name: "Ana" },
-          })),
-        },
-      }),
-    });
-  });
-  await page.route("**/api/wizard", (route) =>
-    route.request().method() === "POST"
-      ? route.fulfill({ status: 200, contentType: "application/json", body: "{}" })
-      : route.continue(),
-  );
+async function mockRed(page: Page) {
+  for (const path of ["**/api/wizard", "**/api/meta/capi"]) {
+    await page.route(path, (route) =>
+      route.request().method() === "POST"
+        ? route.fulfill({ status: 200, contentType: "application/json", body: "{}" })
+        : route.continue(),
+    );
+  }
+  await page.route(/connect\.facebook\.net/, (route) => route.abort());
 }
 
-async function completarClinica(page: Page, id: string) {
-  await expect(page.getByRole("heading", { name: /Cuéntanos de tu clínica/i })).toBeVisible();
-  await page.getByPlaceholder("Clínica Estética Vela").fill(`[E2E TEST] Clinica ${id}`);
-  await page.getByLabel("Especialidad").selectOption("medica");
-  await page.getByRole("button", { name: "1–3", exact: true }).click();
-  await page.getByRole("button", { name: "200 a 500", exact: true }).click();
-  await page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true }).click();
+async function paso1(page: Page) {
+  await page.getByLabel("Nombre", { exact: true }).fill("[E2E TEST] Agenda");
+  await page.getByLabel("Correo", { exact: true }).fill("e2e-agenda@e2e.clinera.io");
+  await page.getByLabel("Celular (WhatsApp)").fill("912345678");
+  await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Clínica");
+  await page.getByRole("radio", { name: "Estética" }).click();
+  await page.getByRole("radio", { name: "4–6" }).click();
+  await page.getByLabel("Ciudad").fill("Los Ángeles");
 }
 
-async function completarContacto(page: Page, id: string, pais: "+56" | "+52" = "+56") {
-  await expect(page.getByRole("heading", { name: "Tus datos de contacto" })).toBeVisible();
-  await page.getByPlaceholder("Tu nombre completo").fill(`[E2E TEST] ${id}`);
-  await page.getByLabel("Cargo").selectOption("Dueño / Fundador");
-  await page.getByLabel("País del WhatsApp").selectOption(pais);
-  await page.locator("#agenda-whatsapp").fill(pais === "+52" ? "5512345678" : "912345678");
-  await page.getByPlaceholder("nombre@tuclinica.com").fill(`${id}@e2e.clinera.io`);
-  await page.getByRole("button", { name: /Agenda una demostración/i }).click();
-}
-
-async function llegarAlCalendario(page: Page, id: string) {
-  await page.goto("/reunion-comercial", { waitUntil: "domcontentloaded" });
-  await completarClinica(page, id);
-  await completarContacto(page, id);
-  await expect(page.getByRole("heading", { name: /Elige el día y la hora/i })).toBeVisible({ timeout: 12000 });
-}
-
-test.describe("/reunion-comercial (wizard con calendario, ex /agenda) — wizard Hebe + agendador Clinera", () => {
-  test("el titular es la propuesta de valor y no pide elegir plan", async ({ page }) => {
-    await page.goto("/reunion-comercial", { waitUntil: "domcontentloaded" });
-    await expect(
-      page.getByRole("heading", { level: 1, name: /Automatiza el WhatsApp y las citas de tu clínica con inteligencia artificial/i }),
-    ).toBeVisible();
-    // Planes vigentes (`planes.ts`): el «desde» sale del plan más barato.
-    await expect(page.getByText(`Planes desde USD ${PLAN_DESDE_USD}/mes`).first()).toBeVisible();
-    await expect(page.getByText(/Cuál plan te interesa/i)).toHaveCount(0);
-    await expect(page.getByRole("link", { name: /política de privacidad/i })).toBeVisible();
+test("wizard: datos → CRM + Lead US$ 3, servicio y videollamada", async ({ page }) => {
+  await mockRed(page);
+  const wizard = grabarWizard(page);
+  const capi: { event_name?: string; user_data?: { em?: string }; custom_data?: Record<string, unknown> }[] = [];
+  page.on("request", (req) => {
+    if (req.url().includes("/api/meta/capi") && req.method() === "POST") capi.push(JSON.parse(req.postData() || "{}"));
   });
+  await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(/videollamada/i);
+  await expect(page.locator("[data-ecosistema]")).toHaveCount(1);
+  await expect(page.locator("[data-chat-agenda-ia]")).toHaveCount(1);
 
-  test("tres pasos: clínica, contacto y calendario; manda boxes y tamaño al webhook", async ({ page }) => {
-    const id = nonce();
-    const hits = recordWizard(page);
+  // Incompleto no avanza.
+  await page.getByRole("button", { name: /Continuar/ }).click();
+  await expect(page.getByText("Escribe tu nombre.")).toBeVisible();
 
-    await page.goto("/reunion-comercial", { waitUntil: "domcontentloaded" });
+  await paso1(page);
+  await page.getByRole("button", { name: /Continuar/ }).click();
 
-    // El paso 1 no avanza sin boxes ni volumen.
-    await page.getByPlaceholder("Clínica Estética Vela").fill(`[E2E TEST] Clinica ${id}`);
-    await page.getByLabel("Especialidad").selectOption("medica");
-    await page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true }).click();
-    await expect(page.getByRole("heading", { name: /Cuéntanos de tu clínica/i })).toBeVisible();
+  await expect.poll(() => capi.map((c) => c.event_name)).toContain("Lead");
+  const lead = capi.find((c) => c.event_name === "Lead")!;
+  expect(lead.user_data?.em, "correo hasheado").toMatch(/^[a-f0-9]{64}$/);
+  expect(lead.custom_data).toMatchObject({ value: 3, currency: "USD" });
+  expect(capi.filter((c) => c.event_name === "MQL")).toHaveLength(0); // el MQL es al agendar
 
-    await page.getByRole("button", { name: "4–6", exact: true }).click();
-    await expect(page.getByRole("button", { name: "4–6", exact: true })).toHaveAttribute("aria-pressed", "true");
-    await page.getByRole("button", { name: "200 a 500", exact: true }).click();
-    await page.getByRole("button", { name: /^Continuar$/ }).filter({ visible: true }).click();
+  await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
+  await page.waitForTimeout(400);
+  const contactos = wizard.filter((w) => w.lead_stage === "contact");
+  expect(contactos).toHaveLength(1);
+  expect(contactos[0].nombre_clinica).toBe("[E2E TEST] Clínica");
+  expect(contactos[0].boxes_profesionales).toBe("4_6");
+  expect(contactos[0].tipo_clinica).toBe("estetica");
+  expect(contactos[0].celular).toBe("+56912345678");
+  expect(contactos[0].fuente).toContain("/agenda");
 
-    await completarContacto(page, id);
-    await expect(
-      page.getByRole("heading", { name: /Elige (el día y la hora|profesional y horario)/i }),
-    ).toBeVisible({ timeout: 12000 });
-
-    await expect.poll(() => hits.some((h) => h.lead_stage === "contact"), { timeout: 12000 }).toBeTruthy();
-    const contact = hits.find((h) => h.lead_stage === "contact");
-    expect(contact?.nombre_clinica || contact?.clinica).toContain(id);
-    expect(contact?.tamano_operacion).toBe("vol_200_500");
-    expect(contact?.boxes_profesionales).toBe("4_6");
-    expect(contact?.cargo).toBe("Dueño / Fundador");
-    expect(contact?.fuente).toContain("/reunion-comercial");
-  });
-
-  test("México: el teléfono se valida con +52 y viaja en E.164", async ({ page }) => {
-    const id = nonce();
-    const hits = recordWizard(page);
-    await page.goto("/reunion-comercial", { waitUntil: "domcontentloaded" });
-    await completarClinica(page, id);
-    await completarContacto(page, id, "+52");
-    await expect.poll(() => hits.some((h) => h.lead_stage === "contact"), { timeout: 12000 }).toBeTruthy();
-    const contact = hits.find((h) => h.lead_stage === "contact") as LeadPayload & { celular?: string };
-    expect(contact.celular).toBe("+525512345678");
-  });
+  // Paso 2: tres servicios, «Ambas» recomendada; hay que elegir uno.
+  await expect(page.locator("[data-servicio]")).toHaveCount(3);
+  await expect(page.locator('[data-servicio="ambas"]')).toContainText("Recomendado");
+  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+  await expect(page.getByText("Elige el servicio que te interesa.")).toBeVisible();
+  await page.locator('[data-servicio="marketing"]').click();
+  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+  await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
+  // No hay segundo envío al CRM (n8n lo marcaría «Volvió a cotizar»).
+  await page.waitForTimeout(300);
+  expect(wizard.filter((w) => w.lead_stage === "contact")).toHaveLength(1);
 });
 
-test.describe("/reunion-comercial (wizard con calendario, ex /agenda) — no ofrece madrugada UTC", () => {
-  test.use({ timezoneId: "America/Santiago" });
-
-  test("oculta 01:45/02:45 aunque la API las mande", async ({ page }) => {
-    await mockAgendaNativa(page, [
-      { horaInicio: "01:45" },
-      { horaInicio: "02:45" },
-      { horaInicio: "10:00" },
-      { horaInicio: "16:45" },
-    ]);
-    await llegarAlCalendario(page, nonce());
-    await expect(page.getByRole("button", { name: /10:00/ })).toBeVisible();
-    await expect(page.getByRole("button", { name: /16:45/ })).toBeVisible();
-    await expect(page.getByRole("button", { name: /01:45/ })).toHaveCount(0);
-    await expect(page.getByRole("button", { name: /02:45/ })).toHaveCount(0);
-  });
+test("?servicio= preselecciona el servicio en el paso 2", async ({ page }) => {
+  await mockRed(page);
+  await page.goto("/agenda?servicio=software", { waitUntil: "domcontentloaded" });
+  await paso1(page);
+  await page.getByRole("button", { name: /Continuar/ }).click();
+  await expect(page.locator('[data-servicio="software"]')).toHaveAttribute("aria-checked", "true");
 });
 
-test.describe("/reunion-comercial (wizard con calendario, ex /agenda) — hora local de la IP, no del reloj", () => {
-  test.use({
-    timezoneId: "America/Santiago",
-    extraHTTPHeaders: { "x-vercel-ip-timezone": "America/Mexico_City" },
-  });
-
-  test("México ve 08:00 cuando Chile es 10:00, aunque el OS esté en Santiago", async ({ page }) => {
-    await mockAgendaNativa(page, [{ horaInicio: "10:00" }, { horaInicio: "17:00" }]);
-    await llegarAlCalendario(page, nonce());
-    await expect(page.getByRole("button", { name: /08:00 tu hora, 10:00 en Chile/ })).toBeVisible();
-    await expect(page.getByRole("button", { name: /15:00 tu hora, 17:00 en Chile/ })).toBeVisible();
-  });
+test("móvil: el wizard cabe y no hay cupón ni precios de compra", async ({ page }) => {
+  await mockRed(page);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+  await expect(page.getByLabel("Nombre", { exact: true })).toBeVisible();
+  const body = page.locator("body");
+  await expect(body).not.toContainText(/CU[K]I|cupón/i);
+  await expect(body).not.toContainText(/Crear cuenta/);
 });

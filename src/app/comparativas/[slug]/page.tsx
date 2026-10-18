@@ -149,9 +149,9 @@ const competitors: Record<Slug, Competitor> = {
       "Difusiones masivas de WhatsApp marketing desde el mismo panel.",
       "Landing pages de conversión con analítica medible incluidas.",
       "Atribución de ventas a campañas (Meta/Google → conversación → cita → venta).",
-      "Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit para conectar tus otras herramientas.",
+      "Webhooks y API pública (n8n, Make, Zapier) para conectar tus otras herramientas.",
       "Derivación automática a humano cuando la conversación lo requiere.",
-      "Precios públicos desde USD 279/mes.",
+      "Precios públicos desde USD 379/mes.",
       "Setup en menos de 1 hora, sin programador.",
       "Reducción típica de no-shows del 30% al 5-10% en el primer mes.",
     ],
@@ -182,7 +182,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "App móvil nativa", clinera: "yes", them: "no" },
       { feature: "Panel de ventas / trazabilidad", clinera: "yes", them: "partial" },
       { feature: "Precios públicos", clinera: "yes", them: "no" },
-      { feature: "Plan desde USD", clinera: "$279", them: "consulta" },
+      { feature: "Plan desde USD", clinera: "$379", them: "consulta" },
     ],
     dimensions: [
       {
@@ -208,12 +208,12 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y planes",
         body:
-          "Clinera publica sus precios: VORTEX USD 279/mes, ATLAS USD 379/mes, SUMMIT USD 479/mes (bolsa de créditos: 28.000/37.000/46.000), con permanencia mínima de 6 meses. Reservo no publica precios — atiende por formulario o teléfono con un plan único ajustado al tamaño del centro. Si valoras saber cuánto pagas antes de llamar, Clinera tiene la transparencia.",
+          "Clinera publica sus precios: VORTEX USD 379/mes y ECOSISTEMA USD 479/mes. Reservo no publica precios — atiende por formulario o teléfono con un plan único ajustado al tamaño del centro. Si valoras saber cuánto pagas antes de llamar, Clinera tiene la transparencia.",
       },
       {
         title: "Soporte y onboarding",
         body:
-          "Clinera ofrece setup en menos de 1 hora, soporte en español y (en ATLAS) onboarding dedicado. Reservo tiene equipo de soporte local en Chile con fama de responder bien, y es un estándar en varias redes de clínicas chilenas. Ambas empresas son sólidas en este aspecto.",
+          "Clinera ofrece setup en menos de 1 hora, soporte en español y onboarding asistido por una persona. Reservo tiene equipo de soporte local en Chile con fama de responder bien, y es un estándar en varias redes de clínicas chilenas. Ambas empresas son sólidas en este aspecto.",
       },
     ],
     faqs: [
@@ -227,11 +227,11 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Puedo mantener Reservo y sumar Clinera solo para la IA?",
-        a: "No. Clinera no se sincroniza con Reservo: opera sobre su propia agenda, ficha clínica y módulo de pagos, así que usarla implica migrar tus datos, algo que hacemos en el onboarding. Vortex es el plan de entrada.",
+        a: "No. Clinera no se sincroniza con Reservo: opera sobre su propia agenda, ficha clínica y módulo de pagos, así que usarla implica migrar tus datos, algo que hacemos en el onboarding. Vortex (USD 379/mes) es la opción de software con IA.",
       },
       {
         q: "¿Cuánto cuesta Reservo vs Clinera?",
-        a: "Reservo no publica precios (cotización por tamaño de clínica). Clinera publica USD 279/379/479 por mes (permanencia mínima de 6 meses).",
+        a: "Reservo no publica precios (cotización por tamaño de clínica). Clinera publica VORTEX USD 379/mes y ECOSISTEMA USD 479/mes.",
       },
       {
         q: "¿Reservo cubre dental?",
@@ -246,12 +246,12 @@ const competitors: Record<Slug, Competitor> = {
     title: "Alternativa a AgendaPro: Clinera vs AgendaPro para clínicas (2026)",
     metaTitle: "Alternativa a AgendaPro 2026: Clinera vs AgendaPro",
     metaDescription:
-      "Clinera como alternativa a AgendaPro para clínicas: IA en WhatsApp 24/7, ficha clínica y precios desde USD 279/mes. Cuándo conviene cada una, con datos.",
+      "Clinera como alternativa a AgendaPro para clínicas: IA en WhatsApp 24/7, ficha clínica y precios desde USD 379/mes. Cuándo conviene cada una, con datos.",
     intro:
-      "Clinera es una alternativa a AgendaPro pensada solo para clínicas: AURA agenda y responde por WhatsApp 24/7 sobre la agenda y la ficha clínica de Clinera, con planes desde USD 279/mes. AgendaPro conviene si tu negocio mezcla estética, spa o peluquería y quieres apps nativas. Esta es la comparativa honesta.",
+      "Clinera es una alternativa a AgendaPro pensada solo para clínicas: AURA agenda y responde por WhatsApp 24/7 sobre la agenda y la ficha clínica de Clinera, con planes desde USD 379/mes. AgendaPro conviene si tu negocio mezcla estética, spa o peluquería y quieres apps nativas. Esta es la comparativa honesta.",
     tldr: {
       clinera:
-        "Clinera es mejor si necesitas profundidad clínica real (ficha médica, consentimientos, memoria contextual en WhatsApp) y precios transparentes desde USD 279/mes.",
+        "Clinera es mejor si necesitas profundidad clínica real (ficha médica, consentimientos, memoria contextual en WhatsApp) y precios transparentes desde USD 379/mes.",
       them:
         "AgendaPro es mejor si tu negocio mezcla varios verticales (estética + spa + peluquería + gym) y necesitas escala comprobada con apps móviles nativas y pasarela de pagos pulida.",
     },
@@ -263,9 +263,9 @@ const competitors: Record<Slug, Competitor> = {
       "Landing pages de conversión con analítica medible.",
       "Atribución de ventas a campañas de marketing (campaña → cita → venta).",
       "Foco 100% clínico: ficha por especialidad, consentimientos, telemedicina.",
-      "Precio plano USD 279/mes (plan VORTEX), sin sumar por usuario.",
+      "Precio plano USD 379/mes (plan VORTEX), sin sumar por usuario.",
       "Integración MCP con cualquier stack existente.",
-      "Setup en menos de 1 hora y onboarding asistido en el plan ATLAS.",
+      "Setup en menos de 1 hora y onboarding asistido por una persona.",
     ],
     themWins: [
       "Escala enorme: 20.000+ negocios, 135.000+ profesionales, 100M+ citas históricas.",
@@ -294,7 +294,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Recordatorios automáticos", clinera: "yes", them: "yes" },
       { feature: "Cobertura LATAM", clinera: "yes", them: "yes" },
       { feature: "Precio publicado", clinera: "yes", them: "partial" },
-      { feature: "Plan base (USD/mes)", clinera: "$279 · VORTEX", them: "$19/usuario" },
+      { feature: "Plan base (USD/mes)", clinera: "$379 · VORTEX", them: "$19/usuario" },
     ],
     dimensions: [
       {
@@ -320,18 +320,18 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y planes",
         body:
-          "AgendaPro arranca en USD 19/usuario/mes (plus add-ons de pagos y recepcionista). Clinera publica VORTEX USD 279/mes, ATLAS USD 379/mes y SUMMIT USD 479/mes (bolsa de créditos: 28.000/37.000/46.000), con permanencia mínima de 6 meses. AgendaPro cobra por usuario y escala con el tamaño del equipo; Clinera es precio plano con IA conversacional incluida — la comparación depende de cuántos profesionales tengas y de cuánto valoras tener la IA en el mismo panel.",
+          "AgendaPro arranca en USD 19/usuario/mes (plus add-ons de pagos y recepcionista). Clinera publica VORTEX USD 379/mes y ECOSISTEMA USD 479/mes. AgendaPro cobra por usuario y escala con el tamaño del equipo; Clinera es precio plano con IA conversacional incluida — la comparación depende de cuántos profesionales tengas y de cuánto valoras tener la IA en el mismo panel.",
       },
       {
         title: "Soporte y onboarding",
         body:
-          "AgendaPro tiene presencia corporativa enorme y equipo regional. Clinera apuesta por setup en menos de 1 hora y soporte en español con onboarding dedicado en el plan ATLAS.",
+          "AgendaPro tiene presencia corporativa enorme y equipo regional. Clinera apuesta por setup en menos de 1 hora y soporte en español con onboarding asistido por una persona.",
       },
     ],
     faqs: [
       {
         q: "¿Clinera se integra con la agenda de AgendaPro?",
-        a: "No. Clinera no se sincroniza con AgendaPro ni con otras agendas de terceros: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Para conectar otras herramientas están los Webhooks y la API pública (n8n, Make, Zapier) en los planes Atlas y Summit.",
+        a: "No. Clinera no se sincroniza con AgendaPro ni con otras agendas de terceros: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Para conectar otras herramientas están los Webhooks y la API pública (n8n, Make, Zapier).",
       },
       {
         q: "¿Puedo migrar de AgendaPro a Clinera?",
@@ -343,7 +343,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Cuál es más barato para mi clínica?",
-        a: "Depende del tamaño y de cuánto valores la IA. AgendaPro (USD 19/usuario) suele salir más barato en precio nominal para equipos chicos. Clinera VORTEX es precio plano USD 279/mes con IA conversacional incluida; AgendaPro cobra por usuario y suma add-ons de pagos y recepcionista aparte.",
+        a: "Depende del tamaño y de cuánto valores la IA. AgendaPro (USD 19/usuario) suele salir más barato en precio nominal para equipos chicos. Clinera VORTEX es precio plano USD 379/mes con IA conversacional incluida; AgendaPro cobra por usuario y suma add-ons de pagos y recepcionista aparte.",
       },
       {
         q: "¿Clinera sirve si tengo spa además de mi clínica?",
@@ -362,12 +362,12 @@ const competitors: Record<Slug, Competitor> = {
     title: "Alternativa a Medilink: Clinera vs Medilink para clínicas (2026)",
     metaTitle: "Alternativa a Medilink 2026: Clinera vs Medilink",
     metaDescription:
-      "Clinera como alternativa a Medilink: agente IA que ya agenda por WhatsApp 24/7, precios públicos desde USD 279/mes y migración de tus datos. Comparativa honesta.",
+      "Clinera como alternativa a Medilink: agente IA que ya agenda por WhatsApp 24/7, precios públicos desde USD 379/mes y migración de tus datos. Comparativa honesta.",
     intro:
-      "Clinera es una alternativa a Medilink si quieres un agente de IA que ya agenda por WhatsApp 24/7, con precios públicos desde USD 279/mes y migración de tus datos en el onboarding. Medilink conviene si necesitas llamadas telefónicas con IA o integraciones con BSale, Nubox y Kame. Esta es la comparativa honesta.",
+      "Clinera es una alternativa a Medilink si quieres un agente de IA que ya agenda por WhatsApp 24/7, con precios públicos desde USD 379/mes y migración de tus datos en el onboarding. Medilink conviene si necesitas llamadas telefónicas con IA o integraciones con BSale, Nubox y Kame. Esta es la comparativa honesta.",
     tldr: {
       clinera:
-        "Clinera es mejor si quieres IA conversacional que YA está operando en producción, con coexistencia con WhatsApp Business, difusiones masivas, landing pages de conversión y atribución de ventas — todo en un mismo panel. Precios desde USD 279/mes.",
+        "Clinera es mejor si quieres IA conversacional que YA está operando en producción, con coexistencia con WhatsApp Business, difusiones masivas, landing pages de conversión y atribución de ventas — todo en un mismo panel. Precios desde USD 379/mes.",
       them:
         "Medilink es mejor si necesitas ecosistema profundo en Chile (integraciones con BSale, Nubox, Kame, DTE completo) y llamadas telefónicas con IA, y no te importa esperar a que su agente WhatsApp entre en producción general.",
     },
@@ -378,8 +378,8 @@ const competitors: Record<Slug, Competitor> = {
       "Landing pages de conversión con analítica medible.",
       "Atribución de ventas a campañas de marketing.",
       "Memoria contextual LangChain documentada y operativa.",
-      "Webhooks y API pública (n8n, Make, Zapier) en los planes Atlas y Summit para conectar tus otras herramientas.",
-      "Precios públicos: VORTEX $279, ATLAS $379, SUMMIT $479 USD/mes.",
+      "Webhooks y API pública (n8n, Make, Zapier) para conectar tus otras herramientas.",
+      "Precios públicos: VORTEX $379 y ECOSISTEMA $479 USD/mes.",
       "Contratación self-service sin cotización telefónica.",
       "Setup en menos de 1 hora.",
       "Derivación automática a humano con trazabilidad completa.",
@@ -411,7 +411,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Multi-sede", clinera: "yes", them: "yes" },
       { feature: "Panel ventas y trazabilidad", clinera: "yes", them: "yes" },
       { feature: "Precios públicos", clinera: "yes", them: "no" },
-      { feature: "Plan base (USD/mes)", clinera: "$279", them: "consulta" },
+      { feature: "Plan base (USD/mes)", clinera: "$379", them: "consulta" },
     ],
     dimensions: [
       {
@@ -437,12 +437,12 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y planes",
         body:
-          "Medilink no publica precios (cotización por clínica). Clinera publica VORTEX USD 279, ATLAS USD 379, SUMMIT USD 479 (bolsa de créditos 28.000/37.000/46.000), con permanencia mínima de 6 meses. Si valoras transparencia total y precio predecible, Clinera tiene ventaja clara.",
+          "Medilink no publica precios (cotización por clínica). Clinera publica VORTEX USD 379/mes y ECOSISTEMA USD 479/mes. Si valoras transparencia total y precio predecible, Clinera tiene ventaja clara.",
       },
       {
         title: "Soporte y onboarding",
         body:
-          "Medilink se pitchea como no-contrato, actualizaciones gratis y soporte local. Clinera ofrece setup en menos de 1 hora y onboarding dedicado en ATLAS. Los dos son sólidos en este frente — la diferencia está en el modelo comercial (Medilink: contacto y cotización; Clinera: autoservicio con activación instantánea).",
+          "Medilink se pitchea como no-contrato, actualizaciones gratis y soporte local. Clinera ofrece setup en menos de 1 hora y onboarding asistido por una persona. Los dos son sólidos en este frente — la diferencia está en el modelo comercial (Medilink: contacto y cotización; Clinera: autoservicio con activación instantánea).",
       },
     ],
     faqs: [
@@ -460,11 +460,11 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Clinera se integra con BSale o Nubox como Medilink?",
-        a: "No de forma nativa. A abril 2026, Medilink tiene integraciones más maduras con el stack chileno tradicional (BSale, Nubox, Kame). Clinera opera sobre su propia agenda, ficha y pagos; para conectar otras herramientas ofrece Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit.",
+        a: "No de forma nativa. A abril 2026, Medilink tiene integraciones más maduras con el stack chileno tradicional (BSale, Nubox, Kame). Clinera opera sobre su propia agenda, ficha y pagos; para conectar otras herramientas ofrece Webhooks y API pública (n8n, Make, Zapier).",
       },
       {
         q: "¿Cuánto cuesta Medilink vs Clinera?",
-        a: "Medilink no publica precios — cotización telefónica. Clinera publica USD 279/379/479 por mes (permanencia mínima de 6 meses).",
+        a: "Medilink no publica precios — cotización telefónica. Clinera publica VORTEX USD 379/mes y ECOSISTEMA USD 479/mes.",
       },
       {
         q: "¿Clinera tiene telemedicina?",
@@ -481,7 +481,7 @@ const competitors: Record<Slug, Competitor> = {
       "La decisión más cara que muchas clínicas toman es no decidir nada — seguir con una recepción manual contestando mensajes y llamando pacientes. Aquí los números reales de lo que cuesta quedarse así.",
     tldr: {
       clinera:
-        "Clinera se paga sola en menos de un mes: recupera revenue perdido por no-shows, libera 2h diarias de recepción y responde a pacientes fuera de horario. Precio USD 279-479/mes.",
+        "Clinera se paga sola en menos de un mes: recupera revenue perdido por no-shows, libera 2h diarias de recepción y responde a pacientes fuera de horario. Precio USD 379-479/mes.",
       them:
         "Seguir manual tiene sentido solo si atiendes menos de 30 citas al mes, no piensas crecer y tu recepción tiene capacidad sobrada. Para el resto, los números no dan.",
     },
@@ -496,7 +496,7 @@ const competitors: Record<Slug, Competitor> = {
       "Landing pages y difusiones masivas incluidas — marketing medible.",
       "Escalas sin aumentar costo operativo proporcional.",
       "Datos centralizados en la nube (sin Excel ni cuadernos).",
-      "ROI típico en menos de 30 días (USD 279/mes vs USD 2.000+ recuperados).",
+      "ROI típico en menos de 30 días (USD 379/mes vs USD 2.000+ recuperados).",
     ],
     themWins: [
       "Cero costo de software mensual (pero pagas con tiempo y revenue perdido).",
@@ -511,7 +511,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Landing pages de conversión con analítica medible", clinera: "yes", them: "no", clineraHighlight: true },
       { feature: "Atribución de ventas a campañas de marketing", clinera: "yes", them: "no", clineraHighlight: true },
       // Operational reality
-      { feature: "Costo mensual directo", clinera: "$279-479 USD", them: "$0 (aparente)" },
+      { feature: "Costo mensual directo", clinera: "$379-479 USD", them: "$0 (aparente)" },
       { feature: "Horas/día de recepción en mensajes", clinera: "< 30 min", them: "2-4 horas" },
       { feature: "Tasa de no-shows típica", clinera: "5-10%", them: "25-35%" },
       { feature: "Tiempo medio de primera respuesta", clinera: "< 1 min", them: "30 min – 2 h" },
@@ -529,7 +529,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "El costo real de no automatizar",
         body:
-          "El número más importante: la tasa de no-shows promedio en clínicas LATAM es ~30%. Si facturas USD 10.000/mes en citas agendadas, estás perdiendo ~USD 3.000/mes por citas que no llegan. Clinera baja eso típicamente a 5-10% — recuperas USD 2.000/mes solo en reducción de no-shows. El plan VORTEX cuesta USD 279/mes. El retorno es obvio.",
+          "El número más importante: la tasa de no-shows promedio en clínicas LATAM es ~30%. Si facturas USD 10.000/mes en citas agendadas, estás perdiendo ~USD 3.000/mes por citas que no llegan. Clinera baja eso típicamente a 5-10% — recuperas USD 2.000/mes solo en reducción de no-shows. El plan VORTEX cuesta USD 379/mes. El retorno es obvio.",
       },
       {
         title: "Tiempo de recepción",
@@ -554,13 +554,13 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Crecimiento",
         body:
-          "Manual no escala linealmente — cada 50% más de pacientes exige contratar más recepción. Clinera sí: subir de VORTEX a ATLAS o SUMMIT cuesta USD 100/mes más y soporta 3-10× el volumen.",
+          "Manual no escala linealmente — cada 50% más de pacientes exige contratar más recepción. Clinera sí: el agente IA responde y agenda sin sumar recepción, y pasar de VORTEX a ECOSISTEMA (USD 100/mes más) agrega marketing de performance para traer más pacientes.",
       },
     ],
     faqs: [
       {
         q: "¿Cuánto me ahorro pasando de manual a Clinera?",
-        a: "Depende del tamaño. Clínicas típicas de 1-3 profesionales recuperan USD 1.500-3.000/mes solo en reducción de no-shows + horas de recepción recuperadas. El plan VORTEX cuesta USD 279/mes. El payback suele ser de semanas, no meses.",
+        a: "Depende del tamaño. Clínicas típicas de 1-3 profesionales recuperan USD 1.500-3.000/mes solo en reducción de no-shows + horas de recepción recuperadas. El plan VORTEX cuesta USD 379/mes. El payback suele ser de semanas, no meses.",
       },
       {
         q: "¿Qué pasa si mis pacientes prefieren hablar con una persona?",
@@ -596,11 +596,11 @@ const competitors: Record<Slug, Competitor> = {
     clineraWins: [
       "Agnóstico de vertical: si abres una sucursal estética junto a la dental, Clinera la cubre sin pagar otro software.",
       "AURA opera por WhatsApp Business con coexistencia (mismo número que ya usa tu clínica).",
-      "Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit; migración de tus datos asistida en el onboarding.",
+      "Webhooks y API pública (n8n, Make, Zapier); migración de tus datos asistida en el onboarding.",
       "Atribución real de ventas a campañas Meta y Google Ads — Dentalink no tiene panel de marketing.",
       "Memoria contextual entre conversaciones (LangChain).",
       "Difusiones masivas de WhatsApp marketing desde el panel.",
-      "Precios públicos desde USD 279/mes.",
+      "Precios públicos desde USD 379/mes.",
       "Setup en menos de 1 hora.",
     ],
     themWins: [
@@ -631,7 +631,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Financiamiento de pacientes", clinera: "partial", them: "yes" },
       { feature: "Telemedicina integrada", clinera: "partial", them: "yes" },
       { feature: "Precios públicos en web", clinera: "yes", them: "no" },
-      { feature: "Plan inicial USD/mes", clinera: "$279 (VORTEX)", them: "consultar" },
+      { feature: "Plan inicial USD/mes", clinera: "$379 (VORTEX)", them: "consultar" },
     ],
     dimensions: [
       {
@@ -657,7 +657,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y transparencia",
         body:
-          "Dentalink no publica precios — atiende por demo o cotización. Clinera publica VORTEX USD 279/mes, ATLAS USD 379/mes, SUMMIT USD 479/mes (bolsa de créditos: 28.000/37.000/46.000), permanencia mínima de 6 meses; mes 1: implementación USD 450 (pago único) con onboarding asistido — operando el mismo día.",
+          "Dentalink no publica precios — atiende por demo o cotización. Clinera publica VORTEX USD 379/mes y ECOSISTEMA USD 479/mes; mes 1: implementación USD 450 (pago único) con onboarding asistido — operando el mismo día.",
       },
     ],
     faqs: [
@@ -675,7 +675,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Cuál es más caro?",
-        a: "Dentalink no publica precios, así que es difícil comparar — la cotización depende del tamaño de la clínica y los módulos contratados. Clinera publica VORTEX desde USD 279/mes. Para una clínica dental pequeña-mediana, Dentalink suele cotizarse en el rango USD 100-250/mes.",
+        a: "Dentalink no publica precios, así que es difícil comparar — la cotización depende del tamaño de la clínica y los módulos contratados. Clinera publica VORTEX desde USD 379/mes. Para una clínica dental pequeña-mediana, Dentalink suele cotizarse en el rango USD 100-250/mes.",
       },
       {
         q: "¿Migrar de Dentalink a Clinera tiene sentido?",
@@ -699,7 +699,7 @@ const competitors: Record<Slug, Competitor> = {
     clineraWins: [
       "AURA, agente IA conversacional que atiende WhatsApp 24/7 con memoria contextual.",
       "Coexistencia con WhatsApp Business (mismo número que ya usa tu clínica).",
-      "Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit; migración de tus datos asistida en el onboarding.",
+      "Webhooks y API pública (n8n, Make, Zapier); migración de tus datos asistida en el onboarding.",
       "Atribución real de ventas a campañas Meta y Google Ads.",
       "Difusiones masivas de WhatsApp marketing desde el panel.",
       "Derivación automática a humano cuando la conversación lo requiere.",
@@ -732,7 +732,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Recordatorios automáticos", clinera: "yes", them: "yes" },
       { feature: "Cobertura LATAM (no solo Chile)", clinera: "yes", them: "no" },
       { feature: "Precios públicos en web", clinera: "yes", them: "yes" },
-      { feature: "Plan inicial mensual", clinera: "$279 (VORTEX)", them: "$26.000 CLP (~$27)" },
+      { feature: "Plan inicial mensual", clinera: "$379 (VORTEX)", them: "$26.000 CLP (~$27)" },
     ],
     dimensions: [
       {
@@ -758,7 +758,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y transparencia",
         body:
-          "Sacmed publica desde $26.000 CLP/mes (~USD 27) en plan Starter. Clinera publica VORTEX USD 279/mes, ATLAS USD 379/mes, SUMMIT USD 479/mes (bolsa de créditos: 28.000/37.000/46.000). En precio bajo nominal, Sacmed gana; en valor por dólar para clínicas que invierten en marketing digital, Clinera tiene atribución que justifica el delta.",
+          "Sacmed publica desde $26.000 CLP/mes (~USD 27) en plan Starter. Clinera publica VORTEX USD 379/mes y ECOSISTEMA USD 479/mes. En precio bajo nominal, Sacmed gana; en valor por dólar para clínicas que invierten en marketing digital, Clinera tiene atribución que justifica el delta.",
       },
     ],
     faqs: [
@@ -772,7 +772,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Cuál es más caro?",
-        a: "En precio nominal, Sacmed es más barato (~USD 27/mes vs USD 279 de Clinera VORTEX). Clinera incluye IA conversacional, atribución de marketing y difusiones WhatsApp. Para clínicas que invierten en marketing digital, el delta se paga solo con la atribución.",
+        a: "En precio nominal, Sacmed es más barato (~USD 27/mes vs USD 379 de Clinera VORTEX). Clinera incluye IA conversacional, atribución de marketing y difusiones WhatsApp. Para clínicas que invierten en marketing digital, el delta se paga solo con la atribución.",
       },
       {
         q: "¿Sacmed cubre clínicas fuera de Chile?",
@@ -803,7 +803,7 @@ const competitors: Record<Slug, Competitor> = {
       "Setup en menos de 1 hora, sin programador.",
       "Precios públicos en USD; migración ágil asistida por ingeniero (PMA).",
       "Memoria contextual LangChain entre conversaciones.",
-      "Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit; migración de tus datos asistida en el onboarding.",
+      "Webhooks y API pública (n8n, Make, Zapier); migración de tus datos asistida en el onboarding.",
     ],
     themWins: [
       "Líder colombiano con 13 años: conoce profundamente el mercado regulado local.",
@@ -827,7 +827,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Ficha clínica digital", clinera: "yes", them: "yes" },
       { feature: "Multi-sede", clinera: "yes", them: "yes" },
       { feature: "Precios públicos", clinera: "yes", them: "yes" },
-      { feature: "Plan desde", clinera: "USD 279/mes", them: "COP $1.670.000/año (~USD 35/mes)" },
+      { feature: "Plan desde", clinera: "USD 379/mes", them: "COP $1.670.000/año (~USD 35/mes)" },
       { feature: "Permanencia", clinera: "no", them: "anual (precio año 1 vs año 2+)" },
     ],
     dimensions: [
@@ -839,7 +839,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y modelo comercial",
         body:
-          "Medifolios publica precios en COP con modelo anual decreciente: año 1 más caro (incluye onboarding), año 2+ baja considerablemente. Consultorio: $1.670.000 año 1 / $840.000 año 2+ (~USD 35/USD 17/mes). Clinera publica precios en USD con modelo mensual con permanencia mínima de 6 meses: VORTEX USD 279/mes, ATLAS USD 379/mes y SUMMIT USD 479/mes (bolsa de créditos: 28.000/37.000/46.000). Configuración inicial USD 450 (pago único) con onboarding asistido — operando el mismo día. Para clínicas que recién arrancan en digital, Medifolios año 1 es más caro upfront pero año 2+ se vuelve más barato. Clinera es predecible mes a mes sin compromiso.",
+          "Medifolios publica precios en COP con modelo anual decreciente: año 1 más caro (incluye onboarding), año 2+ baja considerablemente. Consultorio: $1.670.000 año 1 / $840.000 año 2+ (~USD 35/USD 17/mes). Clinera publica precios en USD con modelo mensual: VORTEX USD 379/mes y ECOSISTEMA USD 479/mes. Configuración inicial USD 450 (pago único) con onboarding asistido — operando el mismo día. Para clínicas que recién arrancan en digital, Medifolios año 1 es más caro upfront pero año 2+ se vuelve más barato. Clinera es predecible mes a mes sin compromiso.",
       },
       {
         title: "Cómo decidir entre Medifolios y Clinera",
@@ -879,7 +879,7 @@ const competitors: Record<Slug, Competitor> = {
     },
     clineraWins: [
       "AURA: agente IA conversacional autónomo (no solo asistente de triaje como el de Saludtools).",
-      "IA conversacional disponible en todos los planes desde USD 279/mes (vs Premium-only en Saludtools).",
+      "IA conversacional incluida en las dos opciones, desde USD 379/mes (vs Premium-only en Saludtools).",
       "Coexistencia con WhatsApp Business — mismo número que ya usa la clínica.",
       "Atribución end-to-end campaña Meta/Google → conversación → cita → venta.",
       "Memoria contextual LangChain entre conversaciones.",
@@ -908,7 +908,7 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Ficha clínica digital", clinera: "yes", them: "yes" },
       { feature: "Multi-especialidad", clinera: "yes", them: "yes" },
       { feature: "Precios públicos en home", clinera: "yes", them: "no", themNote: "ver /precios" },
-      { feature: "Plan desde", clinera: "USD 279/mes", them: "consulta /precios" },
+      { feature: "Plan desde", clinera: "USD 379/mes", them: "consulta /precios" },
       { feature: "Permanencia", clinera: "no", them: "consulta" },
     ],
     dimensions: [
@@ -920,7 +920,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y modelo comercial",
         body:
-          "Saludtools tiene 3 planes (Estándar/Plus/Premium) sin precios visibles en home (hay que ir a /precios o contactar comercial). La IA está reservada al plan Premium, que es el más caro. Clinera tiene 3 planes con precios públicos en USD: VORTEX USD 279/mes, ATLAS USD 379/mes, SUMMIT USD 479/mes (bolsa de créditos: 28.000/37.000/46.000). La IA conversacional está en TODOS los planes, no escalonada por tier. Configuración inicial USD 450 (pago único) con onboarding asistido en todos los planes Clinera; Saludtools no especifica setup en home.",
+          "Saludtools tiene 3 planes (Estándar/Plus/Premium) sin precios visibles en home (hay que ir a /precios o contactar comercial). La IA está reservada al plan Premium, que es el más caro. Clinera tiene 2 opciones con precios públicos en USD: VORTEX USD 379/mes y ECOSISTEMA USD 479/mes. La IA conversacional viene en las dos, no escalonada por tier. Configuración inicial USD 450 (pago único) con onboarding asistido en ambas; Saludtools no especifica setup en home.",
       },
       {
         title: "Cómo decidir entre Saludtools y Clinera",
@@ -943,7 +943,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿En qué planes de Clinera está la IA?",
-        a: "En todos. AURA (agente IA WhatsApp 24/7) viene en VORTEX (USD 279/mes), ATLAS (USD 379/mes) y SUMMIT (USD 479/mes). No es feature de tier alto: es el core del producto.",
+        a: "En las dos opciones. AURA (agente IA WhatsApp 24/7) viene en las dos opciones: VORTEX (USD 379/mes) y ECOSISTEMA (USD 479/mes). No es feature de tier alto: es el core del producto.",
       },
     ],
   },
@@ -964,7 +964,7 @@ const competitors: Record<Slug, Competitor> = {
       "Coexistencia con WhatsApp Business — opera en el mismo número que ya usa la clínica.",
       "Atribución end-to-end campaña Meta/Google → conversación → cita → venta.",
       "Memoria contextual LangChain entre conversaciones.",
-      "Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit; migración de tus datos asistida en el onboarding.",
+      "Webhooks y API pública (n8n, Make, Zapier); migración de tus datos asistida en el onboarding.",
       "Setup en menos de 1 hora, sin programador.",
       "Foco multi-vertical (dental, médico, estético, fisio, etc) sin sesgos.",
     ],
@@ -988,14 +988,14 @@ const competitors: Record<Slug, Competitor> = {
       { feature: "Cobertura LATAM", clinera: "yes", them: "yes", themNote: "20+ países" },
       { feature: "Setup en menos de 1 hora", clinera: "yes", them: "yes" },
       { feature: "Precios públicos", clinera: "yes", them: "yes" },
-      { feature: "Plan desde", clinera: "USD 279/mes", them: "USD 0 (gratis) / USD 19/mes" },
+      { feature: "Plan desde", clinera: "USD 379/mes", them: "USD 0 (gratis) / USD 19/mes" },
       { feature: "Permanencia", clinera: "no", them: "no" },
     ],
     dimensions: [
       {
-        title: "Plan gratis + USD 19/mes vs USD 279/mes con IA conversacional autónoma",
+        title: "Plan gratis + USD 19/mes vs USD 379/mes con IA conversacional autónoma",
         body:
-          "La diferencia de precio es real: Doctocliq tiene plan gratis y plan pago desde USD 19/mes; Clinera arranca en USD 279/mes. Pero lo que cambia entre los dos no es 'más features por más precio' — es **agente vs asistente**. Doctocliq tiene asistente IA que ayuda con recordatorios y tareas específicas. Clinera tiene AURA: agente IA conversacional autónomo que entiende lo que el paciente quiere, ofrece horarios reales de la agenda, cierra el agendamiento, confirma, deriva si es necesario. Para una clínica que paga publicidad en Meta/Google y pierde pacientes porque nadie contesta el WhatsApp a las 22:00, AURA cierra el ROI en menos de 1 mes. Para una clínica que recién empieza y solo necesita ordenar la agenda + recordatorios, Doctocliq gratis es el punto de entrada correcto.",
+          "La diferencia de precio es real: Doctocliq tiene plan gratis y plan pago desde USD 19/mes; Clinera arranca en USD 379/mes. Pero lo que cambia entre los dos no es 'más features por más precio' — es **agente vs asistente**. Doctocliq tiene asistente IA que ayuda con recordatorios y tareas específicas. Clinera tiene AURA: agente IA conversacional autónomo que entiende lo que el paciente quiere, ofrece horarios reales de la agenda, cierra el agendamiento, confirma, deriva si es necesario. Para una clínica que paga publicidad en Meta/Google y pierde pacientes porque nadie contesta el WhatsApp a las 22:00, AURA cierra el ROI en menos de 1 mes. Para una clínica que recién empieza y solo necesita ordenar la agenda + recordatorios, Doctocliq gratis es el punto de entrada correcto.",
       },
       {
         title: "Foco dental fuerte vs multi-vertical sin sesgo",
@@ -1014,7 +1014,7 @@ const competitors: Record<Slug, Competitor> = {
         a: "Parcialmente. Compiten en agenda + recordatorios + asistente IA, pero resuelven cuellos de botella distintos: Doctocliq es la entrada económica para digitalización clínica básica; Clinera es el software completo con IA conversacional + atribución de marketing. No se sincronizan entre sí: la decisión es uno u otro.",
       },
       {
-        q: "¿Vale la pena pagar USD 279/mes en Clinera si tengo el plan gratis de Doctocliq?",
+        q: "¿Vale la pena pagar USD 379/mes en Clinera si tengo el plan gratis de Doctocliq?",
         a: "Solo si tu clínica paga publicidad y pierde pacientes por no contestar WhatsApp a tiempo. En ese caso Clinera se paga sola en menos de 1 mes (1-2 pacientes nuevos cubiertos = ROI positivo). Si la clínica recién arranca y no invierte en marketing aún, el plan gratis de Doctocliq es el punto correcto y volves a Clinera cuando empieces a pautar.",
       },
       {
@@ -1930,7 +1930,7 @@ export default async function ComparativaPage({
                       fontWeight: 500,
                     }}
                   >
-                    Ver planes desde USD 279/mes →
+                    Ver planes desde USD 379/mes →
                   </Link>
                 </li>
               </ul>

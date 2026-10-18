@@ -23,7 +23,7 @@ export const HOME_FAQ = [
   },
   {
     q: "¿Funciona para clínicas con varios profesionales?",
-    a: "Sí. Vortex incluye 10 usuarios, Atlas 15 y Summit hasta 25 profesionales con sucursales ilimitadas.",
+    a: "Sí. Vortex y Ecosistema incluyen hasta 10 profesionales. Si necesitas más, lo conversamos en la videollamada.",
   },
   {
     q: "¿Dónde se guardan los datos de mis pacientes?",

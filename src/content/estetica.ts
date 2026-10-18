@@ -151,7 +151,7 @@ export const MODELOS_ESTETICA = {
 export type ModeloEsteticaId = keyof typeof MODELOS_ESTETICA;
 
 /**
- * Prueba social bajo el hero de /activar-cuenta y /clinica-estetica (Ricardo,
+ * Prueba social bajo el hero de /agenda (Ricardo,
  * 18-oct-2026: reemplaza «+52 clínicas activas · Hecho en Método Hebe y
  * Protocolo Lumina»). Cifras dictadas por él.
  */

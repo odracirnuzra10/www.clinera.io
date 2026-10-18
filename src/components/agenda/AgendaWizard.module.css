@@ -1,0 +1,313 @@
+/* /agenda: lo propio del wizard de 3 pasos. Hero, tarjeta, inputs y botones
+   vienen de `EsteticaAdsLanding.module.css` (misma familia visual). */
+
+.progress {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.seg {
+  height: 4px;
+  border-radius: 999px;
+  background: #ececf1;
+}
+
+.segOn {
+  background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
+}
+
+/* Paso 1: ciudad y país en una fila */
+.fila2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Paso 2: servicio (selección única) */
+.servicios {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.servicio {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  color: #111827;
+  background: #fff;
+  border: 1.5px solid #d5d9e2;
+  border-radius: 16px;
+  padding: 18px 18px 18px 54px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.servicio:hover {
+  border-color: #a78bfa;
+}
+
+.servicioOn {
+  border-color: #7c3aed;
+  background: #f8f5ff;
+  box-shadow: 0 14px 30px -20px rgba(124, 58, 237, 0.7);
+}
+
+.servicioTitulo {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.servicioTexto {
+  display: block;
+  margin-top: 4px;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: #4b5563;
+}
+
+.radio {
+  position: absolute;
+  left: 18px;
+  top: 20px;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1.5px solid #c4c9d4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.servicioOn .radio {
+  border-color: transparent;
+  background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
+}
+
+.recomendado {
+  position: absolute;
+  top: -11px;
+  right: 14px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
+}
+
+.servicioDestacado {
+  border-color: #c4b5fd;
+}
+
+.volver {
+  display: block;
+  margin: 12px auto 0;
+  background: none;
+  border: 0;
+  font-family: inherit;
+  font-size: 14px;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+/* Landing con aire (Ricardo, 18-oct-2026): más blanco entre secciones. */
+.aire > section + section {
+  margin-top: clamp(56px, 9vw, 128px);
+}
+
+/* Fondo con tinte para que el formulario blanco sobresalga. */
+section.heroTinte {
+  max-width: none;
+  padding-left: max(40px, calc((100% - 1120px) / 2));
+  padding-right: max(40px, calc((100% - 1120px) / 2));
+  background:
+    radial-gradient(circle at 85% 10%, rgba(217, 70, 239, 0.12), transparent 45%),
+    radial-gradient(circle at 10% 90%, rgba(59, 130, 246, 0.1), transparent 45%),
+    #f6f4fb;
+}
+
+/* El formulario: borde con degradado y sombra profunda (jerarquía visual). */
+div.cardDestacada {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%) border-box;
+  box-shadow:
+    0 30px 70px -24px rgba(76, 29, 149, 0.38),
+    0 10px 24px -12px rgba(15, 10, 30, 0.18);
+}
+
+/* Botón fijo que devuelve al formulario: solo móvil. */
+.volverForm {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  section.heroTinte {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .volverForm {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 60;
+    display: block;
+    padding: 16px;
+    border-radius: 14px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
+    box-shadow: 0 14px 34px -10px rgba(124, 58, 237, 0.6);
+  }
+}
+
+/* Pasos 2 y 3: solo el wizard, centrado, sin nada debajo hacia donde bajar. */
+section.enfocado {
+  grid-template-columns: minmax(0, 640px);
+  grid-template-areas: "form";
+  grid-template-rows: auto;
+  justify-content: center;
+  min-height: calc(100vh - 72px);
+  min-height: calc(100dvh - 72px);
+  padding-top: 32px;
+}
+
+/* Escritorio: el paso 2 usa una tarjeta más ancha, con las tres opciones lado a lado. */
+@media (min-width: 1024px) {
+  section.enfocadoAncho {
+    grid-template-columns: minmax(0, 1040px);
+  }
+
+  div.cardAncha {
+    padding: 44px 48px 40px;
+  }
+
+  .servicios {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin-top: 28px;
+  }
+
+  .servicio {
+    padding: 56px 22px 22px;
+  }
+
+  .radio {
+    left: 22px;
+    top: 22px;
+  }
+}
+
+/* «Cómo funciona el ecosistema», bajo el wizard */
+.eco {
+  padding: 24px 80px;
+  background: #fff;
+}
+
+.ecoInner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ecoMeta {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.ecoH2 {
+  margin: 14px 0 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 44px;
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  color: #0a0a0a;
+}
+
+.ecoPasos {
+  list-style: none;
+  margin: 40px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.ecoPaso {
+  border: 1px solid #ececf1;
+  border-radius: 22px;
+  padding: 28px 26px 30px;
+  background: #fff;
+  box-shadow: 0 24px 50px -36px rgba(76, 29, 149, 0.4);
+}
+
+.ecoN {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
+}
+
+.ecoPaso h3 {
+  margin: 18px 0 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0a0a0a;
+}
+
+.ecoPaso p {
+  margin: 8px 0 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: #4b5563;
+}
+
+@media (max-width: 1000px) {
+  .eco {
+    padding: 16px 24px;
+  }
+  .ecoH2 {
+    font-size: 34px;
+  }
+  .ecoPasos {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  .eco {
+    padding: 8px 16px;
+  }
+  .fila2 {
+    grid-template-columns: 1fr;
+  }
+}

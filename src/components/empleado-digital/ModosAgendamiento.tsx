@@ -15,7 +15,7 @@ const PASOS: Paso[] = [
     idx: "01",
     title: "Conversa y califica",
     desc: "Tu IA responde por WhatsApp 24/7: precios, horarios, profesionales, qué incluye cada tratamiento. Entiende el contexto del paciente antes de proponer una hora.",
-    innerEyebrow: "Desde Plan Vortex",
+    innerEyebrow: "Incluido en Vortex",
   },
   {
     idx: "02",
@@ -23,13 +23,13 @@ const PASOS: Paso[] = [
     desc: "Sin links, sin fricción, sin salir del chat. Consulta la disponibilidad real de tu agenda, valida profesional, sala y duración, y deja la cita creada.",
     tag: "EL NÚCLEO",
     featured: true,
-    innerEyebrow: "Desde Plan Vortex",
+    innerEyebrow: "Incluido en Vortex",
   },
   {
     idx: "03",
     title: "Reagenda, cancela y confirma",
     desc: "Detecta conflictos y propone alternativas, libera el cupo al cancelar, cobra la reserva y manda el recordatorio. Todo dentro de la misma conversación.",
-    innerEyebrow: "Desde Plan Vortex",
+    innerEyebrow: "Incluido en Vortex",
   },
 ];
 

@@ -1,67 +1,44 @@
 import { expect, test } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { ANNUAL_DISCOUNT_PERCENT, CLINERA_PLANS, SETUP_FEE_USD, annualFirstYearSavings } from "../src/content/pricing";
+import { IMPLEMENTACION_USD, MARKETING_BLOQUES, PLANES } from "../src/content/planes";
 
 /**
- * El cierre de /presentacion muestra el anual primero y el mensual debajo.
- * Los números viven en el HTML porque el deck no importa pricing.ts.
+ * El cierre de /presentacion muestra las dos opciones vigentes (Vortex y
+ * Ecosistema) y la promoción del mes: implementación gratis en Ecosistema
+ * (Ricardo, 18-oct-2026). Los números viven en el HTML porque el deck no importa TS.
  */
 const html = readFileSync(join(process.cwd(), "public/presentacion/index.html"), "utf8");
+const start = html.indexOf('id="planes"');
+const chunk = html.slice(start, html.indexOf("</section>", start));
 
 test.describe("Planes en /presentacion", () => {
-  test("el deck son 3 diapositivas y la de precio lo cierra, anual antes que mensual", () => {
+  test("el deck son 3 diapositivas y la de planes lo cierra", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids.at(-1)).toBe("planes");
     expect(ids).toEqual(["quienes-somos", "funciones", "planes"]);
-
-    const start = html.indexOf('id="planes"');
-    const chunk = html.slice(start, html.indexOf("</section>", start));
-    expect(chunk.indexOf("Plan anual")).toBeLessThan(chunk.indexOf("Plan mensual"));
-    expect(chunk).toContain(`${ANNUAL_DISCOUNT_PERCENT}% OFF`);
-    expect(chunk).not.toMatch(/semestral/i);
-    expect(chunk).toContain('aria-label="Dólar"');
-    expect(chunk).toContain('aria-label="Peso mexicano"');
-    expect(chunk).toContain('data-billing="annual"');
-    expect(chunk).toContain("12 cuotas a precio de contado");
-    expect(chunk).toContain("pagando con Mercado Pago");
-    expect(chunk).toContain("/brand/mercadopago.svg");
   });
 
-  test("los montos del deck coinciden con pricing.ts", () => {
-    const start = html.indexOf('id="planes"');
-    const chunk = html.slice(start, html.indexOf("</section>", start));
-    for (const plan of CLINERA_PLANS) {
-      expect(chunk).toContain(`data-monthly="${plan.monthlyPrice}"`);
-      expect(chunk).toContain(`data-annual="${plan.annualTotal}"`);
-      expect(chunk).toContain(`data-equiv="${plan.annualMonthly}"`);
-      expect(chunk).toContain(`data-savings="${annualFirstYearSavings(plan)}"`);
+  test("los montos y el marketing coinciden con planes.ts; sin planes viejos ni permanencia", () => {
+    for (const p of PLANES) {
+      expect(chunk).toContain(`<h3 class="px-name">${p.name}</h3>`);
+      expect(chunk).toContain(`<strong>$${p.monthlyUsd}</strong>`);
     }
-    expect(chunk).toContain(`data-slot="fee">$${SETUP_FEE_USD}`);
+    for (const b of MARKETING_BLOQUES) expect(chunk).toContain(b.titulo.replace("Facebook, Instagram y Google", "Facebook, Instagram y Google"));
+    expect(chunk).toContain(`Implementación USD ${IMPLEMENTACION_USD}`);
+    expect(chunk).toContain("Implementación gratis en el plan Ecosistema");
+    for (const viejo of ["Atlas", "Summit", "Flux", "Hurricane", "permanencia", "CU" + "KI", "Mercado Pago", "12 cuotas", "20% OFF"]) {
+      expect(html, viejo).not.toContain(viejo);
+    }
   });
 
-  test("abre en anual y el mensual pasa a ser el número grande", async ({ page }) => {
+  test("se ve la promoción del mes y Ecosistema lista lo que incluye el marketing", async ({ page }) => {
     await page.goto("/presentacion#planes", { waitUntil: "domcontentloaded" });
     const slide = page.locator("#planes");
     await expect(slide).toHaveClass(/active/);
-    await expect(slide).toHaveAttribute("data-billing", "annual");
-    const vortex = slide.locator(".px-card").first();
-    await expect(vortex.locator(".px-annual")).toBeVisible();
-    await expect(vortex.locator("[data-slot='annual']")).toHaveText("$223");
-    await expect(vortex.locator("[data-slot='equiv']")).toContainText("ahorras $56/mes");
-    await expect(vortex.locator(".px-monthly")).toBeHidden();
-    await expect(vortex).not.toContainText("$2,678");
-
-    await slide.getByRole("radio", { name: /Mensual/ }).click();
-    await expect(slide).toHaveAttribute("data-billing", "monthly");
-    await expect(vortex.locator(".px-annual")).toBeHidden();
-    await expect(vortex.locator(".px-monthly")).toBeVisible();
-    await expect(vortex.locator("[data-slot='monthly']")).toHaveText("$279");
-
-    await slide.getByRole("radio", { name: "Peso mexicano" }).click();
-    await expect(slide).toHaveAttribute("data-fx", "mxn");
-    await expect(vortex.locator("[data-slot='annual']")).toHaveText("$3,780");
-    await expect(vortex.locator("[data-slot='monthly']")).toHaveText("$4,730");
-    await expect(slide.locator("[data-slot='fee']")).toHaveText("$7,630");
+    await expect(slide.locator(".px-promo")).toContainText("Implementación gratis en el plan Ecosistema");
+    await expect(slide.locator(".px-card")).toHaveCount(2);
+    const eco = slide.locator('.px-card[data-plan="ecosistema"]');
+    await expect(eco.locator(".px-mkt li")).toHaveCount(3);
+    await expect(slide.locator('.px-card[data-plan="vortex"] .px-mkt')).toHaveCount(0);
   });
 });

@@ -7,12 +7,12 @@
 // gigante para que el ojo se detenga ahí. Va SIEMPRE en el home, en las
 // landings y en cada artículo del blog: una vez por página.
 //
-// Dónde vive: home (`HomeV3`), `/clinica-estetica/activar-cuenta`, landings `software-vertical`
+// Dónde vive: home (`HomeV3`), landings `software-vertical`
 // y `/blog/[slug]`. El ancho lo decide el contenedor (container queries), así
 // que la misma pieza sirve a página completa y dentro de la columna del blog.
 //
-// El agente IA viene desde Hurricane (Flux es sin IA; planes Flux · Hurricane ·
-// Vortex, 18-oct-2026). Por eso la nota bajo los canales.
+// El agente IA viene incluido en Vortex (y en Ecosistema, que suma marketing;
+// 18-oct-2026). Por eso la nota bajo los canales.
 //
 // Sin JavaScript para la animación y sin alto fijo: la palabra que rota está
 // apilada en una sola celda de grilla, la caja mide la más larga (lección de
@@ -32,7 +32,7 @@ const CANALES: { id: PlanChannel; palabra: string; accion: string }[] = [
   { id: "llamadas", palabra: "teléfono", accion: "Atiende la llamada y agenda" },
 ];
 
-// Ricardo, 18-oct-2026: el CTA es «Activar cuenta» (la landing de `CTA_VENTAS_PATH`), ya no /go.
+// Ricardo, 18-oct-2026: el CTA es «Agendar videollamada» (`CTA_VENTAS_PATH`), ya no /go.
 const DEFAULT_HREF = CTA_VENTAS_PATH;
 
 const noop = () => () => {};
@@ -98,7 +98,7 @@ export default function AgenteIABanda({
             {ctaLabel} <span aria-hidden>→</span>
           </a>
           <span className={styles.note}>
-            El agente IA viene desde el plan {PLAN_IA_DESDE.name} · US$ {PLAN_IA_DESDE.monthlyUsd}/mes.
+            El agente IA viene incluido en {PLAN_IA_DESDE.name} · US$ {PLAN_IA_DESDE.monthlyUsd}/mes.
           </span>
         </div>
       </div>

@@ -1,155 +1,148 @@
 // ============================================================================
-// Planes vigentes en la web: Flux · Hurricane · Vortex (Ricardo, 18-oct-2026)
+// Las dos opciones de Clinera: Vortex · Ecosistema (Ricardo, 18-oct-2026)
 // ----------------------------------------------------------------------------
-// Fuente única de lo que el sitio PÚBLICO muestra como planes: home, /planes,
-// /planes-pro, landings `software-vertical`, /clinica-estetica/activar-cuenta, schema y llms.
+// Fuente única de lo que el sitio PÚBLICO vende: home, /planes, landings
+// `software-vertical`, /agenda, schema y llms. Clinera pasa de «solo software» a
+// ecosistema: software con IA + marketing de performance, para clínicas estéticas
+// y médicas.
 //
-// El CTA de todos los planes es «Activar cuenta» → /clinica-estetica/activar-cuenta (Ricardo,
-// 18-oct-2026; /agenda y /clinica-estetica redirigen ahí). La landing (paso 3) y
-// /planes llevan el Payment Link de Stripe de cada plan con el cupón CUKI
-// (`agenda-oferta.ts`).
+//  · Vortex                USD 379/mes  — software con IA.
+//  · Ecosistema            USD 479/mes  — software + marketing de performance («Recomendado»).
+//  · Implementación        USD 450, pago único, en el primer cobro junto con el primer mes.
+//
+// No hay compra por la web: todo CTA lleva a /agenda (wizard de 3 pasos que termina
+// en una videollamada). Se acabaron los planes y cupones anteriores y los precios de extras (lo de más profesionales o más IA se conversa).
 //
 // Lo que NO vive acá:
-// - `pricing.ts` (Vortex/Atlas/Summit 279/379/479): sigue alimentando los
-//   contratos de /firma y el constructor de /cotizacion. Contratos firmados
-//   referencian esos ids; no se migran sin que Ricardo lo decida.
-// - `planes2.ts` (Go!/Flux/Ultra): lo usan las piezas internas de /go y el
-//   evento de compra de Meta. /go sigue existiendo, pero el sitio no lo promueve.
+// - `pricing.ts` (catálogo anterior y SETUP_FEE_USD 450): sigue
+//   alimentando los contratos de /firma y /cotizacion; no se migran sin que Ricardo
+//   lo decida. OJO: «Vortex» tiene ahí otro precio (279), el del catálogo viejo.
+// - `planes2.ts` (modelo anterior): piezas internas de /go y el evento de compra.
 //
-// Precios, límites y funciones dictados por Ricardo el 18-oct-2026, enfocados en
-// la clínica estética. «Créditos CI» = créditos de Clinera Intelligence.
+// [PENDIENTE: Ricardo] permanencia mínima y plan anual (20% / 12 cuotas Mercado
+// Pago): mientras no confirme, no se muestran.
 // ============================================================================
 
 import type { PlanChannel } from "@/content/pricing";
 
-export type PlanId = "flux" | "hurricane" | "vortex";
+export type PlanId = "vortex" | "ecosistema";
+
+/** Servicio que la clínica elige en el paso 2 de /agenda (y en `?servicio=`). */
+export type ServicioId = "software" | "marketing" | "ambas";
 
 export type Plan = {
   id: PlanId;
   name: string;
   /** US$ por mes. */
   monthlyUsd: number;
+  /** Servicio de /agenda que le corresponde a la tarjeta. */
+  servicio: ServicioId;
   professionals: number;
-  /** Conversaciones por mes: el límite siempre se expresa en conversaciones. */
-  conversations: number;
-  channels: readonly PlanChannel[];
-  /** Agente de IA que responde y agenda: desde Hurricane. Flux es sin IA. */
-  agenteIA: boolean;
-  /** Créditos de IA del agente al mes (0 = sin agente). */
+  /** Créditos de IA del agente al mes. */
   iaCredits: number;
-  /** Créditos de Clinera Intelligence (el agente IA dentro del software). */
-  ciCredits: number;
+  channels: readonly PlanChannel[];
   featured: boolean;
   /** Etiqueta sobre la tarjeta. Vacía = sin etiqueta. */
   tag: string;
-  /** «Funciones base» de la tarjeta, en el orden que dictó Ricardo. */
+  /** Una línea para el home. */
+  resumen: string;
+  /** «Qué incluye» de la tarjeta. */
   features: readonly string[];
 };
 
-const FICHA = "Ficha estética facial y corporal personalizada, evoluciones y presupuestos";
-const CANALES = "WhatsApp, Facebook, Instagram y email marketing";
-// Vortex suma la llamada telefónica como canal (Ricardo, 18-oct-2026).
-const CANALES_VORTEX = "WhatsApp, Facebook, Instagram, email marketing y llamada telefónica";
-const ci = (n: number) => `${n} créditos de Clinera Intelligence`;
-/** Hurricane y Vortex (Ricardo, 18-oct-2026). Va destacado en las tarjetas. */
-export const ONBOARDING = "Onboarding humano dedicado";
+/** Lo que trae el software. Marketing lo suma, no lo reemplaza. */
+const SOFTWARE_FEATURES = [
+  "Hasta 10 profesionales",
+  "10.000 créditos de IA",
+  "Bandeja de WhatsApp, Instagram y Facebook",
+  "Agenda y fichas de la clínica",
+  "Agente de IA (AURA) que responde y agenda",
+  "Automatizaciones y difusiones",
+] as const;
 
-// Ricardo, 18-oct-2026 (reemplaza Flux 89 · Nexus 129 · Summit 179). Los créditos
-// de IA son los de sus viñetas (Hurricane 5.000, Vortex 15.000); en el mismo
-// mensaje el título decía 10.000 y 27.000: confirmar con él.
-export const PLANES: readonly Plan[] = [
+/** Los tres bloques de marketing de performance (Ricardo, 18-oct-2026). */
+export const MARKETING_BLOQUES = [
   {
-    id: "flux",
-    name: "Flux",
-    monthlyUsd: 129,
-    professionals: 5,
-    conversations: 500,
-    channels: ["whatsapp", "facebook", "instagram", "email"],
-    agenteIA: false,
-    iaCredits: 0,
-    ciCredits: 100,
-    featured: false,
-    tag: "",
-    features: ["Hasta 5 profesionales", FICHA, CANALES, "Hasta 500 conversaciones", ci(100), "Sin agente IA"],
+    id: "campanas",
+    titulo: "Campañas de performance en Facebook, Instagram y Google",
+    texto: "Campañas pensadas para traer pacientes a tu clínica, no solo likes.",
   },
   {
-    id: "hurricane",
-    name: "Hurricane",
-    monthlyUsd: 179,
-    professionals: 10,
-    conversations: 1500,
-    channels: ["whatsapp", "facebook", "instagram", "email"],
-    agenteIA: true,
-    iaCredits: 5000,
-    ciCredits: 200,
-    featured: true,
-    tag: "Con IA",
-    features: ["Hasta 10 profesionales", FICHA, CANALES, "Hasta 1.500 conversaciones", ci(200), "Agente IA · 5.000 créditos de IA", ONBOARDING],
+    id: "propuesta",
+    titulo: "Propuesta de valor",
+    texto: "Creamos y optimizamos qué ofrece tu clínica y cómo lo comunica.",
   },
   {
-    id: "vortex",
-    name: "Vortex",
-    monthlyUsd: 279,
-    professionals: 20,
-    conversations: 3000,
-    channels: ["whatsapp", "facebook", "instagram", "email", "telefono"],
-    agenteIA: true,
-    iaCredits: 15000,
-    ciCredits: 500,
-    featured: false,
-    tag: "",
-    features: ["Hasta 20 profesionales", FICHA, CANALES_VORTEX, "Hasta 3.000 conversaciones", ci(500), "Agente IA · 15.000 créditos de IA", ONBOARDING],
+    id: "framework",
+    titulo: "Framework comercial",
+    texto: "Optimizamos cómo tu equipo atiende, cotiza y cierra, para vender más dentro de la clínica.",
   },
 ] as const;
 
-/**
- * Funciones que van destacadas en las tarjetas (Ricardo, 18-oct-2026: «énfasis
- * en el agente IA, es una función clave» y «onboarding humano dedicado en negrita»).
- * «Sin agente IA» de Flux no se destaca.
- */
-export function destacadoDe(feature: string): "ia" | "onboarding" | null {
-  if (feature.startsWith("Agente IA")) return "ia";
-  if (feature === ONBOARDING) return "onboarding";
+export const PLANES: readonly Plan[] = [
+  {
+    id: "vortex",
+    name: "Vortex",
+    monthlyUsd: 379,
+    servicio: "software",
+    professionals: 10,
+    iaCredits: 10000,
+    channels: ["whatsapp", "instagram", "facebook"],
+    featured: false,
+    tag: "",
+    resumen: "Software con IA: agenda, fichas, bandeja unificada y el agente AURA que responde y agenda por ti.",
+    features: SOFTWARE_FEATURES,
+  },
+  {
+    id: "ecosistema",
+    name: "Ecosistema",
+    monthlyUsd: 479,
+    servicio: "ambas",
+    professionals: 10,
+    iaCredits: 10000,
+    channels: ["whatsapp", "instagram", "facebook"],
+    featured: true,
+    tag: "Recomendado",
+    resumen: "El ecosistema completo: marketing de performance que trae pacientes y software con IA que los atiende.",
+    features: ["Todo lo de Vortex", ...MARKETING_BLOQUES.map((b) => b.titulo)],
+  },
+] as const;
+
+/** Funciones que van destacadas en las tarjetas (ícono + negrita). */
+export function destacadoDe(feature: string): "ia" | "marketing" | null {
+  if (/^Agente de IA/.test(feature)) return "ia";
+  if (MARKETING_BLOQUES.some((b) => b.titulo === feature)) return "marketing";
   return null;
 }
 
 /**
  * Clinera Intelligence: el agente IA DENTRO del software (pregúntale por ventas,
- * agenda y pacientes). Los «créditos CI» son sus créditos (Ricardo, 18-oct-2026).
- * No conversa con pacientes: eso es el agente IA de Hurricane y Vortex.
+ * agenda y pacientes). Los «créditos CI» son su consumo; ya no se atan a un plan.
  */
 export const DEFINICION_CI =
-  "Clinera Intelligence es el agente IA dentro del software: le preguntas por tus ventas, tu agenda y tus pacientes. Los créditos CI son su consumo.";
+  "Clinera Intelligence es el agente IA dentro del software: le preguntas por tus ventas, tu agenda y tus pacientes.";
 
 export const PLAN_DESDE_USD = Math.min(...PLANES.map((p) => p.monthlyUsd));
-export const PLAN_HASTA_USD = Math.max(...PLANES.map((p) => p.monthlyUsd));
-/** Primer plan con agente IA («desde Hurricane»). */
-export const PLAN_IA_DESDE = PLANES.find((p) => p.agenteIA)!;
+/** Único plan de software: de él parte el agente IA. */
+export const PLAN_IA_DESDE = PLANES[0];
 
-/** Extras (diapositiva de Ricardo). */
-export const EXTRAS = [
-  { usd: 15, label: "500 conversaciones" },
-  { usd: 15, label: "5.000 créditos IA" },
-  { usd: 9, label: "profesional extra" },
-] as const;
+/** Implementación: pago único en el primer cobro, con onboarding asistido por una persona. */
+export const IMPLEMENTACION_USD = 450;
+export const IMPLEMENTACION_LINEA = `Implementación USD ${IMPLEMENTACION_USD}, pago único. Incluye onboarding asistido por una persona.`;
+export const NECESIDADES_LINEA = "¿Necesitas más profesionales o más IA? Lo vemos contigo en la videollamada.";
 
-export const EXTRAS_LINEA = EXTRAS.map((e) => `US$${e.usd} · ${e.label}`).join(" · ");
+/** CTA único: lleva a /agenda, que termina en una videollamada con el equipo. */
+export const CTA_VENTAS_LABEL = "Agendar videollamada";
+export const CTA_VENTAS_PATH = "/agenda";
 
-/** CTA único de los planes. */
-// Ricardo, 18-oct-2026: una sola landing, clinera.io/clinica-estetica/activar-cuenta, y el CTA del
-// home se llama «Activar cuenta». /agenda y /clinica-estetica redirigen acá.
-export const CTA_VENTAS_LABEL = "Activar cuenta";
-export const CTA_VENTAS_PATH = "/clinica-estetica/activar-cuenta";
-
-/** `/clinica-estetica/activar-cuenta?plan=hurricane` + la query de la visita (utm, gclid, fbclid). */
-export function agendaHrefPlan(planId: PlanId | null, search = ""): string {
+/** `/agenda?servicio=ambas` + la query de la visita (utm, gclid, fbclid). */
+export function agendaHref(servicio: ServicioId | null, search = ""): string {
   const params = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search);
-  if (planId) params.set("plan", planId);
+  if (servicio) params.set("servicio", servicio);
   const q = params.toString();
   return q ? `${CTA_VENTAS_PATH}?${q}` : CTA_VENTAS_PATH;
 }
 
-export const PLANES_TITULO = "Elige según tu equipo.";
-export const PLANES_TITULO_ACENTO = "Crece sin cambiar de sistema.";
-export const PLANES_BAJADA =
-  "Ficha estética facial y corporal, evoluciones, presupuestos, email marketing y Clinera Intelligence desde el primer plan. Subes de plan cuando crece tu equipo o cuando quieres que la IA atienda y agende por ti.";
+export const PLANES_TITULO = "Elige cómo";
+export const PLANES_TITULO_ACENTO = "quieres crecer.";
+export const PLANES_BAJADA = "Solo el software, o el software más un equipo de marketing que trae pacientes.";

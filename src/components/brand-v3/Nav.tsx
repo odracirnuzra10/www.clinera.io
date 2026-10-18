@@ -6,21 +6,21 @@ import { CtaPrimary, GRAD, Wordmark } from "./Brand";
 import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH } from "@/content/planes";
 
 type NavV3Props = {
-  /** Destino del botón principal. Sin esto: `/clinica-estetica/activar-cuenta` («Activar cuenta», Ricardo 18-oct-2026). */
+  /** Destino del botón principal. Sin esto: `/agenda` («Agendar videollamada», Ricardo 18-oct-2026). */
   ctaHref?: string;
   ctaLabel?: string;
   /**
-   * Enlace discreto «Hablar con ventas» (→ /reunion-comercial) junto al botón
+   * Enlace discreto «Hablar con ventas» (→ /agenda) junto al botón
    * principal. Apagado por defecto.
    */
   salesLink?: boolean;
 };
 
-// Ricardo, 18-oct-2026: el CTA es «Activar cuenta» → /clinica-estetica/activar-cuenta.
+// Ricardo, 18-oct-2026: el CTA es «Agendar videollamada» → /agenda.
 // /go (Go! US$ 17) sigue existiendo, pero el sitio ya no lo promueve.
 const DEFAULT_CTA_HREF = CTA_VENTAS_PATH;
 const DEFAULT_CTA_LABEL = CTA_VENTAS_LABEL;
-const SALES_HREF = "/reunion-comercial";
+const SALES_HREF = "/agenda";
 
 const noop = () => () => {};
 const readSearch = () => window.location.search;

@@ -286,7 +286,7 @@ function CreditsView({ run }: { run: number }) {
     <div className={styles.view}>
       <div className={styles.viewHead}>
         <div>
-          <span className={styles.eyebrow}>Consumo · Atlas</span>
+          <span className={styles.eyebrow}>Consumo · Vortex</span>
           <strong>Bolsa de créditos · este mes</strong>
         </div>
         <span className={styles.livePill}><i />En vivo</span>
@@ -298,7 +298,7 @@ function CreditsView({ run }: { run: number }) {
           <strong>
             <CountUp value={11840} run={run} prefix="" />
           </strong>
-          <small>de 37.000 · Atlas</small>
+          <small>de 10.000 · Vortex</small>
         </div>
         <div className={styles.creditsMeter} aria-hidden="true">
           <div className={styles.creditsMeterTrack}>

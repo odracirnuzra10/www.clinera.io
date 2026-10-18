@@ -42,35 +42,21 @@ const PLANS: Plan[] = [
     name: "Vortex",
     desc: (
       <>
-        Para clínicas que ya operan con volumen. Incluye{" "}
-        <strong>10 usuarios</strong> y <strong>28.000 créditos al mes</strong> con AURA por WhatsApp. La IA agenda sola en modo Agentic.
+        El software con IA. Incluye hasta <strong>10 profesionales</strong> y <strong>10.000 créditos de IA al mes</strong>, con AURA por WhatsApp, Instagram y Facebook.
       </>
     ),
-    price: { amount: "US$279", per: "/mes" },
-  },
-  {
-    id: "p-atlas",
-    value: "Atlas",
-    name: "Atlas",
-    desc: (
-      <>
-        Suma a CAMILA por voz. Incluye <strong>15 usuarios</strong>,{" "}
-        <strong>37.000 créditos al mes</strong>, 2 sucursales y Webhooks + API.
-      </>
-    ),
-    tag: { label: "Más elegido" },
     price: { amount: "US$379", per: "/mes" },
   },
   {
-    id: "p-summit",
-    value: "Summit",
-    name: "Summit",
+    id: "p-ecosistema",
+    value: "Ecosistema",
+    name: "Ecosistema",
     desc: (
       <>
-        AURA + CAMILA + LIA fiscalizando. Incluye <strong>25 usuarios</strong>,{" "}
-        <strong>46.000 créditos al mes</strong> y sucursales ilimitadas.
+        Todo Vortex más <strong>marketing de performance</strong>: campañas, propuesta de valor y framework comercial para traerte pacientes.
       </>
     ),
+    tag: { label: "Recomendado" },
     price: { amount: "US$479", per: "/mes" },
   },
 ];

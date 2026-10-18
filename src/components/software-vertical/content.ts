@@ -1,13 +1,13 @@
 import type { HeroViewId } from "@/components/plataforma/HeroCarousel";
 import {
-  EXTRAS,
+  IMPLEMENTACION_USD,
   PLANES,
   PLAN_IA_DESDE,
   PLAN_DESDE_USD,
 } from "@/content/planes";
 
-// Planes Flux · Hurricane · Vortex (Ricardo, 18-oct-2026): fuente `planes.ts`.
-const [flux] = PLANES;
+// Vortex y Ecosistema (Ricardo, 18-oct-2026): fuente `planes.ts`.
+const [vortex, ecosistema] = PLANES;
 const nf = (v: number) => v.toLocaleString("es-CL");
 
 export type SoftwareVerticalContent = {
@@ -83,7 +83,7 @@ export type SoftwareVerticalContent = {
   };
 };
 
-const PRICE_FAQ = `Hay tres planes mensuales: ${PLANES.map((p) => `${p.name} US$ ${p.monthlyUsd}/mes (hasta ${p.professionals} profesionales y ${nf(p.conversations)} conversaciones${p.agenteIA ? `, agente IA con ${nf(p.iaCredits)} créditos de IA` : ", sin agente IA"})`).join(", ")}. Todos traen ficha estética facial y corporal, evoluciones, presupuestos, email marketing y Clinera Intelligence. Para contratar, hablas con ventas.`;
+const PRICE_FAQ = `Hay dos opciones mensuales: ${vortex.name} (US$ ${vortex.monthlyUsd}/mes), el software con IA para hasta ${vortex.professionals} profesionales con ${nf(vortex.iaCredits)} créditos de IA, y ${ecosistema.name} (US$ ${ecosistema.monthlyUsd}/mes), que suma marketing de performance para traerte pacientes. La implementación es de US$ ${IMPLEMENTACION_USD}, pago único. Para partir, agendas una videollamada con el equipo.`;
 
 const INTEGRATION_FAQ =
   "No. Clinera no se sincroniza con Reservo, AgendaPro, Medilink ni Dentalink: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Para conectar otras herramientas tienes Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit.";
@@ -119,7 +119,7 @@ export const MEDICO: SoftwareVerticalContent = {
     },
     {
       title: "Agente IA (AURA)",
-      body: "Atiende por WhatsApp 24/7: califica, agenda y confirma sobre tu agenda. Desde el plan Hurricane.",
+      body: "Atiende por WhatsApp 24/7: califica, agenda y confirma sobre tu agenda. Incluido en Vortex.",
     },
     {
       title: "Clinera Intelligence",
@@ -157,11 +157,11 @@ export const MEDICO: SoftwareVerticalContent = {
   faqs: [
     {
       q: "¿Qué incluye el software médico de Clinera?",
-      a: "Agenda, ficha clínica (facial y corporal), agente IA por WhatsApp (AURA), Clinera Intelligence y un módulo de ventas/seguimiento. En Atlas y Summit se suman Webhooks + API.",
+      a: "Agenda, ficha clínica (facial y corporal), agente IA por WhatsApp (AURA), Clinera Intelligence y un módulo de ventas/seguimiento. Además tienes Webhooks + API pública.",
     },
     {
       q: "¿Sirve para un consultorio chico?",
-      a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene desde ${PLAN_IA_DESDE.name}.`,
+      a: `Sí. Vortex (US$ ${vortex.monthlyUsd}/mes) cubre hasta ${vortex.professionals} profesionales, con WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha, y el agente IA que agenda por ti.`,
     },
     {
       q: "¿Se integra con Reservo, AgendaPro o Medilink?",
@@ -181,7 +181,7 @@ export const MEDICO: SoftwareVerticalContent = {
     },
     {
       q: "¿Qué hace el agente IA?",
-      a: "AURA (desde el plan Hurricane) atiende por WhatsApp, califica y agenda sola sobre tu calendario.",
+      a: "AURA (incluida en Vortex) atiende por WhatsApp, califica y agenda sola sobre tu calendario.",
     },
   ],
   meta: {
@@ -288,7 +288,7 @@ export const DENTAL: SoftwareVerticalContent = {
     },
     {
       q: "¿Cómo agenda el agente IA?",
-      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real de tus sillones y deja la cita creada. Reagenda y cancela en la misma conversación. Viene desde el plan Hurricane.",
+      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real de tus sillones y deja la cita creada. Reagenda y cancela en la misma conversación. Incluido en Vortex.",
     },
     {
       q: "¿Cómo es la implementación y la migración?",
@@ -340,7 +340,7 @@ export const ESTETICA: SoftwareVerticalContent = {
     },
     {
       title: "Agente IA (AURA)",
-      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. Desde el plan Hurricane.",
+      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. Incluido en Vortex.",
     },
     {
       title: "Clinera Intelligence",
@@ -382,7 +382,7 @@ export const ESTETICA: SoftwareVerticalContent = {
     },
     {
       q: "¿Sirve para una clínica de una sola sucursal?",
-      a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene desde ${PLAN_IA_DESDE.name}.`,
+      a: `Sí. Vortex (US$ ${vortex.monthlyUsd}/mes) cubre hasta ${vortex.professionals} profesionales, con WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha, y el agente IA que agenda por ti.`,
     },
     {
       q: "¿Reemplaza a AgendaPro o a Reservo?",
@@ -402,7 +402,7 @@ export const ESTETICA: SoftwareVerticalContent = {
     },
     {
       q: "¿Cómo agenda el agente IA?",
-      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real del equipo y deja la cita creada. Reagenda y cancela en la misma conversación. Viene desde el plan Hurricane.",
+      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real del equipo y deja la cita creada. Reagenda y cancela en la misma conversación. Incluido en Vortex.",
     },
   ],
   meta: {
@@ -432,7 +432,7 @@ export const WHATSAPP_IA: SoftwareVerticalContent = {
   h1Rest: " para clínicas: AURA agenda, reagenda y confirma por ti",
   thesis:
     "AURA es el agente de IA de Clinera que atiende el WhatsApp de tu clínica 24/7: consulta la disponibilidad real, agenda, reagenda y cancela dentro de la conversación, sin links. Trabaja sobre la agenda y la ficha de Clinera, con tu número conectado vía Meta.",
-  sub: `Desde US$ ${PLAN_DESDE_USD}/mes. El agente IA que agenda solo viene en ${PLAN_IA_DESDE.name} (US$ ${PLAN_IA_DESDE.monthlyUsd}/mes).`,
+  sub: `Desde US$ ${PLAN_DESDE_USD}/mes. El agente IA que agenda viene incluido en ${PLAN_IA_DESDE.name} (US$ ${PLAN_IA_DESDE.monthlyUsd}/mes).`,
   heroViews: ["aura", "ficha", "intelligence"],
   includesH2: "Qué hace el agendamiento por WhatsApp con IA de Clinera",
   includes: [
@@ -462,10 +462,10 @@ export const WHATSAPP_IA: SoftwareVerticalContent = {
     },
   ],
   deepDive: {
-    eyebrow: "Cuántas conversaciones incluye",
-    h2: "Cada plan trae un tope de conversaciones al mes",
-    body: `Eliges según tu equipo y tu volumen. Si te quedas corto, sumas ${EXTRAS[0].label} por US$ ${EXTRAS[0].usd} sin cambiar de plan. El agente IA que agenda solo viene desde ${PLAN_IA_DESDE.name}.`,
-    bullets: PLANES.map((p) => `${p.name}: hasta ${nf(p.conversations)} conversaciones al mes`),
+    eyebrow: "Qué incluye",
+    h2: "El agente IA viene incluido en Vortex",
+    body: `${PLAN_IA_DESDE.name} trae hasta ${PLAN_IA_DESDE.professionals} profesionales y ${nf(PLAN_IA_DESDE.iaCredits)} créditos de IA al mes. Si necesitas más profesionales o más IA, lo vemos contigo en la videollamada.`,
+    bullets: PLAN_IA_DESDE.features.slice(0, 5).map((f) => f),
   },
   aura: {
     eyebrow: "Agente IA · en vivo",
@@ -497,8 +497,8 @@ export const WHATSAPP_IA: SoftwareVerticalContent = {
       a: PRICE_FAQ,
     },
     {
-      q: "¿Cuántas conversaciones incluye cada plan?",
-      a: `${PLANES.map((p) => `${p.name}: hasta ${nf(p.conversations)}`).join(" · ")} conversaciones al mes. Si te quedas corto, sumas ${EXTRAS[0].label} por US$ ${EXTRAS[0].usd}.`,
+      q: "¿Cuántos créditos de IA incluye?",
+      a: `${PLAN_IA_DESDE.name} incluye ${nf(PLAN_IA_DESDE.iaCredits)} créditos de IA al mes. Si necesitas más, lo vemos contigo en la videollamada.`,
     },
     {
       q: "¿AURA reemplaza a mi recepcionista?",
@@ -553,7 +553,7 @@ export const CLINICAS: SoftwareVerticalContent = {
     },
     {
       title: "Agente IA (AURA)",
-      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. Desde el plan Hurricane.",
+      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. Incluido en Vortex.",
     },
     {
       title: "Recordatorios y confirmación",
@@ -597,7 +597,7 @@ export const CLINICAS: SoftwareVerticalContent = {
     },
     {
       q: "¿Sirve para una clínica de una sola sucursal?",
-      a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene desde ${PLAN_IA_DESDE.name}.`,
+      a: `Sí. Vortex (US$ ${vortex.monthlyUsd}/mes) cubre hasta ${vortex.professionals} profesionales, con WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha, y el agente IA que agenda por ti.`,
     },
     {
       q: "¿Se integra con la agenda que usamos hoy?",
@@ -613,7 +613,7 @@ export const CLINICAS: SoftwareVerticalContent = {
     },
     {
       q: "¿Cómo agenda el agente IA?",
-      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real del equipo y deja la cita creada. Reagenda y cancela en la misma conversación. Viene desde el plan Hurricane.",
+      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real del equipo y deja la cita creada. Reagenda y cancela en la misma conversación. Incluido en Vortex.",
     },
   ],
   meta: {
@@ -776,7 +776,7 @@ export const CRM: SoftwareVerticalContent = {
     },
     {
       title: "Webhooks y API pública",
-      body: "En Atlas y Summit conectas el CRM con n8n, Make o Zapier. Esto no es integración con agendas de terceros: Clinera sigue operando sobre su propia agenda.",
+      body: "Con Webhooks + API pública conectas el CRM con n8n, Make o Zapier. Esto no es integración con agendas de terceros: Clinera sigue operando sobre su propia agenda.",
     },
   ],
   deepDive: {
@@ -808,7 +808,7 @@ export const CRM: SoftwareVerticalContent = {
     },
     {
       q: "¿Necesito contratar un CRM aparte?",
-      a: "No. El CRM está incluido en todos los planes de Clinera y comparte base con la agenda, la ficha y los pagos. Si prefieres otra herramienta, en Atlas y Summit tienes Webhooks y API pública.",
+      a: "No. El CRM está incluido en todos los planes de Clinera y comparte base con la agenda, la ficha y los pagos. Si prefieres otra herramienta, tienes Webhooks y API pública.",
     },
     {
       q: "¿Sirve para una clínica estética?",
@@ -883,7 +883,7 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
       },
       {
         title: "Agente IA (AURA)",
-        body: "Atiende el WhatsApp de la consulta 24/7: responde, califica y agenda sobre tu agenda real. Desde el plan Hurricane.",
+        body: "Atiende el WhatsApp de la consulta 24/7: responde, califica y agenda sobre tu agenda real. Incluido en Vortex.",
       },
       {
         title: "Recordatorios y confirmación",
@@ -927,7 +927,7 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
       },
       {
         q: "¿Sirve para un profesional que trabaja solo?",
-        a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene desde ${PLAN_IA_DESDE.name}.`,
+        a: `Sí. Vortex (US$ ${vortex.monthlyUsd}/mes) cubre hasta ${vortex.professionals} profesionales, con WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha, y el agente IA que agenda por ti.`,
       },
       {
         q: "¿Se integra con la agenda que usamos hoy?",
@@ -935,7 +935,7 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
       },
       {
         q: "¿Cómo agenda el agente IA?",
-        a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real y deja la cita creada. Reagenda y cancela en la misma conversación. Viene desde el plan Hurricane.",
+        a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real y deja la cita creada. Reagenda y cancela en la misma conversación. Incluido en Vortex.",
       },
       {
         q: "¿Puedo adaptar la ficha a mi especialidad?",

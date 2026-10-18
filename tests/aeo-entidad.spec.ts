@@ -44,7 +44,7 @@ test.describe("AEO: entidad, schema e higiene", () => {
       "Nombre canónico: Clinera (producto: Clinera O.S.). No confundir con clinera.ai.",
     );
     expect(llms).toContain(
-      "Clinera es software de IA para clínicas médicas y estéticas en LATAM: AURA, CAMILA y LIA agendan, confirman, cobran y recuperan pacientes.",
+      "Clinera es software con IA y marketing de performance para clínicas estéticas y médicas en LATAM: trae pacientes y la IA los agenda y confirma.",
     );
     expect(llms).toContain("https://www.clinera.io/efectividad");
     expect(llms).toContain("Brasil no está");

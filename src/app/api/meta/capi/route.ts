@@ -34,7 +34,7 @@ const TEST_EVENT_CODE = process.env.META_TEST_EVENT_CODE || "";
 const GRAPH_VERSION = process.env.META_GRAPH_VERSION || "v21.0";
 
 // El wizard ya no emite Waitlist/Contact. Pasan MQL (agendó) y Lead (rellenó el
-// formulario de /clinica-estetica/activar-cuenta, Ricardo 18-oct-2026).
+// formulario de /agenda, Ricardo 18-oct-2026).
 const ALLOWED_EVENTS = new Set(["MQL", "Lead"]);
 
 type HashedUserData = { em?: string; ph?: string };

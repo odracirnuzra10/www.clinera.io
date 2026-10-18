@@ -1,8 +1,8 @@
 "use client";
 
 const ROWS: Array<{ label: string; human: string; aura: string }> = [
-  { label: "Costo mensual", human: "~$950 USD", aura: "$479 USD" },
-  { label: "Capacidad IA / mes", human: "500–1.500 conversaciones", aura: "46.000 créditos IA" },
+  { label: "Costo mensual", human: "~$950 USD", aura: "$379 USD" },
+  { label: "Capacidad IA / mes", human: "500–1.500 conversaciones", aura: "10.000 créditos IA" },
   { label: "Horario", human: "45 h / semana", aura: "24 / 7 / 365" },
   { label: "Vacaciones / licencias", human: "15–20 días al año sin servicio", aura: "Cero" },
   { label: "Conversaciones simultáneas", human: "1–2", aura: "Ilimitadas" },
@@ -11,7 +11,7 @@ const ROWS: Array<{ label: string; human: string; aura: string }> = [
 ];
 
 const MOBILE_METRICS: Array<{ label: string; aura: string; human: string }> = [
-  { label: "Costo mensual", aura: "$479", human: "~$950 USD por recepcionista" },
+  { label: "Costo mensual", aura: "$379", human: "~$950 USD por recepcionista" },
   { label: "Disponibilidad", aura: "24 / 7 / 365", human: "45 h / semana + licencias y vacaciones" },
   { label: "Conversaciones simultáneas", aura: "Ilimitadas", human: "1 a 2 conversaciones a la vez" },
 ];
@@ -171,7 +171,7 @@ export default function RoiSection() {
           >
             <div>Concepto</div>
             <div>Sumar recepción</div>
-            <div style={{ color: "#7C3AED" }}>AURA Summit</div>
+            <div style={{ color: "#7C3AED" }}>AURA en Vortex</div>
           </div>
           {ROWS.map((row, i) => (
             <div
@@ -217,7 +217,7 @@ export default function RoiSection() {
                   fontWeight: 500,
                 }}
               >
-                <span className="roi-cell-tag roi-cell-tag-aura" aria-hidden>AURA Summit</span>
+                <span className="roi-cell-tag roi-cell-tag-aura" aria-hidden>AURA en Vortex</span>
                 {row.aura}
               </div>
             </div>

@@ -23,7 +23,7 @@ import { clienteEventId, purchaseEventId, trialEventId } from "@/lib/meta-purcha
 export const PURCHASE_EVENT_NAME = "Purchase";
 /** Go! (USD 17): quien paga es un TRIAL (Ricardo, 17-oct). */
 export const TRIAL_EVENT_NAME = "TRIAL";
-/** Planes vigentes (Flux 129 · Hurricane 179 · Vortex 279) y Ultra (179): quien paga es un CLIENTE. */
+/** Planes vigentes (Vortex 379 · Ecosistema 479) y Ultra (179): quien paga es un CLIENTE. */
 export const CLIENTE_EVENT_NAME = "CLIENTE";
 
 export { clienteEventId, purchaseEventId, trialEventId };
@@ -124,9 +124,13 @@ export function isUltraPlan(productNames: string[]): boolean {
 }
 
 /**
- * Plan vigente (`planes.ts`) por el nombre del producto en Stripe: «Flux»,
- * «Hurricane», «Vortex» (con o sin «Clinera» o «Plan» delante). Ricardo,
- * 18-oct-2026: «rellena formulario y paga: Cliente, con valor dinámico del plan».
+ * Plan vigente (`planes.ts`) por el nombre del producto en Stripe: «Ecosistema»
+ * (479) o «Vortex» (379), con o sin «Clinera» o «Plan» delante. Ricardo,
+ * 18-oct-2026: «paga: Cliente, con valor dinámico del plan».
+ *
+ * OJO: el catálogo viejo (`pricing.ts`, contratos de /firma) también tiene un
+ * «Vortex», de 279. Una suscripción nueva a ese producto se valoriza acá como 379.
+ * [PENDIENTE: Ricardo] decidir si el producto viejo se renombra en Stripe.
  */
 export function planVigenteDe(productNames: string[]): Plan | null {
   for (const p of PLANES) {
@@ -147,7 +151,7 @@ export function sessionValue(session: Stripe.Checkout.Session): number {
 /**
  * Evento de conversión de la sesión (Ricardo, 17-oct):
  *  · Go! (USD 17)            → `TRIAL`   USD 17
- *  · Flux (129), Hurricane (179), Vortex (279) — planes vigentes, 18-oct — y
+ *  · Vortex (379), Ecosistema (479) — planes vigentes, 18-oct — y
  *    Ultra (179) → `CLIENTE` con el valor del plan
  *  · cualquier otro (Atlas/Summit viejos, /firma) → `Purchase` con el valor cobrado.
  * El valor sale del catálogo, en USD: la sesión puede cobrar en CLP o con cupón.
@@ -157,8 +161,8 @@ export function buildConversionEvent(session: Stripe.Checkout.Session, productNa
   if (isGoPlan(productNames)) {
     return { ...ev, event_name: TRIAL_EVENT_NAME, event_id: trialEventId(session.id), custom_data: { ...ev.custom_data, value: GO.monthlyUsd, currency: "USD" } };
   }
-  // El valor es el precio de catálogo del plan, no lo cobrado: con CUKI el 1er mes
-  // se paga la mitad y la sesión puede venir en CLP.
+  // El valor es el precio de catálogo del plan, no lo cobrado: la sesión puede venir
+  // en CLP o incluir la implementación (USD 450) junto con el primer mes.
   const cliente = planVigenteDe(productNames) ?? (isUltraPlan(productNames) ? ULTRA : null);
   if (cliente) {
     return { ...ev, event_name: CLIENTE_EVENT_NAME, event_id: clienteEventId(session.id), custom_data: { ...ev.custom_data, value: cliente.monthlyUsd, currency: "USD" } };

@@ -1,117 +1,16 @@
 // ============================================================================
-// /agenda: landing «Crea tu cuenta» (Ricardo, 18-oct-2026)
+// /agenda: wizard de 3 pasos que termina en una videollamada (Ricardo, 18-oct-2026)
 // ----------------------------------------------------------------------------
-// Paso 1 datos (van al CRM) → paso 2 funciones que necesita → paso 3 los tres
-// planes con el cupón CUKI (50% el primer mes; vence al día siguiente de la primera visita).
-// Los links de pago los manda Ricardo: mientras sean `null`, cada botón muestra el marcador y no un enlace roto.
+// Paso 1 datos (van al CRM) → paso 2 servicio de interés → paso 3 calendario.
+// Reemplaza a la landing «Crea tu cuenta» con cupón: ya no hay cupón, ni
+// Payment Links, ni compra desde la web. Copy y datos del wizard viven acá.
 // ============================================================================
 
-import { PLANES, type PlanId } from "@/content/planes";
+import type { ServicioId } from "@/content/planes";
 
-/**
- * Paso 3 (Ricardo, 18-oct-2026, versión final): cupón CUKI con 50% de descuento
- * SOLO EL PRIMER MES, válido en cualquiera de los 3 planes. Antes se probó 30% por
- * 3 meses; se cambió «para impulsar la venta automática». El visitante ve Flux, Hurricane y Vortex con el
- * precio con descuento y paga el plan que elija aplicando el código en Stripe.
- *
- * VENCE AL DÍA SIGUIENTE DE SU PRIMERA VISITA: si entró el domingo 18, vale
- * hasta el lunes 19; si entró el 20, hasta el 21. La primera visita se guarda en
- * el navegador (`CUPON_PRIMERA_VISITA_KEY`) para que la fecha no se corra cada
- * vez que vuelve. Fechas en hora de Chile.
- */
-export const CUPON = {
-  // Código que ve y escribe la clínica (Stripe promo, 18-oct-2026).
-  codigo: "CUKI",
-  descuentoPct: 50,
-  /** Meses con descuento (después, precio normal). Se configura igual en Stripe. */
-  meses: 1,
-  diasValidez: 1,
-} as const;
+export const SERVICIO_PARAM = "servicio";
 
-export const CUPON_PRIMERA_VISITA_KEY = "cl_cupon_primera_visita";
-const TZ_CHILE = "America/Santiago";
-
-/** «2026-10-18» de un instante, en hora de Chile. */
-export function ymdChile(instante: Date): string {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: TZ_CHILE, year: "numeric", month: "2-digit", day: "2-digit" }).format(instante);
-}
-
-/** Último día válido del cupón: el día siguiente a la primera visita (YYYY-MM-DD). */
-export function venceCupon(primeraVisitaYmd: string): string {
-  const [y, m, d] = primeraVisitaYmd.split("-").map(Number);
-  const f = new Date(Date.UTC(y, m - 1, d + CUPON.diasValidez, 12));
-  return f.toISOString().slice(0, 10);
-}
-
-/** «lunes 19 de octubre». */
-export function fechaLarga(ymd: string): string {
-  const [y, m, d] = ymd.split("-").map(Number);
-  return new Intl.DateTimeFormat("es-CL", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" }).format(
-    new Date(Date.UTC(y, m - 1, d, 12)),
-  ).replace(",", "");
-}
-
-export function precioConCupon(usd: number): number {
-  return Math.round(usd * (100 - CUPON.descuentoPct)) / 100;
-}
-
-/** «44,50» / «89» — dos decimales solo si hay centavos. */
-export function formatoUsd(usd: number): string {
-  return Number.isInteger(usd)
-    ? usd.toLocaleString("es-CL")
-    : usd.toLocaleString("es-CL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-
-/**
- * Payment Links por plan (Stripe, 18-oct-2026). El cupón lo escribe la clínica en
- * «Añadir código de promoción»: `?prefilled_promo_code=CUKI` NO lo aplica en estos
- * links (probado el 18-oct-2026; el total quedó sin descuento). Para precargarlo
- * hay que abrir una Checkout Session con `discounts`, que pide una llave con escritura.
- */
-export const LINKS_PAGO: Record<PlanId, string | null> = {
-  flux: "https://buy.stripe.com/14A28tgNz1MegZl9471441J",
-  hurricane: "https://buy.stripe.com/28EbJ3btffD4cJ59471441K",
-  vortex: "https://buy.stripe.com/cNi00ldBnduW24r8031441I",
-};
-
-export const linkPagoPendiente = (plan: string) => `[PENDIENTE: link de pago de ${plan}]`;
-
-/** Lo que se destaca de cada plan en el paso 3 (sale de `planes.ts`). */
-export const PLANES_OFERTA = PLANES.map((p) => ({
-  ...p,
-  conCupon: precioConCupon(p.monthlyUsd),
-  destacados: p.features,
-}));
-
-/** Paso 2: lo que la clínica necesita. Varias opciones. */
-export const FUNCIONES = [
-  { id: "ficha_facial", label: "Ficha estética facial" },
-  { id: "ficha_corporal", label: "Ficha estética corporal" },
-  { id: "presupuestos", label: "Presupuestos" },
-  { id: "evoluciones", label: "Evoluciones" },
-  { id: "agente_ia", label: "Agente IA" },
-  { id: "whatsapp", label: "WhatsApp" },
-  { id: "facebook", label: "Facebook" },
-  { id: "instagram", label: "Instagram" },
-] as const;
-
-export type FuncionId = (typeof FUNCIONES)[number]["id"];
-
-/**
- * Lo que trae Clinera, en el hero al lado del wizard (Ricardo, 18-oct-2026:
- * «ficha facial, ficha corporal, evoluciones, pagos, agente IA, conexión
- * WhatsApp, Facebook, Insta, correos, etc.», con el formato de /clinica-estetica).
- */
-export const FUNCIONES_HERO = [
-  "Ficha estética facial y corporal, con fotos y consentimientos",
-  "Evoluciones por sesión y presupuestos enviados por WhatsApp",
-  "Pagos y ventas de tu clínica en un solo lugar",
-  "Agente IA que responde y agenda por ti",
-  "WhatsApp, Facebook e Instagram conectados a tu agenda",
-  "Correos y email marketing a tus pacientes",
-] as const;
-
-/** Profesionales (mismos ids que /agenda usaba en `boxes_profesionales`). */
+/** Profesionales (mismos ids que /agenda ya mandaba en `boxes_profesionales`). */
 export const PROFESIONALES = [
   { id: "1_3", label: "1–3" },
   { id: "4_6", label: "4–6" },
@@ -119,14 +18,69 @@ export const PROFESIONALES = [
   { id: "10_plus", label: "Más de 10" },
 ] as const;
 
+/**
+ * Tipo de clínica del paso 1. `tipo_clinica` sigue siendo `estetica` o `medica`
+ * para n8n; «Ambas» viaja como estética con `subtipo_clinica: "ambas"`.
+ */
+export const TIPOS_CLINICA = [
+  { id: "estetica", label: "Estética", tipoClinica: "estetica", subtipo: null },
+  { id: "medica", label: "Médica", tipoClinica: "medica", subtipo: null },
+  { id: "ambas", label: "Ambas", tipoClinica: "estetica", subtipo: { id: "ambas", label: "Estética y médica" } },
+] as const;
+export type TipoClinicaId = (typeof TIPOS_CLINICA)[number]["id"];
+
+/** Paso 2: el servicio que le interesa (selección única). */
+export const SERVICIOS: readonly {
+  id: ServicioId;
+  titulo: string;
+  texto: string;
+  destacada: boolean;
+  etiqueta: string;
+}[] = [
+  {
+    id: "marketing",
+    titulo: "Marketing de performance",
+    texto: "Campañas en Facebook, Instagram y Google, propuesta de valor y framework comercial para vender más.",
+    destacada: false,
+    etiqueta: "",
+  },
+  {
+    id: "software",
+    titulo: "Software con IA",
+    texto: "Clinera responde, agenda y confirma por WhatsApp, Instagram y Facebook.",
+    destacada: false,
+    etiqueta: "",
+  },
+  {
+    id: "ambas",
+    titulo: "Ambas",
+    texto: "El ecosistema completo: traemos los pacientes y los atendemos.",
+    destacada: true,
+    etiqueta: "Recomendado",
+  },
+];
+
+export function esServicio(v: string | null | undefined): v is ServicioId {
+  return v === "marketing" || v === "software" || v === "ambas";
+}
+
 export const AGENDA_COPY = {
-  eyebrow: "Software para clínicas estéticas con IA",
-  h1: "Crea tu cuenta y actívala en minutos.",
-  sub: "Ficha médica, ficha estética facial y ficha estética corporal, con evoluciones, presupuestos y ventas en un solo lugar. Completa los datos de tu clínica y te mostramos la oferta para activarla.",
-  beneficios: [
-    "Ficha estética facial y corporal, con fotos y consentimientos",
-    "Presupuestos y evoluciones por sesión",
-    "Sculptra, Radiesse, Endoláser y Rinolips ya cargados",
-    "Y si quieres, la IA atiende tu WhatsApp y agenda por ti",
-  ],
+  eyebrow: "Software con IA y marketing para clínicas",
+  h1: "Agenda una videollamada con el equipo.",
+  sub: "Cuéntanos de tu clínica, elige qué servicio te interesa y reserva una videollamada de 30 minutos. Marketing que trae pacientes y software con IA que los atiende.",
 } as const;
+
+/** Lo que verás en la videollamada, al lado del wizard. */
+export const AGENDA_PUNTOS = [
+  "Campañas en Facebook, Instagram y Google que traen pacientes",
+  "La IA responde cada lead, lo agenda y lo confirma por WhatsApp",
+  "Agenda, fichas y presupuestos de tu clínica en un solo lugar",
+  "Optimizamos tu propuesta de valor y cómo cierra tu equipo",
+] as const;
+
+/** «Cómo funciona el ecosistema», bajo el wizard. */
+export const ECOSISTEMA_PASOS = [
+  { n: "1", titulo: "Las campañas traen al paciente", texto: "Anuncios de performance en Facebook, Instagram y Google, con la propuesta de valor de tu clínica." },
+  { n: "2", titulo: "El lead escribe por WhatsApp", texto: "Cada contacto llega a la bandeja de Clinera, junto con tus otros canales." },
+  { n: "3", titulo: "La IA lo agenda en Clinera", texto: "AURA responde, ofrece horas y deja la cita creada en tu agenda." },
+] as const;
