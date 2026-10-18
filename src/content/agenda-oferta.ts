@@ -2,14 +2,14 @@
 // /agenda: landing «Crea tu cuenta» (Ricardo, 18-oct-2026)
 // ----------------------------------------------------------------------------
 // Paso 1 datos (van al CRM) → paso 2 funciones que necesita → paso 3 los tres
-// planes con el cupón CUKY (50% el primer mes; vence al día siguiente de la primera visita). Los links de pago los manda Ricardo: mientras
-// sean `null`, cada botón muestra el marcador y no un enlace roto.
+// planes con el cupón CUKI (50% el primer mes; vence al día siguiente de la primera visita).
+// Los links de pago los manda Ricardo: mientras sean `null`, cada botón muestra el marcador y no un enlace roto.
 // ============================================================================
 
 import { PLANES, type PlanId } from "@/content/planes";
 
 /**
- * Paso 3 (Ricardo, 18-oct-2026, versión final): cupón CUKY con 50% de descuento
+ * Paso 3 (Ricardo, 18-oct-2026, versión final): cupón CUKI con 50% de descuento
  * SOLO EL PRIMER MES, válido en cualquiera de los 3 planes. Antes se probó 30% por
  * 3 meses; se cambió «para impulsar la venta automática». El visitante ve Flux, Hurricane y Vortex con el
  * precio con descuento y paga el plan que elija aplicando el código en Stripe.
@@ -20,7 +20,8 @@ import { PLANES, type PlanId } from "@/content/planes";
  * vez que vuelve. Fechas en hora de Chile.
  */
 export const CUPON = {
-  codigo: "CUKY",
+  // Código que ve y escribe la clínica (Stripe promo, 18-oct-2026).
+  codigo: "CUKI",
   descuentoPct: 50,
   /** Meses con descuento (después, precio normal). Se configura igual en Stripe. */
   meses: 1,
@@ -61,7 +62,7 @@ export function formatoUsd(usd: number): string {
     : usd.toLocaleString("es-CL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-/** Payment Links por plan (Stripe, 18-oct-2026). El cupón CUKY se aplica en Stripe. */
+/** Payment Links por plan (Stripe, 18-oct-2026). El cupón se aplica en Stripe. */
 export const LINKS_PAGO: Record<PlanId, string | null> = {
   flux: "https://buy.stripe.com/14A28tgNz1MegZl9471441J",
   hurricane: "https://buy.stripe.com/28EbJ3btffD4cJ59471441K",
@@ -69,6 +70,16 @@ export const LINKS_PAGO: Record<PlanId, string | null> = {
 };
 
 export const linkPagoPendiente = (plan: string) => `[PENDIENTE: link de pago de ${plan}]`;
+
+/**
+ * Link de pago con el cupón ya aplicado: Stripe lo muestra precargado al abrir
+ * el checkout (parámetro `prefilled_promo_code`). Si Stripe no lo aplica, la
+ * clínica lo escribe a mano: el código debe existir en Stripe con este nombre.
+ */
+export function linkPagoConCupon(link: string): string {
+  const sep = link.includes("?") ? "&" : "?";
+  return `${link}${sep}prefilled_promo_code=${encodeURIComponent(CUPON.codigo)}`;
+}
 
 /** Lo que se destaca de cada plan en el paso 3 (sale de `planes.ts`). */
 export const PLANES_OFERTA = PLANES.map((p) => ({

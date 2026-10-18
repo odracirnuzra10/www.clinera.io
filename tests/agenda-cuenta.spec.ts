@@ -1,6 +1,6 @@
 // /agenda — landing «Crea tu cuenta y actívala en minutos» (Ricardo, 18-oct-2026).
 // Paso 1 datos → CRM · paso 2 funciones (varias) · paso 3 los 3 planes con el
-// cupón CUKY (50% el primer mes, vence al día siguiente de la primera visita). Red mockeada.
+// cupón CUKI (50% el primer mes, vence al día siguiente de la primera visita). Red mockeada.
 
 import { expect, test, type Page, type Request } from "@playwright/test";
 import { CUPON, LINKS_PAGO, fechaLarga, precioConCupon, venceCupon } from "../src/content/agenda-oferta";
@@ -41,7 +41,7 @@ async function mockRed(page: Page) {
 }
 
 test("precio con cupón: 50% de cada plan, solo el primer mes", () => {
-  expect(CUPON.codigo).toBe("CUKY");
+  expect(CUPON.codigo).toBe("CUKI");
   expect(CUPON.descuentoPct).toBe(50);
   expect(CUPON.meses).toBe(1);
   expect(PLANES.map((p) => precioConCupon(p.monthlyUsd))).toEqual([64.5, 89.5, 139.5]);

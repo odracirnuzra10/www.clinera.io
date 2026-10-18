@@ -5,7 +5,7 @@
 //
 //   Paso 1  datos (nombre, correo, celular, clínica, profesionales) → CRM
 //   Paso 2  funciones que necesita (varias)
-//   Paso 3  los 3 planes con el cupón CUKY (50% el primer mes; vence al día siguiente de la primera visita) → pago
+//   Paso 3  los 3 planes con el cupón CUKI (50% el primer mes; vence al día siguiente de la primera visita) → pago
 //
 // El lead se manda al CRM en el paso 1 (`submitContactLead`, el mismo webhook de
 // siempre), para no perder a quien abandona. Las funciones del paso 2 NO generan
@@ -16,7 +16,7 @@
 // Los links de pago los envía Ricardo (`LINKS_PAGO`). Mientras no existan, cada
 // botón muestra el marcador. Cuando existan, son `<a href="https://buy.stripe.com/…"
 // data-plan …>` y nada más: el clic lo cuenta `Analytics.tsx` (ver AGENTS.md). El
-// cupón CUKY se aplica en Stripe (código de promoción).
+// cupón CUKI se precarga en el link (`linkPagoConCupon`, `prefilled_promo_code`).
 //
 // «Prefiero hablar con ventas» abre el mismo calendario de siempre
 // (`StepClineraScheduler`): la reserva sigue emitiendo el MQL.
@@ -50,6 +50,7 @@ import {
   PROFESIONALES,
   fechaLarga,
   formatoUsd,
+  linkPagoConCupon,
   linkPagoPendiente,
   venceCupon,
   ymdChile,
@@ -447,7 +448,7 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
                             {link ? (
                               <a
                                 className={base.cta}
-                                href={link}
+                                href={linkPagoConCupon(link)}
                                 data-plan={p.id}
                                 data-plan-name={`${p.name} cupón ${CUPON.codigo}`}
                                 data-plan-value={p.conCupon}

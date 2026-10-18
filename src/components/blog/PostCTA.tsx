@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { IMPLEMENTACION_USD, PLAN_DESDE_USD } from "@/content/planes";
+import { PLAN_DESDE_USD } from "@/content/planes";
 
 const COMPETITOR_LABELS: Record<string, string> = {
   agendapro: "AgendaPro",
@@ -26,7 +26,7 @@ export default function PostCTA({ relatedComparativa }: Props) {
 
   const subhead = compLabel
     ? `Tabla lado a lado, dimensiones técnicas, FAQ y cuándo elegir cada uno. O agenda 45 min con ventas y resolvemos tu caso puntual.`
-    : `AURA atendiendo WhatsApp 24/7 con tu agenda y tu base de datos. Demo grabada de 5 minutos o reunión con ventas. Planes desde US$ ${PLAN_DESDE_USD}/mes, más US$ ${IMPLEMENTACION_USD} de implementación (pago único).`;
+    : `AURA atendiendo WhatsApp 24/7 con tu agenda y tu base de datos. Demo grabada de 5 minutos o reunión con ventas. Planes desde US$ ${PLAN_DESDE_USD}/mes.`;
 
   return (
     <section

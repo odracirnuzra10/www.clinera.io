@@ -112,15 +112,6 @@ export const PLAN_HASTA_USD = Math.max(...PLANES.map((p) => p.monthlyUsd));
 /** Primer plan con agente IA («desde Hurricane»). */
 export const PLAN_IA_DESDE = PLANES.find((p) => p.agenteIA)!;
 
-/**
- * Implementación: pago único, en todos los planes (Ricardo, 18-oct-2026: «vuelve
- * el costo de implementación… ahora vale $250»). No es `SETUP_FEE_USD` de
- * pricing.ts (US$ 450): ese sigue rigiendo los contratos de /firma con los
- * planes viejos.
- */
-export const IMPLEMENTACION_USD = 250;
-export const IMPLEMENTACION_LINEA = `+ US$${IMPLEMENTACION_USD} de implementación (pago único, todos los planes)`;
-
 /** Extras (diapositiva de Ricardo). */
 export const EXTRAS = [
   { usd: 15, label: "500 conversaciones" },

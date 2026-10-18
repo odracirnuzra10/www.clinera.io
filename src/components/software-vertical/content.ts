@@ -1,7 +1,6 @@
 import type { HeroViewId } from "@/components/plataforma/HeroCarousel";
 import {
   EXTRAS,
-  IMPLEMENTACION_USD,
   PLANES,
   PLAN_IA_DESDE,
   PLAN_DESDE_USD,
@@ -84,7 +83,7 @@ export type SoftwareVerticalContent = {
   };
 };
 
-const PRICE_FAQ = `Hay tres planes mensuales: ${PLANES.map((p) => `${p.name} US$ ${p.monthlyUsd}/mes (hasta ${p.professionals} profesionales y ${nf(p.conversations)} conversaciones${p.agenteIA ? `, agente IA con ${nf(p.iaCredits)} créditos de IA` : ", sin agente IA"})`).join(", ")}. Todos traen ficha estética facial y corporal, evoluciones, presupuestos, email marketing y Clinera Intelligence, y suman una implementación de US$ ${IMPLEMENTACION_USD}, pago único. Para contratar, hablas con ventas.`;
+const PRICE_FAQ = `Hay tres planes mensuales: ${PLANES.map((p) => `${p.name} US$ ${p.monthlyUsd}/mes (hasta ${p.professionals} profesionales y ${nf(p.conversations)} conversaciones${p.agenteIA ? `, agente IA con ${nf(p.iaCredits)} créditos de IA` : ", sin agente IA"})`).join(", ")}. Todos traen ficha estética facial y corporal, evoluciones, presupuestos, email marketing y Clinera Intelligence. Para contratar, hablas con ventas.`;
 
 const INTEGRATION_FAQ =
   "No. Clinera no se sincroniza con Reservo, AgendaPro, Medilink ni Dentalink: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Para conectar otras herramientas tienes Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit.";
@@ -293,7 +292,7 @@ export const DENTAL: SoftwareVerticalContent = {
     },
     {
       q: "¿Cómo es la implementación y la migración?",
-      a: `Onboarding asistido: importamos pacientes, tratamientos y agenda. Costo único de US$ ${IMPLEMENTACION_USD}, en todos los planes. No hay sincronización permanente con Dentalink ni con otras agendas: operas en Clinera.`,
+      a: `Onboarding asistido: importamos pacientes, tratamientos y agenda. No hay sincronización permanente con Dentalink ni con otras agendas: operas en Clinera.`,
     },
   ],
   meta: {

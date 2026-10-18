@@ -31,12 +31,12 @@ test("setupFeeFor: catálogo cobra implementación siempre", async () => {
   expect(includesFreeSetup("annual")).toBe(false);
 });
 
-// /planes publica Flux · Nexus · Summit con implementación US$ 250 (18-oct-2026).
+// /planes publica Flux · Hurricane · Vortex sin costo de implementación (Ricardo, 18-oct-2026).
 // Los US$ 450 de `setupFeeFor` siguen rigiendo los contratos de /firma (test de arriba).
-test("/planes muestra la implementación de los planes vigentes y no cobra en la web", async ({ page }) => {
+test("/planes no muestra implementación y no cobra en la web", async ({ page }) => {
   await page.goto("/planes", { waitUntil: "domcontentloaded" });
   const planes = page.locator("[data-planes-vigentes]");
-  await expect(planes.getByText(/implementación US\$250/).first()).toBeVisible();
+  await expect(planes.getByText(/implementación/i)).toHaveCount(0);
   await expect(planes.getByText(`$${SETUP_FEE_NUMBER}`)).toHaveCount(0);
   await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
 });

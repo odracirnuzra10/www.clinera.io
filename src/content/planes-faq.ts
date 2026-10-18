@@ -3,7 +3,7 @@
 // Planes Flux · Hurricane · Vortex (Ricardo, 18-oct-2026): los números salen de
 // `planes.ts`. Sin anual, sin MXN y sin bolsa de créditos de los planes viejos.
 import { VERTEX_IA_MODELS_PROSE } from "@/content/ia-stack";
-import { EXTRAS, IMPLEMENTACION_USD, PLANES, PLAN_IA_DESDE } from "@/content/planes";
+import { EXTRAS, PLANES, PLAN_IA_DESDE } from "@/content/planes";
 
 const [flux] = PLANES;
 const n = (v: number) => v.toLocaleString("es-CL");
@@ -21,10 +21,6 @@ export const PLANES_FAQ = [
   {
     q: "¿Qué es Clinera Intelligence?",
     a: "Es el agente IA dentro del software: le preguntas por tus ventas, tu agenda y tus pacientes. Todos los planes traen 100 créditos de Clinera Intelligence al mes.",
-  },
-  {
-    q: `¿Qué incluye la implementación de US$ ${IMPLEMENTACION_USD}?`,
-    a: `Es un pago único, en todos los planes. Cubre la configuración inicial de tu cuenta y la migración de tus pacientes y tratamientos desde tu sistema actual, para que partas con todo cargado.`,
   },
   {
     q: "¿Qué pasa si se me acaban las conversaciones?",

@@ -1,8 +1,8 @@
 // Planes Flux · Hurricane · Vortex (Ricardo, 18-oct-2026), CTA «Hablar con ventas»
-// → /agenda, implementación US$ 250, fotos de modelos y franja de logos reales.
+// → /agenda, fotos de modelos y franja de logos reales.
 
 import { expect, test } from "@playwright/test";
-import { IMPLEMENTACION_USD, PLANES } from "../src/content/planes";
+import { PLANES } from "../src/content/planes";
 import { CLINICAS_LOGOS } from "../src/content/clinicas-logos";
 
 test.describe("planes vigentes: Flux · Hurricane · Vortex", () => {
@@ -12,13 +12,12 @@ test.describe("planes vigentes: Flux · Hurricane · Vortex", () => {
       ["Hurricane", 179],
       ["Vortex", 279],
     ]);
-    expect(IMPLEMENTACION_USD).toBe(250);
     // Flux es sin IA; el agente viene desde Hurricane.
     expect(PLANES.filter((p) => p.agenteIA).map((p) => p.id)).toEqual(["hurricane", "vortex"]);
     expect(PLANES.map((p) => p.iaCredits)).toEqual([0, 5000, 15000]);
   });
 
-  test("/planes muestra los 3 planes, la implementación y CTA a ventas", async ({ page }) => {
+  test("/planes muestra los 3 planes y CTA a ventas", async ({ page }) => {
     await page.goto("/planes?utm_source=google", { waitUntil: "domcontentloaded" });
     await expect(page).toHaveTitle(/Flux, Hurricane y Vortex/);
     for (const p of PLANES) {
@@ -29,7 +28,7 @@ test.describe("planes vigentes: Flux · Hurricane · Vortex", () => {
         `/agenda?utm_source=google&plan=${p.id}`,
       );
     }
-    await expect(page.locator("[data-planes-vigentes]")).toContainText(`implementación US$${IMPLEMENTACION_USD}`);
+    await expect(page.locator("[data-planes-vigentes]")).not.toContainText("implementación");
     // Nada del catálogo viejo en la página de planes.
     const texto = await page.locator("main").innerText();
     for (const viejo of ["Nexus", "Summit", "Atlas", "479", "450"]) expect(texto).not.toContain(viejo);

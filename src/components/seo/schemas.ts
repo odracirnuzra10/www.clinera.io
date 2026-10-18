@@ -1,4 +1,4 @@
-import { IMPLEMENTACION_USD, PLANES } from "@/content/planes";
+import { PLANES } from "@/content/planes";
 import { pageDate } from "@/content/page-dates";
 import {
   ADDRESS_COUNTRY,
@@ -104,7 +104,7 @@ export const softwareOffers = PLANES.map((plan) => ({
   priceCurrency: "USD",
   availability: "https://schema.org/InStock",
   url: `${SITE_URL}/planes`,
-  description: `${plan.name}: US$ ${plan.monthlyUsd}/mes, ${plan.professionals} profesionales, hasta ${plan.conversations.toLocaleString("es-CL")} conversaciones. Implementación US$ ${IMPLEMENTACION_USD}, pago único.`,
+  description: `${plan.name}: US$ ${plan.monthlyUsd}/mes, ${plan.professionals} profesionales, hasta ${plan.conversations.toLocaleString("es-CL")} conversaciones.`,
 }));
 
 export const softwareSchema = {

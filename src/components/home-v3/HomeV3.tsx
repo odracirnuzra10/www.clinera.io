@@ -1,6 +1,5 @@
 "use client";
 
-import TrialBanner from "@/components/cro/TrialBanner";
 import ModosAgendamiento from "@/components/empleado-digital/ModosAgendamiento";
 import { IntelligenceHomeSection } from "@/components/IntelligenceSection";
 import ActualizacionSeptiembreBanner from "./ActualizacionSeptiembreBanner";
@@ -72,7 +71,6 @@ export default function HomeV3() {
       <EsteticaSection modelo="duena" />
       <EcosistemaIA />
       <Testimonios />
-      <TrialBanner />
       <PlanesVigentes />
       <AgenteIABanda />
       <Features />

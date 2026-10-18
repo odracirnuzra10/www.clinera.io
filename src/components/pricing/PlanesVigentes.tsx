@@ -21,7 +21,6 @@ import { VERTEX_IA_MODELS } from "@/content/ia-stack";
 import {
   CTA_VENTAS_LABEL,
   EXTRAS_LINEA,
-  IMPLEMENTACION_USD,
   PLANES,
   PLANES_BAJADA,
   PLANES_TITULO,
@@ -129,7 +128,7 @@ export default function PlanesVigentes({
             color: "#6B7280",
           }}
         >
-          Plan mensual en dólares · implementación US${IMPLEMENTACION_USD}, pago único en todos los planes
+          Plan mensual en dólares
         </div>
 
         <div
@@ -221,26 +220,6 @@ export default function PlanesVigentes({
                     marginBottom: 18,
                   }}
                 >
-                  <div
-                    role="row"
-                    style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) auto", alignItems: "center", gap: 16, padding: "17px 0 15px" }}
-                  >
-                    <div role="cell" style={{ minWidth: 0 }}>
-                      <div style={rowLabel(th.sub)}>Implementación</div>
-                      <div style={{ fontFamily: JAKARTA, fontSize: 12.5, fontWeight: 600, lineHeight: 1.35, color: th.ink, marginTop: 4, whiteSpace: "nowrap" }}>
-                        Pago único · todos los planes
-                      </div>
-                    </div>
-                    <div role="cell" style={{ textAlign: "right" }}>
-                      <span style={{ display: "inline-flex", alignItems: "baseline", gap: 6, fontFamily: JAKARTA, fontSize: 24, fontWeight: 800, color: th.ink, letterSpacing: "-0.04em", whiteSpace: "nowrap" }}>
-                        ${IMPLEMENTACION_USD}
-                        <span style={{ fontFamily: "Inter", fontSize: 11, fontWeight: 600, letterSpacing: 0, color: th.sub }}>USD</span>
-                      </span>
-                    </div>
-                  </div>
-
-                  <div aria-hidden style={{ borderTop: `1px solid ${th.divider}` }} />
-
                   <div
                     role="row"
                     style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) auto", alignItems: "center", gap: 16, padding: "14px 0 16px" }}
