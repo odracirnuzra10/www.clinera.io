@@ -1,9 +1,10 @@
 // Fuente única del FAQ de /planes: la consume <PlanesFaq /> en
 // interior-v3/PlanesV3.tsx y el JSON-LD FAQPage de src/app/planes/page.tsx.
 // Modelo nuevo (Ricardo, 18-oct-2026): Vortex y Ecosistema. Los números
-// salen de `planes.ts`. Sin anual, sin MXN, sin cupón y sin precios de extras.
+// salen de `planes.ts`. Sin anual, sin MXN y sin cupón. Los extras (profesional, conversaciones, créditos) son
+// parte del software y sí llevan precio (`EXTRAS` en planes.ts).
 import { VERTEX_IA_MODELS_PROSE } from "@/content/ia-stack";
-import { IMPLEMENTACION_USD, MARKETING_BLOQUES, PLANES } from "@/content/planes";
+import { EXTRAS, IMPLEMENTACION_USD, MARKETING_BLOQUES, PLANES } from "@/content/planes";
 
 const [vortex, ecosistema] = PLANES;
 
@@ -33,8 +34,8 @@ export const PLANES_FAQ = [
     a: "Sí. Puedes partir con Vortex y pasar a Ecosistema cuando quieras. Lo coordinamos contigo en la videollamada.",
   },
   {
-    q: "¿Qué pasa si necesito más de 10 profesionales?",
-    a: "Lo vemos contigo en la videollamada: según tu equipo y tu volumen armamos lo que necesitas.",
+    q: "¿Qué pasa si necesito más profesionales, conversaciones o créditos de IA?",
+    a: `Son extras del software y los compras cuando los necesitas: profesional extra US$ ${EXTRAS[0].precioUsd} al mes, 500 conversaciones extra US$ ${EXTRAS[1].precioUsd} y 5.000 créditos de IA extra US$ ${EXTRAS[2].precioUsd}.`,
   },
   {
     q: "¿Ya soy cliente, mi plan cambia?",

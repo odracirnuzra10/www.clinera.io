@@ -61,8 +61,8 @@ test.describe("/presentacion en 3 diapositivas", () => {
       expect(ecosistema).toContain(t);
       expect(vortex).not.toContain(t);
     }
-    expect(c).toContain("Promoción del mes");
-    expect(c).toContain("Implementación gratis en el plan Ecosistema");
+    expect(c).not.toContain("Promoción del mes");
+    expect(c).not.toContain("Implementación gratis");
     expect(c).toContain("Implementación USD 450, pago único");
   });
 });

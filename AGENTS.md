@@ -553,9 +553,13 @@ Guardián: `tests/reserva-tu-hora.spec.ts` + `tests/telefono.spec.ts`.
 profesionales, 10.000 créditos, bandeja WhatsApp/IG/FB) y Ecosistema US$ 479/mes
 (Vortex + marketing de performance: campañas, propuesta de valor, framework
 comercial; «Recomendado»). Implementación US$ 450 pago único, en el primer
-cobro; promo del mes: gratis en Ecosistema. Fuente única: `src/content/planes.ts`.
+cobro, **siempre** (Ricardo, 18-oct: la promo «implementación gratis en Ecosistema»
+se sacó; el descuento se negocia en la reunión de ventas, no se publica). **Extras del
+software** (`EXTRAS` en `planes.ts`, valen para las dos opciones): profesional extra
+US$ 9/mes, 500 conversaciones extra US$ 15, 5.000 créditos de IA extra US$ 15.
+Fuente única: `src/content/planes.ts`.
 Se acabaron Flux, Hurricane, Nexus, Atlas, Summit, Go!, el cupón y la compra por
-la web. Sin precios de extras, sin permanencia y sin plan anual (pendientes de
+la web. Sin permanencia y sin plan anual (pendientes de
 Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
 `/agenda?servicio=…` con la query de la visita (`agendaHref`).
 
