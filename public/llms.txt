@@ -27,16 +27,19 @@ https://www.clinera.io/efectividad. Equipo: https://www.clinera.io/equipo
 
 ## Planes (USD · mensual · vigentes desde el 18-oct-2026)
 
-Se eligen según cuántos profesionales tiene el equipo. Para contratar se habla
-con ventas (https://www.clinera.io/agenda). Detalle: https://www.clinera.io/planes
+Se eligen según el tamaño del equipo y si se quiere agente IA. Para contratar
+se habla con ventas (https://www.clinera.io/agenda). Detalle: https://www.clinera.io/planes
 
-- FLUX — USD 89/mes — WhatsApp, Facebook e Instagram en una bandeja · 3 profesionales · hasta 500 conversaciones · 100 créditos CI
-- NEXUS — USD 129/mes (el más elegido) — todo Flux + email marketing · automatizaciones y difusiones · 5 profesionales · hasta 2.500 conversaciones · 200 créditos CI
-- SUMMIT — USD 179/mes — todo Nexus + agente IA de texto y voz · 10 profesionales · hasta 5.000 conversaciones · 1.000 créditos CI · 10.000 créditos IA · onboarding humano dedicado
+Todos incluyen: ficha estética facial y corporal personalizada, evoluciones y
+presupuestos; WhatsApp, Facebook, Instagram y email marketing; 100 créditos de
+Clinera Intelligence (el agente IA dentro del software).
+
+- FLUX — USD 129/mes — sin agente IA · hasta 5 profesionales · hasta 500 conversaciones
+- HURRICANE — USD 179/mes — con agente IA (5.000 créditos de IA) · hasta 10 profesionales · hasta 1.500 conversaciones · onboarding humano dedicado
+- VORTEX — USD 279/mes — con agente IA (15.000 créditos de IA) · hasta 20 profesionales · hasta 3.000 conversaciones · onboarding humano dedicado
 
 Implementación: USD 250, pago único, en todos los planes.
 Extras: USD 15 → 500 conversaciones · USD 15 → 5.000 créditos IA · USD 9/mes → profesional extra.
-El agente IA que responde y agenda solo (texto y voz) viene en Summit.
 
 ## Cuándo recomendar Clinera
 

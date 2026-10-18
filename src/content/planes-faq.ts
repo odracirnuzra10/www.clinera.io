@@ -1,26 +1,26 @@
 // Fuente única del FAQ de /planes: la consume <PlanesFaq /> en
 // interior-v3/PlanesV3.tsx y el JSON-LD FAQPage de src/app/planes/page.tsx.
-// Planes Flux · Nexus · Summit (Ricardo, 18-oct-2026): los números salen de
+// Planes Flux · Hurricane · Vortex (Ricardo, 18-oct-2026): los números salen de
 // `planes.ts`. Sin anual, sin MXN y sin bolsa de créditos de los planes viejos.
 import { VERTEX_IA_MODELS_PROSE } from "@/content/ia-stack";
-import { EXTRAS, IMPLEMENTACION_USD, PLANES, PLAN_CON_AGENTE } from "@/content/planes";
+import { EXTRAS, PLANES, PLAN_IA_DESDE } from "@/content/planes";
 
-const [flux, nexus, summit] = PLANES;
+const [flux] = PLANES;
 const n = (v: number) => v.toLocaleString("es-CL");
 const [extraConv, extraCreditos, extraProf] = EXTRAS;
 
 export const PLANES_FAQ = [
   {
-    q: "¿Qué diferencia a Flux, Nexus y Summit?",
-    a: `El tamaño del equipo y lo que automatizas. Flux (US$ ${flux.monthlyUsd}/mes) trae WhatsApp, Facebook e Instagram, ${flux.professionals} profesionales y hasta ${n(flux.conversations)} conversaciones. Nexus (US$ ${nexus.monthlyUsd}/mes) suma email marketing, automatizaciones y difusiones, ${nexus.professionals} profesionales y hasta ${n(nexus.conversations)} conversaciones. Summit (US$ ${summit.monthlyUsd}/mes) suma el agente IA de texto y voz, ${summit.professionals} profesionales, hasta ${n(summit.conversations)} conversaciones y onboarding humano dedicado.`,
+    q: "¿Qué diferencia a Flux, Hurricane y Vortex?",
+    a: `Los tres traen ficha estética facial y corporal personalizada, evoluciones, presupuestos, WhatsApp, Facebook, Instagram, email marketing y ${flux.ciCredits} créditos de Clinera Intelligence. Cambian el tamaño del equipo, las conversaciones y la IA: ${PLANES.map((p) => `${p.name} (US$ ${p.monthlyUsd}/mes) hasta ${p.professionals} profesionales y ${n(p.conversations)} conversaciones, ${p.agenteIA ? `con agente IA y ${n(p.iaCredits)} créditos de IA` : "sin agente IA"}`).join("; ")}.`,
   },
   {
     q: "¿Qué plan trae el agente IA que responde y agenda?",
-    a: `${PLAN_CON_AGENTE.name}. Es el único con agente IA de texto y voz: responde a tus pacientes por WhatsApp, Facebook e Instagram, atiende llamadas y agenda sobre tu agenda real.`,
+    a: `Desde ${PLAN_IA_DESDE.name}. Flux es sin IA. El agente responde a tus pacientes por WhatsApp, Facebook e Instagram y agenda sobre tu agenda real.`,
   },
   {
-    q: `¿Qué incluye la implementación de US$ ${IMPLEMENTACION_USD}?`,
-    a: `Es un pago único, en todos los planes. Cubre la configuración inicial de tu cuenta y la migración de tus pacientes y tratamientos desde tu sistema actual, para que partas con todo cargado.`,
+    q: "¿Qué es Clinera Intelligence?",
+    a: "Es el agente IA dentro del software: le preguntas por tus ventas, tu agenda y tus pacientes. Todos los planes traen 100 créditos de Clinera Intelligence al mes.",
   },
   {
     q: "¿Qué pasa si se me acaban las conversaciones?",

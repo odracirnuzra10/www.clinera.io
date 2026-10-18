@@ -161,8 +161,8 @@ export function Hero() {
                 maxWidth: 580,
               }}
             >
-              Fichas de estética facial y corporal, presupuestos y tratamientos como{" "}
-              <b style={{ color: "#0A0A0A" }}>Sculptra, Radiesse, Endoláser y Rinolips</b> ya cargados. AURA agenda, confirma y recupera pacientes por WhatsApp 24/7. Lo construimos para nuestras propias clínicas estéticas: <b style={{ color: "#0A0A0A" }}>Método Hebe y Protocolo Lumina</b>.
+              Ficha médica y estética facial y corporal, evoluciones, presupuestos y ventas en un solo software, con tratamientos como{" "}
+              <b style={{ color: "#0A0A0A" }}>Sculptra, Radiesse, Endoláser y Rinolips</b> ya cargados. Y si quieres más, la IA atiende tu WhatsApp y agenda por ti. Lo construimos para nuestras propias clínicas estéticas: <b style={{ color: "#0A0A0A" }}>Método Hebe y Protocolo Lumina</b>.
             </p>
 
             <div style={{ display: "flex", gap: 12, marginTop: 30, flexWrap: "wrap" }}>
@@ -4058,7 +4058,7 @@ export const PLAN_THEMES: Record<(typeof CLINERA_PLANS)[number]["id"], PlanTheme
 };
 
 // Íconos de plan (trazo propio, 20px): remolino, globo y cumbre.
-const PLAN_ICONS: Record<(typeof CLINERA_PLANS)[number]["id"], ReactNode> = {
+export const PLAN_ICONS: Record<(typeof CLINERA_PLANS)[number]["id"], ReactNode> = {
   vortex: (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round">
       <path d="M21 12a9 9 0 1 1-9-9" />

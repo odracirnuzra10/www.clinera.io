@@ -21,7 +21,7 @@ import {
 } from "@/content/entidad";
 
 export const metadata: Metadata = {
-  title: { absolute: `${PRODUCT_NAME} | Software con IA para clínicas estéticas` },
+  title: { absolute: `${PRODUCT_NAME} | Software para clínicas estéticas` },
   description: HOME_META_DESCRIPTION,
   alternates: { canonical: "https://www.clinera.io/" },
   openGraph: {
@@ -40,7 +40,7 @@ export default function Home() {
           softwareSchema,
           webPageSchema({
             path: "/",
-            name: `${PRODUCT_NAME} | Software con IA para clínicas estéticas`,
+            name: `${PRODUCT_NAME} | Software para clínicas estéticas`,
             description: HOME_META_DESCRIPTION,
           }),
           definedTermSetSchema,

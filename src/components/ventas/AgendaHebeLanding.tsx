@@ -75,7 +75,7 @@ const TICKER = [
 ];
 
 // Planes viejos (para ?plan= que vengan de /planes) y los nuevos Go!/Flux/Ultra.
-// Planes vigentes (Flux/Nexus/Summit), los viejos y los de /go: el closer ve qué miraba.
+// Planes vigentes (Flux/Hurricane/Vortex), los viejos y los de /go: el closer ve qué miraba.
 const PLAN_IDS = new Set<string>([...PLANES.map((p) => p.id), ...CLINERA_PLANS.map((p) => p.id), ...PLANS_2.map((p) => p.id)]);
 
 const PHONES: Record<string, { flag: string; label: string; len: number; pattern: RegExp; placeholder: string; hint: string }> = {
@@ -150,7 +150,7 @@ export default function AgendaHebeLanding({
   tzIp?: string;
 } = {}) {
   // Planes nuevos (Ricardo, 16-oct-2026): el "desde" es el más barato.
-  // Planes vigentes (Ricardo, 18-oct-2026): Flux · Nexus · Summit.
+  // Planes vigentes (Ricardo, 18-oct-2026): Flux · Hurricane · Vortex.
   const price = Math.min(...PLANES.map((p) => p.monthlyUsd));
   const tiers = PLANES.map((p) => `${p.name} USD ${p.monthlyUsd}`).join(" · ");
   const [step, setStep] = useState(1);

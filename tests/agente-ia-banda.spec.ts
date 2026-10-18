@@ -24,8 +24,8 @@ test.describe("banda «Activa tu agente IA»", () => {
       for (const canal of ["WhatsApp", "Facebook", "Instagram", "Llamadas con IA"]) {
         await expect(banda.locator("li b", { hasText: canal })).toBeVisible();
       }
-      // El agente de texto y voz es solo de Summit: la banda no lo promete en todos los planes.
-      await expect(banda).toContainText("Summit");
+      // El agente IA viene desde Hurricane: la banda no lo promete en todos los planes.
+      await expect(banda).toContainText("Hurricane");
       await expect(banda.getByRole("link").first()).toHaveAttribute("href", p.cta);
     });
   }

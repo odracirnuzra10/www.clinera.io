@@ -1,18 +1,22 @@
 import type { Metadata } from "next";
-import AgendaHebeLanding from "@/components/ventas/AgendaHebeLanding";
+import AgendaCuentaLanding from "@/components/agenda/AgendaCuentaLanding";
 import { timezoneIpDelRequest } from "@/lib/timezone-ip";
 
+// `timezoneIpDelRequest()` lee headers de la request: sin esto el build intenta
+// prerenderizar la página y rompe.
 export const dynamic = "force-dynamic";
 
+// Ricardo, 18-oct-2026: /agenda es la landing «Crea tu cuenta» con oferta de
+// Summit. El wizard viejo con calendario sigue en /reunion-comercial.
 export const metadata: Metadata = {
-  title: "Clinera O.S. — agenda tu reunión y conoce la plataforma",
+  title: "Software para clínicas estéticas con IA: crea tu cuenta",
   description:
-    "Agenda, fichas, tratamientos y WhatsApp de cada sede bajo un mismo sistema operativo con IA. Conoce Clinera y reserva 45 min con el equipo comercial en la misma página.",
+    "Ficha médica y estética facial y corporal, presupuestos, evoluciones y ventas en un solo lugar. Crea tu cuenta de Clinera y actívala en minutos.",
   alternates: { canonical: "https://www.clinera.io/agenda" },
   openGraph: { url: "https://www.clinera.io/agenda" },
 };
 
 export default async function AgendaPage() {
   const tzIp = await timezoneIpDelRequest();
-  return <AgendaHebeLanding tzIp={tzIp} />;
+  return <AgendaCuentaLanding tzIp={tzIp} />;
 }

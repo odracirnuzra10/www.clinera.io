@@ -24,7 +24,7 @@ import { IntelligencePlataformaSection } from "@/components/IntelligenceSection"
 import HeroCarousel from "@/components/plataforma/HeroCarousel";
 import AuraNetwork from "@/components/plataforma/AuraNetwork";
 import PlanesVigentes from "@/components/pricing/PlanesVigentes";
-import { IMPLEMENTACION_USD, PLAN_DESDE_USD } from "@/content/planes";
+import { PLAN_DESDE_USD } from "@/content/planes";
 import type { SoftwareVerticalContent } from "./content";
 
 function subscribeLocation() {
@@ -568,7 +568,7 @@ function FinalCta({
               color: "#A0A6B2",
             }}
           >
-            Desde US$ {PLAN_DESDE_USD}/mes · Implementación US$ {IMPLEMENTACION_USD}, pago único
+            Desde US$ {PLAN_DESDE_USD}/mes
           </div>
         </div>
       </div>

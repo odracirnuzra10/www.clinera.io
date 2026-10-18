@@ -5,7 +5,7 @@ import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { FinalCTA, useReveal } from "@/components/home-v3/sections";
 import { PLANES_FAQ } from "@/content/planes-faq";
 import PlanesVigentes from "@/components/pricing/PlanesVigentes";
-import { IMPLEMENTACION_USD, PLANES_TITULO, PLANES_TITULO_ACENTO } from "@/content/planes";
+import { PLANES_TITULO, PLANES_TITULO_ACENTO } from "@/content/planes";
 
 const FAQ = PLANES_FAQ;
 
@@ -68,8 +68,7 @@ function PlanesHero() {
             maxWidth: 620,
           }}
         >
-          Flux, Nexus y Summit: eliges según cuántos profesionales tiene tu equipo.
-          Todos suman una implementación de US$ {IMPLEMENTACION_USD}, pago único.
+          Flux, Hurricane y Vortex: eliges según cuántos profesionales tiene tu equipo.
           Para contratar, hablas con ventas.
         </p>
       </div>
