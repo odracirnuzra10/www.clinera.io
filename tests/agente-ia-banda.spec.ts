@@ -1,4 +1,4 @@
-// «Activa tu agente IA» — la banda oscura que rompe el esquema visual.
+// «Activa tu ecosistema» (antes «Activa tu agente IA») — la banda oscura que rompe el esquema visual.
 // Ricardo (18-oct-2026): siempre presente en el home, las landings y los
 // artículos del blog. Y el ranking de software para clínicas estéticas, con
 // Clinera primero.
@@ -8,34 +8,34 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const PAGINAS = [
-  { path: "/", cta: /^\/clinica-estetica\/activar-cuenta/ },
-  { path: "/software-estetica", cta: /^\/clinica-estetica\/activar-cuenta/ },
-  { path: "/clinica-estetica/activar-cuenta", cta: /^#crear-cuenta$/ },
-  { path: "/blog/mejores-software-clinicas-esteticas", cta: /^\/clinica-estetica\/activar-cuenta/ },
+  { path: "/", cta: /^\/agenda/ },
+  { path: "/software-estetica", cta: /^\/agenda/ },
+  { path: "/blog/mejores-software-clinicas-esteticas", cta: /^\/agenda/ },
 ];
 
-test.describe("banda «Activa tu agente IA»", () => {
+test.describe("banda «Activa tu ecosistema»", () => {
   for (const p of PAGINAS) {
-    test(`está una vez en ${p.path}, con los 4 canales`, async ({ page }) => {
+    test(`está una vez en ${p.path}, con marketing, framework y canales + agenda`, async ({ page }) => {
       await page.goto(p.path, { waitUntil: "domcontentloaded" });
       const banda = page.locator("[data-agente-ia-banda]");
       await expect(banda).toHaveCount(1);
-      await expect(banda.getByRole("heading", { level: 2 })).toContainText("Activa tu agente IA");
-      for (const canal of ["WhatsApp", "Facebook", "Instagram", "Llamadas con IA"]) {
-        await expect(banda.locator("li b", { hasText: canal })).toBeVisible();
+      await expect(banda.getByRole("heading", { level: 2 })).toContainText("Activa tu ecosistema");
+      for (const tarjeta of ["Campañas de marketing", "Framework comercial", "Canales + agenda"]) {
+        await expect(banda.locator("li b", { hasText: tarjeta })).toBeVisible();
       }
-      // El agente IA viene desde Hurricane: la banda no lo promete en todos los planes.
-      await expect(banda).toContainText("Hurricane");
+      // Planes vigentes: Vortex trae el software con agente IA; Ecosistema suma el marketing.
+      await expect(banda).toContainText("Vortex");
+      await expect(banda).toContainText("Ecosistema");
       await expect(banda.getByRole("link").first()).toHaveAttribute("href", p.cta);
     });
   }
 
-  test("al ir a la landing conserva la query del anuncio", async ({ page }) => {
+  test("al ir a /agenda conserva la query del anuncio", async ({ page }) => {
     await page.goto("/?utm_source=google&gclid=abc", { waitUntil: "domcontentloaded" });
     // Tras hidratar: el servidor no conoce la query.
     await expect(page.locator("[data-agente-ia-banda] a").first()).toHaveAttribute(
       "href",
-      "/clinica-estetica/activar-cuenta?utm_source=google&gclid=abc",
+      "/agenda?utm_source=google&gclid=abc",
     );
   });
 

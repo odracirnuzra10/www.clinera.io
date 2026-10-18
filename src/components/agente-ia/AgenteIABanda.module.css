@@ -131,7 +131,7 @@
   padding: 0;
   margin: 44px 0 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
 
@@ -220,7 +220,7 @@
     font-size: 32px;
   }
   .channels {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 }
 
@@ -261,4 +261,21 @@
   .word:first-child {
     opacity: 1;
   }
+}
+
+/* Fila de logos de canales dentro de «Canales + agenda» */
+.logosFila {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.logoMini {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
