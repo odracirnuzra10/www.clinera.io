@@ -5,7 +5,7 @@
 //
 //   Paso 1  datos (nombre, correo, celular, clínica, profesionales) → CRM
 //   Paso 2  funciones que necesita (varias)
-//   Paso 3  los 3 planes con el cupón KUKY (50% de descuento) → pago
+//   Paso 3  los 3 planes con el cupón CUKY (50% el primer mes; vence al día siguiente de la primera visita) → pago
 //
 // El lead se manda al CRM en el paso 1 (`submitContactLead`, el mismo webhook de
 // siempre), para no perder a quien abandona. Las funciones del paso 2 NO generan
@@ -16,14 +16,14 @@
 // Los links de pago los envía Ricardo (`LINKS_PAGO`). Mientras no existan, cada
 // botón muestra el marcador. Cuando existan, son `<a href="https://buy.stripe.com/…"
 // data-plan …>` y nada más: el clic lo cuenta `Analytics.tsx` (ver AGENTS.md). El
-// cupón KUKY se aplica en Stripe (código de promoción).
+// cupón CUKY se aplica en Stripe (código de promoción).
 //
 // «Prefiero hablar con ventas» abre el mismo calendario de siempre
 // (`StepClineraScheduler`): la reserva sigue emitiendo el MQL.
 // El wizard viejo con calendario vive en /reunion-comercial.
 // ============================================================================
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand-v3/Brand";
 import EsteticaSection from "@/components/estetica/EsteticaSection";
@@ -43,12 +43,16 @@ import {
 import {
   AGENDA_COPY,
   CUPON,
+  CUPON_PRIMERA_VISITA_KEY,
   FUNCIONES,
   LINKS_PAGO,
   PLANES_OFERTA,
   PROFESIONALES,
+  fechaLarga,
   formatoUsd,
   linkPagoPendiente,
+  venceCupon,
+  ymdChile,
   type FuncionId,
 } from "@/content/agenda-oferta";
 import {
@@ -67,6 +71,20 @@ const SOURCE_PATH = "/agenda";
 const EMAIL_OK = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MX_TZ = /^America\/(Mexico_City|Cancun|Merida|Monterrey|Matamoros|Chihuahua|Ciudad_Juarez|Ojinaga|Mazatlan|Hermosillo|Tijuana|Bahia_Banderas)$/;
 const TOTAL = 3;
+
+const noop = () => () => {};
+
+/** Último día del cupón según la primera visita guardada (o hoy). */
+function leerVenceCupon(): string {
+  let primera = ymdChile(new Date());
+  try {
+    const guardada = window.localStorage.getItem(CUPON_PRIMERA_VISITA_KEY);
+    if (guardada && /^\d{4}-\d{2}-\d{2}$/.test(guardada)) primera = guardada;
+  } catch {
+    /* sin almacenamiento */
+  }
+  return venceCupon(primera);
+}
 
 function Check() {
   return (
@@ -94,6 +112,20 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
 
   useEffect(() => {
     pushDL("agenda_landing_view", { source_path: SOURCE_PATH });
+  }, []);
+
+  // El cupón vence al día siguiente de la PRIMERA visita (Ricardo, 18-oct-2026).
+  // Se guarda la fecha en el navegador para que no se corra cada vez que vuelve;
+  // sin almacenamiento (modo privado), se cuenta desde hoy.
+  const vence = useSyncExternalStore(noop, leerVenceCupon, () => null);
+  useEffect(() => {
+    try {
+      if (!window.localStorage.getItem(CUPON_PRIMERA_VISITA_KEY)) {
+        window.localStorage.setItem(CUPON_PRIMERA_VISITA_KEY, ymdChile(new Date()));
+      }
+    } catch {
+      /* sin almacenamiento: cuenta desde hoy */
+    }
   }, []);
 
   function marcarInicio() {
@@ -369,8 +401,13 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
                       </button>
                     </div>
                     <p className={styles.durante}>
-                      {CUPON.descuentoPct}% de descuento en cualquier plan. Ingresa el código {CUPON.codigo} al pagar.
+                      {CUPON.descuentoPct}% de descuento {CUPON.meses === 1 ? "el primer mes" : `durante ${CUPON.meses} meses`} en cualquier plan. Ingresa el código {CUPON.codigo} al pagar.
                     </p>
+                    {vence && (
+                      <p className={styles.vence} data-cupon-vence={vence}>
+                        Válido hasta el {fechaLarga(vence)}.
+                      </p>
+                    )}
                     {funcionesSel.length > 0 && (
                       <p className={styles.marcaste}>
                         Marcaste: {funcionesSel.map((f) => f.label.charAt(0).toLowerCase() + f.label.slice(1)).join(", ")}.
@@ -394,6 +431,9 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
                                 <span className={styles.ofertaPer}>/mes</span>
                               </span>
                             </div>
+                            <p className={styles.luego}>
+                              {CUPON.meses === 1 ? "El primer mes" : `Los primeros ${CUPON.meses} meses`} · luego US$ {p.monthlyUsd}/mes
+                            </p>
                             <ul className={styles.incluye}>
                               {p.destacados.map((d) => (
                                 <li key={d}>

@@ -3,12 +3,12 @@ import {
   EXTRAS,
   IMPLEMENTACION_USD,
   PLANES,
-  PLAN_CON_AGENTE,
+  PLAN_IA_DESDE,
   PLAN_DESDE_USD,
 } from "@/content/planes";
 
-// Planes Flux · Nexus · Summit (Ricardo, 18-oct-2026): fuente `planes.ts`.
-const [flux, nexus, summit] = PLANES;
+// Planes Flux · Hurricane · Vortex (Ricardo, 18-oct-2026): fuente `planes.ts`.
+const [flux] = PLANES;
 const nf = (v: number) => v.toLocaleString("es-CL");
 
 export type SoftwareVerticalContent = {
@@ -84,7 +84,7 @@ export type SoftwareVerticalContent = {
   };
 };
 
-const PRICE_FAQ = `Hay tres planes mensuales: Flux US$ ${flux.monthlyUsd}/mes (${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones), Nexus US$ ${nexus.monthlyUsd}/mes (${nexus.professionals} profesionales, hasta ${nf(nexus.conversations)} conversaciones, email marketing, automatizaciones y difusiones) y Summit US$ ${summit.monthlyUsd}/mes (${summit.professionals} profesionales, hasta ${nf(summit.conversations)} conversaciones y agente IA de texto y voz). Todos suman una implementación de US$ ${IMPLEMENTACION_USD}, pago único. Para contratar, hablas con ventas.`;
+const PRICE_FAQ = `Hay tres planes mensuales: ${PLANES.map((p) => `${p.name} US$ ${p.monthlyUsd}/mes (hasta ${p.professionals} profesionales y ${nf(p.conversations)} conversaciones${p.agenteIA ? `, agente IA con ${nf(p.iaCredits)} créditos de IA` : ", sin agente IA"})`).join(", ")}. Todos traen ficha estética facial y corporal, evoluciones, presupuestos, email marketing y Clinera Intelligence, y suman una implementación de US$ ${IMPLEMENTACION_USD}, pago único. Para contratar, hablas con ventas.`;
 
 const INTEGRATION_FAQ =
   "No. Clinera no se sincroniza con Reservo, AgendaPro, Medilink ni Dentalink: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Para conectar otras herramientas tienes Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit.";
@@ -120,7 +120,7 @@ export const MEDICO: SoftwareVerticalContent = {
     },
     {
       title: "Agente IA (AURA)",
-      body: "Atiende por WhatsApp 24/7: califica, agenda y confirma sobre tu agenda. En el plan Summit. CAMILA (llamadas con IA) disponible solo en Summit.",
+      body: "Atiende por WhatsApp 24/7: califica, agenda y confirma sobre tu agenda. Desde el plan Hurricane.",
     },
     {
       title: "Clinera Intelligence",
@@ -146,7 +146,7 @@ export const MEDICO: SoftwareVerticalContent = {
   aura: {
     eyebrow: "Agente IA · en vivo",
     headline: "AURA atiende el WhatsApp de tu consultorio.",
-    body: "Responde precios y horarios, agenda en tu calendario y confirma la cita. Trabaja sobre la agenda de todo el equipo, 24/7. CAMILA (llamadas con IA) disponible solo en Summit; LIA disponible en Summit.",
+    body: "Responde precios y horarios, agenda en tu calendario y confirma la cita. Trabaja sobre la agenda de todo el equipo, 24/7.",
     imageAlt: "AURA — agente IA de WhatsApp para clínicas médicas",
   },
   crm: {
@@ -158,11 +158,11 @@ export const MEDICO: SoftwareVerticalContent = {
   faqs: [
     {
       q: "¿Qué incluye el software médico de Clinera?",
-      a: "Agenda, ficha clínica (facial y corporal), agente IA por WhatsApp (AURA), Clinera Intelligence y un módulo de ventas/seguimiento. En Atlas y Summit se suman Webhooks + API. CAMILA (llamadas con IA) disponible solo en Summit; LIA disponible en Summit.",
+      a: "Agenda, ficha clínica (facial y corporal), agente IA por WhatsApp (AURA), Clinera Intelligence y un módulo de ventas/seguimiento. En Atlas y Summit se suman Webhooks + API.",
     },
     {
       q: "¿Sirve para un consultorio chico?",
-      a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene en ${PLAN_CON_AGENTE.name}.`,
+      a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene desde ${PLAN_IA_DESDE.name}.`,
     },
     {
       q: "¿Se integra con Reservo, AgendaPro o Medilink?",
@@ -182,7 +182,7 @@ export const MEDICO: SoftwareVerticalContent = {
     },
     {
       q: "¿Qué hace el agente IA?",
-      a: "AURA (en vivo, plan Summit) atiende por WhatsApp, califica y agenda sola sobre tu calendario. CAMILA llama por teléfono solo en Summit. LIA fiscaliza la operación en Summit.",
+      a: "AURA (desde el plan Hurricane) atiende por WhatsApp, califica y agenda sola sobre tu calendario.",
     },
   ],
   meta: {
@@ -231,7 +231,7 @@ export const DENTAL: SoftwareVerticalContent = {
     },
     {
       title: "Agente IA (AURA)",
-      body: "Atiende el WhatsApp de la clínica 24/7, confirma y llena huecos. En vivo. CAMILA (llamadas con IA) disponible solo en Summit.",
+      body: "Atiende el WhatsApp de la clínica 24/7, confirma y llena huecos. En vivo.",
     },
     {
       title: "Clinera Intelligence",
@@ -257,7 +257,7 @@ export const DENTAL: SoftwareVerticalContent = {
   aura: {
     eyebrow: "Agente IA · en vivo",
     headline: "AURA llena los sillones por WhatsApp.",
-    body: "Confirma, reagenda y recupera pacientes sobre la agenda real de tus profesionales. Sin mandar links. CAMILA (llamadas con IA) disponible solo en Summit; LIA disponible en Summit.",
+    body: "Confirma, reagenda y recupera pacientes sobre la agenda real de tus profesionales. Sin mandar links.",
     imageAlt: "AURA — agente IA de WhatsApp para clínicas dentales",
   },
   crm: {
@@ -289,7 +289,7 @@ export const DENTAL: SoftwareVerticalContent = {
     },
     {
       q: "¿Cómo agenda el agente IA?",
-      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real de tus sillones y deja la cita creada. Reagenda y cancela en la misma conversación. CAMILA, el agente de voz, está disponible solo en Summit.",
+      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real de tus sillones y deja la cita creada. Reagenda y cancela en la misma conversación. Viene desde el plan Hurricane.",
     },
     {
       q: "¿Cómo es la implementación y la migración?",
@@ -341,7 +341,7 @@ export const ESTETICA: SoftwareVerticalContent = {
     },
     {
       title: "Agente IA (AURA)",
-      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. En el plan Summit. CAMILA (llamadas con IA) disponible solo en Summit.",
+      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. Desde el plan Hurricane.",
     },
     {
       title: "Clinera Intelligence",
@@ -367,7 +367,7 @@ export const ESTETICA: SoftwareVerticalContent = {
   aura: {
     eyebrow: "Agente IA · en vivo",
     headline: "AURA responde y agenda cuando la clínica no puede.",
-    body: "Atiende consultas fuera de horario, agenda y confirma sobre la agenda del equipo, y deriva a una persona cuando la conversación lo pide. CAMILA (llamadas con IA) disponible solo en Summit; LIA disponible en Summit.",
+    body: "Atiende consultas fuera de horario, agenda y confirma sobre la agenda del equipo, y deriva a una persona cuando la conversación lo pide.",
     imageAlt: "AURA — agente IA de WhatsApp para clínicas estéticas",
   },
   crm: {
@@ -383,7 +383,7 @@ export const ESTETICA: SoftwareVerticalContent = {
     },
     {
       q: "¿Sirve para una clínica de una sola sucursal?",
-      a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene en ${PLAN_CON_AGENTE.name}.`,
+      a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene desde ${PLAN_IA_DESDE.name}.`,
     },
     {
       q: "¿Reemplaza a AgendaPro o a Reservo?",
@@ -403,7 +403,7 @@ export const ESTETICA: SoftwareVerticalContent = {
     },
     {
       q: "¿Cómo agenda el agente IA?",
-      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real del equipo y deja la cita creada. Reagenda y cancela en la misma conversación. CAMILA, el agente de voz, está disponible solo en Summit.",
+      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real del equipo y deja la cita creada. Reagenda y cancela en la misma conversación. Viene desde el plan Hurricane.",
     },
   ],
   meta: {
@@ -433,7 +433,7 @@ export const WHATSAPP_IA: SoftwareVerticalContent = {
   h1Rest: " para clínicas: AURA agenda, reagenda y confirma por ti",
   thesis:
     "AURA es el agente de IA de Clinera que atiende el WhatsApp de tu clínica 24/7: consulta la disponibilidad real, agenda, reagenda y cancela dentro de la conversación, sin links. Trabaja sobre la agenda y la ficha de Clinera, con tu número conectado vía Meta.",
-  sub: `Desde US$ ${PLAN_DESDE_USD}/mes. El agente IA que agenda solo viene en ${PLAN_CON_AGENTE.name} (US$ ${PLAN_CON_AGENTE.monthlyUsd}/mes).`,
+  sub: `Desde US$ ${PLAN_DESDE_USD}/mes. El agente IA que agenda solo viene en ${PLAN_IA_DESDE.name} (US$ ${PLAN_IA_DESDE.monthlyUsd}/mes).`,
   heroViews: ["aura", "ficha", "intelligence"],
   includesH2: "Qué hace el agendamiento por WhatsApp con IA de Clinera",
   includes: [
@@ -465,13 +465,13 @@ export const WHATSAPP_IA: SoftwareVerticalContent = {
   deepDive: {
     eyebrow: "Cuántas conversaciones incluye",
     h2: "Cada plan trae un tope de conversaciones al mes",
-    body: `Eliges según tu equipo y tu volumen. Si te quedas corto, sumas ${EXTRAS[0].label} por US$ ${EXTRAS[0].usd} sin cambiar de plan. El agente IA que agenda solo viene en ${PLAN_CON_AGENTE.name}.`,
+    body: `Eliges según tu equipo y tu volumen. Si te quedas corto, sumas ${EXTRAS[0].label} por US$ ${EXTRAS[0].usd} sin cambiar de plan. El agente IA que agenda solo viene desde ${PLAN_IA_DESDE.name}.`,
     bullets: PLANES.map((p) => `${p.name}: hasta ${nf(p.conversations)} conversaciones al mes`),
   },
   aura: {
     eyebrow: "Agente IA · en vivo",
     headline: "AURA atiende tu WhatsApp las 24 horas.",
-    body: "Agenda sobre la agenda real de tu equipo y confirma la cita. CAMILA (llamadas con IA) disponible solo en Summit; LIA disponible en Summit.",
+    body: "Agenda sobre la agenda real de tu equipo y confirma la cita.",
     imageAlt: "AURA — agendamiento por WhatsApp con IA para clínicas",
   },
   crm: {
@@ -554,7 +554,7 @@ export const CLINICAS: SoftwareVerticalContent = {
     },
     {
       title: "Agente IA (AURA)",
-      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. En el plan Summit. CAMILA (llamadas con IA) disponible solo en Summit.",
+      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. Desde el plan Hurricane.",
     },
     {
       title: "Recordatorios y confirmación",
@@ -578,7 +578,7 @@ export const CLINICAS: SoftwareVerticalContent = {
   aura: {
     eyebrow: "Agente IA · en vivo",
     headline: "AURA responde y agenda cuando la clínica no puede.",
-    body: "Atiende consultas fuera de horario, agenda y confirma sobre la agenda del equipo, y deriva a una persona cuando la conversación lo pide. CAMILA (llamadas con IA) disponible solo en Summit; LIA disponible en Summit.",
+    body: "Atiende consultas fuera de horario, agenda y confirma sobre la agenda del equipo, y deriva a una persona cuando la conversación lo pide.",
     imageAlt: "AURA — agente IA de WhatsApp para clínicas",
   },
   crm: {
@@ -598,7 +598,7 @@ export const CLINICAS: SoftwareVerticalContent = {
     },
     {
       q: "¿Sirve para una clínica de una sola sucursal?",
-      a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene en ${PLAN_CON_AGENTE.name}.`,
+      a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene desde ${PLAN_IA_DESDE.name}.`,
     },
     {
       q: "¿Se integra con la agenda que usamos hoy?",
@@ -614,7 +614,7 @@ export const CLINICAS: SoftwareVerticalContent = {
     },
     {
       q: "¿Cómo agenda el agente IA?",
-      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real del equipo y deja la cita creada. Reagenda y cancela en la misma conversación. CAMILA, el agente de voz, está disponible solo en Summit.",
+      a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real del equipo y deja la cita creada. Reagenda y cancela en la misma conversación. Viene desde el plan Hurricane.",
     },
   ],
   meta: {
@@ -686,7 +686,7 @@ export const RECORDATORIOS: SoftwareVerticalContent = {
   aura: {
     eyebrow: "Agente IA · en vivo",
     headline: "AURA confirma y reagenda cuando la recepción no alcanza.",
-    body: "Escribe el recordatorio, recibe la respuesta y mueve la cita si hace falta. CAMILA (llamadas con IA) disponible solo en Summit; LIA disponible en Summit.",
+    body: "Escribe el recordatorio, recibe la respuesta y mueve la cita si hace falta.",
     imageAlt: "AURA — recordatorios y confirmación de citas por WhatsApp",
   },
   crm: {
@@ -793,7 +793,7 @@ export const CRM: SoftwareVerticalContent = {
   aura: {
     eyebrow: "Agente IA · en vivo",
     headline: "AURA alimenta el CRM mientras atiende el WhatsApp.",
-    body: "Responde, califica y agenda sobre la agenda real, y deriva a una persona cuando hace falta. CAMILA (llamadas con IA) disponible solo en Summit; LIA disponible en Summit.",
+    body: "Responde, califica y agenda sobre la agenda real, y deriva a una persona cuando hace falta.",
     imageAlt: "AURA — agente IA de WhatsApp conectado al CRM de la clínica",
   },
   crm: {
@@ -884,7 +884,7 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
       },
       {
         title: "Agente IA (AURA)",
-        body: "Atiende el WhatsApp de la consulta 24/7: responde, califica y agenda sobre tu agenda real. En el plan Summit. CAMILA (llamadas con IA) disponible solo en Summit.",
+        body: "Atiende el WhatsApp de la consulta 24/7: responde, califica y agenda sobre tu agenda real. Desde el plan Hurricane.",
       },
       {
         title: "Recordatorios y confirmación",
@@ -912,7 +912,7 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
     aura: {
       eyebrow: "Agente IA · en vivo",
       headline: "AURA responde y agenda cuando tú estás atendiendo.",
-      body: "Atiende consultas fuera de horario, agenda y confirma sobre tu agenda, y deriva a una persona cuando la conversación lo pide. CAMILA (llamadas con IA) disponible solo en Summit; LIA disponible en Summit.",
+      body: "Atiende consultas fuera de horario, agenda y confirma sobre tu agenda, y deriva a una persona cuando la conversación lo pide.",
       imageAlt: `AURA — agente IA de WhatsApp para ${o.profesional}`,
     },
     crm: {
@@ -928,7 +928,7 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
       },
       {
         q: "¿Sirve para un profesional que trabaja solo?",
-        a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene en ${PLAN_CON_AGENTE.name}.`,
+        a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene desde ${PLAN_IA_DESDE.name}.`,
       },
       {
         q: "¿Se integra con la agenda que usamos hoy?",
@@ -936,7 +936,7 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
       },
       {
         q: "¿Cómo agenda el agente IA?",
-        a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real y deja la cita creada. Reagenda y cancela en la misma conversación. CAMILA, el agente de voz, está disponible solo en Summit.",
+        a: "AURA (en vivo) conversa por WhatsApp, consulta la disponibilidad real y deja la cita creada. Reagenda y cancela en la misma conversación. Viene desde el plan Hurricane.",
       },
       {
         q: "¿Puedo adaptar la ficha a mi especialidad?",

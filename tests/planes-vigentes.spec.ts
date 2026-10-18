@@ -1,25 +1,26 @@
-// Planes Flux · Nexus · Summit (Ricardo, 18-oct-2026), CTA «Hablar con ventas»
+// Planes Flux · Hurricane · Vortex (Ricardo, 18-oct-2026), CTA «Hablar con ventas»
 // → /agenda, implementación US$ 250, fotos de modelos y franja de logos reales.
 
 import { expect, test } from "@playwright/test";
 import { IMPLEMENTACION_USD, PLANES } from "../src/content/planes";
 import { CLINICAS_LOGOS } from "../src/content/clinicas-logos";
 
-test.describe("planes vigentes: Flux · Nexus · Summit", () => {
+test.describe("planes vigentes: Flux · Hurricane · Vortex", () => {
   test("el catálogo es el de la diapositiva", () => {
     expect(PLANES.map((p) => [p.name, p.monthlyUsd])).toEqual([
-      ["Flux", 89],
-      ["Nexus", 129],
-      ["Summit", 179],
+      ["Flux", 129],
+      ["Hurricane", 179],
+      ["Vortex", 279],
     ]);
     expect(IMPLEMENTACION_USD).toBe(250);
-    // El agente IA de texto y voz es solo de Summit.
-    expect(PLANES.filter((p) => p.agenteIA).map((p) => p.id)).toEqual(["summit"]);
+    // Flux es sin IA; el agente viene desde Hurricane.
+    expect(PLANES.filter((p) => p.agenteIA).map((p) => p.id)).toEqual(["hurricane", "vortex"]);
+    expect(PLANES.map((p) => p.iaCredits)).toEqual([0, 5000, 15000]);
   });
 
   test("/planes muestra los 3 planes, la implementación y CTA a ventas", async ({ page }) => {
     await page.goto("/planes?utm_source=google", { waitUntil: "domcontentloaded" });
-    await expect(page).toHaveTitle(/Flux, Nexus y Summit/);
+    await expect(page).toHaveTitle(/Flux, Hurricane y Vortex/);
     for (const p of PLANES) {
       const card = page.locator(`[data-plan-card="${p.id}"]`);
       await expect(card).toContainText(String(p.monthlyUsd));
@@ -31,7 +32,7 @@ test.describe("planes vigentes: Flux · Nexus · Summit", () => {
     await expect(page.locator("[data-planes-vigentes]")).toContainText(`implementación US$${IMPLEMENTACION_USD}`);
     // Nada del catálogo viejo en la página de planes.
     const texto = await page.locator("main").innerText();
-    for (const viejo of ["Vortex", "Atlas", "279", "479", "450"]) expect(texto).not.toContain(viejo);
+    for (const viejo of ["Nexus", "Summit", "Atlas", "479", "450"]) expect(texto).not.toContain(viejo);
   });
 
   test("el header lleva a ventas, no a /go", async ({ page }) => {

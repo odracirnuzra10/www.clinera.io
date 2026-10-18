@@ -1,9 +1,9 @@
 // /agenda — landing «Crea tu cuenta y actívala en minutos» (Ricardo, 18-oct-2026).
 // Paso 1 datos → CRM · paso 2 funciones (varias) · paso 3 los 3 planes con el
-// cupón KUKY (50%). Red mockeada: nada toca n8n ni Meta.
+// cupón CUKY (50% el primer mes, vence al día siguiente de la primera visita). Red mockeada.
 
 import { expect, test, type Page, type Request } from "@playwright/test";
-import { CUPON, LINKS_PAGO, precioConCupon } from "../src/content/agenda-oferta";
+import { CUPON, LINKS_PAGO, fechaLarga, precioConCupon, venceCupon } from "../src/content/agenda-oferta";
 import { PLANES } from "../src/content/planes";
 
 type WizardBody = {
@@ -40,9 +40,33 @@ async function mockRed(page: Page) {
   await page.route(/connect\.facebook\.net/, (route) => route.abort());
 }
 
-test("precio con cupón: 50% de cada plan", () => {
-  expect(CUPON.codigo).toBe("KUKY");
-  expect(PLANES.map((p) => precioConCupon(p.monthlyUsd))).toEqual([44.5, 64.5, 89.5]);
+test("precio con cupón: 50% de cada plan, solo el primer mes", () => {
+  expect(CUPON.codigo).toBe("CUKY");
+  expect(CUPON.descuentoPct).toBe(50);
+  expect(CUPON.meses).toBe(1);
+  expect(PLANES.map((p) => precioConCupon(p.monthlyUsd))).toEqual([64.5, 89.5, 139.5]);
+});
+
+test("el cupón vence al día siguiente de la primera visita", () => {
+  // Ricardo: si entró el domingo 18, vale hasta el lunes 19; si entró el 20, hasta el 21.
+  expect(venceCupon("2026-10-18")).toBe("2026-10-19");
+  expect(venceCupon("2026-10-20")).toBe("2026-10-21");
+  expect(venceCupon("2026-10-31")).toBe("2026-11-01");
+  expect(fechaLarga("2026-10-19")).toBe("lunes 19 de octubre");
+});
+
+test("/agenda recuerda la primera visita: el vencimiento no se corre", async ({ page }) => {
+  await page.addInitScript(() => window.localStorage.setItem("cl_cupon_primera_visita", "2026-10-18"));
+  await mockRed(page);
+  await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+  await page.getByLabel("Nombre", { exact: true }).fill("[E2E TEST] Vence");
+  await page.getByLabel("Correo", { exact: true }).fill("e2e-vence@e2e.clinera.io");
+  await page.getByLabel("Celular (WhatsApp)").fill("912345678");
+  await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Clínica");
+  await page.getByRole("radio", { name: "1–3" }).click();
+  await page.getByRole("button", { name: /Continuar/ }).click();
+  await page.getByRole("button", { name: /Ver mi oferta/ }).click();
+  await expect(page.locator("[data-cupon-vence]")).toHaveAttribute("data-cupon-vence", "2026-10-19");
 });
 
 test("/agenda: datos → CRM, funciones y los 3 planes con el cupón", async ({ page }) => {
@@ -82,7 +106,7 @@ test("/agenda: datos → CRM, funciones y los 3 planes con el cupón", async ({ 
   await page.waitForTimeout(300);
   expect(wizard.filter((w) => w.lead_stage === "contact")).toHaveLength(1);
 
-  // Paso 3: cupón y los 3 planes con el 50%.
+  // Paso 3: cupón y los 3 planes con el 50% del primer mes.
   const oferta = page.locator("[data-oferta]");
   await expect(oferta.locator(`[data-cupon="${CUPON.codigo}"]`)).toBeVisible();
   for (const p of PLANES) {

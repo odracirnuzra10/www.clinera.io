@@ -1,7 +1,7 @@
 "use client";
 
 // ============================================================================
-// Planes Flux · Nexus · Summit con el DISEÑO ORIGINAL de las tarjetas de
+// Planes Flux · Hurricane · Vortex con el DISEÑO ORIGINAL de las tarjetas de
 // `Pricing` (home-v3/sections.tsx): degradado por plan, ícono, panel de cobro,
 // «Funciones base», chips y canales (Ricardo, 18-oct-2026: «mantener el diseño
 // original»). Cambia el contenido, no la forma:
@@ -9,8 +9,8 @@
 // - implementación US$ 250 en todos los planes;
 // - un solo CTA, «Hablar con ventas» → /agenda?plan=… con la query de la visita;
 // - funciones enfocadas en la clínica estética (`planes.ts`).
-// Temas e íconos se reusan de `Pricing`: Flux = tono cyan, Nexus = violeta
-// claro (destacado), Summit = violeta intenso.
+// Temas e íconos se reusan de `Pricing`: Flux = tono cyan, Hurricane = violeta
+// claro (destacado, «Con IA»), Vortex = violeta intenso.
 // ============================================================================
 
 import { useSyncExternalStore, type CSSProperties } from "react";
@@ -32,8 +32,8 @@ import {
 
 const TEMA: Record<PlanId, keyof typeof PLAN_THEMES> = {
   flux: "vortex",
-  nexus: "atlas",
-  summit: "summit",
+  hurricane: "atlas",
+  vortex: "summit",
 };
 
 const noop = () => () => {};
@@ -179,7 +179,7 @@ export default function PlanesVigentes({
                       whiteSpace: "nowrap",
                     }}
                   >
-                    ★ El {p.tag.toLowerCase()}
+                    ★ {p.tag}
                   </div>
                 )}
 

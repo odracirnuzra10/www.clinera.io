@@ -11,8 +11,8 @@
 // y `/blog/[slug]`. El ancho lo decide el contenedor (container queries), así
 // que la misma pieza sirve a página completa y dentro de la columna del blog.
 //
-// El agente IA de texto y voz viene solo en Summit (planes Flux · Nexus · Summit,
-// 18-oct-2026). Por eso la nota bajo los canales: no prometerlo en todos los planes.
+// El agente IA viene desde Hurricane (Flux es sin IA; planes Flux · Hurricane ·
+// Vortex, 18-oct-2026). Por eso la nota bajo los canales.
 //
 // Sin JavaScript para la animación y sin alto fijo: la palabra que rota está
 // apilada en una sola celda de grilla, la caja mide la más larga (lección de
@@ -22,7 +22,7 @@
 import { useSyncExternalStore } from "react";
 import { ChannelLogo, CHANNEL_LABEL } from "@/components/pricing/PlanChannelLogos";
 import type { PlanChannel } from "@/content/pricing";
-import { PLAN_CON_AGENTE } from "@/content/planes";
+import { PLAN_IA_DESDE } from "@/content/planes";
 import styles from "./AgenteIABanda.module.css";
 
 const CANALES: { id: PlanChannel; palabra: string; accion: string }[] = [
@@ -98,7 +98,7 @@ export default function AgenteIABanda({
             {ctaLabel} <span aria-hidden>→</span>
           </a>
           <span className={styles.note}>
-            El agente IA de texto y voz viene en el plan {PLAN_CON_AGENTE.name} · US$ {PLAN_CON_AGENTE.monthlyUsd}/mes.
+            El agente IA viene desde el plan {PLAN_IA_DESDE.name} · US$ {PLAN_IA_DESDE.monthlyUsd}/mes.
           </span>
         </div>
       </div>

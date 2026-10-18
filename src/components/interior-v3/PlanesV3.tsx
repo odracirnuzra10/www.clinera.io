@@ -68,7 +68,7 @@ function PlanesHero() {
             maxWidth: 620,
           }}
         >
-          Flux, Nexus y Summit: eliges según cuántos profesionales tiene tu equipo.
+          Flux, Hurricane y Vortex: eliges según cuántos profesionales tiene tu equipo.
           Todos suman una implementación de US$ {IMPLEMENTACION_USD}, pago único.
           Para contratar, hablas con ventas.
         </p>

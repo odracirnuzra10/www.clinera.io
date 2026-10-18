@@ -132,10 +132,10 @@ test.describe("Meta Pixel & dataLayer events", () => {
   // Desde el 18-oct-2026 /planes no tiene checkout: cada tarjeta habla con ventas.
   test("4) Plan cards on /planes: «Hablar con ventas» → /agenda?plan=…", async ({ page }) => {
     await page.goto("/planes", { waitUntil: "domcontentloaded" });
-    const cta = page.locator('[data-plan-card="nexus"] a[data-cta-ventas="nexus"]');
+    const cta = page.locator('[data-plan-card="hurricane"] a[data-cta-ventas="hurricane"]');
     await expect(cta).toBeVisible({ timeout: 10_000 });
     await expect(cta).toContainText(/Hablar con ventas/i);
-    await expect(cta).toHaveAttribute("href", /^\/agenda\?(.*&)?plan=nexus/);
+    await expect(cta).toHaveAttribute("href", /^\/agenda\?(.*&)?plan=hurricane/);
     await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
   });
 

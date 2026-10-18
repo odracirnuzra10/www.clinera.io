@@ -130,10 +130,10 @@ test.describe("AEO: JSON-LD en runtime", () => {
     expect(blob).toContain('"name":"Clinera"');
     expect(blob).toContain('"name":"Clinera O.S."');
     expect(blob).toContain("No relacionada con clinera.ai");
-    expect(blob).toContain('"price":"89"');
     expect(blob).toContain('"price":"129"');
     expect(blob).toContain('"price":"179"');
-    expect(blob).not.toContain('"price":"279"');
+    expect(blob).toContain('"price":"279"');
+    expect(blob).not.toContain('"price":"479"');
     expect(blob).not.toContain('"lowPrice":"129"');
     expect(blob).not.toContain("AggregateRating");
     expect(blob).not.toContain("Clinera Intelligence");

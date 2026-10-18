@@ -244,6 +244,20 @@
   background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
 }
 
+.luego {
+  margin: 4px 0 0;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11.5px;
+  color: #6b7280;
+}
+
+.vence {
+  margin: 6px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #b91c1c;
+}
+
 .marcaste {
   margin: 14px 0 0;
   font-size: 14px;

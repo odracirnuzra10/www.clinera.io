@@ -43,8 +43,8 @@ test.describe("páginas de compra nuevas", () => {
     const todo = JSON.stringify(WHATSAPP_IA);
     // Desde el 18-oct-2026 el límite se publica en conversaciones por plan, no en créditos.
     expect(todo).toContain("Flux: hasta 500");
-    expect(todo).toContain("Summit: hasta 5.000");
-    expect(todo).not.toMatch(/Vortex|Atlas:/);
+    expect(todo).toContain("Vortex: hasta 3.000");
+    expect(todo).not.toMatch(/Atlas:|Summit:|Nexus/);
     expect(todo).toContain("1 número de WhatsApp");
   });
 });

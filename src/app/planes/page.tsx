@@ -14,7 +14,7 @@ import {
 import { PLANES_FAQ } from "@/content/planes-faq";
 import { IMPLEMENTACION_USD, PLAN_DESDE_USD, PLANES } from "@/content/planes";
 
-const TITLE = `Planes: Flux, Nexus y Summit, desde US$ ${PLAN_DESDE_USD}/mes`;
+const TITLE = `Planes: Flux, Hurricane y Vortex, desde US$ ${PLAN_DESDE_USD}/mes`;
 const DESCRIPTION = `${PLANES.map((p) => `${p.name} US$ ${p.monthlyUsd}/mes`).join(", ")}. Eliges según cuántos profesionales tiene tu equipo. Implementación US$ ${IMPLEMENTACION_USD}, pago único en todos los planes.`;
 
 export const metadata: Metadata = {
