@@ -1,140 +1,25 @@
-// /clinica-estetica — landing de Google Ads para clínicas estéticas.
-//
-// Lo que se prueba es su razón de ser: un wizard corto (nombre, tipo de
-// clínica, correo, WhatsApp) que lleva al MISMO calendario de /agenda, da de
-// alta el lead con el perfil exacto (enfermera, médico estético, clínica…) y
-// manda UN MQL al confirmar la hora. Y que el home habla de estética.
-//
-// Red 100 % mockeada (patrón de `reserva-tu-hora.spec.ts`).
+// Una sola landing (Ricardo, 18-oct-2026): /clinica-estetica/activar-cuenta.
+// La landing vieja de Google Ads (/clinica-estetica), /agenda y /activar-cuenta
+// redirigen ahí con la query: el gclid del anuncio no se puede perder.
+// El wizard en sí se prueba en `agenda-cuenta.spec.ts`. Y el home habla de estética.
 
-import { expect, test, type Page, type Request } from "@playwright/test";
-import { TRATAMIENTOS_PRECARGADOS } from "../src/content/estetica";
+import { expect, test } from "@playwright/test";
+import { CTA_VENTAS_PATH } from "../src/content/planes";
 
-type WizardBody = {
-  lead_stage?: string;
-  tipo_clinica?: string;
-  subtipo_clinica?: string;
-  subtipo_clinica_label?: string;
-  celular?: string;
-  fuente?: string;
-};
-
-function nonce() {
-  return `e2e_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`;
-}
-
-function grabar<T>(page: Page, path: string) {
-  const hits: T[] = [];
-  page.on("request", (req: Request) => {
-    if (!req.url().includes(path) || req.method() !== "POST") return;
-    try {
-      hits.push(JSON.parse(req.postData() || "{}"));
-    } catch {
-      /* noop */
-    }
-  });
-  return hits;
-}
-
-async function mockRed(page: Page) {
-  await page.route("https://n8n.oacg.cl/webhook/clinera-agenda-config", (route) =>
-    route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: JSON.stringify({ ok: true, duracionMin: 45 }),
-    }),
-  );
-  await page.route(/n8n\.oacg\.cl\/webhook\/clinera-agenda-disponibilidad/, (route) => {
-    const url = new URL(route.request().url());
-    if (url.searchParams.has("desde")) {
-      return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ dias: {} }) });
-    }
-    return route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: JSON.stringify({
-        data: {
-          horariosDisponibles: [
-            { horaInicio: "10:00", duracionMin: 45, profesional: { id: "a", name: "Ana" } },
-            { horaInicio: "11:00", duracionMin: 45, profesional: { id: "a", name: "Ana" } },
-          ],
-        },
-      }),
+test.describe("una sola landing: /clinica-estetica/activar-cuenta", () => {
+  for (const vieja of ["/clinica-estetica", "/agenda", "/activar-cuenta"]) {
+    test(`${vieja} redirige con la query`, async ({ request }) => {
+      const r = await request.get(`${vieja}?gclid=abc&utm_source=google`, { maxRedirects: 0 });
+      expect(r.status()).toBe(308);
+      expect(r.headers()["location"]).toBe(`${CTA_VENTAS_PATH}?gclid=abc&utm_source=google`);
     });
-  });
-  await page.route(/n8n\.oacg\.cl\/webhook\/clinera-agenda-turno/, (route) =>
-    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true }) }),
-  );
-  for (const path of ["**/api/wizard", "**/api/meta/capi"]) {
-    await page.route(path, (route) =>
-      route.request().method() === "POST"
-        ? route.fulfill({ status: 200, contentType: "application/json", body: "{}" })
-        : route.continue(),
-    );
   }
-  await page.route(/connect\.facebook\.net/, (route) => route.abort());
-}
 
-test.describe("/clinica-estetica — landing de Google Ads", () => {
-  test("es destino de anuncios: noindex y sin navegación del sitio", async ({ page }) => {
-    await page.goto("/clinica-estetica", { waitUntil: "domcontentloaded" });
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/clínicas y centros de estética/i);
-    // Los tratamientos precargados se ven en el primer pliegue (beneficios).
-    for (const t of TRATAMIENTOS_PRECARGADOS) {
-      await expect(page.getByText(t.nombre).first()).toBeVisible();
-    }
-  });
-
-  test("wizard corto → calendario de /agenda → UN MQL al reservar", async ({ page }) => {
-    const id = nonce();
-    await mockRed(page);
-    const wizard = grabar<WizardBody>(page, "/api/wizard");
-    const capi = grabar<{ event_name?: string }>(page, "/api/meta/capi");
-
-    await page.goto("/clinica-estetica", { waitUntil: "domcontentloaded" });
-
-    // Incompleto: no pasa al calendario.
-    await page.getByRole("button", { name: /Ver horas disponibles/i }).click();
-    await expect(page.getByText("Escribe tu nombre.")).toBeVisible();
-
-    await page.getByLabel("Nombre", { exact: true }).fill(`[E2E TEST] ${id}`);
-    await page.getByRole("radio", { name: "Enfermero/a estético/a" }).click();
-    await page.getByLabel("Correo", { exact: true }).fill(`${id}@e2e.clinera.io`);
-    await page.getByLabel("WhatsApp", { exact: true }).fill("912345678");
-    await page.getByRole("button", { name: /Ver horas disponibles/i }).click();
-
-    await expect(page.getByRole("heading", { name: /Elige el día y la hora/i })).toBeVisible({ timeout: 15000 });
-    await page.waitForTimeout(400);
-
-    const contactos = wizard.filter((w) => w.lead_stage === "contact");
-    expect(contactos).toHaveLength(1);
-    expect(contactos[0].tipo_clinica).toBe("estetica");
-    expect(contactos[0].subtipo_clinica).toBe("enfermera_estetica");
-    expect(contactos[0].celular).toBe("+56912345678");
-    expect(contactos[0].fuente).toContain("/clinica-estetica");
-    // El MQL se gana agendando, no al llenar los datos.
-    expect(capi.filter((c) => c.event_name === "MQL")).toHaveLength(0);
-
-    await page.getByRole("button", { name: /10:00/ }).first().click();
-    await page.getByRole("button", { name: /Confirmar reunión/i }).click();
-    await expect(page.getByRole("heading", { name: /tu hora quedó reservada/i })).toBeVisible({ timeout: 15000 });
-    await page.waitForTimeout(600);
-
-    const reservas = wizard.filter((w) => w.lead_stage === "booking_confirmed");
-    expect(reservas).toHaveLength(1);
-    expect(reservas[0].subtipo_clinica).toBe("enfermera_estetica");
-    expect(capi.filter((c) => c.event_name === "MQL")).toHaveLength(1);
-  });
-
-  test("en móvil el formulario queda bajo el H1, antes de los beneficios", async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/clinica-estetica", { waitUntil: "domcontentloaded" });
-    const nombre = await page.getByLabel("Nombre", { exact: true }).boundingBox();
-    expect(nombre).not.toBeNull();
-    expect(nombre!.y).toBeLessThan(844);
-    const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
-    expect(ancho).toBeLessThanOrEqual(390);
+  test("el CTA del home es «Activar cuenta» y lleva a la landing", async ({ page }) => {
+    expect(CTA_VENTAS_PATH).toBe("/clinica-estetica/activar-cuenta");
+    await page.goto("/?gclid=abc", { waitUntil: "domcontentloaded" });
+    const cta = page.locator("header").getByRole("link", { name: "Activar cuenta" }).first();
+    await expect(cta).toHaveAttribute("href", `${CTA_VENTAS_PATH}?gclid=abc`);
   });
 });
 

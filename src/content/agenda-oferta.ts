@@ -97,6 +97,20 @@ export const FUNCIONES = [
 
 export type FuncionId = (typeof FUNCIONES)[number]["id"];
 
+/**
+ * Lo que trae Clinera, en el hero al lado del wizard (Ricardo, 18-oct-2026:
+ * «ficha facial, ficha corporal, evoluciones, pagos, agente IA, conexión
+ * WhatsApp, Facebook, Insta, correos, etc.», con el formato de /clinica-estetica).
+ */
+export const FUNCIONES_HERO = [
+  "Ficha estética facial y corporal, con fotos y consentimientos",
+  "Evoluciones por sesión y presupuestos enviados por WhatsApp",
+  "Pagos y ventas de tu clínica en un solo lugar",
+  "Agente IA que responde y agenda por ti",
+  "WhatsApp, Facebook e Instagram conectados a tu agenda",
+  "Correos y email marketing a tus pacientes",
+] as const;
+
 /** Profesionales (mismos ids que /agenda usaba en `boxes_profesionales`). */
 export const PROFESIONALES = [
   { id: "1_3", label: "1–3" },
@@ -108,7 +122,7 @@ export const PROFESIONALES = [
 export const AGENDA_COPY = {
   eyebrow: "Software para clínicas estéticas con IA",
   h1: "Crea tu cuenta y actívala en minutos.",
-  sub: "Ficha médica y estética facial y corporal, presupuestos, evoluciones y ventas en un solo lugar. Completa los datos de tu clínica y te mostramos la oferta para activarla.",
+  sub: "Ficha médica, ficha estética facial y ficha estética corporal, con evoluciones, presupuestos y ventas en un solo lugar. Completa los datos de tu clínica y te mostramos la oferta para activarla.",
   beneficios: [
     "Ficha estética facial y corporal, con fotos y consentimientos",
     "Presupuestos y evoluciones por sesión",

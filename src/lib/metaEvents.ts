@@ -123,7 +123,7 @@ function readSignals(): MetaSignals {
 // Núcleo: dispara Pixel + (opcional) CAPI con el MISMO event_id.
 // ---------------------------------------------------------------------------
 async function sendMetaEvent(opts: {
-  eventName: "MQL";
+  eventName: "MQL" | "Lead";
   eventId: string;
   customData: Record<string, unknown>;
   userData?: { em?: string; ph?: string }; // hasheado; omitir si no hay PII
@@ -161,6 +161,27 @@ async function sendMetaEvent(opts: {
     // Nunca romper el flujo del usuario si CAPI falla; el Pixel ya salió.
     console.error(`CAPI ${eventName} failed`, e);
   }
+}
+
+// ===========================================================================
+// (0) Lead — rellenó el formulario de la landing. Valores del embudo (Ricardo,
+//     18-oct-2026): Lead US$ 3 · MQL US$ 10 (agenda) · SQL US$ 30 (se presenta y
+//     califica, lo emite el CRM) · Cliente = valor del plan (Stripe).
+//     Idempotente por sesión, con el event_id del lead.
+// ===========================================================================
+/** US$ del Lead (Ricardo, 18-oct-2026). */
+export const LEAD_VALUE_USD = 3;
+
+export async function fireLeadEvent(opts: { eventId: string; contact?: ContactPII; customData?: Record<string, unknown> }): Promise<void> {
+  if (alreadyFired("cl_lead_fired")) return;
+  const userData = opts.contact ? await hashContact(opts.contact) : undefined;
+  await sendMetaEvent({
+    eventName: "Lead",
+    eventId: opts.eventId,
+    customData: { ...opts.customData, value: LEAD_VALUE_USD, currency: "USD" },
+    userData,
+    capi: true,
+  });
 }
 
 // ===========================================================================

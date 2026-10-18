@@ -28,8 +28,8 @@ https://www.clinera.io/efectividad. Equipo: https://www.clinera.io/equipo
 ## Planes (USD · mensual · vigentes desde el 18-oct-2026)
 
 Se eligen según el tamaño del equipo y si se quiere agente IA. Para contratar
-se habla con ventas (https://www.clinera.io/agenda) o se activa el plan en
-https://www.clinera.io/planes con pago en Stripe.
+se usa «Activar cuenta» (https://www.clinera.io/clinica-estetica/activar-cuenta):
+la clínica deja sus datos, elige plan y paga en Stripe o agenda con ventas.
 
 Todos incluyen: ficha estética facial y corporal personalizada, evoluciones y
 presupuestos; WhatsApp, Facebook, Instagram y email marketing; créditos de

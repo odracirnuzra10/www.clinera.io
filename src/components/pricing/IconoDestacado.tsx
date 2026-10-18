@@ -1,20 +1,10 @@
 // Ícono de las funciones destacadas de los planes (`destacadoDe` en planes.ts):
 // el agente IA (destello) y el onboarding humano dedicado (persona). Va sobre el
-// degradado de marca para que resalte entre los ticks normales. Sobre una tarjeta
-// oscura (Vortex) el degradado se pierde con el fondo: ahí va blanco con el
-// símbolo en violeta (Ricardo, 18-oct-2026).
+// degradado de marca para que resalte entre los ticks normales.
 
 const GRAD = "linear-gradient(135deg, #3B82F6 0%, #7C3AED 50%, #D946EF 100%)";
 
-export function IconoDestacado({
-  tipo,
-  size = 20,
-  sobreOscuro = false,
-}: {
-  tipo: "ia" | "onboarding";
-  size?: number;
-  sobreOscuro?: boolean;
-}) {
+export function IconoDestacado({ tipo, size = 20 }: { tipo: "ia" | "onboarding"; size?: number }) {
   return (
     <span
       aria-hidden
@@ -23,12 +13,12 @@ export function IconoDestacado({
         width: size,
         height: size,
         borderRadius: 6,
-        background: sobreOscuro ? "#fff" : GRAD,
+        background: GRAD,
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        color: sobreOscuro ? "#7C3AED" : "#fff",
-        boxShadow: sobreOscuro ? "0 4px 12px -4px rgba(0,0,0,.35)" : "0 4px 12px -4px rgba(124,58,237,.6)",
+        color: "#fff",
+        boxShadow: "0 4px 12px -4px rgba(124,58,237,.6)",
       }}
     >
       {tipo === "ia" ? (

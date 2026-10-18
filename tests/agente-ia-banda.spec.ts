@@ -8,10 +8,10 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const PAGINAS = [
-  { path: "/", cta: /^\/agenda/ },
-  { path: "/software-estetica", cta: /^\/agenda/ },
-  { path: "/clinica-estetica", cta: /^#agenda-demo$/ },
-  { path: "/blog/mejores-software-clinicas-esteticas", cta: /^\/agenda/ },
+  { path: "/", cta: /^\/clinica-estetica\/activar-cuenta/ },
+  { path: "/software-estetica", cta: /^\/clinica-estetica\/activar-cuenta/ },
+  { path: "/clinica-estetica/activar-cuenta", cta: /^#crear-cuenta$/ },
+  { path: "/blog/mejores-software-clinicas-esteticas", cta: /^\/clinica-estetica\/activar-cuenta/ },
 ];
 
 test.describe("banda «Activa tu agente IA»", () => {
@@ -30,12 +30,12 @@ test.describe("banda «Activa tu agente IA»", () => {
     });
   }
 
-  test("al ir a /agenda conserva la query del anuncio", async ({ page }) => {
+  test("al ir a la landing conserva la query del anuncio", async ({ page }) => {
     await page.goto("/?utm_source=google&gclid=abc", { waitUntil: "domcontentloaded" });
     // Tras hidratar: el servidor no conoce la query.
     await expect(page.locator("[data-agente-ia-banda] a").first()).toHaveAttribute(
       "href",
-      "/agenda?utm_source=google&gclid=abc",
+      "/clinica-estetica/activar-cuenta?utm_source=google&gclid=abc",
     );
   });
 

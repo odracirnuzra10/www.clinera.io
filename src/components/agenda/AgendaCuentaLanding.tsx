@@ -1,7 +1,7 @@
 "use client";
 
 // ============================================================================
-// /agenda — landing «Crea tu cuenta y actívala en minutos» (Ricardo, 18-oct-2026)
+// /clinica-estetica/activar-cuenta (ex /agenda y /clinica-estetica) — landing «Crea tu cuenta y actívala en minutos» (Ricardo, 18-oct-2026)
 //
 //   Paso 1  datos (nombre, correo, celular, clínica, profesionales) → CRM
 //   Paso 2  funciones que necesita (varias)
@@ -28,6 +28,8 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand-v3/Brand";
 import EsteticaSection from "@/components/estetica/EsteticaSection";
+import ChatAgendaIA from "@/components/estetica/ChatAgendaIA";
+import FichasCarrusel from "@/components/estetica/FichasCarrusel";
 import AgenteIABanda from "@/components/agente-ia/AgenteIABanda";
 import {
   detectLeadSource,
@@ -45,6 +47,7 @@ import {
   AGENDA_COPY,
   CUPON,
   FUNCIONES,
+  FUNCIONES_HERO,
   LINKS_PAGO,
   PLANES_OFERTA,
   PROFESIONALES,
@@ -55,6 +58,8 @@ import {
 import { destacadoDe } from "@/content/planes";
 import { IconoDestacado } from "@/components/pricing/IconoDestacado";
 import { textoVence, useVenceCupon } from "./useCupon";
+import { fireLeadEvent } from "@/lib/metaEvents";
+import CuponTicket from "./CuponTicket";
 import {
   RESERVA_PHONE_PREFIXES,
   aE164,
@@ -64,10 +69,11 @@ import {
   reglaTelefono,
 } from "@/lib/telefono";
 import { zonaMostrada } from "@/lib/timezone";
+import { PRUEBA_SOCIAL_ESTETICA } from "@/content/estetica";
 import base from "@/components/estetica/EsteticaAdsLanding.module.css";
 import styles from "./AgendaCuentaLanding.module.css";
 
-const SOURCE_PATH = "/agenda";
+const SOURCE_PATH = "/clinica-estetica/activar-cuenta";
 const EMAIL_OK = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MX_TZ = /^America\/(Mexico_City|Cancun|Merida|Monterrey|Matamoros|Chihuahua|Ciudad_Juarez|Ojinaga|Mazatlan|Hermosillo|Tijuana|Bahia_Banderas)$/;
 const TOTAL = 3;
@@ -155,6 +161,14 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
     pushDL("agenda_step_complete", { step: 1, step_name: "datos", tamano_boxes: profesionales, source_path: SOURCE_PATH });
     setIntentado(false);
     setPaso(2);
+    // Embudo de Meta (Ricardo, 18-oct-2026): formulario = Lead; agendar con
+    // ventas = MQL (lo dispara la reserva); pagar = CLIENTE (lo manda Stripe →
+    // /api/stripe/meta-purchase con el valor del plan).
+    void fireLeadEvent({
+      eventId: ctx.eventId,
+      contact: { email: email.trim(), phoneE164: aE164(prefix, digitos) },
+      customData: { content_name: "activar_cuenta", lead_source: ctx.leadSource },
+    });
     // Al CRM en el paso 1 (Ricardo): el lead que abandona igual queda. No se espera a n8n.
     void submitContactLead({
       form: { ...form, funciones: null },
@@ -186,7 +200,6 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
   }
 
   const titulosPaso = ["Tus datos", "Lo que necesitas", "Tu plan con descuento"];
-  const [copiado, setCopiado] = useState(false);
 
   // Móvil (Ricardo, 18-oct-2026): al bajar, un botón fijo devuelve al formulario
   // para completarlo. Se esconde mientras el formulario está a la vista.
@@ -203,31 +216,12 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
   // segundo paso se abra en una pestaña exclusiva para no hacer scroll fuera»).
   // Misma pestaña a propósito: una ventana nueva perdería lo escrito en el paso 1.
   const enfocado = paso > 1 || conVentas || booking !== null;
+  // Pasos 2 y 3 en escritorio: tarjeta ancha (dos columnas / tres planes lado a
+  // lado). El calendario con ventas y la confirmación siguen angostos.
+  const anchoEscritorio = paso > 1 && !conVentas && booking === null;
   useEffect(() => {
     if (enfocado) window.scrollTo({ top: 0 });
   }, [enfocado, paso]);
-
-  // Cupón con botón de copiar: grande en el paso 2 (Ricardo, 18-oct-2026: «lo
-  // debe usar en el siguiente paso») y otra vez en el paso 3, junto a los planes.
-  function cuponCopiable(grande = false) {
-    return (
-      <div className={`${styles.cupon} ${grande ? styles.cuponGrande : ""}`} data-cupon={CUPON.codigo} data-cupon-grande={grande || undefined}>
-        <div>
-          <span className={styles.cuponMeta}>{grande ? `Tu cupón · ${CUPON.descuentoPct}% el primer mes` : "Tu cupón"}</span>
-          <span className={styles.cuponCodigo}>{CUPON.codigo}</span>
-        </div>
-        <button
-          type="button"
-          className={styles.cuponCopiar}
-          onClick={() => {
-            void navigator.clipboard?.writeText(CUPON.codigo).then(() => setCopiado(true));
-          }}
-        >
-          {copiado ? "Copiado" : "Copiar"}
-        </button>
-      </div>
-    );
-  }
 
   const volverLabel = paso === 1 ? "Completa tus datos" : paso === 2 ? "Sigue con tu cuenta" : `Ver mi ${CUPON.descuentoPct}% de descuento`;
 
@@ -240,7 +234,10 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
         <span className={base.meta}>{AGENDA_COPY.eyebrow}</span>
       </header>
 
-      <section className={`${base.hero} ${styles.heroTinte} ${enfocado ? styles.enfocado : ""}`} data-agenda-enfocado={enfocado || undefined}>
+      <section
+        className={`${base.hero} ${styles.heroTinte} ${enfocado ? styles.enfocado : ""} ${anchoEscritorio ? styles.enfocadoAncho : ""}`}
+        data-agenda-enfocado={enfocado || undefined}
+      >
         {!enfocado && (
         <div className={base.heroCopy}>
           <span className={base.meta}>{AGENDA_COPY.eyebrow}</span>
@@ -252,7 +249,7 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
         )}
 
         <div className={base.formCol} id="crear-cuenta" ref={formRef}>
-          <div className={`${base.card} ${styles.cardDestacada}`}>
+          <div className={`${base.card} ${styles.cardDestacada} ${anchoEscritorio ? styles.cardAncha : ""}`}>
             {booking ? (
               <div className={base.done}>
                 <div className={base.doneCheck} aria-hidden>
@@ -369,9 +366,20 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
                 )}
 
                 {paso === 2 && (
-                  <div data-agenda-paso="2">
-                    {cuponCopiable(true)}
-                    <p className={styles.cuponNota}>Cópialo: lo usas al pagar en el siguiente paso.</p>
+                  <div data-agenda-paso="2" className={styles.paso2}>
+                    {/* El cupón en grande: lo pega al pagar en el paso 3 (Ricardo, 18-oct-2026). */}
+                    <div className={styles.paso2Cupon}>
+                      <CuponTicket grande>
+                        <span>Cópialo: lo pegas al pagar en el siguiente paso.</span>
+                      </CuponTicket>
+                      {/* Solo escritorio: llena la columna con lo que viene. */}
+                      <ol className={styles.siguiente}>
+                        <li>Marca lo que necesita tu clínica.</li>
+                        <li>Elige tu plan con {CUPON.descuentoPct}% el primer mes.</li>
+                        <li>Pega {CUPON.codigo} al pagar y crea tu cuenta.</li>
+                      </ol>
+                    </div>
+                    <div className={styles.paso2Funciones}>
                     <h2 className={base.cardTitle}>¿Qué necesita tu clínica?</h2>
                     <p className={base.cardSub}>Marca todo lo que quieras usar. Puedes elegir varias.</p>
                     <div className={styles.funciones} role="group" aria-label="Funciones que necesitas">
@@ -400,26 +408,30 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
                     <button type="button" className={styles.volver} onClick={() => setPaso(1)}>
                       ← Volver
                     </button>
+                    </div>
                   </div>
                 )}
 
                 {paso === 3 && (
                   <div data-agenda-paso="3" data-oferta>
-                    <h2 className={base.cardTitle}>Elige tu plan con {CUPON.descuentoPct}% de descuento</h2>
-                    {cuponCopiable()}
-                    <p className={styles.durante}>
-                      {CUPON.descuentoPct}% de descuento {CUPON.meses === 1 ? "el primer mes" : `durante ${CUPON.meses} meses`} en cualquier plan. Ingresa el código {CUPON.codigo} al pagar.
-                    </p>
-                    {vence && (
-                      <p className={styles.vence} data-cupon-vence={vence}>
-                        Válido {textoVence(vence)}.
-                      </p>
-                    )}
-                    {funcionesSel.length > 0 && (
-                      <p className={styles.marcaste}>
-                        Marcaste: {funcionesSel.map((f) => f.label.charAt(0).toLowerCase() + f.label.slice(1)).join(", ")}.
-                      </p>
-                    )}
+                    <div className={styles.paso3Head}>
+                      <div>
+                        <h2 className={base.cardTitle}>Elige tu plan con {CUPON.descuentoPct}% de descuento</h2>
+                        {vence && (
+                          <p className={styles.vence} data-cupon-vence={vence}>
+                            Válido {textoVence(vence)}.
+                          </p>
+                        )}
+                        {funcionesSel.length > 0 && (
+                          <p className={styles.marcaste}>
+                            Marcaste: {funcionesSel.map((f) => f.label.charAt(0).toLowerCase() + f.label.slice(1)).join(", ")}.
+                          </p>
+                        )}
+                      </div>
+                      <CuponTicket>
+                        <span>Pégalo en «Añadir código de promoción» al pagar.</span>
+                      </CuponTicket>
+                    </div>
 
                     <div className={styles.planes}>
                       {PLANES_OFERTA.map((p) => {
@@ -430,17 +442,15 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
                               <span className={styles.planNombre}>{p.name}</span>
                               {p.tag && <span className={styles.planTag}>{p.tag}</span>}
                             </div>
+                            {/* Énfasis en el 1er mes; desde el 2.º, en chico (Ricardo, 18-oct-2026). */}
                             <div className={styles.precio}>
-                              <span className={styles.tachado}>US$ {p.monthlyUsd}</span>
                               <span className={styles.oferta}>
                                 <span className={styles.ofertaCur}>US$</span>
                                 <span className={styles.ofertaMonto}>{formatoUsd(p.conCupon)}</span>
-                                <span className={styles.ofertaPer}>/mes</span>
+                                <span className={styles.ofertaPer}>1er mes</span>
                               </span>
                             </div>
-                            <p className={styles.luego}>
-                              {CUPON.meses === 1 ? "El primer mes" : `Los primeros ${CUPON.meses} meses`} · luego US$ {p.monthlyUsd}/mes
-                            </p>
+                            <p className={styles.luego}>Desde el 2.º mes: US$ {p.monthlyUsd}/mes</p>
                             <ul className={styles.incluye}>
                               {p.destacados.map((d) => {
                                 const tipo = destacadoDe(d);
@@ -467,7 +477,7 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
                                 data-plan-value={p.conCupon}
                                 style={{ display: "block", textAlign: "center", textDecoration: "none" }}
                               >
-                                Activar {p.name} con {CUPON.codigo}
+                                Crear cuenta · {p.name}
                               </a>
                             ) : (
                               <span className={styles.pendiente} data-pago-pendiente={p.id}>
@@ -498,14 +508,29 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
           </div>
         </div>
 
-        {/* Landing breve (Ricardo, 18-oct-2026): sin la lista de beneficios. */}
+        {/* Lo que trae Clinera, al lado del wizard (Ricardo, 18-oct-2026). */}
         {!enfocado && (
         <div className={base.heroProof}>
-          <div className={base.proof} style={{ marginTop: 0 }}>
-            <span className={base.dot} aria-hidden />
-            <span>+52 clínicas activas</span>
-            <span className={base.sep}>·</span>
-            <span>Hecho en Método Hebe y Protocolo Lumina</span>
+          <ul className={base.benefits} aria-label="Lo que incluye Clinera" data-funciones-hero>
+            {FUNCIONES_HERO.map((f) => (
+              <li key={f}>
+                <span className={base.tick}>
+                  <Check />
+                </span>
+                {f}
+              </li>
+            ))}
+          </ul>
+          {/* Una línea por dato: con separador, la segunda quedaba colgando. */}
+          <div className={base.proof} style={{ flexDirection: "column", alignItems: "flex-start", gap: 8 }} data-prueba-social>
+            <span>
+              <span aria-hidden style={{ color: "#F59E0B", letterSpacing: "0.1em", marginRight: 8 }}>★★★★★</span>
+              {PRUEBA_SOCIAL_ESTETICA[0]}
+            </span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+              <span className={base.dot} aria-hidden />
+              {PRUEBA_SOCIAL_ESTETICA[1]}
+            </span>
           </div>
         </div>
         )}
@@ -513,6 +538,9 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
 
       {!enfocado && (
         <>
+      {/* Corta y con aire (Ricardo, 18-oct-2026): la IA agendando, las fichas, la foto con el cupón y la banda. */}
+      <ChatAgendaIA />
+      <FichasCarrusel />
       <EsteticaSection id="hecho-para-estetica" modelo="duena" ctaHref="#crear-cuenta" ctaLabel="Crear mi cuenta" cupon compacta />
       <AgenteIABanda href="#crear-cuenta" ctaLabel="Crear mi cuenta" />
         </>

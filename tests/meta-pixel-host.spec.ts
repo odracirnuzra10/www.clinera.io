@@ -41,8 +41,9 @@ test.describe("pixel de producción no arranca en dev/preview", () => {
     expect(tracking).toContain("clearInterval");
   });
 
-  test("el endpoint CAPI solo acepta MQL", () => {
-    expect(capiRoute).toContain('new Set(["MQL"])');
+  // Lead (rellenó el formulario de la landing, US$ 3) se sumó el 18-oct-2026.
+  test("el endpoint CAPI solo acepta MQL y Lead", () => {
+    expect(capiRoute).toContain('new Set(["MQL", "Lead"])');
     expect(capiRoute).not.toMatch(/new Set\(\[[^\]]*Waitlist/);
     expect(capiRoute).not.toMatch(/new Set\(\[[^\]]*Contact/);
   });

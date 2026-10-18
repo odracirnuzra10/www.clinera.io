@@ -1,6 +1,7 @@
 // Desde el 18-oct-2026 /agenda es la landing de cuenta + oferta (`AgendaCuentaLanding`).
 // El wizard con calendario sigue vivo en /reunion-comercial: estos tests lo cubren ahí.
 import { expect, test, type Page, type Request } from "@playwright/test";
+import { PLAN_DESDE_USD } from "../src/content/planes";
 
 type LeadPayload = {
   event_id?: string;
@@ -111,8 +112,8 @@ test.describe("/reunion-comercial (wizard con calendario, ex /agenda) — wizard
     await expect(
       page.getByRole("heading", { level: 1, name: /Automatiza el WhatsApp y las citas de tu clínica con inteligencia artificial/i }),
     ).toBeVisible();
-    // Planes vigentes Flux · Nexus · Summit (18-oct-2026): desde US$ 89.
-    await expect(page.getByText(/Planes desde USD 89/).first()).toBeVisible();
+    // Planes vigentes (`planes.ts`): el «desde» sale del plan más barato.
+    await expect(page.getByText(`Planes desde USD ${PLAN_DESDE_USD}/mes`).first()).toBeVisible();
     await expect(page.getByText(/Cuál plan te interesa/i)).toHaveCount(0);
     await expect(page.getByRole("link", { name: /política de privacidad/i })).toBeVisible();
   });

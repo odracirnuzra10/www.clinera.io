@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useEffect, useState, ReactNode } from "react";
 import { CtaPrimary, CtaSecondary, Eyebrow, Mono, GRAD, CnnLogo } from "@/components/brand-v3/Brand";
 import { HOME_FAQ } from "@/content/home-faq";
+import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH } from "@/content/planes";
+import { CUPON } from "@/content/agenda-oferta";
 import {
   ANNUAL_DISCOUNT_PERCENT,
   CLINERA_PLANS,
@@ -161,13 +163,13 @@ export function Hero() {
                 maxWidth: 580,
               }}
             >
-              Ficha médica y estética facial y corporal, evoluciones, presupuestos y ventas en un solo software, con tratamientos como{" "}
+              Ficha médica, ficha estética facial y ficha estética corporal, con evoluciones, presupuestos y ventas en un solo software, y tratamientos como{" "}
               <b style={{ color: "#0A0A0A" }}>Sculptra, Radiesse, Endoláser y Rinolips</b> ya cargados. Y si quieres más, la IA atiende tu WhatsApp y agenda por ti. Lo construimos para nuestras propias clínicas estéticas: <b style={{ color: "#0A0A0A" }}>Método Hebe y Protocolo Lumina</b>.
             </p>
 
             <div style={{ display: "flex", gap: 12, marginTop: 30, flexWrap: "wrap" }}>
-              <CtaPrimary as={Link} href="/agenda" style={{ padding: "15px 26px", fontSize: 16 }}>
-                Agendar demo <span>→</span>
+              <CtaPrimary as={Link} href={CTA_VENTAS_PATH} style={{ padding: "15px 26px", fontSize: 16 }}>
+                {CTA_VENTAS_LABEL} <span>→</span>
               </CtaPrimary>
               <CtaSecondary as={Link} href="#demo-3-min" style={{ padding: "15px 26px", fontSize: 16 }}>
                 <svg
@@ -4903,7 +4905,7 @@ export function FinalCTA() {
           }}
         >
           <div>
-            <Eyebrow style={{ color: "#D946EF" }}>Agenda tu demo</Eyebrow>
+            <Eyebrow style={{ color: "#D946EF" }}>Activa tu cuenta</Eyebrow>
             <h2
               style={{
                 fontFamily: "Inter",
@@ -4928,11 +4930,11 @@ export function FinalCTA() {
                 lineHeight: 1.55,
               }}
             >
-              30 minutos con ventas y te mostramos cómo quedaría tu operación con IA — sobre la agenda de todo tu equipo, tu base de datos y tus precios. Sin compromiso.
+              Crea tu cuenta en minutos y obtén {CUPON.descuentoPct}% de descuento el primer mes con el código {CUPON.codigo}. Ficha estética, evoluciones, presupuestos y la IA que agenda por ti.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link
-                href="/agenda"
+                href={CTA_VENTAS_PATH}
                 style={{
                   background: GRAD,
                   color: "#fff",
@@ -4949,7 +4951,7 @@ export function FinalCTA() {
                   boxShadow: "0 12px 32px -8px rgba(217,70,239,.5)",
                 }}
               >
-                Agendar demo <span>→</span>
+                {CTA_VENTAS_LABEL} <span>→</span>
               </Link>
               <Link
                 href="#demo-3-min"

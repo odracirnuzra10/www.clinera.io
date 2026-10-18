@@ -43,7 +43,8 @@ const cols: Col[] = [
     l: [
       ["Centro de ayuda", "/ayuda"],
       ["Migrar a Clinera", "/migracion"],
-      ["Agendar reunión", "/agenda"],
+      ["Activar cuenta", "/clinica-estetica/activar-cuenta"],
+      ["Agendar reunión", "/reunion-comercial"],
       ["Ley de Datos N° 21.719", "/seguridad"],
       ["Seguridad de datos", "/ley20584"],
       ["Normativa y acreditación", "/acreditacion"],

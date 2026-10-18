@@ -82,8 +82,18 @@ test.describe("Stripe → Meta CAPI: Purchase de suscripción", () => {
     expect(ev.custom_data.currency).toBe("USD");
   });
 
-  test("Flux y Ultra mandan CLIENTE con el valor del plan (89 y 179), no Purchase", () => {
-    for (const [nombre, valor] of [["Clinera Flux", 89], ["Flux", 89], ["Clinera Ultra", 179], ["Ultra", 179]] as const) {
+  // Ricardo, 18-oct-2026: «rellena formulario y paga: Cliente (con valor dinámico del plan)».
+  test("los planes vigentes y Ultra mandan CLIENTE con el valor del plan, no Purchase", () => {
+    for (const [nombre, valor] of [
+      ["Clinera Flux", 129],
+      ["Flux", 129],
+      ["Hurricane", 179],
+      ["Clinera Hurricane", 179],
+      ["Vortex", 279],
+      ["Plan Vortex · Clinera", 279],
+      ["Clinera Ultra", 179],
+      ["Ultra", 179],
+    ] as const) {
       const ev = buildConversionEvent(session, [nombre]);
       expect(ev.event_name, nombre).toBe("CLIENTE");
       expect(ev.event_id, nombre).toBe(clienteEventId("cs_live_a1B2"));
@@ -93,7 +103,7 @@ test.describe("Stripe → Meta CAPI: Purchase de suscripción", () => {
   });
 
   test("los planes viejos y las ventas sin nombre de producto siguen mandando Purchase", () => {
-    for (const nombre of ["Clinera Vortex", "Clinera Atlas", "Clinera Summit", "Plan Summit · Clinera"]) {
+    for (const nombre of ["Clinera Atlas", "Clinera Summit", "Plan Summit · Clinera"]) {
       expect(buildConversionEvent(session, [nombre]).event_name, nombre).toBe("Purchase");
     }
     expect(buildConversionEvent(session, []).event_name).toBe("Purchase");

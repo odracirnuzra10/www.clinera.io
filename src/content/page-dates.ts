@@ -62,7 +62,7 @@ export const PAGE_DATES: Record<
   "/migracion": { published: "2026-05-01", modified: "2026-08-01" },
   "/calculadora-de-consumo": { published: "2026-06-01", modified: "2026-08-26" },
   "/planes-pro": { published: "2026-06-01", modified: "2026-08-26" },
-  "/agenda": { published: "2025-06-01", modified: "2026-08-30" },
+  "/clinica-estetica/activar-cuenta": { published: "2026-10-18", modified: "2026-10-18" },
   "/ventas": { published: "2025-06-01", modified: "2026-08-26" },
   "/presentacion": { published: "2025-06-01", modified: "2026-08-27" },
   "/presentacion-partners": { published: "2026-08-01", modified: "2026-09-06" },

@@ -289,10 +289,10 @@ test("el clic de compra se cuenta una sola vez: lo hace el rastreador global de 
   expect(planes).toContain("data-plan-value={plan.monthlyUsd}");
 });
 
-test("clinera.io: el CTA principal del header es «Hablar con ventas» → /agenda (Ricardo, 18-oct-2026)", () => {
+test("clinera.io: el CTA principal del header es «Activar cuenta» → la landing (Ricardo, 18-oct-2026)", () => {
   const nav = readFileSync("src/components/brand-v3/Nav.tsx", "utf8");
-  expect(nav).toContain('DEFAULT_CTA_LABEL = "Hablar con ventas"');
-  expect(nav).toContain('DEFAULT_CTA_HREF = "/agenda"');
+  expect(nav).toContain("DEFAULT_CTA_LABEL = CTA_VENTAS_LABEL");
+  expect(nav).toContain("DEFAULT_CTA_HREF = CTA_VENTAS_PATH");
   // Ya no se promueve /go desde el header.
   expect(nav).not.toContain('DEFAULT_CTA_HREF = "/go"');
   // Las páginas que pasan su propio CTA (Google Ads → /agenda) no cambian.

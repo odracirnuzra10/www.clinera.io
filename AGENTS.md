@@ -547,9 +547,15 @@ formulario y no tenía dónde agendar — el embudo se cortaba ahí.
 
 Guardián: `tests/reserva-tu-hora.spec.ts` + `tests/telefono.spec.ts`.
 
-# `/agenda`: landing «Crea tu cuenta» con cupón CUKI (Ricardo, 18-oct-2026)
+# `/clinica-estetica/activar-cuenta`: LA landing «Crea tu cuenta» con cupón CUKI (Ricardo, 18-oct-2026)
 
-**Reemplaza al wizard con calendario en `/agenda`.** Componente
+**Una sola landing** (Ricardo: «unifiquemos y tengamos solo una landing»): es
+el destino de «Activar cuenta» del home (`CTA_VENTAS_PATH` / `CTA_VENTAS_LABEL`
+en `planes.ts`, que también usan Nav y banda) y de Google y Meta Ads.
+`/agenda`, `/activar-cuenta` y `/clinica-estetica` redirigen ahí (308, con la
+query: el gclid no se pierde). La landing vieja de Google Ads
+(`EsteticaAdsLanding`, demo con calendario) **se borró**. robots bloquea solo
+`/clinica-estetica$`; la ruta nueva está en el sitemap. Componente
 `src/components/agenda/AgendaCuentaLanding.tsx`, copy y datos en
 `src/content/agenda-oferta.ts`. «Software para clínicas estéticas con IA»; la IA
 es un plus, el centro es ficha, presupuestos y evoluciones.
@@ -564,18 +570,36 @@ es un plus, el centro es ficha, presupuestos y evoluciones.
 - **Desde el paso 2 la página es solo el wizard** (`enfocado`): se esconden el
   copy, la sección de estética y la banda, para que no haya hacia dónde bajar.
   Misma pestaña a propósito: una ventana nueva perdería lo escrito en el paso 1.
-  El paso 2 abre con el cupón en grande y botón «Copiar».
+  El paso 2 abre con el cupón en grande (`CuponTicket grande`, forma de ticket
+  con botón «Copiar código»).
 - **Paso 3**: los 3 planes con el cupón **CUKI** (50% el primer mes, cualquier
   plan; promo `promo_1URzy6RRk94z5RuMtG85pol0` en Stripe). Payment Links en
-  `LINKS_PAGO`. **`?prefilled_promo_code=CUKI` no aplica el descuento en estos
+  `LINKS_PAGO`; el botón dice «Crear cuenta · {plan}», no «Activar». Precio:
+  el 1er mes en grande y «Desde el 2.º mes» en chico. **`?prefilled_promo_code=CUKI` no aplica el descuento en estos
   links** (probado el 18-oct: el total quedó entero): la clínica escribe el
   código. Precargarlo pide una Checkout Session con `discounts` y una llave con
   escritura. El cupón vence al día siguiente de la primera visita (`useCupon.ts`,
-  compartido con `/planes` y `/clinica-estetica`). «Prefiero hablar con ventas
+  compartido con `/planes`). «Prefiero hablar con ventas
   antes» abre `StepClineraScheduler`: la reserva sigue emitiendo el MQL.
-- **Landing breve:** sin lista de beneficios; `EsteticaSection compacta cupon`
-  (foto con el cupón en vez del precio, sin las 4 tarjetas). En móvil, un botón
-  fijo vuelve al formulario cuando no está a la vista (`data-volver-form`).
+- **Embudo en el pixel del sitio (Ricardo, 18-oct-2026):** rellena el formulario
+  = `Lead` US$ 3 (`fireLeadEvent`, pixel + CAPI, al pasar el paso 1); además
+  agenda con ventas = `MQL` US$ 10 (la reserva); paga = `CLIENTE` con el valor
+  del plan (Flux 129 · Hurricane 179 · Vortex 279; `planVigenteDe` en
+  `meta-purchase.ts`, por el webhook de Stripe). **`SQL` US$ 30** (MQL que se
+  presenta a la llamada y califica) **no vive acá**: lo emite W1 de n8n desde el
+  CRM, que hoy manda SQL US$ 100 al pixel viejo `1104567405156111`. Cambiarlo es
+  en n8n (`integrations/n8n/crm-etapas-meta-capi.mapeo.js` + aplicador).
+- **Landing breve:** al lado del wizard, lista de funciones (`FUNCIONES_HERO`,
+  formato de la vieja `/clinica-estetica`) y prueba social
+  (`PRUEBA_SOCIAL_ESTETICA`: «5/5 en Capterra», «más de 100 clínicas estéticas
+  en Chile y México», cifras de Ricardo del 18-oct; reemplazan «+52 clínicas ·
+  Hecho en Método Hebe y Protocolo Lumina» en esta landing). Debajo,
+  `EsteticaSection compacta cupon` (foto con el cupón en vez del precio). En
+  móvil, un botón fijo vuelve al formulario (`data-volver-form`). Entre el hero y
+  la foto: `ChatAgendaIA` (WhatsApp → cita en la agenda, CSS puro, datos de
+  ejemplo en `CHAT_AGENDA_IA`) y `FichasCarrusel` (ficha médica estándar, facial,
+  corporal y presupuesto; `FICHAS_CARRUSEL`). Carrusel con ancho fijo por tarjeta:
+  `minmax(0, …)` las aplastaba.
 - El wizard con calendario (lo de abajo) **sigue vivo en `/reunion-comercial`**;
   `tests/agenda-wizard.spec.ts` lo prueba ahí. Guardián: `tests/agenda-cuenta.spec.ts`.
 
@@ -734,10 +758,12 @@ Lo pinta `src/components/pricing/PlanesVigentes.tsx` en home, `/planes` y las
 landings `software-vertical`; también alimenta `softwareOffers` (schema),
 `planes-faq.ts`, `/agenda` («Planes desde…») y `public/llms.txt`.
 
-- **CTA: «Hablar con ventas» → `/agenda`** con la query de la visita (Nav,
-  banda, tarjetas). **Solo `/planes`** (`PlanesVigentes conPago`) suma el
-  Payment Link de cada plan y el aviso del cupón CUKI; el home y las landings
-  no. `/go` (Go! US$ 17) sigue vivo pero el sitio **no lo promueve**.
+- **Un solo CTA: «Activar cuenta» → `/clinica-estetica/activar-cuenta`** con
+  el plan y la query de la visita (Nav, banda, tarjetas, flotante). `/planes`
+  **no cobra** (Ricardo, 18-oct: «el único CTA es activar cuenta»): suma el cupón
+  CUKI (`CuponBanner`) y el 1er mes en grande (`PlanesVigentes conPago`); el pago
+  o la reunión con ventas se deciden en la landing. `/go` (Go! US$ 17) sigue vivo
+  pero el sitio **no lo promueve**.
 - **Sin costo de implementación** (Ricardo, 18-oct-2026: «elimina costo de
   implementación»; el US$ 250 duró horas). `SETUP_FEE_USD = 450` de `pricing.ts`
   **sigue** en los contratos de `/firma` y en `/cotizacion`: migrar contratos es
@@ -747,6 +773,8 @@ landings `software-vertical`; también alimenta `softwareOffers` (schema),
   (`destacadoDe`, `IconoDestacado`). Créditos CI: Flux 100 · Hurricane 200 ·
   Vortex 500. Canales: WhatsApp, Facebook, Instagram y email marketing en los
   tres; Vortex suma **llamada telefónica** (`telefono` en `PlanChannelLogos`).
+  Vortex usa un tema magenta claro (`TEMA_VORTEX`): el violeta intenso de
+  `summit` no dejaba ver íconos ni chips.
 - **«Créditos CI» = créditos de Clinera Intelligence**, el agente IA dentro del
   software (Ricardo, 18-oct-2026). Las funciones de cada tarjeta están enfocadas
   en la clínica estética (ficha médica personalizable, ficha facial y corporal,
@@ -766,24 +794,21 @@ landings `software-vertical`; también alimenta `softwareOffers` (schema),
   falta que Ricardo diga en qué plan nuevo van.
 Guardián: `tests/planes-vigentes.spec.ts`.
 
-# Nicho estético: home y `/clinica-estetica` (Ricardo, 18-oct-2026)
+# Nicho estético: home y la landing (Ricardo, 18-oct-2026)
 
 Clinera se enfoca en **clínicas estéticas** (enfermeras, médicos estéticos,
 clínicas y centros de estética) y en segundo lugar médicas: es donde el
 producto brilla, porque nació en Método Hebe (corporal) y Protocolo Lumina
 (facial). El copy del nicho vive en `src/content/estetica.ts` y lo consumen
-el home (hero + `EsteticaSection` bajo el video) y la landing de Google Ads.
+el home (hero + `EsteticaSection`) y `/clinica-estetica/activar-cuenta`.
 Los tratamientos precargados (Sculptra, Radiesse, Endoláser, Rinolips) son los
 que nombró Ricardo: no agregues otros sin que él lo confirme.
 
-`/clinica-estetica` es el **destino de Google Ads** para estética, no la página
-SEO (esa es `/software-estetica`): `noindex`, `Disallow` y fuera del sitemap.
-Copia el patrón de Reservo/Medilink: wizard corto (nombre, tipo de clínica,
-correo, WhatsApp) y después el **mismo calendario de `/agenda`**
-(`StepClineraScheduler` importado, nunca copiado). El perfil exacto viaja como
-`subtipo_clinica` en el payload; `tipo_clinica` sigue siendo `estetica` o
-`medica` para n8n. El MQL sale al reservar, una vez. No toca `/go`.
-Guardián: `tests/clinica-estetica.spec.ts`.
+`/clinica-estetica` ya no es una página: redirige a la landing única (ver
+arriba). La landing vieja de Google Ads (wizard corto + calendario, perfil en
+`subtipo_clinica`) se borró el 18-oct; `PERFILES_ESTETICA` y `ESTETICA_LP_FAQ`
+quedaron sin uso en `estetica.ts`. Guardián de los redirects:
+`tests/clinica-estetica.spec.ts`.
 
 **Fotos y franja (18-oct):** `EsteticaSection` lleva una modelo con el copy de
 los anuncios de Ricardo (`MODELOS_ESTETICA`: la dueña en el home, la enfermera
@@ -798,12 +823,12 @@ reales. Everest usa `everest-mono.png` (el original trae fondo azul).
 
 `src/components/agente-ia/AgenteIABanda.tsx`: panel oscuro de tipografía
 gigante que rompe el ritmo light del sitio a propósito. **Va siempre** en el
-home, en las landings (`/clinica-estetica`, todas las `software-vertical`) y
+home, en las landings (`/clinica-estetica/activar-cuenta`, todas las `software-vertical`) y
 en cada artículo del blog (`/blog/[slug]`, variante `enColumna`). Una por
 página. Canales: WhatsApp, Facebook, Instagram y llamadas; la nota «El agente
-IA de texto y voz viene en el plan Summit» no se saca. CTA «Hablar con ventas»
-a `/agenda` con la query de la visita; en `/clinica-estetica` baja al
-formulario (`#agenda-demo`), porque esa landing solo vende la reunión. Usa
+IA de texto y voz viene en el plan Summit» no se saca. CTA «Activar cuenta» a
+la landing con la query de la visita; dentro de la landing baja al formulario
+(`#crear-cuenta`). Usa
 `aria-label`, no `aria-labelledby`: un nombre accesible con «WhatsApp» hacía
 que `getByLabel("WhatsApp")` de los tests de formularios encontrara la banda.
 Guardián: `tests/agente-ia-banda.spec.ts` (también vigila el ranking

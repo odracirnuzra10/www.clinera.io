@@ -3,32 +3,33 @@
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { CtaPrimary, GRAD, Wordmark } from "./Brand";
+import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH } from "@/content/planes";
 
 type NavV3Props = {
-  /** Destino del botón principal. Sin esto: `/agenda` («Hablar con ventas», Ricardo 18-oct-2026). */
+  /** Destino del botón principal. Sin esto: `/clinica-estetica/activar-cuenta` («Activar cuenta», Ricardo 18-oct-2026). */
   ctaHref?: string;
   ctaLabel?: string;
   /**
-   * Enlace discreto «Hablar con ventas» junto al botón principal. Apagado por
-   * defecto desde el 18-oct-2026: el botón principal ya es ventas.
+   * Enlace discreto «Hablar con ventas» (→ /reunion-comercial) junto al botón
+   * principal. Apagado por defecto.
    */
   salesLink?: boolean;
 };
 
-// Ricardo, 18-oct-2026: el CTA vuelve a ser «Hablar con ventas» → /agenda.
+// Ricardo, 18-oct-2026: el CTA es «Activar cuenta» → /clinica-estetica/activar-cuenta.
 // /go (Go! US$ 17) sigue existiendo, pero el sitio ya no lo promueve.
-const DEFAULT_CTA_HREF = "/agenda";
-const DEFAULT_CTA_LABEL = "Hablar con ventas";
-const SALES_HREF = "/agenda";
+const DEFAULT_CTA_HREF = CTA_VENTAS_PATH;
+const DEFAULT_CTA_LABEL = CTA_VENTAS_LABEL;
+const SALES_HREF = "/reunion-comercial";
 
 const noop = () => () => {};
 const readSearch = () => window.location.search;
 const readSearchServer = () => "";
 
 export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
-  // El botón principal ya es ventas: el enlace discreto duplicaría el mismo destino.
+  // El enlace discreto a ventas va apagado salvo que una página lo pida.
   const showSales = salesLink ?? false;
-  // Al ir a /agenda se conserva la query de la visita (UTM, fbclid, gclid): la
+  // Al ir a la landing se conserva la query de la visita (UTM, fbclid, gclid): la
   // atribución del lead depende de ella.
   const search = useSyncExternalStore(noop, readSearch, readSearchServer);
   const primaryHref = ctaHref ?? `${DEFAULT_CTA_HREF}${search}`;

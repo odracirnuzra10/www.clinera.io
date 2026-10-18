@@ -50,7 +50,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     staticEntry('/demo', 'monthly', 0.9),
     staticEntry('/app', 'monthly', 0.75),
     staticEntry('/reunion-comercial', 'monthly', 0.8),
-    staticEntry('/agenda', 'monthly', 0.9),
+    staticEntry('/clinica-estetica/activar-cuenta', 'monthly', 0.9),
     staticEntry('/ventas', 'monthly', 0.6),
     staticEntry('/presentacion', 'monthly', 0.7),
     staticEntry('/presentacion-partners', 'monthly', 0.7),

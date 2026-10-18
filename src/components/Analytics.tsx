@@ -292,7 +292,7 @@ const ENGAGEMENT_SRC = `(function(){
       var ctx = 'general';
       var pp = location.pathname;
       if (pp.indexOf('/clinicas/') === 0) ctx = 'clinic';
-      else if (pp === '/agenda' || pp === '/reunion' || pp === '/gracias') ctx = 'sales';
+      else if (pp === '/clinica-estetica/activar-cuenta' || pp === '/reunion-comercial' || pp === '/gracias') ctx = 'sales';
       else if (pp.indexOf('/comparativas/') === 0) ctx = 'comparative';
       else if (pp.indexOf('/recursos/') === 0) ctx = 'recurso';
       DL().push({

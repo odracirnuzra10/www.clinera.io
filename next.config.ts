@@ -320,8 +320,26 @@ const nextConfig: NextConfig = {
       // Comparación local: la estructura Hebe ya es /agenda.
       {
         source: '/agenda-hebe',
-        destination: '/agenda',
+        destination: '/clinica-estetica/activar-cuenta',
         permanent: false,
+      },
+      // Ricardo, 18-oct-2026: una sola landing, /clinica-estetica/activar-cuenta.
+      // /agenda y /clinica-estetica siguen en anuncios, correos y enlaces viejos:
+      // redirigen con la query (utm, gclid, fbclid), que Next conserva.
+      {
+        source: '/agenda',
+        destination: '/clinica-estetica/activar-cuenta',
+        permanent: true,
+      },
+      {
+        source: '/activar-cuenta',
+        destination: '/clinica-estetica/activar-cuenta',
+        permanent: true,
+      },
+      {
+        source: '/clinica-estetica',
+        destination: '/clinica-estetica/activar-cuenta',
+        permanent: true,
       },
       // El constructor de cotizaciones se movio a cotizacion.oacg.cl, que ya
       // cotiza las tres marcas (Clinera con su propio catalogo y checkout de
@@ -453,12 +471,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/reunion',
-        destination: '/agenda',
+        destination: '/clinica-estetica/activar-cuenta',
         permanent: true,
       },
       {
         source: '/hablar-con-ventas',
-        destination: '/agenda',
+        destination: '/clinica-estetica/activar-cuenta',
         permanent: true,
       },
       // /organigrama es el nombre por el que la gente busca la presentacion de

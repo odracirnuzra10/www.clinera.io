@@ -149,3 +149,86 @@ export const MODELOS_ESTETICA = {
 } as const;
 
 export type ModeloEsteticaId = keyof typeof MODELOS_ESTETICA;
+
+/**
+ * Prueba social bajo el hero de /activar-cuenta y /clinica-estetica (Ricardo,
+ * 18-oct-2026: reemplaza «+52 clínicas activas · Hecho en Método Hebe y
+ * Protocolo Lumina»). Cifras dictadas por él.
+ */
+export const PRUEBA_SOCIAL_ESTETICA = [
+  "5/5 de calificación en Capterra",
+  "Usado por más de 100 clínicas estéticas en Chile y México",
+] as const;
+
+/**
+ * Animación «la IA agenda por WhatsApp y la cita queda en Clinera» de la landing
+ * (Ricardo, 18-oct-2026). Datos de ejemplo: no son pacientes reales. Los
+ * tratamientos son los precargados que nombró Ricardo.
+ */
+export const CHAT_AGENDA_IA = {
+  meta: "Agente IA · WhatsApp",
+  titulo: "Tu paciente escribe.",
+  acento: "La IA la agenda en Clinera.",
+  texto:
+    "Responde a cualquier hora, ofrece las horas libres de tu agenda y deja la cita creada. Tu equipo solo ve llegar la reserva.",
+  clinica: "Clínica Estética Vela",
+  mensajes: [
+    "Hola 👋 ¿Tienen hora para Radiesse esta semana?",
+    "¡Hola Carla! Tengo el jueves a las 11:30 o a las 16:30. ¿Cuál te acomoda?",
+    "Jueves 16:30 🙌",
+    "Listo ✅ Quedaste agendada el jueves 16:30 con la Dra. Vela. Te llegará un recordatorio.",
+  ],
+  agenda: [
+    {
+      dia: "Mié",
+      citas: [
+        { hora: "10:00", tratamiento: "Sculptra", paciente: "Ana M." },
+        { hora: "15:00", tratamiento: "Endoláser", paciente: "Paula S." },
+      ],
+    },
+    {
+      dia: "Jue",
+      citas: [{ hora: "11:00", tratamiento: "Rinolips", paciente: "Josefa T." }],
+      nueva: { hora: "16:30", tratamiento: "Radiesse", paciente: "Carla R." },
+    },
+    {
+      dia: "Vie",
+      citas: [
+        { hora: "12:00", tratamiento: "Control", paciente: "Daniela F." },
+        { hora: "17:00", tratamiento: "Endoláser", paciente: "María P." },
+      ],
+    },
+  ],
+} as const;
+
+/**
+ * Carrusel «Fichas y presupuestos para tu clínica» (Ricardo, 18-oct-2026): ficha
+ * médica estándar, ficha estética facial, ficha estética corporal y presupuesto.
+ */
+export const FICHAS_CARRUSEL = {
+  meta: "Fichas y presupuestos",
+  titulo: "Fichas y presupuestos",
+  acento: "para tu clínica.",
+  slides: [
+    {
+      id: "medica",
+      titulo: "Ficha médica estándar",
+      texto: "Anamnesis, antecedentes, alergias, medicamentos y consentimiento firmado. Personalizable por tu clínica.",
+    },
+    {
+      id: "facial",
+      titulo: "Ficha estética facial",
+      texto: "Evaluación con tercios faciales y eje de simetría, fotos antes y después, y evolución por sesión.",
+    },
+    {
+      id: "corporal",
+      titulo: "Ficha estética corporal",
+      texto: "Zonas marcadas sobre el cuerpo (abdomen, flancos, muslos) y fotos por sesión para ver el avance del tratamiento.",
+    },
+    {
+      id: "presupuesto",
+      titulo: "Presupuestos",
+      texto: "Armados desde la evaluación y enviados por WhatsApp, con seguimiento hasta que el paciente agenda.",
+    },
+  ],
+} as const;
