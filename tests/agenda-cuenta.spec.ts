@@ -72,9 +72,19 @@ test("la landing recuerda la primera visita: el vencimiento no se corre", async 
 test("landing: datos → CRM, funciones y los 3 planes con el cupón", async ({ page }) => {
   await mockRed(page);
   const wizard = grabarWizard(page);
+  const capi: { event_name?: string; user_data?: { em?: string }; custom_data?: Record<string, unknown> }[] = [];
+  page.on("request", (req) => {
+    if (req.url().includes("/api/meta/capi") && req.method() === "POST") capi.push(JSON.parse(req.postData() || "{}"));
+  });
   await page.goto("/clinica-estetica/activar-cuenta", { waitUntil: "domcontentloaded" });
 
   await expect(page.getByRole("heading", { level: 1 })).toContainText(/Crea tu cuenta y actívala en minutos/);
+  // Landing corta: la IA agendando por WhatsApp y el carrusel de fichas y presupuestos.
+  await expect(page.locator("[data-chat-agenda-ia]")).toHaveCount(1);
+  await expect(page.locator("[data-fichas-carrusel] [data-ficha]")).toHaveCount(4);
+  for (const f of ["medica", "facial", "corporal", "presupuesto"]) {
+    await expect(page.locator(`[data-ficha="${f}"]`)).toHaveCount(1);
+  }
   // Al lado del wizard: lo que trae Clinera y la prueba social nueva.
   await expect(page.locator("[data-funciones-hero] li")).toHaveCount(FUNCIONES_HERO.length);
   await expect(page.locator("main, body").first()).toContainText("5/5 de calificación en Capterra");
@@ -90,6 +100,13 @@ test("landing: datos → CRM, funciones y los 3 planes con el cupón", async ({ 
   await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Clínica");
   await page.getByRole("radio", { name: "4–6" }).click();
   await page.getByRole("button", { name: /Continuar/ }).click();
+
+  // Embudo de Meta (Ricardo, 18-oct-2026): rellenar el formulario = Lead (pixel + CAPI).
+  await expect.poll(() => capi.map((c) => c.event_name)).toContain("Lead");
+  const lead = capi.find((c) => c.event_name === "Lead")!;
+  expect(lead.user_data?.em, "correo hasheado").toMatch(/^[a-f0-9]{64}$/);
+  expect(lead.custom_data).toMatchObject({ value: 3, currency: "USD" }); // Lead US$ 3
+  expect(capi.filter((c) => c.event_name === "MQL")).toHaveLength(0); // el MQL es al agendar
 
   // El lead se manda al CRM en el paso 1.
   await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();

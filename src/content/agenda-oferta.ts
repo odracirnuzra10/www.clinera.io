@@ -122,7 +122,7 @@ export const PROFESIONALES = [
 export const AGENDA_COPY = {
   eyebrow: "Software para clínicas estéticas con IA",
   h1: "Crea tu cuenta y actívala en minutos.",
-  sub: "Ficha médica y estética facial y corporal, presupuestos, evoluciones y ventas en un solo lugar. Completa los datos de tu clínica y te mostramos la oferta para activarla.",
+  sub: "Ficha médica, ficha estética facial y ficha estética corporal, con evoluciones, presupuestos y ventas en un solo lugar. Completa los datos de tu clínica y te mostramos la oferta para activarla.",
   beneficios: [
     "Ficha estética facial y corporal, con fotos y consentimientos",
     "Presupuestos y evoluciones por sesión",

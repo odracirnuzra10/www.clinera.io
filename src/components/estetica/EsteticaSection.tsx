@@ -177,20 +177,28 @@ export default function EsteticaSection({
   ctaLabel?: string;
   /** Muestra el cupón CUKI en vez del precio del plan de entrada (/agenda). */
   cupon?: boolean;
-  /** Sin las 4 tarjetas de funciones: foto + logos (/agenda, landing breve). */
+  /** Landing breve: sin título, bajada ni las 4 tarjetas; solo la foto y los logos. */
   compacta?: boolean;
 }) {
   return (
-    <section id={id} className={styles.section} aria-labelledby={`${id}-h2`}>
+    <section
+      id={id}
+      className={styles.section}
+      {...(compacta ? { "aria-label": "Hecho para clínicas estéticas" } : { "aria-labelledby": `${id}-h2` })}
+    >
       <div className={styles.inner}>
-        <span className={styles.meta}>Hecho para estética facial y corporal</span>
-        <h2 id={`${id}-h2`} className={styles.h2}>
-          Un software que <span className={styles.grad}>entiende tu clínica estética</span>.
-        </h2>
-        <p className={styles.lead}>
-          Ficha médica y estética facial y corporal, evoluciones, presupuestos y tratamientos ya
-          cargados. Lo que hace tu equipo en box queda en el sistema, listo para la siguiente sesión.
-        </p>
+        {!compacta && (
+          <>
+            <span className={styles.meta}>Hecho para estética facial y corporal</span>
+            <h2 id={`${id}-h2`} className={styles.h2}>
+              Un software que <span className={styles.grad}>entiende tu clínica estética</span>.
+            </h2>
+            <p className={styles.lead}>
+              Ficha médica, ficha estética facial y ficha estética corporal, con evoluciones, presupuestos
+              y tus tratamientos ya cargados. Lo que hace tu equipo en box queda registrado para la próxima sesión.
+            </p>
+          </>
+        )}
 
         {modelo && <Modelo id={modelo} ctaHref={ctaHref} ctaLabel={ctaLabel} cupon={cupon} />}
 

@@ -28,6 +28,8 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand-v3/Brand";
 import EsteticaSection from "@/components/estetica/EsteticaSection";
+import ChatAgendaIA from "@/components/estetica/ChatAgendaIA";
+import FichasCarrusel from "@/components/estetica/FichasCarrusel";
 import AgenteIABanda from "@/components/agente-ia/AgenteIABanda";
 import {
   detectLeadSource,
@@ -56,6 +58,7 @@ import {
 import { destacadoDe } from "@/content/planes";
 import { IconoDestacado } from "@/components/pricing/IconoDestacado";
 import { textoVence, useVenceCupon } from "./useCupon";
+import { fireLeadEvent } from "@/lib/metaEvents";
 import CuponTicket from "./CuponTicket";
 import {
   RESERVA_PHONE_PREFIXES,
@@ -158,6 +161,14 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
     pushDL("agenda_step_complete", { step: 1, step_name: "datos", tamano_boxes: profesionales, source_path: SOURCE_PATH });
     setIntentado(false);
     setPaso(2);
+    // Embudo de Meta (Ricardo, 18-oct-2026): formulario = Lead; agendar con
+    // ventas = MQL (lo dispara la reserva); pagar = CLIENTE (lo manda Stripe →
+    // /api/stripe/meta-purchase con el valor del plan).
+    void fireLeadEvent({
+      eventId: ctx.eventId,
+      contact: { email: email.trim(), phoneE164: aE164(prefix, digitos) },
+      customData: { content_name: "activar_cuenta", lead_source: ctx.leadSource },
+    });
     // Al CRM en el paso 1 (Ricardo): el lead que abandona igual queda. No se espera a n8n.
     void submitContactLead({
       form: { ...form, funciones: null },
@@ -238,7 +249,7 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
         )}
 
         <div className={base.formCol} id="crear-cuenta" ref={formRef}>
-          <div className={`${base.card} ${styles.cardDestacada}`}>
+          <div className={`${base.card} ${styles.cardDestacada} ${anchoEscritorio ? styles.cardAncha : ""}`}>
             {booking ? (
               <div className={base.done}>
                 <div className={base.doneCheck} aria-hidden>
@@ -527,6 +538,9 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
 
       {!enfocado && (
         <>
+      {/* Corta y con aire (Ricardo, 18-oct-2026): la IA agendando, las fichas, la foto con el cupón y la banda. */}
+      <ChatAgendaIA />
+      <FichasCarrusel />
       <EsteticaSection id="hecho-para-estetica" modelo="duena" ctaHref="#crear-cuenta" ctaLabel="Crear mi cuenta" cupon compacta />
       <AgenteIABanda href="#crear-cuenta" ctaLabel="Crear mi cuenta" />
         </>

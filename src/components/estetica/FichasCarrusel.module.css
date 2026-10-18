@@ -1,0 +1,228 @@
+.section {
+  padding: 24px 80px;
+  background: #fff;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.meta {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.h2 {
+  margin: 14px 0 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 44px;
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  color: #0a0a0a;
+}
+
+.grad {
+  background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.flechas {
+  display: flex;
+  gap: 8px;
+}
+
+.flechas button {
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-size: 18px;
+  color: #0a0a0a;
+  cursor: pointer;
+}
+
+.flechas button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.track {
+  display: grid;
+  grid-auto-flow: column;
+  /* Ancho fijo (no minmax(0, …)): con 0 de mínimo las tarjetas se encogían a la fuerza
+     y no quedaba nada que deslizar. Escritorio: ~2,4 tarjetas a la vista. */
+  grid-auto-columns: calc((100% - 48px) / 2.4);
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 6px;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  scroll-snap-align: start;
+  border: 1px solid #ececf1;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 24px 50px -36px rgba(76, 29, 149, 0.4);
+}
+
+.visual {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(145deg, #f7f5ff 0%, #fdf2fb 100%);
+  display: grid;
+  place-items: center;
+}
+
+.visual img {
+  object-fit: cover;
+}
+
+.body {
+  padding: 20px 22px 22px;
+}
+
+.body h3 {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0a0a0a;
+}
+
+.body p {
+  margin: 8px 0 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: #4b5563;
+}
+
+/* Mockups de ficha médica y presupuesto */
+.mock {
+  width: min(86%, 420px);
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 14px;
+  font-family: Inter, system-ui, sans-serif;
+  box-shadow: 0 16px 34px -24px rgba(15, 10, 30, 0.35);
+}
+
+.mockHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0a0a0a;
+  margin-bottom: 8px;
+}
+
+.mockMeta {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #7c3aed;
+}
+
+.mockRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-top: 1px solid #f0f0f3;
+  font-size: 12.5px;
+  color: #6b7280;
+}
+
+.mockRow b {
+  color: #111827;
+  font-weight: 600;
+  text-align: right;
+}
+
+.mockOk {
+  margin-top: 8px;
+  padding: 7px 9px;
+  border-radius: 8px;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.dot,
+.dotOn {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #e5e7eb;
+  cursor: pointer;
+}
+
+.dotOn {
+  width: 26px;
+  background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
+}
+
+@media (max-width: 1000px) {
+  .section {
+    padding: 16px 24px;
+  }
+  .h2 {
+    font-size: 34px;
+  }
+  .track {
+    grid-auto-columns: 78%;
+  }
+}
+
+@media (max-width: 560px) {
+  .section {
+    padding: 8px 16px;
+  }
+  .flechas {
+    display: none;
+  }
+  .track {
+    grid-auto-columns: 86%;
+    gap: 14px;
+  }
+  .visual {
+    aspect-ratio: 4 / 3.2;
+  }
+}

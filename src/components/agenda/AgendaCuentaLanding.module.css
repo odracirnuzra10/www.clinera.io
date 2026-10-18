@@ -353,30 +353,49 @@ section.enfocado {
     grid-template-columns: 1fr 1fr;
   }
 
+  /* Más aire en el paso 3 (Ricardo, 18-oct-2026). */
+  div.cardAncha {
+    padding: 44px 48px 40px;
+  }
+
   .paso3Head {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
     align-items: center;
-    gap: 32px;
-    margin-bottom: 8px;
+    gap: 48px;
+    margin-bottom: 12px;
   }
 
   .planes {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
+    gap: 28px;
     align-items: stretch;
-    margin-top: 22px;
+    margin-top: 40px;
   }
 
   .plan {
     display: flex;
     flex-direction: column;
-    padding: 22px 20px 18px;
+    padding: 30px 28px 26px;
   }
 
   .plan .incluye {
-    margin-bottom: 18px;
+    margin: 18px 0 26px;
+    gap: 12px;
+  }
+
+  /* Tres tarjetas lado a lado: el monto un poco más chico y «1er mes» en una línea. */
+  .plan .ofertaMonto {
+    font-size: 46px;
+  }
+
+  .plan .ofertaPer {
+    white-space: nowrap;
+  }
+
+  .planes + .ventas {
+    margin-top: 36px;
   }
 
   /* El botón de pago al fondo, alineado en las tres tarjetas. */
@@ -389,6 +408,10 @@ section.enfocado {
     max-width: 420px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .paso2 {
+    gap: 56px;
   }
 }
 

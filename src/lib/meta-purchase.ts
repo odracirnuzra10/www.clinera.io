@@ -16,13 +16,14 @@
 
 import { createHash } from "node:crypto";
 import type Stripe from "stripe";
-import { FLUX, GO, ULTRA } from "@/content/planes2";
+import { GO, ULTRA } from "@/content/planes2";
+import { PLANES, type Plan } from "@/content/planes";
 import { clienteEventId, purchaseEventId, trialEventId } from "@/lib/meta-purchase-id";
 
 export const PURCHASE_EVENT_NAME = "Purchase";
 /** Go! (USD 17): quien paga es un TRIAL (Ricardo, 17-oct). */
 export const TRIAL_EVENT_NAME = "TRIAL";
-/** Flux (USD 89) y Ultra (USD 179): quien paga es un CLIENTE. */
+/** Planes vigentes (Flux 129 · Hurricane 179 · Vortex 279) y Ultra (179): quien paga es un CLIENTE. */
 export const CLIENTE_EVENT_NAME = "CLIENTE";
 
 export { clienteEventId, purchaseEventId, trialEventId };
@@ -122,6 +123,19 @@ export function isUltraPlan(productNames: string[]): boolean {
   return productNames.some((n) => /(^|\s)ultra(\s|$)/i.test(n.trim()));
 }
 
+/**
+ * Plan vigente (`planes.ts`) por el nombre del producto en Stripe: «Flux»,
+ * «Hurricane», «Vortex» (con o sin «Clinera» o «Plan» delante). Ricardo,
+ * 18-oct-2026: «rellena formulario y paga: Cliente, con valor dinámico del plan».
+ */
+export function planVigenteDe(productNames: string[]): Plan | null {
+  for (const p of PLANES) {
+    const re = new RegExp(`(^|\\s)${p.name}(\\s|$)`, "i");
+    if (productNames.some((n) => re.test(n.trim()))) return p;
+  }
+  return null;
+}
+
 /** Monedas sin decimales en Stripe: `amount_total` ya viene entero (CLP 17.401 = 17401). */
 const ZERO_DECIMAL = new Set(["bif", "clp", "djf", "gnf", "jpy", "kmf", "krw", "mga", "pyg", "rwf", "ugx", "vnd", "vuv", "xaf", "xof", "xpf"]);
 
@@ -133,8 +147,9 @@ export function sessionValue(session: Stripe.Checkout.Session): number {
 /**
  * Evento de conversión de la sesión (Ricardo, 17-oct):
  *  · Go! (USD 17)            → `TRIAL`   USD 17
- *  · Flux (89) y Ultra (179) → `CLIENTE` USD 89 / 179
- *  · cualquier otro (planes viejos, /firma) → `Purchase` con el valor cobrado.
+ *  · Flux (129), Hurricane (179), Vortex (279) — planes vigentes, 18-oct — y
+ *    Ultra (179) → `CLIENTE` con el valor del plan
+ *  · cualquier otro (Atlas/Summit viejos, /firma) → `Purchase` con el valor cobrado.
  * El valor sale del catálogo, en USD: la sesión puede cobrar en CLP o con cupón.
  */
 export function buildConversionEvent(session: Stripe.Checkout.Session, productNames: string[] = []): CapiEvent {
@@ -142,7 +157,9 @@ export function buildConversionEvent(session: Stripe.Checkout.Session, productNa
   if (isGoPlan(productNames)) {
     return { ...ev, event_name: TRIAL_EVENT_NAME, event_id: trialEventId(session.id), custom_data: { ...ev.custom_data, value: GO.monthlyUsd, currency: "USD" } };
   }
-  const cliente = isUltraPlan(productNames) ? ULTRA : isFluxPlan(productNames) ? FLUX : null;
+  // El valor es el precio de catálogo del plan, no lo cobrado: con CUKI el 1er mes
+  // se paga la mitad y la sesión puede venir en CLP.
+  const cliente = planVigenteDe(productNames) ?? (isUltraPlan(productNames) ? ULTRA : null);
   if (cliente) {
     return { ...ev, event_name: CLIENTE_EVENT_NAME, event_id: clienteEventId(session.id), custom_data: { ...ev.custom_data, value: cliente.monthlyUsd, currency: "USD" } };
   }

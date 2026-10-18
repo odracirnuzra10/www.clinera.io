@@ -581,13 +581,25 @@ es un plus, el centro es ficha, presupuestos y evoluciones.
   escritura. El cupón vence al día siguiente de la primera visita (`useCupon.ts`,
   compartido con `/planes`). «Prefiero hablar con ventas
   antes» abre `StepClineraScheduler`: la reserva sigue emitiendo el MQL.
+- **Embudo en el pixel del sitio (Ricardo, 18-oct-2026):** rellena el formulario
+  = `Lead` US$ 3 (`fireLeadEvent`, pixel + CAPI, al pasar el paso 1); además
+  agenda con ventas = `MQL` US$ 10 (la reserva); paga = `CLIENTE` con el valor
+  del plan (Flux 129 · Hurricane 179 · Vortex 279; `planVigenteDe` en
+  `meta-purchase.ts`, por el webhook de Stripe). **`SQL` US$ 30** (MQL que se
+  presenta a la llamada y califica) **no vive acá**: lo emite W1 de n8n desde el
+  CRM, que hoy manda SQL US$ 100 al pixel viejo `1104567405156111`. Cambiarlo es
+  en n8n (`integrations/n8n/crm-etapas-meta-capi.mapeo.js` + aplicador).
 - **Landing breve:** al lado del wizard, lista de funciones (`FUNCIONES_HERO`,
   formato de la vieja `/clinica-estetica`) y prueba social
   (`PRUEBA_SOCIAL_ESTETICA`: «5/5 en Capterra», «más de 100 clínicas estéticas
   en Chile y México», cifras de Ricardo del 18-oct; reemplazan «+52 clínicas ·
   Hecho en Método Hebe y Protocolo Lumina» en esta landing). Debajo,
   `EsteticaSection compacta cupon` (foto con el cupón en vez del precio). En
-  móvil, un botón fijo vuelve al formulario (`data-volver-form`).
+  móvil, un botón fijo vuelve al formulario (`data-volver-form`). Entre el hero y
+  la foto: `ChatAgendaIA` (WhatsApp → cita en la agenda, CSS puro, datos de
+  ejemplo en `CHAT_AGENDA_IA`) y `FichasCarrusel` (ficha médica estándar, facial,
+  corporal y presupuesto; `FICHAS_CARRUSEL`). Carrusel con ancho fijo por tarjeta:
+  `minmax(0, …)` las aplastaba.
 - El wizard con calendario (lo de abajo) **sigue vivo en `/reunion-comercial`**;
   `tests/agenda-wizard.spec.ts` lo prueba ahí. Guardián: `tests/agenda-cuenta.spec.ts`.
 
@@ -746,12 +758,12 @@ Lo pinta `src/components/pricing/PlanesVigentes.tsx` en home, `/planes` y las
 landings `software-vertical`; también alimenta `softwareOffers` (schema),
 `planes-faq.ts`, `/agenda` («Planes desde…») y `public/llms.txt`.
 
-- **CTA: «Activar cuenta» → `/clinica-estetica/activar-cuenta`** con la query
-  de la visita (Nav, banda, tarjetas). **Solo `/planes`** (`PlanesVigentes
-  conPago`) suma el Payment Link de cada plan, el cupón CUKI (`CuponBanner`,
-  ticket con «Copiar código»), el 1er mes en grande y «Hablar con ventas» →
-  `/reunion-comercial`; el home y las landings no. `/go` (Go! US$ 17) sigue
-  vivo pero el sitio **no lo promueve**.
+- **Un solo CTA: «Activar cuenta» → `/clinica-estetica/activar-cuenta`** con
+  el plan y la query de la visita (Nav, banda, tarjetas, flotante). `/planes`
+  **no cobra** (Ricardo, 18-oct: «el único CTA es activar cuenta»): suma el cupón
+  CUKI (`CuponBanner`) y el 1er mes en grande (`PlanesVigentes conPago`); el pago
+  o la reunión con ventas se deciden en la landing. `/go` (Go! US$ 17) sigue vivo
+  pero el sitio **no lo promueve**.
 - **Sin costo de implementación** (Ricardo, 18-oct-2026: «elimina costo de
   implementación»; el US$ 250 duró horas). `SETUP_FEE_USD = 450` de `pricing.ts`
   **sigue** en los contratos de `/firma` y en `/cotizacion`: migrar contratos es

@@ -1,4 +1,4 @@
-// Planes Flux · Hurricane · Vortex (Ricardo, 18-oct-2026), CTA «Hablar con ventas»
+// Planes Flux · Hurricane · Vortex (Ricardo, 18-oct-2026), CTA «Activar cuenta»
 // → /agenda, fotos de modelos y franja de logos reales.
 
 import { expect, test } from "@playwright/test";
@@ -24,10 +24,11 @@ test.describe("planes vigentes: Flux · Hurricane · Vortex", () => {
     for (const p of PLANES) {
       const card = page.locator(`[data-plan-card="${p.id}"]`);
       await expect(card).toContainText(String(p.monthlyUsd));
-      // /planes: el pago está arriba; «Hablar con ventas» va a la reunión (con la query).
-      await expect(card.getByRole("link", { name: /Hablar con ventas/ })).toHaveAttribute(
+      // Un solo CTA: «Activar cuenta» → la landing con el plan y la query.
+      await expect(card.getByRole("link")).toHaveCount(1);
+      await expect(card.getByRole("link", { name: /Activar cuenta/ })).toHaveAttribute(
         "href",
-        "/reunion-comercial?utm_source=google",
+        `/clinica-estetica/activar-cuenta?utm_source=google&plan=${p.id}`,
       );
       // Énfasis en el 1er mes con CUKI; desde el 2.º mes, en chico.
       await expect(card.locator("[data-precio-primer-mes]")).toContainText(formatoUsd(precioConCupon(p.monthlyUsd)));
@@ -55,16 +56,12 @@ test.describe("planes vigentes: Flux · Hurricane · Vortex", () => {
     }
   });
 
-  test("/planes avisa el cupón y paga en Stripe; el home no", async ({ page }) => {
+  test("/planes avisa el cupón y no cobra: el pago está en la landing", async ({ page }) => {
     await page.goto("/planes", { waitUntil: "domcontentloaded" });
     const cupon = page.locator(`[data-planes-vigentes] [data-cupon="${CUPON.codigo}"]`);
     await expect(cupon).toContainText("50% de descuento el primer mes");
     await expect(cupon.locator("[data-cupon-vence]")).toContainText(/Válido hasta mañana/);
-    for (const p of PLANES) {
-      await expect(page.locator(`[data-plan-card="${p.id}"] a[href*="buy.stripe.com"]`)).toHaveAttribute("data-plan", p.id);
-    }
-    await page.goto("/", { waitUntil: "domcontentloaded" });
-    await expect(page.locator('[data-planes-vigentes] a[href*="buy.stripe.com"]')).toHaveCount(0);
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
   });
 
   test("el header dice «Activar cuenta» y lleva a la landing, no a /go", async ({ page }) => {

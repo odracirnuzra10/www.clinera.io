@@ -7,8 +7,8 @@
 // original»). Cambia el contenido, no la forma:
 // - solo mensual y solo dólares (sin toggle anual ni switch MXN), sin implementación;
 // - CTA «Hablar con ventas» → /agenda?plan=… con la query de la visita;
-// - con `conPago` (solo /planes): cupón CUKI arriba y botón al Payment Link de
-//   Stripe de cada plan (`LINKS_PAGO`). El código lo escribe la clínica en Stripe;
+// - con `conPago` (solo /planes): cupón CUKI arriba y el 1er mes en grande. El
+//   único CTA es «Activar cuenta» → la landing (ahí se paga o se agenda con ventas);
 // - funciones enfocadas en la clínica estética (`planes.ts`); el agente IA y el
 //   onboarding humano dedicado van destacados (ícono + negrita).
 // Temas e íconos se reusan de `Pricing`: Flux = tono cyan, Hurricane = violeta
@@ -21,7 +21,7 @@ import { PLAN_ICONS, PLAN_THEMES } from "@/components/home-v3/sections";
 import { PlanChannelLogos } from "@/components/pricing/PlanChannelLogos";
 import { IconoDestacado } from "@/components/pricing/IconoDestacado";
 import CuponBanner from "@/components/agenda/CuponBanner";
-import { CUPON, LINKS_PAGO, formatoUsd, precioConCupon } from "@/content/agenda-oferta";
+import { CUPON, formatoUsd, precioConCupon } from "@/content/agenda-oferta";
 import { VERTEX_IA_MODELS } from "@/content/ia-stack";
 import {
   CTA_VENTAS_LABEL,
@@ -65,7 +65,6 @@ const TEMA_VORTEX: (typeof PLAN_THEMES)["atlas"] = {
 const temaDe = (id: PlanId) => (id === "vortex" ? TEMA_VORTEX : PLAN_THEMES[TEMA[id]]);
 
 const noop = () => () => {};
-const reunionHref = (search: string) => `/reunion-comercial${search}`;
 const readSearch = () => window.location.search;
 const readSearchServer = () => "";
 
@@ -284,52 +283,27 @@ export default function PlanesVigentes({
                 </div>
 
                 <div style={{ marginBottom: 22, display: "flex", flexDirection: "column", gap: 10 }}>
-                  {conPago && LINKS_PAGO[p.id] && (
-                    <a
-                      className="pv-cta"
-                      href={LINKS_PAGO[p.id]!}
-                      // Analytics.tsx parcha el href (client_reference_id) antes de hidratar.
-                      suppressHydrationWarning
-                      data-plan={p.id}
-                      data-plan-name={`${p.name} cupón ${CUPON.codigo}`}
-                      data-plan-value={precioConCupon(p.monthlyUsd)}
-                      style={{
-                        textDecoration: "none",
-                        textAlign: "center",
-                        background: GRAD,
-                        color: "#fff",
-                        padding: "13px 20px",
-                        borderRadius: 12,
-                        fontWeight: 700,
-                        fontSize: 14.5,
-                        fontFamily: JAKARTA,
-                        boxShadow: "0 10px 26px -8px rgba(124,58,237,.5)",
-                        boxSizing: "border-box",
-                      }}
-                    >
-                      Activar {p.name} · {CUPON.descuentoPct}% con {CUPON.codigo}
-                    </a>
-                  )}
+                  {/* Un solo CTA (Ricardo, 18-oct-2026): «Activar cuenta» → la landing, donde
+                      deja sus datos y decide si paga al tiro o habla antes con ventas. */}
                   <a
                     className="pv-cta"
-                    // En /planes el pago ya está arriba: el segundo botón es la reunión con ventas.
-                    href={conPago ? reunionHref(search) : agendaHrefPlan(p.id, search)}
+                    href={agendaHrefPlan(p.id, search)}
                     data-cta-ventas={p.id}
                     style={{
                       textDecoration: "none",
                       textAlign: "center",
-                      background: th.ctaPrimaryBg,
-                      color: th.ctaPrimaryColor,
+                      background: conPago ? GRAD : th.ctaPrimaryBg,
+                      color: conPago ? "#fff" : th.ctaPrimaryColor,
                       padding: "13px 20px",
                       borderRadius: 12,
                       fontWeight: 700,
                       fontSize: 14.5,
                       fontFamily: JAKARTA,
-                      boxShadow: th.ctaPrimaryShadow,
+                      boxShadow: conPago ? "0 10px 26px -8px rgba(124,58,237,.5)" : th.ctaPrimaryShadow,
                       boxSizing: "border-box",
                     }}
                   >
-                    {conPago ? "Hablar con ventas" : `${CTA_VENTAS_LABEL} · ${p.name}`}
+                    {CTA_VENTAS_LABEL} · {p.name}
                   </a>
                 </div>
 

@@ -163,7 +163,7 @@ export function Hero() {
                 maxWidth: 580,
               }}
             >
-              Ficha médica y estética facial y corporal, evoluciones, presupuestos y ventas en un solo software, con tratamientos como{" "}
+              Ficha médica, ficha estética facial y ficha estética corporal, con evoluciones, presupuestos y ventas en un solo software, y tratamientos como{" "}
               <b style={{ color: "#0A0A0A" }}>Sculptra, Radiesse, Endoláser y Rinolips</b> ya cargados. Y si quieres más, la IA atiende tu WhatsApp y agenda por ti. Lo construimos para nuestras propias clínicas estéticas: <b style={{ color: "#0A0A0A" }}>Método Hebe y Protocolo Lumina</b>.
             </p>
 

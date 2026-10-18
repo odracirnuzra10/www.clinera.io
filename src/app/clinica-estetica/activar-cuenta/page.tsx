@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Software para clínicas estéticas con IA: crea tu cuenta",
   description:
-    "Ficha médica y estética facial y corporal, presupuestos, evoluciones y ventas en un solo lugar. Crea tu cuenta de Clinera y actívala en minutos.",
+    "Ficha médica, ficha estética facial y ficha estética corporal, con evoluciones, presupuestos y ventas en un solo lugar. Crea tu cuenta de Clinera y actívala en minutos.",
   alternates: { canonical: "https://www.clinera.io/clinica-estetica/activar-cuenta" },
   openGraph: { url: "https://www.clinera.io/clinica-estetica/activar-cuenta" },
 };

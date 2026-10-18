@@ -31,7 +31,7 @@ export const PLANES_FAQ = [
   },
   {
     q: "¿Cómo contrato?",
-    a: "Dos caminos: activas tu plan acá mismo con el botón de pago (con el cupón CUKI tienes 50% el primer mes), o hablas con ventas: eliges una hora en clinera.io/agenda y en 45 minutos por videollamada te mostramos Clinera con el caso de tu clínica.",
+    a: "Con «Activar cuenta»: dejas los datos de tu clínica, eliges tu plan y decides si pagas al tiro (con el cupón CUKI tienes 50% el primer mes) o si prefieres hablar antes con ventas en una videollamada de 45 minutos.",
   },
   {
     q: "¿Puedo cambiar de plan después?",
