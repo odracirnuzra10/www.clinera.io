@@ -188,29 +188,10 @@ section.enfocado {
   padding-top: 32px;
 }
 
-/* Escritorio: el paso 2 usa una tarjeta más ancha, con las tres opciones lado a lado. */
+/* Calendario: tarjeta un poco más ancha en escritorio. */
 @media (min-width: 1024px) {
-  section.enfocadoAncho {
-    grid-template-columns: minmax(0, 1040px);
-  }
-
   div.cardAncha {
-    padding: 44px 48px 40px;
-  }
-
-  .servicios {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-    margin-top: 28px;
-  }
-
-  .servicio {
-    padding: 56px 22px 22px;
-  }
-
-  .radio {
-    left: 22px;
-    top: 22px;
+    max-width: 760px;
   }
 }
 
@@ -310,4 +291,149 @@ section.enfocado {
   .fila2 {
     grid-template-columns: 1fr;
   }
+}
+
+/* Formato «evaluación» (metodohebe.cl/evaluacion): una columna, casos arriba. */
+.pagina {
+  background:
+    radial-gradient(circle at 85% 4%, rgba(217, 70, 239, 0.12), transparent 40%),
+    radial-gradient(circle at 8% 30%, rgba(59, 130, 246, 0.1), transparent 40%),
+    #f6f4fb;
+}
+
+.columna {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px 16px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.columna > * {
+  min-width: 0;
+}
+
+.casos {
+  position: relative;
+  aspect-ratio: 2 / 1;
+  max-height: 260px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #e9e5f5;
+  box-shadow: 0 24px 50px -30px rgba(76, 29, 149, 0.5);
+}
+
+.caso {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.casoOn {
+  opacity: 1;
+}
+
+.casoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
+.casoPie {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 36px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: #fff;
+  background: linear-gradient(to top, rgba(10, 10, 20, 0.75), transparent);
+  font-size: 13px;
+}
+
+.casoPie strong {
+  font-size: 15px;
+}
+
+.casoPuntos {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  display: flex;
+  gap: 5px;
+}
+
+.punto {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.puntoOn {
+  background: #fff;
+}
+
+.h1 {
+  margin: 10px 0 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(28px, 7vw, 38px);
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  color: #0a0a0a;
+  text-align: center;
+}
+
+.sub {
+  margin: 0;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #4b5563;
+}
+
+.prueba {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 16px;
+  font-size: 13px;
+  color: #374151;
+  text-align: center;
+}
+
+.opciones {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.opcion {
+  appearance: none;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px 12px;
+  font: inherit;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: #0a0a0a;
+  cursor: pointer;
+  text-align: center;
+}
+
+.opcionOn {
+  border-color: #7c3aed;
+  background: #f5f0ff;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
 }

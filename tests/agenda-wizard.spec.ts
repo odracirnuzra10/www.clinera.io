@@ -39,17 +39,22 @@ async function mockRed(page: Page) {
   await page.route(/connect\.facebook\.net/, (route) => route.abort());
 }
 
-async function paso1(page: Page) {
-  await page.getByLabel("Nombre", { exact: true }).fill("[E2E TEST] Agenda");
-  await page.getByLabel("Correo", { exact: true }).fill("e2e-agenda@e2e.clinera.io");
-  await page.getByLabel("Celular (WhatsApp)").fill("912345678");
+async function pasoClinica(page: Page) {
   await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Clínica");
   await page.getByRole("radio", { name: "Estética" }).click();
   await page.getByRole("radio", { name: "4–6" }).click();
   await page.getByLabel("Ciudad").fill("Los Ángeles");
+  await page.getByRole("button", { name: /Continuar/ }).click();
 }
 
-test("wizard: datos → CRM + Lead US$ 3, servicio y videollamada", async ({ page }) => {
+async function pasoContacto(page: Page) {
+  await page.getByLabel("Nombre", { exact: true }).fill("[E2E TEST] Agenda");
+  await page.getByLabel("Correo", { exact: true }).fill("e2e-agenda@e2e.clinera.io");
+  await page.getByLabel("Celular (WhatsApp)").fill("912345678");
+  await page.getByRole("button", { name: /Enviar y elegir mi hora/ }).click();
+}
+
+test("wizard: servicio → clínica → datos (CRM + Lead US$ 3) → calendario", async ({ page }) => {
   await mockRed(page);
   const wizard = grabarWizard(page);
   const capi: { event_name?: string; user_data?: { em?: string }; custom_data?: Record<string, unknown> }[] = [];
@@ -58,15 +63,33 @@ test("wizard: datos → CRM + Lead US$ 3, servicio y videollamada", async ({ pag
   });
   await page.goto("/agenda", { waitUntil: "domcontentloaded" });
   await expect(page.getByRole("heading", { level: 1 })).toContainText(/videollamada/i);
+  await expect(page.locator("[data-agenda-casos]")).toHaveCount(1);
   await expect(page.locator("[data-ecosistema]")).toHaveCount(1);
   await expect(page.locator("[data-chat-agenda-ia]")).toHaveCount(1);
 
-  // Incompleto no avanza.
+  // Paso 1: tres servicios, «Ambas» recomendada; hay que elegir uno.
+  await expect(page.locator("[data-servicio]")).toHaveCount(3);
+  await expect(page.locator('[data-servicio="ambas"]')).toContainText("Recomendado");
   await page.getByRole("button", { name: /Continuar/ }).click();
-  await expect(page.getByText("Escribe tu nombre.")).toBeVisible();
+  await expect(page.getByText("Elige el servicio que te interesa.")).toBeVisible();
+  await page.locator('[data-servicio="marketing"]').click();
+  await page.getByRole("button", { name: /Continuar/ }).click();
 
-  await paso1(page);
+  // Paso 2: clínica. Incompleto no avanza.
+  await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
   await page.getByRole("button", { name: /Continuar/ }).click();
+  await expect(page.getByText("Escribe el nombre de tu clínica.")).toBeVisible();
+  await pasoClinica(page);
+
+  // Nada sale al CRM ni a Meta antes de tener el contacto.
+  await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
+  expect(wizard.filter((w) => w.lead_stage === "contact")).toHaveLength(0);
+  expect(capi).toHaveLength(0);
+
+  // Paso 3: contacto → CRM + Lead.
+  await page.getByRole("button", { name: /Enviar y elegir mi hora/ }).click();
+  await expect(page.getByText("Escribe tu nombre.")).toBeVisible();
+  await pasoContacto(page);
 
   await expect.poll(() => capi.map((c) => c.event_name)).toContain("Lead");
   const lead = capi.find((c) => c.event_name === "Lead")!;
@@ -74,7 +97,7 @@ test("wizard: datos → CRM + Lead US$ 3, servicio y videollamada", async ({ pag
   expect(lead.custom_data).toMatchObject({ value: 3, currency: "USD" });
   expect(capi.filter((c) => c.event_name === "MQL")).toHaveLength(0); // el MQL es al agendar
 
-  await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
+  await expect(page.locator('[data-agenda-paso="4"]')).toBeVisible();
   await page.waitForTimeout(400);
   const contactos = wizard.filter((w) => w.lead_stage === "contact");
   expect(contactos).toHaveLength(1);
@@ -83,34 +106,22 @@ test("wizard: datos → CRM + Lead US$ 3, servicio y videollamada", async ({ pag
   expect(contactos[0].tipo_clinica).toBe("estetica");
   expect(contactos[0].celular).toBe("+56912345678");
   expect(contactos[0].fuente).toContain("/agenda");
-
-  // Paso 2: tres servicios, «Ambas» recomendada; hay que elegir uno.
-  await expect(page.locator("[data-servicio]")).toHaveCount(3);
-  await expect(page.locator('[data-servicio="ambas"]')).toContainText("Recomendado");
-  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
-  await expect(page.getByText("Elige el servicio que te interesa.")).toBeVisible();
-  await page.locator('[data-servicio="marketing"]').click();
-  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
-  await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
-  // No hay segundo envío al CRM (n8n lo marcaría «Volvió a cotizar»).
-  await page.waitForTimeout(300);
-  expect(wizard.filter((w) => w.lead_stage === "contact")).toHaveLength(1);
 });
 
-test("?servicio= preselecciona el servicio en el paso 2", async ({ page }) => {
+test("?servicio= preselecciona el servicio en el paso 1", async ({ page }) => {
   await mockRed(page);
   await page.goto("/agenda?servicio=software", { waitUntil: "domcontentloaded" });
-  await paso1(page);
-  await page.getByRole("button", { name: /Continuar/ }).click();
   await expect(page.locator('[data-servicio="software"]')).toHaveAttribute("aria-checked", "true");
 });
 
-test("móvil: el wizard cabe y no hay cupón ni precios de compra", async ({ page }) => {
+test("móvil: una columna, sin cupón ni compra", async ({ page }) => {
   await mockRed(page);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/agenda", { waitUntil: "domcontentloaded" });
-  await expect(page.getByLabel("Nombre", { exact: true })).toBeVisible();
+  await expect(page.locator("[data-servicio]").first()).toBeVisible();
   const body = page.locator("body");
   await expect(body).not.toContainText(/CU[K]I|cupón/i);
   await expect(body).not.toContainText(/Crear cuenta/);
+  const ancho = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
+  expect(ancho, "sin scroll horizontal").toBe(true);
 });
