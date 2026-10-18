@@ -320,26 +320,62 @@ const nextConfig: NextConfig = {
       // Comparación local: la estructura Hebe ya es /agenda.
       {
         source: '/agenda-hebe',
-        destination: '/clinica-estetica/activar-cuenta',
+        destination: '/agenda',
         permanent: false,
       },
-      // Ricardo, 18-oct-2026: una sola landing, /clinica-estetica/activar-cuenta.
-      // /agenda y /clinica-estetica siguen en anuncios, correos y enlaces viejos:
-      // redirigen con la query (utm, gclid, fbclid), que Next conserva.
-      {
-        source: '/agenda',
-        destination: '/clinica-estetica/activar-cuenta',
-        permanent: true,
-      },
+      // Ricardo, 18-oct-2026: /agenda es la única puerta de entrada (wizard de 3
+      // pasos → videollamada). Las rutas que probamos ese día y los enlaces
+      // viejos de anuncios y correos redirigen acá con la query (utm, gclid,
+      // fbclid), que Next conserva. /reunion-comercial era el wizard viejo con
+      // calendario: el redirect gana sobre su página.
       {
         source: '/activar-cuenta',
-        destination: '/clinica-estetica/activar-cuenta',
+        destination: '/agenda',
         permanent: true,
       },
       {
         source: '/clinica-estetica',
-        destination: '/clinica-estetica/activar-cuenta',
+        destination: '/agenda',
         permanent: true,
+      },
+      {
+        source: '/clinica-estetica/activar-cuenta',
+        destination: '/agenda',
+        permanent: true,
+      },
+      {
+        source: '/reunion-comercial',
+        destination: '/agenda',
+        permanent: true,
+      },
+      // Se retiraron los planes viejos (Flux/Hurricane/Atlas/Summit/Go!) y sus
+      // páginas: planes-pro y la calculadora de consumo iban atadas a las bolsas de
+      // créditos de esos planes. /go/exito queda: el Payment Link de Go! ya emitido
+      // vuelve ahí.
+      {
+        source: '/planes-pro',
+        destination: '/planes',
+        permanent: true,
+      },
+      {
+        source: '/calculadora-de-consumo',
+        destination: '/planes',
+        permanent: true,
+      },
+      {
+        source: '/planes2',
+        destination: '/planes',
+        permanent: true,
+      },
+      {
+        source: '/activa',
+        destination: '/agenda',
+        permanent: false,
+      },
+      {
+        source: '/go',
+        destination: '/agenda',
+        permanent: false,
       },
       // El constructor de cotizaciones se movio a cotizacion.oacg.cl, que ya
       // cotiza las tres marcas (Clinera con su propio catalogo y checkout de
@@ -471,12 +507,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/reunion',
-        destination: '/clinica-estetica/activar-cuenta',
+        destination: '/agenda',
         permanent: true,
       },
       {
         source: '/hablar-con-ventas',
-        destination: '/clinica-estetica/activar-cuenta',
+        destination: '/agenda',
         permanent: true,
       },
       // /organigrama es el nombre por el que la gente busca la presentacion de

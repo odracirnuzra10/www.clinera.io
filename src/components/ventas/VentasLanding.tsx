@@ -395,6 +395,10 @@ export type Form = {
   subtipo?: { id: string; label: string } | null;
   /** Funciones que marcó en el paso 2 de /agenda (ficha facial, presupuestos…). */
   funciones?: { id: string; label: string }[] | null;
+  /** Servicio de interés de /agenda: `marketing`, `software` o `ambas` (Ricardo, 18-oct-2026). */
+  servicio?: { id: string; label: string } | null;
+  /** País de la clínica (nombre, p. ej. «Chile»). Lo pregunta /agenda junto con la ciudad. */
+  pais?: string;
 };
 
 function isValidWebsite(value: string) {
@@ -434,6 +438,9 @@ function clinicCrmFields(form: Form) {
           funciones_interes_label: form.funciones.map((f) => f.label).join(", "),
         }
       : {}),
+    // Campo nuevo: lo lee n8n → Twenty cuando exista «servicio de interés» en el CRM.
+    ...(form.servicio ? { servicio_interes: form.servicio.id, servicio_interes_label: form.servicio.label } : {}),
+    ...(form.pais ? { pais_clinica: form.pais } : {}),
   };
 }
 
@@ -1899,6 +1906,12 @@ export async function submitBookingConfirmation({
           funciones_interes_label: form.funciones.map((f) => f.label).join(", "),
         }
       : {}),
+    ...(form.boxes
+      ? { boxes_profesionales: form.boxes.id, boxes_profesionales_label: form.boxes.label }
+      : {}),
+    ...(form.servicio ? { servicio_interes: form.servicio.id, servicio_interes_label: form.servicio.label } : {}),
+    ...(form.pais ? { pais_clinica: form.pais } : {}),
+    ...(form.city.trim() ? { ciudad: form.city.trim() } : {}),
     celular: (form.prefix + digits).trim(),
     celular_prefix: form.prefix,
     celular_digits: digits,

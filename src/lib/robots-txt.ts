@@ -73,10 +73,6 @@ const STAR_DISALLOW = [
   "/p/*/kit",
   "/partner/*/kit",
   "/reserva-tu-hora",
-  // Solo la ruta exacta (redirige): /clinica-estetica/activar-cuenta sí se indexa.
-  "/clinica-estetica$",
-  "/planes2",
-  "/activa",
   "/go$",
   "/go/",
   "/*?utm_*",

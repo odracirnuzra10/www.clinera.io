@@ -104,7 +104,7 @@ export const softwareOffers = PLANES.map((plan) => ({
   priceCurrency: "USD",
   availability: "https://schema.org/InStock",
   url: `${SITE_URL}/planes`,
-  description: `${plan.name}: US$ ${plan.monthlyUsd}/mes, ${plan.professionals} profesionales, hasta ${plan.conversations.toLocaleString("es-CL")} conversaciones.`,
+  description: `${plan.name}: US$ ${plan.monthlyUsd}/mes, hasta ${plan.professionals} profesionales y ${plan.iaCredits.toLocaleString("es-CL")} créditos de IA. ${plan.resumen}`,
 }));
 
 export const softwareSchema = {

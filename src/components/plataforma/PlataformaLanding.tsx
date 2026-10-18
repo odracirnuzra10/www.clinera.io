@@ -36,7 +36,7 @@ const MIGRATION_STEPS = [
 export const FAQ = [
   {
     q: "¿Se integra con Reservo, AgendaPro o Medilink?",
-    a: "No. Clinera opera sobre su propia agenda, ficha clínica y módulo de pagos — por eso migramos tus datos en el onboarding en vez de sincronizar dos sistemas. Para conectar otras herramientas tienes Webhooks y API pública (n8n, Make, Zapier) en los planes Atlas y Summit.",
+    a: "No. Clinera opera sobre su propia agenda, ficha clínica y módulo de pagos — por eso migramos tus datos en el onboarding en vez de sincronizar dos sistemas. Para conectar otras herramientas hay Webhooks y API pública (n8n, Make, Zapier): lo vemos contigo en la videollamada.",
   },
   {
     q: "¿Qué pasa con el software que usamos hoy y cómo validan la migración?",
@@ -45,10 +45,6 @@ export const FAQ = [
   {
     q: "¿Cuánto demora la implementación y cuánto cuesta?",
     a: "Depende del volumen de datos, las sedes y las integraciones; el alcance y el calendario quedan definidos antes de comenzar. La implementación tiene un costo único de USD 450, cobrado con el primer mes del plan.",
-  },
-  {
-    q: "¿Hay permanencia?",
-    a: "Sí. Todos los planes tienen una permanencia mínima de 6 meses. El plan se paga mes a mes; el primer cobro incluye la implementación de USD 450 más el primer mes del plan contratado.",
   },
   {
     q: "¿Cómo protegen los datos de los pacientes?",
@@ -276,11 +272,9 @@ function FinalCta() {
           Agendar demo de 30 min <Arrow />
         </CtaLink>
         <div className={styles.finalMeta}>
-          <span>Desde USD 279/mes</span>
+          <span>Vortex USD 379/mes · Ecosistema USD 479/mes</span>
           <i />
           <span>Implementación USD 450 con el primer mes</span>
-          <i />
-          <span>Permanencia mínima: 6 meses</span>
           <i />
           <span>Migración gestionada</span>
         </div>

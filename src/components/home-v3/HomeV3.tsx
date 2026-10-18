@@ -4,6 +4,7 @@ import DemoEnVivo from "./DemoEnVivo";
 import EsteticaSection from "@/components/estetica/EsteticaSection";
 import AgenteIABanda from "@/components/agente-ia/AgenteIABanda";
 import PlanesVigentes from "@/components/pricing/PlanesVigentes";
+import MarketingPerformance from "@/components/marketing/MarketingPerformance";
 import { Faq, FinalCTA, Hero, PrensaCNN, Testimonios, useReveal } from "./sections";
 
 export default function HomeV3() {
@@ -57,10 +58,11 @@ export default function HomeV3() {
           ModosAgendamiento, Estudios, DarkBreak, Integraciones y el banner de
           septiembre: los componentes siguen en el repo por si se reponen. */}
       <Hero />
+      <PlanesVigentes titulo="Dos formas de trabajar" tituloAcento="con Clinera." bajada="Solo el software, o el software más un equipo de marketing que trae pacientes." />
+      <MarketingPerformance />
       <EsteticaSection modelo="duena" />
       <DemoEnVivo />
       <Testimonios />
-      <PlanesVigentes />
       <AgenteIABanda />
       <PrensaCNN />
       <Faq />

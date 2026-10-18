@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     siteName: "Clinera.io",
     title: "Migración a Clinera — una sola plataforma para todo el ciclo del paciente",
     description:
-      "Cambia AgendaPro / Reservo / Medilink + Vambe.ai por Clinera. USD 800+ por 2 herramientas separadas vs USD 279 con todo conectado.",
+      "Cambia AgendaPro / Reservo / Medilink + Vambe.ai por Clinera. USD 800+ por 2 herramientas separadas vs USD 379 con todo conectado.",
     locale: "es_LA",
     images: [
       {
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Migración a Clinera — una sola plataforma para todo el ciclo",
     description:
-      "Cambia AgendaPro / Reservo / Medilink + Vambe por Clinera. USD 279 con agente IA incluido.",
+      "Cambia AgendaPro / Reservo / Medilink + Vambe por Clinera. USD 379 con agente IA incluido.",
     images: ["/images/og-banner.png"],
   },
   robots: {
@@ -97,11 +97,11 @@ const jsonLd = {
         },
         {
           "@type": "Question",
-          name: "¿Hay permanencia o costo de configuración?",
+          name: "¿Hay costo de configuración?",
           acceptedAnswer: {
             "@type": "Answer",
             text:
-              "La permanencia mínima es de 6 meses. Plan mensual: el primer cobro incluye implementación USD 450 más el primer mes del plan (onboarding asistido por un humano que migra tus fichas clínicas, datos históricos, pacientes y tratamientos, configura tus agentes de IA, conecta tu WhatsApp Business, integra tu agenda y capacita a tu equipo). Quedas operando el mismo día.",
+              "Plan mensual: el primer cobro incluye implementación USD 450 más el primer mes del plan (onboarding asistido por un humano que migra tus fichas clínicas, datos históricos, pacientes y tratamientos, configura tus agentes de IA, conecta tu WhatsApp Business, integra tu agenda y capacita a tu equipo). Quedas operando el mismo día.",
           },
         },
         {

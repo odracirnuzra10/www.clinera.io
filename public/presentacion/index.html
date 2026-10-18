@@ -4291,130 +4291,23 @@
       font-size: 16px;
     }
 
-    #planes .px-tools {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 8px;
-      flex: 0 0 auto;
-    }
 
-    #planes .px-billing {
-      display: inline-grid;
-      grid-template-columns: 1.45fr 1fr;
-      gap: 4px;
-      padding: 4px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: #f6f6f7;
-      min-width: 280px;
-    }
 
-    #planes .px-billing button {
-      appearance: none;
-      border: 0;
-      cursor: pointer;
-      border-radius: 9px;
-      min-height: 52px;
-      padding: 8px 14px;
-      text-align: left;
-      font-family: var(--display);
-      background: transparent;
-      color: #4b5563;
-    }
 
-    #planes .px-billing button[data-billing="annual"] {
-      box-shadow: inset 0 0 0 1.5px rgba(124, 58, 237, .4);
-      color: #6d28d9;
-      background: #fff;
-    }
 
-    #planes .px-billing button[aria-checked="true"] {
-      background: linear-gradient(135deg, #7c3aed, #d946ef);
-      color: #fff;
-      box-shadow: none;
-    }
 
-    #planes .px-billing button span {
-      display: block;
-      font-size: 15px;
-      font-weight: 700;
-    }
 
-    #planes .px-billing button small {
-      display: block;
-      margin-top: 2px;
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: .04em;
-      opacity: .85;
-    }
 
-    #planes .px-fx {
-      display: inline-flex;
-      gap: 2px;
-      padding: 2px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
-    }
 
-    #planes .px-fx button {
-      appearance: none;
-      border: 0;
-      background: transparent;
-      cursor: pointer;
-      border-radius: 999px;
-      padding: 3px 8px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-family: var(--display);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--muted);
-    }
 
-    #planes .px-fx button[aria-checked="true"] {
-      background: #f3f4f6;
-      color: var(--ink);
-    }
 
-    #planes .px-fx svg {
-      display: block;
-      border-radius: 1px;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, .08);
-    }
 
-    #planes .px-mp {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 16px;
-      padding: 8px 16px;
-      border: 1px solid #d6f3ff;
-      border-radius: 14px;
-      background: #fff;
-    }
 
-    #planes .px-mp img {
-      display: block;
-      width: 36px;
-      height: 36px;
-      flex: 0 0 auto;
-    }
 
-    #planes .px-mp p {
-      margin: 0;
-      font-size: 16px;
-      line-height: 1.3;
-      color: var(--ink);
-    }
 
     #planes .px-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
       margin-top: 18px;
     }
@@ -4446,36 +4339,11 @@
       text-transform: uppercase;
     }
 
-    #planes .px-annual .px-kicker { color: var(--violet); }
     #planes .px-monthly .px-kicker { color: var(--muted); }
 
-    #planes .px-annual,
-    #planes .px-monthly {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 2px 10px;
-      align-items: end;
-    }
 
-    #planes[data-billing="annual"] .px-monthly,
-    #planes[data-billing="monthly"] .px-annual { display: none; }
 
-    #planes .px-annual strong,
-    #planes .px-monthly strong {
-      font-family: var(--display);
-      font-size: 36px;
-      letter-spacing: -.04em;
-      line-height: .95;
-      text-align: right;
-    }
 
-    #planes .px-equiv,
-    #planes .px-unit {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-      line-height: 1.35;
-    }
 
     #planes .px-unit { text-align: right; }
 
@@ -4489,7 +4357,6 @@
 
     @media (max-width: 900px) {
       #planes .px-top { flex-direction: column; align-items: stretch; }
-      #planes .px-tools { align-items: flex-start; }
       #planes .px-grid { grid-template-columns: 1fr; }
     }
 
@@ -4543,6 +4410,33 @@
       color: var(--violet);
     }
     .qs-tag-soon { color: var(--muted); }
+    #planes .px-promo {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 6px 14px;
+      margin: 14px 0 0;
+      padding: 10px 16px;
+      border: 2px dashed var(--violet);
+      border-radius: 14px;
+      background: #faf5ff;
+      font-size: 15px;
+      color: var(--ink);
+      text-align: center;
+    }
+    #planes .px-promo strong {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--violet);
+    }
+    #planes .px-monthly { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; }
+    #planes .px-mkt { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+    #planes .px-mkt ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 8px; }
+    #planes .px-mkt li { display: grid; gap: 1px; font-size: 13px; line-height: 1.35; color: var(--ink-soft); }
+    #planes .px-mkt li strong { color: var(--ink); font-size: 13.5px; }
     #planes .px-chs { margin: 12px 0 8px; }
     #planes .px-feats {
       margin: 0;
@@ -4655,9 +4549,9 @@
             <div class="hr-item"><strong>Agenda</strong><span>Citas, profesionales y recordatorios en un solo calendario.</span></div>
             <div class="hr-item"><strong>Fichas y odontograma</strong><span>Ficha clínica facial, corporal y dental.</span></div>
             <div class="hr-item"><strong>Pagos y ventas</strong><span>Cobros, seguimiento y panel de ventas.</span></div>
-            <div class="hr-item"><strong>Marketing</strong><span>De la campaña a la cita y a la venta, medido.</span></div>
+            <div class="hr-item"><strong>Marketing de performance</strong><span>Campañas en Facebook, Instagram y Google, propuesta de valor y framework comercial: de la campaña a la cita y a la venta.</span></div>
             <div class="hr-item"><strong>Clinera Intelligence</strong><span>Le preguntas a tus datos y responde con gráficos.</span></div>
-            <div class="hr-item"><strong>Webhooks + API</strong><span>Conecta n8n, Make y Zapier (Atlas y Summit).</span></div>
+            <div class="hr-item"><strong>Webhooks + API</strong><span>Conecta n8n, Make y Zapier.</span></div>
           </div>
 
           <div class="qs-agents reveal" aria-label="Empleados digitales con IA">
@@ -4686,113 +4580,65 @@
         class="slide blk"
         id="planes"
         data-name="Planes"
-        data-billing="annual"
-        data-fx="usd"
         aria-hidden="true"
       >
         <div class="slide-inner">
           <div class="px-top">
             <div>
-              <h2 class="blk-h2">Planes</h2>
-            </div>
-            <div class="px-tools">
-              <div class="px-billing" role="radiogroup" aria-label="Frecuencia de facturación">
-                <button type="button" role="radio" data-billing="annual" aria-checked="true">
-                  <span>Anual</span>
-                  <small>12 cuotas precio contado</small>
-                </button>
-                <button type="button" role="radio" data-billing="monthly" aria-checked="false">
-                  <span>Mensual</span>
-                  <small>Mes a mes</small>
-                </button>
-              </div>
-              <div class="px-fx" role="radiogroup" aria-label="Modalidad de precios">
-                <button type="button" role="radio" data-fx="usd" aria-checked="true" aria-label="Dólar">
-                  <svg width="16" height="11" viewBox="0 0 16 11" aria-hidden="true"><rect width="16" height="11" fill="#B22234"/><g fill="#fff"><rect y="1.57" width="16" height="1.57"/><rect y="4.71" width="16" height="1.57"/><rect y="7.86" width="16" height="1.57"/></g><rect width="7" height="5.9" fill="#3C3B6E"/></svg>
-                  USD
-                </button>
-                <button type="button" role="radio" data-fx="mxn" aria-checked="false" aria-label="Peso mexicano">
-                  <svg width="16" height="11" viewBox="0 0 16 11" aria-hidden="true"><rect width="5.34" height="11" fill="#006847"/><rect x="5.34" width="5.33" height="11" fill="#fff"/><rect x="10.67" width="5.33" height="11" fill="#CE1126"/></svg>
-                  MXN
-                </button>
-              </div>
+              <h2 class="blk-h2">Dos formas de trabajar con Clinera</h2>
             </div>
           </div>
 
-          <div class="px-mp">
-            <img src="/brand/mercadopago.svg" alt="Mercado Pago" width="36" height="36" />
-            <p>El plan anual, en <strong>12 cuotas a precio de contado</strong>, pagando con Mercado Pago.</p>
+          <div class="px-promo" role="note">
+            <strong>Promoción del mes</strong>
+            <span>Implementación gratis en el plan Ecosistema.</span>
           </div>
 
           <div class="px-grid">
-            <article class="px-card" data-monthly="279" data-annual="2678" data-equiv="223.17" data-savings="670">
-              <div class="px-kicker">Plan</div>
+            <article class="px-card" data-plan="vortex">
+              <div class="px-kicker">Software con IA</div>
               <h3 class="px-name">Vortex</h3>
-              <div class="px-annual">
-                <div>
-                  <div class="px-kicker">Plan anual</div>
-                  <div class="px-equiv" data-slot="equiv">20% OFF · ahorras $56/mes</div>
-                </div>
-                <div>
-                  <strong data-slot="annual">$223</strong>
-                  <div class="px-unit"><span data-slot="code">USD</span>/mes</div>
-                </div>
-              </div>
               <div class="px-monthly">
                 <div class="px-kicker">Plan mensual</div>
                 <div>
-                  <strong data-slot="monthly">$279</strong>
-                  <div class="px-unit"><span data-slot="code">USD</span>/mes</div>
+                  <strong>$379</strong>
+                  <div class="px-unit">USD/mes</div>
                 </div>
               </div>
-              <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span></div><ul class="px-feats"><li>28.000 créditos/mes · ~933 conversaciones</li><li>10 usuarios · 1 sucursal</li><li>Agenda, fichas, pagos e Intelligence</li></ul>
+              <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-ig"/></svg>Instagram</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-fb"/></svg>Facebook</span></div>
+              <ul class="px-feats">
+                <li>Hasta 10 profesionales · 10.000 créditos de IA</li>
+                <li>Agenda y fichas de la clínica</li>
+                <li>AURA: responde y agenda por ti</li>
+                <li>Automatizaciones y difusiones</li>
+              </ul>
             </article>
-            <article class="px-card is-featured" data-monthly="379" data-annual="3638" data-equiv="303.17" data-savings="910">
-              <div class="px-kicker">Plan · el más elegido</div>
-              <h3 class="px-name">Atlas</h3>
-              <div class="px-annual">
-                <div>
-                  <div class="px-kicker">Plan anual</div>
-                  <div class="px-equiv" data-slot="equiv">20% OFF · ahorras $76/mes</div>
-                </div>
-                <div>
-                  <strong data-slot="annual">$303</strong>
-                  <div class="px-unit"><span data-slot="code">USD</span>/mes</div>
-                </div>
-              </div>
+
+            <article class="px-card is-featured" data-plan="ecosistema">
+              <div class="px-kicker">Software + marketing · Recomendado</div>
+              <h3 class="px-name">Ecosistema</h3>
               <div class="px-monthly">
                 <div class="px-kicker">Plan mensual</div>
                 <div>
-                  <strong data-slot="monthly">$379</strong>
-                  <div class="px-unit"><span data-slot="code">USD</span>/mes</div>
+                  <strong>$479</strong>
+                  <div class="px-unit">USD/mes</div>
                 </div>
               </div>
-              <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-fb"/></svg>Facebook</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-ig"/></svg>Instagram</span></div><ul class="px-feats"><li>Todo lo de Vortex</li><li>37.000 créditos/mes · ~1.233 conversaciones</li><li>15 usuarios · 2 sucursales</li><li>Webhooks + API</li></ul>
-            </article>
-            <article class="px-card" data-monthly="479" data-annual="4598" data-equiv="383.17" data-savings="1150">
-              <div class="px-kicker">Plan</div>
-              <h3 class="px-name">Summit</h3>
-              <div class="px-annual">
-                <div>
-                  <div class="px-kicker">Plan anual</div>
-                  <div class="px-equiv" data-slot="equiv">20% OFF · ahorras $96/mes</div>
-                </div>
-                <div>
-                  <strong data-slot="annual">$383</strong>
-                  <div class="px-unit"><span data-slot="code">USD</span>/mes</div>
-                </div>
+              <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-ig"/></svg>Instagram</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-fb"/></svg>Facebook</span></div>
+              <ul class="px-feats">
+                <li>Todo lo de Vortex</li>
+              </ul>
+              <div class="px-mkt" aria-label="Qué incluye el marketing de performance">
+                <div class="px-kicker">Marketing de performance incluye</div>
+                <ul>
+                  <li><strong>Campañas en Facebook, Instagram y Google</strong><span>Campañas pensadas para traer pacientes, no solo likes.</span></li>
+                  <li><strong>Propuesta de valor</strong><span>Creamos y optimizamos qué ofrece tu clínica y cómo lo comunica.</span></li>
+                  <li><strong>Framework comercial</strong><span>Optimizamos cómo tu equipo atiende, cotiza y cierra, para vender más.</span></li>
+                </ul>
               </div>
-              <div class="px-monthly">
-                <div class="px-kicker">Plan mensual</div>
-                <div>
-                  <strong data-slot="monthly">$479</strong>
-                  <div class="px-unit"><span data-slot="code">USD</span>/mes</div>
-                </div>
-              </div>
-              <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-fb"/></svg>Facebook</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-ig"/></svg>Instagram</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-tel"/></svg>Llamadas con IA</span></div><ul class="px-feats"><li>Todo lo de Atlas</li><li>46.000 créditos/mes · ~1.533 conversaciones</li><li>25 usuarios · sucursales ilimitadas</li><li>Llamadas con IA (CAMILA) y LIA · oct 2026</li></ul>
             </article>
           </div>
-          <p class="px-note">Implementación <span data-slot="fee">$450</span> en el primer cobro · permanencia 6 meses</p>
+          <p class="px-note">Implementación USD 450, pago único, en el primer cobro · este mes, gratis en Ecosistema</p>
         </div>
       </section>
     </main>
@@ -4921,59 +4767,6 @@
       });
 
       render(current, hashIndex < 0);
-    })();
-
-    (() => {
-      const slide = document.getElementById("planes");
-      if (!slide) return;
-      const FX = 16.95;
-      const cards = Array.from(slide.querySelectorAll(".px-card"));
-      let billing = "annual";
-      let modality = "usd";
-
-      const money = (usd) => {
-        const amount = modality === "usd"
-          ? Math.round(usd)
-          : Math.round((usd * FX) / 10) * 10;
-        return "$" + amount.toLocaleString(modality === "mxn" ? "es-MX" : "en-US");
-      };
-
-      const paint = () => {
-        slide.dataset.billing = billing;
-        slide.dataset.fx = modality;
-        const code = modality === "mxn" ? "MXN" : "USD";
-        cards.forEach((card) => {
-          card.querySelector("[data-slot='annual']").textContent = money(Number(card.dataset.equiv));
-          card.querySelector("[data-slot='equiv']").textContent =
-            "20% OFF · ahorras " + money(Number(card.dataset.monthly) - Number(card.dataset.equiv)) + "/mes";
-          card.querySelector("[data-slot='monthly']").textContent = money(Number(card.dataset.monthly));
-          card.querySelectorAll("[data-slot='code']").forEach((el) => {
-            el.textContent = code;
-          });
-        });
-        const fee = slide.querySelector("[data-slot='fee']");
-        if (fee) fee.textContent = money(450);
-        slide.querySelectorAll(".px-billing button").forEach((button) => {
-          button.setAttribute("aria-checked", String(button.dataset.billing === billing));
-        });
-        slide.querySelectorAll(".px-fx button").forEach((button) => {
-          button.setAttribute("aria-checked", String(button.dataset.fx === modality));
-        });
-      };
-
-      slide.querySelectorAll(".px-billing button").forEach((button) => {
-        button.addEventListener("click", () => {
-          billing = button.dataset.billing;
-          paint();
-        });
-      });
-      slide.querySelectorAll(".px-fx button").forEach((button) => {
-        button.addEventListener("click", () => {
-          modality = button.dataset.fx;
-          paint();
-        });
-      });
-      paint();
     })();
   </script>
 </body>

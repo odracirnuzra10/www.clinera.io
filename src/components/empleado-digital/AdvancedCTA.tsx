@@ -1,42 +1,39 @@
 "use client";
 
 import Link from "next/link";
-import CatalogPrice from "@/components/pricing/CatalogPrice";
-import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
-import { SETUP_FEE_USD } from "@/content/pricing";
 import styles from "@/app/empleado-digital/empleado-digital.module.css";
 import { VERTEX_IA_MODELS_PROSE } from "@/content/ia-stack";
+import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH, IMPLEMENTACION_LINEA, PLANES, PLAN_IA_DESDE } from "@/content/planes";
 
+// Cierre de /empleado-digital con el modelo vigente (Ricardo, 18-oct-2026): dos
+// opciones, Vortex y Ecosistema, y un solo CTA a /agenda.
 const BULLETS = [
-  "46.000 créditos / mes · bolsa mensual de IA",
-  "Una sola bolsa para texto, voz y agendamiento",
-  "3 agentes de IA: AURA (texto) + CAMILA (voz) + LIA (fiscaliza)",
-  "Agendamiento agéntico: la IA agenda sola dentro del chat",
+  `Hasta ${PLAN_IA_DESDE.professionals} profesionales · ${PLAN_IA_DESDE.iaCredits.toLocaleString("es-CL")} créditos de IA al mes`,
+  "Agente AURA: responde por WhatsApp, Instagram y Facebook y agenda sola dentro del chat",
   `Modelos orquestadores de tools: ${VERTEX_IA_MODELS_PROSE} (Vertex AI)`,
   "Módulo clínico completo (agenda + fichas + Vault)",
-  "Sucursales ilimitadas + panel de atribución",
   "Webhooks + API pública (integraciones a medida)",
-  "25 usuarios / profesionales",
-  "Soporte prioritario · onboarding dedicado",
+  "Onboarding asistido por una persona",
 ];
 
 export default function AdvancedCTA() {
+  const [vortex, ecosistema] = PLANES;
   return (
     <section className={styles.ctaSection} aria-labelledby="cta-h2">
       <div className={styles.ctaCard}>
-        <span className={styles.ctaBadge}>Recomendado · Summit</span>
+        <span className={styles.ctaBadge}>Recomendado · {ecosistema.name}</span>
 
         <h2 id="cta-h2" className={styles.ctaH2}>
-          Estandariza tu operación con Summit
+          Pon a tu clínica a trabajar con IA
         </h2>
 
         <div className={styles.ctaPriceRow}>
-          <span className={styles.ctaPrice}><CatalogPrice usd={479} variant="code" /></span>
-          <span className={styles.ctaPriceUnit}>/ mes</span>
+          <span className={styles.ctaPrice}>US$ {vortex.monthlyUsd}</span>
+          <span className={styles.ctaPriceUnit}>/ mes · {vortex.name}</span>
         </div>
-        <div style={{ margin: "12px 0 8px" }}>
-          <PriceModalitySwitch size="compact" />
-        </div>
+        <p className={styles.ctaTrust}>
+          o US$ {ecosistema.monthlyUsd}/mes con {ecosistema.name}, que suma marketing de performance para traerte pacientes
+        </p>
 
         <ul className={styles.ctaBullets}>
           {BULLETS.map((b) => (
@@ -46,64 +43,25 @@ export default function AdvancedCTA() {
           ))}
         </ul>
 
-        <Link href="/agenda" className={styles.ctaButton}>
-          Agendar demo
+        <Link href={CTA_VENTAS_PATH} className={styles.ctaButton}>
+          {CTA_VENTAS_LABEL}
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path
-              d="M6 3l5 5-5 5"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+            <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </Link>
 
-        <Link
-          href="/agenda?plan=summit"
-          className={styles.ctaDemoLink}
-          data-plan="summit"
-          data-plan-value="479"
-          data-plan-name="Summit demo final empleado-digital"
-        >
-          Agendar demo · Summit →
-        </Link>
-
-        <p className={styles.ctaTrust}>
-          Configuración inicial <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> (onboarding asistido) · se cobra con el primer mes
-        </p>
+        <p className={styles.ctaTrust}>{IMPLEMENTACION_LINEA}</p>
 
         <Link href="/demo" className={styles.ctaDemoLink}>
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            aria-hidden="true"
-          >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M8 5v14l11-7z" />
           </svg>
           Ver demo en video — 2 min
         </Link>
 
         <div className={styles.ctaSecondaryLinks}>
-          <Link
-            href="/planes"
-            className={styles.ctaSecondaryLink}
-            data-plan="atlas"
-            data-plan-value="379"
-            data-plan-name="Atlas view from empleado-digital"
-          >
-            Ver plan Atlas — <CatalogPrice usd={379} variant="code" />/mes →
-          </Link>
-          <Link
-            href="/planes"
-            className={styles.ctaSecondaryLink}
-            data-plan="vortex"
-            data-plan-value="279"
-            data-plan-name="Vortex view from empleado-digital"
-          >
-            Ver plan Vortex — <CatalogPrice usd={279} variant="code" />/mes →
+          <Link href="/planes" className={styles.ctaSecondaryLink}>
+            Ver las dos opciones →
           </Link>
         </div>
       </div>

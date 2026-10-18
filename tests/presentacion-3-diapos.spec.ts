@@ -1,7 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { CLINERA_PLANS } from "../src/content/pricing";
 
 /**
  * /presentacion son 3 diapositivas (Ricardo, 7-oct-2026): quiénes somos,
@@ -42,7 +41,8 @@ test.describe("/presentacion en 3 diapositivas", () => {
     expect(c).not.toMatch(/open\s*factura/i);
   });
 
-  test("planes: canales por plan con logos, voz solo en Summit", () => {
+  // Modelo nuevo (Ricardo, 18-oct-2026): Vortex y Ecosistema, con la promoción del mes.
+  test("planes: Vortex y Ecosistema, con canales y lo que incluye el marketing", () => {
     const c = slide("planes");
     const card = (name: string) => {
       const i = c.indexOf(`<h3 class="px-name">${name}</h3>`);
@@ -50,18 +50,19 @@ test.describe("/presentacion en 3 diapositivas", () => {
       return c.slice(i, j);
     };
     const vortex = card("Vortex");
-    const atlas = card("Atlas");
-    const summit = card("Summit");
-    expect(vortex).toContain("#ch-wa");
-    expect(vortex).not.toContain("#ch-fb");
-    expect(vortex).not.toContain("#ch-ig");
-    expect(atlas).toContain("#ch-fb");
-    expect(atlas).toContain("#ch-ig");
-    expect(atlas).not.toContain("#ch-tel");
-    expect(summit).toContain("#ch-tel");
-    for (const plan of CLINERA_PLANS) {
-      expect(c).toContain(`${plan.credits.toLocaleString("es-CL")} créditos/mes`);
-      expect(c).toContain(`${plan.users} usuarios`);
+    const ecosistema = card("Ecosistema");
+    expect(vortex).toContain("<strong>$379</strong>");
+    expect(ecosistema).toContain("<strong>$479</strong>");
+    for (const card of [vortex, ecosistema]) {
+      for (const logo of ["#ch-wa", "#ch-ig", "#ch-fb"]) expect(card).toContain(logo);
     }
+    expect(vortex).toContain("10.000 créditos de IA");
+    for (const t of ["Campañas en Facebook, Instagram y Google", "Propuesta de valor", "Framework comercial"]) {
+      expect(ecosistema).toContain(t);
+      expect(vortex).not.toContain(t);
+    }
+    expect(c).toContain("Promoción del mes");
+    expect(c).toContain("Implementación gratis en el plan Ecosistema");
+    expect(c).toContain("Implementación USD 450, pago único");
   });
 });

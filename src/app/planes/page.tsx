@@ -13,8 +13,8 @@ import {
 import { PLANES_FAQ } from "@/content/planes-faq";
 import { PLAN_DESDE_USD, PLANES } from "@/content/planes";
 
-const TITLE = `Planes: Flux, Hurricane y Vortex, desde US$ ${PLAN_DESDE_USD}/mes`;
-const DESCRIPTION = `${PLANES.map((p) => `${p.name} US$ ${p.monthlyUsd}/mes`).join(", ")}. Eliges según cuántos profesionales tiene tu equipo.`;
+const TITLE = `Planes: Vortex y Ecosistema, desde US$ ${PLAN_DESDE_USD}/mes`;
+const DESCRIPTION = `${PLANES.map((p) => `${p.name} US$ ${p.monthlyUsd}/mes`).join(" · ")}. Solo el software con IA, o el software más marketing de performance que trae pacientes a tu clínica.`;
 
 export const metadata: Metadata = {
   title: TITLE,

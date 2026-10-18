@@ -547,94 +547,39 @@ formulario y no tenía dónde agendar — el embudo se cortaba ahí.
 
 Guardián: `tests/reserva-tu-hora.spec.ts` + `tests/telefono.spec.ts`.
 
-# `/clinica-estetica/activar-cuenta`: LA landing «Crea tu cuenta» con cupón CUKI (Ricardo, 18-oct-2026)
+# Modelo vigente: Vortex · Ecosistema y `/agenda` en 3 pasos (Ricardo, 18-oct-2026)
 
-**Una sola landing** (Ricardo: «unifiquemos y tengamos solo una landing»): es
-el destino de «Activar cuenta» del home (`CTA_VENTAS_PATH` / `CTA_VENTAS_LABEL`
-en `planes.ts`, que también usan Nav y banda) y de Google y Meta Ads.
-`/agenda`, `/activar-cuenta` y `/clinica-estetica` redirigen ahí (308, con la
-query: el gclid no se pierde). La landing vieja de Google Ads
-(`EsteticaAdsLanding`, demo con calendario) **se borró**. robots bloquea solo
-`/clinica-estetica$`; la ruta nueva está en el sitemap. Componente
-`src/components/agenda/AgendaCuentaLanding.tsx`, copy y datos en
-`src/content/agenda-oferta.ts`. «Software para clínicas estéticas con IA»; la IA
-es un plus, el centro es ficha, presupuestos y evoluciones.
+**Clinera vende dos opciones:** Vortex US$ 379/mes (software con IA: hasta 10
+profesionales, 10.000 créditos, bandeja WhatsApp/IG/FB) y Ecosistema US$ 479/mes
+(Vortex + marketing de performance: campañas, propuesta de valor, framework
+comercial; «Recomendado»). Implementación US$ 450 pago único, en el primer
+cobro; promo del mes: gratis en Ecosistema. Fuente única: `src/content/planes.ts`.
+Se acabaron Flux, Hurricane, Nexus, Atlas, Summit, Go!, el cupón y la compra por
+la web. Sin precios de extras, sin permanencia y sin plan anual (pendientes de
+Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
+`/agenda?servicio=…` con la query de la visita (`agendaHref`).
 
-- **Paso 1 datos** (nombre, correo, celular, clínica, profesionales) → CRM con
-  `submitContactLead` (`plan: "summit_oferta"`, `boxes_profesionales`). Se manda
-  aquí para no perder al que abandona.
-- **Paso 2 funciones** (varias). **No** se manda un segundo `contact`: con el
-  mismo correo n8n lo etiqueta «Volvió a cotizar». Van al dataLayer y, si agenda
-  con ventas, en el `booking_confirmed` (`funciones_interes`). Para verlas en el
-  CRM sin reserva hay que tocar el Wizard de n8n.
-- **Desde el paso 2 la página es solo el wizard** (`enfocado`): se esconden el
-  copy, la sección de estética y la banda, para que no haya hacia dónde bajar.
-  Misma pestaña a propósito: una ventana nueva perdería lo escrito en el paso 1.
-  El paso 2 abre con el cupón en grande (`CuponTicket grande`, forma de ticket
-  con botón «Copiar código»).
-- **Paso 3**: los 3 planes con el cupón **CUKI** (50% el primer mes, cualquier
-  plan; promo `promo_1URzy6RRk94z5RuMtG85pol0` en Stripe). Payment Links en
-  `LINKS_PAGO`; el botón dice «Crear cuenta · {plan}», no «Activar». Precio:
-  el 1er mes en grande y «Desde el 2.º mes» en chico. **`?prefilled_promo_code=CUKI` no aplica el descuento en estos
-  links** (probado el 18-oct: el total quedó entero): la clínica escribe el
-  código. Precargarlo pide una Checkout Session con `discounts` y una llave con
-  escritura. El cupón vence al día siguiente de la primera visita (`useCupon.ts`,
-  compartido con `/planes`). «Prefiero hablar con ventas
-  antes» abre `StepClineraScheduler`: la reserva sigue emitiendo el MQL.
-- **Embudo en el pixel del sitio (Ricardo, 18-oct-2026):** rellena el formulario
-  = `Lead` US$ 3 (`fireLeadEvent`, pixel + CAPI, al pasar el paso 1); además
-  agenda con ventas = `MQL` US$ 10 (la reserva); paga = `CLIENTE` con el valor
-  del plan (Flux 129 · Hurricane 179 · Vortex 279; `planVigenteDe` en
-  `meta-purchase.ts`, por el webhook de Stripe). **`SQL` US$ 30** (MQL que se
-  presenta a la llamada y califica) **no vive acá**: lo emite W1 de n8n desde el
-  CRM, que hoy manda SQL US$ 100 al pixel viejo `1104567405156111`. Cambiarlo es
-  en n8n (`integrations/n8n/crm-etapas-meta-capi.mapeo.js` + aplicador).
-- **Landing breve:** al lado del wizard, lista de funciones (`FUNCIONES_HERO`,
-  formato de la vieja `/clinica-estetica`) y prueba social
-  (`PRUEBA_SOCIAL_ESTETICA`: «5/5 en Capterra», «más de 100 clínicas estéticas
-  en Chile y México», cifras de Ricardo del 18-oct; reemplazan «+52 clínicas ·
-  Hecho en Método Hebe y Protocolo Lumina» en esta landing). Debajo,
-  `EsteticaSection compacta cupon` (foto con el cupón en vez del precio). En
-  móvil, un botón fijo vuelve al formulario (`data-volver-form`). Entre el hero y
-  la foto: `ChatAgendaIA` (WhatsApp → cita en la agenda, CSS puro, datos de
-  ejemplo en `CHAT_AGENDA_IA`) y `FichasCarrusel` (ficha médica estándar, facial,
-  corporal y presupuesto; `FICHAS_CARRUSEL`). Carrusel con ancho fijo por tarjeta:
-  `minmax(0, …)` las aplastaba.
-- El wizard con calendario (lo de abajo) **sigue vivo en `/reunion-comercial`**;
-  `tests/agenda-wizard.spec.ts` lo prueba ahí. Guardián: `tests/agenda-cuenta.spec.ts`.
-
-# `/reunion-comercial` (ex `/agenda`): layout Hebe, agendador de siempre
-
-La página canónica es `AgendaHebeLanding` (50/50, carousel, 5 pasos). El
-calendario **no** es Cal.com: reusa `StepClineraScheduler` de
-`VentasLanding.tsx` (nativo primero, embed de `app.clinera.io` de respaldo).
-`/ventas` sigue con el wizard anterior. `/agenda-hebe` redirige a `/agenda`.
-
-El aviso de Google Chat y Twenty los arma `OACG TECH | Wizard` (`A3wOPmhQjit8VswM`)
-en n8n: en `/agenda` ya no se anuncia «Software actual». Van necesidad, cargo,
-web/redes, volumen y clínica (ciudad se dejó de pedir en el paso 3 — el
-webhook sigue mandando `ciudad: ""`). El botón «Agenda con tu ingeniero» abre
-el calendario **sin esperar** el webhook — si se vuelve a `await`, se pierden leads.
-
-# `/reunion-comercial` (ex `/agenda`): wizard de 3 pasos para Meta Ads (oct 2026)
-
-Brief de optimización de la landing (9-oct-2026). Titular visible y h1:
-«Automatiza el WhatsApp y las citas de tu clínica con inteligencia
-artificial» + «Planes desde USD 17/mes» y la línea Go!/Flux/Vortex (de
-`PLANS_2` en `planes2.ts` desde el 16-oct-2026, no escrito a mano). **Ya no se elige plan** al inicio (solo se conserva `?plan=` si viene
-de `/planes`). Pasos: 1 clínica (nombre, especialidad, boxes, pacientes/mes),
-2 contacto (nombre, cargo, WhatsApp con país, correo), 3 calendario.
-`boxes_profesionales` viaja en el payload (`1_3`, `4_6`, `7_10`, `10_plus`).
-El teléfono arranca en +52 si `x-vercel-ip-timezone` es de México.
-
-**Pendiente de ventas (no implementado a propósito):** opción «menos de 200
-pacientes» y especialidad Dental — el brief pide validar con ventas antes.
-Cifra pública de clínicas: **+52** (layout, home, blog); /agenda decía 80.
-
-**Medición (dataLayer):** `agenda_landing_view` → `agenda_form_start` →
-`agenda_step_complete` (step 1, 2) → `ventas_submit_lead` (formulario
-completo) → `ventas_booking_confirmed` + Schedule/MQL. La reserva solo se
-emite tras agendar de verdad y una sola vez (`bookingSent`).
+- **`/agenda` es un wizard de 3 pasos** (`AgendaWizard.tsx`, copy en
+  `agenda-oferta.ts`): 1 datos (tipo de clínica, profesionales, ciudad, país) →
+  CRM con `submitContactLead`; 2 servicio de interés (marketing / software /
+  ambas, preselección por `?servicio=`); 3 videollamada con el calendario nativo
+  (`StepClineraScheduler`). Debajo: «Cómo funciona el ecosistema» (campañas →
+  WhatsApp → la IA agenda). `/clinica-estetica`, `/activar-cuenta`,
+  `/reunion-comercial` y similares redirigen ahí (308, con query).
+- **Eventos del sitio (pixel `2251201709002818` vía GTM):** `Lead` US$ 3 al
+  pasar el paso 1; `ViewContent` al elegir servicio; `MQL` US$ 10 al agendar;
+  `SQL` US$ 30 (asistió, es real y califica) lo emite el CRM, **no el sitio**, y
+  hoy W1 de n8n manda SQL US$ 100 al pixel viejo: cambiarlo es en n8n; `Cliente`
+  = valor del plan vía Stripe (`planVigenteDe` en `meta-purchase.ts`).
+- **Pendientes que no se resuelven en este repo:** campo «servicio de interés»
+  en Twenty y su mapeo en n8n; si la inversión publicitaria va incluida (FAQ de
+  `/planes` con marcador `[PENDIENTE]`); desactivar en Stripe el cupón y los
+  Payment Links anteriores; Webhooks/API no tienen plan asignado en el modelo nuevo.
+- **Conflicto de nombres:** `pricing.ts` (contratos `/firma`, `/cotizacion`) y
+  `planes2.ts` (`/go/exito`) conservan el catálogo viejo, donde «Vortex» vale 279.
+  `planVigenteDe` valoriza cualquier «Vortex» como 379.
+- Guardianes: `tests/agenda-wizard.spec.ts`, `tests/planes-vigentes.spec.ts`,
+  `tests/clinica-estetica.spec.ts` (redirects y home).
 
 # `/agenda`: la hora que se guarda es de Chile, siempre
 
@@ -748,51 +693,6 @@ no prometer porcentajes de reducción de no-shows, no hay dato propio.
 `/crm-para-clinicas` (contenido `CRM`): el CRM es un módulo del mismo software, no
 un producto aparte; no prometer email marketing ni triggers de cumpleaños (son
 «próximas funciones»). Webhooks/API pública no se presentan como integración de agenda.
-
-# Planes vigentes: Flux · Hurricane · Vortex (Ricardo, 18-oct-2026)
-
-**Esto es lo que el sitio público vende.** Fuente única: `src/content/planes.ts`
-(Flux US$ 129 · Hurricane US$ 179 · Vortex US$ 279; ojo: el «Vortex» de
-`pricing.ts`/`/firma` es otro plan, el viejo de 279 con otra bolsa).
-Lo pinta `src/components/pricing/PlanesVigentes.tsx` en home, `/planes` y las
-landings `software-vertical`; también alimenta `softwareOffers` (schema),
-`planes-faq.ts`, `/agenda` («Planes desde…») y `public/llms.txt`.
-
-- **Un solo CTA: «Activar cuenta» → `/clinica-estetica/activar-cuenta`** con
-  el plan y la query de la visita (Nav, banda, tarjetas, flotante). `/planes`
-  **no cobra** (Ricardo, 18-oct: «el único CTA es activar cuenta»): suma el cupón
-  CUKI (`CuponBanner`) y el 1er mes en grande (`PlanesVigentes conPago`); el pago
-  o la reunión con ventas se deciden en la landing. `/go` (Go! US$ 17) sigue vivo
-  pero el sitio **no lo promueve**.
-- **Sin costo de implementación** (Ricardo, 18-oct-2026: «elimina costo de
-  implementación»; el US$ 250 duró horas). `SETUP_FEE_USD = 450` de `pricing.ts`
-  **sigue** en los contratos de `/firma` y en `/cotizacion`: migrar contratos es
-  decisión de Ricardo.
-- **Agente IA desde Hurricane** (Flux sin IA). Agente IA y «Onboarding humano
-  dedicado» (Hurricane y Vortex) van **destacados**: ícono + negrita
-  (`destacadoDe`, `IconoDestacado`). Créditos CI: Flux 100 · Hurricane 200 ·
-  Vortex 500. Canales: WhatsApp, Facebook, Instagram y email marketing en los
-  tres; Vortex suma **llamada telefónica** (`telefono` en `PlanChannelLogos`).
-  Vortex usa un tema magenta claro (`TEMA_VORTEX`): el violeta intenso de
-  `summit` no dejaba ver íconos ni chips.
-- **«Créditos CI» = créditos de Clinera Intelligence**, el agente IA dentro del
-  software (Ricardo, 18-oct-2026). Las funciones de cada tarjeta están enfocadas
-  en la clínica estética (ficha médica personalizable, ficha facial y corporal,
-  presupuestos, evoluciones, ventas) y la IA va como plus.
-- **Diseño de tarjeta = el original de `Pricing`** (degradado por plan, ícono,
-  panel de cobro, «Funciones base», chips, canales): Ricardo pidió mantenerlo.
-  `PlanesVigentes` reusa `PLAN_THEMES` y `PLAN_ICONS` de `home-v3/sections.tsx`.
-- **Home breve: 9 secciones** (Ricardo, 18-oct-2026: «más aire, más limpio,
-  elegancia de clínica estética premium»). Salió la sección de empleados
-  digitales (`Features`: AURA/CAMILA/LIA; CAMILA y LIA no están disponibles) y
-  otras ocho; ver el comentario en `HomeV3.tsx`. No las repongas sin que él lo pida.
-- **Residuo conocido** (precios viejos 279/379/479/450 escritos a mano, pendiente
-  de barrido): comparativas, `mejor-software.ts`, `comparativas-cross.ts`,
-  `recursos-templates.ts`, posts del blog, `/planes-pro`, calculadoras, `/demo`,
-  `/empleado-digital`, `/plataforma`, `/migracion`, `DemoWizard`, `llms-full.txt`
-  y decks de `public/`. «Webhooks + API en Atlas y Summit» también es residuo:
-  falta que Ricardo diga en qué plan nuevo van.
-Guardián: `tests/planes-vigentes.spec.ts`.
 
 # Nicho estético: home y la landing (Ricardo, 18-oct-2026)
 
@@ -1064,101 +964,10 @@ del deck apunta a `/convenio-doctores#requisitos`. Copy en
   respuesta directa, FAQ y demo; los 9 artículos de ficha clínica llevan
   `<FichaCTA />` a mitad de texto (`lead_source=blog_ficha_clinica`).
 
-# `/planes2` y `/go`: modelo Go! / Flux / Ultra (Ricardo, 17-oct-2026)
+# `/go/exito` y el modelo Go! / Flux / Ultra (histórico)
 
-> Superado en lo público el 18-oct por **Flux · Nexus · Summit** (`planes.ts`,
-> ver arriba). Lo que sigue describe `/go`, `/activa` y `/planes2`, que quedan
-> vivos pero sin enlaces desde el sitio.
-
-**El 17-oct reemplazó al modelo Go!/Flux/Vortex del 16-oct** (Flux pasó de 87 a 89
-y Vortex 279 se convirtió en Ultra 179). Vista previa **interna** (`noindex`,
-`Disallow` en `robots-txt.ts`, fuera del sitemap). **No reemplaza `/planes`**:
-Vortex/Atlas/Summit viejos siguen vigentes en `pricing.ts` y en los contratos de
-`/firma` (el «Vortex» que aún aparece en `/partners` y en los decks es ese viejo).
-Go! US$ 17 (1 profesional, 1 sucursal, 50 conversaciones, 100 agendamientos, 100
-créditos), Flux US$ 89 (3 profesionales, 500 conversaciones, 200 créditos), Ultra
-US$ 179 (10 profesionales, 5.000 conversaciones, 10.000 créditos). **Lo que manda es la
-cantidad de profesionales**: las sucursales son ilimitadas en Flux y Ultra. AURA y el
-onboarding dedicado (obligatorio, sin él la IA responde mal) solo en Ultra. El límite se
-expresa siempre en **conversaciones**, nunca en «mensajes». Extras que se compran dentro
-de la app: profesional extra US$ 9/mes (Flux y Ultra), 100 conversaciones US$ 15, 5.000
-créditos US$ 15; ya no hay sucursal extra. Solo clientes nuevos. **Solo dólares: sin switch
-ni precio en MXN** (Ricardo, 16-oct); los precios son texto fijo en USD, no `CatalogPrice`.
-**Sin costo de implementación** en los planes nuevos (Ricardo, 16-oct): el US$ 450 de
-`SETUP_FEE_USD` sigue rigiendo solo los planes viejos y los contratos de `/firma`.
-
-Todo vive en `src/content/planes2.ts`, incluida la lista `PENDIENTES` (copia en
-`docs/planes2-pendientes.md`). Lo que Ricardo no ha decidido (links de Stripe de Flux y
-Ultra, anual, logos de los modelos de IA, link de soporte) es un marcador
-`[PENDIENTE: …]` visible: **no lo rellenes con un número inventado** y **no reutilices los
-links de Stripe de 87 y 279**. Los CTA sin link muestran el marcador en vez de un enlace roto.
-Guardián: `tests/planes2.spec.ts`.
-
-**`/activa` es la landing informativa de los 3 planes (Ricardo, 17-oct-2026):**
-hero, reportaje de CNN (Vimeo `1205127087`), funciones y las tarjetas de
-Go! / Flux / Ultra. **Todos los CTA dicen «Activa tu cuenta ahora» y van a `/go`**
-(hoy el único checkout vivo; Flux y Ultra siguen sin link de Stripe). Precios y
-límites salen de `PLANS_2`, el copy propio vive en `src/content/activa.ts`. El
-CTA (`ActivaCta`) reenvía la query de la visita (utm, fbclid, gclid): sin ella un
-lead de anuncio llega a `/go` sin origen. Sin navbar ni footer, igual que `/go`.
-Interna: `noindex`, `Disallow` en `robots-txt.ts`, fuera del sitemap. Sin CAMILA
-ni LIA en las funciones (próximamente). Guardián: `tests/activa.spec.ts`.
-
-**`/go` es un wizard de 3 pantallas** (17-oct), no la landing oscura del 16-oct: 1 oferta
-(«Potencia tu clínica por solo $17 dólares», Ricardo 17-oct), 2 datos (nombre, clínica, especialidad, profesionales,
-correo, WhatsApp), 3 pago. Sin navbar ni footer, **sin FAQ ni reproductor** (Ricardo, 17-oct: «solo
-el wizard»): bajo la pantalla 1 va únicamente una animación sin JavaScript de la IA agendando por WhatsApp (`DemoIACompact`, en `src/components/activa/DemoIA.tsx`: chat → cita con la etiqueta «Agendado por IA», datos de ejemplo) y el «Respaldado por CNN, Forbes y Clínica Alemana» (Ricardo, 17-oct: reemplaza la imagen del video de CNN; Forbes y Clínica Alemana van como texto hasta confirmar el uso de sus logos, ver `PENDIENTES`). La frase «Clinera ya lo usan más de 1.000 clínicas en Chile» (`GO_PRUEBA_SOCIAL`) ya no se muestra en `/go`; sigue en `/activa`. La animación es lo que hace AURA, que solo viene en Ultra. Tiene que seguir cabiendo sin scroll en 390×844, 360×740 y 1280×800 (los `@media (max-height)` de `DemoIA` lo logran). La animación tiene **3 escenas** que rotan en 12 s (AURA agenda · recordatorio automático · difusión por WhatsApp) y cada una dice desde qué plan existe (AURA solo en Ultra; recordatorios y difusiones desde Flux): Go! no trae ninguna. Sin cifras inventadas. **`/go` tiene dos versiones** (Ricardo, 17-oct): móvil (una columna, animación compacta bajo el paso 1) y escritorio ≥1024 px (`.gw-shell`: oferta a la izquierda, `data-go-escritorio` con la demostración ampliada a la derecha). Al tocar `/go`, mide las dos. **Nunca le pongas alto fijo a la animación**: el navegador interno de Meta (clic desde un anuncio, Android) infla el texto y, con alto fijo, el contenido se salía de la caja y se superponía con «Respaldado por» (17-oct). Las 3 escenas comparten una celda de grilla (la caja mide la más alta) y `text-size-adjust: 100%` está puesto en el wizard y en la animación; para probarlo, agranda las fuentes ×1.3 y revisa que no se tapen. `GO_FAQ` quedó en `planes2.ts` sin uso en pantalla. El
-wizard no puede envolverse en un `<main>` propio: `globals.css` le pone `padding-top: 112px` al
-primer `section`/`div` de todo `main`.
-**Jerarquía y alto (Ricardo, 17-oct):** en la pantalla 1 manda «$17» (gigante, degradado, con «dólares.» más chico al lado), «50
-conversaciones por WhatsApp, Facebook e Instagram» y «100 agendamientos» como cifras grandes; el
-wizard completo (y la imagen de CNN, ya compacta) tiene que entrar **sin scroll** en 390×844, 360×740
-y, en las pantallas 2 y 3, también en 375×667 (iPhone SE, por eso los `@media (max-height)` de
-`GoWizard.tsx`). **Sin ningún CTA a ventas** en `/go`: la idea es que pague USD 17 para probar; el
-link «Hablar con ventas» y el de Ultra se sacaron y el test lo vigila.
-Decisiones que se apartan del handoff, con su porqué:
-- **Los datos se guardan antes del pago** reusando `submitContactLead` (el mismo `/api/wizard`
-  → n8n de `/agenda`), con `plan: "go"`. Consecuencia: el lead que abandona queda en Twenty/
-  Baserow como cualquier lead de `/agenda`. La pantalla 3 no espera a n8n.
-- **No se pasa el id del lead como `client_reference_id`.** n8n (`Prepare Data`, workflow
-  `7jgtp669q8pWJKm6`) lo separa por `::` en 7 segmentos y, si no hay `::`, lo lee ENTERO como
-  gclid; un id suelto ensuciaría la atribución. Lo arma `Analytics.tsx`. Lo que sí se manda es
-  `prefilled_email`. El botón de pago nace en la pantalla 3, así que el wizard dispara
-  `clinera:routechange` para que Analytics lo enganche.
-- **El pixel sigue siendo el nuevo `2251201709002818`**, no el `1104567405156111` que traía el
-  handoff (es el anterior al cambio del 16-oct).
-- **Eventos del pixel nuevo (Ricardo, 17-oct, sustituye a «SQL de USD 17»). Valores del embudo:
-  MQL US$ 1 · TRIAL US$ 17 · SQL US$ 20 · CLIENTE = plan (Flux 89 / Ultra 179).** `MQL` = rellenó el
-  wizard de `/go` (US$ 1, `fireMqlEvent` con `value`; /agenda sigue en US$ 10, pixel + CAPI con correo/celular hasheados);
-  `TRIAL` = pagó Go! (US$ 17); `CLIENTE` = pagó Flux (US$ 89) o Ultra (US$ 179). Los planes
-  viejos siguen con `Purchase`. `TRIAL` lo manda el navegador en `/go/exito` y el servidor en
-  `/api/stripe/meta-purchase` con el mismo `event_id` `trial_{session_id}`; `CLIENTE`
-  (`cliente_{session_id}`) solo el servidor. No puede ser `{oppId}_…` porque el navegador no conoce
-  la oportunidad del CRM. El servidor reconoce el plan por el nombre del producto en Stripe
-  (`isGoPlan` / `isFluxPlan` / `isUltraPlan`) y fija el valor en USD del catálogo: la sesión de
-  prueba cobró en **CLP** (17.401, `amount_total` sin decimales), por eso `sessionValue` no divide
-  por 100 las monedas sin decimales. Los eventos custom aparecen en el pixel al recibir el primero;
-  no hay que «crearlos» en Events Manager. Pendiente fuera del repo: el mapeo `planClinera` de W1
-  (pixel viejo) solo conoce VORTEX/ATLAS/SUMMIT.
-- **Handoff de datos a Stripe (17-oct):** un Payment Link solo precarga el correo. Para que
-  Checkout traiga también nombre y celular, `/api/go/checkout` busca o crea el Customer (por
-  correo) y abre la sesión de Go! sobre él (`GO_STRIPE_PRICE_ID`, `price_1URG7I…`, USD 17).
-  Conserva el `client_reference_id` de 7 segmentos que Analytics deja en el href del botón (se lee
-  de ahí, no se recalcula), `success_url` a `/go/exito`, código de promoción y celular. **Necesita
-  una llave de Stripe con escritura en Customers y Checkout Sessions**; la restringida que usa el
-  entorno de pruebas (`rk_live_…`) solo lee (403 `more_permissions_required`). Sin permiso, o si
-  tarda más de 8 s, el botón sigue con el Payment Link (correo precargado): la compra no depende
-  de esta ruta. Si algún día se cambia el precio de Go! en Stripe, hay que cambiar el id.
-
-**El mensaje a soporte lleva el correo con el que contrató (Ricardo, 17-oct):** `/go/exito` agrega «Mi
-correo es …» al final del texto precargado (`soporteWhatsAppUrl` en `planes2.ts`). Toma primero el
-correo del wizard (sessionStorage `cl_go_email`) y luego el que Stripe cobró, vía `GET /api/go/session`
-(solo devuelve el correo de una sesión `complete`). **El comienzo del mensaje no se toca**: la regla de
-AURA («acabo de contratar Clinera Go! y quiere activar su WhatsApp») lo reconoce por ahí.
-
-**Activación tras el pago (Ricardo, 16-oct):** `/go/exito` ya no pide «crear cuenta»:
-manda al cliente a WhatsApp de soporte (`SOPORTE_WHATSAPP` en `planes2.ts`,
-+56 9 8558 1524, mensaje precargado) para que soporte active el WhatsApp de su clínica.
-Para que el cliente llegue ahí, el Payment Link de Go! debe redirigir a
-`https://www.clinera.io/go/exito?session_id={CHECKOUT_SESSION_ID}` (se configura en Stripe;
-sin eso se queda en la pantalla de gracias de Stripe).
+`/planes2`, `/go` y `/activa` se borraron el 18-oct-2026 (`/go` y `/activa` redirigen
+a `/agenda`). Siguen vivos solo `/go/exito` (activación por WhatsApp de soporte),
+`/api/go/*` y el reconocimiento de planes viejos en `meta-purchase.ts`, con
+`src/content/planes2.ts`, porque aún pueden llegar pagos de esos planes por
+Stripe. No los promociones ni los reconectes al sitio.

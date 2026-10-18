@@ -19,7 +19,7 @@ import styles from "./empleado-digital.module.css";
 
 const TITLE = "Empleado digital para clínicas";
 const DESCRIPTION =
-  "Empleados digitales CAMILA (voz), AURA (WhatsApp) y LIA (orquestación) que ejecutan sobre la agenda de tu clínica 24/7: agendan, confirman, cobran y recuperan pacientes. Desde USD 279/mes hasta USD 479/mes.";
+  "Empleados digitales CAMILA (voz), AURA (WhatsApp) y LIA (orquestación) que ejecutan sobre la agenda de tu clínica 24/7: agendan, confirman, cobran y recuperan pacientes. Vortex USD 379/mes o Ecosistema USD 479/mes.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     url: "https://www.clinera.io/empleado-digital",
     title: TITLE,
     description:
-      "CAMILA llama, AURA atiende WhatsApp y LIA orquesta la operación. Tres empleados digitales con una sola memoria del paciente. Desde USD 279/mes.",
+      "CAMILA llama, AURA atiende WhatsApp y LIA orquesta la operación. Tres empleados digitales con una sola memoria del paciente. Desde USD 379/mes.",
     type: "website",
     images: [
       {

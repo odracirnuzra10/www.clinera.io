@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Pricing, useReveal } from "@/components/home-v3/sections";
+import { useReveal } from "@/components/home-v3/sections";
+import PlanesVigentes from "@/components/pricing/PlanesVigentes";
 import { track } from "@/lib/tracking";
 import styles from "./PlataformaLanding.module.css";
 
 /* En esta página el comprador tiene varias sedes y compra con migración
-   gestionada: necesita un carril de ventas, no una tarjeta de crédito. Por eso
-   las tarjetas canónicas no van al checkout de Stripe acá — el CTA de cada plan
-   apunta a /agenda, porque el objetivo de /plataforma es la reunión. */
+   gestionada: necesita un carril de ventas. Las dos opciones vigentes (Vortex y
+   Ecosistema) llevan a /agenda, porque el objetivo de /plataforma es la reunión. */
 export default function PlanesSection() {
   useReveal();
   return (
@@ -23,7 +23,7 @@ export default function PlanesSection() {
         `,
         }}
       />
-      <Pricing ctaHref="/agenda" />
+      <PlanesVigentes id="precios" titulo="Elige cómo" tituloAcento="quieres partir." />
       <div className={styles.salesLane}>
         <p>
           ¿Varias sedes, migración desde otro sistema o facturación a empresa? Lo vemos antes de

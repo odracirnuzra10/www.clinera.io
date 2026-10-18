@@ -38,10 +38,10 @@ export const FOUNDING_DATE = "2025";
 
 /** ≤ 25 palabras. No cambiar sin actualizar schema + llms.txt + llms-full.txt. */
 export const ENTITY_PHRASE =
-  "Clinera es software de IA para clínicas médicas y estéticas en LATAM: AURA, CAMILA y LIA agendan, confirman, cobran y recuperan pacientes.";
+  "Clinera es software con IA y marketing de performance para clínicas estéticas y médicas en LATAM: trae pacientes y la IA los agenda y confirma.";
 
 export const ENTITY_DESCRIPTION =
-  "Software de IA para clínicas médicas y estéticas en LATAM. Empleados digitales (AURA, CAMILA, LIA) que agendan, confirman, cobran y recuperan pacientes por WhatsApp y voz, integrados a agenda, ficha clínica y ventas.";
+  "Software con IA y marketing de performance para clínicas estéticas y médicas en LATAM. Campañas que traen pacientes y AURA, el agente de IA que los responde, agenda y confirma por WhatsApp, integrado a agenda, ficha clínica y ventas.";
 
 export const DISAMBIGUATING_DESCRIPTION =
   "Empresa chilena de software para clínicas en Latinoamérica (clinera.io). No relacionada con clinera.ai.";

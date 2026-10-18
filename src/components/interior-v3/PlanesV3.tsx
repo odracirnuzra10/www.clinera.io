@@ -5,7 +5,7 @@ import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { FinalCTA, useReveal } from "@/components/home-v3/sections";
 import { PLANES_FAQ } from "@/content/planes-faq";
 import PlanesVigentes from "@/components/pricing/PlanesVigentes";
-import { PLANES_TITULO, PLANES_TITULO_ACENTO } from "@/content/planes";
+import { PLANES_BAJADA, PLANES_TITULO, PLANES_TITULO_ACENTO } from "@/content/planes";
 
 const FAQ = PLANES_FAQ;
 
@@ -24,7 +24,7 @@ export default function PlanesV3() {
         }
       `}</style>
       <PlanesHero />
-      <PlanesVigentes id="planes" conTitulo={false} conPago />
+      <PlanesVigentes id="planes" conTitulo={false} conModelos />
       <PlanesFaq />
       <FinalCTA />
     </>
@@ -68,8 +68,7 @@ function PlanesHero() {
             maxWidth: 620,
           }}
         >
-          Flux, Hurricane y Vortex: eliges según cuántos profesionales tiene tu equipo.
-          Actívalo hoy con 50% el primer mes o habla antes con ventas.
+          {PLANES_BAJADA}
         </p>
       </div>
       <style jsx>{`
@@ -99,7 +98,7 @@ function PlanesFaq() {
               color: "#0A0A0A",
             }}
           >
-            Dudas sobre tu plan.
+            Dudas sobre las dos opciones.
           </h2>
         </div>
         <div className="reveal" style={{ borderTop: "1px solid #E5E7EB" }}>

@@ -17,7 +17,7 @@ const AYUDA_FAQ = [
   },
   {
     q: "¿Clinera se integra con AgendaPro, Reservo o Dentalink?",
-    a: "No. Clinera opera sobre su propia agenda, fichas y pagos. La migración de datos se hace en el onboarding. Atlas y Summit sí exponen Webhooks + API hacia n8n, Make y Zapier.",
+    a: "No. Clinera opera sobre su propia agenda, fichas y pagos. La migración de datos se hace en el onboarding. Clinera sí expone Webhooks + API hacia n8n, Make y Zapier.",
   },
 ];
 

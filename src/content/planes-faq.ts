@@ -1,41 +1,48 @@
 // Fuente única del FAQ de /planes: la consume <PlanesFaq /> en
 // interior-v3/PlanesV3.tsx y el JSON-LD FAQPage de src/app/planes/page.tsx.
-// Planes Flux · Hurricane · Vortex (Ricardo, 18-oct-2026): los números salen de
-// `planes.ts`. Sin anual, sin MXN y sin bolsa de créditos de los planes viejos.
+// Modelo nuevo (Ricardo, 18-oct-2026): Vortex y Ecosistema. Los números
+// salen de `planes.ts`. Sin anual, sin MXN, sin cupón y sin precios de extras.
 import { VERTEX_IA_MODELS_PROSE } from "@/content/ia-stack";
-import { EXTRAS, PLANES, PLAN_IA_DESDE } from "@/content/planes";
+import { IMPLEMENTACION_USD, MARKETING_BLOQUES, PLANES } from "@/content/planes";
 
-const n = (v: number) => v.toLocaleString("es-CL");
-const [extraConv, extraCreditos, extraProf] = EXTRAS;
+const [vortex, ecosistema] = PLANES;
+
+/** Marcador visible: lo que Ricardo no ha confirmado no se inventa (AGENTS.md). */
+export const PENDIENTE_INVERSION =
+  "[PENDIENTE: confirmar con Ricardo] La suposición es que el presupuesto de anuncios lo paga la clínica aparte, directo a Meta y Google.";
 
 export const PLANES_FAQ = [
   {
-    q: "¿Qué diferencia a Flux, Hurricane y Vortex?",
-    a: `Los tres traen ficha estética facial y corporal personalizada, evoluciones, presupuestos, WhatsApp, Facebook, Instagram, email marketing y Clinera Intelligence. Cambian el tamaño del equipo, las conversaciones, los créditos y la IA: ${PLANES.map((p) => `${p.name} (US$ ${p.monthlyUsd}/mes) hasta ${p.professionals} profesionales, ${n(p.conversations)} conversaciones y ${n(p.ciCredits)} créditos de Clinera Intelligence, ${p.agenteIA ? `con agente IA y ${n(p.iaCredits)} créditos de IA` : "sin agente IA"}`).join("; ")}.`,
+    q: "¿Qué diferencia hay entre Vortex y Ecosistema?",
+    a: `Vortex (US$ ${vortex.monthlyUsd}/mes) es el software con IA: agenda, fichas, bandeja de WhatsApp, Instagram y Facebook, y el agente AURA que responde y agenda. Ecosistema (US$ ${ecosistema.monthlyUsd}/mes) es el ecosistema completo: todo lo de Vortex más marketing de performance, para que además te traigamos los pacientes.`,
   },
   {
-    q: "¿Qué plan trae el agente IA que responde y agenda?",
-    a: `Desde ${PLAN_IA_DESDE.name}. Flux es sin IA. El agente responde a tus pacientes por WhatsApp, Facebook e Instagram y agenda sobre tu agenda real.`,
+    q: "¿Qué incluye el marketing de performance?",
+    a: `Tres cosas: ${MARKETING_BLOQUES.map((b) => b.titulo.charAt(0).toLowerCase() + b.titulo.slice(1)).join("; ")}.`,
   },
   {
-    q: "¿Qué es Clinera Intelligence?",
-    a: `Es el agente IA dentro del software: le preguntas por tus ventas, tu agenda y tus pacientes. Créditos al mes: ${PLANES.map((p) => `${p.name} ${n(p.ciCredits)}`).join(", ")}.`,
+    q: "¿La inversión en publicidad está incluida?",
+    a: PENDIENTE_INVERSION,
   },
   {
-    q: "¿Qué pasa si se me acaban las conversaciones?",
-    a: `Sumas un paquete de ${extraConv.label} por US$ ${extraConv.usd} sin cambiar de plan, o subes de plan. También puedes sumar ${extraCreditos.label} por US$ ${extraCreditos.usd}.`,
+    q: "¿Qué es la implementación de USD 450?",
+    a: `Es un pago único, igual para las dos opciones, que va en el primer cobro junto con el primer mes. Incluye el onboarding asistido por una persona: configuramos tu cuenta, conectamos tus canales y migramos tus pacientes y tratamientos (USD ${IMPLEMENTACION_USD}).`,
   },
   {
-    q: "¿Puedo sumar profesionales sin cambiar de plan?",
-    a: `Sí. Cada profesional extra cuesta US$ ${extraProf.usd} al mes.`,
+    q: "¿Puedo empezar solo con el software y sumar marketing después?",
+    a: "Sí. Puedes partir con Vortex y pasar a Ecosistema cuando quieras. Lo coordinamos contigo en la videollamada.",
   },
   {
-    q: "¿Cómo contrato?",
-    a: "Con «Activar cuenta»: dejas los datos de tu clínica, eliges tu plan y decides si pagas al tiro (con el cupón CUKI tienes 50% el primer mes) o si prefieres hablar antes con ventas en una videollamada de 45 minutos.",
+    q: "¿Qué pasa si necesito más de 10 profesionales?",
+    a: "Lo vemos contigo en la videollamada: según tu equipo y tu volumen armamos lo que necesitas.",
   },
   {
-    q: "¿Puedo cambiar de plan después?",
-    a: "Sí. Puedes subir o bajar de plan cuando lo necesites. El cambio se aplica en tu próximo ciclo de facturación.",
+    q: "¿Ya soy cliente, mi plan cambia?",
+    a: "No, tu plan actual se mantiene.",
+  },
+  {
+    q: "¿Cómo parto?",
+    a: "Con «Agendar videollamada»: nos cuentas de tu clínica, eliges qué servicio te interesa y reservas una videollamada de 30 minutos con el equipo.",
   },
   {
     q: "¿Puedo elegir el modelo de IA?",

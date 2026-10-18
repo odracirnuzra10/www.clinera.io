@@ -43,7 +43,7 @@ export default function EmpleadoDigitalLanding() {
         id="camila"
         eyebrow="02 · El call center IA"
         headline="Llama, confirma y reagenda por teléfono."
-        body="CAMILA es el empleado digital de voz: llama a tus pacientes para confirmar y reagendar, con tool-calling sobre la agenda para mover citas durante la llamada. Cinco acentos (chileno, colombiano, peruano, mexicano y español). 25 créditos por minuto, disponible solo en Summit."
+        body="CAMILA es el empleado digital de voz: llama a tus pacientes para confirmar y reagendar, con tool-calling sobre la agenda para mover citas durante la llamada. Cinco acentos (chileno, colombiano, peruano, mexicano y español). 25 créditos por minuto, próximamente."
         imageSrc="/agents/camila.png"
         imageAlt="CAMILA — empleado digital de voz para clínicas"
         reverse
@@ -54,7 +54,7 @@ export default function EmpleadoDigitalLanding() {
         id="lia"
         eyebrow="03 · 0% vacancia"
         headline="Llena cada hueco con el paciente idóneo."
-        body="LIA fiscaliza tu operación 24/7. Detecta huecos y fugas al instante, prioriza por LTV, urgencia e historial, y activa a AURA o CAMILA según el canal del paciente. Incluida en Summit."
+        body="LIA fiscaliza tu operación 24/7. Detecta huecos y fugas al instante, prioriza por LTV, urgencia e historial, y activa a AURA o CAMILA según el canal del paciente. Próximamente."
         imageSrc="/agents/lia-fullbody.png"
         imageAlt="LIA — empleado digital orquestador para clínicas"
         floatingCard={<LiaDetectionCard />}

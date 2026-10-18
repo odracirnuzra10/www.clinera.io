@@ -1,10 +1,10 @@
 // Ícono de las funciones destacadas de los planes (`destacadoDe` en planes.ts):
-// el agente IA (destello) y el onboarding humano dedicado (persona). Va sobre el
+// el agente IA (destello) y el marketing de performance (tendencia). Va sobre el
 // degradado de marca para que resalte entre los ticks normales.
 
 const GRAD = "linear-gradient(135deg, #3B82F6 0%, #7C3AED 50%, #D946EF 100%)";
 
-export function IconoDestacado({ tipo, size = 20 }: { tipo: "ia" | "onboarding"; size?: number }) {
+export function IconoDestacado({ tipo, size = 20 }: { tipo: "ia" | "marketing"; size?: number }) {
   return (
     <span
       aria-hidden
@@ -28,8 +28,8 @@ export function IconoDestacado({ tipo, size = 20 }: { tipo: "ia" | "onboarding";
         </svg>
       ) : (
         <svg width={size * 0.62} height={size * 0.62} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="8" r="4" />
-          <path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6" />
+          <path d="M3 17l6-6 4 4 8-8" />
+          <path d="M15 7h6v6" />
         </svg>
       )}
     </span>

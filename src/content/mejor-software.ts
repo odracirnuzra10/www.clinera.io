@@ -35,12 +35,13 @@ const clineraBase: SoftwareRanked = {
   esClinera: true,
   url: "https://www.clinera.io",
   resumen:
-    "Clinera es software clínico con empleados digitales (AURA por WhatsApp, CAMILA por voz, LIA como orquestador) que ejecutan tareas reales —agendar, confirmar, cobrar— sobre agenda y ficha propias. Precios públicos desde USD 279/mes.",
+    "Clinera es software clínico con IA y marketing de performance: AURA responde por WhatsApp, agenda y confirma sobre agenda y ficha propias, y las campañas traen los pacientes. Precios públicos desde USD 379/mes.",
   fortalezas: [
     "AURA contesta WhatsApp 24/7 con memoria contextual y cierra agendamientos.",
-    "Llamadas con IA (CAMILA) y LIA (orquestador) disponibles en el plan Summit; Facebook e Instagram desde Atlas.",
+    "WhatsApp, Instagram y Facebook en una sola bandeja, conectada a la agenda.",
+    "Marketing de performance (campañas en Facebook, Instagram y Google, propuesta de valor y framework comercial) en el plan Ecosistema.",
     "Atribución de ventas: trazabilidad desde campaña Meta/Google hasta la cita.",
-    "Precios públicos (Vortex USD 279 / Atlas USD 379 / Summit USD 479).",
+    "Precios públicos (Vortex USD 379 / Ecosistema USD 479).",
     "Datos clínicos en Google Cloud región Santiago de Chile (southamerica-west1).",
   ],
   debilidades: [
@@ -50,7 +51,7 @@ const clineraBase: SoftwareRanked = {
   ],
   idealPara:
     "Clínicas que pierden pacientes por WhatsApp sin responder, invierten en marketing digital o necesitan automatización real —no solo recordatorios.",
-  precioMensual: "Desde USD 279/mes (Vortex) · implementación USD 450 mes 1.",
+  precioMensual: "Desde USD 379/mes (Vortex) · implementación USD 450 mes 1.",
   comparativaUrl: "/empleado-digital",
 };
 
@@ -206,7 +207,7 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
       },
       {
         q: "¿Cuánto cuesta el software para clínicas en LATAM?",
-        a: "Los rangos van desde USD 19/usuario/mes (AgendaPro) hasta USD 479/mes (Clinera Summit con empleados digitales completos). Clinera publica precios desde USD 279/mes con implementación USD 450 en el mes 1. Reservo y Medilink no publican precios.",
+        a: "Los rangos van desde USD 19/usuario/mes (AgendaPro) hasta USD 479/mes (Clinera Ecosistema, con marketing de performance incluido). Clinera publica precios desde USD 379/mes con implementación USD 450 en el mes 1. Reservo y Medilink no publican precios.",
       },
       {
         q: "¿Doctoralia es un software de clínica?",
@@ -406,7 +407,7 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
       },
       {
         q: "¿Cuánto cuesta el software para clínicas en Chile?",
-        a: "Rangos: Sacmed ~USD 27/mes, AgendaPro desde USD 19/usuario, Clinera desde USD 279/mes (precios públicos). Reservo, Medilink y Dentalink no publican precios — cotización privada.",
+        a: "Rangos: Sacmed ~USD 27/mes, AgendaPro desde USD 19/usuario, Clinera desde USD 379/mes (precios públicos). Reservo, Medilink y Dentalink no publican precios — cotización privada.",
       },
     ],
     checklist: [
@@ -454,12 +455,12 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
       {
         ...clineraBase,
         resumen:
-          "Clinera opera en México con empleados digitales (AURA, CAMILA, LIA) sobre agenda y ficha propias. Partner local Clustourmed. CAMILA habla con acento mexicano. Precios públicos desde USD 279/mes.",
+          "Clinera opera en México con AURA, el agente de IA que agenda y confirma, sobre agenda y ficha propias. Partner local Clustourmed. Precios públicos desde USD 379/mes.",
         fortalezas: [
           "AURA contesta WhatsApp 24/7 con memoria contextual.",
           "CAMILA con acento mexicano para confirmaciones telefónicas.",
           "Atribución de ventas Meta/Google end-to-end.",
-          "Precios públicos (Vortex USD 279 / Atlas USD 379 / Summit USD 479).",
+          "Precios públicos (Vortex USD 379 / Ecosistema USD 479).",
           "Partner local Clustourmed para implementación en México.",
         ],
       },
@@ -575,7 +576,7 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
       },
       {
         q: "¿Cuánto cuesta Clinera en México?",
-        a: "Precios públicos en USD: Vortex USD 279/mes, Atlas USD 379/mes, Summit USD 479/mes. Implementación USD 450 mes 1. Sin precio mayor a USD 479/mes publicado.",
+        a: "Precios públicos en USD: Vortex USD 379/mes y Ecosistema USD 479/mes. Implementación USD 450 mes 1. Sin precio mayor a USD 479/mes publicado.",
       },
     ],
     checklist: [
@@ -704,7 +705,7 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
       },
       {
         q: "¿Cuánto cuesta el software para clínicas en Colombia?",
-        a: "Doctocliq desde USD 19/mes (plan gratis disponible). Medifolios Consultorio ~USD 35/mes año 1. Clinera desde USD 279/mes con precios públicos.",
+        a: "Doctocliq desde USD 19/mes (plan gratis disponible). Medifolios Consultorio ~USD 35/mes año 1. Clinera desde USD 379/mes con precios públicos.",
       },
       {
         q: "¿Cómo elijo entre Huli y Medifolios?",
@@ -817,11 +818,11 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
       },
       {
         q: "¿Se integra con la agenda que usamos hoy?",
-        a: "No. Clinera no se sincroniza con otras agendas: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Para conectar otras herramientas tienes Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit.",
+        a: "No. Clinera no se sincroniza con otras agendas: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Para conectar otras herramientas hay Webhooks y API pública (n8n, Make, Zapier): lo vemos contigo en la videollamada.",
       },
       {
         q: "¿Cuánto cuesta el software para clínicas en Perú?",
-        a: "Doctocliq desde USD 19/mes (plan gratis disponible). AgendaPro desde USD 19/usuario/mes. Clinera desde USD 279/mes con precios públicos. El catálogo de Clinera está en USD.",
+        a: "Doctocliq desde USD 19/mes (plan gratis disponible). AgendaPro desde USD 19/usuario/mes. Clinera desde USD 379/mes con precios públicos. El catálogo de Clinera está en USD.",
       },
     ],
     checklist: [

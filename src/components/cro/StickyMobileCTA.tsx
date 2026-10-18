@@ -9,7 +9,7 @@ import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH } from "@/content/planes";
 function subscribeLocation() {
   return () => {};
 }
-// Ricardo, 18-oct-2026: el flotante dice «Activar cuenta» y va a la landing única.
+// Ricardo, 18-oct-2026: el flotante dice «Agendar videollamada» y va a /agenda.
 function getAgendaHref() {
   return CTA_VENTAS_PATH + window.location.search;
 }
@@ -21,13 +21,10 @@ const SCROLL_REVEAL_PERCENT = 30;
 
 const HIDDEN_PREFIXES = [
   CTA_VENTAS_PATH,
-  "/reunion-comercial",
-  "/agenda",
   "/reserva-tu-hora",
   "/gracias",
   "/contrata",
   "/go",
-  "/activa",
   "/empleado-digital",
   "/vision-2027",
   "/nuevodiscurso",
@@ -64,7 +61,7 @@ export default function StickyMobileCTA() {
     if (typeof window === "undefined") return;
     type DL = { push: (e: Record<string, unknown>) => void };
     const dl = (window as unknown as { dataLayer?: DL }).dataLayer;
-    if (dl) dl.push({ event: "sticky_cta_click", cta: "activar_cuenta", page_path: pathname });
+    if (dl) dl.push({ event: "sticky_cta_click", cta: "agendar_videollamada", page_path: pathname });
   };
 
   const dismiss = () => {
@@ -74,11 +71,11 @@ export default function StickyMobileCTA() {
 
   return (
     <>
-      <div className="sticky-agenda-cta" role="region" aria-label="Activar cuenta en Clinera">
+      <div className="sticky-agenda-cta" role="region" aria-label="Agendar videollamada con Clinera">
         <Link href={agendaHref} onClick={trackClick} className="sticky-agenda-primary">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <circle cx="10" cy="8" r="4" />
-            <path d="M3 21c1-3.6 3.8-5.5 7-5.5 1.4 0 2.7.4 3.8 1M18 14v6M15 17h6" />
+            <rect x="3" y="5" width="18" height="16" rx="2" />
+            <path d="M16 3v4M8 3v4M3 10h18" />
           </svg>
           {CTA_VENTAS_LABEL}
         </Link>

@@ -223,7 +223,7 @@ export const COUNTRIES: Country[] = [
       "El modelo de datos de la ficha cubre los elementos del conjunto mínimo de la Resolución 866, de modo que armar un RDA es una transformación de salida y no un rediseño del núcleo clínico.",
       "Cifrado del contenido clínico en reposo y transporte cifrado extremo a extremo, con una llave por clínica.",
       "Trazabilidad de acceso y versionado de cada anotación, que es la evidencia que pide una auditoría de la Supersalud.",
-      "Webhooks y API pública (planes Atlas y Summit) para conectar un middleware de interoperabilidad sin tocar el núcleo clínico.",
+      "Webhooks y API pública para conectar un middleware de interoperabilidad sin tocar el núcleo clínico.",
     ],
     vocabulario: ["MinSalud", "Supersalud", "IPS", "EPS", "REPS", "IHCE", "RIPS", "ADRES", "MIPRES"],
   },

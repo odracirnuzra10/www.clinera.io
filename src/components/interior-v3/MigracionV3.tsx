@@ -541,7 +541,7 @@ function CompareSection() {
                     color: "transparent",
                   }}
                 >
-                  USD 279
+                  USD 379
                 </span>
               </span>
             </div>
@@ -677,13 +677,13 @@ function ReasonsSection() {
     {
       num: "01 · Ahorro",
       title: "Pagas una sola herramienta, no dos.",
-      body: "Agenda médica con API USD 260 + Vambe.ai USD 550 = USD 800+/mes. Clinera Vortex incluye agente IA por USD 279. Un solo proveedor, un solo cobro.",
+      body: "Agenda médica con API USD 260 + Vambe.ai USD 550 = USD 800+/mes. Clinera Vortex incluye agente IA por USD 379. Un solo proveedor, un solo cobro.",
       bullets: [
-        "Un solo cobro mensual · permanencia mínima de 6 meses",
-        "Cancelas cuando quieras",
-        "Ahorro mínimo USD 500 / mes",
+        "Un solo cobro mensual",
+        "Agente IA incluido",
+        "Ahorro mínimo USD 400 / mes",
       ],
-      kpi: "−USD 520 / mes",
+      kpi: "−USD 420 / mes",
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <line x1="12" y1="1" x2="12" y2="23" />
@@ -1272,8 +1272,8 @@ function Faq() {
       a: "Técnicamente sí, pero el agente IA solo verá la mitad del ciclo y no podrá atribuir campañas. Vas a estar pagando dos herramientas sin aprovechar ninguna al máximo. Por eso recomendamos migrar.",
     },
     {
-      q: "¿Hay permanencia o costo de configuración?",
-      a: "La permanencia mínima es de 6 meses. Plan mensual: el primer cobro incluye implementación USD 450 más el primer mes — onboarding asistido por un humano que migra tus fichas clínicas, datos históricos, pacientes y tratamientos, configura tus agentes de IA, conecta tu WhatsApp Business, integra tu agenda y capacita a tu equipo. Quedas operando el mismo día.",
+      q: "¿Hay costo de configuración?",
+      a: "Plan mensual: el primer cobro incluye implementación USD 450 más el primer mes — onboarding asistido por un humano que migra tus fichas clínicas, datos históricos, pacientes y tratamientos, configura tus agentes de IA, conecta tu WhatsApp Business, integra tu agenda y capacita a tu equipo. Quedas operando el mismo día.",
     },
     {
       q: "¿Cuánto tiempo toma la migración completa?",
