@@ -31,11 +31,6 @@
   text-align: center;
 }
 
-.logo {
-  display: inline-flex;
-  margin-bottom: 8px;
-}
-
 .marco {
   position: relative;
   width: min(460px, 100%);
@@ -360,10 +355,6 @@
     flex-direction: column;
     gap: 8px;
     padding: 12px 16px 12px;
-  }
-
-  .logo {
-    margin: 0;
   }
 
   .marco {

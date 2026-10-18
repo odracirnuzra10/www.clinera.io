@@ -26,8 +26,6 @@
 // ============================================================================
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { Wordmark } from "@/components/brand-v3/Brand";
 import {
   detectLeadSource,
   evaluateQualification,
@@ -235,10 +233,6 @@ export default function AgendaWizard({
   return (
     <div className={`${base.page} ${styles.pagina} ${paso > 1 || booking ? styles.avanzado : ""}`} data-paso={paso}>
       <aside className={styles.panel} data-agenda-casos>
-        <Link href="/" aria-label="Clinera.io" className={styles.logo}>
-          <Wordmark size={19} color="#fff" />
-        </Link>
-
         <div className={styles.marco} aria-roledescription="carrusel">
           {ECOSISTEMA_SLIDES.map((sl, i) => (
             <figure key={sl.n} className={`${styles.slide} ${i === caso ? styles.slideOn : ""}`} aria-hidden={i !== caso}>
