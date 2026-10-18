@@ -11,8 +11,8 @@
 // y `/blog/[slug]`. El ancho lo decide el contenedor (container queries), así
 // que la misma pieza sirve a página completa y dentro de la columna del blog.
 //
-// Llamadas: CAMILA (voz) es exclusiva de Summit (AGENTS.md, «Canales por plan»).
-// Por eso la nota bajo los canales: no prometer voz en todos los planes.
+// El agente IA de texto y voz viene solo en Summit (planes Flux · Nexus · Summit,
+// 18-oct-2026). Por eso la nota bajo los canales: no prometerlo en todos los planes.
 //
 // Sin JavaScript para la animación y sin alto fijo: la palabra que rota está
 // apilada en una sola celda de grilla, la caja mide la más larga (lección de
@@ -22,6 +22,7 @@
 import { useSyncExternalStore } from "react";
 import { ChannelLogo, CHANNEL_LABEL } from "@/components/pricing/PlanChannelLogos";
 import type { PlanChannel } from "@/content/pricing";
+import { PLAN_CON_AGENTE } from "@/content/planes";
 import styles from "./AgenteIABanda.module.css";
 
 const CANALES: { id: PlanChannel; palabra: string; accion: string }[] = [
@@ -31,7 +32,8 @@ const CANALES: { id: PlanChannel; palabra: string; accion: string }[] = [
   { id: "llamadas", palabra: "teléfono", accion: "Atiende la llamada y agenda" },
 ];
 
-const DEFAULT_HREF = "/go";
+// Ricardo, 18-oct-2026: el CTA es ventas (/agenda), ya no /go.
+const DEFAULT_HREF = "/agenda";
 
 const noop = () => () => {};
 const readSearch = () => window.location.search;
@@ -39,7 +41,7 @@ const readSearchServer = () => "";
 
 export default function AgenteIABanda({
   href = DEFAULT_HREF,
-  ctaLabel = "Activa tu agente IA",
+  ctaLabel = "Hablar con ventas",
   enColumna = false,
 }: {
   /** Destino del CTA. En la landing de Ads se pasa el ancla del formulario. */
@@ -48,10 +50,10 @@ export default function AgenteIABanda({
   /** Dentro de una columna angosta (artículo del blog): sin el margen de página. */
   enColumna?: boolean;
 }) {
-  // Al ir a /go se conserva la query de la visita (utm, gclid, fbclid): sin
-  // ella la compra pierde su origen. Las anclas (#…) no la necesitan.
+  // Al ir a /agenda se conserva la query de la visita (utm, gclid, fbclid): sin
+  // ella el lead pierde su origen. Las anclas (#…) no la necesitan.
   const search = useSyncExternalStore(noop, readSearch, readSearchServer);
-  const destino = href.startsWith("/go") ? `${href}${search}` : href;
+  const destino = href.startsWith("/") ? `${href}${search}` : href;
 
   return (
     <section className={`${styles.wrap} ${enColumna ? styles.enColumna : ""}`} aria-label="Activa tu agente IA" data-agente-ia-banda>
@@ -95,7 +97,9 @@ export default function AgenteIABanda({
           <a href={destino} className={styles.cta}>
             {ctaLabel} <span aria-hidden>→</span>
           </a>
-          <span className={styles.note}>Llamadas con IA (CAMILA) en el plan Summit.</span>
+          <span className={styles.note}>
+            El agente IA de texto y voz viene en el plan {PLAN_CON_AGENTE.name} · US$ {PLAN_CON_AGENTE.monthlyUsd}/mes.
+          </span>
         </div>
       </div>
     </section>

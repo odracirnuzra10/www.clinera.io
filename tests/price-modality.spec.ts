@@ -72,58 +72,27 @@ async function expectAnnualCatalog(scope: Page | Locator, modality: "usd" | "mxn
   await expect(scope.getByText(visibleAmount(450, modality), { exact: false }).first()).toBeVisible();
 }
 
-test("/planes: default dólar y el switch solo tiene dólar y MXN", async ({ page }) => {
-  await page.goto("/planes", { waitUntil: "domcontentloaded" });
-  const precios = page.locator("#precios");
-  const control = precios.getByRole("radiogroup", { name: "Modalidad de precios" });
-  await expect(control).toBeVisible();
-  await expect(control.getByRole("radio", { name: "Dólar" })).toHaveAttribute("aria-checked", "true");
-  await expect(control.getByRole("radio", { name: "Peso mexicano" })).toBeVisible();
-  await expect(control.getByRole("radio", { name: "Peso chileno" })).toHaveCount(0);
-  await expect(page.getByText(/incluye IVA/i)).toHaveCount(0);
-  await expectAnnualCatalog(precios, "usd");
-  const periodos = precios.getByRole("radiogroup", { name: "Frecuencia de facturación" });
-  await expect(periodos.getByRole("radio", { name: /anual/i })).toHaveAttribute("aria-checked", "true");
-  await expect(periodos.getByRole("radio", { name: /mensual/i })).toHaveAttribute("aria-checked", "false");
-  await expect(precios.getByRole("radio", { name: /semestral/i })).toHaveCount(0);
-  await expect(precios.locator("[data-plan-period-row='annual']")).toHaveCount(3);
-  await expect(precios.locator("[data-plan-period-row='monthly']")).toHaveCount(0);
-
-  await control.getByRole("radio", { name: "Peso mexicano" }).click();
-  await expect(control.getByRole("radio", { name: "Peso mexicano" })).toHaveAttribute(
-    "aria-checked",
-    "true",
-  );
-  await expect(precios.getByText(/incluye IVA/i)).toHaveCount(0);
-  await expectAnnualCatalog(precios, "mxn");
-  expect(new URL(page.url()).searchParams.get("precios")).toBe("mxn");
+// Desde el 18-oct-2026 /planes y el home publican Flux · Nexus · Summit solo en dólares
+// (sin switch). El control de 2 opciones sigue en /planes-pro, que aún usa el catálogo viejo.
+test("/planes y el home: solo dólares, sin switch de moneda", async ({ page }) => {
+  for (const url of ["/planes", "/"]) {
+    await page.goto(url, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("[data-planes-vigentes]")).toBeVisible();
+    await expect(page.getByRole("radiogroup", { name: "Modalidad de precios" })).toHaveCount(0);
+    await expect(page.getByText(/incluye IVA/i)).toHaveCount(0);
+  }
 });
 
-test("/planes?precios=clp cae a dólar", async ({ page }) => {
-  await page.goto("/planes?precios=clp", { waitUntil: "domcontentloaded" });
-  const control = page.locator("#precios").getByRole("radiogroup", { name: "Modalidad de precios" });
-  await expect(control.getByRole("radio", { name: "Dólar" })).toHaveAttribute("aria-checked", "true");
-  await expect(control.getByRole("radio", { name: "Peso chileno" })).toHaveCount(0);
-  await expectAnnualCatalog(page.locator("#precios"), "usd");
-});
-
-test("home y /planes-pro usan el mismo control de 2 opciones", async ({ page }) => {
-  await page.goto("/", { waitUntil: "domcontentloaded" });
-  const home = page.locator("#precios");
-  const control = home.getByRole("radiogroup", { name: "Modalidad de precios" });
-  await expect(control.getByRole("radio", { name: "Dólar" })).toHaveAttribute("aria-checked", "true");
-  await expect(control.getByRole("radio", { name: "Peso chileno" })).toHaveCount(0);
-  await control.getByRole("radio", { name: "Peso mexicano" }).click();
-  await expect(home.getByText(/incluye IVA/i)).toHaveCount(0);
-  await expectAnnualCatalog(home, "mxn");
-
-  await page.goto("/planes-pro", { waitUntil: "domcontentloaded" });
+test("/planes-pro: default dólar, switch de 2 opciones y ?precios=clp cae a dólar", async ({ page }) => {
+  await page.goto("/planes-pro?precios=clp", { waitUntil: "domcontentloaded" });
   const pro = page.locator("#precios");
-  await expect(pro.getByRole("radio", { name: "Peso mexicano" })).toHaveAttribute(
-    "aria-checked",
-    "true",
-  );
-  await expect(pro.getByRole("radio", { name: "Peso chileno" })).toHaveCount(0);
+  const control = pro.getByRole("radiogroup", { name: "Modalidad de precios" });
+  await expect(control.getByRole("radio", { name: "Dólar" })).toHaveAttribute("aria-checked", "true");
+  await expect(control.getByRole("radio", { name: "Peso chileno" })).toHaveCount(0);
+  await expectAnnualCatalog(pro, "usd");
+  await control.getByRole("radio", { name: "Peso mexicano" }).click();
+  await expect(control.getByRole("radio", { name: "Peso mexicano" })).toHaveAttribute("aria-checked", "true");
+  await expect(pro.getByText(/incluye IVA/i)).toHaveCount(0);
   await expectAnnualCatalog(pro, "mxn");
 });
 

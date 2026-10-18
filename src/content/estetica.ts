@@ -114,3 +114,38 @@ export const ESTETICA_LP_FAQ = [
     a: "Son 45 minutos por videollamada con el equipo. Te mostramos la ficha facial y corporal, los presupuestos y a AURA agendando por WhatsApp con el caso de tu clínica.",
   },
 ] as const;
+
+/**
+ * Fotos de la sección «Hecho para estética» con el copy de los anuncios de Ricardo
+ * (18-oct-2026: «ocupa ese tipo de mensajes en el home y landing»). Generadas en
+ * Higgsfield (Soul): no son clientas reales, así que no llevan nombre. El
+ * contador y la etiqueta de tratamiento replican los anuncios.
+ */
+export const MODELOS_ESTETICA = {
+  duena: {
+    src: "/images/estetica/duena-clinica-mensajes.webp",
+    alt: "Dueña de clínica estética sonriendo mientras revisa los mensajes de sus pacientes",
+    etiqueta: "Radiesse · Sculptra · Hialurónico",
+    meta: "Para dueñas de clínicas estéticas",
+    titulo: "Diplomado en bioestimuladores.",
+    acento: "Postgrado en contestar DMs a medianoche.",
+    texto:
+      "Una bandeja para WhatsApp, Instagram y Facebook, conectada a tu agenda. Tu equipo responde y agenda sin que tú estés pegada al celular.",
+    cifra: 23,
+    contador: "DMs sin responder",
+  },
+  enfermera: {
+    src: "/images/estetica/enfermera-estetica-entre-pacientes.webp",
+    alt: "Enfermera estética respondiendo consultas de pacientes en el celular",
+    etiqueta: "Sculptra · Ácido poliláctico",
+    meta: "Para enfermeras y médicos",
+    titulo: "Te especializaste en Sculptra.",
+    acento: "No en contestar «¿cuánto sale?» 40 veces al día.",
+    texto:
+      "Todas las consultas de WhatsApp, Instagram y Facebook en un solo lugar, con tu agenda al lado. Respondes rápido y la paciente queda agendada.",
+    cifra: 40,
+    contador: "«¿cuánto sale?»",
+  },
+} as const;
+
+export type ModeloEsteticaId = keyof typeof MODELOS_ESTETICA;

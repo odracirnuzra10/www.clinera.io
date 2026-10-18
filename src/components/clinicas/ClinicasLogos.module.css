@@ -1,0 +1,65 @@
+.wrap {
+  padding: 56px 80px;
+  border-top: 1px solid #f0f0f0;
+  background: #fff;
+  text-align: center;
+}
+
+.enSeccion {
+  margin-top: 20px;
+  padding: 36px 28px;
+  border: 1px solid #ececf1;
+  border-radius: 16px;
+  background: #fafafc;
+}
+
+.meta {
+  margin: 0;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.grid {
+  list-style: none;
+  padding: 0;
+  margin: 28px auto 0;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px 36px;
+  align-items: center;
+  justify-items: center;
+}
+
+/* Blanco y negro: los logos de colores compiten con el degradado de marca. */
+.logo img {
+  width: auto;
+  max-width: 150px;
+  height: 48px;
+  object-fit: contain;
+  filter: grayscale(1) contrast(1.1);
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.logo img:hover {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .wrap:not(.enSeccion) {
+    padding: 40px 16px;
+  }
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 18px;
+  }
+  .logo img {
+    max-width: 100px;
+    height: 40px;
+  }
+}

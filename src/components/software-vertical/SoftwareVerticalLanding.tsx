@@ -17,21 +17,15 @@ import ModosAgendamiento from "@/components/empleado-digital/ModosAgendamiento";
 import {
   Logos,
   PrensaCNN,
-  Pricing,
   Testimonios,
   useReveal,
 } from "@/components/home-v3/sections";
 import { IntelligencePlataformaSection } from "@/components/IntelligenceSection";
 import HeroCarousel from "@/components/plataforma/HeroCarousel";
 import AuraNetwork from "@/components/plataforma/AuraNetwork";
-import CatalogPrice from "@/components/pricing/CatalogPrice";
-import {
-  CLINERA_PLANS,
-  SETUP_FEE_USD,
-} from "@/content/pricing";
+import PlanesVigentes from "@/components/pricing/PlanesVigentes";
+import { IMPLEMENTACION_USD, PLAN_DESDE_USD } from "@/content/planes";
 import type { SoftwareVerticalContent } from "./content";
-
-const vortex = CLINERA_PLANS[0];
 
 function subscribeLocation() {
   return () => {};
@@ -137,7 +131,7 @@ export default function SoftwareVerticalLanding({
         <CrmBand content={content} />
         <Testimonios />
         <PrensaCNN />
-        <Pricing ctaHref={agendaHref} />
+        <PlanesVigentes />
         <FaqSection faqs={content.faqs} />
         <FinalCta content={content} agendaHref={agendaHref} />
       </main>
@@ -574,7 +568,7 @@ function FinalCta({
               color: "#A0A6B2",
             }}
           >
-            Desde <CatalogPrice usd={vortex.monthlyPrice} variant="code" />/mes · Implementación <CatalogPrice usd={SETUP_FEE_USD} variant="code" /> con el primer mes · Permanencia 6 meses
+            Desde US$ {PLAN_DESDE_USD}/mes · Implementación US$ {IMPLEMENTACION_USD}, pago único
           </div>
         </div>
       </div>

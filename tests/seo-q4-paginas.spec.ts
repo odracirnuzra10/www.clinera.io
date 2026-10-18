@@ -39,10 +39,12 @@ test.describe("páginas de compra nuevas", () => {
     });
   }
 
-  test("WhatsApp: tarifas de AGENTS.md y regla 1 cuenta = 1 número", () => {
+  test("WhatsApp: conversaciones por plan (Flux · Nexus · Summit) y regla 1 cuenta = 1 número", () => {
     const todo = JSON.stringify(WHATSAPP_IA);
-    expect(todo).toContain("30 créditos");
-    expect(todo).toContain("195");
+    // Desde el 18-oct-2026 el límite se publica en conversaciones por plan, no en créditos.
+    expect(todo).toContain("Flux: hasta 500");
+    expect(todo).toContain("Summit: hasta 5.000");
+    expect(todo).not.toMatch(/Vortex|Atlas:/);
     expect(todo).toContain("1 número de WhatsApp");
   });
 });

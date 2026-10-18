@@ -1,26 +1,49 @@
 // Fuente única del FAQ de /planes: la consume <PlanesFaq /> en
 // interior-v3/PlanesV3.tsx y el JSON-LD FAQPage de src/app/planes/page.tsx.
+// Planes Flux · Nexus · Summit (Ricardo, 18-oct-2026): los números salen de
+// `planes.ts`. Sin anual, sin MXN y sin bolsa de créditos de los planes viejos.
 import { VERTEX_IA_MODELS_PROSE } from "@/content/ia-stack";
-import {
-  ANNUAL_DISCOUNT_PERCENT,
-  CLINERA_PLANS,
-  SETUP_FEE_USD,
-} from "@/content/pricing";
+import { EXTRAS, IMPLEMENTACION_USD, PLANES, PLAN_CON_AGENTE } from "@/content/planes";
 
-const [vortex, atlas, summit] = CLINERA_PLANS;
-const usd = (n: number) => Math.round(n).toLocaleString("es-CL");
+const [flux, nexus, summit] = PLANES;
+const n = (v: number) => v.toLocaleString("es-CL");
+const [extraConv, extraCreditos, extraProf] = EXTRAS;
 
 export const PLANES_FAQ = [
-  { q: "¿Qué es un crédito?", a: "Es la unidad única de consumo de Clinera. En vez de contar conversaciones, agendamientos y llamadas por separado, tienes UNA sola bolsa de créditos que gastas como quieras. Tarifario: una conversación de texto con AURA que no termina en cita cuesta ~30 créditos, un minuto de voz con CAMILA cuesta 25 créditos, y un agendamiento automático (la IA agenda sola) cuesta ~195 créditos: más que una conversación normal, porque la IA razona, consulta tu agenda en tiempo real y ejecuta varios pasos. La fiscalización de LIA también es gratis; sus informes consumen ~4.000 créditos al mes." },
-  { q: "¿Cuántos créditos incluye cada plan?", a: "Vortex: 28.000 créditos/mes (≈933 conversaciones de texto o ~143 agendamientos automáticos). Atlas: 37.000 créditos/mes (≈1.233 conversaciones o ~189 agendamientos). Summit: 46.000 créditos/mes (≈1.533 conversaciones o ~235 agendamientos, o repártelos con voz y LIA fiscalizando). Una conversación sale a ~30 créditos (créditos ÷ 30) y un agendamiento automático a ~195; como es una sola bolsa, tú decides cómo la mezclas." },
-  { q: "¿El agendamiento consume créditos?", a: "Sí. Clinera opera en un único modo, Agentic: la IA agenda sola dentro del chat. Una conversación completa de agendamiento consume ~195 créditos, bastante más que una conversación que solo informa (~30), porque la IA razona, consulta la disponibilidad real de tu agenda y ejecuta varios pasos para crear, reagendar o cancelar la cita. Todo se descuenta de la misma bolsa." },
-  { q: "¿Qué incluye el costo de configuración de USD 450?", a: `Es un pago único (no recurrente) de onboarding asistido por un humano del equipo de Clinera, no un self-service. Incluye: migración de tus fichas clínicas y datos históricos, migración de pacientes y tratamientos, configuración y entrenamiento de tus agentes de IA con la voz de tu clínica, conexión de tu WhatsApp Business, integración de tu agenda y capacitación de tu equipo. Quedas operando el mismo día. Se cobra en el primer cobro, junto al plan anual o al primer mes si elegiste mensual.` },
-  { q: "¿Qué pasa si se me acaban los créditos?", a: "Te avisamos al 80% y al 100% de tu bolsa. Tu servicio no se interrumpe sin aviso. Si necesitas más, sumas una recarga de emergencia (USD 15 → 5.000 créditos, ≈166 conversaciones o ~25 agendamientos) o subes de plan. La recarga es consumo puntual, no un reemplazo del plan." },
-  { q: "¿Cuál es la diferencia entre AURA, CAMILA y LIA?", a: "Las tres están disponibles hoy. AURA es el empleado digital de texto: responde, agenda y atiende por WhatsApp 24/7 (todos los planes). CAMILA es el empleado digital de voz: llama para confirmar y reagendar (solo en Summit, 25 créditos por minuto). LIA es la orquestadora: fiscaliza la operación en Summit (fiscalización 0 créditos; informes ≈4.000 créditos/mes)." },
-  { q: "¿Puedo elegir el modelo de IA?", a: `Clinera opera con ${VERTEX_IA_MODELS_PROSE} en Vertex AI (Google Cloud) y selecciona el modelo óptimo por tarea. No hay selección manual de modelos por el usuario: el stack está fijado para que la IA ejecute con consistencia en todos los planes.` },
-  { q: "¿Puedo cambiar de plan después?", a: "Sí. Puedes subir o bajar de plan en cualquier momento desde tu panel. El cambio se aplica en tu próximo ciclo de facturación." },
-  { q: "¿Tienen plan para cadenas grandes u hospitales?", a: "Los planes publicados llegan hasta Summit (USD 479/mes): 46.000 créditos, 25 usuarios y sucursales ilimitadas, con AURA, CAMILA y LIA. Si tu cadena necesita algo fuera de ese marco, habla con ventas para evaluar el alcance." },
-  { q: "¿Cuál es la modalidad de pago?", a: `El plan que ves primero es el anual, mostrado como valor mensual con ${ANNUAL_DISCOUNT_PERCENT}% OFF: Vortex USD ${usd(vortex.annualMonthly)}/mes (el mensual es USD ${vortex.monthlyPrice}), Atlas USD ${usd(atlas.annualMonthly)}/mes y Summit USD ${usd(summit.annualMonthly)}/mes. Se paga en 12 cuotas a precio de contado con Mercado Pago. El mensual queda después, mes a mes. En las dos modalidades el primer cobro suma la implementación de USD ${SETUP_FEE_USD}. Permanencia mínima de 6 meses. En /planes puedes ver el equivalente en peso mexicano a un tipo de cambio fijo.` },
-  { q: "¿Hay permanencia o contrato?", a: `Sí. Todos los planes tienen una permanencia mínima de 6 meses. El anual se paga el año completo; el mensual, mes a mes. La implementación de USD ${SETUP_FEE_USD} se cobra en el primer cobro.` },
-  { q: "¿Se integra con mi software actual?", a: "No. Clinera no se conecta a sistemas de agenda externos: opera sobre su propia agenda, sus propias fichas clínicas y su propio módulo de pagos. Por eso la IA puede agendar sola dentro del chat, sin mandar links ni depender de la disponibilidad de un tercero. En el onboarding migramos tus pacientes, tratamientos y datos históricos desde tu sistema actual para que partas con todo cargado." },
+  {
+    q: "¿Qué diferencia a Flux, Nexus y Summit?",
+    a: `El tamaño del equipo y lo que automatizas. Flux (US$ ${flux.monthlyUsd}/mes) trae WhatsApp, Facebook e Instagram, ${flux.professionals} profesionales y hasta ${n(flux.conversations)} conversaciones. Nexus (US$ ${nexus.monthlyUsd}/mes) suma email marketing, automatizaciones y difusiones, ${nexus.professionals} profesionales y hasta ${n(nexus.conversations)} conversaciones. Summit (US$ ${summit.monthlyUsd}/mes) suma el agente IA de texto y voz, ${summit.professionals} profesionales, hasta ${n(summit.conversations)} conversaciones y onboarding humano dedicado.`,
+  },
+  {
+    q: "¿Qué plan trae el agente IA que responde y agenda?",
+    a: `${PLAN_CON_AGENTE.name}. Es el único con agente IA de texto y voz: responde a tus pacientes por WhatsApp, Facebook e Instagram, atiende llamadas y agenda sobre tu agenda real.`,
+  },
+  {
+    q: `¿Qué incluye la implementación de US$ ${IMPLEMENTACION_USD}?`,
+    a: `Es un pago único, en todos los planes. Cubre la configuración inicial de tu cuenta y la migración de tus pacientes y tratamientos desde tu sistema actual, para que partas con todo cargado.`,
+  },
+  {
+    q: "¿Qué pasa si se me acaban las conversaciones?",
+    a: `Sumas un paquete de ${extraConv.label} por US$ ${extraConv.usd} sin cambiar de plan, o subes de plan. También puedes sumar ${extraCreditos.label} por US$ ${extraCreditos.usd}.`,
+  },
+  {
+    q: "¿Puedo sumar profesionales sin cambiar de plan?",
+    a: `Sí. Cada profesional extra cuesta US$ ${extraProf.usd} al mes.`,
+  },
+  {
+    q: "¿Cómo contrato?",
+    a: "Hablas con ventas: eliges una hora en clinera.io/agenda y en 45 minutos por videollamada te mostramos Clinera con el caso de tu clínica y te ayudamos a elegir el plan.",
+  },
+  {
+    q: "¿Puedo cambiar de plan después?",
+    a: "Sí. Puedes subir o bajar de plan cuando lo necesites. El cambio se aplica en tu próximo ciclo de facturación.",
+  },
+  {
+    q: "¿Puedo elegir el modelo de IA?",
+    a: `Clinera opera con ${VERTEX_IA_MODELS_PROSE} en Vertex AI (Google Cloud) y selecciona el modelo óptimo por tarea. No hay selección manual de modelos: el stack está fijado para que la IA ejecute con consistencia.`,
+  },
+  {
+    q: "¿Se integra con mi software actual?",
+    a: "No. Clinera no se conecta a sistemas de agenda externos: opera sobre su propia agenda, sus propias fichas clínicas y su propio módulo de pagos. Por eso la IA puede agendar sola dentro del chat, sin mandar links ni depender de la disponibilidad de un tercero. En el onboarding migramos tus pacientes, tratamientos y datos históricos desde tu sistema actual.",
+  },
 ];

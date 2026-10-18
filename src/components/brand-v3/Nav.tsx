@@ -5,19 +5,20 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { CtaPrimary, GRAD, Wordmark } from "./Brand";
 
 type NavV3Props = {
-  /** Destino del botón principal. Sin esto: `/go` (Clinera Go!, "Iniciar ahora"). */
+  /** Destino del botón principal. Sin esto: `/agenda` («Hablar con ventas», Ricardo 18-oct-2026). */
   ctaHref?: string;
   ctaLabel?: string;
   /**
-   * Enlace discreto «Hablar con ventas» junto al botón principal. Por defecto
-   * solo aparece cuando el botón es el de siempre (`Iniciar ahora`): las páginas
-   * que pasan su propio CTA (p. ej. «Agendar demo») ya son de ventas.
+   * Enlace discreto «Hablar con ventas» junto al botón principal. Apagado por
+   * defecto desde el 18-oct-2026: el botón principal ya es ventas.
    */
   salesLink?: boolean;
 };
 
-const DEFAULT_CTA_HREF = "/go";
-const DEFAULT_CTA_LABEL = "Iniciar ahora";
+// Ricardo, 18-oct-2026: el CTA vuelve a ser «Hablar con ventas» → /agenda.
+// /go (Go! US$ 17) sigue existiendo, pero el sitio ya no lo promueve.
+const DEFAULT_CTA_HREF = "/agenda";
+const DEFAULT_CTA_LABEL = "Hablar con ventas";
 const SALES_HREF = "/agenda";
 
 const noop = () => () => {};
@@ -25,15 +26,13 @@ const readSearch = () => window.location.search;
 const readSearchServer = () => "";
 
 export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
-  const isDefaultCta = ctaHref === undefined && ctaLabel === undefined;
-  const showSales = salesLink ?? isDefaultCta;
-  // Al ir a /go se conserva la query de la visita (UTM, fbclid, gclid): la
-  // atribución de la compra depende de ella.
+  // El botón principal ya es ventas: el enlace discreto duplicaría el mismo destino.
+  const showSales = salesLink ?? false;
+  // Al ir a /agenda se conserva la query de la visita (UTM, fbclid, gclid): la
+  // atribución del lead depende de ella.
   const search = useSyncExternalStore(noop, readSearch, readSearchServer);
   const primaryHref = ctaHref ?? `${DEFAULT_CTA_HREF}${search}`;
-  // «Iniciar ahora» es el texto del destino por defecto (/go). Una página que pasa
-  // solo su `ctaHref` (p. ej. /plataforma → /agenda) sigue siendo un CTA de ventas.
-  const primaryLabel = ctaLabel ?? (ctaHref === undefined ? DEFAULT_CTA_LABEL : "Hablar con ventas");
+  const primaryLabel = ctaLabel ?? DEFAULT_CTA_LABEL;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 

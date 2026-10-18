@@ -109,7 +109,8 @@ test.describe("/agenda — wizard Hebe + agendador Clinera", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: /Automatiza el WhatsApp y las citas de tu clínica con inteligencia artificial/i }),
     ).toBeVisible();
-    await expect(page.getByText(/Planes desde USD 17/).first()).toBeVisible();
+    // Planes vigentes Flux · Nexus · Summit (18-oct-2026): desde US$ 89.
+    await expect(page.getByText(/Planes desde USD 89/).first()).toBeVisible();
     await expect(page.getByText(/Cuál plan te interesa/i)).toHaveCount(0);
     await expect(page.getByRole("link", { name: /política de privacidad/i })).toBeVisible();
   });

@@ -1,7 +1,7 @@
 import FooterV3 from "@/components/brand-v3/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, faqSchema, orgSchema } from "@/components/seo/schemas";
-import { CLINERA_PLANS } from "@/content/pricing";
+import { PLANES } from "@/content/planes";
 import type { SoftwareVerticalContent } from "./content";
 import SoftwareVerticalLanding from "./SoftwareVerticalLanding";
 
@@ -18,10 +18,10 @@ function softwareAppSchema(content: SoftwareVerticalContent) {
     applicationSubCategory: content.applicationSubCategory,
     operatingSystem: "Web, iOS, Android",
     url,
-    offers: CLINERA_PLANS.map((plan) => ({
+    offers: PLANES.map((plan) => ({
       "@type": "Offer",
       name: plan.name,
-      price: String(plan.monthlyPrice),
+      price: String(plan.monthlyUsd),
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
       url,

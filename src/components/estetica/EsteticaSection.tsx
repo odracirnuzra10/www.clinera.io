@@ -1,11 +1,13 @@
 import Image from "next/image";
-import Link from "next/link";
+import ClinicasLogos from "@/components/clinicas/ClinicasLogos";
 import {
   ESTETICA_BLOQUES,
-  ESTETICA_ORIGEN,
+  MODELOS_ESTETICA,
   TRATAMIENTOS_PRECARGADOS,
   type BloqueEstetica,
+  type ModeloEsteticaId,
 } from "@/content/estetica";
+import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH, PLANES } from "@/content/planes";
 import styles from "./EsteticaSection.module.css";
 
 // «Hecho para estética»: lo que hace que un dueño de clínica estética vea que
@@ -111,13 +113,53 @@ function TarjetaTratamientos() {
   );
 }
 
+function Modelo({ id, ctaHref }: { id: ModeloEsteticaId; ctaHref: string }) {
+  const m = MODELOS_ESTETICA[id];
+  // El plan de entrada, como en los anuncios («US$ 89 al mes · hasta 3 profesionales»).
+  const entrada = PLANES[0];
+  return (
+    <figure className={styles.modelo} data-modelo-estetica={id}>
+      <div className={styles.modeloFoto}>
+        <Image src={m.src} alt={m.alt} fill sizes="(max-width: 900px) 100vw, 520px" />
+        <span className={styles.etiqueta}>{m.etiqueta}</span>
+        <figcaption className={styles.contador}>
+          <b>{m.cifra}</b> {m.contador}
+        </figcaption>
+      </div>
+      <div className={styles.modeloTexto}>
+        <span className={styles.meta}>{m.meta}</span>
+        <p className={styles.modeloTitulo}>
+          {m.titulo} <span className={styles.grad}>{m.acento}</span>
+        </p>
+        <p className={styles.text}>{m.texto}</p>
+        <div className={styles.modeloPrecio}>
+          <span className={styles.modeloCur}>US$</span>
+          <span className={styles.modeloMonto}>{entrada.monthlyUsd}</span>
+        </div>
+        <p className={styles.modeloSub}>
+          <b>al mes</b> · hasta {entrada.professionals} profesionales
+        </p>
+        <a className={styles.modeloCta} href={ctaHref} data-cta-ventas={`modelo-${id}`}>
+          {CTA_VENTAS_LABEL}
+        </a>
+      </div>
+    </figure>
+  );
+}
+
 export default function EsteticaSection({
   id = "estetica",
-  conOrigen = true,
+  conLogos = true,
+  modelo,
+  ctaHref = CTA_VENTAS_PATH,
 }: {
   id?: string;
-  /** La historia de Hebe y Lumina. La landing de Ads la muestra aparte. */
-  conOrigen?: boolean;
+  /** Franja de logos reales (Ricardo, 18-oct-2026: reemplaza a «Lo construimos para nuestras propias clínicas»). */
+  conLogos?: boolean;
+  /** Foto de la modelo (anuncios de Ricardo): `duena` en el home, `enfermera` en la landing. */
+  modelo?: ModeloEsteticaId;
+  /** CTA de la foto. En la landing de Ads baja al formulario (`#agenda-demo`). */
+  ctaHref?: string;
 }) {
   return (
     <section id={id} className={styles.section} aria-labelledby={`${id}-h2`}>
@@ -131,6 +173,8 @@ export default function EsteticaSection({
           en box queda en el sistema, y AURA lo usa para agendar por WhatsApp.
         </p>
 
+        {modelo && <Modelo id={modelo} ctaHref={ctaHref} />}
+
         <div className={styles.grid}>
           <TarjetaFicha id="facial" />
           <TarjetaFicha id="corporal" />
@@ -138,23 +182,7 @@ export default function EsteticaSection({
           <TarjetaTratamientos />
         </div>
 
-        {conOrigen && (
-          <div className={styles.origin}>
-            <div>
-              <span className={styles.meta}>{ESTETICA_ORIGEN.meta}</span>
-              <h3 className={styles.originTitle}>{ESTETICA_ORIGEN.titulo}</h3>
-              <p className={styles.text}>{ESTETICA_ORIGEN.texto}</p>
-            </div>
-            <div className={styles.cases}>
-              {ESTETICA_ORIGEN.casos.map((c) => (
-                <Link key={c.href} href={c.href} className={styles.case}>
-                  {c.nombre}
-                  <span>{c.rubro} →</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+        {conLogos && <ClinicasLogos enSeccion />}
       </div>
     </section>
   );

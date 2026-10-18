@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CLINERA_PLANS } from "@/content/pricing";
 import { PLANS_2 } from "@/content/planes2";
+import { PLANES } from "@/content/planes";
 import styles from "./AgendaHebeLanding.module.css";
 import {
   detectLeadSource,
@@ -74,7 +75,8 @@ const TICKER = [
 ];
 
 // Planes viejos (para ?plan= que vengan de /planes) y los nuevos Go!/Flux/Ultra.
-const PLAN_IDS = new Set<string>([...CLINERA_PLANS.map((p) => p.id), ...PLANS_2.map((p) => p.id)]);
+// Planes vigentes (Flux/Nexus/Summit), los viejos y los de /go: el closer ve qué miraba.
+const PLAN_IDS = new Set<string>([...PLANES.map((p) => p.id), ...CLINERA_PLANS.map((p) => p.id), ...PLANS_2.map((p) => p.id)]);
 
 const PHONES: Record<string, { flag: string; label: string; len: number; pattern: RegExp; placeholder: string; hint: string }> = {
   "+56": { flag: "🇨🇱", label: "Chile", len: 9, pattern: /^9\d{8}$/, placeholder: "9 1234 5678", hint: "9 dígitos, empieza con 9" },
@@ -148,8 +150,9 @@ export default function AgendaHebeLanding({
   tzIp?: string;
 } = {}) {
   // Planes nuevos (Ricardo, 16-oct-2026): el "desde" es el más barato.
-  const price = Math.min(...PLANS_2.map((p) => p.monthlyUsd));
-  const tiers = PLANS_2.map((p) => `${p.name.replace("Clinera ", "")} USD ${p.monthlyUsd}`).join(" · ");
+  // Planes vigentes (Ricardo, 18-oct-2026): Flux · Nexus · Summit.
+  const price = Math.min(...PLANES.map((p) => p.monthlyUsd));
+  const tiers = PLANES.map((p) => `${p.name} USD ${p.monthlyUsd}`).join(" · ");
   const [step, setStep] = useState(1);
   const [slide, setSlide] = useState(1);
   // El plan ya no se elige acá: sólo se conserva si el enlace trae ?plan=

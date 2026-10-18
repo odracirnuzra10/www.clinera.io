@@ -20,7 +20,8 @@ test.describe("AEO: entidad, schema e higiene", () => {
     expect(schemas).toContain("parentOrganization");
     expect(schemas).not.toMatch(/AggregateRating/);
     expect(schemas).not.toMatch(/lowPrice:\s*"129"/);
-    expect(schemas).toContain("CLINERA_PLANS");
+    // Las Offers salen de los planes vigentes (Flux · Nexus · Summit, 18-oct-2026).
+    expect(schemas).toContain("PLANES.map");
   });
 
   test("home usa orgSchema/softwareSchema y no duplica precios viejos", () => {
@@ -129,9 +130,10 @@ test.describe("AEO: JSON-LD en runtime", () => {
     expect(blob).toContain('"name":"Clinera"');
     expect(blob).toContain('"name":"Clinera O.S."');
     expect(blob).toContain("No relacionada con clinera.ai");
-    expect(blob).toContain('"price":"279"');
-    expect(blob).toContain('"price":"379"');
-    expect(blob).toContain('"price":"479"');
+    expect(blob).toContain('"price":"89"');
+    expect(blob).toContain('"price":"129"');
+    expect(blob).toContain('"price":"179"');
+    expect(blob).not.toContain('"price":"279"');
     expect(blob).not.toContain('"lowPrice":"129"');
     expect(blob).not.toContain("AggregateRating");
     expect(blob).not.toContain("Clinera Intelligence");

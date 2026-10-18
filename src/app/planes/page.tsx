@@ -12,10 +12,10 @@ import {
   webPageSchema,
 } from "@/components/seo/schemas";
 import { PLANES_FAQ } from "@/content/planes-faq";
+import { IMPLEMENTACION_USD, PLAN_DESDE_USD, PLANES } from "@/content/planes";
 
-const TITLE = "Planes: anual con 20% OFF, desde USD 223/mes";
-const DESCRIPTION =
-  "Vortex, Atlas y Summit. El plan anual va primero a valor mensual (20% OFF: Vortex USD 223/mes). El mensual queda después, desde USD 279/mes. El primer cobro suma implementación USD 450.";
+const TITLE = `Planes: Flux, Nexus y Summit, desde US$ ${PLAN_DESDE_USD}/mes`;
+const DESCRIPTION = `${PLANES.map((p) => `${p.name} US$ ${p.monthlyUsd}/mes`).join(", ")}. Eliges según cuántos profesionales tiene tu equipo. Implementación US$ ${IMPLEMENTACION_USD}, pago único en todos los planes.`;
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -24,8 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     url: "https://www.clinera.io/planes",
     title: TITLE,
-    description:
-      "3 planes. El anual va primero, a valor mensual con 20% OFF. El mensual queda después. Implementación USD 450 en el primer cobro.",
+    description: DESCRIPTION,
     type: "website",
   },
 };
@@ -52,40 +51,6 @@ export default function PlanesPage() {
         <PageUpdated path="/planes" />
       </main>
       <FooterV3 />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function(){
-              window.dataLayer = window.dataLayer || [];
-              document.addEventListener('click', function(ev){
-                var a = ev.target.closest('a[data-plan]');
-                if (!a) return;
-                var plan = a.getAttribute('data-plan');
-                var name = a.getAttribute('data-plan-name') || (plan + ' signup');
-                var value = parseFloat(a.getAttribute('data-plan-value') || '0');
-                window.dataLayer.push({
-                  event: 'initiate_checkout',
-                  lead_source: 'planes_landing',
-                  plan: plan,
-                  content_name: name,
-                  value: value,
-                  currency: 'USD',
-                  page_path: '/planes'
-                });
-                if (typeof fbq === 'function') {
-                  fbq('track', 'InitiateCheckout', {
-                    content_name: name,
-                    content_category: 'landing_register',
-                    content_type: 'product',
-                    currency: 'USD',
-                    value: value
-                  });
-                }
-              }, { capture: true });
-            })();
-          `,
-        }}
-      />
     </>
   );
 }

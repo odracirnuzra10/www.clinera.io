@@ -7,6 +7,7 @@ import ActualizacionSeptiembreBanner from "./ActualizacionSeptiembreBanner";
 import DemoEnVivo from "./DemoEnVivo";
 import EsteticaSection from "@/components/estetica/EsteticaSection";
 import AgenteIABanda from "@/components/agente-ia/AgenteIABanda";
+import PlanesVigentes from "@/components/pricing/PlanesVigentes";
 import { TeamSection } from "./TeamSection";
 import {
   DarkBreak,
@@ -17,9 +18,7 @@ import {
   FinalCTA,
   Hero,
   Integraciones,
-  Logos,
   PrensaCNN,
-  Pricing,
   Testimonios,
   useReveal,
 } from "./sections";
@@ -68,12 +67,11 @@ export default function HomeV3() {
       `}</style>
       <Hero />
       <DemoEnVivo />
-      <EsteticaSection />
+      <EsteticaSection modelo="duena" />
       <AgenteIABanda />
       <ActualizacionSeptiembreBanner />
       <EcosistemaIA />
       <TrialBanner />
-      <Logos />
       <Features />
       <TeamSection />
       <IntelligenceHomeSection />
@@ -83,7 +81,7 @@ export default function HomeV3() {
       <DarkBreak />
       <Testimonios />
       <PrensaCNN />
-      <Pricing />
+      <PlanesVigentes />
       <Faq />
       <FinalCTA />
     </>

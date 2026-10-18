@@ -1,12 +1,15 @@
 import type { HeroViewId } from "@/components/plataforma/HeroCarousel";
 import {
-  CLINERA_PLANS,
-  SETUP_FEE_NUMBER,
-} from "@/content/pricing";
+  EXTRAS,
+  IMPLEMENTACION_USD,
+  PLANES,
+  PLAN_CON_AGENTE,
+  PLAN_DESDE_USD,
+} from "@/content/planes";
 
-const vortex = CLINERA_PLANS[0];
-const atlas = CLINERA_PLANS[1];
-const summit = CLINERA_PLANS[2];
+// Planes Flux · Nexus · Summit (Ricardo, 18-oct-2026): fuente `planes.ts`.
+const [flux, nexus, summit] = PLANES;
+const nf = (v: number) => v.toLocaleString("es-CL");
 
 export type SoftwareVerticalContent = {
   slug:
@@ -81,7 +84,7 @@ export type SoftwareVerticalContent = {
   };
 };
 
-const PRICE_FAQ = `El plan anual va primero, a valor mensual con 20% OFF: Vortex USD ${Math.round(vortex.annualMonthly)}/mes (frente a USD ${vortex.monthlyPrice}/mes), Atlas USD ${Math.round(atlas.annualMonthly)}/mes, Summit USD ${Math.round(summit.annualMonthly)}/mes. El mensual queda después: Vortex USD ${vortex.monthlyPrice}/mes, Atlas USD ${atlas.monthlyPrice}, Summit USD ${summit.monthlyPrice}. Permanencia mínima 6 meses. El primer cobro suma implementación USD ${SETUP_FEE_NUMBER}. El catálogo está en USD; en la web puedes ver MXN a un tipo de cambio fijo.`;
+const PRICE_FAQ = `Hay tres planes mensuales: Flux US$ ${flux.monthlyUsd}/mes (${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones), Nexus US$ ${nexus.monthlyUsd}/mes (${nexus.professionals} profesionales, hasta ${nf(nexus.conversations)} conversaciones, email marketing, automatizaciones y difusiones) y Summit US$ ${summit.monthlyUsd}/mes (${summit.professionals} profesionales, hasta ${nf(summit.conversations)} conversaciones y agente IA de texto y voz). Todos suman una implementación de US$ ${IMPLEMENTACION_USD}, pago único. Para contratar, hablas con ventas.`;
 
 const INTEGRATION_FAQ =
   "No. Clinera no se sincroniza con Reservo, AgendaPro, Medilink ni Dentalink: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Para conectar otras herramientas tienes Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit.";
@@ -99,7 +102,7 @@ export const MEDICO: SoftwareVerticalContent = {
   h1Rest: " que atiende, agenda y ordena toda tu clínica",
   thesis:
     "No es un chatbot: es el sistema con el que opera tu consultorio. Agenda, ficha facial y corporal, agente IA por WhatsApp y Clinera Intelligence en un solo lugar.",
-  sub: `Desde USD ${vortex.monthlyPrice}/mes. Migramos tus datos en el onboarding. Un solo modo de agendamiento: Agentic.`,
+  sub: `Desde US$ ${PLAN_DESDE_USD}/mes. Migramos tus datos en el onboarding. Un solo modo de agendamiento: Agentic.`,
   heroViews: ["ficha", "corporal", "aura", "intelligence"],
   includesH2: "Qué incluye el software clínico",
   includes: [
@@ -117,7 +120,7 @@ export const MEDICO: SoftwareVerticalContent = {
     },
     {
       title: "Agente IA (AURA)",
-      body: "Atiende por WhatsApp 24/7: califica, agenda y confirma sobre tu agenda. En vivo en todos los planes. CAMILA (llamadas con IA) disponible solo en Summit.",
+      body: "Atiende por WhatsApp 24/7: califica, agenda y confirma sobre tu agenda. En el plan Summit. CAMILA (llamadas con IA) disponible solo en Summit.",
     },
     {
       title: "Clinera Intelligence",
@@ -159,7 +162,7 @@ export const MEDICO: SoftwareVerticalContent = {
     },
     {
       q: "¿Sirve para un consultorio chico?",
-      a: `Sí. Vortex (USD ${vortex.monthlyPrice}/mes) es el plan de entrada: ${vortex.credits.toLocaleString("es-CL")} créditos/mes, ${vortex.consumptionReference}. Un solo profesional o un equipo chico operan igual: agenda, ficha y AURA incluidos.`,
+      a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene en ${PLAN_CON_AGENTE.name}.`,
     },
     {
       q: "¿Se integra con Reservo, AgendaPro o Medilink?",
@@ -179,12 +182,12 @@ export const MEDICO: SoftwareVerticalContent = {
     },
     {
       q: "¿Qué hace el agente IA?",
-      a: "AURA (en vivo, todos los planes) atiende por WhatsApp, califica y agenda sola sobre tu calendario. CAMILA llama por teléfono solo en Summit. LIA fiscaliza la operación en Summit.",
+      a: "AURA (en vivo, plan Summit) atiende por WhatsApp, califica y agenda sola sobre tu calendario. CAMILA llama por teléfono solo en Summit. LIA fiscaliza la operación en Summit.",
     },
   ],
   meta: {
     title: "Software médico para clínicas: agenda, ficha clínica y agente IA",
-    description: `Software médico para clínicas: agenda, ficha facial y corporal, y agente IA por WhatsApp. Desde USD ${vortex.monthlyPrice}/mes. Sin integrar agendas de terceros: migramos tus datos.`,
+    description: `Software médico para clínicas: agenda, ficha facial y corporal, y agente IA por WhatsApp. Desde US$ ${PLAN_DESDE_USD}/mes. Sin integrar agendas de terceros: migramos tus datos.`,
     keywords: [
       "software médico",
       "software clínico",
@@ -210,7 +213,7 @@ export const DENTAL: SoftwareVerticalContent = {
   h1Rest: " que llena tus sillones y ordena tu clínica",
   thesis:
     "Agenda, odontograma FDI, ficha del paciente y un agente IA que confirma por WhatsApp. Clinera es el software con el que opera la clínica dental — no un bot al lado de Dentalink.",
-  sub: `Desde USD ${vortex.monthlyPrice}/mes. Odontograma por pieza y cara, presupuesto por WhatsApp. Migración en el onboarding.`,
+  sub: `Desde US$ ${PLAN_DESDE_USD}/mes. Odontograma por pieza y cara, presupuesto por WhatsApp. Migración en el onboarding.`,
   heroViews: ["odonto", "ficha", "aura", "intelligence"],
   includesH2: "Qué incluye el software para clínicas dentales",
   includes: [
@@ -290,12 +293,12 @@ export const DENTAL: SoftwareVerticalContent = {
     },
     {
       q: "¿Cómo es la implementación y la migración?",
-      a: `Onboarding asistido: importamos pacientes, tratamientos y agenda. Costo único de USD ${SETUP_FEE_NUMBER} con el primer mes del plan. No hay sincronización permanente con Dentalink ni con otras agendas: operas en Clinera.`,
+      a: `Onboarding asistido: importamos pacientes, tratamientos y agenda. Costo único de US$ ${IMPLEMENTACION_USD}, en todos los planes. No hay sincronización permanente con Dentalink ni con otras agendas: operas en Clinera.`,
     },
   ],
   meta: {
     title: "Software dental para clínicas: agenda, odontograma y agente IA",
-    description: `Software dental para clínicas: agenda, odontograma FDI y agente IA por WhatsApp. Desde USD ${vortex.monthlyPrice}/mes. Migración en el onboarding, sin integrar agendas de terceros.`,
+    description: `Software dental para clínicas: agenda, odontograma FDI y agente IA por WhatsApp. Desde US$ ${PLAN_DESDE_USD}/mes. Migración en el onboarding, sin integrar agendas de terceros.`,
     keywords: [
       "software dental",
       "software para clínicas dentales",
@@ -320,7 +323,7 @@ export const ESTETICA: SoftwareVerticalContent = {
   h1Rest: " que agenda, ficha y confirma por WhatsApp",
   thesis:
     "Clinera es un software para clínicas estéticas con agenda, ficha facial y corporal con consentimientos y fotos del paciente, y un agente de IA (AURA) que agenda y confirma por WhatsApp 24/7. Opera sobre su propia agenda: migramos tus datos en el onboarding.",
-  sub: `Desde USD ${vortex.monthlyPrice}/mes. CRM incluido, sin integrar agendas de terceros. Un solo modo de agendamiento: Agentic.`,
+  sub: `Desde US$ ${PLAN_DESDE_USD}/mes. CRM incluido, sin integrar agendas de terceros. Un solo modo de agendamiento: Agentic.`,
   heroViews: ["corporal", "ficha", "aura", "intelligence"],
   includesH2: "Qué incluye el software para clínicas estéticas",
   includes: [
@@ -338,7 +341,7 @@ export const ESTETICA: SoftwareVerticalContent = {
     },
     {
       title: "Agente IA (AURA)",
-      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. En vivo en todos los planes. CAMILA (llamadas con IA) disponible solo en Summit.",
+      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. En el plan Summit. CAMILA (llamadas con IA) disponible solo en Summit.",
     },
     {
       title: "Clinera Intelligence",
@@ -380,7 +383,7 @@ export const ESTETICA: SoftwareVerticalContent = {
     },
     {
       q: "¿Sirve para una clínica de una sola sucursal?",
-      a: `Sí. Vortex (USD ${vortex.monthlyPrice}/mes) es el plan de entrada: ${vortex.credits.toLocaleString("es-CL")} créditos/mes, ${vortex.consumptionReference}. Agenda, ficha y AURA van incluidos.`,
+      a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene en ${PLAN_CON_AGENTE.name}.`,
     },
     {
       q: "¿Reemplaza a AgendaPro o a Reservo?",
@@ -405,7 +408,7 @@ export const ESTETICA: SoftwareVerticalContent = {
   ],
   meta: {
     title: "Software para clínicas estéticas: agenda, ficha y agente IA",
-    description: `Software para clínicas estéticas: agenda, ficha facial y corporal, CRM y agente IA que agenda por WhatsApp 24/7. Desde USD ${vortex.monthlyPrice}/mes. Migramos tus datos, sin integrar agendas de terceros.`,
+    description: `Software para clínicas estéticas: agenda, ficha facial y corporal, CRM y agente IA que agenda por WhatsApp 24/7. Desde US$ ${PLAN_DESDE_USD}/mes. Migramos tus datos, sin integrar agendas de terceros.`,
     keywords: [
       "software para clínicas estéticas",
       "software clínica estética",
@@ -430,7 +433,7 @@ export const WHATSAPP_IA: SoftwareVerticalContent = {
   h1Rest: " para clínicas: AURA agenda, reagenda y confirma por ti",
   thesis:
     "AURA es el agente de IA de Clinera que atiende el WhatsApp de tu clínica 24/7: consulta la disponibilidad real, agenda, reagenda y cancela dentro de la conversación, sin links. Trabaja sobre la agenda y la ficha de Clinera, con tu número conectado vía Meta.",
-  sub: `Desde USD ${vortex.monthlyPrice}/mes. En vivo en todos los planes. Un solo modo de agendamiento: Agentic.`,
+  sub: `Desde US$ ${PLAN_DESDE_USD}/mes. El agente IA que agenda solo viene en ${PLAN_CON_AGENTE.name} (US$ ${PLAN_CON_AGENTE.monthlyUsd}/mes).`,
   heroViews: ["aura", "ficha", "intelligence"],
   includesH2: "Qué hace el agendamiento por WhatsApp con IA de Clinera",
   includes: [
@@ -460,14 +463,10 @@ export const WHATSAPP_IA: SoftwareVerticalContent = {
     },
   ],
   deepDive: {
-    eyebrow: "Cómo se cobra el consumo",
-    h2: "Pagas por conversación, medida en créditos",
-    body: "Conversar sin llegar a una cita consume 30 créditos; una conversación que agenda, reagenda o cancela, 195. Cada plan trae una bolsa mensual y la recarga está disponible. La calculadora te dice qué plan te calza según tu volumen.",
-    bullets: [
-      `Vortex: ${vortex.credits.toLocaleString("es-CL")} créditos, ${vortex.consumptionReference}`,
-      `Atlas: ${atlas.credits.toLocaleString("es-CL")} créditos`,
-      `Summit: ${summit.credits.toLocaleString("es-CL")} créditos`,
-    ],
+    eyebrow: "Cuántas conversaciones incluye",
+    h2: "Cada plan trae un tope de conversaciones al mes",
+    body: `Eliges según tu equipo y tu volumen. Si te quedas corto, sumas ${EXTRAS[0].label} por US$ ${EXTRAS[0].usd} sin cambiar de plan. El agente IA que agenda solo viene en ${PLAN_CON_AGENTE.name}.`,
+    bullets: PLANES.map((p) => `${p.name}: hasta ${nf(p.conversations)} conversaciones al mes`),
   },
   aura: {
     eyebrow: "Agente IA · en vivo",
@@ -500,7 +499,7 @@ export const WHATSAPP_IA: SoftwareVerticalContent = {
     },
     {
       q: "¿Cuántas conversaciones incluye cada plan?",
-      a: `Una conversación que no termina en cita consume 30 créditos y una que agenda, reagenda o cancela, 195. Con eso, Vortex alcanza para ${vortex.consumptionReference}. Atlas y Summit traen bolsas mayores y la recarga está disponible.`,
+      a: `${PLANES.map((p) => `${p.name}: hasta ${nf(p.conversations)}`).join(" · ")} conversaciones al mes. Si te quedas corto, sumas ${EXTRAS[0].label} por US$ ${EXTRAS[0].usd}.`,
     },
     {
       q: "¿AURA reemplaza a mi recepcionista?",
@@ -513,7 +512,7 @@ export const WHATSAPP_IA: SoftwareVerticalContent = {
   ],
   meta: {
     title: "Agendamiento por WhatsApp con IA para clínicas",
-    description: `Agendamiento automático por WhatsApp con IA para clínicas: AURA agenda, reagenda y confirma 24/7 sobre la agenda y la ficha de Clinera. Desde USD ${vortex.monthlyPrice}/mes.`,
+    description: `Agendamiento automático por WhatsApp con IA para clínicas: AURA agenda, reagenda y confirma 24/7 sobre la agenda y la ficha de Clinera. Desde US$ ${PLAN_DESDE_USD}/mes.`,
     keywords: [
       "agendamiento por whatsapp con IA",
       "agendamiento automático clínicas",
@@ -537,7 +536,7 @@ export const CLINICAS: SoftwareVerticalContent = {
   h1Rest: " que agenda, ficha y atiende tu WhatsApp con IA",
   thesis:
     "Clinera es el software, o programa de gestión, con el que opera una clínica médica o estética: agenda por profesional, ficha clínica electrónica, módulo de pagos, CRM y un agente de IA (AURA) que atiende y agenda por WhatsApp 24/7. Migramos tus datos en el onboarding.",
-  sub: `Desde USD ${vortex.monthlyPrice}/mes. Un solo sistema de gestión, sin integrar agendas de terceros. Un solo modo de agendamiento: Agentic.`,
+  sub: `Desde US$ ${PLAN_DESDE_USD}/mes. Un solo sistema de gestión, sin integrar agendas de terceros. Un solo modo de agendamiento: Agentic.`,
   heroViews: ["ficha", "aura", "intelligence"],
   includesH2: "Qué incluye un programa de gestión para clínicas",
   includes: [
@@ -555,7 +554,7 @@ export const CLINICAS: SoftwareVerticalContent = {
     },
     {
       title: "Agente IA (AURA)",
-      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. En vivo en todos los planes. CAMILA (llamadas con IA) disponible solo en Summit.",
+      body: "Atiende el WhatsApp de la clínica 24/7: responde, califica y agenda sobre tu agenda real. En el plan Summit. CAMILA (llamadas con IA) disponible solo en Summit.",
     },
     {
       title: "Recordatorios y confirmación",
@@ -599,7 +598,7 @@ export const CLINICAS: SoftwareVerticalContent = {
     },
     {
       q: "¿Sirve para una clínica de una sola sucursal?",
-      a: `Sí. Vortex (USD ${vortex.monthlyPrice}/mes) es el plan de entrada: ${vortex.credits.toLocaleString("es-CL")} créditos/mes, ${vortex.consumptionReference}. Agenda, ficha y AURA van incluidos.`,
+      a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene en ${PLAN_CON_AGENTE.name}.`,
     },
     {
       q: "¿Se integra con la agenda que usamos hoy?",
@@ -620,7 +619,7 @@ export const CLINICAS: SoftwareVerticalContent = {
   ],
   meta: {
     title: "Software para clínicas: agenda, ficha y agente IA",
-    description: `Software y programa de gestión para clínicas: agenda, ficha clínica electrónica, pagos, CRM y agente IA que agenda por WhatsApp 24/7. Desde USD ${vortex.monthlyPrice}/mes. Migramos tus datos.`,
+    description: `Software y programa de gestión para clínicas: agenda, ficha clínica electrónica, pagos, CRM y agente IA que agenda por WhatsApp 24/7. Desde US$ ${PLAN_DESDE_USD}/mes. Migramos tus datos.`,
     keywords: [
       "software para clínicas",
       "programa para clínicas",
@@ -645,7 +644,7 @@ export const RECORDATORIOS: SoftwareVerticalContent = {
   h1Rest: " para clínicas: confirma y reagenda sin llamar uno por uno",
   thesis:
     "Clinera envía recordatorios de citas por WhatsApp y pide la confirmación del paciente de forma automática. Si el paciente no puede asistir, AURA, el agente de IA, reagenda en la misma conversación sobre la agenda real de la clínica, para que el horario libre se vuelva a llenar.",
-  sub: `Desde USD ${vortex.monthlyPrice}/mes. Sin llamar paciente por paciente. Un solo modo de agendamiento: Agentic.`,
+  sub: `Desde US$ ${PLAN_DESDE_USD}/mes. Sin llamar paciente por paciente. Un solo modo de agendamiento: Agentic.`,
   heroViews: ["aura", "ficha", "intelligence"],
   includesH2: "Qué hacen los recordatorios de citas de Clinera",
   includes: [
@@ -728,7 +727,7 @@ export const RECORDATORIOS: SoftwareVerticalContent = {
   ],
   meta: {
     title: "Recordatorios de citas por WhatsApp para clínicas",
-    description: `Recordatorios y confirmación automática de citas por WhatsApp para clínicas. AURA confirma y reagenda en la conversación, sobre tu agenda real. Desde USD ${vortex.monthlyPrice}/mes.`,
+    description: `Recordatorios y confirmación automática de citas por WhatsApp para clínicas. AURA confirma y reagenda en la conversación, sobre tu agenda real. Desde US$ ${PLAN_DESDE_USD}/mes.`,
     keywords: [
       "recordatorios de citas por whatsapp",
       "confirmación automática de citas",
@@ -752,7 +751,7 @@ export const CRM: SoftwareVerticalContent = {
   h1Rest: " que vive dentro de tu agenda, tu ficha y tu WhatsApp",
   thesis:
     "Clinera incluye un CRM para clínicas dentro del mismo software de la agenda y la ficha clínica: sigue a cada lead desde el primer mensaje de WhatsApp hasta la cita, conserva el historial del paciente y atribuye las campañas de Meta y Google. No conectas dos sistemas: es un solo programa.",
-  sub: `Desde USD ${vortex.monthlyPrice}/mes. CRM incluido en todos los planes, sin integrar agendas de terceros. Un solo modo de agendamiento: Agentic.`,
+  sub: `Desde US$ ${PLAN_DESDE_USD}/mes. CRM incluido en todos los planes, sin integrar agendas de terceros. Un solo modo de agendamiento: Agentic.`,
   heroViews: ["aura", "ficha", "intelligence"],
   includesH2: "Qué incluye el CRM para clínicas de Clinera",
   includes: [
@@ -835,7 +834,7 @@ export const CRM: SoftwareVerticalContent = {
   ],
   meta: {
     title: "CRM para clínicas: leads, pacientes y campañas",
-    description: `CRM para clínicas incluido en el software de agenda y ficha: seguimiento de leads por WhatsApp, pacientes y atribución de campañas Meta y Google. Desde USD ${vortex.monthlyPrice}/mes.`,
+    description: `CRM para clínicas incluido en el software de agenda y ficha: seguimiento de leads por WhatsApp, pacientes y atribución de campañas Meta y Google. Desde US$ ${PLAN_DESDE_USD}/mes.`,
     keywords: [
       "CRM para clínicas",
       "CRM para clínicas estéticas",
@@ -871,7 +870,7 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
     h1Accent: o.accent,
     h1Rest: " que agenda, ficha y confirma por WhatsApp",
     thesis: o.thesis,
-    sub: `Desde USD ${vortex.monthlyPrice}/mes. Agenda, ficha y CRM en un solo sistema, sin integrar agendas de terceros. Un solo modo de agendamiento: Agentic.`,
+    sub: `Desde US$ ${PLAN_DESDE_USD}/mes. Agenda, ficha y CRM en un solo sistema, sin integrar agendas de terceros. Un solo modo de agendamiento: Agentic.`,
     heroViews: ["ficha", "aura", "intelligence"],
     includesH2: `Qué incluye el software para ${o.profesional}`,
     includes: [
@@ -885,7 +884,7 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
       },
       {
         title: "Agente IA (AURA)",
-        body: "Atiende el WhatsApp de la consulta 24/7: responde, califica y agenda sobre tu agenda real. En vivo en todos los planes. CAMILA (llamadas con IA) disponible solo en Summit.",
+        body: "Atiende el WhatsApp de la consulta 24/7: responde, califica y agenda sobre tu agenda real. En el plan Summit. CAMILA (llamadas con IA) disponible solo en Summit.",
       },
       {
         title: "Recordatorios y confirmación",
@@ -929,7 +928,7 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
       },
       {
         q: "¿Sirve para un profesional que trabaja solo?",
-        a: `Sí. Vortex (USD ${vortex.monthlyPrice}/mes) es el plan de entrada: ${vortex.credits.toLocaleString("es-CL")} créditos/mes, ${vortex.consumptionReference}. Agenda, ficha y AURA van incluidos.`,
+        a: `Sí. Flux (US$ ${flux.monthlyUsd}/mes) es el plan de entrada: ${flux.professionals} profesionales, hasta ${nf(flux.conversations)} conversaciones y WhatsApp, Instagram y Facebook en una bandeja conectada a tu agenda y ficha. El agente IA que agenda solo viene en ${PLAN_CON_AGENTE.name}.`,
       },
       {
         q: "¿Se integra con la agenda que usamos hoy?",
@@ -950,7 +949,7 @@ function especialidad(o: EspecialidadOpts): SoftwareVerticalContent {
     ],
     meta: {
       title: `Software para ${o.profesional}: agenda, ficha y agente IA`,
-      description: `Software para ${o.profesional}: agenda, ficha clínica, CRM y agente IA que agenda por WhatsApp 24/7. Desde USD ${vortex.monthlyPrice}/mes. Migramos tus datos.`,
+      description: `Software para ${o.profesional}: agenda, ficha clínica, CRM y agente IA que agenda por WhatsApp 24/7. Desde US$ ${PLAN_DESDE_USD}/mes. Migramos tus datos.`,
       keywords: o.keywords,
     },
   };

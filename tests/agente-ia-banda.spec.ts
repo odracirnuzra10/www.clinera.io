@@ -8,10 +8,10 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const PAGINAS = [
-  { path: "/", cta: /^\/go/ },
-  { path: "/software-estetica", cta: /^\/go/ },
+  { path: "/", cta: /^\/agenda/ },
+  { path: "/software-estetica", cta: /^\/agenda/ },
   { path: "/clinica-estetica", cta: /^#agenda-demo$/ },
-  { path: "/blog/mejores-software-clinicas-esteticas", cta: /^\/go/ },
+  { path: "/blog/mejores-software-clinicas-esteticas", cta: /^\/agenda/ },
 ];
 
 test.describe("banda «Activa tu agente IA»", () => {
@@ -24,18 +24,18 @@ test.describe("banda «Activa tu agente IA»", () => {
       for (const canal of ["WhatsApp", "Facebook", "Instagram", "Llamadas con IA"]) {
         await expect(banda.locator("li b", { hasText: canal })).toBeVisible();
       }
-      // La voz es exclusiva de Summit (AGENTS.md): la banda no la promete en todos los planes.
+      // El agente de texto y voz es solo de Summit: la banda no lo promete en todos los planes.
       await expect(banda).toContainText("Summit");
       await expect(banda.getByRole("link").first()).toHaveAttribute("href", p.cta);
     });
   }
 
-  test("al ir a /go conserva la query del anuncio", async ({ page }) => {
+  test("al ir a /agenda conserva la query del anuncio", async ({ page }) => {
     await page.goto("/?utm_source=google&gclid=abc", { waitUntil: "domcontentloaded" });
     // Tras hidratar: el servidor no conoce la query.
     await expect(page.locator("[data-agente-ia-banda] a").first()).toHaveAttribute(
       "href",
-      "/go?utm_source=google&gclid=abc",
+      "/agenda?utm_source=google&gclid=abc",
     );
   });
 

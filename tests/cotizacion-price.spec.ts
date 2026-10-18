@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { CLINERA_PLANS, SETUP_FEE_NUMBER, SETUP_FEE_USD } from "../src/content/pricing";
+import { SETUP_FEE_NUMBER, SETUP_FEE_USD } from "../src/content/pricing";
 
 /**
  * Lo que se cuida acá es lo que sigue viviendo en este repo:
@@ -31,42 +31,12 @@ test("setupFeeFor: catálogo cobra implementación siempre", async () => {
   expect(includesFreeSetup("annual")).toBe(false);
 });
 
-test("/planes muestra implementación USD 450 junto al plan anual", async ({ page }) => {
+// /planes publica Flux · Nexus · Summit con implementación US$ 250 (18-oct-2026).
+// Los US$ 450 de `setupFeeFor` siguen rigiendo los contratos de /firma (test de arriba).
+test("/planes muestra la implementación de los planes vigentes y no cobra en la web", async ({ page }) => {
   await page.goto("/planes", { waitUntil: "domcontentloaded" });
-  const precios = page.locator("#precios");
-  await expect(precios.getByText("Implementación").first()).toBeVisible();
-  await expect(precios.getByText(`$${SETUP_FEE_NUMBER}`).first()).toBeVisible();
-  await expect(precios.getByText(/con el plan anual/i).first()).toBeVisible();
-  await expect(precios.getByText(/12 cuotas a precio de contado/i).first()).toBeVisible();
-  await expect(precios.getByRole("img", { name: "Mercado Pago" }).first()).toBeVisible();
-  await expect(precios.getByText(/incluida en el plan/i)).toHaveCount(0);
-  await expect(precios.getByRole("radio", { name: /semestral/i })).toHaveCount(0);
-  await expect(precios.getByRole("radio", { name: /anual/i })).toHaveAttribute("aria-checked", "true");
-  await expect(precios.getByText("$223").first()).toBeVisible();
-  await expect(precios.getByText(/Ahorras/).first()).toBeVisible();
-  await expect(precios.locator("[data-plan-period-row='monthly']")).toHaveCount(0);
-  await expect(precios.getByText("$2,678")).toHaveCount(0);
-  await expect(precios.getByText(/\/año/)).toHaveCount(0);
-
-  await page.getByRole("radio", { name: /Mensual/ }).click();
-  await expect(precios.locator("[data-plan-period-row='monthly']")).toHaveCount(3);
-  await expect(precios.locator("[data-plan-period-row='annual']")).toHaveCount(0);
-  await expect(precios.getByText("$279").first()).toBeVisible();
-  await expect(precios.getByText("$223")).toHaveCount(0);
-});
-
-test("los links de pago de /planes abren en el anual y pasan al mensual", async ({ page }) => {
-  await page.goto("/planes", { waitUntil: "domcontentloaded" });
-
-  for (const plan of CLINERA_PLANS) {
-    const boton = page.locator(`#precios a[data-plan="${plan.id}"][data-plan-billing="annual"]`);
-    await expect(boton).toHaveAttribute("href", plan.stripeAnnual);
-  }
-
-  await page.getByRole("radio", { name: /Mensual/ }).click();
-
-  for (const plan of CLINERA_PLANS) {
-    const boton = page.locator(`#precios a[data-plan="${plan.id}"][data-plan-billing="monthly"]`);
-    await expect(boton).toHaveAttribute("href", plan.stripe);
-  }
+  const planes = page.locator("[data-planes-vigentes]");
+  await expect(planes.getByText(/US\$250 de implementación/).first()).toBeVisible();
+  await expect(planes.getByText(`$${SETUP_FEE_NUMBER}`)).toHaveCount(0);
+  await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
 });

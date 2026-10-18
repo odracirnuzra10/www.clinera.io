@@ -693,6 +693,33 @@ no prometer porcentajes de reducción de no-shows, no hay dato propio.
 un producto aparte; no prometer email marketing ni triggers de cumpleaños (son
 «próximas funciones»). Webhooks/API pública no se presentan como integración de agenda.
 
+# Planes vigentes: Flux · Nexus · Summit (Ricardo, 18-oct-2026)
+
+**Esto es lo que el sitio público vende.** Fuente única: `src/content/planes.ts`
+(Flux US$ 89 · Nexus US$ 129 · Summit US$ 179, copy tal cual su diapositiva).
+Lo pinta `src/components/pricing/PlanesVigentes.tsx` en home, `/planes` y las
+landings `software-vertical`; también alimenta `softwareOffers` (schema),
+`planes-faq.ts`, `/agenda` («Planes desde…») y `public/llms.txt`.
+
+- **CTA único: «Hablar con ventas» → `/agenda`** con la query de la visita
+  (Nav, banda, tarjetas). No hay checkout en la web. `/go` (Go! US$ 17) sigue
+  vivo pero el sitio **no lo promueve**; no vuelvas a enlazarlo desde el Nav.
+- **Implementación US$ 250, pago único, en todos los planes** (`IMPLEMENTACION_USD`).
+  Ojo: `SETUP_FEE_USD = 450` de `pricing.ts` **sigue** en los contratos de
+  `/firma` y en `/cotizacion`, junto con Vortex/Atlas/Summit 279/379/479. Migrar
+  contratos es decisión de Ricardo: no la tomes por tu cuenta.
+- **El agente IA de texto y voz es solo de Summit.** Flux y Nexus traen la
+  bandeja de WhatsApp, Instagram y Facebook conectada a la agenda. Si ves «AURA
+  en todos los planes», es residuo.
+- «Créditos CI» es término de Ricardo: no lo reescribas sin confirmarlo.
+- **Residuo conocido** (precios viejos 279/379/479/450 escritos a mano, pendiente
+  de barrido): comparativas, `mejor-software.ts`, `comparativas-cross.ts`,
+  `recursos-templates.ts`, posts del blog, `/planes-pro`, calculadoras, `/demo`,
+  `/empleado-digital`, `/plataforma`, `/migracion`, `DemoWizard`, `llms-full.txt`
+  y decks de `public/`. «Webhooks + API en Atlas y Summit» también es residuo:
+  falta que Ricardo diga en qué plan nuevo van.
+Guardián: `tests/planes-vigentes.spec.ts`.
+
 # Nicho estético: home y `/clinica-estetica` (Ricardo, 18-oct-2026)
 
 Clinera se enfoca en **clínicas estéticas** (enfermeras, médicos estéticos,
@@ -712,15 +739,24 @@ correo, WhatsApp) y después el **mismo calendario de `/agenda`**
 `medica` para n8n. El MQL sale al reservar, una vez. No toca `/go`.
 Guardián: `tests/clinica-estetica.spec.ts`.
 
+**Fotos y franja (18-oct):** `EsteticaSection` lleva una modelo con el copy de
+los anuncios de Ricardo (`MODELOS_ESTETICA`: la dueña en el home, la enfermera
+en la landing; generadas en Higgsfield, sin nombre porque no son clientas). El
+bloque «Lo construimos para nuestras propias clínicas» se reemplazó por la
+franja de logos reales en blanco y negro (`ClinicasLogos`, lista en
+`src/content/clinicas-logos.ts`, incluye Método Hebe). La franja vieja del home
+tenía nombres **inventados** («Hospital del Valle»…): `Logos()` ahora pinta los
+reales. Everest usa `everest-mono.png` (el original trae fondo azul).
+
 # Banda «Activa tu agente IA» (Ricardo, 18-oct-2026)
 
 `src/components/agente-ia/AgenteIABanda.tsx`: panel oscuro de tipografía
 gigante que rompe el ritmo light del sitio a propósito. **Va siempre** en el
 home, en las landings (`/clinica-estetica`, todas las `software-vertical`) y
 en cada artículo del blog (`/blog/[slug]`, variante `enColumna`). Una por
-página. Canales: WhatsApp, Facebook, Instagram y llamadas; la nota «Llamadas
-con IA (CAMILA) en el plan Summit» no se saca: la voz es exclusiva de Summit.
-CTA a `/go` con la query de la visita; en `/clinica-estetica` baja al
+página. Canales: WhatsApp, Facebook, Instagram y llamadas; la nota «El agente
+IA de texto y voz viene en el plan Summit» no se saca. CTA «Hablar con ventas»
+a `/agenda` con la query de la visita; en `/clinica-estetica` baja al
 formulario (`#agenda-demo`), porque esa landing solo vende la reunión. Usa
 `aria-label`, no `aria-labelledby`: un nombre accesible con «WhatsApp» hacía
 que `getByLabel("WhatsApp")` de los tests de formularios encontrara la banda.
@@ -958,6 +994,10 @@ del deck apunta a `/convenio-doctores#requisitos`. Copy en
   `<FichaCTA />` a mitad de texto (`lead_source=blog_ficha_clinica`).
 
 # `/planes2` y `/go`: modelo Go! / Flux / Ultra (Ricardo, 17-oct-2026)
+
+> Superado en lo público el 18-oct por **Flux · Nexus · Summit** (`planes.ts`,
+> ver arriba). Lo que sigue describe `/go`, `/activa` y `/planes2`, que quedan
+> vivos pero sin enlaces desde el sitio.
 
 **El 17-oct reemplazó al modelo Go!/Flux/Vortex del 16-oct** (Flux pasó de 87 a 89
 y Vortex 279 se convirtió en Ultra 179). Vista previa **interna** (`noindex`,
