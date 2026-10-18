@@ -98,6 +98,14 @@ test("/agenda: datos → CRM, funciones y los 3 planes con el cupón", async ({ 
   expect(contactos[0].celular).toBe("+56912345678");
   expect(contactos[0].fuente).toContain("/agenda");
 
+  // Paso 2: vista exclusiva del wizard (sin el resto de la landing) y el cupón en grande.
+  await expect(page.locator("[data-agenda-enfocado]")).toHaveCount(1);
+  await expect(page.locator("#hecho-para-estetica")).toHaveCount(0);
+  await expect(page.locator("[data-agente-ia-banda]")).toHaveCount(0);
+  const cuponGrande = page.locator(`[data-cupon-grande] >> text=${CUPON.codigo}`);
+  await expect(cuponGrande).toBeVisible();
+  await expect(page.locator("[data-cupon-grande]").getByRole("button", { name: "Copiar" })).toBeVisible();
+
   // Paso 2: varias funciones. No hay segundo envío (n8n lo marcaría «Volvió a cotizar»).
   await page.getByRole("checkbox", { name: "Ficha estética facial" }).click();
   await page.getByRole("checkbox", { name: "Presupuestos" }).click();
@@ -118,4 +126,21 @@ test("/agenda: datos → CRM, funciones y los 3 planes con el cupón", async ({ 
   }
   await expect(oferta).toContainText("Marcaste: ficha estética facial, presupuestos.");
   await expect(oferta.getByRole("button", { name: "Prefiero hablar con ventas antes" })).toBeVisible();
+});
+
+test("/agenda móvil: cupón en vez de precio y botón fijo que vuelve al formulario", async ({ page }) => {
+  await mockRed(page);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+  // La foto lleva el cupón, no el precio del plan de entrada.
+  await expect(page.locator(`[data-modelo-cupon="${CUPON.codigo}"]`)).toContainText("50% de descuento en tu primer mes");
+  await expect(page.locator('[data-modelo-estetica] [class*="modeloMonto"]')).toHaveCount(0);
+  // Landing breve: sin las 4 tarjetas de funciones.
+  await expect(page.locator("[data-estetica-bloque]")).toHaveCount(0);
+  const volver = page.locator("[data-volver-form]");
+  await expect(volver).toHaveCount(0);
+  await page.locator("[data-modelo-cupon]").scrollIntoViewIfNeeded();
+  await expect(volver).toBeVisible();
+  await volver.click();
+  await expect(page.getByLabel("Nombre", { exact: true })).toBeInViewport();
 });

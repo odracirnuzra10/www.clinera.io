@@ -311,3 +311,87 @@
     font-size: 46px;
   }
 }
+
+/* Landing con aire (Ricardo, 18-oct-2026): más blanco entre secciones. */
+.aire > section + section {
+  margin-top: clamp(56px, 9vw, 128px);
+}
+
+/* Fondo con tinte para que el formulario blanco sobresalga. */
+section.heroTinte {
+  max-width: none;
+  padding-left: max(40px, calc((100% - 1120px) / 2));
+  padding-right: max(40px, calc((100% - 1120px) / 2));
+  background:
+    radial-gradient(circle at 85% 10%, rgba(217, 70, 239, 0.12), transparent 45%),
+    radial-gradient(circle at 10% 90%, rgba(59, 130, 246, 0.1), transparent 45%),
+    #f6f4fb;
+}
+
+/* El formulario: borde con degradado y sombra profunda (jerarquía visual). */
+div.cardDestacada {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%) border-box;
+  box-shadow:
+    0 30px 70px -24px rgba(76, 29, 149, 0.38),
+    0 10px 24px -12px rgba(15, 10, 30, 0.18);
+}
+
+/* Botón fijo que devuelve al formulario: solo móvil. */
+.volverForm {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  section.heroTinte {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .volverForm {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 60;
+    display: block;
+    padding: 16px;
+    border-radius: 14px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
+    box-shadow: 0 14px 34px -10px rgba(124, 58, 237, 0.6);
+  }
+}
+
+/* Pasos 2 y 3: solo el wizard, centrado, sin nada debajo hacia donde bajar. */
+section.enfocado {
+  grid-template-columns: minmax(0, 600px);
+  grid-template-areas: "form";
+  grid-template-rows: auto;
+  justify-content: center;
+  min-height: calc(100vh - 72px);
+  min-height: calc(100dvh - 72px);
+  padding-top: 32px;
+}
+
+/* Paso 2: el cupón en grande, para copiarlo antes de pagar. */
+.cuponGrande {
+  margin: 0 0 6px;
+  padding: 18px 20px;
+}
+
+.cuponGrande .cuponCodigo {
+  font-size: 46px;
+  line-height: 1.05;
+}
+
+.cuponNota {
+  margin: 0 0 18px;
+  font-size: 13.5px;
+  color: #6b7280;
+}

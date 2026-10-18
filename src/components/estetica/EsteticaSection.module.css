@@ -366,3 +366,24 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Cupón en vez del precio (/agenda, 18-oct-2026) */
+.modeloCupon {
+  margin: 28px 0 0;
+  padding: 18px 20px;
+  border: 2px dashed #7c3aed;
+  border-radius: 16px;
+  background: #faf5ff;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #111827;
+}
+
+.modeloCuponCodigo {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #5b21b6;
+}

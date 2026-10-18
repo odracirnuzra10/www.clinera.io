@@ -8,6 +8,7 @@ import {
   type ModeloEsteticaId,
 } from "@/content/estetica";
 import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH, PLANES } from "@/content/planes";
+import { CUPON } from "@/content/agenda-oferta";
 import styles from "./EsteticaSection.module.css";
 
 // «Hecho para estética»: lo que hace que un dueño de clínica estética vea que
@@ -113,7 +114,7 @@ function TarjetaTratamientos() {
   );
 }
 
-function Modelo({ id, ctaHref }: { id: ModeloEsteticaId; ctaHref: string }) {
+function Modelo({ id, ctaHref, ctaLabel, cupon }: { id: ModeloEsteticaId; ctaHref: string; ctaLabel: string; cupon: boolean }) {
   const m = MODELOS_ESTETICA[id];
   // El plan de entrada, como en los anuncios («US$ 89 al mes · hasta 3 profesionales»).
   const entrada = PLANES[0];
@@ -132,15 +133,25 @@ function Modelo({ id, ctaHref }: { id: ModeloEsteticaId; ctaHref: string }) {
           {m.titulo} <span className={styles.grad}>{m.acento}</span>
         </p>
         <p className={styles.text}>{m.texto}</p>
-        <div className={styles.modeloPrecio}>
-          <span className={styles.modeloCur}>US$</span>
-          <span className={styles.modeloMonto}>{entrada.monthlyUsd}</span>
-        </div>
-        <p className={styles.modeloSub}>
-          <b>al mes</b> · hasta {entrada.professionals} profesionales
-        </p>
+        {cupon ? (
+          // /agenda (Ricardo, 18-oct-2026): en vez del precio, el cupón.
+          <p className={styles.modeloCupon} data-modelo-cupon={CUPON.codigo}>
+            Obtén un {CUPON.descuentoPct}% de descuento en tu primer mes con el código:{" "}
+            <b className={styles.modeloCuponCodigo}>{CUPON.codigo}</b>
+          </p>
+        ) : (
+          <>
+            <div className={styles.modeloPrecio}>
+              <span className={styles.modeloCur}>US$</span>
+              <span className={styles.modeloMonto}>{entrada.monthlyUsd}</span>
+            </div>
+            <p className={styles.modeloSub}>
+              <b>al mes</b> · hasta {entrada.professionals} profesionales
+            </p>
+          </>
+        )}
         <a className={styles.modeloCta} href={ctaHref} data-cta-ventas={`modelo-${id}`}>
-          {CTA_VENTAS_LABEL}
+          {ctaLabel}
         </a>
       </div>
     </figure>
@@ -152,6 +163,9 @@ export default function EsteticaSection({
   conLogos = true,
   modelo,
   ctaHref = CTA_VENTAS_PATH,
+  ctaLabel = CTA_VENTAS_LABEL,
+  cupon = false,
+  compacta = false,
 }: {
   id?: string;
   /** Franja de logos reales (Ricardo, 18-oct-2026: reemplaza a «Lo construimos para nuestras propias clínicas»). */
@@ -160,6 +174,11 @@ export default function EsteticaSection({
   modelo?: ModeloEsteticaId;
   /** CTA de la foto. En la landing de Ads baja al formulario (`#agenda-demo`). */
   ctaHref?: string;
+  ctaLabel?: string;
+  /** Muestra el cupón CUKI en vez del precio del plan de entrada (/agenda). */
+  cupon?: boolean;
+  /** Sin las 4 tarjetas de funciones: foto + logos (/agenda, landing breve). */
+  compacta?: boolean;
 }) {
   return (
     <section id={id} className={styles.section} aria-labelledby={`${id}-h2`}>
@@ -173,14 +192,16 @@ export default function EsteticaSection({
           cargados. Lo que hace tu equipo en box queda en el sistema, listo para la siguiente sesión.
         </p>
 
-        {modelo && <Modelo id={modelo} ctaHref={ctaHref} />}
+        {modelo && <Modelo id={modelo} ctaHref={ctaHref} ctaLabel={ctaLabel} cupon={cupon} />}
 
-        <div className={styles.grid}>
-          <TarjetaFicha id="facial" />
-          <TarjetaFicha id="corporal" />
-          <TarjetaPresupuesto />
-          <TarjetaTratamientos />
-        </div>
+        {!compacta && (
+          <div className={styles.grid}>
+            <TarjetaFicha id="facial" />
+            <TarjetaFicha id="corporal" />
+            <TarjetaPresupuesto />
+            <TarjetaTratamientos />
+          </div>
+        )}
 
         {conLogos && <ClinicasLogos enSeccion />}
       </div>

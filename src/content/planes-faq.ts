@@ -5,14 +5,13 @@
 import { VERTEX_IA_MODELS_PROSE } from "@/content/ia-stack";
 import { EXTRAS, PLANES, PLAN_IA_DESDE } from "@/content/planes";
 
-const [flux] = PLANES;
 const n = (v: number) => v.toLocaleString("es-CL");
 const [extraConv, extraCreditos, extraProf] = EXTRAS;
 
 export const PLANES_FAQ = [
   {
     q: "¿Qué diferencia a Flux, Hurricane y Vortex?",
-    a: `Los tres traen ficha estética facial y corporal personalizada, evoluciones, presupuestos, WhatsApp, Facebook, Instagram, email marketing y ${flux.ciCredits} créditos de Clinera Intelligence. Cambian el tamaño del equipo, las conversaciones y la IA: ${PLANES.map((p) => `${p.name} (US$ ${p.monthlyUsd}/mes) hasta ${p.professionals} profesionales y ${n(p.conversations)} conversaciones, ${p.agenteIA ? `con agente IA y ${n(p.iaCredits)} créditos de IA` : "sin agente IA"}`).join("; ")}.`,
+    a: `Los tres traen ficha estética facial y corporal personalizada, evoluciones, presupuestos, WhatsApp, Facebook, Instagram, email marketing y Clinera Intelligence. Cambian el tamaño del equipo, las conversaciones, los créditos y la IA: ${PLANES.map((p) => `${p.name} (US$ ${p.monthlyUsd}/mes) hasta ${p.professionals} profesionales, ${n(p.conversations)} conversaciones y ${n(p.ciCredits)} créditos de Clinera Intelligence, ${p.agenteIA ? `con agente IA y ${n(p.iaCredits)} créditos de IA` : "sin agente IA"}`).join("; ")}.`,
   },
   {
     q: "¿Qué plan trae el agente IA que responde y agenda?",
@@ -20,7 +19,7 @@ export const PLANES_FAQ = [
   },
   {
     q: "¿Qué es Clinera Intelligence?",
-    a: "Es el agente IA dentro del software: le preguntas por tus ventas, tu agenda y tus pacientes. Todos los planes traen 100 créditos de Clinera Intelligence al mes.",
+    a: `Es el agente IA dentro del software: le preguntas por tus ventas, tu agenda y tus pacientes. Créditos al mes: ${PLANES.map((p) => `${p.name} ${n(p.ciCredits)}`).join(", ")}.`,
   },
   {
     q: "¿Qué pasa si se me acaban las conversaciones?",
@@ -32,7 +31,7 @@ export const PLANES_FAQ = [
   },
   {
     q: "¿Cómo contrato?",
-    a: "Hablas con ventas: eliges una hora en clinera.io/agenda y en 45 minutos por videollamada te mostramos Clinera con el caso de tu clínica y te ayudamos a elegir el plan.",
+    a: "Dos caminos: activas tu plan acá mismo con el botón de pago (con el cupón CUKI tienes 50% el primer mes), o hablas con ventas: eliges una hora en clinera.io/agenda y en 45 minutos por videollamada te mostramos Clinera con el caso de tu clínica.",
   },
   {
     q: "¿Puedo cambiar de plan después?",

@@ -1,26 +1,10 @@
 "use client";
 
-import ModosAgendamiento from "@/components/empleado-digital/ModosAgendamiento";
-import { IntelligenceHomeSection } from "@/components/IntelligenceSection";
-import ActualizacionSeptiembreBanner from "./ActualizacionSeptiembreBanner";
 import DemoEnVivo from "./DemoEnVivo";
 import EsteticaSection from "@/components/estetica/EsteticaSection";
 import AgenteIABanda from "@/components/agente-ia/AgenteIABanda";
 import PlanesVigentes from "@/components/pricing/PlanesVigentes";
-import { TeamSection } from "./TeamSection";
-import {
-  DarkBreak,
-  EcosistemaIA,
-  Estudios,
-  Faq,
-  Features,
-  FinalCTA,
-  Hero,
-  Integraciones,
-  PrensaCNN,
-  Testimonios,
-  useReveal,
-} from "./sections";
+import { Faq, FinalCTA, Hero, PrensaCNN, Testimonios, useReveal } from "./sections";
 
 export default function HomeV3() {
   useReveal();
@@ -63,25 +47,22 @@ export default function HomeV3() {
         @media (max-width: 720px) {
           main > section { padding-left: 32px !important; padding-right: 32px !important; }
         }
+        /* Aire entre secciones (Ricardo, 18-oct-2026: «más aire, más limpio»). */
+        main > :is(section, div) + :is(section, div) { margin-top: clamp(40px, 7vw, 104px); }
       `}</style>
-      {/* Orden (Ricardo, 18-oct-2026): primero el software de la clínica estética
-          (fichas, evoluciones, presupuestos, ventas); la IA va después, como un plus. */}
+      {/* Home breve (Ricardo, 18-oct-2026: «mucha información… más breve, con más
+          aire, enfocado en la elegancia de una clínica estética premium»). Primero
+          la clínica (fichas, evoluciones, presupuestos); la IA después, como un plus.
+          Salieron EcosistemaIA, Features, IntelligenceHomeSection, TeamSection,
+          ModosAgendamiento, Estudios, DarkBreak, Integraciones y el banner de
+          septiembre: los componentes siguen en el repo por si se reponen. */}
       <Hero />
-      <DemoEnVivo />
       <EsteticaSection modelo="duena" />
-      <EcosistemaIA />
+      <DemoEnVivo />
       <Testimonios />
       <PlanesVigentes />
       <AgenteIABanda />
-      <Features />
-      <IntelligenceHomeSection />
-      <TeamSection />
-      <ModosAgendamiento />
-      <Estudios />
-      <DarkBreak />
-      <Integraciones />
       <PrensaCNN />
-      <ActualizacionSeptiembreBanner />
       <Faq />
       <FinalCTA />
     </>

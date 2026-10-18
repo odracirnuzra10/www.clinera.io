@@ -16,14 +16,15 @@
 // Los links de pago los envía Ricardo (`LINKS_PAGO`). Mientras no existan, cada
 // botón muestra el marcador. Cuando existan, son `<a href="https://buy.stripe.com/…"
 // data-plan …>` y nada más: el clic lo cuenta `Analytics.tsx` (ver AGENTS.md). El
-// cupón CUKI se precarga en el link (`linkPagoConCupon`, `prefilled_promo_code`).
+// cupón CUKI lo escribe la clínica en Stripe: `prefilled_promo_code` no lo aplica
+// en estos Payment Links (probado el 18-oct-2026).
 //
 // «Prefiero hablar con ventas» abre el mismo calendario de siempre
 // (`StepClineraScheduler`): la reserva sigue emitiendo el MQL.
 // El wizard viejo con calendario vive en /reunion-comercial.
 // ============================================================================
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand-v3/Brand";
 import EsteticaSection from "@/components/estetica/EsteticaSection";
@@ -43,19 +44,17 @@ import {
 import {
   AGENDA_COPY,
   CUPON,
-  CUPON_PRIMERA_VISITA_KEY,
   FUNCIONES,
   LINKS_PAGO,
   PLANES_OFERTA,
   PROFESIONALES,
-  fechaLarga,
   formatoUsd,
-  linkPagoConCupon,
   linkPagoPendiente,
-  venceCupon,
-  ymdChile,
   type FuncionId,
 } from "@/content/agenda-oferta";
+import { destacadoDe } from "@/content/planes";
+import { IconoDestacado } from "@/components/pricing/IconoDestacado";
+import { textoVence, useVenceCupon } from "./useCupon";
 import {
   RESERVA_PHONE_PREFIXES,
   aE164,
@@ -72,20 +71,6 @@ const SOURCE_PATH = "/agenda";
 const EMAIL_OK = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MX_TZ = /^America\/(Mexico_City|Cancun|Merida|Monterrey|Matamoros|Chihuahua|Ciudad_Juarez|Ojinaga|Mazatlan|Hermosillo|Tijuana|Bahia_Banderas)$/;
 const TOTAL = 3;
-
-const noop = () => () => {};
-
-/** Último día del cupón según la primera visita guardada (o hoy). */
-function leerVenceCupon(): string {
-  let primera = ymdChile(new Date());
-  try {
-    const guardada = window.localStorage.getItem(CUPON_PRIMERA_VISITA_KEY);
-    if (guardada && /^\d{4}-\d{2}-\d{2}$/.test(guardada)) primera = guardada;
-  } catch {
-    /* sin almacenamiento */
-  }
-  return venceCupon(primera);
-}
 
 function Check() {
   return (
@@ -115,19 +100,7 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
     pushDL("agenda_landing_view", { source_path: SOURCE_PATH });
   }, []);
 
-  // El cupón vence al día siguiente de la PRIMERA visita (Ricardo, 18-oct-2026).
-  // Se guarda la fecha en el navegador para que no se corra cada vez que vuelve;
-  // sin almacenamiento (modo privado), se cuenta desde hoy.
-  const vence = useSyncExternalStore(noop, leerVenceCupon, () => null);
-  useEffect(() => {
-    try {
-      if (!window.localStorage.getItem(CUPON_PRIMERA_VISITA_KEY)) {
-        window.localStorage.setItem(CUPON_PRIMERA_VISITA_KEY, ymdChile(new Date()));
-      }
-    } catch {
-      /* sin almacenamiento: cuenta desde hoy */
-    }
-  }, []);
+  const vence = useVenceCupon();
 
   function marcarInicio() {
     if (formStarted.current) return;
@@ -215,8 +188,51 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
   const titulosPaso = ["Tus datos", "Lo que necesitas", "Tu plan con descuento"];
   const [copiado, setCopiado] = useState(false);
 
+  // Móvil (Ricardo, 18-oct-2026): al bajar, un botón fijo devuelve al formulario
+  // para completarlo. Se esconde mientras el formulario está a la vista.
+  const formRef = useRef<HTMLDivElement>(null);
+  const [formVisible, setFormVisible] = useState(true);
+  useEffect(() => {
+    const el = formRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => setFormVisible(e.isIntersecting), { threshold: 0.15 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  // Desde el paso 2 la página es solo el wizard (Ricardo, 18-oct-2026: «que el
+  // segundo paso se abra en una pestaña exclusiva para no hacer scroll fuera»).
+  // Misma pestaña a propósito: una ventana nueva perdería lo escrito en el paso 1.
+  const enfocado = paso > 1 || conVentas || booking !== null;
+  useEffect(() => {
+    if (enfocado) window.scrollTo({ top: 0 });
+  }, [enfocado, paso]);
+
+  // Cupón con botón de copiar: grande en el paso 2 (Ricardo, 18-oct-2026: «lo
+  // debe usar en el siguiente paso») y otra vez en el paso 3, junto a los planes.
+  function cuponCopiable(grande = false) {
+    return (
+      <div className={`${styles.cupon} ${grande ? styles.cuponGrande : ""}`} data-cupon={CUPON.codigo} data-cupon-grande={grande || undefined}>
+        <div>
+          <span className={styles.cuponMeta}>{grande ? `Tu cupón · ${CUPON.descuentoPct}% el primer mes` : "Tu cupón"}</span>
+          <span className={styles.cuponCodigo}>{CUPON.codigo}</span>
+        </div>
+        <button
+          type="button"
+          className={styles.cuponCopiar}
+          onClick={() => {
+            void navigator.clipboard?.writeText(CUPON.codigo).then(() => setCopiado(true));
+          }}
+        >
+          {copiado ? "Copiado" : "Copiar"}
+        </button>
+      </div>
+    );
+  }
+
+  const volverLabel = paso === 1 ? "Completa tus datos" : paso === 2 ? "Sigue con tu cuenta" : `Ver mi ${CUPON.descuentoPct}% de descuento`;
+
   return (
-    <div className={base.page}>
+    <div className={`${base.page} ${styles.aire}`}>
       <header className={base.top}>
         <Link href="/" aria-label="Clinera.io">
           <Wordmark size={19} />
@@ -224,7 +240,8 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
         <span className={base.meta}>{AGENDA_COPY.eyebrow}</span>
       </header>
 
-      <section className={base.hero}>
+      <section className={`${base.hero} ${styles.heroTinte} ${enfocado ? styles.enfocado : ""}`} data-agenda-enfocado={enfocado || undefined}>
+        {!enfocado && (
         <div className={base.heroCopy}>
           <span className={base.meta}>{AGENDA_COPY.eyebrow}</span>
           <h1 className={base.h1}>
@@ -232,9 +249,10 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
           </h1>
           <p className={base.sub}>{AGENDA_COPY.sub}</p>
         </div>
+        )}
 
-        <div className={base.formCol} id="crear-cuenta">
-          <div className={base.card}>
+        <div className={base.formCol} id="crear-cuenta" ref={formRef}>
+          <div className={`${base.card} ${styles.cardDestacada}`}>
             {booking ? (
               <div className={base.done}>
                 <div className={base.doneCheck} aria-hidden>
@@ -352,6 +370,8 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
 
                 {paso === 2 && (
                   <div data-agenda-paso="2">
+                    {cuponCopiable(true)}
+                    <p className={styles.cuponNota}>Cópialo: lo usas al pagar en el siguiente paso.</p>
                     <h2 className={base.cardTitle}>¿Qué necesita tu clínica?</h2>
                     <p className={base.cardSub}>Marca todo lo que quieras usar. Puedes elegir varias.</p>
                     <div className={styles.funciones} role="group" aria-label="Funciones que necesitas">
@@ -386,27 +406,13 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
                 {paso === 3 && (
                   <div data-agenda-paso="3" data-oferta>
                     <h2 className={base.cardTitle}>Elige tu plan con {CUPON.descuentoPct}% de descuento</h2>
-                    <div className={styles.cupon} data-cupon={CUPON.codigo}>
-                      <div>
-                        <span className={styles.cuponMeta}>Tu cupón</span>
-                        <span className={styles.cuponCodigo}>{CUPON.codigo}</span>
-                      </div>
-                      <button
-                        type="button"
-                        className={styles.cuponCopiar}
-                        onClick={() => {
-                          void navigator.clipboard?.writeText(CUPON.codigo).then(() => setCopiado(true));
-                        }}
-                      >
-                        {copiado ? "Copiado" : "Copiar"}
-                      </button>
-                    </div>
+                    {cuponCopiable()}
                     <p className={styles.durante}>
                       {CUPON.descuentoPct}% de descuento {CUPON.meses === 1 ? "el primer mes" : `durante ${CUPON.meses} meses`} en cualquier plan. Ingresa el código {CUPON.codigo} al pagar.
                     </p>
                     {vence && (
                       <p className={styles.vence} data-cupon-vence={vence}>
-                        Válido hasta el {fechaLarga(vence)}.
+                        Válido {textoVence(vence)}.
                       </p>
                     )}
                     {funcionesSel.length > 0 && (
@@ -436,19 +442,26 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
                               {CUPON.meses === 1 ? "El primer mes" : `Los primeros ${CUPON.meses} meses`} · luego US$ {p.monthlyUsd}/mes
                             </p>
                             <ul className={styles.incluye}>
-                              {p.destacados.map((d) => (
-                                <li key={d}>
-                                  <span className={styles.tick}>
-                                    <Check />
-                                  </span>
-                                  {d}
-                                </li>
-                              ))}
+                              {p.destacados.map((d) => {
+                                const tipo = destacadoDe(d);
+                                return (
+                                  <li key={d} data-destacado={tipo ?? undefined}>
+                                    {tipo ? (
+                                      <IconoDestacado tipo={tipo} />
+                                    ) : (
+                                      <span className={styles.tick}>
+                                        <Check />
+                                      </span>
+                                    )}
+                                    {tipo ? <strong>{d}</strong> : d}
+                                  </li>
+                                );
+                              })}
                             </ul>
                             {link ? (
                               <a
                                 className={base.cta}
-                                href={linkPagoConCupon(link)}
+                                href={link}
                                 data-plan={p.id}
                                 data-plan-name={`${p.name} cupón ${CUPON.codigo}`}
                                 data-plan-value={p.conCupon}
@@ -485,28 +498,31 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
           </div>
         </div>
 
+        {/* Landing breve (Ricardo, 18-oct-2026): sin la lista de beneficios. */}
+        {!enfocado && (
         <div className={base.heroProof}>
-          <ul className={base.benefits}>
-            {AGENDA_COPY.beneficios.map((b) => (
-              <li key={b}>
-                <span className={base.tick}>
-                  <Check />
-                </span>
-                {b}
-              </li>
-            ))}
-          </ul>
-          <div className={base.proof}>
+          <div className={base.proof} style={{ marginTop: 0 }}>
             <span className={base.dot} aria-hidden />
             <span>+52 clínicas activas</span>
             <span className={base.sep}>·</span>
             <span>Hecho en Método Hebe y Protocolo Lumina</span>
           </div>
         </div>
+        )}
       </section>
 
-      <EsteticaSection id="hecho-para-estetica" modelo="duena" ctaHref="#crear-cuenta" />
+      {!enfocado && (
+        <>
+      <EsteticaSection id="hecho-para-estetica" modelo="duena" ctaHref="#crear-cuenta" ctaLabel="Crear mi cuenta" cupon compacta />
       <AgenteIABanda href="#crear-cuenta" ctaLabel="Crear mi cuenta" />
+        </>
+      )}
+
+      {!enfocado && !formVisible && (
+        <a href="#crear-cuenta" className={styles.volverForm} data-volver-form>
+          {volverLabel} ↑
+        </a>
+      )}
 
       <footer className={base.footer}>
         <span>© {new Date().getFullYear()} Clinera.io · OACG</span>

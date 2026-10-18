@@ -2,7 +2,8 @@
 // → /agenda, fotos de modelos y franja de logos reales.
 
 import { expect, test } from "@playwright/test";
-import { PLANES } from "../src/content/planes";
+import { ONBOARDING, PLANES } from "../src/content/planes";
+import { CUPON } from "../src/content/agenda-oferta";
 import { CLINICAS_LOGOS } from "../src/content/clinicas-logos";
 
 test.describe("planes vigentes: Flux · Hurricane · Vortex", () => {
@@ -34,6 +35,34 @@ test.describe("planes vigentes: Flux · Hurricane · Vortex", () => {
     for (const viejo of ["Nexus", "Summit", "Atlas", "479", "450"]) expect(texto).not.toContain(viejo);
   });
 
+  test("créditos CI, canales y funciones destacadas (Ricardo, 18-oct-2026)", async ({ page }) => {
+    expect(PLANES.map((p) => p.ciCredits)).toEqual([100, 200, 500]);
+    expect(PLANES.map((p) => p.channels.includes("email"))).toEqual([true, true, true]);
+    expect(PLANES.map((p) => p.channels.includes("telefono"))).toEqual([false, false, true]);
+    await page.goto("/planes", { waitUntil: "domcontentloaded" });
+    for (const p of PLANES) {
+      const card = page.locator(`[data-plan-card="${p.id}"]`);
+      await expect(card).toContainText(`${p.ciCredits} créditos de Clinera Intelligence`);
+      await expect(card.getByText("Email marketing", { exact: true })).toBeVisible();
+      await expect(card.getByText("Llamada telefónica", { exact: true })).toHaveCount(p.id === "vortex" ? 1 : 0);
+      // Agente IA y onboarding: ícono + negrita, solo donde vienen.
+      await expect(card.locator('[data-destacado="ia"] strong')).toHaveCount(p.agenteIA ? 1 : 0);
+      await expect(card.locator('[data-destacado="onboarding"] strong')).toHaveText(p.agenteIA ? [ONBOARDING] : []);
+    }
+  });
+
+  test("/planes avisa el cupón y paga en Stripe; el home no", async ({ page }) => {
+    await page.goto("/planes", { waitUntil: "domcontentloaded" });
+    const cupon = page.locator(`[data-planes-vigentes] [data-cupon="${CUPON.codigo}"]`);
+    await expect(cupon).toContainText("50% de descuento el primer mes");
+    await expect(cupon.locator("[data-cupon-vence]")).toContainText(/Válido hasta mañana/);
+    for (const p of PLANES) {
+      await expect(page.locator(`[data-plan-card="${p.id}"] a[href*="buy.stripe.com"]`)).toHaveAttribute("data-plan", p.id);
+    }
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    await expect(page.locator('[data-planes-vigentes] a[href*="buy.stripe.com"]')).toHaveCount(0);
+  });
+
   test("el header lleva a ventas, no a /go", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
     const cta = page.locator("header").getByRole("link", { name: "Hablar con ventas" }).first();
@@ -63,5 +92,12 @@ test.describe("home y /clinica-estetica: modelo y logos", () => {
     await page.goto("/clinica-estetica", { waitUntil: "domcontentloaded" });
     await expect(page.locator('[data-modelo-estetica="enfermera"] img')).toBeVisible();
     await expect(page.locator("[data-clinicas-logos] img")).toHaveCount(CLINICAS_LOGOS.length);
+  });
+
+  test("/clinica-estetica avisa el cupón CUKI y lleva a /planes con la query", async ({ page }) => {
+    await page.goto("/clinica-estetica?gclid=abc", { waitUntil: "domcontentloaded" });
+    const cupon = page.locator(`[data-cupon="${CUPON.codigo}"]`);
+    await expect(cupon).toContainText("50% de descuento el primer mes");
+    await expect(cupon.locator("[data-cupon-cta]")).toHaveAttribute("href", "/planes?gclid=abc");
   });
 });

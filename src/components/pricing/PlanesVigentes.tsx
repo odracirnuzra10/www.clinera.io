@@ -5,10 +5,12 @@
 // `Pricing` (home-v3/sections.tsx): degradado por plan, ícono, panel de cobro,
 // «Funciones base», chips y canales (Ricardo, 18-oct-2026: «mantener el diseño
 // original»). Cambia el contenido, no la forma:
-// - solo mensual y solo dólares (sin toggle anual ni switch MXN);
-// - implementación US$ 250 en todos los planes;
-// - un solo CTA, «Hablar con ventas» → /agenda?plan=… con la query de la visita;
-// - funciones enfocadas en la clínica estética (`planes.ts`).
+// - solo mensual y solo dólares (sin toggle anual ni switch MXN), sin implementación;
+// - CTA «Hablar con ventas» → /agenda?plan=… con la query de la visita;
+// - con `conPago` (solo /planes): cupón CUKI arriba y botón al Payment Link de
+//   Stripe de cada plan (`LINKS_PAGO`). El código lo escribe la clínica en Stripe;
+// - funciones enfocadas en la clínica estética (`planes.ts`); el agente IA y el
+//   onboarding humano dedicado van destacados (ícono + negrita).
 // Temas e íconos se reusan de `Pricing`: Flux = tono cyan, Hurricane = violeta
 // claro (destacado, «Con IA»), Vortex = violeta intenso.
 // ============================================================================
@@ -17,6 +19,9 @@ import { useSyncExternalStore, type CSSProperties } from "react";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { PLAN_ICONS, PLAN_THEMES } from "@/components/home-v3/sections";
 import { PlanChannelLogos } from "@/components/pricing/PlanChannelLogos";
+import { IconoDestacado } from "@/components/pricing/IconoDestacado";
+import CuponBanner from "@/components/agenda/CuponBanner";
+import { CUPON, LINKS_PAGO, formatoUsd, precioConCupon } from "@/content/agenda-oferta";
 import { VERTEX_IA_MODELS } from "@/content/ia-stack";
 import {
   CTA_VENTAS_LABEL,
@@ -26,6 +31,7 @@ import {
   PLANES_TITULO,
   PLANES_TITULO_ACENTO,
   agendaHrefPlan,
+  destacadoDe,
   type PlanId,
 } from "@/content/planes";
 
@@ -57,10 +63,13 @@ const rowLabel = (color: string): CSSProperties => ({
 export default function PlanesVigentes({
   id = "precios",
   conTitulo = true,
+  conPago = false,
 }: {
   id?: string;
   /** /planes trae su propio hero: ahí va sin encabezado. */
   conTitulo?: boolean;
+  /** Solo /planes: cupón CUKI y botón de pago en Stripe por plan. */
+  conPago?: boolean;
 }) {
   // La query de la visita (utm, gclid, fbclid) viaja a /agenda: sin ella el lead
   // del anuncio llega sin origen.
@@ -130,6 +139,8 @@ export default function PlanesVigentes({
         >
           Plan mensual en dólares
         </div>
+
+        {conPago && <CuponBanner style={{ maxWidth: 720, margin: "0 auto 40px" }} />}
 
         <div
           className="pv-grid"
@@ -237,9 +248,42 @@ export default function PlanesVigentes({
                       <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 4 }}>USD/mes</div>
                     </div>
                   </div>
+                  {conPago && (
+                    <div
+                      style={{ borderTop: `1px solid ${th.divider}`, padding: "11px 0 13px", fontFamily: "Inter", fontSize: 13, fontWeight: 700, color: th.accent }}
+                    >
+                      Primer mes US$ {formatoUsd(precioConCupon(p.monthlyUsd))} con {CUPON.codigo}
+                    </div>
+                  )}
                 </div>
 
-                <div style={{ marginBottom: 22 }}>
+                <div style={{ marginBottom: 22, display: "flex", flexDirection: "column", gap: 10 }}>
+                  {conPago && LINKS_PAGO[p.id] && (
+                    <a
+                      className="pv-cta"
+                      href={LINKS_PAGO[p.id]!}
+                      // Analytics.tsx parcha el href (client_reference_id) antes de hidratar.
+                      suppressHydrationWarning
+                      data-plan={p.id}
+                      data-plan-name={`${p.name} cupón ${CUPON.codigo}`}
+                      data-plan-value={precioConCupon(p.monthlyUsd)}
+                      style={{
+                        textDecoration: "none",
+                        textAlign: "center",
+                        background: GRAD,
+                        color: "#fff",
+                        padding: "13px 20px",
+                        borderRadius: 12,
+                        fontWeight: 700,
+                        fontSize: 14.5,
+                        fontFamily: JAKARTA,
+                        boxShadow: "0 10px 26px -8px rgba(124,58,237,.5)",
+                        boxSizing: "border-box",
+                      }}
+                    >
+                      Activar {p.name} · {CUPON.descuentoPct}% con {CUPON.codigo}
+                    </a>
+                  )}
                   <a
                     className="pv-cta"
                     href={agendaHrefPlan(p.id, search)}
@@ -277,7 +321,21 @@ export default function PlanesVigentes({
                     Funciones base
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 22 }}>
-                    {p.features.map((f) => (
+                    {p.features.map((f) => {
+                      const tipo = destacadoDe(f);
+                      if (tipo) {
+                        return (
+                          <div
+                            key={f}
+                            data-destacado={tipo}
+                            style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: "Inter", fontSize: 14.5, fontWeight: 800, color: th.ink, lineHeight: 1.4, background: th.chipBg, border: `1px solid ${th.chipBorder}`, borderRadius: 12, padding: "8px 10px" }}
+                          >
+                            <IconoDestacado tipo={tipo} size={22} sobreOscuro={TEMA[p.id] === "summit"} />
+                            <strong>{f}</strong>
+                          </div>
+                        );
+                      }
+                      return (
                       <div
                         key={f}
                         style={{ display: "flex", alignItems: "flex-start", gap: 10, fontFamily: "Inter", fontSize: 14, color: th.ink, lineHeight: 1.5 }}
@@ -301,7 +359,8 @@ export default function PlanesVigentes({
                         </span>
                         {f}
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   <div style={{ marginTop: "auto", display: "flex", flexWrap: "wrap", gap: 8 }}>

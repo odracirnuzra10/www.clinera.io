@@ -24,7 +24,7 @@ export default function PlanesV3() {
         }
       `}</style>
       <PlanesHero />
-      <PlanesVigentes id="planes" conTitulo={false} />
+      <PlanesVigentes id="planes" conTitulo={false} conPago />
       <PlanesFaq />
       <FinalCTA />
     </>
@@ -69,7 +69,7 @@ function PlanesHero() {
           }}
         >
           Flux, Hurricane y Vortex: eliges según cuántos profesionales tiene tu equipo.
-          Para contratar, hablas con ventas.
+          Actívalo hoy con 50% el primer mes o habla antes con ventas.
         </p>
       </div>
       <style jsx>{`

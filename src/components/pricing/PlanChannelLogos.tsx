@@ -5,6 +5,8 @@ export const CHANNEL_LABEL: Record<PlanChannel, string> = {
   facebook: "Facebook",
   instagram: "Instagram",
   llamadas: "Llamadas con IA",
+  email: "Email marketing",
+  telefono: "Llamada telefónica",
 };
 
 /** Logo de marca de cada canal, en su color. */
@@ -43,6 +45,20 @@ export function ChannelLogo({ channel, size = 18 }: { channel: PlanChannel; size
       return (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#7C3AED" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
           <path d="M6.5 3.5l3 2.2-1.6 2.4a14 14 0 007 7l2.4-1.6 2.2 3-2.1 1.2C15.2 19.2 5 16 4.2 7.6L5.4 5.5z" />
+        </svg>
+      );
+    case "email":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden>
+          <rect x="2" y="4.5" width="20" height="15" rx="3" fill="#EA4335" />
+          <path d="M4.5 7.5l7.5 5.5 7.5-5.5" fill="none" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
+    case "telefono":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden>
+          <circle cx="12" cy="12" r="11" fill="#0A0A0A" />
+          <path fill="#fff" d="M9.2 6.6l1.7 1.3c.3.2.4.7.2 1l-.8 1.3a8.6 8.6 0 004.4 4.4l1.3-.8c.3-.2.8-.1 1 .2l1.3 1.7c.3.4.2.9-.2 1.2l-1 .7c-.6.4-1.4.5-2.1.3-3.2-1-5.8-3.6-6.8-6.8-.2-.7-.1-1.5.3-2.1l.7-1c.3-.4.8-.5 1.2-.2z" />
         </svg>
       );
   }
