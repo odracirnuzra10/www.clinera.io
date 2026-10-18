@@ -33,8 +33,8 @@
 
 .marco {
   position: relative;
-  width: min(460px, 100%);
-  aspect-ratio: 4 / 3;
+  width: min(520px, 100%);
+  aspect-ratio: 16 / 9;
   max-height: 44dvh;
   border-radius: 18px;
   overflow: hidden;
@@ -58,9 +58,8 @@
 .slideImg {
   width: 100%;
   height: 100%;
-  /* La imagen entera, sin recortar caras ni pantallas: el marco pone el fondo. */
-  background-size: contain;
-  background-repeat: no-repeat;
+  /* Imágenes 16:9 del ecosistema: el marco también es 16:9, así que no se recorta nada. */
+  background-size: cover;
   background-position: center;
 }
 
@@ -360,10 +359,11 @@
   }
 
   .marco {
-    width: 100%;
-    aspect-ratio: auto;
-    height: clamp(110px, 20dvh, 180px);
+    width: auto;
+    aspect-ratio: 16 / 9;
+    height: clamp(110px, 21dvh, 190px);
     max-height: none;
+    align-self: center;
     border-width: 2px;
     border-radius: 14px;
   }

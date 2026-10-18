@@ -90,8 +90,8 @@ export const ECOSISTEMA_PASOS = [
  * (Ricardo, 18-oct-2026). Sin `img` = tarjeta con degradado de marca.
  */
 export const ECOSISTEMA_SLIDES: readonly { n: string; titulo: string; texto: string; img: string | null }[] = [
-  { n: "1", titulo: "Las campañas traen al paciente", texto: "Anuncios de performance en Facebook, Instagram y Google, con la propuesta de valor de tu clínica.", img: null },
-  { n: "2", titulo: "El lead escribe por WhatsApp", texto: "Cada contacto llega a la bandeja de Clinera, junto con tus otros canales.", img: "/images/estetica/duena-clinica-mensajes.webp" },
-  { n: "3", titulo: "La IA lo agenda en Clinera", texto: "AURA responde, ofrece horas y deja la cita creada en tu agenda.", img: "/images/agenda.webp" },
-  { n: "4", titulo: "Tu equipo atiende con todo a mano", texto: "Ficha clínica, presupuestos y evoluciones en un solo lugar.", img: "/images/ficha.webp" },
+  { n: "1", titulo: "Las campañas traen al paciente", texto: "Anuncios de performance en Facebook, Instagram y Google, con la propuesta de valor de tu clínica.", img: "/images/agenda/ecosistema-1-campanas.webp" },
+  { n: "2", titulo: "El lead escribe por WhatsApp", texto: "Cada contacto llega a la bandeja de Clinera, junto con tus otros canales.", img: "/images/agenda/ecosistema-2-whatsapp.webp" },
+  { n: "3", titulo: "La IA lo agenda en Clinera", texto: "AURA responde, ofrece horas y deja la cita creada en tu agenda.", img: "/images/agenda/ecosistema-3-agenda-ia.webp" },
+  { n: "4", titulo: "Tu equipo atiende con todo a mano", texto: "Ficha clínica, presupuestos y evoluciones en un solo lugar.", img: "/images/agenda/ecosistema-4-ficha.webp" },
 ] as const;
