@@ -39,7 +39,7 @@
   border-radius: 18px;
   overflow: hidden;
   border: 3px solid #fff;
-  background: #1a1a26;
+  background: linear-gradient(135deg, #2a2150 0%, #4c2a8a 55%, #7c3aed 100%);
   box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.8);
 }
 
@@ -58,7 +58,9 @@
 .slideImg {
   width: 100%;
   height: 100%;
-  background-size: cover;
+  /* La imagen entera, sin recortar caras ni pantallas: el marco pone el fondo. */
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
 }
 
@@ -360,7 +362,7 @@
   .marco {
     width: 100%;
     aspect-ratio: auto;
-    height: clamp(100px, 17dvh, 160px);
+    height: clamp(110px, 20dvh, 180px);
     max-height: none;
     border-width: 2px;
     border-radius: 14px;
