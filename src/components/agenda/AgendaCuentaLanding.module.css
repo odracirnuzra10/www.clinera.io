@@ -322,3 +322,120 @@ section.enfocado {
   min-height: calc(100dvh - 72px);
   padding-top: 32px;
 }
+
+/* Pasos 2 y 3 en escritorio (Ricardo, 18-oct-2026: «el wizard se adapta a
+   escritorio y a móvil»). En móvil todo queda en una columna. */
+.paso3Head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (min-width: 1024px) {
+  section.enfocadoAncho {
+    grid-template-columns: minmax(0, 1160px);
+  }
+
+  .paso2 {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 40px;
+    align-items: start;
+  }
+
+  .paso2Cupon {
+    position: sticky;
+    top: 24px;
+    padding-top: 6px;
+  }
+
+  .paso2Funciones .funciones {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .paso3Head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 8px;
+  }
+
+  .planes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    align-items: stretch;
+    margin-top: 22px;
+  }
+
+  .plan {
+    display: flex;
+    flex-direction: column;
+    padding: 22px 20px 18px;
+  }
+
+  .plan .incluye {
+    margin-bottom: 18px;
+  }
+
+  /* El botón de pago al fondo, alineado en las tres tarjetas. */
+  .plan > a,
+  .plan > .pendiente {
+    margin-top: auto;
+  }
+
+  .planes + .ventas {
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.siguiente {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .siguiente {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: paso;
+  }
+
+  .siguiente li {
+    counter-increment: paso;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15.5px;
+    color: #111827;
+  }
+
+  .siguiente li::before {
+    content: counter(paso);
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: #5b21b6;
+    background: #f3eefe;
+    border: 1px solid #e4d9fb;
+  }
+}
+
+@media (max-width: 1023px) {
+  .paso2Cupon {
+    margin-bottom: 20px;
+  }
+}

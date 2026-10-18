@@ -205,6 +205,9 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
   // segundo paso se abra en una pestaña exclusiva para no hacer scroll fuera»).
   // Misma pestaña a propósito: una ventana nueva perdería lo escrito en el paso 1.
   const enfocado = paso > 1 || conVentas || booking !== null;
+  // Pasos 2 y 3 en escritorio: tarjeta ancha (dos columnas / tres planes lado a
+  // lado). El calendario con ventas y la confirmación siguen angostos.
+  const anchoEscritorio = paso > 1 && !conVentas && booking === null;
   useEffect(() => {
     if (enfocado) window.scrollTo({ top: 0 });
   }, [enfocado, paso]);
@@ -220,7 +223,10 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
         <span className={base.meta}>{AGENDA_COPY.eyebrow}</span>
       </header>
 
-      <section className={`${base.hero} ${styles.heroTinte} ${enfocado ? styles.enfocado : ""}`} data-agenda-enfocado={enfocado || undefined}>
+      <section
+        className={`${base.hero} ${styles.heroTinte} ${enfocado ? styles.enfocado : ""} ${anchoEscritorio ? styles.enfocadoAncho : ""}`}
+        data-agenda-enfocado={enfocado || undefined}
+      >
         {!enfocado && (
         <div className={base.heroCopy}>
           <span className={base.meta}>{AGENDA_COPY.eyebrow}</span>
@@ -349,12 +355,20 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
                 )}
 
                 {paso === 2 && (
-                  <div data-agenda-paso="2">
+                  <div data-agenda-paso="2" className={styles.paso2}>
                     {/* El cupón en grande: lo pega al pagar en el paso 3 (Ricardo, 18-oct-2026). */}
-                    <CuponTicket grande style={{ marginBottom: 6 }}>
-                      <span>Cópialo: lo pegas al pagar en el siguiente paso.</span>
-                    </CuponTicket>
-                    <div style={{ height: 14 }} />
+                    <div className={styles.paso2Cupon}>
+                      <CuponTicket grande>
+                        <span>Cópialo: lo pegas al pagar en el siguiente paso.</span>
+                      </CuponTicket>
+                      {/* Solo escritorio: llena la columna con lo que viene. */}
+                      <ol className={styles.siguiente}>
+                        <li>Marca lo que necesita tu clínica.</li>
+                        <li>Elige tu plan con {CUPON.descuentoPct}% el primer mes.</li>
+                        <li>Pega {CUPON.codigo} al pagar y crea tu cuenta.</li>
+                      </ol>
+                    </div>
+                    <div className={styles.paso2Funciones}>
                     <h2 className={base.cardTitle}>¿Qué necesita tu clínica?</h2>
                     <p className={base.cardSub}>Marca todo lo que quieras usar. Puedes elegir varias.</p>
                     <div className={styles.funciones} role="group" aria-label="Funciones que necesitas">
@@ -383,25 +397,30 @@ export default function AgendaCuentaLanding({ tzIp = "" }: { tzIp?: string }) {
                     <button type="button" className={styles.volver} onClick={() => setPaso(1)}>
                       ← Volver
                     </button>
+                    </div>
                   </div>
                 )}
 
                 {paso === 3 && (
                   <div data-agenda-paso="3" data-oferta>
-                    <h2 className={base.cardTitle}>Elige tu plan con {CUPON.descuentoPct}% de descuento</h2>
-                    <CuponTicket style={{ marginTop: 10 }}>
-                      <span>Pégalo en «Añadir código de promoción» al pagar.</span>
-                    </CuponTicket>
-                    {vence && (
-                      <p className={styles.vence} data-cupon-vence={vence}>
-                        Válido {textoVence(vence)}.
-                      </p>
-                    )}
-                    {funcionesSel.length > 0 && (
-                      <p className={styles.marcaste}>
-                        Marcaste: {funcionesSel.map((f) => f.label.charAt(0).toLowerCase() + f.label.slice(1)).join(", ")}.
-                      </p>
-                    )}
+                    <div className={styles.paso3Head}>
+                      <div>
+                        <h2 className={base.cardTitle}>Elige tu plan con {CUPON.descuentoPct}% de descuento</h2>
+                        {vence && (
+                          <p className={styles.vence} data-cupon-vence={vence}>
+                            Válido {textoVence(vence)}.
+                          </p>
+                        )}
+                        {funcionesSel.length > 0 && (
+                          <p className={styles.marcaste}>
+                            Marcaste: {funcionesSel.map((f) => f.label.charAt(0).toLowerCase() + f.label.slice(1)).join(", ")}.
+                          </p>
+                        )}
+                      </div>
+                      <CuponTicket>
+                        <span>Pégalo en «Añadir código de promoción» al pagar.</span>
+                      </CuponTicket>
+                    </div>
 
                     <div className={styles.planes}>
                       {PLANES_OFERTA.map((p) => {
