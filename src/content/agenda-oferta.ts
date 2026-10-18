@@ -84,3 +84,14 @@ export const ECOSISTEMA_PASOS = [
   { n: "2", titulo: "El lead escribe por WhatsApp", texto: "Cada contacto llega a la bandeja de Clinera, junto con tus otros canales." },
   { n: "3", titulo: "La IA lo agenda en Clinera", texto: "AURA responde, ofrece horas y deja la cita creada en tu agenda." },
 ] as const;
+
+/**
+ * Las imágenes del panel izquierdo de /agenda: cómo funciona el ecosistema, en orden
+ * (Ricardo, 18-oct-2026). Sin `img` = tarjeta con degradado de marca.
+ */
+export const ECOSISTEMA_SLIDES: readonly { n: string; titulo: string; texto: string; img: string | null }[] = [
+  { n: "1", titulo: "Las campañas traen al paciente", texto: "Anuncios de performance en Facebook, Instagram y Google, con la propuesta de valor de tu clínica.", img: null },
+  { n: "2", titulo: "El lead escribe por WhatsApp", texto: "Cada contacto llega a la bandeja de Clinera, junto con tus otros canales.", img: "/images/estetica/duena-clinica-mensajes.webp" },
+  { n: "3", titulo: "La IA lo agenda en Clinera", texto: "AURA responde, ofrece horas y deja la cita creada en tu agenda.", img: "/images/agenda.webp" },
+  { n: "4", titulo: "Tu equipo atiende con todo a mano", texto: "Ficha clínica, presupuestos y evoluciones en un solo lugar.", img: "/images/ficha.webp" },
+] as const;

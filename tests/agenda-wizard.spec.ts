@@ -64,8 +64,6 @@ test("wizard: servicio → clínica → datos (CRM + Lead US$ 3) → calendario"
   await page.goto("/agenda", { waitUntil: "domcontentloaded" });
   await expect(page.getByRole("heading", { level: 1 })).toContainText(/videollamada/i);
   await expect(page.locator("[data-agenda-casos]")).toHaveCount(1);
-  await expect(page.locator("[data-ecosistema]")).toHaveCount(1);
-  await expect(page.locator("[data-chat-agenda-ia]")).toHaveCount(1);
 
   // Paso 1: tres servicios, «Ambas» recomendada; hay que elegir uno.
   await expect(page.locator("[data-servicio]")).toHaveCount(3);
@@ -114,14 +112,33 @@ test("?servicio= preselecciona el servicio en el paso 1", async ({ page }) => {
   await expect(page.locator('[data-servicio="software"]')).toHaveAttribute("aria-checked", "true");
 });
 
-test("móvil: una columna, sin cupón ni compra", async ({ page }) => {
+for (const [w, h] of [[390, 844], [360, 740], [375, 667], [1440, 900], [1280, 720]]) {
+  test(`la página no hace scroll en ningún paso (${w}x${h})`, async ({ page }) => {
+    await mockRed(page);
+    await page.setViewportSize({ width: w, height: h });
+    await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+    const sinScroll = () =>
+      page.evaluate(() => document.documentElement.scrollHeight <= window.innerHeight && document.documentElement.scrollWidth <= window.innerWidth);
+    expect(await sinScroll(), "paso 1").toBe(true);
+    await page.locator('[data-servicio="ambas"]').click();
+    await expect(page.locator('[data-servicio="ambas"]')).toHaveAttribute("aria-checked", "true");
+    await page.getByRole("button", { name: /Continuar/ }).click();
+    await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
+    expect(await sinScroll(), "paso 2").toBe(true);
+    // El botón de continuar tiene que quedar a la vista sin scrollear.
+    await expect(page.getByRole("button", { name: /Continuar/ })).toBeInViewport();
+    await pasoClinica(page);
+    await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
+    expect(await sinScroll(), "paso 3").toBe(true);
+    await expect(page.getByRole("button", { name: /Enviar y elegir mi hora/ })).toBeInViewport();
+  });
+}
+
+test("el panel muestra cómo funciona el ecosistema y no hay cupón ni compra", async ({ page }) => {
   await mockRed(page);
-  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/agenda", { waitUntil: "domcontentloaded" });
-  await expect(page.locator("[data-servicio]").first()).toBeVisible();
+  await expect(page.locator("[data-agenda-casos]")).toContainText("Las campañas traen al paciente");
   const body = page.locator("body");
   await expect(body).not.toContainText(/CU[K]I|cupón/i);
   await expect(body).not.toContainText(/Crear cuenta/);
-  const ancho = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
-  expect(ancho, "sin scroll horizontal").toBe(true);
 });

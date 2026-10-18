@@ -1,83 +1,281 @@
-/* /agenda: lo propio del wizard de 3 pasos. Hero, tarjeta, inputs y botones
-   vienen de `EsteticaAdsLanding.module.css` (misma familia visual). */
+/* /agenda — wizard corto, sin scroll de página (Ricardo, 18-oct-2026).
+   Formato de protocololumina.cl/evaluacion: pantalla partida 50/50, panel oscuro con
+   las imágenes (cómo funciona el ecosistema) y wizard blanco al lado. En móvil, el
+   panel pasa arriba, compacto, y el wizard ocupa el resto. Lo único que puede
+   desplazarse es el contenido del wizard (p. ej. el calendario), nunca la página. */
+
+.pagina {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  background: #fff;
+  color: #0a0a0a;
+}
+
+/* ---------- Panel oscuro ---------- */
+.panel {
+  min-height: 0;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(124, 58, 237, 0.28), transparent 50%),
+    radial-gradient(circle at 90% 100%, rgba(217, 70, 239, 0.2), transparent 50%),
+    #0b0b12;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 28px 32px;
+  text-align: center;
+}
+
+.logo {
+  display: inline-flex;
+  margin-bottom: 8px;
+}
+
+.marco {
+  position: relative;
+  width: min(460px, 100%);
+  aspect-ratio: 4 / 3;
+  max-height: 44dvh;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 3px solid #fff;
+  background: #1a1a26;
+  box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.8);
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.slideOn {
+  opacity: 1;
+}
+
+.slideImg {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.slideMarca {
+  flex-direction: column;
+  gap: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 55%, #d946ef 100%);
+}
+
+.slideMarca span {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 120px;
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.slideMarca em {
+  font-style: normal;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.caption {
+  margin: 0;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.caption b {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.puntos {
+  display: flex;
+  gap: 6px;
+}
+
+.punto {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.3);
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.puntoOn {
+  width: 28px;
+  background: #fff;
+}
+
+.chip {
+  margin: 8px 0 0;
+  color: #fff;
+  width: min(460px, 100%);
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-weight: 400;
+}
+
+.chipTitulo {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.chipSub {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ---------- Lado del wizard ---------- */
+.lado {
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  background: #fff;
+}
+
+.contenido {
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+  padding: 28px 24px;
+}
+
+.tarjeta {
+  width: 100%;
+}
 
 .progress {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+  display: flex;
+  gap: 8px;
   margin-bottom: 14px;
 }
 
 .seg {
+  flex: 1;
   height: 4px;
   border-radius: 999px;
   background: #ececf1;
 }
 
 .segOn {
-  background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
+  background: linear-gradient(90deg, #3b82f6, #7c3aed, #d946ef);
 }
 
-/* Paso 1: ciudad y país en una fila */
-.fila2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+.paso {
+  display: block;
+  text-align: center;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #0a0a0a;
 }
 
-/* Paso 2: servicio (selección única) */
+.titulo {
+  margin: 8px 0 4px;
+  text-align: center;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(22px, 6vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: #0a0a0a;
+}
+
+.sub {
+  margin: 0 0 14px;
+  text-align: center;
+  font-size: 15px;
+  color: #6b7280;
+}
+
+/* Servicio de interés: filas con el radio a la derecha */
 .servicios {
   display: grid;
-  gap: 12px;
-  margin-top: 18px;
+  gap: 10px;
+  margin-top: 14px;
 }
 
 .servicio {
   position: relative;
-  display: block;
-  width: 100%;
+  appearance: none;
   text-align: left;
-  font-family: inherit;
-  color: #111827;
-  background: #fff;
-  border: 1.5px solid #d5d9e2;
-  border-radius: 16px;
-  padding: 18px 18px 18px 54px;
+  font: inherit;
   cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-}
-
-.servicio:hover {
-  border-color: #a78bfa;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  border-radius: 16px;
+  padding: 14px 52px 14px 16px;
+  color: #0a0a0a;
 }
 
 .servicioOn {
   border-color: #7c3aed;
   background: #f8f5ff;
-  box-shadow: 0 14px 30px -20px rgba(124, 58, 237, 0.7);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.14);
+}
+
+.servicioDestacado {
+  border-color: #c4b5fd;
 }
 
 .servicioTitulo {
   display: block;
-  font-size: 18px;
+  font-size: 16.5px;
   font-weight: 700;
-  letter-spacing: -0.01em;
 }
 
 .servicioTexto {
   display: block;
-  margin-top: 4px;
-  font-size: 14.5px;
-  line-height: 1.45;
-  color: #4b5563;
+  margin-top: 3px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: #6b7280;
 }
 
 .radio {
   position: absolute;
-  left: 18px;
-  top: 20px;
-  width: 22px;
-  height: 22px;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
   border-radius: 999px;
   border: 1.5px solid #c4c9d4;
   display: inline-flex;
@@ -93,12 +291,12 @@
 
 .recomendado {
   position: absolute;
-  top: -11px;
-  right: 14px;
-  padding: 3px 10px;
+  top: -10px;
+  right: 52px;
+  padding: 2px 10px;
   border-radius: 999px;
   font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -106,326 +304,22 @@
   background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
 }
 
-.servicioDestacado {
-  border-color: #c4b5fd;
-}
-
-.volver {
-  display: block;
-  margin: 12px auto 0;
-  background: none;
-  border: 0;
-  font-family: inherit;
-  font-size: 14px;
-  color: #6b7280;
-  cursor: pointer;
-}
-
-/* Landing con aire (Ricardo, 18-oct-2026): más blanco entre secciones. */
-.aire > section + section {
-  margin-top: clamp(56px, 9vw, 128px);
-}
-
-/* Fondo con tinte para que el formulario blanco sobresalga. */
-section.heroTinte {
-  max-width: none;
-  padding-left: max(40px, calc((100% - 1120px) / 2));
-  padding-right: max(40px, calc((100% - 1120px) / 2));
-  background:
-    radial-gradient(circle at 85% 10%, rgba(217, 70, 239, 0.12), transparent 45%),
-    radial-gradient(circle at 10% 90%, rgba(59, 130, 246, 0.1), transparent 45%),
-    #f6f4fb;
-}
-
-/* El formulario: borde con degradado y sombra profunda (jerarquía visual). */
-div.cardDestacada {
-  border: 2px solid transparent;
-  background:
-    linear-gradient(#fff, #fff) padding-box,
-    linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%) border-box;
-  box-shadow:
-    0 30px 70px -24px rgba(76, 29, 149, 0.38),
-    0 10px 24px -12px rgba(15, 10, 30, 0.18);
-}
-
-/* Botón fijo que devuelve al formulario: solo móvil. */
-.volverForm {
-  display: none;
-}
-
-@media (max-width: 900px) {
-  section.heroTinte {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-  .volverForm {
-    position: fixed;
-    left: 16px;
-    right: 16px;
-    bottom: max(16px, env(safe-area-inset-bottom));
-    z-index: 60;
-    display: block;
-    padding: 16px;
-    border-radius: 14px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-    background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
-    box-shadow: 0 14px 34px -10px rgba(124, 58, 237, 0.6);
-  }
-}
-
-/* Pasos 2 y 3: solo el wizard, centrado, sin nada debajo hacia donde bajar. */
-section.enfocado {
-  grid-template-columns: minmax(0, 640px);
-  grid-template-areas: "form";
-  grid-template-rows: auto;
-  justify-content: center;
-  min-height: calc(100vh - 72px);
-  min-height: calc(100dvh - 72px);
-  padding-top: 32px;
-}
-
-/* Calendario: tarjeta un poco más ancha en escritorio. */
-@media (min-width: 1024px) {
-  div.cardAncha {
-    max-width: 760px;
-  }
-}
-
-/* «Cómo funciona el ecosistema», bajo el wizard */
-.eco {
-  padding: 24px 80px;
-  background: #fff;
-}
-
-.ecoInner {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.ecoMeta {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 11.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #6b7280;
-}
-
-.ecoH2 {
-  margin: 14px 0 0;
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 44px;
-  font-weight: 750;
-  letter-spacing: -0.035em;
-  line-height: 1.06;
-  color: #0a0a0a;
-}
-
-.ecoPasos {
-  list-style: none;
-  margin: 40px 0 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.ecoPaso {
-  border: 1px solid #ececf1;
-  border-radius: 22px;
-  padding: 28px 26px 30px;
-  background: #fff;
-  box-shadow: 0 24px 50px -36px rgba(76, 29, 149, 0.4);
-}
-
-.ecoN {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 14px;
-  font-weight: 700;
-  color: #fff;
-  background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
-}
-
-.ecoPaso h3 {
-  margin: 18px 0 0;
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: #0a0a0a;
-}
-
-.ecoPaso p {
-  margin: 8px 0 0;
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 15.5px;
-  line-height: 1.5;
-  color: #4b5563;
-}
-
-@media (max-width: 1000px) {
-  .eco {
-    padding: 16px 24px;
-  }
-  .ecoH2 {
-    font-size: 34px;
-  }
-  .ecoPasos {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
-@media (max-width: 560px) {
-  .eco {
-    padding: 8px 16px;
-  }
-  .fila2 {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Formato «evaluación» (metodohebe.cl/evaluacion): una columna, casos arriba. */
-.pagina {
-  background:
-    radial-gradient(circle at 85% 4%, rgba(217, 70, 239, 0.12), transparent 40%),
-    radial-gradient(circle at 8% 30%, rgba(59, 130, 246, 0.1), transparent 40%),
-    #f6f4fb;
-}
-
-.columna {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px 16px 56px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.columna > * {
-  min-width: 0;
-}
-
-.casos {
-  position: relative;
-  aspect-ratio: 2 / 1;
-  max-height: 260px;
-  border-radius: 22px;
-  overflow: hidden;
-  background: #e9e5f5;
-  box-shadow: 0 24px 50px -30px rgba(76, 29, 149, 0.5);
-}
-
-.caso {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
-
-.casoOn {
-  opacity: 1;
-}
-
-.casoImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 25%;
-  display: block;
-}
-
-.casoPie {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 36px 16px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  color: #fff;
-  background: linear-gradient(to top, rgba(10, 10, 20, 0.75), transparent);
-  font-size: 13px;
-}
-
-.casoPie strong {
-  font-size: 15px;
-}
-
-.casoPuntos {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  display: flex;
-  gap: 5px;
-}
-
-.punto {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
-}
-
-.puntoOn {
-  background: #fff;
-}
-
-.h1 {
-  margin: 10px 0 0;
-  font-family: Inter, system-ui, sans-serif;
-  font-size: clamp(28px, 7vw, 38px);
-  font-weight: 750;
-  letter-spacing: -0.035em;
-  line-height: 1.08;
-  color: #0a0a0a;
-  text-align: center;
-}
-
-.sub {
-  margin: 0;
-  text-align: center;
-  font-size: 16px;
-  line-height: 1.5;
-  color: #4b5563;
-}
-
-.prueba {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 4px 16px;
-  font-size: 13px;
-  color: #374151;
-  text-align: center;
-}
-
+/* Opciones cortas (tipo de clínica, profesionales) */
 .opciones {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  gap: 6px;
+  margin-top: 4px;
 }
 
 .opcion {
   appearance: none;
   border: 1.5px solid #e5e7eb;
   background: #fff;
-  border-radius: 14px;
-  padding: 16px 12px;
+  border-radius: 12px;
+  padding: 11px 6px;
   font: inherit;
-  font-size: 15.5px;
+  font-size: 14px;
   font-weight: 600;
   color: #0a0a0a;
   cursor: pointer;
@@ -434,6 +328,164 @@ section.enfocado {
 
 .opcionOn {
   border-color: #7c3aed;
-  background: #f5f0ff;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+  background: #f8f5ff;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.14);
+}
+
+.fila2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.volver {
+  display: block;
+  margin: 10px auto 0;
+  background: none;
+  border: 0;
+  font-family: inherit;
+  font-size: 14px;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+/* ---------- Móvil: panel compacto arriba, wizard debajo ---------- */
+@media (max-width: 959px) {
+  .pagina {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .panel {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 16px 12px;
+  }
+
+  .logo {
+    margin: 0;
+  }
+
+  .marco {
+    width: 100%;
+    aspect-ratio: auto;
+    height: clamp(100px, 17dvh, 160px);
+    max-height: none;
+    border-width: 2px;
+    border-radius: 14px;
+  }
+
+  .slideMarca span {
+    font-size: 64px;
+  }
+
+  .caption {
+    gap: 0;
+    font-size: 12.5px;
+  }
+
+  .caption span {
+    display: none;
+  }
+
+  .caption b {
+    font-size: 13.5px;
+  }
+
+  .puntos {
+    margin-top: -2px;
+  }
+
+  .chip {
+    display: none;
+  }
+
+  .contenido {
+    margin: 0 auto;
+    padding: 16px 16px 20px;
+  }
+
+  .titulo {
+    font-size: 22px;
+  }
+
+  .sub {
+    margin-bottom: 10px;
+  }
+}
+
+/* h1 accesible en móvil aunque el chip no se vea */
+@media (max-width: 959px) {
+  .chip {
+    display: flex;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    border: 0;
+  }
+}
+
+/* Pantallas bajas (iPhone SE y similares): todo más apretado. */
+@media (max-width: 959px) and (max-height: 720px) {
+  .marco {
+    height: clamp(84px, 15dvh, 120px);
+  }
+
+  .caption span {
+    display: none;
+  }
+
+  .servicioTexto {
+    display: none;
+  }
+
+  .servicio {
+    padding: 11px 48px 11px 14px;
+  }
+
+  .contenido {
+    padding-top: 10px;
+  }
+}
+
+/* Móvil bajo: desde el paso 2 las imágenes se esconden para que el wizard entre completo. */
+@media (max-width: 959px) and (max-height: 760px) {
+  .avanzado .marco,
+  .avanzado .caption,
+  .avanzado .puntos {
+    display: none;
+  }
+
+  .avanzado .panel {
+    padding-bottom: 6px;
+  }
+
+  .tarjeta input,
+  .tarjeta select {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .progress {
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 959px) {
+  .tarjeta label,
+  .tarjeta [id$="-label"] {
+    margin: 10px 0 4px;
+  }
+  .tarjeta [class*="cta"] {
+    margin-top: 14px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+  .volver {
+    margin-top: 6px;
+  }
 }
