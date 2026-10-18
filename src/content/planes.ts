@@ -65,17 +65,17 @@ export const MARKETING_BLOQUES = [
   {
     id: "campanas",
     titulo: "Campañas de performance en Facebook, Instagram y Google",
-    texto: "Campañas pensadas para traer pacientes a tu clínica, no solo likes.",
+    texto: "Campañas de performance que traen pacientes a tu clínica, no solo likes.",
   },
   {
     id: "propuesta",
     titulo: "Propuesta de valor",
-    texto: "Creamos y optimizamos qué ofrece tu clínica y cómo lo comunica.",
+    texto: "Creamos, optimizamos y perfeccionamos qué ofrece tu clínica y cómo lo comunica.",
   },
   {
     id: "framework",
     titulo: "Framework comercial",
-    texto: "Optimizamos cómo tu equipo atiende, cotiza y cierra, para vender más dentro de la clínica.",
+    texto: "Técnicas de venta que aplicamos contigo para que tu equipo las use con sus pacientes y cierre a los que le llegan.",
   },
 ] as const;
 

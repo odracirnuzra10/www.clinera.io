@@ -40,7 +40,7 @@ export const SERVICIOS: readonly {
   {
     id: "marketing",
     titulo: "Marketing de performance",
-    texto: "Campañas en Facebook, Instagram y Google, propuesta de valor y framework comercial para vender más.",
+    texto: "Campañas de performance en Meta (Facebook e Instagram) y Google, creación y optimización de tu propuesta de valor, y técnicas de venta para cerrar más pacientes.",
     destacada: false,
     etiqueta: "",
   },

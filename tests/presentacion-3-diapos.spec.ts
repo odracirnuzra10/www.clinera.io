@@ -57,7 +57,7 @@ test.describe("/presentacion en 3 diapositivas", () => {
       for (const logo of ["#ch-wa", "#ch-ig", "#ch-fb"]) expect(card).toContain(logo);
     }
     expect(vortex).toContain("10.000 créditos de IA");
-    for (const t of ["Campañas en Facebook, Instagram y Google", "Propuesta de valor", "Framework comercial"]) {
+    for (const t of ["Campañas de performance en Facebook, Instagram y Google", "Propuesta de valor", "Framework comercial"]) {
       expect(ecosistema).toContain(t);
       expect(vortex).not.toContain(t);
     }

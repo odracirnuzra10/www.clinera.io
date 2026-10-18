@@ -73,7 +73,16 @@ test("wizard: servicios (varios) → datos (CRM + Lead US$ 3) → horario", asyn
   await expect(page.locator("[data-servicio]")).toHaveCount(2);
   await page.getByRole("button", { name: /Continuar/ }).click();
   await expect(page.getByText("Elige al menos un servicio.")).toBeVisible();
-  await pasoServicios(page);
+  // Cohete en marketing; el rayo solo aparece al elegir las dos opciones.
+  await expect(page.locator('[data-servicio="marketing"] [data-icono="cohete"]')).toHaveCount(1);
+  await expect(page.locator("[data-ecosistema-completo]")).toHaveCount(0);
+  await pasoServicios(page, ["marketing"]);
+  await page.getByRole("button", { name: /Volver/ }).click();
+  await expect(page.locator('[data-servicio="marketing"]')).toBeVisible();
+  await page.locator('[data-servicio="software"]').click();
+  await expect(page.locator("[data-ecosistema-completo] [data-icono=\"rayo\"]")).toHaveCount(1);
+  await page.getByRole("button", { name: /Continuar/ }).click();
+  await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
 
   // Paso 2: solo nombre, correo, celular y clínica. Sin ciudad, país, tipo ni profesionales.
   await expect(page.getByLabel("Ciudad")).toHaveCount(0);
