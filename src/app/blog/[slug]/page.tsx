@@ -11,6 +11,7 @@ import VimeoEmbed from "@/components/blog/VimeoEmbed";
 import DownloadCTA from "@/components/blog/DownloadCTA";
 import FichaCTA from "@/components/blog/FichaCTA";
 import ChannelMarks from "@/components/blog/ChannelMarks";
+import AgenteIABanda from "@/components/agente-ia/AgenteIABanda";
 import HeroCarousel, { type HeroViewId } from "@/components/plataforma/HeroCarousel";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -232,6 +233,9 @@ export default async function BlogPostPage({
               components={{ VimeoEmbed, DownloadCTA, FichaCTA, ChannelMarks, table: BlogTable }}
             />
           </article>
+
+          {/* Siempre presente en cada artículo (Ricardo, 18-oct-2026). */}
+          <AgenteIABanda enColumna />
 
           {/* FAQ inline si está en frontmatter */}
           {post.faq && post.faq.length > 0 && (

@@ -6,6 +6,7 @@ import { IntelligenceHomeSection } from "@/components/IntelligenceSection";
 import ActualizacionSeptiembreBanner from "./ActualizacionSeptiembreBanner";
 import DemoEnVivo from "./DemoEnVivo";
 import EsteticaSection from "@/components/estetica/EsteticaSection";
+import AgenteIABanda from "@/components/agente-ia/AgenteIABanda";
 import { TeamSection } from "./TeamSection";
 import {
   DarkBreak,
@@ -68,6 +69,7 @@ export default function HomeV3() {
       <Hero />
       <DemoEnVivo />
       <EsteticaSection />
+      <AgenteIABanda />
       <ActualizacionSeptiembreBanner />
       <EcosistemaIA />
       <TrialBanner />

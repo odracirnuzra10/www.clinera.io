@@ -712,6 +712,22 @@ correo, WhatsApp) y después el **mismo calendario de `/agenda`**
 `medica` para n8n. El MQL sale al reservar, una vez. No toca `/go`.
 Guardián: `tests/clinica-estetica.spec.ts`.
 
+# Banda «Activa tu agente IA» (Ricardo, 18-oct-2026)
+
+`src/components/agente-ia/AgenteIABanda.tsx`: panel oscuro de tipografía
+gigante que rompe el ritmo light del sitio a propósito. **Va siempre** en el
+home, en las landings (`/clinica-estetica`, todas las `software-vertical`) y
+en cada artículo del blog (`/blog/[slug]`, variante `enColumna`). Una por
+página. Canales: WhatsApp, Facebook, Instagram y llamadas; la nota «Llamadas
+con IA (CAMILA) en el plan Summit» no se saca: la voz es exclusiva de Summit.
+CTA a `/go` con la query de la visita; en `/clinica-estetica` baja al
+formulario (`#agenda-demo`), porque esa landing solo vende la reunión. Usa
+`aria-label`, no `aria-labelledby`: un nombre accesible con «WhatsApp» hacía
+que `getByLabel("WhatsApp")` de los tests de formularios encontrara la banda.
+Guardián: `tests/agente-ia-banda.spec.ts` (también vigila el ranking
+`/blog/mejores-software-clinicas-esteticas`: Clinera 1.º, Reservo, AgendaPro,
+Medilink, Doctoralia; cifras de competidores = las que ellos publican, con fecha).
+
 # Landings `/software-medico` y `/software-dental`
 
 Dueñas de los clusters de Google Ads "Softwares" (software médico / software

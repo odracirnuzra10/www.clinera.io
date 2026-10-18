@@ -28,6 +28,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand-v3/Brand";
 import EsteticaSection from "./EsteticaSection";
+import AgenteIABanda from "@/components/agente-ia/AgenteIABanda";
 import {
   ESTETICA_LP_FAQ,
   ESTETICA_ORIGEN,
@@ -363,6 +364,10 @@ export default function EsteticaAdsLanding({ tzIp = "" }: { tzIp?: string }) {
       </section>
 
       <EsteticaSection id="hecho-para-estetica" />
+
+      {/* En la landing de Ads el único destino es la reunión: el CTA de la
+          banda baja al formulario en vez de ir a /go. */}
+      <AgenteIABanda href="#agenda-demo" ctaLabel="Agenda tu demo y actívalo" />
 
       <section className={styles.faq} aria-labelledby="ce-faq">
         <div className={styles.faqInner}>

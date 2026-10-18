@@ -98,10 +98,10 @@ test.describe("/clinica-estetica — landing de Google Ads", () => {
     await page.getByRole("button", { name: /Ver horas disponibles/i }).click();
     await expect(page.getByText("Escribe tu nombre.")).toBeVisible();
 
-    await page.getByLabel("Nombre").fill(`[E2E TEST] ${id}`);
+    await page.getByLabel("Nombre", { exact: true }).fill(`[E2E TEST] ${id}`);
     await page.getByRole("radio", { name: "Enfermero/a estético/a" }).click();
-    await page.getByLabel("Correo").fill(`${id}@e2e.clinera.io`);
-    await page.getByLabel("WhatsApp").fill("912345678");
+    await page.getByLabel("Correo", { exact: true }).fill(`${id}@e2e.clinera.io`);
+    await page.getByLabel("WhatsApp", { exact: true }).fill("912345678");
     await page.getByRole("button", { name: /Ver horas disponibles/i }).click();
 
     await expect(page.getByRole("heading", { name: /Elige el día y la hora/i })).toBeVisible({ timeout: 15000 });
@@ -130,7 +130,7 @@ test.describe("/clinica-estetica — landing de Google Ads", () => {
   test("en móvil el formulario queda bajo el H1, antes de los beneficios", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/clinica-estetica", { waitUntil: "domcontentloaded" });
-    const nombre = await page.getByLabel("Nombre").boundingBox();
+    const nombre = await page.getByLabel("Nombre", { exact: true }).boundingBox();
     expect(nombre).not.toBeNull();
     expect(nombre!.y).toBeLessThan(844);
     const ancho = await page.evaluate(() => document.documentElement.scrollWidth);

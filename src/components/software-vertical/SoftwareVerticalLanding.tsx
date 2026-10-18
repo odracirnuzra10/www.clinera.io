@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import AgenteIABanda from "@/components/agente-ia/AgenteIABanda";
 import Image from "next/image";
 import Link from "next/link";
 import NavV3 from "@/components/brand-v3/Nav";
@@ -115,6 +116,7 @@ export default function SoftwareVerticalLanding({
         <Hero content={content} agendaHref={agendaHref} />
         <Logos />
         <Includes content={content} />
+        <AgenteIABanda />
         <AuraNetwork />
         <ModosAgendamiento />
         <DeepDive content={content} />
