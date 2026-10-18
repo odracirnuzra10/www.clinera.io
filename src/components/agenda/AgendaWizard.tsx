@@ -100,19 +100,12 @@ export default function AgendaWizard({
   const [intentado, setIntentado] = useState(false);
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
   const [booking, setBooking] = useState<CalBooking | null>(null);
-  const [caso, setCaso] = useState(0);
   const formStarted = useRef(false);
   const bookingSent = useRef(false);
 
   useEffect(() => {
     pushDL("agenda_landing_view", { source_path: SOURCE_PATH, servicio_url: servicioInicial ?? "" });
   }, [servicioInicial]);
-
-  // Panel izquierdo: cómo funciona el ecosistema, una imagen cada pocos segundos.
-  useEffect(() => {
-    const t = window.setInterval(() => setCaso((c) => (c + 1) % ECOSISTEMA_SLIDES.length), 4500);
-    return () => window.clearInterval(t);
-  }, []);
 
   function marcarInicio() {
     if (formStarted.current) return;
@@ -214,6 +207,8 @@ export default function AgendaWizard({
   }
 
   const enCalendario = paso === 3 && booking === null;
+  // Panel izquierdo: una imagen por pantalla (campañas → software con IA → reunión semanal).
+  const caso = paso - 1;
   const slide = ECOSISTEMA_SLIDES[caso];
 
   return (
@@ -222,25 +217,15 @@ export default function AgendaWizard({
       data-paso={paso}
     >
       <aside className={styles.panel} data-agenda-casos>
-        <div className={styles.marco} aria-roledescription="carrusel">
+        <div className={styles.marco}>
           {ECOSISTEMA_SLIDES.map((sl, i) => (
             <figure key={sl.n} className={`${styles.slide} ${i === caso ? styles.slideOn : ""}`} aria-hidden={i !== caso}>
-              {sl.img ? (
-                <div className={styles.slideImg} style={{ backgroundImage: `url(${sl.img})` }} role="img" aria-label={sl.titulo} />
-              ) : (
-                <div className={`${styles.slideImg} ${styles.slideMarca}`} role="img" aria-label={sl.titulo}>
-                  <span>{sl.n}</span>
-                  <em>Facebook · Instagram · Google</em>
-                </div>
-              )}
+              <div className={styles.slideImg} style={{ backgroundImage: `url(${sl.img})` }} role="img" aria-label={sl.titulo} />
             </figure>
           ))}
         </div>
-        <p className={styles.caption}>
-          <b>
-            {slide.n} de {ECOSISTEMA_SLIDES.length} · {slide.titulo}
-          </b>
-          <span>{slide.texto}</span>
+        <p className={styles.caption} data-agenda-caption>
+          <b>{slide.titulo}</b>
         </p>
         <div className={styles.puntos} aria-hidden>
           {ECOSISTEMA_SLIDES.map((sl, i) => (
@@ -249,7 +234,7 @@ export default function AgendaWizard({
         </div>
         <h1 className={styles.chip}>
           <span className={styles.chipTitulo}>Agenda tu videollamada con Clinera</span>
-          <span className={styles.chipSub}>Así funciona el ecosistema</span>
+          <span className={styles.chipSub}>Así trabajamos contigo</span>
         </h1>
       </aside>
 

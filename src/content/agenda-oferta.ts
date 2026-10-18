@@ -86,12 +86,26 @@ export const ECOSISTEMA_PASOS = [
 ] as const;
 
 /**
- * Las imágenes del panel izquierdo de /agenda: cómo funciona el ecosistema, en orden
- * (Ricardo, 18-oct-2026). Sin `img` = tarjeta con degradado de marca.
+ * Una imagen por pantalla del wizard, en el panel izquierdo (Ricardo, 18-oct-2026):
+ * paso 1 campañas, paso 2 software con IA, paso 3 reunión semanal de resultados.
  */
-export const ECOSISTEMA_SLIDES: readonly { n: string; titulo: string; texto: string; img: string | null }[] = [
-  { n: "1", titulo: "Las campañas traen al paciente", texto: "Anuncios de performance en Facebook, Instagram y Google, con la propuesta de valor de tu clínica.", img: "/images/agenda/ecosistema-1-campanas.webp" },
-  { n: "2", titulo: "El lead escribe por WhatsApp", texto: "Cada contacto llega a la bandeja de Clinera, junto con tus otros canales.", img: "/images/agenda/ecosistema-2-whatsapp.webp" },
-  { n: "3", titulo: "La IA lo agenda en Clinera", texto: "AURA responde, ofrece horas y deja la cita creada en tu agenda.", img: "/images/agenda/ecosistema-3-agenda-ia.webp" },
-  { n: "4", titulo: "Tu equipo atiende con todo a mano", texto: "Ficha clínica, presupuestos y evoluciones en un solo lugar.", img: "/images/agenda/ecosistema-4-ficha.webp" },
+export const ECOSISTEMA_SLIDES: readonly { n: string; titulo: string; texto: string; img: string }[] = [
+  {
+    n: "1",
+    titulo: "Nuestro equipo activa tus campañas de marketing digital para tu clínica estética.",
+    texto: "",
+    img: "/images/agenda/ecosistema-1-campanas.webp",
+  },
+  {
+    n: "2",
+    titulo: "Incorporamos el software de Clinera con su agente de inteligencia artificial para agendar pacientes.",
+    texto: "",
+    img: "/images/agenda/ecosistema-3-agenda-ia.webp",
+  },
+  {
+    n: "3",
+    titulo: "Nos reunimos semanalmente para ver los resultados.",
+    texto: "",
+    img: "/images/agenda/ecosistema-5-resultados.webp",
+  },
 ] as const;

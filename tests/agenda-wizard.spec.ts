@@ -41,8 +41,11 @@ async function mockRed(page: Page) {
 async function pasoServicios(page: Page, ids: string[] = ["marketing", "software"]) {
   for (const id of ids) {
     const op = page.locator(`[data-servicio="${id}"]`);
-    if ((await op.getAttribute("aria-checked")) !== "true") await op.click();
-    await expect(op).toHaveAttribute("aria-checked", "true");
+    // Si el clic cae antes de que React hidrate, se reintenta hasta que quede marcado.
+    await expect(async () => {
+      if ((await op.getAttribute("aria-checked")) !== "true") await op.click();
+      await expect(op).toHaveAttribute("aria-checked", "true", { timeout: 1500 });
+    }).toPass({ timeout: 15000 });
   }
   await page.getByRole("button", { name: /Continuar/ }).click();
   await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
@@ -144,10 +147,16 @@ for (const [w, h] of [[390, 844], [360, 740], [375, 667], [1440, 900], [1280, 72
   });
 }
 
-test("el panel muestra cómo funciona el ecosistema y no hay cupón ni compra", async ({ page }) => {
+test("el panel muestra una imagen por pantalla y no hay cupón ni compra", async ({ page }) => {
   await mockRed(page);
   await page.goto("/agenda", { waitUntil: "domcontentloaded" });
-  await expect(page.locator("[data-agenda-casos]")).toContainText("Las campañas traen al paciente");
+  const pie = page.locator("[data-agenda-caption]");
+  await expect(pie).toContainText("Nuestro equipo activa tus campañas de marketing digital");
+  await pasoServicios(page);
+  await expect(pie).toContainText("Incorporamos el software de Clinera con su agente de inteligencia artificial");
+  await llenarDatos(page);
+  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+  await expect(pie).toContainText("Nos reunimos semanalmente para ver los resultados");
   const body = page.locator("body");
   await expect(body).not.toContainText(/CU[K]I|cupón/i);
   await expect(body).not.toContainText(/Crear cuenta/);
