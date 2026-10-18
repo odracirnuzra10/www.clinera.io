@@ -7,15 +7,17 @@
 // 18-oct-2026): una columna, carrusel de casos arriba, «Paso N de 3» con tarjetas
 // seleccionables y los datos de contacto al final.
 //
-//   Paso 1  qué servicio te interesa (marketing / software / ambas) → ViewContent
-//   Paso 2  tu clínica (nombre, tipo, profesionales, ciudad y país)
-//   Paso 3  tus datos (nombre, celular, correo) → CRM + evento Lead (US$ 3)
-//   Luego   calendario nativo de Clinera (`StepClineraScheduler`) → Schedule + MQL (US$ 10)
+//   Paso 1  qué servicio te interesa (se pueden elegir varios) → ViewContent
+//   Paso 2  tus datos: nombre, correo, celular y nombre de la clínica → CRM + Lead (US$ 3)
+//   Paso 3  elige tu horario: calendario nativo de Clinera (`StepClineraScheduler`) →
+//           Schedule + MQL (US$ 10)
 //
-// El lead se manda al CRM al enviar el paso 3 (`submitContactLead`, el mismo webhook
-// de siempre); lo elegido antes viaja en ese mismo envío (`servicio_interes`) y en el
-// `booking_confirmed`. No hay un segundo `contact`: con el mismo correo n8n lo etiqueta
-// «Volvió a cotizar».
+// Solo se piden esos cuatro datos (Ricardo, 18-oct-2026: «el resto lo manejamos
+// nosotros»): sin ciudad, país, tipo de clínica ni profesionales. El país del lead sale
+// del prefijo del celular. El lead se manda al CRM al enviar el paso 2
+// (`submitContactLead`, el mismo webhook de siempre); lo elegido antes viaja en ese
+// envío (`servicio_interes`) y en el `booking_confirmed`. No hay un segundo `contact`:
+// con el mismo correo n8n lo etiqueta «Volvió a cotizar».
 //
 // Embudo (Ricardo, 18-oct-2026): rellena el formulario = Lead (US$ 3) · además agenda
 // una hora = MQL (US$ 10, lo dispara la reserva) · además asiste, es real y califica =
@@ -38,14 +40,7 @@ import {
   type CalBooking,
   type Form,
 } from "@/components/ventas/VentasLanding";
-import {
-  ECOSISTEMA_SLIDES,
-  PROFESIONALES,
-  SERVICIOS,
-  TIPOS_CLINICA,
-  esServicio,
-  type TipoClinicaId,
-} from "@/content/agenda-oferta";
+import { ECOSISTEMA_SLIDES, SERVICIOS, esServicio } from "@/content/agenda-oferta";
 import type { ServicioId } from "@/content/planes";
 import { fireLeadEvent } from "@/lib/metaEvents";
 import {
@@ -65,7 +60,11 @@ const SOURCE_PATH = "/agenda";
 const EMAIL_OK = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MX_TZ = /^America\/(Mexico_City|Cancun|Merida|Monterrey|Matamoros|Chihuahua|Ciudad_Juarez|Ojinaga|Mazatlan|Hermosillo|Tijuana|Bahia_Banderas)$/;
 const TOTAL = 3;
-const TITULOS_PASO = ["Qué te interesa", "Tu clínica", "Tus datos"];
+const TITULOS_PASO = ["Qué te interesa", "Tus datos", "Tu horario"];
+
+// Lo que se puede elegir: marketing y software (los dos juntos = el ecosistema completo).
+const OPCIONES = SERVICIOS.filter((s) => s.id === "marketing" || s.id === "software");
+type Opcion = "marketing" | "software";
 
 function Check({ size = 14 }: { size?: number }) {
   return (
@@ -77,26 +76,27 @@ function Check({ size = 14 }: { size?: number }) {
 
 const paisDePrefijo = (prefix: string) => RESERVA_PHONE_PREFIXES.find((p) => p.prefix === prefix)?.label ?? "";
 
+/** `?servicio=` de la URL → opciones marcadas. «ambas» marca las dos. */
+function opcionesIniciales(v: string | null | undefined): Opcion[] {
+  if (!esServicio(v)) return [];
+  return v === "ambas" ? ["marketing", "software"] : [v];
+}
+
 export default function AgendaWizard({
   tzIp = "",
   servicioInicial = null,
 }: {
   tzIp?: string;
-  /** `?servicio=` de la URL: deja esa opción preseleccionada en el paso 1. */
+  /** `?servicio=` de la URL: deja esas opciones marcadas en el paso 1. */
   servicioInicial?: string | null;
 }) {
-  // 1..3 = pasos; 4 = calendario.
-  const [paso, setPaso] = useState<1 | 2 | 3 | 4>(1);
+  const [paso, setPaso] = useState<1 | 2 | 3>(1);
+  const [elegidos, setElegidos] = useState<Opcion[]>(() => opcionesIniciales(servicioInicial));
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [prefix, setPrefix] = useState(() => (MX_TZ.test(tzIp) ? "+52" : "+56"));
   const [phone, setPhone] = useState("");
   const [clinica, setClinica] = useState("");
-  const [tipo, setTipo] = useState<TipoClinicaId | "">("");
-  const [profesionales, setProfesionales] = useState("");
-  const [ciudad, setCiudad] = useState("");
-  const [pais, setPais] = useState<string | null>(null); // null = sigue al prefijo del celular
-  const [servicio, setServicio] = useState<ServicioId | null>(esServicio(servicioInicial) ? servicioInicial : null);
   const [intentado, setIntentado] = useState(false);
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
   const [booking, setBooking] = useState<CalBooking | null>(null);
@@ -120,94 +120,80 @@ export default function AgendaWizard({
     pushDL("agenda_form_start", { source_path: SOURCE_PATH });
   }
 
+  // Una opción = ese servicio; las dos juntas = «ambas», el valor que ya entiende el CRM.
+  const servicio: ServicioId | null = elegidos.length === 2 ? "ambas" : (elegidos[0] ?? null);
+  const servicioLabel = elegidos.length === 2 ? "Marketing de performance + Software con IA" : (OPCIONES.find((o) => o.id === elegidos[0])?.titulo ?? "");
+
   const digitos = digitosTelefono(phone);
   const phoneError = mensajeErrorTelefono(prefix, digitos);
   const phoneOk = phoneError === null;
   const nombreOk = nombre.trim().length >= 2;
   const emailOk = EMAIL_OK.test(email.trim());
   const clinicaOk = clinica.trim().length >= 2;
-  const tipoSel = TIPOS_CLINICA.find((t) => t.id === tipo) ?? null;
-  const prof = PROFESIONALES.find((p) => p.id === profesionales) ?? null;
-  const ciudadOk = ciudad.trim().length >= 2;
-  const paisActual = pais ?? paisDePrefijo(prefix);
-  const clinicaPasoOk = clinicaOk && !!tipoSel && !!prof && ciudadOk && !!paisActual;
-  const contactoOk = nombreOk && emailOk && phoneOk;
+  const datosOk = nombreOk && emailOk && phoneOk && clinicaOk;
   const rule = reglaTelefono(prefix);
-  const servicioSel = SERVICIOS.find((s) => s.id === servicio) ?? null;
 
   const form: Form = {
     nombre,
     clinica,
-    tipoClinica: tipoSel?.tipoClinica ?? "",
-    subtipo: tipoSel?.subtipo ?? null,
+    tipoClinica: "",
+    subtipo: null,
     prefix,
     phone: digitos,
     email,
     website: "",
-    city: ciudad,
-    pais: paisActual,
+    city: "",
+    pais: paisDePrefijo(prefix),
     cargo: "" as Form["cargo"],
-    boxes: prof ? { id: prof.id, label: prof.label } : null,
-    servicio: servicioSel ? { id: servicioSel.id, label: servicioSel.titulo } : null,
+    boxes: null,
+    servicio: servicio ? { id: servicio, label: servicioLabel } : null,
   };
   const size = { profile: null };
   const qual = evaluateQualification(size);
 
-  function errorPaso2(): string {
-    if (!clinicaOk) return "Escribe el nombre de tu clínica.";
-    if (!tipoSel) return "Elige qué tipo de clínica tienes.";
-    if (!prof) return "Elige cuántos profesionales tiene tu clínica.";
-    if (!ciudadOk) return "Escribe tu ciudad.";
-    return "Revisa los datos de tu clínica.";
-  }
-
-  function errorPaso3(): string {
+  function errorDatos(): string {
     if (!nombreOk) return "Escribe tu nombre.";
-    if (phoneError) return phoneError;
     if (!emailOk) return "Revisa tu correo.";
+    if (phoneError) return phoneError;
+    if (!clinicaOk) return "Escribe el nombre de tu clínica.";
     return "Revisa tus datos.";
   }
 
-  function irA(n: 1 | 2 | 3 | 4) {
+  function irA(n: 1 | 2 | 3) {
     setPaso(n);
     window.scrollTo({ top: 0 });
   }
 
+  function alternar(o: Opcion) {
+    marcarInicio();
+    setElegidos((prev) => (prev.includes(o) ? prev.filter((x) => x !== o) : [...prev, o]));
+  }
+
   function enviarPaso1() {
-    if (!servicioSel) {
+    if (!servicio) {
       setIntentado(true);
       return;
     }
-    pushDL("agenda_step_complete", { step: 1, step_name: "servicio", servicio: servicioSel.id, source_path: SOURCE_PATH });
-    // ViewContent con el servicio elegido (Ricardo, 18-oct-2026).
-    trackPixel("ViewContent", { content_name: servicioSel.titulo, content_category: "servicio_interes", content_ids: [servicioSel.id] });
+    pushDL("agenda_step_complete", { step: 1, step_name: "servicio", servicio, source_path: SOURCE_PATH });
+    // ViewContent con lo elegido (Ricardo, 18-oct-2026).
+    trackPixel("ViewContent", { content_name: servicioLabel, content_category: "servicio_interes", content_ids: elegidos });
     setIntentado(false);
     irA(2);
   }
 
   function enviarPaso2() {
-    if (!clinicaPasoOk) {
-      setIntentado(true);
-      return;
-    }
-    pushDL("agenda_step_complete", { step: 2, step_name: "clinica", tamano_boxes: profesionales, tipo_clinica: tipo, source_path: SOURCE_PATH });
-    setIntentado(false);
-    irA(3);
-  }
-
-  function enviarPaso3() {
-    if (!contactoOk) {
+    if (!datosOk) {
       setIntentado(true);
       return;
     }
     const eventId = leadCtx?.eventId ?? newLeadEventId();
     const ctx = leadCtx ?? { eventId, leadSource: detectLeadSource() };
     if (!leadCtx) setLeadCtx(ctx);
-    pushDL("agenda_step_complete", { step: 3, step_name: "datos", servicio, source_path: SOURCE_PATH });
+    pushDL("agenda_step_complete", { step: 2, step_name: "datos", servicio, source_path: SOURCE_PATH });
     setIntentado(false);
-    irA(4);
+    irA(3);
     // Embudo de Meta (Ricardo, 18-oct-2026): rellenar el formulario = Lead US$ 3.
-    // Agendar la hora (calendario) dispara Schedule + MQL.
+    // Agendar la hora (paso 3) dispara Schedule + MQL.
     void fireLeadEvent({
       eventId: ctx.eventId,
       contact: { email: email.trim(), phoneE164: aE164(prefix, digitos) },
@@ -227,11 +213,14 @@ export default function AgendaWizard({
     });
   }
 
-  const enCalendario = paso === 4 && booking === null;
+  const enCalendario = paso === 3 && booking === null;
   const slide = ECOSISTEMA_SLIDES[caso];
 
   return (
-    <div className={`${base.page} ${styles.pagina} ${paso > 1 || booking ? styles.avanzado : ""}`} data-paso={paso}>
+    <div
+      className={`${base.page} ${styles.pagina} ${paso > 1 || booking ? styles.avanzado : ""} ${enCalendario || booking ? styles.calendario : ""}`}
+      data-paso={paso}
+    >
       <aside className={styles.panel} data-agenda-casos>
         <div className={styles.marco} aria-roledescription="carrusel">
           {ECOSISTEMA_SLIDES.map((sl, i) => (
@@ -266,220 +255,146 @@ export default function AgendaWizard({
 
       <main className={styles.lado}>
         <div className={styles.contenido}>
-        <div className={styles.tarjeta} id="agendar">
-          {booking ? (
-            <div className={base.done} data-agenda-listo>
-              <div className={base.doneCheck} aria-hidden>
-                <Check size={22} />
-              </div>
-              <h2 className={base.cardTitle}>Listo, te esperamos.</h2>
-              {booking.date && (
-                <p className={base.when}>
-                  {textoReserva(booking.date, zonaMostrada(tzIp, ""))}
-                  {booking.organizer?.name ? ` · ${booking.organizer.name}` : ""}
-                </p>
-              )}
-              <p className={base.cardSub}>Te llegará la confirmación por correo y por WhatsApp.</p>
-            </div>
-          ) : (
-            <>
-              {paso <= 3 && (
-                <>
-                  <div className={styles.progress} aria-hidden>
-                    {Array.from({ length: TOTAL }, (_, i) => (
-                      <span key={i} className={`${styles.seg} ${i + 1 <= paso ? styles.segOn : ""}`} />
-                    ))}
-                  </div>
-                  <span className={styles.paso}>
-                    Paso {paso} de {TOTAL} · {TITULOS_PASO[paso - 1]}
-                  </span>
-                </>
-              )}
-
-              {paso === 1 && (
-                <div onFocusCapture={marcarInicio} data-agenda-paso="1">
-                  <h2 className={styles.titulo}>¿Qué servicio te interesa?</h2>
-                  <div className={styles.servicios} role="radiogroup" aria-label="Servicio de interés">
-                    {SERVICIOS.map((s) => {
-                      const on = servicio === s.id;
-                      return (
-                        <button
-                          key={s.id}
-                          type="button"
-                          role="radio"
-                          aria-checked={on}
-                          data-servicio={s.id}
-                          className={`${styles.servicio} ${on ? styles.servicioOn : ""} ${s.destacada ? styles.servicioDestacado : ""}`}
-                          onClick={() => {
-                            marcarInicio();
-                            setServicio(s.id);
-                          }}
-                        >
-                          {s.etiqueta && <span className={styles.recomendado}>{s.etiqueta}</span>}
-                          <span className={styles.radio} aria-hidden>
-                            {on && <Check size={13} />}
-                          </span>
-                          <span className={styles.servicioTitulo}>{s.titulo}</span>
-                          <span className={styles.servicioTexto}>{s.texto}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                  {intentado && !servicioSel && (
-                    <p className={base.error} role="alert">
-                      Elige el servicio que te interesa.
-                    </p>
-                  )}
-                  <button type="button" className={base.cta} onClick={enviarPaso1}>
-                    Continuar →
-                  </button>
+          <div className={styles.tarjeta} id="agendar">
+            {booking ? (
+              <div className={base.done} data-agenda-listo>
+                <div className={base.doneCheck} aria-hidden>
+                  <Check size={22} />
                 </div>
-              )}
+                <h2 className={base.cardTitle}>Listo, te esperamos.</h2>
+                {booking.date && (
+                  <p className={base.when}>
+                    {textoReserva(booking.date, zonaMostrada(tzIp, ""))}
+                    {booking.organizer?.name ? ` · ${booking.organizer.name}` : ""}
+                  </p>
+                )}
+                <p className={base.cardSub}>Te llegará la confirmación por correo y por WhatsApp.</p>
+              </div>
+            ) : (
+              <>
+                <div className={styles.progress} aria-hidden>
+                  {Array.from({ length: TOTAL }, (_, i) => (
+                    <span key={i} className={`${styles.seg} ${i + 1 <= paso ? styles.segOn : ""}`} />
+                  ))}
+                </div>
+                <span className={styles.paso}>
+                  Paso {paso} de {TOTAL} · {TITULOS_PASO[paso - 1]}
+                </span>
 
-              {paso === 2 && (
-                <div data-agenda-paso="2">
-                  <h2 className={styles.titulo}>Cuéntanos de tu clínica</h2>
-
-                  <label className={base.label} htmlFor="ag-clinica">Nombre de tu clínica</label>
-                  <input id="ag-clinica" className={base.input} value={clinica} onChange={(e) => setClinica(e.target.value)} autoComplete="organization" placeholder="Clínica Estética Vela" aria-invalid={intentado && !clinicaOk} />
-
-                  <span className={base.label} id="ag-tipo-label">Tipo de clínica</span>
-                  <div className={styles.opciones} role="radiogroup" aria-labelledby="ag-tipo-label">
-                    {TIPOS_CLINICA.map((t) => (
-                      <button
-                        key={t.id}
-                        type="button"
-                        role="radio"
-                        aria-checked={tipo === t.id}
-                        className={`${styles.opcion} ${tipo === t.id ? styles.opcionOn : ""}`}
-                        onClick={() => setTipo(t.id)}
-                      >
-                        {t.label}
-                      </button>
-                    ))}
-                  </div>
-
-                  <span className={base.label} id="ag-prof-label">¿Cuántos profesionales atienden?</span>
-                  <div className={styles.opciones} role="radiogroup" aria-labelledby="ag-prof-label">
-                    {PROFESIONALES.map((p) => (
-                      <button
-                        key={p.id}
-                        type="button"
-                        role="radio"
-                        aria-checked={profesionales === p.id}
-                        className={`${styles.opcion} ${profesionales === p.id ? styles.opcionOn : ""}`}
-                        onClick={() => setProfesionales(p.id)}
-                      >
-                        {p.label}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className={styles.fila2}>
-                    <div>
-                      <label className={base.label} htmlFor="ag-ciudad">Ciudad</label>
-                      <input id="ag-ciudad" className={base.input} value={ciudad} onChange={(e) => setCiudad(e.target.value)} autoComplete="address-level2" placeholder="Santiago" aria-invalid={intentado && !ciudadOk} />
+                {paso === 1 && (
+                  <div data-agenda-paso="1">
+                    <h2 className={styles.titulo}>¿Qué servicio te interesa?</h2>
+                    <p className={styles.sub}>Puedes elegir los dos.</p>
+                    <div className={styles.servicios} role="group" aria-label="Servicio de interés">
+                      {OPCIONES.map((s) => {
+                        const on = elegidos.includes(s.id as Opcion);
+                        return (
+                          <button
+                            key={s.id}
+                            type="button"
+                            role="checkbox"
+                            aria-checked={on}
+                            data-servicio={s.id}
+                            className={`${styles.servicio} ${on ? styles.servicioOn : ""}`}
+                            onClick={() => alternar(s.id as Opcion)}
+                          >
+                            <span className={`${styles.radio} ${styles.casilla}`} aria-hidden>
+                              {on && <Check size={13} />}
+                            </span>
+                            <span className={styles.servicioTitulo}>{s.titulo}</span>
+                            <span className={styles.servicioTexto}>{s.texto}</span>
+                          </button>
+                        );
+                      })}
                     </div>
-                    <div>
-                      <label className={base.label} htmlFor="ag-pais">País</label>
-                      <select id="ag-pais" className={base.select} style={{ width: "100%" }} value={paisActual} onChange={(e) => setPais(e.target.value)}>
+                    {intentado && !servicio && (
+                      <p className={base.error} role="alert">
+                        Elige al menos un servicio.
+                      </p>
+                    )}
+                    <button type="button" className={base.cta} onClick={enviarPaso1}>
+                      Continuar →
+                    </button>
+                  </div>
+                )}
+
+                {paso === 2 && (
+                  <div data-agenda-paso="2" onFocusCapture={marcarInicio}>
+                    <h2 className={styles.titulo}>¿Dónde te confirmamos?</h2>
+
+                    <label className={base.label} htmlFor="ag-nombre">Nombre</label>
+                    <input id="ag-nombre" className={base.input} value={nombre} onChange={(e) => setNombre(e.target.value)} autoComplete="name" placeholder="Nombre y apellido" aria-invalid={intentado && !nombreOk} />
+
+                    <label className={base.label} htmlFor="ag-email">Correo</label>
+                    <input id="ag-email" className={base.input} value={email} onChange={(e) => setEmail(e.target.value)} type="email" inputMode="email" autoComplete="email" placeholder="tucorreo@clinica.cl" aria-invalid={intentado && !emailOk} />
+
+                    <label className={base.label} htmlFor="ag-phone">Celular (WhatsApp)</label>
+                    <div className={base.phoneRow}>
+                      <select
+                        className={base.select}
+                        value={prefix}
+                        onChange={(e) => {
+                          setPrefix(e.target.value);
+                          setPhone(formatearTelefono(phone, e.target.value));
+                        }}
+                        aria-label="Código de país"
+                      >
                         {RESERVA_PHONE_PREFIXES.map((p) => (
-                          <option key={p.prefix} value={p.label}>
-                            {p.flag} {p.label}
+                          <option key={p.prefix} value={p.prefix}>
+                            {p.flag} {p.prefix}
                           </option>
                         ))}
                       </select>
+                      <input id="ag-phone" className={base.input} value={phone} onChange={(e) => setPhone(formatearTelefono(e.target.value, prefix))} type="tel" inputMode="tel" autoComplete="tel" placeholder={rule.placeholder} aria-invalid={intentado && !phoneOk} data-e164={phoneOk ? aE164(prefix, digitos) : undefined} />
                     </div>
+
+                    <label className={base.label} htmlFor="ag-clinica">Nombre de tu clínica</label>
+                    <input id="ag-clinica" className={base.input} value={clinica} onChange={(e) => setClinica(e.target.value)} autoComplete="organization" placeholder="Clínica Estética Vela" aria-invalid={intentado && !clinicaOk} />
+
+                    {intentado && !datosOk && (
+                      <p className={base.error} role="alert">
+                        {errorDatos()}
+                      </p>
+                    )}
+                    <button type="button" className={base.cta} onClick={enviarPaso2}>
+                      Elegir mi hora →
+                    </button>
+                    <button type="button" className={styles.volver} onClick={() => irA(1)}>
+                      ← Volver
+                    </button>
                   </div>
+                )}
 
-                  {intentado && !clinicaPasoOk && (
-                    <p className={base.error} role="alert">
-                      {errorPaso2()}
-                    </p>
-                  )}
-                  <button type="button" className={base.cta} onClick={enviarPaso2}>
-                    Continuar →
-                  </button>
-                  <button type="button" className={styles.volver} onClick={() => irA(1)}>
-                    ← Volver
-                  </button>
-                </div>
-              )}
-
-              {paso === 3 && (
-                <div data-agenda-paso="3">
-                  <h2 className={styles.titulo}>¿Dónde te confirmamos?</h2>
-
-                  <label className={base.label} htmlFor="ag-nombre">Nombre</label>
-                  <input id="ag-nombre" className={base.input} value={nombre} onChange={(e) => setNombre(e.target.value)} autoComplete="name" placeholder="Nombre y apellido" aria-invalid={intentado && !nombreOk} />
-
-                  <label className={base.label} htmlFor="ag-phone">Celular (WhatsApp)</label>
-                  <div className={base.phoneRow}>
-                    <select
-                      className={base.select}
-                      value={prefix}
-                      onChange={(e) => {
-                        setPrefix(e.target.value);
-                        setPhone(formatearTelefono(phone, e.target.value));
+                {paso === 3 && (
+                  <div data-agenda-paso="3">
+                    <StepClineraScheduler
+                      form={form}
+                      tzIp={tzIp}
+                      label="Videollamada de 30 minutos con el equipo"
+                      onBack={() => irA(2)}
+                      onBooked={(next, via, confirmEventId) => {
+                        if (bookingSent.current) return;
+                        bookingSent.current = true;
+                        setBooking(next);
+                        pushDL("agenda_step_complete", { step: 3, step_name: "horario", servicio, source_path: SOURCE_PATH });
+                        void submitBookingConfirmation({
+                          form,
+                          software: null,
+                          size,
+                          qual,
+                          leadCtx,
+                          booking: next,
+                          sourcePath: SOURCE_PATH,
+                          via,
+                          confirmEventId,
+                        });
                       }}
-                      aria-label="Código de país"
-                    >
-                      {RESERVA_PHONE_PREFIXES.map((p) => (
-                        <option key={p.prefix} value={p.prefix}>
-                          {p.flag} {p.prefix}
-                        </option>
-                      ))}
-                    </select>
-                    <input id="ag-phone" className={base.input} value={phone} onChange={(e) => setPhone(formatearTelefono(e.target.value, prefix))} type="tel" inputMode="tel" autoComplete="tel" placeholder={rule.placeholder} aria-invalid={intentado && !phoneOk} data-e164={phoneOk ? aE164(prefix, digitos) : undefined} />
+                    />
                   </div>
-
-                  <label className={base.label} htmlFor="ag-email">Correo</label>
-                  <input id="ag-email" className={base.input} value={email} onChange={(e) => setEmail(e.target.value)} type="email" inputMode="email" autoComplete="email" placeholder="tucorreo@clinica.cl" aria-invalid={intentado && !emailOk} />
-
-                  {intentado && !contactoOk && (
-                    <p className={base.error} role="alert">
-                      {errorPaso3()}
-                    </p>
-                  )}
-                  <button type="button" className={base.cta} onClick={enviarPaso3}>
-                    Enviar y elegir mi hora →
-                  </button>
-                  <button type="button" className={styles.volver} onClick={() => irA(2)}>
-                    ← Volver
-                  </button>
-                </div>
-              )}
-
-              {paso === 4 && (
-                <div data-agenda-paso="4">
-                  <StepClineraScheduler
-                    form={form}
-                    tzIp={tzIp}
-                    label="Videollamada de 30 minutos con el equipo"
-                    onBack={() => irA(3)}
-                    onBooked={(next, via, confirmEventId) => {
-                      if (bookingSent.current) return;
-                      bookingSent.current = true;
-                      setBooking(next);
-                      pushDL("agenda_step_complete", { step: 4, step_name: "videollamada", servicio, source_path: SOURCE_PATH });
-                      void submitBookingConfirmation({
-                        form,
-                        software: null,
-                        size,
-                        qual,
-                        leadCtx,
-                        booking: next,
-                        sourcePath: SOURCE_PATH,
-                        via,
-                        confirmEventId,
-                      });
-                    }}
-                  />
-                </div>
-              )}
-            </>
-          )}
-        </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </main>
     </div>

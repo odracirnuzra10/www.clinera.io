@@ -1,5 +1,5 @@
-// /agenda — wizard de 3 pasos (Ricardo, 18-oct-2026): datos → servicio → videollamada.
-// Paso 1 manda el lead al CRM y dispara Lead US$ 3; paso 2 ViewContent; el MQL sale
+// /agenda — wizard de 3 pasos (Ricardo, 18-oct-2026): servicio (varios) → datos → horario.
+// El paso 2 manda el lead al CRM y dispara Lead US$ 3; el paso 1 ViewContent; el MQL sale
 // al agendar. Sin cupón ni compra desde la web. Red mockeada.
 
 import { expect, test, type Page, type Request } from "@playwright/test";
@@ -7,8 +7,7 @@ import { expect, test, type Page, type Request } from "@playwright/test";
 type WizardBody = {
   lead_stage?: string;
   nombre_clinica?: string;
-  boxes_profesionales?: string;
-  tipo_clinica?: string;
+  servicio_interes?: string;
   celular?: string;
   fuente?: string;
   ciudad?: string;
@@ -39,22 +38,24 @@ async function mockRed(page: Page) {
   await page.route(/connect\.facebook\.net/, (route) => route.abort());
 }
 
-async function pasoClinica(page: Page) {
-  await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Clínica");
-  await page.getByRole("radio", { name: "Estética" }).click();
-  await page.getByRole("radio", { name: "4–6" }).click();
-  await page.getByLabel("Ciudad").fill("Los Ángeles");
+async function pasoServicios(page: Page, ids: string[] = ["marketing", "software"]) {
+  for (const id of ids) {
+    const op = page.locator(`[data-servicio="${id}"]`);
+    if ((await op.getAttribute("aria-checked")) !== "true") await op.click();
+    await expect(op).toHaveAttribute("aria-checked", "true");
+  }
   await page.getByRole("button", { name: /Continuar/ }).click();
+  await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
 }
 
-async function pasoContacto(page: Page) {
+async function llenarDatos(page: Page) {
   await page.getByLabel("Nombre", { exact: true }).fill("[E2E TEST] Agenda");
   await page.getByLabel("Correo", { exact: true }).fill("e2e-agenda@e2e.clinera.io");
   await page.getByLabel("Celular (WhatsApp)").fill("912345678");
-  await page.getByRole("button", { name: /Enviar y elegir mi hora/ }).click();
+  await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Clínica");
 }
 
-test("wizard: servicio → clínica → datos (CRM + Lead US$ 3) → calendario", async ({ page }) => {
+test("wizard: servicios (varios) → datos (CRM + Lead US$ 3) → horario", async ({ page }) => {
   await mockRed(page);
   const wizard = grabarWizard(page);
   const capi: { event_name?: string; user_data?: { em?: string }; custom_data?: Record<string, unknown> }[] = [];
@@ -65,29 +66,25 @@ test("wizard: servicio → clínica → datos (CRM + Lead US$ 3) → calendario"
   await expect(page.getByRole("heading", { level: 1 })).toContainText(/videollamada/i);
   await expect(page.locator("[data-agenda-casos]")).toHaveCount(1);
 
-  // Paso 1: tres servicios, «Ambas» recomendada; hay que elegir uno.
-  await expect(page.locator("[data-servicio]")).toHaveCount(3);
-  await expect(page.locator('[data-servicio="ambas"]')).toContainText("Recomendado");
+  // Paso 1: dos servicios elegibles a la vez; hay que elegir al menos uno.
+  await expect(page.locator("[data-servicio]")).toHaveCount(2);
   await page.getByRole("button", { name: /Continuar/ }).click();
-  await expect(page.getByText("Elige el servicio que te interesa.")).toBeVisible();
-  await page.locator('[data-servicio="marketing"]').click();
-  await page.getByRole("button", { name: /Continuar/ }).click();
+  await expect(page.getByText("Elige al menos un servicio.")).toBeVisible();
+  await pasoServicios(page);
 
-  // Paso 2: clínica. Incompleto no avanza.
-  await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
-  await page.getByRole("button", { name: /Continuar/ }).click();
-  await expect(page.getByText("Escribe el nombre de tu clínica.")).toBeVisible();
-  await pasoClinica(page);
+  // Paso 2: solo nombre, correo, celular y clínica. Sin ciudad, país, tipo ni profesionales.
+  await expect(page.getByLabel("Ciudad")).toHaveCount(0);
+  await expect(page.getByText("Tipo de clínica")).toHaveCount(0);
+  await expect(page.getByText("¿Cuántos profesionales atienden?")).toHaveCount(0);
+  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+  await expect(page.getByText("Escribe tu nombre.")).toBeVisible();
 
   // Nada sale al CRM ni a Meta antes de tener el contacto.
-  await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
   expect(wizard.filter((w) => w.lead_stage === "contact")).toHaveLength(0);
   expect(capi).toHaveLength(0);
 
-  // Paso 3: contacto → CRM + Lead.
-  await page.getByRole("button", { name: /Enviar y elegir mi hora/ }).click();
-  await expect(page.getByText("Escribe tu nombre.")).toBeVisible();
-  await pasoContacto(page);
+  await llenarDatos(page);
+  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
 
   await expect.poll(() => capi.map((c) => c.event_name)).toContain("Lead");
   const lead = capi.find((c) => c.event_name === "Lead")!;
@@ -95,21 +92,37 @@ test("wizard: servicio → clínica → datos (CRM + Lead US$ 3) → calendario"
   expect(lead.custom_data).toMatchObject({ value: 3, currency: "USD" });
   expect(capi.filter((c) => c.event_name === "MQL")).toHaveLength(0); // el MQL es al agendar
 
-  await expect(page.locator('[data-agenda-paso="4"]')).toBeVisible();
+  await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
   await page.waitForTimeout(400);
   const contactos = wizard.filter((w) => w.lead_stage === "contact");
   expect(contactos).toHaveLength(1);
   expect(contactos[0].nombre_clinica).toBe("[E2E TEST] Clínica");
-  expect(contactos[0].boxes_profesionales).toBe("4_6");
-  expect(contactos[0].tipo_clinica).toBe("estetica");
   expect(contactos[0].celular).toBe("+56912345678");
+  expect(contactos[0].servicio_interes).toBe("ambas"); // marketing + software
+  expect(contactos[0].ciudad ?? "").toBe("");
   expect(contactos[0].fuente).toContain("/agenda");
 });
 
-test("?servicio= preselecciona el servicio en el paso 1", async ({ page }) => {
+test("un solo servicio viaja como ese servicio", async ({ page }) => {
+  await mockRed(page);
+  const wizard = grabarWizard(page);
+  await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+  await pasoServicios(page, ["marketing"]);
+  await llenarDatos(page);
+  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+  await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
+  await page.waitForTimeout(400);
+  expect(wizard.find((w) => w.lead_stage === "contact")?.servicio_interes).toBe("marketing");
+});
+
+test("?servicio= deja marcadas las opciones (ambas = las dos)", async ({ page }) => {
   await mockRed(page);
   await page.goto("/agenda?servicio=software", { waitUntil: "domcontentloaded" });
   await expect(page.locator('[data-servicio="software"]')).toHaveAttribute("aria-checked", "true");
+  await expect(page.locator('[data-servicio="marketing"]')).toHaveAttribute("aria-checked", "false");
+  await page.goto("/agenda?servicio=ambas", { waitUntil: "domcontentloaded" });
+  await expect(page.locator('[data-servicio="software"]')).toHaveAttribute("aria-checked", "true");
+  await expect(page.locator('[data-servicio="marketing"]')).toHaveAttribute("aria-checked", "true");
 });
 
 for (const [w, h] of [[390, 844], [360, 740], [375, 667], [1440, 900], [1280, 720]]) {
@@ -120,17 +133,14 @@ for (const [w, h] of [[390, 844], [360, 740], [375, 667], [1440, 900], [1280, 72
     const sinScroll = () =>
       page.evaluate(() => document.documentElement.scrollHeight <= window.innerHeight && document.documentElement.scrollWidth <= window.innerWidth);
     expect(await sinScroll(), "paso 1").toBe(true);
-    await page.locator('[data-servicio="ambas"]').click();
-    await expect(page.locator('[data-servicio="ambas"]')).toHaveAttribute("aria-checked", "true");
-    await page.getByRole("button", { name: /Continuar/ }).click();
-    await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
+    await pasoServicios(page);
     expect(await sinScroll(), "paso 2").toBe(true);
-    // El botón de continuar tiene que quedar a la vista sin scrollear.
-    await expect(page.getByRole("button", { name: /Continuar/ })).toBeInViewport();
-    await pasoClinica(page);
+    await llenarDatos(page);
+    // El botón del paso 2 tiene que quedar a la vista sin scrollear.
+    await expect(page.getByRole("button", { name: /Elegir mi hora/ })).toBeInViewport();
+    await page.getByRole("button", { name: /Elegir mi hora/ }).click();
     await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
     expect(await sinScroll(), "paso 3").toBe(true);
-    await expect(page.getByRole("button", { name: /Enviar y elegir mi hora/ })).toBeInViewport();
   });
 }
 

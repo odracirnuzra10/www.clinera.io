@@ -482,3 +482,20 @@
     margin-top: 6px;
   }
 }
+
+/* Casilla cuadrada (se pueden elegir varios servicios) */
+.casilla {
+  border-radius: 8px;
+}
+
+/* Paso del calendario: el panel de imágenes cede el lugar al horario en móvil. */
+@media (max-width: 959px) {
+  .calendario .marco,
+  .calendario .caption,
+  .calendario .puntos {
+    display: none;
+  }
+  .calendario .panel {
+    padding: 6px 16px;
+  }
+}
