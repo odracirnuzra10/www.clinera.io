@@ -152,8 +152,9 @@ test.describe("próximas funciones: blog + llms, no el deck", () => {
     );
   });
 
-  test("el home anuncia la actualización de septiembre y manda al hub", () => {
-    expect(homeSrc).toContain("<ActualizacionSeptiembreBanner");
+  // El banner salió del home el 18-oct-2026 (home breve); el componente sigue vigente.
+  test("el banner de la actualización de septiembre manda al hub", () => {
+    expect(homeSrc).not.toContain("<ActualizacionSeptiembreBanner");
     expect(bannerSrc).toMatch(/Nueva actualización de septiembre/i);
     expect(bannerSrc).toContain("POST_PROXIMAS_FUNCIONES_PATH");
     expect(bannerSrc).toMatch(/Open Factura/);
@@ -167,17 +168,9 @@ test.describe("próximas funciones: blog + llms, no el deck", () => {
     expect(bannerSrc).not.toMatch(/ERP/i);
   });
 
-  test("el banner del home se ve y abre el hub del blog", async ({ page }) => {
-    await page.goto("/");
-    const banner = page.getByRole("region", {
-      name: "Nueva actualización de septiembre",
-    });
-    await expect(banner).toBeVisible();
-    await expect(
-      banner.getByRole("link", { name: "Leer en el blog" }),
-    ).toHaveAttribute("href", POST_PROXIMAS_FUNCIONES_PATH);
-    await banner.getByRole("link", { name: "Leer en el blog" }).click();
-    await expect(page).toHaveURL(new RegExp(`${POST_PROXIMAS_FUNCIONES_PATH}$`));
+  // El banner salió del home el 18-oct-2026 (home breve). El hub sigue publicado.
+  test("el hub del blog de próximas funciones sigue publicado", async ({ page }) => {
+    await page.goto(POST_PROXIMAS_FUNCIONES_PATH);
     await expect(
       page.getByRole("heading", {
         name: /Próximas funciones de Clinera/i,

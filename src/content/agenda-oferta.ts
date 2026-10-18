@@ -62,7 +62,12 @@ export function formatoUsd(usd: number): string {
     : usd.toLocaleString("es-CL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-/** Payment Links por plan (Stripe, 18-oct-2026). El cupón se aplica en Stripe. */
+/**
+ * Payment Links por plan (Stripe, 18-oct-2026). El cupón lo escribe la clínica en
+ * «Añadir código de promoción»: `?prefilled_promo_code=CUKI` NO lo aplica en estos
+ * links (probado el 18-oct-2026; el total quedó sin descuento). Para precargarlo
+ * hay que abrir una Checkout Session con `discounts`, que pide una llave con escritura.
+ */
 export const LINKS_PAGO: Record<PlanId, string | null> = {
   flux: "https://buy.stripe.com/14A28tgNz1MegZl9471441J",
   hurricane: "https://buy.stripe.com/28EbJ3btffD4cJ59471441K",
@@ -70,16 +75,6 @@ export const LINKS_PAGO: Record<PlanId, string | null> = {
 };
 
 export const linkPagoPendiente = (plan: string) => `[PENDIENTE: link de pago de ${plan}]`;
-
-/**
- * Link de pago con el cupón ya aplicado: Stripe lo muestra precargado al abrir
- * el checkout (parámetro `prefilled_promo_code`). Si Stripe no lo aplica, la
- * clínica lo escribe a mano: el código debe existir en Stripe con este nombre.
- */
-export function linkPagoConCupon(link: string): string {
-  const sep = link.includes("?") ? "&" : "?";
-  return `${link}${sep}prefilled_promo_code=${encodeURIComponent(CUPON.codigo)}`;
-}
 
 /** Lo que se destaca de cada plan en el paso 3 (sale de `planes.ts`). */
 export const PLANES_OFERTA = PLANES.map((p) => ({

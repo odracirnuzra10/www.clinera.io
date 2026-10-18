@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { SETUP_FEE_NUMBER, SETUP_FEE_USD } from "../src/content/pricing";
+import { LINKS_PAGO } from "../src/content/agenda-oferta";
 
 /**
  * Lo que se cuida acá es lo que sigue viviendo en este repo:
@@ -33,10 +34,15 @@ test("setupFeeFor: catálogo cobra implementación siempre", async () => {
 
 // /planes publica Flux · Hurricane · Vortex sin costo de implementación (Ricardo, 18-oct-2026).
 // Los US$ 450 de `setupFeeFor` siguen rigiendo los contratos de /firma (test de arriba).
-test("/planes no muestra implementación y no cobra en la web", async ({ page }) => {
+// Desde el 18-oct-2026 /planes lleva el Payment Link de cada plan (cupón CUKI).
+test("/planes no muestra implementación y paga con los links de Stripe vigentes", async ({ page }) => {
   await page.goto("/planes", { waitUntil: "domcontentloaded" });
   const planes = page.locator("[data-planes-vigentes]");
   await expect(planes.getByText(/implementación/i)).toHaveCount(0);
   await expect(planes.getByText(`$${SETUP_FEE_NUMBER}`)).toHaveCount(0);
-  await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
+  const pagos = page.locator('main a[href*="buy.stripe.com"]');
+  await expect(pagos).toHaveCount(3);
+  // Analytics agrega `client_reference_id`: se compara el link sin query.
+  const hrefs = (await pagos.evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).href.split("?")[0]))).sort();
+  expect(hrefs).toEqual(Object.values(LINKS_PAGO).sort());
 });

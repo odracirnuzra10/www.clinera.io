@@ -29,6 +29,7 @@ import Link from "next/link";
 import { Wordmark } from "@/components/brand-v3/Brand";
 import EsteticaSection from "./EsteticaSection";
 import AgenteIABanda from "@/components/agente-ia/AgenteIABanda";
+import CuponBanner from "@/components/agenda/CuponBanner";
 import {
   ESTETICA_LP_FAQ,
   ESTETICA_ORIGEN,
@@ -193,6 +194,8 @@ export default function EsteticaAdsLanding({ tzIp = "" }: { tzIp?: string }) {
             Agenda, ficha clínica estética y presupuestos en un solo lugar, con IA que atiende tu
             WhatsApp. Lo construimos para nuestras propias clínicas estéticas.
           </p>
+          {/* Cupón CUKI (Ricardo, 18-oct-2026): el de /agenda y /planes. */}
+          <CuponBanner href="/planes" ctaLabel="Ver planes con 50%" style={{ marginTop: 22, justifyContent: "flex-start", textAlign: "left" }} />
         </div>
 
         <div className={styles.formCol} id="agenda-demo">

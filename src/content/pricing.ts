@@ -131,7 +131,8 @@ export function formatCatalogPriceWithCode(usd: number, modality: PriceModality)
  * Atlas suma Facebook e Instagram; Summit suma llamadas con IA (CAMILA).
  * La voz es exclusiva de Summit: no la vuelvas a poner en Atlas.
  */
-export type PlanChannel = "whatsapp" | "facebook" | "instagram" | "llamadas";
+// `email` y `telefono` son de los planes vigentes (`planes.ts`); `llamadas` es la voz con IA de los planes viejos.
+export type PlanChannel = "whatsapp" | "facebook" | "instagram" | "llamadas" | "email" | "telefono";
 
 /**
  * Catálogo comercial. La web publica el anual como valor mensual

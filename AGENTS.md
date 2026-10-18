@@ -547,7 +547,7 @@ formulario y no tenía dónde agendar — el embudo se cortaba ahí.
 
 Guardián: `tests/reserva-tu-hora.spec.ts` + `tests/telefono.spec.ts`.
 
-# `/agenda`: landing «Crea tu cuenta» con cupón KUKY (Ricardo, 18-oct-2026)
+# `/agenda`: landing «Crea tu cuenta» con cupón CUKI (Ricardo, 18-oct-2026)
 
 **Reemplaza al wizard con calendario en `/agenda`.** Componente
 `src/components/agenda/AgendaCuentaLanding.tsx`, copy y datos en
@@ -561,11 +561,21 @@ es un plus, el centro es ficha, presupuestos y evoluciones.
   mismo correo n8n lo etiqueta «Volvió a cotizar». Van al dataLayer y, si agenda
   con ventas, en el `booking_confirmed` (`funciones_interes`). Para verlas en el
   CRM sin reserva hay que tocar el Wizard de n8n.
-- **Paso 3**: los 3 planes con el cupón **KUKY** (50%, cualquier plan). Los
-  Payment Links (`LINKS_PAGO`) los envía Ricardo; mientras sean `null` se ve el
-  marcador `[PENDIENTE: …]`. Duración del descuento: pendiente, no la publiques.
-  «Prefiero hablar con ventas antes» abre `StepClineraScheduler`: la reserva
-  sigue emitiendo el MQL.
+- **Desde el paso 2 la página es solo el wizard** (`enfocado`): se esconden el
+  copy, la sección de estética y la banda, para que no haya hacia dónde bajar.
+  Misma pestaña a propósito: una ventana nueva perdería lo escrito en el paso 1.
+  El paso 2 abre con el cupón en grande y botón «Copiar».
+- **Paso 3**: los 3 planes con el cupón **CUKI** (50% el primer mes, cualquier
+  plan; promo `promo_1URzy6RRk94z5RuMtG85pol0` en Stripe). Payment Links en
+  `LINKS_PAGO`. **`?prefilled_promo_code=CUKI` no aplica el descuento en estos
+  links** (probado el 18-oct: el total quedó entero): la clínica escribe el
+  código. Precargarlo pide una Checkout Session con `discounts` y una llave con
+  escritura. El cupón vence al día siguiente de la primera visita (`useCupon.ts`,
+  compartido con `/planes` y `/clinica-estetica`). «Prefiero hablar con ventas
+  antes» abre `StepClineraScheduler`: la reserva sigue emitiendo el MQL.
+- **Landing breve:** sin lista de beneficios; `EsteticaSection compacta cupon`
+  (foto con el cupón en vez del precio, sin las 4 tarjetas). En móvil, un botón
+  fijo vuelve al formulario cuando no está a la vista (`data-volver-form`).
 - El wizard con calendario (lo de abajo) **sigue vivo en `/reunion-comercial`**;
   `tests/agenda-wizard.spec.ts` lo prueba ahí. Guardián: `tests/agenda-cuenta.spec.ts`.
 
@@ -715,24 +725,28 @@ no prometer porcentajes de reducción de no-shows, no hay dato propio.
 un producto aparte; no prometer email marketing ni triggers de cumpleaños (son
 «próximas funciones»). Webhooks/API pública no se presentan como integración de agenda.
 
-# Planes vigentes: Flux · Nexus · Summit (Ricardo, 18-oct-2026)
+# Planes vigentes: Flux · Hurricane · Vortex (Ricardo, 18-oct-2026)
 
 **Esto es lo que el sitio público vende.** Fuente única: `src/content/planes.ts`
-(Flux US$ 89 · Nexus US$ 129 · Summit US$ 179, copy tal cual su diapositiva).
+(Flux US$ 129 · Hurricane US$ 179 · Vortex US$ 279; ojo: el «Vortex» de
+`pricing.ts`/`/firma` es otro plan, el viejo de 279 con otra bolsa).
 Lo pinta `src/components/pricing/PlanesVigentes.tsx` en home, `/planes` y las
 landings `software-vertical`; también alimenta `softwareOffers` (schema),
 `planes-faq.ts`, `/agenda` («Planes desde…») y `public/llms.txt`.
 
-- **CTA único: «Hablar con ventas» → `/agenda`** con la query de la visita
-  (Nav, banda, tarjetas). No hay checkout en la web. `/go` (Go! US$ 17) sigue
-  vivo pero el sitio **no lo promueve**; no vuelvas a enlazarlo desde el Nav.
-- **Implementación US$ 250, pago único, en todos los planes** (`IMPLEMENTACION_USD`).
-  Ojo: `SETUP_FEE_USD = 450` de `pricing.ts` **sigue** en los contratos de
-  `/firma` y en `/cotizacion`, junto con Vortex/Atlas/Summit 279/379/479. Migrar
-  contratos es decisión de Ricardo: no la tomes por tu cuenta.
-- **El agente IA de texto y voz es solo de Summit.** Flux y Nexus traen la
-  bandeja de WhatsApp, Instagram y Facebook conectada a la agenda. Si ves «AURA
-  en todos los planes», es residuo.
+- **CTA: «Hablar con ventas» → `/agenda`** con la query de la visita (Nav,
+  banda, tarjetas). **Solo `/planes`** (`PlanesVigentes conPago`) suma el
+  Payment Link de cada plan y el aviso del cupón CUKI; el home y las landings
+  no. `/go` (Go! US$ 17) sigue vivo pero el sitio **no lo promueve**.
+- **Sin costo de implementación** (Ricardo, 18-oct-2026: «elimina costo de
+  implementación»; el US$ 250 duró horas). `SETUP_FEE_USD = 450` de `pricing.ts`
+  **sigue** en los contratos de `/firma` y en `/cotizacion`: migrar contratos es
+  decisión de Ricardo.
+- **Agente IA desde Hurricane** (Flux sin IA). Agente IA y «Onboarding humano
+  dedicado» (Hurricane y Vortex) van **destacados**: ícono + negrita
+  (`destacadoDe`, `IconoDestacado`). Créditos CI: Flux 100 · Hurricane 200 ·
+  Vortex 500. Canales: WhatsApp, Facebook, Instagram y email marketing en los
+  tres; Vortex suma **llamada telefónica** (`telefono` en `PlanChannelLogos`).
 - **«Créditos CI» = créditos de Clinera Intelligence**, el agente IA dentro del
   software (Ricardo, 18-oct-2026). Las funciones de cada tarjeta están enfocadas
   en la clínica estética (ficha médica personalizable, ficha facial y corporal,
@@ -740,7 +754,10 @@ landings `software-vertical`; también alimenta `softwareOffers` (schema),
 - **Diseño de tarjeta = el original de `Pricing`** (degradado por plan, ícono,
   panel de cobro, «Funciones base», chips, canales): Ricardo pidió mantenerlo.
   `PlanesVigentes` reusa `PLAN_THEMES` y `PLAN_ICONS` de `home-v3/sections.tsx`.
-- **Home: primero la clínica, la IA después** (orden en `HomeV3.tsx`).
+- **Home breve: 9 secciones** (Ricardo, 18-oct-2026: «más aire, más limpio,
+  elegancia de clínica estética premium»). Salió la sección de empleados
+  digitales (`Features`: AURA/CAMILA/LIA; CAMILA y LIA no están disponibles) y
+  otras ocho; ver el comentario en `HomeV3.tsx`. No las repongas sin que él lo pida.
 - **Residuo conocido** (precios viejos 279/379/479/450 escritos a mano, pendiente
   de barrido): comparativas, `mejor-software.ts`, `comparativas-cross.ts`,
   `recursos-templates.ts`, posts del blog, `/planes-pro`, calculadoras, `/demo`,
