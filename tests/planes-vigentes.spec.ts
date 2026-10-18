@@ -28,7 +28,7 @@ test.describe("planes vigentes: Flux · Nexus · Summit", () => {
         `/agenda?utm_source=google&plan=${p.id}`,
       );
     }
-    await expect(page.locator("[data-planes-vigentes]")).toContainText(`US$${IMPLEMENTACION_USD} de implementación`);
+    await expect(page.locator("[data-planes-vigentes]")).toContainText(`implementación US$${IMPLEMENTACION_USD}`);
     // Nada del catálogo viejo en la página de planes.
     const texto = await page.locator("main").innerText();
     for (const viejo of ["Vortex", "Atlas", "279", "479", "450"]) expect(texto).not.toContain(viejo);

@@ -65,23 +65,25 @@ export default function HomeV3() {
           main > section { padding-left: 32px !important; padding-right: 32px !important; }
         }
       `}</style>
+      {/* Orden (Ricardo, 18-oct-2026): primero el software de la clínica estética
+          (fichas, evoluciones, presupuestos, ventas); la IA va después, como un plus. */}
       <Hero />
       <DemoEnVivo />
       <EsteticaSection modelo="duena" />
-      <AgenteIABanda />
-      <ActualizacionSeptiembreBanner />
       <EcosistemaIA />
+      <Testimonios />
       <TrialBanner />
+      <PlanesVigentes />
+      <AgenteIABanda />
       <Features />
-      <TeamSection />
       <IntelligenceHomeSection />
+      <TeamSection />
       <ModosAgendamiento />
-      <Integraciones />
       <Estudios />
       <DarkBreak />
-      <Testimonios />
+      <Integraciones />
       <PrensaCNN />
-      <PlanesVigentes />
+      <ActualizacionSeptiembreBanner />
       <Faq />
       <FinalCTA />
     </>

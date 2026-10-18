@@ -547,7 +547,29 @@ formulario y no tenía dónde agendar — el embudo se cortaba ahí.
 
 Guardián: `tests/reserva-tu-hora.spec.ts` + `tests/telefono.spec.ts`.
 
-# `/agenda`: layout Hebe, agendador de siempre
+# `/agenda`: landing «Crea tu cuenta» con cupón KUKY (Ricardo, 18-oct-2026)
+
+**Reemplaza al wizard con calendario en `/agenda`.** Componente
+`src/components/agenda/AgendaCuentaLanding.tsx`, copy y datos en
+`src/content/agenda-oferta.ts`. «Software para clínicas estéticas con IA»; la IA
+es un plus, el centro es ficha, presupuestos y evoluciones.
+
+- **Paso 1 datos** (nombre, correo, celular, clínica, profesionales) → CRM con
+  `submitContactLead` (`plan: "summit_oferta"`, `boxes_profesionales`). Se manda
+  aquí para no perder al que abandona.
+- **Paso 2 funciones** (varias). **No** se manda un segundo `contact`: con el
+  mismo correo n8n lo etiqueta «Volvió a cotizar». Van al dataLayer y, si agenda
+  con ventas, en el `booking_confirmed` (`funciones_interes`). Para verlas en el
+  CRM sin reserva hay que tocar el Wizard de n8n.
+- **Paso 3**: los 3 planes con el cupón **KUKY** (50%, cualquier plan). Los
+  Payment Links (`LINKS_PAGO`) los envía Ricardo; mientras sean `null` se ve el
+  marcador `[PENDIENTE: …]`. Duración del descuento: pendiente, no la publiques.
+  «Prefiero hablar con ventas antes» abre `StepClineraScheduler`: la reserva
+  sigue emitiendo el MQL.
+- El wizard con calendario (lo de abajo) **sigue vivo en `/reunion-comercial`**;
+  `tests/agenda-wizard.spec.ts` lo prueba ahí. Guardián: `tests/agenda-cuenta.spec.ts`.
+
+# `/reunion-comercial` (ex `/agenda`): layout Hebe, agendador de siempre
 
 La página canónica es `AgendaHebeLanding` (50/50, carousel, 5 pasos). El
 calendario **no** es Cal.com: reusa `StepClineraScheduler` de
@@ -560,7 +582,7 @@ web/redes, volumen y clínica (ciudad se dejó de pedir en el paso 3 — el
 webhook sigue mandando `ciudad: ""`). El botón «Agenda con tu ingeniero» abre
 el calendario **sin esperar** el webhook — si se vuelve a `await`, se pierden leads.
 
-# `/agenda`: wizard de 3 pasos para Meta Ads (oct 2026)
+# `/reunion-comercial` (ex `/agenda`): wizard de 3 pasos para Meta Ads (oct 2026)
 
 Brief de optimización de la landing (9-oct-2026). Titular visible y h1:
 «Automatiza el WhatsApp y las citas de tu clínica con inteligencia
@@ -711,7 +733,14 @@ landings `software-vertical`; también alimenta `softwareOffers` (schema),
 - **El agente IA de texto y voz es solo de Summit.** Flux y Nexus traen la
   bandeja de WhatsApp, Instagram y Facebook conectada a la agenda. Si ves «AURA
   en todos los planes», es residuo.
-- «Créditos CI» es término de Ricardo: no lo reescribas sin confirmarlo.
+- **«Créditos CI» = créditos de Clinera Intelligence**, el agente IA dentro del
+  software (Ricardo, 18-oct-2026). Las funciones de cada tarjeta están enfocadas
+  en la clínica estética (ficha médica personalizable, ficha facial y corporal,
+  presupuestos, evoluciones, ventas) y la IA va como plus.
+- **Diseño de tarjeta = el original de `Pricing`** (degradado por plan, ícono,
+  panel de cobro, «Funciones base», chips, canales): Ricardo pidió mantenerlo.
+  `PlanesVigentes` reusa `PLAN_THEMES` y `PLAN_ICONS` de `home-v3/sections.tsx`.
+- **Home: primero la clínica, la IA después** (orden en `HomeV3.tsx`).
 - **Residuo conocido** (precios viejos 279/379/479/450 escritos a mano, pendiente
   de barrido): comparativas, `mejor-software.ts`, `comparativas-cross.ts`,
   `recursos-templates.ts`, posts del blog, `/planes-pro`, calculadoras, `/demo`,

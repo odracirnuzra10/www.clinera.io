@@ -15,8 +15,9 @@
 // - `planes2.ts` (Go!/Flux/Ultra): lo usan las piezas internas de /go y el
 //   evento de compra de Meta. /go sigue existiendo, pero el sitio no lo promueve.
 //
-// Copy tal cual la diapositiva «Planes Flux · Nexus · Summit» de Ricardo.
-// «Créditos CI» es su término: no lo reescribas sin confirmarlo con él.
+// Precios y límites de la diapositiva «Planes Flux · Nexus · Summit» de Ricardo;
+// las funciones, enfocadas en la clínica estética (Ricardo, 18-oct-2026).
+// «Créditos CI» = créditos de Clinera Intelligence (el agente IA del software).
 // ============================================================================
 
 import type { PlanChannel } from "@/content/pricing";
@@ -37,7 +38,7 @@ export type Plan = {
   featured: boolean;
   /** Etiqueta sobre la tarjeta. Vacía = sin etiqueta. */
   tag: string;
-  /** Líneas de la tarjeta, en el orden de la diapositiva. */
+  /** «Funciones base» de la tarjeta. */
   features: readonly string[];
 };
 
@@ -52,7 +53,15 @@ export const PLANES: readonly Plan[] = [
     agenteIA: false,
     featured: false,
     tag: "",
-    features: ["WhatsApp · Facebook · Instagram", "3 profesionales", "Hasta 500 conversaciones", "100 créditos CI"],
+    // Todo lo que una clínica estética usa en box viene desde Flux (Ricardo, 18-oct-2026).
+    features: [
+      "Ficha médica personalizable",
+      "Ficha estética facial y corporal",
+      "Presupuestos y evoluciones",
+      "Ventas y seguimiento de pacientes",
+      "Clinera Intelligence · 100 créditos CI",
+      "Bandeja de WhatsApp, Facebook e Instagram",
+    ],
   },
   {
     id: "nexus",
@@ -65,11 +74,10 @@ export const PLANES: readonly Plan[] = [
     featured: true,
     tag: "Más elegido",
     features: [
-      "Todo Flux + email marketing",
+      "Todo lo de Flux",
+      "Email marketing",
       "Automatizaciones y difusiones",
-      "5 profesionales",
-      "Hasta 2.500 conversaciones",
-      "200 créditos CI",
+      "Clinera Intelligence · 200 créditos CI",
     ],
   },
   {
@@ -83,15 +91,22 @@ export const PLANES: readonly Plan[] = [
     featured: false,
     tag: "",
     features: [
-      "Todo Nexus",
-      "Agente IA de texto y voz",
-      "10 profesionales",
-      "Hasta 5.000 conversaciones",
-      "1.000 créditos CI · 10.000 créditos IA",
+      "Todo lo de Nexus",
+      "Agente IA de texto y voz que agenda solo",
+      "Clinera Intelligence · 1.000 créditos CI",
+      "10.000 créditos IA",
       "Onboarding humano dedicado",
     ],
   },
 ] as const;
+
+/**
+ * Clinera Intelligence: el agente IA DENTRO del software (pregúntale por ventas,
+ * agenda y pacientes). Los «créditos CI» de los planes son sus créditos
+ * (Ricardo, 18-oct-2026). No conversa con pacientes: eso es el agente de Summit.
+ */
+export const DEFINICION_CI =
+  "Clinera Intelligence es el agente IA dentro del software: le preguntas por tus ventas, tu agenda y tus pacientes. Los créditos CI son su consumo.";
 
 export const PLAN_DESDE_USD = Math.min(...PLANES.map((p) => p.monthlyUsd));
 export const PLAN_HASTA_USD = Math.max(...PLANES.map((p) => p.monthlyUsd));
@@ -129,3 +144,5 @@ export function agendaHrefPlan(planId: PlanId | null, search = ""): string {
 
 export const PLANES_TITULO = "Elige según tu equipo.";
 export const PLANES_TITULO_ACENTO = "Crece sin cambiar de sistema.";
+export const PLANES_BAJADA =
+  "Ficha médica y estética, presupuestos, evoluciones, ventas y Clinera Intelligence desde el primer plan. Subes de plan cuando crece tu equipo o cuando quieres que la IA atienda y agende sola.";

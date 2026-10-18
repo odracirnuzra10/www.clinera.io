@@ -169,8 +169,8 @@ export default function EsteticaSection({
           Un software que <span className={styles.grad}>entiende tu clínica estética</span>.
         </h2>
         <p className={styles.lead}>
-          Fichas facial y corporal, presupuestos y tratamientos ya cargados. Lo que hace tu equipo
-          en box queda en el sistema, y AURA lo usa para agendar por WhatsApp.
+          Ficha médica y estética facial y corporal, evoluciones, presupuestos y tratamientos ya
+          cargados. Lo que hace tu equipo en box queda en el sistema, listo para la siguiente sesión.
         </p>
 
         {modelo && <Modelo id={modelo} ctaHref={ctaHref} />}

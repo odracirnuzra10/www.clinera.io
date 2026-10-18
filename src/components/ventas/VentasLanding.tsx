@@ -393,6 +393,8 @@ export type Form = {
   boxes?: { id: string; label: string } | null;
   /** Perfil exacto (`enfermera_estetica`, `medico_estetico`…). Sólo lo pregunta /clinica-estetica. */
   subtipo?: { id: string; label: string } | null;
+  /** Funciones que marcó en el paso 2 de /agenda (ficha facial, presupuestos…). */
+  funciones?: { id: string; label: string }[] | null;
 };
 
 function isValidWebsite(value: string) {
@@ -425,6 +427,12 @@ function clinicCrmFields(form: Form) {
       : {}),
     ...(form.subtipo
       ? { subtipo_clinica: form.subtipo.id, subtipo_clinica_label: form.subtipo.label }
+      : {}),
+    ...(form.funciones?.length
+      ? {
+          funciones_interes: form.funciones.map((f) => f.id).join(","),
+          funciones_interes_label: form.funciones.map((f) => f.label).join(", "),
+        }
       : {}),
   };
 }
@@ -1884,6 +1892,12 @@ export async function submitBookingConfirmation({
     tipo_clinica_label: form.tipoClinica ? CLINIC_TYPE_LABELS[form.tipoClinica] : "",
     ...(form.subtipo
       ? { subtipo_clinica: form.subtipo.id, subtipo_clinica_label: form.subtipo.label }
+      : {}),
+    ...(form.funciones?.length
+      ? {
+          funciones_interes: form.funciones.map((f) => f.id).join(","),
+          funciones_interes_label: form.funciones.map((f) => f.label).join(", "),
+        }
       : {}),
     celular: (form.prefix + digits).trim(),
     celular_prefix: form.prefix,

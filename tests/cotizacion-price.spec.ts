@@ -36,7 +36,7 @@ test("setupFeeFor: catálogo cobra implementación siempre", async () => {
 test("/planes muestra la implementación de los planes vigentes y no cobra en la web", async ({ page }) => {
   await page.goto("/planes", { waitUntil: "domcontentloaded" });
   const planes = page.locator("[data-planes-vigentes]");
-  await expect(planes.getByText(/US\$250 de implementación/).first()).toBeVisible();
+  await expect(planes.getByText(/implementación US\$250/).first()).toBeVisible();
   await expect(planes.getByText(`$${SETUP_FEE_NUMBER}`)).toHaveCount(0);
   await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
 });

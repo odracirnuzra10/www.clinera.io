@@ -1,3 +1,5 @@
+// Desde el 18-oct-2026 /agenda es la landing de cuenta + oferta (`AgendaCuentaLanding`).
+// El wizard con calendario sigue vivo en /reunion-comercial: estos tests lo cubren ahí.
 import { expect, test, type Page, type Request } from "@playwright/test";
 
 type LeadPayload = {
@@ -97,15 +99,15 @@ async function completarContacto(page: Page, id: string, pais: "+56" | "+52" = "
 }
 
 async function llegarAlCalendario(page: Page, id: string) {
-  await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+  await page.goto("/reunion-comercial", { waitUntil: "domcontentloaded" });
   await completarClinica(page, id);
   await completarContacto(page, id);
   await expect(page.getByRole("heading", { name: /Elige el día y la hora/i })).toBeVisible({ timeout: 12000 });
 }
 
-test.describe("/agenda — wizard Hebe + agendador Clinera", () => {
+test.describe("/reunion-comercial (wizard con calendario, ex /agenda) — wizard Hebe + agendador Clinera", () => {
   test("el titular es la propuesta de valor y no pide elegir plan", async ({ page }) => {
-    await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+    await page.goto("/reunion-comercial", { waitUntil: "domcontentloaded" });
     await expect(
       page.getByRole("heading", { level: 1, name: /Automatiza el WhatsApp y las citas de tu clínica con inteligencia artificial/i }),
     ).toBeVisible();
@@ -119,7 +121,7 @@ test.describe("/agenda — wizard Hebe + agendador Clinera", () => {
     const id = nonce();
     const hits = recordWizard(page);
 
-    await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+    await page.goto("/reunion-comercial", { waitUntil: "domcontentloaded" });
 
     // El paso 1 no avanza sin boxes ni volumen.
     await page.getByPlaceholder("Clínica Estética Vela").fill(`[E2E TEST] Clinica ${id}`);
@@ -143,13 +145,13 @@ test.describe("/agenda — wizard Hebe + agendador Clinera", () => {
     expect(contact?.tamano_operacion).toBe("vol_200_500");
     expect(contact?.boxes_profesionales).toBe("4_6");
     expect(contact?.cargo).toBe("Dueño / Fundador");
-    expect(contact?.fuente).toContain("/agenda");
+    expect(contact?.fuente).toContain("/reunion-comercial");
   });
 
   test("México: el teléfono se valida con +52 y viaja en E.164", async ({ page }) => {
     const id = nonce();
     const hits = recordWizard(page);
-    await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+    await page.goto("/reunion-comercial", { waitUntil: "domcontentloaded" });
     await completarClinica(page, id);
     await completarContacto(page, id, "+52");
     await expect.poll(() => hits.some((h) => h.lead_stage === "contact"), { timeout: 12000 }).toBeTruthy();
@@ -158,7 +160,7 @@ test.describe("/agenda — wizard Hebe + agendador Clinera", () => {
   });
 });
 
-test.describe("/agenda — no ofrece madrugada UTC", () => {
+test.describe("/reunion-comercial (wizard con calendario, ex /agenda) — no ofrece madrugada UTC", () => {
   test.use({ timezoneId: "America/Santiago" });
 
   test("oculta 01:45/02:45 aunque la API las mande", async ({ page }) => {
@@ -176,7 +178,7 @@ test.describe("/agenda — no ofrece madrugada UTC", () => {
   });
 });
 
-test.describe("/agenda — hora local de la IP, no del reloj", () => {
+test.describe("/reunion-comercial (wizard con calendario, ex /agenda) — hora local de la IP, no del reloj", () => {
   test.use({
     timezoneId: "America/Santiago",
     extraHTTPHeaders: { "x-vercel-ip-timezone": "America/Mexico_City" },
