@@ -6,10 +6,9 @@
 
 import { useSyncExternalStore } from "react";
 import Link from "next/link";
-import { CUPON } from "@/content/agenda-oferta";
+import CuponTicket from "./CuponTicket";
 import { textoVence, useVenceCupon } from "./useCupon";
 
-const MONO = "'JetBrains Mono', ui-monospace, monospace";
 const noop = () => () => {};
 const readSearch = () => window.location.search;
 const readSearchServer = () => "";
@@ -27,50 +26,24 @@ export default function CuponBanner({
   const vence = useVenceCupon();
   const search = useSyncExternalStore(noop, readSearch, readSearchServer);
   return (
-    <div
-      data-cupon={CUPON.codigo}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexWrap: "wrap",
-        gap: "8px 16px",
-        padding: "16px 22px",
-        border: "2px dashed #7C3AED",
-        borderRadius: 16,
-        background: "#FAF5FF",
-        textAlign: "center",
-        ...style,
-      }}
-    >
-      <span style={{ fontFamily: MONO, fontSize: 22, fontWeight: 700, letterSpacing: "0.08em", color: "#5B21B6" }}>{CUPON.codigo}</span>
-      <span style={{ fontFamily: "Inter, system-ui, sans-serif", fontSize: 15, color: "#111827", lineHeight: 1.45 }}>
-        <strong>{CUPON.descuentoPct}% de descuento el primer mes</strong> en cualquier plan. Escríbelo en «Añadir código de promoción» al pagar.
+    <CuponTicket style={style}>
+      <span>
+        <strong>50% de descuento el primer mes</strong> en cualquier plan. Pégalo en «Añadir código de promoción» al pagar.
         {vence && (
-          <span data-cupon-vence={vence} style={{ display: "block", fontWeight: 700, color: "#B91C1C" }}>
+          <span data-cupon-vence={vence} style={{ display: "block", fontWeight: 700 }}>
             Válido {textoVence(vence)}.
           </span>
         )}
+        {href && (
+          <Link
+            href={href.includes("?") ? href : `${href}${search}`}
+            data-cupon-cta
+            style={{ display: "inline-block", marginTop: 6, color: "#fff", fontWeight: 700, textDecoration: "underline", textUnderlineOffset: 3 }}
+          >
+            {ctaLabel} →
+          </Link>
+        )}
       </span>
-      {href && (
-        <Link
-          href={href.includes("?") ? href : `${href}${search}`}
-          data-cupon-cta
-          style={{
-            fontFamily: "Inter, system-ui, sans-serif",
-            fontSize: 14.5,
-            fontWeight: 700,
-            color: "#fff",
-            background: "#0A0A0A",
-            borderRadius: 10,
-            padding: "10px 16px",
-            textDecoration: "none",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {ctaLabel} →
-        </Link>
-      )}
-    </div>
+    </CuponTicket>
   );
 }

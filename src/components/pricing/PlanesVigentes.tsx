@@ -41,7 +41,31 @@ const TEMA: Record<PlanId, keyof typeof PLAN_THEMES> = {
   vortex: "summit",
 };
 
+// Vortex con un tono magenta claro (Ricardo, 18-oct-2026: el violeta intenso de
+// `summit` no dejaba ver los íconos ni los chips). Misma forma que `atlas`.
+const TEMA_VORTEX: (typeof PLAN_THEMES)["atlas"] = {
+  ...PLAN_THEMES.atlas,
+  cardBg: "linear-gradient(145deg,#FFF8FD 0%,#FBE7F8 100%)",
+  cardBorder: "rgba(192,38,211,.22)",
+  cardShadow: "0 22px 42px -28px rgba(192,38,211,.5), 0 6px 18px rgba(192,38,211,.08)",
+  label: "#701A75",
+  name: "#A21CAF",
+  ink: "#1F0A24",
+  sub: "#7A3B7F",
+  panelBorder: "rgba(192,38,211,.14)",
+  divider: "rgba(192,38,211,.18)",
+  accent: "#A21CAF",
+  checkBg: "rgba(192,38,211,.13)",
+  checkStroke: "#A21CAF",
+  chipBorder: "rgba(192,38,211,.16)",
+  iconBg: "rgba(192,38,211,.13)",
+  iconColor: "#A21CAF",
+};
+
+const temaDe = (id: PlanId) => (id === "vortex" ? TEMA_VORTEX : PLAN_THEMES[TEMA[id]]);
+
 const noop = () => () => {};
+const reunionHref = (search: string) => `/reunion-comercial${search}`;
 const readSearch = () => window.location.search;
 const readSearchServer = () => "";
 
@@ -147,7 +171,7 @@ export default function PlanesVigentes({
           style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24, alignItems: "stretch" }}
         >
           {PLANES.map((p) => {
-            const th = PLAN_THEMES[TEMA[p.id]];
+            const th = temaDe(p.id);
             const chips = [
               { num: String(p.professionals), label: "Profesionales" },
               { num: n(p.conversations), label: "Conversaciones/mes" },
@@ -236,23 +260,25 @@ export default function PlanesVigentes({
                     style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) auto", alignItems: "center", gap: 16, padding: "14px 0 16px" }}
                   >
                     <div role="cell" style={{ minWidth: 0 }}>
-                      <div style={rowLabel(th.accent)}>Plan mensual</div>
+                      <div style={rowLabel(th.accent)}>{conPago ? `1er mes con ${CUPON.codigo}` : "Plan mensual"}</div>
                       <div style={{ fontFamily: MONO, fontSize: 10.5, lineHeight: 1.5, color: th.sub, marginTop: 5 }}>
                         Hasta {p.professionals} profesionales
                       </div>
                     </div>
-                    <div role="cell" style={{ textAlign: "right" }}>
-                      <div style={{ fontFamily: JAKARTA, fontSize: 36, fontWeight: 800, color: th.ink, letterSpacing: "-0.05em", lineHeight: 1.05 }}>
-                        ${p.monthlyUsd}
+                    <div role="cell" style={{ textAlign: "right" }} data-precio-primer-mes={conPago ? precioConCupon(p.monthlyUsd) : undefined}>
+                      <div style={{ fontFamily: JAKARTA, fontSize: conPago ? 40 : 36, fontWeight: 800, color: th.ink, letterSpacing: "-0.05em", lineHeight: 1.05, whiteSpace: "nowrap" }}>
+                        ${conPago ? formatoUsd(precioConCupon(p.monthlyUsd)) : p.monthlyUsd}
                       </div>
-                      <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 4 }}>USD/mes</div>
+                      <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 4 }}>USD{conPago ? "" : "/mes"}</div>
                     </div>
                   </div>
                   {conPago && (
+                    // Desde el 2.º mes, en chico (Ricardo, 18-oct-2026).
                     <div
-                      style={{ borderTop: `1px solid ${th.divider}`, padding: "11px 0 13px", fontFamily: "Inter", fontSize: 13, fontWeight: 700, color: th.accent }}
+                      data-precio-desde-2do-mes={p.monthlyUsd}
+                      style={{ borderTop: `1px solid ${th.divider}`, padding: "9px 0 11px", fontFamily: "Inter", fontSize: 12, fontWeight: 500, color: th.sub }}
                     >
-                      Primer mes US$ {formatoUsd(precioConCupon(p.monthlyUsd))} con {CUPON.codigo}
+                      Desde el 2.º mes: US$ {p.monthlyUsd}/mes
                     </div>
                   )}
                 </div>
@@ -286,7 +312,8 @@ export default function PlanesVigentes({
                   )}
                   <a
                     className="pv-cta"
-                    href={agendaHrefPlan(p.id, search)}
+                    // En /planes el pago ya está arriba: el segundo botón es la reunión con ventas.
+                    href={conPago ? reunionHref(search) : agendaHrefPlan(p.id, search)}
                     data-cta-ventas={p.id}
                     style={{
                       textDecoration: "none",
@@ -302,7 +329,7 @@ export default function PlanesVigentes({
                       boxSizing: "border-box",
                     }}
                   >
-                    {CTA_VENTAS_LABEL} · {p.name}
+                    {conPago ? "Hablar con ventas" : `${CTA_VENTAS_LABEL} · ${p.name}`}
                   </a>
                 </div>
 
@@ -330,7 +357,7 @@ export default function PlanesVigentes({
                             data-destacado={tipo}
                             style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: "Inter", fontSize: 14.5, fontWeight: 800, color: th.ink, lineHeight: 1.4, background: th.chipBg, border: `1px solid ${th.chipBorder}`, borderRadius: 12, padding: "8px 10px" }}
                           >
-                            <IconoDestacado tipo={tipo} size={22} sobreOscuro={TEMA[p.id] === "summit"} />
+                            <IconoDestacado tipo={tipo} size={22} />
                             <strong>{f}</strong>
                           </div>
                         );

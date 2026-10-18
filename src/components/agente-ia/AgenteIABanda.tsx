@@ -7,7 +7,7 @@
 // gigante para que el ojo se detenga ahí. Va SIEMPRE en el home, en las
 // landings y en cada artículo del blog: una vez por página.
 //
-// Dónde vive: home (`HomeV3`), `/clinica-estetica`, landings `software-vertical`
+// Dónde vive: home (`HomeV3`), `/clinica-estetica/activar-cuenta`, landings `software-vertical`
 // y `/blog/[slug]`. El ancho lo decide el contenedor (container queries), así
 // que la misma pieza sirve a página completa y dentro de la columna del blog.
 //
@@ -22,7 +22,7 @@
 import { useSyncExternalStore } from "react";
 import { ChannelLogo, CHANNEL_LABEL } from "@/components/pricing/PlanChannelLogos";
 import type { PlanChannel } from "@/content/pricing";
-import { PLAN_IA_DESDE } from "@/content/planes";
+import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH, PLAN_IA_DESDE } from "@/content/planes";
 import styles from "./AgenteIABanda.module.css";
 
 const CANALES: { id: PlanChannel; palabra: string; accion: string }[] = [
@@ -32,8 +32,8 @@ const CANALES: { id: PlanChannel; palabra: string; accion: string }[] = [
   { id: "llamadas", palabra: "teléfono", accion: "Atiende la llamada y agenda" },
 ];
 
-// Ricardo, 18-oct-2026: el CTA es ventas (/agenda), ya no /go.
-const DEFAULT_HREF = "/agenda";
+// Ricardo, 18-oct-2026: el CTA es «Activar cuenta» (la landing de `CTA_VENTAS_PATH`), ya no /go.
+const DEFAULT_HREF = CTA_VENTAS_PATH;
 
 const noop = () => () => {};
 const readSearch = () => window.location.search;
@@ -41,7 +41,7 @@ const readSearchServer = () => "";
 
 export default function AgenteIABanda({
   href = DEFAULT_HREF,
-  ctaLabel = "Hablar con ventas",
+  ctaLabel = CTA_VENTAS_LABEL,
   enColumna = false,
 }: {
   /** Destino del CTA. En la landing de Ads se pasa el ancla del formulario. */
@@ -50,7 +50,7 @@ export default function AgenteIABanda({
   /** Dentro de una columna angosta (artículo del blog): sin el margen de página. */
   enColumna?: boolean;
 }) {
-  // Al ir a /agenda se conserva la query de la visita (utm, gclid, fbclid): sin
+  // Al ir a la landing se conserva la query de la visita (utm, gclid, fbclid): sin
   // ella el lead pierde su origen. Las anclas (#…) no la necesitan.
   const search = useSyncExternalStore(noop, readSearch, readSearchServer);
   const destino = href.startsWith("/") ? `${href}${search}` : href;

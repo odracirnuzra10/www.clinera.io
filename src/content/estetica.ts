@@ -149,3 +149,13 @@ export const MODELOS_ESTETICA = {
 } as const;
 
 export type ModeloEsteticaId = keyof typeof MODELOS_ESTETICA;
+
+/**
+ * Prueba social bajo el hero de /activar-cuenta y /clinica-estetica (Ricardo,
+ * 18-oct-2026: reemplaza «+52 clínicas activas · Hecho en Método Hebe y
+ * Protocolo Lumina»). Cifras dictadas por él.
+ */
+export const PRUEBA_SOCIAL_ESTETICA = [
+  "5/5 de calificación en Capterra",
+  "Usado por más de 100 clínicas estéticas en Chile y México",
+] as const;

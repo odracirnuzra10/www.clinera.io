@@ -71,48 +71,7 @@
   background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
 }
 
-/* Paso 3: cupón + los 3 planes */
-.cupon {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 10px;
-  padding: 14px 16px;
-  border: 2px dashed #7c3aed;
-  border-radius: 14px;
-  background: #faf5ff;
-}
-
-.cuponMeta {
-  display: block;
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #6b7280;
-}
-
-.cuponCodigo {
-  display: block;
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #5b21b6;
-}
-
-.cuponCopiar {
-  border: 0;
-  border-radius: 10px;
-  padding: 10px 16px;
-  background: #0a0a0a;
-  color: #fff;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
+/* Paso 3: los 3 planes */
 
 .planes {
   display: flex;
@@ -169,14 +128,6 @@
   margin-top: 6px;
 }
 
-.tachado {
-  font-size: 18px;
-  font-weight: 700;
-  color: #9ca3af;
-  text-decoration: line-through;
-  margin-bottom: 8px;
-}
-
 .oferta {
   display: inline-flex;
   align-items: flex-start;
@@ -205,13 +156,6 @@
   font-size: 18px;
   color: #6b7280;
   margin-bottom: 8px;
-}
-
-.durante {
-  margin: 6px 0 0;
-  font-size: 15px;
-  font-weight: 600;
-  color: #111827;
 }
 
 .incluye {
@@ -377,21 +321,4 @@ section.enfocado {
   min-height: calc(100vh - 72px);
   min-height: calc(100dvh - 72px);
   padding-top: 32px;
-}
-
-/* Paso 2: el cupón en grande, para copiarlo antes de pagar. */
-.cuponGrande {
-  margin: 0 0 6px;
-  padding: 18px 20px;
-}
-
-.cuponGrande .cuponCodigo {
-  font-size: 46px;
-  line-height: 1.05;
-}
-
-.cuponNota {
-  margin: 0 0 18px;
-  font-size: 13.5px;
-  color: #6b7280;
 }

@@ -129,13 +129,13 @@ test.describe("Meta Pixel & dataLayer events", () => {
     ).toBeGreaterThanOrEqual(1);
   });
 
-  // Desde el 18-oct-2026 /planes tiene «Hablar con ventas» y, además, el Payment Link de cada plan.
-  test("4) Plan cards on /planes: «Hablar con ventas» → /agenda?plan=…", async ({ page }) => {
+  // Desde el 18-oct-2026 /planes tiene el Payment Link de cada plan y «Hablar con ventas» → /reunion-comercial.
+  test("4) Plan cards on /planes: Stripe + «Hablar con ventas» → /reunion-comercial", async ({ page }) => {
     await page.goto("/planes", { waitUntil: "domcontentloaded" });
     const cta = page.locator('[data-plan-card="hurricane"] a[data-cta-ventas="hurricane"]');
     await expect(cta).toBeVisible({ timeout: 10_000 });
     await expect(cta).toContainText(/Hablar con ventas/i);
-    await expect(cta).toHaveAttribute("href", /^\/agenda\?(.*&)?plan=hurricane/);
+    await expect(cta).toHaveAttribute("href", /^\/reunion-comercial/);
     const pago = page.locator('[data-plan-card="hurricane"] a[href*="buy.stripe.com"]');
     await expect(pago).toHaveAttribute("data-plan", "hurricane");
     await expect(pago).toHaveAttribute("data-plan-value", /\d/);

@@ -2,12 +2,12 @@
 // Planes vigentes en la web: Flux · Hurricane · Vortex (Ricardo, 18-oct-2026)
 // ----------------------------------------------------------------------------
 // Fuente única de lo que el sitio PÚBLICO muestra como planes: home, /planes,
-// /planes-pro, landings `software-vertical`, /agenda, schema y llms.
+// /planes-pro, landings `software-vertical`, /clinica-estetica/activar-cuenta, schema y llms.
 //
-// El CTA de todos los planes es «Hablar con ventas» → /agenda (Ricardo,
-// 18-oct-2026: «volveremos a utilizar clinera.io/agenda»). Además, /agenda
-// (paso 3) y /planes llevan el Payment Link de Stripe de cada plan con el cupón
-// CUKI (`agenda-oferta.ts`).
+// El CTA de todos los planes es «Activar cuenta» → /clinica-estetica/activar-cuenta (Ricardo,
+// 18-oct-2026; /agenda y /clinica-estetica redirigen ahí). La landing (paso 3) y
+// /planes llevan el Payment Link de Stripe de cada plan con el cupón CUKI
+// (`agenda-oferta.ts`).
 //
 // Lo que NO vive acá:
 // - `pricing.ts` (Vortex/Atlas/Summit 279/379/479): sigue alimentando los
@@ -136,10 +136,12 @@ export const EXTRAS = [
 export const EXTRAS_LINEA = EXTRAS.map((e) => `US$${e.usd} · ${e.label}`).join(" · ");
 
 /** CTA único de los planes. */
-export const CTA_VENTAS_LABEL = "Hablar con ventas";
-export const CTA_VENTAS_PATH = "/agenda";
+// Ricardo, 18-oct-2026: una sola landing, clinera.io/clinica-estetica/activar-cuenta, y el CTA del
+// home se llama «Activar cuenta». /agenda y /clinica-estetica redirigen acá.
+export const CTA_VENTAS_LABEL = "Activar cuenta";
+export const CTA_VENTAS_PATH = "/clinica-estetica/activar-cuenta";
 
-/** `/agenda?plan=hurricane` + la query de la visita (utm, gclid, fbclid). */
+/** `/clinica-estetica/activar-cuenta?plan=hurricane` + la query de la visita (utm, gclid, fbclid). */
 export function agendaHrefPlan(planId: PlanId | null, search = ""): string {
   const params = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search);
   if (planId) params.set("plan", planId);
