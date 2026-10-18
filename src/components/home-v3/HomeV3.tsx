@@ -5,6 +5,7 @@ import ModosAgendamiento from "@/components/empleado-digital/ModosAgendamiento";
 import { IntelligenceHomeSection } from "@/components/IntelligenceSection";
 import ActualizacionSeptiembreBanner from "./ActualizacionSeptiembreBanner";
 import DemoEnVivo from "./DemoEnVivo";
+import EsteticaSection from "@/components/estetica/EsteticaSection";
 import { TeamSection } from "./TeamSection";
 import {
   DarkBreak,
@@ -66,6 +67,7 @@ export default function HomeV3() {
       `}</style>
       <Hero />
       <DemoEnVivo />
+      <EsteticaSection />
       <ActualizacionSeptiembreBanner />
       <EcosistemaIA />
       <TrialBanner />
