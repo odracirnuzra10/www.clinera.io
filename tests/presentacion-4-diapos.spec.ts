@@ -17,7 +17,7 @@ const slide = (id: string) => {
 test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () => {
   test("solo existen quiénes somos, ecosistema PMFC, funciones, beneficios y planes, en ese orden", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "pmfc", "funciones", "beneficios", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "pmfc", "rentabilidad", "funciones", "beneficios", "planes"]);
   });
 
   test("quiénes somos: el ecosistema, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
@@ -38,6 +38,17 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     for (const n of ["Propuesta de valor", "Marketing", "Framework", "Clinera"]) expect(c).toContain(n);
     // Minimalista: una línea por pieza, sin párrafos.
     expect(c).not.toMatch(/<p\b/);
+  });
+
+  test("rentabilidad: mismo ingreso, 10 pacientes de US$ 1.000 vs 100 de US$ 100", () => {
+    const c = slide("rentabilidad");
+    expect(c.match(/US\$ 10\.000/g)!.length).toBeGreaterThanOrEqual(2);
+    expect(c).toContain("10 pacientes");
+    expect(c).toContain("100 pacientes");
+    expect(c).toContain("× US$ 1.000");
+    expect(c).toContain("× US$ 100");
+    expect(c.match(/<i><\/i>/g)).toHaveLength(110);
+    for (const f of ["Menos mano de obra", "Más mano de obra", "Más estrés", "Menos margen para crecer", "Más margen para crecer"]) expect(c).toContain(f);
   });
 
   test("funciones Clinera: funciones e IA; CAMILA y LIA siguen como próximamente", () => {

@@ -2983,6 +2983,29 @@
     .pmfc-grid span { font-size: clamp(13px, 1.05vw, 15px); line-height: 1.45; color: var(--ink-soft); }
     @media (max-width: 760px) { .pmfc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .pmfc-grid b { font-size: 72px; } }
 
+    /* --- Rentabilidad (#rentabilidad): 10 pacientes de US$ 1.000 vs 100 de US$ 100 --- */
+    .rn-layout { max-width: 1120px; gap: clamp(14px, 2.4vh, 28px); }
+    .rn-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); }
+    .rn-col { border-top: 2px solid var(--brand-violet); padding-top: clamp(10px, 1.6vh, 18px); display: flex; flex-direction: column; gap: clamp(8px, 1.4vh, 14px); }
+    .rn-col-b { border-top-color: #CBD5E1; }
+    .rn-kicker { font-family: var(--blk-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--brand-violet); }
+    .rn-col-b .rn-kicker { color: var(--muted); }
+    .rn-total { font-size: clamp(30px, 3.6vw, 48px); font-weight: 800; letter-spacing: -.04em; color: var(--ink); line-height: 1; }
+    .rn-dots { display: grid; gap: 5px; align-content: start; min-height: clamp(70px, 12vh, 110px); }
+    .rn-dots i { display: block; border-radius: 50%; }
+    .rn-dots-a { grid-template-columns: repeat(10, 1fr); gap: 8px; }
+    .rn-dots-a i { aspect-ratio: 1; background: linear-gradient(135deg, #009FE3, #7C3AED, #C850C0); }
+    .rn-dots-b { grid-template-columns: repeat(25, 1fr); gap: 3px; }
+    .rn-dots-b i { aspect-ratio: 1; background: #CBD5E1; }
+    .rn-calc { font-size: clamp(14px, 1.2vw, 17px); color: var(--ink-soft); }
+    .rn-calc strong { color: var(--ink); font-weight: 800; }
+    .rn-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+    .rn-list li { font-size: clamp(12.5px, 1vw, 14px); color: var(--ink-soft); padding-left: 14px; position: relative; }
+    .rn-list li::before { content: ""; position: absolute; left: 0; top: .55em; width: 6px; height: 6px; border-radius: 50%; background: var(--brand-violet); }
+    .rn-col-b .rn-list li::before { background: #94A3B8; }
+    .rn-note { margin: 0; font-size: 11.5px; color: var(--muted); }
+    @media (max-width: 760px) { .rn-grid { grid-template-columns: 1fr; } .rn-dots { min-height: 0; } }
+
     /* Diapositiva "Clinera y la norma": reusa hr-layout con una tercera fila
        para la linea de medidas, y la grilla en 2x2 porque son cuatro paises. */
     .nr-layout {
@@ -4730,6 +4753,38 @@
             <li data-pmfc="F"><b>F</b><strong>Framework</strong><span>Tu equipo aprende a convertir evaluaciones en cierres.</span></li>
             <li data-pmfc="C"><b>C</b><strong>Clinera</strong><span>El software con IA, conectado a tus campañas.</span></li>
           </ol>
+        </div>
+      </section>
+
+      <section
+        class="slide blk"
+        id="rentabilidad"
+        data-name="Rentabilidad"
+        aria-hidden="true"
+      >
+        <div class="slide-inner hr-layout rn-layout">
+          <header class="hr-head">
+            <div class="blk-eyebrow">RENTABILIDAD</div>
+            <h2 class="blk-h2">Mismo ingreso. <span class="blk-grad-text">Distinta rentabilidad.</span></h2>
+          </header>
+
+          <div class="rn-grid reveal" aria-label="Dos clínicas que venden US$ 10.000: una con 10 pacientes de US$ 1.000 y otra con 100 pacientes de US$ 100">
+            <article class="rn-col rn-col-a" data-clinica="a">
+              <div class="rn-kicker">Clínica con propuesta de valor y sistema claro</div>
+              <div class="rn-total">US$ 10.000</div>
+              <div class="rn-dots rn-dots-a" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="rn-calc"><strong>10 pacientes</strong> × US$ 1.000</div>
+              <ul class="rn-list"><li>Menos mano de obra</li><li>Más dedicación por paciente</li><li>Menos estrés y menos errores</li><li>Más margen para crecer</li></ul>
+            </article>
+            <article class="rn-col rn-col-b" data-clinica="b">
+              <div class="rn-kicker">Clínica que regala sus tratamientos</div>
+              <div class="rn-total">US$ 10.000</div>
+              <div class="rn-dots rn-dots-b" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="rn-calc"><strong>100 pacientes</strong> × US$ 100</div>
+              <ul class="rn-list"><li>Más mano de obra</li><li>Menos dedicación por paciente</li><li>Más estrés y más errores</li><li>Menos margen para crecer</li></ul>
+            </article>
+          </div>
+          <p class="rn-note">Ejemplo ilustrativo.</p>
         </div>
       </section>
 
