@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 /**
- * /presentacion son 4 diapositivas como máximo (Ricardo, 7-oct-2026 y 19-oct-2026):
+ * /presentacion: 4 diapositivas y, desde el 19-oct-2026, la del ecosistema PMFC (5 en total; Ricardo la pidió expresa):
  * quiénes somos, funciones Clinera, beneficios de contratar Clinera y planes. No reponer las 13 anteriores:
  * el deck es breve a propósito. El HTML duplica números porque no importa TS.
  */
@@ -14,10 +14,10 @@ const slide = (id: string) => {
   return html.slice(start, html.indexOf("</section>", start));
 };
 
-test.describe("/presentacion en 4 diapositivas", () => {
-  test("solo existen quiénes somos, funciones, beneficios y planes, en ese orden", () => {
+test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () => {
+  test("solo existen quiénes somos, ecosistema PMFC, funciones, beneficios y planes, en ese orden", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "funciones", "beneficios", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "pmfc", "funciones", "beneficios", "planes"]);
   });
 
   test("quiénes somos: el ecosistema, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
@@ -30,6 +30,14 @@ test.describe("/presentacion en 4 diapositivas", () => {
     expect(c).toContain("Meta y Google partner");
     expect(c).toContain("canal-metricads.webp");
     expect(c).not.toContain("1.500");
+  });
+
+  test("ecosistema PMFC: cuatro letras, minimalista", () => {
+    const c = slide("pmfc");
+    for (const l of ["P", "M", "F", "C"]) expect(c).toContain(`data-pmfc="${l}"`);
+    for (const n of ["Propuesta de valor", "Marketing", "Framework", "Clinera"]) expect(c).toContain(n);
+    // Minimalista: una línea por pieza, sin párrafos.
+    expect(c).not.toMatch(/<p\b/);
   });
 
   test("funciones Clinera: funciones e IA; CAMILA y LIA siguen como próximamente", () => {

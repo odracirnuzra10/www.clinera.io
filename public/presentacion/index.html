@@ -2974,6 +2974,15 @@
     .qs2-shot img { display: block; width: 100%; height: auto; }
     @media (max-width: 760px) { .qs2-body { grid-template-columns: 1fr; } .qs2-shot img { max-height: none; } }
 
+    /* --- Ecosistema PMFC (#pmfc): cuatro letras, minimalista --- */
+    .pmfc-layout { max-width: 1120px; gap: clamp(28px, 6vh, 64px); }
+    .pmfc-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 36px); }
+    .pmfc-grid li { display: flex; flex-direction: column; gap: 8px; padding-top: clamp(14px, 2vh, 22px); border-top: 2px solid var(--brand-violet); }
+    .pmfc-grid b { font-size: clamp(64px, 11vw, 148px); font-weight: 800; line-height: .95; letter-spacing: -.05em; background: linear-gradient(90deg, #009FE3, #7C3AED, #C850C0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .pmfc-grid strong { font-size: clamp(17px, 1.6vw, 22px); font-weight: 800; letter-spacing: -.03em; color: var(--ink); }
+    .pmfc-grid span { font-size: clamp(13px, 1.05vw, 15px); line-height: 1.45; color: var(--ink-soft); }
+    @media (max-width: 760px) { .pmfc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .pmfc-grid b { font-size: 72px; } }
+
     /* Diapositiva "Clinera y la norma": reusa hr-layout con una tercera fila
        para la linea de medidas, y la grilla en 2x2 porque son cuatro paises. */
     .nr-layout {
@@ -4700,6 +4709,27 @@
               <img src="/presentacion/canal-metricads.webp" alt="Canal de YouTube Metricads Marketing: 2,31 K suscriptores y 292 vídeos" width="1104" height="412" loading="lazy" />
             </figure>
           </div>
+        </div>
+      </section>
+
+      <section
+        class="slide blk"
+        id="pmfc"
+        data-name="Ecosistema PMFC"
+        aria-hidden="true"
+      >
+        <div class="slide-inner hr-layout pmfc-layout">
+          <header class="hr-head">
+            <div class="blk-eyebrow">ECOSISTEMA</div>
+            <h2 class="blk-h2">Cuatro piezas, <span class="blk-grad-text">un solo sistema.</span></h2>
+          </header>
+
+          <ol class="pmfc-grid reveal" aria-label="Ecosistema PMFC">
+            <li data-pmfc="P"><b>P</b><strong>Propuesta de valor</strong><span>Tu ventaja competitiva, convertida en un servicio único.</span></li>
+            <li data-pmfc="M"><b>M</b><strong>Marketing</strong><span>Campañas con IA que llegan a tu cliente objetivo.</span></li>
+            <li data-pmfc="F"><b>F</b><strong>Framework</strong><span>Tu equipo aprende a convertir evaluaciones en cierres.</span></li>
+            <li data-pmfc="C"><b>C</b><strong>Clinera</strong><span>El software con IA, conectado a tus campañas.</span></li>
+          </ol>
         </div>
       </section>
 
