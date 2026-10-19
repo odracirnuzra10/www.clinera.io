@@ -634,15 +634,16 @@ ni funciones. Anexo de producto (no es el deck):
 `/internal/mi-clinera/especificacion` y `/internal/mi-clinera/mockup`.
 Guardián: `tests/vision-2027.spec.ts`.
 
-# `/presentacion`: archivo estático, 3 diapositivas (Ricardo, 7-oct-2026)
+# `/presentacion`: archivo estático, 4 diapositivas como máximo (Ricardo, 7 y 19-oct-2026)
 
 `/presentacion` (el deck de ventas) no es una ruta de Next.js: `next.config.ts` reescribe
 `/presentacion` → `/presentacion/index.html`, un único archivo HTML/CSS/JS en
 `public/presentacion/index.html`. No hay componente React que tocar ahí.
 
-**Son 3 diapositivas, a propósito:** `#quienes-somos` (historia en 3 hitos:
+**Son 4 diapositivas, a propósito (máximo 4, Ricardo 19-oct):** `#quienes-somos` (historia en 3 hitos:
 agencia 2017 → «más de 1.500 clínicas» (ningún software las satisfacía; se recopilaron sus datos y necesidades, Ricardo 7-oct) → Clinera sep 2025, tras más de 1 año de desarrollo y testeo — Ricardo 7-oct), `#funciones` (funciones +
-IA) y `#planes` (precio y detalle por plan). Antes eran 13 (Rebeca, ago–sep
+IA), `#beneficios` (por qué contratar Clinera: costo con el ahorro en números, todo unificado,
+software hecho para clínicas estéticas y médicas) y `#planes` (precio y detalle por plan). Antes eran 13 (Rebeca, ago–sep
 2026: origen, por qué Clinera, AURA, Intelligence ×3, empleados, canales,
 normativa, migración); se resumieron porque la reunión pide algo ultra breve.
 No reponer diapos sueltas: si un tema necesita espacio, va dentro de una de
@@ -654,7 +655,7 @@ logos son `<symbol>` (`#ch-wa`, `#ch-fb`, `#ch-ig`, `#ch-tel`) en el SVG de
 arriba del `<body>`. Anual primero, dólar/MXN chico con banderas, 12 cuotas
 con Mercado Pago. Los números están duplicados en el HTML porque el deck no
 importa TS: si cambia un precio, crédito o usuario, hay que tocar la diapo.
-Guardianes: `tests/presentacion-3-diapos.spec.ts` y
+Guardianes: `tests/presentacion-4-diapos.spec.ts` y
 `tests/presentacion-planes.spec.ts`.
 
 **Próximas funciones.** Catálogo en `src/content/proximas-funciones.ts`.

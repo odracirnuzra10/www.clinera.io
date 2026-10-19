@@ -13,9 +13,9 @@ const start = html.indexOf('id="planes"');
 const chunk = html.slice(start, html.indexOf("</section>", start));
 
 test.describe("Planes en /presentacion", () => {
-  test("el deck son 3 diapositivas y la de planes lo cierra", () => {
+  test("el deck son 4 diapositivas y la de planes lo cierra", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "funciones", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "funciones", "beneficios", "planes"]);
   });
 
   test("los montos y el marketing coinciden con planes.ts; sin planes viejos ni permanencia", () => {
@@ -41,12 +41,8 @@ test.describe("Planes en /presentacion", () => {
     await expect(slide).toHaveClass(/active/);
     await expect(slide.locator(".px-promo")).toHaveCount(0);
     await expect(slide.locator("[data-extras]")).toContainText("US$ 9/mes");
-    const ahorro = slide.locator("[data-ahorro]");
-    await expect(ahorro).toContainText("Lo que te ahorras con el Ecosistema");
-    await expect(ahorro).toContainText("desde US$ 500/mes");
-    await expect(ahorro).toContainText("entre US$ 1.000 y 1.500");
-    await expect(ahorro).toContainText("casi US$ 500");
-    await expect(ahorro).not.toContainText(/AgendaPro|Reservo|Medilink|Bambi/i);
+    // El ahorro vive ahora en su propia diapositiva (#beneficios), no en la de planes.
+    await expect(slide.locator("[data-ahorro]")).toHaveCount(0);
     await expect(slide.locator(".px-card")).toHaveCount(2);
     const eco = slide.locator('.px-card[data-plan="ecosistema"]');
     await expect(eco.locator(".px-mkt li")).toHaveCount(3);

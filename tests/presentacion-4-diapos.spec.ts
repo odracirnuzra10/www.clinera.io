@@ -3,8 +3,8 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 /**
- * /presentacion son 3 diapositivas (Ricardo, 7-oct-2026): quiénes somos,
- * funciones Clinera y planes con el detalle. No reponer las 13 anteriores:
+ * /presentacion son 4 diapositivas como máximo (Ricardo, 7-oct-2026 y 19-oct-2026):
+ * quiénes somos, funciones Clinera, beneficios de contratar Clinera y planes. No reponer las 13 anteriores:
  * el deck es breve a propósito. El HTML duplica números porque no importa TS.
  */
 const html = readFileSync(join(process.cwd(), "public/presentacion/index.html"), "utf8");
@@ -14,10 +14,10 @@ const slide = (id: string) => {
   return html.slice(start, html.indexOf("</section>", start));
 };
 
-test.describe("/presentacion en 3 diapositivas", () => {
-  test("solo existen quiénes somos, funciones Clinera y planes, en ese orden", () => {
+test.describe("/presentacion en 4 diapositivas", () => {
+  test("solo existen quiénes somos, funciones, beneficios y planes, en ese orden", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "funciones", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "funciones", "beneficios", "planes"]);
   });
 
   test("quiénes somos cuenta la historia: 2017, más de 1.500 clínicas, Clinera 2025", () => {
@@ -39,6 +39,18 @@ test.describe("/presentacion en 3 diapositivas", () => {
     expect(c).toContain("En vivo");
     expect(c.match(/Oct 2026/g)).toHaveLength(2);
     expect(c).not.toMatch(/open\s*factura/i);
+  });
+
+  test("beneficios: costo, todo unificado y software hecho para clínicas, con el ahorro en números", () => {
+    const c = slide("beneficios");
+    for (const b of ["costo", "unificado", "especializado"]) expect(c).toContain(`data-beneficio="${b}"`);
+    expect(c).toContain("Te ahorras casi US$ 500 al mes");
+    expect(c).toContain("clínicas estéticas y médicas");
+    expect(c).toContain("desde US$ 500/mes");
+    expect(c).toContain("entre US$ 1.000 y 1.500");
+    expect(c).toContain("US$ 479");
+    expect(c).toContain("estimados");
+    expect(c).not.toMatch(/AgendaPro|Reservo|Medilink|Bambi/i);
   });
 
   // Modelo nuevo (Ricardo, 18-oct-2026): Vortex y Ecosistema, con la promoción del mes.
