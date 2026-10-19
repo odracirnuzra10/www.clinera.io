@@ -27,7 +27,7 @@ export const PLANES_FAQ = [
   },
   {
     q: "¿Qué es la implementación de USD 450?",
-    a: `Es un pago único, igual para las dos opciones, que va en el primer cobro junto con el primer mes. Incluye el onboarding asistido por una persona: configuramos tu cuenta, conectamos tus canales y migramos tus pacientes y tratamientos (USD ${IMPLEMENTACION_USD}).`,
+    a: `Es un pago único, igual para las dos opciones, que va en el primer cobro junto con el primer mes. Incluye el onboarding dedicado con un ejecutivo humano, en las dos opciones: configuramos tu cuenta, conectamos tus canales y migramos tus pacientes y tratamientos (USD ${IMPLEMENTACION_USD}).`,
   },
   {
     q: "¿Puedo empezar solo con el software y sumar marketing después?",

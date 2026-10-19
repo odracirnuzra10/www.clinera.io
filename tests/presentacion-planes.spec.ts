@@ -45,7 +45,7 @@ test.describe("Planes en /presentacion", () => {
     await expect(slide.locator("[data-ahorro]")).toHaveCount(0);
     await expect(slide.locator(".px-card")).toHaveCount(2);
     const eco = slide.locator('.px-card[data-plan="ecosistema"]');
-    await expect(eco.locator(".px-mkt li")).toHaveCount(3);
+    await expect(eco.locator(".px-mkt li")).toHaveCount(4);
     await expect(slide.locator('.px-card[data-plan="vortex"] .px-mkt')).toHaveCount(0);
   });
 });

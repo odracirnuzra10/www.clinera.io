@@ -39,7 +39,7 @@ const clineraBase: SoftwareRanked = {
   fortalezas: [
     "AURA contesta WhatsApp 24/7 con memoria contextual y cierra agendamientos.",
     "WhatsApp, Instagram y Facebook en una sola bandeja, conectada a la agenda.",
-    "Marketing de performance (campañas en Facebook, Instagram y Google, propuesta de valor y framework comercial) en el plan Ecosistema.",
+    "Marketing de performance (campañas en Facebook, Instagram y Google, propuesta de valor, framework comercial y 4 reuniones de marketing al mes, 1 por semana) en el plan Ecosistema.",
     "Atribución de ventas: trazabilidad desde campaña Meta/Google hasta la cita.",
     "Precios públicos (Vortex USD 279 / Ecosistema USD 379).",
     "Datos clínicos en Google Cloud región Santiago de Chile (southamerica-west1).",

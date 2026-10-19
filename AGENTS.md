@@ -585,6 +585,10 @@ la web. Sin permanencia y sin plan anual (pendientes de
 Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
 `/agenda?servicio=…` con la query de la visita (`agendaHref`).
 
+- **Lo que incluye cada opción (Ricardo, 19-oct):** el marketing del Ecosistema trae **4 reuniones al mes, 1 por semana**
+  (cuarto bloque de `MARKETING_BLOQUES`, id `reuniones`, que alimenta tarjetas, home, `llms*.txt` y el paso 3
+  del wizard; la presentación lo lleva escrito a mano). **Las dos opciones incluyen onboarding dedicado con un
+  ejecutivo humano** (ya no «asistido por una persona»). Guardián: `tests/planes-vigentes.spec.ts`.
 - **`/agenda` es un wizard de 3 pasos, sin scroll de página** (`AgendaWizard.tsx`,
   copy en `agenda-oferta.ts`), en el formato de `protocololumina.cl/evaluacion`:
   pantalla partida (panel oscuro con una imagen por paso y wizard blanco; en móvil

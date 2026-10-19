@@ -119,11 +119,11 @@ Tarifario de créditos de IA:
   fichas clínicas, agente AURA, automatizaciones y difusiones.
 - **ECOSISTEMA — USD 379/mes (recomendado)** — todo lo de Vortex + marketing
   de performance: campañas en Facebook, Instagram y Google, propuesta de valor
-  y framework comercial. Cada lead llega a la bandeja de Clinera y la IA lo
+  framework comercial y 4 reuniones de marketing al mes (1 por semana). Cada lead llega a la bandeja de Clinera y la IA lo
   agenda.
 
 Implementación: USD 450, pago único, en el primer cobro. Incluye onboarding
-asistido por una persona (configuración de AURA, conexión de WhatsApp Business,
+dedicado con un ejecutivo humano, en las dos opciones (configuración de AURA, conexión de WhatsApp Business,
 importación de pacientes y tratamientos y capacitación del equipo).
 
 Extras del software (Vortex y Ecosistema): profesional extra USD 9/mes, 500

@@ -65,3 +65,25 @@ test.describe("home: logos reales", () => {
     }
   });
 });
+
+// Ricardo, 19-oct-2026: 4 reuniones de marketing al mes (1 por semana) y onboarding dedicado con un
+// ejecutivo humano en las dos opciones.
+test.describe("reuniones de marketing y onboarding dedicado", () => {
+  test("el catálogo lo declara en las dos opciones", () => {
+    expect(MARKETING_BLOQUES.map((b) => b.id)).toContain("reuniones");
+    expect(MARKETING_BLOQUES.find((b) => b.id === "reuniones")!.texto).toMatch(/4 reuniones .* 1 por semana/);
+    expect(PLANES[0].features).toContain("Onboarding dedicado con un ejecutivo humano");
+    expect(PLANES[1].features).toContain("Todo lo de Vortex");
+  });
+
+  test("/planes y la presentación lo muestran", async ({ page }) => {
+    await page.goto("/planes", { waitUntil: "domcontentloaded" });
+    await expect(page.getByText("Reunión de marketing cada semana").first()).toBeVisible();
+    await expect(page.getByText("Onboarding dedicado con un ejecutivo humano").first()).toBeVisible();
+    await page.goto("/presentacion/index.html#planes", { waitUntil: "domcontentloaded" });
+    const html = await page.content();
+    expect(html).toContain("Reunión de marketing cada semana");
+    expect(html).toContain("4 reuniones de marketing al mes, 1 por semana");
+    expect(html).toContain("onboarding dedicado con un ejecutivo humano");
+  });
+});

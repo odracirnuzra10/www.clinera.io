@@ -162,7 +162,7 @@ test("el panel muestra una imagen por pantalla y no hay cupón ni compra", async
   await expect(pie).toContainText("Incorporamos el software de Clinera con su agente de inteligencia artificial");
   await llenarDatos(page);
   await page.getByRole("button", { name: /Elegir mi hora/ }).click();
-  await expect(pie).toContainText("Nos reunimos semanalmente para ver los resultados");
+  await expect(pie).toContainText("Una reunión de marketing por semana, 4 al mes, para ver los resultados");
   const body = page.locator("body");
   await expect(body).not.toContainText(/CU[K]I|cupón/i);
   await expect(body).not.toContainText(/Crear cuenta/);

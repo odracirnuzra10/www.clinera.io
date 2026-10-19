@@ -2,7 +2,7 @@
 
 // ============================================================================
 // «Marketing de performance» (Ricardo, 18-oct-2026): mismo peso visual que la
-// sección de software. Tres bloques de `MARKETING_BLOQUES` y el cierre que los
+// sección de software. Los bloques de `MARKETING_BLOQUES` y el cierre que los
 // une con el software: el lead llega a la bandeja de Clinera y la IA lo agenda.
 // Sin cifras. CTA a /agenda?servicio=marketing con la query de la visita.
 // ============================================================================
@@ -50,7 +50,7 @@ export default function MarketingPerformance() {
         </div>
 
         <div
-          style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}
+          style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 20 }}
         >
           {MARKETING_BLOQUES.map((b, i) => (
             <article
