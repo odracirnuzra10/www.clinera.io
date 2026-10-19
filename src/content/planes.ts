@@ -53,7 +53,7 @@ export type Plan = {
 /** Lo que trae el software. Marketing lo suma, no lo reemplaza. */
 const SOFTWARE_FEATURES = [
   "Hasta 10 profesionales",
-  "10.000 créditos de IA",
+  "28.000 créditos de IA",
   "Bandeja de WhatsApp, Instagram y Facebook",
   "Agenda y fichas de la clínica",
   "Agente de IA (AURA) que responde y agenda",
@@ -92,7 +92,7 @@ export const PLANES: readonly Plan[] = [
     monthlyUsd: 279,
     servicio: "software",
     professionals: 10,
-    iaCredits: 10000,
+    iaCredits: 28000,
     channels: ["whatsapp", "instagram", "facebook"],
     featured: false,
     tag: "",
@@ -105,7 +105,7 @@ export const PLANES: readonly Plan[] = [
     monthlyUsd: 529,
     servicio: "ambas",
     professionals: 10,
-    iaCredits: 10000,
+    iaCredits: 28000,
     channels: ["whatsapp", "instagram", "facebook"],
     featured: true,
     tag: "Recomendado",
@@ -179,4 +179,4 @@ export function agendaHref(servicio: ServicioId | null, search = ""): string {
 
 export const PLANES_TITULO = "Elige cómo";
 export const PLANES_TITULO_ACENTO = "quieres crecer.";
-export const PLANES_BAJADA = "Solo el software, o el software más un equipo de marketing que trae pacientes.";
+export const PLANES_BAJADA = "Vortex es la C de PMFC: el software con IA. El Ecosistema es PMFC completo: propuesta de valor, marketing, framework comercial y Clinera.";

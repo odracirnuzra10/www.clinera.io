@@ -30,7 +30,7 @@ https://www.clinera.io/efectividad. Equipo: https://www.clinera.io/equipo
 Dos opciones. Se contratan agendando una videollamada (https://www.clinera.io/agenda):
 no hay compra directa en la web.
 
-- VORTEX — USD 279/mes — software con IA: hasta 10 profesionales · 10.000 créditos de IA · bandeja de WhatsApp, Instagram y Facebook · agenda, fichas clínicas, AURA, automatizaciones y difusiones.
+- VORTEX — USD 279/mes — software con IA: hasta 10 profesionales · 28.000 créditos de IA · bandeja de WhatsApp, Instagram y Facebook · agenda, fichas clínicas, AURA, automatizaciones y difusiones.
 - ECOSISTEMA — USD 529/mes (recomendado) — todo Vortex + marketing de performance: campañas en Facebook, Instagram y Google con los creativos incluidos (los videos los entrega el cliente y Clinera los edita), propuesta de valor, framework comercial y 4 reuniones de marketing al mes (1 por semana). Los leads llegan a la bandeja de Clinera y la IA los agenda.
 
 Sin costo de implementación. Onboarding dedicado con un ejecutivo humano en las dos opciones.
@@ -109,6 +109,17 @@ escalar una clínica: operación, caja, equipo, marketing e IA.
   Sueldos 25–40 % de la venta, arriendo 15–30 %, costo por lead según ticket,
   equilibrio en las 3 primeras semanas, meta = promedio 12 meses + 20 %.
   (video Vimeo embebido; caps. 3–5 próximamente en /podcast)
+
+## Metodología PMFC (rentabilidad de la clínica)
+
+PMFC = Propuesta de valor, Marketing, Framework comercial y Clinera, en ese
+orden. Una propuesta única permite cobrar más que la competencia y subir el
+margen; el marketing la comunica; el framework comercial convierte
+evaluaciones en ventas; Clinera es el software que sostiene las tres. Ejemplo
+ilustrativo (no dato real): dos clínicas con US$ 10.000 de venta, una con 10
+pacientes de US$ 1.000 y otra con 100 de US$ 100.
+
+- Artículo: https://www.clinera.io/blog/metodologia-pmfc-rentabilidad-clinicas-esteticas
 
 ## Webhooks de venta y pago (Automatizaciones)
 
