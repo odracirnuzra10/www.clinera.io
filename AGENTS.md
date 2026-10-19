@@ -558,9 +558,9 @@ se sacó; el descuento se negocia en la reunión de ventas, no se publica). **Ex
 software** (`EXTRAS` en `planes.ts`, valen para las dos opciones): profesional extra
 US$ 9/mes, 500 conversaciones extra US$ 15, 5.000 créditos de IA extra US$ 15.
 **Discurso de ahorro** (Ricardo, 19-oct: `AHORRO` en `planes.ts`, componente `AhorroEcosistema`,
-bloque `.px-ahorro` de la presentación): agencia de marketing desde US$ 500/mes, software con IA
-US$ 200–500, otro software + agenda US$ 400–500 + 200; por separado US$ 1.000–1.500 vs US$ 479 del
-Ecosistema («te ahorras casi US$ 500 al mes»). Son estimados de mercado: se publican como tales y
+bloque `.px-ahorro` de la presentación): agencia de marketing US$ 600–800/mes, software de
+agendamientos US$ 100–300, agente IA con créditos US$ 300–600; por separado US$ 1.000–1.700 vs US$ 479
+del Ecosistema («ahorras más de US$ 500 al mes»: 1.000 − 479 = 521 como mínimo). Son estimados de mercado: se publican como tales y
 **sin nombrar competidores**.
 Se muestra como una **«boleta» de gastos** minimalista (Ricardo, 19-oct: «bonito, minimalista, poco
 espacio, nunca apiñado»), **boleta recortada**: el papel (línea de corte con tijera y borde rasgado) es una imagen
@@ -576,7 +576,7 @@ Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
 - **`/agenda` es un wizard de 3 pasos, sin scroll de página** (`AgendaWizard.tsx`,
   copy en `agenda-oferta.ts`), en el formato de `protocololumina.cl/evaluacion`:
   pantalla partida (panel oscuro con una imagen por paso y wizard blanco; en móvil
-  el panel va arriba, compacto). Paso 1: **la boleta «lo que te ahorras con el Ecosistema»** y el botón «Quiero ahorrar»
+  el panel va arriba, compacto). Paso 1: **la boleta «lo que te ahorras con el Ecosistema»** y el botón deslizante «Desliza para ahorrar»
   (Ricardo, 19-oct: **ya no se elige servicio**, se vende el Ecosistema; el lead viaja siempre
   con `servicio_interes: "ambas"` y `?servicio=` ya no cambia el flujo; en móvil el panel de
   imágenes no va en este paso porque la boleta es la imagen); paso 2: **solo nombre, correo, celular y nombre de la clínica** (Ricardo: «el

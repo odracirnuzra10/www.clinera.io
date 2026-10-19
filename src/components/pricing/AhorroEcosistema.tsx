@@ -27,7 +27,7 @@ export default function AhorroEcosistema({ compacto = false }: { compacto?: bool
           <li key={it.id} className={styles.linea} data-ahorro-item={it.id}>
             <span className={styles.nombre}>
               {it.etiqueta}
-              <small>{it.nota}</small>
+              {it.nota && <small>{it.nota}</small>}
             </span>
             <span className={styles.guia} aria-hidden />
             <span className={styles.precio}>{it.precio}</span>

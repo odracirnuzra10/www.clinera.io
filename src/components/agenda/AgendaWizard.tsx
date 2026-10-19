@@ -7,7 +7,7 @@
 // 18-oct-2026): una columna, carrusel de casos arriba, «Paso N de 3» con tarjetas
 // seleccionables y los datos de contacto al final.
 //
-//   Paso 1  la boleta «lo que te ahorras con el Ecosistema» y el botón «Quiero ahorrar»
+//   Paso 1  la boleta «lo que te ahorras con el Ecosistema» y el botón deslizante «Desliza para ahorrar»
 //           → ViewContent. Ya no se elige servicio (Ricardo, 19-oct-2026): se vende el
 //           Ecosistema, así que el lead viaja siempre con `servicio_interes: "ambas"`.
 //   Paso 2  tus datos: nombre, correo, celular y nombre de la clínica → CRM + Lead (US$ 3)
@@ -43,6 +43,7 @@ import {
   type Form,
 } from "@/components/ventas/VentasLanding";
 import AhorroEcosistema from "@/components/pricing/AhorroEcosistema";
+import DeslizarParaAhorrar from "@/components/agenda/DeslizarParaAhorrar";
 import { ECOSISTEMA_SLIDES } from "@/content/agenda-oferta";
 import { fireLeadEvent } from "@/lib/metaEvents";
 import {
@@ -252,9 +253,7 @@ export default function AgendaWizard({
                     <h2 className={styles.titulo}>Lo que te ahorras con el Ecosistema Clinera</h2>
                     <p className={styles.sub}>Campañas, propuesta de valor, framework comercial y el software con IA, en un solo lugar.</p>
                     <AhorroEcosistema compacto />
-                    <button type="button" className={base.cta} onClick={enviarPaso1} data-quiero-ahorrar>
-                      Quiero ahorrar →
-                    </button>
+                    <DeslizarParaAhorrar onComplete={enviarPaso1} />
                   </div>
                 )}
 

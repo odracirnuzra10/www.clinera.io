@@ -42,10 +42,10 @@ test.describe("ahorro del Ecosistema (Ricardo, 19-oct-2026)", () => {
       const bloque = page.locator("[data-ahorro]");
       await expect(bloque).toHaveCount(1);
       await expect(bloque.locator("[data-ahorro-item]")).toHaveCount(3);
-      await expect(bloque).toContainText("desde US$ 500/mes");
-      await expect(bloque).toContainText("US$ 1.000–1.500/mes");
+      await expect(bloque).toContainText("US$ 600–800/mes");
+      await expect(bloque).toContainText("US$ 1.000–1.700/mes");
       await expect(bloque.locator("[data-ahorro-conclusion]")).toContainText("US$ 479");
-      await expect(bloque).toContainText("Ahorras casi US$ 500 al mes");
+      await expect(bloque).toContainText("Ahorras más de US$ 500 al mes");
       // Valores estimados y sin nombrar competidores.
       await expect(bloque).toContainText("estimados");
       await expect(bloque).not.toContainText(/AgendaPro|Reservo|Medilink|Bambi/i);
