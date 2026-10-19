@@ -597,6 +597,11 @@ Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
   nativo (`StepClineraScheduler`). Imágenes en `public/images/agenda/` (generadas en
   Higgsfield, 16:9, con marcas ficticias). `/clinica-estetica`, `/activar-cuenta`,
   `/reunion-comercial` y similares redirigen ahí (308, con query).
+- **`/agenda-google` (Ricardo, 19-oct): la versión para anuncios de Google**, escritorio incluido. Es el
+  mismo `AgendaWizard` con `google` activo: `lead_source` sale `google-ads` aunque la URL no traiga
+  `gclid` (el autotagging a veces se cae) y el `source_path` es `/agenda-google`, para separar el
+  embudo en los reportes. `noindex`, fuera del sitemap. Los anuncios de Google apuntan acá, los de
+  Meta a `/agenda`. Guardián: `tests/agenda-google.spec.ts`.
 - **Eventos del sitio (pixel `2251201709002818` vía GTM):** `Lead` US$ 3 al
   enviar el paso 2 (datos); `ViewContent` al elegir servicio; `MQL` US$ 10 al agendar;
   `SQL` US$ 30 (asistió, es real y califica) lo emite el CRM, **no el sitio**, y

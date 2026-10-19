@@ -59,7 +59,10 @@ import { zonaMostrada } from "@/lib/timezone";
 import base from "@/components/estetica/EsteticaAdsLanding.module.css";
 import styles from "./AgendaWizard.module.css";
 
-const SOURCE_PATH = "/agenda";
+const SOURCE_PATH_BASE = "/agenda";
+// Versión para anuncios de Google (/agenda-google): mismo wizard, otro `source_path` para
+// separar el embudo en los reportes, y `lead_source` google-ads aunque la URL llegue sin gclid.
+const SOURCE_PATH_GOOGLE = "/agenda-google";
 const EMAIL_OK = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MX_TZ = /^America\/(Mexico_City|Cancun|Merida|Monterrey|Matamoros|Chihuahua|Ciudad_Juarez|Ojinaga|Mazatlan|Hermosillo|Tijuana|Bahia_Banderas)$/;
 const TOTAL = 3;
@@ -81,11 +84,19 @@ const paisDePrefijo = (prefix: string) => RESERVA_PHONE_PREFIXES.find((p) => p.p
 export default function AgendaWizard({
   tzIp = "",
   servicioInicial = null,
+  google = false,
 }: {
+  /** Versión de /agenda-google: atribuye a Google Ads por defecto y reporta su propio `source_path`. */
+  google?: boolean;
   tzIp?: string;
   /** `?servicio=` de la URL: ya no cambia el flujo, solo se registra en el dataLayer. */
   servicioInicial?: string | null;
 }) {
+  const SOURCE_PATH = google ? SOURCE_PATH_GOOGLE : SOURCE_PATH_BASE;
+  const fuente = () => {
+    const f = detectLeadSource();
+    return google && f === "organico" ? "google-ads" : f;
+  };
   const [paso, setPaso] = useState<1 | 2 | 3>(1);
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
@@ -101,7 +112,7 @@ export default function AgendaWizard({
 
   useEffect(() => {
     pushDL("agenda_landing_view", { source_path: SOURCE_PATH, servicio_url: servicioInicial ?? "" });
-  }, [servicioInicial]);
+  }, [servicioInicial, SOURCE_PATH]);
 
   function marcarInicio() {
     if (formStarted.current) return;
@@ -172,7 +183,7 @@ export default function AgendaWizard({
       return;
     }
     const eventId = leadCtx?.eventId ?? newLeadEventId();
-    const ctx = leadCtx ?? { eventId, leadSource: detectLeadSource() };
+    const ctx = leadCtx ?? { eventId, leadSource: fuente() };
     if (!leadCtx) setLeadCtx(ctx);
     pushDL("agenda_step_complete", { step: 2, step_name: "datos", servicio: SERVICIO.id, source_path: SOURCE_PATH });
     setIntentado(false);
