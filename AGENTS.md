@@ -218,6 +218,11 @@ el anual primero (20% OFF publicado) y el mensual después. El semestral sigue
 solo en el constructor. Desde el 19-oct ya no hay implementación que regalar: la palanca de cierre sobre la implementación se sacó del deck. Hasta 200 clientes.
 Guardián: `tests/nuevo-discurso.spec.ts`.
 
+
+**Descuento en monto fijo en cotizaciones (Ricardo, 19-oct-2026).** Además del porcentaje, el snapshot de `construirCotizacion` (`src/lib/firma/cotizacion.ts`) acepta `descuentosUsd` ({plan, users, credits, setup, global}) en **USD enteros por período**: se restan de la línea después del porcentaje (`lineaConDescuento`), `global` resta del total recurrente, nunca baja de 0 y no admite decimales ni negativos. El PDF lo muestra en la columna DESC. y Stripe lo recibe dentro del cupón por `descuentoRecurrente`. **La interfaz del cotizador (`cotizacion.oacg.cl`) no vive en este repo:** hay que agregarle los campos que envíen `descuentosUsd`. Guardián: `tests/cotizacion-descuento-monto.spec.ts`.
+
+**Conversaciones con IA aproximadas por plan:** `conversacionesAprox` / `agendamientosAprox` en `planes.ts` (28.000 créditos = ~933 conversaciones o ~143 agendamientos; siempre hacia abajo). Están escritas a mano en la presentación y en `llms*.txt`.
+
 ## `/ventas2026`: reunión interna de la campaña MQL
 
 Deck interno (sep 2026) para el equipo comercial. Archivo

@@ -50,10 +50,20 @@ export type Plan = {
   features: readonly string[];
 };
 
+/**
+ * Aproximado de lo que rinde una bolsa de créditos (tarifas de AGENTS.md:
+ * 30 cr una conversación que no agenda, 195 cr una que agenda). Siempre hacia
+ * abajo: las calculadoras recomiendan plan con `bolsa >= créditos necesarios`.
+ */
+export const CREDITOS_POR_CONVERSACION = 30;
+export const CREDITOS_POR_AGENDAMIENTO = 195;
+export const conversacionesAprox = (creditos: number) => Math.floor(creditos / CREDITOS_POR_CONVERSACION);
+export const agendamientosAprox = (creditos: number) => Math.floor(creditos / CREDITOS_POR_AGENDAMIENTO);
+
 /** Lo que trae el software. Marketing lo suma, no lo reemplaza. */
 const SOFTWARE_FEATURES = [
   "Hasta 10 profesionales",
-  "28.000 créditos de IA",
+  "28.000 créditos de IA: ~933 conversaciones con IA al mes (o ~143 agendamientos)",
   "Bandeja de WhatsApp, Instagram y Facebook",
   "Agenda y fichas de la clínica",
   "Agente de IA (AURA) que responde y agenda",

@@ -52,6 +52,18 @@ export type CotizacionSnapshot = {
     setup: number;
     global: number;
   };
+  /**
+   * Descuentos en monto fijo, en USD enteros por período (Ricardo, 19-oct-2026):
+   * se restan de la línea DESPUÉS del porcentaje. `global` resta del total
+   * recurrente (nunca del setup). Opcional: un snapshot viejo no lo trae.
+   */
+  descuentosUsd: {
+    plan: number;
+    users: number;
+    credits: number;
+    setup: number;
+    global: number;
+  };
   duracionDescuento: DescuentoDuracion;
   moneda: "USD";
   /** Datos de presentación del documento (solo para renderizar el PDF). */
@@ -86,6 +98,14 @@ export type CotizacionSnapshot = {
 
 const clampPct = (v: unknown) =>
   Math.min(100, Math.max(0, Math.round(Number(v) || 0)));
+/** USD enteros, 0–100.000: un monto fijo de descuento nunca es negativo ni fraccionario. */
+const clampUsd = (v: unknown) =>
+  Math.min(100_000, Math.max(0, Math.round(Number(v) || 0)));
+
+/** Una línea con su porcentaje y luego su monto fijo, en centavos y sin bajar de 0. */
+export function lineaConDescuento(listaCent: number, pct: number, usdOff: number) {
+  return Math.max(0, Math.round(listaCent * (1 - pct / 100)) - usdOff * 100);
+}
 const clampQty = (v: unknown) =>
   Math.min(999, Math.max(0, Math.round(Number(v) || 0)));
 const aCentavos = (usd: number) => Math.round(usd * 100);
@@ -122,6 +142,17 @@ export function construirCotizacion(cruda: unknown): CotizacionSnapshot | null {
     global: clampPct(d.global),
   };
 
+  const m = (typeof c.descuentosUsd === "object" && c.descuentosUsd !== null
+    ? c.descuentosUsd
+    : {}) as Record<string, unknown>;
+  const descuentosUsd = {
+    plan: clampUsd(m.plan),
+    users: clampUsd(m.users),
+    credits: clampUsd(m.credits),
+    setup: clampUsd(m.setup),
+    global: clampUsd(m.global),
+  };
+
   const dur = (typeof c.duracionDescuento === "object" && c.duracionDescuento !== null
     ? c.duracionDescuento
     : {}) as Record<string, unknown>;
@@ -150,13 +181,20 @@ export function construirCotizacion(cruda: unknown): CotizacionSnapshot | null {
   const factorGlobal = 1 - descuentos.global / 100;
   const recurrenteListaUsd =
     planListaUsd + extraUsuarios * usuarioListaUsd + extraPacks * packListaUsd;
-  const recurrenteFinalUsd =
-    (planListaUsd * (1 - descuentos.plan / 100) +
-      extraUsuarios * usuarioListaUsd * (1 - descuentos.users / 100) +
-      extraPacks * packListaUsd * (1 - descuentos.credits / 100)) *
-    factorGlobal;
+  // Por línea: porcentaje, luego monto fijo (sin bajar de 0). Después el
+  // porcentaje global y por último el monto global sobre el recurrente.
+  const lineaUsd = (listaUsd: number, pct: number, off: number) =>
+    Math.max(0, listaUsd * (1 - pct / 100) - off);
+  const recurrenteFinalUsd = Math.max(
+    0,
+    (lineaUsd(planListaUsd, descuentos.plan, descuentosUsd.plan) +
+      lineaUsd(extraUsuarios * usuarioListaUsd, descuentos.users, descuentosUsd.users) +
+      lineaUsd(extraPacks * packListaUsd, descuentos.credits, descuentosUsd.credits)) *
+      factorGlobal -
+      descuentosUsd.global,
+  );
   const setupFinalUsd = incluirSetup
-    ? SETUP_FEE_USD * (1 - descuentos.setup / 100) * factorGlobal
+    ? lineaUsd(SETUP_FEE_USD, descuentos.setup, descuentosUsd.setup) * factorGlobal
     : 0;
 
   const recurrenteLista = aCentavos(recurrenteListaUsd);
@@ -187,6 +225,7 @@ export function construirCotizacion(cruda: unknown): CotizacionSnapshot | null {
     extraPacks,
     incluirSetup,
     descuentos,
+    descuentosUsd,
     duracionDescuento,
     moneda: "USD",
     centavos: {
