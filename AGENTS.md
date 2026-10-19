@@ -599,6 +599,12 @@ Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
 - **Conflicto de nombres:** `pricing.ts` (contratos `/firma`, `/cotizacion`) y
   `planes2.ts` (`/go/exito`) conservan el catálogo viejo, donde «Vortex» vale 279.
   `planVigenteDe` valoriza cualquier «Vortex» como 379.
+- **Dispositivos:** `tests/dispositivos-moviles.spec.ts` recorre 21 aparatos (iPhone SE a 15 Pro Max, Galaxy,
+  Pixel, iPad, tabletas y en horizontal) con el motor Chromium: perilla con dedo, campos de 16 px o más
+  (si no, iOS hace zoom), nada tapa los botones, sin scroll de página. Las alturas de iPhone ya
+  descuentan las barras de Safari: **en pantallas de menos de ~680 px de alto la boleta se achica**
+  para que la perilla quede a la vista (si se agrega algo al paso 1, vuelve a correr esa prueba). No
+  es Safari real.
 - Guardianes: `tests/agenda-wizard.spec.ts`, `tests/planes-vigentes.spec.ts`,
   `tests/clinica-estetica.spec.ts` (redirects y home).
 
