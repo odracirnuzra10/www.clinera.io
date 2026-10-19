@@ -43,7 +43,7 @@ import {
   type Form,
 } from "@/components/ventas/VentasLanding";
 import AhorroEcosistema from "@/components/pricing/AhorroEcosistema";
-import DeslizarParaAhorrar from "@/components/agenda/DeslizarParaAhorrar";
+import DeslizarParaAhorrar, { type OrigenPum } from "@/components/agenda/DeslizarParaAhorrar";
 import { ECOSISTEMA_SLIDES } from "@/content/agenda-oferta";
 import { fireLeadEvent } from "@/lib/metaEvents";
 import {
@@ -95,6 +95,7 @@ export default function AgendaWizard({
   const [intentado, setIntentado] = useState(false);
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
   const [booking, setBooking] = useState<CalBooking | null>(null);
+  const [pum, setPum] = useState<OrigenPum | null>(null); // efecto de apertura al terminar de deslizar
   const formStarted = useRef(false);
   const bookingSent = useRef(false);
 
@@ -148,12 +149,21 @@ export default function AgendaWizard({
     window.scrollTo({ top: 0 });
   }
 
-  function enviarPaso1() {
+  function enviarPaso1(origen?: OrigenPum) {
     marcarInicio();
     pushDL("agenda_step_complete", { step: 1, step_name: "boleta_quiero_ahorrar", servicio: SERVICIO.id, source_path: SOURCE_PATH });
     // ViewContent: quiso ver lo que ahorra con el Ecosistema (Ricardo, 19-oct-2026).
     trackPixel("ViewContent", { content_name: SERVICIO.label, content_category: "servicio_interes", content_ids: ["ecosistema"] });
-    irA(2);
+    const sinMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!origen || sinMovimiento) {
+      irA(2);
+      return;
+    }
+    // «Pum»: del punto donde quedó la perilla se abre un círculo de color que cubre el wizard; ya
+    // cubierto se cambia al paso 2 y el círculo se disuelve dejando entrar los datos.
+    setPum(origen);
+    window.setTimeout(() => irA(2), 420);
+    window.setTimeout(() => setPum(null), 1100);
   }
 
   function enviarPaso2() {
@@ -220,6 +230,18 @@ export default function AgendaWizard({
         </h1>
       </aside>
 
+      {pum && (
+        <div
+          className={styles.pum}
+          aria-hidden
+          data-pum
+          style={{ ["--x" as string]: `${pum.x}px`, ["--y" as string]: `${pum.y}px` }}
+        >
+          <span className={styles.pumAnillo} />
+          <span className={`${styles.pumAnillo} ${styles.pumAnillo2}`} />
+        </div>
+      )}
+
       <main className={styles.lado}>
         <div className={styles.contenido}>
           <div className={styles.tarjeta} id="agendar">
@@ -253,12 +275,12 @@ export default function AgendaWizard({
                     <h2 className={styles.titulo}>Lo que te ahorras con el Ecosistema Clinera</h2>
                     <p className={styles.sub}>Campañas, propuesta de valor, framework comercial y el software con IA, en un solo lugar.</p>
                     <AhorroEcosistema compacto />
-                    <DeslizarParaAhorrar onComplete={enviarPaso1} />
+                    <DeslizarParaAhorrar onComplete={(o) => enviarPaso1(o)} />
                   </div>
                 )}
 
                 {paso === 2 && (
-                  <div data-agenda-paso="2" onFocusCapture={marcarInicio}>
+                  <div data-agenda-paso="2" onFocusCapture={marcarInicio} className={styles.entrada}>
                     <h2 className={styles.titulo}>¿Dónde te confirmamos?</h2>
 
                     <label className={base.label} htmlFor="ag-nombre">Nombre</label>

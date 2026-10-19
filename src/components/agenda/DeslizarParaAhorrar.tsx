@@ -11,11 +11,14 @@ import styles from "./DeslizarParaAhorrar.module.css";
 
 const UMBRAL = 0.82; // fracción del recorrido para dar por hecho el deslizar
 
+export type OrigenPum = { x: number; y: number };
+
 export default function DeslizarParaAhorrar({
   onComplete,
   etiqueta = "Desliza para ahorrar",
 }: {
-  onComplete: () => void;
+  /** Se llama al llegar al final, con el punto de la pantalla donde quedó la perilla (para el efecto «pum»). */
+  onComplete: (origen: OrigenPum) => void;
   etiqueta?: string;
 }) {
   const pista = useRef<HTMLDivElement>(null);
@@ -36,8 +39,14 @@ export default function DeslizarParaAhorrar({
   function completar() {
     if (listo) return;
     setListo(true);
-    setX(maximo());
-    window.setTimeout(onComplete, 220);
+    const fin = maximo();
+    setX(fin);
+    // Donde termina la perilla: de ahí sale el «pum» (el rect actual es el de la posición de inicio).
+    const r = perilla.current?.getBoundingClientRect();
+    const origen: OrigenPum = r
+      ? { x: r.left + (fin - x) + r.width / 2, y: r.top + r.height / 2 }
+      : { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    window.setTimeout(() => onComplete(origen), 200);
   }
 
   function alBajar(e: PointerEvent<HTMLButtonElement>) {
