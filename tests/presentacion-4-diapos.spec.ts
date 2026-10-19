@@ -15,9 +15,9 @@ const slide = (id: string) => {
 };
 
 test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () => {
-  test("solo existen quiénes somos, ecosistema PMFC, funciones, beneficios y planes, en ese orden", () => {
+  test("solo existen quiénes somos, problema, PMFC, pilares, rentabilidad, funciones, beneficios y planes, en ese orden", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "pmfc", "rentabilidad", "funciones", "beneficios", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "problema", "pmfc", "pilares", "rentabilidad", "resultados", "anuncio", "funciones", "beneficios", "planes"]);
   });
 
   test("quiénes somos: el ecosistema, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
@@ -30,6 +30,43 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).toContain("Meta y Google partner");
     expect(c).toContain("canal-metricads.webp");
     expect(c).not.toContain("1.500");
+  });
+
+  test("el problema: publicidad cara, vender barato, guerra de precios y la salida", () => {
+    const c = slide("problema");
+    for (const n of [1, 2, 3, 4]) expect(c).toContain(`data-problema="${n}"`);
+    expect(c).toContain("La publicidad cada vez cuesta más");
+    expect(c).toContain("Google y Meta Ads");
+    expect(c).toContain("propuesta de valor");
+    expect(c).not.toMatch(/patentad/i);
+  });
+
+  test("los pilares: P, M, F y C explicados, sin cifra de clientes", () => {
+    const c = slide("pilares");
+    for (const l of ["P", "M", "F", "C"]) expect(c).toContain(`data-pilar="${l}"`);
+    expect(c).toContain("más de 10 años");
+    expect(c).toContain("CPA objetivo");
+    expect(c).toContain("reuniones semanales");
+    expect(c).toContain("dentro de la consulta");
+    expect(c).not.toMatch(/patentad|\b100 cl|1\.500/i);
+  });
+
+  test("resultados: evaluación de US$ 55, costo del lead de Hebe y de Lumina, y el administrador comercial", () => {
+    const c = slide("resultados");
+    expect(c).toContain("US$ 55");
+    expect(c).toContain("Administrador comercial");
+    for (const n of ["$63.405", "$34.814", "SQL | Hebe (CPA)", "SQL | Lumina (CPA)"]) expect(c).toContain(n);
+    expect(c).toContain("−US$ 10 por lead");
+    expect(c).toContain("+US$ 19 por lead");
+    expect(c).toContain("US$ 2.000");
+    expect(c).not.toMatch(/patentad/i);
+  });
+
+  test("anuncio típico: gancho, video y botón Reservar", () => {
+    const c = slide("anuncio");
+    expect(c).toContain("data-anuncio");
+    expect(c).toContain("Tu cuerpo puede cambiar más de lo que imaginas");
+    expect(c).toContain("Reservar");
   });
 
   test("ecosistema PMFC: cuatro letras, minimalista", () => {
