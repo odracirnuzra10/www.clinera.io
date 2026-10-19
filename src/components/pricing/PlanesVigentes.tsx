@@ -193,6 +193,26 @@ export default function PlanesVigentes({
                   </span>
                 </div>
 
+                {p.id === "ecosistema" && (
+                  <span
+                    data-plan-marketing
+                    style={{
+                      display: "inline-block",
+                      margin: "0 0 12px",
+                      padding: "5px 12px",
+                      borderRadius: 999,
+                      background: "linear-gradient(90deg, #009FE3, #7C3AED, #C850C0)",
+                      color: "#FFFFFF",
+                      fontFamily: MONO,
+                      fontSize: 10.5,
+                      fontWeight: 700,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Incluye marketing de performance
+                  </span>
+                )}
                 <p style={{ fontFamily: "Inter", fontSize: 15, lineHeight: 1.5, color: th.sub, margin: "0 0 18px" }}>{p.resumen}</p>
 
                 <div

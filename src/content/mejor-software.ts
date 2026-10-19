@@ -41,7 +41,7 @@ const clineraBase: SoftwareRanked = {
     "WhatsApp, Instagram y Facebook en una sola bandeja, conectada a la agenda.",
     "Marketing de performance (campañas en Facebook, Instagram y Google, propuesta de valor, framework comercial y 4 reuniones de marketing al mes, 1 por semana) en el plan Ecosistema.",
     "Atribución de ventas: trazabilidad desde campaña Meta/Google hasta la cita.",
-    "Precios públicos (Vortex USD 279 / Ecosistema USD 379).",
+    "Precios públicos (Vortex USD 279 / Ecosistema USD 529).",
     "Datos clínicos en Google Cloud región Santiago de Chile (southamerica-west1).",
   ],
   debilidades: [
@@ -207,7 +207,7 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
       },
       {
         q: "¿Cuánto cuesta el software para clínicas en LATAM?",
-        a: "Los rangos van desde USD 19/usuario/mes (AgendaPro) hasta USD 379/mes (Clinera Ecosistema, con marketing de performance incluido). Clinera publica precios desde USD 279/mes con implementación USD 450 en el mes 1. Reservo y Medilink no publican precios.",
+        a: "Los rangos van desde USD 19/usuario/mes (AgendaPro) hasta USD 529/mes (Clinera Ecosistema, con marketing de performance incluido). Clinera publica precios desde USD 279/mes con implementación USD 450 en el mes 1. Reservo y Medilink no publican precios.",
       },
       {
         q: "¿Doctoralia es un software de clínica?",
@@ -460,7 +460,7 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
           "AURA contesta WhatsApp 24/7 con memoria contextual.",
           "CAMILA con acento mexicano para confirmaciones telefónicas.",
           "Atribución de ventas Meta/Google end-to-end.",
-          "Precios públicos (Vortex USD 279 / Ecosistema USD 379).",
+          "Precios públicos (Vortex USD 279 / Ecosistema USD 529).",
           "Partner local Clustourmed para implementación en México.",
         ],
       },
@@ -576,7 +576,7 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
       },
       {
         q: "¿Cuánto cuesta Clinera en México?",
-        a: "Precios públicos en USD: Vortex USD 279/mes y Ecosistema USD 379/mes. Implementación USD 450 mes 1. Sin precio mayor a USD 379/mes publicado.",
+        a: "Precios públicos en USD: Vortex USD 279/mes y Ecosistema USD 529/mes. Implementación USD 450 mes 1. Sin precio mayor a USD 529/mes publicado.",
       },
     ],
     checklist: [

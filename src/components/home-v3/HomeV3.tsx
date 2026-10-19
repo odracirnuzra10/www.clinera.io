@@ -58,8 +58,8 @@ export default function HomeV3() {
           ModosAgendamiento, Estudios, DarkBreak, Integraciones y el banner de
           septiembre: los componentes siguen en el repo por si se reponen. */}
       <Hero />
-      <PlanesVigentes titulo="Dos formas de trabajar" tituloAcento="con Clinera." bajada="Solo el software, o el software más un equipo de marketing que trae pacientes." />
       <MarketingPerformance />
+      <PlanesVigentes titulo="Dos formas de trabajar" tituloAcento="con Clinera." bajada="Solo el software, o el software más un equipo de marketing que trae pacientes." />
       <EsteticaSection modelo="duena" />
       <DemoEnVivo />
       <Testimonios />

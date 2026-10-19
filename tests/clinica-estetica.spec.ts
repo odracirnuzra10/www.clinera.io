@@ -32,7 +32,7 @@ test.describe("home", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText(/ecosistema que llena tu agenda/i);
     await expect(page.locator("[data-planes-vigentes]")).toContainText("Dos formas de trabajar");
     await expect(page.locator("[data-plan-card]")).toHaveCount(2);
-    await expect(page.locator("[data-marketing-performance] [data-marketing-bloque]")).toHaveCount(3);
+    await expect(page.locator("[data-marketing-performance] [data-marketing-bloque]")).toHaveCount(4);
     await expect(page.locator("[data-marketing-cta]")).toHaveAttribute("href", "/agenda?servicio=marketing");
     for (const viejo of [/Flux/, /Hurricane/, /Atlas/, /Summit/, new RegExp("CU" + "KI")]) {
       await expect(page.locator("body")).not.toContainText(viejo);

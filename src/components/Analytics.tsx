@@ -314,7 +314,7 @@ const ENGAGEMENT_SRC = `(function(){
     var planValue = parseFloat(a.getAttribute('data-plan-value') || '0');
     if (!planValue) {
       if (plan === 'vortex')          { planValue = 279; planName = planName || 'Vortex signup'; }
-      else if (plan === 'ecosistema') { planValue = 379; planName = planName || 'Ecosistema signup'; }
+      else if (plan === 'ecosistema') { planValue = 529; planName = planName || 'Ecosistema signup'; }
       else                            { planValue = 279; planName = planName || 'plan_signup'; }
     }
     var text = (a.innerText || a.getAttribute('aria-label') || '').trim().replace(/\\s+/g,' ').slice(0,80);

@@ -79,8 +79,8 @@ test("wizard: boleta «Quiero ahorrar» → datos (CRM + Lead US$ 3) → horario
   await expect(boleta).toBeVisible();
   await expect(boleta).toContainText("US$ 600–800/mes");
   await expect(boleta).toContainText("US$ 1.000–1.700/mes");
-  await expect(boleta).toContainText("US$ 379/mes");
-  await expect(boleta).toContainText("Ahorras más de US$ 600 al mes");
+  await expect(boleta).toContainText("US$ 529/mes");
+  await expect(boleta).toContainText("Ahorras desde US$ 470 al mes");
   await expect(page.locator("[data-quiero-ahorrar]")).toContainText("Desliza para ahorrar");
   // Soltar a medio camino no avanza.
   const perilla0 = (await page.locator("[data-perilla]").boundingBox())!;

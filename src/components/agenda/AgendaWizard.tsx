@@ -284,7 +284,7 @@ export default function AgendaWizard({
                 {paso === 1 && (
                   <div data-agenda-paso="1">
                     <h2 className={styles.titulo}>Lo que te ahorras con el Ecosistema Clinera</h2>
-                    <p className={styles.sub}>Campañas, propuesta de valor, framework comercial y el software con IA, en un solo lugar.</p>
+                    <p className={styles.sub}>Marketing de performance con reunión semanal, más el software con IA, en un solo lugar.</p>
                     <AhorroEcosistema compacto />
                     <DeslizarParaAhorrar onComplete={(o) => enviarPaso1(o)} />
                   </div>
