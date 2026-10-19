@@ -172,7 +172,7 @@ export default function AtencionesExplainer() {
             borderLeft: "3px solid #E5E7EB",
           }}
         >
-          <strong style={{ color: "#0A0A0A" }}>Tu plan incluye una bolsa mensual de 10.000 créditos de IA.</strong>{" "}
+          <strong style={{ color: "#0A0A0A" }}>Tu plan incluye una bolsa mensual de 28.000 créditos de IA.</strong>{" "}
           El texto simple de AURA consume ~30 créditos, un agendamiento automático (Agentic) ~195
           y un minuto de voz de CAMILA 25. Los cupos se dimensionaron con margen para que nunca te
           quedes corto ni pases por sorpresa del cupo.

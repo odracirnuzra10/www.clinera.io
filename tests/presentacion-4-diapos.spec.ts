@@ -100,7 +100,7 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     for (const card of [vortex, ecosistema]) {
       for (const logo of ["#ch-wa", "#ch-ig", "#ch-fb"]) expect(card).toContain(logo);
     }
-    expect(vortex).toContain("10.000 créditos de IA");
+    expect(vortex).toContain("28.000 créditos de IA");
     for (const t of ["Campañas de performance en Facebook, Instagram y Google", "Propuesta de valor", "Framework comercial"]) {
       expect(ecosistema).toContain(t);
       expect(vortex).not.toContain(t);

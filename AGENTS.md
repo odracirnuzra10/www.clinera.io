@@ -575,7 +575,7 @@ Guardián: `tests/reserva-tu-hora.spec.ts` + `tests/telefono.spec.ts`.
 > **Precios definitivos del 19-oct-2026 (Ricardo): Vortex US$ 279 y Ecosistema US$ 529** (el mismo día pasaron por 279 / 379 y quedaron en 279 / 529; antes 379 / 479). El énfasis del sitio está en el marketing (home abre con la sección de marketing antes de los planes). La fuente es `planes.ts`; en el resto del repo quedaron como residuo solo los catálogos viejos (`pricing.ts`: Vortex 279 / Atlas 379 / Summit 479, contratos `/firma`; páginas huérfanas de `public/`). Si ves 379 o 479 como Vortex/Ecosistema, es un número viejo. Ahorro de la boleta: 1.000 − 529 = «desde US$ 470 al mes» (piso del rango de mercado).
 
 **Clinera vende dos opciones:** Vortex US$ 279/mes (software con IA: hasta 10
-profesionales, 10.000 créditos, bandeja WhatsApp/IG/FB) y Ecosistema US$ 529/mes
+profesionales, 28.000 créditos, bandeja WhatsApp/IG/FB) y Ecosistema US$ 529/mes
 (Vortex + marketing de performance: campañas, propuesta de valor, framework
 comercial; «Recomendado»). **Sin implementación** (Ricardo, 19-oct: se eliminó, ver «Implementación y estructura de pago»). **Extras del
 software** (`EXTRAS` en `planes.ts`, valen para las dos opciones): profesional extra

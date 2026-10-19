@@ -298,7 +298,7 @@ function CreditsView({ run }: { run: number }) {
           <strong>
             <CountUp value={11840} run={run} prefix="" />
           </strong>
-          <small>de 10.000 · Vortex</small>
+          <small>de 28.000 · Vortex</small>
         </div>
         <div className={styles.creditsMeter} aria-hidden="true">
           <div className={styles.creditsMeterTrack}>

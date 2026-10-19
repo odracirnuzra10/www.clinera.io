@@ -42,7 +42,7 @@ const PLANS: Plan[] = [
     name: "Vortex",
     desc: (
       <>
-        El software con IA. Incluye hasta <strong>10 profesionales</strong> y <strong>10.000 créditos de IA al mes</strong>, con AURA por WhatsApp, Instagram y Facebook.
+        El software con IA. Incluye hasta <strong>10 profesionales</strong> y <strong>28.000 créditos de IA al mes</strong>, con AURA por WhatsApp, Instagram y Facebook.
       </>
     ),
     price: { amount: "US$279", per: "/mes" },

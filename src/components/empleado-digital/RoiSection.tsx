@@ -2,7 +2,7 @@
 
 const ROWS: Array<{ label: string; human: string; aura: string }> = [
   { label: "Costo mensual", human: "~$950 USD", aura: "$279 USD" },
-  { label: "Capacidad IA / mes", human: "500–1.500 conversaciones", aura: "10.000 créditos IA" },
+  { label: "Capacidad IA / mes", human: "500–1.500 conversaciones", aura: "28.000 créditos IA" },
   { label: "Horario", human: "45 h / semana", aura: "24 / 7 / 365" },
   { label: "Vacaciones / licencias", human: "15–20 días al año sin servicio", aura: "Cero" },
   { label: "Conversaciones simultáneas", human: "1–2", aura: "Ilimitadas" },
