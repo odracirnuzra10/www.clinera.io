@@ -146,14 +146,15 @@ export const EXTRAS = [
  * se publican como estimados y sin nombrar competidores.
  */
 export const AHORRO = {
-  titulo: "Lo que te ahorras con el Ecosistema",
+  titulo: "Lo que te ahorras",
   items: [
-    { id: "agencia", etiqueta: "Agencia de marketing", precio: "desde US$ 500/mes", nota: "Sin especialización en clínicas" },
-    { id: "software", etiqueta: "Software con IA y créditos", precio: "US$ 200–500/mes", nota: "Solo el software, sin marketing" },
-    { id: "otros", etiqueta: "Otro software + agenda", precio: "US$ 400–500 + US$ 200", nota: "Y el equipo de marketing aparte" },
+    { id: "agencia", etiqueta: "Agencia de marketing", nota: "sin especialización en clínicas", precio: "desde US$ 500/mes" },
+    { id: "software", etiqueta: "Software con IA y créditos", nota: "sin marketing", precio: "US$ 200–500/mes" },
+    { id: "otros", etiqueta: "Otro software + agenda", nota: "y el marketing aparte", precio: "US$ 400–500 + 200" },
   ],
-  total: "Armado por separado, todo esto cuesta entre US$ 1.000 y 1.500 al mes.",
-  conclusion: `Con el Ecosistema pagas US$ ${PLANES[1].monthlyUsd} y lo tienes todo en un solo lugar: te ahorras casi US$ 500 al mes.`,
+  separado: { etiqueta: "Todo por separado", precio: "US$ 1.000–1.500/mes" },
+  ecosistema: { etiqueta: "Clinera Ecosistema", precio: `US$ ${PLANES[1].monthlyUsd}/mes`, nota: "todo en un solo lugar" },
+  ahorro: "Ahorras casi US$ 500 al mes",
   nota: "Valores de referencia estimados del mercado.",
 } as const;
 
