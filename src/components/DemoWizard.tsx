@@ -45,7 +45,7 @@ const PLANS: Plan[] = [
         El software con IA. Incluye hasta <strong>10 profesionales</strong> y <strong>10.000 créditos de IA al mes</strong>, con AURA por WhatsApp, Instagram y Facebook.
       </>
     ),
-    price: { amount: "US$379", per: "/mes" },
+    price: { amount: "US$279", per: "/mes" },
   },
   {
     id: "p-ecosistema",
@@ -57,7 +57,7 @@ const PLANS: Plan[] = [
       </>
     ),
     tag: { label: "Recomendado" },
-    price: { amount: "US$479", per: "/mes" },
+    price: { amount: "US$379", per: "/mes" },
   },
 ];
 

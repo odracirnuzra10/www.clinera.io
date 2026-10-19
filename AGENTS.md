@@ -559,8 +559,10 @@ Guardián: `tests/reserva-tu-hora.spec.ts` + `tests/telefono.spec.ts`.
 
 # Modelo vigente: Vortex · Ecosistema y `/agenda` en 3 pasos (Ricardo, 18-oct-2026)
 
-**Clinera vende dos opciones:** Vortex US$ 379/mes (software con IA: hasta 10
-profesionales, 10.000 créditos, bandeja WhatsApp/IG/FB) y Ecosistema US$ 479/mes
+> **Precios rebajados el 19-oct-2026 (Ricardo): Vortex US$ 279 y Ecosistema US$ 379** («para que sea asequible»; antes 379 / 479). La fuente es `planes.ts`; en el resto del repo quedaron como residuo solo los catálogos viejos (`pricing.ts`: Vortex 279 / Atlas 379 / Summit 479, contratos `/firma`; páginas huérfanas de `public/`). Si ves 379 como Vortex o 479 como Ecosistema, es un número viejo. Ahorro de la boleta: 1.000 − 379 = «más de US$ 600 al mes».
+
+**Clinera vende dos opciones:** Vortex US$ 279/mes (software con IA: hasta 10
+profesionales, 10.000 créditos, bandeja WhatsApp/IG/FB) y Ecosistema US$ 379/mes
 (Vortex + marketing de performance: campañas, propuesta de valor, framework
 comercial; «Recomendado»). Implementación US$ 450 pago único, en el primer
 cobro, **siempre** (Ricardo, 18-oct: la promo «implementación gratis en Ecosistema»
@@ -569,8 +571,8 @@ software** (`EXTRAS` en `planes.ts`, valen para las dos opciones): profesional e
 US$ 9/mes, 500 conversaciones extra US$ 15, 5.000 créditos de IA extra US$ 15.
 **Discurso de ahorro** (Ricardo, 19-oct: `AHORRO` en `planes.ts`, componente `AhorroEcosistema`,
 bloque `.px-ahorro` de la presentación): agencia de marketing US$ 600–800/mes, software de
-agendamientos US$ 100–300, agente IA con créditos US$ 300–600; por separado US$ 1.000–1.700 vs US$ 479
-del Ecosistema («ahorras más de US$ 500 al mes»: 1.000 − 479 = 521 como mínimo). Son estimados de mercado: se publican como tales y
+agendamientos US$ 100–300, agente IA con créditos US$ 300–600; por separado US$ 1.000–1.700 vs US$ 379
+del Ecosistema («ahorras más de US$ 600 al mes»: 1.000 − 379 = 621 como mínimo). Son estimados de mercado: se publican como tales y
 **sin nombrar competidores**.
 Se muestra como una **«boleta» de gastos** minimalista (Ricardo, 19-oct: «bonito, minimalista, poco
 espacio, nunca apiñado»), **boleta recortada**: el papel (línea de corte con tijera y borde rasgado) es una imagen
@@ -613,7 +615,7 @@ Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
   Payment Links anteriores; Webhooks/API no tienen plan asignado en el modelo nuevo.
 - **Conflicto de nombres:** `pricing.ts` (contratos `/firma`, `/cotizacion`) y
   `planes2.ts` (`/go/exito`) conservan el catálogo viejo, donde «Vortex» vale 279.
-  `planVigenteDe` valoriza cualquier «Vortex» como 379.
+  `planVigenteDe` valoriza cualquier «Vortex» como 279.
 - **Dispositivos:** `tests/dispositivos-moviles.spec.ts` recorre 21 aparatos (iPhone SE a 15 Pro Max, Galaxy,
   Pixel, iPad, tabletas y en horizontal) con el motor Chromium: perilla con dedo, campos de 16 px o más
   (si no, iOS hace zoom), nada tapa los botones, sin scroll de página. Las alturas de iPhone ya
@@ -912,7 +914,7 @@ Decisiones consolidadas en la rama `feat/aeo-fase1-contenido` (agosto 2026):
   octubre 2026**; AURA es la que está disponible hoy. No volver a poner
   "Disponibles hoy" sobre las tres — en la demo se vende lo que aún no opera.
 - **MFA:** activo desde 2026-08-25 (fila confirmada en `src/content/seguridad.ts`).
-- **Precio máximo publicado:** USD 479/mes (Summit). Plan Corporativo USD 1.900
+- **Precio máximo publicado:** USD 379/mes (Ecosistema, desde el 19-oct-2026; antes Summit 479). Plan Corporativo USD 1.900
   eliminado del sitio público.
 - **"Empleado digital":** término canónico de Clinera para AURA/CAMILA/LIA.
   Definición en `src/content/empleado-digital-definicion.ts`, artículo en

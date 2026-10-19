@@ -8,8 +8,8 @@ import { CLINICAS_LOGOS } from "../src/content/clinicas-logos";
 test.describe("planes vigentes: Vortex · Ecosistema", () => {
   test("el catálogo", () => {
     expect(PLANES.map((p) => [p.id, p.monthlyUsd])).toEqual([
-      ["vortex", 379],
-      ["ecosistema", 479],
+      ["vortex", 279],
+      ["ecosistema", 379],
     ]);
     expect(IMPLEMENTACION_USD).toBe(450);
     expect(PLANES[1].features).toEqual(expect.arrayContaining(MARKETING_BLOQUES.map((b) => b.titulo)));
@@ -44,8 +44,8 @@ test.describe("ahorro del Ecosistema (Ricardo, 19-oct-2026)", () => {
       await expect(bloque.locator("[data-ahorro-item]")).toHaveCount(3);
       await expect(bloque).toContainText("US$ 600–800/mes");
       await expect(bloque).toContainText("US$ 1.000–1.700/mes");
-      await expect(bloque.locator("[data-ahorro-conclusion]")).toContainText("US$ 479");
-      await expect(bloque).toContainText("Ahorras más de US$ 500 al mes");
+      await expect(bloque.locator("[data-ahorro-conclusion]")).toContainText("US$ 379");
+      await expect(bloque).toContainText("Ahorras más de US$ 600 al mes");
       // Valores estimados y sin nombrar competidores.
       await expect(bloque).toContainText("estimados");
       await expect(bloque).not.toContainText(/AgendaPro|Reservo|Medilink|Bambi/i);

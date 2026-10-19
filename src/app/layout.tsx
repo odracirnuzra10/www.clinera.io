@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "Clinera",
     title: "Clinera | Software de IA para clínicas",
     description:
-      "Software con IA para clínicas estéticas y médicas: agenda, ficha y WhatsApp, Instagram y Facebook en una bandeja. +52 clínicas en LATAM. Desde USD 379/mes.",
+      "Software con IA para clínicas estéticas y médicas: agenda, ficha y WhatsApp, Instagram y Facebook en una bandeja. +52 clínicas en LATAM. Desde USD 279/mes.",
     images: [
       {
         url: "/images/og-banner.png",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Clinera | Software de IA para clínicas",
     description:
-      "Software con IA para clínicas estéticas y médicas: agenda, ficha y WhatsApp, Instagram y Facebook en una bandeja. +52 clínicas en LATAM. Desde USD 379/mes.",
+      "Software con IA para clínicas estéticas y médicas: agenda, ficha y WhatsApp, Instagram y Facebook en una bandeja. +52 clínicas en LATAM. Desde USD 279/mes.",
     images: ["/images/og-banner.png"],
   },
   // icons handled automatically by Next.js (src/app/icon.png + apple-icon.png)

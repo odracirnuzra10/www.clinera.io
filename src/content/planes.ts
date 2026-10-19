@@ -6,8 +6,8 @@
 // ecosistema: software con IA + marketing de performance, para clínicas estéticas
 // y médicas.
 //
-//  · Vortex                USD 379/mes  — software con IA.
-//  · Ecosistema            USD 479/mes  — software + marketing de performance («Recomendado»).
+//  · Vortex                USD 279/mes  — software con IA.
+//  · Ecosistema            USD 379/mes  — software + marketing de performance («Recomendado»).
 //  · Implementación        USD 450, pago único, en el primer cobro junto con el primer mes.
 //
 // No hay compra por la web: todo CTA lleva a /agenda (wizard de 3 pasos que termina
@@ -83,7 +83,7 @@ export const PLANES: readonly Plan[] = [
   {
     id: "vortex",
     name: "Vortex",
-    monthlyUsd: 379,
+    monthlyUsd: 279,
     servicio: "software",
     professionals: 10,
     iaCredits: 10000,
@@ -96,7 +96,7 @@ export const PLANES: readonly Plan[] = [
   {
     id: "ecosistema",
     name: "Ecosistema",
-    monthlyUsd: 479,
+    monthlyUsd: 379,
     servicio: "ambas",
     professionals: 10,
     iaCredits: 10000,
@@ -154,7 +154,7 @@ export const AHORRO = {
   ],
   separado: { etiqueta: "Todo por separado", precio: "US$ 1.000–1.700/mes" },
   ecosistema: { etiqueta: "Clinera Ecosistema", precio: `US$ ${PLANES[1].monthlyUsd}/mes`, nota: "todo en un solo lugar" },
-  ahorro: "Ahorras más de US$ 500 al mes",
+  ahorro: "Ahorras más de US$ 600 al mes",
   nota: "Valores de referencia estimados del mercado.",
 } as const;
 

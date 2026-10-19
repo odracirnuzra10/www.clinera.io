@@ -1,7 +1,7 @@
 "use client";
 
 const ROWS: Array<{ label: string; human: string; aura: string }> = [
-  { label: "Costo mensual", human: "~$950 USD", aura: "$379 USD" },
+  { label: "Costo mensual", human: "~$950 USD", aura: "$279 USD" },
   { label: "Capacidad IA / mes", human: "500–1.500 conversaciones", aura: "10.000 créditos IA" },
   { label: "Horario", human: "45 h / semana", aura: "24 / 7 / 365" },
   { label: "Vacaciones / licencias", human: "15–20 días al año sin servicio", aura: "Cero" },
@@ -11,7 +11,7 @@ const ROWS: Array<{ label: string; human: string; aura: string }> = [
 ];
 
 const MOBILE_METRICS: Array<{ label: string; aura: string; human: string }> = [
-  { label: "Costo mensual", aura: "$379", human: "~$950 USD por recepcionista" },
+  { label: "Costo mensual", aura: "$279", human: "~$950 USD por recepcionista" },
   { label: "Disponibilidad", aura: "24 / 7 / 365", human: "45 h / semana + licencias y vacaciones" },
   { label: "Conversaciones simultáneas", aura: "Ilimitadas", human: "1 a 2 conversaciones a la vez" },
 ];
