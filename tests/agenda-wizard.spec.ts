@@ -39,11 +39,20 @@ async function mockRed(page: Page) {
 }
 
 async function pasoBoleta(page: Page) {
-  // Si el clic cae antes de que React hidrate, se reintenta hasta que pase al paso 2.
+  // Se desliza la perilla hasta el final. Si el gesto cae antes de que React hidrate, se reintenta.
   await expect(async () => {
-    if (!(await page.locator('[data-agenda-paso="2"]').isVisible())) await page.locator("[data-quiero-ahorrar]").click();
-    await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible({ timeout: 1500 });
-  }).toPass({ timeout: 15000 });
+    if (!(await page.locator('[data-agenda-paso="2"]').isVisible())) {
+      const pista = (await page.locator("[data-quiero-ahorrar]").boundingBox())!;
+      const perilla = (await page.locator("[data-perilla]").boundingBox())!;
+      const y = perilla.y + perilla.height / 2;
+      await page.mouse.move(perilla.x + perilla.width / 2, y);
+      await page.mouse.down();
+      await page.mouse.move(perilla.x + perilla.width / 2 + (pista.width - perilla.width) / 2, y, { steps: 6 });
+      await page.mouse.move(pista.x + pista.width + 20, y, { steps: 6 });
+      await page.mouse.up();
+    }
+    await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible({ timeout: 2500 });
+  }).toPass({ timeout: 20000 });
 }
 
 async function llenarDatos(page: Page) {
@@ -68,11 +77,18 @@ test("wizard: boleta «Quiero ahorrar» → datos (CRM + Lead US$ 3) → horario
   await expect(page.locator("[data-servicio]")).toHaveCount(0);
   const boleta = page.locator('[data-agenda-paso="1"] [data-ahorro]');
   await expect(boleta).toBeVisible();
-  await expect(boleta).toContainText("desde US$ 500/mes");
-  await expect(boleta).toContainText("US$ 1.000–1.500/mes");
+  await expect(boleta).toContainText("US$ 600–800/mes");
+  await expect(boleta).toContainText("US$ 1.000–1.700/mes");
   await expect(boleta).toContainText("US$ 479/mes");
-  await expect(boleta).toContainText("Ahorras casi US$ 500 al mes");
-  await expect(page.locator("[data-quiero-ahorrar]")).toHaveText(/Quiero ahorrar/);
+  await expect(boleta).toContainText("Ahorras más de US$ 500 al mes");
+  await expect(page.locator("[data-quiero-ahorrar]")).toContainText("Desliza para ahorrar");
+  // Soltar a medio camino no avanza.
+  const perilla0 = (await page.locator("[data-perilla]").boundingBox())!;
+  await page.mouse.move(perilla0.x + 25, perilla0.y + 25);
+  await page.mouse.down();
+  await page.mouse.move(perilla0.x + 90, perilla0.y + 25, { steps: 5 });
+  await page.mouse.up();
+  await expect(page.locator('[data-agenda-paso="2"]')).toHaveCount(0);
   expect(capi).toHaveLength(0);
   await pasoBoleta(page);
 

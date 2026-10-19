@@ -148,13 +148,13 @@ export const EXTRAS = [
 export const AHORRO = {
   titulo: "Lo que te ahorras",
   items: [
-    { id: "agencia", etiqueta: "Agencia de marketing", nota: "sin especialización en clínicas", precio: "desde US$ 500/mes" },
-    { id: "software", etiqueta: "Software con IA y créditos", nota: "sin marketing", precio: "US$ 200–500/mes" },
-    { id: "otros", etiqueta: "Otro software + agenda", nota: "y el marketing aparte", precio: "US$ 400–500 + 200" },
+    { id: "agencia", etiqueta: "Agencia de marketing", nota: "sin especialización en clínicas estéticas y médicas", precio: "US$ 600–800/mes" },
+    { id: "software", etiqueta: "Software de agendamientos", nota: "", precio: "US$ 100–300/mes" },
+    { id: "ia", etiqueta: "Agente IA con créditos", nota: "", precio: "US$ 300–600/mes" },
   ],
-  separado: { etiqueta: "Todo por separado", precio: "US$ 1.000–1.500/mes" },
+  separado: { etiqueta: "Todo por separado", precio: "US$ 1.000–1.700/mes" },
   ecosistema: { etiqueta: "Clinera Ecosistema", precio: `US$ ${PLANES[1].monthlyUsd}/mes`, nota: "todo en un solo lugar" },
-  ahorro: "Ahorras casi US$ 500 al mes",
+  ahorro: "Ahorras más de US$ 500 al mes",
   nota: "Valores de referencia estimados del mercado.",
 } as const;
 
