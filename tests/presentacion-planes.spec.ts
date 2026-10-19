@@ -13,9 +13,9 @@ const start = html.indexOf('id="planes"');
 const chunk = html.slice(start, html.indexOf("</section>", start));
 
 test.describe("Planes en /presentacion", () => {
-  test("el deck son 4 diapositivas y la de planes lo cierra", () => {
+  test("el deck termina en la diapositiva de planes", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "funciones", "beneficios", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "pmfc", "rentabilidad", "funciones", "beneficios", "planes"]);
   });
 
   test("los montos y el marketing coinciden con planes.ts; sin planes viejos ni permanencia", () => {
