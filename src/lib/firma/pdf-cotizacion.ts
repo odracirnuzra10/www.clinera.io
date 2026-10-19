@@ -15,7 +15,7 @@
 import { PDFDocument, PDFFont, PDFName, PDFPage, PDFString, StandardFonts, rgb } from "pdf-lib";
 import { latin1 } from "./certificado";
 import { ENTIDAD_LEGAL } from "./firma-ceo";
-import { periodoAdjetivo, type CotizacionSnapshot } from "./cotizacion";
+import { lineaConDescuento, periodoAdjetivo, type CotizacionSnapshot } from "./cotizacion";
 
 const A4: [number, number] = [595.28, 841.89];
 const MARGEN = 52;
@@ -92,9 +92,11 @@ function etiquetaPeriodo(c: CotizacionSnapshot): string {
   return adj.charAt(0).toUpperCase() + adj.slice(1);
 }
 
-type Filas = Array<{ nombre: string; detalle: string; cantidad: string; dcto: number; lista: number; final: number }>;
+type Filas = Array<{ nombre: string; detalle: string; cantidad: string; dcto: number; dctoUsd: number; lista: number; final: number }>;
 
 function filasDeCotizacion(c: CotizacionSnapshot): Filas {
+  // Los snapshots guardados antes del descuento en monto fijo no traen descuentosUsd.
+  const m = c.descuentosUsd ?? { plan: 0, users: 0, credits: 0, setup: 0, global: 0 };
   const filas: Filas = [
     {
       nombre: `Plan ${c.planNombre}`,
@@ -106,8 +108,9 @@ function filasDeCotizacion(c: CotizacionSnapshot): Filas {
             : "Facturación mes a mes",
       cantidad: "1",
       dcto: c.descuentos.plan,
+      dctoUsd: m.plan,
       lista: c.centavos.planLista,
-      final: Math.round(c.centavos.planLista * (1 - c.descuentos.plan / 100)),
+      final: lineaConDescuento(c.centavos.planLista, c.descuentos.plan, m.plan),
     },
   ];
   if (c.extraUsuarios > 0) {
@@ -117,8 +120,9 @@ function filasDeCotizacion(c: CotizacionSnapshot): Filas {
       detalle: `${usd(c.centavos.usuarioLista)} por usuario por período`,
       cantidad: String(c.extraUsuarios),
       dcto: c.descuentos.users,
+      dctoUsd: m.users,
       lista,
-      final: Math.round(lista * (1 - c.descuentos.users / 100)),
+      final: lineaConDescuento(lista, c.descuentos.users, m.users),
     });
   }
   if (c.extraPacks > 0) {
@@ -128,8 +132,9 @@ function filasDeCotizacion(c: CotizacionSnapshot): Filas {
       detalle: `${usd(c.centavos.packLista)} por pack por período`,
       cantidad: String(c.extraPacks),
       dcto: c.descuentos.credits,
+      dctoUsd: m.credits,
       lista,
-      final: Math.round(lista * (1 - c.descuentos.credits / 100)),
+      final: lineaConDescuento(lista, c.descuentos.credits, m.credits),
     });
   }
   if (c.incluirSetup) {
@@ -138,8 +143,9 @@ function filasDeCotizacion(c: CotizacionSnapshot): Filas {
       detalle: "Pago único · migración, configuración y capacitación",
       cantidad: "1",
       dcto: c.descuentos.setup,
+      dctoUsd: m.setup,
       lista: c.centavos.setupLista,
-      final: Math.round(c.centavos.setupLista * (1 - c.descuentos.setup / 100)),
+      final: lineaConDescuento(c.centavos.setupLista, c.descuentos.setup, m.setup),
     });
   }
   return filas;
@@ -235,7 +241,10 @@ export async function generarPdfCotizacion(
     texto(fila.nombre, MARGEN, y, 10, negrita);
     texto(fila.detalle, MARGEN, y - 12, 8, regular, GRIS);
     texto(fila.cantidad, colCant, y, 9.5);
-    texto(fila.dcto > 0 ? `${fila.dcto}%` : "—", colDcto, y, 9.5, regular, fila.dcto > 0 ? VIOLETA : GRIS);
+    const dctoTexto = [fila.dcto > 0 ? `${fila.dcto}%` : "", fila.dctoUsd > 0 ? `-US$ ${fila.dctoUsd}` : ""]
+      .filter(Boolean)
+      .join(" ");
+    texto(dctoTexto || "—", colDcto, y, 9.5, regular, dctoTexto ? VIOLETA : GRIS);
     const monto = usd(fila.final);
     texto(monto, colTotal - anchoDe(monto, 9.5, negrita), y, 9.5, negrita);
     y -= 30;
