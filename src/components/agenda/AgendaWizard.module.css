@@ -559,3 +559,113 @@
     display: none;
   }
 }
+
+/* ---------- «Pum»: efecto al terminar de deslizar ---------- */
+.pum {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at var(--x) var(--y), #fff 0, rgba(255, 255, 255, 0.0) 12%),
+    linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
+  clip-path: circle(0px at var(--x) var(--y));
+  animation:
+    pumAbrir 0.55s cubic-bezier(0.7, 0, 0.2, 1) forwards,
+    pumDisolver 0.5s ease 0.55s forwards;
+}
+
+/* Ondas que salen de la perilla, como el «pum» de un impacto. */
+.pumAnillo {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border-radius: 999px;
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  animation: pumOnda 0.9s ease-out forwards;
+}
+
+.pumAnillo2 {
+  animation-delay: 0.14s;
+}
+
+@keyframes pumAbrir {
+  to {
+    clip-path: circle(160vmax at var(--x) var(--y));
+  }
+}
+
+@keyframes pumDisolver {
+  from {
+    opacity: 1;
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes pumOnda {
+  0% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(26);
+  }
+}
+
+/* El paso 2 «se abre»: cada bloque sube, se enfoca y aparece, uno tras otro. */
+.entrada > * {
+  animation: entrar 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.entrada > *:nth-child(1) { animation-delay: 0.52s; }
+.entrada > *:nth-child(2) { animation-delay: 0.6s; }
+.entrada > *:nth-child(3) { animation-delay: 0.68s; }
+.entrada > *:nth-child(4) { animation-delay: 0.76s; }
+.entrada > *:nth-child(5) { animation-delay: 0.84s; }
+.entrada > *:nth-child(6) { animation-delay: 0.92s; }
+.entrada > *:nth-child(7) { animation-delay: 1s; }
+.entrada > *:nth-child(8) { animation-delay: 1.08s; }
+
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+/* La barra de progreso se llena hacia el paso en que quedó. */
+.segOn {
+  transform-origin: left;
+  animation: llenar 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes llenar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pum,
+  .entrada > *,
+  .segOn {
+    animation: none;
+  }
+}
