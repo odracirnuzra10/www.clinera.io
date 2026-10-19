@@ -7,7 +7,9 @@
 // 18-oct-2026): una columna, carrusel de casos arriba, «Paso N de 3» con tarjetas
 // seleccionables y los datos de contacto al final.
 //
-//   Paso 1  qué servicio te interesa (se pueden elegir varios) → ViewContent
+//   Paso 1  la boleta «lo que te ahorras con el Ecosistema» y el botón «Quiero ahorrar»
+//           → ViewContent. Ya no se elige servicio (Ricardo, 19-oct-2026): se vende el
+//           Ecosistema, así que el lead viaja siempre con `servicio_interes: "ambas"`.
 //   Paso 2  tus datos: nombre, correo, celular y nombre de la clínica → CRM + Lead (US$ 3)
 //   Paso 3  elige tu horario: calendario nativo de Clinera (`StepClineraScheduler`) →
 //           Schedule + MQL (US$ 10)
@@ -40,8 +42,8 @@ import {
   type CalBooking,
   type Form,
 } from "@/components/ventas/VentasLanding";
-import { ECOSISTEMA_SLIDES, SERVICIOS, esServicio } from "@/content/agenda-oferta";
-import type { ServicioId } from "@/content/planes";
+import AhorroEcosistema from "@/components/pricing/AhorroEcosistema";
+import { ECOSISTEMA_SLIDES } from "@/content/agenda-oferta";
 import { fireLeadEvent } from "@/lib/metaEvents";
 import {
   RESERVA_PHONE_PREFIXES,
@@ -60,11 +62,10 @@ const SOURCE_PATH = "/agenda";
 const EMAIL_OK = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MX_TZ = /^America\/(Mexico_City|Cancun|Merida|Monterrey|Matamoros|Chihuahua|Ciudad_Juarez|Ojinaga|Mazatlan|Hermosillo|Tijuana|Bahia_Banderas)$/;
 const TOTAL = 3;
-const TITULOS_PASO = ["Qué te interesa", "Tus datos", "Tu horario"];
+const TITULOS_PASO = ["Lo que te ahorras", "Tus datos", "Tu horario"];
 
-// Lo que se puede elegir: marketing y software (los dos juntos = el ecosistema completo).
-const OPCIONES = SERVICIOS.filter((s) => s.id === "marketing" || s.id === "software");
-type Opcion = "marketing" | "software";
+// Siempre el Ecosistema (software + marketing): lo que se vende desde el 19-oct-2026.
+const SERVICIO = { id: "ambas", label: "Ecosistema (software con IA + marketing de performance)" } as const;
 
 function Check({ size = 14 }: { size?: number }) {
   return (
@@ -74,43 +75,17 @@ function Check({ size = 14 }: { size?: number }) {
   );
 }
 
-function Cohete() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden data-icono="cohete">
-      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
-      <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
-      <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
-      <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
-    </svg>
-  );
-}
-
-function Rayo({ size = 16 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden data-icono="rayo">
-      <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" />
-    </svg>
-  );
-}
-
 const paisDePrefijo = (prefix: string) => RESERVA_PHONE_PREFIXES.find((p) => p.prefix === prefix)?.label ?? "";
-
-/** `?servicio=` de la URL → opciones marcadas. «ambas» marca las dos. */
-function opcionesIniciales(v: string | null | undefined): Opcion[] {
-  if (!esServicio(v)) return [];
-  return v === "ambas" ? ["marketing", "software"] : [v];
-}
 
 export default function AgendaWizard({
   tzIp = "",
   servicioInicial = null,
 }: {
   tzIp?: string;
-  /** `?servicio=` de la URL: deja esas opciones marcadas en el paso 1. */
+  /** `?servicio=` de la URL: ya no cambia el flujo, solo se registra en el dataLayer. */
   servicioInicial?: string | null;
 }) {
   const [paso, setPaso] = useState<1 | 2 | 3>(1);
-  const [elegidos, setElegidos] = useState<Opcion[]>(() => opcionesIniciales(servicioInicial));
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [prefix, setPrefix] = useState(() => (MX_TZ.test(tzIp) ? "+52" : "+56"));
@@ -131,10 +106,6 @@ export default function AgendaWizard({
     formStarted.current = true;
     pushDL("agenda_form_start", { source_path: SOURCE_PATH });
   }
-
-  // Una opción = ese servicio; las dos juntas = «ambas», el valor que ya entiende el CRM.
-  const servicio: ServicioId | null = elegidos.length === 2 ? "ambas" : (elegidos[0] ?? null);
-  const servicioLabel = elegidos.length === 2 ? "Marketing de performance + Software con IA" : (OPCIONES.find((o) => o.id === elegidos[0])?.titulo ?? "");
 
   const digitos = digitosTelefono(phone);
   const phoneError = mensajeErrorTelefono(prefix, digitos);
@@ -158,7 +129,7 @@ export default function AgendaWizard({
     pais: paisDePrefijo(prefix),
     cargo: "" as Form["cargo"],
     boxes: null,
-    servicio: servicio ? { id: servicio, label: servicioLabel } : null,
+    servicio: SERVICIO,
   };
   const size = { profile: null };
   const qual = evaluateQualification(size);
@@ -176,20 +147,11 @@ export default function AgendaWizard({
     window.scrollTo({ top: 0 });
   }
 
-  function alternar(o: Opcion) {
-    marcarInicio();
-    setElegidos((prev) => (prev.includes(o) ? prev.filter((x) => x !== o) : [...prev, o]));
-  }
-
   function enviarPaso1() {
-    if (!servicio) {
-      setIntentado(true);
-      return;
-    }
-    pushDL("agenda_step_complete", { step: 1, step_name: "servicio", servicio, source_path: SOURCE_PATH });
-    // ViewContent con lo elegido (Ricardo, 18-oct-2026).
-    trackPixel("ViewContent", { content_name: servicioLabel, content_category: "servicio_interes", content_ids: elegidos });
-    setIntentado(false);
+    marcarInicio();
+    pushDL("agenda_step_complete", { step: 1, step_name: "boleta_quiero_ahorrar", servicio: SERVICIO.id, source_path: SOURCE_PATH });
+    // ViewContent: quiso ver lo que ahorra con el Ecosistema (Ricardo, 19-oct-2026).
+    trackPixel("ViewContent", { content_name: SERVICIO.label, content_category: "servicio_interes", content_ids: ["ecosistema"] });
     irA(2);
   }
 
@@ -201,7 +163,7 @@ export default function AgendaWizard({
     const eventId = leadCtx?.eventId ?? newLeadEventId();
     const ctx = leadCtx ?? { eventId, leadSource: detectLeadSource() };
     if (!leadCtx) setLeadCtx(ctx);
-    pushDL("agenda_step_complete", { step: 2, step_name: "datos", servicio, source_path: SOURCE_PATH });
+    pushDL("agenda_step_complete", { step: 2, step_name: "datos", servicio: SERVICIO.id, source_path: SOURCE_PATH });
     setIntentado(false);
     irA(3);
     // Embudo de Meta (Ricardo, 18-oct-2026): rellenar el formulario = Lead US$ 3.
@@ -232,7 +194,7 @@ export default function AgendaWizard({
 
   return (
     <div
-      className={`${base.page} ${styles.pagina} ${paso > 1 || booking ? styles.avanzado : ""} ${enCalendario || booking ? styles.calendario : ""}`}
+      className={`${base.page} ${styles.pagina} ${paso > 1 || booking ? styles.avanzado : ""} ${paso === 1 ? styles.inicio : ""} ${enCalendario || booking ? styles.calendario : ""}`}
       data-paso={paso}
     >
       <aside className={styles.panel} data-agenda-casos>
@@ -287,50 +249,11 @@ export default function AgendaWizard({
 
                 {paso === 1 && (
                   <div data-agenda-paso="1">
-                    <h2 className={styles.titulo}>¿Qué servicio te interesa?</h2>
-                    <p className={styles.sub}>Puedes elegir los dos.</p>
-                    <div className={styles.servicios} role="group" aria-label="Servicio de interés">
-                      {OPCIONES.map((s) => {
-                        const on = elegidos.includes(s.id as Opcion);
-                        return (
-                          <button
-                            key={s.id}
-                            type="button"
-                            role="checkbox"
-                            aria-checked={on}
-                            data-servicio={s.id}
-                            className={`${styles.servicio} ${on ? styles.servicioOn : ""}`}
-                            onClick={() => alternar(s.id as Opcion)}
-                          >
-                            <span className={`${styles.radio} ${styles.casilla}`} aria-hidden>
-                              {on && <Check size={13} />}
-                            </span>
-                            <span className={styles.servicioTitulo}>
-                              {s.id === "marketing" && (
-                                <span className={styles.icono}>
-                                  <Cohete />
-                                </span>
-                              )}
-                              {s.titulo}
-                            </span>
-                            <span className={styles.servicioTexto}>{s.texto}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                    {elegidos.length === 2 && (
-                      <p className={styles.ecosistema} data-ecosistema-completo>
-                        <Rayo />
-                        <span>Ecosistema completo: traemos los pacientes y los atendemos.</span>
-                      </p>
-                    )}
-                    {intentado && !servicio && (
-                      <p className={base.error} role="alert">
-                        Elige al menos un servicio.
-                      </p>
-                    )}
-                    <button type="button" className={base.cta} onClick={enviarPaso1}>
-                      Continuar →
+                    <h2 className={styles.titulo}>Lo que te ahorras con el Ecosistema Clinera</h2>
+                    <p className={styles.sub}>Campañas, propuesta de valor, framework comercial y el software con IA, en un solo lugar.</p>
+                    <AhorroEcosistema compacto />
+                    <button type="button" className={base.cta} onClick={enviarPaso1} data-quiero-ahorrar>
+                      Quiero ahorrar →
                     </button>
                   </div>
                 )}
@@ -393,7 +316,7 @@ export default function AgendaWizard({
                         if (bookingSent.current) return;
                         bookingSent.current = true;
                         setBooking(next);
-                        pushDL("agenda_step_complete", { step: 3, step_name: "horario", servicio, source_path: SOURCE_PATH });
+                        pushDL("agenda_step_complete", { step: 3, step_name: "horario", servicio: SERVICIO.id, source_path: SOURCE_PATH });
                         void submitBookingConfirmation({
                           form,
                           software: null,

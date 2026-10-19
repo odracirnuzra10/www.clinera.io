@@ -14,9 +14,9 @@
 import { AHORRO } from "@/content/planes";
 import styles from "./AhorroEcosistema.module.css";
 
-export default function AhorroEcosistema() {
+export default function AhorroEcosistema({ compacto = false }: { compacto?: boolean }) {
   return (
-    <div className={styles.bol} data-ahorro>
+    <div className={`${styles.bol} ${compacto ? styles.compacto : ""}`} data-ahorro>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/images/agenda/boleta-arriba.webp" alt="" aria-hidden className={styles.arriba} width={600} height={96} />
       <div className={styles.cuerpo}>
