@@ -12,11 +12,11 @@ import { entityGraph } from "@/components/seo/schemas";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.clinera.io"),
   title: {
-    default: "Clinera | Software de IA para clínicas",
+    default: "Clinera | Metodología PMFC y software con IA para clínicas",
     template: "%s | Clinera",
   },
   description:
-    "Clinera es software con IA y marketing de performance para clínicas estéticas y médicas en LATAM: campañas que traen pacientes y AURA, que los responde, agenda y confirma.",
+    "Clinera es la C de la metodología PMFC (propuesta de valor, marketing, framework comercial y Clinera) para clínicas estéticas y médicas en LATAM: más rentabilidad, campañas que traen pacientes y AURA, que los agenda y confirma.",
   keywords: [
     "agendamiento con IA",
     "WhatsApp clinica",
@@ -35,23 +35,23 @@ export const metadata: Metadata = {
     locale: "es_CL",
     url: "https://www.clinera.io",
     siteName: "Clinera",
-    title: "Clinera | Software de IA para clínicas",
+    title: "Clinera | Metodología PMFC y software con IA para clínicas",
     description:
-      "Software con IA para clínicas estéticas y médicas: agenda, ficha y WhatsApp, Instagram y Facebook en una bandeja. +52 clínicas en LATAM. Desde USD 279/mes.",
+      "Metodología PMFC para clínicas estéticas y médicas: propuesta de valor, marketing, framework comercial y Clinera, el software con IA. Desde USD 279/mes.",
     images: [
       {
         url: "/images/og-banner.png",
         width: 1200,
         height: 630,
-        alt: "Clinera — software de IA para clínicas",
+        alt: "Clinera — metodología PMFC y software con IA para clínicas",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Clinera | Software de IA para clínicas",
+    title: "Clinera | Metodología PMFC y software con IA para clínicas",
     description:
-      "Software con IA para clínicas estéticas y médicas: agenda, ficha y WhatsApp, Instagram y Facebook en una bandeja. +52 clínicas en LATAM. Desde USD 279/mes.",
+      "Metodología PMFC para clínicas estéticas y médicas: propuesta de valor, marketing, framework comercial y Clinera, el software con IA. Desde USD 279/mes.",
     images: ["/images/og-banner.png"],
   },
   // icons handled automatically by Next.js (src/app/icon.png + apple-icon.png)
