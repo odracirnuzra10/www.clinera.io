@@ -3021,6 +3021,10 @@
     @media (max-width: 900px) { .rs-body { grid-template-columns: minmax(0, 1fr); } }
     @media (max-height: 800px) { .rs-card[data-resultado="lumina"] p { display: none; } .rs-admin td { padding: 8px 12px; } }
     @media (max-width: 640px) { .rs-admin th:nth-child(4), .rs-admin td:nth-child(4) { display: none; } .rs-admin-bar { flex-direction: column; } .rs-card h3 { flex-direction: column; gap: 2px; } .rs-bar { grid-template-columns: 84px minmax(0, 1fr) 56px; } .rs-body { padding-bottom: 72px; } }
+    .rs-left { display: grid; gap: clamp(10px, 1.8vh, 16px); }
+    .rs-film .rs-bar { grid-template-columns: 84px minmax(0, 1fr) 92px; }
+    .rs-film .rs-result { transition-delay: 2s; }
+    @media (max-height: 800px) { .rs-film p, .rs-admin-note { display: none; } #resultados .blk-h2 { font-size: clamp(26px, 4.6vh, 38px); } .rs-layout { gap: 12px; } .rs-card { padding: 10px 16px; } .rs-result { margin-top: 6px; padding: 4px 10px; } }
     .ad-body { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: clamp(20px, 4vw, 64px); align-items: center; }
     .ad-card { border: 1px solid #E5E7EB; border-radius: 12px; background: #fff; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
     .ad-top { display: flex; align-items: center; gap: 10px; padding: 12px 14px 6px; }
@@ -4826,41 +4830,20 @@
       <section
         class="slide blk"
         id="pmfc"
-        data-name="Ecosistema PMFC"
+        data-name="Metodología PMFC"
         aria-hidden="true"
       >
-        <div class="slide-inner hr-layout pmfc-layout">
+        <div class="slide-inner hr-layout pb-layout">
           <header class="hr-head">
             <div class="blk-eyebrow">METODOLOGÍA PMFC</div>
             <h2 class="blk-h2">Cuatro piezas, <span class="blk-grad-text">un solo sistema.</span></h2>
           </header>
 
-          <ol class="pmfc-grid reveal" aria-label="Ecosistema PMFC">
-            <li data-pmfc="P"><b>P</b><strong>Propuesta de valor</strong><span>Tu ventaja competitiva, convertida en un servicio único.</span></li>
-            <li data-pmfc="M"><b>M</b><strong>Marketing</strong><span>Campañas con IA que llegan a tu cliente objetivo.</span></li>
-            <li data-pmfc="F"><b>F</b><strong>Framework</strong><span>Tu equipo aprende a convertir evaluaciones en cierres.</span></li>
-            <li data-pmfc="C"><b>C</b><strong>Clinera</strong><span>El software con IA, conectado a tus campañas.</span></li>
-          </ol>
-        </div>
-      </section>
-
-      <section
-        class="slide blk"
-        id="pilares"
-        data-name="Los pilares"
-        aria-hidden="true"
-      >
-        <div class="slide-inner hr-layout pb-layout">
-          <header class="hr-head">
-            <div class="blk-eyebrow">LOS PILARES</div>
-            <h2 class="blk-h2">Cuatro pilares para <span class="blk-grad-text">cobrar más y crecer.</span></h2>
-          </header>
-
-          <ol class="pb-list pb-pilares reveal" aria-label="Los cuatro pilares de PMFC">
-            <li data-pilar="P" data-l="P"><strong>Propuesta de valor</strong><span>Una propuesta que te permita cobrar caro y que tus pacientes valoren como una solución de alto valor. Más valor percibido, más pagan, más rentabilidad. Nuestro equipo, con más de 10 años de experiencia, te ayuda a construirla.</span></li>
-            <li data-pilar="M" data-l="M"><strong>Marketing</strong><span>Comunicamos tu propuesta en los canales adecuados: Google, redes sociales o ambos. Usamos pujas automáticas (CPA objetivo o maximizar el valor de la conversión) y reuniones semanales para informarte el progreso.</span></li>
-            <li data-pilar="F" data-l="F"><strong>Framework</strong><span>Un framework comercial con herramientas de negociación y cierre, para que tu equipo cierre la venta dentro de la consulta.</span></li>
-            <li data-pilar="C" data-l="C"><strong>Clinera</strong><span>Nuestro software, con inteligencia artificial que nos ayuda a optimizar los resultados de las campañas de marketing. Lo usan clínicas en Chile y LATAM.</span></li>
+          <ol class="pb-list pb-pilares reveal" aria-label="Metodología PMFC">
+            <li data-pmfc="P" data-l="P"><strong>Propuesta de valor</strong><span>Una propuesta que te permita cobrar caro y que tus pacientes valoren como una solución de alto valor. Más valor percibido, más pagan, más rentabilidad. Nuestro equipo, con más de 10 años de experiencia, te ayuda a construirla.</span></li>
+            <li data-pmfc="M" data-l="M"><strong>Marketing</strong><span>Comunicamos tu propuesta en los canales adecuados: Google, redes sociales o ambos. Usamos pujas automáticas (CPA objetivo o maximizar el valor de la conversión) y reuniones semanales para informarte el progreso.</span></li>
+            <li data-pmfc="F" data-l="F"><strong>Framework</strong><span>Un framework comercial con herramientas de negociación y cierre, para que tu equipo cierre la venta dentro de la consulta.</span></li>
+            <li data-pmfc="C" data-l="C"><strong>Clinera</strong><span>Nuestro software, con inteligencia artificial que nos ayuda a optimizar los resultados de las campañas de marketing. Lo usan clínicas en Chile y LATAM.</span></li>
           </ol>
         </div>
       </section>
@@ -4910,6 +4893,7 @@
           </header>
 
           <div class="rs-body reveal">
+            <div class="rs-left">
             <div class="rs-admin" data-admin aria-label="Administrador comercial: campañas SQL de Método Hebe y Protocolo Lumina">
               <div class="rs-admin-bar"><span>Administrador comercial</span><span>19 sept – 18 oct 2026</span></div>
               <table>
@@ -4920,6 +4904,15 @@
                 </tbody>
               </table>
               <div class="rs-admin-note">Montos en pesos chilenos, tal como los muestra el administrador.</div>
+            </div>
+
+            <article class="rs-card rs-film" data-pelicula aria-label="Toda la película: una sucursal vendió US$ 220.000 con una inversión de US$ 35.000">
+              <h3>Toda la película <em>UNA SUCURSAL DE MÉTODO HEBE</em></h3>
+              <div class="rs-bar"><span>Inversión</span><span class="rs-track"><i class="rs-fill cost" style="--w:16%"></i></span><b>US$ 35.000</b></div>
+              <div class="rs-bar"><span>Venta final</span><span class="rs-track"><i class="rs-fill ing" style="--w:100%"></i></span><b>US$ 220.000</b></div>
+              <span class="rs-result pos">Vendió 6,3 veces lo invertido</span>
+              <p>La evaluación sola no paga el lead, pero la venta final lo compensa de sobra.</p>
+            </article>
             </div>
 
             <div class="rs-cards">
