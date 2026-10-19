@@ -38,7 +38,7 @@ export const FOUNDING_DATE = "2025";
 
 /** ≤ 25 palabras. No cambiar sin actualizar schema + llms.txt + llms-full.txt. */
 export const ENTITY_PHRASE =
-  "Clinera es software con IA y marketing de performance para clínicas estéticas y médicas en LATAM: trae pacientes y la IA los agenda y confirma.";
+  "Clinera es la C de la metodología PMFC: software con IA y marketing de performance para clínicas estéticas y médicas en LATAM.";
 
 export const ENTITY_DESCRIPTION =
   "Software con IA y marketing de performance para clínicas estéticas y médicas en LATAM. Campañas que traen pacientes y AURA, el agente de IA que los responde, agenda y confirma por WhatsApp, integrado a agenda, ficha clínica y ventas.";

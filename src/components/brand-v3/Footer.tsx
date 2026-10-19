@@ -123,8 +123,7 @@ export default function FooterV3() {
               marginTop: 14,
             }}
           >
-            La IA que atiende, agenda y confirma pacientes por ti. Para clínicas que quieren
-            crecer sin contratar más recepción.
+            Metodología PMFC: propuesta de valor, marketing, framework comercial y Clinera, el software con IA. Para clínicas que quieren más rentabilidad, no solo más pacientes.
           </div>
           <div
             style={{
