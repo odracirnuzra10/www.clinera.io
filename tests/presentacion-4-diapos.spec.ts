@@ -34,6 +34,11 @@ test.describe("/presentacion en 4 diapositivas", () => {
     for (const f of ["Agenda", "Fichas", "Pagos", "Marketing", "Clinera Intelligence", "AURA", "CAMILA", "LIA"]) {
       expect(c).toContain(f);
     }
+    // El ecosistema se explica en dos piezas separadas (marketing y software) y cómo trabajan juntas.
+    expect(c).toContain('data-eco="marketing"');
+    expect(c).toContain('data-eco="software"');
+    expect(c).toContain("Cómo funcionan juntos");
+    expect(c).toContain("Reunión de marketing cada semana");
     expect(c).toContain("devolverle tiempo al paciente");
     expect(c).toContain("Roadmap 2027: HL7 FHIR");
     expect(c).toContain("En vivo");
@@ -44,6 +49,9 @@ test.describe("/presentacion en 4 diapositivas", () => {
   test("beneficios: costo, todo unificado y software hecho para clínicas, con el ahorro en números", () => {
     const c = slide("beneficios");
     for (const b of ["costo", "unificado", "especializado"]) expect(c).toContain(`data-beneficio="${b}"`);
+    expect(c).toContain("¿Por qué contratar el");
+    expect(c).toContain("Ecosistema");
+    expect(c).toContain("4 reuniones de marketing al mes");
     expect(c).toContain("Te ahorras desde US$ 470 al mes");
     expect(c).toContain("clínicas estéticas y médicas");
     expect(c).toContain("US$ 600–800/mes");

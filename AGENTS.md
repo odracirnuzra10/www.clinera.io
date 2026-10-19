@@ -589,6 +589,10 @@ Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
   (cuarto bloque de `MARKETING_BLOQUES`, id `reuniones`, que alimenta tarjetas, home, `llms*.txt` y el paso 3
   del wizard; la presentación lo lleva escrito a mano). **Las dos opciones incluyen onboarding dedicado con un
   ejecutivo humano** (ya no «asistido por una persona»). Guardián: `tests/planes-vigentes.spec.ts`.
+- **Presentación = el Ecosistema, no solo Clinera (Ricardo, 19-oct):** `#funciones` ahora se llama «Ecosistema Clinera» y
+  separa **pieza 1, marketing de performance** (campañas, propuesta de valor, framework comercial, reunión semanal) de **pieza 2,
+  software** (agenda, fichas, pagos, Intelligence, AURA/CAMILA/LIA), más la tira «cómo funcionan juntos» (campaña → AURA agenda →
+  ficha y cobro → reunión semanal ajusta las campañas). `#beneficios` es «¿Por qué contratar el Ecosistema?». Sigue siendo 4 diapos.
 - **`/agenda` es un wizard de 3 pasos, sin scroll de página** (`AgendaWizard.tsx`,
   copy en `agenda-oferta.ts`), en el formato de `protocololumina.cl/evaluacion`:
   pantalla partida (panel oscuro con una imagen por paso y wizard blanco; en móvil
