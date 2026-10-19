@@ -66,7 +66,7 @@ export const MARKETING_BLOQUES = [
   {
     id: "campanas",
     titulo: "Campañas de performance en Facebook, Instagram y Google",
-    texto: "Campañas de performance que traen pacientes a tu clínica, no solo likes.",
+    texto: "Campañas de performance que traen pacientes a tu clínica, no solo likes. Incluye los creativos: tú entregas los videos y nosotros los editamos.",
   },
   {
     id: "propuesta",
