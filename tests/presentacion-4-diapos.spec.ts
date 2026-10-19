@@ -20,13 +20,16 @@ test.describe("/presentacion en 4 diapositivas", () => {
     expect(ids).toEqual(["quienes-somos", "funciones", "beneficios", "planes"]);
   });
 
-  test("quiénes somos cuenta la historia: 2017, más de 1.500 clínicas, Clinera 2025", () => {
+  test("quiénes somos: el ecosistema, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
     const c = slide("quienes-somos");
-    expect(c).toContain("2017");
-    expect(c).toContain("Más de 1.500 clínicas");
-    expect(c).toContain("ninguno satisfacía");
-    expect(c).toContain("Sep 2025");
-    expect(c).toContain("más de 1 año de desarrollo y testeo");
+    expect(c).toContain("ecosistema");
+    expect(c).toContain("marketing digital y software");
+    expect(c).toContain("clínicas estéticas y médicas");
+    expect(c).toContain("más de 12 años");
+    expect(c).toContain("Metricads Marketing");
+    expect(c).toContain("Meta y Google partner");
+    expect(c).toContain("canal-metricads.webp");
+    expect(c).not.toContain("1.500");
   });
 
   test("funciones Clinera: funciones e IA; CAMILA y LIA siguen como próximamente", () => {
@@ -34,6 +37,11 @@ test.describe("/presentacion en 4 diapositivas", () => {
     for (const f of ["Agenda", "Fichas", "Pagos", "Marketing", "Clinera Intelligence", "AURA", "CAMILA", "LIA"]) {
       expect(c).toContain(f);
     }
+    // El ecosistema se explica en dos piezas separadas (marketing y software) y cómo trabajan juntas.
+    expect(c).toContain('data-eco="marketing"');
+    expect(c).toContain('data-eco="software"');
+    expect(c).toContain("Cómo funcionan juntos");
+    expect(c).toContain("Reunión de marketing cada semana");
     expect(c).toContain("devolverle tiempo al paciente");
     expect(c).toContain("Roadmap 2027: HL7 FHIR");
     expect(c).toContain("En vivo");
@@ -44,6 +52,9 @@ test.describe("/presentacion en 4 diapositivas", () => {
   test("beneficios: costo, todo unificado y software hecho para clínicas, con el ahorro en números", () => {
     const c = slide("beneficios");
     for (const b of ["costo", "unificado", "especializado"]) expect(c).toContain(`data-beneficio="${b}"`);
+    expect(c).toContain("¿Por qué contratar el");
+    expect(c).toContain("Ecosistema");
+    expect(c).toContain("4 reuniones de marketing al mes");
     expect(c).toContain("Te ahorras desde US$ 470 al mes");
     expect(c).toContain("clínicas estéticas y médicas");
     expect(c).toContain("US$ 600–800/mes");
@@ -77,6 +88,7 @@ test.describe("/presentacion en 4 diapositivas", () => {
     }
     expect(c).not.toContain("Promoción del mes");
     expect(c).not.toContain("Implementación gratis");
-    expect(c).toContain("Implementación USD 450, pago único");
+    expect(c).not.toContain("USD 450");
+    expect(c).toContain("Onboarding dedicado con un ejecutivo humano en ambos planes");
   });
 });

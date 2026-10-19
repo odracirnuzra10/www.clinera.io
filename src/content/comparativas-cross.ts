@@ -195,7 +195,7 @@ export const cruzadas: Record<string, Cruzada> = {
       {
         title: "Precio y transparencia",
         body:
-          "AgendaPro publica USD 19/usuario/mes. Medilink no publica precios — atiende por demo/cotización. Clinera publica VORTEX USD 279/mes y ECOSISTEMA USD 529/mes; mes 1: implementación USD 450 (pago único) con onboarding asistido — operando el mismo día.",
+          "AgendaPro publica USD 19/usuario/mes. Medilink no publica precios — atiende por demo/cotización. Clinera publica VORTEX USD 279/mes y ECOSISTEMA USD 529/mes; con onboarding dedicado con un ejecutivo humano — operando el mismo día.",
       },
     ],
     faqs: [
@@ -647,7 +647,7 @@ cruzadas["dentalink-vs-reservo"] = {
     {
       title: "Precio y transparencia",
       body:
-        "Ni Dentalink ni Reservo publican precios — atienden por demo o cotización. Clinera publica VORTEX USD 279/mes; mes 1: implementación USD 450 (pago único) con onboarding asistido — operando el mismo día.",
+        "Ni Dentalink ni Reservo publican precios — atienden por demo o cotización. Clinera publica VORTEX USD 279/mes; con onboarding dedicado con un ejecutivo humano — operando el mismo día.",
     },
   ],
   faqs: [

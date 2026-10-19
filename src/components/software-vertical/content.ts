@@ -1,6 +1,5 @@
 import type { HeroViewId } from "@/components/plataforma/HeroCarousel";
 import {
-  IMPLEMENTACION_USD,
   PLANES,
   PLAN_IA_DESDE,
   PLAN_DESDE_USD,
@@ -83,7 +82,7 @@ export type SoftwareVerticalContent = {
   };
 };
 
-const PRICE_FAQ = `Hay dos opciones mensuales: ${vortex.name} (US$ ${vortex.monthlyUsd}/mes), el software con IA para hasta ${vortex.professionals} profesionales con ${nf(vortex.iaCredits)} créditos de IA, y ${ecosistema.name} (US$ ${ecosistema.monthlyUsd}/mes), que suma marketing de performance para traerte pacientes. La implementación es de US$ ${IMPLEMENTACION_USD}, pago único. Para partir, agendas una videollamada con el equipo.`;
+const PRICE_FAQ = `Hay dos opciones mensuales: ${vortex.name} (US$ ${vortex.monthlyUsd}/mes), el software con IA para hasta ${vortex.professionals} profesionales con ${nf(vortex.iaCredits)} créditos de IA, y ${ecosistema.name} (US$ ${ecosistema.monthlyUsd}/mes), que suma marketing de performance para traerte pacientes. Las dos incluyen onboarding dedicado con un ejecutivo humano. Para partir, agendas una videollamada con el equipo.`;
 
 const INTEGRATION_FAQ =
   "No. Clinera no se sincroniza con Reservo, AgendaPro, Medilink ni Dentalink: opera sobre su propia agenda, ficha clínica y módulo de pagos, y migramos tus datos en el onboarding. Para conectar otras herramientas tienes Webhooks y API pública (n8n, Make, Zapier) en Atlas y Summit.";

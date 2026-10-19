@@ -2,7 +2,7 @@
 // «Agendar videollamada» → /agenda?servicio=…, sin cupón ni compra en la web.
 
 import { expect, test } from "@playwright/test";
-import { CTA_VENTAS_LABEL, IMPLEMENTACION_USD, MARKETING_BLOQUES, PLANES } from "../src/content/planes";
+import { CTA_VENTAS_LABEL, MARKETING_BLOQUES, PLANES } from "../src/content/planes";
 import { CLINICAS_LOGOS } from "../src/content/clinicas-logos";
 
 test.describe("planes vigentes: Vortex · Ecosistema", () => {
@@ -11,7 +11,7 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
       ["vortex", 279],
       ["ecosistema", 529],
     ]);
-    expect(IMPLEMENTACION_USD).toBe(450);
+    // Ricardo, 19-oct-2026: el valor de la implementación no se publica en ningún lado.
     expect(PLANES[1].features).toEqual(expect.arrayContaining(MARKETING_BLOQUES.map((b) => b.titulo)));
   });
 
@@ -26,7 +26,7 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
         `/agenda?utm_source=google&servicio=${p.servicio}`,
       );
     }
-    await expect(page.locator("[data-planes-vigentes]")).toContainText(`${IMPLEMENTACION_USD}`);
+    await expect(page.locator("[data-planes-vigentes]")).not.toContainText("450");
     await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
     const texto = await page.locator("main").innerText();
     for (const viejo of ["Flux", "Hurricane", "Nexus", "Summit", "Atlas", "CU" + "KI", "permanencia"]) {

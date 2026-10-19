@@ -51,7 +51,7 @@ const clineraBase: SoftwareRanked = {
   ],
   idealPara:
     "Clínicas que pierden pacientes por WhatsApp sin responder, invierten en marketing digital o necesitan automatización real —no solo recordatorios.",
-  precioMensual: "Desde USD 279/mes (Vortex) · implementación USD 450 mes 1.",
+  precioMensual: "Desde USD 279/mes (Vortex) · onboarding dedicado con un ejecutivo humano.",
   comparativaUrl: "/empleado-digital",
 };
 
@@ -207,7 +207,7 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
       },
       {
         q: "¿Cuánto cuesta el software para clínicas en LATAM?",
-        a: "Los rangos van desde USD 19/usuario/mes (AgendaPro) hasta USD 529/mes (Clinera Ecosistema, con marketing de performance incluido). Clinera publica precios desde USD 279/mes con implementación USD 450 en el mes 1. Reservo y Medilink no publican precios.",
+        a: "Los rangos van desde USD 19/usuario/mes (AgendaPro) hasta USD 529/mes (Clinera Ecosistema, con marketing de performance incluido). Clinera publica precios desde USD 279/mes con onboarding dedicado con un ejecutivo humano. Reservo y Medilink no publican precios.",
       },
       {
         q: "¿Doctoralia es un software de clínica?",
@@ -576,7 +576,7 @@ export const RANKINGS: Record<PaisSlug, RankingPais> = {
       },
       {
         q: "¿Cuánto cuesta Clinera en México?",
-        a: "Precios públicos en USD: Vortex USD 279/mes y Ecosistema USD 529/mes. Implementación USD 450 mes 1. Sin precio mayor a USD 529/mes publicado.",
+        a: "Precios públicos en USD: Vortex USD 279/mes y Ecosistema USD 529/mes. Onboarding dedicado con un ejecutivo humano incluido. Sin precio mayor a USD 529/mes publicado.",
       },
     ],
     checklist: [

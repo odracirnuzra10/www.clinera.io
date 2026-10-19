@@ -14,7 +14,7 @@ export const EMPLEADO_DIGITAL_FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "¿Cómo se contrata?",
-    a: "Agenda una videollamada en /agenda. La implementación es USD 450 pago único, cobrada con el primer mes.",
+    a: "Agenda una videollamada en /agenda. Incluye onboarding dedicado con un ejecutivo humano.",
   },
   {
     q: "¿Qué pasa si la IA no sabe responder?",

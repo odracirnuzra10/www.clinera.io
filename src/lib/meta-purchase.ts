@@ -162,7 +162,7 @@ export function buildConversionEvent(session: Stripe.Checkout.Session, productNa
     return { ...ev, event_name: TRIAL_EVENT_NAME, event_id: trialEventId(session.id), custom_data: { ...ev.custom_data, value: GO.monthlyUsd, currency: "USD" } };
   }
   // El valor es el precio de catálogo del plan, no lo cobrado: la sesión puede venir
-  // en CLP o incluir la implementación (USD 450) junto con el primer mes.
+  // en CLP o incluir otros cargos junto con el primer mes.
   const cliente = planVigenteDe(productNames) ?? (isUltraPlan(productNames) ? ULTRA : null);
   if (cliente) {
     return { ...ev, event_name: CLIENTE_EVENT_NAME, event_id: clienteEventId(session.id), custom_data: { ...ev.custom_data, value: cliente.monthlyUsd, currency: "USD" } };

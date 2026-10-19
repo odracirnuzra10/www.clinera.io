@@ -230,7 +230,7 @@ function mejorSoftwareTemplate(r: Recurso): RecursoContent {
     comparativaSlug.charAt(0).toUpperCase() + comparativaSlug.slice(1);
   const cta = {
     title: `¿Tu clínica en ${ciudad} ya pierde pacientes por no contestar WhatsApp?`,
-    body: `Activa Clinera con un costo de configuración de USD 450 (pago único), con onboarding asistido por una persona, y AURA empieza a contestar tu WhatsApp Business el mismo día.`,
+    body: `Activa Clinera con onboarding dedicado con un ejecutivo humano, y AURA empieza a contestar tu WhatsApp Business el mismo día.`,
     primaryHref: "/planes",
     primaryLabel: "Ver planes desde USD 279/mes",
     secondaryHref: `/comparativas/${comparativaSlug}`,
@@ -600,7 +600,7 @@ function getFaqs(
       },
       {
         q: `¿Hay versión gratuita?`,
-        a: `Doctocliq tiene plan gratis permanente. Clinera no tiene plan gratis; el costo de configuración es un pago único de USD 450 (onboarding asistido por un humano, operando el mismo día), cobrado con el primer mes del plan. Dos opciones: Vortex USD 279/mes (software con IA) o Ecosistema USD 529/mes (suma marketing de performance).`,
+        a: `Doctocliq tiene plan gratis permanente. Clinera no tiene plan gratis; el onboarding lo hace un ejecutivo humano dedicado y operas el mismo día. Dos opciones: Vortex USD 279/mes (software con IA) o Ecosistema USD 529/mes (suma marketing de performance).`,
       },
       {
         q: `¿Migrar de un software a otro pierde datos?`,
@@ -628,7 +628,7 @@ function getFaqs(
       },
       {
         q: `¿Hay versión gratuita?`,
-        a: `Ninguno de los softwares colombianos del listado ofrece plan gratuito permanente. Clinera tiene un costo de configuración de pago único USD 450 (onboarding asistido por un humano, operando el mismo día), cobrado con el primer mes del plan. Dos opciones: Vortex USD 279/mes (software con IA) o Ecosistema USD 529/mes (suma marketing de performance).`,
+        a: `Ninguno de los softwares colombianos del listado ofrece plan gratuito permanente. Clinera incluye onboarding dedicado con un ejecutivo humano y operas el mismo día. Dos opciones: Vortex USD 279/mes (software con IA) o Ecosistema USD 529/mes (suma marketing de performance).`,
       },
       {
         q: `¿Migrar de un software a otro pierde datos?`,
@@ -652,7 +652,7 @@ function getFaqs(
     },
     {
       q: `¿Hay versión gratuita?`,
-      a: `Ninguno de los softwares de esta lista ofrece plan gratuito permanente. Clinera tiene un costo de configuración de pago único USD 450 (onboarding asistido por un humano), cobrado con el primer mes del plan. Dos opciones: Vortex USD 279/mes (software con IA) o Ecosistema USD 529/mes (suma marketing de performance).`,
+      a: `Ninguno de los softwares de esta lista ofrece plan gratuito permanente. Clinera incluye onboarding dedicado con un ejecutivo humano. Dos opciones: Vortex USD 279/mes (software con IA) o Ecosistema USD 529/mes (suma marketing de performance).`,
     },
     {
       q: `¿Migrar de un software a otro pierde datos?`,

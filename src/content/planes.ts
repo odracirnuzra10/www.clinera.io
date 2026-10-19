@@ -8,7 +8,7 @@
 //
 //  · Vortex                USD 279/mes  — software con IA.
 //  · Ecosistema            USD 529/mes  — software + marketing de performance («Recomendado»).
-//  · Implementación        USD 450, pago único, en el primer cobro junto con el primer mes.
+//  · Implementación        no se publica su valor (Ricardo, 19-oct): se ve en la reunión de ventas.
 //
 // No hay compra por la web: todo CTA lleva a /agenda (wizard de 3 pasos que termina
 // en una videollamada). Se acabaron los planes y cupones anteriores y los precios de extras (lo de más profesionales o más IA se conversa).
@@ -132,9 +132,8 @@ export const PLAN_DESDE_USD = Math.min(...PLANES.map((p) => p.monthlyUsd));
 /** Único plan de software: de él parte el agente IA. */
 export const PLAN_IA_DESDE = PLANES[0];
 
-/** Implementación: pago único en el primer cobro, con onboarding dedicado con un ejecutivo humano (las dos opciones). */
-export const IMPLEMENTACION_USD = 450;
-export const IMPLEMENTACION_LINEA = `Implementación USD ${IMPLEMENTACION_USD}, pago único. Incluye onboarding dedicado con un ejecutivo humano.`;
+/** Onboarding dedicado con un ejecutivo humano (las dos opciones). El valor de la implementación no se publica. */
+export const IMPLEMENTACION_LINEA = "Onboarding dedicado con un ejecutivo humano, incluido en las dos opciones.";
 /**
  * Extras del software (Ricardo, 18-oct-2026): se compran dentro de la app cuando al
  * cliente se le queda corto el plan. Valen para Vortex y Ecosistema, porque son parte

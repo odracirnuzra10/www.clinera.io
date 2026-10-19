@@ -4,7 +4,7 @@
 // salen de `planes.ts`. Sin anual, sin MXN y sin cupón. Los extras (profesional, conversaciones, créditos) son
 // parte del software y sí llevan precio (`EXTRAS` en planes.ts).
 import { VERTEX_IA_MODELS_PROSE } from "@/content/ia-stack";
-import { EXTRAS, IMPLEMENTACION_USD, MARKETING_BLOQUES, PLANES } from "@/content/planes";
+import { EXTRAS, MARKETING_BLOQUES, PLANES } from "@/content/planes";
 
 const [vortex, ecosistema] = PLANES;
 
@@ -26,8 +26,8 @@ export const PLANES_FAQ = [
     a: PENDIENTE_INVERSION,
   },
   {
-    q: "¿Qué es la implementación de USD 450?",
-    a: `Es un pago único, igual para las dos opciones, que va en el primer cobro junto con el primer mes. Incluye el onboarding dedicado con un ejecutivo humano, en las dos opciones: configuramos tu cuenta, conectamos tus canales y migramos tus pacientes y tratamientos (USD ${IMPLEMENTACION_USD}).`,
+    q: "¿Tiene costo de implementación o es solo la mensualidad?",
+    a: "Las dos opciones incluyen onboarding dedicado con un ejecutivo humano: configura tu cuenta, conecta tus canales y migra tus pacientes y tratamientos. El detalle de lo que corresponde pagar lo ves en la videollamada.",
   },
   {
     q: "¿Puedo empezar solo con el software y sumar marketing después?",
