@@ -1,30 +1,26 @@
 /* «Boleta» de lo que se ahorra con el Ecosistema: minimalista, poco espacio, sin apiñar. */
 .bol {
-  position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
   margin: 40px auto 0;
-  padding: 22px 24px 20px;
-  background: #fff;
-  border: 1px solid #ece8f6;
-  border-bottom: 0;
-  border-radius: 14px 14px 0 0;
   color: #0a0a0a;
   font-family: "JetBrains Mono", ui-monospace, monospace;
-  filter: drop-shadow(0 24px 30px rgba(76, 29, 149, 0.1));
+  filter: drop-shadow(0 22px 28px rgba(76, 29, 149, 0.13));
 }
 
-/* Borde inferior rasgado, como boleta. */
-.bol::after {
-  content: "";
-  position: absolute;
-  left: -1px;
-  right: -1px;
-  bottom: -9px;
-  height: 9px;
-  background:
-    linear-gradient(135deg, #fff 4.5px, transparent 0) 0 0 / 12px 9px repeat-x,
-    linear-gradient(225deg, #fff 4.5px, transparent 0) 0 0 / 12px 9px repeat-x;
+/* Boleta recortada: arriba y abajo son la imagen generada en Higgsfield (línea de corte con
+   tijera y borde rasgado); en medio, el mismo papel, para que la boleta crezca con el texto. */
+.arriba,
+.abajo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cuerpo {
+  margin: -1px 0;
+  padding: 2px 26px 6px;
+  background: #f7f2ec;
 }
 
 .titulo {
@@ -69,7 +65,7 @@
   min-width: 12px;
   align-self: flex-start;
   margin-top: 1em;
-  border-bottom: 1px dotted #cfc9e0;
+  border-bottom: 1px dotted #c9bfb2;
 }
 
 .precio {
@@ -81,7 +77,7 @@
 .corte {
   margin: 16px 0 14px;
   border: 0;
-  border-top: 1px dashed #d9d3ea;
+  border-top: 1px dashed #cfc4b6;
 }
 
 .separado .precio {
@@ -129,8 +125,8 @@
 }
 
 @media (max-width: 480px) {
-  .bol {
-    padding: 20px 18px 18px;
+  .cuerpo {
+    padding: 2px 20px 4px;
   }
   .linea {
     font-size: 12px;
