@@ -1,11 +1,11 @@
 import { expect, test } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { IMPLEMENTACION_USD, MARKETING_BLOQUES, PLANES } from "../src/content/planes";
+import { MARKETING_BLOQUES, PLANES } from "../src/content/planes";
 
 /**
  * El cierre de /presentacion muestra las dos opciones vigentes (Vortex y
- * Ecosistema) y la implementación de USD 450 (sin promoción)
+ * Ecosistema) y el onboarding dedicado (sin valor de implementación ni promoción)
  * (Ricardo, 18-oct-2026). Los números viven en el HTML porque el deck no importa TS.
  */
 const html = readFileSync(join(process.cwd(), "public/presentacion/index.html"), "utf8");
@@ -24,7 +24,8 @@ test.describe("Planes en /presentacion", () => {
       expect(chunk).toContain(`<strong>$${p.monthlyUsd}</strong>`);
     }
     for (const b of MARKETING_BLOQUES) expect(chunk).toContain(b.titulo.replace("Facebook, Instagram y Google", "Facebook, Instagram y Google"));
-    expect(chunk).toContain(`Implementación USD ${IMPLEMENTACION_USD}`);
+    expect(chunk).not.toContain("450");
+    expect(chunk).toContain("Onboarding dedicado con un ejecutivo humano");
     // Sin promoción (Ricardo, 18-oct-2026): la implementación se cobra y se negocia en la reunión de ventas.
     expect(chunk).not.toContain("gratis");
     expect(chunk).toContain("profesional extra US$ 9/mes");

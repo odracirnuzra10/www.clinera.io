@@ -44,7 +44,7 @@ export const FAQ = [
   },
   {
     q: "¿Cuánto demora la implementación y cuánto cuesta?",
-    a: "Depende del volumen de datos, las sedes y las integraciones; el alcance y el calendario quedan definidos antes de comenzar. La implementación tiene un costo único de USD 450, cobrado con el primer mes del plan.",
+    a: "Depende del volumen de datos, las sedes y las integraciones; el alcance y el calendario quedan definidos antes de comenzar. El onboarding lo hace un ejecutivo humano dedicado, incluido en las dos opciones.",
   },
   {
     q: "¿Cómo protegen los datos de los pacientes?",
@@ -274,7 +274,7 @@ function FinalCta() {
         <div className={styles.finalMeta}>
           <span>Vortex USD 279/mes · Ecosistema USD 529/mes</span>
           <i />
-          <span>Implementación USD 450 con el primer mes</span>
+          <span>Onboarding dedicado con un ejecutivo humano</span>
           <i />
           <span>Migración gestionada</span>
         </div>

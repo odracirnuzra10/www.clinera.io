@@ -85,6 +85,7 @@ test.describe("/presentacion en 4 diapositivas", () => {
     }
     expect(c).not.toContain("Promoción del mes");
     expect(c).not.toContain("Implementación gratis");
-    expect(c).toContain("Implementación USD 450, pago único");
+    expect(c).not.toContain("USD 450");
+    expect(c).toContain("Onboarding dedicado con un ejecutivo humano en ambos planes");
   });
 });

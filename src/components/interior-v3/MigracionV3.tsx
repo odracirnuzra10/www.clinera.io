@@ -555,7 +555,7 @@ function CompareSection() {
                 textAlign: "right",
               }}
             >
-              + USD 450 configuración inicial (pago único) · con el primer mes del plan
+              + onboarding dedicado con un ejecutivo humano
             </p>
           </div>
         </div>
@@ -1273,7 +1273,7 @@ function Faq() {
     },
     {
       q: "¿Hay costo de configuración?",
-      a: "Plan mensual: el primer cobro incluye implementación USD 450 más el primer mes — onboarding asistido por un humano que migra tus fichas clínicas, datos históricos, pacientes y tratamientos, configura tus agentes de IA, conecta tu WhatsApp Business, integra tu agenda y capacita a tu equipo. Quedas operando el mismo día.",
+      a: "Plan mensual: el primer cobro es el primer mes del plan — con onboarding dedicado con un ejecutivo humano que migra tus fichas clínicas, datos históricos, pacientes y tratamientos, configura tus agentes de IA, conecta tu WhatsApp Business, integra tu agenda y capacita a tu equipo. Quedas operando el mismo día.",
     },
     {
       q: "¿Cuánto tiempo toma la migración completa?",

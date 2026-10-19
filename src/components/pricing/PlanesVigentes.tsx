@@ -7,7 +7,7 @@
 // lista de lo que incluye). Lo pintan el home («Dos formas de trabajar con
 // Clinera») y /planes. Sin cupón, sin compra y sin extras:
 // - CTA único «Agendar videollamada» → /agenda?servicio=… con la query de la visita;
-// - línea de implementación (USD 450, pago único) bajo las tarjetas;
+// - línea de onboarding dedicado (sin valor de implementación) bajo las tarjetas;
 // - el agente de IA y los tres bloques de marketing van destacados (ícono + negrita).
 // Temas (`planThemes.tsx`): Vortex = violeta claro; Ecosistema = magenta claro
 // (destacada, «Recomendado»).
@@ -193,6 +193,7 @@ export default function PlanesVigentes({
                   </span>
                 </div>
 
+                <div>
                 {p.id === "ecosistema" && (
                   <span
                     data-plan-marketing
@@ -214,6 +215,7 @@ export default function PlanesVigentes({
                   </span>
                 )}
                 <p style={{ fontFamily: "Inter", fontSize: 15, lineHeight: 1.5, color: th.sub, margin: "0 0 18px" }}>{p.resumen}</p>
+                </div>
 
                 <div
                   role="table"
@@ -261,7 +263,7 @@ export default function PlanesVigentes({
                   {CTA_VENTAS_LABEL}
                 </a>
 
-                <div style={{ borderTop: `1px solid ${th.divider}`, paddingTop: 20, flex: 1, display: "flex", flexDirection: "column" }}>
+                <div style={{ borderTop: `1px solid ${th.divider}`, paddingTop: 20 }}>
                   <div
                     style={{
                       fontFamily: MONO,
@@ -305,12 +307,13 @@ export default function PlanesVigentes({
                     })}
                   </div>
 
-                  <div style={{ marginTop: "auto" }}>
-                    <div style={{ fontFamily: MONO, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: th.label, marginBottom: 8 }}>
-                      Canales
-                    </div>
-                    <PlanChannelLogos channels={p.channels} color={th.ink} chipBg={th.chipBg} chipBorder={th.chipBorder} />
+                </div>
+
+                <div data-plan-canales style={{ alignSelf: "end" }}>
+                  <div style={{ fontFamily: MONO, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: th.label, marginBottom: 8 }}>
+                    Canales
                   </div>
+                  <PlanChannelLogos channels={p.channels} color={th.ink} chipBg={th.chipBg} chipBorder={th.chipBorder} />
                 </div>
               </article>
             );
@@ -358,9 +361,12 @@ export default function PlanesVigentes({
           :global(.pv-h2) { font-size: 32px !important; }
         }
         :global(.pv-card) { transition: transform .26s cubic-bezier(.16,1,.3,1), box-shadow .26s ease; }
-        :global(.pv-card-featured) { transform: translateY(-8px); }
+        /* Las dos tarjetas comparten filas (cabecera, resumen, precio, botón, qué incluye, canales):
+           cada bloque queda a la misma altura en las dos, en vez de bailar según el largo del texto. */
+        @media (min-width: 861px) {
+          :global(.pv-card) { display: grid !important; grid-template-rows: subgrid; grid-row: span 6; row-gap: 0; }
+        }
         :global(.pv-card:hover) { transform: translateY(-4px); }
-        :global(.pv-card-featured:hover) { transform: translateY(-12px); }
         :global(.pv-cta) { min-height: 48px; display: flex; align-items: center; justify-content: center; transition: transform .2s ease, filter .2s ease; }
         :global(.pv-cta:hover) { transform: translateY(-2px); filter: brightness(.96); }
         @media (prefers-reduced-motion: reduce) {

@@ -657,7 +657,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y transparencia",
         body:
-          "Dentalink no publica precios — atiende por demo o cotización. Clinera publica VORTEX USD 279/mes y ECOSISTEMA USD 529/mes; mes 1: implementación USD 450 (pago único) con onboarding asistido — operando el mismo día.",
+          "Dentalink no publica precios — atiende por demo o cotización. Clinera publica VORTEX USD 279/mes y ECOSISTEMA USD 529/mes; con onboarding dedicado con un ejecutivo humano — operando el mismo día.",
       },
     ],
     faqs: [
@@ -839,7 +839,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y modelo comercial",
         body:
-          "Medifolios publica precios en COP con modelo anual decreciente: año 1 más caro (incluye onboarding), año 2+ baja considerablemente. Consultorio: $1.670.000 año 1 / $840.000 año 2+ (~USD 35/USD 17/mes). Clinera publica precios en USD con modelo mensual: VORTEX USD 279/mes y ECOSISTEMA USD 529/mes. Configuración inicial USD 450 (pago único) con onboarding asistido — operando el mismo día. Para clínicas que recién arrancan en digital, Medifolios año 1 es más caro upfront pero año 2+ se vuelve más barato. Clinera es predecible mes a mes sin compromiso.",
+          "Medifolios publica precios en COP con modelo anual decreciente: año 1 más caro (incluye onboarding), año 2+ baja considerablemente. Consultorio: $1.670.000 año 1 / $840.000 año 2+ (~USD 35/USD 17/mes). Clinera publica precios en USD con modelo mensual: VORTEX USD 279/mes y ECOSISTEMA USD 529/mes. Incluye onboarding dedicado con un ejecutivo humano — operando el mismo día. Para clínicas que recién arrancan en digital, Medifolios año 1 es más caro upfront pero año 2+ se vuelve más barato. Clinera es predecible mes a mes sin compromiso.",
       },
       {
         title: "Cómo decidir entre Medifolios y Clinera",
@@ -920,7 +920,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y modelo comercial",
         body:
-          "Saludtools tiene 3 planes (Estándar/Plus/Premium) sin precios visibles en home (hay que ir a /precios o contactar comercial). La IA está reservada al plan Premium, que es el más caro. Clinera tiene 2 opciones con precios públicos en USD: VORTEX USD 279/mes y ECOSISTEMA USD 529/mes. La IA conversacional viene en las dos, no escalonada por tier. Configuración inicial USD 450 (pago único) con onboarding asistido en ambas; Saludtools no especifica setup en home.",
+          "Saludtools tiene 3 planes (Estándar/Plus/Premium) sin precios visibles en home (hay que ir a /precios o contactar comercial). La IA está reservada al plan Premium, que es el más caro. Clinera tiene 2 opciones con precios públicos en USD: VORTEX USD 279/mes y ECOSISTEMA USD 529/mes. La IA conversacional viene en las dos, no escalonada por tier. Incluye onboarding dedicado con un ejecutivo humano en ambas; Saludtools no especifica setup en home.",
       },
       {
         title: "Cómo decidir entre Saludtools y Clinera",

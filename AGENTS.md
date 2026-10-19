@@ -564,7 +564,7 @@ Guardián: `tests/reserva-tu-hora.spec.ts` + `tests/telefono.spec.ts`.
 **Clinera vende dos opciones:** Vortex US$ 279/mes (software con IA: hasta 10
 profesionales, 10.000 créditos, bandeja WhatsApp/IG/FB) y Ecosistema US$ 529/mes
 (Vortex + marketing de performance: campañas, propuesta de valor, framework
-comercial; «Recomendado»). Implementación US$ 450 pago único, en el primer
+comercial; «Recomendado»). Implementación: su valor no se publica (ver más abajo; en contratos sigue USD 450), en el primer
 cobro, **siempre** (Ricardo, 18-oct: la promo «implementación gratis en Ecosistema»
 se sacó; el descuento se negocia en la reunión de ventas, no se publica). **Extras del
 software** (`EXTRAS` en `planes.ts`, valen para las dos opciones): profesional extra
@@ -585,6 +585,11 @@ la web. Sin permanencia y sin plan anual (pendientes de
 Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
 `/agenda?servicio=…` con la query de la visita (`agendaHref`).
 
+- **El valor de la implementación NO se publica en ningún lado (Ricardo, 19-oct):** se sacó el «US$ 450» de planes, home, FAQ,
+  presentación, `llms*.txt`, comparativas, blog y recursos; donde estaba dice «onboarding dedicado con un ejecutivo humano»
+  (`IMPLEMENTACION_LINEA` en `planes.ts`, sin cifra; ya no existe `IMPLEMENTACION_USD` ahí). **No se tocó** `pricing.ts`
+  (`SETUP_FEE_USD`, contratos `/firma` y cotización) ni `planes2.ts`: lo que se cobre al cerrar se define en la reunión de
+  ventas y en esos contratos, no en la web. El deck interno `/nuevodiscurso` sigue nombrando USD 450 porque es para el equipo.
 - **Lo que incluye cada opción (Ricardo, 19-oct):** el marketing del Ecosistema trae **4 reuniones al mes, 1 por semana**
   (cuarto bloque de `MARKETING_BLOQUES`, id `reuniones`, que alimenta tarjetas, home, `llms*.txt` y el paso 3
   del wizard; la presentación lo lleva escrito a mano). **Las dos opciones incluyen onboarding dedicado con un
