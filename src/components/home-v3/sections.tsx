@@ -145,7 +145,7 @@ export function Hero() {
                 maxWidth: 580,
               }}
             >
-              Para clínicas estéticas y médicas: <b style={{ color: "#0A0A0A" }}>marketing de performance</b> que trae pacientes y <b style={{ color: "#0A0A0A" }}>software con IA</b> que los responde, agenda y confirma.
+              Para clínicas estéticas y médicas que quieren más <b style={{ color: "#0A0A0A" }}>rentabilidad</b>, no solo más pacientes: propuesta de valor, <b style={{ color: "#0A0A0A" }}>marketing de performance</b>, framework comercial y <b style={{ color: "#0A0A0A" }}>software con IA</b> en un solo ecosistema.
             </p>
 
             <div style={{ display: "flex", gap: 12, marginTop: 30, flexWrap: "wrap" }}>

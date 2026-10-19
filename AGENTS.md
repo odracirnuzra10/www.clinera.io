@@ -29,6 +29,19 @@ que los campos midan 16 px o más (si no, iOS hace zoom) y que no se rompa el
 scroll. Un formulario roto es un lead perdido. Lo que no se puede probar acá
 (Safari real, teclado de iOS, navegador de Instagram) se dice explícitamente.
 
+# Metodología PMFC en el sitio (Ricardo, 19-oct-2026)
+
+El sitio se enfoca en **rentabilidad, propuesta de valor, margen y crecimiento**,
+con Clinera como la herramienta que encaja en el ecosistema. PMFC = **P**ropuesta
+de valor, **M**arketing, **F**ramework comercial, **C**linera, en ese orden: cada
+pieza depende de la anterior. Dónde vive: artículo
+`src/content/posts/metodologia-pmfc-rentabilidad-clinicas-esteticas.mdx`, sección
+del home `src/components/pmfc/PmfcSection.tsx` (antes de «Marketing de performance»),
+bajada del hero en `home-v3/sections.tsx`, `/planes` (`PmfcSection compacto`; Vortex = «la C de PMFC», Ecosistema = «PMFC completo», `PLANES_BAJADA`), el deck `/presentacion` (eyebrows y kickers de planes) y `public/llms.txt`.
+El ejemplo 10 pacientes × US$ 1.000 vs 100 × US$ 100 es **ilustrativo** y se
+rotula así. No publicar «software patentado» (afirmación legal sin confirmar) ni
+«+1.500 clientes». Guardián: `tests/pmfc.spec.ts`.
+
 # Economía de Clinera: créditos, costos y precios
 
 Antes de tocar cualquier número de precio, crédito, consumo o equivalencia en

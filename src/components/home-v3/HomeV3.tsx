@@ -4,6 +4,7 @@ import DemoEnVivo from "./DemoEnVivo";
 import EsteticaSection from "@/components/estetica/EsteticaSection";
 import AgenteIABanda from "@/components/agente-ia/AgenteIABanda";
 import PlanesVigentes from "@/components/pricing/PlanesVigentes";
+import PmfcSection from "@/components/pmfc/PmfcSection";
 import MarketingPerformance from "@/components/marketing/MarketingPerformance";
 import { Faq, FinalCTA, Hero, PrensaCNN, Testimonios, useReveal } from "./sections";
 
@@ -58,8 +59,9 @@ export default function HomeV3() {
           ModosAgendamiento, Estudios, DarkBreak, Integraciones y el banner de
           septiembre: los componentes siguen en el repo por si se reponen. */}
       <Hero />
+      <PmfcSection />
       <MarketingPerformance />
-      <PlanesVigentes titulo="Dos formas de trabajar" tituloAcento="con Clinera." bajada="Solo el software, o el software más un equipo de marketing que trae pacientes." />
+      <PlanesVigentes titulo="Dos formas de trabajar" tituloAcento="con Clinera." bajada="Vortex es la C de PMFC: el software con IA. El Ecosistema es PMFC completo: propuesta de valor, marketing, framework comercial y Clinera." />
       <EsteticaSection modelo="duena" />
       <DemoEnVivo />
       <Testimonios />

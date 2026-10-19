@@ -179,4 +179,4 @@ export function agendaHref(servicio: ServicioId | null, search = ""): string {
 
 export const PLANES_TITULO = "Elige cómo";
 export const PLANES_TITULO_ACENTO = "quieres crecer.";
-export const PLANES_BAJADA = "Solo el software, o el software más un equipo de marketing que trae pacientes.";
+export const PLANES_BAJADA = "Vortex es la C de PMFC: el software con IA. El Ecosistema es PMFC completo: propuesta de valor, marketing, framework comercial y Clinera.";

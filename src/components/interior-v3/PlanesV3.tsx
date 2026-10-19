@@ -1,5 +1,6 @@
 "use client";
 
+import PmfcSection from "@/components/pmfc/PmfcSection";
 import { useState } from "react";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { FinalCTA, useReveal } from "@/components/home-v3/sections";
@@ -25,6 +26,7 @@ export default function PlanesV3() {
       `}</style>
       <PlanesHero />
       <PlanesVigentes id="planes" conTitulo={false} conModelos />
+      <PmfcSection compacto />
       <PlanesFaq />
       <FinalCTA />
     </>

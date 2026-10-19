@@ -110,6 +110,17 @@ escalar una clínica: operación, caja, equipo, marketing e IA.
   equilibrio en las 3 primeras semanas, meta = promedio 12 meses + 20 %.
   (video Vimeo embebido; caps. 3–5 próximamente en /podcast)
 
+## Metodología PMFC (rentabilidad de la clínica)
+
+PMFC = Propuesta de valor, Marketing, Framework comercial y Clinera, en ese
+orden. Una propuesta única permite cobrar más que la competencia y subir el
+margen; el marketing la comunica; el framework comercial convierte
+evaluaciones en ventas; Clinera es el software que sostiene las tres. Ejemplo
+ilustrativo (no dato real): dos clínicas con US$ 10.000 de venta, una con 10
+pacientes de US$ 1.000 y otra con 100 de US$ 100.
+
+- Artículo: https://www.clinera.io/blog/metodologia-pmfc-rentabilidad-clinicas-esteticas
+
 ## Webhooks de venta y pago (Automatizaciones)
 
 Triggers salientes (Webhooks + API pública): `sale.created` (venta nueva) y
