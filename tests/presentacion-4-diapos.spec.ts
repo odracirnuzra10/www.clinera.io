@@ -44,13 +44,13 @@ test.describe("/presentacion en 4 diapositivas", () => {
   test("beneficios: costo, todo unificado y software hecho para clínicas, con el ahorro en números", () => {
     const c = slide("beneficios");
     for (const b of ["costo", "unificado", "especializado"]) expect(c).toContain(`data-beneficio="${b}"`);
-    expect(c).toContain("Te ahorras más de US$ 500 al mes");
+    expect(c).toContain("Te ahorras más de US$ 600 al mes");
     expect(c).toContain("clínicas estéticas y médicas");
     expect(c).toContain("US$ 600–800/mes");
     expect(c).toContain("entre US$ 1.000 y 1.700");
     expect(c).toContain("US$ 1.000–1.700/mes");
-    expect(c).toContain("Ahorras más de US$ 500 al mes");
-    expect(c).toContain("US$ 479");
+    expect(c).toContain("Ahorras más de US$ 600 al mes");
+    expect(c).toContain("US$ 379");
     expect(c).toContain("estimados");
     expect(c).not.toMatch(/AgendaPro|Reservo|Medilink|Bambi/i);
   });
@@ -65,8 +65,8 @@ test.describe("/presentacion en 4 diapositivas", () => {
     };
     const vortex = card("Vortex");
     const ecosistema = card("Ecosistema");
-    expect(vortex).toContain("<strong>$379</strong>");
-    expect(ecosistema).toContain("<strong>$479</strong>");
+    expect(vortex).toContain("<strong>$279</strong>");
+    expect(ecosistema).toContain("<strong>$379</strong>");
     for (const card of [vortex, ecosistema]) {
       for (const logo of ["#ch-wa", "#ch-ig", "#ch-fb"]) expect(card).toContain(logo);
     }

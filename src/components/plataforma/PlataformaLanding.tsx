@@ -272,7 +272,7 @@ function FinalCta() {
           Agendar demo de 30 min <Arrow />
         </CtaLink>
         <div className={styles.finalMeta}>
-          <span>Vortex USD 379/mes · Ecosistema USD 479/mes</span>
+          <span>Vortex USD 279/mes · Ecosistema USD 379/mes</span>
           <i />
           <span>Implementación USD 450 con el primer mes</span>
           <i />

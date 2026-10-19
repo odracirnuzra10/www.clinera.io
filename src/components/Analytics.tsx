@@ -292,7 +292,7 @@ const ENGAGEMENT_SRC = `(function(){
       var ctx = 'general';
       var pp = location.pathname;
       if (pp.indexOf('/clinicas/') === 0) ctx = 'clinic';
-      else if (pp === '/agenda' || pp === '/gracias') ctx = 'sales';
+      else if (pp === '/agenda' || pp === '/agenda-google' || pp === '/gracias') ctx = 'sales';
       else if (pp.indexOf('/comparativas/') === 0) ctx = 'comparative';
       else if (pp.indexOf('/recursos/') === 0) ctx = 'recurso';
       DL().push({
@@ -313,9 +313,9 @@ const ENGAGEMENT_SRC = `(function(){
     var planName = a.getAttribute('data-plan-name');
     var planValue = parseFloat(a.getAttribute('data-plan-value') || '0');
     if (!planValue) {
-      if (plan === 'vortex')          { planValue = 379; planName = planName || 'Vortex signup'; }
-      else if (plan === 'ecosistema') { planValue = 479; planName = planName || 'Ecosistema signup'; }
-      else                            { planValue = 379; planName = planName || 'plan_signup'; }
+      if (plan === 'vortex')          { planValue = 279; planName = planName || 'Vortex signup'; }
+      else if (plan === 'ecosistema') { planValue = 379; planName = planName || 'Ecosistema signup'; }
+      else                            { planValue = 279; planName = planName || 'plan_signup'; }
     }
     var text = (a.innerText || a.getAttribute('aria-label') || '').trim().replace(/\\s+/g,' ').slice(0,80);
     DL().push({

@@ -541,7 +541,7 @@ function CompareSection() {
                     color: "transparent",
                   }}
                 >
-                  USD 379
+                  USD 279
                 </span>
               </span>
             </div>
@@ -677,7 +677,7 @@ function ReasonsSection() {
     {
       num: "01 · Ahorro",
       title: "Pagas una sola herramienta, no dos.",
-      body: "Agenda médica con API USD 260 + Vambe.ai USD 550 = USD 800+/mes. Clinera Vortex incluye agente IA por USD 379. Un solo proveedor, un solo cobro.",
+      body: "Agenda médica con API USD 260 + Vambe.ai USD 550 = USD 800+/mes. Clinera Vortex incluye agente IA por USD 279. Un solo proveedor, un solo cobro.",
       bullets: [
         "Un solo cobro mensual",
         "Agente IA incluido",
