@@ -1,13 +1,15 @@
 "use client";
 
-// «Boleta» de lo que se ahorra con el Ecosistema (Ricardo, 19-oct-2026): una boleta de
+// «Boleta recortada» de lo que se ahorra con el Ecosistema (Ricardo, 19-oct-2026): una boleta de
 // gastos minimalista, con poco espacio y sin apiñar, bajo las tarjetas de planes. La
 // pinta `PlanesVigentes` (home, /planes). Los números viven en `AHORRO` (planes.ts) y
 // son estimados de mercado. La presentación (`public/presentacion`) tiene su propia
 // copia en HTML, porque no importa TS.
 //
-// Está hecha en código y no como imagen generada: así los números salen nítidos, se
-// pueden leer con lector de pantalla y cambian en un solo lugar.
+// El papel (línea de corte con tijera y borde rasgado) es una imagen generada en Higgsfield,
+// partida en arriba y abajo (`public/images/agenda/boleta-*.webp`); el texto va en HTML encima
+// para que los números salgan nítidos, se lean con lector de pantalla y cambien en un solo
+// lugar. Una imagen con números dentro los deforma.
 
 import { AHORRO } from "@/content/planes";
 import styles from "./AhorroEcosistema.module.css";
@@ -15,6 +17,9 @@ import styles from "./AhorroEcosistema.module.css";
 export default function AhorroEcosistema() {
   return (
     <div className={styles.bol} data-ahorro>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/images/agenda/boleta-arriba.webp" alt="" aria-hidden className={styles.arriba} width={600} height={96} />
+      <div className={styles.cuerpo}>
       <div className={styles.titulo}>{AHORRO.titulo}</div>
 
       <ul className={styles.lineas}>
@@ -46,6 +51,9 @@ export default function AhorroEcosistema() {
 
       <p className={styles.ahorro}>{AHORRO.ahorro}</p>
       <p className={styles.nota}>{AHORRO.nota}</p>
+      </div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/images/agenda/boleta-abajo.webp" alt="" aria-hidden className={styles.abajo} width={600} height={70} />
     </div>
   );
 }

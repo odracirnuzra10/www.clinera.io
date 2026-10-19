@@ -563,8 +563,10 @@ US$ 200–500, otro software + agenda US$ 400–500 + 200; por separado US$ 1.00
 Ecosistema («te ahorras casi US$ 500 al mes»). Son estimados de mercado: se publican como tales y
 **sin nombrar competidores**.
 Se muestra como una **«boleta» de gastos** minimalista (Ricardo, 19-oct: «bonito, minimalista, poco
-espacio, nunca apiñado»), hecha en código (no imagen generada: los números salen nítidos y se
-leen con lector de pantalla). La presentación tiene su propia copia en HTML (`.bol`).
+espacio, nunca apiñado»), **boleta recortada**: el papel (línea de corte con tijera y borde rasgado) es una imagen
+generada en Higgsfield y partida en `public/images/agenda/boleta-arriba.webp` y `boleta-abajo.webp`;
+el texto va en HTML encima (una imagen con los números adentro los deforma, y no se leería con
+lector de pantalla). La presentación tiene su propia copia en HTML (`.bol`).
 Fuente única: `src/content/planes.ts`.
 Se acabaron Flux, Hurricane, Nexus, Atlas, Summit, Go!, el cupón y la compra por
 la web. Sin permanencia y sin plan anual (pendientes de
