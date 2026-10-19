@@ -35,6 +35,24 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
   });
 });
 
+test.describe("ahorro del Ecosistema (Ricardo, 19-oct-2026)", () => {
+  for (const ruta of ["/", "/planes"]) {
+    test(`${ruta} explica lo que se ahorra con el Ecosistema`, async ({ page }) => {
+      await page.goto(ruta, { waitUntil: "domcontentloaded" });
+      const bloque = page.locator("[data-ahorro]");
+      await expect(bloque).toHaveCount(1);
+      await expect(bloque.locator("[data-ahorro-item]")).toHaveCount(3);
+      await expect(bloque).toContainText("desde US$ 500/mes");
+      await expect(bloque).toContainText("entre US$ 1.000 y 1.500");
+      await expect(bloque.locator("[data-ahorro-conclusion]")).toContainText("US$ 479");
+      await expect(bloque.locator("[data-ahorro-conclusion]")).toContainText("casi US$ 500");
+      // Valores estimados y sin nombrar competidores.
+      await expect(bloque).toContainText("estimados");
+      await expect(bloque).not.toContainText(/AgendaPro|Reservo|Medilink|Bambi/i);
+    });
+  }
+});
+
 test.describe("home: logos reales", () => {
   test("el home trae los logos reales y no los nombres inventados", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });

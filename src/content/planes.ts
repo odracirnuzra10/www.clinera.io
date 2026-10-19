@@ -140,6 +140,23 @@ export const EXTRAS = [
   { id: "creditos", titulo: "5.000 créditos de IA extra", precioUsd: 15, unidad: "pago único", detalle: "US$ 15 por 5.000 créditos de IA extra" },
 ] as const;
 
+/**
+ * Lo que se ahorra el cliente con el Ecosistema (Ricardo, 19-oct-2026): discurso
+ * comercial fuerte. Son valores de referencia del mercado, no un dato medido, así que
+ * se publican como estimados y sin nombrar competidores.
+ */
+export const AHORRO = {
+  titulo: "Lo que te ahorras con el Ecosistema",
+  items: [
+    { id: "agencia", etiqueta: "Agencia de marketing", precio: "desde US$ 500/mes", nota: "Sin especialización en clínicas" },
+    { id: "software", etiqueta: "Software con IA y créditos", precio: "US$ 200–500/mes", nota: "Solo el software, sin marketing" },
+    { id: "otros", etiqueta: "Otro software + agenda", precio: "US$ 400–500 + US$ 200", nota: "Y el equipo de marketing aparte" },
+  ],
+  total: "Armado por separado, todo esto cuesta entre US$ 1.000 y 1.500 al mes.",
+  conclusion: `Con el Ecosistema pagas US$ ${PLANES[1].monthlyUsd} y lo tienes todo en un solo lugar: te ahorras casi US$ 500 al mes.`,
+  nota: "Valores de referencia estimados del mercado.",
+} as const;
+
 export const NECESIDADES_LINEA = `Extras del software: profesional extra US$ ${EXTRAS[0].precioUsd}/mes · 500 conversaciones extra US$ ${EXTRAS[1].precioUsd} · 5.000 créditos de IA extra US$ ${EXTRAS[2].precioUsd}.`;
 
 /** CTA único: lleva a /agenda, que termina en una videollamada con el equipo. */

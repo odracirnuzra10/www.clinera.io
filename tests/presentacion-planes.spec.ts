@@ -41,6 +41,12 @@ test.describe("Planes en /presentacion", () => {
     await expect(slide).toHaveClass(/active/);
     await expect(slide.locator(".px-promo")).toHaveCount(0);
     await expect(slide.locator("[data-extras]")).toContainText("US$ 9/mes");
+    const ahorro = slide.locator("[data-ahorro]");
+    await expect(ahorro).toContainText("Lo que te ahorras con el Ecosistema");
+    await expect(ahorro).toContainText("desde US$ 500/mes");
+    await expect(ahorro).toContainText("entre US$ 1.000 y 1.500");
+    await expect(ahorro).toContainText("casi US$ 500");
+    await expect(ahorro).not.toContainText(/AgendaPro|Reservo|Medilink|Bambi/i);
     await expect(slide.locator(".px-card")).toHaveCount(2);
     const eco = slide.locator('.px-card[data-plan="ecosistema"]');
     await expect(eco.locator(".px-mkt li")).toHaveCount(3);
