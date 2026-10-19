@@ -15,9 +15,9 @@ const slide = (id: string) => {
 };
 
 test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () => {
-  test("solo existen quiénes somos, problema, PMFC, pilares, rentabilidad, funciones, beneficios y planes, en ese orden", () => {
+  test("solo existen quiénes somos, problema, PMFC, rentabilidad, funciones, beneficios y planes, en ese orden", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "problema", "pmfc", "pilares", "rentabilidad", "resultados", "anuncio", "funciones", "beneficios", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "problema", "pmfc", "rentabilidad", "resultados", "anuncio", "funciones", "beneficios", "planes"]);
   });
 
   test("quiénes somos: el ecosistema, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
@@ -41,16 +41,6 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).not.toMatch(/patentad/i);
   });
 
-  test("los pilares: P, M, F y C explicados, sin cifra de clientes", () => {
-    const c = slide("pilares");
-    for (const l of ["P", "M", "F", "C"]) expect(c).toContain(`data-pilar="${l}"`);
-    expect(c).toContain("más de 10 años");
-    expect(c).toContain("CPA objetivo");
-    expect(c).toContain("reuniones semanales");
-    expect(c).toContain("dentro de la consulta");
-    expect(c).not.toMatch(/patentad|\b100 cl|1\.500/i);
-  });
-
   test("resultados: evaluación de US$ 55, costo del lead de Hebe y de Lumina, y el administrador comercial", () => {
     const c = slide("resultados");
     expect(c).toContain("US$ 55");
@@ -59,6 +49,10 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).toContain("−US$ 10 por lead");
     expect(c).toContain("+US$ 19 por lead");
     expect(c).toContain("US$ 2.000");
+    // Toda la película: una sucursal, venta final vs inversión.
+    expect(c).toContain("data-pelicula");
+    expect(c).toContain("US$ 220.000");
+    expect(c).toContain("US$ 35.000");
     expect(c).not.toMatch(/patentad/i);
   });
 
@@ -69,12 +63,15 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).toContain("Reservar");
   });
 
-  test("ecosistema PMFC: cuatro letras, minimalista", () => {
+  test("metodología PMFC: las cuatro letras con su explicación, sin cifra de clientes", () => {
     const c = slide("pmfc");
     for (const l of ["P", "M", "F", "C"]) expect(c).toContain(`data-pmfc="${l}"`);
     for (const n of ["Propuesta de valor", "Marketing", "Framework", "Clinera"]) expect(c).toContain(n);
-    // Minimalista: una línea por pieza, sin párrafos.
-    expect(c).not.toMatch(/<p\b/);
+    expect(c).toContain("más de 10 años");
+    expect(c).toContain("CPA objetivo");
+    expect(c).toContain("reuniones semanales");
+    expect(c).toContain("dentro de la consulta");
+    expect(c).not.toMatch(/patentad|100 cl|1\.500/i);
   });
 
   test("rentabilidad: mismo ingreso, 10 pacientes de US$ 1.000 vs 100 de US$ 100", () => {
