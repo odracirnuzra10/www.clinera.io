@@ -576,9 +576,10 @@ Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
 - **`/agenda` es un wizard de 3 pasos, sin scroll de página** (`AgendaWizard.tsx`,
   copy en `agenda-oferta.ts`), en el formato de `protocololumina.cl/evaluacion`:
   pantalla partida (panel oscuro con una imagen por paso y wizard blanco; en móvil
-  el panel va arriba, compacto). Paso 1: qué servicio te interesa, **se pueden elegir
-  varios** (marketing con cohete, software; los dos juntos = «ambas», con un rayo);
-  paso 2: **solo nombre, correo, celular y nombre de la clínica** (Ricardo: «el
+  el panel va arriba, compacto). Paso 1: **la boleta «lo que te ahorras con el Ecosistema»** y el botón «Quiero ahorrar»
+  (Ricardo, 19-oct: **ya no se elige servicio**, se vende el Ecosistema; el lead viaja siempre
+  con `servicio_interes: "ambas"` y `?servicio=` ya no cambia el flujo; en móvil el panel de
+  imágenes no va en este paso porque la boleta es la imagen); paso 2: **solo nombre, correo, celular y nombre de la clínica** (Ricardo: «el
   resto lo manejamos nosotros»; el país sale del prefijo y `tipo_clinica`,
   `boxes_profesionales` y `ciudad` viajan vacíos); paso 3: horario con el calendario
   nativo (`StepClineraScheduler`). Imágenes en `public/images/agenda/` (generadas en

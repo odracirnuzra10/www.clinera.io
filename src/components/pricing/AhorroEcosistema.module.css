@@ -142,3 +142,33 @@
     font-size: 10px;
   }
 }
+
+/* Dentro del wizard de /agenda: sin el margen superior de la sección de planes. */
+.compacto {
+  margin-top: 12px;
+}
+
+/* Pantallas bajas (laptop 720p, celular pequeño): la boleta del wizard se compacta, sin apiñarse. */
+@media (max-height: 800px) {
+  .compacto {
+    max-width: 330px;
+  }
+  .compacto .lineas {
+    margin-top: 12px;
+    gap: 8px;
+  }
+  .compacto .corte {
+    margin: 12px 0 10px;
+  }
+  .compacto .ahorro {
+    margin-top: 12px;
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+  .compacto .nota {
+    margin-top: 8px;
+  }
+  .compacto .cuerpo {
+    padding-bottom: 2px;
+  }
+}

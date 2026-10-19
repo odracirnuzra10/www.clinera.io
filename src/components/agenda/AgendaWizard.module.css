@@ -526,3 +526,36 @@
   flex: none;
   color: #7c3aed;
 }
+
+/* Paso 1 (la boleta): en móvil la boleta es la imagen, así que el panel de arriba no va. */
+@media (max-width: 959px) {
+  .inicio .panel {
+    display: none;
+  }
+  .inicio {
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .inicio .contenido {
+    padding-top: 12px;
+  }
+  .inicio .titulo {
+    font-size: 19px;
+  }
+  .inicio .sub {
+    font-size: 13px;
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 960px) and (max-height: 800px) {
+  .inicio .contenido {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .inicio .titulo {
+    font-size: 21px;
+  }
+  .inicio .sub {
+    display: none;
+  }
+}
