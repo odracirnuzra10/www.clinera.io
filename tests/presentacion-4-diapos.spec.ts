@@ -20,13 +20,16 @@ test.describe("/presentacion en 4 diapositivas", () => {
     expect(ids).toEqual(["quienes-somos", "funciones", "beneficios", "planes"]);
   });
 
-  test("quiénes somos cuenta la historia: 2017, más de 1.500 clínicas, Clinera 2025", () => {
+  test("quiénes somos: el ecosistema, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
     const c = slide("quienes-somos");
-    expect(c).toContain("2017");
-    expect(c).toContain("Más de 1.500 clínicas");
-    expect(c).toContain("ninguno satisfacía");
-    expect(c).toContain("Sep 2025");
-    expect(c).toContain("más de 1 año de desarrollo y testeo");
+    expect(c).toContain("ecosistema");
+    expect(c).toContain("marketing digital y software");
+    expect(c).toContain("clínicas estéticas y médicas");
+    expect(c).toContain("más de 12 años");
+    expect(c).toContain("Metricads Marketing");
+    expect(c).toContain("Meta y Google partner");
+    expect(c).toContain("canal-metricads.webp");
+    expect(c).not.toContain("1.500");
   });
 
   test("funciones Clinera: funciones e IA; CAMILA y LIA siguen como próximamente", () => {

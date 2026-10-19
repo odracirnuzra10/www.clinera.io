@@ -684,8 +684,7 @@ Guardián: `tests/vision-2027.spec.ts`.
 `/presentacion` → `/presentacion/index.html`, un único archivo HTML/CSS/JS en
 `public/presentacion/index.html`. No hay componente React que tocar ahí.
 
-**Son 4 diapositivas, a propósito (máximo 4, Ricardo 19-oct):** `#quienes-somos` (historia en 3 hitos:
-agencia 2017 → «más de 1.500 clínicas» (ningún software las satisfacía; se recopilaron sus datos y necesidades, Ricardo 7-oct) → Clinera sep 2025, tras más de 1 año de desarrollo y testeo — Ricardo 7-oct), `#funciones` (funciones +
+**Son 4 diapositivas, a propósito (máximo 4, Ricardo 19-oct):** `#quienes-somos` (Ricardo, 19-oct: **solo** la frase «ecosistema que unifica marketing digital y software, enfocado en clínicas estéticas y médicas», +12 años de experiencia en el canal de YouTube Metricads Marketing, Meta y Google partner, y el pantallazo del canal en `public/presentacion/canal-metricads.webp`; ya no lleva la historia de 3 hitos ni «+1.500 clínicas»), `#funciones` (funciones +
 IA), `#beneficios` (por qué contratar Clinera: costo con el ahorro en números, todo unificado,
 software hecho para clínicas estéticas y médicas) y `#planes` (precio y detalle por plan). Antes eran 13 (Rebeca, ago–sep
 2026: origen, por qué Clinera, AURA, Intelligence ×3, empleados, canales,

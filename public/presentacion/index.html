@@ -2963,6 +2963,17 @@
       .eco-flow { grid-template-columns: 1fr 1fr; }
     }
 
+
+    /* --- Quiénes somos: ecosistema + canal de YouTube --- */
+    .qs2-layout { max-width: 1120px; }
+    .qs2-layout .hr-head .blk-h2 { max-width: 980px; }
+    .qs2-body { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(20px, 3vw, 44px); align-items: center; }
+    .qs2-text { margin: 0; font-size: clamp(17px, 1.6vw, 22px); line-height: 1.5; color: var(--ink-soft); }
+    .qs2-text strong { color: var(--ink); font-weight: 700; }
+    .qs2-shot { margin: 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: 0 24px 60px -34px rgba(17, 24, 39, .45); background: #fff; }
+    .qs2-shot img { display: block; width: 100%; height: auto; }
+    @media (max-width: 760px) { .qs2-body { grid-template-columns: 1fr; } .qs2-shot img { max-height: none; } }
+
     /* Diapositiva "Clinera y la norma": reusa hr-layout con una tercera fila
        para la linea de medidas, y la grilla en 2x2 porque son cuatro paises. */
     .nr-layout {
@@ -4673,33 +4684,21 @@
         data-name="Quiénes somos"
         aria-hidden="false"
       >
-        <div class="slide-inner hr-layout">
+        <div class="slide-inner hr-layout qs2-layout">
           <header class="hr-head">
             <div class="blk-eyebrow">QUIÉNES SOMOS</div>
             <h2 class="blk-h2">
-              No somos un software que llegó a las clínicas.
-              Lo construimos con lo que <span class="blk-grad-text">+1.500 clínicas</span> nos pidieron.
+              Somos el <span class="blk-grad-text">ecosistema</span> que unifica marketing digital y software, enfocados en clínicas estéticas y médicas.
             </h2>
           </header>
 
-          <div class="og-grid reveal" aria-label="Historia: agencia, clínicas propias, Clinera">
-            <article class="og-step">
-              <span class="og-year">2017</span>
-              <strong>Agencia de marketing</strong>
-              <span>Llenamos agendas de clínicas y vimos cuántos pacientes se perdían después del clic.</span>
-            </article>
-            <span class="og-arrow" aria-hidden="true">→</span>
-            <article class="og-step">
-              <span class="og-year">Después</span>
-              <strong>Más de 1.500 clínicas</strong>
-              <span>Trabajamos con muchos software y ninguno satisfacía a los clientes. Recopilamos sus datos y necesidades.</span>
-            </article>
-            <span class="og-arrow" aria-hidden="true">→</span>
-            <article class="og-step">
-              <span class="og-year">Sep 2025</span>
-              <strong>Clinera</strong>
-              <span>Nació tras más de 1 año de desarrollo y testeo: agenda, fichas y marketing con IA en un solo sistema.</span>
-            </article>
+          <div class="qs2-body reveal">
+            <p class="qs2-text">
+              Llevamos más de 12 años de experiencia en nuestro canal de YouTube <strong>Metricads Marketing</strong> y somos <strong>Meta y Google partner</strong>.
+            </p>
+            <figure class="qs2-shot">
+              <img src="/presentacion/canal-metricads.webp" alt="Canal de YouTube Metricads Marketing: 2,31 K suscriptores y 292 vídeos" width="1104" height="412" loading="lazy" />
+            </figure>
           </div>
         </div>
       </section>
