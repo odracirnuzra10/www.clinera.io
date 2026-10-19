@@ -25,7 +25,8 @@ test.describe("Planes en /presentacion", () => {
     }
     for (const b of MARKETING_BLOQUES) expect(chunk).toContain(b.titulo.replace("Facebook, Instagram y Google", "Facebook, Instagram y Google"));
     expect(chunk).not.toContain("450");
-    expect(chunk).toContain("Onboarding dedicado con un ejecutivo humano");
+    expect(chunk).toContain("Sin costo de implementación");
+    expect(chunk).toContain("onboarding dedicado con un ejecutivo humano");
     // Sin promoción (Ricardo, 18-oct-2026): la implementación se cobra y se negocia en la reunión de ventas.
     expect(chunk).not.toContain("gratis");
     expect(chunk).toContain("profesional extra US$ 9/mes");

@@ -32,14 +32,13 @@ test.describe("nuevo discurso comercial — contrato del deck", () => {
     expect(html).toContain("Atlas 379");
     expect(html).toContain("Summit 479");
     expect(html).toContain("20% OFF");
-    expect(html).toContain("USD 450");
+    // Ricardo, 19-oct-2026: se eliminó la implementación, no se nombra en ningún lado.
+    expect(html).not.toMatch(/implementaci[oó]n|USD 450/i);
     expect(html).not.toMatch(/Sólo mensual/i);
   });
 
-  test("empuje: 100% hoy/mañana, 50% esta semana, no bajar el plan", () => {
-    expect(html).toMatch(/100% de regalo/);
-    expect(html).toMatch(/50% de descuento/);
-    expect(html).toMatch(/Nunca bajes el plan/);
+  test("cierre del mes: Cyberday y fechas de corte, sin regalo de implementación", () => {
+    expect(html).not.toMatch(/100% de regalo|50% de descuento|Baja la implementaci/);
     expect(html).toMatch(/Adelantamos el/);
     expect(html).toMatch(/Cyberday/);
     expect(html).toMatch(/10, 15, 20, 25 o 30/);

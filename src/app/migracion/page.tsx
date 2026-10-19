@@ -101,7 +101,7 @@ const jsonLd = {
           acceptedAnswer: {
             "@type": "Answer",
             text:
-              "Plan mensual: el primer cobro es el primer mes del plan (con onboarding dedicado con un ejecutivo humano que migra tus fichas clínicas, datos históricos, pacientes y tratamientos, configura tus agentes de IA, conecta tu WhatsApp Business, integra tu agenda y capacita a tu equipo). Quedas operando el mismo día.",
+              "No. No hay costo de configuración ni de implementación: el primer cobro es el primer mes del plan (con onboarding dedicado con un ejecutivo humano que migra tus fichas clínicas, datos históricos, pacientes y tratamientos, configura tus agentes de IA, conecta tu WhatsApp Business, integra tu agenda y capacita a tu equipo). Quedas operando el mismo día.",
           },
         },
         {

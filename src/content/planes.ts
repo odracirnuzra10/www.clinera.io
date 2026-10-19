@@ -8,13 +8,13 @@
 //
 //  · Vortex                USD 279/mes  — software con IA.
 //  · Ecosistema            USD 529/mes  — software + marketing de performance («Recomendado»).
-//  · Implementación        no se publica su valor (Ricardo, 19-oct): se ve en la reunión de ventas.
+//  · Implementación        eliminada (Ricardo, 19-oct): no se cobra ni se publica.
 //
 // No hay compra por la web: todo CTA lleva a /agenda (wizard de 3 pasos que termina
 // en una videollamada). Se acabaron los planes y cupones anteriores y los precios de extras (lo de más profesionales o más IA se conversa).
 //
 // Lo que NO vive acá:
-// - `pricing.ts` (catálogo anterior y SETUP_FEE_USD 450): sigue
+// - `pricing.ts` (catálogo anterior; SETUP_FEE_USD = 0, sin implementación): sigue
 //   alimentando los contratos de /firma y /cotizacion; no se migran sin que Ricardo
 //   lo decida. OJO: «Vortex» tiene ahí otro precio (279), el del catálogo viejo.
 // - `planes2.ts` (modelo anterior): piezas internas de /go y el evento de compra.
@@ -133,7 +133,7 @@ export const PLAN_DESDE_USD = Math.min(...PLANES.map((p) => p.monthlyUsd));
 export const PLAN_IA_DESDE = PLANES[0];
 
 /** Onboarding dedicado con un ejecutivo humano (las dos opciones). El valor de la implementación no se publica. */
-export const IMPLEMENTACION_LINEA = "Onboarding dedicado con un ejecutivo humano, incluido en las dos opciones.";
+export const IMPLEMENTACION_LINEA = "Sin costo de implementación. Onboarding dedicado con un ejecutivo humano en las dos opciones.";
 /**
  * Extras del software (Ricardo, 18-oct-2026): se compran dentro de la app cuando al
  * cliente se le queda corto el plan. Valen para Vortex y Ecosistema, porque son parte

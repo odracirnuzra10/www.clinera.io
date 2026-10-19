@@ -169,10 +169,12 @@ respuesta es esta.
 
 ## Implementación y estructura de pago
 
-**Resuelto por Ricardo (agosto 2026): la implementación vale US$ 450** — el
-valor de `SETUP_FEE_USD` en `pricing.ts`, el mismo que va a los contratos
-firmados. El US$ 750 que existió en `/planes-pro`, FAQ, calculadoras y
-`public/llms*.txt` era residuo y ya se corrigió; si reaparece, es un error.
+**La implementación se ELIMINÓ (Ricardo, 19-oct-2026): ya no se cobra, en ningún lado.** `SETUP_FEE_USD` en `pricing.ts` es
+**0**: con eso el generador de cotizaciones y contratos (`src/lib/firma/cotizacion.ts`) no arma línea de setup, ni el PDF ni el
+checkout de Stripe la muestran. Antes valía US$ 450 (y US$ 750 en una versión vieja: ambos son residuo; si reaparece una cifra de
+implementación en cualquier copy, es un error). La web dice «Sin costo de implementación» y que el onboarding dedicado con un
+ejecutivo humano va incluido. **Ojo:** el constructor externo `cotizacion.oacg.cl` no vive en este repo y puede seguir con su propia
+línea de setup: revisarlo aparte.
 
 **Actualizado 2026-09-26:** la web pública muestra **el anual primero** y el
 mensual después. El anual es el default (20% OFF de catálogo, totales en
@@ -184,11 +186,10 @@ Así lo comunican las tarjetas de `<Pricing />` en home, `/planes` y `/planes-pr
 
 - **Lo primero:** plan anual expresado como valor mensual (la cuota: 223 / 303 / 383), con el ahorro en una línea. El total del año no se imprime; sigue en `annualTotal` porque es lo que cobra Stripe. La tarjeta muestra un solo precio: el de la modalidad activa. Al pasar a mensual, desaparece el anual.
 - **Cómo se paga el anual (26-sep):** 12 cuotas a precio de contado con Mercado Pago. El isotipo está en `public/brand/mercadopago.svg` y el texto en `MercadoPagoCuotas` y en la diapo `#planes`. No es un recargo: el total de las cuotas es el precio de contado del año.
-- **Primer cobro:** implementación US$ 450 + el año (si es anual) o el primer mes (si es mensual).
+- **Primer cobro:** el año (si es anual) o el primer mes (si es mensual). Sin implementación.
 - El switch dólar / peso mexicano no compite con esa elección: va a la derecha, chico, con las banderas de Estados Unidos y México (`PriceModalitySwitch`).
 
-Usa `setupFeeFor(billing)` / `includesFreeSetup(billing)` — en catálogo ambos
-devuelven 450 / false; no asumas implementación gratis.
+`setupFeeFor(billing)` / `includesFreeSetup(billing)` devuelven 0 / true.
 
 **Monedas en la web (2026-09-27):** no se menciona el IVA. El servicio no lo
 cobra y la nota «no incluye IVA» hacía pensar que el impuesto venía aparte.
@@ -198,11 +199,10 @@ y **Peso mexicano**. MXN usa un FX **congelado** en `src/content/pricing.ts`:
 pantalla: MXN a la decena. No hay peso chileno. Control: `PriceModalitySwitch`.
 Guardián: `tests/price-modality.spec.ts`.
 
-**Discurso de cierre (sep 2026, actualizado el 26):** deck interno
+**Discurso de cierre (sep 2026, actualizado el 26 y el 19-oct):** deck interno
 `public/presentacion-nuevo-discurso.html` (`/nuevodiscurso`). La web ofrece
 el anual primero (20% OFF publicado) y el mensual después. El semestral sigue
-solo en el constructor. El closer regala la implementación (100% hoy/mañana,
-50% esta semana) con una excusa que vence. Hasta 200 clientes.
+solo en el constructor. Desde el 19-oct ya no hay implementación que regalar: la palanca de cierre sobre la implementación se sacó del deck. Hasta 200 clientes.
 Guardián: `tests/nuevo-discurso.spec.ts`.
 
 ## `/ventas2026`: reunión interna de la campaña MQL
@@ -564,9 +564,7 @@ Guardián: `tests/reserva-tu-hora.spec.ts` + `tests/telefono.spec.ts`.
 **Clinera vende dos opciones:** Vortex US$ 279/mes (software con IA: hasta 10
 profesionales, 10.000 créditos, bandeja WhatsApp/IG/FB) y Ecosistema US$ 529/mes
 (Vortex + marketing de performance: campañas, propuesta de valor, framework
-comercial; «Recomendado»). Implementación: su valor no se publica (ver más abajo; en contratos sigue USD 450), en el primer
-cobro, **siempre** (Ricardo, 18-oct: la promo «implementación gratis en Ecosistema»
-se sacó; el descuento se negocia en la reunión de ventas, no se publica). **Extras del
+comercial; «Recomendado»). **Sin implementación** (Ricardo, 19-oct: se eliminó, ver «Implementación y estructura de pago»). **Extras del
 software** (`EXTRAS` en `planes.ts`, valen para las dos opciones): profesional extra
 US$ 9/mes, 500 conversaciones extra US$ 15, 5.000 créditos de IA extra US$ 15.
 **Discurso de ahorro** (Ricardo, 19-oct: `AHORRO` en `planes.ts`, componente `AhorroEcosistema`,
@@ -585,11 +583,7 @@ la web. Sin permanencia y sin plan anual (pendientes de
 Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
 `/agenda?servicio=…` con la query de la visita (`agendaHref`).
 
-- **El valor de la implementación NO se publica en ningún lado (Ricardo, 19-oct):** se sacó el «US$ 450» de planes, home, FAQ,
-  presentación, `llms*.txt`, comparativas, blog y recursos; donde estaba dice «onboarding dedicado con un ejecutivo humano»
-  (`IMPLEMENTACION_LINEA` en `planes.ts`, sin cifra; ya no existe `IMPLEMENTACION_USD` ahí). **No se tocó** `pricing.ts`
-  (`SETUP_FEE_USD`, contratos `/firma` y cotización) ni `planes2.ts`: lo que se cobre al cerrar se define en la reunión de
-  ventas y en esos contratos, no en la web. El deck interno `/nuevodiscurso` sigue nombrando USD 450 porque es para el equipo.
+- **Implementación eliminada (Ricardo, 19-oct):** ya no existe el cobro de US$ 450. Se sacó de planes, home, FAQ, presentación, `llms*.txt`, comparativas, blog, recursos, contratos (`SETUP_FEE_USD = 0`) y del deck interno `/nuevodiscurso` (donde también se quitaron las diapos del «regalo de la implementación» como palanca de cierre). `IMPLEMENTACION_LINEA` en `planes.ts` dice «Sin costo de implementación…».
 - **Lo que incluye cada opción (Ricardo, 19-oct):** el marketing del Ecosistema trae **4 reuniones al mes, 1 por semana**
   (cuarto bloque de `MARKETING_BLOQUES`, id `reuniones`, que alimenta tarjetas, home, `llms*.txt` y el paso 3
   del wizard; la presentación lo lleva escrito a mano). **Las dos opciones incluyen onboarding dedicado con un
@@ -976,7 +970,7 @@ frente y el letrero QUALITY/VITALITY.
 **En `/partner/{vanity}` el titular es la recomendación del partner**, no un
 descuento publicado. El programa ya no ofrece 10% × 3 meses al referido; los
 bonos del partner (US$ 150 / 200 / 400) viven en `/partners`. Sigue sin
-publicarse precio de plan (Vortex/Atlas/Summit, 279/379/479/450).
+publicarse precio de plan (Vortex/Atlas/Summit, 279/379/479).
 
 **Por qué el `ref` va dentro del texto de WhatsApp.** El 90% del tráfico llega
 desde un sticker de Instagram o un DM. En WhatsApp no sobreviven cookies ni

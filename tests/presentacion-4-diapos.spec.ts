@@ -108,6 +108,7 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).not.toContain("Promoción del mes");
     expect(c).not.toContain("Implementación gratis");
     expect(c).not.toContain("USD 450");
-    expect(c).toContain("Onboarding dedicado con un ejecutivo humano en ambos planes");
+    expect(c).toContain("Sin costo de implementación");
+    expect(c).toContain("onboarding dedicado con un ejecutivo humano en ambos planes");
   });
 });

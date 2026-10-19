@@ -1,26 +1,14 @@
-// Fuente única del costo de configuración inicial (pago único).
-// Lo consumen <SetupFeeBand />, las tarjetas de planes de home-v3
-// (home, /planes, /planes-pro y /plataforma) y las calculadoras de consumo.
-//
 // Catálogo público (clinera.io): el anual va primero (default, 20% OFF)
 // y el mensual queda como segunda opción. El semestral sigue sólo en el
-// constructor (cotizacion.oacg.cl). En las dos modalidades publicadas
-// el primer cobro es implementación + el período del plan.
-export const SETUP_FEE_USD = 450;
-
-/** Monto formateado en es-CL, sin símbolo ni moneda: "450". */
-export const SETUP_FEE_NUMBER = "450";
-
-/** Monto con símbolo, para el precio de la banda: "$450". */
-export const SETUP_FEE_AMOUNT = `$${SETUP_FEE_NUMBER}`;
-
-/** Línea corta para poner debajo del precio de cada plan. */
-export const SETUP_FEE_INLINE = `+ USD ${SETUP_FEE_NUMBER} configuración inicial (pago único)`;
-
-export const SETUP_FEE_TITLE = "Costo de configuración: una sola vez";
-
-export const SETUP_FEE_COPY =
-  "Migramos fichas clínicas, datos históricos, pacientes y tratamientos, y configuramos tus agentes de IA. El primer cobro es la implementación más el período del plan: el año, si es anual, o el primer mes, si es mensual.";
+// constructor (cotizacion.oacg.cl).
+//
+// Ricardo, 19-oct-2026: **se eliminó la implementación** (el costo de
+// configuración de USD 450). El primer cobro es sólo el período del plan; el
+// onboarding dedicado con un ejecutivo humano va incluido. `SETUP_FEE_USD`
+// queda en 0 porque lo lee el generador de cotizaciones y contratos
+// (`src/lib/firma/cotizacion.ts`): con 0 no hay línea de implementación en el
+// PDF ni en el checkout de Stripe.
+export const SETUP_FEE_USD = 0;
 
 /** Permanencia mínima de todos los planes, en meses. */
 export const SEMESTER_MONTHS = 6;
@@ -37,17 +25,14 @@ export const ANNUAL_DISCOUNT_PERCENT = 20;
 export const BILLING_PERIODS = ["annual", "monthly"] as const;
 export type Billing = (typeof BILLING_PERIODS)[number];
 
-/**
- * El catálogo cobra la implementación siempre. Un closer puede regalarla
- * en una cotización formal; eso no se publica ni se asume acá.
- */
+/** Ya no hay implementación: el primer cobro es sólo el período del plan. */
 export function setupFeeFor(_billing: Billing): number {
   return SETUP_FEE_USD;
 }
 
-/** El catálogo nunca regala la implementación. */
+/** No hay implementación que regalar ni que cobrar. */
 export function includesFreeSetup(_billing: Billing): boolean {
-  return false;
+  return true;
 }
 
 export const EXTRA_CREDIT_PACK_USD = 15;
@@ -138,7 +123,7 @@ export type PlanChannel = "whatsapp" | "facebook" | "instagram" | "llamadas" | "
  * Catálogo comercial. La web publica el anual como valor mensual
  * (`annualMonthly`) y el mensual (`monthlyPrice`) debajo, para que el
  * ahorro se vea. `annualTotal` es lo que cobra Stripe y no se imprime
- * en las tarjetas. La implementación se cobra en los dos.
+ * en las tarjetas. No hay implementación.
  *
  * Los anuales son doce meses con −20% de catálogo, redondeado al dólar
  * (así están en Stripe: 2.678 / 3.638 / 4.598). No multipliques
@@ -233,7 +218,7 @@ export function planCheckoutUrl(plan: ClineraPlan, billing: Billing): string {
   return billing === "annual" ? plan.stripeAnnual : plan.stripe;
 }
 
-/** Lo que se cobra del plan en esa modalidad (sin implementación). */
+/** Lo que se cobra del plan en esa modalidad. */
 export function planPeriodTotal(plan: ClineraPlan, billing: Billing): number {
   return billing === "annual" ? plan.annualTotal : plan.monthlyPrice;
 }
@@ -245,7 +230,7 @@ export function planMonthlyEquivalent(plan: ClineraPlan, billing: Billing): numb
 
 /**
  * Ahorro del plan anual vs 12 meses mensuales (sólo el −20% de catálogo).
- * La implementación se cobra igual en las dos, así que no entra.
+ * Ya no hay implementación, así que no entra.
  */
 export function annualFirstYearSavings(plan: ClineraPlan): number {
   return plan.monthlyPrice * ANNUAL_MONTHS - plan.annualTotal;
