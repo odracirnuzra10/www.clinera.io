@@ -172,3 +172,48 @@
     padding-bottom: 2px;
   }
 }
+
+/* Celulares de pantalla corta (iPhone SE y 12 mini, Galaxy S5, S9+…): la boleta del wizard se
+   achica para que el botón deslizante quede a la vista sin scrollear. */
+@media (max-width: 959px) and (max-height: 680px) {
+  .compacto {
+    max-width: 290px;
+    margin-top: 8px;
+  }
+  .compacto .cuerpo {
+    padding: 0 16px 2px;
+  }
+  .compacto .titulo {
+    font-size: 10px;
+  }
+  .compacto .lineas {
+    margin-top: 8px;
+    gap: 6px;
+  }
+  .compacto .linea {
+    font-size: 11px;
+    gap: 5px;
+  }
+  .compacto .nombre small {
+    font-size: 9px;
+  }
+  .compacto .corte {
+    margin: 8px 0 7px;
+  }
+  .compacto .eco {
+    margin-top: 6px;
+    font-size: 12px;
+  }
+  .compacto .eco .precio {
+    font-size: 13px;
+  }
+  .compacto .ahorro {
+    margin-top: 8px;
+    padding: 6px 8px;
+    font-size: 12.5px;
+  }
+  .compacto .nota {
+    margin-top: 6px;
+    font-size: 9px;
+  }
+}
