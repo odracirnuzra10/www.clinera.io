@@ -117,7 +117,7 @@ Tarifario de créditos de IA:
   créditos de IA, bandeja de WhatsApp, Instagram y Facebook, agenda médica,
   fichas clínicas, agente AURA, automatizaciones y difusiones.
 - **ECOSISTEMA — USD 529/mes (recomendado)** — todo lo de Vortex + marketing
-  de performance: campañas en Facebook, Instagram y Google, propuesta de valor
+  de performance: campañas en Facebook, Instagram y Google (con los creativos incluidos; los videos los entrega el cliente y Clinera los edita), propuesta de valor
   framework comercial y 4 reuniones de marketing al mes (1 por semana). Cada lead llega a la bandeja de Clinera y la IA lo
   agenda.
 

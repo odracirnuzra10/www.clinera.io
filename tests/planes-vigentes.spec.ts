@@ -69,6 +69,12 @@ test.describe("home: logos reales", () => {
 // Ricardo, 19-oct-2026: 4 reuniones de marketing al mes (1 por semana) y onboarding dedicado con un
 // ejecutivo humano en las dos opciones.
 test.describe("reuniones de marketing y onboarding dedicado", () => {
+  test("el marketing incluye creativos; los videos los entrega el cliente y Clinera los edita", () => {
+    const campanas = MARKETING_BLOQUES.find((b) => b.id === "campanas")!;
+    expect(campanas.texto).toMatch(/creativos/);
+    expect(campanas.texto).toMatch(/videos.*editamos/);
+  });
+
   test("el catálogo lo declara en las dos opciones", () => {
     expect(MARKETING_BLOQUES.map((b) => b.id)).toContain("reuniones");
     expect(MARKETING_BLOQUES.find((b) => b.id === "reuniones")!.texto).toMatch(/4 reuniones .* 1 por semana/);

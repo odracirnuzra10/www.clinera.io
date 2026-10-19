@@ -584,6 +584,7 @@ Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
 `/agenda?servicio=…` con la query de la visita (`agendaHref`).
 
 - **Implementación eliminada (Ricardo, 19-oct):** ya no existe el cobro de US$ 450. Se sacó de planes, home, FAQ, presentación, `llms*.txt`, comparativas, blog, recursos, contratos (`SETUP_FEE_USD = 0`) y del deck interno `/nuevodiscurso` (donde también se quitaron las diapos del «regalo de la implementación» como palanca de cierre). `IMPLEMENTACION_LINEA` en `planes.ts` dice «Sin costo de implementación…».
+- **Creativos (Ricardo, 19-oct):** el marketing del Ecosistema **incluye los creativos** de las campañas; **los videos los entrega el cliente y Clinera los edita** (no los produce). Vive en el texto del bloque `campanas` de `MARKETING_BLOQUES` y escrito a mano en la presentación y `llms*.txt`.
 - **Lo que incluye cada opción (Ricardo, 19-oct):** el marketing del Ecosistema trae **4 reuniones al mes, 1 por semana**
   (cuarto bloque de `MARKETING_BLOQUES`, id `reuniones`, que alimenta tarjetas, home, `llms*.txt` y el paso 3
   del wizard; la presentación lo lleva escrito a mano). **Las dos opciones incluyen onboarding dedicado con un
