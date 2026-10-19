@@ -48,6 +48,8 @@ test.describe("/presentacion en 4 diapositivas", () => {
     expect(c).toContain("clínicas estéticas y médicas");
     expect(c).toContain("desde US$ 500/mes");
     expect(c).toContain("entre US$ 1.000 y 1.500");
+    expect(c).toContain("US$ 1.000–1.500/mes");
+    expect(c).toContain("Ahorras casi US$ 500 al mes");
     expect(c).toContain("US$ 479");
     expect(c).toContain("estimados");
     expect(c).not.toMatch(/AgendaPro|Reservo|Medilink|Bambi/i);

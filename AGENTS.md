@@ -562,6 +562,9 @@ bloque `.px-ahorro` de la presentación): agencia de marketing desde US$ 500/mes
 US$ 200–500, otro software + agenda US$ 400–500 + 200; por separado US$ 1.000–1.500 vs US$ 479 del
 Ecosistema («te ahorras casi US$ 500 al mes»). Son estimados de mercado: se publican como tales y
 **sin nombrar competidores**.
+Se muestra como una **«boleta» de gastos** minimalista (Ricardo, 19-oct: «bonito, minimalista, poco
+espacio, nunca apiñado»), hecha en código (no imagen generada: los números salen nítidos y se
+leen con lector de pantalla). La presentación tiene su propia copia en HTML (`.bol`).
 Fuente única: `src/content/planes.ts`.
 Se acabaron Flux, Hurricane, Nexus, Atlas, Summit, Go!, el cupón y la compra por
 la web. Sin permanencia y sin plan anual (pendientes de
