@@ -57,7 +57,7 @@ const PLANS: Plan[] = [
       </>
     ),
     tag: { label: "Recomendado" },
-    price: { amount: "US$379", per: "/mes" },
+    price: { amount: "US$529", per: "/mes" },
   },
 ];
 

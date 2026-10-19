@@ -104,7 +104,7 @@ export const ECOSISTEMA_SLIDES: readonly { n: string; titulo: string; texto: str
   },
   {
     n: "3",
-    titulo: "Nos reunimos semanalmente para ver los resultados.",
+    titulo: "Una reunión de marketing por semana, 4 al mes, para ver los resultados.",
     texto: "",
     img: "/images/agenda/ecosistema-5-resultados.webp",
   },

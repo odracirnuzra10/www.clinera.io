@@ -9,7 +9,7 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
   test("el catálogo", () => {
     expect(PLANES.map((p) => [p.id, p.monthlyUsd])).toEqual([
       ["vortex", 279],
-      ["ecosistema", 379],
+      ["ecosistema", 529],
     ]);
     expect(IMPLEMENTACION_USD).toBe(450);
     expect(PLANES[1].features).toEqual(expect.arrayContaining(MARKETING_BLOQUES.map((b) => b.titulo)));
@@ -44,8 +44,8 @@ test.describe("ahorro del Ecosistema (Ricardo, 19-oct-2026)", () => {
       await expect(bloque.locator("[data-ahorro-item]")).toHaveCount(3);
       await expect(bloque).toContainText("US$ 600–800/mes");
       await expect(bloque).toContainText("US$ 1.000–1.700/mes");
-      await expect(bloque.locator("[data-ahorro-conclusion]")).toContainText("US$ 379");
-      await expect(bloque).toContainText("Ahorras más de US$ 600 al mes");
+      await expect(bloque.locator("[data-ahorro-conclusion]")).toContainText("US$ 529");
+      await expect(bloque).toContainText("Ahorras desde US$ 470 al mes");
       // Valores estimados y sin nombrar competidores.
       await expect(bloque).toContainText("estimados");
       await expect(bloque).not.toContainText(/AgendaPro|Reservo|Medilink|Bambi/i);
@@ -63,5 +63,27 @@ test.describe("home: logos reales", () => {
     for (const falso of ["Hospital del Valle", "Centro Estético Aurora", "Vitaderma", "Nuevo Ser"]) {
       expect(texto).not.toContain(falso);
     }
+  });
+});
+
+// Ricardo, 19-oct-2026: 4 reuniones de marketing al mes (1 por semana) y onboarding dedicado con un
+// ejecutivo humano en las dos opciones.
+test.describe("reuniones de marketing y onboarding dedicado", () => {
+  test("el catálogo lo declara en las dos opciones", () => {
+    expect(MARKETING_BLOQUES.map((b) => b.id)).toContain("reuniones");
+    expect(MARKETING_BLOQUES.find((b) => b.id === "reuniones")!.texto).toMatch(/4 reuniones .* 1 por semana/);
+    expect(PLANES[0].features).toContain("Onboarding dedicado con un ejecutivo humano");
+    expect(PLANES[1].features).toContain("Todo lo de Vortex");
+  });
+
+  test("/planes y la presentación lo muestran", async ({ page }) => {
+    await page.goto("/planes", { waitUntil: "domcontentloaded" });
+    await expect(page.getByText("Reunión de marketing cada semana").first()).toBeVisible();
+    await expect(page.getByText("Onboarding dedicado con un ejecutivo humano").first()).toBeVisible();
+    await page.goto("/presentacion/index.html#planes", { waitUntil: "domcontentloaded" });
+    const html = await page.content();
+    expect(html).toContain("Reunión de marketing cada semana");
+    expect(html).toContain("4 reuniones de marketing al mes, 1 por semana");
+    expect(html).toContain("onboarding dedicado con un ejecutivo humano");
   });
 });

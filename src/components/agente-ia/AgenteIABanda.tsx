@@ -110,7 +110,7 @@ export default function AgenteIABanda({
             </span>
             <span>
               <b>Framework comercial</b>
-              <small>Técnicas de venta para cerrar a los pacientes que llegan.</small>
+              <small>Técnicas de venta para cerrar a los pacientes que llegan, con una reunión de marketing por semana (4 al mes).</small>
             </span>
           </li>
           <li className={styles.channel}>

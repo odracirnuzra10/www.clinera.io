@@ -7,7 +7,7 @@
 // y médicas.
 //
 //  · Vortex                USD 279/mes  — software con IA.
-//  · Ecosistema            USD 379/mes  — software + marketing de performance («Recomendado»).
+//  · Ecosistema            USD 529/mes  — software + marketing de performance («Recomendado»).
 //  · Implementación        USD 450, pago único, en el primer cobro junto con el primer mes.
 //
 // No hay compra por la web: todo CTA lleva a /agenda (wizard de 3 pasos que termina
@@ -58,9 +58,10 @@ const SOFTWARE_FEATURES = [
   "Agenda y fichas de la clínica",
   "Agente de IA (AURA) que responde y agenda",
   "Automatizaciones y difusiones",
+  "Onboarding dedicado con un ejecutivo humano",
 ] as const;
 
-/** Los tres bloques de marketing de performance (Ricardo, 18-oct-2026). */
+/** Los cuatro bloques de marketing de performance (Ricardo, 18-oct-2026). */
 export const MARKETING_BLOQUES = [
   {
     id: "campanas",
@@ -76,6 +77,11 @@ export const MARKETING_BLOQUES = [
     id: "framework",
     titulo: "Framework comercial",
     texto: "Técnicas de venta que aplicamos contigo para que tu equipo las use con sus pacientes y cierre a los que le llegan.",
+  },
+  {
+    id: "reuniones",
+    titulo: "Reunión de marketing cada semana",
+    texto: "4 reuniones de marketing al mes, 1 por semana, para revisar los resultados y ajustar las campañas contigo.",
   },
 ] as const;
 
@@ -96,14 +102,14 @@ export const PLANES: readonly Plan[] = [
   {
     id: "ecosistema",
     name: "Ecosistema",
-    monthlyUsd: 379,
+    monthlyUsd: 529,
     servicio: "ambas",
     professionals: 10,
     iaCredits: 10000,
     channels: ["whatsapp", "instagram", "facebook"],
     featured: true,
     tag: "Recomendado",
-    resumen: "El ecosistema completo: marketing de performance que trae pacientes y software con IA que los atiende.",
+    resumen: "Marketing de performance que trae pacientes a tu clínica, con un equipo y 4 reuniones al mes contigo, más el software con IA que los atiende.",
     features: ["Todo lo de Vortex", ...MARKETING_BLOQUES.map((b) => b.titulo)],
   },
 ] as const;
@@ -126,9 +132,9 @@ export const PLAN_DESDE_USD = Math.min(...PLANES.map((p) => p.monthlyUsd));
 /** Único plan de software: de él parte el agente IA. */
 export const PLAN_IA_DESDE = PLANES[0];
 
-/** Implementación: pago único en el primer cobro, con onboarding asistido por una persona. */
+/** Implementación: pago único en el primer cobro, con onboarding dedicado con un ejecutivo humano (las dos opciones). */
 export const IMPLEMENTACION_USD = 450;
-export const IMPLEMENTACION_LINEA = `Implementación USD ${IMPLEMENTACION_USD}, pago único. Incluye onboarding asistido por una persona.`;
+export const IMPLEMENTACION_LINEA = `Implementación USD ${IMPLEMENTACION_USD}, pago único. Incluye onboarding dedicado con un ejecutivo humano.`;
 /**
  * Extras del software (Ricardo, 18-oct-2026): se compran dentro de la app cuando al
  * cliente se le queda corto el plan. Valen para Vortex y Ecosistema, porque son parte
@@ -154,7 +160,7 @@ export const AHORRO = {
   ],
   separado: { etiqueta: "Todo por separado", precio: "US$ 1.000–1.700/mes" },
   ecosistema: { etiqueta: "Clinera Ecosistema", precio: `US$ ${PLANES[1].monthlyUsd}/mes`, nota: "todo en un solo lugar" },
-  ahorro: "Ahorras más de US$ 600 al mes",
+  ahorro: "Ahorras desde US$ 470 al mes",
   nota: "Valores de referencia estimados del mercado.",
 } as const;
 

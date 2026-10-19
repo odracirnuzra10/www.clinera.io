@@ -19,7 +19,7 @@ import styles from "./empleado-digital.module.css";
 
 const TITLE = "Empleado digital para clínicas";
 const DESCRIPTION =
-  "Empleados digitales CAMILA (voz), AURA (WhatsApp) y LIA (orquestación) que ejecutan sobre la agenda de tu clínica 24/7: agendan, confirman, cobran y recuperan pacientes. Vortex USD 279/mes o Ecosistema USD 379/mes.";
+  "Empleados digitales CAMILA (voz), AURA (WhatsApp) y LIA (orquestación) que ejecutan sobre la agenda de tu clínica 24/7: agendan, confirman, cobran y recuperan pacientes. Vortex USD 279/mes o Ecosistema USD 529/mes.";
 
 export const metadata: Metadata = {
   title: TITLE,

@@ -23,7 +23,7 @@ import { clienteEventId, purchaseEventId, trialEventId } from "@/lib/meta-purcha
 export const PURCHASE_EVENT_NAME = "Purchase";
 /** Go! (USD 17): quien paga es un TRIAL (Ricardo, 17-oct). */
 export const TRIAL_EVENT_NAME = "TRIAL";
-/** Planes vigentes (Vortex 279 · Ecosistema 379) y Ultra (179): quien paga es un CLIENTE. */
+/** Planes vigentes (Vortex 279 · Ecosistema 529) y Ultra (179): quien paga es un CLIENTE. */
 export const CLIENTE_EVENT_NAME = "CLIENTE";
 
 export { clienteEventId, purchaseEventId, trialEventId };
@@ -125,7 +125,7 @@ export function isUltraPlan(productNames: string[]): boolean {
 
 /**
  * Plan vigente (`planes.ts`) por el nombre del producto en Stripe: «Ecosistema»
- * (379) o «Vortex» (279), con o sin «Clinera» o «Plan» delante. Ricardo,
+ * (529) o «Vortex» (279), con o sin «Clinera» o «Plan» delante. Ricardo,
  * 18-oct-2026: «paga: Cliente, con valor dinámico del plan».
  *
  * OJO: el catálogo viejo (`pricing.ts`, contratos de /firma) también tiene un
@@ -151,7 +151,7 @@ export function sessionValue(session: Stripe.Checkout.Session): number {
 /**
  * Evento de conversión de la sesión (Ricardo, 17-oct):
  *  · Go! (USD 17)            → `TRIAL`   USD 17
- *  · Vortex (279), Ecosistema (379) — planes vigentes, 18-oct — y
+ *  · Vortex (279), Ecosistema (529) — planes vigentes, 18-oct — y
  *    Ultra (179) → `CLIENTE` con el valor del plan
  *  · cualquier otro (Atlas/Summit viejos, /firma) → `Purchase` con el valor cobrado.
  * El valor sale del catálogo, en USD: la sesión puede cobrar en CLP o con cupón.

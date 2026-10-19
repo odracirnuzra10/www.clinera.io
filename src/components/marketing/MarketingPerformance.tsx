@@ -2,7 +2,7 @@
 
 // ============================================================================
 // «Marketing de performance» (Ricardo, 18-oct-2026): mismo peso visual que la
-// sección de software. Tres bloques de `MARKETING_BLOQUES` y el cierre que los
+// sección de software. Los bloques de `MARKETING_BLOQUES` y el cierre que los
 // une con el software: el lead llega a la bandeja de Clinera y la IA lo agenda.
 // Sin cifras. CTA a /agenda?servicio=marketing con la query de la visita.
 // ============================================================================
@@ -39,18 +39,18 @@ export default function MarketingPerformance() {
               color: "#0A0A0A",
             }}
           >
-            Un equipo que trae pacientes,{" "}
+            Te traemos los pacientes,{" "}
             <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
-              y una IA que los agenda.
+              y la IA los agenda.
             </span>
           </h2>
           <p style={{ fontSize: 17, lineHeight: 1.6, color: "#4B5563", margin: 0 }}>
-            Además del software, en el plan Ecosistema trabajamos contigo la parte comercial de tu clínica.
+            El marketing es lo que cambia el resultado: en el plan Ecosistema un equipo se encarga de las campañas, de tu propuesta de valor y de enseñarle a tu equipo a cerrar, y se reúne contigo cada semana.
           </p>
         </div>
 
         <div
-          style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}
+          style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 20 }}
         >
           {MARKETING_BLOQUES.map((b, i) => (
             <article
@@ -80,6 +80,32 @@ export default function MarketingPerformance() {
               <p style={{ fontSize: 15, lineHeight: 1.6, color: "#4B5563", margin: 0 }}>{b.texto}</p>
             </article>
           ))}
+        </div>
+
+        <div
+          data-marketing-semanas
+          aria-label="Cuatro reuniones de marketing al mes, una por semana"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+            gap: 12,
+            marginTop: 28,
+            padding: 20,
+            borderRadius: 20,
+            background: "#0A0A0A",
+          }}
+        >
+          {[1, 2, 3, 4].map((n) => (
+            <div key={n} style={{ textAlign: "center", color: "#FFFFFF" }}>
+              <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 11, letterSpacing: "0.09em", color: "#C4B5FD", textTransform: "uppercase" }}>
+                Semana {n}
+              </div>
+              <div style={{ fontSize: 15, fontWeight: 600, marginTop: 6 }}>Reunión de marketing</div>
+            </div>
+          ))}
+          <div style={{ gridColumn: "1 / -1", textAlign: "center", color: "#E5E7EB", fontSize: 14, marginTop: 4 }}>
+            4 reuniones al mes, 1 por semana, para ver los resultados y ajustar las campañas contigo.
+          </div>
         </div>
 
         <p
