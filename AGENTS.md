@@ -557,6 +557,11 @@ cobro, **siempre** (Ricardo, 18-oct: la promo «implementación gratis en Ecosis
 se sacó; el descuento se negocia en la reunión de ventas, no se publica). **Extras del
 software** (`EXTRAS` en `planes.ts`, valen para las dos opciones): profesional extra
 US$ 9/mes, 500 conversaciones extra US$ 15, 5.000 créditos de IA extra US$ 15.
+**Discurso de ahorro** (Ricardo, 19-oct: `AHORRO` en `planes.ts`, componente `AhorroEcosistema`,
+bloque `.px-ahorro` de la presentación): agencia de marketing desde US$ 500/mes, software con IA
+US$ 200–500, otro software + agenda US$ 400–500 + 200; por separado US$ 1.000–1.500 vs US$ 479 del
+Ecosistema («te ahorras casi US$ 500 al mes»). Son estimados de mercado: se publican como tales y
+**sin nombrar competidores**.
 Fuente única: `src/content/planes.ts`.
 Se acabaron Flux, Hurricane, Nexus, Atlas, Summit, Go!, el cupón y la compra por
 la web. Sin permanencia y sin plan anual (pendientes de

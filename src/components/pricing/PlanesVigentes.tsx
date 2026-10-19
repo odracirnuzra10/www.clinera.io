@@ -18,6 +18,7 @@ import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { ICONO_ECOSISTEMA, ICONO_VORTEX, TEMA_ECOSISTEMA, TEMA_VORTEX } from "@/components/pricing/planThemes";
 import { PlanChannelLogos } from "@/components/pricing/PlanChannelLogos";
 import { IconoDestacado } from "@/components/pricing/IconoDestacado";
+import AhorroEcosistema from "@/components/pricing/AhorroEcosistema";
 import { VERTEX_IA_MODELS } from "@/content/ia-stack";
 import {
   CTA_VENTAS_LABEL,
@@ -302,6 +303,8 @@ export default function PlanesVigentes({
           </p>
           <p style={{ margin: 0, fontFamily: "Inter", fontSize: 15, color: "#4B5563" }}>{NECESIDADES_LINEA}</p>
         </div>
+
+        <AhorroEcosistema />
 
         {conModelos && (
           <div
