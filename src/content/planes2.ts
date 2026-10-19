@@ -172,7 +172,7 @@ export const DEFINICION_INTELLIGENCE =
 export const DEFINICION_AURA =
   "AURA es el agente de IA que responde los mensajes de tus pacientes y agenda sus horas. Solo está en Ultra.";
 
-/** Los planes nuevos no cobran implementación (Ricardo, 16-oct-2026). `SETUP_FEE_USD` de pricing.ts sigue rigiendo los planes viejos. */
+/** Ninguna opción cobra implementación (Ricardo, 16 y 19-oct-2026). */
 export const IMPLEMENTACION_USD = 0;
 
 export const SOLO_NUEVOS = "Estos planes son solo para clientes nuevos.";

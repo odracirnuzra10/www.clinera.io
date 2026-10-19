@@ -137,9 +137,8 @@ export function construirCotizacion(cruda: unknown): CotizacionSnapshot | null {
 
   const extraUsuarios = clampQty(c.extraUsuarios);
   const extraPacks = clampQty(c.extraPacks);
-  // Catálogo cobra la implementación siempre; el closer puede regalarla
-  // desmarcando el checkbox (incluirSetup: false).
-  const incluirSetup = c.incluirSetup !== false;
+  // Sin implementación desde el 19-oct-2026 (SETUP_FEE_USD = 0): nunca hay línea de setup.
+  const incluirSetup = SETUP_FEE_USD > 0 && c.incluirSetup !== false;
 
   // Mismo cálculo que QuoteBuilder: descuento por línea y luego el global
   // sobre todo (incluido el setup).

@@ -27,7 +27,7 @@ export const PLANES_FAQ = [
   },
   {
     q: "¿Tiene costo de implementación o es solo la mensualidad?",
-    a: "Las dos opciones incluyen onboarding dedicado con un ejecutivo humano: configura tu cuenta, conecta tus canales y migra tus pacientes y tratamientos. El detalle de lo que corresponde pagar lo ves en la videollamada.",
+    a: "No. No hay costo de implementación: pagas solo la mensualidad. Las dos opciones incluyen onboarding dedicado con un ejecutivo humano, que configura tu cuenta, conecta tus canales y migra tus pacientes y tratamientos.",
   },
   {
     q: "¿Puedo empezar solo con el software y sumar marketing después?",
