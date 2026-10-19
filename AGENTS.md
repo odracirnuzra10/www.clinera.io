@@ -19,6 +19,16 @@ Dos reglas para que no se pudra:
    existe, por qué, y dónde mirar. Duplicar tablas las desincroniza.
 2. **El porqué antes que el qué.** El qué se lee del código; el porqué no.
 
+# Regla permanente: testear UI/UX de todo (Ricardo, 2026-10-19)
+
+**Siempre testea la UI/UX de todo lo que toques, sobre todo los formularios de
+Método Hebe, Clinera y Protocolo Lumina.** No basta con que compile: completa el
+flujo real (hasta el último paso) en escritorio y en varios móviles
+(`tests/dispositivos-moviles.spec.ts` como base), y revisa que nada tape un botón,
+que los campos midan 16 px o más (si no, iOS hace zoom) y que no se rompa el
+scroll. Un formulario roto es un lead perdido. Lo que no se puede probar acá
+(Safari real, teclado de iOS, navegador de Instagram) se dice explícitamente.
+
 # Economía de Clinera: créditos, costos y precios
 
 Antes de tocar cualquier número de precio, crédito, consumo o equivalencia en
