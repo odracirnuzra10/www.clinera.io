@@ -218,13 +218,13 @@ respuesta es esta.
 **0**: con eso el generador de cotizaciones y contratos (`src/lib/firma/cotizacion.ts`) no arma línea de setup, ni el PDF ni el
 checkout de Stripe la muestran. Antes valía US$ 450 (y US$ 750 en una versión vieja: ambos son residuo; si reaparece una cifra de
 implementación en cualquier copy, es un error). La web dice «Sin costo de implementación» y que el onboarding dedicado con un
-ejecutivo humano va incluido. **Ojo:** el constructor externo `cotizacion.oacg.cl` no vive en este repo y puede seguir con su propia
+ejecutivo humano va incluido. **Ojo:** el constructor externo `finanzas.oacg.cl/cotizacion` (desde el 20-oct-2026; antes `cotizacion.oacg.cl`, que ya no se usa; `/cotizacion` de este sitio redirige ahí con 307) no vive en este repo y puede seguir con su propia
 línea de setup: revisarlo aparte.
 
 **Actualizado 2026-09-26:** la web pública muestra **el anual primero** y el
 mensual después. El anual es el default (20% OFF de catálogo, totales en
 `pricing.ts`: 2.678 / 3.638 / 4.598). El semestral sigue fuera de la web, en
-el constructor (`cotizacion.oacg.cl`). La implementación se cobra igual en
+el constructor (`finanzas.oacg.cl/cotizacion`). La implementación se cobra igual en
 las dos modalidades publicadas.
 
 Así lo comunican las tarjetas de `<Pricing />` en home, `/planes` y `/planes-pro`:
@@ -251,7 +251,7 @@ solo en el constructor. Desde el 19-oct ya no hay implementación que regalar: l
 Guardián: `tests/nuevo-discurso.spec.ts`.
 
 
-**Descuento en monto fijo en cotizaciones (Ricardo, 19-oct-2026).** Además del porcentaje, el snapshot de `construirCotizacion` (`src/lib/firma/cotizacion.ts`) acepta `descuentosUsd` ({plan, users, credits, setup, global}) en **USD enteros por período**: se restan de la línea después del porcentaje (`lineaConDescuento`), `global` resta del total recurrente, nunca baja de 0 y no admite decimales ni negativos. El PDF lo muestra en la columna DESC. y Stripe lo recibe dentro del cupón por `descuentoRecurrente`. **La interfaz del cotizador (`cotizacion.oacg.cl`) no vive en este repo:** hay que agregarle los campos que envíen `descuentosUsd`. Guardián: `tests/cotizacion-descuento-monto.spec.ts`.
+**Descuento en monto fijo en cotizaciones (Ricardo, 19-oct-2026).** Además del porcentaje, el snapshot de `construirCotizacion` (`src/lib/firma/cotizacion.ts`) acepta `descuentosUsd` ({plan, users, credits, setup, global}) en **USD enteros por período**: se restan de la línea después del porcentaje (`lineaConDescuento`), `global` resta del total recurrente, nunca baja de 0 y no admite decimales ni negativos. El PDF lo muestra en la columna DESC. y Stripe lo recibe dentro del cupón por `descuentoRecurrente`. **La interfaz del cotizador (`finanzas.oacg.cl/cotizacion`) no vive en este repo:** hay que agregarle los campos que envíen `descuentosUsd`. Guardián: `tests/cotizacion-descuento-monto.spec.ts`.
 
 **Conversaciones con IA aproximadas por plan:** `conversacionesAprox` / `agendamientosAprox` en `planes.ts` (28.000 créditos = ~933 conversaciones o ~143 agendamientos; siempre hacia abajo). Están escritas a mano en la presentación y en `llms*.txt`.
 

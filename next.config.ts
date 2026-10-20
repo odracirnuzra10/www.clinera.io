@@ -377,20 +377,21 @@ const nextConfig: NextConfig = {
         destination: '/agenda',
         permanent: false,
       },
-      // El constructor de cotizaciones se movio a cotizacion.oacg.cl, que ya
-      // cotiza las tres marcas (Clinera con su propio catalogo y checkout de
-      // Stripe, ademas de Hebe y Lumina). La ruta local queda solo como
-      // redirect: el codigo de src/app/cotizacion sigue en el repo pero ya no
-      // se sirve, porque este redirect gana sobre la pagina.
+      // El constructor de cotizaciones vive en finanzas.oacg.cl/cotizacion
+      // (Ricardo, 20-oct-2026; antes cotizacion.oacg.cl, que ya no se usa).
+      // Cotiza las tres marcas. La ruta local queda solo como redirect: el
+      // codigo de src/app/cotizacion sigue en el repo pero ya no se sirve.
+      // Redirect temporal (307): el destino ya cambio una vez y un 308 queda
+      // guardado en el navegador.
       {
         source: '/cotizacion',
-        destination: 'https://cotizacion.oacg.cl/',
-        permanent: true,
+        destination: 'https://finanzas.oacg.cl/cotizacion',
+        permanent: false,
       },
       {
         source: '/cotizacion/:path*',
-        destination: 'https://cotizacion.oacg.cl/',
-        permanent: true,
+        destination: 'https://finanzas.oacg.cl/cotizacion',
+        permanent: false,
       },
       {
         source: '/cdk',
