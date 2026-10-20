@@ -15,6 +15,11 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     expect(PLANES[1].features).toEqual(expect.arrayContaining(MARKETING_BLOQUES.map((b) => b.titulo)));
   });
 
+  test("el home no lleva links de pago (solo /planes)", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
+  });
+
   test("/planes: dos tarjetas con CTA a /agenda y la query", async ({ page }) => {
     await page.goto("/planes?utm_source=google", { waitUntil: "domcontentloaded" });
     await expect(page.locator("[data-plan-card]")).toHaveCount(2);
@@ -27,7 +32,15 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
       );
     }
     await expect(page.locator("[data-planes-vigentes]")).not.toContainText("450");
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
+    // Ricardo, 20-oct-2026: /planes lleva el Payment Link de cada plan, con los
+    // data-plan* que lee Analytics.tsx (InitiateCheckout + client_reference_id).
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(2);
+    for (const p of PLANES) {
+      const pago = page.locator(`[data-plan-card="${p.id}"] a[href*="buy.stripe.com"]`);
+      await expect(pago).toHaveAttribute("href", new RegExp("^" + p.pagoUrl.replace(/[.?]/g, "\\$&")));
+      await expect(pago).toHaveAttribute("data-plan", p.id);
+      await expect(pago).toHaveAttribute("data-plan-value", String(p.monthlyUsd));
+    }
     const texto = await page.locator("main").innerText();
     for (const viejo of ["Flux", "Hurricane", "Nexus", "Summit", "Atlas", "CU" + "KI", "permanencia"]) {
       expect(texto).not.toContain(viejo);

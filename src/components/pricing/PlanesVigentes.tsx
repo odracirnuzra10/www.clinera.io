@@ -5,7 +5,9 @@
 // ----------------------------------------------------------------------------
 // Tarjetas con el diseño de `Pricing` (degradado por plan, ícono, panel de cobro,
 // lista de lo que incluye). Lo pintan el home («Dos formas de trabajar con
-// Clinera») y /planes. Sin cupón, sin compra y sin extras:
+// Clinera») y /planes. Sin cupón ni extras. Solo /planes (`conPago`) suma, bajo el
+// CTA, el Payment Link de Stripe de cada plan (Ricardo, 20-oct-2026): enlace pelado
+// con data-plan*, el InitiateCheckout y el client_reference_id los pone Analytics.tsx.
 // - CTA único «Agendar videollamada» → /agenda?servicio=… con la query de la visita;
 // - línea de onboarding dedicado (sin valor de implementación) bajo las tarjetas;
 // - el agente de IA y los tres bloques de marketing van destacados (ícono + negrita).
@@ -61,6 +63,7 @@ export default function PlanesVigentes({
   tituloAcento = PLANES_TITULO_ACENTO,
   bajada = PLANES_BAJADA,
   conModelos = false,
+  conPago = false,
 }: {
   id?: string;
   /** /planes trae su propio hero: ahí va sin encabezado. */
@@ -70,6 +73,8 @@ export default function PlanesVigentes({
   bajada?: string;
   /** /planes muestra la franja de modelos de IA de Clinera Intelligence (sin atarla a un plan). */
   conModelos?: boolean;
+  /** /planes muestra el link de pago de Stripe de cada plan bajo el CTA. */
+  conPago?: boolean;
 }) {
   // La query de la visita (utm, gclid, fbclid) viaja a /agenda: sin ella el lead
   // del anuncio llega sin origen.
@@ -241,27 +246,54 @@ export default function PlanesVigentes({
                   </div>
                 </div>
 
-                <a
-                  className="pv-cta"
-                  href={agendaHref(p.servicio, search)}
-                  data-cta-ventas={p.id}
-                  style={{
-                    textDecoration: "none",
-                    textAlign: "center",
-                    background: p.featured ? GRAD : th.ctaPrimaryBg,
-                    color: p.featured ? "#fff" : th.ctaPrimaryColor,
-                    padding: "14px 20px",
-                    borderRadius: 12,
-                    fontWeight: 700,
-                    fontSize: 15,
-                    fontFamily: JAKARTA,
-                    boxShadow: p.featured ? "0 10px 26px -8px rgba(162,28,175,.5)" : th.ctaPrimaryShadow,
-                    boxSizing: "border-box",
-                    marginBottom: 24,
-                  }}
-                >
-                  {CTA_VENTAS_LABEL}
-                </a>
+                <div style={{ display: "grid", gap: 10, marginBottom: 24 }}>
+                  <a
+                    className="pv-cta"
+                    href={agendaHref(p.servicio, search)}
+                    data-cta-ventas={p.id}
+                    style={{
+                      textDecoration: "none",
+                      textAlign: "center",
+                      background: p.featured ? GRAD : th.ctaPrimaryBg,
+                      color: p.featured ? "#fff" : th.ctaPrimaryColor,
+                      padding: "14px 20px",
+                      borderRadius: 12,
+                      fontWeight: 700,
+                      fontSize: 15,
+                      fontFamily: JAKARTA,
+                      boxShadow: p.featured ? "0 10px 26px -8px rgba(162,28,175,.5)" : th.ctaPrimaryShadow,
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    {CTA_VENTAS_LABEL}
+                  </a>
+                  {conPago && (
+                    <a
+                      className="pv-pago"
+                      href={p.pagoUrl}
+                      // Analytics.tsx le agrega client_reference_id antes de hidratar.
+                      suppressHydrationWarning
+                      data-plan={p.id}
+                      data-plan-name={p.name}
+                      data-plan-value={p.monthlyUsd}
+                      style={{
+                        textDecoration: "none",
+                        textAlign: "center",
+                        background: "#fff",
+                        color: th.ink,
+                        border: `1.5px solid ${th.cardBorder}`,
+                        padding: "12px 20px",
+                        borderRadius: 12,
+                        fontWeight: 700,
+                        fontSize: 15,
+                        fontFamily: JAKARTA,
+                        boxSizing: "border-box",
+                      }}
+                    >
+                      Contratar {p.name} ahora
+                    </a>
+                  )}
+                </div>
 
                 <div style={{ borderTop: `1px solid ${th.divider}`, paddingTop: 20 }}>
                   <div
@@ -369,8 +401,10 @@ export default function PlanesVigentes({
         :global(.pv-card:hover) { transform: translateY(-4px); }
         :global(.pv-cta) { min-height: 48px; display: flex; align-items: center; justify-content: center; transition: transform .2s ease, filter .2s ease; }
         :global(.pv-cta:hover) { transform: translateY(-2px); filter: brightness(.96); }
+        :global(.pv-pago) { min-height: 48px; display: flex; align-items: center; justify-content: center; transition: transform .2s ease, background .2s ease; }
+        :global(.pv-pago:hover) { transform: translateY(-2px); background: #FAFAFA !important; }
         @media (prefers-reduced-motion: reduce) {
-          :global(.pv-card), :global(.pv-cta) { transition: none !important; }
+          :global(.pv-card), :global(.pv-cta), :global(.pv-pago) { transition: none !important; }
           :global(.pv-card-featured), :global(.pv-card:hover), :global(.pv-card-featured:hover) { transform: none !important; }
         }
         @media (max-width: 860px) {

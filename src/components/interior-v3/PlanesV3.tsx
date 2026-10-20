@@ -25,7 +25,7 @@ export default function PlanesV3() {
         }
       `}</style>
       <PlanesHero />
-      <PlanesVigentes id="planes" conTitulo={false} conModelos />
+      <PlanesVigentes id="planes" conTitulo={false} conModelos conPago />
       <PmfcSection compacto />
       <PlanesFaq />
       <FinalCTA />
