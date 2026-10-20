@@ -31,9 +31,9 @@ export default function StickyAdvancedCTA() {
 
   return (
     <>
-      <div className="equipo-sticky" role="region" aria-label="Agendar demo">
+      <div className="equipo-sticky" role="region" aria-label="Agendar reunión">
         <a href="/agenda" className="equipo-sticky-primary">
-          Agendar demo
+          Agendar reunión
         </a>
         <button
           onClick={dismiss}

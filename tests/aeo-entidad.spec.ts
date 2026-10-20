@@ -90,11 +90,14 @@ test.describe("AEO: entidad, schema e higiene", () => {
     expect(title.length).toBeLessThanOrEqual(50);
   });
 
-  test("home y footer dicen 9 países, no 10", () => {
-    expect(read("src/components/home-v3/sections.tsx")).toContain("9 países");
-    expect(read("src/components/home-v3/sections.tsx")).not.toContain("10 países");
-    expect(read("src/components/brand-v3/Footer.tsx")).toContain("9 países");
-    expect(read("src/components/Footer.tsx")).toContain("9 países");
+  // Ricardo, 20-oct-2026: la cifra pública es «+1.500 clínicas en 10 años» (no
+  // «+500 profesionales · 9 países»). Los 9 mercados siguen en `MARKETS`.
+  test("home y footer dicen +1.500 clínicas, no 10 países ni +500 profesionales", () => {
+    for (const f of ["src/components/home-v3/sections.tsx", "src/components/brand-v3/Footer.tsx", "src/components/Footer.tsx"]) {
+      expect(read(f)).toContain("1.500 clínicas");
+      expect(read(f)).not.toContain("10 países");
+      expect(read(f)).not.toContain("500 profesionales");
+    }
   });
 
   test("demo y plataforma no publican AggregateRating ni lowPrice 129", () => {

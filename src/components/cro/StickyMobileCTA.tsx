@@ -71,7 +71,7 @@ export default function StickyMobileCTA() {
 
   return (
     <>
-      <div className="sticky-agenda-cta" role="region" aria-label="Agendar videollamada con Clinera">
+      <div className="sticky-agenda-cta" role="region" aria-label="Agendar reunión con Clinera">
         <Link href={agendaHref} onClick={trackClick} className="sticky-agenda-primary">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <rect x="3" y="5" width="18" height="16" rx="2" />

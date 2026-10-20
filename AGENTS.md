@@ -39,8 +39,40 @@ pieza depende de la anterior. Dónde vive: artículo
 del home `src/components/pmfc/PmfcSection.tsx` (antes de «Marketing de performance»),
 bajada del hero en `home-v3/sections.tsx`, `/planes` (`PmfcSection compacto`; Vortex = «la C de PMFC», Ecosistema = «PMFC completo», `PLANES_BAJADA`), el deck `/presentacion` (eyebrows y kickers de planes) y `public/llms.txt`.
 El ejemplo 10 pacientes × US$ 1.000 vs 100 × US$ 100 es **ilustrativo** y se
-rotula así. No publicar «software patentado» (afirmación legal sin confirmar) ni
-«+1.500 clientes». Guardián: `tests/pmfc.spec.ts`.
+rotula así. No publicar «software patentado» (afirmación legal sin confirmar). «+1.500 clínicas»
+sí, desde el 20-oct-2026, con la forma «en los últimos 10 años» (ver «Sitio de dos productos»). Guardián: `tests/pmfc.spec.ts`.
+
+# Sitio de dos productos: Vortex y Ecosistema (Ricardo, 20-oct-2026)
+
+Clinera vende **dos cosas**: **Vortex** (el software, US$ 279) y el **Ecosistema**
+(Vortex + marketing de performance, US$ 529). El sitio entero se ordena alrededor de eso:
+
+- **Menú = Software (`/funciones`, la página de Vortex) + Ecosistema (`/ecosistema`)**, nada más.
+  Planes, Prensa, Novedades y el resto viven en el pie de página y el blog. No reponer «Clinera O.S.»
+  en el menú (su link apuntaba a `/#clinera-intelligence`, que ya no existía).
+- **CTA único: «Agendar reunión»** (`CTA_VENTAS_LABEL`) → `/agenda`. Se acabaron «Agendar
+  videollamada», «Hablar con ventas», «Agendar demo» y «Agendar demo de 30 min».
+- **Nombres:** el cliente ve Vortex, Ecosistema y AURA. **Clinera Intelligence** es el agente
+  interno de Vortex (cuánto vendiste, cómo va tu agenda): va en las features del plan Vortex.
+  **Clinera O.S.** es todo el software de Clinera, pero por ahora **solo aparece en el blog** y en el
+  JSON-LD (`PRODUCT_NAME`); en el texto visible del sitio dice Vortex (o «Clinera» en las landings
+  de partners, que no nombran planes). La estrategia de corto y mediano plazo es vender el
+  Ecosistema: el software solo todavía no compite contra AgendaPro por reconocimiento de marca.
+- **Cifra pública: «+1.500 clínicas en los últimos 10 años»** (Ricardo: clínicas trabajadas con
+  métricas en 10 años, Metricads incluido). Reemplaza «+52 clínicas activas», «+500 profesionales»
+  y «9/10 países». El estudio de no-shows sobre 52 clínicas (abril 2026) es otra cosa y sigue.
+- **La publicidad se paga aparte:** el servicio de marketing del Ecosistema no incluye la inversión
+  en anuncios (FAQ de `/planes` y del home, hero de `/ecosistema`).
+- **Sin integraciones con agendas de terceros** también en `/funciones` (decía «Sincroniza con
+  Google Calendar, AgendaPro, Medilink»).
+- **Home corto (de 11 bloques a 8; ~9.000 px en escritorio, antes ~14.000):** Hero · logos · las dos
+  opciones · PMFC · demo · testimonios · preguntas · cierre «Hablemos de tu clínica». Marketing de
+  performance vive en `/ecosistema`; la sección estética, en `/funciones`; la banda «Activa tu
+  ecosistema» ya **no** va en el home (sigue en landings y blog); CNN, en `/plataforma` y `/prensa`.
+- Pie de página: «Ley 21.719 de datos personales» → `/seguridad`; «Ficha clínica y Ley 20.584» →
+  `/ley20584` (antes se leían cruzados).
+
+Guardián: `tests/sitio-dos-productos.spec.ts`.
 
 # Economía de Clinera: créditos, costos y precios
 
@@ -793,7 +825,7 @@ reales. Everest usa `everest-mono.png` (el original trae fondo azul).
 
 `src/components/agente-ia/AgenteIABanda.tsx` (el nombre del archivo quedó del título
 anterior, «Activa tu agente IA»): panel oscuro de tipografía gigante que rompe el
-ritmo light del sitio a propósito. **Va siempre** en el home, en las landings
+ritmo light del sitio a propósito. **Va siempre** en las landings (ya no en el home desde el 20-oct-2026)
 (todas las `software-vertical`) y en cada artículo del blog (`/blog/[slug]`,
 variante `enColumna`). Una por página. Ricardo pidió enfocarla en **todo el
 ecosistema, no solo el software**: tres tarjetas — campañas de marketing,

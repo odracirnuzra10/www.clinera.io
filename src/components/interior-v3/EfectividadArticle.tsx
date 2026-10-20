@@ -666,7 +666,7 @@ function ArticleFinalCta() {
                 gap: 8,
               }}
             >
-              Hablar con ventas <span>→</span>
+              Agendar reunión <span>→</span>
             </Link>
             <Link
               href="/efectividad"

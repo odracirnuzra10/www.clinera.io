@@ -76,7 +76,7 @@ function Hero() {
           <span className={styles.eyebrow}>Para clínicas con equipo, alto volumen o varias sedes</span>
           <h1>
             Todas las operaciones de tu clínica, bajo un mismo sistema operativo con IA.
-            <span>Clinera O.S.</span>
+            <span>Vortex</span>
           </h1>
           <strong className={styles.enterpriseThesis}>
             Mucho más que un chatbot: el sistema por el que opera tu clínica, con la potencia
@@ -87,7 +87,7 @@ function Hero() {
           </p>
           <div className={styles.heroActions}>
             <CtaLink href="/agenda" id="hero-demo" location="hero" className={styles.primaryCta}>
-              Agendar demo de 30 min
+              Agendar reunión
               <Arrow />
             </CtaLink>
             <CtaLink href="#precios" id="hero-planes" location="hero" className={styles.secondaryCta}>
@@ -95,11 +95,9 @@ function Hero() {
             </CtaLink>
           </div>
           <div className={styles.proofLine} aria-label="Cifras de Clinera">
-            <span><strong>+52</strong> clínicas activas</span>
+            <span><strong>+1.500</strong> clínicas trabajadas</span>
             <i />
-            <span><strong>+500</strong> profesionales</span>
-            <i />
-            <span><strong>10</strong> países</span>
+            <span><strong>10</strong> años</span>
           </div>
         </div>
         <div className={styles.heroProduct}>
@@ -269,7 +267,7 @@ function FinalCta() {
         <h2>Te mostramos tu clínica dentro de Clinera.</h2>
         <p>En 30 minutos, con tus sedes, tu equipo y tus procesos reales.</p>
         <CtaLink href="/agenda" id="final-demo" location="cierre" className={styles.finalButton}>
-          Agendar demo de 30 min <Arrow />
+          Agendar reunión <Arrow />
         </CtaLink>
         <div className={styles.finalMeta}>
           <span>Vortex USD 279/mes · Ecosistema USD 529/mes</span>

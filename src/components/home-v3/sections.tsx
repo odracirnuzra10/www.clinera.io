@@ -203,7 +203,7 @@ export function Hero() {
                 ))}
               </div>
               <div style={{ fontFamily: "Inter", fontSize: 13.5, color: "#4B5563" }}>
-                <b style={{ color: "#0A0A0A" }}>+500 profesionales</b> coordinados en 9 países
+                <b style={{ color: "#0A0A0A" }}>+1.500 clínicas</b> trabajadas en los últimos 10 años
               </div>
             </div>
 
@@ -230,8 +230,6 @@ export function Hero() {
                   display: "inline-block",
                 }}
               />
-              <span>+52 clínicas activas</span>
-              <span style={{ color: "#9CA3AF" }}>·</span>
               <span>+2.400 citas gestionadas por IA</span>
               <span style={{ color: "#9CA3AF" }}>·</span>
               <span>
@@ -4047,7 +4045,7 @@ export function FinalCTA() {
           }}
         >
           <div>
-            <Eyebrow style={{ color: "#D946EF" }}>Agenda tu videollamada</Eyebrow>
+            <Eyebrow style={{ color: "#D946EF" }}>Agenda una reunión</Eyebrow>
             <h2
               style={{
                 fontFamily: "Inter",
@@ -4060,7 +4058,7 @@ export function FinalCTA() {
               }}
               className="home-final-cta-title"
             >
-              Coordina todo tu equipo y tus sedes con IA.
+              Hablemos de tu clínica.
             </h2>
             <p
               style={{
@@ -4072,7 +4070,7 @@ export function FinalCTA() {
                 lineHeight: 1.55,
               }}
             >
-              Cuéntanos de tu clínica y reserva 30 minutos con el equipo. Marketing que trae pacientes y software con IA que los atiende.
+              En 30 minutos revisamos tu clínica y te decimos qué te conviene: Vortex, el software con IA, o el Ecosistema, que además trae pacientes con marketing.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link
@@ -4158,13 +4156,13 @@ export function FinalCTA() {
                 ✦
               </div>
               <div style={{ fontFamily: "Inter", fontSize: 15, fontWeight: 600, color: "#fff" }}>
-                Así parte AURA en tu operación
+                Así es la reunión
               </div>
             </div>
             {[
-              { n: "01", t: "Conectas tu WhatsApp Business", d: "Sin cambiar de número. 2 minutos." },
-              { n: "02", t: "AURA se conecta a tu agenda y BD", d: "Importamos tu base de pacientes y horas disponibles." },
-              { n: "03", t: "Empieza a responder con contexto", d: "Esta misma tarde, sabiendo quién es quién." },
+              { n: "01", t: "Nos cuentas de tu clínica", d: "Tus tratamientos, tu ticket y cómo te llegan los pacientes." },
+              { n: "02", t: "Revisamos tus números", d: "Dónde se te va el margen y qué se puede mejorar." },
+              { n: "03", t: "Te recomendamos Vortex o Ecosistema", d: "Con precio claro y sin costo de implementación." },
             ].map((s, i) => (
               <div
                 key={i}

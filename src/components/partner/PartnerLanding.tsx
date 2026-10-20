@@ -30,8 +30,7 @@ const FEATURES = [
 ] as const;
 
 const PROOF = [
-  { label: "+52 clínicas activas", stat: true },
-  { label: "+500 profesionales", stat: true },
+  { label: "+1.500 clínicas en 10 años", stat: true },
   { label: "Meta Business Partner", stat: false },
   { label: "WhatsApp Business API", stat: false },
 ] as const;
@@ -121,7 +120,7 @@ export function PartnerLanding({
             </section>
           </div>
 
-          <section className="partner-card partner-os" aria-label="Cómo opera Clinera O.S.">
+          <section className="partner-card partner-os" aria-label="Cómo opera Vortex">
             <ClineraOsDiagram />
           </section>
 

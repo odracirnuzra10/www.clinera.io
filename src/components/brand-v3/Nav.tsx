@@ -6,7 +6,7 @@ import { CtaPrimary, GRAD, Wordmark } from "./Brand";
 import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH } from "@/content/planes";
 
 type NavV3Props = {
-  /** Destino del botón principal. Sin esto: `/agenda` («Agendar videollamada», Ricardo 18-oct-2026). */
+  /** Destino del botón principal. Sin esto: `/agenda` («Agendar reunión», Ricardo 20-oct-2026). */
   ctaHref?: string;
   ctaLabel?: string;
   /**
@@ -16,7 +16,7 @@ type NavV3Props = {
   salesLink?: boolean;
 };
 
-// Ricardo, 18-oct-2026: el CTA es «Agendar videollamada» → /agenda.
+// Ricardo, 20-oct-2026: el CTA único es «Agendar reunión» → /agenda.
 // /go (Go! US$ 17) sigue existiendo, pero el sitio ya no lo promueve.
 const DEFAULT_CTA_HREF = CTA_VENTAS_PATH;
 const DEFAULT_CTA_LABEL = CTA_VENTAS_LABEL;
@@ -146,8 +146,12 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
             color: "#0A0A0A",
           }}
         >
+          {/* Ricardo, 20-oct-2026: el menú es solo Software (Vortex) y Ecosistema. */}
+          <Link href="/funciones" style={{ color: "#0A0A0A", textDecoration: "none" }}>
+            Software
+          </Link>
           <Link
-            href="/#clinera-intelligence"
+            href="/ecosistema"
             style={{
               background: GRAD,
               WebkitBackgroundClip: "text",
@@ -157,24 +161,12 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
               fontWeight: 700,
             }}
           >
-            Clinera O.S.
-          </Link>
-          <Link href="/funciones" style={{ color: "#0A0A0A", textDecoration: "none" }}>
-            Funciones
-          </Link>
-          <Link href="/planes" style={{ color: "#0A0A0A", textDecoration: "none" }}>
-            Planes
-          </Link>
-          <Link href="/prensa" style={{ color: "#0A0A0A", textDecoration: "none" }}>
-            Prensa
-          </Link>
-          <Link href="/novedades" style={{ color: "#0A0A0A", textDecoration: "none" }}>
-            Novedades
+            Ecosistema
           </Link>
         </nav>
 
         <div className="nav-v3-actions" style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          {showSales && <QuietCta href={SALES_HREF} label="Hablar con ventas" />}
+          {showSales && <QuietCta href={SALES_HREF} label="Agendar reunión" />}
           <CtaPrimary
             as={Link}
             href={primaryHref}
@@ -211,11 +203,8 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
       {mobileOpen && (
         <div className="nav-v3-mobile">
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-            <Link href="/#clinera-intelligence" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link" style={{ color: "#7C3AED" }}>Clinera O.S.</Link>
-            <Link href="/funciones" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Funciones</Link>
-            <Link href="/planes" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Planes</Link>
-            <Link href="/prensa" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Prensa</Link>
-            <Link href="/novedades" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Novedades</Link>
+            <Link href="/funciones" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Software</Link>
+            <Link href="/ecosistema" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link" style={{ color: "#7C3AED" }}>Ecosistema</Link>
             <Link href="/demo" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link" style={{ color: "#7C3AED" }}>Ver demo 3 min</Link>
             <Link href="/ayuda" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub">Ayuda y soporte</Link>
             <a
@@ -236,7 +225,7 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
               {primaryLabel} <span>→</span>
             </CtaPrimary>
             {showSales && (
-              <QuietCta href={SALES_HREF} label="Hablar con ventas" block onNavigate={() => setMobileOpen(false)} />
+              <QuietCta href={SALES_HREF} label="Agendar reunión" block onNavigate={() => setMobileOpen(false)} />
             )}
           </div>
         </div>

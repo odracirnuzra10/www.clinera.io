@@ -105,7 +105,7 @@ export function CrossComparativa({ data }: { data: Cruzada }) {
               <p className="hero-v2__sub">{data.intro}</p>
               <div className="hero-v2__actions">
                 <Link href="/agenda" className="hero-v2__primary">
-                  Hablar con ventas
+                  Agendar reunión
                 </Link>
                 <a href="#tabla" className="hero-v2__secondary">
                   Ver tabla comparativa ↓
@@ -550,7 +550,7 @@ export function CrossComparativa({ data }: { data: Cruzada }) {
                     fontSize: "0.95rem",
                   }}
                 >
-                  Hablar con ventas →
+                  Agendar reunión →
                 </Link>
                 <Link
                   href="/planes"

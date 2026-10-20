@@ -16,7 +16,8 @@ const cols: Col[] = [
       ["Software estético", "/software-estetica"],
       ["Software para clínicas", "/software-para-clinicas"],
       ["Agendamiento por WhatsApp", "/agendamiento-whatsapp-ia"],
-      ["Funciones", "/funciones"],
+      ["Software (Vortex)", "/funciones"],
+      ["Ecosistema", "/ecosistema"],
       ["Planes", "/planes"],
       ["App móvil", "/app"],
       ["Partners", "/partners"],
@@ -42,9 +43,11 @@ const cols: Col[] = [
     l: [
       ["Centro de ayuda", "/ayuda"],
       ["Migrar a Clinera", "/migracion"],
-      ["Agendar videollamada", "/agenda"],
-      ["Ley de Datos N° 21.719", "/seguridad"],
-      ["Seguridad de datos", "/ley20584"],
+      ["Agendar reunión", "/agenda"],
+      // Ricardo, 20-oct-2026: se veían cruzados. /seguridad es la Ley 21.719 (datos
+      // personales); /ley20584 es la seguridad de la ficha clínica (Ley 20.584).
+      ["Ley 21.719 de datos personales", "/seguridad"],
+      ["Ficha clínica y Ley 20.584", "/ley20584"],
       ["Normativa y acreditación", "/acreditacion"],
     ],
   },
@@ -155,7 +158,7 @@ export default function FooterV3() {
                 fontWeight: 500,
               }}
             >
-              +500 médicos · 9 países
+              +1.500 clínicas en 10 años
             </span>
           </div>
         </div>

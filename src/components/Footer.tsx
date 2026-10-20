@@ -23,7 +23,7 @@ export default function Footer() {
             </p>
             <div className={styles.trustPill}>
               <span className={styles.trustDot} aria-hidden />
-              +500 médicos · 9 países
+              +1.500 clínicas en 10 años
             </div>
 
             <details className={styles.llmResources}>
@@ -50,7 +50,7 @@ export default function Footer() {
           <div className={styles.footerLinks}>
             <h4>Soporte</h4>
             <Link href="/ayuda">Centro de ayuda</Link>
-            <Link href="/agenda">Agendar videollamada</Link>
+            <Link href="/agenda">Agendar reunión</Link>
           </div>
 
           {/* Comparativas */}

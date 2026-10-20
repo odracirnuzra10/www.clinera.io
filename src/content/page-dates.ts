@@ -8,7 +8,8 @@ export const PAGE_DATES: Record<
   string,
   { published: string; modified: string }
 > = {
-  "/": { published: "2025-01-01", modified: "2026-09-03" },
+  "/": { published: "2025-01-01", modified: "2026-10-20" },
+  "/ecosistema": { published: "2026-10-20", modified: "2026-10-20" },
   "/plataforma": { published: "2025-06-01", modified: "2026-09-03" },
   "/planes": { published: "2025-06-01", modified: "2026-09-08" },
   "/empleado-digital": { published: "2026-04-01", modified: "2026-09-03" },

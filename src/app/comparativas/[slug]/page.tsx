@@ -1325,7 +1325,7 @@ export default async function ComparativaPage({
               <p className="hero-v2__sub">{data.intro}</p>
               <div className="hero-v2__actions">
                 <Link href="/agenda" className="hero-v2__primary">
-                  Hablar con ventas
+                  Agendar reunión
                 </Link>
                 <a href="#tabla" className="hero-v2__secondary">
                   Ver tabla comparativa ↓
@@ -1952,7 +1952,7 @@ export default async function ComparativaPage({
               </p>
               <div className="cta-final-dark__actions">
                 <Link href="/agenda" className="cta-final-dark__primary">
-                  Hablar con ventas
+                  Agendar reunión
                 </Link>
                 <Link href="/demo" className="cta-final-dark__secondary">
                   Ver demo del software

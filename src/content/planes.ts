@@ -67,6 +67,7 @@ const SOFTWARE_FEATURES = [
   "Bandeja de WhatsApp, Instagram y Facebook",
   "Agenda y fichas de la clínica",
   "Agente de IA (AURA) que responde y agenda",
+  "Clinera Intelligence: tu agente interno que te dice cuánto vendiste y cómo va tu agenda",
   "Automatizaciones y difusiones",
   "Onboarding dedicado con un ejecutivo humano",
 ] as const;
@@ -106,7 +107,7 @@ export const PLANES: readonly Plan[] = [
     channels: ["whatsapp", "instagram", "facebook"],
     featured: false,
     tag: "",
-    resumen: "Software con IA: agenda, fichas, bandeja unificada y el agente AURA que responde y agenda por ti.",
+    resumen: "Software con IA: agenda, fichas, bandeja unificada, AURA que responde y agenda por ti, y Clinera Intelligence, tu agente interno.",
     features: SOFTWARE_FEATURES,
   },
   {
@@ -176,7 +177,7 @@ export const AHORRO = {
 export const NECESIDADES_LINEA = `Extras del software: profesional extra US$ ${EXTRAS[0].precioUsd}/mes · 500 conversaciones extra US$ ${EXTRAS[1].precioUsd} · 5.000 créditos de IA extra US$ ${EXTRAS[2].precioUsd}.`;
 
 /** CTA único: lleva a /agenda, que termina en una videollamada con el equipo. */
-export const CTA_VENTAS_LABEL = "Agendar videollamada";
+export const CTA_VENTAS_LABEL = "Agendar reunión";
 export const CTA_VENTAS_PATH = "/agenda";
 
 /** `/agenda?servicio=ambas` + la query de la visita (utm, gclid, fbclid). */

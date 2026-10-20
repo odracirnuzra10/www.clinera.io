@@ -68,13 +68,13 @@ export function IntelligenceHomeSection() {
       <div className={styles.homeInner}>
         <div className={`${styles.homeCopy} reveal`}>
           <span className={styles.kicker}>
-            <SparkIcon /> Agente interno de Clinera O.S.
+            <SparkIcon /> Clinera Intelligence · agente interno de Vortex
           </span>
           <h2 className={styles.homeTitle}>
             Pregúntale a tu clínica. <span>Te responde con tus números.</span>
           </h2>
           <p className={styles.homeLead}>
-            El agente interno de Clinera O.S. te asiste con los números de tu clínica:
+            Clinera Intelligence, el agente interno de Vortex, te asiste con los números de tu clínica:
             escribe la pregunta en lenguaje natural y recibe cifras reales, con
             gráficos generados al momento. En el producto aparece como función de reportes.
           </p>
@@ -93,7 +93,7 @@ export function IntelligenceHomeSection() {
               Ver una demo <ArrowIcon />
             </Link>
             <Link className={styles.secondaryCta} href="/agenda">
-              Hablar con ventas
+              Agendar reunión
             </Link>
           </div>
         </div>
@@ -144,13 +144,13 @@ export function IntelligencePlataformaSection({
       <div className={styles.platInner}>
         <div className={styles.platIntro}>
           <span className={styles.kicker}>
-            <SparkIcon /> Agente interno de Clinera O.S.
+            <SparkIcon /> Clinera Intelligence · agente interno de Vortex
           </span>
           <h2>
             Conversa con <span>toda tu operación</span>.
           </h2>
           <p>
-            El agente interno de Clinera O.S. te asiste con los datos reales de tu clínica:
+            Clinera Intelligence, el agente interno de Vortex, te asiste con los datos reales de tu clínica:
             pregunta en lenguaje natural y responde sin reportes manuales ni planillas.
             En el producto aparece como función de reportes.
           </p>
