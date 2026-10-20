@@ -3088,8 +3088,45 @@
     .slide.active .pv-x { opacity: 1; transform: none; }
     @media (prefers-reduced-motion: reduce) { .pv-track i, .pv-x { transition: none !important; } }
     @media (max-width: 900px) { .pl-body { grid-template-columns: minmax(0, 1fr); } .pl-body { padding-bottom: 72px; } }
-    @media (max-width: 640px) { .pl-head { grid-template-columns: minmax(0, 1fr); gap: 4px; } .pl-letra { font-size: 72px; } .pv-row { grid-template-columns: minmax(0, 1fr) auto; } .pv-lbl { grid-column: 1 / -1; } #pmfc-m .rs-admin th:nth-child(4), #pmfc-m .rs-admin td:nth-child(4) { display: none; } }
+    @media (max-width: 640px) { .pl-head { grid-template-columns: minmax(0, 1fr); gap: 4px; } .pl-letra { font-size: 72px; } .pv-row { grid-template-columns: minmax(0, 1fr) auto; } .pv-lbl { grid-column: 1 / -1; } }
     @media (max-height: 800px) and (min-width: 901px) { .pl-lead { font-size: 14px; } .pl-letra { font-size: clamp(72px, 12vh, 120px); } .pl-points span { display: none; } .pl-foto { max-height: 46vh; } .rs-admin-note { display: none; } }
+    /* P absorbe rentabilidad; M absorbe resultados y anuncio con el embudo; C absorbe «PMFC en acción» (Ricardo, 20-oct-2026) */
+    .pl-p .rn-dots { min-height: 0; }
+    .pl-p .rn-total { font-size: clamp(26px, 3vw, 40px); }
+    .pl-p .rn-dots-a { gap: 6px; max-width: 420px; }
+    .fn-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 22px); position: relative; }
+    .fn-steps::before { content: ""; position: absolute; left: 4%; right: 4%; top: 22px; height: 2px; background: #EDE9FE; }
+    .fn-steps::after { content: ""; position: absolute; left: 4%; top: 22px; height: 2px; width: 0; background: linear-gradient(90deg, #009FE3, #7C3AED, #C850C0); transition: width 2.4s cubic-bezier(.4,0,.2,1) .2s; }
+    .slide.active .fn-steps::after { width: 92%; }
+    .fn-steps li { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; opacity: .25; transform: translateY(8px); transition: opacity .5s, transform .5s; }
+    .slide.active .fn-steps li { opacity: 1; transform: none; }
+    .slide.active .fn-steps li:nth-child(1) { transition-delay: .2s; }
+    .slide.active .fn-steps li:nth-child(2) { transition-delay: .9s; }
+    .slide.active .fn-steps li:nth-child(3) { transition-delay: 1.6s; }
+    .slide.active .fn-steps li:nth-child(4) { transition-delay: 2.3s; }
+    .fn-ico, .fn-ad { position: relative; z-index: 1; width: 44px; height: 44px; border-radius: 12px; background: #fff; border: 1px solid #E9D5FF; display: inline-flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 8px 20px -14px rgba(124, 58, 237, .6); }
+    .fn-ad { width: 64px; background: radial-gradient(circle at 60% 60%, #7C3AED, #2E1065); border: 0; overflow: hidden; }
+    .fn-ad i { position: absolute; top: 4px; left: 5px; font-style: normal; font-size: 7px; font-weight: 800; letter-spacing: .06em; color: #fff; opacity: .85; }
+    .fn-ad b { width: 0; height: 0; border-left: 10px solid #fff; border-top: 6px solid transparent; border-bottom: 6px solid transparent; margin-left: 3px; }
+    .fn-steps strong { margin-top: 6px; font-size: clamp(13.5px, 1.2vw, 16px); font-weight: 800; letter-spacing: -.02em; color: var(--ink); }
+    .fn-steps li > span:last-child { font-size: 12.5px; color: var(--ink-soft); }
+    .fn-steps li[data-paso="tratamiento"] strong { background: linear-gradient(90deg, #009FE3, #7C3AED, #C850C0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .mk-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(14px, 2vw, 28px); align-items: start; }
+    .mk-left { display: grid; gap: 10px; }
+    .pl-m .rs-admin th, .pl-m .rs-admin td { white-space: nowrap; }
+    @media (max-width: 640px) { .pl-m .rs-admin th:nth-child(2), .pl-m .rs-admin td:nth-child(2) { display: none; } .pl-m .rs-admin th:nth-child(4), .pl-m .rs-admin td:nth-child(4) { display: table-cell; } .mk-cards .rs-card h3 { flex-direction: column; gap: 2px; } .mk-cards .rs-bar { grid-template-columns: 92px minmax(0, 1fr) 68px; } }
+    .mk-film { margin: 0; font-size: clamp(12.5px, 1.05vw, 14.5px); line-height: 1.45; color: var(--ink-soft); }
+    .mk-film strong { color: var(--ink); }
+    .mk-film b { color: #047857; }
+    .mk-cards { display: grid; gap: clamp(8px, 1.4vh, 14px); }
+    .mk-cards .rs-card h3 { margin-bottom: 4px; }
+    .mk-cards .rs-result { margin: 2px 0 6px; padding: 4px 10px; font-size: clamp(12px, 1vw, 14px); }
+    .mk-cards .rs-bar { grid-template-columns: 104px minmax(0, 1fr) 76px; }
+    .mk-cards .mk-x { margin: 6px 0 0; transition-delay: 2.2s; }
+    .pl-c .pl-body { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+    @media (prefers-reduced-motion: reduce) { .fn-steps::after, .fn-steps li { transition: none !important; } }
+    @media (max-width: 900px) { .mk-body { grid-template-columns: minmax(0, 1fr); padding-bottom: 72px; } .fn-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; } .fn-steps::before, .fn-steps::after { display: none; } .eco-flow { padding-bottom: 72px; } }
+    @media (max-height: 820px) and (min-width: 901px) { .pl-m .pl-lead, .pl-c .pl-lead { display: none; } .pl-m .rs-admin td { padding: 6px 12px; } .pl-m .rs-admin th { padding: 6px 12px; } .mk-cards .rs-card { padding: 8px 14px; } .fn-steps li > span:last-child { font-size: 11.5px; } .pl-c .eco-note { display: none; } .pl-c .eco-list span { display: none; } .pl-c .pl-foto { max-height: 40vh; } .pl-p .rn-list { gap: 2px; } }
     .rn-layout { max-width: 1120px; gap: clamp(14px, 2.4vh, 28px); }
     .rn-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); }
     .rn-col { border-top: 2px solid var(--brand-violet); padding-top: clamp(10px, 1.6vh, 18px); display: flex; flex-direction: column; gap: clamp(8px, 1.4vh, 14px); }
@@ -4868,39 +4905,33 @@
         data-name="P · Propuesta de valor"
         aria-hidden="true"
       >
-        <div class="slide-inner hr-layout pl-layout">
+        <div class="slide-inner hr-layout pl-layout pl-p">
           <header class="pl-head">
             <b class="pl-letra" data-pmfc="P" aria-hidden="true">P</b>
             <div>
               <div class="blk-eyebrow">METODOLOGÍA PMFC · 1 DE 4</div>
-              <h2 class="blk-h2">Propuesta de valor: <span class="blk-grad-text">la rentabilidad se dispara.</span></h2>
-              <p class="pl-lead">Una propuesta que tus pacientes valoran como una solución de alto valor te permite cobrar más por el mismo tratamiento. Esa ganancia es la que reinviertes en hacer crecer tu clínica. Nuestro equipo, con más de 10 años de experiencia, te ayuda a construirla.</p>
+              <h2 class="blk-h2">Propuesta de valor: <span class="blk-grad-text">deja de competir por precio.</span></h2>
+              <p class="pl-lead">Una propuesta que tus pacientes valoran como una solución de alto valor te permite cobrar más y aumentar tu rentabilidad. Esa ganancia la reinviertes en publicidad, tecnología y nuevas sucursales. Nuestro equipo, con más de 10 años de experiencia, te ayuda a construirla.</p>
             </div>
           </header>
 
-          <div class="pl-body reveal">
-            <div class="pv-chart" data-rentabilidad-tratamiento aria-label="Mismo tratamiento con un costo de US$ 80: sin propuesta de valor se vende a US$ 100 y deja US$ 20; con propuesta de valor se vende a US$ 250 y deja US$ 170">
-              <div class="pv-row">
-                <div class="pv-lbl"><strong>Sin propuesta de valor</strong><span>Se vende a US$ 100</span></div>
-                <div class="pv-track"><i class="pv-cost" style="--w:32%"></i><i class="pv-gain sin" style="--w:8%"></i></div>
-                <b class="pv-out">US$ 20</b>
-              </div>
-              <div class="pv-row">
-                <div class="pv-lbl"><strong>Con propuesta de valor</strong><span>Se vende a US$ 250</span></div>
-                <div class="pv-track"><i class="pv-cost" style="--w:32%"></i><i class="pv-gain con" style="--w:68%"></i></div>
-                <b class="pv-out pv-out-con">US$ 170</b>
-              </div>
-              <div class="pv-legend"><span><i class="pv-cost"></i>Costo del tratamiento (US$ 80)</span><span><i class="pv-gain con"></i>Ganancia por tratamiento</span></div>
-              <span class="pv-x">8,5 veces más ganancia por el mismo tratamiento</span>
-            </div>
-
-            <ul class="pl-points">
-              <li><strong>Reinviertes en publicidad.</strong><span>El costo por paciente deja de asfixiarte.</span></li>
-              <li><strong>Reinviertes en tecnología.</strong><span>Una operación más ordenada y sin errores.</span></li>
-              <li><strong>Abres nuevas sucursales.</strong><span>La clínica financia su propio crecimiento.</span></li>
-            </ul>
+          <div class="rn-grid reveal" data-rentabilidad aria-label="Dos clínicas que venden US$ 10.000: una con 10 pacientes de US$ 1.000 y otra con 100 pacientes de US$ 100">
+            <article class="rn-col rn-col-a" data-clinica="a">
+              <div class="rn-kicker">Con propuesta de valor</div>
+              <div class="rn-total">US$ 10.000</div>
+              <div class="rn-dots rn-dots-a" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="rn-calc"><strong>10 pacientes</strong> × US$ 1.000</div>
+              <ul class="rn-list"><li>Menos mano de obra</li><li>Más dedicación por paciente</li><li>Menos estrés y menos errores</li><li>Más margen para crecer</li></ul>
+            </article>
+            <article class="rn-col rn-col-b" data-clinica="b">
+              <div class="rn-kicker">Compite por precio y regala tratamientos</div>
+              <div class="rn-total">US$ 10.000</div>
+              <div class="rn-dots rn-dots-b" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="rn-calc"><strong>100 pacientes</strong> × US$ 100</div>
+              <ul class="rn-list"><li>Más mano de obra</li><li>Menos dedicación por paciente</li><li>Más estrés y más errores</li><li>Menos margen para crecer</li></ul>
+            </article>
           </div>
-          <p class="rn-note">Ejemplo ilustrativo.</p>
+          <p class="rn-note">Mismo ingreso, distinta rentabilidad. Ejemplo ilustrativo.</p>
         </div>
       </section>
 
@@ -4910,35 +4941,54 @@
         data-name="M · Marketing"
         aria-hidden="true"
       >
-        <div class="slide-inner hr-layout pl-layout">
+        <div class="slide-inner hr-layout pl-layout pl-m">
           <header class="pl-head">
             <b class="pl-letra" data-pmfc="M" aria-hidden="true">M</b>
             <div>
               <div class="blk-eyebrow">METODOLOGÍA PMFC · 2 DE 4</div>
-              <h2 class="blk-h2">Marketing digital <span class="blk-grad-text">optimizado con IA.</span></h2>
-              <p class="pl-lead">Campañas en Google y Meta con pujas automáticas: CPA objetivo o maximizar el valor de la conversión. El algoritmo busca al paciente que compra, no al que solo hace clic.</p>
+              <h2 class="blk-h2">Marketing: <span class="blk-grad-text">la venta paga la campaña.</span></h2>
+              <p class="pl-lead">Campañas en Google y Meta con IA y pujas automáticas: CPA objetivo o maximizar el valor de la conversión. Creativos incluidos y una reunión por semana.</p>
             </div>
           </header>
 
-          <div class="pl-body reveal">
-            <div class="rs-admin" data-admin aria-label="Administrador de anuncios: campañas con puja CPA objetivo de Método Hebe y Protocolo Lumina">
-              <div class="rs-admin-bar"><span>Administrador de anuncios</span><span>19 sept – 18 oct 2026</span></div>
-              <table>
-                <thead><tr><th>Campaña</th><th>Estrategia de puja</th><th>Resultados</th><th>Costo por resultado</th></tr></thead>
-                <tbody>
-                  <tr><td>SQL | Hebe (CPA)<small>Activa</small></td><td class="pl-puja">CPA objetivo</td><td>29</td><td>$63.405</td></tr>
-                  <tr><td>SQL | Lumina (CPA)<small>Activa</small></td><td class="pl-puja">CPA objetivo</td><td>103</td><td>$34.814</td></tr>
-                </tbody>
-              </table>
-              <div class="rs-admin-note">Campañas de Método Hebe y Protocolo Lumina. Montos en pesos chilenos.</div>
+          <ol class="fn-steps reveal" data-embudo aria-label="Del anuncio a la venta: creativo, clic, evaluación y tratamiento">
+            <li data-paso="creativo"><span class="fn-ad" aria-hidden="true"><i>HEBE</i><b></b></span><strong>El creativo</strong><span>Un video que detiene el scroll</span></li>
+            <li data-paso="clic"><span class="fn-ico" aria-hidden="true">👆</span><strong>Genera un clic</strong><span>El paciente reserva</span></li>
+            <li data-paso="evaluacion"><span class="fn-ico" aria-hidden="true">🩺</span><strong>Paga la evaluación</strong><span>US$ 55</span></li>
+            <li data-paso="tratamiento"><span class="fn-ico" aria-hidden="true">✨</span><strong>Paga el tratamiento</strong><span>Ticket de US$ 2.250 a 2.449</span></li>
+          </ol>
+
+          <div class="mk-body reveal">
+            <div class="mk-left">
+              <div class="rs-admin" data-admin aria-label="Administrador de anuncios: campañas con puja CPA objetivo de Método Hebe y Protocolo Lumina">
+                <div class="rs-admin-bar"><span>Administrador de anuncios</span><span>19 sept – 18 oct 2026</span></div>
+                <table>
+                  <thead><tr><th>Campaña</th><th>Puja</th><th>Resultados</th><th>Costo por lead</th></tr></thead>
+                  <tbody>
+                    <tr><td>SQL | Hebe (CPA)<small>Activa</small></td><td class="pl-puja">CPA objetivo</td><td>29</td><td>US$ 65</td></tr>
+                    <tr><td>SQL | Lumina (CPA)<small>Activa</small></td><td class="pl-puja">CPA objetivo</td><td>103</td><td>US$ 35</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="mk-film" data-pelicula>Toda la película en una sucursal: <strong>US$ 35.000</strong> invertidos, <strong>US$ 220.000</strong> vendidos. <b>6,3 veces lo invertido.</b></p>
             </div>
 
-            <ul class="pl-points">
-              <li><strong>Pujas automáticas.</strong><span>CPA objetivo o maximizar el valor de la conversión.</span></li>
-              <li><strong>Google, redes sociales o ambos.</strong><span>Elegimos los canales según tu paciente objetivo.</span></li>
-              <li><strong>Creativos incluidos.</strong><span>Tú entregas los videos y nosotros los editamos.</span></li>
-              <li><strong>Una reunión por semana.</strong><span>Revisamos resultados y ajustamos las campañas contigo.</span></li>
-            </ul>
+            <div class="mk-cards">
+              <article class="rs-card" data-resultado="hebe">
+                <h3>Método Hebe <em>LEAD US$ 65 · EVALUACIÓN US$ 55</em></h3>
+                <span class="rs-result neg">−US$ 10 en la evaluación</span>
+                <div class="rs-bar"><span>Costo por venta</span><span class="rs-track"><i class="rs-fill cost" style="--w:4%"></i></span><b>US$ 98</b></div>
+                <div class="rs-bar"><span>Ticket promedio</span><span class="rs-track"><i class="rs-fill ing" style="--w:92%"></i></span><b>US$ 2.250</b></div>
+                <span class="rs-result pos mk-x">El ticket es 23 veces el costo por venta</span>
+              </article>
+              <article class="rs-card" data-resultado="lumina">
+                <h3>Protocolo Lumina <em>LEAD US$ 35 · EVALUACIÓN US$ 55</em></h3>
+                <span class="rs-result pos">+US$ 20 en la evaluación</span>
+                <div class="rs-bar"><span>Costo por venta</span><span class="rs-track"><i class="rs-fill cost" style="--w:3%"></i></span><b>US$ 78</b></div>
+                <div class="rs-bar"><span>Ticket promedio</span><span class="rs-track"><i class="rs-fill ing" style="--w:100%"></i></span><b>US$ 2.449</b></div>
+                <span class="rs-result pos mk-x">El ticket es 31 veces el costo por venta</span>
+              </article>
+            </div>
           </div>
         </div>
       </section>
@@ -4980,7 +5030,7 @@
         data-name="C · Clinera"
         aria-hidden="true"
       >
-        <div class="slide-inner hr-layout pl-layout">
+        <div class="slide-inner hr-layout pl-layout pl-c">
           <header class="pl-head">
             <b class="pl-letra" data-pmfc="C" aria-hidden="true">C</b>
             <div>
@@ -4995,161 +5045,7 @@
               <img src="/images/agenda/ecosistema-3-agenda-ia.webp" alt="AURA agenda por WhatsApp y la cita aparece en la agenda de Clinera" width="1280" height="720" loading="lazy" />
             </figure>
 
-            <ul class="pl-points">
-              <li><strong>Responde al instante, a cualquier hora.</strong><span>También a las 11 de la noche.</span></li>
-              <li><strong>Agenda, reagenda y confirma.</strong><span>La cita queda en tu agenda, sin copiar datos.</span></li>
-              <li><strong>Ficha, agenda y pagos en un lugar.</strong><span>Mides el margen real de cada tratamiento.</span></li>
-              <li><strong>Clinera Intelligence.</strong><span>Le preguntas cuánto vendiste y cómo va tu agenda.</span></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section
-        class="slide blk"
-        id="rentabilidad"
-        data-name="Rentabilidad"
-        aria-hidden="true"
-      >
-        <div class="slide-inner hr-layout rn-layout">
-          <header class="hr-head">
-            <div class="blk-eyebrow">RENTABILIDAD</div>
-            <h2 class="blk-h2">Mismo ingreso. <span class="blk-grad-text">Distinta rentabilidad.</span></h2>
-          </header>
-
-          <div class="rn-grid reveal" aria-label="Dos clínicas que venden US$ 10.000: una con 10 pacientes de US$ 1.000 y otra con 100 pacientes de US$ 100">
-            <article class="rn-col rn-col-a" data-clinica="a">
-              <div class="rn-kicker">Clínica con propuesta de valor y sistema claro</div>
-              <div class="rn-total">US$ 10.000</div>
-              <div class="rn-dots rn-dots-a" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-              <div class="rn-calc"><strong>10 pacientes</strong> × US$ 1.000</div>
-              <ul class="rn-list"><li>Menos mano de obra</li><li>Más dedicación por paciente</li><li>Menos estrés y menos errores</li><li>Más margen para crecer</li></ul>
-            </article>
-            <article class="rn-col rn-col-b" data-clinica="b">
-              <div class="rn-kicker">Clínica que regala sus tratamientos</div>
-              <div class="rn-total">US$ 10.000</div>
-              <div class="rn-dots rn-dots-b" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-              <div class="rn-calc"><strong>100 pacientes</strong> × US$ 100</div>
-              <ul class="rn-list"><li>Más mano de obra</li><li>Menos dedicación por paciente</li><li>Más estrés y más errores</li><li>Menos margen para crecer</li></ul>
-            </article>
-          </div>
-          <p class="rn-note">Ejemplo ilustrativo.</p>
-        </div>
-      </section>
-
-      <section
-        class="slide blk"
-        id="resultados"
-        data-name="Resultados"
-        aria-hidden="true"
-      >
-        <div class="slide-inner hr-layout rs-layout">
-          <header class="hr-head">
-            <div class="blk-eyebrow">RESULTADOS</div>
-            <h2 class="blk-h2">Lo que se vende es una evaluación de <span class="blk-grad-text">US$ 55.</span></h2>
-          </header>
-
-          <div class="rs-body reveal">
-            <div class="rs-left">
-            <div class="rs-admin" data-admin aria-label="Administrador comercial: campañas SQL de Método Hebe y Protocolo Lumina">
-              <div class="rs-admin-bar"><span>Administrador comercial</span><span>19 sept – 18 oct 2026</span></div>
-              <table>
-                <thead><tr><th>Campaña</th><th>Resultados</th><th>Costo por resultado</th><th>Importe gastado</th></tr></thead>
-                <tbody>
-                  <tr><td>SQL | Hebe (CPA)<small>Activa</small></td><td>29</td><td>$63.405</td><td>$1.838.749</td></tr>
-                  <tr><td>SQL | Lumina (CPA)<small>Activa</small></td><td>103</td><td>$34.814</td><td>$3.585.810</td></tr>
-                </tbody>
-              </table>
-              <div class="rs-admin-note">Montos en pesos chilenos, tal como los muestra el administrador.</div>
-            </div>
-
-            <article class="rs-card rs-film" data-pelicula aria-label="Toda la película: una sucursal vendió US$ 220.000 con una inversión de US$ 35.000">
-              <h3>Toda la película <em>UNA SUCURSAL DE MÉTODO HEBE</em></h3>
-              <div class="rs-bar"><span>Inversión</span><span class="rs-track"><i class="rs-fill cost" style="--w:16%"></i></span><b>US$ 35.000</b></div>
-              <div class="rs-bar"><span>Venta final</span><span class="rs-track"><i class="rs-fill ing" style="--w:100%"></i></span><b>US$ 220.000</b></div>
-              <span class="rs-result pos">Vendió 6,3 veces lo invertido</span>
-              <p>La evaluación sola no paga el lead, pero la venta final lo compensa de sobra.</p>
-            </article>
-            </div>
-
-            <div class="rs-cards">
-              <article class="rs-card" data-resultado="hebe">
-                <h3>Método Hebe <em>COSTO DEL LEAD ≈ US$ 65</em></h3>
-                <div class="rs-bar"><span>Evaluación</span><span class="rs-track"><i class="rs-fill ing" style="--w:85%"></i></span><b>US$ 55</b></div>
-                <div class="rs-bar"><span>Costo del lead</span><span class="rs-track"><i class="rs-fill cost" style="--w:100%"></i></span><b>US$ 65</b></div>
-                <span class="rs-result neg">−US$ 10 por lead</span>
-                <p>Pero estos tratamientos promedian US$ 2.000 en consulta.</p>
-              </article>
-              <article class="rs-card" data-resultado="lumina">
-                <h3>Protocolo Lumina <em>COSTO DEL LEAD ≈ US$ 36</em></h3>
-                <div class="rs-bar"><span>Evaluación</span><span class="rs-track"><i class="rs-fill ing" style="--w:85%"></i></span><b>US$ 55</b></div>
-                <div class="rs-bar"><span>Costo del lead</span><span class="rs-track"><i class="rs-fill cost" style="--w:55%"></i></span><b>US$ 36</b></div>
-                <span class="rs-result pos">+US$ 19 por lead</span>
-                <p>La evaluación paga el costo del lead: la campaña se financia sola y trae clientes.</p>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section
-        class="slide blk"
-        id="anuncio"
-        data-name="Anuncio típico"
-        aria-hidden="true"
-      >
-        <div class="slide-inner hr-layout rs-layout">
-          <header class="hr-head">
-            <div class="blk-eyebrow">UN ANUNCIO TÍPICO</div>
-            <h2 class="blk-h2">Así se ve lo que <span class="blk-grad-text">trae la evaluación.</span></h2>
-          </header>
-
-          <div class="ad-body reveal">
-            <article class="ad-card" data-anuncio aria-label="Ejemplo de anuncio de Método Hebe en Facebook">
-              <div class="ad-top"><div class="ad-av">HEBE</div><div><strong>Método Hebe</strong><span>Anuncio · 🌐</span></div></div>
-              <div class="ad-copy">Tu cuerpo puede cambiar más de lo que imaginas 💫</div>
-              <div class="ad-media" aria-hidden="true"><div class="ad-play"><i></i></div><span class="ad-time">0:00 / 0:44</span></div>
-              <div class="ad-cta"><strong>La tecnología que redefine tu cuerpo 🔬</strong><b>Reservar</b></div>
-              <div class="ad-react"><span>👍❤️ 106</span><span>73 comentarios</span></div>
-            </article>
-
-            <ul class="ad-notes">
-              <li><strong>Un gancho en la primera línea.</strong><span>Una promesa clara que invita a seguir mirando.</span></li>
-              <li><strong>Un video corto que muestra la tecnología.</strong><span>Dura 44 segundos y enseña el tratamiento en acción.</span></li>
-              <li><strong>Un solo paso: Reservar.</strong><span>El botón lleva a la evaluación, que es lo que se vende.</span></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section
-        class="slide blk"
-        id="funciones"
-        data-name="Funciones Clinera"
-        aria-hidden="true"
-      >
-        <div class="slide-inner hr-layout eco-layout">
-          <header class="hr-head">
-            <div class="blk-eyebrow">PMFC EN ACCIÓN</div>
-            <h2 class="blk-h2">Clinera, la <span class="blk-grad-text">C</span> del ecosistema</h2>
-            <p class="blk-lead">Un equipo de marketing que trae pacientes y el software con IA que los atiende.</p>
-          </header>
-
-          <div class="eco-cols reveal" aria-label="Las dos piezas del ecosistema">
-            <article class="eco-col eco-col-mkt" data-eco="marketing">
-              <div class="eco-kicker">Pieza 1 · Marketing de performance</div>
-              <h3 class="eco-title">Un equipo que trae los pacientes</h3>
-              <ul class="eco-list">
-                <li><strong>Campañas de performance</strong><span>En Facebook, Instagram y Google, con los creativos incluidos. Los videos los entrega el cliente y nosotros los editamos.</span></li>
-                <li><strong>Propuesta de valor</strong><span>Creamos, optimizamos y perfeccionamos qué ofrece tu clínica y cómo lo comunica.</span></li>
-                <li><strong>Framework comercial</strong><span>Técnicas de venta para que tu equipo cierre a los pacientes que llegan.</span></li>
-                <li><strong>Reunión de marketing cada semana</strong><span>4 reuniones al mes, 1 por semana, para ver los resultados y ajustar.</span></li>
-              </ul>
-            </article>
-
-            <article class="eco-col eco-col-sw" data-eco="software">
-              <div class="eco-kicker">Pieza 2 · Software Clinera</div>
-              <h3 class="eco-title">La plataforma que los atiende</h3>
+            <div data-eco="software">
               <ul class="eco-list">
                 <li><strong>Agenda</strong><span>Citas, profesionales y recordatorios en un solo calendario.</span></li>
                 <li><strong>Fichas y odontograma</strong><span>Ficha clínica facial, corporal y dental.</span></li>
@@ -5162,7 +5058,7 @@
                 <span class="eco-agent"><b>LIA</b> Oct 2026 · informes de la operación</span>
               </div>
               <p class="eco-note">Automatizamos lo administrativo para devolverle tiempo al paciente y al equipo clínico. Roadmap 2027: HL7 FHIR e importación de datos desde otros software.</p>
-            </article>
+            </div>
           </div>
 
           <ol class="eco-flow reveal" aria-label="Cómo funcionan juntos">
