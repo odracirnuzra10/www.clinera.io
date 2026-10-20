@@ -1734,7 +1734,7 @@ function FinalCTA() {
                 boxShadow: "0 12px 32px -8px rgba(217,70,239,.5)",
               }}
             >
-              Hablar con ventas <span>→</span>
+              Agendar reunión <span>→</span>
             </Link>
             <Link
               href="/agenda"

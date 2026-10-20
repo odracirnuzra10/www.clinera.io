@@ -38,16 +38,16 @@ export function ClineraOsDiagram({
     <div className={styles.wrap}>
       {heading ? (
         <div className={styles.heading}>
-          <Mono color="#7C3AED">Clinera O.S. · El sistema operativo de tu clínica</Mono>
+          <Mono color="#7C3AED">Clinera · El software de tu clínica</Mono>
           <h2 className={styles.h2}>
-            Clinera O.S.:{" "}
+            Clinera:{" "}
             <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
               el sistema con IA por el que opera toda tu clínica
             </span>
             .
           </h2>
           <p className={styles.lead}>
-            Toda tu operación entrega contexto. Clinera O.S. entiende, decide y actúa.
+            Toda tu operación entrega contexto. Clinera entiende, decide y actúa.
           </p>
         </div>
       ) : null}
@@ -55,7 +55,7 @@ export function ClineraOsDiagram({
       <div
         className={styles.grid}
         role="img"
-        aria-label="Los módulos de agenda, sedes, fichas, tratamientos, ventas, pagos, marketing, WhatsApp, consentimientos y exámenes alimentan Clinera O.S. para agendar, responder, cobrar y automatizar."
+        aria-label="Los módulos de agenda, sedes, fichas, tratamientos, ventas, pagos, marketing, WhatsApp, consentimientos y exámenes alimentan Clinera para agendar, responder, cobrar y automatizar."
       >
         <div>
           <div className={styles.colLabel}>
@@ -81,13 +81,13 @@ export function ClineraOsDiagram({
               ✦
             </span>
           </div>
-          <div className={styles.coreName}>Clinera O.S.</div>
+          <div className={styles.coreName}>Clinera</div>
           <div className={styles.coreTag}>Contexto · decisiones · acción</div>
         </div>
 
         <div>
           <div className={styles.colLabel}>
-            <Mono>Clinera O.S. actúa</Mono>
+            <Mono>Clinera actúa</Mono>
           </div>
           <div className={styles.actions}>
             {ACTIONS.map((p) => (

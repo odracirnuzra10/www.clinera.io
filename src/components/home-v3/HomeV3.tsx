@@ -1,12 +1,10 @@
 "use client";
 
 import DemoEnVivo from "./DemoEnVivo";
-import EsteticaSection from "@/components/estetica/EsteticaSection";
-import AgenteIABanda from "@/components/agente-ia/AgenteIABanda";
+import ClinicasLogos from "@/components/clinicas/ClinicasLogos";
 import PlanesVigentes from "@/components/pricing/PlanesVigentes";
 import PmfcSection from "@/components/pmfc/PmfcSection";
-import MarketingPerformance from "@/components/marketing/MarketingPerformance";
-import { Faq, FinalCTA, Hero, PrensaCNN, Testimonios, useReveal } from "./sections";
+import { Faq, FinalCTA, Hero, Testimonios, useReveal } from "./sections";
 
 export default function HomeV3() {
   useReveal();
@@ -52,21 +50,17 @@ export default function HomeV3() {
         /* Aire entre secciones (Ricardo, 18-oct-2026: «más aire, más limpio»). */
         main > :is(section, div) + :is(section, div) { margin-top: clamp(40px, 7vw, 104px); }
       `}</style>
-      {/* Home breve (Ricardo, 18-oct-2026: «mucha información… más breve, con más
-          aire, enfocado en la elegancia de una clínica estética premium»). Primero
-          la clínica (fichas, evoluciones, presupuestos); la IA después, como un plus.
-          Salieron EcosistemaIA, Features, IntelligenceHomeSection, TeamSection,
-          ModosAgendamiento, Estudios, DarkBreak, Integraciones y el banner de
-          septiembre: los componentes siguen en el repo por si se reponen. */}
+      {/* Home corto (Ricardo, 20-oct-2026: «el home es muy largo, elimina lo
+          redundante; preponderancia a Vortex y Ecosistema»). Las dos opciones van
+          justo después del hero. Salieron Marketing de performance (vive en
+          /ecosistema), la sección estética (vive en /funciones), la banda «Activa
+          tu ecosistema» y CNN (vive en /plataforma y /prensa). */}
       <Hero />
+      <ClinicasLogos />
+      <PlanesVigentes titulo="Dos formas de trabajar" tituloAcento="con Clinera." bajada="Vortex es el software con IA para tu clínica. El Ecosistema es Vortex más un equipo de marketing que te trae pacientes." />
       <PmfcSection />
-      <MarketingPerformance />
-      <PlanesVigentes titulo="Dos formas de trabajar" tituloAcento="con Clinera." bajada="Vortex es la C de PMFC: el software con IA. El Ecosistema es PMFC completo: propuesta de valor, marketing, framework comercial y Clinera." />
-      <EsteticaSection modelo="duena" />
       <DemoEnVivo />
       <Testimonios />
-      <AgenteIABanda />
-      <PrensaCNN />
       <Faq />
       <FinalCTA />
     </>

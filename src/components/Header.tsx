@@ -66,7 +66,7 @@ export default function Header() {
 
           <div className={styles.headerActions}>
             <Link href="/agenda" className={styles.btnPrimary}>
-              Agendar demo
+              Agendar reunión
             </Link>
           </div>
 
@@ -144,7 +144,7 @@ export default function Header() {
 
         <div className={styles.headerActionsMobile}>
           <Link href="/agenda" className={styles.btnPrimary} onClick={closeMobileMenu}>
-            Agendar demo
+            Agendar reunión
           </Link>
         </div>
       </div>

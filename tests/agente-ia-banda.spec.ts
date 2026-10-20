@@ -1,6 +1,6 @@
 // «Activa tu ecosistema» (antes «Activa tu agente IA») — la banda oscura que rompe el esquema visual.
-// Ricardo (18-oct-2026): siempre presente en el home, las landings y los
-// artículos del blog. Y el ranking de software para clínicas estéticas, con
+// Ricardo (18-oct-2026): presente en las landings y los artículos del blog.
+// Desde el 20-oct-2026 ya no va en el home (era redundante con PMFC y planes). Y el ranking de software para clínicas estéticas, con
 // Clinera primero.
 
 import { expect, test } from "@playwright/test";
@@ -8,7 +8,6 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const PAGINAS = [
-  { path: "/", cta: /^\/agenda/ },
   { path: "/software-estetica", cta: /^\/agenda/ },
   { path: "/blog/mejores-software-clinicas-esteticas", cta: /^\/agenda/ },
 ];
@@ -31,7 +30,7 @@ test.describe("banda «Activa tu ecosistema»", () => {
   }
 
   test("al ir a /agenda conserva la query del anuncio", async ({ page }) => {
-    await page.goto("/?utm_source=google&gclid=abc", { waitUntil: "domcontentloaded" });
+    await page.goto("/software-estetica?utm_source=google&gclid=abc", { waitUntil: "domcontentloaded" });
     // Tras hidratar: el servidor no conoce la query.
     await expect(page.locator("[data-agente-ia-banda] a").first()).toHaveAttribute(
       "href",

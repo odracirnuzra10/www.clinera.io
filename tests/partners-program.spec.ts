@@ -231,10 +231,10 @@ test.describe("landing /partners", () => {
     await expect(block.getByLabel("Tu nombre")).toBeVisible();
   });
 
-  test("muestra el diagrama de Clinera O.S.", async ({ page }) => {
+  test("muestra el diagrama de Clinera", async ({ page }) => {
     await page.goto("/partners");
     await expect(page.getByText("Toda tu operación la alimenta")).toBeVisible();
-    await expect(page.getByText("Clinera O.S. actúa")).toBeVisible();
+    await expect(page.getByText("Clinera actúa")).toBeVisible();
     await expect(page.getByText("Contexto · decisiones · acción")).toBeVisible();
   });
 

@@ -37,7 +37,7 @@ export default function PlanesSection() {
             track("cta_click", { cta_id: "planes-ventas", cta_location: "precios", page: "plataforma" })
           }
         >
-          Hablar con ventas
+          Agendar reunión
         </Link>
       </div>
     </>

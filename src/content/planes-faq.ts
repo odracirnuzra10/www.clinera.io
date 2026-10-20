@@ -9,8 +9,10 @@ import { EXTRAS, MARKETING_BLOQUES, PLANES } from "@/content/planes";
 const [vortex, ecosistema] = PLANES;
 
 /** Marcador visible: lo que Ricardo no ha confirmado no se inventa (AGENTS.md). */
-export const PENDIENTE_INVERSION =
-  "[PENDIENTE: confirmar con Ricardo] La suposición es que el presupuesto de anuncios lo paga la clínica aparte, directo a Meta y Google.";
+// Ricardo, 20-oct-2026: la publicidad la paga la clínica aparte. El servicio de
+// marketing del Ecosistema no incluye la inversión en anuncios.
+export const RESPUESTA_INVERSION =
+  "No. La inversión en publicidad la paga la clínica aparte, directo a Meta y Google. El servicio de marketing del Ecosistema incluye la gestión de las campañas, los creativos y las reuniones semanales, pero no el presupuesto de los anuncios.";
 
 export const PLANES_FAQ = [
   {
@@ -23,7 +25,7 @@ export const PLANES_FAQ = [
   },
   {
     q: "¿La inversión en publicidad está incluida?",
-    a: PENDIENTE_INVERSION,
+    a: RESPUESTA_INVERSION,
   },
   {
     q: "¿Tiene costo de implementación o es solo la mensualidad?",
@@ -43,7 +45,7 @@ export const PLANES_FAQ = [
   },
   {
     q: "¿Cómo parto?",
-    a: "Con «Agendar videollamada»: nos cuentas de tu clínica, eliges qué servicio te interesa y reservas una videollamada de 30 minutos con el equipo.",
+    a: "Con «Agendar reunión»: nos cuentas de tu clínica, eliges qué servicio te interesa y reservas una videollamada de 30 minutos con el equipo.",
   },
   {
     q: "¿Puedo elegir el modelo de IA?",

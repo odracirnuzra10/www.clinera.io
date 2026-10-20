@@ -144,7 +144,7 @@ export default function CorporativoBanner() {
               whiteSpace: "nowrap",
             }}
           >
-            Hablar con ventas →
+            Agendar reunión →
           </Link>
         </div>
       </div>

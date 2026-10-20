@@ -501,7 +501,7 @@ function SeriesAbout() {
             </Link>{" "}
             y{" "}
             <Link href="/plataforma" style={{ color: "#7C3AED" }}>
-              Clinera O.S.
+              Vortex
             </Link>
           </li>
           <li>

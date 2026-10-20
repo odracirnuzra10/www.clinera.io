@@ -1,5 +1,5 @@
 // Planes vigentes: Vortex · Ecosistema (Ricardo, 18-oct-2026). CTA único
-// «Agendar videollamada» → /agenda?servicio=…, sin cupón ni compra en la web.
+// «Agendar reunión» → /agenda?servicio=…, sin cupón ni compra en la web.
 
 import { expect, test } from "@playwright/test";
 import { CTA_VENTAS_LABEL, MARKETING_BLOQUES, PLANES } from "../src/content/planes";

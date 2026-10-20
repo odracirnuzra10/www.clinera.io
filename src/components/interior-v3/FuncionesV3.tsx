@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ReactNode, useEffect } from "react";
 import {
   CtaPrimary,
-  CtaSecondary,
   Eyebrow,
   GRAD,
   Mono,
@@ -134,7 +133,7 @@ function Hero() {
           >
             ✦
           </span>
-          Clinera Intelligence · funciones
+          Vortex · el software de Clinera
         </span>
 
         <h1
@@ -150,7 +149,7 @@ function Hero() {
             maxWidth: 920,
           }}
         >
-          Todo lo que hace Clinera Intelligence{" "}
+          Todo lo que hace Vortex{" "}
           <span
             style={{
               background: GRAD,
@@ -175,9 +174,9 @@ function Hero() {
             maxWidth: 720,
           }}
         >
-          Clinera Intelligence no es un chatbot. Es la capa que conecta AURA y los agentes de IA con
-          tu agenda, tus pacientes, cobros y campañas. Cada función usa ese contexto para que tu
-          clínica opere con precisión mientras tú atiendes.
+          Vortex es el software de Clinera: agenda, fichas, bandeja de WhatsApp, Instagram y
+          Facebook, AURA que responde y agenda, y Clinera Intelligence, el agente interno que te dice
+          cuánto vendiste y cómo va tu agenda. US$ 279 al mes, sin costo de implementación.
         </p>
 
         <div
@@ -191,24 +190,8 @@ function Hero() {
           }}
         >
           <CtaPrimary as={Link} href="/agenda" style={{ padding: "15px 26px", fontSize: 16 }}>
-            Hablar con ventas <span>→</span>
+            Agendar reunión <span>→</span>
           </CtaPrimary>
-          <CtaSecondary as={Link} href="/agenda" style={{ padding: "15px 26px", fontSize: 16 }}>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#0A0A0A"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <rect x="3" y="5" width="18" height="16" rx="2" />
-              <path d="M16 3v4M8 3v4M3 10h18" />
-            </svg>
-            Agendar reunión
-          </CtaSecondary>
         </div>
       </div>
       <style jsx>{`
@@ -227,7 +210,7 @@ function FeatureIndex() {
     { eyebrow: "02 · AURA", title: "IA conversacional 24/7" },
     { eyebrow: "03 · Inbox", title: "Mensajería omnicanal" },
     { eyebrow: "04 · Ficha", title: "Ficha clínica digital" },
-    { eyebrow: "05 · Ventas", title: "Ventas trazables" },
+    { eyebrow: "05 · Intelligence", title: "Clinera Intelligence" },
     { eyebrow: "06 · Marketing", title: "Meta + Google conectados" },
   ];
   return (
@@ -237,7 +220,7 @@ function FeatureIndex() {
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <Mono>Las 6 capas de Clinera</Mono>
+          <Mono>Lo que trae Vortex</Mono>
         </div>
         <div
           className="funciones-index-grid"
@@ -310,7 +293,7 @@ function FeaturesList() {
           bullets={[
             "Vista día/semana/mes con drag-and-drop",
             "Bloqueos, recursos y tiempos por tratamiento",
-            "Sincroniza con Google Calendar, AgendaPro, Medilink",
+            "Agenda propia: migramos tus datos en el onboarding",
             "Ficha auto-creada al agendar",
           ]}
           mockup={<AgendaMock />}
@@ -323,7 +306,7 @@ function FeaturesList() {
           title="La recepcionista con IA que responde como tu clínica."
           body="AURA lee tu agenda, tu base de datos y tu catálogo de servicios antes de responder. Habla con el tono de tu equipo — formal, cercano o coloquial — y entiende audios en español LATAM."
           bullets={[
-            "Memoria contextual (LangChain)",
+            "Recuerda el historial de cada paciente",
             "Derivación automática a humano ante urgencias",
             "Aprende tus modismos, precios y promos",
             "Entiende texto y notas de voz",
@@ -334,7 +317,7 @@ function FeaturesList() {
         <FeatureRow
           num="03"
           eyebrow="Inbox omnicanal"
-          title="WhatsApp, Instagram y llamadas en un solo lugar."
+          title="WhatsApp, Instagram y Facebook en un solo lugar."
           body="Centraliza toda la comunicación con pacientes. El equipo humano toma la conversación cuando quiera; AURA sigue respondiendo el resto."
           bullets={[
             "Inbox unificado con filtros y etiquetas",
@@ -362,9 +345,9 @@ function FeaturesList() {
 
         <FeatureRow
           num="05"
-          eyebrow="Ventas trazables"
-          title="Cada peso, desde el anuncio hasta el cobro."
-          body="Atribución real: sabes qué anuncio de Meta o Google generó cada cita y cada venta. Sin planillas, sin suposiciones, sin mezclar datos entre fuentes."
+          eyebrow="Clinera Intelligence"
+          title="Pregúntale cuánto vendiste. Te responde con tus datos."
+          body="Clinera Intelligence es el agente interno de Vortex: le preguntas cuánto vendiste, cómo va tu agenda o qué anuncio trajo pacientes, y te responde con los datos reales de tu clínica. Sin planillas."
           bullets={[
             "Atribución campaña → conversación → cita → venta",
             "Dashboard de ROI en tiempo real",
@@ -1291,7 +1274,7 @@ function FinalCTA() {
               maxWidth: 820,
             }}
           >
-            Conecta tu clínica a Clinera en menos de una hora.
+            Mira Vortex funcionando con tu clínica.
           </h2>
           <p
             style={{
@@ -1303,8 +1286,8 @@ function FinalCTA() {
               maxWidth: 640,
             }}
           >
-            Te mostramos cómo quedaría AURA con tu agenda, tu base de datos y tus precios. 30
-            minutos, sin compromiso.
+            En 30 minutos te mostramos cómo quedaría tu clínica en Vortex, con tu agenda y tus
+            precios. Y si quieres que además te traigamos pacientes, te contamos del Ecosistema.
           </p>
           <div style={{ display: "flex", gap: 12, marginTop: 12, flexWrap: "wrap", justifyContent: "center" }}>
             <Link
@@ -1325,7 +1308,7 @@ function FinalCTA() {
                 boxShadow: "0 12px 32px -8px rgba(217,70,239,.5)",
               }}
             >
-              Hablar con ventas <span>→</span>
+              Agendar reunión <span>→</span>
             </Link>
             <Link
               href="/demo"

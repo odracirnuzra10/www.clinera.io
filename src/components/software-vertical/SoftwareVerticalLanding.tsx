@@ -104,7 +104,7 @@ export default function SoftwareVerticalLanding({
         }
       `}</style>
 
-      <NavV3 ctaHref={agendaHref} ctaLabel="Agendar demo" />
+      <NavV3 ctaHref={agendaHref} ctaLabel="Agendar reunión" />
 
       <main>
         <Hero content={content} agendaHref={agendaHref} />
@@ -126,7 +126,7 @@ export default function SoftwareVerticalLanding({
         />
         <IntelligencePlataformaSection
           ctaHref={agendaHref}
-          ctaLabel="Agendar demo de 30 min"
+          ctaLabel="Agendar reunión"
         />
         <CrmBand content={content} />
         <Testimonios />
@@ -214,7 +214,7 @@ function Hero({
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 30 }}>
             <CtaPrimary as={Link} href={agendaHref} style={{ padding: "15px 26px", fontSize: 16 }}>
-              Agendar demo de 30 min <span>→</span>
+              Agendar reunión <span>→</span>
             </CtaPrimary>
             <CtaSecondary as={Link} href="#precios" style={{ padding: "15px 26px", fontSize: 16 }}>
               Ver planes y precios
@@ -556,7 +556,7 @@ function FinalCta({
             {content.finalH2}
           </h2>
           <CtaPrimary as={Link} href={agendaHref} style={{ padding: "15px 26px", fontSize: 16 }}>
-            Agendar demo de 30 min <span>→</span>
+            Agendar reunión <span>→</span>
           </CtaPrimary>
           <div
             style={{

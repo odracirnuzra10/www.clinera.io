@@ -91,7 +91,7 @@ export default function PostCTA({ relatedComparativa }: Props) {
                 fontSize: 14.5,
               }}
             >
-              Hablar con ventas
+              Agendar reunión
             </Link>
           </>
         ) : (
@@ -108,7 +108,7 @@ export default function PostCTA({ relatedComparativa }: Props) {
                 fontSize: 14.5,
               }}
             >
-              Hablar con ventas →
+              Agendar reunión →
             </Link>
             <Link
               href="/planes"

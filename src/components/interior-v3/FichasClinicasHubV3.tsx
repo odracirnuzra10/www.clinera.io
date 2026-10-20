@@ -389,7 +389,7 @@ function Hero() {
             Ver software Clinera <span>→</span>
           </CtaPrimary>
           <CtaSecondary as={Link} href="/agenda" style={{ padding: "13px 22px", fontSize: 15 }}>
-            Hablar con ventas
+            Agendar reunión
           </CtaSecondary>
         </div>
       </div>
@@ -1096,7 +1096,7 @@ function FinalCTA(): ReactNode {
                 boxShadow: "0 12px 32px -8px rgba(217,70,239,.5)",
               }}
             >
-              Agendar demo <span>→</span>
+              Agendar reunión <span>→</span>
             </Link>
             <Link
               href="/funciones"
