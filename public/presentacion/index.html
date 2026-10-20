@@ -2974,7 +2974,7 @@
     .qs2-shot img { display: block; width: 100%; height: auto; }
     @media (max-width: 760px) { .qs2-body { grid-template-columns: 1fr; } .qs2-shot img { max-height: none; } }
 
-    /* --- Ecosistema PMFC (#pmfc): cuatro letras, minimalista --- */
+    /* --- Ecosistema PMFC: cuatro letras (clases .pmfc-*; las diapos por sigla usan .pl-*) --- */
     /* Problema y Pilares (Ricardo, 19-oct-2026): explican la metodología PMFC. */
     .pb-layout { max-width: 1120px; gap: clamp(20px, 4vh, 44px); }
     .pb-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 2.6vh, 28px) clamp(20px, 3vw, 48px); counter-reset: pb; }
@@ -3055,6 +3055,41 @@
     @media (max-width: 760px) { .pmfc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .pmfc-grid b { font-size: 72px; } }
 
     /* --- Rentabilidad (#rentabilidad): 10 pacientes de US$ 1.000 vs 100 de US$ 100 --- */
+    /* PMFC, una diapo por sigla (Ricardo, 20-oct-2026) */
+    .pl-layout { max-width: 1160px; gap: clamp(14px, 2.6vh, 30px); }
+    .pl-head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: clamp(16px, 2.4vw, 36px); }
+    .pl-letra { font-family: Outfit, Inter, system-ui, sans-serif; font-size: clamp(88px, 14vh, 168px); font-weight: 800; line-height: .85; letter-spacing: -.06em; background: linear-gradient(135deg, #009FE3, #7C3AED, #C850C0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .pl-lead { margin: 10px 0 0; max-width: 760px; font-size: clamp(14px, 1.25vw, 18px); line-height: 1.45; color: var(--ink-soft); }
+    .pl-body { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(18px, 3vw, 44px); align-items: center; }
+    .pl-points { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(8px, 1.6vh, 16px); }
+    .pl-points li { display: flex; flex-direction: column; gap: 3px; padding-left: 14px; border-left: 2px solid var(--brand-violet); }
+    .pl-points strong { font-size: clamp(14.5px, 1.3vw, 18px); font-weight: 800; letter-spacing: -.02em; color: var(--ink); }
+    .pl-points span { font-size: clamp(12.5px, 1vw, 14.5px); line-height: 1.4; color: var(--ink-soft); }
+    .pl-foto { margin: 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: 0 24px 60px -34px rgba(17, 24, 39, .45); background: #F3F4F6; aspect-ratio: 16 / 9; }
+    .pl-foto img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .pl-puja { color: #7C3AED !important; font-weight: 700; }
+    .pv-chart { border: 1px solid #E5E7EB; border-radius: 18px; background: #fff; padding: clamp(14px, 2.4vh, 26px) clamp(16px, 2vw, 26px); display: grid; gap: clamp(12px, 2.2vh, 22px); }
+    .pv-row { display: grid; grid-template-columns: minmax(120px, 170px) minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+    .pv-lbl strong { display: block; font-size: clamp(13px, 1.1vw, 15.5px); font-weight: 800; color: var(--ink); letter-spacing: -.01em; }
+    .pv-lbl span { font-size: 12px; color: var(--muted); }
+    .pv-track { display: flex; height: clamp(26px, 4.2vh, 40px); background: #F3F4F6; border-radius: 10px; overflow: hidden; }
+    .pv-track i { display: block; height: 100%; width: 0; transition: width 1.1s cubic-bezier(.2,.8,.2,1); }
+    .slide.active .pv-track i { width: var(--w); }
+    .slide.active .pv-track .pv-gain { transition-delay: .7s; }
+    i.pv-cost { background: #CBD5E1; }
+    i.pv-gain.sin { background: #94A3B8; }
+    i.pv-gain.con { background: linear-gradient(90deg, #009FE3, #7C3AED, #C850C0); }
+    .pv-out { text-align: right; white-space: nowrap; font-size: clamp(17px, 1.6vw, 22px); font-weight: 800; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+    .pv-out-con { color: var(--ink); }
+    .pv-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--muted); }
+    .pv-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .pv-legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+    .pv-x { justify-self: start; padding: 6px 12px; border-radius: 99px; background: #F5F3FF; color: #6D28D9; font-weight: 800; font-size: clamp(13px, 1.15vw, 16px); opacity: 0; transform: scale(.92); transition: opacity .5s 1.8s, transform .5s 1.8s; }
+    .slide.active .pv-x { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .pv-track i, .pv-x { transition: none !important; } }
+    @media (max-width: 900px) { .pl-body { grid-template-columns: minmax(0, 1fr); } .pl-body { padding-bottom: 72px; } }
+    @media (max-width: 640px) { .pl-head { grid-template-columns: minmax(0, 1fr); gap: 4px; } .pl-letra { font-size: 72px; } .pv-row { grid-template-columns: minmax(0, 1fr) auto; } .pv-lbl { grid-column: 1 / -1; } #pmfc-m .rs-admin th:nth-child(4), #pmfc-m .rs-admin td:nth-child(4) { display: none; } }
+    @media (max-height: 800px) and (min-width: 901px) { .pl-lead { font-size: 14px; } .pl-letra { font-size: clamp(72px, 12vh, 120px); } .pl-points span { display: none; } .pl-foto { max-height: 46vh; } .rs-admin-note { display: none; } }
     .rn-layout { max-width: 1120px; gap: clamp(14px, 2.4vh, 28px); }
     .rn-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); }
     .rn-col { border-top: 2px solid var(--brand-violet); padding-top: clamp(10px, 1.6vh, 18px); display: flex; flex-direction: column; gap: clamp(8px, 1.4vh, 14px); }
@@ -4829,22 +4864,144 @@
 
       <section
         class="slide blk"
-        id="pmfc"
-        data-name="Metodología PMFC"
+        id="pmfc-p"
+        data-name="P · Propuesta de valor"
         aria-hidden="true"
       >
-        <div class="slide-inner hr-layout pb-layout">
-          <header class="hr-head">
-            <div class="blk-eyebrow">METODOLOGÍA PMFC</div>
-            <h2 class="blk-h2">Cuatro piezas, <span class="blk-grad-text">un solo sistema.</span></h2>
+        <div class="slide-inner hr-layout pl-layout">
+          <header class="pl-head">
+            <b class="pl-letra" data-pmfc="P" aria-hidden="true">P</b>
+            <div>
+              <div class="blk-eyebrow">METODOLOGÍA PMFC · 1 DE 4</div>
+              <h2 class="blk-h2">Propuesta de valor: <span class="blk-grad-text">la rentabilidad se dispara.</span></h2>
+              <p class="pl-lead">Una propuesta que tus pacientes valoran como una solución de alto valor te permite cobrar más por el mismo tratamiento. Esa ganancia es la que reinviertes en hacer crecer tu clínica. Nuestro equipo, con más de 10 años de experiencia, te ayuda a construirla.</p>
+            </div>
           </header>
 
-          <ol class="pb-list pb-pilares reveal" aria-label="Metodología PMFC">
-            <li data-pmfc="P" data-l="P"><strong>Propuesta de valor</strong><span>Una propuesta que te permita cobrar caro y que tus pacientes valoren como una solución de alto valor. Más valor percibido, más pagan, más rentabilidad. Nuestro equipo, con más de 10 años de experiencia, te ayuda a construirla.</span></li>
-            <li data-pmfc="M" data-l="M"><strong>Marketing</strong><span>Comunicamos tu propuesta en los canales adecuados: Google, redes sociales o ambos. Usamos pujas automáticas (CPA objetivo o maximizar el valor de la conversión) y reuniones semanales para informarte el progreso.</span></li>
-            <li data-pmfc="F" data-l="F"><strong>Framework</strong><span>Un framework comercial con herramientas de negociación y cierre, para que tu equipo cierre la venta dentro de la consulta.</span></li>
-            <li data-pmfc="C" data-l="C"><strong>Clinera</strong><span>Nuestro software, con inteligencia artificial que nos ayuda a optimizar los resultados de las campañas de marketing. Lo usan clínicas en Chile y LATAM.</span></li>
-          </ol>
+          <div class="pl-body reveal">
+            <div class="pv-chart" data-rentabilidad-tratamiento aria-label="Mismo tratamiento con un costo de US$ 80: sin propuesta de valor se vende a US$ 100 y deja US$ 20; con propuesta de valor se vende a US$ 250 y deja US$ 170">
+              <div class="pv-row">
+                <div class="pv-lbl"><strong>Sin propuesta de valor</strong><span>Se vende a US$ 100</span></div>
+                <div class="pv-track"><i class="pv-cost" style="--w:32%"></i><i class="pv-gain sin" style="--w:8%"></i></div>
+                <b class="pv-out">US$ 20</b>
+              </div>
+              <div class="pv-row">
+                <div class="pv-lbl"><strong>Con propuesta de valor</strong><span>Se vende a US$ 250</span></div>
+                <div class="pv-track"><i class="pv-cost" style="--w:32%"></i><i class="pv-gain con" style="--w:68%"></i></div>
+                <b class="pv-out pv-out-con">US$ 170</b>
+              </div>
+              <div class="pv-legend"><span><i class="pv-cost"></i>Costo del tratamiento (US$ 80)</span><span><i class="pv-gain con"></i>Ganancia por tratamiento</span></div>
+              <span class="pv-x">8,5 veces más ganancia por el mismo tratamiento</span>
+            </div>
+
+            <ul class="pl-points">
+              <li><strong>Reinviertes en publicidad.</strong><span>El costo por paciente deja de asfixiarte.</span></li>
+              <li><strong>Reinviertes en tecnología.</strong><span>Una operación más ordenada y sin errores.</span></li>
+              <li><strong>Abres nuevas sucursales.</strong><span>La clínica financia su propio crecimiento.</span></li>
+            </ul>
+          </div>
+          <p class="rn-note">Ejemplo ilustrativo.</p>
+        </div>
+      </section>
+
+      <section
+        class="slide blk"
+        id="pmfc-m"
+        data-name="M · Marketing"
+        aria-hidden="true"
+      >
+        <div class="slide-inner hr-layout pl-layout">
+          <header class="pl-head">
+            <b class="pl-letra" data-pmfc="M" aria-hidden="true">M</b>
+            <div>
+              <div class="blk-eyebrow">METODOLOGÍA PMFC · 2 DE 4</div>
+              <h2 class="blk-h2">Marketing digital <span class="blk-grad-text">optimizado con IA.</span></h2>
+              <p class="pl-lead">Campañas en Google y Meta con pujas automáticas: CPA objetivo o maximizar el valor de la conversión. El algoritmo busca al paciente que compra, no al que solo hace clic.</p>
+            </div>
+          </header>
+
+          <div class="pl-body reveal">
+            <div class="rs-admin" data-admin aria-label="Administrador de anuncios: campañas con puja CPA objetivo de Método Hebe y Protocolo Lumina">
+              <div class="rs-admin-bar"><span>Administrador de anuncios</span><span>19 sept – 18 oct 2026</span></div>
+              <table>
+                <thead><tr><th>Campaña</th><th>Estrategia de puja</th><th>Resultados</th><th>Costo por resultado</th></tr></thead>
+                <tbody>
+                  <tr><td>SQL | Hebe (CPA)<small>Activa</small></td><td class="pl-puja">CPA objetivo</td><td>29</td><td>$63.405</td></tr>
+                  <tr><td>SQL | Lumina (CPA)<small>Activa</small></td><td class="pl-puja">CPA objetivo</td><td>103</td><td>$34.814</td></tr>
+                </tbody>
+              </table>
+              <div class="rs-admin-note">Campañas de Método Hebe y Protocolo Lumina. Montos en pesos chilenos.</div>
+            </div>
+
+            <ul class="pl-points">
+              <li><strong>Pujas automáticas.</strong><span>CPA objetivo o maximizar el valor de la conversión.</span></li>
+              <li><strong>Google, redes sociales o ambos.</strong><span>Elegimos los canales según tu paciente objetivo.</span></li>
+              <li><strong>Creativos incluidos.</strong><span>Tú entregas los videos y nosotros los editamos.</span></li>
+              <li><strong>Una reunión por semana.</strong><span>Revisamos resultados y ajustamos las campañas contigo.</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide blk"
+        id="pmfc-f"
+        data-name="F · Framework comercial"
+        aria-hidden="true"
+      >
+        <div class="slide-inner hr-layout pl-layout">
+          <header class="pl-head">
+            <b class="pl-letra" data-pmfc="F" aria-hidden="true">F</b>
+            <div>
+              <div class="blk-eyebrow">METODOLOGÍA PMFC · 3 DE 4</div>
+              <h2 class="blk-h2">Framework comercial: <span class="blk-grad-text">se cierra en la consulta.</span></h2>
+              <p class="pl-lead">El anuncio trae al paciente a la evaluación. La venta ocurre en la conversación: capacitamos a tus doctores y especialistas para cerrar ahí mismo.</p>
+            </div>
+          </header>
+
+          <div class="pl-body reveal">
+            <figure class="pl-foto">
+              <img src="/presentacion/assets/framework-consulta.webp" alt="Doctora cerrando un plan de tratamiento con una paciente en la consulta" width="1600" height="900" loading="lazy" />
+            </figure>
+
+            <ul class="pl-points">
+              <li><strong>Técnicas de venta y persuasión.</strong><span>Sin presión ni trucos.</span></li>
+              <li><strong>Urgencia, necesidad y alto valor.</strong><span>El paciente entiende qué gana al decidir hoy.</span></li>
+              <li><strong>Ofertas con fecha de cierre real.</strong><span>Una razón concreta para decidir ahora.</span></li>
+              <li><strong>Manejo de objeciones.</strong><span>Cierras sin regalar tratamientos.</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide blk"
+        id="pmfc-c"
+        data-name="C · Clinera"
+        aria-hidden="true"
+      >
+        <div class="slide-inner hr-layout pl-layout">
+          <header class="pl-head">
+            <b class="pl-letra" data-pmfc="C" aria-hidden="true">C</b>
+            <div>
+              <div class="blk-eyebrow">METODOLOGÍA PMFC · 4 DE 4</div>
+              <h2 class="blk-h2">Clinera: <span class="blk-grad-text">la IA agenda por ti.</span></h2>
+              <p class="pl-lead">El lead de la campaña escribe por WhatsApp, Instagram o Facebook. AURA le responde al instante y deja la cita creada en tu agenda.</p>
+            </div>
+          </header>
+
+          <div class="pl-body reveal">
+            <figure class="pl-foto">
+              <img src="/images/agenda/ecosistema-3-agenda-ia.webp" alt="AURA agenda por WhatsApp y la cita aparece en la agenda de Clinera" width="1280" height="720" loading="lazy" />
+            </figure>
+
+            <ul class="pl-points">
+              <li><strong>Responde al instante, a cualquier hora.</strong><span>También a las 11 de la noche.</span></li>
+              <li><strong>Agenda, reagenda y confirma.</strong><span>La cita queda en tu agenda, sin copiar datos.</span></li>
+              <li><strong>Ficha, agenda y pagos en un lugar.</strong><span>Mides el margen real de cada tratamiento.</span></li>
+              <li><strong>Clinera Intelligence.</strong><span>Le preguntas cuánto vendiste y cómo va tu agenda.</span></li>
+            </ul>
+          </div>
         </div>
       </section>
 
