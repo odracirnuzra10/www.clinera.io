@@ -15,9 +15,9 @@ const slide = (id: string) => {
 };
 
 test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () => {
-  test("solo existen quiénes somos, problema, PMFC, rentabilidad, funciones, beneficios y planes, en ese orden", () => {
+  test("solo existen quiénes somos, problema, las 4 letras de PMFC, beneficios y planes, en ese orden", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "rentabilidad", "resultados", "anuncio", "funciones", "beneficios", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "beneficios", "planes"]);
   });
 
   test("quiénes somos: el ecosistema, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
@@ -41,71 +41,44 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).not.toMatch(/patentad/i);
   });
 
-  test("resultados: evaluación de US$ 55, costo del lead de Hebe y de Lumina, y el administrador comercial", () => {
-    const c = slide("resultados");
-    expect(c).toContain("US$ 55");
-    expect(c).toContain("Administrador comercial");
-    for (const n of ["$63.405", "$34.814", "SQL | Hebe (CPA)", "SQL | Lumina (CPA)"]) expect(c).toContain(n);
-    expect(c).toContain("−US$ 10 por lead");
-    expect(c).toContain("+US$ 19 por lead");
-    expect(c).toContain("US$ 2.000");
-    // Toda la película: una sucursal, venta final vs inversión.
-    expect(c).toContain("data-pelicula");
-    expect(c).toContain("US$ 220.000");
-    expect(c).toContain("US$ 35.000");
-    expect(c).not.toMatch(/patentad/i);
-  });
-
-  test("anuncio típico: gancho, video y botón Reservar", () => {
-    const c = slide("anuncio");
-    expect(c).toContain("data-anuncio");
-    expect(c).toContain("Tu cuerpo puede cambiar más de lo que imaginas");
-    expect(c).toContain("Reservar");
-  });
-
-  // Ricardo, 20-oct-2026: una diapo por sigla (tarea «Mejorar presentación» en Todoist).
+  // Ricardo, 20-oct-2026: una diapo por sigla, y cada letra absorbe lo suyo
+  // (P la rentabilidad; M los resultados y el anuncio; C el software de «PMFC en acción»).
   test("metodología PMFC: una diapo por sigla, cada una con su visual", () => {
     const p = slide("pmfc-p"), m = slide("pmfc-m"), f = slide("pmfc-f"), c = slide("pmfc-c");
     for (const [l, html] of [["P", p], ["M", m], ["F", f], ["C", c]] as const) {
       expect(html).toContain(`data-pmfc="${l}"`);
       expect(html).not.toMatch(/patentad|\b100 cl|1\.500/i);
     }
-    expect(p).toContain("Propuesta de valor");
+    expect(p).toContain("deja de competir por precio");
     expect(p).toContain("más de 10 años");
-    expect(p).toContain("data-rentabilidad-tratamiento");
+    expect(p.match(/US\$ 10\.000/g)!.length).toBeGreaterThanOrEqual(2);
+    expect(p).toContain("× US$ 1.000");
+    expect(p).toContain("× US$ 100");
+    expect(p.match(/<i><\/i>/g)).toHaveLength(110);
     expect(p).toContain("Ejemplo ilustrativo");
+  });
+
+  test("M: del creativo al tratamiento, en dólares", () => {
+    const m = slide("pmfc-m");
+    expect(m).toContain("data-embudo");
+    for (const paso of ["creativo", "clic", "evaluacion", "tratamiento"]) expect(m).toContain(`data-paso="${paso}"`);
     expect(m).toContain("data-admin");
     expect(m).toContain("CPA objetivo");
     expect(m).toContain("maximizar el valor de la conversión");
-    expect(m).toContain("Una reunión por semana");
+    expect(m).not.toMatch(/\$63\.405|\$34\.814|pesos chilenos/);
+    for (const n of ["US$ 65", "US$ 35", "US$ 55", "−US$ 10 en la evaluación", "+US$ 20 en la evaluación", "US$ 98", "US$ 78", "US$ 2.250", "US$ 2.449"]) expect(m).toContain(n);
+    expect(m).toContain("data-pelicula");
+    expect(m).toContain("US$ 220.000");
+  });
+
+  test("F y C: framework con foto; Clinera con la IA agendando, el software y cómo funciona todo junto", () => {
+    const f = slide("pmfc-f"), c = slide("pmfc-c");
     expect(f).toContain("Framework comercial");
     expect(f).toContain("framework-consulta.webp");
     expect(c).toContain("ecosistema-3-agenda-ia.webp");
-    expect(c).toContain("Clinera Intelligence");
-  });
-
-  test("rentabilidad: mismo ingreso, 10 pacientes de US$ 1.000 vs 100 de US$ 100", () => {
-    const c = slide("rentabilidad");
-    expect(c.match(/US\$ 10\.000/g)!.length).toBeGreaterThanOrEqual(2);
-    expect(c).toContain("10 pacientes");
-    expect(c).toContain("100 pacientes");
-    expect(c).toContain("× US$ 1.000");
-    expect(c).toContain("× US$ 100");
-    expect(c.match(/<i><\/i>/g)).toHaveLength(110);
-    for (const f of ["Menos mano de obra", "Más mano de obra", "Más estrés", "Menos margen para crecer", "Más margen para crecer"]) expect(c).toContain(f);
-  });
-
-  test("funciones Clinera: funciones e IA; CAMILA y LIA siguen como próximamente", () => {
-    const c = slide("funciones");
-    for (const f of ["Agenda", "Fichas", "Pagos", "Marketing", "Clinera Intelligence", "AURA", "CAMILA", "LIA"]) {
-      expect(c).toContain(f);
-    }
-    // El ecosistema se explica en dos piezas separadas (marketing y software) y cómo trabajan juntas.
-    expect(c).toContain('data-eco="marketing"');
+    for (const x of ["Agenda", "Fichas", "Pagos", "Clinera Intelligence", "AURA", "CAMILA", "LIA"]) expect(c).toContain(x);
     expect(c).toContain('data-eco="software"');
     expect(c).toContain("Cómo funcionan juntos");
-    expect(c).toContain("Reunión de marketing cada semana");
-    expect(c).toContain("devolverle tiempo al paciente");
     expect(c).toContain("Roadmap 2027: HL7 FHIR");
     expect(c).toContain("En vivo");
     expect(c.match(/Oct 2026/g)).toHaveLength(2);
