@@ -17,7 +17,7 @@ const slide = (id: string) => {
 test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () => {
   test("solo existen quiénes somos, problema, PMFC, rentabilidad, funciones, beneficios y planes, en ese orden", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "problema", "pmfc", "rentabilidad", "resultados", "anuncio", "funciones", "beneficios", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "rentabilidad", "resultados", "anuncio", "funciones", "beneficios", "planes"]);
   });
 
   test("quiénes somos: el ecosistema, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
@@ -63,15 +63,25 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).toContain("Reservar");
   });
 
-  test("metodología PMFC: las cuatro letras con su explicación, sin cifra de clientes", () => {
-    const c = slide("pmfc");
-    for (const l of ["P", "M", "F", "C"]) expect(c).toContain(`data-pmfc="${l}"`);
-    for (const n of ["Propuesta de valor", "Marketing", "Framework", "Clinera"]) expect(c).toContain(n);
-    expect(c).toContain("más de 10 años");
-    expect(c).toContain("CPA objetivo");
-    expect(c).toContain("reuniones semanales");
-    expect(c).toContain("dentro de la consulta");
-    expect(c).not.toMatch(/patentad|100 cl|1\.500/i);
+  // Ricardo, 20-oct-2026: una diapo por sigla (tarea «Mejorar presentación» en Todoist).
+  test("metodología PMFC: una diapo por sigla, cada una con su visual", () => {
+    const p = slide("pmfc-p"), m = slide("pmfc-m"), f = slide("pmfc-f"), c = slide("pmfc-c");
+    for (const [l, html] of [["P", p], ["M", m], ["F", f], ["C", c]] as const) {
+      expect(html).toContain(`data-pmfc="${l}"`);
+      expect(html).not.toMatch(/patentad|\b100 cl|1\.500/i);
+    }
+    expect(p).toContain("Propuesta de valor");
+    expect(p).toContain("más de 10 años");
+    expect(p).toContain("data-rentabilidad-tratamiento");
+    expect(p).toContain("Ejemplo ilustrativo");
+    expect(m).toContain("data-admin");
+    expect(m).toContain("CPA objetivo");
+    expect(m).toContain("maximizar el valor de la conversión");
+    expect(m).toContain("Una reunión por semana");
+    expect(f).toContain("Framework comercial");
+    expect(f).toContain("framework-consulta.webp");
+    expect(c).toContain("ecosistema-3-agenda-ia.webp");
+    expect(c).toContain("Clinera Intelligence");
   });
 
   test("rentabilidad: mismo ingreso, 10 pacientes de US$ 1.000 vs 100 de US$ 100", () => {
