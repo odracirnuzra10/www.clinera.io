@@ -1,6 +1,6 @@
 // Catálogo público (clinera.io): el anual va primero (default, 20% OFF)
 // y el mensual queda como segunda opción. El semestral sigue sólo en el
-// constructor (cotizacion.oacg.cl).
+// constructor (finanzas.oacg.cl/cotizacion).
 //
 // Ricardo, 19-oct-2026: **se eliminó la implementación** (el costo de
 // configuración de USD 450). El primer cobro es sólo el período del plan; el
@@ -19,7 +19,7 @@ export const ANNUAL_DISCOUNT_PERCENT = 20;
 
 /**
  * Modalidades del catálogo público: anual (primero) y mensual.
- * El semestral queda en el constructor (cotizacion.oacg.cl).
+ * El semestral queda en el constructor (finanzas.oacg.cl/cotizacion).
  * Este tipo cubre mensual/anual para la web, la firma y el catálogo.
  */
 export const BILLING_PERIODS = ["annual", "monthly"] as const;
