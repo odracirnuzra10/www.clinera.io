@@ -74,6 +74,19 @@ Clinera vende **dos cosas**: **Vortex** (el software, US$ 279) y el **Ecosistema
 
 Guardián: `tests/sitio-dos-productos.spec.ts`.
 
+**Links de pago en `/planes` (Ricardo, 20-oct-2026).** Solo `/planes` (`PlanesVigentes conPago`) muestra,
+bajo «Agendar reunión», el Payment Link de Stripe de cada plan (`pagoUrl` en `planes.ts`, mensual). El
+home y las landings siguen sin compra. El enlace va pelado con `data-plan*` (ver «El clic a
+`buy.stripe.com`») y `suppressHydrationWarning`, porque `Analytics.tsx` le reescribe el `href` antes de
+hidratar. Si cambia el precio en Stripe, cambia `monthlyUsd` y el link a la vez.
+
+**Aviso de Chat de los leads de Instant Form (20-oct-2026).** Del 25-sep al 20-oct el nodo «Notify Google
+Chat» de Sub A (`YmauqyDqrZNKIYlg`) era un no-op (sala «Reuniones comerciales» retirada): los leads del
+formulario de Meta entraban al CRM sin aviso (lo destapó David Rodríguez). Ahora cuelga de «Twenty -
+Crear Lead» y publica en la misma sala que el Wizard, con encargado y links a Twenty y Baserow.
+Aplicador: `integrations/n8n/aplicar_subA_aviso_chat.py` (copia la URL del webhook desde el Wizard; el
+respaldo trae llaves: no commitearlo).
+
 # Economía de Clinera: créditos, costos y precios
 
 Antes de tocar cualquier número de precio, crédito, consumo o equivalencia en

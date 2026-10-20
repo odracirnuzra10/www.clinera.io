@@ -48,6 +48,8 @@ export type Plan = {
   resumen: string;
   /** «Qué incluye» de la tarjeta. */
   features: readonly string[];
+  /** Payment Link de Stripe (mensual). Solo lo muestra /planes (Ricardo, 20-oct-2026). */
+  pagoUrl: string;
 };
 
 /**
@@ -109,6 +111,7 @@ export const PLANES: readonly Plan[] = [
     tag: "",
     resumen: "Software con IA: agenda, fichas, bandeja unificada, AURA que responde y agenda por ti, y Clinera Intelligence, tu agente interno.",
     features: SOFTWARE_FEATURES,
+    pagoUrl: "https://buy.stripe.com/cNi00ldBnduW24r8031441I",
   },
   {
     id: "ecosistema",
@@ -122,6 +125,7 @@ export const PLANES: readonly Plan[] = [
     tag: "Recomendado",
     resumen: "Marketing de performance que trae pacientes a tu clínica, con un equipo y 4 reuniones al mes contigo, más el software con IA que los atiende.",
     features: ["Todo lo de Vortex", ...MARKETING_BLOQUES.map((b) => b.titulo)],
+    pagoUrl: "https://buy.stripe.com/00w28tbtf3Um4cz4NR1441L",
   },
 ] as const;
 
