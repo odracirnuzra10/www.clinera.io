@@ -49,13 +49,14 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
       expect(html).toContain(`data-pmfc="${l}"`);
       expect(html).not.toMatch(/patentad|\b100 cl|1\.500/i);
     }
+    // Ricardo, 20-oct-2026: botox genérico (US$ 180, margen US$ 50) vs protocolo único Lumina Face (cuesta US$ 500, se vende a US$ 2.500).
     expect(p).toContain("deja de competir por precio");
     expect(p).toContain("más de 10 años");
-    expect(p.match(/US\$ 10\.000/g)!.length).toBeGreaterThanOrEqual(2);
-    expect(p).toContain("× US$ 1.000");
-    expect(p).toContain("× US$ 100");
-    expect(p.match(/<i><\/i>/g)).toHaveLength(110);
-    expect(p).toContain("Ejemplo ilustrativo");
+    expect(p).toContain("data-propuesta");
+    expect(p).toContain('data-tratamiento="generico"');
+    expect(p).toContain('data-tratamiento="lumina-face"');
+    for (const n of ["US$ 180", "US$ 50", "US$ 500", "US$ 2.500", "US$ 2.000", "40 veces"]) expect(p).toContain(n);
+    expect(p).toContain("valores de referencia");
   });
 
   test("M: del creativo al tratamiento, en dólares", () => {
@@ -75,7 +76,10 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     const f = slide("pmfc-f"), c = slide("pmfc-c");
     expect(f).toContain("Framework comercial");
     expect(f).toContain("framework-consulta.webp");
-    expect(c).toContain("ecosistema-3-agenda-ia.webp");
+    // Animación: campaña → AURA en WhatsApp → cita en Clinera → paciente con ficha de evaluación facial.
+    expect(c).toContain("data-agenda-ia");
+    for (const paso of ["campana", "chat", "agenda", "ficha"]) expect(c).toContain(`data-ca="${paso}"`);
+    expect(c).toContain("Ficha de evaluación facial");
     for (const x of ["Agenda", "Fichas", "Pagos", "Clinera Intelligence", "AURA", "CAMILA", "LIA"]) expect(c).toContain(x);
     expect(c).toContain('data-eco="software"');
     expect(c).toContain("Cómo funcionan juntos");

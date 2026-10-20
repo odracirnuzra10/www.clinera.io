@@ -3127,6 +3127,110 @@
     @media (prefers-reduced-motion: reduce) { .fn-steps::after, .fn-steps li { transition: none !important; } }
     @media (max-width: 900px) { .mk-body { grid-template-columns: minmax(0, 1fr); padding-bottom: 72px; } .fn-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; } .fn-steps::before, .fn-steps::after { display: none; } .eco-flow { padding-bottom: 72px; } }
     @media (max-height: 820px) and (min-width: 901px) { .pl-m .pl-lead, .pl-c .pl-lead { display: none; } .pl-m .rs-admin td { padding: 6px 12px; } .pl-m .rs-admin th { padding: 6px 12px; } .mk-cards .rs-card { padding: 8px 14px; } .fn-steps li > span:last-child { font-size: 11.5px; } .pl-c .eco-note { display: none; } .pl-c .eco-list span { display: none; } .pl-c .pl-foto { max-height: 40vh; } .pl-p .rn-list { gap: 2px; } }
+    /* P: botox genérico vs protocolo Lumina Face; C: animación campaña → AURA → cita → ficha (Ricardo, 20-oct-2026) */
+    .vp-body { border: 1px solid #E5E7EB; border-radius: 18px; background: #fff; padding: clamp(14px, 2.4vh, 26px) clamp(16px, 2vw, 28px); display: grid; gap: clamp(12px, 2vh, 20px); }
+    .vp-row { display: grid; grid-template-columns: minmax(150px, 230px) minmax(0, 1fr) auto; align-items: center; gap: 14px; }
+    .vp-lbl strong { display: block; font-size: clamp(14px, 1.2vw, 17px); font-weight: 800; color: var(--ink); letter-spacing: -.01em; }
+    .vp-lbl span { font-size: 12px; color: var(--muted); }
+    .vp-track { display: flex; height: clamp(30px, 4.6vh, 44px); background: #F3F4F6; border-radius: 10px; overflow: hidden; }
+    .vp-track i { position: relative; display: flex; align-items: center; height: 100%; width: 0; overflow: hidden; transition: width 1.2s cubic-bezier(.2,.8,.2,1); }
+    .slide.active .vp-track i { width: var(--w); }
+    .slide.active .vp-track .vp-gain { transition-delay: .8s; }
+    .vp-track em { font-style: normal; font-size: 12px; font-weight: 700; white-space: nowrap; padding: 0 10px; opacity: 0; transition: opacity .4s 1.8s; }
+    .slide.active .vp-track em { opacity: 1; }
+    .vp-cost em { color: #334155; }
+    .vp-gain em { color: #fff; }
+    i.vp-cost { background: #CBD5E1; }
+    i.vp-gain.gen { background: #94A3B8; }
+    i.vp-gain.con { background: linear-gradient(90deg, #009FE3, #7C3AED, #C850C0); }
+    .vp-out { text-align: right; white-space: nowrap; }
+    .vp-out b { display: block; font-size: clamp(18px, 1.8vw, 26px); font-weight: 800; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+    .vp-out span { font-size: 11.5px; color: var(--muted); }
+    .vp-out-con b { color: var(--ink); }
+    .vp-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--muted); }
+    .vp-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .vp-legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+    .vp-facts { list-style: none; margin: 0; padding: clamp(10px, 1.6vh, 16px) 0 0; border-top: 1px solid #F1F5F9; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .vp-facts li { display: flex; flex-direction: column; gap: 2px; opacity: 0; transform: translateY(6px); transition: opacity .5s, transform .5s; }
+    .slide.active .vp-facts li { opacity: 1; transform: none; }
+    .slide.active .vp-facts li:nth-child(1) { transition-delay: 2.2s; }
+    .slide.active .vp-facts li:nth-child(2) { transition-delay: 2.5s; }
+    .slide.active .vp-facts li:nth-child(3) { transition-delay: 2.8s; }
+    .vp-facts b { font-size: clamp(20px, 2vw, 28px); font-weight: 800; letter-spacing: -.03em; background: linear-gradient(90deg, #009FE3, #7C3AED, #C850C0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .vp-facts span { font-size: clamp(12.5px, 1vw, 14.5px); color: var(--ink-soft); line-height: 1.35; }
+    @media (max-width: 760px) { .vp-row { grid-template-columns: minmax(0, 1fr) auto; } .vp-lbl { grid-column: 1 / -1; } .vp-track em { display: none; } .vp-facts { grid-template-columns: 1fr; } .vp-body { margin-bottom: 72px; } }
+
+    .ca-stage { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 2vw, 30px); position: relative; }
+    .ca-stage::before { content: ""; position: absolute; left: 8%; right: 8%; top: 52%; height: 2px; background: #EDE9FE; z-index: 0; }
+    .ca-stage::after { content: ""; position: absolute; left: 8%; top: 52%; height: 2px; width: 0; background: linear-gradient(90deg, #009FE3, #7C3AED, #C850C0); z-index: 0; }
+    .slide.active .ca-stage::after { animation: ca-line 6.6s cubic-bezier(.4,0,.2,1) .4s forwards; }
+    @keyframes ca-line { 0% { width: 0; } 20% { width: 22%; } 60% { width: 54%; } 80% { width: 84%; } 100% { width: 84%; } }
+    @keyframes ca-pop { from { opacity: 0; transform: translateY(8px) scale(.97); } to { opacity: 1; transform: none; } }
+    @keyframes ca-tap { 0% { opacity: 0; transform: scale(.4); } 30% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(2.2); } }
+    @keyframes ca-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, .0); } 50% { box-shadow: 0 0 0 6px rgba(124, 58, 237, .18); } }
+    .ca-col { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+    .ca-kicker { font-family: var(--blk-mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--brand-violet); }
+    .ca-ad, .ca-chat, .ca-cal, .ca-ficha { position: relative; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; box-shadow: 0 18px 44px -30px rgba(17, 24, 39, .5); overflow: hidden; height: clamp(196px, 31vh, 268px); }
+    .slide.active .ca-col { animation: ca-pop .5s ease both; }
+    .slide.active .ca-col:nth-child(1) { animation-delay: .1s; }
+    .slide.active .ca-col:nth-child(2) { animation-delay: 1.2s; }
+    .slide.active .ca-col:nth-child(3) { animation-delay: 4.4s; }
+    .slide.active .ca-col:nth-child(4) { animation-delay: 5.6s; }
+    .ca-ad-top, .ca-chat-top, .ca-ficha-top { display: flex; align-items: center; gap: 8px; padding: 8px 10px; font-size: 11.5px; font-weight: 700; color: var(--ink); }
+    .ca-ad-top small, .ca-chat-top small, .ca-ficha-top small { display: block; font-weight: 500; font-size: 10px; color: var(--muted); }
+    .ca-ad-top i, .ca-chat-top i, .ca-ficha-top i { flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-style: normal; font-size: 10px; font-weight: 800; color: #fff; background: linear-gradient(135deg, #009FE3, #7C3AED, #C850C0); }
+    .ca-ad-media { height: 52%; background: radial-gradient(circle at 60% 55%, #C4B5FD, #7C3AED 55%, #2E1065); display: flex; align-items: center; justify-content: center; }
+    .ca-ad-media b { width: 0; height: 0; border-left: 16px solid #fff; border-top: 10px solid transparent; border-bottom: 10px solid transparent; margin-left: 4px; }
+    .ca-ad-cta { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 8px 10px; background: #F3F4F6; font-size: 11.5px; font-weight: 700; color: var(--ink); }
+    .ca-ad-cta em { font-style: normal; padding: 5px 8px; border-radius: 8px; background: #E5E7EB; font-size: 10.5px; }
+    .slide.active .ca-ad-cta em { animation: ca-glow .7s ease 1s 2; background: #DDD6FE; }
+    .ca-click { position: absolute; right: 22px; bottom: 10px; width: 22px; height: 22px; border-radius: 50%; background: rgba(124, 58, 237, .35); opacity: 0; }
+    .slide.active .ca-click { animation: ca-tap .8s ease-out 1s 2; }
+    .ca-chat { background: #F5F3EE; display: flex; flex-direction: column; gap: 6px; padding-bottom: 8px; }
+    .ca-chat-top { background: #fff; border-bottom: 1px solid #ECECEC; }
+    .ca-msg { margin: 0 10px; max-width: 86%; padding: 6px 9px; border-radius: 10px; font-size: clamp(10.5px, .85vw, 12px); line-height: 1.3; color: #111827; opacity: 0; }
+    .ca-in { align-self: flex-end; background: #DCF8C6; }
+    .ca-out { align-self: flex-start; background: #fff; }
+    .slide.active .ca-msg { animation: ca-pop .4s ease both; }
+    .slide.active .ca-d1 { animation-delay: 1.7s; }
+    .slide.active .ca-d2 { animation-delay: 2.5s; }
+    .slide.active .ca-d3 { animation-delay: 3.3s; }
+    .slide.active .ca-d4 { animation-delay: 3.9s; }
+    .ca-cal { padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+    .ca-cal-head { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; font-size: 10.5px; font-weight: 700; color: var(--muted); text-align: center; }
+    .ca-cal-head .on { color: var(--brand-violet); }
+    .ca-cal-grid { position: relative; flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); gap: 6px; background: repeating-linear-gradient(#fff 0 24%, #F3F4F6 24% 25%); border-radius: 8px; }
+    .ca-cal-grid i { grid-column: var(--c); grid-row: var(--r); border-radius: 6px; background: #E0F2FE; }
+    .ca-cal-grid i:nth-child(2n) { background: #FCE7F3; }
+    .ca-new { grid-column: 2; grid-row: 2 / span 2; z-index: 1; display: flex; flex-direction: column; justify-content: center; padding: 6px; border-radius: 8px; background: linear-gradient(135deg, #009FE3, #7C3AED, #C850C0); color: #fff; font-size: clamp(10px, .8vw, 11.5px); font-weight: 800; line-height: 1.2; opacity: 0; }
+    .ca-new small { display: block; margin-top: 3px; font-weight: 600; font-size: 9.5px; opacity: .9; }
+    .slide.active .ca-new { animation: ca-pop .5s ease 4.9s both, ca-glow 1s ease 5.4s 2; }
+    .ca-ficha-top { border-bottom: 1px solid #F1F5F9; }
+    .ca-ficha-title { padding: 8px 10px 2px; font-size: 12px; font-weight: 800; color: var(--ink); }
+    .ca-ficha dl { margin: 0; padding: 4px 10px 10px; display: grid; gap: 5px; }
+    .ca-ficha dl div { display: flex; justify-content: space-between; gap: 6px; padding: 5px 8px; border-radius: 8px; background: #F8FAFC; font-size: 11px; opacity: 0; }
+    .ca-ficha dt { color: var(--muted); }
+    .ca-ficha dd { margin: 0; font-weight: 700; color: var(--ink); text-align: right; }
+    .ca-ficha .ca-plan { background: linear-gradient(90deg, #009FE3, #7C3AED, #C850C0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .slide.active .ca-ficha dl div { animation: ca-pop .4s ease both; }
+    .slide.active .ca-f1 { animation-delay: 6.2s; }
+    .slide.active .ca-f2 { animation-delay: 6.5s; }
+    .slide.active .ca-f3 { animation-delay: 6.8s; }
+    .slide.active .ca-f4 { animation-delay: 7.1s; }
+    .ca-foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 24px; align-items: start; }
+    .ca-feats { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+    .ca-feats li { padding: 5px 10px; border-radius: 99px; background: #F5F3FF; color: #5B21B6; font-size: 12.5px; font-weight: 700; }
+    .ca-agents { margin-top: 0; }
+    .ca-foot .eco-note { grid-column: 1 / -1; margin: 0; }
+    @media (prefers-reduced-motion: reduce) {
+      .slide.active .ca-col, .slide.active .ca-msg, .slide.active .ca-new, .slide.active .ca-ficha dl div, .slide.active .ca-click, .slide.active .ca-ad-cta em { animation: none !important; opacity: 1; }
+      .ca-msg, .ca-new, .ca-ficha dl div { opacity: 1; }
+      .slide.active .ca-stage::after { animation: none; width: 84%; }
+      .vp-track i, .vp-track em, .vp-facts li { transition: none !important; }
+    }
+    @media (max-width: 900px) { .ca-stage { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ca-stage::before, .ca-stage::after { display: none; } .ca-foot { grid-template-columns: 1fr; padding-bottom: 72px; } }
+    @media (max-width: 480px) { .ca-stage { grid-template-columns: 1fr; } .ca-ad, .ca-chat, .ca-cal, .ca-ficha { height: auto; min-height: 180px; } }
+    @media (max-height: 820px) and (min-width: 901px) { .pl-p .pl-lead { font-size: 13.5px; } .ca-foot .eco-note { display: none; } .vp-facts { padding-top: 8px; } }
     .rn-layout { max-width: 1120px; gap: clamp(14px, 2.4vh, 28px); }
     .rn-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); }
     .rn-col { border-top: 2px solid var(--brand-violet); padding-top: clamp(10px, 1.6vh, 18px); display: flex; flex-direction: column; gap: clamp(8px, 1.4vh, 14px); }
@@ -4911,27 +5015,30 @@
             <div>
               <div class="blk-eyebrow">METODOLOGÍA PMFC · 1 DE 4</div>
               <h2 class="blk-h2">Propuesta de valor: <span class="blk-grad-text">deja de competir por precio.</span></h2>
-              <p class="pl-lead">Una propuesta que tus pacientes valoran como una solución de alto valor te permite cobrar más y aumentar tu rentabilidad. Esa ganancia la reinviertes en publicidad, tecnología y nuevas sucursales. Nuestro equipo, con más de 10 años de experiencia, te ayuda a construirla.</p>
+              <p class="pl-lead">Un tratamiento genérico se compara por precio. Un protocolo único, con más insumos y más sesiones, se cobra más caro, deja más margen y te pide menos esfuerzo. Nuestro equipo, con más de 10 años de experiencia, te ayuda a construirlo.</p>
             </div>
           </header>
 
-          <div class="rn-grid reveal" data-rentabilidad aria-label="Dos clínicas que venden US$ 10.000: una con 10 pacientes de US$ 1.000 y otra con 100 pacientes de US$ 100">
-            <article class="rn-col rn-col-a" data-clinica="a">
-              <div class="rn-kicker">Con propuesta de valor</div>
-              <div class="rn-total">US$ 10.000</div>
-              <div class="rn-dots rn-dots-a" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-              <div class="rn-calc"><strong>10 pacientes</strong> × US$ 1.000</div>
-              <ul class="rn-list"><li>Menos mano de obra</li><li>Más dedicación por paciente</li><li>Menos estrés y menos errores</li><li>Más margen para crecer</li></ul>
-            </article>
-            <article class="rn-col rn-col-b" data-clinica="b">
-              <div class="rn-kicker">Compite por precio y regala tratamientos</div>
-              <div class="rn-total">US$ 10.000</div>
-              <div class="rn-dots rn-dots-b" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-              <div class="rn-calc"><strong>100 pacientes</strong> × US$ 100</div>
-              <ul class="rn-list"><li>Más mano de obra</li><li>Menos dedicación por paciente</li><li>Más estrés y más errores</li><li>Menos margen para crecer</li></ul>
-            </article>
+          <div class="vp-body reveal" data-propuesta aria-label="Botox genérico: se vende a US$ 180 y deja US$ 50 de margen. Protocolo Lumina Face: cuesta US$ 500 producirlo, se vende a US$ 2.500 y deja US$ 2.000">
+            <div class="vp-row" data-tratamiento="generico">
+              <div class="vp-lbl"><strong>Botox genérico</strong><span>Lo vende cualquier clínica · US$ 180</span></div>
+              <div class="vp-track"><i class="vp-cost" style="--w:5.2%"></i><i class="vp-gain gen" style="--w:2%"></i></div>
+              <div class="vp-out"><b>US$ 50</b><span>de margen</span></div>
+            </div>
+            <div class="vp-row" data-tratamiento="lumina-face">
+              <div class="vp-lbl"><strong>Protocolo «Lumina Face»</strong><span>Más insumos y sesiones · US$ 2.500</span></div>
+              <div class="vp-track"><i class="vp-cost" style="--w:20%"><em>US$ 500</em></i><i class="vp-gain con" style="--w:80%"><em>Margen: US$ 2.000</em></i></div>
+              <div class="vp-out vp-out-con"><b>US$ 2.000</b><span>de margen</span></div>
+            </div>
+            <div class="vp-legend"><span><i class="vp-cost"></i>Costo de producirlo</span><span><i class="vp-gain con"></i>Margen por paciente</span></div>
+
+            <ul class="vp-facts">
+              <li><b>40 veces</b><span>más margen por paciente</span></li>
+              <li><b>1 paciente</b><span>de Lumina Face deja lo que 40 de botox</span></li>
+              <li><b>Reinviertes</b><span>en publicidad, tecnología y nuevas sucursales</span></li>
+            </ul>
           </div>
-          <p class="rn-note">Mismo ingreso, distinta rentabilidad. Ejemplo ilustrativo.</p>
+          <p class="rn-note">Ejemplo con valores de referencia.</p>
         </div>
       </section>
 
@@ -5036,37 +5143,64 @@
             <div>
               <div class="blk-eyebrow">METODOLOGÍA PMFC · 4 DE 4</div>
               <h2 class="blk-h2">Clinera: <span class="blk-grad-text">la IA agenda por ti.</span></h2>
-              <p class="pl-lead">El lead de la campaña escribe por WhatsApp, Instagram o Facebook. AURA le responde al instante y deja la cita creada en tu agenda.</p>
+              <p class="pl-lead">Conectada directo a tus campañas: el clic llega a WhatsApp, AURA agenda, la cita queda en Clinera y el lead se convierte en paciente con su ficha.</p>
             </div>
           </header>
 
-          <div class="pl-body reveal">
-            <figure class="pl-foto">
-              <img src="/images/agenda/ecosistema-3-agenda-ia.webp" alt="AURA agenda por WhatsApp y la cita aparece en la agenda de Clinera" width="1280" height="720" loading="lazy" />
-            </figure>
-
-            <div data-eco="software">
-              <ul class="eco-list">
-                <li><strong>Agenda</strong><span>Citas, profesionales y recordatorios en un solo calendario.</span></li>
-                <li><strong>Fichas y odontograma</strong><span>Ficha clínica facial, corporal y dental.</span></li>
-                <li><strong>Pagos y ventas</strong><span>Cobros, seguimiento y panel de ventas.</span></li>
-                <li><strong>Clinera Intelligence · Webhooks + API</strong><span>Le preguntas a tus datos; conecta n8n, Make y Zapier.</span></li>
-              </ul>
-              <div class="eco-agents" aria-label="Empleados digitales con IA">
-                <span class="eco-agent eco-agent-now"><b>AURA</b> En vivo · responde, agenda y confirma 24/7</span>
-                <span class="eco-agent"><b>CAMILA</b> Oct 2026 · llamadas con IA</span>
-                <span class="eco-agent"><b>LIA</b> Oct 2026 · informes de la operación</span>
+          <ol class="ca-stage reveal" data-agenda-ia aria-label="Cómo funcionan juntos: de la campaña a la ficha de evaluación facial">
+            <li class="ca-col" data-ca="campana">
+              <div class="ca-kicker">1 · Tu campaña</div>
+              <div class="ca-ad">
+                <div class="ca-ad-top"><i>L</i><span>Protocolo Lumina<small>Publicidad</small></span></div>
+                <div class="ca-ad-media"><b></b></div>
+                <div class="ca-ad-cta"><span>Lumina Face</span><em>Enviar mensaje</em></div>
+                <span class="ca-click" aria-hidden="true"></span>
               </div>
-              <p class="eco-note">Automatizamos lo administrativo para devolverle tiempo al paciente y al equipo clínico. Roadmap 2027: HL7 FHIR e importación de datos desde otros software.</p>
-            </div>
-          </div>
-
-          <ol class="eco-flow reveal" aria-label="Cómo funcionan juntos">
-            <li><b>1</b><span>Las campañas traen al paciente</span></li>
-            <li><b>2</b><span>AURA responde por WhatsApp, Instagram y Facebook y agenda</span></li>
-            <li><b>3</b><span>Ficha, cobro y seguimiento quedan en Clinera</span></li>
-            <li><b>4</b><span>En la reunión semanal vemos los resultados y ajustamos las campañas</span></li>
+            </li>
+            <li class="ca-col" data-ca="chat">
+              <div class="ca-kicker">2 · AURA responde</div>
+              <div class="ca-chat">
+                <div class="ca-chat-top"><i>A</i><span>AURA · WhatsApp<small>en línea</small></span></div>
+                <p class="ca-msg ca-in ca-d1">Hola, quiero agendar una evaluación facial</p>
+                <p class="ca-msg ca-out ca-d2">¡Hola! Tengo martes a las 10:00 o a las 16:30. ¿Cuál prefieres?</p>
+                <p class="ca-msg ca-in ca-d3">Martes 10:00</p>
+                <p class="ca-msg ca-out ca-d4">Listo ✅ Quedó agendada tu evaluación facial.</p>
+              </div>
+            </li>
+            <li class="ca-col" data-ca="agenda">
+              <div class="ca-kicker">3 · La cita en Clinera</div>
+              <div class="ca-cal">
+                <div class="ca-cal-head"><span>Lun</span><span class="on">Mar</span><span>Mié</span></div>
+                <div class="ca-cal-grid">
+                  <i style="--c:1;--r:1"></i><i style="--c:3;--r:2"></i><i style="--c:1;--r:3"></i><i style="--c:3;--r:4"></i>
+                  <b class="ca-new">Evaluación facial<small>Mar 10:00 · Valentina R.</small></b>
+                </div>
+              </div>
+            </li>
+            <li class="ca-col" data-ca="ficha">
+              <div class="ca-kicker">4 · Paciente y ficha</div>
+              <div class="ca-ficha">
+                <div class="ca-ficha-top"><i>VR</i><span>Valentina R.<small>Nueva paciente</small></span></div>
+                <div class="ca-ficha-title">Ficha de evaluación facial</div>
+                <dl>
+                  <div class="ca-f1"><dt>Motivo</dt><dd>Rejuvenecimiento</dd></div>
+                  <div class="ca-f2"><dt>Fototipo</dt><dd>III</dd></div>
+                  <div class="ca-f3"><dt>Zonas</dt><dd>Frente · ojeras</dd></div>
+                  <div class="ca-f4"><dt>Plan</dt><dd class="ca-plan">Lumina Face</dd></div>
+                </dl>
+              </div>
+            </li>
           </ol>
+
+          <div class="ca-foot reveal" data-eco="software">
+            <ul class="ca-feats"><li>Agenda</li><li>Fichas y odontograma</li><li>Pagos y ventas</li><li>Clinera Intelligence</li><li>Webhooks + API</li></ul>
+            <div class="eco-agents ca-agents" aria-label="Empleados digitales con IA">
+              <span class="eco-agent eco-agent-now"><b>AURA</b> En vivo · responde, agenda y confirma 24/7</span>
+              <span class="eco-agent"><b>CAMILA</b> Oct 2026 · llamadas con IA</span>
+              <span class="eco-agent"><b>LIA</b> Oct 2026 · informes de la operación</span>
+            </div>
+            <p class="eco-note">Automatizamos lo administrativo para devolverle tiempo al paciente y al equipo clínico. Roadmap 2027: HL7 FHIR e importación de datos desde otros software.</p>
+          </div>
         </div>
       </section>
 
