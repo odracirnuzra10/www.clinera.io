@@ -146,7 +146,8 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
             color: "#0A0A0A",
           }}
         >
-          {/* Ricardo, 20-oct-2026: el menú es solo Software (Vortex) y Ecosistema. */}
+          {/* Ricardo, 21-oct-2026: el menú es Software (Vortex) · PMFC (la metodología y el
+              Ecosistema, en /ecosistema) · Planes. */}
           <Link href="/funciones" style={{ color: "#0A0A0A", textDecoration: "none" }}>
             Software
           </Link>
@@ -161,7 +162,10 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
               fontWeight: 700,
             }}
           >
-            Ecosistema
+            PMFC
+          </Link>
+          <Link href="/planes" style={{ color: "#0A0A0A", textDecoration: "none" }}>
+            Planes
           </Link>
         </nav>
 
@@ -204,7 +208,8 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
         <div className="nav-v3-mobile">
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             <Link href="/funciones" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Software</Link>
-            <Link href="/ecosistema" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link" style={{ color: "#7C3AED" }}>Ecosistema</Link>
+            <Link href="/ecosistema" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link" style={{ color: "#7C3AED" }}>PMFC</Link>
+            <Link href="/planes" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Planes</Link>
             <Link href="/demo" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link" style={{ color: "#7C3AED" }}>Ver demo 3 min</Link>
             <Link href="/ayuda" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub">Ayuda y soporte</Link>
             <a

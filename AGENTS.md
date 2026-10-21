@@ -47,8 +47,8 @@ sí, desde el 20-oct-2026, con la forma «en los últimos 10 años» (ver «Siti
 Clinera vende **dos cosas**: **Vortex** (el software, US$ 279) y el **Ecosistema**
 (Vortex + marketing de performance, US$ 529). El sitio entero se ordena alrededor de eso:
 
-- **Menú = Software (`/funciones`, la página de Vortex) + Ecosistema (`/ecosistema`)**, nada más.
-  Planes, Prensa, Novedades y el resto viven en el pie de página y el blog. No reponer «Clinera O.S.»
+- **Menú = Software (`/funciones`, la página de Vortex) · PMFC (`/ecosistema`, la metodología y el Ecosistema) · Planes (`/planes`)**, nada más (Ricardo, 21-oct-2026; antes era Software + Ecosistema).
+  Prensa, Novedades y el resto viven en el pie de página y el blog. No reponer «Clinera O.S.»
   en el menú (su link apuntaba a `/#clinera-intelligence`, que ya no existía).
 - **CTA único: «Agendar reunión»** (`CTA_VENTAS_LABEL`) → `/agenda`. Se acabaron «Agendar
   videollamada», «Hablar con ventas», «Agendar demo» y «Agendar demo de 30 min».
