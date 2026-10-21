@@ -1,5 +1,5 @@
 // Ricardo, 20-oct-2026: el sitio vende dos cosas, Vortex y el Ecosistema.
-// Menú = Software + Ecosistema; un solo CTA «Agendar reunión»; cifra «+1.500
+// Menú = Software + PMFC + Planes (21-oct); un solo CTA «Agendar reunión»; cifra «+1.500
 // clínicas en 10 años»; sin integraciones con agendas de terceros; sin notas
 // internas visibles; pie de página con los links legales bien rotulados.
 import { expect, test } from "@playwright/test";
@@ -10,15 +10,18 @@ import { PLANES_FAQ } from "../src/content/planes-faq";
 import { HOME_FAQ } from "../src/content/home-faq";
 
 test.describe("sitio de dos productos", () => {
-  test("el menú tiene solo Software y Ecosistema", async ({ page }) => {
+  // Ricardo, 21-oct-2026: Software · PMFC · Planes.
+  test("el menú es Software, PMFC y Planes", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/", { waitUntil: "domcontentloaded" });
     const links = page.locator("nav.nav-v3-links a");
-    await expect(links).toHaveCount(2);
+    await expect(links).toHaveCount(3);
     await expect(links.nth(0)).toHaveText("Software");
     await expect(links.nth(0)).toHaveAttribute("href", "/funciones");
-    await expect(links.nth(1)).toHaveText("Ecosistema");
+    await expect(links.nth(1)).toHaveText("PMFC");
     await expect(links.nth(1)).toHaveAttribute("href", "/ecosistema");
+    await expect(links.nth(2)).toHaveText("Planes");
+    await expect(links.nth(2)).toHaveAttribute("href", "/planes");
     await expect(page.locator("header")).not.toContainText("Clinera O.S.");
   });
 
