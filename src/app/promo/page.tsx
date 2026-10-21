@@ -18,7 +18,7 @@ export default function PromoPage() {
   return (
     <>
       <NavV3 />
-      <main style={{ paddingBottom: 72 }}>
+      <main>
         <PlanesV3 />
       </main>
       <FooterV3 />
