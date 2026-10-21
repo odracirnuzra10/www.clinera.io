@@ -17,7 +17,7 @@ const slide = (id: string) => {
 test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () => {
   test("solo existen quiénes somos, problema, las 4 letras de PMFC, beneficios y planes, en ese orden", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "beneficios", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "exposalud", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "beneficios", "planes"]);
   });
 
   test("quiénes somos: el ecosistema, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
@@ -30,6 +30,14 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).toContain("Meta y Google partner");
     expect(c).toContain("canal-metricads.webp");
     expect(c).not.toContain("1.500");
+  });
+
+  test("Exposalud 2026: Espacio Riesco, 10, 11 y 12 de noviembre", () => {
+    const c = slide("exposalud");
+    expect(c).toContain("data-exposalud");
+    expect(c).toContain("Exposalud 2026");
+    expect(c).toContain("Espacio Riesco");
+    for (const d of ["10", "11", "12"]) expect(c).toContain(`<b>${d}</b>`);
   });
 
   test("el problema: publicidad cara, vender barato, guerra de precios y la salida", () => {

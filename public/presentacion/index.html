@@ -3231,6 +3231,18 @@
     @media (max-width: 900px) { .ca-stage { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ca-stage::before, .ca-stage::after { display: none; } .ca-foot { grid-template-columns: 1fr; padding-bottom: 72px; } }
     @media (max-width: 480px) { .ca-stage { grid-template-columns: 1fr; } .ca-ad, .ca-chat, .ca-cal, .ca-ficha { height: auto; min-height: 180px; } }
     @media (max-height: 820px) and (min-width: 901px) { .pl-p .pl-lead { font-size: 13.5px; } .ca-foot .eco-note { display: none; } .vp-facts { padding-top: 8px; } }
+    /* Exposalud 2026 (Ricardo, 21-oct-2026): 10, 11 y 12 de noviembre en Espacio Riesco */
+    .ex-layout { max-width: 1120px; gap: clamp(20px, 4vh, 44px); }
+    .ex-body { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(20px, 4vw, 64px); align-items: center; }
+    .ex-dias { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(10px, 1.6vw, 20px); }
+    .ex-dias li { width: clamp(96px, 11vw, 150px); aspect-ratio: 1; border-radius: 22px; background: #fff; border: 1px solid #E9D5FF; box-shadow: 0 22px 50px -30px rgba(124, 58, 237, .6); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+    .ex-dias b { font-family: Outfit, Inter, system-ui, sans-serif; font-size: clamp(44px, 6vw, 84px); font-weight: 800; line-height: .95; letter-spacing: -.05em; background: linear-gradient(135deg, #009FE3, #7C3AED, #C850C0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .ex-dias span { font-family: var(--blk-mono); font-size: 12px; letter-spacing: .14em; color: var(--muted); }
+    .ex-lugar { display: flex; flex-direction: column; gap: 6px; padding-left: clamp(16px, 2vw, 28px); border-left: 2px solid var(--brand-violet); }
+    .ex-kicker { font-family: var(--blk-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--brand-violet); }
+    .ex-lugar strong { font-size: clamp(26px, 3vw, 42px); font-weight: 800; letter-spacing: -.03em; color: var(--ink); }
+    .ex-lugar span { font-size: clamp(14px, 1.2vw, 17px); color: var(--ink-soft); }
+    @media (max-width: 760px) { .ex-body { grid-template-columns: 1fr; } .ex-dias li { width: 92px; } }
     .rn-layout { max-width: 1120px; gap: clamp(14px, 2.4vh, 28px); }
     .rn-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); }
     .rn-col { border-top: 2px solid var(--brand-violet); padding-top: clamp(10px, 1.6vh, 18px); display: flex; flex-direction: column; gap: clamp(8px, 1.4vh, 14px); }
@@ -4978,6 +4990,34 @@
             <figure class="qs2-shot">
               <img src="/presentacion/canal-metricads.webp" alt="Canal de YouTube Metricads Marketing: 2,31 K suscriptores y 292 vídeos" width="1104" height="412" loading="lazy" />
             </figure>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="slide blk"
+        id="exposalud"
+        data-name="Exposalud 2026"
+        aria-hidden="true"
+      >
+        <div class="slide-inner hr-layout ex-layout">
+          <header class="hr-head">
+            <div class="blk-eyebrow">CONÓCENOS EN PERSONA</div>
+            <h2 class="blk-h2">Estaremos en <span class="blk-grad-text">Exposalud 2026.</span></h2>
+            <p class="pl-lead">Visítanos en nuestro stand en Espacio Riesco, Santiago. Conversemos de tu clínica cara a cara.</p>
+          </header>
+
+          <div class="ex-body reveal" data-exposalud>
+            <ol class="ex-dias" aria-label="10, 11 y 12 de noviembre de 2026">
+              <li><b>10</b><span>NOV</span></li>
+              <li><b>11</b><span>NOV</span></li>
+              <li><b>12</b><span>NOV</span></li>
+            </ol>
+            <div class="ex-lugar">
+              <div class="ex-kicker">Dónde</div>
+              <strong>Espacio Riesco</strong>
+              <span>Stand de Clinera · Exposalud 2026</span>
+            </div>
           </div>
         </div>
       </section>

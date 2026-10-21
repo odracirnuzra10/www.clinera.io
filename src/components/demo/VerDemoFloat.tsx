@@ -9,6 +9,8 @@ export default function VerDemoFloat() {
   if (pathname === "/demo" || pathname?.startsWith("/demo/")) return null;
   // /go tiene su propio botón flotante de compra: no se apilan dos.
   if (pathname === "/go" || pathname?.startsWith("/go/")) return null;
+  // /promo: la barra del descuento ocupa el borde de abajo.
+  if (pathname === "/promo") return null;
 
   return (
     <>

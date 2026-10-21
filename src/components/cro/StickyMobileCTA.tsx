@@ -30,6 +30,8 @@ const HIDDEN_PREFIXES = [
   "/nuevodiscurso",
   "/ventas2026",
   "/internal",
+  // /promo lleva su propia barra fija abajo.
+  "/promo",
 ];
 
 function isHiddenPath(pathname: string | null) {
