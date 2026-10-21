@@ -94,6 +94,25 @@ Crear Lead» y publica en la misma sala que el Wizard, con encargado y links a T
 Aplicador: `integrations/n8n/aplicar_subA_aviso_chat.py` (copia la URL del webhook desde el Wizard; el
 respaldo trae llaves: no commitearlo).
 
+# Publicar en producción: Vercel tarda ~13 min en reaccionar a un merge (21-oct-2026)
+
+**No es que el sitio no se haya publicado ni que algo esté roto: espera.** Medido el 21-oct con tres
+merges seguidos: Vercel creó la publicación de producción **13 min 22 s, 14 min 26 s y ~15 min** después
+de que el commit llegó a `main`. Construir toma ~40 s y entra a la cola en 1 s; en las **ramas** de trabajo
+la publicación de vista previa arranca a 1 s del push. O sea: la integración funciona, el aviso de «entró a
+`main`» es lo lento. La causa exacta no está confirmada (el repo no tiene automatizaciones de publicación y
+el proyecto no tiene filtro de build; sospecha: el aviso de GitHub cuando el merge se hace por API).
+
+- **Hay dos proyectos de Vercel** por el mismo repo: `clinera-website` (el de clinera.io; production alias
+  `clinera.io` / `www.clinera.io`) y `clinera-web-preview`. Cada push genera dos publicaciones.
+- **Cómo mirar sin adivinar:** `GET api.vercel.com/v6/deployments?target=production` y buscar el SHA del merge
+  (`meta.githubCommitSha`); `state: READY` = publicado. No uses `curl` al HTML para páginas que se dibujan en el
+  cliente: `/promo` pinta su barra solo en el navegador, así que el HTML nunca la contiene; verifícala con un navegador.
+- **Qué hacer mientras tanto:** esperar. Si hace falta adelantarlo, se puede pedir a Vercel un despliegue del SHA
+  ya mergeado, pero eso es una acción sobre producción: se confirma con Ricardo.
+- No avisar al equipo de un link nuevo hasta que responda 200 en producción (el 21-oct `/promo` dio 404 los
+  ~15 min posteriores al merge).
+
 # Economía de Clinera: créditos, costos y precios
 
 Antes de tocar cualquier número de precio, crédito, consumo o equivalencia en
