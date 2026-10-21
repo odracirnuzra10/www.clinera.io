@@ -94,6 +94,21 @@ Crear Lead» y publica en la misma sala que el Wizard, con encargado y links a T
 Aplicador: `integrations/n8n/aplicar_subA_aviso_chat.py` (copia la URL del webhook desde el Wizard; el
 respaldo trae llaves: no commitearlo).
 
+**Reuniones duplicadas Rebeca / Nohelymar (21-oct-2026).** Un lead de la campaña reserva en la web (que reparte
+parejo: 20 y 20 entre el 7 y el 21-oct) y además **AURA, el agente de WhatsApp, le agenda otra reunión, casi siempre
+con Rebeca**: de sus últimas 5 reservas reales, 4 fueron con ella. Las dos citas ocupan hora y la de Nohelymar se
+pierde (0 reuniones reales en la semana del 19-oct). La causa está **fuera de este repo**: AURA elige profesional dentro de
+app.clinera.io y parece tomar al primero que devuelve la API (el mismo error que ya se corrigió en la web con `repartirSlots`).
+Pendiente de López. Mientras tanto n8n **avisa** en la sala [Clinera] Comercial cuando un mismo contacto
+(correo, teléfono o nombre completo) tiene dos reuniones futuras distintas: nodos «Detectar reunión duplicada» y «Aviso reunión
+duplicada» colgados de «Elegir evento» en el workflow de Meet `FZvyK42lkQdKWcIl`, en paralelo y con `continueRegularOutput`
+(no tocan la reserva). Código y porqué: `integrations/n8n/aviso-reunion-duplicada.js`; aplicador:
+`integrations/n8n/aplicar_aviso_reunion_duplicada.py`; guardián `tests/reunion-duplicada.spec.ts`. Ojo: el webhook de turno
+llega **dos veces por reserva**, así que «la misma reunión» = mismo contacto + instante + profesional; solo mira hacia adelante
+(no conoce lo agendado antes de aplicarlo) y no detecta a quien llena el formulario con otro correo y otro teléfono.
+El ledger `reunionesRecientes` vive en el `static data` del workflow y convive con `creados` y `mqlAgenteIa`, y todo
+PUT a este workflow debe re-leer el workflow justo antes y reenviar `staticData`.
+
 # Publicar en producción: Vercel tarda ~13 min en reaccionar a un merge (21-oct-2026)
 
 **No es que el sitio no se haya publicado ni que algo esté roto: espera.** Medido el 21-oct con tres
