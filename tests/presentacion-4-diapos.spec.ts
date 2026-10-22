@@ -9,6 +9,9 @@ import { join } from "node:path";
  */
 const html = readFileSync(join(process.cwd(), "public/presentacion/index.html"), "utf8");
 
+/** Solo el texto visible: los atributos internos (data-pelicula, clases) no cuentan como jerga. */
+const texto = (h: string) => h.replace(/<[^>]+>/g, " ");
+
 const slide = (id: string) => {
   const start = html.indexOf(`id="${id}"`);
   return html.slice(start, html.indexOf("</section>", start));
@@ -17,7 +20,7 @@ const slide = (id: string) => {
 test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () => {
   test("solo existen quiénes somos, problema, las 4 letras de PMFC, beneficios y planes, en ese orden", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "exposalud", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "beneficios", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "beneficios", "planes"]);
   });
 
   test("quiénes somos: el ecosistema, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
@@ -32,81 +35,71 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).not.toContain("1.500");
   });
 
-  test("Exposalud 2026: Espacio Riesco, 10, 11 y 12 de noviembre", () => {
-    const c = slide("exposalud");
-    expect(c).toContain("data-exposalud");
-    expect(c).toContain("Exposalud 2026");
-    expect(c).toContain("Espacio Riesco");
-    for (const d of ["10", "11", "12"]) expect(c).toContain(`<b>${d}</b>`);
-  });
-
-  test("el problema: publicidad cara, vender barato, guerra de precios y la salida", () => {
+  // Ricardo, 22-oct-2026: el deck se le muestra a doctores que no saben de marketing.
+  // Una idea por diapo, palabras de todos los días, sin la sigla PMFC a la vista.
+  test("el problema: tres frases cortas", () => {
     const c = slide("problema");
-    for (const n of [1, 2, 3, 4]) expect(c).toContain(`data-problema="${n}"`);
-    expect(c).toContain("La publicidad cada vez cuesta más");
-    expect(c).toContain("Google y Meta Ads");
-    expect(c).toContain("propuesta de valor");
+    for (const n of [1, 2, 3]) expect(c).toContain(`data-problema="${n}"`);
+    expect(c).not.toContain('data-problema="4"');
+    expect(c).toContain("Los anuncios están cada vez más caros");
+    expect(c).toContain("Si cobras barato, no ganas");
+    expect(c).toContain("vender algo único");
     expect(c).not.toMatch(/patentad/i);
   });
 
-  // Ricardo, 20-oct-2026: una diapo por sigla, y cada letra absorbe lo suyo
-  // (P la rentabilidad; M los resultados y el anuncio; C el software de «PMFC en acción»).
-  test("metodología PMFC: una diapo por sigla, cada una con su visual", () => {
-    const p = slide("pmfc-p"), m = slide("pmfc-m"), f = slide("pmfc-f"), c = slide("pmfc-c");
-    for (const [l, html] of [["P", p], ["M", m], ["F", f], ["C", c]] as const) {
-      expect(html).toContain(`data-pmfc="${l}"`);
-      expect(html).not.toMatch(/patentad|\b100 cl|1\.500/i);
-    }
-    // Ricardo, 20-oct-2026: botox genérico (US$ 180, margen US$ 50) vs protocolo único Lumina Face (cuesta US$ 500, se vende a US$ 2.500).
-    expect(p).toContain("deja de competir por precio");
-    expect(p).toContain("más de 10 años");
+  test("los 4 pasos: numerados, sin PMFC ni jerga a la vista", () => {
+    const ids = ["pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c"];
+    ids.forEach((id, i) => {
+      const h = slide(id);
+      expect(h).toContain(`PASO ${i + 1} DE 4`);
+      const t = texto(h);
+      expect(t).not.toMatch(/PMFC|Metodología|Framework|CPA|puja|\blead\b|SQL|conversión|película|Webhooks|API|FHIR|Roadmap|créditos/);
+      expect(h).not.toMatch(/patentad|\b100 cl|1\.500/i);
+    });
+  });
+
+  test("paso 1, qué vendes: botox común vs tratamiento único", () => {
+    const p = slide("pmfc-p");
+    expect(p).toContain("Qué vendes");
     expect(p).toContain("data-propuesta");
     expect(p).toContain('data-tratamiento="generico"');
     expect(p).toContain('data-tratamiento="lumina-face"');
-    for (const n of ["US$ 180", "US$ 50", "US$ 500", "US$ 2.500", "US$ 2.000", "40 veces"]) expect(p).toContain(n);
+    for (const n of ["US$ 50", "US$ 2.000", "40 veces"]) expect(p).toContain(n);
     expect(p).toContain("valores de referencia");
   });
 
-  test("M: del creativo al tratamiento, en dólares", () => {
+  test("paso 2, cómo llegan los pacientes: el camino y el ejemplo US$ 500 → US$ 10.000", () => {
     const m = slide("pmfc-m");
     expect(m).toContain("data-embudo");
     for (const paso of ["creativo", "clic", "evaluacion", "tratamiento"]) expect(m).toContain(`data-paso="${paso}"`);
-    expect(m).toContain("data-admin");
-    expect(m).toContain("CPA objetivo");
-    expect(m).toContain("maximizar el valor de la conversión");
-    expect(m).not.toMatch(/\$63\.405|\$34\.814|pesos chilenos/);
-    for (const n of ["US$ 65", "US$ 35", "US$ 55", "−US$ 10 en la evaluación", "+US$ 20 en la evaluación", "US$ 98", "US$ 78", "US$ 2.250", "US$ 2.449"]) expect(m).toContain(n);
     expect(m).toContain("data-pelicula");
-    expect(m).toContain("US$ 220.000");
+    expect(m).toContain("US$&nbsp;500");
+    expect(m).toContain("US$&nbsp;10.000");
+    expect(m).toContain("20 veces");
+    // Una sola escala de números: sin la tabla de anuncios ni las tarjetas de Hebe y Lumina.
+    expect(m).not.toContain("data-admin");
+    expect(m).not.toContain("data-resultado");
+    expect(m).not.toContain("US$ 220.000");
   });
 
-  test("F y C: framework con foto; Clinera con la IA agendando, el software y cómo funciona todo junto", () => {
+  test("paso 3 y 4: vender en la consulta y la secretaria con IA", () => {
     const f = slide("pmfc-f"), c = slide("pmfc-c");
-    expect(f).toContain("Framework comercial");
+    expect(f).toContain("Cómo vender");
     expect(f).toContain("framework-consulta.webp");
-    // Animación: campaña → AURA en WhatsApp → cita en Clinera → paciente con ficha de evaluación facial.
+    expect(c).toContain("secretaria con IA");
+    expect(c).toContain("también de noche");
     expect(c).toContain("data-agenda-ia");
     for (const paso of ["campana", "chat", "agenda", "ficha"]) expect(c).toContain(`data-ca="${paso}"`);
-    expect(c).toContain("Ficha de evaluación facial");
-    for (const x of ["Agenda", "Fichas", "Pagos", "Clinera Intelligence", "AURA", "CAMILA", "LIA"]) expect(c).toContain(x);
-    expect(c).toContain('data-eco="software"');
-    expect(c).toContain("Cómo funcionan juntos");
-    expect(c).toContain("Roadmap 2027: HL7 FHIR");
-    expect(c).toContain("En vivo");
-    expect(c.match(/Oct 2026/g)).toHaveLength(2);
     expect(c).not.toMatch(/open\s*factura/i);
   });
 
-  test("beneficios: costo, todo unificado y software hecho para clínicas, con el ahorro en números", () => {
+  test("beneficios: el ahorro en números y frases cortas", () => {
     const c = slide("beneficios");
     for (const b of ["costo", "unificado", "especializado"]) expect(c).toContain(`data-beneficio="${b}"`);
-    expect(c).toContain("¿Por qué contratar el");
     expect(c).toContain("Ecosistema");
-    expect(c).toContain("4 reuniones de marketing al mes");
     expect(c).toContain("Te ahorras desde US$ 470 al mes");
     expect(c).toContain("clínicas estéticas y médicas");
     expect(c).toContain("US$ 600–800/mes");
-    expect(c).toContain("entre US$ 1.000 y 1.700");
     expect(c).toContain("US$ 1.000–1.700/mes");
     expect(c).toContain("Ahorras desde US$ 470 al mes");
     expect(c).toContain("US$ 529");
@@ -114,30 +107,23 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).not.toMatch(/AgendaPro|Reservo|Medilink|Bambi/i);
   });
 
-  // Modelo nuevo (Ricardo, 18-oct-2026): Vortex y Ecosistema, con la promoción del mes.
-  test("planes: Vortex y Ecosistema, con canales y lo que incluye el marketing", () => {
+  test("planes: Vortex y Ecosistema con tres líneas cada uno", () => {
     const c = slide("planes");
     const card = (name: string) => {
       const i = c.indexOf(`<h3 class="px-name">${name}</h3>`);
-      const j = c.indexOf("</article>", i);
-      return c.slice(i, j);
+      return c.slice(i, c.indexOf("</article>", i));
     };
-    const vortex = card("Vortex");
-    const ecosistema = card("Ecosistema");
+    const vortex = card("Vortex"), eco = card("Ecosistema");
     expect(vortex).toContain("<strong>$279</strong>");
-    expect(ecosistema).toContain("<strong>$529</strong>");
-    for (const card of [vortex, ecosistema]) {
-      for (const logo of ["#ch-wa", "#ch-ig", "#ch-fb"]) expect(card).toContain(logo);
+    expect(eco).toContain("<strong>$529</strong>");
+    for (const k of [vortex, eco]) {
+      for (const logo of ["#ch-wa", "#ch-ig", "#ch-fb"]) expect(k).toContain(logo);
+      expect(k.match(/<li>/g)).toHaveLength(3);
     }
-    expect(vortex).toContain("28.000 créditos de IA");
-    for (const t of ["Campañas de performance en Facebook, Instagram y Google", "Propuesta de valor", "Framework comercial"]) {
-      expect(ecosistema).toContain(t);
-      expect(vortex).not.toContain(t);
-    }
-    expect(c).not.toContain("Promoción del mes");
-    expect(c).not.toContain("Implementación gratis");
-    expect(c).not.toContain("USD 450");
-    expect(c).toContain("Sin costo de implementación");
-    expect(c).toContain("onboarding dedicado con un ejecutivo humano en ambos planes");
+    expect(vortex).toContain("secretaria con IA");
+    expect(eco).toContain("Todo lo de Vortex");
+    expect(eco).toContain("hace tus anuncios");
+    expect(eco).toContain("reunión cada semana");
+    expect(texto(c)).not.toMatch(/créditos|conversaciones|PMFC|onboarding|implementación|Promoción/i);
   });
 });
