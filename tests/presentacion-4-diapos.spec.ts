@@ -66,18 +66,21 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     const m = slide("pmfc-m");
     expect(m).toContain("data-embudo");
     for (const paso of ["creativo", "clic", "evaluacion", "tratamiento"]) expect(m).toContain(`data-paso="${paso}"`);
-    expect(m).toContain("data-admin");
+    // Nohely, 22-oct-2026: sin la tabla del administrador de anuncios; solo lo que cuesta una venta y lo que paga el paciente.
+    expect(m).not.toContain("data-admin");
     // Ricardo, 22-oct-2026: lenguaje simple para doctores; sin jerga de agencia.
     expect(texto(m)).not.toMatch(/CPA|puja|\blead\b|SQL|conversión|película/i);
     expect(m).not.toMatch(/\$63\.405|\$34\.814|pesos chilenos/);
-    for (const n of ["US$ 65", "US$ 35", "US$ 55", "(−US$ 10)", "sobran US$ 20", "US$ 98", "US$ 78", "US$ 2.250", "US$ 2.449"]) expect(m).toContain(n);
+    for (const n of ["US$ 55", "US$ 98", "US$ 78", "US$ 2.250", "US$ 2.449"]) expect(m).toContain(n);
     expect(m).toContain("data-pelicula");
     expect(m).toContain("US$ 220.000");
   });
 
   test("F y C: framework con foto; Clinera con la IA agendando, el software y cómo funciona todo junto", () => {
     const f = slide("pmfc-f"), c = slide("pmfc-c");
-    expect(f).toContain("Framework comercial");
+    // Nohely, 22-oct-2026: «Framework comercial» no se entiende; se dice «Capacitación de ventas».
+    expect(f).toContain("Capacitación de ventas");
+    expect(texto(f)).not.toContain("Framework");
     expect(f).toContain("framework-consulta.webp");
     // Animación: campaña → AURA en WhatsApp → cita en Clinera → paciente con ficha de evaluación facial.
     expect(c).toContain("data-agenda-ia");
@@ -126,7 +129,7 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     }
     expect(vortex).toContain("~933 conversaciones");
     expect(vortex).not.toContain("créditos");
-    for (const t of ["Campañas de performance en Facebook, Instagram y Google", "Propuesta de valor", "Framework comercial"]) {
+    for (const t of ["Campañas de performance en Facebook, Instagram y Google", "Propuesta de valor", "Capacitación de ventas"]) {
       expect(ecosistema).toContain(t);
       expect(vortex).not.toContain(t);
     }

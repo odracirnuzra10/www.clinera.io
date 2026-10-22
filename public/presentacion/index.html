@@ -3118,6 +3118,9 @@
     .mk-film { margin: 0; font-size: clamp(12.5px, 1.05vw, 14.5px); line-height: 1.45; color: var(--ink-soft); }
     .mk-film strong { color: var(--ink); }
     .mk-film b { color: #047857; }
+    /* Nohely, 22-oct-2026: sin la tabla, el resultado de la sucursal es el dato grande. */
+    .mk-left .mk-film { font-size: clamp(20px, 2.2vw, 32px); line-height: 1.3; letter-spacing: -.01em; color: var(--ink-soft); padding: clamp(16px, 2vw, 28px); border: 1px solid #E9D5FF; border-radius: 20px; background: #FAF5FF; }
+    .mk-left .mk-film b { display: block; margin-top: 10px; font-size: clamp(30px, 3.6vw, 54px); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; }
     .mk-cards { display: grid; gap: clamp(8px, 1.4vh, 14px); }
     .mk-cards .rs-card h3 { margin-bottom: 4px; }
     .mk-cards .rs-result { margin: 2px 0 6px; padding: 4px 10px; font-size: clamp(12px, 1vw, 14px); }
@@ -5067,30 +5070,18 @@
 
           <div class="mk-body reveal">
             <div class="mk-left">
-              <div class="rs-admin" data-admin aria-label="Resultados reales de los anuncios de Método Hebe y Protocolo Lumina">
-                <div class="rs-admin-bar"><span>Resultados reales de nuestras clínicas</span><span>19 sept – 18 oct 2026</span></div>
-                <table>
-                  <thead><tr><th>Clínica</th><th>Pacientes interesados</th><th>Costo de cada uno</th></tr></thead>
-                  <tbody>
-                    <tr><td>Método Hebe<small>Estética corporal</small></td><td>29</td><td>US$ 65</td></tr>
-                    <tr><td>Protocolo Lumina<small>Estética facial</small></td><td>103</td><td>US$ 35</td></tr>
-                  </tbody>
-                </table>
-              </div>
-              <p class="mk-film" data-pelicula>En una sucursal: pusimos <strong>US$ 35.000</strong> en anuncios y se vendieron <strong>US$ 220.000</strong>. <b>Más de 6 veces lo que se puso.</b></p>
+              <p class="mk-film" data-pelicula>En una sucursal: se invirtieron <strong>US$ 35.000</strong> en anuncios y se vendieron <strong>US$ 220.000</strong>. <b>Más de 6 veces lo invertido.</b></p>
             </div>
 
             <div class="mk-cards">
               <article class="rs-card" data-resultado="hebe">
-                <h3>Método Hebe <em>CADA INTERESADO US$ 65 · EVALUACIÓN US$ 55</em></h3>
-                <span class="rs-result neg">La evaluación casi paga el anuncio (−US$ 10)</span>
+                <h3>Método Hebe</h3>
                 <div class="rs-bar"><span>Te cuesta cada venta</span><span class="rs-track"><i class="rs-fill cost" style="--w:4%"></i></span><b>US$ 98</b></div>
                 <div class="rs-bar"><span>El paciente paga</span><span class="rs-track"><i class="rs-fill ing" style="--w:92%"></i></span><b>US$ 2.250</b></div>
                 <span class="rs-result pos mk-x">Cada venta deja 23 veces lo que costó</span>
               </article>
               <article class="rs-card" data-resultado="lumina">
-                <h3>Protocolo Lumina <em>CADA INTERESADO US$ 35 · EVALUACIÓN US$ 55</em></h3>
-                <span class="rs-result pos">La evaluación paga el anuncio y sobran US$ 20</span>
+                <h3>Protocolo Lumina</h3>
                 <div class="rs-bar"><span>Te cuesta cada venta</span><span class="rs-track"><i class="rs-fill cost" style="--w:3%"></i></span><b>US$ 78</b></div>
                 <div class="rs-bar"><span>El paciente paga</span><span class="rs-track"><i class="rs-fill ing" style="--w:100%"></i></span><b>US$ 2.449</b></div>
                 <span class="rs-result pos mk-x">Cada venta deja 31 veces lo que costó</span>
@@ -5103,7 +5094,7 @@
       <section
         class="slide blk"
         id="pmfc-f"
-        data-name="F · Framework comercial"
+        data-name="F · Capacitación de ventas"
         aria-hidden="true"
       >
         <div class="slide-inner hr-layout pl-layout">
@@ -5111,7 +5102,7 @@
             <b class="pl-letra" data-pmfc="F" aria-hidden="true">F</b>
             <div>
               <div class="blk-eyebrow">METODOLOGÍA PMFC · 3 DE 4</div>
-              <h2 class="blk-h2">Framework comercial: <span class="blk-grad-text">cómo vender en la consulta.</span></h2>
+              <h2 class="blk-h2">Capacitación de ventas: <span class="blk-grad-text">cómo vender en la consulta.</span></h2>
               <p class="pl-lead">El anuncio trae al paciente. La venta se hace en la consulta: le enseñamos a tu equipo qué decir para que el paciente diga que sí.</p>
             </div>
           </header>
@@ -5310,7 +5301,7 @@
                 <ul>
                   <li><strong>Campañas de performance en Facebook, Instagram y Google</strong><span>Hacemos los anuncios. Tú grabas los videos, nosotros los editamos.</span></li>
                   <li><strong>Propuesta de valor</strong><span>Te ayudamos a definir qué ofrece tu clínica y cómo contarlo.</span></li>
-                  <li><strong>Framework comercial</strong><span>Le enseñamos a tu equipo a vender en la consulta.</span></li>
+                  <li><strong>Capacitación de ventas</strong><span>Le enseñamos a tu equipo a vender en la consulta.</span></li>
                   <li><strong>Reunión de marketing cada semana</strong><span>4 reuniones de marketing al mes, 1 por semana, para ver los resultados contigo.</span></li>
                 </ul>
               </div>

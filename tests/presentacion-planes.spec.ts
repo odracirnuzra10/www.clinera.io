@@ -23,7 +23,7 @@ test.describe("Planes en /presentacion", () => {
       expect(chunk).toContain(`<h3 class="px-name">${p.name}</h3>`);
       expect(chunk).toContain(`<strong>$${p.monthlyUsd}</strong>`);
     }
-    for (const b of MARKETING_BLOQUES) expect(chunk).toContain(b.titulo.replace("Facebook, Instagram y Google", "Facebook, Instagram y Google"));
+    for (const b of MARKETING_BLOQUES) expect(chunk).toContain(b.titulo.replace("Framework comercial", "Capacitación de ventas"));
     expect(chunk).not.toContain("450");
     expect(chunk).toContain("Sin costo de implementación");
     expect(chunk).toContain("onboarding dedicado con un ejecutivo humano");
