@@ -14,6 +14,25 @@
   color: #0a0a0a;
 }
 
+/* Modo tarjeta (hero de /oferta-clinicas-esteticas): solo el formulario, sin panel ni alto fijo. */
+.enTarjeta {
+  background: #fff;
+  color: #0a0a0a;
+  border: 1px solid #eaeaea;
+  border-radius: 20px;
+  box-shadow: 0 30px 70px -40px rgba(76, 29, 149, 0.35);
+  scroll-margin-top: 16px;
+}
+
+.ladoTarjeta {
+  display: flex;
+}
+
+.ladoTarjeta .contenido {
+  margin: 0 auto;
+  padding: 24px 22px;
+}
+
 /* ---------- Panel oscuro ---------- */
 .panel {
   min-height: 0;

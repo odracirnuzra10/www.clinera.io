@@ -20,14 +20,77 @@
   }
 }
 
-/* Formulario arriba: el wizard de /agenda ocupa la primera pantalla. */
-.formulario {
+/* Hero: texto a la izquierda, el formulario del wizard a la derecha (Ricardo, 22-oct). */
+.hero {
   position: relative;
+  padding: 56px 80px 48px;
+  overflow: hidden;
 }
 /* globals.css reserva 112 px arriba de la primera sección para el menú fijo.
-   Esta landing no tiene menú: el wizard parte en el borde. */
-.main > .formulario:first-child {
-  padding-top: 0;
+   Esta landing no tiene menú: se usa el padding propio del hero. */
+.main > .hero:first-child {
+  padding-top: 56px;
+}
+.heroGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 78% 62% at 46% -8%, rgba(59, 130, 246, 0.2) 0%, rgba(124, 58, 237, 0.15) 34%, rgba(217, 70, 239, 0.1) 56%, transparent 78%);
+  pointer-events: none;
+}
+.heroGrid {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
+  /* Arriba, no al centro: el formulario crece en el paso del calendario y el texto no debe saltar. */
+  align-items: start;
+  gap: 56px;
+}
+.heroGrid > :first-child {
+  padding-top: 110px;
+}
+.heroForm {
+  min-width: 0;
+}
+.h1 {
+  font-size: clamp(2.05rem, 3.35vw, 2.85rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+  margin: 20px 0 0;
+}
+.grad {
+  background: linear-gradient(90deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.tesis {
+  margin: 22px 0 0;
+  max-width: 560px;
+  font-size: 18px;
+  line-height: 1.55;
+  color: #4b5563;
+}
+.precioHero {
+  margin: 20px 0 0;
+  font-size: 17px;
+  color: #0a0a0a;
+}
+.precioHero b {
+  color: #7c3aed;
+}
+.precioHero s {
+  margin-left: 6px;
+  color: #9ca3af;
+  font-size: 15px;
+}
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
 }
 
 /* Funciones */
@@ -197,19 +260,34 @@
 }
 
 @media (max-width: 1080px) {
+  .heroGrid,
   .ofertaCaja {
     grid-template-columns: 1fr;
+  }
+  .heroGrid > :first-child {
+    padding-top: 0;
   }
   .grilla {
     grid-template-columns: 1fr 1fr;
   }
 }
 @media (max-width: 720px) {
+  .hero,
   .funciones,
   .faq,
   .oferta {
     padding-left: 20px;
     padding-right: 20px;
+  }
+  .main > .hero:first-child {
+    padding-top: 28px;
+  }
+  /* En celular el formulario va justo después del texto: sin el botón de en medio. */
+  .ctas {
+    display: none;
+  }
+  .heroGrid {
+    gap: 28px;
   }
   .grilla {
     grid-template-columns: 1fr;

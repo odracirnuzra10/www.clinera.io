@@ -101,11 +101,13 @@ software + marketing por US$ 379 al mes». **El precio público sigue en 529** (
 por eso la página es `noindex`, va en `robots-txt.ts` y no entra al sitemap (no compite con
 `/software-estetica`). Fuente única de la oferta: `src/content/oferta-estetica.ts`.
 
-- **Sin menú y con el wizard arriba (Ricardo, 22-oct):** la primera pantalla es `AgendaWizard`
-  embebido (`embebido`, `encabezado`, `sourcePath=/oferta-clinicas-esteticas`, `oferta`): boleta a
-  US$ 379 («Ahorras desde US$ 621»), datos y horario ahí mismo. Los CTA de abajo suben a `#formulario`.
-  `globals.css` le pone 112 px arriba a toda primera sección para el menú fijo: el CSS de la landing
-  lo anula. Tampoco van el flotante «Ver demo» ni el CTA móvil (`VerDemoFloat`, `StickyMobileCTA`).
+- **Sin menú; el formulario va en el hero (Ricardo, 22-oct):** el hero es el de siempre (texto a la
+  izquierda) y a la derecha, en vez del carrusel, va `AgendaWizard` en modo `tarjeta` (sin panel de
+  imágenes, sin alto de pantalla, sin `<main>` propio; `sourcePath=/oferta-clinicas-esteticas`,
+  `oferta`): boleta a US$ 379 («Ahorras desde US$ 621»), datos y horario ahí mismo. No es el wizard a
+  pantalla completa: ese primer intento (también del 22-oct) Ricardo lo rechazó. Los CTA de abajo suben
+  a `#formulario`. `globals.css` le pone 112 px arriba a toda primera sección para el menú fijo: el
+  CSS de la landing lo anula. Tampoco van el flotante «Ver demo» ni el CTA móvil.
 - La oferta llega al CRM en `servicio_interes_label` («oferta US$ 379») para que el closer la vea.
   `/agenda?oferta=estetica379` hace lo mismo; cualquier otro valor se ignora.
 - Sin link de pago: el 379 se cierra en la reunión. La inversión en anuncios se paga aparte.

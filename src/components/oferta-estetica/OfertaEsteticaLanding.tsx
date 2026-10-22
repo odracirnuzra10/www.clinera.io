@@ -2,11 +2,12 @@
 
 // /oferta-clinicas-esteticas (Ricardo, 22-oct-2026): landing de anuncios para dueños de
 // clínicas estéticas. Muestra las funciones de Clinera y cierra con la oferta
-// «software + marketing por US$ 379/mes» (`OFERTA_ESTETICA`). Sin menú: arriba va el
-// wizard de /agenda (boleta a 379, datos y horario) y los CTA de abajo suben a él.
+// «software + marketing por US$ 379/mes» (`OFERTA_ESTETICA`). Sin menú. El hero lleva el
+// texto a la izquierda y, en vez del carrusel, el formulario del wizard de /agenda como
+// tarjeta (boleta a 379, datos y horario). Los CTA de abajo suben a él.
 
 import AgendaWizard from "@/components/agenda/AgendaWizard";
-import { CtaPrimary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
+import { CtaPrimary, CtaSecondary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import AgentShowcase from "@/components/empleado-digital/AgentShowcase";
 import AuraConfirmCard from "@/components/empleado-digital/AuraConfirmCard";
 import EsteticaSection from "@/components/estetica/EsteticaSection";
@@ -51,7 +52,7 @@ export const FAQ_OFERTA = [
   },
   {
     q: "¿Cómo tomo la oferta?",
-    a: "Agenda una reunión en el formulario de arriba. En la videollamada te mostramos Clinera con el caso de tu clínica y dejamos el Ecosistema a US$ 379 al mes.",
+    a: "Agenda una reunión en el formulario del inicio de la página. En la videollamada te mostramos Clinera con el caso de tu clínica y dejamos el Ecosistema a US$ 379 al mes.",
   },
 ] as const;
 
@@ -64,17 +65,37 @@ export default function OfertaEsteticaLanding({ tzIp = "" }: { tzIp?: string }) 
   return (
     <>
       <main className={styles.main}>
-        <section id="formulario" className={styles.formulario} aria-label="Agenda tu reunión" data-oferta-wizard>
-          <AgendaWizard
-            tzIp={tzIp}
-            oferta={OFERTA_ESTETICA.id}
-            sourcePath={`/${OFERTA_ESTETICA.slug}`}
-            encabezado={{
-              titulo: "Software para clínicas estéticas + marketing por US$ 379",
-              sub: "Agenda tu reunión con Clinera",
-            }}
-            embebido
-          />
+        <section id="formulario" className={styles.hero} aria-labelledby="oferta-h1">
+          <div className={styles.heroGlow} aria-hidden />
+          <div className={styles.heroGrid}>
+            <div className="reveal">
+              <Eyebrow>Software para clínicas estéticas</Eyebrow>
+              <h1 id="oferta-h1" className={styles.h1}>
+                El <span className={styles.grad}>software para clínicas estéticas</span> que agenda, ficha y cobra por ti
+              </h1>
+              <p className={styles.tesis}>
+                Agenda, ficha facial y corporal, presupuestos, pagos y un agente de IA que atiende tu WhatsApp 24/7.
+                Todo en un solo sistema, hecho por dueños de clínicas estéticas.
+              </p>
+              <p className={styles.precioHero}>
+                Software + marketing por <b>US$ {OFERTA_ESTETICA.precioUsd}/mes</b>{" "}
+                <s>US$ {OFERTA_ESTETICA.precioRegularUsd}</s>
+              </p>
+              <div className={styles.ctas}>
+                <CtaSecondary as="a" href="#oferta" style={{ padding: "13px 22px", fontSize: 15 }}>
+                  Ver qué incluye ↓
+                </CtaSecondary>
+              </div>
+            </div>
+            <div className={styles.heroForm} data-oferta-wizard>
+              <AgendaWizard
+                tzIp={tzIp}
+                oferta={OFERTA_ESTETICA.id}
+                sourcePath={`/${OFERTA_ESTETICA.slug}`}
+                tarjeta
+              />
+            </div>
+          </div>
         </section>
 
         <Logos />

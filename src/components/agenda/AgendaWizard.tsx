@@ -89,14 +89,15 @@ export default function AgendaWizard({
   oferta = null,
   sourcePath,
   encabezado,
-  embebido = false,
+  tarjeta = false,
 }: {
   /** `source_path` propio (p. ej. la landing que lleva el wizard arriba). */
   sourcePath?: string;
   /** H1 del panel oscuro. Sin él, «Agenda tu videollamada con Clinera». */
   encabezado?: { titulo: string; sub: string };
-  /** Dentro de otra página: el lado del wizard no es `<main>` (la página ya tiene uno). */
-  embebido?: boolean;
+  /** Solo el formulario, como tarjeta dentro de otra página (hero de una landing):
+   *  sin el panel de imágenes, sin ocupar la pantalla entera y sin `<main>` propio. */
+  tarjeta?: boolean;
   /** `?oferta=estetica379` (landing /oferta-clinicas-esteticas): boleta a US$ 379 y aviso al closer. */
   oferta?: OfertaId | null;
   /** Versión de /agenda-google: atribuye a Google Ads por defecto y reporta su propio `source_path`. */
@@ -110,7 +111,8 @@ export default function AgendaWizard({
     const f = detectLeadSource();
     return google && f === "organico" ? "google-ads" : f;
   };
-  const Lado = embebido ? "div" : "main";
+  const Lado = tarjeta ? "div" : "main";
+  const raizRef = useRef<HTMLDivElement>(null);
   const [paso, setPaso] = useState<1 | 2 | 3>(1);
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
@@ -171,7 +173,9 @@ export default function AgendaWizard({
 
   function irA(n: 1 | 2 | 3) {
     setPaso(n);
-    window.scrollTo({ top: 0 });
+    // En tarjeta la página sigue: se sube solo hasta el formulario, no al tope.
+    if (tarjeta) raizRef.current?.scrollIntoView({ block: "nearest" });
+    else window.scrollTo({ top: 0 });
   }
 
   function enviarPaso1(origen?: OrigenPum) {
@@ -230,9 +234,11 @@ export default function AgendaWizard({
 
   return (
     <div
-      className={`${base.page} ${styles.pagina} ${paso > 1 || booking ? styles.avanzado : ""} ${paso === 1 ? styles.inicio : ""} ${enCalendario || booking ? styles.calendario : ""}`}
+      ref={raizRef}
+      className={`${base.page} ${tarjeta ? styles.enTarjeta : styles.pagina} ${paso > 1 || booking ? styles.avanzado : ""} ${paso === 1 ? styles.inicio : ""} ${enCalendario || booking ? styles.calendario : ""}`}
       data-paso={paso}
     >
+      {!tarjeta && (
       <aside className={styles.panel} data-agenda-casos>
         <div className={styles.marco}>
           {ECOSISTEMA_SLIDES.map((sl, i) => (
@@ -254,6 +260,7 @@ export default function AgendaWizard({
           <span className={styles.chipSub}>{encabezado?.sub ?? "Así trabajamos contigo"}</span>
         </h1>
       </aside>
+      )}
 
       {pum && (
         <div
@@ -267,7 +274,7 @@ export default function AgendaWizard({
         </div>
       )}
 
-      <Lado className={styles.lado}>
+      <Lado className={tarjeta ? styles.ladoTarjeta : styles.lado}>
         <div className={styles.contenido}>
           <div className={styles.tarjeta} id="agendar">
             {booking ? (
