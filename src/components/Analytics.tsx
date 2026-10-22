@@ -17,6 +17,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-NXT8BGS9');})();`;
 
+// ChatGPT Ads (OpenAI): mismo corte de hosts que GTM, para no mandarle dev ni previews.
+export const OPENAI_PIXEL_ID = "1vQmMjTREnDQTVn6wwWB3B";
+const OAIQ_SRC = `(function(){var h=location.hostname;if(h==='localhost'||h==='127.0.0.1'||/\\.vercel\\.app$/.test(h))return;
+!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init",{pixelId:"${OPENAI_PIXEL_ID}",debug:true});})();`;
+
 const CLARITY_SRC = `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
 t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
 y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)
@@ -359,6 +365,9 @@ export default function Analytics() {
           alt=""
         />
       </noscript>
+
+      {/* ChatGPT Ads pixel (OpenAI) */}
+      <script id="oaiq" dangerouslySetInnerHTML={{ __html: OAIQ_SRC }} />
 
       {/* Microsoft Clarity */}
       <script id="clarity" dangerouslySetInnerHTML={{ __html: CLARITY_SRC }} />

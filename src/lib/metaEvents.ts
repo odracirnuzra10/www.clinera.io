@@ -174,6 +174,11 @@ export const LEAD_VALUE_USD = 3;
 
 export async function fireLeadEvent(opts: { eventId: string; contact?: ContactPII; customData?: Record<string, unknown> }): Promise<void> {
   if (alreadyFired("cl_lead_fired")) return;
+  // ChatGPT Ads: misma conversión que el Lead de Meta (rellenó el formulario).
+  if (typeof window !== "undefined") {
+    const oaiq = (window as unknown as { oaiq?: (...a: unknown[]) => void }).oaiq;
+    if (typeof oaiq === "function") oaiq("measure", "lead_created", { type: "customer_action" });
+  }
   const userData = opts.contact ? await hashContact(opts.contact) : undefined;
   await sendMetaEvent({
     eventName: "Lead",
