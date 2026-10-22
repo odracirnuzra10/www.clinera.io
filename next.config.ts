@@ -27,6 +27,7 @@ const nextConfig: NextConfig = {
     // │ Microsoft Clarity   │ script-src + connect-src                   │
     // │ Hotjar              │ script-src + frame-src + connect-src       │
     // │ LinkedIn Insight    │ script-src                                 │
+    // │ ChatGPT Ads (OpenAI)│ script-src (bzrcdn.openai.com)             │
     // │ Stripe              │ script-src + frame-src (js.stripe.com)     │
     // │ Cal.com             │ script-src + frame-src (app.cal.com)       │
     // │ Calendly            │ script-src + frame-src (*.calendly.com)    │
@@ -64,6 +65,8 @@ const nextConfig: NextConfig = {
         "https://assets.calendly.com https://*.calendly.com",
         // SavvyCal embed
         "https://embed.savvycal.com https://*.savvycal.com",
+        // ChatGPT Ads pixel (OpenAI); los eventos van a bzr.openai.com por connect-src https:
+        "https://bzrcdn.openai.com",
         // App propia (Clinera dashboard)
         "https://app.clinera.io",
       ].join(" "),
