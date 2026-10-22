@@ -378,10 +378,18 @@ la recomendación del partner + CTA a reunión.
 > funcional, cronología con el incidente de las 19:48Z):
 > `docs/handoff-fiscalizacion-embudo-meta-2026-09-09-tarde.md`. La del 26-ago quedó superada
 > en §1, §3, §4 y §10-P1; se conserva como foto de ese día.
+> **Ojo (22-oct-2026): el código VIVO de W1 no es el de este repo.** Desde
+> el 16-oct vive en `baserow/sales/n8n/w1-mapear-etapa.js` y se aplica con
+> `baserow/sales/n8n/aplicar_silenciar_nql_w1.py`. El vivo manda NEW como
+> `Lead` US$ 1, omite NQL y NO rellena etapas. No correr
+> `integrations/n8n/aplicar_w1_mapeo.py`: revertiría todo eso. Valores del
+> 22-oct (en los dos archivos): SQL US$ 30 (= agendó, también por la web) y
+> Purchase Vortex 279 · Ecosistema 379.
+>
 > Embudo CRM→CAPI: workflow `W1SybZZSEZqAItIt`. El mapeo canónico
 > (Ricardo, 10-sep) vive en
 > `integrations/n8n/crm-etapas-meta-capi.mapeo.js`: Nuevo $0 · MQL $10 ·
-> SQL $100 · HOT $200 · Customer = valor del plan · NQL $0 (no responde).
+> SQL $30 (desde el 22-oct; antes $100) · Customer = valor del plan · NQL $0 (no responde).
 > Sin PQL, SCREENING, NoContesta ni `Lead`. W1 se reaplicó el 2026-09-10.
 > Formulario = `Nuevo` US$ 0. MQL US$ 10 = el closer verifica que es real.
 > Las campañas activas deben optimizar el evento `MQL`, no `SQL`.
@@ -477,7 +485,7 @@ la recomendación del partner + CTA a reunión.
 |---|---|---|---|
 | `Nuevo` | rellenó el formulario (Instant Form o alta) | US$ 0 | W1 (`NEW`); Sub A ya no manda `Lead` |
 | `MQL` | closer verifica que el lead es **real** (paso anterior a SQL) | US$ 10 | W1 si el stage es `MQL`. Campañas activas optimizan este evento |
-| `SQL` | closer → SQL (`MEETING`): **la videollamada se realizó**. Agendar no es SQL; asistir sí | US$ 100 | W1 |
+| `SQL` | **agendó la reunión** (`MEETING`; Ricardo, 22-oct: cita agendada en Clinera = SQL, también las de la web) | US$ 30 | W1 |
 | `NQL` | closer → no responde | US$ 0 | W1 |
 | `Purchase` | Customer | valor del plan | W1 (`planClinera`) |
 
@@ -534,9 +542,9 @@ siendo el valor interno de SQL. `SQL_Plus` no se tocó (sigue sin emitir).
 |---|---|---|---|
 | `NEW` | `Nuevo` | 0 | rellenó el formulario; también si lo escribió n8n (`API`) |
 | `MQL` | `MQL` | 10 | closer verifica que es real |
-| `MEETING` | `SQL` | 100 | alias `SQL` — calificado (la demo ocurrió) |
+| `MEETING` | `SQL` | 30 | alias `SQL` — agendó la reunión (22-oct) |
 | `NQL` | `NQL` | 0 | no responde |
-| `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 | |
+| `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ECOSISTEMA 379 (22-oct); ATLAS 379 / SUMMIT 479 sólo negocios viejos; vacío → 279 | |
 | `PQL` / `SCREENING` / `SQL_Plus` / `HOT` / `PROPOSAL` | — | — | no emiten |
 
 `event_id` = `{opportunityId}_{stage}`. `user_data.lead_id` = `leadgenId` (entero,
@@ -579,7 +587,7 @@ jsCode entero con stubs. Segunda trampa del mismo workflow: el IF
 sino porque los workflows de SQL/SQL+ marcan Baserow 152 y un feed en
 `baserow` (`sales/n8n/gads-conversiones-sql-csv.js`) se lo sirve a Google
 Ads Data Manager por HTTPS. Los montos canónicos vivos son Nuevo 0 /
-MQL 10 / SQL 100 / NQL 0. El feed de GAds usa SQL 100 y `SQL+` 200
+MQL 10 / SQL 30 / NQL 0 (Meta; SQL era 100 hasta el 22-oct). El feed de GAds usa SQL 100 y `SQL+` 200
 (sin cambio). `HOT` ya no se emite. Detalle en
 `baserow/sales/HANDOFF.md`.
 
@@ -703,8 +711,8 @@ Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
   Meta a `/agenda`. Guardián: `tests/agenda-google.spec.ts`.
 - **Eventos del sitio (pixel `2251201709002818` vía GTM):** `Lead` US$ 3 al
   enviar el paso 2 (datos); `ViewContent` al elegir servicio; `MQL` US$ 10 al agendar;
-  `SQL` US$ 30 (asistió, es real y califica) lo emite el CRM, **no el sitio**, y
-  hoy W1 de n8n manda SQL US$ 100 al pixel viejo: cambiarlo es en n8n; `Cliente`
+  `SQL` US$ 30 (agendó; desde el 22-oct también lo manda W1) lo emite el CRM, **no el sitio**,
+  al pixel viejo; `Cliente`
   = valor del plan vía Stripe (`planVigenteDe` en `meta-purchase.ts`).
 - **Pendientes que no se resuelven en este repo:** campo «servicio de interés»
   en Twenty y su mapeo en n8n; si la inversión publicitaria va incluida (FAQ de
