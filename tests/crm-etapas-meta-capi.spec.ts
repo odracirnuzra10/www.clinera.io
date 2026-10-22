@@ -50,8 +50,8 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
     expect(mapearEtapa("Nuevo")).toEqual({ event_name: "Nuevo", value: 0 });
     expect(mapearEtapa("PQL")).toEqual({ skip: true, motivo: "etapa_eliminada" });
     expect(mapearEtapa("MQL")).toEqual({ event_name: "MQL", value: 10 });
-    expect(mapearEtapa("MEETING")).toEqual({ event_name: "SQL", value: 100 });
-    expect(mapearEtapa("SQL")).toEqual({ event_name: "SQL", value: 100 });
+    expect(mapearEtapa("MEETING")).toEqual({ event_name: "SQL", value: 30 });
+    expect(mapearEtapa("SQL")).toEqual({ event_name: "SQL", value: 30 });
     expect(mapearEtapa("PROPOSAL")).toEqual({ skip: true, motivo: "etapa_eliminada" });
     expect(mapearEtapa("HOT")).toEqual({ skip: true, motivo: "etapa_eliminada" });
     expect(mapearEtapa("NQL")).toEqual({ event_name: "NQL", value: 0 });
@@ -63,6 +63,10 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
     });
     expect(valorPurchase("")).toBe(279);
     expect(valorPurchase("ATLAS")).toBe(379);
+    // Ricardo, 2026-10-22: Vortex 279 y Ecosistema 379.
+    expect(valorPurchase("VORTEX")).toBe(279);
+    expect(valorPurchase("ECOSISTEMA")).toBe(379);
+    expect(valorPurchase("Ecosistema")).toBe(379);
   });
 
   test("SCREENING y lo demás no emiten", () => {
@@ -110,7 +114,7 @@ test.describe("W1 embudo canónico (Nuevo → Customer)", () => {
   test("AGENTS.md y el README no tienen dos tablas de mapeo distintas", () => {
     expect(AGENTS).toContain("| `NEW` | `Nuevo` | 0 |");
     expect(AGENTS).toContain("| `MQL` | `MQL` | 10 |");
-    expect(AGENTS).toContain("| `MEETING` | `SQL` | 100 |");
+    expect(AGENTS).toContain("| `MEETING` | `SQL` | 30 |");
     expect(AGENTS).not.toContain("| `PROPOSAL` | `HOT` | 200 |");
     expect(AGENTS).toContain("| `PQL` / `SCREENING` / `SQL_Plus`");
     expect(AGENTS).toContain("| `NQL` | `NQL` | 0 |");
@@ -309,7 +313,7 @@ test.describe("W1 nodo completo: lo que leen los nodos siguientes", () => {
       custom_data: { value: 10, lead_stage: "MQL", opportunity_id: "opp-salto" },
     });
     expect(sql.implicita).toBe(false);
-    expect(sql.value).toBe(100);
+    expect(sql.value).toBe(30);
     expect(sql.event_id).toBe("opp-salto_MEETING");
     expect(sql.ledgerKey).toBe("SQL:opp-salto");
     expect(sql.payload.data[0].custom_data.lead_stage).toBe("MEETING");
@@ -353,7 +357,7 @@ test.describe("W1 nodo completo: lo que leen los nodos siguientes", () => {
       webhook("CUSTOMER", { id: "opp-c", email: "a@b.cl", planClinera: "SUMMIT" }),
     ]);
     expect(out.map((i) => i.json.evento)).toEqual(["MQL", "SQL", "Purchase"]);
-    expect(out.map((i) => i.json.value)).toEqual([10, 100, 479]);
+    expect(out.map((i) => i.json.value)).toEqual([10, 30, 479]);
     expect(out.map((i) => i.json.event_id)).toEqual([
       "opp-c_MQL",
       "opp-c_MEETING",

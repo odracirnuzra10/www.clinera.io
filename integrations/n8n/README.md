@@ -33,7 +33,7 @@ El embudo tiene los mismos estados en CRM y en el pixel
 |---|---|---|---|
 | **Nuevo** | rellenó el formulario (Instant Form o wizard) | W1; Sub A ya no manda `Lead` | US$ 0 |
 | **MQL** | closer verifica que el lead es real (paso anterior a SQL) | W1 si el stage es `MQL`. Campañas activas optimizan este evento | US$ 10 |
-| **SQL** | closer → SQL (`MEETING`) **cuando la videollamada se realizó**. Agendar y no asistir = sigue MQL | W1 | US$ 100 |
+| **SQL** | `MEETING`: **agendó la reunión** (Ricardo, 22-oct: cita agendada en Clinera = SQL, también las de la web) | W1 | US$ 30 |
 | **NQL** | closer → no responde | W1 | US$ 0 |
 | **Purchase** | Customer | W1 (`planClinera`) | valor del plan |
 
@@ -354,8 +354,8 @@ en Twenty: las filas pasan a `NQL` **antes** de borrar la opción.
 |---|---|---|---|
 | `NEW` | `Nuevo` | 0 | rellenó el formulario; también si lo escribió n8n |
 | `MQL` | `MQL` | 10 | closer verifica que es real |
-| `MEETING` | `SQL` | 100 | alias `SQL` — calificado (la demo ocurrió) |
-| `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ATLAS 379 / SUMMIT 479; vacío → 279 | |
+| `MEETING` | `SQL` | 30 | alias `SQL` — agendó la reunión (22-oct) |
+| `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ECOSISTEMA 379 (22-oct); ATLAS 379 / SUMMIT 479 sólo negocios viejos; vacío → 279 | |
 | `NQL` | `NQL` | 0 | no responde |
 | `PQL` / `SCREENING` / `SQL_Plus` / `HOT` / `PROPOSAL` | — | — | no emiten |
 
@@ -418,7 +418,7 @@ se ve en el tablero. El mapa del workspace OACG es:
 |---|---|---|
 | `NEW` | Nuevo | `Nuevo` / 0 |
 | `MQL` | MQL | `MQL` / 10 |
-| `MEETING` | SQL | `SQL` / 100 |
+| `MEETING` | SQL | `SQL` / 30 |
 | `CUSTOMER` | Customer | `Purchase` / planClinera |
 | `NQL` | NQL · No responde | `NQL` / 0 |
 
