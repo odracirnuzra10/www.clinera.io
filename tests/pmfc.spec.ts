@@ -24,14 +24,14 @@ test.describe("Metodología PMFC", () => {
     expect(body).not.toMatch(/patentad|implementación de USD|\b(hacé|pegás|agendá)\b/i);
   });
 
-  test("/planes y el deck también hablan PMFC", async ({ page, request }) => {
+  test("/planes habla PMFC y el deck sigue sus 4 pasos", async ({ page, request }) => {
     await page.goto("/planes");
     await expect(page.locator("[data-pmfc]")).toBeVisible();
     await expect(page.locator("[data-pmfc-caso]")).toHaveCount(0);
     await expect(page.locator("main")).toContainText(/PMFC completo/i);
     const html = await (await request.get("/presentacion/index.html")).text();
-    expect(html).toContain("PMFC completo");
-    expect(html).toContain("La C de PMFC");
+    // Ricardo, 22-oct-2026: el deck para doctores no muestra la sigla; los 4 pasos siguen el orden P-M-F-C.
+    for (const id of ["pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c"]) expect(html).toContain(`id="${id}"`);
     expect(html).not.toMatch(/patentad/i);
   });
 });

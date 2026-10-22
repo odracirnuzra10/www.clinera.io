@@ -3118,6 +3118,17 @@
     .mk-film { margin: 0; font-size: clamp(12.5px, 1.05vw, 14.5px); line-height: 1.45; color: var(--ink-soft); }
     .mk-film strong { color: var(--ink); }
     .mk-film b { color: #047857; }
+    /* Deck simple (Ricardo, 22-oct-2026): una idea por diapo, para doctores que no saben de marketing. */
+    .pb-simple { grid-template-columns: minmax(0, 1fr); max-width: 900px; }
+    .pb-simple strong { font-size: clamp(24px, 3vw, 44px); }
+    .vp-solo { grid-template-columns: minmax(0, 1fr); }
+    .vp-solo b { font-size: clamp(30px, 3.4vw, 48px); }
+    .mk-film-solo { margin: 0; max-width: 900px; font-size: clamp(24px, 2.8vw, 40px); line-height: 1.25; letter-spacing: -.01em; color: var(--ink-soft); padding: clamp(18px, 2.4vw, 32px); border: 1px solid #E9D5FF; border-radius: 22px; background: #FAF5FF; }
+    .mk-film-solo strong { color: var(--ink); }
+    .mk-film-solo b { display: block; margin-top: 8px; font-size: clamp(34px, 4.4vw, 64px); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; color: #047857; }
+    .pl-foto-solo { max-width: 820px; max-height: 52vh; }
+    .bn-card strong { font-size: clamp(18px, 1.7vw, 24px); }
+    #planes .px-feats li { font-size: clamp(15px, 1.3vw, 19px); }
     /* Nohely, 22-oct-2026: sin la tabla, el resultado de la sucursal es el dato grande. */
     .mk-left .mk-film { font-size: clamp(20px, 2.2vw, 32px); line-height: 1.3; letter-spacing: -.01em; color: var(--ink-soft); padding: clamp(16px, 2vw, 28px); border: 1px solid #E9D5FF; border-radius: 20px; background: #FAF5FF; }
     .mk-left .mk-film b { display: block; margin-top: 10px; font-size: clamp(30px, 3.6vw, 54px); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; }
@@ -4994,14 +5005,13 @@
         <div class="slide-inner hr-layout pb-layout">
           <header class="hr-head">
             <div class="blk-eyebrow">EL PROBLEMA</div>
-            <h2 class="blk-h2">Anuncios más caros, <span class="blk-grad-text">menos ganancia.</span></h2>
+            <h2 class="blk-h2">Hoy es más difícil <span class="blk-grad-text">ganar plata.</span></h2>
           </header>
 
-          <ol class="pb-list reveal" aria-label="El problema de las clínicas">
-            <li data-problema="1"><strong>Los anuncios cada vez cuestan más.</strong><span>Todas las clínicas ponen anuncios en Instagram, Facebook y Google. Hay más competencia y el anuncio sale más caro.</span></li>
-            <li data-problema="2"><strong>Cobrar barato no alcanza.</strong><span>Los insumos, los sueldos y los anuncios se comen lo que cobras. Muchas veces terminas perdiendo plata.</span></li>
-            <li data-problema="3"><strong>Bajar precios trae al paciente equivocado.</strong><span>El que solo busca la oferta paga la oferta, se queja y no vuelve.</span></li>
-            <li data-problema="4" class="pb-salida"><strong>La salida: una propuesta de valor.</strong><span>Ofrece algo que otros no tienen y podrás cobrar más. Con esa ganancia haces crecer tu clínica.</span></li>
+          <ol class="pb-list pb-simple reveal" aria-label="El problema de las clínicas">
+            <li data-problema="1"><strong>Los anuncios están cada vez más caros.</strong></li>
+            <li data-problema="2"><strong>Si cobras barato, no ganas.</strong></li>
+            <li data-problema="3" class="pb-salida"><strong>La salida: vender algo único.</strong></li>
           </ol>
         </div>
       </section>
@@ -5009,20 +5019,20 @@
       <section
         class="slide blk"
         id="pmfc-p"
-        data-name="P · Propuesta de valor"
+        data-name="1 · Qué vendes"
         aria-hidden="true"
       >
         <div class="slide-inner hr-layout pl-layout pl-p">
           <header class="pl-head">
-            <b class="pl-letra" data-pmfc="P" aria-hidden="true">P</b>
+            <b class="pl-letra" data-pmfc="P" aria-hidden="true">1</b>
             <div>
-              <div class="blk-eyebrow">METODOLOGÍA PMFC · 1 DE 4</div>
-              <h2 class="blk-h2">Propuesta de valor: <span class="blk-grad-text">deja de competir por precio.</span></h2>
-              <p class="pl-lead">Un tratamiento común se compara por precio. Un tratamiento único, con más sesiones, se cobra más caro y te deja más ganancia. Te ayudamos a crearlo: tenemos más de 10 años de experiencia.</p>
+              <div class="blk-eyebrow">PASO 1 DE 4</div>
+              <h2 class="blk-h2">Qué vendes: <span class="blk-grad-text">algo único.</span></h2>
+              <p class="pl-lead">Si vendes lo mismo que todos, compites por precio. Si vendes algo único, cobras más.</p>
             </div>
           </header>
 
-          <div class="vp-body reveal" data-propuesta aria-label="Botox común: se vende a US$ 180 y deja US$ 50 de ganancia. Protocolo Lumina Face: cuesta US$ 500, se vende a US$ 2.500 y deja US$ 2.000 de ganancia">
+          <div class="vp-body reveal" data-propuesta aria-label="Botox común: te deja US$ 50 por paciente. Tratamiento único: te deja US$ 2.000 por paciente">
             <div class="vp-row" data-tratamiento="generico">
               <div class="vp-lbl"><strong>Botox común</strong><span>Lo vende cualquier clínica · US$ 180</span></div>
               <div class="vp-track"><i class="vp-cost" style="--w:5.2%"></i><i class="vp-gain gen" style="--w:2%"></i></div>
@@ -5033,12 +5043,8 @@
               <div class="vp-track"><i class="vp-cost" style="--w:20%"><em>US$ 500</em></i><i class="vp-gain con" style="--w:80%"><em>Ganas US$ 2.000</em></i></div>
               <div class="vp-out vp-out-con"><b>US$ 2.000</b><span>de ganancia</span></div>
             </div>
-            <div class="vp-legend"><span><i class="vp-cost"></i>Lo que te cuesta</span><span><i class="vp-gain con"></i>Lo que ganas por paciente</span></div>
-
-            <ul class="vp-facts">
-              <li><b>40 veces</b><span>más ganancia por paciente</span></li>
-              <li><b>1 paciente</b><span>de Lumina Face te deja lo mismo que 40 de botox</span></li>
-              <li><b>Reinviertes</b><span>esa ganancia en anuncios y en nuevas sucursales</span></li>
+            <ul class="vp-facts vp-solo">
+              <li><b>40 veces más</b><span>ganancia por cada paciente</span></li>
             </ul>
           </div>
           <p class="rn-note">Ejemplo con valores de referencia.</p>
@@ -5048,93 +5054,65 @@
       <section
         class="slide blk"
         id="pmfc-m"
-        data-name="M · Marketing"
+        data-name="2 · Cómo llegan los pacientes"
         aria-hidden="true"
       >
         <div class="slide-inner hr-layout pl-layout pl-m">
           <header class="pl-head">
-            <b class="pl-letra" data-pmfc="M" aria-hidden="true">M</b>
+            <b class="pl-letra" data-pmfc="M" aria-hidden="true">2</b>
             <div>
-              <div class="blk-eyebrow">METODOLOGÍA PMFC · 2 DE 4</div>
-              <h2 class="blk-h2">Marketing: <span class="blk-grad-text">los anuncios se pagan solos.</span></h2>
-              <p class="pl-lead">Hacemos tus anuncios en Instagram, Facebook y Google. El anuncio trae al paciente, el paciente paga su evaluación y después su tratamiento. Te entregamos los anuncios listos y nos reunimos contigo cada semana.</p>
+              <div class="blk-eyebrow">PASO 2 DE 4</div>
+              <h2 class="blk-h2">Cómo llegan <span class="blk-grad-text">los pacientes.</span></h2>
+              <p class="pl-lead">Nosotros hacemos tus anuncios.</p>
             </div>
           </header>
 
           <ol class="fn-steps reveal" data-embudo aria-label="Del anuncio a la venta: el anuncio, el mensaje, la evaluación y el tratamiento">
-            <li data-paso="creativo"><span class="fn-ad" aria-hidden="true"><i>HEBE</i><b></b></span><strong>El anuncio</strong><span>Un video que llama la atención</span></li>
-            <li data-paso="clic"><span class="fn-ico" aria-hidden="true">👆</span><strong>El paciente escribe</strong><span>y reserva su hora</span></li>
-            <li data-paso="evaluacion"><span class="fn-ico" aria-hidden="true">🩺</span><strong>Paga la evaluación</strong><span>US$ 55</span></li>
-            <li data-paso="tratamiento"><span class="fn-ico" aria-hidden="true">✨</span><strong>Paga el tratamiento</strong><span>Entre US$ 2.250 y 2.449</span></li>
+            <li data-paso="creativo"><span class="fn-ad" aria-hidden="true"><i>HEBE</i><b></b></span><strong>Ve tu anuncio</strong><span>en Instagram o Facebook</span></li>
+            <li data-paso="clic"><span class="fn-ico" aria-hidden="true">👆</span><strong>El paciente escribe</strong><span>y pide hora</span></li>
+            <li data-paso="evaluacion"><span class="fn-ico" aria-hidden="true">🩺</span><strong>Viene a evaluarse</strong><span>y paga la evaluación</span></li>
+            <li data-paso="tratamiento"><span class="fn-ico" aria-hidden="true">✨</span><strong>Compra el tratamiento</strong><span>y tú ganas</span></li>
           </ol>
 
-          <div class="mk-body reveal">
-            <div class="mk-left">
-              <p class="mk-film" data-pelicula>Por ejemplo: inviertes <strong>US$&nbsp;500</strong> en anuncios y vendes <strong>US$&nbsp;10.000</strong>. <b>20 veces lo invertido.</b></p>
-            </div>
-
-            <div class="mk-cards">
-              <article class="rs-card" data-resultado="hebe">
-                <h3>Método Hebe</h3>
-                <div class="rs-bar"><span>Te cuesta cada venta</span><span class="rs-track"><i class="rs-fill cost" style="--w:4%"></i></span><b>US$ 98</b></div>
-                <div class="rs-bar"><span>El paciente paga</span><span class="rs-track"><i class="rs-fill ing" style="--w:92%"></i></span><b>US$ 2.250</b></div>
-                <span class="rs-result pos mk-x">Cada venta deja 23 veces lo que costó</span>
-              </article>
-              <article class="rs-card" data-resultado="lumina">
-                <h3>Protocolo Lumina</h3>
-                <div class="rs-bar"><span>Te cuesta cada venta</span><span class="rs-track"><i class="rs-fill cost" style="--w:3%"></i></span><b>US$ 78</b></div>
-                <div class="rs-bar"><span>El paciente paga</span><span class="rs-track"><i class="rs-fill ing" style="--w:100%"></i></span><b>US$ 2.449</b></div>
-                <span class="rs-result pos mk-x">Cada venta deja 31 veces lo que costó</span>
-              </article>
-            </div>
-          </div>
+          <p class="mk-film mk-film-solo reveal" data-pelicula>Pones <strong>US$&nbsp;500</strong> en anuncios y vendes <strong>US$&nbsp;10.000</strong>. <b>20 veces lo que pusiste.</b></p>
         </div>
       </section>
 
       <section
         class="slide blk"
         id="pmfc-f"
-        data-name="F · Capacitación de ventas"
+        data-name="3 · Cómo vender en la consulta"
         aria-hidden="true"
       >
-        <div class="slide-inner hr-layout pl-layout">
+        <div class="slide-inner hr-layout pl-layout pl-f">
           <header class="pl-head">
-            <b class="pl-letra" data-pmfc="F" aria-hidden="true">F</b>
+            <b class="pl-letra" data-pmfc="F" aria-hidden="true">3</b>
             <div>
-              <div class="blk-eyebrow">METODOLOGÍA PMFC · 3 DE 4</div>
-              <h2 class="blk-h2">Capacitación de ventas: <span class="blk-grad-text">cómo vender en la consulta.</span></h2>
-              <p class="pl-lead">El anuncio trae al paciente. La venta se hace en la consulta: le enseñamos a tu equipo qué decir para que el paciente diga que sí.</p>
+              <div class="blk-eyebrow">PASO 3 DE 4</div>
+              <h2 class="blk-h2">Cómo vender <span class="blk-grad-text">en la consulta.</span></h2>
+              <p class="pl-lead">Le enseñamos a tu equipo qué decir para que el paciente diga que sí.</p>
             </div>
           </header>
 
-          <div class="pl-body reveal">
-            <figure class="pl-foto">
-              <img src="/presentacion/assets/framework-consulta.webp" alt="Doctora mostrándole el plan de tratamiento a una paciente en la consulta" width="1600" height="900" loading="lazy" />
-            </figure>
-
-            <ul class="pl-points">
-              <li><strong>Vender sin presionar.</strong><span>Sin trucos.</span></li>
-              <li><strong>Explicar el valor.</strong><span>El paciente entiende qué gana con el tratamiento.</span></li>
-              <li><strong>Ofertas con fecha límite real.</strong><span>Una razón clara para decidir hoy.</span></li>
-              <li><strong>Responder las dudas.</strong><span>Cierras sin regalar tratamientos.</span></li>
-            </ul>
-          </div>
+          <figure class="pl-foto pl-foto-solo reveal">
+            <img src="/presentacion/assets/framework-consulta.webp" alt="Doctora mostrándole el plan de tratamiento a una paciente en la consulta" width="1600" height="900" loading="lazy" />
+          </figure>
         </div>
       </section>
 
       <section
         class="slide blk"
         id="pmfc-c"
-        data-name="C · Clinera"
+        data-name="4 · Quién agenda por ti"
         aria-hidden="true"
       >
         <div class="slide-inner hr-layout pl-layout pl-c">
           <header class="pl-head">
-            <b class="pl-letra" data-pmfc="C" aria-hidden="true">C</b>
+            <b class="pl-letra" data-pmfc="C" aria-hidden="true">4</b>
             <div>
-              <div class="blk-eyebrow">METODOLOGÍA PMFC · 4 DE 4</div>
-              <h2 class="blk-h2">Clinera: <span class="blk-grad-text">la IA agenda por ti.</span></h2>
-              <p class="pl-lead">El paciente ve tu anuncio y escribe por WhatsApp. AURA, nuestra asistente con IA, le da una hora. La cita queda en tu agenda y el paciente ya tiene su ficha.</p>
+              <div class="blk-eyebrow">PASO 4 DE 4</div>
+              <h2 class="blk-h2">Quién agenda por ti: <span class="blk-grad-text">una secretaria con IA.</span></h2>
+              <p class="pl-lead">Contesta WhatsApp y agenda a cualquier hora, también de noche.</p>
             </div>
           </header>
 
@@ -5182,16 +5160,6 @@
               </div>
             </li>
           </ol>
-
-          <div class="ca-foot reveal" data-eco="software">
-            <ul class="ca-feats"><li>Agenda</li><li>Fichas y odontograma</li><li>Cobros y ventas</li><li>Te responde cuánto vendiste</li></ul>
-            <div class="eco-agents ca-agents" aria-label="Asistentes con IA">
-              <span class="eco-agent eco-agent-now"><b>AURA</b> Ya disponible · contesta WhatsApp y agenda las 24 horas</span>
-              <span class="eco-agent"><b>CAMILA</b> Oct 2026 · contesta llamadas</span>
-              <span class="eco-agent"><b>LIA</b> Oct 2026 · te manda informes de la clínica</span>
-            </div>
-            <p class="eco-note">Nos encargamos de lo administrativo para que tu equipo tenga más tiempo para los pacientes.</p>
-          </div>
         </div>
       </section>
 
@@ -5204,25 +5172,22 @@
         <div class="slide-inner">
           <header class="hr-head">
             <div class="blk-eyebrow">LO QUE GANAS</div>
-            <h2 class="blk-h2">¿Por qué contratar el <span class="blk-grad-text">Ecosistema</span>?</h2>
+            <h2 class="blk-h2">¿Por qué el <span class="blk-grad-text">Ecosistema</span>?</h2>
           </header>
 
           <div class="bn-wrap reveal">
             <div class="bn-grid" aria-label="Beneficios de contratar el Ecosistema">
               <article class="bn-card" data-beneficio="costo">
-                <div class="px-kicker">Costo</div>
                 <strong>Te ahorras desde US$ 470 al mes</strong>
-                <span>Con el Ecosistema pagas US$ 529 por lo que por separado cuesta entre US$ 1.000 y 1.700.</span>
+                <span>Pagas US$ 529 por lo que por separado cuesta entre US$ 1.000 y 1.700.</span>
               </article>
               <article class="bn-card" data-beneficio="unificado">
-                <div class="px-kicker">Marketing y software juntos</div>
-                <strong>Las campañas traen al paciente y la IA lo agenda</strong>
-                <span>Los pacientes llegan por las campañas, AURA los atiende y los agenda, y la ficha, el cobro y los resultados quedan en un solo lugar.</span>
+                <strong>Todo en un solo lugar</strong>
+                <span>Anuncios, secretaria con IA, agenda y fichas.</span>
               </article>
               <article class="bn-card" data-beneficio="especializado">
-                <div class="px-kicker">Hecho para clínicas</div>
-                <strong>Un equipo y un software para clínicas estéticas y médicas</strong>
-                <span>Nació en nuestras propias clínicas. Te acompañamos con 4 reuniones de marketing al mes y una persona de nuestro equipo te enseña a usarlo.</span>
+                <strong>Hecho para clínicas estéticas y médicas</strong>
+                <span>Nació en nuestras propias clínicas.</span>
               </article>
             </div>
 
@@ -5262,10 +5227,10 @@
 
           <div class="px-grid">
             <article class="px-card" data-plan="vortex">
-              <div class="px-kicker">La C de PMFC · Solo el software</div>
+              <div class="px-kicker">Solo el software</div>
               <h3 class="px-name">Vortex</h3>
               <div class="px-monthly">
-                <div class="px-kicker">Plan mensual</div>
+                <div class="px-kicker">Al mes</div>
                 <div>
                   <strong>$279</strong>
                   <div class="px-unit">USD/mes</div>
@@ -5273,20 +5238,17 @@
               </div>
               <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-ig"/></svg>Instagram</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-fb"/></svg>Facebook</span></div>
               <ul class="px-feats">
-                <li>Hasta 10 profesionales</li>
-                <li>La IA atiende ~933 conversaciones al mes (o ~143 citas agendadas)</li>
-                <li>Agenda y fichas de la clínica</li>
-                <li>AURA contesta WhatsApp y agenda por ti</li>
-                <li>Mensajes automáticos y envíos masivos</li>
-                <li>Una persona de nuestro equipo te enseña a usarlo</li>
+                <li>Una secretaria con IA que contesta WhatsApp y agenda</li>
+                <li>Tu agenda y las fichas de tus pacientes</li>
+                <li>Te enseñamos a usarlo</li>
               </ul>
             </article>
 
             <article class="px-card is-featured" data-plan="ecosistema">
-              <div class="px-kicker">PMFC completo · Software + anuncios · Recomendado</div>
+              <div class="px-kicker">Software + anuncios · Recomendado</div>
               <h3 class="px-name">Ecosistema</h3>
               <div class="px-monthly">
-                <div class="px-kicker">Plan mensual</div>
+                <div class="px-kicker">Al mes</div>
                 <div>
                   <strong>$529</strong>
                   <div class="px-unit">USD/mes</div>
@@ -5294,21 +5256,13 @@
               </div>
               <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-ig"/></svg>Instagram</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-fb"/></svg>Facebook</span></div>
               <ul class="px-feats">
-                <li>Todo lo de Vortex, más un equipo que hace tus anuncios</li>
+                <li>Todo lo de Vortex</li>
+                <li>Un equipo que hace tus anuncios</li>
+                <li>Una reunión cada semana contigo</li>
               </ul>
-              <div class="px-mkt" aria-label="Qué incluye el marketing de performance">
-                <div class="px-kicker">Marketing: un equipo que trae pacientes a tu clínica</div>
-                <ul>
-                  <li><strong>Campañas de performance en Facebook, Instagram y Google</strong><span>Hacemos los anuncios. Tú grabas los videos, nosotros los editamos.</span></li>
-                  <li><strong>Propuesta de valor</strong><span>Te ayudamos a definir qué ofrece tu clínica y cómo contarlo.</span></li>
-                  <li><strong>Capacitación de ventas</strong><span>Le enseñamos a tu equipo a vender en la consulta.</span></li>
-                  <li><strong>Reunión de marketing cada semana</strong><span>4 reuniones de marketing al mes, 1 por semana, para ver los resultados contigo.</span></li>
-                </ul>
-              </div>
             </article>
           </div>
-          <p class="px-note">Sin costo de implementación · onboarding dedicado con un ejecutivo humano en ambos planes</p>
-          <p class="px-note" data-extras>Extras del software: profesional extra US$ 9/mes · 500 conversaciones extra US$ 15 · 5.000 créditos de IA extra US$ 15</p>
+          <p class="px-note">Sin costo de instalación</p>
         </div>
       </section>
     </main>
