@@ -73,7 +73,11 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(m).not.toMatch(/\$63\.405|\$34\.814|pesos chilenos/);
     for (const n of ["US$ 55", "US$ 98", "US$ 78", "US$ 2.250", "US$ 2.449"]) expect(m).toContain(n);
     expect(m).toContain("data-pelicula");
-    expect(m).toContain("US$ 220.000");
+    // Ricardo, 22-oct-2026: ejemplo chico, más fácil de imaginar para un doctor.
+    expect(m).toContain("US$&nbsp;500");
+    expect(m).toContain("US$&nbsp;10.000");
+    expect(m).toContain("20 veces");
+    expect(m).not.toContain("US$ 220.000");
   });
 
   test("F y C: framework con foto; Clinera con la IA agendando, el software y cómo funciona todo junto", () => {
