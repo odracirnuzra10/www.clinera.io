@@ -366,8 +366,9 @@ export default function Analytics() {
         />
       </noscript>
 
-      {/* ChatGPT Ads pixel (OpenAI) */}
-      <script id="oaiq" dangerouslySetInnerHTML={{ __html: OAIQ_SRC }} />
+      {/* ChatGPT Ads pixel (OpenAI). El id NO puede ser "oaiq": un elemento con
+          id crea window.oaiq y el snippet (if(w.oaiq)return) no carga nunca. */}
+      <script id="openai-ads-pixel" dangerouslySetInnerHTML={{ __html: OAIQ_SRC }} />
 
       {/* Microsoft Clarity */}
       <script id="clarity" dangerouslySetInnerHTML={{ __html: CLARITY_SRC }} />
