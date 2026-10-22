@@ -35,3 +35,16 @@ export function ofertaDeQuery(valor: string | string[] | undefined | null): Ofer
   const v = Array.isArray(valor) ? valor[0] : valor;
   return v === OFERTA_ESTETICA.id ? OFERTA_ESTETICA.id : null;
 }
+
+/**
+ * WhatsApp de la landing (Ricardo, 22-oct-2026): el mensaje dice que viene de Google Ads, así el
+ * equipo sabe de dónde llegó el lead aunque WhatsApp no conserve la URL. Número de ventas del sitio
+ * (el mismo de `VentasLanding`). Va en dos lugares: el hero y el cierre de la oferta.
+ */
+export const OFERTA_WHATSAPP = {
+  phone: "56985581524",
+  label: "Escríbenos por WhatsApp",
+  message: `Hola, vi su anuncio en Google Ads y quiero saber más de la oferta de software + marketing por US$ ${OFERTA_ESTETICA.precioUsd} al mes para mi clínica estética.`,
+} as const;
+
+export const OFERTA_WHATSAPP_URL = `https://wa.me/${OFERTA_WHATSAPP.phone}?text=${encodeURIComponent(OFERTA_WHATSAPP.message)}`;

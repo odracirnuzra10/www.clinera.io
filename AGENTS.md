@@ -110,6 +110,10 @@ por eso la página es `noindex`, va en `robots-txt.ts` y no entra al sitemap (no
   CSS de la landing lo anula. Tampoco van el flotante «Ver demo» ni el CTA móvil.
 - La oferta llega al CRM en `servicio_interes_label` («oferta US$ 379») para que el closer la vea.
   `/agenda?oferta=estetica379` hace lo mismo; cualquier otro valor se ignora.
+- **WhatsApp en dos CTA (Ricardo, 22-oct):** hero y cierre de la oferta, verde de marca, a
+  `wa.me/56985581524` (el número de ventas de `VentasLanding`) con el mensaje «Hola, vi su anuncio en
+  Google Ads…» (`OFERTA_WHATSAPP` en `oferta-estetica.ts`). El texto es la atribución: WhatsApp no
+  conserva la URL ni el gclid. En celular el «Ver qué incluye» se esconde y queda solo el WhatsApp.
 - Sin link de pago: el 379 se cierra en la reunión. La inversión en anuncios se paga aparte.
 - Guardián: `tests/oferta-clinicas-esteticas.spec.ts`.
 

@@ -89,8 +89,27 @@
 .ctas {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 12px;
   margin-top: 24px;
+}
+/* WhatsApp: verde de la marca, para que se reconozca de un vistazo. */
+.whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 22px;
+  border-radius: 10px;
+  background: #25d366;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: 0 10px 26px -10px rgba(37, 211, 102, 0.6);
+}
+.whatsapp:hover {
+  background: #1ebe5a;
 }
 
 /* Funciones */
@@ -282,9 +301,9 @@
   .main > .hero:first-child {
     padding-top: 28px;
   }
-  /* En celular el formulario va justo después del texto: sin el botón de en medio. */
-  .ctas {
-    display: none;
+  /* En celular el formulario va justo después del texto: solo queda el WhatsApp. */
+  .ctas [data-ver-incluye] {
+    display: none !important;
   }
   .heroGrid {
     gap: 28px;
