@@ -174,6 +174,16 @@ const nextConfig: NextConfig = {
         source: '/presentacion',
         destination: '/presentacion/index.html',
       },
+      // Ricardo, 22-oct-2026: dos versiones del deck. /presentacion-facil es la misma
+      // que /presentacion (para doctores); /presentacion-tecnica trae ROAS, CPA y el detalle.
+      {
+        source: '/presentacion-facil',
+        destination: '/presentacion/index.html',
+      },
+      {
+        source: '/presentacion-tecnica',
+        destination: '/presentacion-tecnica/index.html',
+      },
       {
         source: '/presentacion-partners',
         destination: '/presentacion-partners/index.html',
