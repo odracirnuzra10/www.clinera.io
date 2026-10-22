@@ -42,7 +42,9 @@ const crypto = require("crypto");
 
 const MONEDA = "USD";
 const VENTANA_MS = 28 * 86400000;
-const PLAN_PURCHASE = { VORTEX: 279, ATLAS: 379, SUMMIT: 479 };
+// Ricardo, 2026-10-22: Vortex 279 y Ecosistema 379. Atlas y Summit se
+// conservan sólo para negocios viejos que todavía los traen.
+const PLAN_PURCHASE = { VORTEX: 279, ECOSISTEMA: 379, ATLAS: 379, SUMMIT: 479 };
 
 function hash(v) {
   return v
@@ -71,6 +73,7 @@ function valorPurchase(planClinera) {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toUpperCase();
+  if (p.includes("ECOSISTEMA")) return PLAN_PURCHASE.ECOSISTEMA;
   if (p.includes("SUMMIT")) return PLAN_PURCHASE.SUMMIT;
   if (p.includes("ATLAS")) return PLAN_PURCHASE.ATLAS;
   return PLAN_PURCHASE.VORTEX;
@@ -81,7 +84,7 @@ function valorPurchase(planClinera) {
  *
  *   NEW / Nuevo     → Nuevo     0   rellenó el formulario
  *   MQL             → MQL      10   closer verifica que es real
- *   MEETING / SQL   → SQL     100   lead calificado (la demo se hizo)
+ *   MEETING / SQL   → SQL      30   agendó la reunión (Ricardo, 2026-10-22)
  *   CUSTOMER        → Purchase  valor del plan (vacío → 279)
  *   NQL             → NQL       0   no responde
  *
@@ -97,7 +100,7 @@ function mapearEtapa(stage, opts) {
     return { event_name: "MQL", value: 10 };
   }
   if (s === "meeting" || s === "sql") {
-    return { event_name: "SQL", value: 100 };
+    return { event_name: "SQL", value: 30 };
   }
   if (
     s === "nql" ||
@@ -173,7 +176,7 @@ function ledgerVigente(entrada, ahora) {
  */
 const ESCALERA = [
   { event_name: "MQL", value: 10, stage: "MQL" },
-  { event_name: "SQL", value: 100, stage: "MEETING" },
+  { event_name: "SQL", value: 30, stage: "MEETING" },
   { event_name: "Purchase", value: null, stage: "CUSTOMER" },
 ];
 
