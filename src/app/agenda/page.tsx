@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import AgendaWizard from "@/components/agenda/AgendaWizard";
 import { timezoneIpDelRequest } from "@/lib/timezone-ip";
+import { ofertaDeQuery } from "@/content/oferta-estetica";
 
 // `timezoneIpDelRequest()` lee headers de la request: sin esto el build intenta
 // prerenderizar la página y rompe.
@@ -21,10 +22,10 @@ export const metadata: Metadata = {
 export default async function AgendaPage({
   searchParams,
 }: {
-  searchParams: Promise<{ servicio?: string | string[] }>;
+  searchParams: Promise<{ servicio?: string | string[]; oferta?: string | string[] }>;
 }) {
   const tzIp = await timezoneIpDelRequest();
-  const { servicio } = await searchParams;
+  const { servicio, oferta } = await searchParams;
   const servicioInicial = Array.isArray(servicio) ? servicio[0] : (servicio ?? null);
-  return <AgendaWizard tzIp={tzIp} servicioInicial={servicioInicial} />;
+  return <AgendaWizard tzIp={tzIp} servicioInicial={servicioInicial} oferta={ofertaDeQuery(oferta)} />;
 }

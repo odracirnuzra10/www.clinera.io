@@ -11,6 +11,8 @@ export default function VerDemoFloat() {
   if (pathname === "/go" || pathname?.startsWith("/go/")) return null;
   // /promo: la barra del descuento ocupa el borde de abajo.
   if (pathname === "/promo") return null;
+  // Landing con el wizard arriba: el flotante taparía el formulario.
+  if (pathname === "/oferta-clinicas-esteticas") return null;
 
   return (
     <>

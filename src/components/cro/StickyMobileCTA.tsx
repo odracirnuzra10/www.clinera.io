@@ -32,6 +32,8 @@ const HIDDEN_PREFIXES = [
   "/internal",
   // /promo lleva su propia barra fija abajo.
   "/promo",
+  // Lleva el formulario arriba; el flotante mandaría a /agenda.
+  "/oferta-clinicas-esteticas",
 ];
 
 function isHiddenPath(pathname: string | null) {

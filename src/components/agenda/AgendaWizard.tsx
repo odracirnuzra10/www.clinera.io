@@ -55,6 +55,7 @@ import {
   reglaTelefono,
 } from "@/lib/telefono";
 import { trackPixel } from "@/lib/tracking";
+import { OFERTA_ESTETICA, type OfertaId } from "@/content/oferta-estetica";
 import { zonaMostrada } from "@/lib/timezone";
 import base from "@/components/estetica/EsteticaAdsLanding.module.css";
 import styles from "./AgendaWizard.module.css";
@@ -85,18 +86,31 @@ export default function AgendaWizard({
   tzIp = "",
   servicioInicial = null,
   google = false,
+  oferta = null,
+  sourcePath,
+  encabezado,
+  embebido = false,
 }: {
+  /** `source_path` propio (p. ej. la landing que lleva el wizard arriba). */
+  sourcePath?: string;
+  /** H1 del panel oscuro. Sin él, «Agenda tu videollamada con Clinera». */
+  encabezado?: { titulo: string; sub: string };
+  /** Dentro de otra página: el lado del wizard no es `<main>` (la página ya tiene uno). */
+  embebido?: boolean;
+  /** `?oferta=estetica379` (landing /oferta-clinicas-esteticas): boleta a US$ 379 y aviso al closer. */
+  oferta?: OfertaId | null;
   /** Versión de /agenda-google: atribuye a Google Ads por defecto y reporta su propio `source_path`. */
   google?: boolean;
   tzIp?: string;
   /** `?servicio=` de la URL: ya no cambia el flujo, solo se registra en el dataLayer. */
   servicioInicial?: string | null;
 }) {
-  const SOURCE_PATH = google ? SOURCE_PATH_GOOGLE : SOURCE_PATH_BASE;
+  const SOURCE_PATH = sourcePath ?? (google ? SOURCE_PATH_GOOGLE : SOURCE_PATH_BASE);
   const fuente = () => {
     const f = detectLeadSource();
     return google && f === "organico" ? "google-ads" : f;
   };
+  const Lado = embebido ? "div" : "main";
   const [paso, setPaso] = useState<1 | 2 | 3>(1);
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
@@ -111,8 +125,8 @@ export default function AgendaWizard({
   const bookingSent = useRef(false);
 
   useEffect(() => {
-    pushDL("agenda_landing_view", { source_path: SOURCE_PATH, servicio_url: servicioInicial ?? "" });
-  }, [servicioInicial, SOURCE_PATH]);
+    pushDL("agenda_landing_view", { source_path: SOURCE_PATH, servicio_url: servicioInicial ?? "", oferta: oferta ?? "" });
+  }, [servicioInicial, SOURCE_PATH, oferta]);
 
   function marcarInicio() {
     if (formStarted.current) return;
@@ -142,7 +156,7 @@ export default function AgendaWizard({
     pais: paisDePrefijo(prefix),
     cargo: "" as Form["cargo"],
     boxes: null,
-    servicio: SERVICIO,
+    servicio: oferta ? { id: SERVICIO.id, label: OFERTA_ESTETICA.etiquetaCrm } : SERVICIO,
   };
   const size = { profile: null };
   const qual = evaluateQualification(size);
@@ -236,8 +250,8 @@ export default function AgendaWizard({
           ))}
         </div>
         <h1 className={styles.chip}>
-          <span className={styles.chipTitulo}>Agenda tu videollamada con Clinera</span>
-          <span className={styles.chipSub}>Así trabajamos contigo</span>
+          <span className={styles.chipTitulo}>{encabezado?.titulo ?? "Agenda tu videollamada con Clinera"}</span>
+          <span className={styles.chipSub}>{encabezado?.sub ?? "Así trabajamos contigo"}</span>
         </h1>
       </aside>
 
@@ -253,7 +267,7 @@ export default function AgendaWizard({
         </div>
       )}
 
-      <main className={styles.lado}>
+      <Lado className={styles.lado}>
         <div className={styles.contenido}>
           <div className={styles.tarjeta} id="agendar">
             {booking ? (
@@ -285,7 +299,11 @@ export default function AgendaWizard({
                   <div data-agenda-paso="1">
                     <h2 className={styles.titulo}>Lo que te ahorras con el Ecosistema Clinera</h2>
                     <p className={styles.sub}>Marketing de performance con reunión semanal, más el software con IA, en un solo lugar.</p>
-                    <AhorroEcosistema compacto />
+                    <AhorroEcosistema
+                      compacto
+                      precioUsd={oferta ? OFERTA_ESTETICA.precioUsd : undefined}
+                      ahorroDesdeUsd={oferta ? OFERTA_ESTETICA.ahorroDesdeUsd : undefined}
+                    />
                     <DeslizarParaAhorrar onComplete={(o) => enviarPaso1(o)} />
                   </div>
                 )}
@@ -368,7 +386,7 @@ export default function AgendaWizard({
             )}
           </div>
         </div>
-      </main>
+      </Lado>
     </div>
   );
 }
