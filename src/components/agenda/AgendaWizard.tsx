@@ -87,7 +87,16 @@ export default function AgendaWizard({
   servicioInicial = null,
   google = false,
   oferta = null,
+  sourcePath,
+  encabezado,
+  embebido = false,
 }: {
+  /** `source_path` propio (p. ej. la landing que lleva el wizard arriba). */
+  sourcePath?: string;
+  /** H1 del panel oscuro. Sin él, «Agenda tu videollamada con Clinera». */
+  encabezado?: { titulo: string; sub: string };
+  /** Dentro de otra página: el lado del wizard no es `<main>` (la página ya tiene uno). */
+  embebido?: boolean;
   /** `?oferta=estetica379` (landing /oferta-clinicas-esteticas): boleta a US$ 379 y aviso al closer. */
   oferta?: OfertaId | null;
   /** Versión de /agenda-google: atribuye a Google Ads por defecto y reporta su propio `source_path`. */
@@ -96,11 +105,12 @@ export default function AgendaWizard({
   /** `?servicio=` de la URL: ya no cambia el flujo, solo se registra en el dataLayer. */
   servicioInicial?: string | null;
 }) {
-  const SOURCE_PATH = google ? SOURCE_PATH_GOOGLE : SOURCE_PATH_BASE;
+  const SOURCE_PATH = sourcePath ?? (google ? SOURCE_PATH_GOOGLE : SOURCE_PATH_BASE);
   const fuente = () => {
     const f = detectLeadSource();
     return google && f === "organico" ? "google-ads" : f;
   };
+  const Lado = embebido ? "div" : "main";
   const [paso, setPaso] = useState<1 | 2 | 3>(1);
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
@@ -240,8 +250,8 @@ export default function AgendaWizard({
           ))}
         </div>
         <h1 className={styles.chip}>
-          <span className={styles.chipTitulo}>Agenda tu videollamada con Clinera</span>
-          <span className={styles.chipSub}>Así trabajamos contigo</span>
+          <span className={styles.chipTitulo}>{encabezado?.titulo ?? "Agenda tu videollamada con Clinera"}</span>
+          <span className={styles.chipSub}>{encabezado?.sub ?? "Así trabajamos contigo"}</span>
         </h1>
       </aside>
 
@@ -257,7 +267,7 @@ export default function AgendaWizard({
         </div>
       )}
 
-      <main className={styles.lado}>
+      <Lado className={styles.lado}>
         <div className={styles.contenido}>
           <div className={styles.tarjeta} id="agendar">
             {booking ? (
@@ -376,7 +386,7 @@ export default function AgendaWizard({
             )}
           </div>
         </div>
-      </main>
+      </Lado>
     </div>
   );
 }

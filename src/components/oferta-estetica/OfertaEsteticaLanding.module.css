@@ -20,53 +20,14 @@
   }
 }
 
-.grad {
-  background: linear-gradient(90deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Hero */
-.hero {
+/* Formulario arriba: el wizard de /agenda ocupa la primera pantalla. */
+.formulario {
   position: relative;
-  padding: 80px 80px 40px;
-  overflow: hidden;
 }
-.heroGlow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 78% 62% at 46% -8%, rgba(59, 130, 246, 0.2) 0%, rgba(124, 58, 237, 0.15) 34%, rgba(217, 70, 239, 0.1) 56%, transparent 78%);
-  pointer-events: none;
-}
-.heroGrid {
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  align-items: center;
-  gap: 52px;
-}
-.h1 {
-  font-size: clamp(2.05rem, 3.35vw, 2.85rem);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.06;
-  margin: 20px 0 0;
-}
-.tesis {
-  margin: 22px 0 0;
-  max-width: 560px;
-  font-size: 18px;
-  line-height: 1.55;
-  color: #4b5563;
-}
-.ctas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 30px;
+/* globals.css reserva 112 px arriba de la primera sección para el menú fijo.
+   Esta landing no tiene menú: el wizard parte en el borde. */
+.main > .formulario:first-child {
+  padding-top: 0;
 }
 
 /* Funciones */
@@ -236,7 +197,6 @@
 }
 
 @media (max-width: 1080px) {
-  .heroGrid,
   .ofertaCaja {
     grid-template-columns: 1fr;
   }
@@ -245,15 +205,11 @@
   }
 }
 @media (max-width: 720px) {
-  .hero,
   .funciones,
   .faq,
   .oferta {
     padding-left: 20px;
     padding-right: 20px;
-  }
-  .hero {
-    padding-top: 48px;
   }
   .grilla {
     grid-template-columns: 1fr;

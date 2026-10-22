@@ -2,19 +2,16 @@
 
 // /oferta-clinicas-esteticas (Ricardo, 22-oct-2026): landing de anuncios para dueños de
 // clínicas estéticas. Muestra las funciones de Clinera y cierra con la oferta
-// «software + marketing por US$ 379/mes» (`OFERTA_ESTETICA`). Todo CTA va a
-// /agenda con `?oferta=estetica379` y la query de la visita (utm, gclid, fbclid).
+// «software + marketing por US$ 379/mes» (`OFERTA_ESTETICA`). Sin menú: arriba va el
+// wizard de /agenda (boleta a 379, datos y horario) y los CTA de abajo suben a él.
 
-import { useSyncExternalStore } from "react";
-import Link from "next/link";
-import NavV3 from "@/components/brand-v3/Nav";
-import { CtaPrimary, CtaSecondary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
+import AgendaWizard from "@/components/agenda/AgendaWizard";
+import { CtaPrimary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import AgentShowcase from "@/components/empleado-digital/AgentShowcase";
 import AuraConfirmCard from "@/components/empleado-digital/AuraConfirmCard";
 import EsteticaSection from "@/components/estetica/EsteticaSection";
 import { Logos, Testimonios, useReveal } from "@/components/home-v3/sections";
 import { IntelligencePlataformaSection } from "@/components/IntelligenceSection";
-import HeroCarousel from "@/components/plataforma/HeroCarousel";
 import { CTA_VENTAS_LABEL, MARKETING_BLOQUES, PLANES } from "@/content/planes";
 import { OFERTA_ESTETICA } from "@/content/oferta-estetica";
 import styles from "./OfertaEsteticaLanding.module.css";
@@ -54,56 +51,30 @@ export const FAQ_OFERTA = [
   },
   {
     q: "¿Cómo tomo la oferta?",
-    a: "Agenda una reunión desde esta página. En la videollamada te mostramos Clinera con el caso de tu clínica y dejamos el Ecosistema a US$ 379 al mes.",
+    a: "Agenda una reunión en el formulario de arriba. En la videollamada te mostramos Clinera con el caso de tu clínica y dejamos el Ecosistema a US$ 379 al mes.",
   },
 ] as const;
 
-function subscribe() {
-  return () => {};
-}
-function hrefCliente() {
-  const params = new URLSearchParams(window.location.search);
-  params.set("servicio", "ambas");
-  params.set("oferta", OFERTA_ESTETICA.id);
-  return `/agenda?${params.toString()}`;
-}
-function hrefServidor() {
-  return `/agenda?servicio=ambas&oferta=${OFERTA_ESTETICA.id}`;
-}
+/** Los CTA de más abajo suben al formulario: el wizard ES la parte de arriba de la página. */
+const AL_FORMULARIO = "#formulario";
 
-export default function OfertaEsteticaLanding() {
+export default function OfertaEsteticaLanding({ tzIp = "" }: { tzIp?: string }) {
   useReveal();
-  const agendaHref = useSyncExternalStore(subscribe, hrefCliente, hrefServidor);
 
   return (
     <>
-      <NavV3 ctaHref={agendaHref} ctaLabel={CTA_VENTAS_LABEL} />
       <main className={styles.main}>
-        <section className={styles.hero}>
-          <div className={styles.heroGlow} aria-hidden />
-          <div className={styles.heroGrid}>
-            <div className="reveal">
-              <Eyebrow>Software para clínicas estéticas</Eyebrow>
-              <h1 className={styles.h1}>
-                El <span className={styles.grad}>software para clínicas estéticas</span> que agenda, ficha y cobra por ti
-              </h1>
-              <p className={styles.tesis}>
-                Agenda, ficha facial y corporal, presupuestos, pagos y un agente de IA que atiende tu WhatsApp 24/7.
-                Todo en un solo sistema, hecho por dueños de clínicas estéticas.
-              </p>
-              <div className={styles.ctas}>
-                <CtaPrimary as={Link} href={agendaHref} data-cta-ventas="oferta-hero" style={{ padding: "15px 26px", fontSize: 16 }}>
-                  {CTA_VENTAS_LABEL} <span>→</span>
-                </CtaPrimary>
-                <CtaSecondary as={Link} href="#oferta" style={{ padding: "15px 26px", fontSize: 16 }}>
-                  Ver la oferta
-                </CtaSecondary>
-              </div>
-            </div>
-            <div className="reveal" style={{ minWidth: 0 }}>
-              <HeroCarousel only={["corporal", "ficha", "aura", "intelligence"]} />
-            </div>
-          </div>
+        <section id="formulario" className={styles.formulario} aria-label="Agenda tu reunión" data-oferta-wizard>
+          <AgendaWizard
+            tzIp={tzIp}
+            oferta={OFERTA_ESTETICA.id}
+            sourcePath={`/${OFERTA_ESTETICA.slug}`}
+            encabezado={{
+              titulo: "Software para clínicas estéticas + marketing por US$ 379",
+              sub: "Agenda tu reunión con Clinera",
+            }}
+            embebido
+          />
         </section>
 
         <Logos />
@@ -138,7 +109,7 @@ export default function OfertaEsteticaLanding() {
           bg="linear-gradient(180deg, #F1ECFB 0%, #F7F4FD 60%, #FAFBFC 100%)"
         />
 
-        <IntelligencePlataformaSection ctaHref={agendaHref} ctaLabel={CTA_VENTAS_LABEL} />
+        <IntelligencePlataformaSection ctaHref={AL_FORMULARIO} ctaLabel={CTA_VENTAS_LABEL} />
 
         <Testimonios />
 
@@ -169,7 +140,7 @@ export default function OfertaEsteticaLanding() {
               <p className={styles.regular}>
                 Precio regular <s>US$ {OFERTA_ESTETICA.precioRegularUsd}/mes</s>
               </p>
-              <CtaPrimary as={Link} href={agendaHref} data-cta-ventas="oferta-cierre" style={{ padding: "16px 28px", fontSize: 16 }}>
+              <CtaPrimary as="a" href={AL_FORMULARIO} data-cta-ventas="oferta-cierre" style={{ padding: "16px 28px", fontSize: 16 }}>
                 {CTA_VENTAS_LABEL} <span>→</span>
               </CtaPrimary>
               <p className={styles.letraChica}>
