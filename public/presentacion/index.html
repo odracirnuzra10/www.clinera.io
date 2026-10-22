@@ -3231,18 +3231,6 @@
     @media (max-width: 900px) { .ca-stage { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ca-stage::before, .ca-stage::after { display: none; } .ca-foot { grid-template-columns: 1fr; padding-bottom: 72px; } }
     @media (max-width: 480px) { .ca-stage { grid-template-columns: 1fr; } .ca-ad, .ca-chat, .ca-cal, .ca-ficha { height: auto; min-height: 180px; } }
     @media (max-height: 820px) and (min-width: 901px) { .pl-p .pl-lead { font-size: 13.5px; } .ca-foot .eco-note { display: none; } .vp-facts { padding-top: 8px; } }
-    /* Exposalud 2026 (Ricardo, 21-oct-2026): 10, 11 y 12 de noviembre en Espacio Riesco */
-    .ex-layout { max-width: 1120px; gap: clamp(20px, 4vh, 44px); }
-    .ex-body { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(20px, 4vw, 64px); align-items: center; }
-    .ex-dias { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(10px, 1.6vw, 20px); }
-    .ex-dias li { width: clamp(96px, 11vw, 150px); aspect-ratio: 1; border-radius: 22px; background: #fff; border: 1px solid #E9D5FF; box-shadow: 0 22px 50px -30px rgba(124, 58, 237, .6); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
-    .ex-dias b { font-family: Outfit, Inter, system-ui, sans-serif; font-size: clamp(44px, 6vw, 84px); font-weight: 800; line-height: .95; letter-spacing: -.05em; background: linear-gradient(135deg, #009FE3, #7C3AED, #C850C0); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .ex-dias span { font-family: var(--blk-mono); font-size: 12px; letter-spacing: .14em; color: var(--muted); }
-    .ex-lugar { display: flex; flex-direction: column; gap: 6px; padding-left: clamp(16px, 2vw, 28px); border-left: 2px solid var(--brand-violet); }
-    .ex-kicker { font-family: var(--blk-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--brand-violet); }
-    .ex-lugar strong { font-size: clamp(26px, 3vw, 42px); font-weight: 800; letter-spacing: -.03em; color: var(--ink); }
-    .ex-lugar span { font-size: clamp(14px, 1.2vw, 17px); color: var(--ink-soft); }
-    @media (max-width: 760px) { .ex-body { grid-template-columns: 1fr; } .ex-dias li { width: 92px; } }
     .rn-layout { max-width: 1120px; gap: clamp(14px, 2.4vh, 28px); }
     .rn-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); }
     .rn-col { border-top: 2px solid var(--brand-violet); padding-top: clamp(10px, 1.6vh, 18px); display: flex; flex-direction: column; gap: clamp(8px, 1.4vh, 14px); }
@@ -4996,34 +4984,6 @@
 
       <section
         class="slide blk"
-        id="exposalud"
-        data-name="Exposalud 2026"
-        aria-hidden="true"
-      >
-        <div class="slide-inner hr-layout ex-layout">
-          <header class="hr-head">
-            <div class="blk-eyebrow">CONÓCENOS EN PERSONA</div>
-            <h2 class="blk-h2">Estaremos en <span class="blk-grad-text">Exposalud 2026.</span></h2>
-            <p class="pl-lead">Visítanos en nuestro stand en Espacio Riesco, Santiago. Conversemos de tu clínica cara a cara.</p>
-          </header>
-
-          <div class="ex-body reveal" data-exposalud>
-            <ol class="ex-dias" aria-label="10, 11 y 12 de noviembre de 2026">
-              <li><b>10</b><span>NOV</span></li>
-              <li><b>11</b><span>NOV</span></li>
-              <li><b>12</b><span>NOV</span></li>
-            </ol>
-            <div class="ex-lugar">
-              <div class="ex-kicker">Dónde</div>
-              <strong>Espacio Riesco</strong>
-              <span>Stand de Clinera · Exposalud 2026</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section
-        class="slide blk"
         id="problema"
         data-name="El problema"
         aria-hidden="true"
@@ -5031,14 +4991,14 @@
         <div class="slide-inner hr-layout pb-layout">
           <header class="hr-head">
             <div class="blk-eyebrow">EL PROBLEMA</div>
-            <h2 class="blk-h2">Más publicidad, <span class="blk-grad-text">menos margen.</span></h2>
+            <h2 class="blk-h2">Anuncios más caros, <span class="blk-grad-text">menos ganancia.</span></h2>
           </header>
 
           <ol class="pb-list reveal" aria-label="El problema de las clínicas">
-            <li data-problema="1"><strong>La publicidad cada vez cuesta más.</strong><span>Todas las clínicas pagan Google y Meta Ads. Por oferta y demanda, el costo publicitario sube.</span></li>
-            <li data-problema="2"><strong>Vender barato no cierra la cuenta.</strong><span>El costo del tratamiento, la mano de obra y la publicidad suelen superar el precio de venta: la rentabilidad se destruye o terminas en pérdidas.</span></li>
-            <li data-problema="3"><strong>La guerra de precios atrae al paciente equivocado.</strong><span>Quien solo busca la promoción paga la promoción, se queja y no vuelve.</span></li>
-            <li data-problema="4" class="pb-salida"><strong>La salida: una propuesta de valor.</strong><span>Realza tus ventajas competitivas y te permite cobrar más. Esa utilidad la reinviertes en hacer crecer tu clínica.</span></li>
+            <li data-problema="1"><strong>Los anuncios cada vez cuestan más.</strong><span>Todas las clínicas ponen anuncios en Instagram, Facebook y Google. Hay más competencia y el anuncio sale más caro.</span></li>
+            <li data-problema="2"><strong>Cobrar barato no alcanza.</strong><span>Los insumos, los sueldos y los anuncios se comen lo que cobras. Muchas veces terminas perdiendo plata.</span></li>
+            <li data-problema="3"><strong>Bajar precios trae al paciente equivocado.</strong><span>El que solo busca la oferta paga la oferta, se queja y no vuelve.</span></li>
+            <li data-problema="4" class="pb-salida"><strong>La salida: una propuesta de valor.</strong><span>Ofrece algo que otros no tienen y podrás cobrar más. Con esa ganancia haces crecer tu clínica.</span></li>
           </ol>
         </div>
       </section>
@@ -5055,27 +5015,27 @@
             <div>
               <div class="blk-eyebrow">METODOLOGÍA PMFC · 1 DE 4</div>
               <h2 class="blk-h2">Propuesta de valor: <span class="blk-grad-text">deja de competir por precio.</span></h2>
-              <p class="pl-lead">Un tratamiento genérico se compara por precio. Un protocolo único, con más insumos y más sesiones, se cobra más caro, deja más margen y te pide menos esfuerzo. Nuestro equipo, con más de 10 años de experiencia, te ayuda a construirlo.</p>
+              <p class="pl-lead">Un tratamiento común se compara por precio. Un tratamiento único, con más sesiones, se cobra más caro y te deja más ganancia. Te ayudamos a crearlo: tenemos más de 10 años de experiencia.</p>
             </div>
           </header>
 
-          <div class="vp-body reveal" data-propuesta aria-label="Botox genérico: se vende a US$ 180 y deja US$ 50 de margen. Protocolo Lumina Face: cuesta US$ 500 producirlo, se vende a US$ 2.500 y deja US$ 2.000">
+          <div class="vp-body reveal" data-propuesta aria-label="Botox común: se vende a US$ 180 y deja US$ 50 de ganancia. Protocolo Lumina Face: cuesta US$ 500, se vende a US$ 2.500 y deja US$ 2.000 de ganancia">
             <div class="vp-row" data-tratamiento="generico">
-              <div class="vp-lbl"><strong>Botox genérico</strong><span>Lo vende cualquier clínica · US$ 180</span></div>
+              <div class="vp-lbl"><strong>Botox común</strong><span>Lo vende cualquier clínica · US$ 180</span></div>
               <div class="vp-track"><i class="vp-cost" style="--w:5.2%"></i><i class="vp-gain gen" style="--w:2%"></i></div>
-              <div class="vp-out"><b>US$ 50</b><span>de margen</span></div>
+              <div class="vp-out"><b>US$ 50</b><span>de ganancia</span></div>
             </div>
             <div class="vp-row" data-tratamiento="lumina-face">
               <div class="vp-lbl"><strong>Protocolo «Lumina Face»</strong><span>Más insumos y sesiones · US$ 2.500</span></div>
-              <div class="vp-track"><i class="vp-cost" style="--w:20%"><em>US$ 500</em></i><i class="vp-gain con" style="--w:80%"><em>Margen: US$ 2.000</em></i></div>
-              <div class="vp-out vp-out-con"><b>US$ 2.000</b><span>de margen</span></div>
+              <div class="vp-track"><i class="vp-cost" style="--w:20%"><em>US$ 500</em></i><i class="vp-gain con" style="--w:80%"><em>Ganas US$ 2.000</em></i></div>
+              <div class="vp-out vp-out-con"><b>US$ 2.000</b><span>de ganancia</span></div>
             </div>
-            <div class="vp-legend"><span><i class="vp-cost"></i>Costo de producirlo</span><span><i class="vp-gain con"></i>Margen por paciente</span></div>
+            <div class="vp-legend"><span><i class="vp-cost"></i>Lo que te cuesta</span><span><i class="vp-gain con"></i>Lo que ganas por paciente</span></div>
 
             <ul class="vp-facts">
-              <li><b>40 veces</b><span>más margen por paciente</span></li>
-              <li><b>1 paciente</b><span>de Lumina Face deja lo que 40 de botox</span></li>
-              <li><b>Reinviertes</b><span>en publicidad, tecnología y nuevas sucursales</span></li>
+              <li><b>40 veces</b><span>más ganancia por paciente</span></li>
+              <li><b>1 paciente</b><span>de Lumina Face te deja lo mismo que 40 de botox</span></li>
+              <li><b>Reinviertes</b><span>esa ganancia en anuncios y en nuevas sucursales</span></li>
             </ul>
           </div>
           <p class="rn-note">Ejemplo con valores de referencia.</p>
@@ -5093,47 +5053,47 @@
             <b class="pl-letra" data-pmfc="M" aria-hidden="true">M</b>
             <div>
               <div class="blk-eyebrow">METODOLOGÍA PMFC · 2 DE 4</div>
-              <h2 class="blk-h2">Marketing: <span class="blk-grad-text">la venta paga la campaña.</span></h2>
-              <p class="pl-lead">Campañas en Google y Meta con IA y pujas automáticas: CPA objetivo o maximizar el valor de la conversión. Creativos incluidos y una reunión por semana.</p>
+              <h2 class="blk-h2">Marketing: <span class="blk-grad-text">los anuncios se pagan solos.</span></h2>
+              <p class="pl-lead">Hacemos tus anuncios en Instagram, Facebook y Google. El anuncio trae al paciente, el paciente paga su evaluación y después su tratamiento. Te entregamos los anuncios listos y nos reunimos contigo cada semana.</p>
             </div>
           </header>
 
-          <ol class="fn-steps reveal" data-embudo aria-label="Del anuncio a la venta: creativo, clic, evaluación y tratamiento">
-            <li data-paso="creativo"><span class="fn-ad" aria-hidden="true"><i>HEBE</i><b></b></span><strong>El creativo</strong><span>Un video que detiene el scroll</span></li>
-            <li data-paso="clic"><span class="fn-ico" aria-hidden="true">👆</span><strong>Genera un clic</strong><span>El paciente reserva</span></li>
+          <ol class="fn-steps reveal" data-embudo aria-label="Del anuncio a la venta: el anuncio, el mensaje, la evaluación y el tratamiento">
+            <li data-paso="creativo"><span class="fn-ad" aria-hidden="true"><i>HEBE</i><b></b></span><strong>El anuncio</strong><span>Un video que llama la atención</span></li>
+            <li data-paso="clic"><span class="fn-ico" aria-hidden="true">👆</span><strong>El paciente escribe</strong><span>y reserva su hora</span></li>
             <li data-paso="evaluacion"><span class="fn-ico" aria-hidden="true">🩺</span><strong>Paga la evaluación</strong><span>US$ 55</span></li>
-            <li data-paso="tratamiento"><span class="fn-ico" aria-hidden="true">✨</span><strong>Paga el tratamiento</strong><span>Ticket de US$ 2.250 a 2.449</span></li>
+            <li data-paso="tratamiento"><span class="fn-ico" aria-hidden="true">✨</span><strong>Paga el tratamiento</strong><span>Entre US$ 2.250 y 2.449</span></li>
           </ol>
 
           <div class="mk-body reveal">
             <div class="mk-left">
-              <div class="rs-admin" data-admin aria-label="Administrador de anuncios: campañas con puja CPA objetivo de Método Hebe y Protocolo Lumina">
-                <div class="rs-admin-bar"><span>Administrador de anuncios</span><span>19 sept – 18 oct 2026</span></div>
+              <div class="rs-admin" data-admin aria-label="Resultados reales de los anuncios de Método Hebe y Protocolo Lumina">
+                <div class="rs-admin-bar"><span>Resultados reales de nuestras clínicas</span><span>19 sept – 18 oct 2026</span></div>
                 <table>
-                  <thead><tr><th>Campaña</th><th>Puja</th><th>Resultados</th><th>Costo por lead</th></tr></thead>
+                  <thead><tr><th>Clínica</th><th>Pacientes interesados</th><th>Costo de cada uno</th></tr></thead>
                   <tbody>
-                    <tr><td>SQL | Hebe (CPA)<small>Activa</small></td><td class="pl-puja">CPA objetivo</td><td>29</td><td>US$ 65</td></tr>
-                    <tr><td>SQL | Lumina (CPA)<small>Activa</small></td><td class="pl-puja">CPA objetivo</td><td>103</td><td>US$ 35</td></tr>
+                    <tr><td>Método Hebe<small>Estética corporal</small></td><td>29</td><td>US$ 65</td></tr>
+                    <tr><td>Protocolo Lumina<small>Estética facial</small></td><td>103</td><td>US$ 35</td></tr>
                   </tbody>
                 </table>
               </div>
-              <p class="mk-film" data-pelicula>Toda la película en una sucursal: <strong>US$ 35.000</strong> invertidos, <strong>US$ 220.000</strong> vendidos. <b>6,3 veces lo invertido.</b></p>
+              <p class="mk-film" data-pelicula>En una sucursal: pusimos <strong>US$ 35.000</strong> en anuncios y se vendieron <strong>US$ 220.000</strong>. <b>Más de 6 veces lo que se puso.</b></p>
             </div>
 
             <div class="mk-cards">
               <article class="rs-card" data-resultado="hebe">
-                <h3>Método Hebe <em>LEAD US$ 65 · EVALUACIÓN US$ 55</em></h3>
-                <span class="rs-result neg">−US$ 10 en la evaluación</span>
-                <div class="rs-bar"><span>Costo por venta</span><span class="rs-track"><i class="rs-fill cost" style="--w:4%"></i></span><b>US$ 98</b></div>
-                <div class="rs-bar"><span>Ticket promedio</span><span class="rs-track"><i class="rs-fill ing" style="--w:92%"></i></span><b>US$ 2.250</b></div>
-                <span class="rs-result pos mk-x">El ticket es 23 veces el costo por venta</span>
+                <h3>Método Hebe <em>CADA INTERESADO US$ 65 · EVALUACIÓN US$ 55</em></h3>
+                <span class="rs-result neg">La evaluación casi paga el anuncio (−US$ 10)</span>
+                <div class="rs-bar"><span>Te cuesta cada venta</span><span class="rs-track"><i class="rs-fill cost" style="--w:4%"></i></span><b>US$ 98</b></div>
+                <div class="rs-bar"><span>El paciente paga</span><span class="rs-track"><i class="rs-fill ing" style="--w:92%"></i></span><b>US$ 2.250</b></div>
+                <span class="rs-result pos mk-x">Cada venta deja 23 veces lo que costó</span>
               </article>
               <article class="rs-card" data-resultado="lumina">
-                <h3>Protocolo Lumina <em>LEAD US$ 35 · EVALUACIÓN US$ 55</em></h3>
-                <span class="rs-result pos">+US$ 20 en la evaluación</span>
-                <div class="rs-bar"><span>Costo por venta</span><span class="rs-track"><i class="rs-fill cost" style="--w:3%"></i></span><b>US$ 78</b></div>
-                <div class="rs-bar"><span>Ticket promedio</span><span class="rs-track"><i class="rs-fill ing" style="--w:100%"></i></span><b>US$ 2.449</b></div>
-                <span class="rs-result pos mk-x">El ticket es 31 veces el costo por venta</span>
+                <h3>Protocolo Lumina <em>CADA INTERESADO US$ 35 · EVALUACIÓN US$ 55</em></h3>
+                <span class="rs-result pos">La evaluación paga el anuncio y sobran US$ 20</span>
+                <div class="rs-bar"><span>Te cuesta cada venta</span><span class="rs-track"><i class="rs-fill cost" style="--w:3%"></i></span><b>US$ 78</b></div>
+                <div class="rs-bar"><span>El paciente paga</span><span class="rs-track"><i class="rs-fill ing" style="--w:100%"></i></span><b>US$ 2.449</b></div>
+                <span class="rs-result pos mk-x">Cada venta deja 31 veces lo que costó</span>
               </article>
             </div>
           </div>
@@ -5151,8 +5111,8 @@
             <b class="pl-letra" data-pmfc="F" aria-hidden="true">F</b>
             <div>
               <div class="blk-eyebrow">METODOLOGÍA PMFC · 3 DE 4</div>
-              <h2 class="blk-h2">Framework comercial: <span class="blk-grad-text">se cierra en la consulta.</span></h2>
-              <p class="pl-lead">El anuncio trae al paciente a la evaluación. La venta ocurre en la conversación: capacitamos a tus doctores y especialistas para cerrar ahí mismo.</p>
+              <h2 class="blk-h2">Framework comercial: <span class="blk-grad-text">cómo vender en la consulta.</span></h2>
+              <p class="pl-lead">El anuncio trae al paciente. La venta se hace en la consulta: le enseñamos a tu equipo qué decir para que el paciente diga que sí.</p>
             </div>
           </header>
 
@@ -5162,10 +5122,10 @@
             </figure>
 
             <ul class="pl-points">
-              <li><strong>Técnicas de venta y persuasión.</strong><span>Sin presión ni trucos.</span></li>
-              <li><strong>Urgencia, necesidad y alto valor.</strong><span>El paciente entiende qué gana al decidir hoy.</span></li>
-              <li><strong>Ofertas con fecha de cierre real.</strong><span>Una razón concreta para decidir ahora.</span></li>
-              <li><strong>Manejo de objeciones.</strong><span>Cierras sin regalar tratamientos.</span></li>
+              <li><strong>Vender sin presionar.</strong><span>Sin trucos.</span></li>
+              <li><strong>Explicar el valor.</strong><span>El paciente entiende qué gana con el tratamiento.</span></li>
+              <li><strong>Ofertas con fecha límite real.</strong><span>Una razón clara para decidir hoy.</span></li>
+              <li><strong>Responder las dudas.</strong><span>Cierras sin regalar tratamientos.</span></li>
             </ul>
           </div>
         </div>
@@ -5183,13 +5143,13 @@
             <div>
               <div class="blk-eyebrow">METODOLOGÍA PMFC · 4 DE 4</div>
               <h2 class="blk-h2">Clinera: <span class="blk-grad-text">la IA agenda por ti.</span></h2>
-              <p class="pl-lead">Conectada directo a tus campañas: el clic llega a WhatsApp, AURA agenda, la cita queda en Clinera y el lead se convierte en paciente con su ficha.</p>
+              <p class="pl-lead">El paciente ve tu anuncio y escribe por WhatsApp. AURA, nuestra asistente con IA, le da una hora. La cita queda en tu agenda y el paciente ya tiene su ficha.</p>
             </div>
           </header>
 
-          <ol class="ca-stage reveal" data-agenda-ia aria-label="Cómo funcionan juntos: de la campaña a la ficha de evaluación facial">
+          <ol class="ca-stage reveal" data-agenda-ia aria-label="Cómo funcionan juntos: del anuncio a la ficha de evaluación facial">
             <li class="ca-col" data-ca="campana">
-              <div class="ca-kicker">1 · Tu campaña</div>
+              <div class="ca-kicker">1 · Tu anuncio</div>
               <div class="ca-ad">
                 <div class="ca-ad-top"><i>L</i><span>Protocolo Lumina<small>Publicidad</small></span></div>
                 <div class="ca-ad-media"><b></b></div>
@@ -5233,13 +5193,13 @@
           </ol>
 
           <div class="ca-foot reveal" data-eco="software">
-            <ul class="ca-feats"><li>Agenda</li><li>Fichas y odontograma</li><li>Pagos y ventas</li><li>Clinera Intelligence</li><li>Webhooks + API</li></ul>
-            <div class="eco-agents ca-agents" aria-label="Empleados digitales con IA">
-              <span class="eco-agent eco-agent-now"><b>AURA</b> En vivo · responde, agenda y confirma 24/7</span>
-              <span class="eco-agent"><b>CAMILA</b> Oct 2026 · llamadas con IA</span>
-              <span class="eco-agent"><b>LIA</b> Oct 2026 · informes de la operación</span>
+            <ul class="ca-feats"><li>Agenda</li><li>Fichas y odontograma</li><li>Cobros y ventas</li><li>Te responde cuánto vendiste</li></ul>
+            <div class="eco-agents ca-agents" aria-label="Asistentes con IA">
+              <span class="eco-agent eco-agent-now"><b>AURA</b> Ya disponible · contesta WhatsApp y agenda las 24 horas</span>
+              <span class="eco-agent"><b>CAMILA</b> Oct 2026 · contesta llamadas</span>
+              <span class="eco-agent"><b>LIA</b> Oct 2026 · te manda informes de la clínica</span>
             </div>
-            <p class="eco-note">Automatizamos lo administrativo para devolverle tiempo al paciente y al equipo clínico. Roadmap 2027: HL7 FHIR e importación de datos desde otros software.</p>
+            <p class="eco-note">Nos encargamos de lo administrativo para que tu equipo tenga más tiempo para los pacientes.</p>
           </div>
         </div>
       </section>
@@ -5252,7 +5212,7 @@
       >
         <div class="slide-inner">
           <header class="hr-head">
-            <div class="blk-eyebrow">RENTABILIDAD Y MARGEN</div>
+            <div class="blk-eyebrow">LO QUE GANAS</div>
             <h2 class="blk-h2">¿Por qué contratar el <span class="blk-grad-text">Ecosistema</span>?</h2>
           </header>
 
@@ -5271,7 +5231,7 @@
               <article class="bn-card" data-beneficio="especializado">
                 <div class="px-kicker">Hecho para clínicas</div>
                 <strong>Un equipo y un software para clínicas estéticas y médicas</strong>
-                <span>Nació en nuestras propias clínicas. Te acompañamos con 4 reuniones de marketing al mes y un onboarding dedicado con un ejecutivo humano.</span>
+                <span>Nació en nuestras propias clínicas. Te acompañamos con 4 reuniones de marketing al mes y una persona de nuestro equipo te enseña a usarlo.</span>
               </article>
             </div>
 
@@ -5282,7 +5242,7 @@
               <ul class="bol-lineas">
                 <li class="bol-linea"><span>Agencia de marketing<small>sin especialización en clínicas estéticas y médicas</small></span><span class="bol-guia" aria-hidden="true"></span><span class="bol-precio">US$ 600–800/mes</span></li>
                 <li class="bol-linea"><span>Software de agendamientos</span><span class="bol-guia" aria-hidden="true"></span><span class="bol-precio">US$ 100–300/mes</span></li>
-                <li class="bol-linea"><span>Agente IA con créditos</span><span class="bol-guia" aria-hidden="true"></span><span class="bol-precio">US$ 300–600/mes</span></li>
+                <li class="bol-linea"><span>Asistente con IA para WhatsApp</span><span class="bol-guia" aria-hidden="true"></span><span class="bol-precio">US$ 300–600/mes</span></li>
               </ul>
               <hr class="bol-corte" />
               <div class="bol-linea bol-sep"><span>Todo por separado</span><span class="bol-guia" aria-hidden="true"></span><span class="bol-precio">US$ 1.000–1.700/mes</span></div>
@@ -5311,7 +5271,7 @@
 
           <div class="px-grid">
             <article class="px-card" data-plan="vortex">
-              <div class="px-kicker">La C de PMFC · Software con IA</div>
+              <div class="px-kicker">La C de PMFC · Solo el software</div>
               <h3 class="px-name">Vortex</h3>
               <div class="px-monthly">
                 <div class="px-kicker">Plan mensual</div>
@@ -5322,17 +5282,17 @@
               </div>
               <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-ig"/></svg>Instagram</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-fb"/></svg>Facebook</span></div>
               <ul class="px-feats">
-                <li>Hasta 10 profesionales · 28.000 créditos de IA</li>
-                <li>~933 conversaciones con IA al mes (o ~143 agendamientos)</li>
+                <li>Hasta 10 profesionales</li>
+                <li>La IA atiende ~933 conversaciones al mes (o ~143 citas agendadas)</li>
                 <li>Agenda y fichas de la clínica</li>
-                <li>AURA: responde y agenda por ti</li>
-                <li>Automatizaciones y difusiones</li>
-                <li>Onboarding dedicado con un ejecutivo humano</li>
+                <li>AURA contesta WhatsApp y agenda por ti</li>
+                <li>Mensajes automáticos y envíos masivos</li>
+                <li>Una persona de nuestro equipo te enseña a usarlo</li>
               </ul>
             </article>
 
             <article class="px-card is-featured" data-plan="ecosistema">
-              <div class="px-kicker">PMFC completo · Recomendado</div>
+              <div class="px-kicker">PMFC completo · Software + anuncios · Recomendado</div>
               <h3 class="px-name">Ecosistema</h3>
               <div class="px-monthly">
                 <div class="px-kicker">Plan mensual</div>
@@ -5343,15 +5303,15 @@
               </div>
               <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-ig"/></svg>Instagram</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-fb"/></svg>Facebook</span></div>
               <ul class="px-feats">
-                <li>Todo lo de Vortex, incluido el onboarding dedicado con un ejecutivo humano</li>
+                <li>Todo lo de Vortex, más un equipo que hace tus anuncios</li>
               </ul>
               <div class="px-mkt" aria-label="Qué incluye el marketing de performance">
-                <div class="px-kicker">Marketing de performance: un equipo que trae pacientes a tu clínica</div>
+                <div class="px-kicker">Marketing: un equipo que trae pacientes a tu clínica</div>
                 <ul>
-                  <li><strong>Campañas de performance en Facebook, Instagram y Google</strong><span>Creativos incluidos. Tú entregas los videos, nosotros los editamos.</span></li>
-                  <li><strong>Propuesta de valor</strong><span>Creamos, optimizamos y perfeccionamos qué ofrece tu clínica y cómo lo comunica.</span></li>
-                  <li><strong>Framework comercial</strong><span>Técnicas de venta que aplicamos contigo para que tu equipo las use con sus pacientes y cierre a los que le llegan.</span></li>
-                  <li><strong>Reunión de marketing cada semana</strong><span>4 reuniones de marketing al mes, 1 por semana, para revisar los resultados y ajustar las campañas contigo.</span></li>
+                  <li><strong>Campañas de performance en Facebook, Instagram y Google</strong><span>Hacemos los anuncios. Tú grabas los videos, nosotros los editamos.</span></li>
+                  <li><strong>Propuesta de valor</strong><span>Te ayudamos a definir qué ofrece tu clínica y cómo contarlo.</span></li>
+                  <li><strong>Framework comercial</strong><span>Le enseñamos a tu equipo a vender en la consulta.</span></li>
+                  <li><strong>Reunión de marketing cada semana</strong><span>4 reuniones de marketing al mes, 1 por semana, para ver los resultados contigo.</span></li>
                 </ul>
               </div>
             </article>

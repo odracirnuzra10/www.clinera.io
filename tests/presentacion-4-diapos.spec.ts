@@ -9,6 +9,9 @@ import { join } from "node:path";
  */
 const html = readFileSync(join(process.cwd(), "public/presentacion/index.html"), "utf8");
 
+/** Solo el texto visible: los atributos internos (data-pelicula, clases) no cuentan como jerga. */
+const texto = (h: string) => h.replace(/<[^>]+>/g, " ");
+
 const slide = (id: string) => {
   const start = html.indexOf(`id="${id}"`);
   return html.slice(start, html.indexOf("</section>", start));
@@ -17,7 +20,7 @@ const slide = (id: string) => {
 test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () => {
   test("solo existen quiénes somos, problema, las 4 letras de PMFC, beneficios y planes, en ese orden", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "exposalud", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "beneficios", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "beneficios", "planes"]);
   });
 
   test("quiénes somos: el ecosistema, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
@@ -32,19 +35,11 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).not.toContain("1.500");
   });
 
-  test("Exposalud 2026: Espacio Riesco, 10, 11 y 12 de noviembre", () => {
-    const c = slide("exposalud");
-    expect(c).toContain("data-exposalud");
-    expect(c).toContain("Exposalud 2026");
-    expect(c).toContain("Espacio Riesco");
-    for (const d of ["10", "11", "12"]) expect(c).toContain(`<b>${d}</b>`);
-  });
-
   test("el problema: publicidad cara, vender barato, guerra de precios y la salida", () => {
     const c = slide("problema");
     for (const n of [1, 2, 3, 4]) expect(c).toContain(`data-problema="${n}"`);
-    expect(c).toContain("La publicidad cada vez cuesta más");
-    expect(c).toContain("Google y Meta Ads");
+    expect(c).toContain("Los anuncios cada vez cuestan más");
+    expect(c).toContain("Instagram, Facebook y Google");
     expect(c).toContain("propuesta de valor");
     expect(c).not.toMatch(/patentad/i);
   });
@@ -72,10 +67,10 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(m).toContain("data-embudo");
     for (const paso of ["creativo", "clic", "evaluacion", "tratamiento"]) expect(m).toContain(`data-paso="${paso}"`);
     expect(m).toContain("data-admin");
-    expect(m).toContain("CPA objetivo");
-    expect(m).toContain("maximizar el valor de la conversión");
+    // Ricardo, 22-oct-2026: lenguaje simple para doctores; sin jerga de agencia.
+    expect(texto(m)).not.toMatch(/CPA|puja|\blead\b|SQL|conversión|película/i);
     expect(m).not.toMatch(/\$63\.405|\$34\.814|pesos chilenos/);
-    for (const n of ["US$ 65", "US$ 35", "US$ 55", "−US$ 10 en la evaluación", "+US$ 20 en la evaluación", "US$ 98", "US$ 78", "US$ 2.250", "US$ 2.449"]) expect(m).toContain(n);
+    for (const n of ["US$ 65", "US$ 35", "US$ 55", "(−US$ 10)", "sobran US$ 20", "US$ 98", "US$ 78", "US$ 2.250", "US$ 2.449"]) expect(m).toContain(n);
     expect(m).toContain("data-pelicula");
     expect(m).toContain("US$ 220.000");
   });
@@ -88,11 +83,11 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).toContain("data-agenda-ia");
     for (const paso of ["campana", "chat", "agenda", "ficha"]) expect(c).toContain(`data-ca="${paso}"`);
     expect(c).toContain("Ficha de evaluación facial");
-    for (const x of ["Agenda", "Fichas", "Pagos", "Clinera Intelligence", "AURA", "CAMILA", "LIA"]) expect(c).toContain(x);
+    for (const x of ["Agenda", "Fichas", "Cobros", "AURA", "CAMILA", "LIA"]) expect(c).toContain(x);
+    expect(texto(c)).not.toMatch(/Webhooks|API|FHIR|Roadmap|\blead\b/);
     expect(c).toContain('data-eco="software"');
     expect(c).toContain("Cómo funcionan juntos");
-    expect(c).toContain("Roadmap 2027: HL7 FHIR");
-    expect(c).toContain("En vivo");
+    expect(c).toContain("Ya disponible");
     expect(c.match(/Oct 2026/g)).toHaveLength(2);
     expect(c).not.toMatch(/open\s*factura/i);
   });
@@ -129,7 +124,8 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     for (const card of [vortex, ecosistema]) {
       for (const logo of ["#ch-wa", "#ch-ig", "#ch-fb"]) expect(card).toContain(logo);
     }
-    expect(vortex).toContain("28.000 créditos de IA");
+    expect(vortex).toContain("~933 conversaciones");
+    expect(vortex).not.toContain("créditos");
     for (const t of ["Campañas de performance en Facebook, Instagram y Google", "Propuesta de valor", "Framework comercial"]) {
       expect(ecosistema).toContain(t);
       expect(vortex).not.toContain(t);
