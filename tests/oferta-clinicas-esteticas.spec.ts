@@ -148,3 +148,36 @@ test("móvil: sin scroll horizontal y la oferta se lee completa", async ({ brows
   await expect(cta).toBeInViewport();
   await ctx.close();
 });
+
+test("WhatsApp: dos botones (hero y cierre) con el mensaje de Google Ads", async ({ page }) => {
+  await mockRed(page);
+  await page.goto("/oferta-clinicas-esteticas", { waitUntil: "domcontentloaded" });
+  const botones = page.locator("a[data-oferta-whatsapp]");
+  await expect(botones).toHaveCount(2);
+  for (const donde of ["hero", "cierre"]) {
+    const b = page.locator(`a[data-oferta-whatsapp="${donde}"]`);
+    const href = (await b.getAttribute("href"))!;
+    expect(href).toMatch(/^https:\/\/wa\.me\/56985581524\?text=/);
+    const texto = decodeURIComponent(href.split("text=")[1]);
+    expect(texto).toMatch(/vi su anuncio en Google Ads/i);
+    expect(texto).toContain("US$ 379");
+    await expect(b).toHaveAttribute("target", "_blank");
+  }
+  // El del hero se ve en la primera pantalla.
+  await expect(page.locator('a[data-oferta-whatsapp="hero"]')).toBeInViewport();
+});
+
+test("móvil: el WhatsApp del hero se ve y no tapa el formulario", async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  const page = await ctx.newPage();
+  await mockRed(page);
+  await page.goto("/oferta-clinicas-esteticas", { waitUntil: "domcontentloaded" });
+  const wa = page.locator('a[data-oferta-whatsapp="hero"]');
+  await expect(wa).toBeInViewport();
+  await expect(page.locator("[data-ver-incluye]")).toBeHidden();
+  const b = (await wa.boundingBox())!;
+  const f = (await page.locator("[data-oferta-wizard]").boundingBox())!;
+  expect(b.y + b.height).toBeLessThanOrEqual(f.y);
+  expect(b.height).toBeGreaterThanOrEqual(44); // se toca con el dedo
+  await ctx.close();
+});
