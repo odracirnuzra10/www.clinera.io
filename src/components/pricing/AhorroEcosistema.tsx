@@ -14,7 +14,18 @@
 import { AHORRO } from "@/content/planes";
 import styles from "./AhorroEcosistema.module.css";
 
-export default function AhorroEcosistema({ compacto = false }: { compacto?: boolean }) {
+export default function AhorroEcosistema({
+  compacto = false,
+  precioUsd,
+  ahorroDesdeUsd,
+}: {
+  compacto?: boolean;
+  /** Precio de oferta del Ecosistema (landing /oferta-clinicas-esteticas). Sin él, el público. */
+  precioUsd?: number;
+  ahorroDesdeUsd?: number;
+}) {
+  const precioEco = precioUsd ? `US$ ${precioUsd}/mes` : AHORRO.ecosistema.precio;
+  const ahorro = ahorroDesdeUsd ? `Ahorras desde US$ ${ahorroDesdeUsd} al mes` : AHORRO.ahorro;
   return (
     <div className={`${styles.bol} ${compacto ? styles.compacto : ""}`} data-ahorro>
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -46,10 +57,10 @@ export default function AhorroEcosistema({ compacto = false }: { compacto?: bool
       <div className={`${styles.linea} ${styles.eco}`} data-ahorro-conclusion>
         <span className={styles.nombre}>{AHORRO.ecosistema.etiqueta}</span>
         <span className={styles.guia} aria-hidden />
-        <span className={styles.precio}>{AHORRO.ecosistema.precio}</span>
+        <span className={styles.precio}>{precioEco}</span>
       </div>
 
-      <p className={styles.ahorro}>{AHORRO.ahorro}</p>
+      <p className={styles.ahorro}>{ahorro}</p>
       <p className={styles.nota}>{AHORRO.nota}</p>
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -1,0 +1,199 @@
+"use client";
+
+// /oferta-clinicas-esteticas (Ricardo, 22-oct-2026): landing de anuncios para dueños de
+// clínicas estéticas. Muestra las funciones de Clinera y cierra con la oferta
+// «software + marketing por US$ 379/mes» (`OFERTA_ESTETICA`). Todo CTA va a
+// /agenda con `?oferta=estetica379` y la query de la visita (utm, gclid, fbclid).
+
+import { useSyncExternalStore } from "react";
+import Link from "next/link";
+import NavV3 from "@/components/brand-v3/Nav";
+import { CtaPrimary, CtaSecondary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
+import AgentShowcase from "@/components/empleado-digital/AgentShowcase";
+import AuraConfirmCard from "@/components/empleado-digital/AuraConfirmCard";
+import EsteticaSection from "@/components/estetica/EsteticaSection";
+import { Logos, Testimonios, useReveal } from "@/components/home-v3/sections";
+import { IntelligencePlataformaSection } from "@/components/IntelligenceSection";
+import HeroCarousel from "@/components/plataforma/HeroCarousel";
+import { CTA_VENTAS_LABEL, MARKETING_BLOQUES, PLANES } from "@/content/planes";
+import { OFERTA_ESTETICA } from "@/content/oferta-estetica";
+import styles from "./OfertaEsteticaLanding.module.css";
+
+const VORTEX = PLANES[0];
+const nf = (v: number) => v.toLocaleString("es-CL");
+
+/** Las funciones de Clinera que ve una clínica estética. Sin integraciones con agendas de terceros. */
+export const FUNCIONES_ESTETICA = [
+  { titulo: "Agenda por profesional y box", texto: "Disponibilidad real por profesional, sala y duración del tratamiento. Reagendar y cancelar sin llamadas." },
+  { titulo: "Ficha estética facial", texto: "Evaluación del rostro con tercios y eje de simetría, fotos de cada sesión y consentimiento en la misma ficha." },
+  { titulo: "Ficha estética corporal", texto: "Zonas marcadas sobre el cuerpo, plan de sesiones y evolución. Las fotos quedan en el paciente, no en un celular." },
+  { titulo: "Presupuestos por WhatsApp", texto: "Lo que evaluaste se convierte en presupuesto y sale por WhatsApp, con seguimiento hasta que el paciente agenda." },
+  { titulo: "Pagos y cobros", texto: "Registra pagos y abonos de cada tratamiento: la venta queda junto al historial del paciente." },
+  { titulo: "AURA, agente de IA 24/7", texto: "Responde el WhatsApp de la clínica, ofrece tus tratamientos y deja la cita creada en tu agenda, también de noche." },
+  { titulo: "Bandeja unificada", texto: "WhatsApp, Instagram y Facebook en una sola bandeja conectada a la agenda y a la ficha." },
+  { titulo: "Clinera Intelligence", texto: "Pregúntale cuánto vendiste, qué tratamiento se mueve más o cómo viene la agenda. Responde con tus datos." },
+  { titulo: "CRM y difusiones", texto: "Seguimiento de leads y pacientes, automatizaciones y difusiones en el mismo software que la ficha." },
+] as const;
+
+export const FAQ_OFERTA = [
+  {
+    q: "¿Qué incluye la oferta de US$ 379 al mes?",
+    a: `El Ecosistema completo: el software con IA (hasta ${VORTEX.professionals} profesionales, ${nf(VORTEX.iaCredits)} créditos de IA, agenda, fichas, pagos, AURA y Clinera Intelligence) más el marketing de performance: campañas, propuesta de valor, framework comercial y una reunión de marketing cada semana.`,
+  },
+  {
+    q: "¿La inversión en anuncios está incluida?",
+    a: "No. El servicio incluye la estrategia, las campañas, los creativos y las reuniones semanales; la inversión en anuncios en Meta y Google la pagas aparte, directamente a la plataforma.",
+  },
+  {
+    q: "¿Hay costo de implementación?",
+    a: "No. El onboarding es dedicado, con un ejecutivo humano, y migramos tus pacientes e historial desde tu sistema actual.",
+  },
+  {
+    q: "¿Se conecta con Reservo o AgendaPro?",
+    a: "No. Clinera opera sobre su propia agenda, ficha y pagos; tus datos se migran en el onboarding.",
+  },
+  {
+    q: "¿Cómo tomo la oferta?",
+    a: "Agenda una reunión desde esta página. En la videollamada te mostramos Clinera con el caso de tu clínica y dejamos el Ecosistema a US$ 379 al mes.",
+  },
+] as const;
+
+function subscribe() {
+  return () => {};
+}
+function hrefCliente() {
+  const params = new URLSearchParams(window.location.search);
+  params.set("servicio", "ambas");
+  params.set("oferta", OFERTA_ESTETICA.id);
+  return `/agenda?${params.toString()}`;
+}
+function hrefServidor() {
+  return `/agenda?servicio=ambas&oferta=${OFERTA_ESTETICA.id}`;
+}
+
+export default function OfertaEsteticaLanding() {
+  useReveal();
+  const agendaHref = useSyncExternalStore(subscribe, hrefCliente, hrefServidor);
+
+  return (
+    <>
+      <NavV3 ctaHref={agendaHref} ctaLabel={CTA_VENTAS_LABEL} />
+      <main className={styles.main}>
+        <section className={styles.hero}>
+          <div className={styles.heroGlow} aria-hidden />
+          <div className={styles.heroGrid}>
+            <div className="reveal">
+              <Eyebrow>Software para clínicas estéticas</Eyebrow>
+              <h1 className={styles.h1}>
+                El <span className={styles.grad}>software para clínicas estéticas</span> que agenda, ficha y cobra por ti
+              </h1>
+              <p className={styles.tesis}>
+                Agenda, ficha facial y corporal, presupuestos, pagos y un agente de IA que atiende tu WhatsApp 24/7.
+                Todo en un solo sistema, hecho por dueños de clínicas estéticas.
+              </p>
+              <div className={styles.ctas}>
+                <CtaPrimary as={Link} href={agendaHref} data-cta-ventas="oferta-hero" style={{ padding: "15px 26px", fontSize: 16 }}>
+                  {CTA_VENTAS_LABEL} <span>→</span>
+                </CtaPrimary>
+                <CtaSecondary as={Link} href="#oferta" style={{ padding: "15px 26px", fontSize: 16 }}>
+                  Ver la oferta
+                </CtaSecondary>
+              </div>
+            </div>
+            <div className="reveal" style={{ minWidth: 0 }}>
+              <HeroCarousel only={["corporal", "ficha", "aura", "intelligence"]} />
+            </div>
+          </div>
+        </section>
+
+        <Logos />
+
+        <section className={styles.funciones} id="funciones" aria-labelledby="funciones-h2">
+          <div className={`reveal ${styles.cabecera}`}>
+            <Eyebrow>Funciones de Clinera</Eyebrow>
+            <h2 id="funciones-h2" className={styles.h2}>
+              Todo lo que tu clínica estética necesita, en un solo lugar
+            </h2>
+          </div>
+          <ul className={styles.grilla} data-funciones-estetica>
+            {FUNCIONES_ESTETICA.map((f) => (
+              <li key={f.titulo} className={`reveal ${styles.tarjeta}`}>
+                <h3>{f.titulo}</h3>
+                <p>{f.texto}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <EsteticaSection id="ficha-estetica" conLogos={false} />
+
+        <AgentShowcase
+          id="aura"
+          eyebrow="Agente IA · en vivo"
+          headline="AURA responde y agenda cuando tu equipo no puede."
+          body="Atiende consultas fuera de horario, ofrece tus tratamientos, agenda y confirma sobre la agenda real del equipo, y deriva a una persona cuando la conversación lo pide."
+          imageSrc="/agents/aura-fullbody.png"
+          imageAlt="AURA, agente de IA de WhatsApp para clínicas estéticas"
+          floatingCard={<AuraConfirmCard />}
+          bg="linear-gradient(180deg, #F1ECFB 0%, #F7F4FD 60%, #FAFBFC 100%)"
+        />
+
+        <IntelligencePlataformaSection ctaHref={agendaHref} ctaLabel={CTA_VENTAS_LABEL} />
+
+        <Testimonios />
+
+        <section className={styles.faq} aria-labelledby="faq-h2">
+          <h2 id="faq-h2" className={`reveal ${styles.h2}`}>Preguntas frecuentes</h2>
+          <div className={styles.faqLista}>
+            {FAQ_OFERTA.map((f) => (
+              <details key={f.q} className={`reveal ${styles.faqItem}`}>
+                <summary>{f.q}</summary>
+                <p>{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <section id="oferta" className={styles.oferta} aria-labelledby="oferta-h2" data-oferta-estetica>
+          <div className={`reveal ${styles.ofertaCaja}`}>
+            <div className={styles.ofertaGlow} aria-hidden />
+            <div className={styles.ofertaTexto}>
+              <Eyebrow style={{ color: "#D946EF" }}>Oferta Ecosistema</Eyebrow>
+              <h2 id="oferta-h2" className={styles.ofertaH2}>
+                Llévate el software + marketing por{" "}
+                <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
+                  US$ {OFERTA_ESTETICA.precioUsd}
+                </span>{" "}
+                al mes
+              </h2>
+              <p className={styles.regular}>
+                Precio regular <s>US$ {OFERTA_ESTETICA.precioRegularUsd}/mes</s>
+              </p>
+              <CtaPrimary as={Link} href={agendaHref} data-cta-ventas="oferta-cierre" style={{ padding: "16px 28px", fontSize: 16 }}>
+                {CTA_VENTAS_LABEL} <span>→</span>
+              </CtaPrimary>
+              <p className={styles.letraChica}>
+                Sin costo de implementación. La inversión en anuncios se paga aparte.
+              </p>
+            </div>
+            <ul className={styles.incluye}>
+              <li>
+                <b>Software con IA</b>
+                <span>
+                  Agenda, fichas, pagos, AURA y Clinera Intelligence. Hasta {VORTEX.professionals} profesionales y{" "}
+                  {nf(VORTEX.iaCredits)} créditos de IA.
+                </span>
+              </li>
+              {MARKETING_BLOQUES.map((b) => (
+                <li key={b.id}>
+                  <b>{b.titulo}</b>
+                  <span>{b.texto}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </main>
+    </>
+  );
+}

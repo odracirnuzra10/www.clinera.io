@@ -94,6 +94,19 @@ Crear Lead» y publica en la misma sala que el Wizard, con encargado y links a T
 Aplicador: `integrations/n8n/aplicar_subA_aviso_chat.py` (copia la URL del webhook desde el Wizard; el
 respaldo trae llaves: no commitearlo).
 
+# `/oferta-clinicas-esteticas`: el Ecosistema a US$ 379 solo para esta landing (Ricardo, 22-oct-2026)
+
+Landing de anuncios para dueños de clínicas estéticas: funciones de Clinera y cierre «Llévate el
+software + marketing por US$ 379 al mes». **El precio público sigue en 529** (`planes.ts`, `/planes`):
+por eso la página es `noindex`, va en `robots-txt.ts` y no entra al sitemap (no compite con
+`/software-estetica`). Fuente única de la oferta: `src/content/oferta-estetica.ts`.
+
+- Los CTA van a `/agenda?servicio=ambas&oferta=estetica379` + la query de la visita. Solo ese valor
+  exacto pone la boleta del paso 1 en US$ 379 («Ahorras desde US$ 621») y manda al CRM
+  `servicio_interes_label` con «oferta US$ 379» para que el closer lo vea. Otro valor se ignora.
+- Sin link de pago: el 379 se cierra en la reunión. La inversión en anuncios se paga aparte.
+- Guardián: `tests/oferta-clinicas-esteticas.spec.ts`.
+
 # Publicar en producción: Vercel tarda ~13 min en reaccionar a un merge (21-oct-2026)
 
 **No es que el sitio no se haya publicado ni que algo esté roto: espera.** Medido el 21-oct con tres
