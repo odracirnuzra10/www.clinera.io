@@ -63,6 +63,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "bad_event" }, { status: 400 });
   }
 
+  // ChatGPT Ads: el Lead también va a la API de conversiones de OpenAI, con el
+  // mismo event_id. Sin OPENAI_ADS_API_KEY no se envía nada.
+  if (eventName === "Lead") await sendOpenAiLead(body);
+
   // Sin token no hay forma de llamar a Graph → no-op. 200 para no ensuciar la
   // consola del cliente; el Pixel ya registró el evento browser-side.
   if (!ACCESS_TOKEN) {
@@ -120,5 +124,46 @@ export async function POST(request: Request) {
       { ok: false, error: "fetch_failed", detail: String(e) },
       { status: 502 },
     );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// ChatGPT Ads (OpenAI) — API de conversiones. Pixel 1vQmMjTREnDQTVn6wwWB3B.
+//   OPENAI_ADS_API_KEY   (secreto; sin él, no-op)
+//   OPENAI_ADS_PIXEL_ID  (opcional, default el pixel de Clinera)
+// Nunca rompe la respuesta de Meta: cualquier error se registra y sigue.
+// ---------------------------------------------------------------------------
+const OPENAI_ADS_API_KEY = process.env.OPENAI_ADS_API_KEY || "";
+const OPENAI_ADS_PIXEL_ID = process.env.OPENAI_ADS_PIXEL_ID || "1vQmMjTREnDQTVn6wwWB3B";
+
+async function sendOpenAiLead(body: CapiBody): Promise<void> {
+  if (!OPENAI_ADS_API_KEY || !body.event_id) return;
+  try {
+    const res = await fetch(
+      `https://bzr.openai.com/v1/events?pid=${encodeURIComponent(OPENAI_ADS_PIXEL_ID)}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${OPENAI_ADS_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          validate_only: false,
+          events: [
+            {
+              id: body.event_id,
+              type: "lead_created",
+              timestamp_ms: Date.now(),
+              source_url: body.event_source_url || "https://www.clinera.io/agenda",
+              action_source: "web",
+              data: { type: "customer_action" },
+            },
+          ],
+        }),
+      },
+    );
+    if (!res.ok) console.error("OpenAI ads lead_created", res.status, await res.text().catch(() => ""));
+  } catch (e) {
+    console.error("OpenAI ads lead_created failed", e);
   }
 }
