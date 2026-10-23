@@ -13,6 +13,8 @@ export default function VerDemoFloat() {
   if (pathname === "/promo") return null;
   // Landing con el wizard arriba: el flotante taparía el formulario.
   if (pathname === "/oferta-clinicas-esteticas") return null;
+  // /super-promo: una sola pantalla con el CTA a WhatsApp.
+  if (pathname === "/super-promo") return null;
 
   return (
     <>

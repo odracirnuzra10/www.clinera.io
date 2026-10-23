@@ -117,6 +117,19 @@ por eso la página es `noindex`, va en `robots-txt.ts` y no entra al sitemap (no
 - Sin link de pago: el 379 se cierra en la reunión. La inversión en anuncios se paga aparte.
 - Guardián: `tests/oferta-clinicas-esteticas.spec.ts`.
 
+# `/super-promo`: Software + Marketing a US$ 279 por 6 meses (Ricardo, 23-oct-2026)
+
+Destino de la difusión de WhatsApp y del correo a los leads MQL/SQL (enviado por Postmark desde
+el repo `baserow`, `tools/promo-279-postmark/`). Una sola pantalla: boleta del ahorro, qué incluye y
+dos CTA a WhatsApp de ventas (+56 9 8558 1524). Fuente: `src/content/super-promo.ts`.
+
+- **El precio público sigue en 529** (`planes.ts`): la página es `noindex`, va en `robots-txt.ts`
+  y no entra al sitemap. Después de los 6 meses rige el precio normal (lo dice la letra chica).
+- **Termina el 31-oct-2026 23:59 hora de Chile.** La cuenta regresiva se calcula en el navegador
+  (`useSyncExternalStore`); pasada la fecha, la página dice que terminó y el botón sigue a ventas.
+- Sin menú, sin flotante «Ver demo» ni CTA móvil. No promete conexión con agendas de terceros.
+- Guardián: `tests/super-promo.spec.ts`.
+
 # Publicar en producción: Vercel tarda ~13 min en reaccionar a un merge (21-oct-2026)
 
 **No es que el sitio no se haya publicado ni que algo esté roto: espera.** Medido el 21-oct con tres
