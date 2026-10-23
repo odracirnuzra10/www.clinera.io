@@ -1,0 +1,193 @@
+.main {
+  font-family: Inter, system-ui, sans-serif;
+  color: #0a0a0a;
+  background: #ffffff;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 16px 32px;
+}
+/* globals.css reserva 112 px arriba de la primera sección para el menú fijo; acá no hay menú. */
+.main > .hero:first-child {
+  padding-top: 40px;
+}
+.glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 55% at 50% -10%, rgba(59, 130, 246, 0.18) 0%, rgba(124, 58, 237, 0.14) 36%, rgba(217, 70, 239, 0.08) 58%, transparent 78%);
+  pointer-events: none;
+}
+.contenido {
+  position: relative;
+  max-width: 520px;
+  margin: 0 auto;
+  text-align: center;
+}
+.marca {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+.h1 {
+  margin: 14px 0 0;
+  font-size: clamp(2.1rem, 6vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+.bajada {
+  margin: 14px auto 0;
+  max-width: 420px;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #4b5563;
+}
+
+.boleta {
+  margin: 28px 0 24px;
+  text-align: left;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.boletaTitulo {
+  margin: 0;
+  padding: 16px 18px 6px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.boleta ul {
+  list-style: none;
+  margin: 0;
+  padding: 0 18px 10px;
+}
+.boleta li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 0;
+  font-size: 15px;
+  color: #374151;
+}
+.boletaTotal {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 12px 18px;
+  border-top: 1px dashed #d1d5db;
+  font-size: 15px;
+  color: #9ca3af;
+}
+.boletaClinera {
+  padding: 14px 18px 16px;
+  background: #f5f3ff;
+}
+.boletaClinera p {
+  margin: 0;
+}
+.boletaClinera p:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 18px;
+  font-weight: 700;
+}
+.boletaClinera b {
+  color: #7c3aed;
+}
+.ahorro {
+  margin-top: 4px !important;
+  font-size: 14px;
+  color: #15803d;
+}
+
+.whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 60px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: #25d366;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.whatsapp:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(37, 211, 102, 0.45);
+}
+
+.cuenta {
+  margin: 14px 0 0;
+  font-size: 15px;
+  color: #b91c1c;
+}
+.cuentaFin {
+  color: #4b5563;
+}
+
+.incluye {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 8px 16px 56px;
+}
+.h2 {
+  margin: 0 0 14px;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.incluye ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.incluye li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f2f4;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.check {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #7c3aed, #d946ef);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+}
+.cierre {
+  margin-top: 28px;
+}
+.persona {
+  margin: 10px 0 0;
+  text-align: center;
+  font-size: 13px;
+  color: #6b7280;
+}
+.letraChica {
+  margin: 28px 0 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #9ca3af;
+}

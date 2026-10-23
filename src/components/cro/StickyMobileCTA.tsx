@@ -34,6 +34,8 @@ const HIDDEN_PREFIXES = [
   "/promo",
   // Lleva el formulario arriba; el flotante mandaría a /agenda.
   "/oferta-clinicas-esteticas",
+  // Una pantalla con su propio botón a WhatsApp.
+  "/super-promo",
 ];
 
 function isHiddenPath(pathname: string | null) {
