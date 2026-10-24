@@ -32,7 +32,9 @@ export const PHONE_RULES: Record<string, PhoneRule> = {
   "+34": { len: 9, pattern: /^[67]\d{8}$/ },
   "+51": { len: 9, pattern: /^9\d{8}$/ },
   "+593": { len: 9, pattern: /^9\d{8}$/ },
-  "+1": { len: 10, pattern: /^(787|939)\d{7}$/ },
+  // NANP: EE.UU. y Puerto Rico. El patrón viejo (solo 787/939) rechazaba
+  // un lead de Estados Unidos que el selector de /reserva-tu-hora ya acepta.
+  "+1": { len: 10, pattern: /^[2-9]\d{9}$/ },
   // Solo en DemoWizard.tsx, que no valida por patrón — se respeta ese mismo
   // criterio (solo largo) para no rechazar leads que su propio cliente acepta.
   "+57": { len: 10 },

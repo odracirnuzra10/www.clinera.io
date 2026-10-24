@@ -57,8 +57,11 @@ import {
   aE164,
   digitosTelefono,
   formatearTelefono,
+  idOpcionReservaDesdeTelefono,
+  idOpcionTelefono,
   mensajeErrorTelefono,
-  reglaTelefono,
+  prefixDeOpcionTelefono,
+  reglaOpcionTelefono,
   separarTelefono,
   telefonoLocalValido,
 } from "@/lib/telefono";
@@ -114,11 +117,16 @@ export default function ReservaHoraLanding({
     () => separarTelefono(prefill.telefono ?? ""),
     [prefill.telefono],
   );
+  const opcionInicial = useMemo(
+    () => idOpcionReservaDesdeTelefono(prefill.telefono ?? ""),
+    [prefill.telefono],
+  );
 
   const [nombre, setNombre] = useState(prefill.nombre ?? "");
   const [email, setEmail] = useState(prefill.email ?? "");
-  const [prefix, setPrefix] = useState(telefonoInicial.prefix);
+  const [phoneOption, setPhoneOption] = useState(opcionInicial);
   const [phone, setPhone] = useState(telefonoInicial.phone);
+  const prefix = prefixDeOpcionTelefono(phoneOption);
   const [intentado, setIntentado] = useState(false);
   const [booking, setBooking] = useState<CalBooking | null>(null);
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
@@ -134,18 +142,18 @@ export default function ReservaHoraLanding({
     () =>
       (prefill.nombre ?? "").trim().length >= 2 &&
       EMAIL_OK.test((prefill.email ?? "").trim()) &&
-      telefonoLocalValido(telefonoInicial.prefix, digitosTelefono(telefonoInicial.phone)),
-    [prefill.nombre, prefill.email, telefonoInicial.prefix, telefonoInicial.phone],
+      telefonoLocalValido(opcionInicial, digitosTelefono(telefonoInicial.phone)),
+    [prefill.nombre, prefill.email, opcionInicial, telefonoInicial.phone],
   );
   const [pidiendoDatos, setPidiendoDatos] = useState(() => !vinoPrellenado);
 
   const digitos = digitosTelefono(phone);
-  const phoneError = mensajeErrorTelefono(prefix, digitos);
+  const phoneError = mensajeErrorTelefono(phoneOption, digitos);
   const phoneOk = phoneError === null;
   const nombreOk = nombre.trim().length >= 2;
   const emailOk = EMAIL_OK.test(email.trim());
   const datosOk = nombreOk && emailOk && phoneOk;
-  const rule = reglaTelefono(prefix);
+  const rule = reglaOpcionTelefono(phoneOption);
 
   const form: Form = useMemo(
     () => ({
@@ -282,16 +290,16 @@ export default function ReservaHoraLanding({
             <div className={styles.phoneRow}>
               <select
                 className={styles.select}
-                value={prefix}
+                value={phoneOption}
                 onChange={(e) => {
                   const next = e.target.value;
-                  setPrefix(next);
-                  setPhone(formatearTelefono(phone, next));
+                  setPhoneOption(next);
+                  setPhone(formatearTelefono(phone, prefixDeOpcionTelefono(next)));
                 }}
                 aria-label="Código de país"
               >
                 {RESERVA_PHONE_PREFIXES.map((p) => (
-                  <option key={p.prefix} value={p.prefix}>
+                  <option key={idOpcionTelefono(p)} value={idOpcionTelefono(p)}>
                     {p.flag} {p.prefix}
                   </option>
                 ))}
