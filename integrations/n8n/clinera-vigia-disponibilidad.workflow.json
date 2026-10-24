@@ -1,0 +1,193 @@
+{
+  "name": "Clinera — Vigía de disponibilidad /agenda",
+  "nodes": [
+    {
+      "id": "cron",
+      "name": "Cada 30 min (8-21 CL)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "*/30 8-21 * * *"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "desde",
+      "name": "Desde mañana",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const d = new Date(Date.now() + 86400000);\nreturn [{ json: { desde: d.toISOString().slice(0, 10) } }];"
+      }
+    },
+    {
+      "id": "pedir",
+      "name": "Resumen de disponibilidad",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "=https://n8n.oacg.cl/webhook/clinera-agenda-disponibilidad?desde={{ $json.desde }}&dias=14",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          },
+          "timeout": 60000
+        }
+      }
+    },
+    {
+      "id": "juzgar",
+      "name": "¿Hay horas?",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ¿Tiene horas la agenda de /agenda?\n//\n// Dos veces en un mismo día la página se quedó sin ninguna hora: primero\n// porque el profesional se desasignó del tratamiento en Clinera, después\n// porque la API arma la grilla del día en curso en UTC. Con tráfico pagado\n// encima eso es pagar por visitas que ven \"sin horas disponibles\".\n//\n// Este nodo mira los próximos días hábiles y decide si hay que avisar. Avisa\n// en los bordes —cuando se rompe y cuando se recupera— y una vez cada dos\n// horas mientras siga rota, para no llenar el chat.\nconst resumen = $json || {};\nconst dias = resumen.dias || {};\nconst fechas = Object.keys(dias).sort();\n\n// El día en curso no cuenta: la página no lo ofrece a propósito.\nconst hoy = new Date().toISOString().slice(0, 10);\nconst utiles = fechas.filter((f) => f > hoy);\nconst conHoras = utiles.filter((f) => dias[f] > 0);\n// -1 es \"no se pudo consultar\". No es lo mismo que cero, pero si TODOS los\n// días vuelven desconocidos tampoco hay agenda que ofrecer.\nconst desconocidos = utiles.filter((f) => dias[f] < 0);\n\nconst roto = !resumen.ok || utiles.length === 0 || conHoras.length === 0;\nconst primeros = utiles.slice(0, 5);\nconst detalle = primeros.map((f) => f.slice(5) + ': ' + (dias[f] < 0 ? '?' : dias[f])).join(' · ');\n\nconst estado = $getWorkflowStaticData('global');\nconst ahora = Date.now();\nconst DOS_HORAS = 2 * 3600000;\n\nlet avisar = false;\nlet texto = '';\n\nif (roto) {\n  const primeraVez = !estado.roto;\n  if (primeraVez || ahora - (estado.ultimoAviso || 0) > DOS_HORAS) {\n    avisar = true;\n    estado.ultimoAviso = ahora;\n    const desde = primeraVez ? '' :\n      '\\n_Sigue rota desde hace ' + Math.round((ahora - (estado.desde || ahora)) / 3600000) + ' h._';\n    texto =\n      '🔴 *clinera.io/agenda sin horas disponibles*\\n\\n' +\n      'Ningún día de los próximos ' + utiles.length + ' tiene hora que ofrecer.\\n' +\n      (desconocidos.length ? '*Días que no se pudieron consultar:* ' + desconocidos.length + '\\n' : '') +\n      '*Próximos días:* ' + (detalle || '(sin datos)') + '\\n\\n' +\n      'Lo más probable, por orden: que el profesional quedó desasignado del ' +\n      'tratamiento \"Reunión con Clinera\" en app.clinera.io, o que se le vació el ' +\n      'horario de atención en la sucursal.\\n' +\n      '_Con campaña activa, cada visita a /agenda está viendo \"sin horas disponibles\"._' + desde;\n  }\n  if (!estado.roto) estado.desde = ahora;\n  estado.roto = true;\n} else {\n  if (estado.roto) {\n    avisar = true;\n    const horas = Math.round((ahora - (estado.desde || ahora)) / 3600000);\n    texto =\n      '🟢 *clinera.io/agenda volvió a tener horas*\\n\\n' +\n      '*Días con hora:* ' + conHoras.length + ' de ' + utiles.length + '\\n' +\n      '*Próximos días:* ' + detalle +\n      (horas ? '\\n\\n_Estuvo sin horas unas ' + horas + ' h._' : '');\n  }\n  estado.roto = false;\n  estado.ultimoAviso = 0;\n}\n\nreturn [{ json: { roto: roto, avisar: avisar, textoChat: texto,\n                  diasConHoras: conHoras.length, diasMirados: utiles.length, detalle: detalle } }];\n"
+      }
+    },
+    {
+      "id": "if",
+      "name": "¿Avisar?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a",
+              "leftValue": "={{ $json.avisar }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "chat",
+      "name": "Aviso Google Chat",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        -80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "__GOOGLE_CHAT_WEBHOOK__",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ text: $json.textoChat }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          },
+          "timeout": 10000
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Cada 30 min (8-21 CL)": {
+      "main": [
+        [
+          {
+            "node": "Desde mañana",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Desde mañana": {
+      "main": [
+        [
+          {
+            "node": "Resumen de disponibilidad",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resumen de disponibilidad": {
+      "main": [
+        [
+          {
+            "node": "¿Hay horas?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Hay horas?": {
+      "main": [
+        [
+          {
+            "node": "¿Avisar?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Avisar?": {
+      "main": [
+        [
+          {
+            "node": "Aviso Google Chat",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "settings": {}
+}
