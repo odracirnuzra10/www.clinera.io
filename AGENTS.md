@@ -419,7 +419,7 @@ la recomendación del partner + CTA a reunión.
 > `baserow/sales/n8n/aplicar_silenciar_nql_w1.py`. El vivo manda NEW como
 > `Lead` US$ 1, omite NQL y NO rellena etapas. No correr
 > `integrations/n8n/aplicar_w1_mapeo.py`: revertiría todo eso. Valores del
-> 22-oct (en los dos archivos): SQL US$ 30 (= agendó, también por la web) y
+> 22-oct (en los dos archivos): SQL US$ 30 (= asistió a la reunión y califica, desde el 24-oct; el 22–23-oct era «agendó») y
 > Purchase Vortex 279 · Ecosistema 379.
 >
 > Embudo CRM→CAPI: workflow `W1SybZZSEZqAItIt`. El mapeo canónico
@@ -521,7 +521,7 @@ la recomendación del partner + CTA a reunión.
 |---|---|---|---|
 | `Nuevo` | rellenó el formulario (Instant Form o alta) | US$ 0 | W1 (`NEW`); Sub A ya no manda `Lead` |
 | `MQL` | closer verifica que el lead es **real** (paso anterior a SQL) | US$ 10 | W1 si el stage es `MQL`. Campañas activas optimizan este evento |
-| `SQL` | **agendó la reunión** (`MEETING`; Ricardo, 22-oct: cita agendada en Clinera = SQL, también las de la web) | US$ 30 | W1 |
+| `SQL` | **asistió a la reunión y califica** (`MEETING`, lo marca el closer; Ricardo, 24-oct. Agendar —web, WhatsApp o una cita creada en Clinera— es `MQL`) | US$ 30 | W1 |
 | `NQL` | closer → no responde | US$ 0 | W1 |
 | `Purchase` | Customer | valor del plan | W1 (`planClinera`) |
 
@@ -578,7 +578,7 @@ siendo el valor interno de SQL. `SQL_Plus` no se tocó (sigue sin emitir).
 |---|---|---|---|
 | `NEW` | `Nuevo` | 0 | rellenó el formulario; también si lo escribió n8n (`API`) |
 | `MQL` | `MQL` | 10 | closer verifica que es real |
-| `MEETING` | `SQL` | 30 | alias `SQL` — agendó la reunión (22-oct) |
+| `MEETING` | `SQL` | 30 | alias `SQL` — asistió y califica (24-oct) |
 | `NQL` | `NQL` | 0 | no responde |
 | `CUSTOMER` | `Purchase` | `planClinera`: VORTEX 279 / ECOSISTEMA 379 (22-oct); ATLAS 379 / SUMMIT 479 sólo negocios viejos; vacío → 279 | |
 | `PQL` / `SCREENING` / `SQL_Plus` / `HOT` / `PROPOSAL` | — | — | no emiten |
@@ -747,7 +747,7 @@ Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
   Meta a `/agenda`. Guardián: `tests/agenda-google.spec.ts`.
 - **Eventos del sitio (pixel `2251201709002818` vía GTM):** `Lead` US$ 3 al
   enviar el paso 2 (datos); `ViewContent` al elegir servicio; `MQL` US$ 10 al agendar;
-  `SQL` US$ 30 (agendó; desde el 22-oct también lo manda W1) lo emite el CRM, **no el sitio**,
+  `SQL` US$ 30 (asistió y califica, desde el 24-oct) lo emite el CRM, **no el sitio**,
   al pixel viejo; `Cliente`
   = valor del plan vía Stripe (`planVigenteDe` en `meta-purchase.ts`).
 - **Pendientes que no se resuelven en este repo:** campo «servicio de interés»
