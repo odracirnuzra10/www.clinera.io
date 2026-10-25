@@ -1179,6 +1179,14 @@ días a las 7:00 Chile sube **$2.000** el presupuesto diario de Frío si en los 
 son `cost_per` y `result` (no `cost_per_result`), y un monto fijo va sin `target_field`. La base de
 $9.250 es fija: si el CPA real cambia, se edita la regla a mano.
 
+**Orden permanente de Ricardo (25-oct-2026): ante cualquier cambio raro en los resultados de Meta
+de Clinera** (sube el gasto, cambia el CPA, Frío entrega distinto, el presupuesto no es el que se
+dejó), lo PRIMERO es revisar las reglas automáticas y su historial, antes de culpar a los anuncios,
+la página o el pixel: `GET /act_806063489131174/adrules_library?fields=name,status,evaluation_spec,execution_spec`
+y `GET /<id_regla>/history`. Hacerlo sin que lo pidan, y decirle a Ricardo en una línea si una regla
+explica el cambio (p. ej. «la regla subió Frío de $40.000 a $46.000 en 3 días»). Si se crea, edita o
+borra una regla, actualizar esta sección en el mismo movimiento.
+
 **Embudo desde el 24-oct (Ricardo):** Lead = rellena formulario · **MQL = agenda la videollamada**
 (web, WhatsApp o cita creada en Clinera) · SQL = asistió y califica (lo marca el closer) · Contrata.
 Los MQL del CRM (W1) van al pixel viejo `1104567405156111`: la campaña no los ve (pendiente decidir si
