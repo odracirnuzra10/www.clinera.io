@@ -1157,3 +1157,32 @@ a `/agenda`). Siguen vivos solo `/go/exito` (activación por WhatsApp de soporte
 `/api/go/*` y el reconocimiento de planes viejos en `meta-purchase.ts`, con
 `src/content/planes2.ts`, porque aún pueden llegar pagos de esos planes por
 Stripe. No los promociones ni los reconectes al sitio.
+
+# Meta Ads de Clinera: estructura y escalado automático (Ricardo, 23–25-oct-2026)
+
+Cuenta **CLINERA.IO `act_806063489131174`** (BM Método Hebe, CLP, hora de Chile). La API de Marketing
+se usa por `graph.facebook.com` (el MCP de Meta Ads no tiene habilitada esta cuenta). Desde el 23-oct
+quedan **dos campañas**, las dos `OUTCOME_LEADS` con presupuesto de campaña, optimizando el evento
+**`MQL`** del pixel del sitio **`2251201709002818`** («Clinera Software»), Chile + México en el mismo
+conjunto, 7 días clic + 1 día visualización. Mensajes, Branding, Alcance, Thruplay, Conversión y las
+viejas quedaron **archivadas**.
+
+| Campaña | id | Conjunto | Presupuesto (25-oct) | Nota |
+|---|---|---|---|---|
+| Frío | `52688381800624` | 187K `52688381803624` | $30.000/día, sube solo | Advantage+ audiencia encendido |
+| Remarketing | `52688384509624` | RMKT `52688384510024` | $10.000/día fijo | Advantage+ **apagado** (25-oct): sólo públicos web/IG/FB ∩ salud ∩ marketing (~1.000 personas) |
+
+**Regla automática `2944517402572367`** («Escalar Frío +$2.000/día…», en Ads Manager → Reglas): todos los
+días a las 7:00 Chile sube **$2.000** el presupuesto diario de Frío si en los últimos 3 días hubo
+**≥ 5 MQL** y el costo por resultado fue **< $10.640** (base $9.250 de los primeros días + 15 %). Tope
+**$300.000**. Sin piso a propósito: si el MQL baja de precio, igual sube. En la API de reglas los campos
+son `cost_per` y `result` (no `cost_per_result`), y un monto fijo va sin `target_field`. La base de
+$9.250 es fija: si el CPA real cambia, se edita la regla a mano.
+
+**Embudo desde el 24-oct (Ricardo):** Lead = rellena formulario · **MQL = agenda la videollamada**
+(web, WhatsApp o cita creada en Clinera) · SQL = asistió y califica (lo marca el closer) · Contrata.
+Los MQL del CRM (W1) van al pixel viejo `1104567405156111`: la campaña no los ve (pendiente decidir si
+se mandan también al `2251201709002818`).
+
+**Anuncios «te mejoro la oferta»** (si pagas más de US$ 500 entre agencia y software): el closer tiene
+que saber qué precio ofrece en la reunión antes de que escalen.
