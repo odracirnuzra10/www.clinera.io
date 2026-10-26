@@ -160,7 +160,7 @@ test.describe("/reserva-tu-hora — destino del Instant Form", () => {
     await expect(page.locator(".ventas-back-btn")).toBeHidden();
   });
 
-  test("al confirmar la hora manda UN MQL de US$ 10 y lleva el leadgen_id al CRM", async ({ page }) => {
+  test("al confirmar la hora NO manda MQL (lo marca el closer) y lleva el leadgen_id al CRM", async ({ page }) => {
     const id = nonce();
     await installFbqRecorder(page);
     await mockRed(page);
@@ -179,27 +179,15 @@ test.describe("/reserva-tu-hora — destino del Instant Form", () => {
     });
     await page.waitForTimeout(600);
 
-    // --- El MQL: uno solo, a 10 USD, con el contacto hasheado ---
-    const mqls = capi.filter((c) => c.event_name === "MQL");
-    expect(mqls).toHaveLength(1);
-    expect(mqls[0].custom_data?.value).toBe(10);
-    expect(mqls[0].custom_data?.currency).toBe("USD");
-    expect(mqls[0].user_data?.em).toMatch(HEX64);
-    expect(mqls[0].user_data?.ph).toMatch(HEX64);
-    // El tramo declarado en el formulario tiene que llegar: es lo que separa
-    // una clínica de 1.000 pacientes de una de 200 a los ojos de Meta.
-    expect(mqls[0].custom_data?.lead_priority).toBe("high");
-    expect(mqls[0].custom_data?.prioridad_alta).toBe(true);
-    // Sin PII en custom_data.
-    expect(JSON.stringify(mqls[0].custom_data)).not.toContain("@");
-
-    // El Pixel manda el MQL con el MISMO event_id → Meta cuenta UNA conversión.
+    // --- Desde el 2026-10-26 agendar NO es MQL (mql-verificado-por-closer) ---
+    // Llegaban leads falsos que agendaban y Meta aprendía de ellos. El MQL lo
+    // marca el closer en el CRM. Al agendar sólo sale Schedule.
+    expect(capi.filter((c) => c.event_name === "MQL")).toHaveLength(0);
     const fbq = await page.evaluate(
       () => (window as unknown as { __fbqCalls: { name: string; eventId?: string }[] }).__fbqCalls,
     );
-    const pixelMqls = fbq.filter((c) => c.name === "MQL");
-    expect(pixelMqls).toHaveLength(1);
-    expect(pixelMqls[0].eventId).toBe(mqls[0].event_id);
+    expect(fbq.filter((c) => c.name === "MQL")).toHaveLength(0);
+    expect(fbq.filter((c) => c.name === "Schedule")).toHaveLength(1);
 
     // --- El CRM ---
     const confirmaciones = wizard.filter((w) => w.lead_stage === "booking_confirmed");
