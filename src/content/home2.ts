@@ -59,7 +59,7 @@ export const HOME2_FUNDADOR = {
   cargo: "Fundador de Clinera, Método Hebe, Protocolo Lumina y Metricads",
   foto: "/images/home2/ricardo-obra-concepcion.webp",
   fotoAlt:
-    "Ricardo Oyarzún revisando con un ingeniero la obra de una nueva sucursal",
+    "Ricardo Oyarzún revisando con una ingeniera los planos de una nueva sucursal",
   parrafos: [
     "Titulado de la Universidad de Concepción. Construyó las cuatro empresas en más de una década, sin socios ni inversionistas externos.",
     "Clinera no es una idea de software buscando clientes: es la herramienta que usa en sus propias clínicas, todos los días, con su propia plata en los anuncios.",
