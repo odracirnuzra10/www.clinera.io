@@ -80,8 +80,10 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(m).toContain("data-embudo");
     for (const paso of ["creativo", "clic", "evaluacion", "tratamiento"]) expect(m).toContain(`data-paso="${paso}"`);
     expect(m).toContain("data-pelicula");
-    // 26-oct-2026: el marketing consigue evaluaciones pagadas por adelantado.
-    expect(m).toContain("pague su evaluación antes de llegar");
+    // 26-oct-2026: las campañas buscan una sola cosa, cobrar la evaluación, para que el paciente asista.
+    expect(m).toContain("data-cobro-evaluacion");
+    expect(m).toContain("pague su evaluación antes de venir");
+    expect(m).toContain("Asiste a su cita");
     expect(m).toContain("US$&nbsp;500");
     expect(m).toContain("US$&nbsp;10.000");
     expect(m).toContain("20 veces");
