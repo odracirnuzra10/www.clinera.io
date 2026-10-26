@@ -57,7 +57,9 @@ export const HOME2_FUNDADOR = {
   eyebrow: "Quién está detrás",
   nombre: "Ricardo Oyarzún",
   cargo: "Fundador de Clinera, Método Hebe, Protocolo Lumina y Metricads",
-  foto: "/images/team/ricardo-oyarzun.webp",
+  foto: "/images/home2/ricardo-obra-concepcion.webp",
+  fotoAlt:
+    "Ricardo Oyarzún revisando con un ingeniero la obra de una nueva sucursal",
   parrafos: [
     "Titulado de la Universidad de Concepción. Construyó las cuatro empresas en más de una década, sin socios ni inversionistas externos.",
     "Clinera no es una idea de software buscando clientes: es la herramienta que usa en sus propias clínicas, todos los días, con su propia plata en los anuncios.",
@@ -68,36 +70,73 @@ export const HOME2_FUNDADOR = {
   ],
 } as const;
 
-export const HOME2_PIEZAS = {
-  eyebrow: "Qué es Clinera",
-  titulo: "Cuatro piezas que funcionan juntas.",
-  bajada: "Cada una depende de la anterior. Por eso las vendemos juntas.",
-  items: [
+// PMFC en el orden y con las palabras de Ricardo (26-oct-2026). Cada letra
+// lleva su visual en Home2.tsx. Los montos de P son «valores de referencia»
+// (los mismos del deck /presentacion-tecnica, caso Lumina Face).
+export const HOME2_PMFC = {
+  eyebrow: "Metodología PMFC",
+  titulo: "Cuatro piezas, en este orden.",
+  tituloAcento: "Cada una depende de la anterior.",
+  bajada:
+    "Lo que hace crecer a una clínica es el margen. Por eso no partimos por el software: partimos por lo que vendes.",
+  piezas: [
     {
-      n: "01",
-      titulo: "Qué vendes",
+      letra: "P",
+      titulo: "Propuesta de valor",
       texto:
-        "Una propuesta de valor que no compite por precio. Un protocolo propio se vende mejor que un tratamiento genérico.",
+        "Un protocolo propio que la competencia no tiene. Deja de competir por precio y te permite cobrar lo que vale tu trabajo.",
     },
     {
-      n: "02",
-      titulo: "Cómo llegan los pacientes",
+      letra: "M",
+      titulo: "Marketing de captación",
       texto:
-        "Campañas de marketing de performance con creativos incluidos. La inversión en anuncios se paga aparte.",
+        "Campañas que consiguen evaluaciones prepagadas: la paciente paga su evaluación antes de llegar. Llega quien ya decidió, no el curioso.",
     },
     {
-      n: "03",
-      titulo: "Cómo vender en la consulta",
+      letra: "F",
+      titulo: "Framework de venta",
       texto:
-        "Capacitamos a tus doctores y especialistas para cerrar en la evaluación, que la paciente ya pagó.",
+        "Técnicas para cerrar negocios de alto valor en la consulta. Capacitamos a tus doctores y especialistas para vender sin regalar tratamientos.",
     },
     {
-      n: "04",
-      titulo: "Quién agenda por ti",
+      letra: "C",
+      titulo: "Clinera, el software",
       texto:
-        "AURA, una secretaria con IA que responde WhatsApp, Instagram y Facebook y deja la cita en tu agenda, con ficha y cobro.",
+        "AURA, una secretaria con IA, responde por WhatsApp, Instagram y Facebook y deja la cita en tu agenda, con la ficha y el cobro en el mismo lugar.",
     },
   ],
+  propuesta: {
+    filas: [
+      {
+        nombre: "Tratamiento genérico",
+        vende: "US$ 180",
+        deja: "US$ 50",
+        pct: 2.5,
+      },
+      {
+        nombre: "Protocolo propio",
+        vende: "US$ 2.500",
+        deja: "US$ 2.000",
+        pct: 100,
+      },
+    ],
+    nota: "Valores de referencia.",
+  },
+  marketing: [
+    "Ves el anuncio",
+    "Conversa con AURA",
+    "Paga su evaluación",
+    "Llega a la consulta",
+  ],
+  framework: {
+    foto: "/presentacion/assets/framework-consulta.webp",
+    pasos: [
+      "Diagnóstico antes del precio",
+      "Casos reales de antes y después",
+      "Un rango, no un número suelto",
+      "El cierre en la misma consulta",
+    ],
+  },
 } as const;
 
 export type Home2Caso = {
@@ -193,14 +232,8 @@ export const HOME2_CASOS_TEXTO = {
   eyebrow: "Casos",
   titulo: "Los números salen de",
   tituloAcento: "nuestras propias campañas.",
-  bajada: "Cifras reales de las clínicas, en dólares. No son proyecciones.",
-} as const;
-
-export const HOME2_HONESTO = {
-  pregunta: "¿Por qué casi todos los casos son nuestros?",
-  respuesta: "Porque Clinera nació adentro de nuestras clínicas.",
-  texto:
-    "Preferimos mostrarte lo que medimos con nuestra propia plata antes que testimonios armados. Los casos de clínicas que se suman los publicamos a medida que tienen resultados. En la reunión te mostramos las campañas reales.",
+  bajada:
+    "Cifras reales de nuestras clínicas, en dólares. No son proyecciones. Más abajo, lo que dicen otras clínicas.",
 } as const;
 
 export const HOME2_CIERRE = {
