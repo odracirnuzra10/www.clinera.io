@@ -1207,3 +1207,24 @@ atribuyen 7 días desde el clic, así que un lead del fin de semana calificado e
 Detalle y aplicador: `baserow/CLAUDE.md`, «El MQL de Clinera lo declara el closer».
 Guardianes: `tests/reserva-tu-hora.spec.ts` y `tests/reunion-meta-events.spec.ts`.
 `tests/ventas-meta-events.spec.ts` ya fallaba en `main` antes de este cambio (el wizard de `/ventas` cambió).
+
+# `/agenda` exige sitio web y lo verifica en el servidor (Ricardo, 26-oct-2026)
+
+Clinera apunta a **clínicas medianas**, no al profesional independiente: una clínica establecida tiene
+sitio web. El paso 2 del wizard (`AgendaWizard`, y con él `/agenda-google` y `/oferta-clinicas-esteticas`)
+pide «Sitio web de tu clínica» y, antes de avanzar, llama a `POST /api/verificar-sitio`:
+
+- **No pasa:** red social o Linktree (`red_social`), el dominio no resuelve, no responde, da 404 o está en
+  venta (`no_existe`), o la IA leyó la página y no es de salud o estética (`no_clinica`: «Este sitio no
+  corresponde a una clínica. Por favor verifica.»). Sin pasar, no sale el `Lead` a Meta ni el lead al CRM.
+- **Pasa siempre que el error sea nuestro:** el sitio bloquea robots o se dibuja sólo con JavaScript
+  (`sin_leer`), la IA falla o no está configurada, o la ruta da 5xx (`sin_verificar`). Un bug nuestro no
+  puede costar un lead real. El estado viaja al CRM en `sitio_web_estado` junto a `sitio_web`.
+- **La IA es Claude** (`ANTHROPIC_API_KEY` en Vercel, producción). **Sin esa variable no hay bloqueo por
+  «no es clínica»**: sólo se bloquea lo que no existe. La lógica pura (normalizar, IP privadas, texto, dominio
+  en venta) está en `src/lib/verificar-sitio.ts`; la red y la IA, en la ruta.
+- **Seguridad:** el servidor visita una URL que escribió un desconocido: cada salto de redirección se resuelve
+  por DNS y se rechaza si es IP privada; máx. 400 KB; caché por dominio 1 h y 12 consultas/min por IP.
+- `/reserva-tu-hora` (destino del Instant Form) y los formularios de Meta **no** piden sitio.
+
+Guardián: `tests/verificar-sitio.spec.ts`.

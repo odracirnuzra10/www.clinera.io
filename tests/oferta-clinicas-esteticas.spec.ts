@@ -6,6 +6,9 @@
 import { expect, test, type Page, type Request } from "@playwright/test";
 
 async function mockRed(page: Page) {
+  await page.route("**/api/verificar-sitio", (route) =>
+    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, url: "https://e2e.clinera.io", estado: "verificado" }) }),
+  );
   for (const path of ["**/api/wizard", "**/api/meta/capi"]) {
     await page.route(path, (route) =>
       route.request().method() === "POST"
@@ -87,6 +90,7 @@ test("landing: el lead completa el wizard ahí mismo y el closer ve la oferta", 
   await page.getByLabel("Correo", { exact: true }).fill("e2e-oferta-landing@e2e.clinera.io");
   await page.getByLabel("Celular (WhatsApp)").fill("912345678");
   await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Estética");
+  await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
   await page.getByRole("button", { name: /Elegir mi hora/ }).click();
   await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
   await expect.poll(() => hits.filter((h) => h.lead_stage === "contact").length).toBe(1);
@@ -114,6 +118,7 @@ test("/agenda con la oferta: boleta a 379 y el closer lo ve en el CRM", async ({
   await page.getByLabel("Correo", { exact: true }).fill("e2e-oferta@e2e.clinera.io");
   await page.getByLabel("Celular (WhatsApp)").fill("912345678");
   await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Estética");
+  await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
   await page.getByRole("button", { name: /Elegir mi hora/ }).click();
   await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
   await expect.poll(() => hits.filter((h) => h.lead_stage === "contact").length).toBe(1);

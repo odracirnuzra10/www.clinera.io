@@ -37,6 +37,9 @@ const LISTA = [
 ] as const;
 
 async function mockRed(page: Page) {
+  await page.route("**/api/verificar-sitio", (route) =>
+    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, url: "https://e2e.clinera.io", estado: "verificado" }) }),
+  );
   for (const path of ["**/api/wizard", "**/api/meta/capi"]) {
     await page.route(path, (route) =>
       route.request().method() === "POST"
@@ -125,6 +128,7 @@ for (const nombre of LISTA) {
       await page.getByLabel("Correo", { exact: true }).fill("e2e-disp@e2e.clinera.io");
       await page.getByLabel("Celular (WhatsApp)").fill("912345678");
       await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Clínica");
+      await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
       expect(await sinOverflowX(), "scroll horizontal en el paso 2").toBe(true);
       if (!horizontal) expect(await sinScrollY(), "scroll vertical en el paso 2").toBe(true);
 

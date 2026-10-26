@@ -387,6 +387,8 @@ export type Form = {
   phone: string;
   email: string;
   website: string;
+  /** Resultado de /api/verificar-sitio (`verificado`, `sin_leer`, `sin_verificar`). Sólo /agenda. */
+  sitioEstado?: string;
   city: string;
   cargo: CargoId;
   /** Boxes/profesionales (`1_3`, `4_6`…). Sólo lo pregunta /agenda; el resto de los wizards lo deja fuera. */
@@ -424,6 +426,7 @@ function clinicCrmFields(form: Form) {
     tipo_clinica: form.tipoClinica || "",
     tipo_clinica_label: form.tipoClinica ? CLINIC_TYPE_LABELS[form.tipoClinica] : "",
     sitio_web: form.website.trim(),
+    ...(form.sitioEstado ? { sitio_web_estado: form.sitioEstado } : {}),
     ciudad: form.city.trim(),
     cargo: form.cargo,
     ...(form.boxes
