@@ -5,6 +5,9 @@
 import { expect, test, type Page } from "@playwright/test";
 
 async function mockRed(page: Page) {
+  await page.route("**/api/verificar-sitio", (route) =>
+    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, url: "https://e2e.clinera.io", estado: "verificado" }) }),
+  );
   for (const path of ["**/api/wizard", "**/api/meta/capi"]) {
     await page.route(path, (route) =>
       route.request().method() === "POST"
@@ -37,6 +40,7 @@ async function recorrer(page: Page, ruta: string) {
   await page.getByLabel("Correo", { exact: true }).fill("e2e-google@e2e.clinera.io");
   await page.getByLabel("Celular (WhatsApp)").fill("912345678");
   await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Clínica");
+  await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
   await page.getByRole("button", { name: /Elegir mi hora/ }).click();
   await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
   await expect.poll(() => cuerpos.length).toBeGreaterThan(0);

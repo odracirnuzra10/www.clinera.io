@@ -12,6 +12,7 @@
     "test:e2e:analytics": "playwright test tests/analytics.spec.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0",
     "@vercel/blob": "^2.6.1",
     "gray-matter": "^4.0.3",
     "next": "16.2.3",

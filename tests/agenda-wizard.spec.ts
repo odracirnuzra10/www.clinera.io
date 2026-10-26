@@ -28,6 +28,9 @@ function grabarWizard(page: Page) {
 }
 
 async function mockRed(page: Page) {
+  await page.route("**/api/verificar-sitio", (route) =>
+    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, url: "https://e2e.clinera.io", estado: "verificado" }) }),
+  );
   for (const path of ["**/api/wizard", "**/api/meta/capi"]) {
     await page.route(path, (route) =>
       route.request().method() === "POST"
@@ -60,6 +63,7 @@ async function llenarDatos(page: Page) {
   await page.getByLabel("Correo", { exact: true }).fill("e2e-agenda@e2e.clinera.io");
   await page.getByLabel("Celular (WhatsApp)").fill("912345678");
   await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Clínica");
+  await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
 }
 
 test("wizard: boleta «Quiero ahorrar» → datos (CRM + Lead US$ 3) → horario", async ({ page }) => {

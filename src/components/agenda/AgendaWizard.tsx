@@ -10,7 +10,10 @@
 //   Paso 1  la boleta «lo que te ahorras con el Ecosistema» y el botón deslizante «Desliza para ahorrar»
 //           → ViewContent. Ya no se elige servicio (Ricardo, 19-oct-2026): se vende el
 //           Ecosistema, así que el lead viaja siempre con `servicio_interes: "ambas"`.
-//   Paso 2  tus datos: nombre, correo, celular y nombre de la clínica → CRM + Lead (US$ 3)
+//   Paso 2  tus datos: nombre, correo, celular, nombre y sitio web de la clínica → CRM + Lead (US$ 3)
+//           El sitio web es obligatorio (Ricardo, 26-oct-2026: Clinera apunta a clínicas
+//           medianas, y una clínica establecida tiene web). Antes de avanzar se verifica en el
+//           servidor (`/api/verificar-sitio`): si no existe o no es de una clínica, no pasa.
 //   Paso 3  elige tu horario: calendario nativo de Clinera (`StepClineraScheduler`) →
 //           Schedule + MQL (US$ 10)
 //
@@ -55,6 +58,7 @@ import {
   reglaTelefono,
 } from "@/lib/telefono";
 import { trackPixel } from "@/lib/tracking";
+import { MENSAJE_SITIO, type ResultadoSitio } from "@/lib/verificar-sitio";
 import { OFERTA_ESTETICA, type OfertaId } from "@/content/oferta-estetica";
 import { zonaMostrada } from "@/lib/timezone";
 import base from "@/components/estetica/EsteticaAdsLanding.module.css";
@@ -119,6 +123,10 @@ export default function AgendaWizard({
   const [prefix, setPrefix] = useState(() => (MX_TZ.test(tzIp) ? "+52" : "+56"));
   const [phone, setPhone] = useState("");
   const [clinica, setClinica] = useState("");
+  const [sitio, setSitio] = useState("");
+  // Último sitio verificado (lo escrito y el resultado): si no cambia, no se vuelve a preguntar.
+  const [sitioRes, setSitioRes] = useState<{ valor: string; r: ResultadoSitio } | null>(null);
+  const [verificando, setVerificando] = useState(false);
   const [intentado, setIntentado] = useState(false);
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
   const [booking, setBooking] = useState<CalBooking | null>(null);
@@ -142,7 +150,10 @@ export default function AgendaWizard({
   const nombreOk = nombre.trim().length >= 2;
   const emailOk = EMAIL_OK.test(email.trim());
   const clinicaOk = clinica.trim().length >= 2;
-  const datosOk = nombreOk && emailOk && phoneOk && clinicaOk;
+  const sitioOk = sitio.trim().length >= 4;
+  const datosOk = nombreOk && emailOk && phoneOk && clinicaOk && sitioOk;
+  const sitioVigente = sitioRes && sitioRes.valor === sitio.trim() ? sitioRes.r : null;
+  const sitioError = sitioVigente && !sitioVigente.ok ? MENSAJE_SITIO[sitioVigente.motivo] : null;
   const rule = reglaTelefono(prefix);
 
   const form: Form = {
@@ -153,7 +164,8 @@ export default function AgendaWizard({
     prefix,
     phone: digitos,
     email,
-    website: "",
+    website: sitioVigente?.ok ? sitioVigente.url : sitio.trim(),
+    sitioEstado: sitioVigente?.ok ? sitioVigente.estado : undefined,
     city: "",
     pais: paisDePrefijo(prefix),
     cargo: "" as Form["cargo"],
@@ -168,6 +180,7 @@ export default function AgendaWizard({
     if (!emailOk) return "Revisa tu correo.";
     if (phoneError) return phoneError;
     if (!clinicaOk) return "Escribe el nombre de tu clínica.";
+    if (!sitioOk) return MENSAJE_SITIO.formato;
     return "Revisa tus datos.";
   }
 
@@ -195,11 +208,40 @@ export default function AgendaWizard({
     window.setTimeout(() => setPum(null), 1100);
   }
 
-  function enviarPaso2() {
+  async function verificarSitio(): Promise<ResultadoSitio> {
+    const valor = sitio.trim();
+    if (sitioRes && sitioRes.valor === valor) return sitioRes.r;
+    let r: ResultadoSitio;
+    try {
+      const res = await fetch("/api/verificar-sitio", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sitio: valor }),
+      });
+      const data = (await res.json()) as ResultadoSitio;
+      // Si la verificación misma falla (429, 5xx), el lead pasa: un error nuestro no lo bloquea.
+      r = res.ok && typeof data?.ok === "boolean" ? data : { ok: true, url: valor, estado: "sin_verificar" };
+    } catch {
+      r = { ok: true, url: valor, estado: "sin_verificar" };
+    }
+    setSitioRes({ valor, r });
+    return r;
+  }
+
+  async function enviarPaso2() {
+    if (verificando) return;
     if (!datosOk) {
       setIntentado(true);
       return;
     }
+    setVerificando(true);
+    const r = await verificarSitio();
+    setVerificando(false);
+    if (!r.ok) {
+      pushDL("agenda_sitio_rechazado", { motivo: r.motivo, source_path: SOURCE_PATH });
+      return;
+    }
+    const formOk: Form = { ...form, website: r.url, sitioEstado: r.estado };
     const eventId = leadCtx?.eventId ?? newLeadEventId();
     const ctx = leadCtx ?? { eventId, leadSource: fuente() };
     if (!leadCtx) setLeadCtx(ctx);
@@ -215,7 +257,7 @@ export default function AgendaWizard({
     });
     // Al CRM al enviar los datos: el lead que no agenda igual queda. No se espera a n8n.
     void submitContactLead({
-      form,
+      form: formOk,
       software: null,
       size,
       qual,
@@ -348,13 +390,20 @@ export default function AgendaWizard({
                     <label className={base.label} htmlFor="ag-clinica">Nombre de tu clínica</label>
                     <input id="ag-clinica" className={base.input} value={clinica} onChange={(e) => setClinica(e.target.value)} autoComplete="organization" placeholder="Clínica Estética Vela" aria-invalid={intentado && !clinicaOk} />
 
-                    {intentado && !datosOk && (
+                    <label className={base.label} htmlFor="ag-sitio">Sitio web de tu clínica</label>
+                    <input id="ag-sitio" className={base.input} value={sitio} onChange={(e) => setSitio(e.target.value)} type="url" inputMode="url" autoComplete="url" autoCapitalize="none" spellCheck={false} placeholder="www.tuclinica.cl" aria-invalid={(intentado && !sitioOk) || !!sitioError} data-sitio-estado={sitioVigente ? (sitioVigente.ok ? sitioVigente.estado : sitioVigente.motivo) : undefined} />
+
+                    {intentado && !datosOk ? (
                       <p className={base.error} role="alert">
                         {errorDatos()}
                       </p>
-                    )}
-                    <button type="button" className={base.cta} onClick={enviarPaso2}>
-                      Elegir mi hora →
+                    ) : sitioError ? (
+                      <p className={base.error} role="alert" data-sitio-error>
+                        {sitioError}
+                      </p>
+                    ) : null}
+                    <button type="button" className={base.cta} onClick={() => void enviarPaso2()} disabled={verificando} aria-busy={verificando}>
+                      {verificando ? "Verificando tu sitio…" : "Elegir mi hora →"}
                     </button>
                     <button type="button" className={styles.volver} onClick={() => irA(1)}>
                       ← Volver
