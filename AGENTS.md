@@ -1238,3 +1238,9 @@ pide «Sitio web de tu clínica» y, antes de avanzar, llama a `POST /api/verifi
 - `/reserva-tu-hora` (destino del Instant Form) y los formularios de Meta **no** piden sitio.
 
 Guardián: `tests/verificar-sitio.spec.ts`.
+
+**El seguimiento nunca corta el formulario (26-oct-2026).** Ricardo vio el deslizador de `/agenda` pegado al
+final: si una etiqueta de GTM o el pixel tiran error en `dataLayer.push` / `fbq`, `enviarPaso1` moría antes de
+avanzar al paso 2. Ahora `pushDL` y `trackPixel` atrapan el error, y el paso 1 avanza **antes** de medir. Todo
+formulario nuevo: primero el paso, después el seguimiento. Guardián: «el deslizador avanza aunque GTM o el pixel
+tiren error» en `tests/agenda-wizard.spec.ts`.

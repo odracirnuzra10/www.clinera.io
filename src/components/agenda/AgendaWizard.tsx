@@ -239,20 +239,26 @@ export default function AgendaWizard({
   }
 
   function enviarPaso1(origen?: OrigenPum) {
-    marcarInicio();
-    pushDL("agenda_step_complete", { step: 1, step_name: "boleta_quiero_ahorrar", servicio: SERVICIO.id, source_path: SOURCE_PATH });
-    // ViewContent: quiso ver lo que ahorra con el Ecosistema (Ricardo, 19-oct-2026).
-    trackPixel("ViewContent", { content_name: SERVICIO.label, content_category: "servicio_interes", content_ids: ["ecosistema"] });
-    const sinMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Primero se avanza y después se mide: si el seguimiento falla, el visitante igual pasa al
+    // paso 2 (26-oct-2026: con un error de GTM el deslizador quedaba pegado al final).
+    const sinMovimiento = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!origen || sinMovimiento) {
       irA(2);
-      return;
+    } else {
+      // «Pum»: del punto donde quedó la perilla se abre un círculo de color que cubre el wizard; ya
+      // cubierto se cambia al paso 2 y el círculo se disuelve dejando entrar los datos.
+      setPum(origen);
+      window.setTimeout(() => irA(2), 420);
+      window.setTimeout(() => setPum(null), 1100);
     }
-    // «Pum»: del punto donde quedó la perilla se abre un círculo de color que cubre el wizard; ya
-    // cubierto se cambia al paso 2 y el círculo se disuelve dejando entrar los datos.
-    setPum(origen);
-    window.setTimeout(() => irA(2), 420);
-    window.setTimeout(() => setPum(null), 1100);
+    try {
+      marcarInicio();
+      pushDL("agenda_step_complete", { step: 1, step_name: "boleta_quiero_ahorrar", servicio: SERVICIO.id, source_path: SOURCE_PATH });
+      // ViewContent: quiso ver lo que ahorra con el Ecosistema (Ricardo, 19-oct-2026).
+      trackPixel("ViewContent", { content_name: SERVICIO.label, content_category: "servicio_interes", content_ids: ["ecosistema"] });
+    } catch (e) {
+      console.error("[agenda] seguimiento del paso 1", e);
+    }
   }
 
   async function verificarSitio(): Promise<ResultadoSitio> {

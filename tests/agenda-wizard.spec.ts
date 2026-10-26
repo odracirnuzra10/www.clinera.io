@@ -171,3 +171,20 @@ test("el panel muestra una imagen por pantalla y no hay cupón ni compra", async
   await expect(body).not.toContainText(/CU[K]I|cupón/i);
   await expect(body).not.toContainText(/Crear cuenta/);
 });
+
+test("el deslizador avanza aunque GTM o el pixel tiren error (26-oct-2026)", async ({ page }) => {
+  await mockRed(page);
+  await page.addInitScript(() => {
+    const w = window as unknown as { dataLayer: unknown[]; fbq: unknown };
+    w.dataLayer = [];
+    w.dataLayer.push = () => {
+      throw new TypeError("a[c] is not a function");
+    };
+    w.fbq = () => {
+      throw new TypeError("a[c] is not a function");
+    };
+  });
+  await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+  await pasoBoleta(page);
+  await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
+});

@@ -545,7 +545,13 @@ export function detectLeadSource(): string {
 // Empuja un evento a GTM/dataLayer (mecanismo de analytics que ya usa el sitio).
 export function pushDL(event: string, data: Record<string, unknown> = {}) {
   if (typeof window === "undefined" || !window.dataLayer) return;
-  window.dataLayer.push({ event, ...data });
+  // GTM reemplaza dataLayer.push: si una etiqueta falla, el error sale por acá. Nunca puede
+  // cortar el formulario (26-oct-2026: el deslizador de /agenda quedaba pegado al final).
+  try {
+    window.dataLayer.push({ event, ...data });
+  } catch (e) {
+    console.error("[pushDL]", event, e);
+  }
 }
 
 // event_id único del lead. Se comparte entre el webhook n8n (upsert del lead) y,
