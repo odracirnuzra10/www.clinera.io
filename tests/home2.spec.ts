@@ -53,6 +53,23 @@ test("home2: noindex, historia, fundador y cuatro casos con cifra", async ({
     "href",
     "https://alta-qualita.cl",
   );
+  // PMFC con las cuatro letras y la C mostrando cómo agenda.
+  for (const letra of ["P", "M", "F", "C"]) {
+    await expect(page.locator(`[data-home2-pmfc="${letra}"]`)).toBeVisible();
+  }
+  await expect(page.locator('[data-home2-pmfc="M"]')).toContainText(
+    "evaluaciones prepagadas",
+  );
+  await expect(page.locator('[data-home2-pmfc="F"]')).toContainText(
+    "alto valor",
+  );
+  await expect(page.locator("[data-home2-slot-nuevo]")).toContainText(
+    "Valentina R.",
+  );
+  // Lo que viene del home: demo, testimonios, planes y preguntas.
+  await expect(page.locator("#demo-3-min")).toHaveCount(1);
+  await expect(page.locator("#historias")).toContainText("Tamara Oyarzún");
+  await expect(page.locator("#faq")).toHaveCount(1);
   // Sin cifras viejas ni promesas de integración con agendas de terceros.
   await expect(page.locator("main")).not.toContainText(
     /\+52 cl[ií]nicas|AgendaPro|Reservo|Medilink/,

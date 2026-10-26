@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import ClinicasLogos from "@/components/clinicas/ClinicasLogos";
+import DemoEnVivo from "@/components/home-v3/DemoEnVivo";
+import { Faq, Testimonios } from "@/components/home-v3/sections";
+import PlanesVigentes from "@/components/pricing/PlanesVigentes";
 import { CTA_VENTAS_LABEL } from "@/content/planes";
 import {
   HOME2_ALTA_QUALITA,
@@ -11,13 +14,124 @@ import {
   HOME2_FUNDADOR,
   HOME2_HERO,
   HOME2_HISTORIA,
-  HOME2_HONESTO,
-  HOME2_PIEZAS,
+  HOME2_PMFC,
 } from "@/content/home2";
 import s from "./Home2.module.css";
 
-// /home2 (Ricardo, 26-oct-2026): historia de Clinera + casos al estilo de
-// sacamedi.com/casos. Contenido en `src/content/home2.ts`.
+// /home2 (Ricardo, 26-oct-2026): mezcla del home actual con PMFC detallado,
+// casos al estilo de sacamedi.com/casos e historia del fundador. Contenido en
+// `src/content/home2.ts`; testimonios, demo, planes y preguntas son los del home.
+
+const ESPERA_MS = [0, 900, 1900, 2800];
+
+/** C de PMFC: AURA agenda por WhatsApp y la cita cae en la agenda. Sólo CSS. */
+function AgendaEnVivo() {
+  const chat = [
+    { de: "paciente", texto: "Hola, quiero agendar una evaluación facial" },
+    {
+      de: "aura",
+      texto: "¡Hola! Tengo martes 10:30 o jueves 16:00. ¿Cuál te acomoda?",
+    },
+    { de: "paciente", texto: "Martes 10:30" },
+    {
+      de: "aura",
+      texto:
+        "Listo ✅ Te dejé agendada. Te envío el link para pagar tu evaluación.",
+    },
+  ];
+  return (
+    <div
+      className={s.cVisual}
+      data-home2-agenda
+      aria-label="Ejemplo de AURA agendando por WhatsApp"
+    >
+      <div className={s.chat}>
+        <p className={s.chatHead}>
+          <span className={s.chatDot} /> AURA · WhatsApp
+        </p>
+        {chat.map((m, i) => (
+          <p
+            key={m.texto}
+            className={m.de === "aura" ? s.msgAura : s.msgPaciente}
+            style={{ animationDelay: `${ESPERA_MS[i]}ms` }}
+          >
+            {m.texto}
+          </p>
+        ))}
+      </div>
+      <div className={s.agenda}>
+        <p className={s.agendaHead}>Agenda · martes</p>
+        <div className={s.slot}>
+          <span>09:00</span> María T. · Control
+        </div>
+        <div className={`${s.slot} ${s.slotNuevo}`} data-home2-slot-nuevo>
+          <span>10:30</span> Valentina R. · Evaluación facial
+          <em>Pagada · agendó AURA</em>
+        </div>
+        <div className={s.slot}>
+          <span>12:00</span> Libre
+        </div>
+        <div className={s.slot}>
+          <span>15:00</span> Luis A. · Sesión 2
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function VisualPmfc({ letra }: { letra: string }) {
+  if (letra === "P") {
+    return (
+      <div className={s.pVisual}>
+        {HOME2_PMFC.propuesta.filas.map((f) => (
+          <div key={f.nombre} className={s.pFila}>
+            <p className={s.pNombre}>{f.nombre}</p>
+            <p className={s.pCifras}>
+              Se vende a <strong>{f.vende}</strong> · te deja{" "}
+              <strong>{f.deja}</strong>
+            </p>
+            <div className={s.pBarra}>
+              <i style={{ width: `${f.pct}%` }} />
+            </div>
+          </div>
+        ))}
+        <p className={s.nota}>{HOME2_PMFC.propuesta.nota}</p>
+      </div>
+    );
+  }
+  if (letra === "M") {
+    return (
+      <ol className={s.mVisual}>
+        {HOME2_PMFC.marketing.map((paso, i) => (
+          <li key={paso} style={{ width: `${100 - i * 14}%` }}>
+            <span>{String(i + 1).padStart(2, "0")}</span>
+            {paso}
+          </li>
+        ))}
+      </ol>
+    );
+  }
+  if (letra === "F") {
+    return (
+      <div className={s.fVisual}>
+        <div className={s.fFoto}>
+          <Image
+            src={HOME2_PMFC.framework.foto}
+            alt="Especialista explicando un tratamiento a una paciente en la consulta"
+            fill
+            sizes="(max-width: 900px) 100vw, 50vw"
+          />
+        </div>
+        <ol className={s.fPasos}>
+          {HOME2_PMFC.framework.pasos.map((p) => (
+            <li key={p}>{p}</li>
+          ))}
+        </ol>
+      </div>
+    );
+  }
+  return <AgendaEnVivo />;
+}
 
 function Cta({ donde }: { donde: string }) {
   return (
@@ -55,67 +169,34 @@ export default function Home2() {
 
       <ClinicasLogos />
 
-      <section className={s.bloque} id="historia" data-home2="historia">
-        <p className={s.eyebrow}>{HOME2_HISTORIA.eyebrow}</p>
+      <section className={s.bloque} id="pmfc" data-home2="pmfc">
+        <p className={s.eyebrow}>{HOME2_PMFC.eyebrow}</p>
         <h2 className={s.h2}>
-          {HOME2_HISTORIA.titulo}{" "}
-          <span className={s.grad}>{HOME2_HISTORIA.tituloAcento}</span>
+          {HOME2_PMFC.titulo}{" "}
+          <span className={s.grad}>{HOME2_PMFC.tituloAcento}</span>
         </h2>
-        <ol className={s.linea}>
-          {HOME2_HISTORIA.pasos.map((p) => (
-            <li key={p.titulo}>
-              <span className={s.marca}>{p.marca}</span>
-              <h3>{p.titulo}</h3>
-              <p>{p.texto}</p>
-            </li>
+        <p className={s.bajada}>{HOME2_PMFC.bajada}</p>
+        <div className={s.pmfc}>
+          {HOME2_PMFC.piezas.map((p) => (
+            <article
+              key={p.letra}
+              className={s.pmfcFila}
+              data-home2-pmfc={p.letra}
+            >
+              <div className={s.pmfcTexto}>
+                <span className={s.letra}>{p.letra}</span>
+                <h3>{p.titulo}</h3>
+                <p>{p.texto}</p>
+              </div>
+              <VisualPmfc letra={p.letra} />
+            </article>
           ))}
-        </ol>
-      </section>
-
-      <section
-        className={`${s.bloque} ${s.fundador}`}
-        id="fundador"
-        data-home2="fundador"
-      >
-        <div className={s.fotoFundador}>
-          <Image
-            src={HOME2_FUNDADOR.foto}
-            alt={HOME2_FUNDADOR.nombre}
-            width={480}
-            height={480}
-          />
-        </div>
-        <div>
-          <p className={s.eyebrow}>{HOME2_FUNDADOR.eyebrow}</p>
-          <h2 className={s.h2}>{HOME2_FUNDADOR.nombre}</h2>
-          <p className={s.cargo}>{HOME2_FUNDADOR.cargo}</p>
-          {HOME2_FUNDADOR.parrafos.map((t) => (
-            <p key={t} className={s.texto}>
-              {t}
-            </p>
-          ))}
-          <ul className={s.chips}>
-            {HOME2_FUNDADOR.credenciales.map((c) => (
-              <li key={c}>{c}</li>
-            ))}
-          </ul>
         </div>
       </section>
 
-      <section className={s.bloque} id="ecosistema" data-home2="piezas">
-        <p className={s.eyebrow}>{HOME2_PIEZAS.eyebrow}</p>
-        <h2 className={s.h2}>{HOME2_PIEZAS.titulo}</h2>
-        <p className={s.bajada}>{HOME2_PIEZAS.bajada}</p>
-        <ol className={s.piezas}>
-          {HOME2_PIEZAS.items.map((p) => (
-            <li key={p.n}>
-              <span className={s.marca}>{p.n}</span>
-              <h3>{p.titulo}</h3>
-              <p>{p.texto}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <div className={s.importado}>
+        <DemoEnVivo />
+      </div>
 
       <section className={s.bloque} id="casos" data-home2="casos">
         <p className={s.eyebrow}>{HOME2_CASOS_TEXTO.eyebrow}</p>
@@ -171,6 +252,15 @@ export default function Home2() {
         </div>
       </section>
 
+      <div className={s.importado}>
+        <Testimonios />
+        <PlanesVigentes
+          titulo="Dos formas de trabajar"
+          tituloAcento="con Clinera."
+          bajada="Vortex es el software con IA para tu clínica. El Ecosistema es Vortex más un equipo de marketing que te trae pacientes."
+        />
+      </div>
+
       <section className={s.bloque} id="alta-qualita" data-home2="alta-qualita">
         <div className={s.convenio}>
           <p className={s.eyebrow}>{HOME2_ALTA_QUALITA.eyebrow}</p>
@@ -190,11 +280,57 @@ export default function Home2() {
         </div>
       </section>
 
-      <section className={`${s.bloque} ${s.honesto}`} data-home2="honesto">
-        <h2 className={s.h3}>{HOME2_HONESTO.pregunta}</h2>
-        <p className={s.honestoResp}>{HOME2_HONESTO.respuesta}</p>
-        <p className={s.texto}>{HOME2_HONESTO.texto}</p>
+      <section className={s.bloque} id="historia" data-home2="historia">
+        <p className={s.eyebrow}>{HOME2_HISTORIA.eyebrow}</p>
+        <h2 className={s.h2}>
+          {HOME2_HISTORIA.titulo}{" "}
+          <span className={s.grad}>{HOME2_HISTORIA.tituloAcento}</span>
+        </h2>
+        <ol className={s.linea}>
+          {HOME2_HISTORIA.pasos.map((p) => (
+            <li key={p.titulo}>
+              <span className={s.marca}>{p.marca}</span>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
+            </li>
+          ))}
+        </ol>
       </section>
+
+      <section
+        className={`${s.bloque} ${s.fundador}`}
+        id="fundador"
+        data-home2="fundador"
+      >
+        <div className={s.fotoFundador}>
+          <Image
+            src={HOME2_FUNDADOR.foto}
+            alt={HOME2_FUNDADOR.fotoAlt}
+            width={1600}
+            height={900}
+            sizes="(max-width: 900px) 100vw, 55vw"
+          />
+        </div>
+        <div>
+          <p className={s.eyebrow}>{HOME2_FUNDADOR.eyebrow}</p>
+          <h2 className={s.h2}>{HOME2_FUNDADOR.nombre}</h2>
+          <p className={s.cargo}>{HOME2_FUNDADOR.cargo}</p>
+          {HOME2_FUNDADOR.parrafos.map((t) => (
+            <p key={t} className={s.texto}>
+              {t}
+            </p>
+          ))}
+          <ul className={s.chips}>
+            {HOME2_FUNDADOR.credenciales.map((c) => (
+              <li key={c}>{c}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <div className={s.importado}>
+        <Faq />
+      </div>
 
       <section className={`${s.bloque} ${s.cierre}`} data-home2="cierre">
         <h2 className={s.h2}>{HOME2_CIERRE.titulo}</h2>

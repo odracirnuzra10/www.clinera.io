@@ -1247,8 +1247,14 @@ tiren error» en `tests/agenda-wizard.spec.ts`.
 
 # `/home2`: borrador del home con historia, casos y convenio Alta Qualità (Ricardo, 26-oct-2026)
 
-Inspirado en sacamedi.com/casos: cifras arriba, una cifra grande por caso, honestidad sobre lo que falta
-y un solo CTA («Agendar reunión» → `/agenda`). Foco en clínicas **médicas y estéticas**. Contenido en
+Mezcla del home actual con PMFC detallado y casos al estilo de sacamedi.com/casos: hero con cifras,
+logos, **PMFC con un visual por letra** (P margen genérico vs protocolo propio; M embudo hasta la
+evaluación prepagada; F técnicas para cerrar ventas de alto valor; C AURA agendando por WhatsApp y la
+cita cayendo en la agenda, animado sólo con CSS), demo, casos, **testimonios, planes y preguntas
+del home** (los mismos componentes de `home-v3`, envueltos en `.importado` para el aire lateral en
+celular), convenio, historia, fundador (foto Higgsfield Soul «Ricardo» en obra,
+`public/images/home2/`) y un solo CTA («Agendar reunión» → `/agenda`). Foco en clínicas
+**médicas y estéticas**. Contenido en
 `src/content/home2.ts`; `noindex`, en `robots-txt.ts` y fuera del sitemap hasta que Ricardo decida si
 reemplaza a `/`.
 
