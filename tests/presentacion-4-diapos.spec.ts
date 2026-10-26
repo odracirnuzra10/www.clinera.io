@@ -33,6 +33,10 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).toContain("Meta y Google partner");
     expect(c).toContain("canal-metricads.webp");
     expect(c).not.toContain("1.500");
+    // Ricardo, 26-oct-2026: cómo nace (en sus clínicas) y su foto en la obra de una sucursal.
+    expect(c).toContain("data-nacimos");
+    expect(c).toContain("Método Hebe y Protocolo Lumina");
+    expect(c).toContain("fundador-obra.webp");
   });
 
   // Ricardo, 22-oct-2026: el deck se le muestra a doctores que no saben de marketing.
@@ -73,6 +77,8 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(m).toContain("data-embudo");
     for (const paso of ["creativo", "clic", "evaluacion", "tratamiento"]) expect(m).toContain(`data-paso="${paso}"`);
     expect(m).toContain("data-pelicula");
+    // 26-oct-2026: el marketing consigue evaluaciones pagadas por adelantado.
+    expect(m).toContain("pague su evaluación antes de llegar");
     expect(m).toContain("US$&nbsp;500");
     expect(m).toContain("US$&nbsp;10.000");
     expect(m).toContain("20 veces");
@@ -86,6 +92,8 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     const f = slide("pmfc-f"), c = slide("pmfc-c");
     expect(f).toContain("Cómo vender");
     expect(f).toContain("framework-consulta.webp");
+    expect(f).toContain("alto valor");
+    expect(f.match(/<li>/g)).toHaveLength(4);
     expect(c).toContain("secretaria con IA");
     expect(c).toContain("también de noche");
     expect(c).toContain("data-agenda-ia");
@@ -125,5 +133,9 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(eco).toContain("hace tus anuncios");
     expect(eco).toContain("reunión cada semana");
     expect(texto(c)).not.toMatch(/créditos|conversaciones|PMFC|onboarding|implementación|Promoción/i);
+    // Convenio Alta Qualità (Ricardo, 26-oct-2026): sin porcentaje publicado.
+    expect(c).toContain("data-convenio");
+    expect(c).toContain("Alta Qualità");
+    expect(c).not.toMatch(/20 ?%/);
   });
 });
