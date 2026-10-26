@@ -69,13 +69,7 @@ async function llegarAlPaso2(page: Page) {
   await page.goto("/agenda", { waitUntil: "domcontentloaded" });
   await expect(async () => {
     if (!(await page.locator('[data-agenda-paso="2"]').isVisible())) {
-      const pista = (await page.locator("[data-quiero-ahorrar]").boundingBox())!;
-      const perilla = (await page.locator("[data-perilla]").boundingBox())!;
-      const y = perilla.y + perilla.height / 2;
-      await page.mouse.move(perilla.x + perilla.width / 2, y);
-      await page.mouse.down();
-      await page.mouse.move(pista.x + pista.width + 20, y, { steps: 10 });
-      await page.mouse.up();
+      await page.locator("[data-quiero-ahorrar]").click();
     }
     await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible({ timeout: 2500 });
   }).toPass({ timeout: 20000 });

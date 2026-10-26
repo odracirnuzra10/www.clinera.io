@@ -5,7 +5,7 @@
 // (lo que sí queda sin probar acá: el comportamiento exacto de la barra de Safari y del teclado
 // de iOS). Las alturas de Playwright para iPhone ya descuentan las barras de Safari.
 //
-// Por dispositivo: sin scroll horizontal; la perilla se desliza con el dedo; los campos tienen
+// Por dispositivo: sin scroll horizontal; el botón «Quiero ahorrar» se toca con el dedo; los campos tienen
 // 16px o más (si no, iOS hace zoom al enfocar) y se pueden tocar; nada cubre el botón de cada
 // paso; se llega al paso del horario; y la página no hace scroll en vertical (en horizontal,
 // donde la altura es mínima, solo scrollea el wizard por dentro).
@@ -50,20 +50,9 @@ async function mockRed(page: Page) {
   await page.route(/connect\.facebook\.net/, (route) => route.abort());
 }
 
-/** Desliza la perilla con eventos táctiles reales (CDP), como un dedo. */
-async function deslizarConDedo(page: Page) {
-  const pista = (await page.locator("[data-quiero-ahorrar]").boundingBox())!;
-  const perilla = (await page.locator("[data-perilla]").boundingBox())!;
-  const y = Math.round(perilla.y + perilla.height / 2);
-  const x0 = Math.round(perilla.x + perilla.width / 2);
-  const x1 = Math.round(pista.x + pista.width - 6);
-  const cdp = await page.context().newCDPSession(page);
-  const punto = (x: number) => [{ x, y, id: 1 }];
-  await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: punto(x0) });
-  for (let i = 1; i <= 12; i++) {
-    await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: punto(Math.round(x0 + ((x1 - x0) * i) / 12)) });
-  }
-  await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+/** Aprieta «Quiero ahorrar» con un toque, como un dedo. */
+async function tocarQuieroAhorrar(page: Page) {
+  await page.locator("[data-quiero-ahorrar]").tap();
 }
 
 /** El elemento en el centro del botón debe ser el botón (o algo dentro): nada lo tapa. */
@@ -98,15 +87,15 @@ for (const nombre of LISTA) {
       const sinOverflowX = () => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
       const sinScrollY = () => page.evaluate(() => document.documentElement.scrollHeight <= window.innerHeight + 1);
 
-      // Paso 1: la boleta y la perilla.
+      // Paso 1: la boleta y el botón «Quiero ahorrar».
       expect(await sinOverflowX(), "scroll horizontal en el paso 1").toBe(true);
       if (!horizontal) expect(await sinScrollY(), "scroll vertical en el paso 1").toBe(true);
-      await nadaTapa(page, "[data-perilla]");
-      await expect(page.locator("[data-perilla]")).toBeInViewport();
+      await nadaTapa(page, "[data-quiero-ahorrar]");
+      await expect(page.locator("[data-quiero-ahorrar]")).toBeInViewport();
 
-      // Deslizar con el dedo (se reintenta por si cae antes de la hidratación).
+      // Tocar «Quiero ahorrar» (se reintenta por si cae antes de la hidratación).
       await expect(async () => {
-        if (!(await page.locator('[data-agenda-paso="2"]').isVisible())) await deslizarConDedo(page);
+        if (!(await page.locator('[data-agenda-paso="2"]').isVisible())) await tocarQuieroAhorrar(page);
         await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible({ timeout: 3000 });
       }).toPass({ timeout: 25000 });
 

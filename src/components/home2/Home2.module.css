@@ -9,7 +9,8 @@
 }
 
 .hero {
-  padding-top: 148px;
+  /* El menú fijo ya lo descuenta globals.css (main > div:first-child = .heroFondo). */
+  padding-top: 48px;
   padding-bottom: 72px;
 }
 
@@ -459,7 +460,7 @@
     padding-right: 16px;
   }
   .hero {
-    padding-top: 112px;
+    padding-top: 24px;
   }
   .cifras {
     grid-template-columns: 1fr;
@@ -806,4 +807,17 @@
   font-size: 13px;
   color: #5b6472;
   margin: 10px 0 0;
+}
+
+/* El degradé del hero del home anterior (Ricardo, 26-oct-2026: «mantén el color
+   degradé del slide superior»): mismo radial azul → violeta → rosa sobre blanco. */
+.heroFondo {
+  position: relative;
+  background: radial-gradient(
+    ellipse 85% 55% at 50% -5%,
+    #dbeafe 0%,
+    #e9d5ff 30%,
+    #fbe8f0 55%,
+    #ffffff 80%
+  );
 }

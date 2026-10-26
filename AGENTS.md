@@ -729,7 +729,7 @@ Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
 - **`/agenda` es un wizard de 3 pasos, sin scroll de página** (`AgendaWizard.tsx`,
   copy en `agenda-oferta.ts`), en el formato de `protocololumina.cl/evaluacion`:
   pantalla partida (panel oscuro con una imagen por paso y wizard blanco; en móvil
-  el panel va arriba, compacto). Paso 1: **la boleta «lo que te ahorras con el Ecosistema»** y el botón deslizante «Desliza para ahorrar» (al completarse hace el «pum»: un círculo de color
+  el panel va arriba, compacto). Paso 1: **la boleta «lo que te ahorras con el Ecosistema»** y el botón **«Quiero ahorrar»** (Ricardo, 26-oct-2026; antes un botón deslizante «Desliza para ahorrar», que se borró). Al apretarlo hace el «pum»: un círculo de color
   se abre desde la perilla, se disuelve y el paso 2 entra bloque por bloque; sin movimiento si el
   usuario pide reducir animaciones)
   (Ricardo, 19-oct: **ya no se elige servicio**, se vende el Ecosistema; el lead viaja siempre
@@ -1245,7 +1245,10 @@ avanzar al paso 2. Ahora `pushDL` y `trackPixel` atrapan el error, y el paso 1 a
 formulario nuevo: primero el paso, después el seguimiento. Guardián: «el deslizador avanza aunque GTM o el pixel
 tiren error» en `tests/agenda-wizard.spec.ts`.
 
-# `/home2`: borrador del home con historia, casos y convenio Alta Qualità (Ricardo, 26-oct-2026)
+# El home (`/`) es el ex `/home2`: historia, casos y convenio Alta Qualità (Ricardo, 26-oct-2026)
+
+**Ricardo lo aprobó el 26-oct y pasó a ser `/`** (`src/app/page.tsx` monta `Home2`, con el JSON-LD y la metadata del home de siempre; se indexa). `/home2` redirige a `/` (308). El hero conserva el **degradé radial del home anterior** (azul → violeta → rosa sobre blanco, `.heroFondo`). `HomeV3` quedó sin uso en `/`. Lo que sigue es la descripción del contenido.
+
 
 Mezcla del home actual con PMFC detallado y casos al estilo de sacamedi.com/casos: hero con cifras,
 logos, **PMFC con un visual por letra** (P margen genérico vs protocolo propio; M embudo hasta la
