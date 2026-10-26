@@ -14,6 +14,10 @@
 //           El sitio web es obligatorio (Ricardo, 26-oct-2026: Clinera apunta a clínicas
 //           medianas, y una clínica establecida tiene web). Antes de avanzar se verifica en el
 //           servidor (`/api/verificar-sitio`): si no existe o no es de una clínica, no pasa.
+//           La clínica que aún no tiene web («¿Todavía no tienes sitio web?») pasa con el
+//           identificador tributario de la empresa (validado al instante, `id-tributario.ts`) o
+//           con un correo de dominio propio verificado con un código. Ese lead va al CRM marcado
+//           y NO dispara el Lead de Meta: la campaña aprende solo de clínicas con web.
 //   Paso 3  elige tu horario: calendario nativo de Clinera (`StepClineraScheduler`) →
 //           Schedule + MQL (US$ 10)
 //
@@ -59,6 +63,22 @@ import {
 } from "@/lib/telefono";
 import { trackPixel } from "@/lib/tracking";
 import { MENSAJE_SITIO, type ResultadoSitio } from "@/lib/verificar-sitio";
+import {
+  MENSAJE_TRIBUTARIO,
+  PAISES_TRIBUTARIOS,
+  dominioCorreoEmpresarial,
+  paisDePrefijoTributario,
+  validarIdTributario,
+  type PaisTributario,
+} from "@/lib/id-tributario";
+
+const MENSAJE_CODIGO: Record<string, string> = {
+  gratuito: "Usa el correo de la clínica con su propio dominio (no Gmail, Hotmail u otro gratuito).",
+  no_existe: "Ese dominio no recibe correos. Revisa que esté bien escrito.",
+  sin_envio: "No pudimos enviar el código. Prueba con el documento tributario de la empresa.",
+  intentos: "Demasiados intentos. Espera unos minutos.",
+  codigo: "El código no coincide o ya venció.",
+};
 import { OFERTA_ESTETICA, type OfertaId } from "@/content/oferta-estetica";
 import { zonaMostrada } from "@/lib/timezone";
 import base from "@/components/estetica/EsteticaAdsLanding.module.css";
@@ -127,6 +147,17 @@ export default function AgendaWizard({
   // Último sitio verificado (lo escrito y el resultado): si no cambia, no se vuelve a preguntar.
   const [sitioRes, setSitioRes] = useState<{ valor: string; r: ResultadoSitio } | null>(null);
   const [verificando, setVerificando] = useState(false);
+  // Clínica sin sitio web: se verifica con documento tributario o correo de la empresa.
+  const [sinWeb, setSinWeb] = useState(false);
+  const [via, setVia] = useState<"tributario" | "correo">("tributario");
+  const [paisTrib, setPaisTrib] = useState<PaisTributario | null>(null);
+  const [idTrib, setIdTrib] = useState("");
+  const [correoEmp, setCorreoEmp] = useState("");
+  const [codigo, setCodigo] = useState("");
+  const [sobre, setSobre] = useState<{ correo: string; sobre: string } | null>(null);
+  const [correoVerificado, setCorreoVerificado] = useState("");
+  const [codigoMsg, setCodigoMsg] = useState<string | null>(null);
+  const [enviandoCodigo, setEnviandoCodigo] = useState(false);
   const [intentado, setIntentado] = useState(false);
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
   const [booking, setBooking] = useState<CalBooking | null>(null);
@@ -151,7 +182,20 @@ export default function AgendaWizard({
   const emailOk = EMAIL_OK.test(email.trim());
   const clinicaOk = clinica.trim().length >= 2;
   const sitioOk = sitio.trim().length >= 4;
-  const datosOk = nombreOk && emailOk && phoneOk && clinicaOk && sitioOk;
+  const pais = paisTrib ?? paisDePrefijoTributario(prefix);
+  const docPais = PAISES_TRIBUTARIOS.find((p) => p.pais === pais)!;
+  const trib = validarIdTributario(pais, idTrib);
+  const correoEmpLimpio = correoEmp.trim().toLowerCase();
+  const correoOk = correoVerificado !== "" && correoVerificado === correoEmpLimpio;
+  const verificacionOk = via === "tributario" ? trib.ok : correoOk;
+  const datosOk = nombreOk && emailOk && phoneOk && clinicaOk && (sinWeb ? verificacionOk : sitioOk);
+  const verificacion: Record<string, string> | undefined = !sinWeb
+    ? undefined
+    : via === "tributario" && trib.ok
+      ? { sitio_web_estado: "sin_web_tributario", id_tributario: trib.normalizado, id_tributario_pais: pais }
+      : via === "correo" && correoOk
+        ? { sitio_web_estado: "sin_web_correo", correo_empresa_verificado: correoVerificado }
+        : undefined;
   const sitioVigente = sitioRes && sitioRes.valor === sitio.trim() ? sitioRes.r : null;
   const sitioError = sitioVigente && !sitioVigente.ok ? MENSAJE_SITIO[sitioVigente.motivo] : null;
   const rule = reglaTelefono(prefix);
@@ -164,8 +208,9 @@ export default function AgendaWizard({
     prefix,
     phone: digitos,
     email,
-    website: sitioVigente?.ok ? sitioVigente.url : sitio.trim(),
-    sitioEstado: sitioVigente?.ok ? sitioVigente.estado : undefined,
+    website: sinWeb ? "" : sitioVigente?.ok ? sitioVigente.url : sitio.trim(),
+    sitioEstado: !sinWeb && sitioVigente?.ok ? sitioVigente.estado : undefined,
+    verificacion,
     city: "",
     pais: paisDePrefijo(prefix),
     cargo: "" as Form["cargo"],
@@ -180,7 +225,9 @@ export default function AgendaWizard({
     if (!emailOk) return "Revisa tu correo.";
     if (phoneError) return phoneError;
     if (!clinicaOk) return "Escribe el nombre de tu clínica.";
-    if (!sitioOk) return MENSAJE_SITIO.formato;
+    if (sinWeb && via === "tributario" && !trib.ok) return MENSAJE_TRIBUTARIO[trib.motivo];
+    if (sinWeb && via === "correo" && !correoOk) return "Verifica el correo de la clínica con el código que te enviamos.";
+    if (!sinWeb && !sitioOk) return MENSAJE_SITIO.formato;
     return "Revisa tus datos.";
   }
 
@@ -228,20 +275,66 @@ export default function AgendaWizard({
     return r;
   }
 
+  async function codigoCorreo(accion: "enviar" | "confirmar") {
+    if (enviandoCodigo) return;
+    if (accion === "enviar" && !dominioCorreoEmpresarial(correoEmpLimpio)) {
+      setCodigoMsg(MENSAJE_CODIGO.gratuito);
+      return;
+    }
+    setEnviandoCodigo(true);
+    setCodigoMsg(null);
+    try {
+      const res = await fetch("/api/verificar-sitio/codigo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+          accion === "enviar"
+            ? { accion, correo: correoEmpLimpio }
+            : { accion, correo: correoEmpLimpio, codigo: codigo.trim(), sobre: sobre?.sobre ?? "" },
+        ),
+      });
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; sobre?: string; motivo?: string };
+      if (accion === "enviar") {
+        if (data.ok && data.sobre) {
+          setSobre({ correo: correoEmpLimpio, sobre: data.sobre });
+          setCodigo("");
+        } else setCodigoMsg(MENSAJE_CODIGO[data.motivo ?? "sin_envio"] ?? MENSAJE_CODIGO.sin_envio);
+      } else if (data.ok) {
+        setCorreoVerificado(correoEmpLimpio);
+        pushDL("agenda_correo_verificado", { source_path: SOURCE_PATH });
+      } else setCodigoMsg(MENSAJE_CODIGO[data.motivo ?? "codigo"] ?? MENSAJE_CODIGO.codigo);
+    } catch {
+      setCodigoMsg(MENSAJE_CODIGO.sin_envio);
+    } finally {
+      setEnviandoCodigo(false);
+    }
+  }
+
+  function entrarSinWeb() {
+    setSinWeb(true);
+    setIntentado(false);
+    // Si el correo de contacto ya es de dominio propio, se ofrece de una.
+    if (!correoEmp && dominioCorreoEmpresarial(email)) setCorreoEmp(email.trim().toLowerCase());
+    pushDL("agenda_sin_sitio_web", { source_path: SOURCE_PATH });
+  }
+
   async function enviarPaso2() {
     if (verificando) return;
     if (!datosOk) {
       setIntentado(true);
       return;
     }
-    setVerificando(true);
-    const r = await verificarSitio();
-    setVerificando(false);
-    if (!r.ok) {
-      pushDL("agenda_sitio_rechazado", { motivo: r.motivo, source_path: SOURCE_PATH });
-      return;
+    let formOk: Form = form;
+    if (!sinWeb) {
+      setVerificando(true);
+      const r = await verificarSitio();
+      setVerificando(false);
+      if (!r.ok) {
+        pushDL("agenda_sitio_rechazado", { motivo: r.motivo, source_path: SOURCE_PATH });
+        return;
+      }
+      formOk = { ...form, website: r.url, sitioEstado: r.estado };
     }
-    const formOk: Form = { ...form, website: r.url, sitioEstado: r.estado };
     const eventId = leadCtx?.eventId ?? newLeadEventId();
     const ctx = leadCtx ?? { eventId, leadSource: fuente() };
     if (!leadCtx) setLeadCtx(ctx);
@@ -249,8 +342,9 @@ export default function AgendaWizard({
     setIntentado(false);
     irA(3);
     // Embudo de Meta (Ricardo, 18-oct-2026): rellenar el formulario = Lead US$ 3.
-    // Agendar la hora (paso 3) dispara Schedule + MQL.
-    void fireLeadEvent({
+    // La clínica sin web no lo dispara: Meta aprende solo de clínicas con sitio
+    // (Ricardo, 26-oct-2026). Le llega a la campaña cuando el closer la pase a MQL.
+    if (!sinWeb) void fireLeadEvent({
       eventId: ctx.eventId,
       contact: { email: email.trim(), phoneE164: aE164(prefix, digitos) },
       customData: { content_name: "agenda_videollamada", lead_source: ctx.leadSource },
@@ -390,14 +484,82 @@ export default function AgendaWizard({
                     <label className={base.label} htmlFor="ag-clinica">Nombre de tu clínica</label>
                     <input id="ag-clinica" className={base.input} value={clinica} onChange={(e) => setClinica(e.target.value)} autoComplete="organization" placeholder="Clínica Estética Vela" aria-invalid={intentado && !clinicaOk} />
 
-                    <label className={base.label} htmlFor="ag-sitio">Sitio web de tu clínica</label>
-                    <input id="ag-sitio" className={base.input} value={sitio} onChange={(e) => setSitio(e.target.value)} type="url" inputMode="url" autoComplete="url" autoCapitalize="none" spellCheck={false} placeholder="www.tuclinica.cl" aria-invalid={(intentado && !sitioOk) || !!sitioError} data-sitio-estado={sitioVigente ? (sitioVigente.ok ? sitioVigente.estado : sitioVigente.motivo) : undefined} />
+                    {!sinWeb ? (
+                      <>
+                        <div className={styles.labelFila}>
+                          <label className={base.label} htmlFor="ag-sitio">Sitio web de tu clínica</label>
+                          <button type="button" className={styles.sinWebLink} onClick={entrarSinWeb} data-sin-web-abrir>
+                            ¿Aún no tienes web?
+                          </button>
+                        </div>
+                        <input id="ag-sitio" className={base.input} value={sitio} onChange={(e) => setSitio(e.target.value)} type="url" inputMode="url" autoComplete="url" autoCapitalize="none" spellCheck={false} placeholder="www.tuclinica.cl" aria-invalid={(intentado && !sitioOk) || !!sitioError} data-sitio-estado={sitioVigente ? (sitioVigente.ok ? sitioVigente.estado : sitioVigente.motivo) : undefined} />
+                      </>
+                    ) : (
+                      <div className={styles.sinWeb} data-sin-web>
+                        <div className={styles.sinWebTabs} role="tablist" aria-label="Cómo verificar tu clínica">
+                          <button type="button" role="tab" aria-selected={via === "tributario"} className={via === "tributario" ? styles.sinWebTabOn : styles.sinWebTab} onClick={() => setVia("tributario")}>
+                            Documento tributario
+                          </button>
+                          <button type="button" role="tab" aria-selected={via === "correo"} className={via === "correo" ? styles.sinWebTabOn : styles.sinWebTab} onClick={() => setVia("correo")}>
+                            Correo empresarial
+                          </button>
+                        </div>
+                        {via === "tributario" ? (
+                          <>
+                            <label className={base.label} htmlFor="ag-trib">{docPais.doc}</label>
+                            <div className={base.phoneRow}>
+                              <select className={base.select} value={pais} onChange={(e) => setPaisTrib(e.target.value as PaisTributario)} aria-label="País de la empresa">
+                                {PAISES_TRIBUTARIOS.map((p) => (
+                                  <option key={p.pais} value={p.pais}>
+                                    {p.nombre}
+                                  </option>
+                                ))}
+                              </select>
+                              <input id="ag-trib" className={base.input} value={idTrib} onChange={(e) => setIdTrib(e.target.value)} autoCapitalize="characters" autoComplete="off" spellCheck={false} placeholder={docPais.ejemplo} aria-invalid={intentado && !trib.ok} data-trib-ok={trib.ok ? "1" : undefined} />
+                            </div>
+                          </>
+                        ) : correoOk ? (
+                          <p className={styles.sinWebOk} data-correo-ok>
+                            ✓ {correoVerificado} verificado
+                          </p>
+                        ) : (
+                          <>
+                            <label className={base.label} htmlFor="ag-correo-emp">Correo de la clínica (con su dominio)</label>
+                            <div className={styles.sinWebFila}>
+                              <input id="ag-correo-emp" className={base.input} value={correoEmp} onChange={(e) => setCorreoEmp(e.target.value)} type="email" inputMode="email" autoComplete="off" autoCapitalize="none" spellCheck={false} placeholder="contacto@tuclinica.cl" />
+                              <button type="button" className={styles.sinWebBoton} onClick={() => void codigoCorreo("enviar")} disabled={enviandoCodigo} data-enviar-codigo>
+                                {sobre && sobre.correo === correoEmpLimpio ? "Reenviar" : "Enviar código"}
+                              </button>
+                            </div>
+                            {sobre && sobre.correo === correoEmpLimpio && (
+                              <>
+                                <label className={base.label} htmlFor="ag-codigo">Código que te llegó al correo</label>
+                                <div className={styles.sinWebFila}>
+                                  <input id="ag-codigo" className={base.input} value={codigo} onChange={(e) => setCodigo(e.target.value.replace(/\D/g, "").slice(0, 6))} inputMode="numeric" autoComplete="one-time-code" placeholder="123456" />
+                                  <button type="button" className={styles.sinWebBoton} onClick={() => void codigoCorreo("confirmar")} disabled={enviandoCodigo || codigo.length !== 6} data-confirmar-codigo>
+                                    Verificar
+                                  </button>
+                                </div>
+                              </>
+                            )}
+                            {codigoMsg && (
+                              <p className={base.error} data-codigo-msg>
+                                {codigoMsg}
+                              </p>
+                            )}
+                          </>
+                        )}
+                        <button type="button" className={styles.sinWebLink} onClick={() => setSinWeb(false)} data-sin-web-cerrar>
+                          Sí tengo sitio web
+                        </button>
+                      </div>
+                    )}
 
                     {intentado && !datosOk ? (
                       <p className={base.error} role="alert">
                         {errorDatos()}
                       </p>
-                    ) : sitioError ? (
+                    ) : !sinWeb && sitioError ? (
                       <p className={base.error} role="alert" data-sitio-error>
                         {sitioError}
                       </p>

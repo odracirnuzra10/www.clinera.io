@@ -1225,6 +1225,16 @@ pide «Sitio web de tu clínica» y, antes de avanzar, llama a `POST /api/verifi
   en venta) está en `src/lib/verificar-sitio.ts`; la red y la IA, en la ruta.
 - **Seguridad:** el servidor visita una URL que escribió un desconocido: cada salto de redirección se resuelve
   por DNS y se rechaza si es IP privada; máx. 400 KB; caché por dominio 1 h y 12 consultas/min por IP.
+- **Clínica sin sitio web** («¿Aún no tienes web?», Ricardo, 26-oct: p. ej. una clínica que está por abrir).
+  Pasa con el **identificador tributario de la empresa** (RUT, RFC moral, NIT, RUC, CUIT, cédula jurídica, CIF;
+  `src/lib/id-tributario.ts`: formato + dígito verificador + que sea de empresa y no de persona, al instante y sin
+  red; si es del rubro salud lo revisa el closer) **o** con un **correo de dominio propio** verificado con un código
+  de 6 dígitos (`/api/verificar-sitio/codigo`, Postmark; Gmail/Hotmail no cuentan). Ese lead llega al CRM con
+  `sitio_web_estado` `sin_web_tributario` / `sin_web_correo` y **no dispara el `Lead` de Meta**: la campaña aprende
+  sólo de clínicas con web, y este lead le llega cuando el closer lo pase a MQL. El código necesita
+  `POSTMARK_SERVER_TOKEN` y `POSTMARK_FROM` (remitente verificado) en Vercel; sin ellos el formulario dice que no
+  pudo enviarlo y ofrece el documento tributario. La firma del código usa `CODIGO_CORREO_SECRET` o, si falta,
+  `WIZARD_FORM_SECRET`. El sandbox no resuelve registros MX: por eso el dominio también vale con registro A.
 - `/reserva-tu-hora` (destino del Instant Form) y los formularios de Meta **no** piden sitio.
 
 Guardián: `tests/verificar-sitio.spec.ts`.
