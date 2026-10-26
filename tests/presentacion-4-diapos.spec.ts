@@ -33,9 +33,12 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).toContain("Meta y Google partner");
     expect(c).toContain("canal-metricads.webp");
     expect(c).not.toContain("1.500");
-    // Ricardo, 26-oct-2026: cómo nace (en sus clínicas) y su foto en la obra de una sucursal.
+    // Ricardo, 26-oct-2026: nacimos de la experiencia de su red de clínicas, sin nombrarlas,
+    // y su foto en la apertura de la sucursal de Vitacura (2025).
     expect(c).toContain("data-nacimos");
-    expect(c).toContain("Método Hebe y Protocolo Lumina");
+    expect(c).toContain("nuestra red de clínicas");
+    expect(c).not.toMatch(/Hebe|Lumina/);
+    expect(c).toContain("apertura de la sucursal de Vitacura, 2025");
     expect(c).toContain("fundador-obra.webp");
   });
 
@@ -77,8 +80,10 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(m).toContain("data-embudo");
     for (const paso of ["creativo", "clic", "evaluacion", "tratamiento"]) expect(m).toContain(`data-paso="${paso}"`);
     expect(m).toContain("data-pelicula");
-    // 26-oct-2026: el marketing consigue evaluaciones pagadas por adelantado.
-    expect(m).toContain("pague su evaluación antes de llegar");
+    // 26-oct-2026: las campañas buscan una sola cosa, cobrar la evaluación, para que el paciente asista.
+    expect(m).toContain("data-cobro-evaluacion");
+    expect(m).toContain("pague su evaluación antes de venir");
+    expect(m).toContain("Asiste a su cita");
     expect(m).toContain("US$&nbsp;500");
     expect(m).toContain("US$&nbsp;10.000");
     expect(m).toContain("20 veces");
