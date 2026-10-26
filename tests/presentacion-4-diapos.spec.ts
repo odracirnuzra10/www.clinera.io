@@ -75,7 +75,7 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(p).toContain("valores de referencia");
   });
 
-  test("paso 2, cómo llegan los pacientes: el camino y el ejemplo US$ 500 → US$ 10.000", () => {
+  test("paso 2, cómo llegan los pacientes: el camino y la evaluación que se paga sola", () => {
     const m = slide("pmfc-m");
     expect(m).toContain("data-embudo");
     for (const paso of ["creativo", "clic", "evaluacion", "tratamiento"]) expect(m).toContain(`data-paso="${paso}"`);
@@ -84,9 +84,14 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(m).toContain("data-cobro-evaluacion");
     expect(m).toContain("pague su evaluación antes de venir");
     expect(m).toContain("Asiste a su cita");
-    expect(m).toContain("US$&nbsp;500");
-    expect(m).toContain("US$&nbsp;10.000");
-    expect(m).toContain("20 veces");
+    // Ricardo, 26-oct-2026: la evaluación cobrada (US$ 50) paga lo que costó traer al paciente (US$ 40).
+    expect(m).toContain("data-evaluacion-gratis");
+    // La red de clínicas no se nombra (Ricardo, 26-oct-2026).
+    // Ningún texto visible del deck nombra las clínicas de la red.
+    expect(texto(html.slice(html.indexOf('<main class="slides"'), html.indexOf("</main>")))).not.toMatch(/HEBE|Hebe|Lumina/);
+    for (const n of ["US$&nbsp;50", "US$&nbsp;40", "US$&nbsp;10"]) expect(m).toContain(n);
+    expect(m).toContain("te salió gratis");
+    expect(m).toContain("valores de referencia");
     // Una sola escala de números: sin la tabla de anuncios ni las tarjetas de Hebe y Lumina.
     expect(m).not.toContain("data-admin");
     expect(m).not.toContain("data-resultado");

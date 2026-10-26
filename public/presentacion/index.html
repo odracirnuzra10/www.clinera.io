@@ -3130,6 +3130,11 @@
     .vp-solo b { font-size: clamp(30px, 3.4vw, 48px); }
     .mk-film-solo { margin: 0; max-width: 900px; font-size: clamp(24px, 2.8vw, 40px); line-height: 1.25; letter-spacing: -.01em; color: var(--ink-soft); padding: clamp(18px, 2.4vw, 32px); border: 1px solid #E9D5FF; border-radius: 22px; background: #FAF5FF; }
     .mk-film-solo strong { color: var(--ink); }
+    .mk-eval-fila { display: flex; justify-content: space-between; gap: 16px; margin: 0; padding: 6px 0; border-bottom: 1px dashed #E9D5FF; font-size: clamp(18px, 1.9vw, 28px); }
+    .mk-eval-fila strong { white-space: nowrap; }
+    .mk-eval b { font-size: clamp(26px, 3vw, 46px); }
+    @media (max-height: 820px) and (min-width: 901px) { .mk-eval { padding: 14px 24px; } .mk-eval-fila { font-size: 18px; padding: 4px 0; } .mk-eval b { font-size: 30px; margin-top: 6px; } }
+    .mk-eval-nota { margin: 8px 0 0; font-size: clamp(13px, 1.1vw, 16px); color: var(--ink-soft); }
     .mk-film-solo b { display: block; margin-top: 8px; font-size: clamp(34px, 4.4vw, 64px); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; color: #047857; }
     .pl-foto-solo { max-width: 820px; max-height: 52vh; }
     .pl-f-body { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(18px, 3vw, 40px); align-items: center; }
@@ -5060,7 +5065,7 @@
               <div class="vp-out"><b>US$ 50</b><span>de ganancia</span></div>
             </div>
             <div class="vp-row" data-tratamiento="lumina-face">
-              <div class="vp-lbl"><strong>Protocolo «Lumina Face»</strong><span>Más insumos y sesiones · US$ 2.500</span></div>
+              <div class="vp-lbl"><strong>Tu protocolo propio</strong><span>Más insumos y sesiones · US$ 2.500</span></div>
               <div class="vp-track"><i class="vp-cost" style="--w:20%"><em>US$ 500</em></i><i class="vp-gain con" style="--w:80%"><em>Ganas US$ 2.000</em></i></div>
               <div class="vp-out vp-out-con"><b>US$ 2.000</b><span>de ganancia</span></div>
             </div>
@@ -5084,18 +5089,23 @@
             <div>
               <div class="blk-eyebrow">PASO 2 DE 4</div>
               <h2 class="blk-h2">Cómo llegan pacientes <span class="blk-grad-text">que sí asisten.</span></h2>
-              <p class="pl-lead" data-cobro-evaluacion>Nuestras campañas buscan una sola cosa: que el paciente <strong>pague su evaluación antes de venir</strong>. Así llega decidido y asiste a su cita.</p>
+              <p class="pl-lead" data-cobro-evaluacion>Nuestras campañas buscan una sola cosa: que el paciente <strong>pague su evaluación antes de venir</strong>. Así llega decidido, asiste, y lo que paga cubre lo que costó traerlo.</p>
             </div>
           </header>
 
           <ol class="fn-steps reveal" data-embudo aria-label="Del anuncio a la venta: el anuncio, el mensaje, la evaluación y el tratamiento">
-            <li data-paso="creativo"><span class="fn-ad" aria-hidden="true"><i>HEBE</i><b></b></span><strong>Ve tu anuncio</strong><span>en Instagram o Facebook</span></li>
+            <li data-paso="creativo"><span class="fn-ad" aria-hidden="true"><i>ANUNCIO</i><b></b></span><strong>Ve tu anuncio</strong><span>en Instagram o Facebook</span></li>
             <li data-paso="clic"><span class="fn-ico" aria-hidden="true">💳</span><strong>Paga su evaluación</strong><span>por adelantado, en línea</span></li>
             <li data-paso="evaluacion"><span class="fn-ico" aria-hidden="true">🩺</span><strong>Asiste a su cita</strong><span>ya pagó: no falta</span></li>
             <li data-paso="tratamiento"><span class="fn-ico" aria-hidden="true">✨</span><strong>Compra el tratamiento</strong><span>y tú ganas</span></li>
           </ol>
 
-          <p class="mk-film mk-film-solo reveal" data-pelicula>Pones <strong>US$&nbsp;500</strong> en anuncios y vendes <strong>US$&nbsp;10.000</strong>. <b>20 veces lo que pusiste.</b></p>
+          <div class="mk-film mk-film-solo mk-eval reveal" data-pelicula data-evaluacion-gratis>
+            <p class="mk-eval-fila"><span>El paciente te paga su evaluación</span><strong>+ US$&nbsp;50</strong></p>
+            <p class="mk-eval-fila"><span>Traerlo con anuncios te costó</span><strong>− US$&nbsp;40</strong></p>
+            <b>Ganaste US$&nbsp;10: el paciente te salió gratis.</b>
+            <p class="mk-eval-nota">Y todavía no le vendes el tratamiento. Ejemplo con valores de referencia.</p>
+          </div>
         </div>
       </section>
 
@@ -5149,9 +5159,9 @@
             <li class="ca-col" data-ca="campana">
               <div class="ca-kicker">1 · Tu anuncio</div>
               <div class="ca-ad">
-                <div class="ca-ad-top"><i>L</i><span>Protocolo Lumina<small>Publicidad</small></span></div>
+                <div class="ca-ad-top"><i>C</i><span>Tu clínica<small>Publicidad</small></span></div>
                 <div class="ca-ad-media"><b></b></div>
-                <div class="ca-ad-cta"><span>Lumina Face</span><em>Enviar mensaje</em></div>
+                <div class="ca-ad-cta"><span>Protocolo facial</span><em>Enviar mensaje</em></div>
                 <span class="ca-click" aria-hidden="true"></span>
               </div>
             </li>
@@ -5184,7 +5194,7 @@
                   <div class="ca-f1"><dt>Motivo</dt><dd>Rejuvenecimiento</dd></div>
                   <div class="ca-f2"><dt>Fototipo</dt><dd>III</dd></div>
                   <div class="ca-f3"><dt>Zonas</dt><dd>Frente · ojeras</dd></div>
-                  <div class="ca-f4"><dt>Plan</dt><dd class="ca-plan">Lumina Face</dd></div>
+                  <div class="ca-f4"><dt>Plan</dt><dd class="ca-plan">Protocolo facial</dd></div>
                 </dl>
               </div>
             </li>
