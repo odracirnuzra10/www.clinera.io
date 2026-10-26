@@ -33,9 +33,12 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).toContain("Meta y Google partner");
     expect(c).toContain("canal-metricads.webp");
     expect(c).not.toContain("1.500");
-    // Ricardo, 26-oct-2026: cómo nace (en sus clínicas) y su foto en la obra de una sucursal.
+    // Ricardo, 26-oct-2026: nacimos de la experiencia de su red de clínicas, sin nombrarlas,
+    // y su foto en la apertura de la sucursal de Vitacura (2025).
     expect(c).toContain("data-nacimos");
-    expect(c).toContain("Método Hebe y Protocolo Lumina");
+    expect(c).toContain("nuestra red de clínicas");
+    expect(c).not.toMatch(/Hebe|Lumina/);
+    expect(c).toContain("apertura de la sucursal de Vitacura, 2025");
     expect(c).toContain("fundador-obra.webp");
   });
 
