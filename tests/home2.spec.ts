@@ -30,9 +30,20 @@ test("home2: noindex, historia, fundador y cuatro casos con cifra", async ({
   await expect(page.locator('[data-home2-caso="sucursal"]')).toContainText(
     "US$ 220.000",
   );
-  // La marca de esa sucursal no está confirmada: no se atribuye a Hebe.
   await expect(page.locator('[data-home2-caso="sucursal"] h3')).toHaveText(
-    "Una sucursal del grupo",
+    "Una sucursal de nuestra red",
+  );
+  // Ricardo, 26-oct-2026: la red propia es «nuestra red de clínicas», sin marcas.
+  for (const zona of ["hero", "historia", "casos", "fundador"]) {
+    await expect(page.locator(`[data-home2="${zona}"]`)).not.toContainText(
+      /Hebe|Lumina/,
+    );
+  }
+  await expect(page.locator('[data-home2="hero"]')).toContainText(
+    "nuestra red de clínicas",
+  );
+  await expect(page.locator('[data-home2="fundador"]')).toContainText(
+    "apertura de la sucursal de Vitacura, 2025",
   );
 
   for (const donde of ["hero", "cierre"]) {

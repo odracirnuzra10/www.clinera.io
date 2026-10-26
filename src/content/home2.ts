@@ -4,10 +4,10 @@
 // Ideas tomadas de sacamedi.com/casos: cifras arriba, tarjetas con UNA cifra
 // grande por caso, honestidad sobre lo que todavía no hay y un solo CTA.
 // Reglas de contenido:
-// - Ninguna cifra inventada. Las de Hebe y Lumina son las que Ricardo dio para el
+// - Ninguna cifra inventada. Las de la red son las que Ricardo dio para el
 //   deck (`public/presentacion-tecnica/index.html`, 20-oct-2026).
-// - «Una sucursal del grupo» y no «de Hebe»: la marca de esa sucursal no está
-//   confirmada (ver AGENTS.md, sección /presentacion).
+// - Ricardo (26-oct-2026): la red propia se nombra sólo como «nuestra red de
+//   clínicas», sin marcas. Si alguien pregunta cuáles son, lo dicen los closers.
 // - Sin precio en el titular: la tarea de Todoist dice «menos de US$ 500», pero
 //   el Ecosistema se publica a US$ 529 (planes.ts). Pendiente de Ricardo.
 // - No se indexa: es un borrador al lado del home real.
@@ -18,7 +18,7 @@ export const HOME2_HERO = {
   titulo: "El ecosistema que hace que tu clínica médica o estética",
   tituloAcento: "venda, sea rentable y cobre la evaluación por adelantado.",
   bajada:
-    "Software con IA, marketing de performance y un método comercial probado primero en nuestras propias clínicas: Método Hebe y Protocolo Lumina.",
+    "Software con IA, marketing de performance y un método comercial probado primero en nuestra red de clínicas.",
 } as const;
 
 export const HOME2_CIFRAS = [
@@ -40,9 +40,9 @@ export const HOME2_HISTORIA = {
     },
     {
       marca: "Después",
-      titulo: "Método Hebe y Protocolo Lumina",
+      titulo: "Nuestra red de clínicas",
       texto:
-        "Clínicas propias de estética corporal y facial, en Vitacura, Concón y Los Ángeles. Ahí aprendimos lo que ninguna agencia ve: qué pasa cuando el paciente llega a la consulta.",
+        "Clínicas propias de estética corporal y facial. Ahí aprendimos lo que ninguna agencia ve: qué pasa cuando el paciente llega a la consulta.",
     },
     {
       marca: "2025",
@@ -56,10 +56,11 @@ export const HOME2_HISTORIA = {
 export const HOME2_FUNDADOR = {
   eyebrow: "Quién está detrás",
   nombre: "Ricardo Oyarzún",
-  cargo: "Fundador de Clinera, Método Hebe, Protocolo Lumina y Metricads",
+  cargo: "Fundador de Clinera, Metricads y una red de clínicas estéticas",
   foto: "/images/home2/ricardo-obra-concepcion.webp",
   fotoAlt:
-    "Ricardo Oyarzún revisando con una ingeniera los planos de una nueva sucursal",
+    "Ricardo Oyarzún revisando los planos en la apertura de la sucursal de Vitacura, 2025",
+  fotoPie: "Ricardo Oyarzún en la apertura de la sucursal de Vitacura, 2025.",
   parrafos: [
     "Titulado de la Universidad de Concepción. Construyó las cuatro empresas en más de una década, sin socios ni inversionistas externos.",
     "Clinera no es una idea de software buscando clientes: es la herramienta que usa en sus propias clínicas, todos los días, con su propia plata en los anuncios.",
@@ -157,32 +158,20 @@ export const HOME2_CASOS: Home2Caso[] = [
     cifra: "23x",
     cifraNota:
       "el ticket promedio (US$ 2.250) es 23 veces el costo por venta (US$ 98)",
-    clinica: "Método Hebe",
-    detalle: "Estética corporal · Vitacura, Concón y Los Ángeles",
+    clinica: "Clínica corporal de nuestra red",
+    detalle: "Estética corporal · Chile",
     queCambio:
       "La paciente paga su evaluación antes de entrar a la agenda. El anuncio trae la evaluación; la venta ocurre en la consulta.",
-    foto: {
-      src: "/images/casos/metodo-hebe.jpg",
-      alt: "Recepción de Método Hebe en Los Ángeles",
-      credito: "Foto: metodohebe.cl",
-    },
-    href: "/casos/metodo-hebe",
   },
   {
     id: "lumina",
     cifra: "31x",
     cifraNota:
       "el ticket promedio (US$ 2.449) es 31 veces el costo por venta (US$ 78)",
-    clinica: "Protocolo Lumina",
-    detalle: "Estética facial · Vitacura, Concón y Los Ángeles",
+    clinica: "Clínica facial de nuestra red",
+    detalle: "Estética facial · Chile",
     queCambio:
       "Un protocolo propio en vez de un tratamiento genérico: la consulta deja de competir por precio.",
-    foto: {
-      src: "/images/casos/protocolo-lumina.jpg",
-      alt: "Antes y después de un caso público en el sitio de Protocolo Lumina",
-      credito: "Foto: protocololumina.cl",
-    },
-    href: "/casos/protocolo-lumina",
   },
   {
     id: "km",
@@ -208,7 +197,7 @@ export const HOME2_CASOS: Home2Caso[] = [
     id: "sucursal",
     cifra: "US$ 220.000",
     cifraNota: "vendidos con US$ 35.000 en anuncios: 6,3 veces la inversión",
-    clinica: "Una sucursal del grupo",
+    clinica: "Una sucursal de nuestra red",
     detalle: "Estética · Chile",
     queCambio:
       "Toda la película: anuncio, evaluación pagada, venta en la consulta y la agenda llevada por AURA.",

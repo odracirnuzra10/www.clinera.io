@@ -9,7 +9,7 @@ import Home2 from "@/components/home2/Home2";
 export const metadata: Metadata = {
   title: "Cómo nace Clinera y casos de clínicas médicas y estéticas",
   description:
-    "Clinera nace en las clínicas de Ricardo Oyarzún: Método Hebe y Protocolo Lumina. Software con IA, marketing y método comercial, con los números reales de sus campañas.",
+    "Clinera nace de la experiencia de una red de clínicas. Software con IA, marketing y método comercial, con los números reales de sus campañas.",
   robots: { index: false, follow: false },
   alternates: { canonical: "https://www.clinera.io/" },
 };

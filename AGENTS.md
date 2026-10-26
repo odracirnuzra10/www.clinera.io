@@ -1258,9 +1258,13 @@ celular), convenio, historia, fundador (foto Higgsfield Soul «Ricardo» en obra
 `src/content/home2.ts`; `noindex`, en `robots-txt.ts` y fuera del sitemap hasta que Ricardo decida si
 reemplaza a `/`.
 
-- **Cifras:** sólo las que Ricardo dio para el deck técnico (Hebe 23x = US$ 2.250 / US$ 98; Lumina 31x =
-  US$ 2.449 / US$ 78; una sucursal US$ 220.000 con US$ 35.000). La sucursal va como «del grupo», no
-  «de Hebe» (no confirmado). No inventar casos externos: faltan videos o cifras de clientes con nombre.
+- **Red de clínicas sin marcas (Ricardo, 26-oct-2026):** en `/home2` y en `/presentacion` las clínicas propias
+  se nombran sólo como «nuestra red de clínicas»: sin Método Hebe, Protocolo Lumina, ciudades ni enlaces a
+  `/casos/metodo-hebe`. Si alguien pregunta cuáles son, lo dicen los closers. La franja de logos de clientes
+  sigue igual (no dice cuáles son propias). La foto del fundador lleva el pie «Ricardo Oyarzún en la apertura
+  de la sucursal de Vitacura, 2025».
+- **Cifras:** sólo las que Ricardo dio para el deck técnico (clínica corporal 23x = US$ 2.250 / US$ 98; facial
+  31x = US$ 2.449 / US$ 78; una sucursal de la red US$ 220.000 con US$ 35.000). No inventar casos externos: faltan videos o cifras de clientes con nombre.
 - **Sin precio en el titular:** la tarea decía «menos de US$ 500» y el Ecosistema público vale 529.
 - **Convenio Alta Qualità** (alta-qualita.cl, importadora de equipos de estética): contratar cualquier
   plan da «descuentos especiales» en máquinas. Sin porcentaje publicado hasta que Ricardo lo fije.
