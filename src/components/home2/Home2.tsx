@@ -209,7 +209,9 @@ export default function Home2() {
           {HOME2_CASOS.map((c) => (
             <article
               key={c.id}
-              className={c.foto ? s.caso : `${s.caso} ${s.casoAncho}`}
+              className={
+                c.id === "sucursal" ? `${s.caso} ${s.casoAncho}` : s.caso
+              }
               data-home2-caso={c.id}
             >
               {c.foto ? (
@@ -310,6 +312,7 @@ export default function Home2() {
             height={900}
             sizes="(max-width: 900px) 100vw, 55vw"
           />
+          <p className={s.fotoPie}>{HOME2_FUNDADOR.fotoPie}</p>
         </div>
         <div>
           <p className={s.eyebrow}>{HOME2_FUNDADOR.eyebrow}</p>

@@ -801,3 +801,9 @@
     padding-right: 16px !important;
   }
 }
+
+.fotoPie {
+  font-size: 13px;
+  color: #5b6472;
+  margin: 10px 0 0;
+}
