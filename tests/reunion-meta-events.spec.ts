@@ -19,17 +19,17 @@ function sliceFn(name: string): string {
   return src.slice(start, end === -1 ? undefined : end);
 }
 
-test.describe("/reunion — MQL solo al agendar", () => {
+test.describe("/reunion — el sitio no manda MQL", () => {
   test("submitPartialLead no dispara MQL; sí InitiateCheckout", () => {
     const fn = sliceFn("submitPartialLead");
     expect(fn).toContain('"InitiateCheckout"');
     expect(fn).not.toMatch(/fbq\(\s*"track",\s*"MQL"/);
   });
 
-  test("submitBookingConfirmation dispara MQL 10, no Schedule", () => {
+  // Desde el 2026-10-26 el MQL lo marca el closer en el CRM (mql-verificado-por-closer).
+  test("submitBookingConfirmation dispara Schedule, no MQL", () => {
     const fn = sliceFn("submitBookingConfirmation");
-    expect(fn).toContain('"MQL"');
-    expect(fn).toContain("value: 10");
-    expect(fn).not.toMatch(/fbq\(\s*"track",\s*"Schedule"/);
+    expect(fn).toContain('"Schedule"');
+    expect(fn).not.toContain('"MQL"');
   });
 });

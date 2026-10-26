@@ -27,10 +27,14 @@ import type { Qualification } from "@/components/ventas/VentasLanding";
 //        agenda NO es MQL. Incluye user_data hasheado.
 //   "contact_submitted"           → Paso 3 (submit OK). Residuo; no usar.
 //   "qualified_step2"             → al completar el Paso 2, sin user_data.
-// Los tres caminos están implementados; sólo booking_confirmed está activo.
+//   "crm_closer" (actual, Ricardo 2026-10-26) → el sitio NO manda MQL. Llegaban
+//        leads falsos que agendaban y Meta aprendía de ellos. El MQL lo marca el
+//        closer en Twenty después de revisar que el lead es real y califica, y
+//        W1 (n8n) se lo manda a Meta. Al agendar el sitio sólo manda Schedule.
+//        Spec: baserow/openspec/changes/mql-verificado-por-closer/.
 // ---------------------------------------------------------------------------
-export type MqlTrigger = "contact_submitted" | "qualified_step2" | "booking_confirmed";
-export const MQL_TRIGGER: MqlTrigger = "booking_confirmed";
+export type MqlTrigger = "contact_submitted" | "qualified_step2" | "booking_confirmed" | "crm_closer";
+export const MQL_TRIGGER: MqlTrigger = "crm_closer";
 
 /** El pixel de producción no se inicializa en dev, preview ni loopback. */
 export function shouldInitMetaPixel(hostname: string): boolean {

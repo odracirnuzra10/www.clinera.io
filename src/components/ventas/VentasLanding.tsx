@@ -1835,11 +1835,9 @@ export async function submitBookingConfirmation({
     );
   }
 
-  // MQL: la reunión agendada ES el MQL (MQL_TRIGGER = "booking_confirmed").
-  // Se dispara acá y no en el paso 3, para que un lead cuente UNA sola vez.
-  // fireMqlEvent es idempotente por sesión y sólo dispara si el lead califica.
-  // En /agenda, n8n manda además el MQL por CAPI con este mismo event_id:
-  // Meta deduplica por (event_name, event_id), así que sigue siendo uno.
+  // MQL: desde el 2026-10-26 agendar NO es MQL (MQL_TRIGGER = "crm_closer"):
+  // el closer lo marca en Twenty tras verificar el lead. Esta rama queda por si
+  // algún día se vuelve a "booking_confirmed"; hoy no dispara.
   if (MQL_TRIGGER === "booking_confirmed" && qual?.califica) {
     void fireMqlEvent({
       eventId: confirmEventId,

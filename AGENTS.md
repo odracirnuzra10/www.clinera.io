@@ -1194,3 +1194,16 @@ se mandan también al `2251201709002818`).
 
 **Anuncios «te mejoro la oferta»** (si pagas más de US$ 500 entre agencia y software): el closer tiene
 que saber qué precio ofrece en la reunión antes de que escalen.
+
+# El MQL lo declara el closer, no la reserva (Ricardo, 26-oct-2026)
+
+Meta recibía leads falsos que agendaban y la campaña aprendía de ellos. **Desde hoy el sitio
+no manda `MQL`**: `MQL_TRIGGER = "crm_closer"` en `src/lib/metaEvents.ts`; al confirmar la hora
+sale sólo `Schedule` (también en `/reunion`). El lead queda **Nuevo** en Twenty y el closer lo
+pasa a MQL (real y califica), a NQL (real, no califica) o lo borra (falso). W1 manda ese MQL al
+pixel viejo y ahora también al dataset de las campañas `2251201709002818` (rama «Espejo 2251»).
+Reemplaza «MQL = agenda la videollamada» del 24-oct en la sección de Meta Ads. Las campañas
+atribuyen 7 días desde el clic, así que un lead del fin de semana calificado el lunes cuenta igual.
+Detalle y aplicador: `baserow/CLAUDE.md`, «El MQL de Clinera lo declara el closer».
+Guardianes: `tests/reserva-tu-hora.spec.ts` y `tests/reunion-meta-events.spec.ts`.
+`tests/ventas-meta-events.spec.ts` ya fallaba en `main` antes de este cambio (el wizard de `/ventas` cambió).

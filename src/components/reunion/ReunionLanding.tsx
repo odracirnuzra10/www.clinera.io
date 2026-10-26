@@ -648,19 +648,18 @@ async function submitBookingConfirmation({
   const confirmEventId =
     "reunion_confirm_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
 
-  // MQL: la reunión agendada ES el MQL. No se dispara al enviar el form.
+  // Agendar = Schedule. Desde el 2026-10-26 el MQL lo marca el closer en el CRM
+  // tras verificar el lead (mql-verificado-por-closer); el sitio ya no lo manda.
   if (typeof window !== "undefined" && typeof window.fbq === "function") {
     window.fbq(
       "track",
-      "MQL",
+      "Schedule",
       {
         content_name: "Clinera Reunion Organico",
         content_category: "booking",
         lead_source: leadCtx?.leadSource,
         cal_booking_uid: booking?.booking?.uid,
         booking_status: "confirmed",
-        value: 10,
-        currency: "USD",
         ...getMigrationMeta(migrationIntent ?? null),
       },
       { eventID: confirmEventId },
