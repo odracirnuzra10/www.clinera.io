@@ -30,7 +30,7 @@ test.describe("home", () => {
   test("hero del ecosistema y las dos opciones; el marketing de performance vive en /ecosistema", async ({ page }) => {
     expect(CTA_VENTAS_LABEL).toBe("Agendar reunión");
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/ecosistema que llena tu agenda/i);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(/clínica médica o estética/i);
     await expect(page.locator("[data-planes-vigentes]")).toContainText("Dos formas de trabajar");
     await expect(page.locator("[data-plan-card]")).toHaveCount(2);
     // Home corto (Ricardo, 20-oct-2026): sin bloque de marketing ni banda redundante.

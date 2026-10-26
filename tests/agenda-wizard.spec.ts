@@ -42,17 +42,10 @@ async function mockRed(page: Page) {
 }
 
 async function pasoBoleta(page: Page) {
-  // Se desliza la perilla hasta el final. Si el gesto cae antes de que React hidrate, se reintenta.
+  // Se aprieta «Quiero ahorrar». Si el clic cae antes de que React hidrate, se reintenta.
   await expect(async () => {
     if (!(await page.locator('[data-agenda-paso="2"]').isVisible())) {
-      const pista = (await page.locator("[data-quiero-ahorrar]").boundingBox())!;
-      const perilla = (await page.locator("[data-perilla]").boundingBox())!;
-      const y = perilla.y + perilla.height / 2;
-      await page.mouse.move(perilla.x + perilla.width / 2, y);
-      await page.mouse.down();
-      await page.mouse.move(perilla.x + perilla.width / 2 + (pista.width - perilla.width) / 2, y, { steps: 6 });
-      await page.mouse.move(pista.x + pista.width + 20, y, { steps: 6 });
-      await page.mouse.up();
+      await page.locator("[data-quiero-ahorrar]").click();
     }
     await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible({ timeout: 2500 });
   }).toPass({ timeout: 20000 });
@@ -85,13 +78,9 @@ test("wizard: boleta «Quiero ahorrar» → datos (CRM + Lead US$ 3) → horario
   await expect(boleta).toContainText("US$ 1.000–1.700/mes");
   await expect(boleta).toContainText("US$ 529/mes");
   await expect(boleta).toContainText("Ahorras desde US$ 470 al mes");
-  await expect(page.locator("[data-quiero-ahorrar]")).toContainText("Desliza para ahorrar");
-  // Soltar a medio camino no avanza.
-  const perilla0 = (await page.locator("[data-perilla]").boundingBox())!;
-  await page.mouse.move(perilla0.x + 25, perilla0.y + 25);
-  await page.mouse.down();
-  await page.mouse.move(perilla0.x + 90, perilla0.y + 25, { steps: 5 });
-  await page.mouse.up();
+  // Ricardo, 26-oct-2026: el deslizador pasó a ser un botón «Quiero ahorrar».
+  await expect(page.locator("[data-quiero-ahorrar]")).toHaveText("Quiero ahorrar");
+  await expect(page.locator("[data-perilla]")).toHaveCount(0);
   await expect(page.locator('[data-agenda-paso="2"]')).toHaveCount(0);
   expect(capi).toHaveLength(0);
   await pasoBoleta(page);
@@ -172,7 +161,7 @@ test("el panel muestra una imagen por pantalla y no hay cupón ni compra", async
   await expect(body).not.toContainText(/Crear cuenta/);
 });
 
-test("el deslizador avanza aunque GTM o el pixel tiren error (26-oct-2026)", async ({ page }) => {
+test("«Quiero ahorrar» avanza aunque GTM o el pixel tiren error (26-oct-2026)", async ({ page }) => {
   await mockRed(page);
   await page.addInitScript(() => {
     const w = window as unknown as { dataLayer: unknown[]; fbq: unknown };

@@ -144,28 +144,30 @@ function Cta({ donde }: { donde: string }) {
 export default function Home2() {
   return (
     <>
-      <section className={s.hero} data-home2="hero">
-        <p className={s.eyebrow}>{HOME2_HERO.eyebrow}</p>
-        <h1 className={s.h1}>
-          {HOME2_HERO.titulo}{" "}
-          <span className={s.grad}>{HOME2_HERO.tituloAcento}</span>
-        </h1>
-        <p className={s.bajada}>{HOME2_HERO.bajada}</p>
-        <div className={s.ctas}>
-          <Cta donde="hero" />
-          <a href="#casos" className={s.ctaSec}>
-            Ver casos
-          </a>
-        </div>
-        <ul className={s.cifras} data-home2="cifras">
-          {HOME2_CIFRAS.map((c) => (
-            <li key={c.valor}>
-              <strong>{c.valor}</strong>
-              <span>{c.texto}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <div className={s.heroFondo}>
+        <section className={s.hero} data-home2="hero">
+          <p className={s.eyebrow}>{HOME2_HERO.eyebrow}</p>
+          <h1 className={s.h1}>
+            {HOME2_HERO.titulo}{" "}
+            <span className={s.grad}>{HOME2_HERO.tituloAcento}</span>
+          </h1>
+          <p className={s.bajada}>{HOME2_HERO.bajada}</p>
+          <div className={s.ctas}>
+            <Cta donde="hero" />
+            <a href="#casos" className={s.ctaSec}>
+              Ver casos
+            </a>
+          </div>
+          <ul className={s.cifras} data-home2="cifras">
+            {HOME2_CIFRAS.map((c) => (
+              <li key={c.valor}>
+                <strong>{c.valor}</strong>
+                <span>{c.texto}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
 
       <ClinicasLogos />
 
@@ -192,6 +194,13 @@ export default function Home2() {
             </article>
           ))}
         </div>
+        <Link
+          href="/blog/metodologia-pmfc-rentabilidad-clinicas-esteticas"
+          className={s.casoLink}
+          data-pmfc-link
+        >
+          Lee la metodología completa →
+        </Link>
       </section>
 
       <div className={s.importado}>

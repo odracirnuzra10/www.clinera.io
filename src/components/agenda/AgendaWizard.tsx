@@ -7,7 +7,7 @@
 // 18-oct-2026): una columna, carrusel de casos arriba, «Paso N de 3» con tarjetas
 // seleccionables y los datos de contacto al final.
 //
-//   Paso 1  la boleta «lo que te ahorras con el Ecosistema» y el botón deslizante «Desliza para ahorrar»
+//   Paso 1  la boleta «lo que te ahorras con el Ecosistema» y el botón «Quiero ahorrar»
 //           → ViewContent. Ya no se elige servicio (Ricardo, 19-oct-2026): se vende el
 //           Ecosistema, así que el lead viaja siempre con `servicio_interes: "ambas"`.
 //   Paso 2  tus datos: nombre, correo, celular, nombre y sitio web de la clínica → CRM + Lead (US$ 3)
@@ -50,7 +50,8 @@ import {
   type Form,
 } from "@/components/ventas/VentasLanding";
 import AhorroEcosistema from "@/components/pricing/AhorroEcosistema";
-import DeslizarParaAhorrar, { type OrigenPum } from "@/components/agenda/DeslizarParaAhorrar";
+/** Punto de la pantalla donde nace el «pum» (el centro del botón «Quiero ahorrar»). */
+type OrigenPum = { x: number; y: number };
 import { ECOSISTEMA_SLIDES } from "@/content/agenda-oferta";
 import { fireLeadEvent } from "@/lib/metaEvents";
 import {
@@ -453,7 +454,18 @@ export default function AgendaWizard({
                       precioUsd={oferta ? OFERTA_ESTETICA.precioUsd : undefined}
                       ahorroDesdeUsd={oferta ? OFERTA_ESTETICA.ahorroDesdeUsd : undefined}
                     />
-                    <DeslizarParaAhorrar onComplete={(o) => enviarPaso1(o)} />
+                    {/* Ricardo, 26-oct-2026: el botón deslizante pasó a ser un botón simple. */}
+                    <button
+                      type="button"
+                      className={styles.quieroAhorrar}
+                      data-quiero-ahorrar
+                      onClick={(e) => {
+                        const r = e.currentTarget.getBoundingClientRect();
+                        enviarPaso1({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
+                      }}
+                    >
+                      Quiero ahorrar
+                    </button>
                   </div>
                 )}
 

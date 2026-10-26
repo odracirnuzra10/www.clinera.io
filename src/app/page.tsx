@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
-import HomeV3 from "@/components/home-v3/HomeV3";
+import Home2 from "@/components/home2/Home2";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   definedTermSetSchema,
@@ -59,7 +59,7 @@ export default function Home() {
       </p>
       <NavV3 />
       <main>
-        <HomeV3 />
+        <Home2 />
         <PageUpdated path="/" />
       </main>
       <FooterV3 />

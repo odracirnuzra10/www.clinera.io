@@ -1,13 +1,13 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Metodología PMFC", () => {
-  test("home: sección PMFC con 4 piezas, 2 casos y link al artículo", async ({ page }) => {
+  // Desde el 26-oct-2026 el home es el de /home2: PMFC con un visual por letra.
+  test("home: sección PMFC con 4 piezas y link al artículo", async ({ page }) => {
     await page.goto("/");
-    const sec = page.locator("[data-pmfc]");
+    const sec = page.locator('[data-home2="pmfc"]');
     await expect(sec).toBeVisible();
-    await expect(sec.locator("[data-pmfc-pieza]")).toHaveCount(4);
-    await expect(sec.locator("[data-pmfc-caso]")).toHaveCount(2);
-    await expect(sec).toContainText(/ilustrativo/i);
+    await expect(sec.locator("[data-home2-pmfc]")).toHaveCount(4);
+    await expect(sec).toContainText(/valores de referencia/i);
     await expect(sec).not.toContainText(/patentad/i);
     await expect(sec.locator("[data-pmfc-link]")).toHaveAttribute(
       "href",

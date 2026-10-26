@@ -1,20 +1,18 @@
-// /home2 (Ricardo, 26-oct-2026): historia de Clinera + casos al estilo de
-// sacamedi.com/casos. Borrador: noindex. Contenido en src/content/home2.ts.
+// Home (Ricardo, 26-oct-2026): el borrador /home2 pasó a ser `/`, con el degradé del hero
+// anterior. /home2 redirige al home. Contenido en src/content/home2.ts.
 
 import { expect, test } from "@playwright/test";
 
-test("home2: noindex, historia, fundador y cuatro casos con cifra", async ({
-  page,
-}) => {
+test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
   await page.route(/connect\.facebook\.net|googletagmanager/, (route) =>
     route.abort(),
   );
-  await page.goto("/home2", { waitUntil: "domcontentloaded" });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
 
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
-    "content",
-    /noindex/,
-  );
+  // El home se indexa (el borrador no se indexaba).
+  await expect(
+    page.locator('meta[name="robots"][content*="noindex"]'),
+  ).toHaveCount(0);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "cobre la evaluación por adelantado",
   );
@@ -87,12 +85,20 @@ test("home2: noindex, historia, fundador y cuatro casos con cifra", async ({
   );
 });
 
-test("home2: en el celular no hay scroll horizontal", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
+test("home: /home2 redirige al home", async ({ page }) => {
   await page.route(/connect\.facebook\.net|googletagmanager/, (route) =>
     route.abort(),
   );
   await page.goto("/home2", { waitUntil: "domcontentloaded" });
+  expect(new URL(page.url()).pathname).toBe("/");
+});
+
+test("home: en el celular no hay scroll horizontal", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.route(/connect\.facebook\.net|googletagmanager/, (route) =>
+    route.abort(),
+  );
+  await page.goto("/", { waitUntil: "domcontentloaded" });
   const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
   expect(ancho).toBeLessThanOrEqual(390);
 });
