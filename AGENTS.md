@@ -1244,3 +1244,19 @@ final: si una etiqueta de GTM o el pixel tiran error en `dataLayer.push` / `fbq`
 avanzar al paso 2. Ahora `pushDL` y `trackPixel` atrapan el error, y el paso 1 avanza **antes** de medir. Todo
 formulario nuevo: primero el paso, después el seguimiento. Guardián: «el deslizador avanza aunque GTM o el pixel
 tiren error» en `tests/agenda-wizard.spec.ts`.
+
+# `/home2`: borrador del home con historia, casos y convenio Alta Qualità (Ricardo, 26-oct-2026)
+
+Inspirado en sacamedi.com/casos: cifras arriba, una cifra grande por caso, honestidad sobre lo que falta
+y un solo CTA («Agendar reunión» → `/agenda`). Foco en clínicas **médicas y estéticas**. Contenido en
+`src/content/home2.ts`; `noindex`, en `robots-txt.ts` y fuera del sitemap hasta que Ricardo decida si
+reemplaza a `/`.
+
+- **Cifras:** sólo las que Ricardo dio para el deck técnico (Hebe 23x = US$ 2.250 / US$ 98; Lumina 31x =
+  US$ 2.449 / US$ 78; una sucursal US$ 220.000 con US$ 35.000). La sucursal va como «del grupo», no
+  «de Hebe» (no confirmado). No inventar casos externos: faltan videos o cifras de clientes con nombre.
+- **Sin precio en el titular:** la tarea decía «menos de US$ 500» y el Ecosistema público vale 529.
+- **Convenio Alta Qualità** (alta-qualita.cl, importadora de equipos de estética): contratar cualquier
+  plan da «descuentos especiales» en máquinas. Sin porcentaje publicado hasta que Ricardo lo fije.
+
+Guardián: `tests/home2.spec.ts`.
