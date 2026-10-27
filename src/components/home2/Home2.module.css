@@ -821,3 +821,48 @@
     #ffffff 80%
   );
 }
+
+/* «Quién está detrás»: canal de YouTube y CNN Chile (Ricardo, 27-oct-2026). */
+.medios {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.medio {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.medioFoto {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 2;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e3e5ea;
+  margin-bottom: 6px;
+}
+
+.medioFoto img {
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.medio:hover .medioFoto img {
+  transform: scale(1.03);
+}
+
+.medio strong {
+  font-size: 14px;
+  color: #111318;
+}
+
+.medio > span:last-child {
+  font-size: 13px;
+  color: #5b6472;
+}

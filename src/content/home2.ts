@@ -69,6 +69,26 @@ export const HOME2_FUNDADOR = {
     "+12 años en el canal de YouTube Metricads Marketing",
     "Meta y Google partner",
   ],
+  // Ricardo, 27-oct-2026: dos fotos de prensa y del canal. La miniatura de
+  // YouTube se recortó sin la landing de la clínica que salía al lado (red sin marcas).
+  medios: [
+    {
+      id: "youtube",
+      src: "/images/home2/metricads-youtube.webp",
+      alt: "Ricardo Oyarzún grabando un video del canal Metricads Marketing en su oficina",
+      titulo: "Canal Metricads Marketing",
+      texto: "Marketing para clínicas, explicado en videos cortos.",
+      href: "https://www.youtube.com/channel/UCl4Bh9sNp22PjJuSLgz9ZsQ",
+    },
+    {
+      id: "cnn",
+      src: "/images/home2/clinera-cnn-chile.webp",
+      alt: "Ricardo Oyarzún en el set de CNN Chile conversando sobre IA para clínicas",
+      titulo: "Clinera en CNN Chile",
+      texto: "IA para la gestión de clínicas, en Agenda Económica.",
+      href: "/prensa",
+    },
+  ],
 } as const;
 
 // PMFC en el orden y con las palabras de Ricardo (26-oct-2026). Cada letra

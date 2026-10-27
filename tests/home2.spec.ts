@@ -44,6 +44,16 @@ test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
     "apertura de la sucursal de Vitacura, 2025",
   );
 
+  // Ricardo, 27-oct-2026: canal de YouTube y CNN Chile en «Quién está detrás».
+  await expect(page.locator("[data-home2-medio]")).toHaveCount(2);
+  await expect(page.locator('[data-home2-medio="cnn"]')).toContainText(
+    "CNN Chile",
+  );
+  await expect(page.locator('[data-home2-medio="youtube"]')).toHaveAttribute(
+    "href",
+    /youtube\.com/,
+  );
+
   for (const donde of ["hero", "cierre"]) {
     await expect(page.locator(`[data-home2-cta="${donde}"]`)).toHaveAttribute(
       "href",
