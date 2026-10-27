@@ -65,17 +65,17 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     });
   });
 
-  test("paso 1, qué vendes: botox común vs tratamiento único", () => {
+  test("paso 1, qué vendes: botox suelto vs Facial 360 (Ricardo, 27-oct-2026)", () => {
     const p = slide("pmfc-p");
     expect(p).toContain("Qué vendes");
     expect(p).toContain("data-propuesta");
     expect(p).toContain('data-tratamiento="generico"');
-    expect(p).toContain('data-tratamiento="lumina-face"');
-    for (const n of ["US$ 50", "US$ 2.000", "40 veces"]) expect(p).toContain(n);
+    expect(p).toContain('data-tratamiento="facial-360"');
+    for (const n of ["US$ 180", "US$ 1.800", "10 veces", "Facial 360", "HIFU"]) expect(p).toContain(n);
     expect(p).toContain("valores de referencia");
   });
 
-  test("paso 2, cómo llegan los pacientes: el camino y la evaluación que se paga sola", () => {
+  test("paso 2, cómo llegan los pacientes: la evaluación prepagada de US$ 20 vende el Facial 360", () => {
     const m = slide("pmfc-m");
     expect(m).toContain("data-embudo");
     for (const paso of ["creativo", "clic", "evaluacion", "tratamiento"]) expect(m).toContain(`data-paso="${paso}"`);
@@ -84,13 +84,12 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(m).toContain("data-cobro-evaluacion");
     expect(m).toContain("pague su evaluación antes de venir");
     expect(m).toContain("Asiste a su cita");
-    // Ricardo, 26-oct-2026: la evaluación cobrada (US$ 50) paga lo que costó traer al paciente (US$ 40).
-    expect(m).toContain("data-evaluacion-gratis");
+    // Ricardo, 27-oct-2026: el anuncio vende la evaluación (US$ 20), la consulta vende el Facial 360 (US$ 1.800).
+    expect(m).toContain("data-evaluacion-prepagada");
     // La red de clínicas no se nombra (Ricardo, 26-oct-2026).
     // Ningún texto visible del deck nombra las clínicas de la red.
     expect(texto(html.slice(html.indexOf('<main class="slides"'), html.indexOf("</main>")))).not.toMatch(/HEBE|Hebe|Lumina/);
-    for (const n of ["US$&nbsp;50", "US$&nbsp;40", "US$&nbsp;10"]) expect(m).toContain(n);
-    expect(m).toContain("te salió gratis");
+    for (const n of ["US$&nbsp;20", "US$&nbsp;1.800", "Facial 360"]) expect(m).toContain(n);
     expect(m).toContain("valores de referencia");
     // Una sola escala de números: sin la tabla de anuncios ni las tarjetas de Hebe y Lumina.
     expect(m).not.toContain("data-admin");

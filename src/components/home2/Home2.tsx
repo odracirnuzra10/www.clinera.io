@@ -88,8 +88,7 @@ function VisualPmfc({ letra }: { letra: string }) {
           <div key={f.nombre} className={s.pFila}>
             <p className={s.pNombre}>{f.nombre}</p>
             <p className={s.pCifras}>
-              Se vende a <strong>{f.vende}</strong> · te deja{" "}
-              <strong>{f.deja}</strong>
+              {f.detalle} · <strong>{f.vende}</strong>
             </p>
             <div className={s.pBarra}>
               <i style={{ width: `${f.pct}%` }} />
