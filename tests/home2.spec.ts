@@ -91,6 +91,10 @@ test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
   await expect(page.locator('[data-home2-pmfc="F"]')).toContainText(
     "alto valor",
   );
+  // Un solo ejemplo recorre las cuatro letras (Ricardo, 27-oct-2026).
+  await expect(page.locator('[data-home2-pmfc="P"]')).toContainText("Facial 360");
+  await expect(page.locator('[data-home2-pmfc="M"]')).toContainText("US$ 20");
+  await expect(page.locator('[data-home2-pmfc="F"]')).toContainText("US$ 1.800");
   await expect(page.locator("[data-home2-slot-nuevo]")).toContainText(
     "Valentina R.",
   );

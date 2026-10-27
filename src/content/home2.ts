@@ -94,63 +94,64 @@ export const HOME2_FUNDADOR = {
   ],
 } as const;
 
-// PMFC en el orden y con las palabras de Ricardo (26-oct-2026). Cada letra
-// lleva su visual en Home2.tsx. Los montos de P son «valores de referencia»
-// (los mismos del deck /presentacion-tecnica, caso Lumina Face).
+// PMFC en el orden y con las palabras de Ricardo (26 y 27-oct-2026). Cada letra
+// lleva su visual en Home2.tsx. Un solo ejemplo recorre las cuatro letras: el
+// «Facial 360» (botox, vitaminas, HIFU y masaje) a US$ 1.800, vendido desde una
+// evaluación prepagada de US$ 20. Valores de referencia, igual que en /presentacion.
 export const HOME2_PMFC = {
   eyebrow: "Metodología PMFC",
   titulo: "Cuatro piezas, en este orden.",
   tituloAcento: "Cada una depende de la anterior.",
   bajada:
-    "Lo que hace crecer a una clínica es el margen. Por eso no partimos por el software: partimos por lo que vendes.",
+    "Lo que hace crecer a una clínica es el margen. Por eso no partimos por el software: partimos por lo que vendes. Un ejemplo de punta a punta: el Facial 360.",
   piezas: [
     {
       letra: "P",
       titulo: "Propuesta de valor",
       texto:
-        "Un protocolo propio que la competencia no tiene. Deja de competir por precio y te permite cobrar lo que vale tu trabajo.",
+        "Algo que te distinga. Por ejemplo, un «Facial 360» que junta botox, vitaminas, HIFU y masaje y vale US$ 1.800, en vez de un botox suelto que vende cualquier clínica.",
     },
     {
       letra: "M",
       titulo: "Marketing de captación",
       texto:
-        "Campañas que consiguen evaluaciones prepagadas: la paciente paga su evaluación antes de llegar. Llega quien ya decidió, no el curioso.",
+        "Nadie compra US$ 1.800 desde un anuncio. Por eso las campañas venden evaluaciones prepagadas de US$ 20: la paciente paga antes de llegar, y el Facial 360 se vende en la consulta.",
     },
     {
       letra: "F",
       titulo: "Framework de venta",
       texto:
-        "Técnicas para cerrar negocios de alto valor en la consulta. Capacitamos a tus doctores y especialistas para vender sin regalar tratamientos.",
+        "En la evaluación que la paciente ya pagó (US$ 20), tu equipo vende el Facial 360 (US$ 1.800). Capacitamos a tus especialistas en técnicas para cerrar ventas de alto valor.",
     },
     {
       letra: "C",
       titulo: "Clinera, el software",
       texto:
-        "AURA, una secretaria con IA, responde por WhatsApp, Instagram y Facebook y deja la cita en tu agenda, con la ficha y el cobro en el mismo lugar.",
+        "El ecosistema con IA que soporta toda la operación: AURA responde por WhatsApp, Instagram y Facebook y deja la cita en tu agenda, con la ficha y el cobro en el mismo lugar.",
     },
   ],
   propuesta: {
     filas: [
       {
-        nombre: "Tratamiento genérico",
+        nombre: "Botox suelto",
+        detalle: "Lo vende cualquier clínica",
         vende: "US$ 180",
-        deja: "US$ 50",
-        pct: 2.5,
+        pct: 10,
       },
       {
-        nombre: "Protocolo propio",
-        vende: "US$ 2.500",
-        deja: "US$ 2.000",
+        nombre: "Facial 360",
+        detalle: "Botox · vitaminas · HIFU · masaje",
+        vende: "US$ 1.800",
         pct: 100,
       },
     ],
     nota: "Valores de referencia.",
   },
   marketing: [
-    "Ves el anuncio",
-    "Conversa con AURA",
-    "Paga su evaluación",
+    "Ve el anuncio",
+    "Paga su evaluación · US$ 20",
     "Llega a la consulta",
+    "Compra el Facial 360 · US$ 1.800",
   ],
   framework: {
     foto: "/presentacion/assets/framework-consulta.webp",

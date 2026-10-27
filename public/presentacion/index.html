@@ -3158,7 +3158,7 @@
     @media (prefers-reduced-motion: reduce) { .fn-steps::after, .fn-steps li { transition: none !important; } }
     @media (max-width: 900px) { .mk-body { grid-template-columns: minmax(0, 1fr); padding-bottom: 72px; } .fn-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; } .fn-steps::before, .fn-steps::after { display: none; } .eco-flow { padding-bottom: 72px; } }
     @media (max-height: 820px) and (min-width: 901px) { .pl-c .pl-lead { display: none; } .pl-m .rs-admin td { padding: 6px 12px; } .pl-m .rs-admin th { padding: 6px 12px; } .mk-cards .rs-card { padding: 8px 14px; } .fn-steps li > span:last-child { font-size: 11.5px; } .pl-c .eco-note { display: none; } .pl-c .eco-list span { display: none; } .pl-c .pl-foto { max-height: 40vh; } .pl-p .rn-list { gap: 2px; } }
-    /* P: botox genérico vs protocolo Lumina Face; C: animación campaña → AURA → cita → ficha (Ricardo, 20-oct-2026) */
+    /* P: botox suelto vs Facial 360 (Ricardo, 27-oct-2026); C: animación campaña → AURA → cita → ficha (Ricardo, 20-oct-2026) */
     .vp-body { border: 1px solid #E5E7EB; border-radius: 18px; background: #fff; padding: clamp(14px, 2.4vh, 26px) clamp(16px, 2vw, 28px); display: grid; gap: clamp(12px, 2vh, 20px); }
     .vp-row { display: grid; grid-template-columns: minmax(150px, 230px) minmax(0, 1fr) auto; align-items: center; gap: 14px; }
     .vp-lbl strong { display: block; font-size: clamp(14px, 1.2vw, 17px); font-weight: 800; color: var(--ink); letter-spacing: -.01em; }
@@ -5054,23 +5054,23 @@
             <div>
               <div class="blk-eyebrow">PASO 1 DE 4</div>
               <h2 class="blk-h2">Qué vendes: <span class="blk-grad-text">algo único.</span></h2>
-              <p class="pl-lead">Si vendes lo mismo que todos, compites por precio. Si vendes algo único, cobras más.</p>
+              <p class="pl-lead">Si vendes lo mismo que todos, compites por precio. Arma algo que te distinga: por ejemplo, un <strong>Facial 360</strong>.</p>
             </div>
           </header>
 
-          <div class="vp-body reveal" data-propuesta aria-label="Botox común: te deja US$ 50 por paciente. Tratamiento único: te deja US$ 2.000 por paciente">
+          <div class="vp-body reveal" data-propuesta aria-label="Botox suelto: US$ 180 por paciente. Facial 360, con botox, vitaminas, HIFU y masaje: US$ 1.800 por paciente">
             <div class="vp-row" data-tratamiento="generico">
-              <div class="vp-lbl"><strong>Botox común</strong><span>Lo vende cualquier clínica · US$ 180</span></div>
-              <div class="vp-track"><i class="vp-cost" style="--w:5.2%"></i><i class="vp-gain gen" style="--w:2%"></i></div>
-              <div class="vp-out"><b>US$ 50</b><span>de ganancia</span></div>
+              <div class="vp-lbl"><strong>Botox suelto</strong><span>Lo vende cualquier clínica</span></div>
+              <div class="vp-track"><i class="vp-gain gen" style="--w:10%"></i></div>
+              <div class="vp-out"><b>US$ 180</b><span>por paciente</span></div>
             </div>
-            <div class="vp-row" data-tratamiento="lumina-face">
-              <div class="vp-lbl"><strong>Tu protocolo propio</strong><span>Más insumos y sesiones · US$ 2.500</span></div>
-              <div class="vp-track"><i class="vp-cost" style="--w:20%"><em>US$ 500</em></i><i class="vp-gain con" style="--w:80%"><em>Ganas US$ 2.000</em></i></div>
-              <div class="vp-out vp-out-con"><b>US$ 2.000</b><span>de ganancia</span></div>
+            <div class="vp-row" data-tratamiento="facial-360">
+              <div class="vp-lbl"><strong>Facial 360</strong><span>Botox · vitaminas · HIFU · masaje</span></div>
+              <div class="vp-track"><i class="vp-gain con" style="--w:100%"><em>Solo lo tienes tú</em></i></div>
+              <div class="vp-out vp-out-con"><b>US$ 1.800</b><span>por paciente</span></div>
             </div>
             <ul class="vp-facts vp-solo">
-              <li><b>40 veces más</b><span>ganancia por cada paciente</span></li>
+              <li><b>10 veces más</b><span>por cada paciente, sin competir por precio</span></li>
             </ul>
           </div>
           <p class="rn-note">Ejemplo con valores de referencia.</p>
@@ -5089,22 +5089,22 @@
             <div>
               <div class="blk-eyebrow">PASO 2 DE 4</div>
               <h2 class="blk-h2">Cómo llegan pacientes <span class="blk-grad-text">que sí asisten.</span></h2>
-              <p class="pl-lead" data-cobro-evaluacion>Nuestras campañas buscan una sola cosa: que el paciente <strong>pague su evaluación antes de venir</strong>. Así llega decidido, asiste, y lo que paga cubre lo que costó traerlo.</p>
+              <p class="pl-lead" data-cobro-evaluacion>Nadie compra un tratamiento de US$&nbsp;1.800 desde un anuncio. Por eso nuestras campañas venden otra cosa: que el paciente <strong>pague su evaluación antes de venir</strong>.</p>
             </div>
           </header>
 
           <ol class="fn-steps reveal" data-embudo aria-label="Del anuncio a la venta: el anuncio, el mensaje, la evaluación y el tratamiento">
             <li data-paso="creativo"><span class="fn-ad" aria-hidden="true"><i>ANUNCIO</i><b></b></span><strong>Ve tu anuncio</strong><span>en Instagram o Facebook</span></li>
-            <li data-paso="clic"><span class="fn-ico" aria-hidden="true">💳</span><strong>Paga su evaluación</strong><span>por adelantado, en línea</span></li>
+            <li data-paso="clic"><span class="fn-ico" aria-hidden="true">💳</span><strong>Paga su evaluación</strong><span>US$&nbsp;20, por adelantado</span></li>
             <li data-paso="evaluacion"><span class="fn-ico" aria-hidden="true">🩺</span><strong>Asiste a su cita</strong><span>ya pagó: no falta</span></li>
-            <li data-paso="tratamiento"><span class="fn-ico" aria-hidden="true">✨</span><strong>Compra el tratamiento</strong><span>y tú ganas</span></li>
+            <li data-paso="tratamiento"><span class="fn-ico" aria-hidden="true">✨</span><strong>Compra el Facial 360</strong><span>US$&nbsp;1.800, en la consulta</span></li>
           </ol>
 
-          <div class="mk-film mk-film-solo mk-eval reveal" data-pelicula data-evaluacion-gratis>
-            <p class="mk-eval-fila"><span>El paciente te paga su evaluación</span><strong>+ US$&nbsp;50</strong></p>
-            <p class="mk-eval-fila"><span>Traerlo con anuncios te costó</span><strong>− US$&nbsp;40</strong></p>
-            <b>Ganaste US$&nbsp;10: el paciente te salió gratis.</b>
-            <p class="mk-eval-nota">Y todavía no le vendes el tratamiento. Ejemplo con valores de referencia.</p>
+          <div class="mk-film mk-film-solo mk-eval reveal" data-pelicula data-evaluacion-prepagada>
+            <p class="mk-eval-fila"><span>El anuncio vende la evaluación</span><strong>US$&nbsp;20</strong></p>
+            <p class="mk-eval-fila"><span>La consulta vende el Facial 360</span><strong>US$&nbsp;1.800</strong></p>
+            <b>Llega decidido: ya pagó, y asiste.</b>
+            <p class="mk-eval-nota">Ejemplo con valores de referencia.</p>
           </div>
         </div>
       </section>
@@ -5121,7 +5121,7 @@
             <div>
               <div class="blk-eyebrow">PASO 3 DE 4</div>
               <h2 class="blk-h2">Cómo vender <span class="blk-grad-text">en la consulta.</span></h2>
-              <p class="pl-lead">Técnicas para cerrar ventas de alto valor: le enseñamos a tu equipo qué decir para que el paciente diga que sí.</p>
+              <p class="pl-lead">En la evaluación que el paciente ya pagó (US$&nbsp;20), tu equipo le vende el Facial 360 (US$&nbsp;1.800). Le enseñamos técnicas para cerrar ventas de alto valor.</p>
             </div>
           </header>
 
@@ -5151,7 +5151,7 @@
             <div>
               <div class="blk-eyebrow">PASO 4 DE 4</div>
               <h2 class="blk-h2">Clinera agenda por ti: <span class="blk-grad-text">una secretaria con IA.</span></h2>
-              <p class="pl-lead">Contesta WhatsApp y agenda a cualquier hora, también de noche. La cita queda en tu agenda con la ficha del paciente.</p>
+              <p class="pl-lead">Clinera es el ecosistema con IA que sostiene toda la operación: contesta WhatsApp y agenda a cualquier hora, también de noche, y la cita queda con la ficha y el cobro del paciente.</p>
             </div>
           </header>
 
@@ -5161,7 +5161,7 @@
               <div class="ca-ad">
                 <div class="ca-ad-top"><i>C</i><span>Tu clínica<small>Publicidad</small></span></div>
                 <div class="ca-ad-media"><b></b></div>
-                <div class="ca-ad-cta"><span>Protocolo facial</span><em>Enviar mensaje</em></div>
+                <div class="ca-ad-cta"><span>Facial 360</span><em>Enviar mensaje</em></div>
                 <span class="ca-click" aria-hidden="true"></span>
               </div>
             </li>
@@ -5194,7 +5194,7 @@
                   <div class="ca-f1"><dt>Motivo</dt><dd>Rejuvenecimiento</dd></div>
                   <div class="ca-f2"><dt>Fototipo</dt><dd>III</dd></div>
                   <div class="ca-f3"><dt>Zonas</dt><dd>Frente · ojeras</dd></div>
-                  <div class="ca-f4"><dt>Plan</dt><dd class="ca-plan">Protocolo facial</dd></div>
+                  <div class="ca-f4"><dt>Plan</dt><dd class="ca-plan">Facial 360</dd></div>
                 </dl>
               </div>
             </li>

@@ -1298,3 +1298,14 @@ obligatorio** · paso 4 el calendario. Los rangos viven en `AgendaWizard.tsx` (`
   tardaban más de un segundo en aparecer).
 - Guardianes: `tests/agenda-wizard.spec.ts`, `verificar-sitio.spec.ts`, `dispositivos-moviles.spec.ts`;
   helpers en `tests/agenda-helpers.ts`.
+
+# PMFC con un solo ejemplo: el Facial 360 (Ricardo, 27-oct-2026)
+
+En `/presentacion` (diapos `pmfc-p` a `pmfc-c`) y en el PMFC del home (`HOME2_PMFC`) las cuatro letras cuentan
+la misma historia. **P**: algo que te distinga, el «Facial 360» (botox, vitaminas, HIFU, masaje) a US$ 1.800
+frente a un botox suelto de US$ 180. **M**: nadie compra US$ 1.800 desde un anuncio; las campañas venden una
+evaluación prepagada de US$ 20. **F**: en esa evaluación ya pagada se vende el Facial 360. **C**: Clinera es el
+ecosistema con IA que soporta la operación. Reemplaza el caso «Lumina Face» (US$ 2.500, nombraba la red) y la
+cuenta «la evaluación se paga sola» (US$ 50 − US$ 40), que no cuadra con una evaluación de US$ 20. Ricardo dio
+el precio como «$1.800.000» y como «1800 dólares»: se publica US$ 1.800. Valores de referencia; no se publican
+costos ni ganancia del Facial 360 porque no los dio. `/presentacion-tecnica` no cambió.
