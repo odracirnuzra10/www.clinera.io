@@ -1309,3 +1309,15 @@ ecosistema con IA que soporta la operación. Reemplaza el caso «Lumina Face» (
 cuenta «la evaluación se paga sola» (US$ 50 − US$ 40), que no cuadra con una evaluación de US$ 20. Ricardo dio
 el precio como «$1.800.000» y como «1800 dólares»: se publica US$ 1.800. Valores de referencia; no se publican
 costos ni ganancia del Facial 360 porque no los dio. `/presentacion-tecnica` no cambió.
+
+# Ecosistema a US$ 379 en promoción hasta el 26-nov-2026 (Ricardo, 27-oct-2026)
+
+`PROMO_ECOSISTEMA` en `src/content/planes.ts`: mientras `promoEcosistemaVigente()` (hasta el 26-nov 23:59 Chile),
+`PLANES[1].monthlyUsd` = 379, `precioNormalUsd` = 529 (tachado en la tarjeta), `AHORRO.ahorro` = «desde US$ 621»
+y **`pagoUrl` vacío**: el Payment Link de Stripe cobra 529, así que no se muestra y el 379 se cierra en la reunión.
+**Se evalúa al construir**: el sitio vuelve solo a 529 en el primer despliegue después del 26-nov (si nadie
+despliega, sigue en 379; hay un recordatorio programado para el 27-nov). **Lo que NO vuelve solo** (texto
+escrito a mano): `public/presentacion/index.html` (boleta, `#planes` con `data-promo`), `public/llms.txt` y
+`llms-full.txt`. `/oferta-clinicas-esteticas` y `/super-promo` comparan contra `precioNormalUsd` (529).
+Los artículos del blog siguen diciendo 529 a propósito. Guardianes: `tests/planes-vigentes.spec.ts` y
+`tests/presentacion-4-diapos.spec.ts`.

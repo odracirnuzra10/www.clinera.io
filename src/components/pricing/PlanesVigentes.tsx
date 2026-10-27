@@ -242,11 +242,16 @@ export default function PlanesVigentes({
                         ${p.monthlyUsd}
                       </div>
                       <div style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 4 }}>USD/mes</div>
+                      {p.precioNormalUsd ? (
+                        <div data-plan-promo={p.id} style={{ fontFamily: "Inter", fontSize: 11.5, fontWeight: 600, color: th.sub, marginTop: 4 }}>
+                          <s>${p.precioNormalUsd}</s> · promoción {p.promoHasta}
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 </div>
 
-                <div style={{ display: "grid", gap: 10, marginBottom: 24 }}>
+                <div style={{ display: "grid", gap: 10, marginBottom: 24, alignContent: "start" }}>
                   <a
                     className="pv-cta"
                     href={agendaHref(p.servicio, search)}
@@ -267,7 +272,7 @@ export default function PlanesVigentes({
                   >
                     {CTA_VENTAS_LABEL}
                   </a>
-                  {conPago && (
+                  {conPago && p.pagoUrl && (
                     <a
                       className="pv-pago"
                       href={p.pagoUrl}

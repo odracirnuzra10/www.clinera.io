@@ -114,12 +114,13 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     const c = slide("beneficios");
     for (const b of ["costo", "unificado", "especializado"]) expect(c).toContain(`data-beneficio="${b}"`);
     expect(c).toContain("Ecosistema");
-    expect(c).toContain("Te ahorras desde US$ 470 al mes");
+    // Promoción del Ecosistema hasta el 26-nov-2026 (Ricardo, 27-oct-2026): 379 y ahorro desde 621.
+    expect(c).toContain("Te ahorras desde US$ 621 al mes");
     expect(c).toContain("clínicas estéticas y médicas");
     expect(c).toContain("US$ 600–800/mes");
     expect(c).toContain("US$ 1.000–1.700/mes");
-    expect(c).toContain("Ahorras desde US$ 470 al mes");
-    expect(c).toContain("US$ 529");
+    expect(c).toContain("Ahorras desde US$ 621 al mes");
+    expect(c).toContain("US$ 379");
     expect(c).toContain("estimados");
     expect(c).not.toMatch(/AgendaPro|Reservo|Medilink|Bambi/i);
   });
@@ -132,7 +133,8 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     };
     const vortex = card("Vortex"), eco = card("Ecosistema");
     expect(vortex).toContain("<strong>$279</strong>");
-    expect(eco).toContain("<strong>$529</strong>");
+    expect(eco).toContain("<strong>$379</strong>");
+    expect(eco).toContain("<s>$529</s> · precio hasta el 26 de noviembre");
     for (const k of [vortex, eco]) {
       for (const logo of ["#ch-wa", "#ch-ig", "#ch-fb"]) expect(k).toContain(logo);
       expect(k.match(/<li>/g)).toHaveLength(3);

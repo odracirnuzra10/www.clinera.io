@@ -2,14 +2,15 @@
 // «Agendar reunión» → /agenda?servicio=…, sin cupón ni compra en la web.
 
 import { expect, test } from "@playwright/test";
-import { CTA_VENTAS_LABEL, MARKETING_BLOQUES, PLANES } from "../src/content/planes";
+import { AHORRO, CTA_VENTAS_LABEL, MARKETING_BLOQUES, PLANES, promoEcosistemaVigente } from "../src/content/planes";
 import { CLINICAS_LOGOS } from "../src/content/clinicas-logos";
 
 test.describe("planes vigentes: Vortex · Ecosistema", () => {
   test("el catálogo", () => {
     expect(PLANES.map((p) => [p.id, p.monthlyUsd])).toEqual([
       ["vortex", 279],
-      ["ecosistema", 529],
+      // Promoción del Ecosistema: 379 hasta el 26-nov-2026, después 529 (Ricardo, 27-oct-2026).
+      ["ecosistema", promoEcosistemaVigente() ? 379 : 529],
     ]);
     // Ricardo, 19-oct-2026: el valor de la implementación no se publica en ningún lado.
     expect(PLANES[1].features).toEqual(expect.arrayContaining(MARKETING_BLOQUES.map((b) => b.titulo)));
@@ -34,8 +35,10 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     await expect(page.locator("[data-planes-vigentes]")).not.toContainText("450");
     // Ricardo, 20-oct-2026: /planes lleva el Payment Link de cada plan, con los
     // data-plan* que lee Analytics.tsx (InitiateCheckout + client_reference_id).
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(2);
-    for (const p of PLANES) {
+    // Durante la promo del Ecosistema su link (que cobra 529) no se muestra.
+    const conLink = PLANES.filter((p) => p.pagoUrl);
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length);
+    for (const p of conLink) {
       const pago = page.locator(`[data-plan-card="${p.id}"] a[href*="buy.stripe.com"]`);
       await expect(pago).toHaveAttribute("href", new RegExp("^" + p.pagoUrl.replace(/[.?]/g, "\\$&")));
       await expect(pago).toHaveAttribute("data-plan", p.id);
@@ -57,8 +60,8 @@ test.describe("ahorro del Ecosistema (Ricardo, 19-oct-2026)", () => {
       await expect(bloque.locator("[data-ahorro-item]")).toHaveCount(3);
       await expect(bloque).toContainText("US$ 600–800/mes");
       await expect(bloque).toContainText("US$ 1.000–1.700/mes");
-      await expect(bloque.locator("[data-ahorro-conclusion]")).toContainText("US$ 529");
-      await expect(bloque).toContainText("Ahorras desde US$ 470 al mes");
+      await expect(bloque.locator("[data-ahorro-conclusion]")).toContainText(`US$ ${PLANES[1].monthlyUsd}`);
+      await expect(bloque).toContainText(AHORRO.ahorro);
       // Valores estimados y sin nombrar competidores.
       await expect(bloque).toContainText("estimados");
       await expect(bloque).not.toContainText(/AgendaPro|Reservo|Medilink|Bambi/i);

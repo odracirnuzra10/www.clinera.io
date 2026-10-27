@@ -80,7 +80,8 @@ export default function EcosistemaIncluye({ conCta = true }: { conCta?: boolean 
 
       <p className={s.precio} data-ecosistema-precio>
         <strong>
-          Ecosistema: US$ {ECOSISTEMA.monthlyUsd} al mes por las dos piezas.
+          Ecosistema: US$ {ECOSISTEMA.monthlyUsd} al mes por las dos piezas
+          {ECOSISTEMA.precioNormalUsd ? ` (precio promocional ${ECOSISTEMA.promoHasta}; normal US$ ${ECOSISTEMA.precioNormalUsd})` : ""}.
         </strong>{" "}
         Sin costo de implementación. La inversión en anuncios se paga aparte. ¿Solo el software? Vortex cuesta US${" "}
         {VORTEX.monthlyUsd}.

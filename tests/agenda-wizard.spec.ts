@@ -3,6 +3,7 @@
 // Sin cupón ni compra desde la web. Red mockeada.
 
 import { expect, test, type Page, type Request } from "@playwright/test";
+import { AHORRO, PLANES } from "../src/content/planes";
 import { llenarClinica, pasarDatosPersonales } from "./agenda-helpers";
 
 type WizardBody = {
@@ -81,8 +82,8 @@ test("wizard: boleta «Quiero ahorrar» → tus datos → tu clínica (CRM + Lea
   await expect(boleta).toBeVisible();
   await expect(boleta).toContainText("US$ 600–800/mes");
   await expect(boleta).toContainText("US$ 1.000–1.700/mes");
-  await expect(boleta).toContainText("US$ 529/mes");
-  await expect(boleta).toContainText("Ahorras desde US$ 470 al mes");
+  await expect(boleta).toContainText(`US$ ${PLANES[1].monthlyUsd}/mes`);
+  await expect(boleta).toContainText(AHORRO.ahorro);
   // Ricardo, 26-oct-2026: el deslizador pasó a ser un botón «Quiero ahorrar».
   await expect(page.locator("[data-quiero-ahorrar]")).toHaveText("Quiero ahorrar");
   await expect(page.locator("[data-perilla]")).toHaveCount(0);
