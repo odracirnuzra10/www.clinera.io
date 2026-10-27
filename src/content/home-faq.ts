@@ -1,3 +1,5 @@
+import { PLANES } from "@/content/planes";
+
 // Fuente única del FAQ del home: la consume la sección <Faq /> de
 // home-v3/sections.tsx y el JSON-LD FAQPage de src/app/page.tsx.
 // Ricardo, 20-oct-2026: el home habla de las dos opciones (Vortex y Ecosistema);
@@ -5,7 +7,7 @@
 export const HOME_FAQ = [
   {
     q: "¿Qué diferencia hay entre Vortex y el Ecosistema?",
-    a: "Vortex (US$ 279/mes) es el software con IA: agenda, fichas, bandeja de WhatsApp, Instagram y Facebook, AURA que responde y agenda, y Clinera Intelligence. El Ecosistema (US$ 529/mes) es todo Vortex más marketing de performance: campañas con creativos, propuesta de valor, framework comercial y una reunión de marketing cada semana.",
+    a: `Vortex (US$ ${PLANES[0].monthlyUsd}/mes) es el software con IA: agenda, fichas, bandeja de WhatsApp, Instagram y Facebook, AURA que responde y agenda, y Clinera Intelligence. El Ecosistema (US$ ${PLANES[1].monthlyUsd}/mes${PLANES[1].promoHasta ? `, precio promocional ${PLANES[1].promoHasta}` : ""}) es todo Vortex más marketing de performance: campañas con creativos, propuesta de valor, framework comercial y una reunión de marketing cada semana.`,
   },
   {
     q: "¿La publicidad está incluida en el Ecosistema?",

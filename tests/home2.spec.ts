@@ -2,6 +2,7 @@
 // anterior. /home2 redirige al home. Contenido en src/content/home2.ts.
 
 import { expect, test } from "@playwright/test";
+import { PLANES } from "../src/content/planes";
 
 test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
   await page.route(/connect\.facebook\.net|googletagmanager/, (route) =>
@@ -51,7 +52,7 @@ test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
   await expect(incluye.locator("[data-ecosistema-pieza]")).toHaveCount(2);
   await expect(incluye).toContainText("Campañas de performance");
   await expect(incluye).toContainText("AURA");
-  await expect(incluye.locator("[data-ecosistema-precio]")).toContainText("US$ 529");
+  await expect(incluye.locator("[data-ecosistema-precio]")).toContainText(`US$ ${PLANES[1].monthlyUsd}`);
 
   // Ricardo, 27-oct-2026: canal de YouTube y CNN Chile en «Quién está detrás».
   await expect(page.locator("[data-home2-medio]")).toHaveCount(2);

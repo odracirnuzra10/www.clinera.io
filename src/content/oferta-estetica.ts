@@ -22,7 +22,7 @@ export const OFERTA_ESTETICA = {
   slug: "oferta-clinicas-esteticas",
   leadSource: "oferta_clinicas_esteticas_landing",
   precioUsd: 379,
-  precioRegularUsd: ECOSISTEMA.monthlyUsd,
+  precioRegularUsd: ECOSISTEMA.precioNormalUsd ?? ECOSISTEMA.monthlyUsd,
   ahorroDesdeUsd: SEPARADO_DESDE_USD - 379,
   /** Lo que lee el closer en Twenty (servicio de interés). */
   etiquetaCrm: "Ecosistema (software con IA + marketing de performance) · oferta US$ 379/mes, landing clínicas estéticas",

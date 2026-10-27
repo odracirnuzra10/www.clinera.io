@@ -4,6 +4,7 @@
 // `?oferta=estetica379`. Red mockeada.
 
 import { expect, test, type Page, type Request } from "@playwright/test";
+import { PLANES } from "../src/content/planes";
 import { llenarClinica, pasarDatosPersonales } from "./agenda-helpers";
 
 async function mockRed(page: Page) {
@@ -118,13 +119,12 @@ test("/agenda con la oferta: boleta a 379 y el closer lo ve en el CRM", async ({
   expect(contacto.servicio_interes_label).toContain("oferta US$ 379");
 });
 
-test("/agenda sin oferta o con un valor inventado sigue en 529", async ({ page }) => {
+test("/agenda sin oferta o con un valor inventado muestra el precio de planes.ts", async ({ page }) => {
   await mockRed(page);
   for (const url of ["/agenda", "/agenda?oferta=gratis1"]) {
     await page.goto(url, { waitUntil: "domcontentloaded" });
     const boleta = page.locator('[data-agenda-paso="1"] [data-ahorro]');
-    await expect(boleta).toContainText("US$ 529/mes");
-    await expect(boleta).not.toContainText("US$ 379");
+    await expect(boleta).toContainText(`US$ ${PLANES[1].monthlyUsd}/mes`);
   }
 });
 

@@ -7,7 +7,7 @@
 // y médicas.
 //
 //  · Vortex                USD 279/mes  — software con IA.
-//  · Ecosistema            USD 529/mes  — software + marketing de performance («Recomendado»).
+//  · Ecosistema            USD 529/mes (379 en promoción hasta el 26-nov-2026: PROMO_ECOSISTEMA)  — software + marketing de performance («Recomendado»).
 //  · Implementación        eliminada (Ricardo, 19-oct): no se cobra ni se publica.
 //
 // No hay compra por la web: todo CTA lleva a /agenda (wizard de 3 pasos que termina
@@ -48,9 +48,34 @@ export type Plan = {
   resumen: string;
   /** «Qué incluye» de la tarjeta. */
   features: readonly string[];
-  /** Payment Link de Stripe (mensual). Solo lo muestra /planes (Ricardo, 20-oct-2026). */
+  /** Payment Link de Stripe (mensual). Solo lo muestra /planes (Ricardo, 20-oct-2026). Vacío = sin link. */
   pagoUrl: string;
+  /** Precio de lista cuando `monthlyUsd` es una promoción (se muestra tachado). */
+  precioNormalUsd?: number;
+  /** Texto de vigencia de la promoción, p. ej. «hasta el 26 de noviembre». */
+  promoHasta?: string;
 };
+
+/**
+ * Promoción del Ecosistema (Ricardo, 27-oct-2026): US$ 379 en vez de 529, hasta el
+ * 26-nov-2026 23:59 hora de Chile. Se evalúa al construir el sitio: después de esa
+ * fecha, el siguiente despliegue vuelve solo a 529. El Payment Link de Stripe cobra
+ * 529, así que durante la promo no se muestra (el 379 se cierra en la reunión).
+ */
+export const PROMO_ECOSISTEMA = {
+  precioUsd: 379,
+  precioNormalUsd: 529,
+  /** 26-nov-2026 23:59:59 en Chile (UTC−3 en verano). */
+  terminaIso: "2026-11-27T02:59:59Z",
+  hastaTexto: "hasta el 26 de noviembre",
+} as const;
+
+export function promoEcosistemaVigente(ahora: number = Date.now()): boolean {
+  return ahora <= Date.parse(PROMO_ECOSISTEMA.terminaIso);
+}
+
+const EN_PROMO = promoEcosistemaVigente();
+const PAGO_ECOSISTEMA = "https://buy.stripe.com/00w28tbtf3Um4cz4NR1441L";
 
 /**
  * Aproximado de lo que rinde una bolsa de créditos (tarifas de AGENTS.md:
@@ -116,7 +141,8 @@ export const PLANES: readonly Plan[] = [
   {
     id: "ecosistema",
     name: "Ecosistema",
-    monthlyUsd: 529,
+    monthlyUsd: EN_PROMO ? PROMO_ECOSISTEMA.precioUsd : PROMO_ECOSISTEMA.precioNormalUsd,
+    ...(EN_PROMO ? { precioNormalUsd: PROMO_ECOSISTEMA.precioNormalUsd, promoHasta: PROMO_ECOSISTEMA.hastaTexto } : {}),
     servicio: "ambas",
     professionals: 10,
     iaCredits: 28000,
@@ -125,7 +151,7 @@ export const PLANES: readonly Plan[] = [
     tag: "Recomendado",
     resumen: "Marketing de performance que trae pacientes a tu clínica, con un equipo y 4 reuniones al mes contigo, más el software con IA que los atiende.",
     features: ["Todo lo de Vortex", ...MARKETING_BLOQUES.map((b) => b.titulo)],
-    pagoUrl: "https://buy.stripe.com/00w28tbtf3Um4cz4NR1441L",
+    pagoUrl: EN_PROMO ? "" : PAGO_ECOSISTEMA,
   },
 ] as const;
 
@@ -174,7 +200,7 @@ export const AHORRO = {
   ],
   separado: { etiqueta: "Todo por separado", precio: "US$ 1.000–1.700/mes" },
   ecosistema: { etiqueta: "Clinera Ecosistema", precio: `US$ ${PLANES[1].monthlyUsd}/mes`, nota: "todo en un solo lugar" },
-  ahorro: "Ahorras desde US$ 470 al mes",
+  ahorro: `Ahorras desde US$ ${1000 - PLANES[1].monthlyUsd} al mes`,
   nota: "Valores de referencia estimados del mercado.",
 } as const;
 

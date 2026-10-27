@@ -14,7 +14,7 @@ export const SUPER_PROMO = {
   slug: "super-promo",
   precioUsd: 279,
   meses: 6,
-  precioRegularUsd: ECOSISTEMA.monthlyUsd,
+  precioRegularUsd: ECOSISTEMA.precioNormalUsd ?? ECOSISTEMA.monthlyUsd,
   /** Piso del rango «por separado» (US$ 1.000) menos el precio de la promo. */
   ahorroDesdeUsd: 1000 - 279,
   /** Fin de la promo: 31-oct-2026 23:59:59 hora de Chile (GMT−3 en octubre). */
