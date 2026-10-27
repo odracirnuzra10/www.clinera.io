@@ -1214,9 +1214,9 @@ Clinera apunta a **clínicas medianas**, no al profesional independiente: una cl
 sitio web. El paso 2 del wizard (`AgendaWizard`, y con él `/agenda-google` y `/oferta-clinicas-esteticas`)
 pide «Sitio web de tu clínica» y, antes de avanzar, llama a `POST /api/verificar-sitio`:
 
-- **No pasa:** red social o Linktree (`red_social`), el dominio no resuelve, no responde, da 404 o está en
-  venta (`no_existe`), o la IA leyó la página y no es de salud o estética (`no_clinica`: «Este sitio no
-  corresponde a una clínica. Por favor verifica.»). Sin pasar, no sale el `Lead` a Meta ni el lead al CRM.
+- **Rechazos:** red social o Linktree (`red_social`), el dominio no resuelve, no responde, da 404 o está en
+  venta (`no_existe`), o la IA leyó la página y no es de salud o estética (`no_clinica`). Desde el 27-oct no
+  bloquean (ver abajo): no sale el `Lead` a Meta, pero el lead sí va al CRM.
 - **Pasa siempre que el error sea nuestro:** el sitio bloquea robots o se dibuja sólo con JavaScript
   (`sin_leer`), la IA falla o no está configurada, o la ruta da 5xx (`sin_verificar`). Un bug nuestro no
   puede costar un lead real. El estado viaja al CRM en `sitio_web_estado` junto a `sitio_web`.
@@ -1225,16 +1225,12 @@ pide «Sitio web de tu clínica» y, antes de avanzar, llama a `POST /api/verifi
   en venta) está en `src/lib/verificar-sitio.ts`; la red y la IA, en la ruta.
 - **Seguridad:** el servidor visita una URL que escribió un desconocido: cada salto de redirección se resuelve
   por DNS y se rechaza si es IP privada; máx. 400 KB; caché por dominio 1 h y 12 consultas/min por IP.
-- **Clínica sin sitio web** («¿Aún no tienes web?», Ricardo, 26-oct: p. ej. una clínica que está por abrir).
-  Pasa con el **identificador tributario de la empresa** (RUT, RFC moral, NIT, RUC, CUIT, cédula jurídica, CIF;
-  `src/lib/id-tributario.ts`: formato + dígito verificador + que sea de empresa y no de persona, al instante y sin
-  red; si es del rubro salud lo revisa el closer) **o** con un **correo de dominio propio** verificado con un código
-  de 6 dígitos (`/api/verificar-sitio/codigo`, Postmark; Gmail/Hotmail no cuentan). Ese lead llega al CRM con
-  `sitio_web_estado` `sin_web_tributario` / `sin_web_correo` y **no dispara el `Lead` de Meta**: la campaña aprende
-  sólo de clínicas con web, y este lead le llega cuando el closer lo pase a MQL. El código necesita
-  `POSTMARK_SERVER_TOKEN` y `POSTMARK_FROM` (remitente verificado) en Vercel; sin ellos el formulario dice que no
-  pudo enviarlo y ofrece el documento tributario. La firma del código usa `CODIGO_CORREO_SECRET` o, si falta,
-  `WIZARD_FORM_SECRET`. El sandbox no resuelve registros MX: por eso el dominio también vale con registro A.
+- **27-oct-2026 (Ricardo, «abrimos el charco»): sólo frena un texto que no es una dirección.** Si el sitio no
+  existe, es red social o no es clínica, el lead **pasa igual** con ese motivo en `sitio_web_estado` y entra a
+  Twenty como **Nuevo** para que lo revise el closer. Con `verificado` entra como **MQL** (lo decide el nodo
+  «Twenty - Crear Lead» del Wizard, repo `baserow`). La clínica sin web («¿Aún no tienes web?») avanza sin
+  más pasos (`sin_web`): se eliminaron el RUT/RFC/NIT y el código por correo (`id-tributario.ts`,
+  `codigo-correo.ts`, `/api/verificar-sitio/codigo`). El `Lead` de Meta sale sólo del sitio que pasa.
 - `/reserva-tu-hora` (destino del Instant Form) y los formularios de Meta **no** piden sitio.
 
 Guardián: `tests/verificar-sitio.spec.ts`.
