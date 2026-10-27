@@ -866,3 +866,40 @@
   font-size: 13px;
   color: #5b6472;
 }
+
+/* Fórmula del hero: software + marketing = ecosistema (Ricardo, 27-oct-2026). */
+.formula {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin: 24px 0 0;
+}
+
+.formulaPieza,
+.formulaResultado {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.formulaPieza {
+  color: #0b0d12;
+  background: #fff;
+  border: 1px solid #e3e5ea;
+}
+
+.formulaResultado {
+  color: #fff;
+  background: linear-gradient(90deg, #2563eb 0%, #7c3aed 55%, #c026d3 100%);
+}
+
+.formulaSigno {
+  font-size: 20px;
+  font-weight: 800;
+  color: #7c3aed;
+}

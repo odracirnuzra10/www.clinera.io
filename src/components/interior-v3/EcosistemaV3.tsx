@@ -11,6 +11,7 @@ import { useSyncExternalStore } from "react";
 import { CtaPrimary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { FinalCTA, useReveal } from "@/components/home-v3/sections";
 import MarketingPerformance from "@/components/marketing/MarketingPerformance";
+import EcosistemaIncluye from "@/components/ecosistema/EcosistemaIncluye";
 import PmfcSection from "@/components/pmfc/PmfcSection";
 import PlanesVigentes from "@/components/pricing/PlanesVigentes";
 import { CTA_VENTAS_LABEL, PLANES, agendaHref } from "@/content/planes";
@@ -34,6 +35,7 @@ export default function EcosistemaV3() {
         }
       `}</style>
       <EcosistemaHero />
+      <EcosistemaIncluye conCta={false} />
       <PmfcSection />
       <MarketingPerformance />
       <PlanesVigentes titulo="Dos formas de trabajar" tituloAcento="con Clinera." bajada="Vortex es el software con IA. El Ecosistema es Vortex más el equipo de marketing que te trae pacientes." />

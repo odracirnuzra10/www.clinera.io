@@ -1270,6 +1270,7 @@ reemplaza a `/`.
   sigue igual (no dice cuáles son propias). La foto del fundador lleva el pie «Ricardo Oyarzún en la apertura
   de la sucursal de Vitacura, 2025».
 - **Prensa en «Quién está detrás» (Ricardo, 27-oct-2026):** dos tarjetas, canal Metricads Marketing (YouTube) y Clinera en CNN Chile (→ `/prensa`), `medios` en `HOME2_FUNDADOR`. La miniatura de YouTube se recortó sin la landing de la clínica que aparecía al lado (red sin marcas).
+- **Software + marketing a la vista (Ricardo, 27-oct-2026):** el hero lleva la fórmula «Software con IA + Marketing de performance = un solo ecosistema» (`formula` en `HOME2_HERO`) y, después de los logos, la sección «Qué contratas» (`src/components/ecosistema/EcosistemaIncluye.tsx`): las dos piezas, cómo funcionan juntas y el precio, sacados de `MARKETING_BLOQUES` y `PLANES`. La misma sección va en `/ecosistema` (`#que-incluye`) y `/funciones` lleva la franja corta `EcosistemaFranja` («Vortex es la pieza de software del Ecosistema»).
 - **Cifras:** sólo las que Ricardo dio para el deck técnico (clínica corporal 23x = US$ 2.250 / US$ 98; facial
   31x = US$ 2.449 / US$ 78; una sucursal de la red US$ 220.000 con US$ 35.000). No inventar casos externos: faltan videos o cifras de clientes con nombre.
 - **Sin precio en el titular:** la tarea decía «menos de US$ 500» y el Ecosistema público vale 529.

@@ -44,6 +44,15 @@ test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
     "apertura de la sucursal de Vitacura, 2025",
   );
 
+  // Ricardo, 27-oct-2026: se ve de una que se compra un ecosistema (software + marketing).
+  await expect(page.locator('[data-home2="formula"]')).toContainText("Software con IA");
+  await expect(page.locator('[data-home2="formula"]')).toContainText("Marketing de performance");
+  const incluye = page.locator("[data-ecosistema-incluye]");
+  await expect(incluye.locator("[data-ecosistema-pieza]")).toHaveCount(2);
+  await expect(incluye).toContainText("Campañas de performance");
+  await expect(incluye).toContainText("AURA");
+  await expect(incluye.locator("[data-ecosistema-precio]")).toContainText("US$ 529");
+
   // Ricardo, 27-oct-2026: canal de YouTube y CNN Chile en «Quién está detrás».
   await expect(page.locator("[data-home2-medio]")).toHaveCount(2);
   await expect(page.locator('[data-home2-medio="cnn"]')).toContainText(
@@ -111,4 +120,14 @@ test("home: en el celular no hay scroll horizontal", async ({ page }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" });
   const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
   expect(ancho).toBeLessThanOrEqual(390);
+});
+
+test("ecosistema: /ecosistema explica las dos piezas y /funciones apunta al Ecosistema", async ({ page }) => {
+  await page.route(/connect\.facebook\.net|googletagmanager/, (route) => route.abort());
+  await page.goto("/ecosistema", { waitUntil: "domcontentloaded" });
+  await expect(page.locator("[data-ecosistema-incluye] [data-ecosistema-pieza]")).toHaveCount(2);
+  await page.goto("/funciones", { waitUntil: "domcontentloaded" });
+  const franja = page.locator("[data-ecosistema-franja]");
+  await expect(franja).toContainText("Vortex es la pieza de software del Ecosistema");
+  await expect(franja.locator("a")).toHaveAttribute("href", "/ecosistema#que-incluye");
 });
