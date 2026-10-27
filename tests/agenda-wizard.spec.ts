@@ -1,8 +1,9 @@
-// /agenda — wizard de 3 pasos (Ricardo, 18-oct-2026): servicio (varios) → datos → horario.
-// El paso 2 manda el lead al CRM y dispara Lead US$ 3; el paso 1 ViewContent; el MQL sale
-// al agendar. Sin cupón ni compra desde la web. Red mockeada.
+// /agenda — wizard de 4 pasos (Ricardo, 27-oct-2026): boleta → tus datos → tu clínica → horario.
+// El paso 3 manda el lead al CRM y dispara Lead US$ 3 si la web se verifica; el paso 1 ViewContent.
+// Sin cupón ni compra desde la web. Red mockeada.
 
 import { expect, test, type Page, type Request } from "@playwright/test";
+import { llenarClinica, pasarDatosPersonales } from "./agenda-helpers";
 
 type WizardBody = {
   lead_stage?: string;
@@ -12,6 +13,11 @@ type WizardBody = {
   fuente?: string;
   ciudad?: string;
   pais_clinica?: string;
+  boxes_profesionales?: string;
+  conversaciones_mes?: string;
+  pacientes_mes?: string;
+  pacientes_mes_label?: string;
+  necesidad?: string;
 };
 
 function grabarWizard(page: Page) {
@@ -51,15 +57,14 @@ async function pasoBoleta(page: Page) {
   }).toPass({ timeout: 20000 });
 }
 
+/** Pasos 2 y 3: datos personales, «Continuar» y los datos de la clínica (sin enviar). */
 async function llenarDatos(page: Page) {
-  await page.getByLabel("Nombre", { exact: true }).fill("[E2E TEST] Agenda");
-  await page.getByLabel("Correo", { exact: true }).fill("e2e-agenda@e2e.clinera.io");
-  await page.getByLabel("Celular (WhatsApp)").fill("912345678");
-  await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Clínica");
+  await pasarDatosPersonales(page);
+  await llenarClinica(page);
   await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
 }
 
-test("wizard: boleta «Quiero ahorrar» → datos (CRM + Lead US$ 3) → horario", async ({ page }) => {
+test("wizard: boleta «Quiero ahorrar» → tus datos → tu clínica (CRM + Lead US$ 3) → horario", async ({ page }) => {
   await mockRed(page);
   const wizard = grabarWizard(page);
   const capi: { event_name?: string; user_data?: { em?: string }; custom_data?: Record<string, unknown> }[] = [];
@@ -85,18 +90,30 @@ test("wizard: boleta «Quiero ahorrar» → datos (CRM + Lead US$ 3) → horario
   expect(capi).toHaveLength(0);
   await pasoBoleta(page);
 
-  // Paso 2: solo nombre, correo, celular y clínica. Sin ciudad, país, tipo ni profesionales.
-  await expect(page.getByLabel("Ciudad")).toHaveCount(0);
+  // Paso 2: solo nombre, celular y correo. La clínica va en el paso 3.
+  await expect(page.getByLabel("Nombre de tu clínica")).toHaveCount(0);
   await expect(page.getByText("Tipo de clínica")).toHaveCount(0);
-  await expect(page.getByText("¿Cuántos profesionales atienden?")).toHaveCount(0);
-  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+  await page.getByRole("button", { name: /Continuar/ }).click();
   await expect(page.getByText("Escribe tu nombre.")).toBeVisible();
+  await pasarDatosPersonales(page);
 
-  // Nada sale al CRM ni a Meta antes de tener el contacto.
+  // Paso 3: la clínica. «¿Qué necesitas?» es obligatorio.
+  await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Clínica");
+  await page.getByLabel("Ubicación").fill("Santiago");
+  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+  await expect(page.getByText("Elige cuántos profesionales tiene tu clínica.")).toBeVisible();
+  await llenarClinica(page);
+  await page.getByLabel("¿Qué necesitas?").fill("");
+  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+  await expect(page.getByText("Cuéntanos qué necesitas.")).toBeVisible();
+  await expect(page.getByLabel("¿Qué necesitas?")).toHaveCSS("font-size", "16px");
+
+  // Nada sale al CRM ni a Meta antes de tener los datos de la clínica.
   expect(wizard.filter((w) => w.lead_stage === "contact")).toHaveLength(0);
   expect(capi.filter((c) => c.event_name === "Lead")).toHaveLength(0);
 
-  await llenarDatos(page);
+  await llenarClinica(page);
+  await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
   await page.getByRole("button", { name: /Elegir mi hora/ }).click();
 
   await expect.poll(() => capi.map((c) => c.event_name)).toContain("Lead");
@@ -105,15 +122,20 @@ test("wizard: boleta «Quiero ahorrar» → datos (CRM + Lead US$ 3) → horario
   expect(lead.custom_data).toMatchObject({ value: 3, currency: "USD" });
   expect(capi.filter((c) => c.event_name === "MQL")).toHaveLength(0); // el MQL es al agendar
 
-  // Paso 3: el calendario.
-  await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
+  // Paso 4: el calendario.
+  await expect(page.locator('[data-agenda-paso="4"]')).toBeVisible();
   await page.waitForTimeout(400);
   const contactos = wizard.filter((w) => w.lead_stage === "contact");
   expect(contactos).toHaveLength(1);
   expect(contactos[0].nombre_clinica).toBe("[E2E TEST] Clínica");
   expect(contactos[0].celular).toBe("+56912345678");
   expect(contactos[0].servicio_interes).toBe("ambas"); // siempre el Ecosistema
-  expect(contactos[0].ciudad ?? "").toBe("");
+  expect(contactos[0].ciudad).toBe("Santiago");
+  expect(contactos[0].boxes_profesionales).toBe("4_6");
+  expect(contactos[0].conversaciones_mes).toBe("100_300");
+  expect(contactos[0].pacientes_mes).toBe("50_150");
+  expect(contactos[0].pacientes_mes_label).toBe("50 a 150");
+  expect(contactos[0].necesidad).toBe("[E2E TEST] Llenar la agenda de la tarde");
   expect(contactos[0].fuente).toContain("/agenda");
 });
 
@@ -137,12 +159,14 @@ for (const [w, h] of [[390, 844], [360, 740], [375, 667], [1440, 900], [1280, 72
     await expect(page.locator("[data-quiero-ahorrar]")).toBeInViewport();
     await pasoBoleta(page);
     expect(await sinScroll(), "paso 2").toBe(true);
+    await expect(page.getByRole("button", { name: /Continuar/ })).toBeInViewport();
     await llenarDatos(page);
-    // El botón del paso 2 tiene que quedar a la vista sin scrollear.
+    expect(await sinScroll(), "paso 3").toBe(true);
+    // El botón del paso 3 tiene que quedar a la vista sin scrollear.
     await expect(page.getByRole("button", { name: /Elegir mi hora/ })).toBeInViewport();
     await page.getByRole("button", { name: /Elegir mi hora/ }).click();
-    await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
-    expect(await sinScroll(), "paso 3").toBe(true);
+    await expect(page.locator('[data-agenda-paso="4"]')).toBeVisible();
+    expect(await sinScroll(), "paso 4").toBe(true);
   });
 }
 

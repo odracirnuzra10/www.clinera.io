@@ -4,6 +4,7 @@
 // `?oferta=estetica379`. Red mockeada.
 
 import { expect, test, type Page, type Request } from "@playwright/test";
+import { llenarClinica, pasarDatosPersonales } from "./agenda-helpers";
 
 async function mockRed(page: Page) {
   await page.route("**/api/verificar-sitio", (route) =>
@@ -80,13 +81,11 @@ test("landing: el lead completa el wizard ahí mismo y el closer ve la oferta", 
   });
   await page.goto("/oferta-clinicas-esteticas?fbclid=abc", { waitUntil: "domcontentloaded" });
   await deslizar(page);
-  await page.getByLabel("Nombre", { exact: true }).fill("[E2E TEST] Oferta landing");
-  await page.getByLabel("Correo", { exact: true }).fill("e2e-oferta-landing@e2e.clinera.io");
-  await page.getByLabel("Celular (WhatsApp)").fill("912345678");
-  await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Estética");
+  await pasarDatosPersonales(page, "[E2E TEST] Oferta landing", "e2e-oferta-landing@e2e.clinera.io");
+  await llenarClinica(page, "[E2E TEST] Estética");
   await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
   await page.getByRole("button", { name: /Elegir mi hora/ }).click();
-  await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
+  await expect(page.locator('[data-agenda-paso="4"]')).toBeVisible();
   await expect.poll(() => hits.filter((h) => h.lead_stage === "contact").length).toBe(1);
   const contacto = hits.find((h) => h.lead_stage === "contact")!;
   expect(contacto.servicio_interes).toBe("ambas");
@@ -108,13 +107,11 @@ test("/agenda con la oferta: boleta a 379 y el closer lo ve en el CRM", async ({
 
   await deslizar(page);
 
-  await page.getByLabel("Nombre", { exact: true }).fill("[E2E TEST] Oferta");
-  await page.getByLabel("Correo", { exact: true }).fill("e2e-oferta@e2e.clinera.io");
-  await page.getByLabel("Celular (WhatsApp)").fill("912345678");
-  await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Estética");
+  await pasarDatosPersonales(page, "[E2E TEST] Oferta", "e2e-oferta@e2e.clinera.io");
+  await llenarClinica(page, "[E2E TEST] Estética");
   await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
   await page.getByRole("button", { name: /Elegir mi hora/ }).click();
-  await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
+  await expect(page.locator('[data-agenda-paso="4"]')).toBeVisible();
   await expect.poll(() => hits.filter((h) => h.lead_stage === "contact").length).toBe(1);
   const contacto = hits.find((h) => h.lead_stage === "contact")!;
   expect(contacto.servicio_interes).toBe("ambas");
