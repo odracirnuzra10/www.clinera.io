@@ -11,6 +11,7 @@
 // donde la altura es mínima, solo scrollea el wizard por dentro).
 
 import { devices, expect, test, type Page } from "@playwright/test";
+import { llenarClinica } from "./agenda-helpers";
 
 const LISTA = [
   "iPhone SE",
@@ -99,35 +100,48 @@ for (const nombre of LISTA) {
         await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible({ timeout: 3000 });
       }).toPass({ timeout: 25000 });
 
-      // Paso 2: campos de 16px o más (sin zoom en iOS) y de buen tamaño táctil.
+      // Paso 2: nombre, celular y correo. Campos de 16px o más (sin zoom en iOS) y de buen tamaño táctil.
       await expect(page.getByLabel("Nombre", { exact: true })).toBeVisible();
-      const campos = await page.evaluate(() =>
-        ["ag-nombre", "ag-email", "ag-phone", "ag-clinica"].map((id) => {
-          const el = document.getElementById(id) as HTMLInputElement;
-          const r = el.getBoundingClientRect();
-          return { id, fuente: parseFloat(getComputedStyle(el).fontSize), alto: r.height, ancho: r.width };
-        }),
-      );
-      for (const c of campos) {
-        expect(c.fuente, `${c.id}: fuente < 16px (iOS haría zoom)`).toBeGreaterThanOrEqual(16);
-        expect(c.alto, `${c.id}: alto táctil`).toBeGreaterThanOrEqual(40);
-        expect(c.ancho, `${c.id}: ancho`).toBeGreaterThan(100);
-      }
+      const medir = (ids: string[]) =>
+        page.evaluate(
+          (lista) =>
+            lista.map((id) => {
+              const el = document.getElementById(id) as HTMLElement;
+              const r = el.getBoundingClientRect();
+              return { id, fuente: parseFloat(getComputedStyle(el).fontSize), alto: r.height, ancho: r.width };
+            }),
+          ids,
+        );
+      const revisar = (campos: { id: string; fuente: number; alto: number; ancho: number }[]) => {
+        for (const c of campos) {
+          expect(c.fuente, `${c.id}: fuente < 16px (iOS haría zoom)`).toBeGreaterThanOrEqual(16);
+          expect(c.alto, `${c.id}: alto táctil`).toBeGreaterThanOrEqual(40);
+          expect(c.ancho, `${c.id}: ancho`).toBeGreaterThan(100);
+        }
+      };
+      revisar(await medir(["ag-nombre", "ag-phone", "ag-email"]));
       await page.getByLabel("Nombre", { exact: true }).fill("[E2E TEST] Dispositivo");
-      await page.getByLabel("Correo", { exact: true }).fill("e2e-disp@e2e.clinera.io");
       await page.getByLabel("Celular (WhatsApp)").fill("912345678");
-      await page.getByLabel("Nombre de tu clínica").fill("[E2E TEST] Clínica");
-      await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
+      await page.getByLabel("Correo", { exact: true }).fill("e2e-disp@e2e.clinera.io");
       expect(await sinOverflowX(), "scroll horizontal en el paso 2").toBe(true);
       if (!horizontal) expect(await sinScrollY(), "scroll vertical en el paso 2").toBe(true);
-
       await nadaTapa(page, '[data-agenda-paso="2"] button[class*="cta"]');
       await page.locator('[data-agenda-paso="2"] button[class*="cta"]').tap();
 
-      // Paso 3: el horario.
+      // Paso 3: la clínica.
       await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
+      revisar(await medir(["ag-clinica", "ag-ubicacion", "ag-sitio", "ag-profesionales", "ag-conversaciones", "ag-pacientes", "ag-necesidad"]));
+      await llenarClinica(page);
+      await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
       expect(await sinOverflowX(), "scroll horizontal en el paso 3").toBe(true);
       if (!horizontal) expect(await sinScrollY(), "scroll vertical en el paso 3").toBe(true);
+      await nadaTapa(page, '[data-agenda-paso="3"] button[class*="cta"]');
+      await page.locator('[data-agenda-paso="3"] button[class*="cta"]').tap();
+
+      // Paso 4: el horario.
+      await expect(page.locator('[data-agenda-paso="4"]')).toBeVisible();
+      expect(await sinOverflowX(), "scroll horizontal en el paso 4").toBe(true);
+      if (!horizontal) expect(await sinScrollY(), "scroll vertical en el paso 4").toBe(true);
     });
   });
 }

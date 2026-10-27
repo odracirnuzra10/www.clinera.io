@@ -726,7 +726,7 @@ Ricardo: no los muestres). Todo CTA dice «Agendar videollamada» y va a
   separa **pieza 1, marketing de performance** (campañas, propuesta de valor, framework comercial, reunión semanal) de **pieza 2,
   software** (agenda, fichas, pagos, Intelligence, AURA/CAMILA/LIA), más la tira «cómo funcionan juntos» (campaña → AURA agenda →
   ficha y cobro → reunión semanal ajusta las campañas). `#beneficios` es «¿Por qué contratar el Ecosistema?». Sigue siendo 4 diapos.
-- **`/agenda` es un wizard de 3 pasos, sin scroll de página** (`AgendaWizard.tsx`,
+- **`/agenda` es un wizard sin scroll de página, de 4 pasos desde el 27-oct-2026 (ver «`/agenda` en 4 pasos» al final; lo de abajo describe los 3 originales)** (`AgendaWizard.tsx`,
   copy en `agenda-oferta.ts`), en el formato de `protocololumina.cl/evaluacion`:
   pantalla partida (panel oscuro con una imagen por paso y wizard blanco; en móvil
   el panel va arriba, compacto). Paso 1: **la boleta «lo que te ahorras con el Ecosistema»** y el botón **«Quiero ahorrar»** (Ricardo, 26-oct-2026; antes un botón deslizante «Desliza para ahorrar», que se borró). Al apretarlo hace el «pum»: un círculo de color
@@ -1278,3 +1278,23 @@ reemplaza a `/`.
   plan da «descuentos especiales» en máquinas. Sin porcentaje publicado hasta que Ricardo lo fije.
 
 Guardián: `tests/home2.spec.ts`.
+
+# `/agenda` en 4 pasos: boleta, tus datos, tu clínica, horario (Ricardo, 27-oct-2026)
+
+Paso 1 boleta + «Quiero ahorrar» · paso 2 nombre, celular y correo («Continuar», no envía nada) ·
+paso 3 la clínica: nombre, ubicación, web o Instagram (opcional, misma regla de verificación),
+profesionales, conversaciones al mes, pacientes al mes y **«¿Qué necesitas?», texto libre
+obligatorio** · paso 4 el calendario. Los rangos viven en `AgendaWizard.tsx` (`PROFESIONALES`,
+`CONVERSACIONES_MES`, `PACIENTES_MES`).
+
+- **El lead sale al CRM recién al enviar el paso 3** (un solo `contact`): si se mandara en el paso 2,
+  el segundo envío llegaría a n8n como «Volvió a cotizar». Quien abandona en el paso 3 no queda en el CRM.
+- Viajan como `ciudad`, `boxes_profesionales`, `conversaciones_mes`, `pacientes_mes` (pisa el legacy
+  vacío) y `necesidad` (+ `necesidad_principal_label`), también en el `booking_confirmed`
+  (`agendaClinicaFields` en `VentasLanding.tsx`). **Que lleguen a Twenty depende del nodo
+  «Prepare Sales Lead Data» / «Twenty - Crear Lead» del Wizard en n8n**, que no vive acá.
+- En el celular el paso 3 esconde las imágenes del panel (`.clinicaVista`) y los rangos van como
+  «rótulo | lista»; en escritorio, tres en una fila. Sin la animación de entrada (los ocho campos
+  tardaban más de un segundo en aparecer).
+- Guardianes: `tests/agenda-wizard.spec.ts`, `verificar-sitio.spec.ts`, `dispositivos-moviles.spec.ts`;
+  helpers en `tests/agenda-helpers.ts`.

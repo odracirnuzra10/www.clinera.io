@@ -809,3 +809,84 @@
   padding-left: 142px;
 }
 
+
+/* Paso 3, «Tu clínica» (27-oct-2026): ocho campos sin scroll de página. Dos campos por fila,
+   los tres rangos en una fila en escritorio y como «rótulo | lista» en el celular. */
+.clinicaPaso label {
+  margin-top: 12px;
+}
+
+.fila2,
+.fila3 {
+  display: grid;
+  gap: 10px;
+}
+
+.fila2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.fila3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.selectCampo {
+  min-height: 48px;
+}
+
+.necesidad {
+  display: block;
+  resize: none;
+  line-height: 1.4;
+  min-height: 64px;
+}
+
+@media (max-width: 959px) {
+  .fila3 {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .fila3 > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 156px;
+    align-items: center;
+    gap: 10px;
+  }
+  .fila3 label {
+    margin: 0;
+  }
+}
+
+/* En el celular el paso 3 necesita toda la pantalla: sin las imágenes del panel. */
+@media (max-width: 959px) {
+  .clinicaVista .marco,
+  .clinicaVista .caption,
+  .clinicaVista .puntos {
+    display: none;
+  }
+  .clinicaVista .panel {
+    padding-bottom: 6px;
+  }
+  .clinicaVista .tarjeta input,
+  .clinicaVista .tarjeta select,
+  .clinicaVista .tarjeta textarea {
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+  .clinicaVista .selectCampo {
+    min-height: 42px;
+  }
+  .clinicaVista .necesidad {
+    min-height: 58px;
+  }
+  .clinicaVista .tarjeta label {
+    margin: 8px 0 3px;
+  }
+  .clinicaVista .fila3 label {
+    margin: 0;
+  }
+  .clinicaVista .titulo {
+    margin-bottom: 0;
+  }
+}

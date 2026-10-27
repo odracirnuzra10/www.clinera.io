@@ -401,6 +401,11 @@ export type Form = {
   servicio?: { id: string; label: string } | null;
   /** País de la clínica (nombre, p. ej. «Chile»). Lo pregunta /agenda junto con la ciudad. */
   pais?: string;
+  /** Paso 3 de /agenda (27-oct-2026): rangos de conversaciones y pacientes al mes. */
+  conversacionesMes?: { id: string; label: string } | null;
+  pacientesMes?: { id: string; label: string } | null;
+  /** Qué necesita la clínica, en sus palabras (obligatorio en /agenda). */
+  necesidad?: string;
 };
 
 function isValidWebsite(value: string) {
@@ -444,6 +449,19 @@ function clinicCrmFields(form: Form) {
     // Campo nuevo: lo lee n8n → Twenty cuando exista «servicio de interés» en el CRM.
     ...(form.servicio ? { servicio_interes: form.servicio.id, servicio_interes_label: form.servicio.label } : {}),
     ...(form.pais ? { pais_clinica: form.pais } : {}),
+    ...agendaClinicaFields(form),
+  };
+}
+
+// Paso 3 de /agenda (27-oct-2026). Van después de sizeAttributes en el payload:
+// `pacientes_mes` pisa el legacy vacío con el rango que eligió la clínica.
+function agendaClinicaFields(form: Form) {
+  return {
+    ...(form.conversacionesMes
+      ? { conversaciones_mes: form.conversacionesMes.id, conversaciones_mes_label: form.conversacionesMes.label }
+      : {}),
+    ...(form.pacientesMes ? { pacientes_mes: form.pacientesMes.id, pacientes_mes_label: form.pacientesMes.label } : {}),
+    ...(form.necesidad ? { necesidad: form.necesidad, necesidad_principal_label: form.necesidad } : {}),
   };
 }
 
@@ -1919,6 +1937,7 @@ export async function submitBookingConfirmation({
     ...(form.servicio ? { servicio_interes: form.servicio.id, servicio_interes_label: form.servicio.label } : {}),
     ...(form.pais ? { pais_clinica: form.pais } : {}),
     ...(form.city.trim() ? { ciudad: form.city.trim() } : {}),
+    ...agendaClinicaFields(form),
     celular: (form.prefix + digits).trim(),
     celular_prefix: form.prefix,
     celular_digits: digits,
