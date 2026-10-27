@@ -387,10 +387,8 @@ export type Form = {
   phone: string;
   email: string;
   website: string;
-  /** Resultado de /api/verificar-sitio (`verificado`, `sin_leer`, `sin_verificar`). Sólo /agenda. */
+  /** Resultado de /api/verificar-sitio (`verificado`, `sin_leer`, `sin_verificar`, o el motivo del rechazo), o `sin_web`. Sólo /agenda. */
   sitioEstado?: string;
-  /** Clínica sin sitio web: cómo se verificó (documento tributario o correo empresarial). Sólo /agenda. */
-  verificacion?: Record<string, string>;
   city: string;
   cargo: CargoId;
   /** Boxes/profesionales (`1_3`, `4_6`…). Sólo lo pregunta /agenda; el resto de los wizards lo deja fuera. */
@@ -429,7 +427,6 @@ function clinicCrmFields(form: Form) {
     tipo_clinica_label: form.tipoClinica ? CLINIC_TYPE_LABELS[form.tipoClinica] : "",
     sitio_web: form.website.trim(),
     ...(form.sitioEstado ? { sitio_web_estado: form.sitioEstado } : {}),
-    ...(form.verificacion ?? {}),
     ciudad: form.city.trim(),
     cargo: form.cargo,
     ...(form.boxes
