@@ -16,9 +16,10 @@
 //           servidor (`/api/verificar-sitio`). Ricardo, 27-oct-2026: sólo se frena un texto que
 //           no es una dirección. Si el sitio no existe, es una red social o no es de una clínica,
 //           el lead pasa igual y entra a Twenty como Nuevo para que lo revise el closer; con el
-//           sitio verificado entra como MQL. La clínica sin web («¿Aún no tienes web?») avanza
-//           sin más pasos (antes pedía RUT o un código por correo). Sólo el sitio que pasa dispara
-//           el Lead de Meta: la campaña aprende solo de clínicas con web.
+//           sitio verificado entra como MQL. Ricardo, 27-oct-2026 (2.ª vuelta): elige «Sitio web» o
+//           «Instagram» (el campo trae `instagram.com/@` y escribe solo su usuario) y puede dejarlo en
+//           blanco. Instagram y vacío entran como Nuevo hasta que un humano lo verifique. Sólo el
+//           sitio web que pasa dispara el Lead de Meta: la campaña aprende solo de clínicas con web.
 //   Paso 3  elige tu horario: calendario nativo de Clinera (`StepClineraScheduler`) →
 //           Schedule + MQL (US$ 10)
 //
@@ -133,8 +134,9 @@ export default function AgendaWizard({
   // Último sitio verificado (lo escrito y el resultado): si no cambia, no se vuelve a preguntar.
   const [sitioRes, setSitioRes] = useState<{ valor: string; r: ResultadoSitio } | null>(null);
   const [verificando, setVerificando] = useState(false);
-  // Clínica sin sitio web: avanza igual y el closer la verifica (Ricardo, 27-oct-2026).
-  const [sinWeb, setSinWeb] = useState(false);
+  // «Sitio web» o «Instagram» (Ricardo, 27-oct-2026). Los dos pueden quedar en blanco.
+  const [canal, setCanal] = useState<"web" | "instagram">("web");
+  const [ig, setIg] = useState("");
   const [intentado, setIntentado] = useState(false);
   const [leadCtx, setLeadCtx] = useState<{ eventId: string; leadSource: string } | null>(null);
   const [booking, setBooking] = useState<CalBooking | null>(null);
@@ -158,8 +160,13 @@ export default function AgendaWizard({
   const nombreOk = nombre.trim().length >= 2;
   const emailOk = EMAIL_OK.test(email.trim());
   const clinicaOk = clinica.trim().length >= 2;
-  const sitioOk = sitio.trim().length >= 4;
-  const datosOk = nombreOk && emailOk && phoneOk && clinicaOk && (sinWeb || sitioOk);
+  const igUsuario = ig.trim().replace(/^.*instagram\.com\//i, "").replace(/^@+/, "").replace(/[/?#].*$/, "");
+  const igOk = igUsuario === "" || /^[A-Za-z0-9._]{1,30}$/.test(igUsuario);
+  const sinWeb = canal === "instagram" || sitio.trim() === "";
+  const sitioOk = sitio.trim() === "" || sitio.trim().length >= 4;
+  const datosOk = nombreOk && emailOk && phoneOk && clinicaOk && (canal === "instagram" ? igOk : sitioOk);
+  const sitioSinWeb = canal === "instagram" && igUsuario ? `https://instagram.com/${igUsuario}` : "";
+  const estadoSinWeb = canal === "instagram" && igUsuario ? "instagram" : "sin_web";
   const sitioVigente = sitioRes && sitioRes.valor === sitio.trim() ? sitioRes.r : null;
   // Sólo un texto que no es una dirección frena el paso; el resto pasa como Nuevo.
   const sitioError = sitioVigente && !sitioVigente.ok && sitioVigente.motivo === "formato" ? MENSAJE_SITIO.formato : null;
@@ -173,8 +180,8 @@ export default function AgendaWizard({
     prefix,
     phone: digitos,
     email,
-    website: sinWeb ? "" : sitioVigente?.ok ? sitioVigente.url : sitio.trim(),
-    sitioEstado: sinWeb ? "sin_web" : sitioVigente ? (sitioVigente.ok ? sitioVigente.estado : sitioVigente.motivo) : undefined,
+    website: sinWeb ? sitioSinWeb : sitioVigente?.ok ? sitioVigente.url : sitio.trim(),
+    sitioEstado: sinWeb ? estadoSinWeb : sitioVigente ? (sitioVigente.ok ? sitioVigente.estado : sitioVigente.motivo) : undefined,
     city: "",
     pais: paisDePrefijo(prefix),
     cargo: "" as Form["cargo"],
@@ -189,7 +196,8 @@ export default function AgendaWizard({
     if (!emailOk) return "Revisa tu correo.";
     if (phoneError) return phoneError;
     if (!clinicaOk) return "Escribe el nombre de tu clínica.";
-    if (!sinWeb && !sitioOk) return MENSAJE_SITIO.formato;
+    if (canal === "instagram" && !igOk) return "Escribe solo tu usuario de Instagram (letras, números, punto o guion bajo).";
+    if (canal === "web" && !sitioOk) return MENSAJE_SITIO.formato;
     return "Revisa tus datos.";
   }
 
@@ -243,10 +251,10 @@ export default function AgendaWizard({
     return r;
   }
 
-  function entrarSinWeb() {
-    setSinWeb(true);
+  function elegirCanal(c: "web" | "instagram") {
+    setCanal(c);
     setIntentado(false);
-    pushDL("agenda_sin_sitio_web", { source_path: SOURCE_PATH });
+    pushDL("agenda_canal_clinica", { canal: c, source_path: SOURCE_PATH });
   }
 
   async function enviarPaso2() {
@@ -255,7 +263,7 @@ export default function AgendaWizard({
       setIntentado(true);
       return;
     }
-    let formOk: Form = { ...form, sitioEstado: "sin_web" };
+    let formOk: Form = { ...form, website: sitioSinWeb, sitioEstado: estadoSinWeb };
     let sitioPasa = false;
     if (!sinWeb) {
       setVerificando(true);
@@ -431,22 +439,25 @@ export default function AgendaWizard({
                     <label className={base.label} htmlFor="ag-clinica">Nombre de tu clínica</label>
                     <input id="ag-clinica" className={base.input} value={clinica} onChange={(e) => setClinica(e.target.value)} autoComplete="organization" placeholder="Clínica Estética Vela" aria-invalid={intentado && !clinicaOk} />
 
-                    {!sinWeb ? (
-                      <>
-                        <div className={styles.labelFila}>
-                          <label className={base.label} htmlFor="ag-sitio">Sitio web de tu clínica</label>
-                          <button type="button" className={styles.sinWebLink} onClick={entrarSinWeb} data-sin-web-abrir>
-                            ¿Aún no tienes web?
-                          </button>
-                        </div>
-                        <input id="ag-sitio" className={base.input} value={sitio} onChange={(e) => setSitio(e.target.value)} type="url" inputMode="url" autoComplete="url" autoCapitalize="none" spellCheck={false} placeholder="www.tuclinica.cl" aria-invalid={(intentado && !sitioOk) || !!sitioError} data-sitio-estado={sitioVigente ? (sitioVigente.ok ? sitioVigente.estado : sitioVigente.motivo) : undefined} />
-                      </>
-                    ) : (
-                      <div className={styles.sinWeb} data-sin-web>
-                        <p className={styles.sinWebOk}>Sin problema: sigue y elige tu horario.</p>
-                        <button type="button" className={styles.sinWebLink} onClick={() => setSinWeb(false)} data-sin-web-cerrar>
-                          Sí tengo sitio web
+                    <div className={styles.labelFila}>
+                      <label className={base.label} htmlFor={canal === "web" ? "ag-sitio" : "ag-ig"}>
+                        {canal === "web" ? "Sitio web" : "Instagram"} <span className={styles.opcional}>(opcional)</span>
+                      </label>
+                      <div className={styles.canalTabs} role="tablist" aria-label="Dónde encontrar tu clínica en internet" data-canal>
+                        <button type="button" role="tab" aria-selected={canal === "web"} className={canal === "web" ? styles.canalTabOn : styles.canalTab} onClick={() => elegirCanal("web")} data-canal-web>
+                          Web
                         </button>
+                        <button type="button" role="tab" aria-selected={canal === "instagram"} className={canal === "instagram" ? styles.canalTabOn : styles.canalTab} onClick={() => elegirCanal("instagram")} data-canal-instagram>
+                          Instagram
+                        </button>
+                      </div>
+                    </div>
+                    {canal === "web" ? (
+                      <input id="ag-sitio" aria-label="Sitio web de tu clínica (opcional)" className={base.input} value={sitio} onChange={(e) => setSitio(e.target.value)} type="url" inputMode="url" autoComplete="url" autoCapitalize="none" spellCheck={false} placeholder="www.tuclinica.cl" aria-invalid={(intentado && !sitioOk) || !!sitioError} data-sitio-estado={sitioVigente ? (sitioVigente.ok ? sitioVigente.estado : sitioVigente.motivo) : undefined} />
+                    ) : (
+                      <div className={styles.igCampo}>
+                        <span className={styles.igPrefijo} aria-hidden>instagram.com/@</span>
+                        <input id="ag-ig" aria-label="Instagram de tu clínica (opcional)" className={`${base.input} ${styles.igInput}`} value={ig} onChange={(e) => setIg(e.target.value.replace(/\s/g, ""))} autoComplete="off" autoCapitalize="none" spellCheck={false} placeholder="tuclinica" aria-invalid={intentado && !igOk} />
                       </div>
                     )}
 

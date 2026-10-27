@@ -708,44 +708,6 @@
 }
 
 /* ---------- Clínica sin sitio web (Ricardo, 26-oct-2026) ---------- */
-.labelFila {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.sinWebLink {
-  display: block;
-  margin: 6px 0 0;
-  padding: 4px 0;
-  min-height: 32px;
-  background: none;
-  border: 0;
-  font-family: inherit;
-  font-size: 13px;
-  color: #6d28d9;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  cursor: pointer;
-}
-
-.sinWeb {
-  display: flex;
-  flex-direction: column;
-}
-
-.sinWebOk {
-  margin: 14px 0 0;
-  padding: 12px 14px;
-  border-radius: 10px;
-  background: #ecfdf5;
-  color: #047857;
-  font-size: 15px;
-  font-weight: 600;
-  overflow-wrap: anywhere;
-}
-
 /* «Quiero ahorrar» (Ricardo, 26-oct-2026; antes un botón deslizante). */
 .quieroAhorrar {
   display: flex;
@@ -781,3 +743,69 @@
     transition: none;
   }
 }
+
+/* «Sitio web» o «Instagram» (Ricardo, 27-oct-2026). */
+.labelFila {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.labelFila > label {
+  min-width: 0;
+}
+
+.canalTabs {
+  display: flex;
+  flex-shrink: 0;
+  gap: 2px;
+  padding: 2px;
+  margin-bottom: 4px;
+  border-radius: 999px;
+  background: #f1f2f6;
+}
+
+.canalTab,
+.canalTabOn {
+  min-height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.canalTabOn {
+  background: #fff;
+  color: #6d28d9;
+  box-shadow: 0 1px 3px rgba(17, 19, 24, 0.12);
+}
+
+.opcional {
+  font-weight: 400;
+  color: #6b7280;
+}
+
+.igCampo {
+  position: relative;
+}
+
+.igPrefijo {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #6b7280;
+  pointer-events: none;
+}
+
+.igInput {
+  padding-left: 142px;
+}
+

@@ -81,18 +81,19 @@ async function llegarAlPaso2(page: Page) {
 
 const boton = (page: Page) => page.getByRole("button", { name: /Elegir mi hora|Verificando/ });
 
-test("sin sitio no avanza; un sitio que no es clínica pasa como Nuevo, sin Lead de Meta (27-oct-2026)", async ({ page }) => {
+test("un sitio que no es clínica pasa como Nuevo, sin Lead de Meta (27-oct-2026)", async ({ page }) => {
   const llamadas = await mockRed(page, (s) =>
     s.includes("lider") ? { ok: false, motivo: "no_clinica" } : { ok: true, url: `https://${s}`, estado: "verificado" },
   );
   const { wizard, capi } = grabar(page);
   await llegarAlPaso2(page);
 
+  const campo = page.getByLabel("Sitio web de tu clínica");
+  await campo.fill("abc");
   await boton(page).click();
   await expect(page.locator(`[data-agenda-paso="2"] [role="alert"]`)).toHaveText("Escribe el sitio web de tu clínica (por ejemplo, www.tuclinica.cl).");
-  expect(llamadas).toHaveLength(0);
+  expect(llamadas, "un texto que no es dirección no se verifica").toHaveLength(0);
 
-  const campo = page.getByLabel("Sitio web de tu clínica");
   await expect(campo).toHaveCSS("font-size", "16px"); // menos de 16 px y iOS hace zoom
   await campo.fill("www.lider.cl");
   await boton(page).click();
@@ -139,14 +140,11 @@ test("si la verificación misma falla, el lead pasa (un error nuestro no lo bloq
   await expect.poll(() => wizard.find((w) => w.lead_stage === "contact")?.sitio_web_estado).toBe("sin_verificar");
 });
 
-// ── Clínica sin sitio web: avanza sin más pasos (Ricardo, 27-oct-2026; antes RUT o código) ──
-test("sin sitio web: avanza directo, va al CRM como sin_web y NO dispara el Lead de Meta", async ({ page }) => {
+// ── Sitio web o Instagram, y los dos pueden ir en blanco (Ricardo, 27-oct-2026) ──
+test("sin sitio web: lo deja en blanco, avanza, va al CRM como sin_web y NO dispara el Lead de Meta", async ({ page }) => {
   const llamadas = await mockRed(page, () => ({ ok: true, url: "https://x.cl", estado: "verificado" }));
   const { wizard, capi } = grabar(page);
   await llegarAlPaso2(page);
-  await page.locator("[data-sin-web-abrir]").click();
-  await expect(page.getByLabel("Sitio web de tu clínica")).toHaveCount(0);
-  await expect(page.getByLabel(/RUT|Correo de la clínica/)).toHaveCount(0);
   await boton(page).click();
   await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
   await expect.poll(() => wizard.filter((w) => w.lead_stage === "contact").length).toBe(1);
@@ -155,14 +153,49 @@ test("sin sitio web: avanza directo, va al CRM como sin_web y NO dispara el Lead
   expect(c.sitio_web).toBe("");
   await page.waitForTimeout(500);
   expect(capi.filter((x) => x.event_name === "Lead"), "sin web no entrena a Meta").toHaveLength(0);
-  expect(llamadas, "no se verifica un sitio que no existe").toHaveLength(0);
+  expect(llamadas, "no se verifica un sitio vacío").toHaveLength(0);
 });
 
-test("sin sitio web en un celular chico: el botón se alcanza y la página no se corre de lado", async ({ page }) => {
+test("Instagram: escribe solo el usuario, va al CRM como instagram.com/usuario y NO dispara el Lead", async ({ page }) => {
+  const llamadas = await mockRed(page, () => ({ ok: true, url: "https://x.cl", estado: "verificado" }));
+  const { wizard, capi } = grabar(page);
+  await llegarAlPaso2(page);
+  await page.locator("[data-canal-instagram]").click();
+  await expect(page.getByLabel("Sitio web de tu clínica")).toHaveCount(0);
+  const campo = page.getByLabel("Instagram de tu clínica");
+  await expect(campo).toHaveCSS("font-size", "16px");
+  await expect(page.getByText("instagram.com/@")).toBeVisible();
+  await campo.fill("clinica vela!");
+  await boton(page).click();
+  await expect(page.locator(`[data-agenda-paso="2"] [role="alert"]`)).toContainText("usuario de Instagram");
+  await campo.fill("@clinica.vela");
+  await boton(page).click();
+  await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
+  await expect.poll(() => wizard.filter((w) => w.lead_stage === "contact").length).toBe(1);
+  const c = wizard.find((w) => w.lead_stage === "contact")!;
+  expect(c.sitio_web).toBe("https://instagram.com/clinica.vela");
+  expect(c.sitio_web_estado, "lo verifica un humano").toBe("instagram");
+  await page.waitForTimeout(500);
+  expect(capi.filter((x) => x.event_name === "Lead"), "Instagram no entrena a Meta").toHaveLength(0);
+  expect(llamadas, "Instagram no pasa por la IA").toHaveLength(0);
+});
+
+test("Instagram en blanco: pasa como sin_web", async ({ page }) => {
+  await mockRed(page, () => ({ ok: true, url: "https://x.cl", estado: "verificado" }));
+  const { wizard } = grabar(page);
+  await llegarAlPaso2(page);
+  await page.locator("[data-canal-instagram]").click();
+  await boton(page).click();
+  await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
+  await expect.poll(() => wizard.find((w) => w.lead_stage === "contact")?.sitio_web_estado).toBe("sin_web");
+});
+
+test("Instagram en un celular chico: el botón se alcanza y la página no se corre de lado", async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 640 });
   await mockRed(page, () => ({ ok: true, url: "https://x.cl", estado: "verificado" }));
   await llegarAlPaso2(page);
-  await page.locator("[data-sin-web-abrir]").click();
+  await page.locator("[data-canal-instagram]").click();
+  await page.getByLabel("Instagram de tu clínica").fill("clinicavela");
   const b = boton(page);
   await b.scrollIntoViewIfNeeded();
   await expect(b).toBeInViewport();
