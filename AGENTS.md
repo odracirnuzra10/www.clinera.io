@@ -1266,6 +1266,7 @@ reemplaza a `/`.
   `/casos/metodo-hebe`. Si alguien pregunta cuáles son, lo dicen los closers. La franja de logos de clientes
   sigue igual (no dice cuáles son propias). La foto del fundador lleva el pie «Ricardo Oyarzún en la apertura
   de la sucursal de Vitacura, 2025».
+- **Prensa en «Quién está detrás» (Ricardo, 27-oct-2026):** dos tarjetas, canal Metricads Marketing (YouTube) y Clinera en CNN Chile (→ `/prensa`), `medios` en `HOME2_FUNDADOR`. La miniatura de YouTube se recortó sin la landing de la clínica que aparecía al lado (red sin marcas).
 - **Cifras:** sólo las que Ricardo dio para el deck técnico (clínica corporal 23x = US$ 2.250 / US$ 98; facial
   31x = US$ 2.449 / US$ 78; una sucursal de la red US$ 220.000 con US$ 35.000). No inventar casos externos: faltan videos o cifras de clientes con nombre.
 - **Sin precio en el titular:** la tarea decía «menos de US$ 500» y el Ecosistema público vale 529.

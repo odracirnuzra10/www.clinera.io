@@ -337,6 +337,30 @@ export default function Home2() {
               <li key={c}>{c}</li>
             ))}
           </ul>
+          <div className={s.medios} data-home2-medios>
+            {HOME2_FUNDADOR.medios.map((m) => (
+              <a
+                key={m.id}
+                href={m.href}
+                className={s.medio}
+                data-home2-medio={m.id}
+                {...(m.href.startsWith("http")
+                  ? { target: "_blank", rel: "noopener" }
+                  : {})}
+              >
+                <span className={s.medioFoto}>
+                  <Image
+                    src={m.src}
+                    alt={m.alt}
+                    fill
+                    sizes="(max-width: 900px) 50vw, 20vw"
+                  />
+                </span>
+                <strong>{m.titulo}</strong>
+                <span>{m.texto}</span>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
