@@ -1231,6 +1231,13 @@ pide «Sitio web de tu clínica» y, antes de avanzar, llama a `POST /api/verifi
   «Twenty - Crear Lead» del Wizard, repo `baserow`). La clínica sin web («¿Aún no tienes web?») avanza sin
   más pasos (`sin_web`): se eliminaron el RUT/RFC/NIT y el código por correo (`id-tributario.ts`,
   `codigo-correo.ts`, `/api/verificar-sitio/codigo`). El `Lead` de Meta sale sólo del sitio que pasa.
+- **Web o Instagram, y opcional (Ricardo, 27-oct-2026, 2.ª vuelta):** en la fila del rótulo hay un selector
+  «Web | Instagram». Instagram trae `instagram.com/@` fijo y la persona escribe sólo su usuario; viaja como
+  `sitio_web = https://instagram.com/usuario`, `sitio_web_estado = instagram` y entra a Twenty como Nuevo
+  (no pasa por la IA ni dispara el `Lead`). Los dos pueden quedar en blanco (`sin_web`, Nuevo). El selector va
+  en la fila del rótulo a propósito: una fila más empujaba «Elegir mi hora» fuera de la pantalla en 390×844
+  (`agenda-wizard.spec.ts`, «la página no hace scroll»). Los inputs llevan `aria-label` con «… de tu clínica»
+  porque las pruebas los buscan así.
 - `/reserva-tu-hora` (destino del Instant Form) y los formularios de Meta **no** piden sitio.
 
 Guardián: `tests/verificar-sitio.spec.ts`.
