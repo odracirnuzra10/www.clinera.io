@@ -1291,8 +1291,10 @@ obligatorio** · paso 4 el calendario. Los rangos viven en `AgendaWizard.tsx` (`
   el segundo envío llegaría a n8n como «Volvió a cotizar». Quien abandona en el paso 3 no queda en el CRM.
 - Viajan como `ciudad`, `boxes_profesionales`, `conversaciones_mes`, `pacientes_mes` (pisa el legacy
   vacío) y `necesidad` (+ `necesidad_principal_label`), también en el `booking_confirmed`
-  (`agendaClinicaFields` en `VentasLanding.tsx`). **Que lleguen a Twenty depende del nodo
-  «Prepare Sales Lead Data» / «Twenty - Crear Lead» del Wizard en n8n**, que no vive acá.
+  (`agendaClinicaFields` en `VentasLanding.tsx`). En Twenty los escribe el nodo «Twenty - Crear Lead»
+  del Wizard (repo `baserow`, `datosClinicaAgenda`, aplicado el 27-oct) en `ciudad`, `profesionales`,
+  `conversacionesMes`, `pacientesMes` y `necesidadPrincipal`. **Los ids de los rangos son contrato** con
+  `RANGOS_AGENDA` de ese nodo: si cambias un id aquí, ese campo deja de llegar al CRM.
 - En el celular el paso 3 esconde las imágenes del panel (`.clinicaVista`) y los rangos van como
   «rótulo | lista»; en escritorio, tres en una fila. Sin la animación de entrada (los ocho campos
   tardaban más de un segundo en aparecer).
