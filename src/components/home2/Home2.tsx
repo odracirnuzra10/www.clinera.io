@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import ClinicasLogos from "@/components/clinicas/ClinicasLogos";
+import EcosistemaIncluye from "@/components/ecosistema/EcosistemaIncluye";
 import DemoEnVivo from "@/components/home-v3/DemoEnVivo";
 import { Faq, Testimonios } from "@/components/home-v3/sections";
 import PlanesVigentes from "@/components/pricing/PlanesVigentes";
@@ -152,6 +153,17 @@ export default function Home2() {
             <span className={s.grad}>{HOME2_HERO.tituloAcento}</span>
           </h1>
           <p className={s.bajada}>{HOME2_HERO.bajada}</p>
+          <p className={s.formula} data-home2="formula">
+            <span className={s.formulaPieza}>{HOME2_HERO.formula[0]}</span>
+            <span className={s.formulaSigno} aria-hidden>
+              +
+            </span>
+            <span className={s.formulaPieza}>{HOME2_HERO.formula[1]}</span>
+            <span className={s.formulaSigno} aria-hidden>
+              =
+            </span>
+            <span className={s.formulaResultado}>{HOME2_HERO.formulaResultado}</span>
+          </p>
           <div className={s.ctas}>
             <Cta donde="hero" />
             <a href="#casos" className={s.ctaSec}>
@@ -170,6 +182,8 @@ export default function Home2() {
       </div>
 
       <ClinicasLogos />
+
+      <EcosistemaIncluye />
 
       <section className={s.bloque} id="pmfc" data-home2="pmfc">
         <p className={s.eyebrow}>{HOME2_PMFC.eyebrow}</p>
@@ -268,7 +282,7 @@ export default function Home2() {
         <PlanesVigentes
           titulo="Dos formas de trabajar"
           tituloAcento="con Clinera."
-          bajada="Vortex es el software con IA para tu clínica. El Ecosistema es Vortex más un equipo de marketing que te trae pacientes."
+          bajada="El Ecosistema son las dos piezas: el software con IA y el equipo de marketing que te trae pacientes. Si solo quieres el software, está Vortex."
         />
       </div>
 
