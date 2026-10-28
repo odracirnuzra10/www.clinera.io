@@ -130,13 +130,15 @@ for (const nombre of LISTA) {
 
       // Paso 3: la clínica.
       await expect(page.locator('[data-agenda-paso="3"]')).toBeVisible();
-      revisar(await medir(["ag-clinica", "ag-ubicacion", "ag-sitio", "ag-profesionales", "ag-conversaciones", "ag-pacientes", "ag-necesidad"]));
+      revisar(await medir(["ag-clinica", "ag-ubicacion", "ag-profesionales", "ag-conversaciones", "ag-pacientes", "ag-necesidad"]));
       await llenarClinica(page);
-      await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
       expect(await sinOverflowX(), "scroll horizontal en el paso 3").toBe(true);
       if (!horizontal) expect(await sinScrollY(), "scroll vertical en el paso 3").toBe(true);
       await nadaTapa(page, '[data-agenda-paso="3"] button[class*="cta"]');
       await page.locator('[data-agenda-paso="3"] button[class*="cta"]').tap();
+      // «Tu clínica se llama… ¿correcto?» (28-oct-2026).
+      await nadaTapa(page, "[data-confirmar-clinica] button[class*=\"cta\"]");
+      await page.locator("[data-confirmar-clinica] button[class*=\"cta\"]").tap();
 
       // Paso 4: el horario.
       await expect(page.locator('[data-agenda-paso="4"]')).toBeVisible();

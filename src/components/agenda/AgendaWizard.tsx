@@ -12,17 +12,12 @@
 //           → ViewContent. Ya no se elige servicio (Ricardo, 19-oct-2026): se vende el
 //           Ecosistema, así que el lead viaja siempre con `servicio_interes: "ambas"`.
 //   Paso 2  tus datos: nombre, celular y correo (27-oct-2026: sin enviar nada todavía)
-//   Paso 3  tu clínica: nombre, ubicación, web o Instagram, profesionales, conversaciones al mes,
-//           pacientes al mes y qué necesita (texto libre, obligatorio) → CRM + Lead (US$ 3)
-//           El sitio web es obligatorio (Ricardo, 26-oct-2026: Clinera apunta a clínicas
-//           medianas, y una clínica establecida tiene web). Antes de avanzar se verifica en el
-//           servidor (`/api/verificar-sitio`). Ricardo, 27-oct-2026: sólo se frena un texto que
-//           no es una dirección. Si el sitio no existe, es una red social o no es de una clínica,
-//           el lead pasa igual y entra a Twenty como Nuevo para que lo revise el closer; con el
-//           sitio verificado entra como MQL. Ricardo, 27-oct-2026 (2.ª vuelta): elige «Sitio web» o
-//           «Instagram» (el campo trae `instagram.com/@` y escribe solo su usuario) y puede dejarlo en
-//           blanco. Instagram y vacío entran como Nuevo hasta que un humano lo verifique. Sólo el
-//           sitio web que pasa dispara el Lead de Meta: la campaña aprende solo de clínicas con web.
+//   Paso 3  tu clínica: nombre, ubicación, profesionales, conversaciones al mes, pacientes al
+//           mes y qué necesita (texto libre, obligatorio). Al enviar, una confirmación: «Tu clínica
+//           se llama X y está ubicada en Y, ¿correcto?» (Sí, correcto / Corregir) → CRM + Lead.
+//           Ricardo, 28-oct-2026: se sacaron web e Instagram y la verificación por IA; la
+//           verificación es manual (la hace el closer) y el lead viaja con
+//           `sitio_web_estado: "manual"` (Twenty: «Verificación manual», etapa Nuevo).
 //   Paso 4  elige tu horario: calendario nativo de Clinera (`StepClineraScheduler`) →
 //           Schedule + MQL (US$ 10)
 //
@@ -66,7 +61,6 @@ import {
   reglaTelefono,
 } from "@/lib/telefono";
 import { trackPixel } from "@/lib/tracking";
-import { MENSAJE_SITIO, type ResultadoSitio } from "@/lib/verificar-sitio";
 import { OFERTA_ESTETICA, type OfertaId } from "@/content/oferta-estetica";
 import { zonaMostrada } from "@/lib/timezone";
 import base from "@/components/estetica/EsteticaAdsLanding.module.css";
@@ -153,13 +147,8 @@ export default function AgendaWizard({
   const [prefix, setPrefix] = useState(() => (MX_TZ.test(tzIp) ? "+52" : "+56"));
   const [phone, setPhone] = useState("");
   const [clinica, setClinica] = useState("");
-  const [sitio, setSitio] = useState("");
-  // Último sitio verificado (lo escrito y el resultado): si no cambia, no se vuelve a preguntar.
-  const [sitioRes, setSitioRes] = useState<{ valor: string; r: ResultadoSitio } | null>(null);
-  const [verificando, setVerificando] = useState(false);
-  // «Sitio web» o «Instagram» (Ricardo, 27-oct-2026). Los dos pueden quedar en blanco.
-  const [canal, setCanal] = useState<"web" | "instagram">("web");
-  const [ig, setIg] = useState("");
+  // «Tu clínica se llama… ¿correcto?» antes de pasar al calendario (Ricardo, 28-oct-2026).
+  const [confirmando, setConfirmando] = useState(false);
   const [ubicacion, setUbicacion] = useState("");
   const [profesionales, setProfesionales] = useState("");
   const [conversaciones, setConversaciones] = useState("");
@@ -188,20 +177,11 @@ export default function AgendaWizard({
   const nombreOk = nombre.trim().length >= 2;
   const emailOk = EMAIL_OK.test(email.trim());
   const clinicaOk = clinica.trim().length >= 2;
-  const igUsuario = ig.trim().replace(/^.*instagram\.com\//i, "").replace(/^@+/, "").replace(/[/?#].*$/, "");
-  const igOk = igUsuario === "" || /^[A-Za-z0-9._]{1,30}$/.test(igUsuario);
-  const sinWeb = canal === "instagram" || sitio.trim() === "";
-  const sitioOk = sitio.trim() === "" || sitio.trim().length >= 4;
   const personalesOk = nombreOk && phoneOk && emailOk;
   const ubicacionOk = ubicacion.trim().length >= 2;
   const necesidadOk = necesidad.trim().length >= 5;
   const datosOk =
-    clinicaOk && ubicacionOk && (canal === "instagram" ? igOk : sitioOk) && !!profesionales && !!conversaciones && !!pacientes && necesidadOk;
-  const sitioSinWeb = canal === "instagram" && igUsuario ? `https://instagram.com/${igUsuario}` : "";
-  const estadoSinWeb = canal === "instagram" && igUsuario ? "instagram" : "sin_web";
-  const sitioVigente = sitioRes && sitioRes.valor === sitio.trim() ? sitioRes.r : null;
-  // Sólo un texto que no es una dirección frena el paso; el resto pasa como Nuevo.
-  const sitioError = sitioVigente && !sitioVigente.ok && sitioVigente.motivo === "formato" ? MENSAJE_SITIO.formato : null;
+    clinicaOk && ubicacionOk && !!profesionales && !!conversaciones && !!pacientes && necesidadOk;
   const rule = reglaTelefono(prefix);
 
   const form: Form = {
@@ -212,8 +192,8 @@ export default function AgendaWizard({
     prefix,
     phone: digitos,
     email,
-    website: sinWeb ? sitioSinWeb : sitioVigente?.ok ? sitioVigente.url : sitio.trim(),
-    sitioEstado: sinWeb ? estadoSinWeb : sitioVigente ? (sitioVigente.ok ? sitioVigente.estado : sitioVigente.motivo) : undefined,
+    website: "",
+    sitioEstado: "manual",
     city: ubicacion.trim(),
     pais: paisDePrefijo(prefix),
     cargo: "" as Form["cargo"],
@@ -236,8 +216,6 @@ export default function AgendaWizard({
   function errorDatos(): string {
     if (!clinicaOk) return "Escribe el nombre de tu clínica.";
     if (!ubicacionOk) return "Escribe dónde está tu clínica.";
-    if (canal === "instagram" && !igOk) return "Escribe solo tu usuario de Instagram (letras, números, punto o guion bajo).";
-    if (canal === "web" && !sitioOk) return MENSAJE_SITIO.formato;
     if (!profesionales) return "Elige cuántos profesionales tiene tu clínica.";
     if (!conversaciones) return "Elige cuántas conversaciones recibes al mes.";
     if (!pacientes) return "Elige cuántos pacientes atiendes al mes.";
@@ -275,32 +253,6 @@ export default function AgendaWizard({
     }
   }
 
-  async function verificarSitio(): Promise<ResultadoSitio> {
-    const valor = sitio.trim();
-    if (sitioRes && sitioRes.valor === valor) return sitioRes.r;
-    let r: ResultadoSitio;
-    try {
-      const res = await fetch("/api/verificar-sitio", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sitio: valor }),
-      });
-      const data = (await res.json()) as ResultadoSitio;
-      // Si la verificación misma falla (429, 5xx), el lead pasa: un error nuestro no lo bloquea.
-      r = res.ok && typeof data?.ok === "boolean" ? data : { ok: true, url: valor, estado: "sin_verificar" };
-    } catch {
-      r = { ok: true, url: valor, estado: "sin_verificar" };
-    }
-    setSitioRes({ valor, r });
-    return r;
-  }
-
-  function elegirCanal(c: "web" | "instagram") {
-    setCanal(c);
-    setIntentado(false);
-    pushDL("agenda_canal_clinica", { canal: c, source_path: SOURCE_PATH });
-  }
-
   function enviarPaso2() {
     if (!personalesOk) {
       setIntentado(true);
@@ -311,28 +263,24 @@ export default function AgendaWizard({
     irA(3);
   }
 
-  async function enviarPaso3() {
-    if (verificando) return;
+  function enviarPaso3() {
     if (!datosOk) {
       setIntentado(true);
       return;
     }
-    let formOk: Form = { ...form, website: sitioSinWeb, sitioEstado: estadoSinWeb };
-    let sitioPasa = false;
-    if (!sinWeb) {
-      setVerificando(true);
-      const r = await verificarSitio();
-      setVerificando(false);
-      if (!r.ok && r.motivo === "formato") return;
-      if (r.ok) {
-        sitioPasa = true;
-        formOk = { ...form, website: r.url, sitioEstado: r.estado };
-      } else {
-        // No existe, red social o no es clínica: pasa igual y el closer lo revisa (27-oct-2026).
-        pushDL("agenda_sitio_rechazado", { motivo: r.motivo, source_path: SOURCE_PATH });
-        formOk = { ...form, website: sitio.trim(), sitioEstado: r.motivo };
-      }
-    }
+    setIntentado(false);
+    setConfirmando(true);
+    pushDL("agenda_confirmar_clinica", { source_path: SOURCE_PATH });
+  }
+
+  function corregirClinica() {
+    setConfirmando(false);
+    pushDL("agenda_corregir_clinica", { source_path: SOURCE_PATH });
+    window.setTimeout(() => document.getElementById("ag-clinica")?.focus(), 0);
+  }
+
+  function confirmarClinica() {
+    setConfirmando(false);
     const eventId = leadCtx?.eventId ?? newLeadEventId();
     const ctx = leadCtx ?? { eventId, leadSource: fuente() };
     if (!leadCtx) setLeadCtx(ctx);
@@ -340,16 +288,16 @@ export default function AgendaWizard({
     setIntentado(false);
     irA(4);
     // Embudo de Meta (Ricardo, 18-oct-2026): rellenar el formulario = Lead US$ 3.
-    // Sólo el sitio que pasa lo dispara: Meta aprende solo de clínicas con web
-    // (Ricardo, 26-oct-2026). El resto le llega a la campaña cuando el closer lo pase a MQL.
-    if (sitioPasa) void fireLeadEvent({
+    // Sin verificación automática (28-oct-2026) lo dispara todo el que confirma su clínica;
+    // el filtro de calidad es el MQL, que declara el closer.
+    void fireLeadEvent({
       eventId: ctx.eventId,
       contact: { email: email.trim(), phoneE164: aE164(prefix, digitos) },
       customData: { content_name: "agenda_videollamada", lead_source: ctx.leadSource },
     });
     // Al CRM al enviar los datos: el lead que no agenda igual queda. No se espera a n8n.
     void submitContactLead({
-      form: formOk,
+      form,
       software: null,
       size,
       qual,
@@ -519,28 +467,6 @@ export default function AgendaWizard({
                       </div>
                     </div>
 
-                    <div className={styles.labelFila}>
-                      <label className={base.label} htmlFor={canal === "web" ? "ag-sitio" : "ag-ig"}>
-                        {canal === "web" ? "Sitio web" : "Instagram"} <span className={styles.opcional}>(opcional)</span>
-                      </label>
-                      <div className={styles.canalTabs} role="tablist" aria-label="Dónde encontrar tu clínica en internet" data-canal>
-                        <button type="button" role="tab" aria-selected={canal === "web"} className={canal === "web" ? styles.canalTabOn : styles.canalTab} onClick={() => elegirCanal("web")} data-canal-web>
-                          Web
-                        </button>
-                        <button type="button" role="tab" aria-selected={canal === "instagram"} className={canal === "instagram" ? styles.canalTabOn : styles.canalTab} onClick={() => elegirCanal("instagram")} data-canal-instagram>
-                          Instagram
-                        </button>
-                      </div>
-                    </div>
-                    {canal === "web" ? (
-                      <input id="ag-sitio" aria-label="Sitio web de tu clínica (opcional)" className={base.input} value={sitio} onChange={(e) => setSitio(e.target.value)} type="url" inputMode="url" autoComplete="url" autoCapitalize="none" spellCheck={false} placeholder="www.tuclinica.cl" aria-invalid={(intentado && !sitioOk) || !!sitioError} data-sitio-estado={sitioVigente ? (sitioVigente.ok ? sitioVigente.estado : sitioVigente.motivo) : undefined} />
-                    ) : (
-                      <div className={styles.igCampo}>
-                        <span className={styles.igPrefijo} aria-hidden>instagram.com/@</span>
-                        <input id="ag-ig" aria-label="Instagram de tu clínica (opcional)" className={`${base.input} ${styles.igInput}`} value={ig} onChange={(e) => setIg(e.target.value.replace(/\s/g, ""))} autoComplete="off" autoCapitalize="none" spellCheck={false} placeholder="tuclinica" aria-invalid={intentado && !igOk} />
-                      </div>
-                    )}
-
                     <div className={styles.fila3}>
                       <div>
                         <label className={base.label} htmlFor="ag-profesionales">Profesionales</label>
@@ -584,17 +510,31 @@ export default function AgendaWizard({
                       <p className={base.error} role="alert">
                         {errorDatos()}
                       </p>
-                    ) : !sinWeb && sitioError ? (
-                      <p className={base.error} role="alert" data-sitio-error>
-                        {sitioError}
-                      </p>
                     ) : null}
-                    <button type="button" className={base.cta} onClick={() => void enviarPaso3()} disabled={verificando} aria-busy={verificando}>
-                      {verificando ? "Verificando tu sitio…" : "Elegir mi hora →"}
-                    </button>
-                    <button type="button" className={styles.volver} onClick={() => irA(2)}>
-                      ← Volver
-                    </button>
+                    {confirmando ? (
+                      <div className={styles.confirmaClinica} role="alertdialog" aria-labelledby="ag-confirma" data-confirmar-clinica>
+                        <p id="ag-confirma" className={styles.confirmaTexto}>
+                          Tu clínica se llama <strong>{clinica.trim()}</strong> y está ubicada en <strong>{ubicacion.trim()}</strong>. ¿Correcto?
+                        </p>
+                        <div className={styles.confirmaBotones}>
+                          <button type="button" className={base.cta} onClick={confirmarClinica} autoFocus>
+                            Sí, correcto
+                          </button>
+                          <button type="button" className={styles.corregir} onClick={corregirClinica}>
+                            Corregir
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <button type="button" className={base.cta} onClick={enviarPaso3}>
+                          Elegir mi hora →
+                        </button>
+                        <button type="button" className={styles.volver} onClick={() => irA(2)}>
+                          ← Volver
+                        </button>
+                      </>
+                    )}
                   </div>
                 )}
 

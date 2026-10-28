@@ -5,7 +5,7 @@
 
 import { expect, test, type Page, type Request } from "@playwright/test";
 import { PLANES } from "../src/content/planes";
-import { llenarClinica, pasarDatosPersonales } from "./agenda-helpers";
+import { enviarClinica, llenarClinica, pasarDatosPersonales } from "./agenda-helpers";
 
 async function mockRed(page: Page) {
   await page.route("**/api/verificar-sitio", (route) =>
@@ -84,8 +84,7 @@ test("landing: el lead completa el wizard ahí mismo y el closer ve la oferta", 
   await deslizar(page);
   await pasarDatosPersonales(page, "[E2E TEST] Oferta landing", "e2e-oferta-landing@e2e.clinera.io");
   await llenarClinica(page, "[E2E TEST] Estética");
-  await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
-  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+  await enviarClinica(page);
   await expect(page.locator('[data-agenda-paso="4"]')).toBeVisible();
   await expect.poll(() => hits.filter((h) => h.lead_stage === "contact").length).toBe(1);
   const contacto = hits.find((h) => h.lead_stage === "contact")!;
@@ -110,8 +109,7 @@ test("/agenda con la oferta: boleta a 379 y el closer lo ve en el CRM", async ({
 
   await pasarDatosPersonales(page, "[E2E TEST] Oferta", "e2e-oferta@e2e.clinera.io");
   await llenarClinica(page, "[E2E TEST] Estética");
-  await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
-  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+  await enviarClinica(page);
   await expect(page.locator('[data-agenda-paso="4"]')).toBeVisible();
   await expect.poll(() => hits.filter((h) => h.lead_stage === "contact").length).toBe(1);
   const contacto = hits.find((h) => h.lead_stage === "contact")!;

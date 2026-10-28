@@ -3,7 +3,7 @@
 // source_path y que no se indexe. Red mockeada.
 
 import { expect, test, type Page } from "@playwright/test";
-import { llenarClinica, pasarDatosPersonales } from "./agenda-helpers";
+import { enviarClinica, llenarClinica, pasarDatosPersonales } from "./agenda-helpers";
 
 async function mockRed(page: Page) {
   await page.route("**/api/verificar-sitio", (route) =>
@@ -33,8 +33,7 @@ async function recorrer(page: Page, ruta: string) {
   }).toPass({ timeout: 20000 });
   await pasarDatosPersonales(page, "[E2E TEST] Google", "e2e-google@e2e.clinera.io");
   await llenarClinica(page, "[E2E TEST] Clínica");
-  await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
-  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+  await enviarClinica(page);
   await expect(page.locator('[data-agenda-paso="4"]')).toBeVisible();
   await expect.poll(() => cuerpos.length).toBeGreaterThan(0);
   return cuerpos.join("\n");
