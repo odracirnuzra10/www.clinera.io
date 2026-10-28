@@ -3,7 +3,7 @@
 
 import { expect, type Locator, type Page } from "@playwright/test";
 
-/** Paso 3: todo lo de la clínica menos el sitio web (cada test decide qué escribir ahí). */
+/** Paso 3: todo lo de la clínica (desde el 28-oct-2026 ya no se pide web ni Instagram). */
 export async function llenarClinica(page: Page, clinica = "[E2E TEST] Clínica", root: Page | Locator = page) {
   await root.getByLabel("Nombre de tu clínica").fill(clinica);
   await root.getByLabel("Ubicación").fill("Santiago");
@@ -20,4 +20,10 @@ export async function pasarDatosPersonales(page: Page, nombre = "[E2E TEST] Agen
   await root.getByLabel("Correo", { exact: true }).fill(correo);
   await root.getByRole("button", { name: /Continuar/ }).click();
   await expect(root.locator('[data-agenda-paso="3"]')).toBeVisible();
+}
+
+/** Paso 3 → paso 4: «Elegir mi hora» y «Sí, correcto» en la confirmación de la clínica (28-oct-2026). */
+export async function enviarClinica(page: Page, root: Page | Locator = page) {
+  await root.getByRole("button", { name: /Elegir mi hora/ }).click();
+  await root.getByRole("button", { name: "Sí, correcto" }).click();
 }

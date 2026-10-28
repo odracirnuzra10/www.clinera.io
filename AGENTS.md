@@ -1208,7 +1208,7 @@ Detalle y aplicador: `baserow/CLAUDE.md`, «El MQL de Clinera lo declara el clos
 Guardianes: `tests/reserva-tu-hora.spec.ts` y `tests/reunion-meta-events.spec.ts`.
 `tests/ventas-meta-events.spec.ts` ya fallaba en `main` antes de este cambio (el wizard de `/ventas` cambió).
 
-# `/agenda` exige sitio web y lo verifica en el servidor (Ricardo, 26-oct-2026)
+# `/agenda` exigía sitio web y lo verificaba en el servidor (Ricardo, 26-oct-2026; retirado del formulario el 28-oct, ver «Verificación manual» al final)
 
 Clinera apunta a **clínicas medianas**, no al profesional independiente: una clínica establecida tiene
 sitio web. El paso 2 del wizard (`AgendaWizard`, y con él `/agenda-google` y `/oferta-clinicas-esteticas`)
@@ -1282,7 +1282,7 @@ Guardián: `tests/home2.spec.ts`.
 # `/agenda` en 4 pasos: boleta, tus datos, tu clínica, horario (Ricardo, 27-oct-2026)
 
 Paso 1 boleta + «Quiero ahorrar» · paso 2 nombre, celular y correo («Continuar», no envía nada) ·
-paso 3 la clínica: nombre, ubicación, web o Instagram (opcional, misma regla de verificación),
+paso 3 la clínica: nombre, ubicación (sin web ni Instagram desde el 28-oct),
 profesionales, conversaciones al mes, pacientes al mes y **«¿Qué necesitas?», texto libre
 obligatorio** · paso 4 el calendario. Los rangos viven en `AgendaWizard.tsx` (`PROFESIONALES`,
 `CONVERSACIONES_MES`, `PACIENTES_MES`).
@@ -1323,3 +1323,22 @@ escrito a mano): `public/presentacion/index.html` (boleta, `#planes` con `data-p
 `llms-full.txt`. `/oferta-clinicas-esteticas` y `/super-promo` comparan contra `precioNormalUsd` (529).
 Los artículos del blog siguen diciendo 529 a propósito. Guardianes: `tests/planes-vigentes.spec.ts` y
 `tests/presentacion-4-diapos.spec.ts`.
+
+# `/agenda`: verificación manual y confirmación de la clínica (Ricardo, 28-oct-2026)
+
+El paso 3 ya **no pide web ni Instagram** y no llama a `/api/verificar-sitio` (la ruta y
+`src/lib/verificar-sitio.ts` siguen, sin uso desde el formulario). Al apretar «Elegir mi hora» aparece
+«Tu clínica se llama X y está ubicada en Y. ¿Correcto?» con **Sí, correcto** (envía al CRM, dispara el
+`Lead` y pasa al calendario) y **Corregir** (vuelve a los campos sin enviar nada). El lead viaja con
+`sitio_web_estado: "manual"` → Twenty «Método verificación» = **Verificación manual** (`MANUAL`, nodo del
+Wizard en el repo `baserow`) y queda en Nuevo: lo verifica el closer. El `Lead` de Meta sale para todo el
+que confirma (antes sólo con web verificada).
+
+**El calendario ya no espera la config de n8n.** `StepClineraScheduler` esperaba 2,5 s a
+`/webhook/clinera-agenda-config`, que tarda 2–5 s; al pasarse caía al embed de app.clinera.io, que ofrece
+el día UTC en curso con horas de madrugada (02:45, 03:30…). Ahora parte en el calendario nativo
+(mañana en adelante, horario de oficina) y la config se pide en segundo plano (sólo aporta `duracionMin`).
+El embed queda sólo para «usa el calendario clásico» cuando falla la reserva.
+
+Guardianes: `tests/agenda-wizard.spec.ts` (confirmación, «Corregir», `manual`) y los que usan
+`enviarClinica` de `tests/agenda-helpers.ts`.

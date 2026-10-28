@@ -360,6 +360,7 @@ type ClineraAgendaConfig = {
   tratamiento?: string;
   duracionMin?: number;
 };
+const CONFIG_AGENDA_DEFECTO: ClineraAgendaConfig = { ok: true, duracionMin: 45 };
 
 export type DispoSlot = {
   horaInicio: string;
@@ -3348,27 +3349,24 @@ export function StepClineraScheduler({
   onBooked: (b: CalBooking, via: string, confirmEventId?: string) => void | Promise<void>;
   tzIp?: string;
 }) {
-  const [mode, setMode] = useState<"checking" | "nativo" | "embed">("checking");
-  const [config, setConfig] = useState<ClineraAgendaConfig | null>(null);
+  // Parte en nativo sin esperar la config (Ricardo, 28-oct-2026): el webhook de
+  // config tarda 2–5 s y con el corte de 2,5 s el visitante caía al embed de
+  // app.clinera.io, que ofrece el día UTC en curso con horas de madrugada
+  // (02:45, 03:30…). El nativo sólo usa `duracionMin` de la config, así que se
+  // pide en segundo plano; si la disponibilidad falla, el nativo lo dice solo.
+  const [mode, setMode] = useState<"nativo" | "embed">("nativo");
+  const [config, setConfig] = useState<ClineraAgendaConfig>(CONFIG_AGENDA_DEFECTO);
 
   useEffect(() => {
     let cancelled = false;
     const ctrl = new AbortController();
-    const t = window.setTimeout(() => ctrl.abort(), 2500);
+    const t = window.setTimeout(() => ctrl.abort(), 10000);
     fetch(N8N_AGENDA_CONFIG_URL, { signal: ctrl.signal })
       .then((r) => (r.ok ? (r.json() as Promise<ClineraAgendaConfig>) : null))
       .then((cfg) => {
-        if (cancelled) return;
-        if (cfg?.ok) {
-          setConfig(cfg);
-          setMode("nativo");
-        } else {
-          setMode("embed");
-        }
+        if (!cancelled && cfg?.ok) setConfig(cfg);
       })
-      .catch(() => {
-        if (!cancelled) setMode("embed");
-      })
+      .catch(() => {})
       .finally(() => window.clearTimeout(t));
     return () => {
       cancelled = true;
@@ -3377,21 +3375,11 @@ export function StepClineraScheduler({
     };
   }, []);
 
-  if (mode === "checking") {
-    return (
-      <div>
-        <BackBtn onClick={onBack} />
-        <div style={{ position: "relative", width: "100%", minHeight: 480 }}>
-          <CalendarLoadingOverlay />
-        </div>
-      </div>
-    );
-  }
   if (mode === "nativo") {
     return (
       <StepClineraNativo
         form={form}
-        config={config ?? { ok: true }}
+        config={config}
         tzIp={tzIp}
         showInvestment={showInvestment}
         onInteres={onInteres}

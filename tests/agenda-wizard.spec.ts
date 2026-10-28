@@ -4,10 +4,11 @@
 
 import { expect, test, type Page, type Request } from "@playwright/test";
 import { AHORRO, PLANES } from "../src/content/planes";
-import { llenarClinica, pasarDatosPersonales } from "./agenda-helpers";
+import { enviarClinica, llenarClinica, pasarDatosPersonales } from "./agenda-helpers";
 
 type WizardBody = {
   lead_stage?: string;
+  sitio_web_estado?: string;
   nombre_clinica?: string;
   servicio_interes?: string;
   celular?: string;
@@ -62,7 +63,6 @@ async function pasoBoleta(page: Page) {
 async function llenarDatos(page: Page) {
   await pasarDatosPersonales(page);
   await llenarClinica(page);
-  await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
 }
 
 test("wizard: boleta «Quiero ahorrar» → tus datos → tu clínica (CRM + Lead US$ 3) → horario", async ({ page }) => {
@@ -114,8 +114,19 @@ test("wizard: boleta «Quiero ahorrar» → tus datos → tu clínica (CRM + Lea
   expect(capi.filter((c) => c.event_name === "Lead")).toHaveLength(0);
 
   await llenarClinica(page);
-  await page.getByLabel("Sitio web de tu clínica").fill("e2e.clinera.io");
+  // Sin web ni Instagram (28-oct-2026): antes del calendario se confirma clínica y ubicación.
+  await expect(page.getByLabel(/Sitio web/)).toHaveCount(0);
+  await expect(page.locator("[data-canal]")).toHaveCount(0);
   await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+  const confirma = page.locator("[data-confirmar-clinica]");
+  await expect(confirma).toContainText("Tu clínica se llama [E2E TEST] Clínica y está ubicada en Santiago. ¿Correcto?");
+  expect(wizard.filter((w) => w.lead_stage === "contact")).toHaveLength(0);
+  // «Corregir» vuelve a los campos sin enviar nada.
+  await confirma.getByRole("button", { name: "Corregir" }).click();
+  await expect(confirma).toHaveCount(0);
+  await expect(page.getByLabel("Nombre de tu clínica")).toBeFocused();
+  expect(wizard.filter((w) => w.lead_stage === "contact")).toHaveLength(0);
+  await enviarClinica(page);
 
   await expect.poll(() => capi.map((c) => c.event_name)).toContain("Lead");
   const lead = capi.find((c) => c.event_name === "Lead")!;
@@ -138,6 +149,7 @@ test("wizard: boleta «Quiero ahorrar» → tus datos → tu clínica (CRM + Lea
   expect(contactos[0].pacientes_mes_label).toBe("50 a 150");
   expect(contactos[0].necesidad).toBe("[E2E TEST] Llenar la agenda de la tarde");
   expect(contactos[0].fuente).toContain("/agenda");
+  expect(contactos[0].sitio_web_estado).toBe("manual"); // lo verifica el closer (28-oct-2026)
 });
 
 test("?servicio= ya no cambia el flujo: siempre parte en la boleta", async ({ page }) => {
@@ -166,6 +178,10 @@ for (const [w, h] of [[390, 844], [360, 740], [375, 667], [1440, 900], [1280, 72
     // El botón del paso 3 tiene que quedar a la vista sin scrollear.
     await expect(page.getByRole("button", { name: /Elegir mi hora/ })).toBeInViewport();
     await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+    // La confirmación de la clínica también cabe sin scroll (28-oct-2026).
+    await expect(page.getByRole("button", { name: "Sí, correcto" })).toBeInViewport();
+    expect(await sinScroll(), "confirmación").toBe(true);
+    await page.getByRole("button", { name: "Sí, correcto" }).click();
     await expect(page.locator('[data-agenda-paso="4"]')).toBeVisible();
     expect(await sinScroll(), "paso 4").toBe(true);
   });
@@ -179,7 +195,7 @@ test("el panel muestra una imagen por pantalla y no hay cupón ni compra", async
   await pasoBoleta(page);
   await expect(pie).toContainText("Incorporamos el software de Clinera con su agente de inteligencia artificial");
   await llenarDatos(page);
-  await page.getByRole("button", { name: /Elegir mi hora/ }).click();
+  await enviarClinica(page);
   await expect(pie).toContainText("Una reunión de marketing por semana, 4 al mes, para ver los resultados");
   const body = page.locator("body");
   await expect(body).not.toContainText(/CU[K]I|cupón/i);
@@ -201,4 +217,33 @@ test("«Quiero ahorrar» avanza aunque GTM o el pixel tiren error (26-oct-2026)"
   await page.goto("/agenda", { waitUntil: "domcontentloaded" });
   await pasoBoleta(page);
   await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
+});
+
+test("config de n8n lenta: igual muestra el calendario propio, no el embed con horas de madrugada (28-oct-2026)", async ({ page }) => {
+  await mockRed(page);
+  await page.route("https://n8n.oacg.cl/webhook/clinera-agenda-config", async (route) => {
+    await new Promise((r) => setTimeout(r, 6000));
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, duracionMin: 45 }) }).catch(() => {});
+  });
+  await page.route(/n8n\.oacg\.cl\/webhook\/clinera-agenda-disponibilidad/, (route) => {
+    const url = new URL(route.request().url());
+    if (url.searchParams.has("desde")) return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ dias: {} }) });
+    return route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ data: { horariosDisponibles: [
+        { horaInicio: "02:45", duracionMin: 45, profesional: { id: "a", name: "Ana" } },
+        { horaInicio: "10:00", duracionMin: 45, profesional: { id: "a", name: "Ana" } },
+      ] } }),
+    });
+  });
+  await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+  await pasoBoleta(page);
+  await llenarDatos(page);
+  await enviarClinica(page);
+  await expect(page.locator('[data-agenda-paso="4"]')).toBeVisible();
+  await page.waitForTimeout(3500); // más que el corte viejo de 2,5 s
+  await expect(page.locator('iframe[src*="app.clinera.io"]')).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /10:00 en Chile/ }).first()).toBeVisible();
+  await expect(page.getByRole("button", { name: /02:45 en Chile/ })).toHaveCount(0);
 });
