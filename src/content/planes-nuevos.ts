@@ -22,6 +22,8 @@ export type PlanNuevo = {
   noIncluye: readonly string[];
   cta: "prueba" | "ventas";
   destacado?: boolean;
+  /** Logos de canales junto al nombre (Ricardo, 29-oct). Hex no trae WhatsApp. */
+  canales: readonly ("whatsapp" | "facebook" | "instagram")[];
 };
 
 export const PRUEBA_URL = "https://app.clinera.io";
@@ -35,23 +37,25 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
     id: "hex",
     name: "Hex",
     monthlyUsd: 35,
-    etiqueta: "Prueba gratis",
+    etiqueta: "Para partir",
     profesionales: "Hasta 2 profesionales",
     sucursales: "1 sucursal",
     incluye: [...BASE, "Clinera Intelligence con 100 créditos"],
     noIncluye: ["WhatsApp", "Agente IA", "Automatizaciones", "Difusiones"],
     cta: "prueba",
+    canales: [],
   },
   {
     id: "flux",
     name: "Flux",
     monthlyUsd: 55,
-    etiqueta: "Prueba gratis con WhatsApp",
+    etiqueta: "Con WhatsApp",
     profesionales: "Hasta 5 profesionales",
     sucursales: "Hasta 2 sucursales",
     incluye: ["Todo lo de Hex", "Clinera Intelligence con 200 créditos", "WhatsApp con 50 conversaciones"],
     noIncluye: ["Instagram y Facebook", "Agente IA", "Automatizaciones", "Difusiones"],
     cta: "prueba",
+    canales: ["whatsapp"],
   },
   {
     id: "vortex",
@@ -62,7 +66,8 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
     sucursales: "Hasta 3 sucursales",
     incluye: [
       ...BASE,
-      "Agente IA",
+      "Agente IA con 28.000 créditos",
+      "5.000 conversaciones",
       "Mensajería WhatsApp, Facebook e Instagram",
       "Automatizaciones",
       "Difusiones",
@@ -70,6 +75,7 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
     ],
     noIncluye: [],
     cta: "ventas",
+    canales: ["whatsapp", "facebook", "instagram"],
   },
   {
     id: "ecosistema",
@@ -87,6 +93,7 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
     ],
     noIncluye: [],
     cta: "ventas",
+    canales: ["whatsapp", "facebook", "instagram"],
     destacado: true,
   },
 ];
@@ -142,7 +149,7 @@ export const COMO_FUNCIONA = [
 export const PLANES2_FAQ: readonly { q: string; a: string }[] = [
   {
     q: "¿Qué incluye cada plan?",
-    a: "Hex: agendamiento, presupuestos y planes, panel de ventas y Clinera Intelligence con 100 créditos, hasta 2 profesionales y 1 sucursal. Flux: lo de Hex, 200 créditos y WhatsApp con 50 conversaciones, hasta 5 profesionales y 2 sucursales. Vortex: agente IA, WhatsApp, Facebook e Instagram, automatizaciones y difusiones, hasta 10 profesionales y 3 sucursales. Ecosistema: todo Vortex más marketing (campañas, propuesta de valor, framework comercial y reunión semanal).",
+    a: "Hex: agendamiento, presupuestos y planes, panel de ventas y Clinera Intelligence con 100 créditos, hasta 2 profesionales y 1 sucursal. Flux: lo de Hex, 200 créditos y WhatsApp con 50 conversaciones, hasta 5 profesionales y 2 sucursales. Vortex: agente IA con 28.000 créditos de IA, 5.000 conversaciones, WhatsApp, Facebook e Instagram, automatizaciones y difusiones, hasta 10 profesionales y 3 sucursales. Ecosistema: todo Vortex más marketing (campañas, propuesta de valor, framework comercial y reunión semanal).",
   },
   {
     q: "¿Cuánto dura la prueba gratis?",

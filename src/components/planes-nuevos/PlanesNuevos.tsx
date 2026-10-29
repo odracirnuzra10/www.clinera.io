@@ -8,6 +8,7 @@ import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { useReveal } from "@/components/home-v3/sections";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
+import { CHANNEL_LABEL, ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import { track, trackPixel } from "@/lib/tracking";
 // Hoja normal, no styled-jsx: la grilla tiene que venir en el HTML del servidor; con
 // styled-jsx las tarjetas se veían apiladas hasta que cargaba el JavaScript.
@@ -169,7 +170,41 @@ function Tarjeta({ plan, search, oferta }: { plan: PlanNuevo; search: string; of
       }}
     >
       <div style={{ fontFamily: MONO, fontSize: 10.5, fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", color: "#7C3AED" }}>{plan.etiqueta}</div>
-      <h3 style={{ fontFamily: "Inter", fontSize: 26, fontWeight: 800, letterSpacing: "-0.03em", margin: 0, color: "#0A0A0A" }}>{plan.name}</h3>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+        <h3 style={{ fontFamily: "Inter", fontSize: 26, fontWeight: 800, letterSpacing: "-0.03em", margin: 0, color: "#0A0A0A" }}>{plan.name}</h3>
+        {plan.canales.length > 0 && (
+          <span data-canales style={{ display: "inline-flex", gap: 6, alignItems: "center" }}>
+            {plan.canales.map((c) => (
+              <span key={c} title={CHANNEL_LABEL[c]} style={{ display: "inline-flex" }}>
+                <ChannelLogo channel={c} size={20} />
+                <span className="sr-only">{CHANNEL_LABEL[c]}</span>
+              </span>
+            ))}
+          </span>
+        )}
+        {(plan.cta === "prueba" || conOferta) && (
+          <span
+            data-insignia
+            style={{
+              position: "absolute",
+              top: -12,
+              right: 18,
+              fontFamily: MONO,
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              padding: "5px 10px",
+              borderRadius: 999,
+              whiteSpace: "nowrap",
+              boxShadow: "0 4px 12px -4px rgba(15,23,42,.18)",
+              ...(conOferta ? { background: GRAD, color: "#fff" } : { background: "#ECFDF5", color: "#047857", border: "1px solid #A7F3D0" }),
+            }}
+          >
+            {conOferta ? `${OFERTA_LANZAMIENTO.porcentaje}% OFF` : "Prueba gratis"}
+          </span>
+        )}
+      </div>
 
       <div data-precio>
         {conOferta ? (
