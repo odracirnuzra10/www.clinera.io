@@ -1357,6 +1357,6 @@ aprobar, `/planes` pasa a ser esta página (y `/planes2` vuelve a redirigir). Fu
 - Lo que falta decidir va visible como `[PENDIENTE: …]`. Sin implementación, permanencia ni precios viejos (lo vigila el test).
 - **Vortex trae 5.000 conversaciones y 28.000 créditos de IA al mes** (Ricardo, 29-oct). Lo mismo se publicó ya en `/planes`
   y `llms*.txt`, junto con los paquetes nuevos de conversaciones: 1.000 por US$ 98 y 5.000 por US$ 198 (antes 500 por US$ 15).
-  Reemplaza el «~933 conversaciones» que salía de dividir los créditos; los artículos del blog siguen con el cálculo viejo.
+  Reemplaza el «~933 conversaciones» que salía de dividir los créditos, también en los artículos del blog de créditos y modo Agentic.
 - Insignia en el borde de la tarjeta («Prueba gratis» o «20% OFF») y logos de canales junto al nombre.
 - Guardián: `tests/planes2.spec.ts`.
