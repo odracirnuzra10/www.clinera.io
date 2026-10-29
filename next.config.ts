@@ -376,11 +376,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/planes2',
-        destination: '/planes',
-        permanent: true,
-      },
-      {
         source: '/activa',
         destination: '/agenda',
         permanent: false,
