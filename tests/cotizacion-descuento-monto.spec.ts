@@ -35,11 +35,12 @@ test.describe("Vortex: conversaciones con IA aproximadas", () => {
     expect(conversacionesAprox(28000)).toBe(933);
     expect(agendamientosAprox(28000)).toBe(143);
     const vortex = PLANES.find((p) => p.id === "vortex")!;
-    expect(vortex.features.join(" ")).toContain("~933 conversaciones");
+    expect(vortex.features.join(" ")).toContain("5.000 conversaciones y 28.000 créditos de IA");
   });
 
   test("/planes lo muestra", async ({ page }) => {
     await page.goto("/planes");
-    await expect(page.locator("main")).toContainText("~933 conversaciones");
+    await expect(page.locator("main")).toContainText("5.000 conversaciones y 28.000 créditos de IA");
+    await expect(page.locator("main")).toContainText("1.000 conversaciones extra US$ 98");
   });
 });
