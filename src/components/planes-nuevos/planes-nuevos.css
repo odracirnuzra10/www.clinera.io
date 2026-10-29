@@ -1,0 +1,12 @@
+/* /planes2 (Ricardo, 29-oct-2026). */
+.p2-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 16px; row-gap: 20px; }
+.p2-grid > article > * { align-self: start; }
+.p2-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.p2-extras { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.p2-section { padding: 56px 80px; }
+@media (max-width: 1100px) { .p2-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .p2-extras { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) {
+  .p2-grid, .p2-steps, .p2-extras { grid-template-columns: 1fr; }
+  .p2-section { padding: 40px 16px; }
+  .p2-title { font-size: 36px !important; }
+}

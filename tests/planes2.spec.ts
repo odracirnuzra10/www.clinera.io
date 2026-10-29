@@ -50,6 +50,18 @@ test.describe("/planes2", () => {
     await expect(page.locator('[data-plan-card="vortex"] [data-oferta]')).toHaveText("20% de descuento por 6 meses. Oferta de noviembre.");
   });
 
+  test("en escritorio los cuatro botones quedan a la misma altura", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.clock.setFixedTime(new Date("2026-11-15T12:00:00-03:00"));
+    await page.goto("/planes2", { waitUntil: "domcontentloaded" });
+    await expect(page.locator('[data-plan-card="vortex"] [data-oferta]')).toBeVisible();
+    const tops = await page.locator("[data-plan-card] a[data-cta]").evaluateAll((els) =>
+      els.map((e) => Math.round(e.getBoundingClientRect().top)),
+    );
+    expect(tops).toHaveLength(4);
+    expect(Math.max(...tops) - Math.min(...tops)).toBeLessThanOrEqual(1);
+  });
+
   test("en el celular no hay scroll horizontal", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/planes2", { waitUntil: "domcontentloaded" });

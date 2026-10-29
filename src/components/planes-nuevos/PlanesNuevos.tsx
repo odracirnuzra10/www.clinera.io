@@ -9,6 +9,9 @@ import { useReveal } from "@/components/home-v3/sections";
 import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 import { track, trackPixel } from "@/lib/tracking";
+// Hoja normal, no styled-jsx: la grilla tiene que venir en el HTML del servidor; con
+// styled-jsx las tarjetas se veían apiladas hasta que cargaba el JavaScript.
+import "./planes-nuevos.css";
 import {
   CLIENTE_ACTUAL_LINEA,
   CLIENTE_ACTUAL_PENDIENTE,
@@ -51,16 +54,6 @@ export default function PlanesNuevos() {
       <style jsx global>{`
         .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
         .reveal.in { opacity: 1; transform: none; }
-        .p2-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-        .p2-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-        .p2-extras { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-        .p2-section { padding: 56px 80px; }
-        @media (max-width: 1100px) { .p2-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .p2-extras { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-        @media (max-width: 720px) {
-          .p2-grid, .p2-steps, .p2-extras { grid-template-columns: 1fr; }
-          .p2-section { padding: 40px 16px; }
-          .p2-title { font-size: 36px !important; }
-        }
         @media (prefers-reduced-motion: reduce) { * { animation-duration: 0ms !important; transition-duration: 0ms !important; } }
       `}</style>
 
@@ -166,9 +159,13 @@ function Tarjeta({ plan, search, oferta }: { plan: PlanNuevo; search: string; of
         backgroundImage: plan.destacado ? `linear-gradient(#fff,#fff), ${GRAD}` : undefined,
         backgroundOrigin: "border-box",
         backgroundClip: plan.destacado ? "padding-box, border-box" : undefined,
-        display: "flex",
-        flexDirection: "column",
-        gap: 14,
+        // Subgrid: las 6 filas (etiqueta, nombre, precio, cupos, botón, lista) se alinean entre
+        // tarjetas, así los botones quedan a la misma altura aunque un precio traiga oferta.
+        display: "grid",
+        gridTemplateRows: "subgrid",
+        gridRow: "span 6",
+        rowGap: 14,
+        alignContent: "start",
       }}
     >
       <div style={{ fontFamily: MONO, fontSize: 10.5, fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", color: "#7C3AED" }}>{plan.etiqueta}</div>
