@@ -1342,3 +1342,17 @@ El embed queda sólo para «usa el calendario clásico» cuando falla la reserva
 
 Guardianes: `tests/agenda-wizard.spec.ts` (confirmación, «Corregir», `manual`) y los que usan
 `enviarClinica` de `tests/agenda-helpers.ts`.
+
+# `/planes2`: Hex · Flux · Vortex · Ecosistema (Ricardo, 29-oct-2026)
+
+Vista previa sin indexar del modelo de planes nuevo. **`/planes` no cambia** hasta que Ricardo apruebe; al
+aprobar, `/planes` pasa a ser esta página (y `/planes2` vuelve a redirigir). Fuente única:
+`src/content/planes-nuevos.ts` (no es `planes2.ts`, que es el catálogo viejo de `/go/exito`).
+
+- Hex US$ 35 · Flux US$ 55 · Vortex US$ 279 · Ecosistema US$ 379. Solo clientes nuevos; los actuales mantienen plan y precio.
+- **Dos CTA:** «Prueba gratis» (Hex, Flux) → `app.clinera.io?plan=…` y «Hablar con ventas» (Vortex, Ecosistema) →
+  `/agenda?plan=…`, ambos con la query de la visita. Sin link de pago todavía.
+- **Oferta: 20 % por 6 meses en Vortex y Ecosistema durante todo noviembre** (hasta el 30-nov 23:59 Chile): 223,20 / 303,20.
+  Se evalúa en el navegador: pasada la fecha, la tarjeta vuelve sola al precio normal.
+- Lo que falta decidir va visible como `[PENDIENTE: …]`. Sin implementación, permanencia ni precios viejos (lo vigila el test).
+- Guardián: `tests/planes2.spec.ts`.
