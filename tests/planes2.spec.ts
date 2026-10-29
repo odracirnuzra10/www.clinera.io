@@ -48,6 +48,11 @@ test.describe("/planes2", () => {
     await expect(page.locator('[data-plan-card="vortex"] [data-precio]')).toContainText("US$ 223,20");
     await expect(page.locator('[data-plan-card="ecosistema"] [data-precio]')).toContainText("US$ 303,20");
     await expect(page.locator('[data-plan-card="vortex"] [data-oferta]')).toHaveText("20% de descuento por 6 meses. Oferta de noviembre.");
+    for (const id of ["vortex", "ecosistema"]) await expect(page.locator(`[data-plan-card="${id}"] [data-insignia]`)).toHaveText("20% OFF");
+    for (const id of ["hex", "flux"]) await expect(page.locator(`[data-plan-card="${id}"] [data-insignia]`)).toHaveText("Prueba gratis");
+    await expect(page.locator('[data-plan-card="hex"] [data-canales]')).toHaveCount(0);
+    await expect(page.locator('[data-plan-card="flux"] [data-canales]')).toHaveText("WhatsApp");
+    await expect(page.locator('[data-plan-card="vortex"] [data-canales]')).toHaveText("WhatsAppFacebookInstagram");
   });
 
   test("en escritorio los cuatro botones quedan a la misma altura", async ({ page }) => {

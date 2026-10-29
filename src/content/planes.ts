@@ -90,7 +90,8 @@ export const agendamientosAprox = (creditos: number) => Math.floor(creditos / CR
 /** Lo que trae el software. Marketing lo suma, no lo reemplaza. */
 const SOFTWARE_FEATURES = [
   "Hasta 10 profesionales",
-  "28.000 créditos de IA: ~933 conversaciones con IA al mes (o ~143 agendamientos)",
+  // Ricardo, 29-oct-2026: Vortex trae 5.000 conversaciones y 28.000 créditos de IA al mes.
+  "5.000 conversaciones y 28.000 créditos de IA al mes",
   "Bandeja de WhatsApp, Instagram y Facebook",
   "Agenda y fichas de la clínica",
   "Agente de IA (AURA) que responde y agenda",
@@ -182,7 +183,9 @@ export const IMPLEMENTACION_LINEA = "Sin costo de implementación. Onboarding de
  */
 export const EXTRAS = [
   { id: "profesional", titulo: "Profesional extra", precioUsd: 9, unidad: "al mes", detalle: "US$ 9 al mes por cada profesional extra" },
-  { id: "conversaciones", titulo: "500 conversaciones extra", precioUsd: 15, unidad: "pago único", detalle: "US$ 15 por 500 conversaciones extra" },
+  // Paquetes de conversaciones del 29-oct-2026 (antes 500 por US$ 15).
+  { id: "conversaciones", titulo: "1.000 conversaciones extra", precioUsd: 98, unidad: "pago único", detalle: "US$ 98 por 1.000 conversaciones extra" },
+  { id: "conversaciones5000", titulo: "5.000 conversaciones extra", precioUsd: 198, unidad: "pago único", detalle: "US$ 198 por 5.000 conversaciones extra" },
   { id: "creditos", titulo: "5.000 créditos de IA extra", precioUsd: 15, unidad: "pago único", detalle: "US$ 15 por 5.000 créditos de IA extra" },
 ] as const;
 
@@ -204,7 +207,7 @@ export const AHORRO = {
   nota: "Valores de referencia estimados del mercado.",
 } as const;
 
-export const NECESIDADES_LINEA = `Extras del software: profesional extra US$ ${EXTRAS[0].precioUsd}/mes · 500 conversaciones extra US$ ${EXTRAS[1].precioUsd} · 5.000 créditos de IA extra US$ ${EXTRAS[2].precioUsd}.`;
+export const NECESIDADES_LINEA = `Extras del software: profesional extra US$ ${EXTRAS[0].precioUsd}/mes · 1.000 conversaciones extra US$ ${EXTRAS[1].precioUsd} · 5.000 conversaciones extra US$ ${EXTRAS[2].precioUsd} · 5.000 créditos de IA extra US$ ${EXTRAS[3].precioUsd}.`;
 
 /** CTA único: lleva a /agenda, que termina en una videollamada con el equipo. */
 export const CTA_VENTAS_LABEL = "Agendar reunión";

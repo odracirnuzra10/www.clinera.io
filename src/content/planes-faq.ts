@@ -37,7 +37,7 @@ export const PLANES_FAQ = [
   },
   {
     q: "¿Qué pasa si necesito más profesionales, conversaciones o créditos de IA?",
-    a: `Son extras del software y los compras cuando los necesitas: profesional extra US$ ${EXTRAS[0].precioUsd} al mes, 500 conversaciones extra US$ ${EXTRAS[1].precioUsd} y 5.000 créditos de IA extra US$ ${EXTRAS[2].precioUsd}.`,
+    a: `Son extras del software y los compras cuando los necesitas: profesional extra US$ ${EXTRAS[0].precioUsd} al mes, 1.000 conversaciones extra US$ ${EXTRAS[1].precioUsd}, 5.000 conversaciones extra US$ ${EXTRAS[2].precioUsd} y 5.000 créditos de IA extra US$ ${EXTRAS[3].precioUsd}.`,
   },
   {
     q: "¿Ya soy cliente, mi plan cambia?",
