@@ -69,6 +69,29 @@ test.describe("reparto de profesional", () => {
     expect(porHora.get("12:15")).toBe("Ana");
   });
 
+  test("la primera hora del día no va siempre a la misma persona", () => {
+    // 30-oct-2026: casi todos eligen la primera hora. Con agendas iguales esa
+    // hora iba siempre a quien la API listara primero. La semilla (el correo
+    // del lead) reparte esa primera hora entre visitantes.
+    const slots: DispoSlot[] = [];
+    for (const h of ["10:00", "10:45", "11:30", "12:15"]) {
+      slots.push({ horaInicio: h, profesional: { id: "aaa", name: "Ana" } });
+      slots.push({ horaInicio: h, profesional: { id: "bbb", name: "Beto" } });
+    }
+    const primeras = new Map<string, number>();
+    for (let k = 0; k < 200; k++) {
+      const n = nombre(repartirSlots(slots, `lead${k}@correo.cl`)[0]);
+      primeras.set(n, (primeras.get(n) ?? 0) + 1);
+    }
+    expect(primeras.get("Ana") ?? 0).toBeGreaterThan(70);
+    expect(primeras.get("Beto") ?? 0).toBeGreaterThan(70);
+    // Mismo visitante, misma asignación (corre dentro de un useMemo).
+    expect(repartirSlots(slots, "x@y.cl").map(nombre)).toEqual(repartirSlots(slots, "x@y.cl").map(nombre));
+    // Sigue parejo dentro del día.
+    const dia = repartirSlots(slots, "x@y.cl").map(nombre);
+    expect(dia.filter((n) => n === "Ana").length).toBe(2);
+  });
+
   test("es estable: dos llamadas seguidas dan lo mismo", () => {
     expect(repartirSlots(SLOTS).map(nombre)).toEqual(repartirSlots(SLOTS).map(nombre));
   });

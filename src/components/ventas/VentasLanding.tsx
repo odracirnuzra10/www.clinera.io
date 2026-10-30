@@ -3560,7 +3560,14 @@ function zonaVisitante(): string {
  *
  * Pura y exportada para poder probarla contra la respuesta real de la API.
  */
-export function repartirSlots(slots: DispoSlot[]): DispoSlot[] {
+export function repartirSlots(slots: DispoSlot[], semilla = ""): DispoSlot[] {
+  // Desempate por visitante (Ricardo, 30-oct-2026): casi todos eligen la
+  // PRIMERA hora del día, y con la misma holgura esa hora iba siempre a quien
+  // la API listara primero (orden fijo por id). Una semana entera de primeras
+  // horas caía en la misma persona. La semilla (el correo del lead) corre la
+  // rotación: estable para ese visitante, pareja entre visitantes.
+  let corrimiento = 0;
+  for (let k = 0; k < semilla.length; k++) corrimiento = (corrimiento * 31 + semilla.charCodeAt(k)) >>> 0;
   const libres = new Map<string, number>();
   const porHora = new Map<string, DispoSlot[]>();
   for (const s of slots) {
@@ -3592,7 +3599,7 @@ export function repartirSlots(slots: DispoSlot[]): DispoSlot[] {
       let mejor = cand[0];
       let mejorHolgura = -Infinity;
       for (let j = 0; j < cand.length; j++) {
-        const c = cand[(j + i) % cand.length];
+        const c = cand[(j + i + corrimiento) % cand.length];
         const id = c.profesional?.id ?? "";
         const holgura = (libres.get(id) ?? 0) - (entregados.get(id) ?? 0);
         if (holgura > mejorHolgura) {
@@ -3704,9 +3711,10 @@ function StepClineraNativo({
   // Ahora gana quien tenga MÁS bloques libres ese día: más libres = menos
   // agendado, así que el reparto se equilibra solo, sin llevar cuenta entre
   // visitas (cada visitante reserva una vez y no sabe nada de los demás).
+  const semillaReparto = (form.email || form.phone || "").trim().toLowerCase();
   const visibleSlots = useMemo(
-    () => repartirSlots(slots.filter((s) => esBloqueHabil(s.horaInicio))),
-    [slots],
+    () => repartirSlots(slots.filter((s) => esBloqueHabil(s.horaInicio)), semillaReparto),
+    [slots, semillaReparto],
   );
 
   // Zona del visitante: gana la IP. El snapshot de servidor es la IP (o "")
