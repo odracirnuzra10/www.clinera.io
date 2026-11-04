@@ -109,7 +109,8 @@ test.describe("ficha clínica: demo a mitad de artículo y en /ley20584", () => 
 
   test("/ley20584 tiene CTA a /agenda y FAQPage", () => {
     const t = leer("src/app/ley20584/page.tsx");
-    expect(t).toContain("/agenda?lead_source=ley20584");
+    // Ricardo, 4-nov-2026: el par de CTA; «Hablar con ventas» conserva lead_source=ley20584.
+    expect(t).toContain('extra={{ lead_source: "ley20584" }}');
     expect(t).toContain("faqSchema(FAQS)");
     const resp = /RESPUESTA_DIRECTA =\s+"([^"]+)"/.exec(t)?.[1] ?? "";
     const n = resp.split(/\s+/).length;

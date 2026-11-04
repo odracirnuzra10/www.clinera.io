@@ -17,7 +17,7 @@ type NavV3Props = {
 };
 
 // Ricardo, 4-nov-2026: el menú lleva los dos CTA del sitio, «Contratar Hex · US$ 35/mes» (Payment
-// Link de Stripe, degradado) y «Hablar con ventas» (/agenda, secundario). Se fue «Ver demo 3 min».
+// Link de Stripe, degradado) y «Hablar con ventas» (/agenda, secundario). Se fue el atajo a la demo.
 // Las props viejas (ctaHref, ctaLabel, salesLink) se aceptan y se ignoran: todas las páginas llevan el
 // mismo par.
 export default function NavV3(_props: NavV3Props) {
