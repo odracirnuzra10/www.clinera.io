@@ -451,7 +451,7 @@ const nextConfig: NextConfig = {
       },
       // /contrata dejó de redirigir el 4-nov-2026: ahora es la landing L2 «Software».
       {
-        source: '/contrata/:path*',
+        source: '/contrata/:path+',
         destination: '/planes',
         permanent: true,
       },

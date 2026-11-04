@@ -1360,3 +1360,17 @@ aprobar, `/planes` pasa a ser esta página (y `/planes2` vuelve a redirigir). Fu
   Reemplaza el «~933 conversaciones» que salía de dividir los créditos, también en los artículos del blog de créditos y modo Agentic.
 - Insignia en el borde de la tarjeta («Prueba gratis» o «20% OFF») y logos de canales junto al nombre.
 - Guardián: `tests/planes2.spec.ts`.
+
+# `/contrata`: landing L2 «Software» con Hex y Flux (Ricardo, 4-nov-2026)
+
+`/contrata` era una redirección 308 a `/planes`; ahora es la landing L2 (la L1, el Ecosistema, es `/agenda`).
+Boletas de Hex (US$ 35, WhatsApp con 50 conversaciones) y Flux (US$ 55, WhatsApp con 200), con la identidad
+de `/agenda`. **Desde el 4-nov todos los planes traen WhatsApp**: Hex ya no va «sin WhatsApp» en
+`planes-nuevos.ts`, la fuente común de `/planes2` y `/contrata` (`/planes` no la usa y no cambió).
+- **Alta:** Hex y Flux no tienen link de pago; el botón es «Prueba gratis» → `app.clinera.io?plan=…` con la
+  query de la visita, igual que `/planes2`.
+- `noindex`, en `robots-txt.ts`, fuera del sitemap, sin el flotante «Ver demo» ni el CTA móvil.
+- **Trampa:** la regla de subrutas tiene que ser `/contrata/:path+`. Con `:path*` también calza `/contrata` a
+  secas y la página nunca se ve. Además, los navegadores que ya visitaron `/contrata` pueden tener guardado el
+  308 viejo a `/planes`.
+- Guardianes: `tests/contrata.spec.ts` y `tests/planes2.spec.ts`. Capturas: `docs/contrata-capturas/`.
