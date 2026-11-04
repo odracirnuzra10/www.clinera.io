@@ -1,5 +1,7 @@
 "use client";
 
+import CtaPar from "@/components/cta/CtaPar";
+
 import Link from "next/link";
 
 export default function CorporativoBanner() {
@@ -127,25 +129,7 @@ export default function CorporativoBanner() {
               A medida
             </span>
           </div>
-          <Link
-            href="/agenda"
-            data-plan="ventas"
-            data-plan-value="529"
-            data-plan-name="Hablar con ventas from empleado-digital"
-            style={{
-              background: "#fff",
-              color: "#0E1014",
-              padding: "13px 26px",
-              borderRadius: 999,
-              fontFamily: "Inter",
-              fontWeight: 600,
-              fontSize: 14.5,
-              textDecoration: "none",
-              whiteSpace: "nowrap",
-            }}
-          >
-            Agendar reunión →
-          </Link>
+          <CtaPar oscuro />
         </div>
       </div>
 

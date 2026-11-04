@@ -1,5 +1,7 @@
 "use client";
 
+import CtaPar from "@/components/cta/CtaPar";
+
 import Link from "next/link";
 import { ReactNode, useEffect } from "react";
 import {
@@ -385,12 +387,8 @@ function Hero() {
             justifyContent: "center",
           }}
         >
-          <CtaPrimary as={Link} href="/funciones" style={{ padding: "13px 22px", fontSize: 15 }}>
-            Ver software Clinera <span>→</span>
-          </CtaPrimary>
-          <CtaSecondary as={Link} href="/agenda" style={{ padding: "13px 22px", fontSize: 15 }}>
-            Agendar reunión
-          </CtaSecondary>
+          {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+          <CtaPar centrado />
         </div>
       </div>
       <style jsx>{`
@@ -1077,104 +1075,7 @@ function FinalCTA(): ReactNode {
             Clinera AURA cumple Ley 20.584, integra agenda + WhatsApp + IA y migra tus fichas
             actuales sin parar de atender. Diagnóstico de 30 min, sin compromiso.
           </p>
-          <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap", justifyContent: "center" }}>
-            <Link
-              href="/agenda"
-              style={{
-                background: GRAD,
-                color: "#fff",
-                border: 0,
-                padding: "14px 24px",
-                borderRadius: 10,
-                fontWeight: 600,
-                fontSize: 15.5,
-                fontFamily: "Inter",
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                boxShadow: "0 12px 32px -8px rgba(217,70,239,.5)",
-              }}
-            >
-              Agendar reunión <span>→</span>
-            </Link>
-            <Link
-              href="/funciones"
-              style={{
-                background: "rgba(255,255,255,.08)",
-                color: "#fff",
-                border: "1px solid rgba(255,255,255,.18)",
-                padding: "14px 24px",
-                borderRadius: 10,
-                fontWeight: 600,
-                fontSize: 15.5,
-                fontFamily: "Inter",
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              Ver funciones
-            </Link>
-            <Link
-              href="/software-medico"
-              style={{
-                background: "rgba(255,255,255,.08)",
-                color: "#fff",
-                border: "1px solid rgba(255,255,255,.18)",
-                padding: "14px 24px",
-                borderRadius: 10,
-                fontWeight: 600,
-                fontSize: 15.5,
-                fontFamily: "Inter",
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              Software médico
-            </Link>
-            <Link
-              href="/plataforma"
-              style={{
-                background: "rgba(255,255,255,.08)",
-                color: "#fff",
-                border: "1px solid rgba(255,255,255,.18)",
-                padding: "14px 24px",
-                borderRadius: 10,
-                fontWeight: 600,
-                fontSize: 15.5,
-                fontFamily: "Inter",
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              Plataforma
-            </Link>
-            <Link
-              href="/mejor-software-clinicas"
-              style={{
-                background: "rgba(255,255,255,.08)",
-                color: "#fff",
-                border: "1px solid rgba(255,255,255,.18)",
-                padding: "14px 24px",
-                borderRadius: 10,
-                fontWeight: 600,
-                fontSize: 15.5,
-                fontFamily: "Inter",
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              Mejor software para clínicas
-            </Link>
-          </div>
+          <CtaPar centrado oscuro style={{ marginTop: 8 }} />
         </div>
       </div>
       <style jsx>{`

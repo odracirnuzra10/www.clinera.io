@@ -1,3 +1,4 @@
+import CtaPar, { CtaHex, CtaVentas } from "@/components/cta/CtaPar";
 import Image from "next/image";
 import Link from "next/link";
 import NavV3 from "@/components/brand-v3/Nav";
@@ -86,13 +87,9 @@ function Hero() {
             Migramos tus datos, configuramos la operación y capacitamos a tu equipo.
           </p>
           <div className={styles.heroActions}>
-            <CtaLink href="/agenda" id="hero-demo" location="hero" className={styles.primaryCta}>
-              Agendar reunión
-              <Arrow />
-            </CtaLink>
-            <CtaLink href="#precios" id="hero-planes" location="hero" className={styles.secondaryCta}>
-              Ver planes y precios
-            </CtaLink>
+            {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+            <CtaHex className={styles.primaryCta} />
+            <CtaVentas className={styles.secondaryCta} />
           </div>
           <div className={styles.proofLine} aria-label="Cifras de Clinera">
             <span><strong>+1.500</strong> clínicas trabajadas</span>
@@ -266,9 +263,7 @@ function FinalCta() {
         <span className={styles.finalEyebrow}>IA enterprise para clínicas medianas</span>
         <h2>Te mostramos tu clínica dentro de Clinera.</h2>
         <p>En 30 minutos, con tus sedes, tu equipo y tus procesos reales.</p>
-        <CtaLink href="/agenda" id="final-demo" location="cierre" className={styles.finalButton}>
-          Agendar reunión <Arrow />
-        </CtaLink>
+        <CtaPar centrado oscuro />
         <div className={styles.finalMeta}>
           <span>Vortex USD 279/mes · Ecosistema USD 529/mes</span>
           <i />
@@ -284,7 +279,7 @@ function FinalCta() {
 export default function PlataformaLanding() {
   return (
     <>
-      <NavV3 ctaHref="/agenda" />
+      <NavV3 />
       <div className={styles.page}>
         <Hero />
         <DemoEnVivo />

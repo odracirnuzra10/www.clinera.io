@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './Header.module.css';
+import { CtaHex, CtaVentas } from '@/components/cta/CtaPar';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -34,12 +35,6 @@ export default function Header() {
             >
               Iniciar sesión
             </a>
-            <Link
-              href="/demo"
-              className={`${styles.microLink} ${styles.fontMedium}`}
-            >
-              Ver demo
-            </Link>
           </div>
         </div>
       </div>
@@ -65,9 +60,9 @@ export default function Header() {
           </nav>
 
           <div className={styles.headerActions}>
-            <Link href="/agenda" className={styles.btnPrimary}>
-              Agendar reunión
-            </Link>
+            {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+            <CtaVentas tam="sm" />
+            <CtaHex tam="sm" />
           </div>
 
           {/* Mobile hamburger toggle */}
@@ -137,15 +132,11 @@ export default function Header() {
           >
             Iniciar sesión
           </a>
-          <Link href="/demo" className={styles.microLinkMobile} onClick={closeMobileMenu}>
-            Ver demo
-          </Link>
         </div>
 
         <div className={styles.headerActionsMobile}>
-          <Link href="/agenda" className={styles.btnPrimary} onClick={closeMobileMenu}>
-            Agendar reunión
-          </Link>
+          <CtaHex style={{ width: "100%" }} />
+          <CtaVentas style={{ width: "100%" }} />
         </div>
       </div>
     </div>

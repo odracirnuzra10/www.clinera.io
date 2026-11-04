@@ -1,3 +1,4 @@
+import CtaPar from "@/components/cta/CtaPar";
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import {
@@ -81,28 +82,13 @@ export default function SeguridadLanding() {
               servicio.
             </p>
 
-            <div className={styles.ctaRow}>
-              <a className={styles.ctaPrimary} href={MAILTO_DPA}>
+            {/* Ricardo, 4-nov-2026: los dos CTA del sitio. El anexo DPA queda como link de texto. */}
+            <CtaPar />
+            <p style={{ marginTop: 14, fontSize: 14 }}>
+              <a href={MAILTO_DPA} style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: 3 }}>
                 Solicitar el anexo DPA
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M3 8h10" />
-                  <path d="M9 4l4 4-4 4" />
-                </svg>
               </a>
-              <Link className={styles.ctaSecondary} href="/agenda">
-                Hablar con el equipo
-              </Link>
-            </div>
+            </p>
           </div>
 
           <Countdown />

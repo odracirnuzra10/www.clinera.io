@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useScrollPastPercent } from "@/components/cro/useScrollPastPercent";
 import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH } from "@/content/planes";
+import { CtaHex } from "@/components/cta/CtaPar";
 
 function subscribeLocation() {
   return () => {};
@@ -67,7 +68,7 @@ export default function StickyMobileCTA() {
     if (typeof window === "undefined") return;
     type DL = { push: (e: Record<string, unknown>) => void };
     const dl = (window as unknown as { dataLayer?: DL }).dataLayer;
-    if (dl) dl.push({ event: "sticky_cta_click", cta: "agendar_videollamada", page_path: pathname });
+    if (dl) dl.push({ event: "sticky_cta_click", cta: "hablar_con_ventas", page_path: pathname });
   };
 
   const dismiss = () => {
@@ -77,12 +78,12 @@ export default function StickyMobileCTA() {
 
   return (
     <>
-      <div className="sticky-agenda-cta" role="region" aria-label="Agendar reunión con Clinera">
-        <Link href={agendaHref} onClick={trackClick} className="sticky-agenda-primary">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="16" rx="2" />
-            <path d="M16 3v4M8 3v4M3 10h18" />
-          </svg>
+      {/* Ricardo, 4-nov-2026: los dos CTA del sitio. «Contratar Hex» es el Payment Link pelado
+          (el client_reference_id lo pone el listener de captura de Analytics.tsx, porque esta barra
+          aparece tarde); «Hablar con ventas» va a /agenda con la query de la visita. */}
+      <div className="sticky-agenda-cta" role="region" aria-label="Contratar Clinera">
+        <CtaHex tam="sm" corto className="sticky-agenda-primary" style={{ flex: "1 1 0", minWidth: 0 }} />
+        <Link href={agendaHref} onClick={trackClick} className="sticky-agenda-ventas">
           {CTA_VENTAS_LABEL}
         </Link>
         <button type="button" onClick={dismiss} aria-label="Cerrar" className="sticky-agenda-dismiss">
@@ -128,6 +129,19 @@ export default function StickyMobileCTA() {
           box-shadow: 0 10px 26px -8px rgba(124, 58, 237, 0.55);
           transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
+        .sticky-agenda-ventas {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 44px;
+          text-decoration: none;
+          font-family: Inter, system-ui, sans-serif;
+          font-weight: 600;
+          font-size: 14px;
+          color: #fff;
+          border: 1.5px solid rgba(255, 255, 255, 0.55);
+          white-space: nowrap;
+        }
         .sticky-agenda-primary:active {
           transform: scale(0.97);
         }
@@ -166,7 +180,13 @@ export default function StickyMobileCTA() {
           .sticky-agenda-primary {
             flex: 1 1 0;
             min-width: 0;
-            padding: 14px 12px;
+            padding: 12px 10px !important;
+            border-radius: 12px !important;
+          }
+          .sticky-agenda-ventas {
+            flex: 1 1 0;
+            min-width: 0;
+            padding: 12px 10px;
             border-radius: 12px;
           }
         }
@@ -181,9 +201,13 @@ export default function StickyMobileCTA() {
             box-shadow: none;
           }
           .sticky-agenda-primary {
-            padding: 14px 20px;
+            padding: 14px 20px !important;
             border-radius: 999px;
             white-space: nowrap;
+          }
+          /* En escritorio el menú ya lleva «Hablar con ventas»: la barra queda con el principal. */
+          .sticky-agenda-ventas {
+            display: none;
           }
         }
         @media (prefers-reduced-motion: reduce) {

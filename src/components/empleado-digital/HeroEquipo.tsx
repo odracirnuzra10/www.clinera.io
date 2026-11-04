@@ -1,5 +1,7 @@
 "use client";
 
+import CtaPar from "@/components/cta/CtaPar";
+
 import Link from "next/link";
 import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH, IMPLEMENTACION_LINEA, PLANES } from "@/content/planes";
 import WhatsAppMockup from "./WhatsAppMockup";
@@ -21,18 +23,8 @@ export default function HeroEquipo() {
           </p>
 
           <div className={styles.heroCtaRow}>
-            <Link href={CTA_VENTAS_PATH} className={styles.heroCta}>
-              {CTA_VENTAS_LABEL}
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path
-                  d="M6 3l5 5-5 5"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
+            {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+            <CtaPar />
 
             <div className={styles.statBar} role="list">
               <span role="listitem">

@@ -34,7 +34,7 @@ export default function DemoEnVivo() {
                 display: "inline-block",
               }}
             />
-            Ver demo 3 min
+            Demo en video
           </div>
           <h2
             style={{

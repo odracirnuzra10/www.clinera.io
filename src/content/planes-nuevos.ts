@@ -28,6 +28,8 @@ export type PlanNuevo = {
   cta: "pago" | "prueba" | "ventas";
   /** Payment Link de Stripe cuando `cta` es «pago». */
   pagoUrl?: string;
+  /** Además del pago, ofrece la prueba gratis como link de texto secundario (Flux, 4-nov-2026). */
+  prueba?: boolean;
   destacado?: boolean;
   /** Logos de canales junto al nombre (Ricardo, 29-oct). Desde el 4-nov todos traen WhatsApp. */
   canales: readonly ("whatsapp" | "facebook" | "instagram")[];
@@ -38,6 +40,10 @@ export const PRUEBA_URL = "https://app.clinera.io";
 // Payment Link de Stripe. Enlace pelado: Analytics.tsx le pone client_reference_id al hacer clic.
 export const HEX_PAGO_URL = "https://buy.stripe.com/14AdRbdBnfD49wTgwz1441M";
 export const HEX_PAGO_LABEL = "Contratar Hex";
+// Flux también se contrata directo (Ricardo, 4-nov-2026), pero con botón secundario: Hex sigue siendo
+// el único CTA principal. Su prueba gratis queda como link de texto debajo.
+export const FLUX_PAGO_URL = "https://buy.stripe.com/14A28tgNz1MegZl9471441J";
+export const PRUEBA_TEXTO_LABEL = "o pruébalo gratis";
 export const RECOMENDADO_LABEL = "Recomendado";
 export const PRUEBA_LABEL = "Prueba gratis";
 export const VENTAS_LABEL = "Hablar con ventas";
@@ -68,7 +74,9 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
     sucursales: "Hasta 2 sucursales",
     incluye: ["Todo lo de Hex", "Clinera Intelligence con 200 créditos", "WhatsApp con 200 conversaciones"],
     noIncluye: ["Instagram y Facebook", "Agente IA", "Automatizaciones", "Difusiones"],
-    cta: "prueba",
+    cta: "pago",
+    pagoUrl: FLUX_PAGO_URL,
+    prueba: true,
     canales: ["whatsapp"],
   },
   {

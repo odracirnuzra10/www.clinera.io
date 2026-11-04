@@ -251,3 +251,18 @@
   color: #0a0a0a;
   border: 1px solid #d6cdbf;
 }
+
+/* Flux (4-nov-2026): la prueba gratis queda como link de texto bajo «Contratar Flux». */
+.pruebaTexto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin: 0 0 4px;
+  font-family: Outfit, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

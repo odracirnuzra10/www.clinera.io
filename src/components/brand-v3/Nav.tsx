@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, useSyncExternalStore } from "react";
-import { CtaPrimary, GRAD, Wordmark } from "./Brand";
-import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH } from "@/content/planes";
+import { useEffect, useState } from "react";
+import { GRAD, Wordmark } from "./Brand";
+import { CtaHex, CtaVentas } from "@/components/cta/CtaPar";
 
 type NavV3Props = {
   /** Destino del botón principal. Sin esto: `/agenda` («Agendar reunión», Ricardo 20-oct-2026). */
@@ -16,24 +16,12 @@ type NavV3Props = {
   salesLink?: boolean;
 };
 
-// Ricardo, 20-oct-2026: el CTA único es «Agendar reunión» → /agenda.
-// /go (Go! US$ 17) sigue existiendo, pero el sitio ya no lo promueve.
-const DEFAULT_CTA_HREF = CTA_VENTAS_PATH;
-const DEFAULT_CTA_LABEL = CTA_VENTAS_LABEL;
-const SALES_HREF = "/agenda";
-
-const noop = () => () => {};
-const readSearch = () => window.location.search;
-const readSearchServer = () => "";
-
-export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
-  // El enlace discreto a ventas va apagado salvo que una página lo pida.
-  const showSales = salesLink ?? false;
-  // Al ir a la landing se conserva la query de la visita (UTM, fbclid, gclid): la
-  // atribución del lead depende de ella.
-  const search = useSyncExternalStore(noop, readSearch, readSearchServer);
-  const primaryHref = ctaHref ?? `${DEFAULT_CTA_HREF}${search}`;
-  const primaryLabel = ctaLabel ?? DEFAULT_CTA_LABEL;
+// Ricardo, 4-nov-2026: el menú lleva los dos CTA del sitio, «Contratar Hex · US$ 35/mes» (Payment
+// Link de Stripe, degradado) y «Hablar con ventas» (/agenda, secundario). Se fue el atajo a la demo.
+// Las props viejas (ctaHref, ctaLabel, salesLink) se aceptan y se ignoran: todas las páginas llevan el
+// mismo par.
+export default function NavV3(_props: NavV3Props) {
+  void _props;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -84,29 +72,6 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
             <span>Atendiendo clínicas en Chile, México y toda LATAM</span>
           </div>
           <div style={{ display: "flex", gap: 22, alignItems: "center" }}>
-            <Link
-              href="/demo"
-              style={{
-                color: "#7C3AED",
-                textDecoration: "none",
-                fontWeight: 500,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-              }}
-            >
-              <span
-                style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: 999,
-                  background: "#10B981",
-                  display: "inline-block",
-                }}
-                className="live-dot"
-              />
-              Ver demo 3 min
-            </Link>
             <Link href="/ayuda" style={{ color: "#6B7280", textDecoration: "none" }}>
               Ayuda y soporte
             </Link>
@@ -122,6 +87,7 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
 
       {/* Main nav */}
       <div
+        className="nav-v3-main"
         style={{
           maxWidth: 1200,
           margin: "0 auto",
@@ -170,14 +136,13 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
         </nav>
 
         <div className="nav-v3-actions" style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          {showSales && <QuietCta href={SALES_HREF} label="Agendar reunión" />}
-          <CtaPrimary
-            as={Link}
-            href={primaryHref}
-            style={{ padding: "10px 16px", fontSize: 14 }}
-          >
-            {primaryLabel} <span style={{ marginLeft: 2 }}>→</span>
-          </CtaPrimary>
+          <CtaVentas tam="sm" />
+          <CtaHex tam="sm" />
+        </div>
+
+        {/* Celular: sólo el principal, corto, junto al menú; los dos van dentro del menú. */}
+        <div className="nav-v3-hex-movil">
+          <CtaHex tam="sm" corto style={{ padding: "8px 14px", minHeight: 40, fontSize: 13.5 }} />
         </div>
 
         <button
@@ -210,7 +175,6 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
             <Link href="/funciones" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Software</Link>
             <Link href="/ecosistema" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link" style={{ color: "#7C3AED" }}>PMFC</Link>
             <Link href="/planes" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Planes</Link>
-            <Link href="/demo" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link" style={{ color: "#7C3AED" }}>Ver demo 3 min</Link>
             <Link href="/ayuda" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub">Ayuda y soporte</Link>
             <a
               href="https://app.clinera.io/"
@@ -221,22 +185,16 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
             </a>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 18 }}>
-            <CtaPrimary
-              as={Link}
-              href={primaryHref}
-              onClick={() => setMobileOpen(false)}
-              style={{ width: "100%", justifyContent: "center", padding: "14px 20px" }}
-            >
-              {primaryLabel} <span>→</span>
-            </CtaPrimary>
-            {showSales && (
-              <QuietCta href={SALES_HREF} label="Agendar reunión" block onNavigate={() => setMobileOpen(false)} />
-            )}
+            <CtaHex style={{ width: "100%" }} />
+            <CtaVentas style={{ width: "100%" }} />
           </div>
         </div>
       )}
 
       <style jsx>{`
+        .nav-v3-hex-movil {
+          display: none;
+        }
         .nav-v3-burger {
           display: none;
           background: none;
@@ -272,55 +230,14 @@ export default function NavV3({ ctaHref, ctaLabel, salesLink }: NavV3Props) {
           :global(.nav-v3-links) { display: none !important; }
           :global(.nav-v3-actions) { display: none !important; }
           .nav-v3-burger { display: inline-flex; }
+          .nav-v3-hex-movil { display: inline-flex; margin-left: auto; margin-right: 6px; }
+          /* Con «Contratar Hex» en la barra, los 80 px de margen no dejaban espacio para el menú. */
+          .nav-v3-main { padding-left: 16px !important; padding-right: 12px !important; }
         }
         @media (max-width: 720px) {
           :global(header > div > div) { padding-left: 28px !important; padding-right: 28px !important; }
         }
       `}</style>
     </header>
-  );
-}
-
-/**
- * Enlace discreto del header. Conserva la query de la visita (UTM, click ids):
- * la atribución del lead que llegue a /agenda depende de ella.
- */
-function QuietCta({
-  href,
-  label,
-  block,
-  onNavigate,
-}: {
-  href: string;
-  label: string;
-  block?: boolean;
-  onNavigate?: () => void;
-}) {
-  return (
-    <a
-      href={href}
-      onClick={(ev) => {
-        ev.preventDefault();
-        onNavigate?.();
-        const [path, own = ""] = href.split("?");
-        const q = new URLSearchParams(window.location.search);
-        new URLSearchParams(own).forEach((v, k) => q.set(k, v));
-        const qs = q.toString();
-        window.location.href = qs ? `${path}?${qs}` : path;
-      }}
-      style={{
-        display: block ? "block" : "inline-block",
-        textAlign: block ? "center" : undefined,
-        padding: block ? "12px 16px" : "8px 12px",
-        fontFamily: "Inter",
-        fontSize: 14,
-        fontWeight: 500,
-        color: "#6B7280",
-        textDecoration: "none",
-        borderRadius: 8,
-      }}
-    >
-      {label}
-    </a>
   );
 }

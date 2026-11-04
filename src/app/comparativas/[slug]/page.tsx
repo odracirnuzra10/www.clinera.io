@@ -1,3 +1,4 @@
+import { CtaHex, CtaVentas } from "@/components/cta/CtaPar";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -1324,12 +1325,9 @@ export default async function ComparativaPage({
               </h1>
               <p className="hero-v2__sub">{data.intro}</p>
               <div className="hero-v2__actions">
-                <Link href="/agenda" className="hero-v2__primary">
-                  Agendar reunión
-                </Link>
-                <a href="#tabla" className="hero-v2__secondary">
-                  Ver tabla comparativa ↓
-                </a>
+                {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+                <CtaHex className="hero-v2__primary" />
+                <CtaVentas className="hero-v2__secondary" />
               </div>
             </div>
           </div>
@@ -1951,12 +1949,8 @@ export default async function ComparativaPage({
                 Onboarding asistido. Operando el mismo día. Simple.
               </p>
               <div className="cta-final-dark__actions">
-                <Link href="/agenda" className="cta-final-dark__primary">
-                  Agendar reunión
-                </Link>
-                <Link href="/demo" className="cta-final-dark__secondary">
-                  Ver demo del software
-                </Link>
+                <CtaHex className="cta-final-dark__primary" />
+                <CtaVentas className="cta-final-dark__secondary" oscuro />
               </div>
             </div>
           </div>

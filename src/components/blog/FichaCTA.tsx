@@ -1,4 +1,4 @@
-import Link from "next/link";
+import CtaPar from "@/components/cta/CtaPar";
 
 /**
  * CTA a mitad de los artículos de ficha clínica. El PostCTA del cierre sigue
@@ -38,21 +38,8 @@ export default function FichaCTA() {
         Cifrada, con registro de quién accede y conectada a la agenda y a AURA
         en WhatsApp. Te la mostramos con los datos de tu clínica.
       </p>
-      <Link
-        href="/agenda?lead_source=blog_ficha_clinica"
-        style={{
-          display: "inline-block",
-          padding: "11px 20px",
-          borderRadius: 10,
-          background: "#0A0A0A",
-          color: "#fff",
-          fontWeight: 600,
-          fontSize: 15,
-          textDecoration: "none",
-        }}
-      >
-        Agenda una demo
-      </Link>
+      {/* Ricardo, 4-nov-2026: los dos CTA del sitio; ventas conserva lead_source. */}
+      <CtaPar tam="sm" extra={{ lead_source: "blog_ficha_clinica" }} />
     </aside>
   );
 }

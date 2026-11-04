@@ -36,8 +36,18 @@ test.describe("/contrata", () => {
     await expect(pago).toHaveAttribute("href", /^https:\/\/buy\.stripe\.com\/14AdRbdBnfD49wTgwz1441M\?utm_source=test$/);
     await expect(pago).toHaveAttribute("data-plan", "hex");
     await expect(pago).toHaveAttribute("data-plan-value", "35");
-    const prueba = flux.locator("a[data-cta]");
-    await expect(prueba).toHaveAttribute("data-cta", "prueba");
+    // Flux (4-nov-2026): botón secundario a su Payment Link; la prueba gratis, link de texto.
+    const fluxPago = flux.locator("a[data-cta]");
+    await expect(fluxPago).toHaveAttribute("data-cta", "pago");
+    await expect(fluxPago).toHaveAttribute("href", /^https:\/\/buy\.stripe\.com\/14A28tgNz1MegZl9471441J\?utm_source=test$/);
+    await expect(fluxPago).toHaveAttribute("data-plan", "flux");
+    await expect(fluxPago).toHaveAttribute("data-plan-value", "55");
+    await expect(fluxPago).toContainText("Contratar Flux");
+    await expect(flux.locator("[data-insignia]")).toHaveCount(0);
+    const fondos = await page.locator("[data-contrata-plan] a[data-cta]").evaluateAll((els) => els.map((e) => getComputedStyle(e).backgroundImage));
+    expect(fondos[0]).toContain("gradient");
+    expect(fondos[1]).toBe("none");
+    const prueba = flux.locator("a[data-cta-prueba]");
     await expect(prueba).toHaveAttribute("href", /^https:\/\/app\.clinera\.io\?.*plan=flux/);
     await expect(prueba).toHaveAttribute("href", /utm_source=test/);
     await expect(prueba).toHaveAttribute("href", /gclid=abc/);

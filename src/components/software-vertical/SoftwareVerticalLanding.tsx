@@ -1,13 +1,12 @@
 "use client";
 
+import CtaPar from "@/components/cta/CtaPar";
+
 import { useSyncExternalStore } from "react";
 import AgenteIABanda from "@/components/agente-ia/AgenteIABanda";
 import Image from "next/image";
-import Link from "next/link";
 import NavV3 from "@/components/brand-v3/Nav";
 import {
-  CtaPrimary,
-  CtaSecondary,
   Eyebrow,
   GRAD,
 } from "@/components/brand-v3/Brand";
@@ -104,7 +103,7 @@ export default function SoftwareVerticalLanding({
         }
       `}</style>
 
-      <NavV3 ctaHref={agendaHref} ctaLabel="Agendar reunión" />
+      <NavV3 />
 
       <main>
         <Hero content={content} agendaHref={agendaHref} />
@@ -126,7 +125,7 @@ export default function SoftwareVerticalLanding({
         />
         <IntelligencePlataformaSection
           ctaHref={agendaHref}
-          ctaLabel="Agendar reunión"
+          ctaLabel="Hablar con ventas"
         />
         <CrmBand content={content} />
         <Testimonios />
@@ -212,14 +211,8 @@ function Hero({
           >
             {content.sub}
           </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 30 }}>
-            <CtaPrimary as={Link} href={agendaHref} style={{ padding: "15px 26px", fontSize: 16 }}>
-              Agendar reunión <span>→</span>
-            </CtaPrimary>
-            <CtaSecondary as={Link} href="#precios" style={{ padding: "15px 26px", fontSize: 16 }}>
-              Ver planes y precios
-            </CtaSecondary>
-          </div>
+          {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+          <CtaPar style={{ marginTop: 30 }} />
         </div>
         <div className="reveal" style={{ minWidth: 0 }}>
           <HeroCarousel only={content.heroViews} />
@@ -555,9 +548,7 @@ function FinalCta({
           >
             {content.finalH2}
           </h2>
-          <CtaPrimary as={Link} href={agendaHref} style={{ padding: "15px 26px", fontSize: 16 }}>
-            Agendar reunión <span>→</span>
-          </CtaPrimary>
+          <CtaPar centrado oscuro />
           <div
             style={{
               marginTop: 22,

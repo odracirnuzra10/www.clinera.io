@@ -1,5 +1,7 @@
 "use client";
 
+import CtaPar from "@/components/cta/CtaPar";
+
 import Link from "next/link";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
 import { useReveal } from "@/components/home-v3/sections";
@@ -488,45 +490,8 @@ function ArticleFinalCta() {
             Te mostramos Clinera corriendo sobre un clon de tu clínica — con tus servicios, tus horarios y el
             modo de timing que más convierte. 30 minutos, sin compromiso.
           </p>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <Link
-              href="/agenda"
-              style={{
-                background: GRAD,
-                color: "#fff",
-                padding: "14px 24px",
-                borderRadius: 10,
-                fontFamily: "Inter",
-                fontWeight: 600,
-                fontSize: 15,
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              Agenda una demo <span>→</span>
-            </Link>
-            <Link
-              href="/blog/efectividad"
-              style={{
-                background: "rgba(255,255,255,.08)",
-                color: "#fff",
-                border: "1px solid rgba(255,255,255,.18)",
-                padding: "14px 24px",
-                borderRadius: 10,
-                fontFamily: "Inter",
-                fontWeight: 600,
-                fontSize: 15,
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              Ver estudio de efectividad
-            </Link>
-          </div>
+          {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+          <CtaPar oscuro />
         </div>
       </div>
     </section>

@@ -16,9 +16,13 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     expect(PLANES[1].features).toEqual(expect.arrayContaining(MARKETING_BLOQUES.map((b) => b.titulo)));
   });
 
-  test("el home no lleva links de pago (solo /planes)", async ({ page }) => {
+  // Ricardo, 4-nov-2026 (reemplaza la regla del 20-oct «el home no lleva compra»): el único link de
+  // pago del home es «Contratar Hex», pelado y con data-plan* para Analytics.tsx.
+  test("el home sólo lleva el link de pago de Hex", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
+    const pagos = page.locator('main a[href*="buy.stripe.com"]');
+    expect(await pagos.count()).toBeGreaterThan(0);
+    for (const plan of await pagos.evaluateAll((els) => els.map((e) => e.getAttribute("data-plan")))) expect(plan).toBe("hex");
   });
 
   // Ricardo, 4-nov-2026: /planes publica el modelo de /planes2 (Hex · Flux · Vortex · Ecosistema,
@@ -40,8 +44,9 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     // Analytics.tsx lee data-plan* (InitiateCheckout + client_reference_id). Durante la promo del
     // Ecosistema su link (que cobra 529) no se muestra, igual que antes.
     const conLink = PLANES.filter((p) => p.pagoUrl);
-    // + los dos de Hex (encabezado «Parte con Hex» y su tarjeta), desde el 4-nov-2026.
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length + 2);
+    // + los de Hex (encabezado «Parte con Hex», su tarjeta y el cierre con el par de CTA) y el de Flux,
+    // desde el 4-nov-2026.
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length + 4);
     await expect(page.locator("h1")).toContainText("Parte con Hex");
     await expect(page.locator("a[data-cta-encabezado]")).toHaveAttribute("href", /buy\.stripe\.com\/14AdRbdBnfD49wTgwz1441M\?utm_source=google/);
     await expect(page.locator("main")).not.toContainText(/Parte gratis|prueba parte con Flux/);

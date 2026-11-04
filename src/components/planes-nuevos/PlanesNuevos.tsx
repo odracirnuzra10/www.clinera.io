@@ -11,6 +11,7 @@ import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 import { CHANNEL_LABEL, ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import { track, trackPixel } from "@/lib/tracking";
 import AhorroEcosistema from "@/components/pricing/AhorroEcosistema";
+import CtaPar from "@/components/cta/CtaPar";
 import PmfcSection from "@/components/pmfc/PmfcSection";
 import { PLANES, PLANES_BAJADA } from "@/content/planes";
 // Hoja normal, no styled-jsx: la grilla tiene que venir en el HTML del servidor; con
@@ -33,6 +34,7 @@ import {
   PRUEBA_URL,
   VENTAS_LABEL,
   HEX_PAGO_LABEL,
+  PRUEBA_TEXTO_LABEL,
   RECOMENDADO_LABEL,
   conPlan,
   conUtm,
@@ -181,9 +183,11 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
       : plan.cta === "prueba"
         ? conPlan(PRUEBA_URL, plan.id, search)
         : conPlan("/agenda", plan.id, search);
-  const recomendado = plan.cta === "pago";
+  // Sólo Hex es recomendado y lleva el degradado; Flux también va a Stripe pero en secundario.
+  const recomendado = plan.cta === "pago" && !!plan.destacado;
+  const principal = recomendado;
   const onClick = () => {
-    if (plan.cta === "prueba") {
+    if (plan.cta === "prueba" || plan.prueba) {
       track("start_trial_click", { plan: plan.id });
       trackPixel("StartTrial", { content_name: plan.name, value: 0, currency: "USD" });
     } else {
@@ -226,7 +230,7 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
             ))}
           </span>
         )}
-        {(plan.cta === "prueba" || conOferta || recomendado) && (
+        {(plan.cta === "prueba" || plan.prueba || conOferta || recomendado) && (
           <span
             data-insignia
             style={{
@@ -295,13 +299,24 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
           minHeight: 44,
           boxSizing: "border-box",
           // Hex es el único CTA principal (Ricardo, 4-nov-2026): Flux, Vortex y Ecosistema, secundarios.
-          ...(plan.cta === "pago"
+          ...(principal
             ? { background: GRAD, color: "#fff" }
             : { background: "#fff", color: "#0A0A0A", border: "1px solid #E5E7EB" }),
         }}
       >
-        {plan.cta === "pago" ? HEX_PAGO_LABEL : plan.cta === "prueba" ? PRUEBA_LABEL : VENTAS_LABEL}
+        {plan.cta === "pago" ? `Contratar ${plan.name}` : plan.cta === "prueba" ? PRUEBA_LABEL : VENTAS_LABEL}
       </a>
+      {plan.prueba && (
+        <a
+          href={conPlan(PRUEBA_URL, plan.id, search)}
+          onClick={onClick}
+          data-cta-prueba
+          suppressHydrationWarning
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 44, fontFamily: "Inter", fontSize: 14, fontWeight: 600, color: "#4B5563", textDecoration: "underline", textUnderlineOffset: 3 }}
+        >
+          {PRUEBA_TEXTO_LABEL}
+        </a>
+      )}
       {pago?.pagoUrl ? (
         // Enlace pelado: el clic lo cuenta Analytics.tsx (InitiateCheckout + client_reference_id).
         <a
@@ -381,25 +396,19 @@ function Faq({ items }: { items: readonly { q: string; a: string }[] }) {
 }
 
 function AgendaDemo({ search }: { search: string }) {
-  const q = new URLSearchParams(search).toString();
+  void search;
   return (
     <section className="p2-section" id="demo" style={{ background: "#fff" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", borderRadius: 20, padding: "48px 32px", background: "#0E1014", color: "#fff", textAlign: "center" }}>
-        <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.09em", color: "#C4B5FD" }}>AGENDA TU DEMO</div>
+        <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.09em", color: "#C4B5FD" }}>HABLEMOS DE TU CLÍNICA</div>
         <h2 style={{ fontFamily: "Inter", fontSize: 36, fontWeight: 800, letterSpacing: "-0.03em", margin: "12px 0 10px" }}>
           ¿Vortex o Ecosistema? Hablemos de tu clínica.
         </h2>
         <p style={{ fontFamily: "Inter", fontSize: 16, color: "#D1D5DB", margin: "0 auto 24px", maxWidth: 560 }}>
           Te mostramos el agente IA y el marketing funcionando, y te decimos qué plan te conviene.
         </p>
-        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href={q ? `/agenda?${q}` : "/agenda"} suppressHydrationWarning style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.45)", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>
-            {VENTAS_LABEL}
-          </a>
-          <a href={conPlan(PRUEBA_URL, "flux", search)} suppressHydrationWarning style={{ background: "#fff", color: "#0A0A0A", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>
-            {PRUEBA_LABEL}
-          </a>
-        </div>
+        {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+        <CtaPar oscuro centrado />
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
+import CtaPar from "@/components/cta/CtaPar";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -163,9 +163,8 @@ export function CasoEstudioPage({ caso }: { caso: CasoEstudio }) {
         </article>
         <div className={s.cta}>
           <div className={s.wrap}>
-            <Link href="/agenda" className={s.ctaLink}>
-              Agendar una reunión con Clinera <span aria-hidden>→</span>
-            </Link>
+            {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+            <CtaPar />
           </div>
         </div>
         <PageUpdated path={caso.path} />

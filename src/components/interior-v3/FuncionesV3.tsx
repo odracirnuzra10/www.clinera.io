@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import CtaPar from "@/components/cta/CtaPar";
 import { ReactNode, useEffect } from "react";
 import {
-  CtaPrimary,
   Eyebrow,
   GRAD,
   Mono,
@@ -191,9 +190,8 @@ function Hero() {
             justifyContent: "center",
           }}
         >
-          <CtaPrimary as={Link} href="/agenda" style={{ padding: "15px 26px", fontSize: 16 }}>
-            Agendar reunión <span>→</span>
-          </CtaPrimary>
+          {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+          <CtaPar centrado />
         </div>
       </div>
       <style jsx>{`
@@ -1292,48 +1290,7 @@ function FinalCTA() {
             precios. Y si quieres que además te traigamos pacientes, te contamos del Ecosistema.
           </p>
           <div style={{ display: "flex", gap: 12, marginTop: 12, flexWrap: "wrap", justifyContent: "center" }}>
-            <Link
-              href="/agenda"
-              style={{
-                background: GRAD,
-                color: "#fff",
-                border: 0,
-                padding: "15px 26px",
-                borderRadius: 10,
-                fontWeight: 600,
-                fontSize: 16,
-                fontFamily: "Inter",
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                boxShadow: "0 12px 32px -8px rgba(217,70,239,.5)",
-              }}
-            >
-              Agendar reunión <span>→</span>
-            </Link>
-            <Link
-              href="/demo"
-              style={{
-                background: "rgba(255,255,255,.08)",
-                color: "#fff",
-                border: "1px solid rgba(255,255,255,.18)",
-                padding: "15px 26px",
-                borderRadius: 10,
-                fontWeight: 600,
-                fontSize: 16,
-                fontFamily: "Inter",
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="5 3 19 12 5 21 5 3" />
-              </svg>
-              Ver demo
-            </Link>
+            <CtaPar centrado oscuro />
           </div>
         </div>
       </div>
