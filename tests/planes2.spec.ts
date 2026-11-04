@@ -36,6 +36,10 @@ test.describe("/planes2", () => {
     await expect(page.locator('[data-plan-card="flux"] [data-precio]')).toContainText("US$ 55");
     await expect(page.locator('[data-plan-card="hex"] [data-oferta]')).toHaveCount(0);
     await expect(page.locator('[data-plan-card="flux"] [data-no-incluye]')).toContainText(["Instagram y Facebook"]);
+    await expect(page.locator('[data-plan-card="hex"]')).toContainText("WhatsApp con 50 conversaciones");
+    await expect(page.locator('[data-plan-card="flux"]')).toContainText("WhatsApp con 200 conversaciones");
+    await expect(page.locator('[data-plan-card="hex"] [data-no-incluye]', { hasText: /^WhatsApp$/ })).toHaveCount(0);
+    await expect(page.locator("main")).not.toContainText(/no trae WhatsApp/i);
     await expect(page.locator("[data-extras]")).toContainText("US$ 198");
     // Ni precios viejos ni implementación ni permanencia.
     const texto = await page.locator("main").innerText();
@@ -50,7 +54,8 @@ test.describe("/planes2", () => {
     await expect(page.locator('[data-plan-card="vortex"] [data-oferta]')).toHaveText("20% de descuento por 6 meses. Oferta de noviembre.");
     for (const id of ["vortex", "ecosistema"]) await expect(page.locator(`[data-plan-card="${id}"] [data-insignia]`)).toHaveText("20% OFF");
     for (const id of ["hex", "flux"]) await expect(page.locator(`[data-plan-card="${id}"] [data-insignia]`)).toHaveText("Prueba gratis");
-    await expect(page.locator('[data-plan-card="hex"] [data-canales]')).toHaveCount(0);
+    // Desde el 4-nov-2026 todos los planes traen WhatsApp.
+    await expect(page.locator('[data-plan-card="hex"] [data-canales]')).toHaveText("WhatsApp");
     await expect(page.locator('[data-plan-card="flux"] [data-canales]')).toHaveText("WhatsApp");
     await expect(page.locator('[data-plan-card="vortex"] [data-canales]')).toHaveText("WhatsAppFacebookInstagram");
   });
