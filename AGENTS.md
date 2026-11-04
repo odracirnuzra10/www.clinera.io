@@ -1360,3 +1360,12 @@ aprobar, `/planes` pasa a ser esta página (y `/planes2` vuelve a redirigir). Fu
   Reemplaza el «~933 conversaciones» que salía de dividir los créditos, también en los artículos del blog de créditos y modo Agentic.
 - Insignia en el borde de la tarjeta («Prueba gratis» o «20% OFF») y logos de canales junto al nombre.
 - Guardián: `tests/planes2.spec.ts`.
+
+# `/agenda` paso 1 en el celular: «Para dueños de clínicas» (Ricardo, 4-nov-2026)
+
+Sobre el título del paso 1 va una línea mono con la miniatura de una dueña en la recepción
+(`public/images/agenda/duena-recepcion-mini.webp`, recorte de `estetica/duena-clinica-mensajes.webp`)
+y «Para dueños de clínicas estéticas y médicas». Sólo en celular y sólo en `/agenda` (`.pagina`): en la
+tarjeta de `/oferta-clinicas-esteticas` no va, porque ahí sumaría alto. Ocupa el aire que sobraba bajo
+el botón; la página sigue en 100dvh sin scroll. Título y botón del paso 1 pasan de Inter a Outfit.
+Precios y textos de la boleta no cambian. Capturas antes/después: `docs/paso1-capturas/`.

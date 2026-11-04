@@ -386,6 +386,15 @@ export default function AgendaWizard({
 
                 {paso === 1 && (
                   <div data-agenda-paso="1">
+                    {/* Paso 1 móvil (4-nov-2026): el dueño se reconoce apenas entra, sin sumar alto. */}
+                    <p className={styles.paraDuenos} data-agenda-para-duenos>
+                      <span
+                        className={styles.paraDuenosFoto}
+                        role="img"
+                        aria-label="Dueña de una clínica estética en la recepción"
+                      />
+                      <span>Para dueños de clínicas estéticas y médicas</span>
+                    </p>
                     <h2 className={styles.titulo}>Lo que te ahorras con el Ecosistema Clinera</h2>
                     <p className={styles.sub}>Marketing de performance con reunión semanal, más el software con IA, en un solo lugar.</p>
                     <AhorroEcosistema
