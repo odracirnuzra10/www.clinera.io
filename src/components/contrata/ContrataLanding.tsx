@@ -13,8 +13,8 @@ import { useEffect, useSyncExternalStore } from "react";
 import { CHANNEL_LABEL, ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import { track, trackPixel } from "@/lib/tracking";
 import {
-  HEX_PAGO_LABEL,
   PLANES_NUEVOS,
+  PRUEBA_TEXTO_LABEL,
   RECOMENDADO_LABEL,
   PRUEBA_LABEL,
   PRUEBA_LINEA,
@@ -79,12 +79,18 @@ export default function ContrataLanding() {
 function Ticket({ plan, search }: { plan: PlanNuevo; search: string }) {
   // Hex es el plan a vender (Ricardo, 4-nov-2026): su botón es el Payment Link de Stripe, con los utm
   // de la visita. Flux sigue con «Prueba gratis», en segundo plano.
+  // Flux (4-nov-2026) también va a Stripe, con botón secundario; Hex es el único con degradado.
   const pago = plan.cta === "pago" && plan.pagoUrl;
+  const recomendado = !!pago && !!plan.destacado;
   const href = pago ? conUtm(plan.pagoUrl!, search) : conPlan(PRUEBA_URL, plan.id, search);
+  const prueba = () => {
+    track("start_trial_click", { plan: plan.id, source_path: "/contrata" });
+    trackPixel("StartTrial", { content_name: plan.name, value: 0, currency: "USD" });
+  };
   const lineas = [...BASE_COMUN, ...plan.incluye.filter((f) => f.includes(" con "))];
   return (
-    <article className={`${styles.ticket} ${pago ? styles.recomendado : ""}`} data-contrata-plan={plan.id}>
-      {pago && (
+    <article className={`${styles.ticket} ${recomendado ? styles.recomendado : ""}`} data-contrata-plan={plan.id}>
+      {recomendado && (
         <span className={styles.insignia} data-insignia>
           {RECOMENDADO_LABEL}
         </span>
@@ -145,9 +151,9 @@ function Ticket({ plan, search }: { plan: PlanNuevo; search: string }) {
             data-plan={plan.id}
             data-plan-name={plan.name}
             data-plan-value={plan.monthlyUsd}
-            className={styles.cta}
+            className={recomendado ? styles.cta : `${styles.cta} ${styles.ctaSecundario}`}
           >
-            {HEX_PAGO_LABEL} · US$ {plan.monthlyUsd}/mes
+            Contratar {plan.name} · US$ {plan.monthlyUsd}/mes
           </a>
         ) : (
           <a
@@ -155,12 +161,20 @@ function Ticket({ plan, search }: { plan: PlanNuevo; search: string }) {
             suppressHydrationWarning
             data-cta="prueba"
             className={`${styles.cta} ${styles.ctaSecundario}`}
-            onClick={() => {
-              track("start_trial_click", { plan: plan.id, source_path: "/contrata" });
-              trackPixel("StartTrial", { content_name: plan.name, value: 0, currency: "USD" });
-            }}
+            onClick={prueba}
           >
             {PRUEBA_LABEL} con {plan.name}
+          </a>
+        )}
+        {pago && plan.prueba && (
+          <a
+            href={conPlan(PRUEBA_URL, plan.id, search)}
+            suppressHydrationWarning
+            data-cta-prueba
+            className={styles.pruebaTexto}
+            onClick={prueba}
+          >
+            {PRUEBA_TEXTO_LABEL}
           </a>
         )}
       </div>

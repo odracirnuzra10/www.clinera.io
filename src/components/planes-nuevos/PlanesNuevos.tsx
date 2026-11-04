@@ -33,6 +33,7 @@ import {
   PRUEBA_URL,
   VENTAS_LABEL,
   HEX_PAGO_LABEL,
+  PRUEBA_TEXTO_LABEL,
   RECOMENDADO_LABEL,
   conPlan,
   conUtm,
@@ -181,9 +182,11 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
       : plan.cta === "prueba"
         ? conPlan(PRUEBA_URL, plan.id, search)
         : conPlan("/agenda", plan.id, search);
-  const recomendado = plan.cta === "pago";
+  // Sólo Hex es recomendado y lleva el degradado; Flux también va a Stripe pero en secundario.
+  const recomendado = plan.cta === "pago" && !!plan.destacado;
+  const principal = recomendado;
   const onClick = () => {
-    if (plan.cta === "prueba") {
+    if (plan.cta === "prueba" || plan.prueba) {
       track("start_trial_click", { plan: plan.id });
       trackPixel("StartTrial", { content_name: plan.name, value: 0, currency: "USD" });
     } else {
@@ -226,7 +229,7 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
             ))}
           </span>
         )}
-        {(plan.cta === "prueba" || conOferta || recomendado) && (
+        {(plan.cta === "prueba" || plan.prueba || conOferta || recomendado) && (
           <span
             data-insignia
             style={{
@@ -295,13 +298,24 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
           minHeight: 44,
           boxSizing: "border-box",
           // Hex es el único CTA principal (Ricardo, 4-nov-2026): Flux, Vortex y Ecosistema, secundarios.
-          ...(plan.cta === "pago"
+          ...(principal
             ? { background: GRAD, color: "#fff" }
             : { background: "#fff", color: "#0A0A0A", border: "1px solid #E5E7EB" }),
         }}
       >
-        {plan.cta === "pago" ? HEX_PAGO_LABEL : plan.cta === "prueba" ? PRUEBA_LABEL : VENTAS_LABEL}
+        {plan.cta === "pago" ? `Contratar ${plan.name}` : plan.cta === "prueba" ? PRUEBA_LABEL : VENTAS_LABEL}
       </a>
+      {plan.prueba && (
+        <a
+          href={conPlan(PRUEBA_URL, plan.id, search)}
+          onClick={onClick}
+          data-cta-prueba
+          suppressHydrationWarning
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 44, fontFamily: "Inter", fontSize: 14, fontWeight: 600, color: "#4B5563", textDecoration: "underline", textUnderlineOffset: 3 }}
+        >
+          {PRUEBA_TEXTO_LABEL}
+        </a>
+      )}
       {pago?.pagoUrl ? (
         // Enlace pelado: el clic lo cuenta Analytics.tsx (InitiateCheckout + client_reference_id).
         <a

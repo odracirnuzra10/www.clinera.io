@@ -1406,10 +1406,14 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
   `Analytics.tsx` cuenta el `InitiateCheckout` y le agrega el `client_reference_id` (gclid, GA, fbc, fbp, UA).
 - **Los `utm_*` de la visita** se le suman al link con `conUtm()`. El resto de la query no viaja: el gclid ya va en
   el `client_reference_id`. Se comprobó con un clic real en Chromium.
-- **Lo que cobra el link no está verificado:** la llave de Stripe del entorno no tiene permiso para leer Payment
-  Links, y `data-plan-value` dice 35. Si el precio cambia en Stripe, hay que cambiar `monthlyUsd` y el link a la vez.
+- **El link cobra US$ 35** (confirmado por Ricardo el 4-nov-2026; la llave de Stripe del entorno no puede leer Payment
+  Links). Si el precio cambia en Stripe, hay que cambiar `monthlyUsd` y el link a la vez.
 - **«Parte con Hex» (Ricardo, 4-nov-2026, 2.ª vuelta):** el encabezado de `/planes` y `/planes2` dice «Elige tu plan.
   Parte con Hex.» y lleva un botón al Payment Link de Hex (`data-cta-encabezado`, pelado, con los utm). La prueba
   gratis sigue existiendo, pero es de Flux y ya no es el punto de partida. **Hex es el único CTA principal**: Flux,
   Vortex, Ecosistema y el «Hablar con ventas» del cierre van con botón secundario, sin degradado. Lo vigila
   `tests/planes-vigentes.spec.ts`.
+- **Flux también se contrata directo (Ricardo, 4-nov-2026):** `FLUX_PAGO_URL`, `cta: "pago"`, botón «Contratar Flux»
+  **secundario** (sin degradado: el degradado y la insignia «Recomendado» dependen de `destacado`, no de `cta`).
+  `prueba: true` deja «o pruébalo gratis» como link de texto a `app.clinera.io?plan=flux`. Que el link cobre
+  US$ 55 lo dio Ricardo; no está verificado en Stripe.

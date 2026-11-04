@@ -40,8 +40,8 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     // Analytics.tsx lee data-plan* (InitiateCheckout + client_reference_id). Durante la promo del
     // Ecosistema su link (que cobra 529) no se muestra, igual que antes.
     const conLink = PLANES.filter((p) => p.pagoUrl);
-    // + los dos de Hex (encabezado «Parte con Hex» y su tarjeta), desde el 4-nov-2026.
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length + 2);
+    // + los dos de Hex (encabezado «Parte con Hex» y su tarjeta) y el de Flux, desde el 4-nov-2026.
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length + 3);
     await expect(page.locator("h1")).toContainText("Parte con Hex");
     await expect(page.locator("a[data-cta-encabezado]")).toHaveAttribute("href", /buy\.stripe\.com\/14AdRbdBnfD49wTgwz1441M\?utm_source=google/);
     await expect(page.locator("main")).not.toContainText(/Parte gratis|prueba parte con Flux/);

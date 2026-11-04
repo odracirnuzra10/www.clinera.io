@@ -27,12 +27,17 @@ test.describe("/planes2", () => {
     await expect(hex).toHaveAttribute("href", /^https:\/\/buy\.stripe\.com\/14AdRbdBnfD49wTgwz1441M\?utm_source=test$/);
     await expect(hex).toHaveAttribute("data-plan", "hex");
     await expect(hex).toHaveAttribute("data-plan-value", "35");
-    for (const id of ["flux"]) {
-      const cta = page.locator(`[data-plan-card="${id}"] a[data-cta]`);
-      await expect(cta).toHaveText("Prueba gratis");
-      await expect(cta).toHaveAttribute("href", new RegExp(`^https://app\\.clinera\\.io\\?.*plan=${id}`));
-      await expect(cta).toHaveAttribute("href", /utm_source=test/);
-    }
+    // Flux (4-nov-2026): «Contratar Flux» a su Payment Link, pelado y con utm; la prueba gratis
+    // queda como link de texto.
+    const flux = page.locator('[data-plan-card="flux"] a[data-cta]');
+    await expect(flux).toHaveText("Contratar Flux");
+    await expect(flux).toHaveAttribute("href", /^https:\/\/buy\.stripe\.com\/14A28tgNz1MegZl9471441J\?utm_source=test$/);
+    await expect(flux).toHaveAttribute("data-plan", "flux");
+    await expect(flux).toHaveAttribute("data-plan-value", "55");
+    const pruebaFlux = page.locator('[data-plan-card="flux"] a[data-cta-prueba]');
+    await expect(pruebaFlux).toHaveText("o pruébalo gratis");
+    await expect(pruebaFlux).toHaveAttribute("href", /^https:\/\/app\.clinera\.io\?.*plan=flux/);
+    await expect(pruebaFlux).toHaveAttribute("href", /utm_source=test/);
     for (const id of ["vortex", "ecosistema"]) {
       const cta = page.locator(`[data-plan-card="${id}"] a[data-cta]`);
       await expect(cta).toHaveText("Hablar con ventas");
