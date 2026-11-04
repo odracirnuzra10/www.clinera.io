@@ -866,3 +866,67 @@
     margin-bottom: 0;
   }
 }
+
+/* ---------- Paso 1 móvil: el dueño se reconoce sin hacer scroll (Ricardo, 4-nov-2026) ----------
+   Una línea con la foto de una dueña en la recepción y a quién va dirigido, en la tipografía
+   mono de la marca. Va en el aire que ya sobraba bajo el botón (la página sigue en 100dvh,
+   sin scroll), y el título y el botón dejan Inter por Outfit. Textos y precios de la boleta no cambian. */
+.paraDuenos {
+  display: none;
+}
+
+@media (max-width: 959px) {
+  .pagina .paraDuenos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0 0;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+    text-transform: uppercase;
+    color: #5b21b6;
+  }
+  .paraDuenosFoto {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background: url(/images/agenda/duena-recepcion-mini.webp) center / cover no-repeat;
+    /* Anillo con el degradado de marca, sin sombra. */
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px #7c3aed;
+  }
+  .inicio .titulo,
+  .quieroAhorrar {
+    font-family: Outfit, system-ui, sans-serif;
+  }
+  .inicio .titulo {
+    margin-top: 6px;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Pantalla corta: la foto se achica y la línea queda pegada al título. */
+@media (max-width: 959px) and (max-height: 680px) {
+  .pagina .paraDuenos {
+    margin-top: 6px;
+    gap: 8px;
+    font-size: 10px;
+  }
+  .paraDuenosFoto {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Celulares angostos (360–380 px): la línea cabe en un renglón. */
+@media (max-width: 380px) {
+  .pagina .paraDuenos {
+    font-size: 9.5px;
+    letter-spacing: 0.04em;
+    gap: 8px;
+  }
+}
