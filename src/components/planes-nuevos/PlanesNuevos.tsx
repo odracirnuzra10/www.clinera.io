@@ -32,7 +32,10 @@ import {
   PRUEBA_LINEA,
   PRUEBA_URL,
   VENTAS_LABEL,
+  HEX_PAGO_LABEL,
+  RECOMENDADO_LABEL,
   conPlan,
+  conUtm,
   faqPublica,
   ofertaVigente,
   precioOferta,
@@ -158,7 +161,13 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
     const dec = meta.currency === "USD" && !Number.isInteger(v) ? 2 : 0;
     return `${meta.currency === "USD" ? "US$" : "MX$"} ${v.toLocaleString("es-CL", { minimumFractionDigits: dec, maximumFractionDigits: dec })}`;
   };
-  const href = plan.cta === "prueba" ? conPlan(PRUEBA_URL, plan.id, search) : conPlan("/agenda", plan.id, search);
+  const href =
+    plan.cta === "pago" && plan.pagoUrl
+      ? conUtm(plan.pagoUrl, search)
+      : plan.cta === "prueba"
+        ? conPlan(PRUEBA_URL, plan.id, search)
+        : conPlan("/agenda", plan.id, search);
+  const recomendado = plan.cta === "pago";
   const onClick = () => {
     if (plan.cta === "prueba") {
       track("start_trial_click", { plan: plan.id });
@@ -203,7 +212,7 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
             ))}
           </span>
         )}
-        {(plan.cta === "prueba" || conOferta) && (
+        {(plan.cta === "prueba" || conOferta || recomendado) && (
           <span
             data-insignia
             style={{
@@ -219,10 +228,10 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
               borderRadius: 999,
               whiteSpace: "nowrap",
               boxShadow: "0 4px 12px -4px rgba(15,23,42,.18)",
-              ...(conOferta ? { background: GRAD, color: "#fff" } : { background: "#ECFDF5", color: "#047857", border: "1px solid #A7F3D0" }),
+              ...(conOferta || recomendado ? { background: GRAD, color: "#fff" } : { background: "#ECFDF5", color: "#047857", border: "1px solid #A7F3D0" }),
             }}
           >
-            {conOferta ? `${OFERTA_LANZAMIENTO.porcentaje}% OFF` : "Prueba gratis"}
+            {recomendado ? RECOMENDADO_LABEL : conOferta ? `${OFERTA_LANZAMIENTO.porcentaje}% OFF` : "Prueba gratis"}
           </span>
         )}
       </div>
@@ -254,8 +263,11 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
       <div style={{ display: "grid", gap: 10 }}>
       <a
         href={href}
-        onClick={onClick}
+        // El Payment Link va pelado: el clic lo cuenta Analytics.tsx (InitiateCheckout +
+        // client_reference_id). Un onClick propio lo contaba doble (16-oct).
+        onClick={plan.cta === "pago" ? undefined : onClick}
         data-cta={plan.cta}
+        {...(plan.cta === "pago" ? { "data-plan": plan.id, "data-plan-name": plan.name, "data-plan-value": plan.monthlyUsd } : {})}
         suppressHydrationWarning
         style={{
           display: "block",
@@ -268,12 +280,12 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
           textDecoration: "none",
           minHeight: 44,
           boxSizing: "border-box",
-          ...(plan.cta === "ventas"
+          ...(plan.cta === "ventas" || plan.cta === "pago"
             ? { background: GRAD, color: "#fff" }
             : { background: "#fff", color: "#0A0A0A", border: "1px solid #E5E7EB" }),
         }}
       >
-        {plan.cta === "prueba" ? PRUEBA_LABEL : VENTAS_LABEL}
+        {plan.cta === "pago" ? HEX_PAGO_LABEL : plan.cta === "prueba" ? PRUEBA_LABEL : VENTAS_LABEL}
       </a>
       {pago?.pagoUrl ? (
         // Enlace pelado: el clic lo cuenta Analytics.tsx (InitiateCheckout + client_reference_id).

@@ -223,3 +223,31 @@
     transition: none;
   }
 }
+
+/* Hex recomendado (Ricardo, 4-nov-2026): insignia en degradado sobre el ticket; Flux, botón secundario. */
+.ticket {
+  position: relative;
+}
+
+.insignia {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #d946ef 100%);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ctaSecundario {
+  background: #fff;
+  color: #0a0a0a;
+  border: 1px solid #d6cdbf;
+}

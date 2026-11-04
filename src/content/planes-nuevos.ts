@@ -24,13 +24,21 @@ export type PlanNuevo = {
   incluye: readonly string[];
   /** Lo que NO trae, en gris: muestra qué se desbloquea al subir. */
   noIncluye: readonly string[];
-  cta: "prueba" | "ventas";
+  /** «pago»: Payment Link de Stripe (Hex, desde el 4-nov-2026). «prueba»: app.clinera.io. «ventas»: /agenda. */
+  cta: "pago" | "prueba" | "ventas";
+  /** Payment Link de Stripe cuando `cta` es «pago». */
+  pagoUrl?: string;
   destacado?: boolean;
   /** Logos de canales junto al nombre (Ricardo, 29-oct). Desde el 4-nov todos traen WhatsApp. */
   canales: readonly ("whatsapp" | "facebook" | "instagram")[];
 };
 
 export const PRUEBA_URL = "https://app.clinera.io";
+// Hex es el plan a vender y el cliente parte en Hex (Ricardo, 4-nov-2026): su CTA principal es el
+// Payment Link de Stripe. Enlace pelado: Analytics.tsx le pone client_reference_id al hacer clic.
+export const HEX_PAGO_URL = "https://buy.stripe.com/14AdRbdBnfD49wTgwz1441M";
+export const HEX_PAGO_LABEL = "Contratar Hex";
+export const RECOMENDADO_LABEL = "Recomendado";
 export const PRUEBA_LABEL = "Prueba gratis";
 export const VENTAS_LABEL = "Hablar con ventas";
 
@@ -46,8 +54,10 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
     sucursales: "1 sucursal",
     incluye: [...BASE, "Clinera Intelligence con 100 créditos", "WhatsApp con 50 conversaciones"],
     noIncluye: ["Instagram y Facebook", "Agente IA", "Automatizaciones", "Difusiones"],
-    cta: "prueba",
+    cta: "pago",
+    pagoUrl: HEX_PAGO_URL,
     canales: ["whatsapp"],
+    destacado: true,
   },
   {
     id: "flux",
@@ -98,7 +108,6 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
     noIncluye: [],
     cta: "ventas",
     canales: ["whatsapp", "facebook", "instagram"],
-    destacado: true,
   },
 ];
 
@@ -206,4 +215,12 @@ export function faqPublica(): { q: string; a: string }[] {
   const propias = PLANES2_FAQ.map((f) => ({ q: f.q, a: sinPendientes(f.a) })).filter((f) => f.a.length > 0);
   const publicidad = PLANES_FAQ.filter((f) => /publicidad/i.test(f.q));
   return [...propias, ...publicidad];
+}
+
+/** Payment Link con los utm de la visita (Stripe los guarda en la sesión de Checkout). */
+export function conUtm(url: string, search = ""): string {
+  const visita = new URLSearchParams(search);
+  const u = new URL(url);
+  for (const [k, v] of visita) if (k.startsWith("utm_") && v) u.searchParams.set(k, v);
+  return u.toString();
 }

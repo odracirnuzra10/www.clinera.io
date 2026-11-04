@@ -13,11 +13,14 @@ import { useEffect, useSyncExternalStore } from "react";
 import { CHANNEL_LABEL, ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import { track, trackPixel } from "@/lib/tracking";
 import {
+  HEX_PAGO_LABEL,
   PLANES_NUEVOS,
+  RECOMENDADO_LABEL,
   PRUEBA_LABEL,
   PRUEBA_LINEA,
   PRUEBA_URL,
   conPlan,
+  conUtm,
   type PlanNuevo,
 } from "@/content/planes-nuevos";
 import styles from "./ContrataLanding.module.css";
@@ -74,10 +77,18 @@ export default function ContrataLanding() {
 }
 
 function Ticket({ plan, search }: { plan: PlanNuevo; search: string }) {
-  const href = conPlan(PRUEBA_URL, plan.id, search);
+  // Hex es el plan a vender (Ricardo, 4-nov-2026): su botón es el Payment Link de Stripe, con los utm
+  // de la visita. Flux sigue con «Prueba gratis», en segundo plano.
+  const pago = plan.cta === "pago" && plan.pagoUrl;
+  const href = pago ? conUtm(plan.pagoUrl!, search) : conPlan(PRUEBA_URL, plan.id, search);
   const lineas = [...BASE_COMUN, ...plan.incluye.filter((f) => f.includes(" con "))];
   return (
-    <article className={styles.ticket} data-contrata-plan={plan.id}>
+    <article className={`${styles.ticket} ${pago ? styles.recomendado : ""}`} data-contrata-plan={plan.id}>
+      {pago && (
+        <span className={styles.insignia} data-insignia>
+          {RECOMENDADO_LABEL}
+        </span>
+      )}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/images/agenda/boleta-arriba.webp" alt="" aria-hidden className={styles.papel} width={600} height={96} />
       <div className={styles.cuerpo}>
@@ -125,18 +136,33 @@ function Ticket({ plan, search }: { plan: PlanNuevo; search: string }) {
           <span className={styles.monto}>US$ {plan.monthlyUsd}/mes</span>
         </div>
 
-        <a
-          href={href}
-          suppressHydrationWarning
-          data-cta="prueba"
-          className={styles.cta}
-          onClick={() => {
-            track("start_trial_click", { plan: plan.id, source_path: "/contrata" });
-            trackPixel("StartTrial", { content_name: plan.name, value: 0, currency: "USD" });
-          }}
-        >
-          {PRUEBA_LABEL} con {plan.name}
-        </a>
+        {pago ? (
+          // Enlace pelado: Analytics.tsx cuenta el clic y le pone client_reference_id.
+          <a
+            href={href}
+            suppressHydrationWarning
+            data-cta="pago"
+            data-plan={plan.id}
+            data-plan-name={plan.name}
+            data-plan-value={plan.monthlyUsd}
+            className={styles.cta}
+          >
+            {HEX_PAGO_LABEL} · US$ {plan.monthlyUsd}/mes
+          </a>
+        ) : (
+          <a
+            href={href}
+            suppressHydrationWarning
+            data-cta="prueba"
+            className={`${styles.cta} ${styles.ctaSecundario}`}
+            onClick={() => {
+              track("start_trial_click", { plan: plan.id, source_path: "/contrata" });
+              trackPixel("StartTrial", { content_name: plan.name, value: 0, currency: "USD" });
+            }}
+          >
+            {PRUEBA_LABEL} con {plan.name}
+          </a>
+        )}
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/images/agenda/boleta-abajo.webp" alt="" aria-hidden className={styles.papel} width={600} height={70} />

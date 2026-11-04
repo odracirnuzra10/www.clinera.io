@@ -40,7 +40,9 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     // Analytics.tsx lee data-plan* (InitiateCheckout + client_reference_id). Durante la promo del
     // Ecosistema su link (que cobra 529) no se muestra, igual que antes.
     const conLink = PLANES.filter((p) => p.pagoUrl);
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length);
+    // + el de Hex, que es el CTA principal de su tarjeta desde el 4-nov-2026.
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length + 1);
+    await expect(page.locator('[data-plan-card="hex"] a[data-cta="pago"]')).toHaveAttribute("data-plan", "hex");
     for (const p of conLink) {
       const pago = page.locator(`[data-plan-card="${p.id}"] a[href*="buy.stripe.com"]`);
       await expect(pago).toHaveAttribute("href", new RegExp("^" + p.pagoUrl.replace(/[.?]/g, "\\$&")));

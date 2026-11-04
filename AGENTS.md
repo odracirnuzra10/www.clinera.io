@@ -1396,3 +1396,15 @@ el home, `/agenda` y las landings. El modo `publico`:
 - JSON-LD y metadata de `/planes` salen de `PLANES_NUEVOS` (no de `softwareOffers`, que sigue en el home).
 - Pruebas que ya fallaban en `main` antes de este cambio: `aeo-entidad.spec.ts` (2), «/planes y la presentación lo
   muestran» (el deck ya no trae «Reunión de marketing cada semana») y `analytics.spec.ts` 4) (busca la tarjeta «hurricane»).
+
+# Hex es el plan a vender: CTA principal al checkout de Stripe (Ricardo, 4-nov-2026)
+
+En `/contrata`, `/planes` y `/planes2`, Hex va primero, con la insignia «Recomendado», y su botón principal es el
+Payment Link `HEX_PAGO_URL` (`planes-nuevos.ts`, `cta: "pago"`). Flux sigue con «Prueba gratis» como botón
+secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
+- **El link va pelado**, sin `onClick`, con `data-plan` / `data-plan-name` / `data-plan-value`. Así, al hacer clic,
+  `Analytics.tsx` cuenta el `InitiateCheckout` y le agrega el `client_reference_id` (gclid, GA, fbc, fbp, UA).
+- **Los `utm_*` de la visita** se le suman al link con `conUtm()`. El resto de la query no viaja: el gclid ya va en
+  el `client_reference_id`. Se comprobó con un clic real en Chromium.
+- **Lo que cobra el link no está verificado:** la llave de Stripe del entorno no tiene permiso para leer Payment
+  Links, y `data-plan-value` dice 35. Si el precio cambia en Stripe, hay que cambiar `monthlyUsd` y el link a la vez.

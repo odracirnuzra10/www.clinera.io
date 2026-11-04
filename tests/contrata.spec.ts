@@ -28,12 +28,19 @@ test.describe("/contrata", () => {
     await expect(flux.locator('[data-linea="Agendamiento"]')).toBeVisible();
     for (const p of [hex, flux]) await expect(p.locator("[data-canales]")).toHaveText("WhatsApp");
 
-    for (const id of ["hex", "flux"]) {
-      const cta = page.locator(`[data-contrata-plan="${id}"] a[data-cta]`);
-      await expect(cta).toHaveAttribute("href", new RegExp(`^https://app\\.clinera\\.io\\?.*plan=${id}`));
-      await expect(cta).toHaveAttribute("href", /utm_source=test/);
-      await expect(cta).toHaveAttribute("href", /gclid=abc/);
-    }
+    // Hex primero y recomendado; su botón es el Payment Link de Stripe con los utm (el gclid viaja
+    // en client_reference_id, que pone Analytics.tsx al hacer clic). Flux sigue con «Prueba gratis».
+    await expect(hex.locator("[data-insignia]")).toHaveText("Recomendado");
+    const pago = hex.locator("a[data-cta]");
+    await expect(pago).toHaveAttribute("data-cta", "pago");
+    await expect(pago).toHaveAttribute("href", /^https:\/\/buy\.stripe\.com\/14AdRbdBnfD49wTgwz1441M\?utm_source=test$/);
+    await expect(pago).toHaveAttribute("data-plan", "hex");
+    await expect(pago).toHaveAttribute("data-plan-value", "35");
+    const prueba = flux.locator("a[data-cta]");
+    await expect(prueba).toHaveAttribute("data-cta", "prueba");
+    await expect(prueba).toHaveAttribute("href", /^https:\/\/app\.clinera\.io\?.*plan=flux/);
+    await expect(prueba).toHaveAttribute("href", /utm_source=test/);
+    await expect(prueba).toHaveAttribute("href", /gclid=abc/);
     await expect(page.locator("[data-contrata-ventas]")).toHaveAttribute("href", /^\/agenda\?.*utm_source=test/);
     const texto = await page.locator("main").innerText();
     expect(texto).not.toMatch(/no trae WhatsApp|implementaci|permanencia/i);
