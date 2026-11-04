@@ -1,5 +1,7 @@
 "use client";
 
+import CtaPar from "@/components/cta/CtaPar";
+
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import VimeoEmbed from "@/components/blog/VimeoEmbed";
@@ -261,17 +263,7 @@ function FeaturedEpisode({ episode }: { episode: PodcastEpisode }) {
               Leer el artículo del capítulo →
             </Link>
           ) : null}
-          <Link
-            href="/agenda"
-            style={{
-              fontSize: 14,
-              fontWeight: 600,
-              color: "#7C3AED",
-              textDecoration: "none",
-            }}
-          >
-            Agendar reunión con Clinera
-          </Link>
+          <CtaPar tam="sm" />
         </div>
       </div>
     </section>
@@ -552,7 +544,7 @@ function FinalCta() {
           Agenda una reunión: te mostramos cómo Clinera conecta marketing,
           agenda, ficha y empleados digitales en un solo sistema.
         </p>
-        <CtaPrimary href="/agenda">Agendar reunión</CtaPrimary>
+        <CtaPar oscuro />
       </div>
     </section>
   );

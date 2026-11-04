@@ -70,7 +70,12 @@ test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
       "/agenda",
     );
     await expect(page.locator(`[data-home2-cta="${donde}"]`)).toHaveText(
-      "Agendar reunión",
+      "Hablar con ventas",
+    );
+    // Ricardo, 4-nov-2026: el principal es «Contratar Hex» al Payment Link.
+    await expect(page.locator(`[data-home2-hex="${donde}"]`)).toHaveAttribute(
+      "href",
+      /^https:\/\/buy\.stripe\.com\/14AdRbdBnfD49wTgwz1441M/,
     );
   }
   await expect(page.getByRole("heading", { level: 1 })).toContainText(

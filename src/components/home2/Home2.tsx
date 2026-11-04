@@ -5,7 +5,7 @@ import EcosistemaIncluye from "@/components/ecosistema/EcosistemaIncluye";
 import DemoEnVivo from "@/components/home-v3/DemoEnVivo";
 import { Faq, Testimonios } from "@/components/home-v3/sections";
 import PlanesVigentes from "@/components/pricing/PlanesVigentes";
-import { CTA_VENTAS_LABEL } from "@/content/planes";
+import { CtaHex, CtaVentas } from "@/components/cta/CtaPar";
 import {
   HOME2_ALTA_QUALITA,
   HOME2_CASOS,
@@ -133,11 +133,14 @@ function VisualPmfc({ letra }: { letra: string }) {
   return <AgendaEnVivo />;
 }
 
+// Ricardo, 4-nov-2026: los dos CTA del sitio. Principal «Contratar Hex · US$ 35/mes» (Payment Link)
+// y secundario «Hablar con ventas» (/agenda). `data-home2-cta` queda en el secundario.
 function Cta({ donde }: { donde: string }) {
   return (
-    <Link href="/agenda" className={s.cta} data-home2-cta={donde}>
-      {CTA_VENTAS_LABEL}
-    </Link>
+    <div className={s.ctas} data-home2-ctas={donde}>
+      <CtaHex className={s.cta} style={{ marginTop: 0, borderRadius: 12 }} datos={{ "data-home2-hex": donde }} />
+      <CtaVentas className={s.ctaSec} style={{ borderRadius: 12 }} datos={{ "data-home2-cta": donde }} />
+    </div>
   );
 }
 
@@ -163,12 +166,7 @@ export default function Home2() {
             </span>
             <span className={s.formulaResultado}>{HOME2_HERO.formulaResultado}</span>
           </p>
-          <div className={s.ctas}>
-            <Cta donde="hero" />
-            <a href="#casos" className={s.ctaSec}>
-              Ver casos
-            </a>
-          </div>
+          <Cta donde="hero" />
           <ul className={s.cifras} data-home2="cifras">
             {HOME2_CIFRAS.map((c) => (
               <li key={c.valor}>

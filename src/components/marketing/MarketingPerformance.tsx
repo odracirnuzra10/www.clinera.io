@@ -1,5 +1,7 @@
 "use client";
 
+import CtaPar from "@/components/cta/CtaPar";
+
 // ============================================================================
 // «Marketing de performance» (Ricardo, 18-oct-2026): mismo peso visual que la
 // sección de software. Los bloques de `MARKETING_BLOQUES` y el cierre que los
@@ -123,24 +125,8 @@ export default function MarketingPerformance() {
         </p>
 
         <div style={{ textAlign: "center", marginTop: 28 }}>
-          <Link
-            href={agendaHref("marketing", search)}
-            data-marketing-cta
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "14px 26px",
-              borderRadius: 999,
-              background: GRAD,
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontSize: 15,
-              textDecoration: "none",
-            }}
-          >
-            {CTA_VENTAS_LABEL}
-          </Link>
+          {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+          <CtaPar centrado />
         </div>
       </div>
     </section>

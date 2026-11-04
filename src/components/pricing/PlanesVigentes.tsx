@@ -259,14 +259,16 @@ export default function PlanesVigentes({
                     style={{
                       textDecoration: "none",
                       textAlign: "center",
-                      background: p.featured ? GRAD : th.ctaPrimaryBg,
-                      color: p.featured ? "#fff" : th.ctaPrimaryColor,
+                      // Ricardo, 4-nov-2026: «Hablar con ventas» es el CTA secundario del sitio (blanco con
+                      // borde); el único con degradado es «Contratar Hex».
+                      background: "#fff",
+                      color: "#0A0A0A",
+                      border: "1.5px solid #D1D5DB",
                       padding: "14px 20px",
                       borderRadius: 12,
                       fontWeight: 700,
                       fontSize: 15,
                       fontFamily: JAKARTA,
-                      boxShadow: p.featured ? "0 10px 26px -8px rgba(162,28,175,.5)" : th.ctaPrimaryShadow,
                       boxSizing: "border-box",
                     }}
                   >

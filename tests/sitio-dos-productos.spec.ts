@@ -32,7 +32,10 @@ test.describe("sitio de dos productos", () => {
     await expect(body).not.toContainText("+52 clínicas activas");
     await expect(body).not.toContainText("+500 profesionales");
     await expect(body).not.toContainText("Coordina todo tu equipo");
-    await expect(body).not.toContainText(/Hablar con ventas|Agendar videollamada|Agendar demo/);
+    // Ricardo, 4-nov-2026: dos acciones en todo el sitio, «Contratar Hex» y «Hablar con ventas».
+    await expect(body).toContainText("Contratar Hex");
+    await expect(body).toContainText("Hablar con ventas");
+    await expect(body).not.toContainText(/Agendar reunión|Agendar videollamada|Agendar demo|Ver demo 3 min|Prueba gratis/);
     await expect(page.locator("#faq")).toContainText("¿La publicidad está incluida en el Ecosistema?");
   });
 

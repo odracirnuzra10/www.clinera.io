@@ -50,7 +50,8 @@ Clinera vende **dos cosas**: **Vortex** (el software, US$ 279) y el **Ecosistema
 - **Menú = Software (`/funciones`, la página de Vortex) · PMFC (`/ecosistema`, la metodología y el Ecosistema) · Planes (`/planes`)**, nada más (Ricardo, 21-oct-2026; antes era Software + Ecosistema).
   Prensa, Novedades y el resto viven en el pie de página y el blog. No reponer «Clinera O.S.»
   en el menú (su link apuntaba a `/#clinera-intelligence`, que ya no existía).
-- **CTA único: «Agendar reunión»** (`CTA_VENTAS_LABEL`) → `/agenda`. Se acabaron «Agendar
+- **CTA único: «Agendar reunión»** (`CTA_VENTAS_LABEL`) → `/agenda`. **Reemplazado el 4-nov-2026** por dos CTA
+  («Contratar Hex» + «Hablar con ventas»): ver «Dos CTA en todo el sitio» al final. Se acabaron «Agendar
   videollamada», «Hablar con ventas», «Agendar demo» y «Agendar demo de 30 min».
 - **Nombres:** el cliente ve Vortex, Ecosistema y AURA. **Clinera Intelligence** es el agente
   interno de Vortex (cuánto vendiste, cómo va tu agenda): va en las features del plan Vortex.
@@ -74,7 +75,7 @@ Clinera vende **dos cosas**: **Vortex** (el software, US$ 279) y el **Ecosistema
 
 Guardián: `tests/sitio-dos-productos.spec.ts`.
 
-**Links de pago en `/planes` (Ricardo, 20-oct-2026).** Solo `/planes` (`PlanesVigentes conPago`) muestra,
+**Links de pago en `/planes` (Ricardo, 20-oct-2026; desde el 4-nov el link de Hex está en todo el sitio, ver «Dos CTA en todo el sitio»).** Solo `/planes` (`PlanesVigentes conPago`) muestra,
 bajo «Agendar reunión», el Payment Link de Stripe de cada plan (`pagoUrl` en `planes.ts`, mensual). El
 home y las landings siguen sin compra. El enlace va pelado con `data-plan*` (ver «El clic a
 `buy.stripe.com`») y `suppressHydrationWarning`, porque `Analytics.tsx` le reescribe el `href` antes de
@@ -1033,8 +1034,8 @@ meta = promedio 12 meses + 20 %. Esos rangos son lo que dice Ricardo en el
 episodio, no tarifario de Clinera. Al subir caps. 3–5: catálogo + MDX + llms.
 Guardián: `tests/podcast.spec.ts`.
 
-El botón de la barra superior (y el menú móvil) **no** es el podcast: es
-«Ver demo 3 min» → `/demo`, con el punto verde y el texto violeta (sin caja).
+El botón de la barra superior (y el menú móvil) **no** es el podcast. **Desde el 4-nov-2026 ya no hay «Ver demo 3 min»
+en el menú ni el flotante «Ver demo»** (ver «Dos CTA en todo el sitio»). Antes era «Ver demo 3 min» → `/demo`, con el punto verde y el texto violeta (sin caja).
 El podcast queda en el footer, columna Recursos. El video de la demo
 (`src/content/demo-video.ts`) se embebe en el home y en `/plataforma`
 (`DemoEnVivo`, justo bajo el hero). En el resto del sitio el atajo es el
@@ -1417,3 +1418,30 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
   **secundario** (sin degradado: el degradado y la insignia «Recomendado» dependen de `destacado`, no de `cta`).
   `prueba: true` deja «o pruébalo gratis» como link de texto a `app.clinera.io?plan=flux`. Que el link cobre
   US$ 55 lo dio Ricardo; no está verificado en Stripe.
+
+# Dos CTA en todo el sitio: «Contratar Hex» y «Hablar con ventas» (Ricardo, 4-nov-2026)
+
+Home, landings, menú, pie y secciones invitan a **dos acciones**, y nada más. Reemplazan «Agendar reunión», «Prueba
+gratis», «Ver demo», «Agenda una demo» y el WhatsApp de `/demo`.
+- **Principal: «Contratar Hex · US$ 35/mes»**, en degradado, al Payment Link de Hex (`HEX_PAGO_URL`). Es un enlace
+  pelado con `data-plan="hex"`, con los utm de la visita y sin `onClick`.
+- **Secundario: «Hablar con ventas»** (`CTA_VENTAS_LABEL`), blanco con borde, a `/agenda` con la query de la visita.
+- Todo sale de `src/components/cta/CtaPar.tsx` (`CtaPar`, `CtaHex`, `CtaVentas`). Una sección nueva usa eso y no arma
+  su propio botón.
+- **`client_reference_id`:** `Analytics.tsx` tiene un listener de clic en captura que se lo pone a cualquier link de
+  `buy.stripe.com`, también a los que se montan tarde (la barra fija del celular aparece al bajar). `patch()` sólo
+  alcanzaba a los que estaban al cargar, y disparar `clinera:routechange` habría duplicado los PageView.
+- **Menú:** en escritorio van los dos. En el celular, «Contratar Hex» va en la barra y los dos dentro del menú. La barra
+  principal tiene 16/12 px de margen en el celular, porque con 80 px la hamburguesa quedaba fuera de la pantalla.
+- **Barra fija del celular** (`StickyMobileCTA`): los dos botones. En escritorio, sólo el principal.
+- **Ya no existe el flotante «Ver demo»** (`VerDemoFloat` no se monta en ningún lado). La página `/demo` sigue.
+- **Fuera de esta regla, a propósito:**
+  - Formularios: `/agenda`, `/agenda-google`, `/reserva-tu-hora`, `/reunion`.
+  - Partners (`/partner/*`, `/partners`): el `ref` del WhatsApp es la atribución.
+  - Landings de anuncio con su propia oferta: `/oferta-clinicas-esteticas`, `/super-promo`, `/promo`.
+  - Decks estáticos (`/presentacion*`), `/vision-2027`, `/go/exito`, `/firma` y `/gracias`.
+  - En `/planes` y `/contrata` cada plan tiene su propio botón (Flux con su link).
+- **El home (sección de planes, `planes.ts`) sigue mostrando Vortex y Ecosistema con la boleta**, mientras todos los
+  CTA alrededor dicen «Contratar Hex». No se cambió el catálogo del home: es decisión de Ricardo.
+- Guardianes: `home2.spec`, `sitio-dos-productos.spec`, `clinica-estetica.spec`, `podcast.spec` y `planes-vigentes.spec`
+  («el home sólo lleva el link de pago de Hex»).

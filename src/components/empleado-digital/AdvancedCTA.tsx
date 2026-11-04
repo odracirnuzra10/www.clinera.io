@@ -1,5 +1,7 @@
 "use client";
 
+import CtaPar from "@/components/cta/CtaPar";
+
 import Link from "next/link";
 import styles from "@/app/empleado-digital/empleado-digital.module.css";
 import { VERTEX_IA_MODELS_PROSE } from "@/content/ia-stack";
@@ -43,21 +45,11 @@ export default function AdvancedCTA() {
           ))}
         </ul>
 
-        <Link href={CTA_VENTAS_PATH} className={styles.ctaButton}>
-          {CTA_VENTAS_LABEL}
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Link>
+        {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+        <CtaPar centrado />
 
         <p className={styles.ctaTrust}>{IMPLEMENTACION_LINEA}</p>
 
-        <Link href="/demo" className={styles.ctaDemoLink}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M8 5v14l11-7z" />
-          </svg>
-          Ver demo en video — 2 min
-        </Link>
 
         <div className={styles.ctaSecondaryLinks}>
           <Link href="/planes" className={styles.ctaSecondaryLink}>

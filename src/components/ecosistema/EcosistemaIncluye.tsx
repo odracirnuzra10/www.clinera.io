@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH, MARKETING_BLOQUES, PLANES } from "@/content/planes";
+import { MARKETING_BLOQUES, PLANES } from "@/content/planes";
+import { CtaHex, CtaVentas } from "@/components/cta/CtaPar";
 import s from "./EcosistemaIncluye.module.css";
 
 // ============================================================================
@@ -88,12 +89,9 @@ export default function EcosistemaIncluye({ conCta = true }: { conCta?: boolean 
       </p>
       {conCta ? (
         <div className={s.ctas}>
-          <Link href={CTA_VENTAS_PATH} className={s.cta} data-ecosistema-cta>
-            {CTA_VENTAS_LABEL}
-          </Link>
-          <Link href="/planes" className={s.ctaSec}>
-            Ver los planes
-          </Link>
+          {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+          <CtaHex className={s.cta} />
+          <CtaVentas className={s.ctaSec} datos={{ "data-ecosistema-cta": "" }} />
         </div>
       ) : null}
     </section>

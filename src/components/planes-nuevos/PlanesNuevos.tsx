@@ -11,6 +11,7 @@ import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 import { CHANNEL_LABEL, ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import { track, trackPixel } from "@/lib/tracking";
 import AhorroEcosistema from "@/components/pricing/AhorroEcosistema";
+import CtaPar from "@/components/cta/CtaPar";
 import PmfcSection from "@/components/pmfc/PmfcSection";
 import { PLANES, PLANES_BAJADA } from "@/content/planes";
 // Hoja normal, no styled-jsx: la grilla tiene que venir en el HTML del servidor; con
@@ -395,25 +396,19 @@ function Faq({ items }: { items: readonly { q: string; a: string }[] }) {
 }
 
 function AgendaDemo({ search }: { search: string }) {
-  const q = new URLSearchParams(search).toString();
+  void search;
   return (
     <section className="p2-section" id="demo" style={{ background: "#fff" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", borderRadius: 20, padding: "48px 32px", background: "#0E1014", color: "#fff", textAlign: "center" }}>
-        <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.09em", color: "#C4B5FD" }}>AGENDA TU DEMO</div>
+        <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.09em", color: "#C4B5FD" }}>HABLEMOS DE TU CLÍNICA</div>
         <h2 style={{ fontFamily: "Inter", fontSize: 36, fontWeight: 800, letterSpacing: "-0.03em", margin: "12px 0 10px" }}>
           ¿Vortex o Ecosistema? Hablemos de tu clínica.
         </h2>
         <p style={{ fontFamily: "Inter", fontSize: 16, color: "#D1D5DB", margin: "0 auto 24px", maxWidth: 560 }}>
           Te mostramos el agente IA y el marketing funcionando, y te decimos qué plan te conviene.
         </p>
-        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href={q ? `/agenda?${q}` : "/agenda"} suppressHydrationWarning style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.45)", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>
-            {VENTAS_LABEL}
-          </a>
-          <a href={conPlan(PRUEBA_URL, "flux", search)} suppressHydrationWarning style={{ background: "#fff", color: "#0A0A0A", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>
-            {PRUEBA_LABEL}
-          </a>
-        </div>
+        {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+        <CtaPar oscuro centrado />
       </div>
     </section>
   );

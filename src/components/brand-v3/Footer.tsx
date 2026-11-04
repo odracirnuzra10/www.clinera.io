@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import VerDemoFloat from "@/components/demo/VerDemoFloat";
+import CtaPar from "@/components/cta/CtaPar";
 import { Wordmark } from "./Brand";
 
 type Col = { t: string; l: Array<[string, string, boolean?]> };
@@ -10,7 +10,6 @@ const cols: Col[] = [
   {
     t: "Producto",
     l: [
-      ["Ver demo 3 min", "/demo", true],
       ["Software médico", "/software-medico"],
       ["Software dental", "/software-dental"],
       ["Software estético", "/software-estetica"],
@@ -43,7 +42,7 @@ const cols: Col[] = [
     l: [
       ["Centro de ayuda", "/ayuda"],
       ["Migrar a Clinera", "/migracion"],
-      ["Agendar reunión", "/agenda"],
+      ["Hablar con ventas", "/agenda"],
       // Ricardo, 20-oct-2026: se veían cruzados. /seguridad es la Ley 21.719 (datos
       // personales); /ley20584 es la seguridad de la ficha clínica (Ley 20.584).
       ["Ley 21.719 de datos personales", "/seguridad"],
@@ -103,7 +102,7 @@ export default function FooterV3() {
         borderTop: "1px solid #F0F0F0",
       }}
     >
-      <VerDemoFloat />
+      {/* Ricardo, 4-nov-2026: sin el flotante «Ver demo»; el sitio invita a dos acciones, las del par. */}
       <div
         className="footer-v3-grid"
         style={{
@@ -128,6 +127,7 @@ export default function FooterV3() {
           >
             Metodología PMFC: propuesta de valor, marketing, framework comercial y Clinera, el software con IA. Para clínicas que quieren más rentabilidad, no solo más pacientes.
           </div>
+          <CtaPar tam="sm" apilado style={{ marginTop: 18, maxWidth: 260 }} />
           <div
             style={{
               display: "inline-flex",

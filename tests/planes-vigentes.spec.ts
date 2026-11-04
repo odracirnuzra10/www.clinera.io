@@ -16,9 +16,13 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     expect(PLANES[1].features).toEqual(expect.arrayContaining(MARKETING_BLOQUES.map((b) => b.titulo)));
   });
 
-  test("el home no lleva links de pago (solo /planes)", async ({ page }) => {
+  // Ricardo, 4-nov-2026 (reemplaza la regla del 20-oct «el home no lleva compra»): el único link de
+  // pago del home es «Contratar Hex», pelado y con data-plan* para Analytics.tsx.
+  test("el home sólo lleva el link de pago de Hex", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
+    const pagos = page.locator('main a[href*="buy.stripe.com"]');
+    expect(await pagos.count()).toBeGreaterThan(0);
+    for (const plan of await pagos.evaluateAll((els) => els.map((e) => e.getAttribute("data-plan")))) expect(plan).toBe("hex");
   });
 
   // Ricardo, 4-nov-2026: /planes publica el modelo de /planes2 (Hex · Flux · Vortex · Ecosistema,

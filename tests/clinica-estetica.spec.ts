@@ -20,7 +20,7 @@ test.describe("redirects a /agenda", () => {
 });
 
 test.describe("home", () => {
-  test("el CTA del Nav es «Agendar reunión» y lleva a /agenda con la query", async ({ page }) => {
+  test("el Nav lleva «Hablar con ventas» a /agenda con la query (4-nov-2026)", async ({ page }) => {
     expect(CTA_VENTAS_PATH).toBe("/agenda");
     await page.goto("/?gclid=abc", { waitUntil: "domcontentloaded" });
     const cta = page.locator("header").getByRole("link", { name: CTA_VENTAS_LABEL }).first();
@@ -28,7 +28,8 @@ test.describe("home", () => {
   });
 
   test("hero del ecosistema y las dos opciones; el marketing de performance vive en /ecosistema", async ({ page }) => {
-    expect(CTA_VENTAS_LABEL).toBe("Agendar reunión");
+    // Ricardo, 4-nov-2026: el secundario de todo el sitio es «Hablar con ventas».
+    expect(CTA_VENTAS_LABEL).toBe("Hablar con ventas");
     await page.goto("/", { waitUntil: "domcontentloaded" });
     await expect(page.getByRole("heading", { level: 1 })).toContainText(/clínica médica o estética/i);
     await expect(page.locator("[data-planes-vigentes]")).toContainText("Dos formas de trabajar");
@@ -38,7 +39,9 @@ test.describe("home", () => {
     await expect(page.locator("[data-agente-ia-banda]")).toHaveCount(0);
     await page.goto("/ecosistema", { waitUntil: "domcontentloaded" });
     await expect(page.locator("[data-marketing-performance] [data-marketing-bloque]")).toHaveCount(4);
-    await expect(page.locator("[data-marketing-cta]")).toHaveAttribute("href", "/agenda?servicio=marketing");
+    // Ricardo, 4-nov-2026: el bloque de marketing cierra con los dos CTA del sitio.
+    await expect(page.locator("[data-marketing-performance] [data-cta-hex]")).toHaveAttribute("href", /^https:\/\/buy\.stripe\.com\/14AdRbdBnfD49wTgwz1441M/);
+    await expect(page.locator("[data-marketing-performance] [data-cta-ventas]")).toHaveAttribute("href", "/agenda");
     await page.goto("/", { waitUntil: "domcontentloaded" });
     for (const viejo of [/Flux/, /Hurricane/, /Atlas/, /Summit/, new RegExp("CU" + "KI")]) {
       await expect(page.locator("body")).not.toContainText(viejo);
