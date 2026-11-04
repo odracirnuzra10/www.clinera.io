@@ -21,31 +21,47 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
   });
 
-  test("/planes: dos tarjetas con CTA a /agenda y la query", async ({ page }) => {
+  // Ricardo, 4-nov-2026: /planes publica el modelo de /planes2 (Hex · Flux · Vortex · Ecosistema,
+  // todos con WhatsApp). Los links de pago de Stripe siguen saliendo de `planes.ts`.
+  test("/planes: cuatro planes, todos con WhatsApp, y los links de pago de planes.ts", async ({ page }) => {
     await page.goto("/planes?utm_source=google", { waitUntil: "domcontentloaded" });
-    await expect(page.locator("[data-plan-card]")).toHaveCount(2);
-    for (const p of PLANES) {
-      const card = page.locator(`[data-plan-card="${p.id}"]`);
-      await expect(card).toContainText(String(p.monthlyUsd));
-      await expect(card.getByRole("link", { name: CTA_VENTAS_LABEL })).toHaveAttribute(
+    await expect(page.locator("[data-plan-card]")).toHaveCount(4);
+    for (const id of ["hex", "flux", "vortex", "ecosistema"]) {
+      await expect(page.locator(`[data-plan-card="${id}"] [data-canales]`)).toContainText("WhatsApp");
+    }
+    await expect(page.locator('[data-plan-card="hex"]')).toContainText("WhatsApp con 50 conversaciones");
+    await expect(page.locator('[data-plan-card="flux"]')).toContainText("WhatsApp con 200 conversaciones");
+    for (const id of ["vortex", "ecosistema"]) {
+      await expect(page.locator(`[data-plan-card="${id}"] a[data-cta]`)).toHaveAttribute(
         "href",
-        `/agenda?utm_source=google&servicio=${p.servicio}`,
+        new RegExp(`^/agenda\\?.*utm_source=google.*plan=${id}`),
       );
     }
-    await expect(page.locator("[data-planes-vigentes]")).not.toContainText("450");
-    // Ricardo, 20-oct-2026: /planes lleva el Payment Link de cada plan, con los
-    // data-plan* que lee Analytics.tsx (InitiateCheckout + client_reference_id).
-    // Durante la promo del Ecosistema su link (que cobra 529) no se muestra.
+    // Analytics.tsx lee data-plan* (InitiateCheckout + client_reference_id). Durante la promo del
+    // Ecosistema su link (que cobra 529) no se muestra, igual que antes.
     const conLink = PLANES.filter((p) => p.pagoUrl);
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length);
+    // + los dos de Hex (encabezado «Parte con Hex» y su tarjeta), desde el 4-nov-2026.
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length + 2);
+    await expect(page.locator("h1")).toContainText("Parte con Hex");
+    await expect(page.locator("a[data-cta-encabezado]")).toHaveAttribute("href", /buy\.stripe\.com\/14AdRbdBnfD49wTgwz1441M\?utm_source=google/);
+    await expect(page.locator("main")).not.toContainText(/Parte gratis|prueba parte con Flux/);
+    // Hex es el único CTA principal: Vortex y Ecosistema van con botón secundario (fondo blanco).
+    for (const id of ["vortex", "ecosistema", "flux"]) {
+      const fondo = await page.locator(`[data-plan-card="${id}"] a[data-cta]`).evaluate((e) => getComputedStyle(e).backgroundImage);
+      expect(fondo).toBe("none");
+    }
+    const fondoHex = await page.locator('[data-plan-card="hex"] a[data-cta]').evaluate((e) => getComputedStyle(e).backgroundImage);
+    expect(fondoHex).toContain("gradient");
+    await expect(page.locator('[data-plan-card="hex"] a[data-cta="pago"]')).toHaveAttribute("data-plan", "hex");
     for (const p of conLink) {
       const pago = page.locator(`[data-plan-card="${p.id}"] a[href*="buy.stripe.com"]`);
       await expect(pago).toHaveAttribute("href", new RegExp("^" + p.pagoUrl.replace(/[.?]/g, "\\$&")));
       await expect(pago).toHaveAttribute("data-plan", p.id);
       await expect(pago).toHaveAttribute("data-plan-value", String(p.monthlyUsd));
+      await expect(pago).toContainText(`US$ ${p.monthlyUsd}/mes`);
     }
     const texto = await page.locator("main").innerText();
-    for (const viejo of ["Flux", "Hurricane", "Nexus", "Summit", "Atlas", "CU" + "KI", "permanencia"]) {
+    for (const viejo of ["Hurricane", "Nexus", "Summit", "Atlas", "CU" + "KI", "permanencia", "PENDIENTE", "no trae WhatsApp"]) {
       expect(texto).not.toContain(viejo);
     }
   });

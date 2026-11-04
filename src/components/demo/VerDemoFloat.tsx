@@ -15,6 +15,8 @@ export default function VerDemoFloat() {
   if (pathname === "/oferta-clinicas-esteticas") return null;
   // /super-promo: una sola pantalla con el CTA a WhatsApp.
   if (pathname === "/super-promo") return null;
+  // /contrata: landing corta con sus propios botones de alta.
+  if (pathname === "/contrata") return null;
 
   return (
     <>

@@ -7,7 +7,7 @@ import PlanesNuevos from "@/components/planes-nuevos/PlanesNuevos";
 // No se indexa ni va al sitemap hasta que reemplace a /planes.
 export const metadata: Metadata = {
   title: "Planes: Hex, Flux, Vortex y Ecosistema",
-  description: "Parte gratis con Hex o Flux. Vortex suma el agente IA; el Ecosistema suma marketing.",
+  description: "Parte con Hex desde US$ 35 al mes. Vortex suma el agente IA; el Ecosistema suma marketing.",
   robots: { index: false, follow: false },
   alternates: { canonical: "https://www.clinera.io/planes" },
 };

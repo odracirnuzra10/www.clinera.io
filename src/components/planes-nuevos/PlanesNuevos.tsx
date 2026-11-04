@@ -10,6 +10,9 @@ import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 import { CHANNEL_LABEL, ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import { track, trackPixel } from "@/lib/tracking";
+import AhorroEcosistema from "@/components/pricing/AhorroEcosistema";
+import PmfcSection from "@/components/pmfc/PmfcSection";
+import { PLANES, PLANES_BAJADA } from "@/content/planes";
 // Hoja normal, no styled-jsx: la grilla tiene que venir en el HTML del servidor; con
 // styled-jsx las tarjetas se veían apiladas hasta que cargaba el JavaScript.
 import "./planes-nuevos.css";
@@ -29,26 +32,37 @@ import {
   PRUEBA_LINEA,
   PRUEBA_URL,
   VENTAS_LABEL,
+  HEX_PAGO_LABEL,
+  RECOMENDADO_LABEL,
   conPlan,
+  conUtm,
+  faqPublica,
   ofertaVigente,
   precioOferta,
   type PlanNuevo,
 } from "@/content/planes-nuevos";
 
 const MONO = "'JetBrains Mono', ui-monospace, monospace";
+const HEX = PLANES_NUEVOS.find((p) => p.id === "hex")!;
 const noop = () => () => {};
 const readSearch = () => window.location.search;
 const readSearchServer = () => "";
 
-export default function PlanesNuevos() {
+/**
+ * `publico` (Ricardo, 4-nov-2026): es /planes. Sin notas `[PENDIENTE]`, con los links de pago de
+ * Stripe de `planes.ts` (Vortex y Ecosistema, con su misma regla: el del Ecosistema no se muestra
+ * mientras su promoción no coincide con lo que cobra el link), la boleta de ahorro, PMFC y la FAQ
+ * de publicidad. Sin `publico` es la vista previa de /planes2, igual que antes.
+ */
+export default function PlanesNuevos({ publico = false }: { publico?: boolean }) {
   useReveal();
   const search = useSyncExternalStore(noop, readSearch, readSearchServer);
   // La oferta se evalúa en el navegador: en el build quedaría congelada.
   const oferta = useSyncExternalStore(noop, () => ofertaVigente(), () => true);
   useEffect(() => {
-    track("view_item_list", { item_list_id: "planes2" });
-    trackPixel("ViewContent", { content_name: "planes2", content_type: "product_group" });
-  }, []);
+    track("view_item_list", { item_list_id: publico ? "planes" : "planes2" });
+    trackPixel("ViewContent", { content_name: publico ? "planes" : "planes2", content_type: "product_group" });
+  }, [publico]);
 
   return (
     <>
@@ -66,6 +80,19 @@ export default function PlanesNuevos() {
             <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>{PLANES2_TITULO_ACENTO}</span>
           </h1>
           <p style={{ fontFamily: "Inter", fontSize: 18, color: "#4B5563", lineHeight: 1.55, margin: "0 auto 20px", maxWidth: 620 }}>{PLANES2_BAJADA}</p>
+          {/* «Parte con Hex» (Ricardo, 4-nov-2026): el botón del encabezado es el Payment Link de Hex,
+              pelado (Analytics.tsx cuenta el clic y le pone client_reference_id) y con los utm. */}
+          <a
+            href={conUtm(HEX.pagoUrl!, search)}
+            suppressHydrationWarning
+            data-cta-encabezado
+            data-plan={HEX.id}
+            data-plan-name={HEX.name}
+            data-plan-value={HEX.monthlyUsd}
+            style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 48, padding: "12px 26px", borderRadius: 999, background: GRAD, color: "#fff", fontFamily: "Inter", fontWeight: 700, fontSize: 16, textDecoration: "none", margin: "0 auto 18px" }}
+          >
+            {HEX_PAGO_LABEL} · US$ {HEX.monthlyUsd}/mes
+          </a>
           <PriceModalitySwitch size="compact" align="center" />
         </div>
       </section>
@@ -74,15 +101,23 @@ export default function PlanesNuevos() {
         <div style={{ maxWidth: 1240, margin: "0 auto" }}>
           <div className="p2-grid">
             {PLANES_NUEVOS.map((p) => (
-              <Tarjeta key={p.id} plan={p} search={search} oferta={oferta} />
+              <Tarjeta key={p.id} plan={p} search={search} oferta={oferta} publico={publico} />
             ))}
           </div>
           <p style={{ fontFamily: "Inter", fontSize: 14, color: "#4B5563", textAlign: "center", margin: "20px 0 4px" }}>{PRUEBA_LINEA}</p>
           <p data-cliente-actual style={{ fontFamily: "Inter", fontSize: 14, color: "#4B5563", textAlign: "center", margin: 0 }}>
-            {CLIENTE_ACTUAL_LINEA} <span style={{ color: "#B45309" }}>{CLIENTE_ACTUAL_PENDIENTE}</span>
+            {CLIENTE_ACTUAL_LINEA} {!publico && <span style={{ color: "#B45309" }}>{CLIENTE_ACTUAL_PENDIENTE}</span>}
           </p>
+          {publico && (
+            <p data-planes-pmfc style={{ fontFamily: "Inter", fontSize: 15, color: "#374151", textAlign: "center", margin: "18px auto 0", maxWidth: 720, lineHeight: 1.55 }}>
+              {PLANES_BAJADA}
+            </p>
+          )}
+          {publico && <AhorroEcosistema />}
         </div>
       </section>
+
+      {publico && <PmfcSection compacto />}
 
       <section className="p2-section" style={{ background: "#fff", borderTop: "1px solid #F0F0F0" }}>
         <div style={{ maxWidth: 1240, margin: "0 auto" }}>
@@ -95,13 +130,13 @@ export default function PlanesNuevos() {
               </div>
             ))}
           </div>
-          <p style={{ fontFamily: "Inter", fontSize: 13.5, color: "#B45309", marginTop: 14 }}>{EXTRAS_CREDITOS_PENDIENTE}</p>
+          {!publico && <p style={{ fontFamily: "Inter", fontSize: 13.5, color: "#B45309", marginTop: 14 }}>{EXTRAS_CREDITOS_PENDIENTE}</p>}
         </div>
       </section>
 
       <section className="p2-section" style={{ background: "#FAFAFA", borderTop: "1px solid #F0F0F0" }}>
         <div style={{ maxWidth: 1240, margin: "0 auto" }}>
-          <Titulo eyebrow="Cómo funciona" titulo="Prueba primero, elige después." />
+          <Titulo eyebrow="Cómo funciona" titulo="Parte con Hex, sube cuando crezcas." />
           <div className="p2-steps">
             {COMO_FUNCIONA.map((s) => (
               <div key={s.n} style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 22, background: "#fff" }}>
@@ -114,7 +149,7 @@ export default function PlanesNuevos() {
         </div>
       </section>
 
-      <Faq />
+      <Faq items={publico ? faqPublica() : PLANES2_FAQ} />
       <AgendaDemo search={search} />
     </>
   );
@@ -129,7 +164,10 @@ function Titulo({ eyebrow, titulo }: { eyebrow: string; titulo: string }) {
   );
 }
 
-function Tarjeta({ plan, search, oferta }: { plan: PlanNuevo; search: string; oferta: boolean }) {
+function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: string; oferta: boolean; publico: boolean }) {
+  // Link de pago de Stripe: el de `planes.ts`, solo en /planes. Lleva escrito lo que cobra, porque
+  // en noviembre la tarjeta de Vortex muestra el precio con el 20% y el link cobra el precio normal.
+  const pago = publico ? PLANES.find((x) => x.id === plan.id) : undefined;
   const { amount, meta } = usePriceModality();
   const conOferta = oferta && (OFERTA_LANZAMIENTO.planes as readonly string[]).includes(plan.id);
   const fmt = (usd: number) => {
@@ -137,7 +175,13 @@ function Tarjeta({ plan, search, oferta }: { plan: PlanNuevo; search: string; of
     const dec = meta.currency === "USD" && !Number.isInteger(v) ? 2 : 0;
     return `${meta.currency === "USD" ? "US$" : "MX$"} ${v.toLocaleString("es-CL", { minimumFractionDigits: dec, maximumFractionDigits: dec })}`;
   };
-  const href = plan.cta === "prueba" ? conPlan(PRUEBA_URL, plan.id, search) : conPlan("/agenda", plan.id, search);
+  const href =
+    plan.cta === "pago" && plan.pagoUrl
+      ? conUtm(plan.pagoUrl, search)
+      : plan.cta === "prueba"
+        ? conPlan(PRUEBA_URL, plan.id, search)
+        : conPlan("/agenda", plan.id, search);
+  const recomendado = plan.cta === "pago";
   const onClick = () => {
     if (plan.cta === "prueba") {
       track("start_trial_click", { plan: plan.id });
@@ -182,7 +226,7 @@ function Tarjeta({ plan, search, oferta }: { plan: PlanNuevo; search: string; of
             ))}
           </span>
         )}
-        {(plan.cta === "prueba" || conOferta) && (
+        {(plan.cta === "prueba" || conOferta || recomendado) && (
           <span
             data-insignia
             style={{
@@ -198,10 +242,10 @@ function Tarjeta({ plan, search, oferta }: { plan: PlanNuevo; search: string; of
               borderRadius: 999,
               whiteSpace: "nowrap",
               boxShadow: "0 4px 12px -4px rgba(15,23,42,.18)",
-              ...(conOferta ? { background: GRAD, color: "#fff" } : { background: "#ECFDF5", color: "#047857", border: "1px solid #A7F3D0" }),
+              ...(conOferta || recomendado ? { background: GRAD, color: "#fff" } : { background: "#ECFDF5", color: "#047857", border: "1px solid #A7F3D0" }),
             }}
           >
-            {conOferta ? `${OFERTA_LANZAMIENTO.porcentaje}% OFF` : "Prueba gratis"}
+            {recomendado ? RECOMENDADO_LABEL : conOferta ? `${OFERTA_LANZAMIENTO.porcentaje}% OFF` : "Prueba gratis"}
           </span>
         )}
       </div>
@@ -230,10 +274,14 @@ function Tarjeta({ plan, search, oferta }: { plan: PlanNuevo; search: string; of
         {plan.profesionales} · {plan.sucursales}
       </div>
 
+      <div style={{ display: "grid", gap: 10 }}>
       <a
         href={href}
-        onClick={onClick}
+        // El Payment Link va pelado: el clic lo cuenta Analytics.tsx (InitiateCheckout +
+        // client_reference_id). Un onClick propio lo contaba doble (16-oct).
+        onClick={plan.cta === "pago" ? undefined : onClick}
         data-cta={plan.cta}
+        {...(plan.cta === "pago" ? { "data-plan": plan.id, "data-plan-name": plan.name, "data-plan-value": plan.monthlyUsd } : {})}
         suppressHydrationWarning
         style={{
           display: "block",
@@ -246,13 +294,41 @@ function Tarjeta({ plan, search, oferta }: { plan: PlanNuevo; search: string; of
           textDecoration: "none",
           minHeight: 44,
           boxSizing: "border-box",
-          ...(plan.cta === "ventas"
+          // Hex es el único CTA principal (Ricardo, 4-nov-2026): Flux, Vortex y Ecosistema, secundarios.
+          ...(plan.cta === "pago"
             ? { background: GRAD, color: "#fff" }
             : { background: "#fff", color: "#0A0A0A", border: "1px solid #E5E7EB" }),
         }}
       >
-        {plan.cta === "prueba" ? PRUEBA_LABEL : VENTAS_LABEL}
+        {plan.cta === "pago" ? HEX_PAGO_LABEL : plan.cta === "prueba" ? PRUEBA_LABEL : VENTAS_LABEL}
       </a>
+      {pago?.pagoUrl ? (
+        // Enlace pelado: el clic lo cuenta Analytics.tsx (InitiateCheckout + client_reference_id).
+        <a
+          className="p2-pago"
+          href={pago.pagoUrl}
+          suppressHydrationWarning
+          data-plan={pago.id}
+          data-plan-name={pago.name}
+          data-plan-value={pago.monthlyUsd}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            minHeight: 44,
+            textAlign: "center",
+            fontFamily: "Inter",
+            fontSize: 14,
+            fontWeight: 600,
+            color: "#5B21B6",
+            textDecoration: "underline",
+            textUnderlineOffset: 3,
+          }}
+        >
+          Contratar {pago.name} ahora · US$ {pago.monthlyUsd}/mes
+        </a>
+      ) : null}
+      </div>
 
       <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 8, fontFamily: "Inter", fontSize: 14.5 }}>
         {plan.incluye.map((f) => (
@@ -275,14 +351,14 @@ function Tarjeta({ plan, search, oferta }: { plan: PlanNuevo; search: string; of
   );
 }
 
-function Faq() {
+function Faq({ items }: { items: readonly { q: string; a: string }[] }) {
   const [open, setOpen] = useState(0);
   return (
     <section className="p2-section" style={{ borderTop: "1px solid #F0F0F0", background: "#fff" }}>
       <div style={{ maxWidth: 960, margin: "0 auto" }}>
         <Titulo eyebrow="Preguntas frecuentes" titulo="Dudas sobre los planes." />
         <div style={{ borderTop: "1px solid #E5E7EB" }}>
-          {PLANES2_FAQ.map((it, i) => {
+          {items.map((it, i) => {
             const isOpen = open === i;
             return (
               <div key={it.q} style={{ borderBottom: "1px solid #E5E7EB" }}>
@@ -317,7 +393,7 @@ function AgendaDemo({ search }: { search: string }) {
           Te mostramos el agente IA y el marketing funcionando, y te decimos qué plan te conviene.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href={q ? `/agenda?${q}` : "/agenda"} suppressHydrationWarning style={{ background: GRAD, color: "#fff", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>
+          <a href={q ? `/agenda?${q}` : "/agenda"} suppressHydrationWarning style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.45)", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>
             {VENTAS_LABEL}
           </a>
           <a href={conPlan(PRUEBA_URL, "flux", search)} suppressHydrationWarning style={{ background: "#fff", color: "#0A0A0A", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>

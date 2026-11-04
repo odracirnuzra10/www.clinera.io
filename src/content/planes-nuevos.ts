@@ -1,12 +1,16 @@
 // ============================================================================
 // /planes2: modelo de planes del 29-oct-2026 (Ricardo) — Hex · Flux · Vortex · Ecosistema
 // ----------------------------------------------------------------------------
+// 4-nov-2026 (Ricardo): todos los planes traen WhatsApp. Hex US$ 35 con 50 conversaciones,
+// Flux US$ 55 con 200. Lo usan /planes2 y /contrata; /planes no cambia.
 // Vista previa sin indexar. /planes (Vortex · Ecosistema, `planes.ts`) NO cambia hasta
 // que Ricardo apruebe; al aprobar, /planes pasa a ser esta página. Solo clientes nuevos.
 // Dos CTA (Ricardo, 29-oct): «Prueba gratis» (Hex, Flux) → app.clinera.io y
 // «Hablar con ventas» (Vortex, Ecosistema) → /agenda?plan=…. Sin link de pago aún.
 // Lo que falta decidir va como `[PENDIENTE: …]` visible: no se inventa.
 // ============================================================================
+
+import { PLANES_FAQ } from "@/content/planes-faq";
 
 export type PlanNuevoId = "hex" | "flux" | "vortex" | "ecosistema";
 
@@ -20,13 +24,21 @@ export type PlanNuevo = {
   incluye: readonly string[];
   /** Lo que NO trae, en gris: muestra qué se desbloquea al subir. */
   noIncluye: readonly string[];
-  cta: "prueba" | "ventas";
+  /** «pago»: Payment Link de Stripe (Hex, desde el 4-nov-2026). «prueba»: app.clinera.io. «ventas»: /agenda. */
+  cta: "pago" | "prueba" | "ventas";
+  /** Payment Link de Stripe cuando `cta` es «pago». */
+  pagoUrl?: string;
   destacado?: boolean;
-  /** Logos de canales junto al nombre (Ricardo, 29-oct). Hex no trae WhatsApp. */
+  /** Logos de canales junto al nombre (Ricardo, 29-oct). Desde el 4-nov todos traen WhatsApp. */
   canales: readonly ("whatsapp" | "facebook" | "instagram")[];
 };
 
 export const PRUEBA_URL = "https://app.clinera.io";
+// Hex es el plan a vender y el cliente parte en Hex (Ricardo, 4-nov-2026): su CTA principal es el
+// Payment Link de Stripe. Enlace pelado: Analytics.tsx le pone client_reference_id al hacer clic.
+export const HEX_PAGO_URL = "https://buy.stripe.com/14AdRbdBnfD49wTgwz1441M";
+export const HEX_PAGO_LABEL = "Contratar Hex";
+export const RECOMENDADO_LABEL = "Recomendado";
 export const PRUEBA_LABEL = "Prueba gratis";
 export const VENTAS_LABEL = "Hablar con ventas";
 
@@ -40,19 +52,21 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
     etiqueta: "Para partir",
     profesionales: "Hasta 2 profesionales",
     sucursales: "1 sucursal",
-    incluye: [...BASE, "Clinera Intelligence con 100 créditos"],
-    noIncluye: ["WhatsApp", "Agente IA", "Automatizaciones", "Difusiones"],
-    cta: "prueba",
-    canales: [],
+    incluye: [...BASE, "Clinera Intelligence con 100 créditos", "WhatsApp con 50 conversaciones"],
+    noIncluye: ["Instagram y Facebook", "Agente IA", "Automatizaciones", "Difusiones"],
+    cta: "pago",
+    pagoUrl: HEX_PAGO_URL,
+    canales: ["whatsapp"],
+    destacado: true,
   },
   {
     id: "flux",
     name: "Flux",
     monthlyUsd: 55,
-    etiqueta: "Con WhatsApp",
+    etiqueta: "Más conversaciones",
     profesionales: "Hasta 5 profesionales",
     sucursales: "Hasta 2 sucursales",
-    incluye: ["Todo lo de Hex", "Clinera Intelligence con 200 créditos", "WhatsApp con 50 conversaciones"],
+    incluye: ["Todo lo de Hex", "Clinera Intelligence con 200 créditos", "WhatsApp con 200 conversaciones"],
     noIncluye: ["Instagram y Facebook", "Agente IA", "Automatizaciones", "Difusiones"],
     cta: "prueba",
     canales: ["whatsapp"],
@@ -89,12 +103,11 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
       "Campañas en Facebook, Instagram y Google",
       "Propuesta de valor",
       "Framework comercial",
-      "Reunión de marketing semanal",
+      "Reunión de marketing cada semana",
     ],
     noIncluye: [],
     cta: "ventas",
     canales: ["whatsapp", "facebook", "instagram"],
-    destacado: true,
   },
 ];
 
@@ -127,41 +140,42 @@ export function precioOferta(usd: number): number {
 }
 
 export const PLANES2_TITULO = "Elige tu plan.";
-export const PLANES2_TITULO_ACENTO = "Parte gratis.";
-export const PLANES2_BAJADA = "Agenda y WhatsApp para probar. IA y marketing cuando tu clínica esté lista.";
+// Ricardo, 4-nov-2026: el cliente parte con Hex (antes «Parte gratis» y la prueba de Flux).
+export const PLANES2_TITULO_ACENTO = "Parte con Hex.";
+export const PLANES2_BAJADA = "Agenda y WhatsApp desde US$ 35 al mes. IA y marketing cuando tu clínica esté lista.";
 
 export const PRUEBA_LINEA =
-  "La prueba gratis parte con Flux: 7 días o 50 conversaciones de WhatsApp, lo que ocurra primero.";
+  "¿Prefieres probar antes? Flux tiene prueba gratis: 7 días o 50 conversaciones de WhatsApp, lo que ocurra primero.";
 
 export const CLIENTE_ACTUAL_LINEA = "¿Ya eres cliente de Clinera? Tu plan actual se mantiene. Escríbenos si quieres revisarlo.";
 export const CLIENTE_ACTUAL_PENDIENTE = "[PENDIENTE: URL de soporte o WhatsApp]";
 
 export const COMO_FUNCIONA = [
-  { n: "1", titulo: "Crea tu cuenta gratis", texto: "Entras a app.clinera.io y tu prueba parte con Flux." },
+  { n: "1", titulo: "Contrata Hex", texto: "Pagas US$ 35 al mes con tarjeta y tu clínica parte con Hex." },
   {
     n: "2",
     titulo: "Conecta tu WhatsApp",
-    texto: "En Flux respondes por WhatsApp con 50 conversaciones. Hex no trae WhatsApp: solo agenda, presupuestos y panel de ventas.",
+    texto: "Todos los planes traen WhatsApp: Hex con 50 conversaciones al mes y Flux con 200.",
   },
-  { n: "3", titulo: "Elige tu plan", texto: "A los 7 días o a las 50 conversaciones eliges Hex, Flux, Vortex o Ecosistema." },
+  { n: "3", titulo: "Sube cuando crezcas", texto: "Pasa a Flux para más conversaciones, o a Vortex y Ecosistema para el agente IA y marketing." },
 ] as const;
 
 export const PLANES2_FAQ: readonly { q: string; a: string }[] = [
   {
     q: "¿Qué incluye cada plan?",
-    a: "Hex: agendamiento, presupuestos y planes, panel de ventas y Clinera Intelligence con 100 créditos, hasta 2 profesionales y 1 sucursal. Flux: lo de Hex, 200 créditos y WhatsApp con 50 conversaciones, hasta 5 profesionales y 2 sucursales. Vortex: agente IA con 28.000 créditos de IA, 5.000 conversaciones, WhatsApp, Facebook e Instagram, automatizaciones y difusiones, hasta 10 profesionales y 3 sucursales. Ecosistema: todo Vortex más marketing (campañas, propuesta de valor, framework comercial y reunión semanal).",
+    a: "Hex: agendamiento, presupuestos y planes, panel de ventas, Clinera Intelligence con 100 créditos y WhatsApp con 50 conversaciones, hasta 2 profesionales y 1 sucursal. Flux: lo de Hex, 200 créditos y WhatsApp con 200 conversaciones, hasta 5 profesionales y 2 sucursales. Vortex: agente IA con 28.000 créditos de IA, 5.000 conversaciones, WhatsApp, Facebook e Instagram, automatizaciones y difusiones, hasta 10 profesionales y 3 sucursales. Ecosistema: todo Vortex más marketing (campañas, propuesta de valor, framework comercial y reunión semanal).",
   },
   {
     q: "¿Cuánto dura la prueba gratis?",
-    a: "7 días o 50 conversaciones de WhatsApp, lo que ocurra primero. Parte con Flux para que conectes tu WhatsApp.",
+    a: "La prueba gratis es de Flux: 7 días o 50 conversaciones de WhatsApp, lo que ocurra primero.",
   },
   {
     q: "¿Qué pasa al llegar a las 50 conversaciones?",
     a: "Termina la prueba y eliges tu plan: Hex, Flux, Vortex o Ecosistema. [PENDIENTE: qué pasa si no eliges: bloqueo o cobro automático]",
   },
   {
-    q: "¿Puedo empezar con la prueba y subir después?",
-    a: "Sí. Partes gratis y cuando quieras sumar Instagram, Facebook y el agente IA pasas a Vortex o Ecosistema.",
+    q: "¿Con qué plan parto?",
+    a: "Con Hex: US$ 35 al mes con WhatsApp y 50 conversaciones. Si necesitas más conversaciones pasas a Flux, y cuando quieras sumar Instagram, Facebook y el agente IA pasas a Vortex o Ecosistema.",
   },
   {
     q: "¿Cómo subo de plan?",
@@ -190,4 +204,24 @@ export function conPlan(base: string, plan: PlanNuevoId, search = ""): string {
   const q = new URLSearchParams(search);
   q.set("plan", plan);
   return `${base}?${q.toString()}`;
+}
+
+/** Quita las notas internas `[PENDIENTE: …]`: /planes no las publica (4-nov-2026). */
+export function sinPendientes(texto: string): string {
+  return texto.replace(/\s*\[PENDIENTE:[^\]]*\]/g, "").trim();
+}
+
+/** FAQ de /planes: la de /planes2 sin notas internas (se cae la que queda vacía) + la de publicidad. */
+export function faqPublica(): { q: string; a: string }[] {
+  const propias = PLANES2_FAQ.map((f) => ({ q: f.q, a: sinPendientes(f.a) })).filter((f) => f.a.length > 0);
+  const publicidad = PLANES_FAQ.filter((f) => /publicidad/i.test(f.q));
+  return [...propias, ...publicidad];
+}
+
+/** Payment Link con los utm de la visita (Stripe los guarda en la sesión de Checkout). */
+export function conUtm(url: string, search = ""): string {
+  const visita = new URLSearchParams(search);
+  const u = new URL(url);
+  for (const [k, v] of visita) if (k.startsWith("utm_") && v) u.searchParams.set(k, v);
+  return u.toString();
 }
