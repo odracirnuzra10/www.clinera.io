@@ -1408,3 +1408,8 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
   el `client_reference_id`. Se comprobó con un clic real en Chromium.
 - **Lo que cobra el link no está verificado:** la llave de Stripe del entorno no tiene permiso para leer Payment
   Links, y `data-plan-value` dice 35. Si el precio cambia en Stripe, hay que cambiar `monthlyUsd` y el link a la vez.
+- **«Parte con Hex» (Ricardo, 4-nov-2026, 2.ª vuelta):** el encabezado de `/planes` y `/planes2` dice «Elige tu plan.
+  Parte con Hex.» y lleva un botón al Payment Link de Hex (`data-cta-encabezado`, pelado, con los utm). La prueba
+  gratis sigue existiendo, pero es de Flux y ya no es el punto de partida. **Hex es el único CTA principal**: Flux,
+  Vortex, Ecosistema y el «Hablar con ventas» del cierre van con botón secundario, sin degradado. Lo vigila
+  `tests/planes-vigentes.spec.ts`.

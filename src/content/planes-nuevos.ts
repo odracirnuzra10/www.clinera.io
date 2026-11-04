@@ -140,23 +140,24 @@ export function precioOferta(usd: number): number {
 }
 
 export const PLANES2_TITULO = "Elige tu plan.";
-export const PLANES2_TITULO_ACENTO = "Parte gratis.";
-export const PLANES2_BAJADA = "Agenda y WhatsApp para probar. IA y marketing cuando tu clínica esté lista.";
+// Ricardo, 4-nov-2026: el cliente parte con Hex (antes «Parte gratis» y la prueba de Flux).
+export const PLANES2_TITULO_ACENTO = "Parte con Hex.";
+export const PLANES2_BAJADA = "Agenda y WhatsApp desde US$ 35 al mes. IA y marketing cuando tu clínica esté lista.";
 
 export const PRUEBA_LINEA =
-  "La prueba gratis parte con Flux: 7 días o 50 conversaciones de WhatsApp, lo que ocurra primero.";
+  "¿Prefieres probar antes? Flux tiene prueba gratis: 7 días o 50 conversaciones de WhatsApp, lo que ocurra primero.";
 
 export const CLIENTE_ACTUAL_LINEA = "¿Ya eres cliente de Clinera? Tu plan actual se mantiene. Escríbenos si quieres revisarlo.";
 export const CLIENTE_ACTUAL_PENDIENTE = "[PENDIENTE: URL de soporte o WhatsApp]";
 
 export const COMO_FUNCIONA = [
-  { n: "1", titulo: "Crea tu cuenta gratis", texto: "Entras a app.clinera.io y tu prueba parte con Flux." },
+  { n: "1", titulo: "Contrata Hex", texto: "Pagas US$ 35 al mes con tarjeta y tu clínica parte con Hex." },
   {
     n: "2",
     titulo: "Conecta tu WhatsApp",
     texto: "Todos los planes traen WhatsApp: Hex con 50 conversaciones al mes y Flux con 200.",
   },
-  { n: "3", titulo: "Elige tu plan", texto: "A los 7 días o a las 50 conversaciones eliges Hex, Flux, Vortex o Ecosistema." },
+  { n: "3", titulo: "Sube cuando crezcas", texto: "Pasa a Flux para más conversaciones, o a Vortex y Ecosistema para el agente IA y marketing." },
 ] as const;
 
 export const PLANES2_FAQ: readonly { q: string; a: string }[] = [
@@ -166,15 +167,15 @@ export const PLANES2_FAQ: readonly { q: string; a: string }[] = [
   },
   {
     q: "¿Cuánto dura la prueba gratis?",
-    a: "7 días o 50 conversaciones de WhatsApp, lo que ocurra primero. Parte con Flux para que conectes tu WhatsApp.",
+    a: "La prueba gratis es de Flux: 7 días o 50 conversaciones de WhatsApp, lo que ocurra primero.",
   },
   {
     q: "¿Qué pasa al llegar a las 50 conversaciones?",
     a: "Termina la prueba y eliges tu plan: Hex, Flux, Vortex o Ecosistema. [PENDIENTE: qué pasa si no eliges: bloqueo o cobro automático]",
   },
   {
-    q: "¿Puedo empezar con la prueba y subir después?",
-    a: "Sí. Partes gratis y cuando quieras sumar Instagram, Facebook y el agente IA pasas a Vortex o Ecosistema.",
+    q: "¿Con qué plan parto?",
+    a: "Con Hex: US$ 35 al mes con WhatsApp y 50 conversaciones. Si necesitas más conversaciones pasas a Flux, y cuando quieras sumar Instagram, Facebook y el agente IA pasas a Vortex o Ecosistema.",
   },
   {
     q: "¿Cómo subo de plan?",

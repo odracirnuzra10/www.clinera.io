@@ -13,7 +13,7 @@ import { PLANES_NUEVOS, faqPublica } from "@/content/planes-nuevos";
 // saliendo de `planes.ts` (ver `PlanesNuevos publico`). `/promo` y el home siguen con `planes.ts`.
 const DESDE = Math.min(...PLANES_NUEVOS.map((p) => p.monthlyUsd));
 const TITLE = `Planes: Hex, Flux, Vortex y Ecosistema, desde US$ ${DESDE}/mes`;
-const DESCRIPTION = `${PLANES_NUEVOS.map((p) => `${p.name} US$ ${p.monthlyUsd}/mes`).join(" · ")}. Todos con WhatsApp. Parte gratis con Hex o Flux; Vortex suma el agente IA y el Ecosistema suma marketing.`;
+const DESCRIPTION = `${PLANES_NUEVOS.map((p) => `${p.name} US$ ${p.monthlyUsd}/mes`).join(" · ")}. Todos con WhatsApp. Parte con Hex; Vortex suma el agente IA y el Ecosistema suma marketing.`;
 
 const planesSchema = {
   "@context": "https://schema.org",

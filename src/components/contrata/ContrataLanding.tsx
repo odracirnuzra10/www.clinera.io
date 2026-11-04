@@ -55,7 +55,7 @@ export default function ContrataLanding() {
         <h1 className={styles.titulo}>
           Tu clínica ordenada, <span className={styles.acento}>con WhatsApp incluido.</span>
         </h1>
-        <p className={styles.bajada}>Agenda, presupuestos y panel de ventas. Creas tu cuenta en minutos y pruebas gratis.</p>
+        <p className={styles.bajada}>Agenda, presupuestos y panel de ventas. Partes con Hex desde US$ 35 al mes.</p>
       </header>
 
       <div className={styles.tickets}>

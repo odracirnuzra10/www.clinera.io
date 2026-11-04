@@ -43,6 +43,7 @@ import {
 } from "@/content/planes-nuevos";
 
 const MONO = "'JetBrains Mono', ui-monospace, monospace";
+const HEX = PLANES_NUEVOS.find((p) => p.id === "hex")!;
 const noop = () => () => {};
 const readSearch = () => window.location.search;
 const readSearchServer = () => "";
@@ -79,6 +80,19 @@ export default function PlanesNuevos({ publico = false }: { publico?: boolean })
             <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>{PLANES2_TITULO_ACENTO}</span>
           </h1>
           <p style={{ fontFamily: "Inter", fontSize: 18, color: "#4B5563", lineHeight: 1.55, margin: "0 auto 20px", maxWidth: 620 }}>{PLANES2_BAJADA}</p>
+          {/* «Parte con Hex» (Ricardo, 4-nov-2026): el botón del encabezado es el Payment Link de Hex,
+              pelado (Analytics.tsx cuenta el clic y le pone client_reference_id) y con los utm. */}
+          <a
+            href={conUtm(HEX.pagoUrl!, search)}
+            suppressHydrationWarning
+            data-cta-encabezado
+            data-plan={HEX.id}
+            data-plan-name={HEX.name}
+            data-plan-value={HEX.monthlyUsd}
+            style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 48, padding: "12px 26px", borderRadius: 999, background: GRAD, color: "#fff", fontFamily: "Inter", fontWeight: 700, fontSize: 16, textDecoration: "none", margin: "0 auto 18px" }}
+          >
+            {HEX_PAGO_LABEL} · US$ {HEX.monthlyUsd}/mes
+          </a>
           <PriceModalitySwitch size="compact" align="center" />
         </div>
       </section>
@@ -122,7 +136,7 @@ export default function PlanesNuevos({ publico = false }: { publico?: boolean })
 
       <section className="p2-section" style={{ background: "#FAFAFA", borderTop: "1px solid #F0F0F0" }}>
         <div style={{ maxWidth: 1240, margin: "0 auto" }}>
-          <Titulo eyebrow="Cómo funciona" titulo="Prueba primero, elige después." />
+          <Titulo eyebrow="Cómo funciona" titulo="Parte con Hex, sube cuando crezcas." />
           <div className="p2-steps">
             {COMO_FUNCIONA.map((s) => (
               <div key={s.n} style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 22, background: "#fff" }}>
@@ -280,7 +294,8 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
           textDecoration: "none",
           minHeight: 44,
           boxSizing: "border-box",
-          ...(plan.cta === "ventas" || plan.cta === "pago"
+          // Hex es el único CTA principal (Ricardo, 4-nov-2026): Flux, Vortex y Ecosistema, secundarios.
+          ...(plan.cta === "pago"
             ? { background: GRAD, color: "#fff" }
             : { background: "#fff", color: "#0A0A0A", border: "1px solid #E5E7EB" }),
         }}
@@ -378,7 +393,7 @@ function AgendaDemo({ search }: { search: string }) {
           Te mostramos el agente IA y el marketing funcionando, y te decimos qué plan te conviene.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href={q ? `/agenda?${q}` : "/agenda"} suppressHydrationWarning style={{ background: GRAD, color: "#fff", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>
+          <a href={q ? `/agenda?${q}` : "/agenda"} suppressHydrationWarning style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.45)", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>
             {VENTAS_LABEL}
           </a>
           <a href={conPlan(PRUEBA_URL, "flux", search)} suppressHydrationWarning style={{ background: "#fff", color: "#0A0A0A", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>

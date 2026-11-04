@@ -40,8 +40,18 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     // Analytics.tsx lee data-plan* (InitiateCheckout + client_reference_id). Durante la promo del
     // Ecosistema su link (que cobra 529) no se muestra, igual que antes.
     const conLink = PLANES.filter((p) => p.pagoUrl);
-    // + el de Hex, que es el CTA principal de su tarjeta desde el 4-nov-2026.
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length + 1);
+    // + los dos de Hex (encabezado «Parte con Hex» y su tarjeta), desde el 4-nov-2026.
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length + 2);
+    await expect(page.locator("h1")).toContainText("Parte con Hex");
+    await expect(page.locator("a[data-cta-encabezado]")).toHaveAttribute("href", /buy\.stripe\.com\/14AdRbdBnfD49wTgwz1441M\?utm_source=google/);
+    await expect(page.locator("main")).not.toContainText(/Parte gratis|prueba parte con Flux/);
+    // Hex es el único CTA principal: Vortex y Ecosistema van con botón secundario (fondo blanco).
+    for (const id of ["vortex", "ecosistema", "flux"]) {
+      const fondo = await page.locator(`[data-plan-card="${id}"] a[data-cta]`).evaluate((e) => getComputedStyle(e).backgroundImage);
+      expect(fondo).toBe("none");
+    }
+    const fondoHex = await page.locator('[data-plan-card="hex"] a[data-cta]').evaluate((e) => getComputedStyle(e).backgroundImage);
+    expect(fondoHex).toContain("gradient");
     await expect(page.locator('[data-plan-card="hex"] a[data-cta="pago"]')).toHaveAttribute("data-plan", "hex");
     for (const p of conLink) {
       const pago = page.locator(`[data-plan-card="${p.id}"] a[href*="buy.stripe.com"]`);
