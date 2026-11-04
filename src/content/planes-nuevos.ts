@@ -10,6 +10,8 @@
 // Lo que falta decidir va como `[PENDIENTE: …]` visible: no se inventa.
 // ============================================================================
 
+import { PLANES_FAQ } from "@/content/planes-faq";
+
 export type PlanNuevoId = "hex" | "flux" | "vortex" | "ecosistema";
 
 export type PlanNuevo = {
@@ -91,7 +93,7 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
       "Campañas en Facebook, Instagram y Google",
       "Propuesta de valor",
       "Framework comercial",
-      "Reunión de marketing semanal",
+      "Reunión de marketing cada semana",
     ],
     noIncluye: [],
     cta: "ventas",
@@ -192,4 +194,16 @@ export function conPlan(base: string, plan: PlanNuevoId, search = ""): string {
   const q = new URLSearchParams(search);
   q.set("plan", plan);
   return `${base}?${q.toString()}`;
+}
+
+/** Quita las notas internas `[PENDIENTE: …]`: /planes no las publica (4-nov-2026). */
+export function sinPendientes(texto: string): string {
+  return texto.replace(/\s*\[PENDIENTE:[^\]]*\]/g, "").trim();
+}
+
+/** FAQ de /planes: la de /planes2 sin notas internas (se cae la que queda vacía) + la de publicidad. */
+export function faqPublica(): { q: string; a: string }[] {
+  const propias = PLANES2_FAQ.map((f) => ({ q: f.q, a: sinPendientes(f.a) })).filter((f) => f.a.length > 0);
+  const publicidad = PLANES_FAQ.filter((f) => /publicidad/i.test(f.q));
+  return [...propias, ...publicidad];
 }

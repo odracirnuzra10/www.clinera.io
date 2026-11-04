@@ -1346,7 +1346,8 @@ Guardianes: `tests/agenda-wizard.spec.ts` (confirmación, «Corregir», `manual`
 # `/planes2`: Hex · Flux · Vortex · Ecosistema (Ricardo, 29-oct-2026)
 
 Vista previa sin indexar del modelo de planes nuevo. **`/planes` no cambia** hasta que Ricardo apruebe; al
-aprobar, `/planes` pasa a ser esta página (y `/planes2` vuelve a redirigir). Fuente única:
+aprobar, `/planes` pasa a ser esta página (y `/planes2` vuelve a redirigir).
+**Aprobado el 4-nov-2026: `/planes` ya muestra este modelo** (ver «`/planes` publica Hex · Flux · Vortex · Ecosistema» al final). Fuente única:
 `src/content/planes-nuevos.ts` (no es `planes2.ts`, que es el catálogo viejo de `/go/exito`).
 
 - Hex US$ 35 · Flux US$ 55 · Vortex US$ 279 · Ecosistema US$ 379. Solo clientes nuevos; los actuales mantienen plan y precio.
@@ -1374,3 +1375,24 @@ de `/agenda`. **Desde el 4-nov todos los planes traen WhatsApp**: Hex ya no va �
   secas y la página nunca se ve. Además, los navegadores que ya visitaron `/contrata` pueden tener guardado el
   308 viejo a `/planes`.
 - Guardianes: `tests/contrata.spec.ts` y `tests/planes2.spec.ts`. Capturas: `docs/contrata-capturas/`.
+
+# `/planes` publica Hex · Flux · Vortex · Ecosistema (Ricardo, 4-nov-2026)
+
+`/planes` renderiza `PlanesNuevos publico` (catálogo `planes-nuevos.ts`, todos los planes con WhatsApp: Hex 50
+conversaciones, Flux 200). `PlanesV3`, `PlanesVigentes` y `planes.ts` **no cambiaron**: los siguen usando `/promo`,
+el home, `/agenda` y las landings. El modo `publico`:
+- **No publica las notas `[PENDIENTE: …]`** (`sinPendientes`/`faqPublica`). La FAQ «¿La prueba pide tarjeta?» se cae
+  porque su respuesta era sólo la nota. Siguen abiertas para Ricardo: tarjeta en la prueba, qué pasa si no eligen plan
+  al terminar la prueba, si el 20 % es acumulable, URL de soporte para clientes actuales, extras de créditos de IA.
+- Conserva lo que exigían las reglas del `/planes` anterior: la FAQ «la publicidad se paga aparte», la boleta de ahorro,
+  `PmfcSection compacto` y la línea «Vortex es la C de PMFC…» (`PLANES_BAJADA`).
+- **Links de pago:** salen de `pagoUrl` de `planes.ts`, enlace pelado con `data-plan*` y sin `onClick` (ver «El clic a
+  `buy.stripe.com`»). El texto dice lo que cobra el link: «Contratar Vortex ahora · US$ 279/mes», porque en noviembre la
+  tarjeta muestra el 20 % (223,20) y el link cobra 279. El del Ecosistema sigue oculto mientras dure la promo de 379
+  (el link cobra 529), igual que antes.
+- **Pendiente con fecha:** `planes.ts` vuelve el Ecosistema a 529 el 27-nov; `planes-nuevos.ts` dice 379 fijo. Desde
+  esa fecha `/planes` diría 379 y la boleta, `/agenda` y las landings 529, y el link del Ecosistema (529) reaparecería
+  bajo una tarjeta de 379. Hay que decidir antes del 27-nov.
+- JSON-LD y metadata de `/planes` salen de `PLANES_NUEVOS` (no de `softwareOffers`, que sigue en el home).
+- Pruebas que ya fallaban en `main` antes de este cambio: `aeo-entidad.spec.ts` (2), «/planes y la presentación lo
+  muestran» (el deck ya no trae «Reunión de marketing cada semana») y `analytics.spec.ts` 4) (busca la tarjeta «hurricane»).

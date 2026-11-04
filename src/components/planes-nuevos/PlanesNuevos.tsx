@@ -10,6 +10,9 @@ import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 import { CHANNEL_LABEL, ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import { track, trackPixel } from "@/lib/tracking";
+import AhorroEcosistema from "@/components/pricing/AhorroEcosistema";
+import PmfcSection from "@/components/pmfc/PmfcSection";
+import { PLANES, PLANES_BAJADA } from "@/content/planes";
 // Hoja normal, no styled-jsx: la grilla tiene que venir en el HTML del servidor; con
 // styled-jsx las tarjetas se veían apiladas hasta que cargaba el JavaScript.
 import "./planes-nuevos.css";
@@ -30,6 +33,7 @@ import {
   PRUEBA_URL,
   VENTAS_LABEL,
   conPlan,
+  faqPublica,
   ofertaVigente,
   precioOferta,
   type PlanNuevo,
@@ -40,15 +44,21 @@ const noop = () => () => {};
 const readSearch = () => window.location.search;
 const readSearchServer = () => "";
 
-export default function PlanesNuevos() {
+/**
+ * `publico` (Ricardo, 4-nov-2026): es /planes. Sin notas `[PENDIENTE]`, con los links de pago de
+ * Stripe de `planes.ts` (Vortex y Ecosistema, con su misma regla: el del Ecosistema no se muestra
+ * mientras su promoción no coincide con lo que cobra el link), la boleta de ahorro, PMFC y la FAQ
+ * de publicidad. Sin `publico` es la vista previa de /planes2, igual que antes.
+ */
+export default function PlanesNuevos({ publico = false }: { publico?: boolean }) {
   useReveal();
   const search = useSyncExternalStore(noop, readSearch, readSearchServer);
   // La oferta se evalúa en el navegador: en el build quedaría congelada.
   const oferta = useSyncExternalStore(noop, () => ofertaVigente(), () => true);
   useEffect(() => {
-    track("view_item_list", { item_list_id: "planes2" });
-    trackPixel("ViewContent", { content_name: "planes2", content_type: "product_group" });
-  }, []);
+    track("view_item_list", { item_list_id: publico ? "planes" : "planes2" });
+    trackPixel("ViewContent", { content_name: publico ? "planes" : "planes2", content_type: "product_group" });
+  }, [publico]);
 
   return (
     <>
@@ -74,15 +84,23 @@ export default function PlanesNuevos() {
         <div style={{ maxWidth: 1240, margin: "0 auto" }}>
           <div className="p2-grid">
             {PLANES_NUEVOS.map((p) => (
-              <Tarjeta key={p.id} plan={p} search={search} oferta={oferta} />
+              <Tarjeta key={p.id} plan={p} search={search} oferta={oferta} publico={publico} />
             ))}
           </div>
           <p style={{ fontFamily: "Inter", fontSize: 14, color: "#4B5563", textAlign: "center", margin: "20px 0 4px" }}>{PRUEBA_LINEA}</p>
           <p data-cliente-actual style={{ fontFamily: "Inter", fontSize: 14, color: "#4B5563", textAlign: "center", margin: 0 }}>
-            {CLIENTE_ACTUAL_LINEA} <span style={{ color: "#B45309" }}>{CLIENTE_ACTUAL_PENDIENTE}</span>
+            {CLIENTE_ACTUAL_LINEA} {!publico && <span style={{ color: "#B45309" }}>{CLIENTE_ACTUAL_PENDIENTE}</span>}
           </p>
+          {publico && (
+            <p data-planes-pmfc style={{ fontFamily: "Inter", fontSize: 15, color: "#374151", textAlign: "center", margin: "18px auto 0", maxWidth: 720, lineHeight: 1.55 }}>
+              {PLANES_BAJADA}
+            </p>
+          )}
+          {publico && <AhorroEcosistema />}
         </div>
       </section>
+
+      {publico && <PmfcSection compacto />}
 
       <section className="p2-section" style={{ background: "#fff", borderTop: "1px solid #F0F0F0" }}>
         <div style={{ maxWidth: 1240, margin: "0 auto" }}>
@@ -95,7 +113,7 @@ export default function PlanesNuevos() {
               </div>
             ))}
           </div>
-          <p style={{ fontFamily: "Inter", fontSize: 13.5, color: "#B45309", marginTop: 14 }}>{EXTRAS_CREDITOS_PENDIENTE}</p>
+          {!publico && <p style={{ fontFamily: "Inter", fontSize: 13.5, color: "#B45309", marginTop: 14 }}>{EXTRAS_CREDITOS_PENDIENTE}</p>}
         </div>
       </section>
 
@@ -114,7 +132,7 @@ export default function PlanesNuevos() {
         </div>
       </section>
 
-      <Faq />
+      <Faq items={publico ? faqPublica() : PLANES2_FAQ} />
       <AgendaDemo search={search} />
     </>
   );
@@ -129,7 +147,10 @@ function Titulo({ eyebrow, titulo }: { eyebrow: string; titulo: string }) {
   );
 }
 
-function Tarjeta({ plan, search, oferta }: { plan: PlanNuevo; search: string; oferta: boolean }) {
+function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: string; oferta: boolean; publico: boolean }) {
+  // Link de pago de Stripe: el de `planes.ts`, solo en /planes. Lleva escrito lo que cobra, porque
+  // en noviembre la tarjeta de Vortex muestra el precio con el 20% y el link cobra el precio normal.
+  const pago = publico ? PLANES.find((x) => x.id === plan.id) : undefined;
   const { amount, meta } = usePriceModality();
   const conOferta = oferta && (OFERTA_LANZAMIENTO.planes as readonly string[]).includes(plan.id);
   const fmt = (usd: number) => {
@@ -230,6 +251,7 @@ function Tarjeta({ plan, search, oferta }: { plan: PlanNuevo; search: string; of
         {plan.profesionales} · {plan.sucursales}
       </div>
 
+      <div style={{ display: "grid", gap: 10 }}>
       <a
         href={href}
         onClick={onClick}
@@ -253,6 +275,33 @@ function Tarjeta({ plan, search, oferta }: { plan: PlanNuevo; search: string; of
       >
         {plan.cta === "prueba" ? PRUEBA_LABEL : VENTAS_LABEL}
       </a>
+      {pago?.pagoUrl ? (
+        // Enlace pelado: el clic lo cuenta Analytics.tsx (InitiateCheckout + client_reference_id).
+        <a
+          className="p2-pago"
+          href={pago.pagoUrl}
+          suppressHydrationWarning
+          data-plan={pago.id}
+          data-plan-name={pago.name}
+          data-plan-value={pago.monthlyUsd}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            minHeight: 44,
+            textAlign: "center",
+            fontFamily: "Inter",
+            fontSize: 14,
+            fontWeight: 600,
+            color: "#5B21B6",
+            textDecoration: "underline",
+            textUnderlineOffset: 3,
+          }}
+        >
+          Contratar {pago.name} ahora · US$ {pago.monthlyUsd}/mes
+        </a>
+      ) : null}
+      </div>
 
       <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 8, fontFamily: "Inter", fontSize: 14.5 }}>
         {plan.incluye.map((f) => (
@@ -275,14 +324,14 @@ function Tarjeta({ plan, search, oferta }: { plan: PlanNuevo; search: string; of
   );
 }
 
-function Faq() {
+function Faq({ items }: { items: readonly { q: string; a: string }[] }) {
   const [open, setOpen] = useState(0);
   return (
     <section className="p2-section" style={{ borderTop: "1px solid #F0F0F0", background: "#fff" }}>
       <div style={{ maxWidth: 960, margin: "0 auto" }}>
         <Titulo eyebrow="Preguntas frecuentes" titulo="Dudas sobre los planes." />
         <div style={{ borderTop: "1px solid #E5E7EB" }}>
-          {PLANES2_FAQ.map((it, i) => {
+          {items.map((it, i) => {
             const isOpen = open === i;
             return (
               <div key={it.q} style={{ borderBottom: "1px solid #E5E7EB" }}>
