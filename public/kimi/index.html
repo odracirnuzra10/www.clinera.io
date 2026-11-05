@@ -289,7 +289,10 @@ footer a.ext{color:var(--text);font-weight:500}
 .acard .precio{margin:0}
 .acard .precio b{font-size:1.05rem}
 .acard .btn,.producto .btn,.drawer footer .btn,.mcta .btn{min-height:48px}
-.acard .btn{width:100%;font-size:.85rem;margin-top:auto}
+.acard .btn{width:100%;font-size:.85rem;margin-top:auto;white-space:normal;line-height:1.2;padding:8px 10px}
+.luego{color:var(--muted);font-size:.78rem;margin:-6px 0 10px;line-height:1.3}
+.acard .luego{margin:0 0 8px}
+.btn:disabled,.btn.grad:disabled{background:#E5E7EB;border-color:#E5E7EB;color:#374151;box-shadow:none;cursor:not-allowed;opacity:1}
 .acard.regalo .afoto{background:#ECFDF5}
 .acard.regalo .afoto svg{stroke:#065F46}
 .stepper{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border);border-radius:10px;min-height:44px;padding:0 6px}
@@ -441,95 +444,6 @@ footer a.ext{color:var(--text);font-weight:500}
 </header>
 
 <main id="main">
-<section class="tienda" id="planes" aria-labelledby="t-planes" data-carrito>
-  <div class="wrap">
-    <p class="eyebrow">Activa tu clínica</p>
-    <h2 id="t-planes">Configura tu clínica</h2>
-    <article class="producto" data-testid="plan-flux" data-flux-base>
-      <div class="producto-foto" aria-hidden="true">
-        <svg viewBox="0 0 64 64"><path d="M10 28 L32 10 L54 28 V54 H40 V38 H24 V54 H10 Z"/></svg>
-      </div>
-      <div>
-        <h3>Clinera Flux</h3>
-        <p class="producto-sub">Desde USD 29/mes. Partes con lo esencial y lo agregas al carrito.</p>
-        <p class="precio">
-          <s>USD 29</s>
-          <b>USD 14,50</b>
-          <span class="off">−50%</span>
-          <small>/mes</small>
-        </p>
-        <button class="btn grad" type="button" data-agregar="flux_base">Agregar al carrito</button>
-        <ul class="incluye">
-          <li>2 profesionales</li><li>1 sucursal</li><li>100 conversaciones</li>
-          <li>Fichas clínicas</li><li>WhatsApp</li><li>Clinera Intelligence</li>
-        </ul>
-      </div>
-    </article>
-    <div class="carril-head">
-      <h3>También puedes agregar</h3>
-      <div class="carril-nav">
-        <button type="button" data-carril="prev" aria-label="Anteriores">‹</button>
-        <button type="button" data-carril="next" aria-label="Siguientes">›</button>
-      </div>
-    </div>
-    <div class="carril" data-testid="plan-addons" tabindex="0">
-      <article class="acard" data-addon="profesional_extra">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 19c1.2-3 3.2-4.5 6-4.5S16.8 16 18 19"/></svg></div>
-        <h4>Profesional extra</h4>
-        <p>Otro profesional en la agenda de tu clínica.</p>
-        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">−50%</span></p>
-        <button class="btn grad" type="button" data-agregar="profesional_extra">Agregar al carrito</button>
-      </article>
-      <article class="acard" data-addon="sucursal_extra">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11"/><path d="M10 20v-6h4v6"/></svg></div>
-        <h4>Sucursal extra</h4>
-        <p>Otra sucursal con su propia agenda.</p>
-        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">−50%</span></p>
-        <button class="btn grad" type="button" data-agregar="sucursal_extra">Agregar al carrito</button>
-      </article>
-      <article class="acard" data-addon="conversaciones_1000">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6h14v9H8l-3 3V6z"/></svg></div>
-        <h4>1.000 conversaciones extra</h4>
-        <p>Cada pack suma 1.000 conversaciones al mes.</p>
-        <p class="precio"><s>USD 25</s><b>USD 12,50</b><span class="off">−50%</span></p>
-        <button class="btn grad" type="button" data-agregar="conversaciones_1000">Agregar al carrito</button>
-      </article>
-      <article class="acard" data-addon="instagram">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="4"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <h4>Conexión Instagram</h4>
-        <p>Los mensajes de Instagram llegan a tu agenda.</p>
-        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">−50%</span></p>
-        <button class="btn grad" type="button" data-agregar="instagram">Agregar al carrito</button>
-      </article>
-      <article class="acard" data-addon="facebook">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 20v-6h2.5l.5-3H14V9.2c0-.8.3-1.2 1.3-1.2H17V5.2c-.4 0-1.4-.2-2.2-.2-2.2 0-3.6 1.3-3.6 3.6V11H9v3h2.2V20z"/></svg></div>
-        <h4>Conexión Facebook</h4>
-        <p>Los mensajes de Facebook llegan a tu agenda.</p>
-        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">−50%</span></p>
-        <button class="btn grad" type="button" data-agregar="facebook">Agregar al carrito</button>
-      </article>
-      <article class="acard" data-addon="agente_ia">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l1.4 4.2L18 10l-4.6 1.4L12 16l-1.4-4.6L6 10l4.6-1.8z"/></svg></div>
-        <h4>Agente IA</h4>
-        <p>Incluye 7.000 créditos de IA. Atiende por ti.</p>
-        <p class="precio"><s>USD 79</s><b>USD 39,50</b><span class="off">−50%</span></p>
-        <button class="btn grad" type="button" data-agregar="agente_ia">Agregar al carrito</button>
-      </article>
-      <article class="acard regalo" data-regalo>
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="1.5"/><path d="M4 10h16V7H4zM12 7v13M12 7c-2 0-3.5-2-2.2-3.2C11 2.6 12 5 12 7zM12 7c2 0 3.5-2 2.2-3.2C13 2.6 12 5 12 7z"/></svg></div>
-        <h4>Email marketing</h4>
-        <p>Regalo de noviembre, luego USD 9/mes.</p>
-        <p class="precio"><b>USD 0</b></p>
-      </article>
-      <article class="acard regalo">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 16l4-4 3 3 7-8"/></svg></div>
-        <h4>Automatizaciones</h4>
-        <p>Regalo de noviembre, luego USD 9/mes.</p>
-        <p class="precio"><b>USD 0</b></p>
-      </article>
-    </div>
-  </div>
-</section>
 <section class="hero" id="top">
   <span class="glow g1" aria-hidden="true"></span><span class="glow g2" aria-hidden="true"></span>
   <div class="wrap">
@@ -609,6 +523,108 @@ footer a.ext{color:var(--text);font-weight:500}
   </div>
 </section>
 
+<section class="tienda" id="planes" aria-labelledby="t-planes" data-carrito>
+  <div class="wrap">
+    <p class="eyebrow">Activa tu clínica</p>
+    <h2 id="t-planes">Configura tu clínica</h2>
+    <article class="producto" data-testid="plan-flux" data-flux-base>
+      <div class="producto-foto" aria-hidden="true">
+        <svg viewBox="0 0 64 64"><path d="M10 28 L32 10 L54 28 V54 H40 V38 H24 V54 H10 Z"/></svg>
+      </div>
+      <div>
+        <h3>Clinera Flux</h3>
+        <p class="producto-sub">Desde USD 29/mes. Partes con lo esencial y lo agregas al carrito.</p>
+        <p class="precio">
+          <s>USD 29</s>
+          <b>USD 14,50</b>
+          <span class="off">50% por 3 meses</span>
+        </p>
+        <p class="luego">USD 14,50 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="flux_base">Agregar al carrito</button>
+        <ul class="incluye">
+          <li>2 profesionales</li><li>1 sucursal</li><li>100 conversaciones</li>
+          <li>Fichas clínicas</li><li>WhatsApp</li><li>Clinera Intelligence</li>
+        </ul>
+      </div>
+    </article>
+    <div class="carril-head">
+      <h3>También puedes agregar</h3>
+      <div class="carril-nav">
+        <button type="button" data-carril="prev" aria-label="Anteriores">‹</button>
+        <button type="button" data-carril="next" aria-label="Siguientes">›</button>
+      </div>
+    </div>
+    <div class="carril" data-testid="plan-addons" tabindex="0">
+      <article class="acard" data-addon="profesional_extra">
+        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 19c1.2-3 3.2-4.5 6-4.5S16.8 16 18 19"/></svg></div>
+        <h4>Profesional extra</h4>
+        <p>Otro profesional en la agenda de tu clínica.</p>
+        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">USD 4,50 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="profesional_extra" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard" data-addon="sucursal_extra">
+        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11"/><path d="M10 20v-6h4v6"/></svg></div>
+        <h4>Sucursal extra</h4>
+        <p>Otra sucursal con su propia agenda.</p>
+        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">USD 4,50 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="sucursal_extra" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard" data-addon="conversaciones_1000">
+        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6h14v9H8l-3 3V6z"/></svg></div>
+        <h4>1.000 conversaciones extra</h4>
+        <p>Cada pack suma 1.000 conversaciones al mes.</p>
+        <p class="precio"><s>USD 25</s><b>USD 12,50</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">USD 12,50 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="conversaciones_1000" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard" data-addon="instagram">
+        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="4"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h4>Conexión Instagram</h4>
+        <p>Los mensajes de Instagram llegan a tu agenda.</p>
+        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">USD 4,50 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="instagram" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard" data-addon="facebook">
+        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 20v-6h2.5l.5-3H14V9.2c0-.8.3-1.2 1.3-1.2H17V5.2c-.4 0-1.4-.2-2.2-.2-2.2 0-3.6 1.3-3.6 3.6V11H9v3h2.2V20z"/></svg></div>
+        <h4>Conexión Facebook</h4>
+        <p>Los mensajes de Facebook llegan a tu agenda.</p>
+        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">USD 4,50 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="facebook" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard" data-addon="agente_ia">
+        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l1.4 4.2L18 10l-4.6 1.4L12 16l-1.4-4.6L6 10l4.6-1.8z"/></svg></div>
+        <h4>Agente IA</h4>
+        <p>Incluye 7.000 créditos de IA. Atiende por ti.</p>
+        <p class="precio"><s>USD 79</s><b>USD 39,50</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">USD 39,50 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="agente_ia" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard" data-addon="onboarding_humano">
+        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 19c1.2-3 3.2-4.5 6-4.5S16.8 16 18 19"/></svg></div>
+        <h4>Onboarding humano</h4>
+        <p>Una persona te deja la clínica andando. Se cobra una sola vez.</p>
+        <p class="precio"><b>USD 190</b><span class="off">cobro único</span></p>
+        <button class="btn grad" type="button" data-agregar="onboarding_humano" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard regalo" data-regalo>
+        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="1.5"/><path d="M4 10h16V7H4zM12 7v13M12 7c-2 0-3.5-2-2.2-3.2C11 2.6 12 5 12 7zM12 7c2 0 3.5-2 2.2-3.2C13 2.6 12 5 12 7z"/></svg></div>
+        <h4>Email marketing</h4>
+        <p>Regalo de noviembre, luego USD 9/mes.</p>
+        <p class="precio"><b>USD 0</b></p>
+      </article>
+      <article class="acard regalo">
+        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 16l4-4 3 3 7-8"/></svg></div>
+        <h4>Automatizaciones</h4>
+        <p>Regalo de noviembre, luego USD 9/mes.</p>
+        <p class="precio"><b>USD 0</b></p>
+      </article>
+    </div>
+  </div>
+</section>
 <section class="sec cta-band" id="comenzar" aria-labelledby="t-act">
   <div class="wrap">
     <p class="eyebrow rv">Comenzar</p>
@@ -656,7 +672,7 @@ footer a.ext{color:var(--text);font-weight:500}
 
 <div class="mcta" id="mobile-cta" data-testid="mobile-cta">
   <div class="mcta-row">
-    <div class="mcta-total"><span>Total hoy</span><b data-total-bar>USD 0</b></div>
+    <div class="mcta-total"><span data-bar-label>50% por 3 meses</span><b data-total-bar>USD 0</b></div>
     <button class="btn grad" type="button" data-cta="carrito-checkout" data-plan="flux_modular">Activar</button>
   </div>
 </div>
@@ -783,7 +799,8 @@ footer a.ext{color:var(--text);font-weight:500}
     conversaciones_1000:{usd:25,max:20,nombre:"1.000 conversaciones extra"},
     instagram:{usd:9,max:1,nombre:"Conexión Instagram"},
     facebook:{usd:9,max:1,nombre:"Conexión Facebook"},
-    agente_ia:{usd:79,max:1,nombre:"Agente IA"}
+    agente_ia:{usd:79,max:1,nombre:"Agente IA"},
+    onboarding_humano:{usd:190,max:1,nombre:"Onboarding humano",once:true}
   };
   var IDS=Object.keys(SPEC);
   var cart={};
@@ -807,10 +824,20 @@ footer a.ext{color:var(--text);font-weight:500}
     if(s.slice(-3)==",00")s=String(Math.round(x));
     return "USD "+s;
   }
-  function lista(){
-    return IDS.reduce(function(a,id){return a+SPEC[id].usd*cart[id];},0);
+  function partes(){
+    var mes=0,unico=0;
+    IDS.forEach(function(id){
+      var usd=SPEC[id].usd*cart[id];
+      if(SPEC[id].once)unico+=usd;else mes+=usd;
+    });
+    return {mes:mes,unico:unico,lista:mes+unico};
   }
-  function hoy(){return promoOff?lista():Math.round(lista()*50)/100;}
+  function lista(){return partes().lista;}
+  function hoy(){
+    var p=partes();
+    if(promoOff)return p.lista;
+    return Math.round(p.mes*50)/100+p.unico;
+  }
   function unidades(){return IDS.reduce(function(a,id){return a+cart[id];},0);}
 
   function pintarControles(){
@@ -835,7 +862,13 @@ footer a.ext{color:var(--text);font-weight:500}
       }else{
         if(step)step.hidden=true;
         btn.hidden=false;
-        btn.textContent=n>0?"Quitar":"Agregar al carrito";
+        if(cart.flux_base<1){
+          btn.disabled=true;
+          btn.textContent="Primero agrega Clinera Flux";
+        }else{
+          btn.disabled=false;
+          btn.textContent=n>0?"Quitar":"Agregar al carrito";
+        }
       }
     });
     document.querySelectorAll('[data-agregar="flux_base"]').forEach(function(btn){
@@ -851,6 +884,11 @@ footer a.ext{color:var(--text);font-weight:500}
     }
     if(icono)icono.setAttribute("aria-label","Tu carrito, "+u+" ítems");
     if(barra)barra.textContent=money(H);
+    var etiqueta=document.querySelector("[data-bar-label]");
+    if(etiqueta){
+      var pbar=partes();
+      etiqueta.textContent=promoOff?"Total":(pbar.unico>0?"50% por 3 meses + cobro único":"50% por 3 meses");
+    }
     pintarControles();
     if(!lineas)return;
     var html="";
@@ -859,16 +897,17 @@ footer a.ext{color:var(--text);font-weight:500}
       var spec=SPEC[id];
       var mas=cart[id]>=spec.max?" disabled":"";
       var menos=spec.max===1?"":"";
-      html+='<div class="linea"><span>'+spec.nombre+'</span><b>'+money(spec.usd*cart[id])+'</b>'+
+      html+='<div class="linea"><span>'+spec.nombre+(spec.once?" · cobro único":"")+'</span><b>'+money(spec.usd*cart[id])+'</b>'+
         '<div class="stepper"><button type="button" data-id="'+id+'" data-delta="-1" aria-label="Quitar '+spec.nombre+' en el carrito">−</button>'+
         '<output>'+cart[id]+'</output>'+
         '<button type="button" data-id="'+id+'" data-delta="1" aria-label="Sumar '+spec.nombre+' en el carrito"'+mas+'>+</button></div></div>';
     });
     if(!html)html='<p>Tu carrito está vacío. Agrega Clinera Flux para armar tu clínica.</p>';
     lineas.innerHTML=html;
-    var desc=promoOff?0:Math.round(L*50)/100;
+    var pnow=partes();
+    var desc=promoOff?0:pnow.mes-Math.round(pnow.mes*50)/100;
     totales.innerHTML='<div><span>Subtotal</span><span>'+money(L)+'</span></div>'+
-      (promoOff?'':'<div><span>50% × 3 meses</span><span>−'+money(desc)+'</span></div>')+
+      (promoOff||desc<=0?'':'<div><span>50% por 3 meses</span><span>−'+money(desc)+'</span></div>')+
       '<div class="hoy" data-total-hoy><span>Total hoy</span><span>'+money(H)+(L&&!promoOff?' <s>'+money(L)+'</s>':'')+'</span></div>';
     document.querySelectorAll('[data-cta="carrito-checkout"]').forEach(function(b){
       b.setAttribute("data-plan-value",String(H));
@@ -883,9 +922,13 @@ footer a.ext{color:var(--text);font-weight:500}
 
   function fijar(id,delta){
     var spec=SPEC[id]; if(!spec)return;
+    if(id!=="flux_base"&&delta>0&&cart.flux_base<1)return;
     var next=Math.max(0,Math.min(spec.max,cart[id]+delta));
     if(next===cart[id])return;
     cart[id]=next;
+    if(id==="flux_base"&&cart.flux_base<1){
+      IDS.forEach(function(k){if(k!=="flux_base")cart[k]=0;});
+    }
     if(delta>0){
       toast.hidden=false;
       clearTimeout(toastT);

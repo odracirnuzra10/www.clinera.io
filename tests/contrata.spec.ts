@@ -55,7 +55,7 @@ test.describe("/contrata", () => {
     const auto = page.locator("[data-addon=automatizaciones]");
     await expect(email).toBeVisible();
     await expect(auto).toBeVisible();
-    await expect(email.getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
+    await expect(email.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
     await expect(email).toContainText("US$ 9");
     await expect(auto).toContainText("US$ 9");
     await expect(page.locator("[data-carrito]")).not.toContainText("gratis para siempre");
@@ -102,7 +102,8 @@ test.describe("/contrata", () => {
     await page.locator("[data-flux-base]").getByRole("button", { name: "Agregar al carrito" }).click();
     await expect(page.locator("[data-toast]")).toHaveText("Agregado al carrito");
     await expect(page.locator("[data-carrito-count]")).toHaveText("1");
-    await expect(page.locator("[data-flux-base]")).toContainText("−50%");
+    await expect(page.locator("[data-flux-base]")).toContainText("50% por 3 meses");
+    await expect(page.locator("[data-flux-base]")).toContainText("por 3 meses, luego precio normal");
     await page.locator("[data-carrito-icon]").click();
     const cta = page.getByRole("button", { name: "Activar" });
     await expect(cta).toHaveAttribute("data-plan", "flux_modular");
@@ -119,6 +120,25 @@ test.describe("/contrata", () => {
     await page.getByRole("button", { name: "Cerrar carrito" }).click();
     await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Sumar profesional extra" }).click();
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("2");
+  });
+
+  test("el onboarding humano es cobro único de US$ 190 y no lleva el 50%", async ({ page }) => {
+    await ir(page, "/contrata", "2026-11-05T12:00:00-03:00");
+    const card = page.locator("[data-addon=onboarding_humano]");
+    await expect(card).toContainText("Onboarding humano");
+    await expect(card).toContainText("US$ 190");
+    await expect(card).toContainText("cobro único");
+    await expect(card).not.toContainText("50% por 3 meses");
+    await expect(card.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
+    await page.locator("[data-flux-base]").getByRole("button", { name: "Agregar al carrito" }).click();
+    await card.getByRole("button", { name: "Agregar al carrito" }).click();
+    await page.locator("[data-carrito-icon]").click();
+    const drawer = page.locator("[data-drawer]");
+    await expect(drawer).toContainText("cobro único");
+    await expect(drawer).toContainText("50% por 3 meses");
+    await expect(drawer.locator("[data-total-hoy]")).toContainText("204,50");
+    await expect(drawer.locator("[data-total-hoy] s")).toContainText("219");
+    await expect(drawer.getByText(/Luego US\$ 29/)).toBeVisible();
   });
 
   test("Comienza ya manda el carrito saneado y abre el pago", async ({ page }) => {
@@ -208,7 +228,7 @@ test.describe("/contrata", () => {
       expect((caja?.y ?? 999) + (caja?.height ?? 0), `${w} dentro`).toBeLessThanOrEqual(h + 1);
       const font = await cta.evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
       expect(font, `${w} tipo`).toBeGreaterThanOrEqual(16);
-      const paso = page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" });
+      const paso = page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Primero agrega Clinera Flux" });
       const pasoCaja = await paso.boundingBox();
       expect(pasoCaja?.height ?? 0, `${w} agregar`).toBeGreaterThanOrEqual(44);
     }

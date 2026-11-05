@@ -15,15 +15,17 @@ export const FLUX_BASE_INCLUYE = [
 ] as const;
 
 export const CARRITO = {
-  flux_base: { lookup: "clinera_flux_base_usd_m", usd: 29, min: 1, max: 1, tipo: "base", nombre: "Clinera Flux" },
-  profesional_extra: { lookup: "clinera_profesional_extra_usd_m", usd: 9, min: 0, max: 50, tipo: "qty", nombre: "Profesional extra" },
-  sucursal_extra: { lookup: "clinera_sucursal_extra_usd_m", usd: 9, min: 0, max: 20, tipo: "qty", nombre: "Sucursal extra" },
-  conversaciones_1000: { lookup: "clinera_conversaciones_1000_usd_m", usd: 25, min: 0, max: 20, tipo: "qty", nombre: "1.000 conversaciones extra" },
-  instagram: { lookup: "clinera_instagram_usd_m", usd: 9, min: 0, max: 1, tipo: "toggle", nombre: "Conexión Instagram" },
-  facebook: { lookup: "clinera_facebook_usd_m", usd: 9, min: 0, max: 1, tipo: "toggle", nombre: "Conexión Facebook" },
-  agente_ia: { lookup: "clinera_agente_ia_7000_usd_m", usd: 79, min: 0, max: 1, tipo: "toggle", nombre: "Agente IA" },
-  email_marketing: { lookup: "clinera_email_marketing_usd_m", usd: 9, min: 0, max: 1, tipo: "toggle", nombre: "Email marketing" },
-  automatizaciones: { lookup: "clinera_automatizaciones_usd_m", usd: 9, min: 0, max: 1, tipo: "toggle", nombre: "Automatizaciones" },
+  flux_base: { lookup: "clinera_flux_base_usd_m", usd: 29, min: 1, max: 1, tipo: "base", cobro: "mes", nombre: "Clinera Flux" },
+  profesional_extra: { lookup: "clinera_profesional_extra_usd_m", usd: 9, min: 0, max: 50, tipo: "qty", cobro: "mes", nombre: "Profesional extra" },
+  sucursal_extra: { lookup: "clinera_sucursal_extra_usd_m", usd: 9, min: 0, max: 20, tipo: "qty", cobro: "mes", nombre: "Sucursal extra" },
+  conversaciones_1000: { lookup: "clinera_conversaciones_1000_usd_m", usd: 25, min: 0, max: 20, tipo: "qty", cobro: "mes", nombre: "1.000 conversaciones extra" },
+  instagram: { lookup: "clinera_instagram_usd_m", usd: 9, min: 0, max: 1, tipo: "toggle", cobro: "mes", nombre: "Conexión Instagram" },
+  facebook: { lookup: "clinera_facebook_usd_m", usd: 9, min: 0, max: 1, tipo: "toggle", cobro: "mes", nombre: "Conexión Facebook" },
+  agente_ia: { lookup: "clinera_agente_ia_7000_usd_m", usd: 79, min: 0, max: 1, tipo: "toggle", cobro: "mes", nombre: "Agente IA" },
+  email_marketing: { lookup: "clinera_email_marketing_usd_m", usd: 9, min: 0, max: 1, tipo: "toggle", cobro: "mes", nombre: "Email marketing" },
+  automatizaciones: { lookup: "clinera_automatizaciones_usd_m", usd: 9, min: 0, max: 1, tipo: "toggle", cobro: "mes", nombre: "Automatizaciones" },
+  // Cobro único: no entra en el 50% de 3 meses. El Price lo crea Ricardo en Stripe.
+  onboarding_humano: { lookup: "clinera_onboarding_humano_usd_once", usd: 190, min: 0, max: 1, tipo: "toggle", cobro: "unico", nombre: "Onboarding humano" },
 } as const;
 
 export type ItemId = keyof typeof CARRITO;
@@ -56,6 +58,7 @@ const CORTOS: Record<Exclude<ItemId, "flux_base">, string> = {
   agente_ia: "ia",
   email_marketing: "em",
   automatizaciones: "au",
+  onboarding_humano: "oh",
 };
 
 export const ITEM_IDS = Object.keys(CARRITO) as ItemId[];
@@ -81,14 +84,35 @@ export function sanear(c: Carrito | null | undefined, now: Date = new Date()): R
   return out;
 }
 
-export function totalLista(c: Carrito, now: Date = new Date()): number {
+function redondear(n: number): number {
+  return Math.round(n * 100) / 100;
+}
+
+/**
+ * `lista` es el precio de lista (mensual + cobro único). `promo` aplica el 50%
+ * solo a lo mensual: el onboarding humano queda en US$ 190.
+ */
+export function totales(c: Carrito, now: Date = new Date()): { mensual: number; unico: number; lista: number; promo: number } {
   const s = sanear(c, now);
-  const suma = ITEM_IDS.reduce((acc, id) => acc + CARRITO[id].usd * s[id], 0);
-  return Math.round(suma * 100) / 100;
+  let mensual = 0;
+  let unico = 0;
+  for (const id of ITEM_IDS) {
+    const usd = CARRITO[id].usd * s[id];
+    if (CARRITO[id].cobro === "unico") unico += usd;
+    else mensual += usd;
+  }
+  mensual = redondear(mensual);
+  unico = redondear(unico);
+  const promoMes = Math.round(mensual * (100 - PROMO_PCT)) / 100;
+  return { mensual, unico, lista: redondear(mensual + unico), promo: redondear(promoMes + unico) };
+}
+
+export function totalLista(c: Carrito, now: Date = new Date()): number {
+  return totales(c, now).lista;
 }
 
 export function totalPromo(c: Carrito, now: Date = new Date()): number {
-  return Math.round(totalLista(c, now) * (100 - PROMO_PCT)) / 100;
+  return totales(c, now).promo;
 }
 
 /** JSON corto para metadata de Stripe (≤500). La base no viaja: siempre es 1. */

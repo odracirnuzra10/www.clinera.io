@@ -289,6 +289,19 @@
   font-size: 13px;
 }
 
+.precio .pill {
+  color: #6d28d9;
+}
+
+.luegoPrecio,
+.cobro {
+  display: block;
+  margin-top: 4px;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 650;
+}
+
 .incluye {
   margin: 12px 0 0;
   padding: 0;
@@ -366,6 +379,15 @@
   color: #fff;
   font-weight: 700;
   cursor: pointer;
+  line-height: 1.2;
+  text-align: center;
+  padding: 8px 12px;
+}
+
+.agregar:disabled {
+  background: #e5e7eb;
+  color: #374151;
+  cursor: not-allowed;
 }
 
 .stepper {

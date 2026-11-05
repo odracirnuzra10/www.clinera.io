@@ -53,6 +53,17 @@ test.describe("catálogo del carrito Flux", () => {
     expect(CARRITO.automatizaciones.usd).toBe(9);
   });
 
+  test("el onboarding humano es US$ 190 de una vez y no entra en el 50%", () => {
+    expect(CARRITO.onboarding_humano.lookup).toBe("clinera_onboarding_humano_usd_once");
+    expect(CARRITO.onboarding_humano.cobro).toBe("unico");
+    const c = { onboarding_humano: 1 };
+    expect(totalLista(c, nov)).toBe(219);
+    expect(totalPromo(c, nov)).toBe(204.5);
+    expect(sanear({ onboarding_humano: 4 }, nov).onboarding_humano).toBe(1);
+    expect(sanear({ onboarding_humano: 0 }, nov).onboarding_humano).toBe(0);
+    expect(carritoCorto(c, nov)).toBe('{"oh":1}');
+  });
+
   test("desde el 1 de diciembre son adicionales de US$ 9", () => {
     expect(regaloVigente(dic)).toBe(false);
     const pedido = { email_marketing: 1, automatizaciones: 1 };

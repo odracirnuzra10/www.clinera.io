@@ -1,6 +1,7 @@
 // Carrito de /contrata → Checkout Session. Misma guarda que /api/go/checkout:
 // origen, 8 por minuto por IP, y 503 si no hay STRIPE_SECRET_KEY. Los precios
-// se buscan por lookup_key; esta ruta no crea nada en Stripe.
+// se buscan por lookup_key. No crea Products ni Prices. Con onboarding humano
+// crea un cupón de monto fijo (un solo uso) para no rebajar el cobro único.
 
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";

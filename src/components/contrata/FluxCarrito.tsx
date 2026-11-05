@@ -13,6 +13,7 @@ import {
   REGALOS,
   type Carrito,
   type ItemId,
+  PROMO_PCT,
   esRegaloNoviembre,
   preseleccion,
   regaloVigente,
@@ -36,6 +37,7 @@ const TEXTO: Record<Exclude<ItemId, "flux_base">, string> = {
   agente_ia: "Incluye 7.000 créditos de IA. Atiende por ti.",
   email_marketing: "Correos a tus pacientes desde Clinera.",
   automatizaciones: "Avisos y tareas que se disparan solas.",
+  onboarding_humano: "Una persona te deja la clínica andando. Se cobra una sola vez.",
 };
 
 declare global {
@@ -59,9 +61,23 @@ function vista(c: Carrito, now = new Date()): Cantidades {
   return clamped;
 }
 
-function totalVisible(c: Cantidades): number {
-  const suma = ITEM_IDS.reduce((acc, id) => acc + CARRITO[id].usd * c[id], 0);
-  return Math.round(suma * 100) / 100;
+function redondear(n: number): number {
+  return Math.round(n * 100) / 100;
+}
+
+/** Totales de lo que se ve. No usa `sanear()`: ahí Flux vacío pasaría a 1. */
+function desglose(c: Cantidades): { mensual: number; unico: number; lista: number; promo: number } {
+  let mensual = 0;
+  let unico = 0;
+  for (const id of ITEM_IDS) {
+    const usd = CARRITO[id].usd * c[id];
+    if (CARRITO[id].cobro === "unico") unico += usd;
+    else mensual += usd;
+  }
+  mensual = redondear(mensual);
+  unico = redondear(unico);
+  const promoMes = Math.round(mensual * (100 - PROMO_PCT)) / 100;
+  return { mensual, unico, lista: redondear(mensual + unico), promo: redondear(promoMes + unico) };
 }
 
 function monto(usd: number): string {
@@ -172,24 +188,24 @@ export default function FluxCarrito({
 
   if (pago === "ok") return <Exito sessionId={sessionId} />;
 
-  const lista = totalVisible(carrito);
-  const promo = Math.round(lista * 50) / 100;
-  const hoy = promoOff ? lista : promo;
+  const partes = desglose(carrito);
+  const lista = partes.lista;
+  const hoy = promoOff ? lista : partes.promo;
   const unidades = ITEM_IDS.reduce((n, id) => n + carrito[id], 0);
-  const ahorro = Math.round((lista - promo) * 100) / 100;
+  const ahorro = redondear(lista - hoy);
   const fluxEnCarrito = carrito.flux_base >= 1;
 
   function emitir(id: ItemId, accion: "agregar" | "quitar", qty: number, next: Cantidades) {
     if (debounce.current) window.clearTimeout(debounce.current);
     debounce.current = window.setTimeout(() => {
       try {
-        const total = totalVisible(next);
+        const partes = desglose(next);
         track("carrito_addon", {
           item_id: id,
           accion,
           quantity: qty,
-          total_lista: total,
-          total_promo: Math.round(total * 50) / 100,
+          total_lista: partes.lista,
+          total_promo: partes.promo,
         });
       } catch (e) {
         console.error("[contrata] addon", e);
@@ -198,12 +214,20 @@ export default function FluxCarrito({
   }
 
   function fijar(id: ItemId, delta: number) {
+    if (id !== "flux_base" && delta > 0 && carrito.flux_base < 1) return;
     if (delta > 0) {
       foco.current = id;
       setAviso("Agregado al carrito");
     }
     setCarrito((prev) => {
-      const next = vista({ ...prev, [id]: prev[id] + delta });
+      if (id !== "flux_base" && delta > 0 && prev.flux_base < 1) return prev;
+      const base = { ...prev, [id]: prev[id] + delta };
+      if (id === "flux_base" && base.flux_base < 1) {
+        for (const k of ITEM_IDS) {
+          if (k !== "flux_base") base[k] = 0;
+        }
+      }
+      const next = vista(base);
       emitir(id, delta > 0 ? "agregar" : "quitar", next[id], next);
       return next;
     });
@@ -346,6 +370,7 @@ export default function FluxCarrito({
                 id={id}
                 qty={carrito[id]}
                 promo={!promoOff}
+                bloqueado={!fluxEnCarrito}
                 onAdd={() => fijar(id, 1)}
                 onSub={() => fijar(id, -1)}
               />
@@ -373,7 +398,7 @@ export default function FluxCarrito({
           {!promoOff ? (
             <details>
               <summary>¿Cómo se aplica el 50%?</summary>
-              <p>Los 3 primeros meses pagas la mitad de todo el carrito. Desde el mes 4 rige el precio de lista.</p>
+              <p>Los 3 primeros meses pagas la mitad de lo mensual. El onboarding humano, si lo agregas, se cobra una sola vez y entero. Desde el mes 4 lo mensual vuelve al precio de lista.</p>
             </details>
           ) : null}
         </section>
@@ -424,6 +449,7 @@ export default function FluxCarrito({
                 <li key={id}>
                   <span>
                     {CARRITO[id].nombre}
+                    {CARRITO[id].cobro === "unico" ? " · cobro único" : ""}
                     {carrito[id] > 1 ? ` × ${carrito[id]}` : ""}
                   </span>
                   <span className={styles.num}>{monto(CARRITO[id].usd * carrito[id])}</span>
@@ -443,9 +469,9 @@ export default function FluxCarrito({
               <span>Subtotal</span>
               <span className={styles.num}>{monto(lista)}</span>
             </p>
-            {!promoOff ? (
+            {!promoOff && ahorro > 0 ? (
               <p className={styles.descuento}>
-                <span>50% × 3 meses</span>
+                <span>50% por 3 meses</span>
                 <span className={styles.num}>−{monto(ahorro)}</span>
               </p>
             ) : null}
@@ -456,7 +482,7 @@ export default function FluxCarrito({
                 {!promoOff && lista > 0 ? <s>{monto(lista)}</s> : null}
               </span>
             </p>
-            {!promoOff && lista > 0 ? <p className={styles.luego}>Luego {monto(lista)}/mes</p> : null}
+            {!promoOff && partes.mensual > 0 ? <p className={styles.luego}>Luego {monto(partes.mensual)}/mes</p> : null}
           </div>
           {!promoOff ? <div className={styles.urgenciaChica}><UrgenciaPromo /></div> : null}
           {error ? <p className={styles.error} role="alert" data-pago-error>{error}</p> : null}
@@ -510,7 +536,15 @@ function Checkout({
   );
 }
 
-function Precio({ usd, promo, desde = false }: { usd: number; promo: boolean; desde?: boolean }) {
+function Precio({ usd, promo, desde = false, unico = false }: { usd: number; promo: boolean; desde?: boolean; unico?: boolean }) {
+  if (unico) {
+    return (
+      <p className={styles.precio}>
+        <b>{monto(usd)}</b>
+        <span className={styles.cobro}>cobro único</span>
+      </p>
+    );
+  }
   const mitad = Math.round(usd * 50) / 100;
   return (
     <p className={styles.precio}>
@@ -518,9 +552,10 @@ function Precio({ usd, promo, desde = false }: { usd: number; promo: boolean; de
       {promo ? <s>{monto(usd)}</s> : null}
       <b>
         {promo ? monto(mitad) : monto(usd)}
-        {promo ? <span className={styles.pill}>−50%</span> : null}
+        <span className={styles.periodo}>/mes</span>
+        {promo ? <span className={styles.pill}>50% por 3 meses</span> : null}
       </b>
-      <span>/mes</span>
+      {promo ? <span className={styles.luegoPrecio}>{monto(mitad)} por 3 meses, luego precio normal</span> : null}
     </p>
   );
 }
@@ -529,17 +564,20 @@ function Addon({
   id,
   qty,
   promo,
+  bloqueado,
   onAdd,
   onSub,
 }: {
   id: Exclude<ItemId, "flux_base">;
   qty: number;
   promo: boolean;
+  bloqueado: boolean;
   onAdd: () => void;
   onSub: () => void;
 }) {
   const spec = CARRITO[id];
   const enCarrito = qty > 0;
+  const esperaFlux = bloqueado && !enCarrito;
   return (
     <article className={`${styles.card} ${enCarrito ? styles.cardOn : ""}`} data-addon={id}>
       <div className={styles.addonTop}>
@@ -550,13 +588,19 @@ function Addon({
           <h3 className={styles.cardTitulo}>{spec.nombre}</h3>
           <p className={styles.cardSub}>{TEXTO[id]}</p>
         </div>
-        <Precio usd={spec.usd} promo={promo} />
+        <Precio usd={spec.usd} promo={promo && spec.cobro !== "unico"} unico={spec.cobro === "unico"} />
       </div>
       {enCarrito ? (
         <Stepper id={id} qty={qty} donde="card" onAdd={onAdd} onSub={onSub} />
       ) : (
-        <button type="button" className={styles.agregar} aria-label={`Agregar al carrito: ${spec.nombre}`} onClick={onAdd}>
-          Agregar al carrito
+        <button
+          type="button"
+          className={styles.agregar}
+          aria-label={esperaFlux ? "Primero agrega Clinera Flux" : `Agregar al carrito: ${spec.nombre}`}
+          disabled={esperaFlux}
+          onClick={onAdd}
+        >
+          {esperaFlux ? "Primero agrega Clinera Flux" : "Agregar al carrito"}
         </button>
       )}
     </article>
@@ -618,6 +662,9 @@ function Icono({ id, grande = false }: { id: ItemId; grande?: boolean }) {
       ) : null}
       {id === "automatizaciones" ? (
         <path fill="currentColor" d="M12 2a2 2 0 0 1 2 2 2 2 0 0 1-.2.9l2.1 1.2a2 2 0 1 1 0 2.2l-2.1 1.2a2 2 0 0 1 0 1.8l2.1 1.2a2 2 0 1 1-1 1.7l-2.1-1.2a2 2 0 0 1-1.8.9 2 2 0 0 1-1.8-.9l-2.1 1.2a2 2 0 1 1-1-1.7l2.1-1.2a2 2 0 0 1 0-1.8L4.2 8.3a2 2 0 1 1 1-1.7l2.1 1.2A2 2 0 0 1 12 2z" />
+      ) : null}
+      {id === "onboarding_humano" ? (
+        <path fill="currentColor" d="M12 12a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 12 12zm-6 8a6 6 0 0 1 12 0H6zm9.2-9.8 1.2 1.2 2.6-2.6-1.2-1.2z" />
       ) : null}
     </svg>
   );
