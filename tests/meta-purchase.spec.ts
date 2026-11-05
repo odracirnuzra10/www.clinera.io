@@ -147,6 +147,22 @@ test.describe("Stripe → Meta CAPI: Purchase de suscripción", () => {
     expect(normalizePhone("+52 (55) 1234-5678")).toBe("525512345678");
   });
 
+  test("el carrito de /contrata manda Purchase con el valor de lista y lo cobrado aparte", () => {
+    const carrito = {
+      ...session,
+      amount_total: 1450,
+      metadata: { fuente: "contrata_carrito", lista_usd: "29", promo_usd: "14.5" },
+    } as unknown as Stripe.Checkout.Session;
+    const ev = buildConversionEvent(carrito, ["Clinera Flux"]);
+    expect(ev.event_name).toBe("Purchase");
+    expect(ev.event_id).toBe("purchase_cs_live_a1B2");
+    expect(ev.event_source_url).toBe("https://www.clinera.io/contrata");
+    expect(ev.custom_data.value).toBe(29);
+    expect(ev.custom_data.currency).toBe("USD");
+    expect(ev.custom_data.content_name).toBe("Clinera Flux modular");
+    expect(ev.custom_data.value_cobrado).toBe(14.5);
+  });
+
   test("la ruta exige firma y secretos; sin ellos no manda nada", () => {
     const route = readFileSync("src/app/api/stripe/meta-purchase/route.ts", "utf8");
     expect(route).toContain("constructEvent(raw, signature, secret)");

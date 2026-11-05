@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
 import FooterV3 from "@/components/brand-v3/Footer";
-import ContrataWizard from "@/components/contrata/ContrataWizard";
+import FluxCarrito from "@/components/contrata/FluxCarrito";
 
 export const dynamic = "force-dynamic";
 
-// /contrata (Ricardo, 5-nov-2026): wizard de contratación con el cascarón de /agenda.
-// noindex: es el destino de «Contratar» en /kimi y /home-nuevo, no una página de precios.
 export const metadata: Metadata = {
   title: "Contrata Clinera",
   description:
-    "Elige Flux, Hex o Vortex y contrata Clinera. El 50% por 3 meses aparece después de tus datos.",
+    "Arma tu Flux: US$ 29 al mes con profesionales, sucursal, conversaciones y los adicionales que elijas. 50% por 3 meses.",
   robots: { index: false, follow: false },
   alternates: { canonical: "https://www.clinera.io/contrata" },
 };
@@ -17,13 +15,14 @@ export const metadata: Metadata = {
 export default async function ContrataPage({
   searchParams,
 }: {
-  searchParams: Promise<{ plan?: string | string[] }>;
+  searchParams: Promise<{ plan?: string | string[]; pago?: string | string[]; session_id?: string | string[] }>;
 }) {
-  const { plan } = await searchParams;
-  const raw = (Array.isArray(plan) ? plan[0] : plan ?? "").toLowerCase();
+  const sp = await searchParams;
+  const uno = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v ?? "").toLowerCase();
+  const sessionId = Array.isArray(sp.session_id) ? sp.session_id[0] : sp.session_id ?? "";
   return (
     <>
-      <ContrataWizard planInicial={raw} />
+      <FluxCarrito planInicial={uno(sp.plan)} pago={uno(sp.pago)} sessionId={sessionId} />
       <FooterV3 />
     </>
   );

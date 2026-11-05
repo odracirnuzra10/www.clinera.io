@@ -1,201 +1,176 @@
 import { expect, test, type Page } from "@playwright/test";
-import { CHECKOUT_URL } from "../src/content/checkout";
 
-// /contrata (Ricardo, 5-nov-2026): wizard de 3 pasos. El plan y el 50% aparecen solo al final.
-async function hastaLaOferta(page: Page) {
-  await page.locator("#ct-nombre").fill("Ana Soto");
-  await page.getByLabel("Celular (WhatsApp)").fill("912345678");
-  await page.getByLabel("Correo").fill("ana@clinica.cl");
-  await page.getByRole("button", { name: "Continuar →" }).click();
-  await page.getByLabel("Nombre de tu clínica").fill("Clínica Vela");
-  await page.getByLabel("Ubicación").fill("Providencia");
-  await page.getByRole("button", { name: "Ver mi oferta →" }).click();
-  await page.getByRole("button", { name: "Sí, correcto" }).click();
+async function ir(page: Page, path: string, cuando?: string) {
+  if (cuando) await page.clock.install({ time: new Date(cuando) });
+  await page.goto(path, { waitUntil: "domcontentloaded" });
+  await page.locator("nextjs-portal").evaluateAll((nodes) => nodes.forEach((n) => n.remove())).catch(() => {});
 }
 
 test.describe("/contrata", () => {
-  test("no redirige y no se indexa", async ({ page }) => {
+  test("no redirige, no se indexa y conserva el pie legal", async ({ page }) => {
     const res = await page.goto("/contrata", { waitUntil: "domcontentloaded" });
     expect(res?.status()).toBe(200);
     expect(new URL(page.url()).pathname).toBe("/contrata");
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
-    await expect(page.locator("[data-contrata-wizard]")).toHaveAttribute("data-paso", "1");
+    await expect(page.locator("[data-carrito]")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Crece a tu medida" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Adicionales" })).toBeVisible();
+    await expect(page.getByText("Elige tus adicionales")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Comienza ya" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Tu carrito" })).toBeVisible();
+    await expect(page.locator("[data-flux-base]")).toContainText("Clinera Intelligence");
+    await expect(page.locator("[data-flux-base]")).toContainText("WhatsApp");
     await expect(page.getByRole("link", { name: "Términos" })).toHaveAttribute("href", "/terminos");
     await expect(page.getByRole("link", { name: "Privacidad" })).toHaveAttribute("href", "/privacidad");
     await expect(page.getByRole("link", { name: "Cookies" })).toHaveAttribute("href", "/cookies");
     await expect(page.getByRole("link", { name: "Ley 21.719 de datos personales" })).toHaveAttribute("href", "/seguridad");
     await expect(page.getByRole("link", { name: "Ficha clínica y Ley 20.584" })).toHaveAttribute("href", "/ley20584");
+    await expect(page.locator(".ver-demo-float")).toHaveCount(0);
+    const texto = await page.locator("[data-carrito]").innerText();
+    expect(texto).not.toMatch(/USD 39,50|USD 89,50|USD 139,50|gratis para siempre/);
   });
 
-  test("el paso 1 pide los datos y no nombra planes ni el 50%", async ({ page }) => {
-    await page.goto("/contrata", { waitUntil: "domcontentloaded" });
-    await expect(page.locator("[data-contrata-wizard]")).toHaveAttribute("data-paso", "1");
-    await expect(page.locator("#ct-nombre")).toBeVisible();
-    const texto = await page.locator("[data-contrata-wizard]").innerText();
-    expect(texto).not.toMatch(/Flux|Hex|Vortex|USD|50%/);
+  test("en noviembre Email marketing y Automatizaciones son el regalo, no un adicional", async ({ page }) => {
+    await ir(page, "/contrata", "2026-11-05T12:00:00-03:00");
+    await expect(page.locator("[data-regalo]")).toBeVisible();
+    await expect(page.locator("[data-regalo]")).toContainText("Regalo de noviembre");
+    await expect(page.locator("[data-regalo]")).toContainText("Email marketing");
+    await expect(page.locator("[data-regalo]")).toContainText("Automatizaciones");
+    await expect(page.locator("[data-addon=email_marketing]")).toHaveCount(0);
+    await expect(page.locator("[data-addon=automatizaciones]")).toHaveCount(0);
+    await expect(page.locator("[data-carrito]")).not.toContainText("gratis para siempre");
+    await expect(page.locator("[data-urgencia]").first()).toContainText("Solo por hoy 05 y mañana 06 de noviembre");
   });
 
-  test("?plan=hex preselecciona Hex en el último paso", async ({ page }) => {
-    await page.goto("/contrata?plan=hex", { waitUntil: "domcontentloaded" });
-    await hastaLaOferta(page);
-    await expect(page.locator("[data-plan-opcion='hex'] input")).toBeChecked();
+  test("el 1 de diciembre pasan a adicionales de US$ 9 con Agregar al carrito", async ({ page }) => {
+    await ir(page, "/contrata", "2026-12-01T12:00:00-03:00");
+    await expect(page.locator("[data-regalo]")).toHaveCount(0);
+    const email = page.locator("[data-addon=email_marketing]");
+    const auto = page.locator("[data-addon=automatizaciones]");
+    await expect(email).toBeVisible();
+    await expect(auto).toBeVisible();
+    await expect(email.getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
+    await expect(email).toContainText("US$ 9");
+    await expect(auto).toContainText("US$ 9");
+    await expect(page.locator("[data-carrito]")).not.toContainText("gratis para siempre");
+    await email.getByRole("button", { name: "Agregar al carrito" }).click();
+    await auto.getByRole("button", { name: "Agregar al carrito" }).click();
+    await expect(page.locator("[data-total-hoy]")).toContainText("23,50");
+    await expect(page.locator("[data-total-hoy] s")).toContainText("47");
+    await expect(page.locator("[data-carrito-count]")).toHaveText("3");
   });
 
-  test("sin ?plan el último paso deja Flux elegido", async ({ page }) => {
-    await page.goto("/contrata", { waitUntil: "domcontentloaded" });
-    await hastaLaOferta(page);
-    await expect(page.locator("[data-plan-opcion='flux'] input")).toBeChecked();
+  test("el HTML del servidor no trae la fecha del banner", async ({ page }) => {
+    const res = await page.request.get("/contrata");
+    const html = await res.text();
+    expect(html).toContain("data-urgencia");
+    expect(html).not.toContain("Solo por hoy");
+    expect(html).not.toContain("data-regalo");
+    expect(html).not.toContain("data-addon=\"email_marketing\"");
   });
 
-  test("el último paso cobra el 50% en Stripe con CLINERA50X3", async ({ page }) => {
-    await page.goto("/contrata?utm_source=test&gclid=abc.123&fbclid=x", { waitUntil: "domcontentloaded" });
-    await hastaLaOferta(page);
-    const oferta = page.locator("[data-oferta]");
-    await expect(oferta).toBeVisible();
-    await expect(oferta.locator(".paso, [class*=paso]").first()).toContainText("Paso 3 de 3 · Tu oferta");
-    await expect(page.getByText("Paso 3 de 3 · Tu oferta")).toBeVisible();
-    await expect(oferta.locator("[data-plan-opcion='flux'] [data-precio]")).toContainText("USD 39,50");
-    await expect(oferta.locator("[data-plan-opcion='hex'] [data-precio]")).toContainText("USD 89,50");
-    await expect(oferta.locator("[data-plan-opcion='vortex'] [data-precio]")).toContainText("USD 139,50");
-    const cta = oferta.locator("[data-cta='oferta-50']");
-    await expect(cta).toHaveText("Aprovechar Flux al 50%");
-    await expect(cta).toHaveAttribute("href", /^https:\/\/buy\.stripe\.com\/14A28tgNz1MegZl9471441J/);
-    await expect(cta).toHaveAttribute("data-plan", "flux");
-    await expect(cta).toHaveAttribute("data-plan-name", "Flux");
-    await expect(cta).toHaveAttribute("data-plan-value", "39.5");
-    expect(await cta.getAttribute("href")).toContain("prefilled_email=ana%40clinica.cl");
-    expect(await cta.getAttribute("href")).toContain("utm_source=test");
-    expect(await cta.getAttribute("href")).toContain("client_reference_id=abc123");
-    expect(await cta.getAttribute("href")).not.toContain("fbclid");
-    expect(await cta.getAttribute("href")).toContain("prefilled_promo_code=CLINERA50X3");
-
-    await oferta.locator("[data-plan-opcion='vortex']").click();
-    await expect(cta).toHaveAttribute("href", new RegExp("^" + CHECKOUT_URL.vortex.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  test("?plan=hex deja Instagram y Facebook en el carrito", async ({ page }) => {
+    await ir(page, "/contrata?plan=hex", "2026-11-05T12:00:00-03:00");
+    await expect(page.locator("[data-addon=instagram] output")).toHaveText("1");
+    await expect(page.locator("[data-addon=facebook] output")).toHaveText("1");
+    await expect(page.locator("[data-addon=agente_ia]").getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
   });
 
-  test("el parche de analytics conserva el código y el correo al cambiar de plan", async ({ page }) => {
-    await page.goto("/contrata?gclid=GCLID123", { waitUntil: "domcontentloaded" });
-    await hastaLaOferta(page);
-    const cta = page.locator("[data-cta='oferta-50']");
-    await expect.poll(async () => cta.evaluate((el) => (el as HTMLElement).dataset.stripeRefPatched || "")).toBe("1");
-    await page.locator("[data-plan-opcion='hex']").click();
-    await expect(cta).toHaveAttribute("href", /14AdRbdBnfD49wTgwz1441M/);
-    await expect.poll(async () => cta.evaluate((el) => (el as HTMLElement).dataset.stripeRefPatched || "")).toBe("1");
-    await cta.evaluate((el) => {
-      el.addEventListener("click", (e) => e.preventDefault());
+  test("?pago=cancelado restaura el carrito guardado", async ({ page }) => {
+    await page.addInitScript(() => {
+      sessionStorage.setItem("contrata_carrito", JSON.stringify({ profesional_extra: 2, instagram: 1 }));
     });
-    await cta.click();
-    const href = await cta.getAttribute("href");
-    expect(href).toContain("prefilled_promo_code=CLINERA50X3");
-    expect(href).toContain("prefilled_email=ana%40clinica.cl");
-    const ref = new URL(href || "").searchParams.get("client_reference_id") || "";
-    expect(ref.startsWith("GCLID123::")).toBe(true);
+    await ir(page, "/contrata?pago=cancelado", "2026-11-05T12:00:00-03:00");
+    await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("2");
+    await expect(page.locator("[data-addon=instagram] output")).toHaveText("1");
   });
 
-  test("el webhook marcador avisa y no corta el paso", async ({ page }) => {
-    const avisos: string[] = [];
-    page.on("console", (msg) => avisos.push(msg.text()));
-    const errores: string[] = [];
-    page.on("pageerror", (err) => errores.push(String(err)));
-    const pedidos: string[] = [];
-    page.on("request", (req) => pedidos.push(req.url()));
-    // Clarity y el pixel tiran "a[c] is not a function" en este entorno; no son el formulario.
-    await page.route(/clarity\.ms|facebook\.net|facebook\.com|googletagmanager|google-analytics|hotjar/, (route) => route.abort());
-    await page.goto("/contrata", { waitUntil: "domcontentloaded" });
-    await hastaLaOferta(page);
-    await expect(page.locator("[data-oferta]")).toBeVisible();
-    await expect(page.locator("[data-contrata-wizard]")).toHaveAttribute("data-paso", "3");
-    expect(avisos.join("\n")).toMatch(/WEBHOOK_URL sin configurar/);
-    expect(errores).toEqual([]);
-    expect(pedidos.some((u) => u.includes("[WEBHOOK_URL_N8N]"))).toBe(false);
+  test("sumar un adicional mueve el total y el valor del CTA", async ({ page }) => {
+    await ir(page, "/contrata", "2026-11-05T12:00:00-03:00");
+    const cta = page.getByRole("button", { name: "Comienza ya" });
+    await expect(cta).toHaveAttribute("data-plan", "flux_modular");
+    await expect(cta).toHaveAttribute("data-plan-value", "14.5");
+    await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" }).click();
+    await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("1");
+    await expect(cta).toHaveAttribute("data-plan-value", "19");
+    await expect(page.locator("[data-total-hoy]")).toContainText("19");
+    await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Sumar profesional extra" }).click();
+    await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("2");
   });
 
-  test("el 50% se anima y se apaga con movimiento reducido", async ({ page }) => {
-    await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto("/contrata", { waitUntil: "domcontentloaded" });
-    await hastaLaOferta(page);
-    const frase = page.locator("[data-oferta-destacada]");
-    await page.waitForTimeout(700);
-    const estilo = await frase.evaluate((el) => {
-      const s = getComputedStyle(el);
-      const h = el.parentElement!;
-      const lh = parseFloat(getComputedStyle(h).lineHeight);
-      return {
-        nombre: s.animationName,
-        color: s.color,
-        opacity: s.opacity,
-        clip: s.backgroundClip,
-        lineas: Math.round(h.getBoundingClientRect().height / lh),
-      };
-    });
-    expect(estilo.nombre).not.toBe("none");
-    expect(estilo.color).toBe("rgb(109, 40, 217)");
-    expect(estilo.opacity).toBe("1");
-    expect(estilo.clip).not.toBe("text");
-    expect(estilo.lineas).toBe(1);
-
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto("/contrata", { waitUntil: "domcontentloaded" });
-    await hastaLaOferta(page);
-    const quieto = await frase.evaluate((el) => {
-      const s = getComputedStyle(el);
-      return { nombre: s.animationName, color: s.color, opacity: s.opacity };
-    });
-    expect(quieto.nombre).toBe("none");
-    expect(quieto.color).toBe("rgb(109, 40, 217)");
-    expect(quieto.opacity).toBe("1");
-  });
-
-  test("Agendar reunión mide 16 px y el embed abre en el próximo día hábil", async ({ page }) => {
-    await page.clock.setFixedTime(new Date("2026-11-06T10:00:00-03:00"));
-    await page.goto("/contrata", { waitUntil: "domcontentloaded" });
-    await hastaLaOferta(page);
-    const font = await page.getByRole("button", { name: "Agendar reunión" }).evaluate((el) => getComputedStyle(el).fontSize);
-    expect(font).toBe("16px");
-    await page.getByRole("button", { name: "Agendar reunión" }).click();
-    const src = await page.locator("[data-agenda-embed] iframe").getAttribute("src");
-    expect(src).toContain("fecha=2026-11-09");
-    expect(src).toContain("date=2026-11-09");
-  });
-
-  for (const [w, h] of [[375, 667], [390, 844], [360, 740]] as const) {
-    test(`celular ${w}x${h}: sin scroll horizontal y el CTA del 50% se ve`, async ({ page }) => {
-      await page.setViewportSize({ width: w, height: h });
-      await page.goto("/contrata", { waitUntil: "domcontentloaded" });
-      const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
-      expect(ancho).toBeLessThanOrEqual(w);
-      const font = await page.locator("#ct-nombre").evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
-      expect(font).toBeGreaterThanOrEqual(16);
-      await hastaLaOferta(page);
-      await page.waitForTimeout(700);
-      const frase = await page.locator("[data-oferta-destacada]").evaluate((el) => {
-        const s = getComputedStyle(el);
-        const h = el.parentElement!;
-        const cont = h.closest("main")!;
-        const r = el.getBoundingClientRect();
-        const cr = cont.getBoundingClientRect();
-        const lh = parseFloat(getComputedStyle(h).lineHeight);
-        return {
-          color: s.color,
-          opacity: s.opacity,
-          lineas: Math.round(h.getBoundingClientRect().height / lh),
-          dentro: r.left >= cr.left - 1 && r.right <= cr.right + 1,
-          cabe: h.scrollWidth <= h.clientWidth + 1,
-        };
+  test("Comienza ya manda el carrito saneado y abre el pago", async ({ page }) => {
+    await ir(page, "/contrata?utm_source=ads&gclid=GCLID123", "2026-11-05T12:00:00-03:00");
+    await page.locator("[data-addon=instagram]").getByRole("button", { name: "Agregar al carrito" }).click();
+    let body: { carrito?: Record<string, number>; price?: unknown; utm?: Record<string, string> } = {};
+    await page.route("**/api/contrata/checkout", async (route) => {
+      body = route.request().postDataJSON();
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: true, url: "https://checkout.stripe.com/c/pay/cs_test_ok", promo: true, lista_usd: 38, promo_usd: 19 }),
       });
-      expect(frase.color).toBe("rgb(109, 40, 217)");
-      expect(frase.opacity).toBe("1");
-      expect(frase.lineas).toBe(2);
-      expect(frase.dentro).toBe(true);
-      expect(frase.cabe).toBe(true);
-      const anchoOferta = await page.evaluate(() => document.documentElement.scrollWidth);
-      expect(anchoOferta).toBeLessThanOrEqual(w);
-      const cta = page.locator("[data-cta='oferta-50']");
-      const box = await cta.boundingBox();
-      expect(box).not.toBeNull();
-      expect(box!.height).toBeGreaterThanOrEqual(44);
-      expect(box!.y + box!.height).toBeLessThanOrEqual(h);
-      await expect(page.locator(".ver-demo-float")).toHaveCount(0);
     });
-  }
+    await page.getByRole("button", { name: "Comienza ya" }).click();
+    await expect.poll(() => body.carrito?.instagram).toBe(1);
+    expect(body.carrito?.flux_base).toBe(1);
+    expect(body.carrito?.email_marketing ?? 0).toBe(0);
+    expect(body.price).toBeUndefined();
+    expect(body.utm?.utm_source).toBe("ads");
+    await page.waitForURL(/checkout\.stripe\.com/);
+  });
+
+  test("si el código no está activo, la página deja de prometer el 50%", async ({ page }) => {
+    await ir(page, "/contrata", "2026-11-05T12:00:00-03:00");
+    await page.route("**/api/contrata/checkout", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: true, url: "https://checkout.stripe.com/c/pay/cs_test_ok", promo: false }),
+      }),
+    );
+    await page.getByRole("button", { name: "Comienza ya" }).click();
+    await expect(page.locator("[data-urgencia]")).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveAttribute("data-promo", "no");
+    await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveAttribute("data-plan-value", "29");
+    expect(page.url()).toContain("/contrata");
+  });
+
+  test("sin Stripe el botón ofrece agendar una reunión", async ({ page }) => {
+    await ir(page, "/contrata?utm_source=ads", "2026-11-05T12:00:00-03:00");
+    await page.getByRole("button", { name: "Comienza ya" }).click();
+    await expect(page.locator("[data-pago-error]")).toBeVisible();
+    const link = page.locator("[data-cta=agendar-reunion]");
+    await expect(link).toHaveAttribute("href", /\/agenda\?/);
+    await expect(link).toHaveAttribute("href", /utm_source=ads/);
+  });
+
+  test("el carrito cabe en el celular y el resumen sigue a la vista en escritorio", async ({ page }) => {
+    await page.clock.install({ time: new Date("2026-11-05T12:00:00-03:00") });
+    for (const [w, h] of [
+      [375, 667],
+      [390, 844],
+      [360, 740],
+    ] as const) {
+      await page.setViewportSize({ width: w, height: h });
+      await page.goto("/contrata", { waitUntil: "load" });
+      const desborde = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      expect(desborde, `${w}x${h}`).toBeLessThanOrEqual(1);
+      const cta = page.locator("[data-cta=carrito-checkout]");
+      await expect(cta).toBeVisible();
+      const caja = await cta.boundingBox();
+      expect(caja?.height ?? 0, `${w} alto`).toBeGreaterThanOrEqual(48);
+      expect((caja?.y ?? 999) + (caja?.height ?? 0), `${w} dentro`).toBeLessThanOrEqual(h + 1);
+      const font = await cta.evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+      expect(font, `${w} tipo`).toBeGreaterThanOrEqual(16);
+      const paso = page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" });
+      const pasoCaja = await paso.boundingBox();
+      expect(pasoCaja?.height ?? 0, `${w} agregar`).toBeGreaterThanOrEqual(44);
+    }
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await ir(page, "/contrata", "2026-11-05T12:00:00-03:00");
+    await page.locator("[data-adicionales]").scrollIntoViewIfNeeded();
+    const resumen = await page.locator("[data-resumen]").boundingBox();
+    expect(resumen?.y ?? 999).toBeLessThan(200);
+    expect(await page.locator("[data-resumen]").isVisible()).toBe(true);
+  });
 });

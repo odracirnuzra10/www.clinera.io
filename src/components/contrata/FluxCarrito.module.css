@@ -1,0 +1,470 @@
+.pagina {
+  background: #fff;
+  color: #111827;
+  font-family: Inter, system-ui, sans-serif;
+  min-height: 100dvh;
+}
+
+.barra {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.marca {
+  color: #6d28d9;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+
+.bolsa {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  background: #fff;
+  color: #6d28d9;
+  cursor: pointer;
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #6d28d9;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+}
+
+.urgencia,
+.urgenciaChica {
+  margin: 0;
+  padding: 10px 16px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  min-height: 1.4em;
+}
+
+.urgencia b { font-weight: 800; }
+
+.urgenciaChica {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.grid {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 20px 16px 200px;
+}
+
+.heroMl {
+  margin: 8px 0 0;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #1f2937;
+}
+
+.h1 {
+  margin: 10px 0 0;
+  font-size: clamp(32px, 8vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: #111827;
+}
+
+.bajada {
+  margin: 8px 0 0;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #374151;
+}
+
+.card {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.cardOn {
+  border-color: #6d28d9;
+  background: #f5f3ff;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.kicker,
+.regaloKicker {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6d28d9;
+}
+
+.cardTitulo {
+  margin: 2px 0 0;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #111827;
+}
+
+.cardSub {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #4b5563;
+}
+
+.precio {
+  margin: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.precio s {
+  display: block;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.precio b {
+  display: block;
+  color: #111827;
+  font-size: 22px;
+  letter-spacing: -0.03em;
+}
+
+.precio span {
+  color: #4b5563;
+  font-size: 13px;
+}
+
+.incluye {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.incluye li {
+  padding-left: 22px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%236D28D9' d='M6.2 11.2 2.8 7.8l1.2-1.2 2.2 2.2 5-5 1.2 1.2z'/></svg>") no-repeat left center / 16px;
+  font-size: 15px;
+  color: #1f2937;
+}
+
+.seccion {
+  margin: 28px 0 0;
+  font-size: 24px;
+  letter-spacing: -0.03em;
+  color: #111827;
+}
+
+.seccionSub {
+  margin: 4px 0 0;
+  font-size: 16px;
+  color: #374151;
+}
+
+.agregar,
+.stepper button,
+.cta,
+.secundario {
+  font-family: inherit;
+  font-size: 16px;
+}
+
+.agregar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 12px;
+  background: #6d28d9;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.stepper button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #6d28d9;
+  border-radius: 12px;
+  background: #fff;
+  color: #6d28d9;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.stepper button:disabled {
+  border-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: default;
+}
+
+.stepper output {
+  min-width: 28px;
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.regalo {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.regalo .cardTitulo,
+.regalo .cardSub,
+.regalo .incluye li { color: #065f46; }
+
+.faq { margin-top: 8px; }
+
+.faq details {
+  border-top: 1px solid #e5e7eb;
+  padding: 12px 0;
+}
+
+.faq summary {
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.faq p {
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #374151;
+}
+
+.resumen {
+  margin-top: 22px;
+}
+
+.resumenTitulo {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.03em;
+}
+
+.lineas,
+.totales p,
+.confianza {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lineas li,
+.totales p {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 15px;
+  color: #1f2937;
+}
+
+.num { font-variant-numeric: tabular-nums; font-weight: 700; }
+
+.descuento { color: #065f46; font-weight: 700; }
+
+.hoy {
+  margin-top: 12px !important;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 18px !important;
+  font-weight: 800;
+  color: #111827;
+}
+
+.hoy s {
+  display: block;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: right;
+}
+
+.luego {
+  display: block !important;
+  margin-top: 4px !important;
+  color: #4b5563 !important;
+  font-size: 14px !important;
+  font-weight: 500;
+}
+
+.confianza {
+  display: grid;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.confianza li {
+  padding-left: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.confianza li {
+  background: linear-gradient(#6d28d9, #6d28d9) left center / 8px 8px no-repeat;
+}
+
+.hoyMovil { display: none; }
+
+.error {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #7f1d1d;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 14px;
+  background: #6d28d9;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.cta:disabled { opacity: 0.7; cursor: wait; }
+
+.secundario {
+  display: block;
+  margin-top: 8px;
+  padding: 8px;
+  color: #111827;
+  font-weight: 650;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.exito { max-width: 640px; margin: 0 auto; padding: 48px 20px 80px; }
+
+@media (max-width: 959px) {
+  .grid { padding-bottom: 24px; }
+  .card, .faq, .regalo { scroll-margin-bottom: 160px; }
+  .resumen {
+    position: static;
+    margin-top: 22px;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+  }
+  .hoyMovil {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+  }
+  .hoyMovil s {
+    display: block;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: right;
+  }
+  .accion {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    padding: 8px 16px calc(8px + env(safe-area-inset-bottom));
+    background: #fff;
+    border-top: 1px solid #e5e7eb;
+  }
+  .accion .cta { min-height: 48px; margin-top: 8px; }
+  .accion .secundario { margin-top: 2px; padding: 4px; }
+  .urgenciaChica { display: none; }
+  :global(body:has([data-carrito])) {
+    padding-bottom: calc(150px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (min-width: 960px) {
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 28px;
+    align-items: start;
+    padding-bottom: 48px;
+  }
+  .resumen {
+    position: sticky;
+    top: 84px;
+    padding: 18px;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .num { transition: none; }
+}

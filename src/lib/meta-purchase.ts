@@ -101,6 +101,8 @@ export type CapiEvent = {
     content_type: "product";
     num_items: number;
     order_id: string;
+    /** Primer cobro, cuando `value` es el precio de lista del carrito. */
+    value_cobrado?: number;
   };
 };
 
@@ -158,6 +160,21 @@ export function sessionValue(session: Stripe.Checkout.Session): number {
  */
 export function buildConversionEvent(session: Stripe.Checkout.Session, productNames: string[] = []): CapiEvent {
   const ev = buildPurchaseEvent(session, productNames);
+  if (session.metadata?.fuente === "contrata_carrito") {
+    const lista = Number(session.metadata.lista_usd);
+    const value = Number.isFinite(lista) && lista > 0 ? lista : sessionValue(session);
+    return {
+      ...ev,
+      event_source_url: "https://www.clinera.io/contrata",
+      custom_data: {
+        ...ev.custom_data,
+        value,
+        currency: "USD",
+        content_name: "Clinera Flux modular",
+        value_cobrado: sessionValue(session),
+      },
+    };
+  }
   if (isGoPlan(productNames)) {
     return { ...ev, event_name: TRIAL_EVENT_NAME, event_id: trialEventId(session.id), custom_data: { ...ev.custom_data, value: GO.monthlyUsd, currency: "USD" } };
   }

@@ -1416,14 +1416,14 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
   Vortex, Ecosistema y el «Hablar con ventas» del cierre van con botón secundario, sin degradado. Lo vigila
   `tests/planes-vigentes.spec.ts`.
 
-# `/contrata` es el wizard de contratación (Ricardo, 5-nov-2026)
+# `/contrata` es el carrito de Flux modular (Ricardo, 5-nov-2026)
 
-- El cascarón de `/agenda` en **3 pasos**: tus datos, tu clínica (con confirmación) y tu oferta. El plan se elige **solo en el último paso**, con el 50% × 3 meses en violeta sólido `#6D28D9` (un `background-clip: text` lo dejaba lavado) y una entrada que termina en opacidad 1 (respeta `prefers-reduced-motion`). En escritorio va en la misma línea que «Tu plan con»; en el celular baja a la línea de abajo para no salirse del margen. `?plan=` solo lo preselecciona. El pie de `/planes` (`FooterV3`, con Términos, Privacidad, Cookies, Ley 21.719 y Ley 20.584) vuelve debajo del wizard.
-- «Contratar» en `/kimi` y `/home-nuevo` lleva a `/contrata?plan=…` con la atribución de la visita (utm, gclid, gbraid, wbraid, fbclid).
-- El CTA va a `checkoutUrl(plan, { promo: true })` de `src/content/checkout.ts`: utm, `prefilled_email`, gclid saneado como `client_reference_id` base (Analytics.tsx lo reemplaza al hacer clic por el de 7 segmentos y deja `prefilled_promo_code` y `prefilled_email`). El wizard dispara `clinera:routechange` al mostrar la oferta y otra vez cuando cambia el `href` (otro plan): si no, el parche se queda en el enlace del plan anterior.
-- **`PROMO_CODE` es `CLINERA50X3`** (cupón `FPxQMFcc`, Ricardo, 5-nov-2026): el CTA del 50% manda `prefilled_promo_code`. `/planes` llama a `checkoutUrl` sin `promo` y sigue cobrando el precio de lista. El Payment Link de Hex cobra US$ 179 (lo confirmó Ricardo el mismo día).
-- `WEBHOOK_URL` sigue de marcador: si no es https válido no se envía y se avisa por consola, sin frenar el paso.
-- El embed recibe `fecha`/`date` = `proximoDiaHabil()` (`src/lib/dia-habil.ts`; las landings estáticas llevan una copia). No hay evidencia de que app.clinera.io lo lea: puede requerir cambio allá.
-- La foto de Método Hebe es un placeholder (`public/kimi/hebe-testimonio.jpg`).
-- `ContrataLanding` se borró.
-- Guardianes: `contrata.spec.ts`, `kimi-home-nuevo.spec.ts`, `dia-habil.spec.ts`.
+El wizard de 3 planes se borró. La página es una tienda (gesto de Mercado Libre, colores de Clinera): tarjetas con «Agregar al carrito», carrito con badge y resumen «Tu carrito». Catálogo y totales en `src/content/carrito-flux.ts`. Flux a US$ 29 de esta página es otro producto que el Flux de `/planes`.
+
+- **Regalo de noviembre.** Email marketing y Automatizaciones se muestran como «Regalo de noviembre» y no se cobran mientras `regaloVigente()` (hasta el 30-nov-2026 inclusive, hora de Chile, `GIFT_UNTIL`). Desde el 1-dic-2026 son adicionales normales de US$ 9 (`clinera_email_marketing_usd_m`, `clinera_automatizaciones_usd_m`). Si quien contrató en noviembre los conserva sin cobro **no está decidido**: el copy dice «Regalo de noviembre» y no promete que sigan gratis. `sanear()` los deja en 0 mientras el regalo está vigente, así el checkout no arma esas líneas.
+- El 50% × 3 meses es el código `CLINERA50X3` en la Checkout Session (`POST /api/contrata/checkout`), no un Payment Link. Si el código no está activo, la respuesta trae `promo: false` y la página deja de mostrar el 50%. Sin `STRIPE_SECRET_KEY` o sin los Prices, la ruta responde 503 y el botón ofrece «Agendar reunión». Esta ruta no crea Products ni Prices.
+- La fecha del banner («Solo por hoy…») sale de `src/lib/urgencia-dias.ts` en el navegador (`useSyncExternalStore`): el HTML del servidor no la trae, y el reloj de Playwright la puede fijar.
+- `?plan=hex` premarca Instagram y Facebook; `?plan=vortex` suma el Agente IA. El carrito se guarda en `sessionStorage` (`contrata_carrito`) y vuelve con `?pago=cancelado`. El éxito es `?pago=ok` en la misma ruta: `/contrata/:path+` sigue redirigiendo a `/planes`.
+- `window.clineraStripeRef` (en `Analytics.tsx`) arma el `client_reference_id` porque el CTA es un botón, no un enlace a `buy.stripe.com`. El Purchase del carrito usa `metadata.lista_usd` (`fuente=contrata_carrito` en `meta-purchase.ts`).
+- «Contratar» en `/kimi` y `/home-nuevo` sigue a `/contrata?plan=…`. La foto de Método Hebe sigue de placeholder en esas landings.
+- Guardianes: `tests/contrata.spec.ts`, `tests/carrito-flux.spec.ts`, `tests/contrata-checkout.spec.ts`, `tests/urgencia-dias.spec.ts`.
