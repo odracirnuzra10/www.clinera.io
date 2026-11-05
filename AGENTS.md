@@ -1421,7 +1421,7 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
 - El cascarón de `/agenda` en **3 pasos**: tus datos, tu clínica (con confirmación) y tu oferta. El plan se elige **solo en el último paso**, con el 50% × 3 meses animado (respeta `prefers-reduced-motion`). `?plan=` solo lo preselecciona.
 - «Contratar» en `/kimi` y `/home-nuevo` lleva a `/contrata?plan=…` con la atribución de la visita (utm, gclid, gbraid, wbraid, fbclid).
 - El CTA va a `checkoutUrl(plan, { promo: true })` de `src/content/checkout.ts`: utm, `prefilled_email`, gclid saneado como `client_reference_id` base (Analytics.tsx lo reemplaza al hacer clic por el de 7 segmentos; el wizard dispara `clinera:routechange` para que se enganche al link montado tarde).
-- **`PROMO_CODE` está vacío**: el cupón `FPxQMFcc` no tiene promotion code; hasta que Ricardo lo cree, el link cobra precio lleno.
+- **`PROMO_CODE` es `CLINERA50X3`** (cupón `FPxQMFcc`, Ricardo, 5-nov-2026): el CTA del 50% manda `prefilled_promo_code`. `/planes` llama a `checkoutUrl` sin `promo` y sigue cobrando el precio de lista. El Payment Link de Hex cobra US$ 179 (lo confirmó Ricardo el mismo día).
 - `WEBHOOK_URL` sigue de marcador: si no es https válido no se envía y se avisa por consola, sin frenar el paso.
 - El embed recibe `fecha`/`date` = `proximoDiaHabil()` (`src/lib/dia-habil.ts`; las landings estáticas llevan una copia). No hay evidencia de que app.clinera.io lo lea: puede requerir cambio allá.
 - La foto de Método Hebe es un placeholder (`public/kimi/hebe-testimonio.jpg`).

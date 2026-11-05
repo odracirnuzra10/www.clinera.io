@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { CHECKOUT_URL, PROMO_CODE } from "../src/content/checkout";
+import { CHECKOUT_URL } from "../src/content/checkout";
 
 // /contrata (Ricardo, 5-nov-2026): wizard de 3 pasos. El plan y el 50% aparecen solo al final.
 async function hastaLaOferta(page: Page) {
@@ -42,7 +42,7 @@ test.describe("/contrata", () => {
     await expect(page.locator("[data-plan-opcion='flux'] input")).toBeChecked();
   });
 
-  test("el último paso cobra el 50% en Stripe, sin código mientras PROMO_CODE esté vacío", async ({ page }) => {
+  test("el último paso cobra el 50% en Stripe con CLINERA50X3", async ({ page }) => {
     await page.goto("/contrata?utm_source=test&gclid=abc.123&fbclid=x", { waitUntil: "domcontentloaded" });
     await hastaLaOferta(page);
     const oferta = page.locator("[data-oferta]");
@@ -62,8 +62,7 @@ test.describe("/contrata", () => {
     expect(await cta.getAttribute("href")).toContain("utm_source=test");
     expect(await cta.getAttribute("href")).toContain("client_reference_id=abc123");
     expect(await cta.getAttribute("href")).not.toContain("fbclid");
-    if (PROMO_CODE) expect(await cta.getAttribute("href")).toContain(`prefilled_promo_code=${PROMO_CODE}`);
-    else expect(await cta.getAttribute("href")).not.toContain("prefilled_promo_code");
+    expect(await cta.getAttribute("href")).toContain("prefilled_promo_code=CLINERA50X3");
 
     await oferta.locator("[data-plan-opcion='vortex']").click();
     await expect(cta).toHaveAttribute("href", new RegExp("^" + CHECKOUT_URL.vortex.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
