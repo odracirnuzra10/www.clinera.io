@@ -1,26 +1,26 @@
 "use client";
 
 // /contrata (Ricardo, 4-nov-2026): landing L2 «Software». Invita a contratar Clinera como
-// software (Hex o Flux), corta y pensada para el celular. La L1 del Ecosistema es /agenda y no
+// software (Flux o Hex), corta y pensada para el celular. La L1 del Ecosistema es /agenda y no
 // se toca. Misma identidad que /agenda: boleta recortada, degradado azul → violeta, Outfit +
 // mono. Los planes salen de `planes-nuevos.ts` (la misma fuente de /planes2): un precio o una
 // cantidad de conversaciones se cambia allá, no acá.
 //
-// CTA: Hex y Flux no tienen link de pago todavía; el alta es la de /planes2, «Prueba gratis»
-// → app.clinera.io?plan=… con la query de la visita (utm, gclid, fbclid).
+// CTA (5-nov-2026): Flux, el recomendado, va a su prueba gratis → app.clinera.io?plan=flux con la
+// query de la visita (utm, gclid, fbclid); Hex (US$ 179) va a ventas, /agenda?plan=hex.
 
 import { useEffect, useSyncExternalStore } from "react";
 import { CHANNEL_LABEL, ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import { track, trackPixel } from "@/lib/tracking";
+import { checkoutUrl, type PlanCheckoutId } from "@/content/checkout";
 import {
-  HEX_PAGO_LABEL,
   PLANES_NUEVOS,
   RECOMENDADO_LABEL,
   PRUEBA_LABEL,
   PRUEBA_LINEA,
   PRUEBA_URL,
+  VENTAS_LABEL,
   conPlan,
-  conUtm,
   type PlanNuevo,
 } from "@/content/planes-nuevos";
 import styles from "./ContrataLanding.module.css";
@@ -30,7 +30,7 @@ const readSearch = () => window.location.search;
 const readSearchServer = () => "";
 
 const PLANES = PLANES_NUEVOS.filter((p) => p.id === "hex" || p.id === "flux");
-// Lo que traen los dos (agenda, presupuestos, panel de ventas): Flux lo dice como «Todo lo de Hex».
+// Lo que traen los dos (agenda, presupuestos, panel de ventas…): Hex lo dice como «Todo lo de Flux».
 const BASE_COMUN = PLANES[0].incluye.filter((f) => !f.includes(" con "));
 
 /** «WhatsApp con 200 conversaciones» → ["WhatsApp", "200 conversaciones"]. */
@@ -55,7 +55,7 @@ export default function ContrataLanding() {
         <h1 className={styles.titulo}>
           Tu clínica ordenada, <span className={styles.acento}>con WhatsApp incluido.</span>
         </h1>
-        <p className={styles.bajada}>Agenda, presupuestos y panel de ventas. Partes con Hex desde US$ 35 al mes.</p>
+        <p className={styles.bajada}>Agenda, presupuestos y panel de ventas. Partes con Flux desde US$ 79 al mes.</p>
       </header>
 
       <div className={styles.tickets}>
@@ -77,14 +77,15 @@ export default function ContrataLanding() {
 }
 
 function Ticket({ plan, search }: { plan: PlanNuevo; search: string }) {
-  // Hex es el plan a vender (Ricardo, 4-nov-2026): su botón es el Payment Link de Stripe, con los utm
-  // de la visita. Flux sigue con «Prueba gratis», en segundo plano.
+  // Flux es el plan a vender (Ricardo, 5-nov-2026): recomendado, con su prueba gratis. Hex va a ventas.
+  // El Payment Link («pago») queda soportado por si vuelve un plan con checkout.
   const pago = plan.cta === "pago" && plan.pagoUrl;
-  const href = pago ? conUtm(plan.pagoUrl!, search) : conPlan(PRUEBA_URL, plan.id, search);
+  const recomendado = plan.destacado === true;
+  const href = pago ? checkoutUrl(plan.id as PlanCheckoutId, { search }) : plan.cta === "ventas" ? conPlan("/agenda", plan.id, search) : conPlan(PRUEBA_URL, plan.id, search);
   const lineas = [...BASE_COMUN, ...plan.incluye.filter((f) => f.includes(" con "))];
   return (
-    <article className={`${styles.ticket} ${pago ? styles.recomendado : ""}`} data-contrata-plan={plan.id}>
-      {pago && (
+    <article className={`${styles.ticket} ${recomendado ? styles.recomendado : ""}`} data-contrata-plan={plan.id}>
+      {recomendado && (
         <span className={styles.insignia} data-insignia>
           {RECOMENDADO_LABEL}
         </span>
@@ -96,12 +97,14 @@ function Ticket({ plan, search }: { plan: PlanNuevo; search: string }) {
           <span className={styles.etiqueta}>{plan.etiqueta}</span>
           <span className={styles.nombre}>
             {plan.name}
-            {plan.canales.map((c) => (
-              <span key={c} title={CHANNEL_LABEL[c]} className={styles.canal} data-canales>
-                <ChannelLogo channel={c} size={18} />
-                <span className="sr-only">{CHANNEL_LABEL[c]}</span>
-              </span>
-            ))}
+            <span data-canales style={{ display: "inline-flex", gap: 6, alignItems: "center" }}>
+              {plan.canales.map((c) => (
+                <span key={c} title={CHANNEL_LABEL[c]} className={styles.canal}>
+                  <ChannelLogo channel={c} size={18} />
+                  <span className="sr-only">{CHANNEL_LABEL[c]}</span>
+                </span>
+              ))}
+            </span>
           </span>
         </div>
 
@@ -121,11 +124,13 @@ function Ticket({ plan, search }: { plan: PlanNuevo; search: string }) {
             <span className={styles.guia} aria-hidden />
             <span className={styles.valor}>{plan.profesionales.replace("Hasta ", "hasta ")}</span>
           </li>
-          <li className={styles.linea}>
-            <span>Sucursales</span>
-            <span className={styles.guia} aria-hidden />
-            <span className={styles.valor}>{plan.sucursales.replace(/ sucursal(es)?$/, "")}</span>
-          </li>
+          {plan.sucursales && (
+            <li className={styles.linea}>
+              <span>Sucursales</span>
+              <span className={styles.guia} aria-hidden />
+              <span className={styles.valor}>{plan.sucursales.replace(/ sucursal(es)?$/, "")}</span>
+            </li>
+          )}
         </ul>
 
         <hr className={styles.corte} />
@@ -147,14 +152,24 @@ function Ticket({ plan, search }: { plan: PlanNuevo; search: string }) {
             data-plan-value={plan.monthlyUsd}
             className={styles.cta}
           >
-            {HEX_PAGO_LABEL} · US$ {plan.monthlyUsd}/mes
+            Contratar {plan.name} · US$ {plan.monthlyUsd}/mes
+          </a>
+        ) : plan.cta === "ventas" ? (
+          <a
+            href={href}
+            suppressHydrationWarning
+            data-cta="ventas"
+            className={`${styles.cta} ${styles.ctaSecundario}`}
+            onClick={() => track("contact_sales_click", { plan: plan.id, source_path: "/contrata" })}
+          >
+            {VENTAS_LABEL} · {plan.name}
           </a>
         ) : (
           <a
             href={href}
             suppressHydrationWarning
             data-cta="prueba"
-            className={`${styles.cta} ${styles.ctaSecundario}`}
+            className={recomendado ? styles.cta : `${styles.cta} ${styles.ctaSecundario}`}
             onClick={() => {
               track("start_trial_click", { plan: plan.id, source_path: "/contrata" });
               trackPixel("StartTrial", { content_name: plan.name, value: 0, currency: "USD" });

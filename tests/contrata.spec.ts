@@ -1,8 +1,9 @@
 import { expect, test } from "@playwright/test";
+import { CHECKOUT_URL } from "../src/content/checkout";
 
-// /contrata (Ricardo, 4-nov-2026): landing L2 «Software». Hex US$ 35 con WhatsApp y 50
-// conversaciones, Flux US$ 55 con WhatsApp y 200. Alta = «Prueba gratis» → app.clinera.io
-// con la query de la visita, la misma de /planes2. No se indexa.
+// /contrata (Ricardo, 4-nov-2026; planes del 5-nov): landing L2 «Software». Flux US$ 79 con
+// WhatsApp y 500 conversaciones (recomendado, alta = «Prueba gratis» → app.clinera.io con la query
+// de la visita) y Hex US$ 179 con WhatsApp + Facebook + Instagram y 2.500 (→ ventas). No se indexa.
 test.describe("/contrata", () => {
   test("ya no redirige a /planes y no se indexa", async ({ page }) => {
     const res = await page.goto("/contrata", { waitUntil: "domcontentloaded" });
@@ -15,44 +16,43 @@ test.describe("/contrata", () => {
     await page.goto("/contrata?utm_source=test&gclid=abc", { waitUntil: "domcontentloaded" });
     const planes = page.locator("[data-contrata-plan]");
     await expect(planes).toHaveCount(2);
-    await expect(planes.nth(0)).toHaveAttribute("data-contrata-plan", "hex");
-    await expect(planes.nth(1)).toHaveAttribute("data-contrata-plan", "flux");
+    await expect(planes.nth(0)).toHaveAttribute("data-contrata-plan", "flux");
+    await expect(planes.nth(1)).toHaveAttribute("data-contrata-plan", "hex");
 
     const hex = page.locator('[data-contrata-plan="hex"]');
     const flux = page.locator('[data-contrata-plan="flux"]');
-    await expect(hex.locator("[data-precio]")).toContainText("US$ 35/mes");
-    await expect(flux.locator("[data-precio]")).toContainText("US$ 55/mes");
-    await expect(hex.locator('[data-linea="WhatsApp"]')).toContainText("50 conversaciones");
-    await expect(flux.locator('[data-linea="WhatsApp"]')).toContainText("200 conversaciones");
+    await expect(flux.locator("[data-precio]")).toContainText("US$ 79/mes");
+    await expect(hex.locator("[data-precio]")).toContainText("US$ 179/mes");
+    await expect(flux.locator('[data-linea="WhatsApp"]')).toContainText("500 conversaciones");
+    await expect(hex.locator('[data-linea="WhatsApp, Facebook e Instagram"]')).toContainText("2.500 conversaciones");
     await expect(hex.locator('[data-linea="Agendamiento"]')).toBeVisible();
     await expect(flux.locator('[data-linea="Agendamiento"]')).toBeVisible();
-    for (const p of [hex, flux]) await expect(p.locator("[data-canales]")).toHaveText("WhatsApp");
+    await expect(flux.locator("[data-canales]")).toHaveText("WhatsApp");
+    await expect(hex.locator("[data-canales]")).toHaveText("WhatsAppFacebookInstagram");
 
-    // Hex primero y recomendado; su botón es el Payment Link de Stripe con los utm (el gclid viaja
-    // en client_reference_id, que pone Analytics.tsx al hacer clic). Flux sigue con «Prueba gratis».
-    await expect(hex.locator("[data-insignia]")).toHaveText("Recomendado");
-    const pago = hex.locator("a[data-cta]");
-    await expect(pago).toHaveAttribute("data-cta", "pago");
-    await expect(pago).toHaveAttribute("href", /^https:\/\/buy\.stripe\.com\/14AdRbdBnfD49wTgwz1441M\?utm_source=test$/);
-    await expect(pago).toHaveAttribute("data-plan", "hex");
-    await expect(pago).toHaveAttribute("data-plan-value", "35");
-    const prueba = flux.locator("a[data-cta]");
-    await expect(prueba).toHaveAttribute("data-cta", "prueba");
-    await expect(prueba).toHaveAttribute("href", /^https:\/\/app\.clinera\.io\?.*plan=flux/);
-    await expect(prueba).toHaveAttribute("href", /utm_source=test/);
-    await expect(prueba).toHaveAttribute("href", /gclid=abc/);
+    // Flux y Hex van al Payment Link. El gclid no viaja como query (sería un gclid falso en otro campo):
+    // queda saneado en client_reference_id. Los utm sí.
+    await expect(flux.locator("[data-insignia]")).toHaveText("Recomendado");
+    await expect(hex.locator("[data-insignia]")).toHaveCount(0);
+    const pagoFlux = flux.locator("a[data-cta='pago']");
+    await expect(pagoFlux).toHaveAttribute("href", new RegExp("^" + CHECKOUT_URL.flux.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    await expect(pagoFlux).toHaveAttribute("href", /utm_source=test/);
+    await expect(pagoFlux).toHaveAttribute("href", /client_reference_id=abc/);
+    const pagoHex = hex.locator("a[data-cta='pago']");
+    await expect(pagoHex).toHaveAttribute("href", new RegExp("^" + CHECKOUT_URL.hex.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    await expect(page.locator("main")).not.toContainText(/US\$\s?(35|55)\b/);
     await expect(page.locator("[data-contrata-ventas]")).toHaveAttribute("href", /^\/agenda\?.*utm_source=test/);
     const texto = await page.locator("main").innerText();
     expect(texto).not.toMatch(/no trae WhatsApp|implementaci|permanencia/i);
   });
 
   for (const [w, h] of [[375, 667], [390, 844], [360, 740]] as const) {
-    test(`celular ${w}x${h}: sin scroll horizontal y el botón de Hex se ve sin bajar mucho`, async ({ page }) => {
+    test(`celular ${w}x${h}: sin scroll horizontal y el botón de Flux se ve sin bajar mucho`, async ({ page }) => {
       await page.setViewportSize({ width: w, height: h });
       await page.goto("/contrata", { waitUntil: "domcontentloaded" });
       const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
       expect(ancho).toBeLessThanOrEqual(w);
-      const cta = page.locator('[data-contrata-plan="hex"] a[data-cta]');
+      const cta = page.locator('[data-contrata-plan="flux"] a[data-cta]');
       const box = await cta.boundingBox();
       expect(box!.height).toBeGreaterThanOrEqual(44);
       // Cabe en la primera pantalla y media: la landing es corta.

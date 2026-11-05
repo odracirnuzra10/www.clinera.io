@@ -2,7 +2,8 @@
 // «Agendar reunión» → /agenda?servicio=…, sin cupón ni compra en la web.
 
 import { expect, test } from "@playwright/test";
-import { AHORRO, CTA_VENTAS_LABEL, MARKETING_BLOQUES, PLANES, promoEcosistemaVigente } from "../src/content/planes";
+import { CHECKOUT_URL } from "../src/content/checkout";
+import { AHORRO, MARKETING_BLOQUES, PLANES, promoEcosistemaVigente } from "../src/content/planes";
 import { CLINICAS_LOGOS } from "../src/content/clinicas-logos";
 
 test.describe("planes vigentes: Vortex · Ecosistema", () => {
@@ -21,45 +22,46 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
   });
 
-  // Ricardo, 4-nov-2026: /planes publica el modelo de /planes2 (Hex · Flux · Vortex · Ecosistema,
-  // todos con WhatsApp). Los links de pago de Stripe siguen saliendo de `planes.ts`.
-  test("/planes: cuatro planes, todos con WhatsApp, y los links de pago de planes.ts", async ({ page }) => {
+  // Ricardo, 5-nov-2026: /planes publica Flux · Hex · Vortex (sin Ecosistema). Cada tarjeta y el
+  // encabezado van al Payment Link de checkout.ts, sin código de promoción.
+  test("/planes: Flux, Hex y Vortex, con sus links de Stripe", async ({ page }) => {
     await page.goto("/planes?utm_source=google", { waitUntil: "domcontentloaded" });
-    await expect(page.locator("[data-plan-card]")).toHaveCount(4);
-    for (const id of ["hex", "flux", "vortex", "ecosistema"]) {
+    const cards = page.locator("[data-plan-card]");
+    await expect(cards).toHaveCount(3);
+    for (const [i, id] of ["flux", "hex", "vortex"].entries()) {
+      await expect(cards.nth(i)).toHaveAttribute("data-plan-card", id);
       await expect(page.locator(`[data-plan-card="${id}"] [data-canales]`)).toContainText("WhatsApp");
     }
-    await expect(page.locator('[data-plan-card="hex"]')).toContainText("WhatsApp con 50 conversaciones");
-    await expect(page.locator('[data-plan-card="flux"]')).toContainText("WhatsApp con 200 conversaciones");
-    for (const id of ["vortex", "ecosistema"]) {
-      await expect(page.locator(`[data-plan-card="${id}"] a[data-cta]`)).toHaveAttribute(
-        "href",
-        new RegExp(`^/agenda\\?.*utm_source=google.*plan=${id}`),
-      );
+    await expect(page.locator('[data-plan-card="ecosistema"]')).toHaveCount(0);
+    await expect(page.locator("[data-ahorro]")).toHaveCount(0);
+    await expect(page.locator('[data-plan-card="flux"] [data-precio]')).toContainText("US$ 79");
+    await expect(page.locator('[data-plan-card="hex"] [data-precio]')).toContainText("US$ 179");
+    await expect(page.locator('[data-plan-card="vortex"] [data-precio]')).toContainText("US$ 279");
+    await expect(page.locator('[data-plan-card="flux"]')).toContainText("WhatsApp con 500 conversaciones");
+    await expect(page.locator('[data-plan-card="flux"]')).not.toContainText("Clinera Intelligence");
+    await expect(page.locator('[data-plan-card="vortex"]')).toContainText("Clinera Intelligence");
+    const precios = { flux: "79", hex: "179", vortex: "279" } as const;
+    for (const id of ["flux", "hex", "vortex"] as const) {
+      const pago = page.locator(`[data-plan-card="${id}"] a[data-cta="pago"]`);
+      const base = CHECKOUT_URL[id].replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      await expect(pago).toHaveAttribute("href", new RegExp(`^${base}\\?utm_source=google$`));
+      await expect(pago).toHaveAttribute("data-plan", id);
+      await expect(pago).toHaveAttribute("data-plan-value", precios[id]);
+      expect(await pago.getAttribute("href")).not.toContain("prefilled_promo_code");
     }
-    // Analytics.tsx lee data-plan* (InitiateCheckout + client_reference_id). Durante la promo del
-    // Ecosistema su link (que cobra 529) no se muestra, igual que antes.
-    const conLink = PLANES.filter((p) => p.pagoUrl);
-    // + los dos de Hex (encabezado «Parte con Hex» y su tarjeta), desde el 4-nov-2026.
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length + 2);
-    await expect(page.locator("h1")).toContainText("Parte con Hex");
-    await expect(page.locator("a[data-cta-encabezado]")).toHaveAttribute("href", /buy\.stripe\.com\/14AdRbdBnfD49wTgwz1441M\?utm_source=google/);
-    await expect(page.locator("main")).not.toContainText(/Parte gratis|prueba parte con Flux/);
-    // Hex es el único CTA principal: Vortex y Ecosistema van con botón secundario (fondo blanco).
-    for (const id of ["vortex", "ecosistema", "flux"]) {
-      const fondo = await page.locator(`[data-plan-card="${id}"] a[data-cta]`).evaluate((e) => getComputedStyle(e).backgroundImage);
+    await expect(page.locator("a[data-cta-encabezado]")).toHaveAttribute("href", new RegExp("^" + CHECKOUT_URL.flux.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(4);
+    await expect(page.locator("h1")).toContainText("Parte con Flux");
+    await page.getByRole("button", { name: "¿Hay descuento?" }).click();
+    await expect(page.locator("main")).toContainText("50% durante los primeros 3 meses");
+    await expect(page.locator("main")).not.toContainText(/no tienen descuento|20% de descuento/);
+    for (const id of ["hex", "vortex"]) {
+      const fondo = await page.locator(`[data-plan-card="${id}"] a[data-cta="pago"]`).evaluate((e) => getComputedStyle(e).backgroundImage);
       expect(fondo).toBe("none");
     }
-    const fondoHex = await page.locator('[data-plan-card="hex"] a[data-cta]').evaluate((e) => getComputedStyle(e).backgroundImage);
-    expect(fondoHex).toContain("gradient");
-    await expect(page.locator('[data-plan-card="hex"] a[data-cta="pago"]')).toHaveAttribute("data-plan", "hex");
-    for (const p of conLink) {
-      const pago = page.locator(`[data-plan-card="${p.id}"] a[href*="buy.stripe.com"]`);
-      await expect(pago).toHaveAttribute("href", new RegExp("^" + p.pagoUrl.replace(/[.?]/g, "\\$&")));
-      await expect(pago).toHaveAttribute("data-plan", p.id);
-      await expect(pago).toHaveAttribute("data-plan-value", String(p.monthlyUsd));
-      await expect(pago).toContainText(`US$ ${p.monthlyUsd}/mes`);
-    }
+    const fondoFlux = await page.locator('[data-plan-card="flux"] a[data-cta="pago"]').evaluate((e) => getComputedStyle(e).backgroundImage);
+    expect(fondoFlux).toContain("gradient");
+    await expect(page.locator('[data-plan-card="flux"] [data-insignia]')).toHaveText("Recomendado");
     const texto = await page.locator("main").innerText();
     for (const viejo of ["Hurricane", "Nexus", "Summit", "Atlas", "CU" + "KI", "permanencia", "PENDIENTE", "no trae WhatsApp"]) {
       expect(texto).not.toContain(viejo);
@@ -68,7 +70,7 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
 });
 
 test.describe("ahorro del Ecosistema (Ricardo, 19-oct-2026)", () => {
-  for (const ruta of ["/", "/planes"]) {
+  for (const ruta of ["/"]) {
     test(`${ruta} explica lo que se ahorra con el Ecosistema`, async ({ page }) => {
       await page.goto(ruta, { waitUntil: "domcontentloaded" });
       const bloque = page.locator("[data-ahorro]");
@@ -116,7 +118,8 @@ test.describe("reuniones de marketing y onboarding dedicado", () => {
 
   test("/planes y la presentación lo muestran", async ({ page }) => {
     await page.goto("/planes", { waitUntil: "domcontentloaded" });
-    await expect(page.getByText("Reunión de marketing cada semana").first()).toBeVisible();
+    // El Ecosistema salió de /planes: la reunión semanal ya no está en esta página.
+    await expect(page.getByText("Reunión de marketing cada semana")).toHaveCount(0);
     await expect(page.getByText("Onboarding dedicado con un ejecutivo humano").first()).toBeVisible();
     await page.goto("/presentacion/index.html#planes", { waitUntil: "domcontentloaded" });
     const html = await page.content();
