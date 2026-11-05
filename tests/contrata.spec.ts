@@ -58,6 +58,8 @@ test.describe("/contrata", () => {
     await expect(email.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
     await expect(email).toContainText("US$ 9");
     await expect(auto).toContainText("US$ 9");
+    await expect(email.locator("img")).toHaveAttribute("src", "/kimi/productos/email-marketing.jpg");
+    await expect(auto.locator("img")).toHaveAttribute("src", "/kimi/productos/automatizaciones.jpg");
     await expect(page.locator("[data-carrito]")).not.toContainText("gratis para siempre");
     await page.locator("[data-flux-base]").getByRole("button", { name: "Agregar al carrito" }).click();
     await email.getByRole("button", { name: "Agregar al carrito" }).click();
@@ -215,7 +217,7 @@ test.describe("/contrata", () => {
     await page.locator("[data-flux-base]").getByRole("button", { name: "Agregar al carrito" }).click();
     await page.locator("[data-carrito-icon]").click();
     await page.getByRole("button", { name: "Activar" }).click();
-    await expect(page.locator("[data-pago-error]")).toBeVisible();
+    await expect(page.locator("[data-pago-error]")).toHaveText("Pago online pronto — agenda con ventas");
     await expect(page.locator("[data-urgencia]").first()).toContainText("50%");
     const link = page.locator("[data-cta=agendar-reunion]");
     await expect(link).toHaveAttribute("href", /\/agenda\?/);

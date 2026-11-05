@@ -295,8 +295,7 @@ footer a.ext{color:var(--text);font-weight:500}
 .acard .luego{margin:0 0 8px}
 .btn:disabled,.btn.grad:disabled{background:#E5E7EB;border-color:#E5E7EB;color:#374151;box-shadow:none;cursor:not-allowed;opacity:1}
 .acard.espera{filter:grayscale(1);background:#F3F4F6}
-.acard.regalo .afoto{background:#ECFDF5}
-.acard.regalo .afoto svg{stroke:#065F46}
+.acard.regalo .afoto{background:#F5F3FF}
 .stepper{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border);border-radius:10px;min-height:44px;padding:0 6px}
 .stepper button{width:36px;height:36px;border:0;background:transparent;color:var(--accent);font-size:1.3rem;cursor:pointer}
 .quitar-linea{grid-column:1 / -1;justify-self:start;min-height:36px;margin-top:4px;padding:0 12px;border:1px solid #6D28D9;border-radius:10px;background:#fff;color:#6D28D9;font:inherit;font-weight:700;cursor:pointer}
@@ -626,14 +625,14 @@ footer a.ext{color:var(--text);font-weight:500}
         <p class="precio"><b>USD 190</b><span class="off">cobro único</span></p>
         <button class="btn grad" type="button" data-agregar="onboarding_humano" disabled>Primero agrega Clinera Flux</button>
       </article>
-      <article class="acard regalo" data-regalo>
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="1.5"/><path d="M4 10h16V7H4zM12 7v13M12 7c-2 0-3.5-2-2.2-3.2C11 2.6 12 5 12 7zM12 7c2 0 3.5-2 2.2-3.2C13 2.6 12 5 12 7z"/></svg></div>
+      <article class="acard regalo" data-regalo="email_marketing">
+        <img class="afoto" src="/kimi/productos/email-marketing.jpg" alt="Email marketing" width="1024" height="1024">
         <h4>Email marketing</h4>
         <p>Regalo de noviembre, luego USD 9/mes.</p>
         <p class="precio"><b>USD 0</b></p>
       </article>
-      <article class="acard regalo">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 16l4-4 3 3 7-8"/></svg></div>
+      <article class="acard regalo" data-regalo="automatizaciones">
+        <img class="afoto" src="/kimi/productos/automatizaciones.jpg" alt="Automatizaciones" width="1024" height="1024">
         <h4>Automatizaciones</h4>
         <p>Regalo de noviembre, luego USD 9/mes.</p>
         <p class="precio"><b>USD 0</b></p>
@@ -1092,13 +1091,13 @@ footer a.ext{color:var(--text);font-weight:500}
         if(json&&json.ok&&json.url){location.assign(json.url);return;}
         abierto=true;
         errorEl.hidden=false;
-        errorEl.textContent="El pago en línea no está disponible todavía. Agenda una reunión y lo activamos contigo.";
+        errorEl.textContent="Pago online pronto — agenda con ventas";
         agenda.hidden=false;
       })
       .catch(function(){
         abierto=true;
         errorEl.hidden=false;
-        errorEl.textContent="El pago en línea no está disponible todavía. Agenda una reunión y lo activamos contigo.";
+        errorEl.textContent="Pago online pronto — agenda con ventas";
         agenda.hidden=false;
       })
       .then(function(){enviando=false;pintar();});

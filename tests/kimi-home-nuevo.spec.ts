@@ -92,6 +92,8 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await expect(carril.locator("[data-addon=instagram] img")).toHaveAttribute("src", "/kimi/productos/instagram.jpg");
   await expect(carril.locator("[data-addon=facebook] img")).toHaveAttribute("src", "/kimi/productos/facebook.jpg");
   await expect(carril.locator("[data-addon=agente_ia] img")).toHaveAttribute("src", "/kimi/productos/agente-ia.jpg");
+  await expect(carril.locator('[data-regalo="email_marketing"] img')).toHaveAttribute("src", "/kimi/productos/email-marketing.jpg");
+  await expect(carril.locator('[data-regalo="automatizaciones"] img')).toHaveAttribute("src", "/kimi/productos/automatizaciones.jpg");
   await expect(prof.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
   await expect(carril.locator("[data-addon=agente_ia] s")).toContainText("79");
   await expect(carril.locator("[data-addon=agente_ia]")).toContainText("50% por 3 meses");

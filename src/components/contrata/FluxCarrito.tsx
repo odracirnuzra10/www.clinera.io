@@ -346,11 +346,11 @@ export default function FluxCarrito({
         return;
       }
       setAbierto(true);
-      setError("El pago en línea no está disponible todavía. Agenda una reunión y lo activamos contigo.");
+      setError("Pago online pronto — agenda con ventas");
     } catch (e) {
       console.error("[contrata] checkout", e);
       setAbierto(true);
-      setError("El pago en línea no está disponible todavía. Agenda una reunión y lo activamos contigo.");
+      setError("Pago online pronto — agenda con ventas");
     } finally {
       setEnviando(false);
     }
@@ -741,6 +741,8 @@ const FOTOS: Partial<Record<ItemId, string>> = {
   instagram: "/kimi/productos/instagram.jpg",
   facebook: "/kimi/productos/facebook.jpg",
   agente_ia: "/kimi/productos/agente-ia.jpg",
+  email_marketing: "/kimi/productos/email-marketing.jpg",
+  automatizaciones: "/kimi/productos/automatizaciones.jpg",
   onboarding_humano: "/kimi/productos/onboarding.jpg",
 };
 
