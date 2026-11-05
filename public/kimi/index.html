@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Clinera | La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas</title>
-<meta name="description" content="La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas. Flux desde USD 29/mes: partes con lo esencial y sumas los adicionales en el carrito.">
+<meta name="description" content="La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas. Activa Flux a USD 14,50/mes por 3 meses. Después, USD 29/mes.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -253,6 +253,7 @@ html.wiz-lock,html.wiz-lock body{overflow:hidden}
 .cta-band .lead{margin-inline:auto;margin-bottom:28px;color:rgba(255,255,255,.7)}
 .cta-band .cta{justify-content:center}
 .cta-band .micro{color:rgba(255,255,255,.6);margin-top:14px}
+.cta-band .preguntas{display:inline-flex;align-items:center;justify-content:center;margin-top:14px;min-height:48px;padding:12px 18px;border:1.5px solid #fff;border-radius:10px;background:transparent;color:#fff;font:600 .95rem/1.2 Inter,sans-serif;cursor:pointer}
 
 footer{border-top:1px solid var(--border);padding:32px 0;font-size:.88rem;color:var(--muted)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:16px 24px;justify-content:space-between;align-items:center}
@@ -330,9 +331,10 @@ footer a.ext{color:var(--text);font-weight:500}
 .totales{display:grid;gap:6px;margin:0 0 10px;font-size:.92rem}
 .totales div{display:flex;justify-content:space-between;gap:12px}
 .totales .hoy{font-weight:800;font-size:1.05rem;border-top:1px solid var(--border);padding-top:8px}
+.totales .desglose{color:var(--muted);font-size:.85rem}
 .apuro{text-align:center;font-weight:700;margin:0 0 8px}
 .err{color:#991B1B;font-size:.88rem;margin:8px 0 0}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#111827;color:#fff;border-radius:999px;padding:10px 16px;z-index:40;width:max-content;max-width:calc(100% - 32px)}
+.toast{position:fixed;top:76px;left:16px;background:#111827;color:#fff;border-radius:999px;padding:10px 16px;z-index:60;width:max-content;max-width:calc(100% - 32px);pointer-events:none}
 @media (min-width:960px){
   .drawer{top:0;right:0;bottom:0;width:min(420px,100%)}
   .producto{grid-template-columns:200px minmax(0,1fr);padding:20px}
@@ -340,7 +342,7 @@ footer a.ext{color:var(--text);font-weight:500}
 }
 @media (max-width:959px){
   .drawer{left:0;right:0;bottom:0;max-height:min(92dvh,760px);border-radius:18px 18px 0 0}
-  .toast{bottom:96px}
+  .toast{top:68px}
   .mcta-row{grid-template-columns:1fr auto}
 }
 .mcta-total{display:flex;flex-direction:column;justify-content:center;font-size:.75rem;color:var(--muted);line-height:1.2}
@@ -450,7 +452,7 @@ footer a.ext{color:var(--text);font-weight:500}
     </a>
     <div class="nav-cta">
       <button class="btn sm outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
-      <button class="btn sm grad" type="button" data-agregar="flux_base">Agregar al carrito</button>
+      <button class="btn sm grad" type="button" data-flujo="principal"><span data-etiqueta>Agregar al carrito</span></button>
     </div>
     <button class="bolsa" type="button" data-carrito-icon aria-expanded="false" aria-controls="tu-carrito" aria-label="Tu carrito, 0 ítems">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
@@ -466,9 +468,9 @@ footer a.ext{color:var(--text);font-weight:500}
     <div class="copy">
       <p class="eyebrow rv">Software para clínicas estéticas y médicas</p>
       <h1 class="rv" style="--i:1">La plataforma médica con IA que transforma leads en pacientes con <span class="serif">evaluaciones pagadas</span></h1>
-      <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. Flux desde <strong>USD 29/mes</strong>: partes con lo esencial y sumas solo lo que tu clínica necesita.</p>
+      <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. <strong>Activa Flux a USD 14,50/mes</strong> por 3 meses. Después, USD 29/mes.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
-        <button class="btn grad" type="button" data-agregar="flux_base">Agregar al carrito <svg class="ic" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <button class="btn grad" type="button" data-flujo="principal" data-vacio="Activa Flux a USD 14,50/mes"><span data-etiqueta>Activa Flux a USD 14,50/mes</span></button>
         <button class="btn outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
       </div>
       <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
@@ -494,7 +496,7 @@ footer a.ext{color:var(--text);font-weight:500}
 <section class="pain" id="dolor" data-testid="banner-dolor" aria-labelledby="t-dolor">
   <div class="wrap">
     <p id="t-dolor">Deja de perder plata con softwares caros y obsoletos que no te dejan competir</p>
-    <button class="btn grad" type="button" data-agregar="flux_base">Agregar al carrito</button>
+    <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Agregar al carrito</span></button>
   </div>
 </section>
 
@@ -548,7 +550,7 @@ footer a.ext{color:var(--text);font-weight:500}
       </div>
       <div>
         <h3>Clinera Flux</h3>
-        <p class="producto-sub">Desde USD 29/mes. Partes con lo esencial y lo agregas al carrito.</p>
+        <p class="producto-sub">50% por 3 meses. Después vuelve a USD 29/mes.</p>
         <p class="precio">
           <s>USD 29</s>
           <b>USD 14,50</b>
@@ -643,12 +645,13 @@ footer a.ext{color:var(--text);font-weight:500}
 <section class="sec cta-band" id="comenzar" aria-labelledby="t-act">
   <div class="wrap">
     <p class="eyebrow rv">Comenzar</p>
-    <h2 id="t-act" class="rv" style="--i:1">Cuéntanos de tu clínica y comienza con Clinera</h2>
-    <p class="lead rv" style="--i:2">Responde cuatro preguntas rápidas y te mostramos cómo activar tu cuenta.</p>
+    <h2 id="t-act" class="rv" style="--i:1">Activa tu clínica con el carrito</h2>
+    <p class="lead rv" style="--i:2">Agrega Clinera Flux y elige lo que tu clínica necesita. Las cuatro preguntas quedan a la vista, no solo detrás de ventas.</p>
     <div class="cta rv" style="--i:3">
-      <button class="btn grad" type="button" data-agregar="flux_base">Agregar al carrito</button>
+      <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Agregar al carrito</span></button>
       <button class="btn outline light" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
     </div>
+    <button class="preguntas" type="button" data-open-wizard data-cta="preguntas">Responder las cuatro preguntas</button>
     <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
   </div>
 </section>
@@ -701,8 +704,8 @@ footer a.ext{color:var(--text);font-weight:500}
 
 <div class="mcta" id="mobile-cta" data-testid="mobile-cta">
   <div class="mcta-row">
-    <div class="mcta-total"><span data-bar-label>50% por 3 meses</span><b data-total-bar>USD 0</b></div>
-    <button class="btn grad" type="button" data-cta="carrito-checkout" data-plan="flux_modular">Activar</button>
+    <div class="mcta-total"><span data-bar-label>Clinera Flux</span><b data-total-bar>USD 14,50</b></div>
+    <button class="btn grad" type="button" data-bar-accion data-plan="flux_modular">→ Agregar</button>
   </div>
 </div>
 
@@ -867,6 +870,11 @@ footer a.ext{color:var(--text);font-weight:500}
     if(promoOff)return p.lista;
     return Math.round(p.mes*50)/100+p.unico;
   }
+  function precioLinea(id){
+    var bruto=SPEC[id].usd*cart[id];
+    if(SPEC[id].once||promoOff)return bruto;
+    return Math.round(bruto*50)/100;
+  }
   function unidades(){return IDS.reduce(function(a,id){return a+cart[id];},0);}
 
   function pintarControles(){
@@ -904,6 +912,10 @@ footer a.ext{color:var(--text);font-weight:500}
     document.querySelectorAll('[data-agregar="flux_base"]').forEach(function(btn){
       btn.textContent=cart.flux_base>0?"Quitar":"Agregar al carrito";
     });
+    document.querySelectorAll("[data-flujo=principal]").forEach(function(btn){
+      var label=btn.querySelector("[data-etiqueta]")||btn;
+      label.textContent=cart.flux_base>0?"Ver carrito":(btn.getAttribute("data-vacio")||"Agregar al carrito");
+    });
   }
 
   function pintar(){
@@ -913,11 +925,16 @@ footer a.ext{color:var(--text);font-weight:500}
       badge.hidden=u<1;
     }
     if(icono)icono.setAttribute("aria-label","Tu carrito, "+u+" ítems");
-    if(barra)barra.textContent=money(H);
     var etiqueta=document.querySelector("[data-bar-label]");
-    if(etiqueta){
-      var pbar=partes();
-      etiqueta.textContent=promoOff?"Total":(pbar.unico>0?"50% por 3 meses + cobro único":"50% por 3 meses");
+    var barBtn=document.querySelector("[data-bar-accion]");
+    if(cart.flux_base<1){
+      if(etiqueta)etiqueta.textContent="Clinera Flux";
+      if(barra)barra.textContent=promoOff?"USD 29":"USD 14,50";
+      if(barBtn){ barBtn.textContent="→ Agregar"; barBtn.removeAttribute("data-cta"); }
+    }else{
+      if(etiqueta)etiqueta.textContent="Hoy pagas";
+      if(barra)barra.textContent=money(H);
+      if(barBtn){ barBtn.textContent="Activar"; barBtn.setAttribute("data-cta","carrito-checkout"); }
     }
     pintarControles();
     if(!lineas)return;
@@ -926,20 +943,21 @@ footer a.ext{color:var(--text);font-weight:500}
       if(cart[id]<1)return;
       var spec=SPEC[id];
       var mas=cart[id]>=spec.max?" disabled":"";
-      var control=id==="flux_base"
-        ? '<button type="button" class="quitar-linea" data-id="'+id+'" data-delta="-1" aria-label="Quitar Clinera Flux">Quitar</button>'
+      var binario=id==="flux_base"||id==="onboarding_humano";
+      var control=binario
+        ? '<button type="button" class="quitar-linea" data-id="'+id+'" data-delta="-1" aria-label="Quitar '+spec.nombre+'">Quitar</button>'
         : '<div class="stepper"><button type="button" data-id="'+id+'" data-delta="-1" aria-label="Quitar '+spec.nombre+' en el carrito">−</button>'+
           '<output>'+cart[id]+'</output>'+
           '<button type="button" data-id="'+id+'" data-delta="1" aria-label="Sumar '+spec.nombre+' en el carrito"'+mas+'>+</button></div>';
-      html+='<div class="linea"><span><i class="chk" aria-hidden="true">✓</i>'+spec.nombre+(spec.once?" · cobro único":"")+'</span><b>'+money(spec.usd*cart[id])+'</b>'+control+'</div>';
+      html+='<div class="linea"><span><i class="chk" aria-hidden="true">✓</i>'+spec.nombre+(spec.once?" · cobro único":"")+'</span><b>'+money(precioLinea(id))+'</b>'+control+'</div>';
     });
     if(!html)html='<p>Tu carrito está vacío. Agrega Clinera Flux para armar tu clínica.</p>';
     lineas.innerHTML=html;
     var pnow=partes();
-    var desc=promoOff?0:pnow.mes-Math.round(pnow.mes*50)/100;
-    totales.innerHTML='<div><span>Subtotal</span><span>'+money(L)+'</span></div>'+
-      (promoOff||desc<=0?'':'<div><span>50% por 3 meses</span><span>−'+money(desc)+'</span></div>')+
-      '<div class="hoy" data-total-hoy><span>Total hoy</span><span>'+money(H)+(L&&!promoOff?' <s>'+money(L)+'</s>':'')+'</span></div>';
+    var mensualHoy=promoOff?pnow.mes:Math.round(pnow.mes*50)/100;
+    totales.innerHTML='<div class="hoy" data-total-hoy><span>Hoy pagas</span><span>'+money(H)+'</span></div>'+
+      (pnow.unico>0?'<div class="desglose"><span>'+money(mensualHoy)+' mensual + '+money(pnow.unico)+' de onboarding</span></div>':'')+
+      (promoOff||pnow.mes<=0?'':'<div class="desglose"><span>50% por 3 meses</span></div>');
     document.querySelectorAll('[data-cta="carrito-checkout"]').forEach(function(b){
       b.setAttribute("data-plan-value",String(H));
       b.setAttribute("data-plan-lista",String(L));
@@ -1005,6 +1023,20 @@ footer a.ext{color:var(--text);font-weight:500}
   });
 
   document.addEventListener("click",function(ev){
+    var flujo=ev.target.closest("[data-flujo=principal]");
+    if(flujo){
+      ev.preventDefault();
+      if(cart.flux_base<1) fijar("flux_base",1);
+      else { abierto=true; pintar(); }
+      return;
+    }
+    var barraBtn=ev.target.closest("[data-bar-accion]");
+    if(barraBtn){
+      ev.preventDefault();
+      if(cart.flux_base<1) fijar("flux_base",1);
+      else pagar();
+      return;
+    }
     var add=ev.target.closest("[data-agregar]");
     if(add){ev.preventDefault();fijar(add.getAttribute("data-agregar"), cart[add.getAttribute("data-agregar")]>0 && SPEC[add.getAttribute("data-agregar")].max===1 ? -1 : 1);return;}
     var delta=ev.target.closest("[data-delta]");

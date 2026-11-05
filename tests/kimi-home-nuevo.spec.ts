@@ -70,6 +70,9 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
   const flux = page.locator("[data-testid=plan-flux]");
   await expect(flux.locator("img")).toHaveAttribute("src", "/kimi/productos/flux.jpg");
+  await expect(page.locator("#hero-cta")).toContainText("Activa Flux a USD 14,50/mes");
+  await expect(page.locator("#comenzar")).toContainText("Responder las cuatro preguntas");
+  await expect(page.locator("#comenzar")).not.toContainText("Responde cuatro preguntas rápidas");
   await expect(flux.getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveCount(0);
   const orden = await page.evaluate(() => {
@@ -99,6 +102,10 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await expect(onboarding.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
   await flux.getByRole("button", { name: "Agregar al carrito" }).click();
   await expect(page.locator("[data-toast]")).toHaveText("Agregado al carrito");
+  await expect(page.locator("header").getByRole("button", { name: "Ver carrito" })).toBeVisible();
+  await expect(page.locator("header").getByRole("button", { name: "Quitar" })).toHaveCount(0);
+  await expect(page.locator("#hero-cta").getByRole("button", { name: "Ver carrito" })).toBeVisible();
+  await expect(page.locator("#comenzar").getByRole("button", { name: "Ver carrito" })).toBeVisible();
   await expect(page.locator("[data-carrito-count]")).toHaveText("1");
   await expect(prof).not.toHaveClass(/espera/);
   await expect(prof.getByRole("button", { name: "Agregar al carrito" })).toBeEnabled();
@@ -109,13 +116,47 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await expect(drawer).toBeVisible();
   await expect(drawer.getByRole("button", { name: "Quitar Clinera Flux" })).toBeVisible();
   await expect(drawer.getByRole("button", { name: "Sumar Clinera Flux" })).toHaveCount(0);
+  await expect(drawer.getByRole("button", { name: "Quitar Onboarding humano" })).toBeVisible();
+  await expect(drawer.getByRole("button", { name: "Sumar Onboarding humano" })).toHaveCount(0);
+  await expect(drawer.locator("s")).toHaveCount(0);
+  await expect(drawer).toContainText("Hoy pagas");
+  await expect(drawer).toContainText("USD 19 mensual + USD 190 de onboarding");
   await expect(drawer.getByRole("button", { name: "Activar" })).toBeVisible();
   await expect(drawer).toContainText("50% por 3 meses");
   await expect(drawer).toContainText("cobro único");
   await expect(drawer).toContainText("190");
   await expect(drawer.locator("[data-total-hoy]")).toContainText("209");
+  await page.locator("[data-cerrar]").click();
+  await flux.getByRole("button", { name: "Quitar" }).click();
+  await page.locator("#comenzar").scrollIntoViewIfNeeded();
+  await page.locator("#comenzar").getByRole("button", { name: "Agregar al carrito" }).click();
+  const cubre = await page.evaluate(() => {
+    const toast = document.querySelector("[data-toast]");
+    const botones = [...document.querySelectorAll("#comenzar button")];
+    if (!toast || (toast as HTMLElement).hidden) return false;
+    const a = toast.getBoundingClientRect();
+    return botones.some((b) => {
+      const r = b.getBoundingClientRect();
+      return a.left < r.right && a.right > r.left && a.top < r.bottom && a.bottom > r.top;
+    });
+  });
+  expect(cubre).toBe(false);
   const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
   expect(ancho).toBeLessThanOrEqual(1280);
+});
+
+test("en el celular la barra vacía ofrece Flux a USD 14,50", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 700 });
+  await page.goto("/kimi", { waitUntil: "domcontentloaded" });
+  const barra = page.locator("#mobile-cta");
+  await expect(barra).toContainText("Clinera Flux");
+  await expect(barra).toContainText("USD 14,50");
+  await expect(barra.getByRole("button", { name: "Agregar" })).toBeVisible();
+  await expect(barra.getByRole("button", { name: "Activar" })).toHaveCount(0);
+  await barra.getByRole("button", { name: "Agregar" }).click();
+  await expect(barra.getByRole("button", { name: "Activar" })).toBeVisible();
+  await expect(barra).toContainText("Hoy pagas");
+  await expect(barra).not.toContainText("USD 0");
 });
 
 test("el pie de /kimi enlaza Términos y Privacidad", async ({ page, request }) => {

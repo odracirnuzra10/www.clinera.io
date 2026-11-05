@@ -64,7 +64,8 @@ test.describe("/contrata", () => {
     await auto.getByRole("button", { name: "Agregar al carrito" }).click();
     await page.locator("[data-carrito-icon]").click();
     await expect(page.locator("[data-total-hoy]")).toContainText("23,50");
-    await expect(page.locator("[data-total-hoy] s")).toContainText("47");
+    await expect(page.locator("[data-drawer]")).toContainText("Hoy pagas");
+    await expect(page.locator("[data-total-hoy] s")).toHaveCount(0);
     await expect(page.locator("[data-carrito-count]")).toHaveText("3");
   });
 
@@ -141,10 +142,14 @@ test.describe("/contrata", () => {
     const drawer = page.locator("[data-drawer]");
     await expect(drawer.getByRole("button", { name: "Quitar Clinera Flux" })).toBeVisible();
     await expect(drawer.getByRole("button", { name: "Sumar Clinera Flux" })).toHaveCount(0);
+    await expect(drawer.getByRole("button", { name: "Quitar Onboarding humano" })).toBeVisible();
+    await expect(drawer.getByRole("button", { name: "Sumar Onboarding humano" })).toHaveCount(0);
     await expect(drawer).toContainText("cobro único");
     await expect(drawer).toContainText("50% por 3 meses");
+    await expect(drawer).toContainText("Hoy pagas");
     await expect(drawer.locator("[data-total-hoy]")).toContainText("204,50");
-    await expect(drawer.locator("[data-total-hoy] s")).toContainText("219");
+    await expect(drawer.locator("[data-total-hoy] s")).toHaveCount(0);
+    await expect(drawer).toContainText("mensual +");
     await expect(drawer.getByText(/Luego US\$ 29/)).toBeVisible();
   });
 
@@ -228,7 +233,7 @@ test.describe("/contrata", () => {
       await page.goto("/contrata", { waitUntil: "load" });
       const desborde = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       expect(desborde, `${w}x${h}`).toBeLessThanOrEqual(1);
-      const cta = page.locator("[data-cta=carrito-checkout]:visible");
+      const cta = page.locator("[data-testid=mobile-cta] button:visible");
       await expect(cta).toBeVisible();
       const caja = await cta.boundingBox();
       expect(caja?.height ?? 0, `${w} alto`).toBeGreaterThanOrEqual(48);

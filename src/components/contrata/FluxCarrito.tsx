@@ -80,6 +80,12 @@ function desglose(c: Cantidades): { mensual: number; unico: number; lista: numbe
   return { mensual, unico, lista: redondear(mensual + unico), promo: redondear(promoMes + unico) };
 }
 
+function precioLinea(id: ItemId, qty: number, promo: boolean): number {
+  const bruto = CARRITO[id].usd * qty;
+  if (!promo || CARRITO[id].cobro === "unico") return redondear(bruto);
+  return Math.round(bruto * (100 - PROMO_PCT)) / 100;
+}
+
 function monto(usd: number): string {
   const texto = usd.toLocaleString("es-CL", {
     minimumFractionDigits: Number.isInteger(usd) ? 0 : 2,
@@ -241,7 +247,6 @@ export default function FluxCarrito({
   const lista = partes.lista;
   const hoy = promoOff ? lista : partes.promo;
   const unidades = ITEM_IDS.reduce((n, id) => n + carrito[id], 0);
-  const ahorro = redondear(lista - hoy);
   const fluxEnCarrito = carrito.flux_base >= 1;
 
   function emitir(id: ItemId, accion: "agregar" | "quitar", qty: number, next: Cantidades) {
@@ -378,6 +383,9 @@ export default function FluxCarrito({
           Hacer crecer tu clínica es como comprar en Mercado Libre: elige qué funciones quieres, agrégalas al carrito y comienza.
         </p>
         <h1 className={styles.h1}>Activa tu clínica</h1>
+        {!promoOff ? (
+          <p className={styles.ofertaHero}>Activa Flux a {monto(14.5)}/mes por 3 meses. Después, {monto(29)}/mes.</p>
+        ) : null}
 
         <article className={styles.producto} data-flux-base>
           <div className={styles.foto}>
@@ -386,14 +394,14 @@ export default function FluxCarrito({
           <div className={styles.productoCompra}>
             <h2 className={styles.cardTitulo}>Clinera Flux</h2>
             <p className={styles.cardSub}>Configura tu clínica y agrégala al carrito.</p>
-            <Precio usd={29} promo={!promoOff} desde />
+            <Precio usd={29} promo={!promoOff} />
             {fluxEnCarrito ? (
               <button type="button" className={styles.quitar} aria-label="Quitar Clinera Flux" onClick={() => fijar("flux_base", -1)}>
                 Quitar
               </button>
             ) : (
               <button type="button" className={styles.agregar} aria-label="Agregar al carrito: Clinera Flux" onClick={() => fijar("flux_base", 1)}>
-                Agregar al carrito
+                {promoOff ? "Agregar al carrito" : `Activa Flux a ${monto(14.5)}/mes`}
               </button>
             )}
           </div>
@@ -453,22 +461,27 @@ export default function FluxCarrito({
         </section>
       </div>
 
-      <div className={styles.barraMovil} hidden={abierto}>
-        <p className={styles.hoyMovil}>
-          <span>Total hoy</span>
-          <span className={styles.num}>
-            {monto(hoy)}
-            {!promoOff && lista > 0 ? <s>{monto(lista)}</s> : null}
-          </span>
-        </p>
-        <Checkout
-          hoy={hoy}
-          lista={lista}
-          promoOff={promoOff}
-          enviando={enviando}
-          listo={fluxEnCarrito}
-          onClick={pagar}
-        />
+      <div className={styles.barraMovil} hidden={abierto} data-testid="mobile-cta">
+        {fluxEnCarrito ? (
+          <>
+            <p className={styles.hoyMovil}>
+              <span>Hoy pagas</span>
+              <span className={styles.num}>{monto(hoy)}</span>
+            </p>
+            <Checkout
+              hoy={hoy}
+              lista={lista}
+              promoOff={promoOff}
+              enviando={enviando}
+              listo={fluxEnCarrito}
+              onClick={pagar}
+            />
+          </>
+        ) : (
+          <button type="button" className={styles.cta} onClick={() => fijar("flux_base", 1)}>
+            Clinera Flux · {monto(promoOff ? 29 : 14.5)} → Agregar
+          </button>
+        )}
       </div>
 
       {abierto ? (
@@ -505,9 +518,9 @@ export default function FluxCarrito({
                     {CARRITO[id].cobro === "unico" ? " · cobro único" : ""}
                     {carrito[id] > 1 ? ` × ${carrito[id]}` : ""}
                   </span>
-                  <span className={styles.num}>{monto(CARRITO[id].usd * carrito[id])}</span>
-                  {id === "flux_base" ? (
-                    <button type="button" className={styles.quitarLinea} aria-label="Quitar Clinera Flux" onClick={() => fijar("flux_base", -1)}>
+                  <span className={styles.num}>{monto(precioLinea(id, carrito[id], !promoOff))}</span>
+                  {id === "flux_base" || id === "onboarding_humano" ? (
+                    <button type="button" className={styles.quitarLinea} aria-label={`Quitar ${CARRITO[id].nombre}`} onClick={() => fijar(id, -1)}>
                       Quitar
                     </button>
                   ) : (
@@ -524,23 +537,16 @@ export default function FluxCarrito({
             </p>
           ) : null}
           <div className={styles.totales}>
-            <p>
-              <span>Subtotal</span>
-              <span className={styles.num}>{monto(lista)}</span>
+            <p className={styles.hoy}>
+              <span>Hoy pagas</span>
+              <span className={styles.num} data-total-hoy>{monto(hoy)}</span>
             </p>
-            {!promoOff && ahorro > 0 ? (
-              <p className={styles.descuento}>
-                <span>50% por 3 meses</span>
-                <span className={styles.num}>−{monto(ahorro)}</span>
+            {partes.unico > 0 ? (
+              <p className={styles.luego}>
+                {monto(promoOff ? partes.mensual : Math.round(partes.mensual * (100 - PROMO_PCT)) / 100)} mensual + {monto(partes.unico)} de onboarding
               </p>
             ) : null}
-            <p className={styles.hoy}>
-              <span>Total hoy</span>
-              <span className={styles.num} data-total-hoy>
-                {monto(hoy)}
-                {!promoOff && lista > 0 ? <s>{monto(lista)}</s> : null}
-              </span>
-            </p>
+            {!promoOff && partes.mensual > 0 ? <p className={styles.luego}>50% por 3 meses</p> : null}
             {!promoOff && partes.mensual > 0 ? <p className={styles.luego}>Luego {monto(partes.mensual)}/mes</p> : null}
           </div>
           {!promoOff ? <div className={styles.urgenciaChica}><UrgenciaPromo /></div> : null}
@@ -671,7 +677,11 @@ function Addon({
         </div>
         <Precio usd={spec.usd} promo={promo && spec.cobro !== "unico"} unico={spec.cobro === "unico"} />
       </div>
-      {enCarrito ? (
+      {enCarrito && id === "onboarding_humano" ? (
+        <button type="button" className={styles.quitar} aria-label="Quitar Onboarding humano" onClick={onSub}>
+          Quitar
+        </button>
+      ) : enCarrito ? (
         <Stepper id={id} qty={qty} donde="card" onAdd={onAdd} onSub={onSub} />
       ) : (
         <button
