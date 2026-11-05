@@ -71,8 +71,10 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   const flux = page.locator("[data-testid=plan-flux]");
   await expect(flux.locator("img")).toHaveAttribute("src", "/kimi/productos/flux.jpg");
   await expect(page.locator("#hero-cta")).toContainText("Activa Flux a USD 14,50/mes");
-  await expect(page.locator("#comenzar")).toContainText("Responder las cuatro preguntas");
-  await expect(page.locator("#comenzar")).not.toContainText("Responde cuatro preguntas rápidas");
+  await expect(page.locator("#comenzar")).toContainText("Agrega Clinera Flux y elige lo que tu clínica necesita.");
+  await expect(page.locator("#comenzar")).toContainText("Sin costo de implementación");
+  await expect(page.locator("#comenzar")).not.toContainText("cuatro preguntas");
+  await expect(page.locator("#comenzar").getByRole("button")).toHaveCount(2);
   await expect(flux.getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveCount(0);
   const orden = await page.evaluate(() => {
