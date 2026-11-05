@@ -284,6 +284,10 @@ const nextConfig: NextConfig = {
         source: '/convenio',
         destination: '/convenio/index.html',
       },
+      {
+        source: '/kimi',
+        destination: '/kimi/index.html',
+      },
     ];
   },
   async redirects() {
