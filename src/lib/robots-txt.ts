@@ -79,6 +79,7 @@ const STAR_DISALLOW = [
   "/oferta-clinicas-esteticas",
   "/super-promo",
   "/home2",
+  "/home-nuevo",
   "/go$",
   "/go/",
   "/*?utm_*",

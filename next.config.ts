@@ -288,6 +288,11 @@ const nextConfig: NextConfig = {
         source: '/kimi',
         destination: '/kimi/index.html',
       },
+      // Home renovado (vista previa sin indexar, noviembre 2026): HTML estático con el sistema visual de /kimi.
+      {
+        source: '/home-nuevo',
+        destination: '/home-nuevo/index.html',
+      },
     ];
   },
   async redirects() {
