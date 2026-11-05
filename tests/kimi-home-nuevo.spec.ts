@@ -11,7 +11,7 @@ for (const ruta of ["/kimi", "/home-nuevo"]) {
       await expect(page).toHaveTitle(new RegExp(HEADLINE.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
     });
 
-    test("Contratar lleva el plan y la atribución de la visita", async ({ page }) => {
+    test("Contratar lleva a /contrata con la atribución de la visita", async ({ page }) => {
       await page.goto(`${ruta}?utm_source=t&gclid=g`, { waitUntil: "domcontentloaded" });
       const links = page.locator("a[data-contrata-link]");
       const n = await links.count();
@@ -19,11 +19,12 @@ for (const ruta of ["/kimi", "/home-nuevo"]) {
       for (let i = 0; i < n; i++) {
         const a = links.nth(i);
         await expect(a).toHaveAttribute("data-cta", /.+/);
-        await expect(a).toHaveAttribute("data-plan", /Flux|Hex|Vortex/);
+        await expect(a).toHaveAttribute("data-plan", "Flux");
         const href = await a.getAttribute("href");
+        expect(href).toContain("/contrata");
         expect(href).toContain("utm_source=t");
         expect(href).toContain("gclid=g");
-        expect(href).toMatch(/plan=(flux|hex|vortex)/);
+        expect(href).not.toMatch(/plan=(hex|vortex)/);
       }
     });
 
@@ -35,9 +36,21 @@ for (const ruta of ["/kimi", "/home-nuevo"]) {
       );
     });
 
-    test("Flux no incluye Clinera Intelligence", async ({ page }) => {
+    test("muestra Flux desde USD 29 y los adicionales, sin Hex ni Vortex", async ({ page }) => {
       await page.goto(ruta, { waitUntil: "domcontentloaded" });
-      await expect(page.locator("[data-testid=plan-flux]")).not.toContainText("Clinera Intelligence");
+      const flux = page.locator("[data-testid=plan-flux]");
+      await expect(flux).toContainText("USD");
+      await expect(flux).toContainText("29");
+      await expect(flux).toContainText("Clinera Intelligence");
+      await expect(flux).toContainText("100 conversaciones");
+      const extras = page.locator("[data-testid=plan-addons]");
+      await expect(extras).toContainText("Profesional extra");
+      await expect(extras).toContainText("Agente IA");
+      await expect(extras).toContainText("Regalo de noviembre");
+      await expect(page.locator("[data-testid=plan-hex]")).toHaveCount(0);
+      await expect(page.locator("[data-testid=plan-vortex]")).toHaveCount(0);
+      const texto = await page.locator("main").innerText();
+      expect(texto).not.toMatch(/USD 179|USD 279|Hex|Vortex/);
     });
 
     test("en 375 el titular no desborda", async ({ page }) => {

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Clinera | La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas</title>
-<meta name="description" content="La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas. Flux desde USD 79/mes; el agente de IA que atiende por ti está en Vortex.">
+<meta name="description" content="La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas. Flux desde USD 29/mes: partes con lo esencial y sumas los adicionales en el carrito.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,7 +52,7 @@ section{scroll-margin-top:72px}
 .btn.grad{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 8px 24px -8px rgba(109,40,217,.45)}
 .btn.grad:hover{background:var(--accent-h);border-color:var(--accent-h)}
 .nav-cta{display:flex;align-items:center;gap:8px}
-/* botón con aspecto de enlace (Hablar con ventas en Hex/Vortex, «Volver a la oferta» del wizard) */
+/* botón con aspecto de enlace («Volver a la oferta» del wizard) */
 .btn-link{display:inline-block;background:none;border:0;padding:8px 4px;font:600 .92rem/1.3 Inter,sans-serif;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .btn-link:hover{color:var(--text)}
 
@@ -120,8 +120,8 @@ footer .logo img{height:24px}
 .ch{width:18px;height:18px;flex:none;display:block}
 .chs{display:inline-flex;gap:5px;align-items:center;vertical-align:middle}
 
-/* plans (orden Flux · Hex · Vortex): Flux destacado con el acento; Hex y Vortex en gris */
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+/* Un solo plan: Flux desde USD 29, y al lado los adicionales del carrito. */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
 .plan{border:1px solid var(--border);border-radius:16px;padding:26px;background:#fff;display:flex;flex-direction:column;gap:14px}
 .plan.entry{border:2px solid var(--accent);box-shadow:0 30px 70px -40px rgba(109,40,217,.45)}
 .tag{align-self:flex-start;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--accent);color:#fff}
@@ -141,6 +141,10 @@ footer .logo img{height:24px}
 .plan li.no small{display:block;font-size:.82rem}
 .plan-cta{display:grid;gap:8px;justify-items:stretch}
 .plan-cta .btn-link{justify-self:center}
+.addons{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.addons li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:.93rem}
+.addons small{display:block;color:var(--muted);font-size:.8rem;font-weight:500;margin-top:2px}
+.addons b{font-variant-numeric:tabular-nums;white-space:nowrap}
 .note{margin-top:28px;color:var(--muted);font-size:.9rem}
 
 /* wizard */
@@ -426,7 +430,7 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
     <div class="copy">
       <p class="eyebrow rv">Software para clínicas estéticas y médicas</p>
       <h1 class="rv" style="--i:1">La plataforma médica con IA que transforma leads en pacientes con <span class="serif">evaluaciones pagadas</span></h1>
-      <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. Flux desde <strong>USD 79/mes</strong>. El agente de IA que atiende por ti está en Vortex.</p>
+      <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. Flux desde <strong>USD 29/mes</strong>: partes con lo esencial y sumas solo lo que tu clínica necesita.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
         <a class="btn grad" href="/contrata?plan=flux" data-contrata-link data-cta="oferta" data-plan="Flux">Contratar Flux <svg class="ic" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         <button class="btn outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
@@ -504,9 +508,9 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
       </article>
       <article class="feat rv" style="--i:2" data-testid="feat-ia">
         <div class="ic-box"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg></div>
-        <span class="tag soft feat-tag">Solo en Vortex</span>
+        <span class="tag soft feat-tag">Adicional</span>
         <h3>IA que conoce tu clínica</h3>
-        <p>AURA sabe tus tratamientos, tus precios y tus horas disponibles. Responde a cualquier hora, cobra la evaluación al agendar y confirma por ti. Disponible en el plan Vortex.</p>
+        <p>El agente IA sabe tus tratamientos, tus precios y tus horas disponibles. Responde a cualquier hora, cobra la evaluación al agendar y confirma por ti. Lo sumas en el carrito cuando lo necesitas.</p>
       </article>
     </div>
   </div>
@@ -540,67 +544,48 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
 
 <section class="sec" id="planes" aria-labelledby="t-planes">
   <div class="wrap">
-    <p class="eyebrow rv">Planes</p>
-    <h2 id="t-planes" class="rv" style="--i:1">Empiezas simple y creces a tu ritmo</h2>
-    <p class="lead rv" style="--i:2">Empiezas con Flux y subes a Hex o Vortex cuando tu clínica crezca.</p>
+    <p class="eyebrow rv">Flux</p>
+    <h2 id="t-planes" class="rv" style="--i:1">Empiezas simple y sumas solo lo que necesitas</h2>
+    <p class="lead rv" style="--i:2">Flux parte en USD 29/mes. Los adicionales se eligen en el carrito.</p>
     <div class="plans">
-      <!-- Estructura de planes de /kimi (Ricardo, 5-nov-2026): Flux 79 · Hex 179 · Vortex 279. No es la de /planes (planes-nuevos.ts). -->
+      <!-- Flux modular: misma base y adicionales que src/content/carrito-flux.ts. No es Hex/Vortex. -->
       <article class="plan entry rv" data-testid="plan-flux">
-        <span class="tag">Recomendado</span>
+        <span class="tag">Desde USD 29</span>
         <h3><span>Flux</span><span class="chs" role="img" aria-label="WhatsApp"><svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg></span></h3>
-        <p class="price"><span class="cur">USD</span> 79<small>/mes</small></p>
-        <p class="size">Hasta 5 profesionales · 2 sucursales</p>
+        <p class="price"><span class="cur">USD</span> 29<small>/mes</small></p>
+        <p class="size">50% los primeros 3 meses. Luego, el precio de lo que elegiste.</p>
         <ul>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Agenda online</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>WhatsApp conectado a tu agenda: hasta 500 conversaciones/mes</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Recordatorios y confirmaciones</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Panel de ventas</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Presupuestos</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Fichas clínicas personalizadas</li>
-          <li class="no"><svg class="ic" aria-hidden="true"><use href="#i-minus"/></svg><span>Sin agente IA<small>Disponible en Vortex</small></span></li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>2 profesionales</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>1 sucursal</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>100 conversaciones</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Fichas clínicas</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>WhatsApp</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Clinera Intelligence</li>
         </ul>
         <div class="plan-cta">
           <a class="btn grad block" href="/contrata?plan=flux" data-contrata-link data-cta="oferta" data-plan="Flux">Contratar Flux</a>
           <button class="btn outline block" type="button" data-open-wizard data-plan="Flux" data-cta="ventas">Hablar con ventas</button>
         </div>
       </article>
-      <article class="plan rv" style="--i:1" data-testid="plan-hex">
-        <span class="tag soft">Todas tus redes</span>
-        <h3><span>Hex</span><span class="chs" role="img" aria-label="WhatsApp, Facebook e Instagram"><svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg><svg class="ch" aria-hidden="true"><use href="#ch-fb"/></svg><svg class="ch" aria-hidden="true"><use href="#ch-ig"/></svg></span></h3>
-        <p class="price"><span class="cur">USD</span> 179<small>/mes</small></p>
-        <p class="size">Hasta 10 profesionales</p>
-        <ul>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Todo lo de Flux</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>WhatsApp, Facebook e Instagram conectados a tu agenda</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Hasta 2.500 conversaciones/mes</li>
-          <li class="no"><svg class="ic" aria-hidden="true"><use href="#i-minus"/></svg><span>Sin agente IA<small>Disponible en Vortex</small></span></li>
+      <article class="plan rv" style="--i:1" data-testid="plan-addons">
+        <span class="tag soft">Adicionales</span>
+        <h3>Suma en el carrito</h3>
+        <ul class="addons">
+          <li><span>Profesional extra</span><b>USD 9</b></li>
+          <li><span>Sucursal extra</span><b>USD 9</b></li>
+          <li><span>1.000 conversaciones extra</span><b>USD 25</b></li>
+          <li><span>Conexión Instagram</span><b>USD 9</b></li>
+          <li><span>Conexión Facebook</span><b>USD 9</b></li>
+          <li><span>Agente IA<small>7.000 créditos de IA al mes</small></span><b>USD 79</b></li>
+          <li><span>Email marketing<small>Regalo de noviembre, luego USD 9/mes</small></span></li>
+          <li><span>Automatizaciones<small>Regalo de noviembre, luego USD 9/mes</small></span></li>
         </ul>
         <div class="plan-cta">
-          <a class="btn outline block" href="/contrata?plan=hex" data-contrata-link data-cta="oferta" data-plan="Hex">Contratar Hex</a>
-          <button class="btn-link" type="button" data-open-wizard data-plan="Hex" data-cta="ventas">Hablar con ventas</button>
-        </div>
-      </article>
-      <article class="plan rv" style="--i:2" data-testid="plan-vortex">
-        <span class="tag soft">Con agente IA</span>
-        <h3><span>Vortex</span><span class="chs" role="img" aria-label="WhatsApp, Facebook e Instagram"><svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg><svg class="ch" aria-hidden="true"><use href="#ch-fb"/></svg><svg class="ch" aria-hidden="true"><use href="#ch-ig"/></svg></span></h3>
-        <p class="price"><span class="cur">USD</span> 279<small>/mes</small></p>
-        <p class="size">Hasta 15 profesionales</p>
-        <ul>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Todo lo de Hex</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Agente IA con 28.000 créditos de IA al mes</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Hasta 5.000 conversaciones/mes</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Presupuestos y planes de tratamiento</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Automatizaciones</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Difusiones</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Onboarding dedicado con un ejecutivo humano</li>
-        </ul>
-        <div class="plan-cta">
-          <a class="btn outline block" href="/contrata?plan=vortex" data-contrata-link data-cta="oferta" data-plan="Vortex">Contratar Vortex</a>
-          <button class="btn-link" type="button" data-open-wizard data-plan="Vortex" data-cta="ventas">Hablar con ventas</button>
+          <a class="btn outline block" href="/contrata?plan=flux" data-contrata-link data-cta="oferta" data-plan="Flux">Elegir adicionales</a>
         </div>
       </article>
     </div>
-    <p class="note rv">Sin costo de implementación. Puedes cambiar de plan cuando tu clínica crezca.</p>
+    <p class="note rv">Sin costo de implementación. Los precios son por mes y se suman a Flux.</p>
   </div>
 </section>
 
@@ -620,17 +605,17 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
   </div>
 </section>
 
-<!-- FAQ: adaptada de src/content/home-faq.ts al modelo Flux · Hex · Vortex. -->
+<!-- FAQ alineada al carrito de Flux (carrito-flux.ts). -->
 <section class="sec" id="preguntas" aria-labelledby="t-faq">
   <div class="wrap">
     <p class="eyebrow rv">Preguntas frecuentes</p>
     <h2 id="t-faq" class="rv" style="--i:1">Lo que nos preguntan antes de empezar</h2>
     <div class="faq rv" style="--i:2">
-      <details><summary>¿Qué diferencia hay entre Flux, Hex y Vortex?</summary><p>Flux (USD 79/mes) es la agenda con WhatsApp conectado, hasta 500 conversaciones al mes. Hex (USD 179/mes) suma Facebook e Instagram y llega a 2.500 conversaciones. Vortex (USD 279/mes) agrega el agente IA, con 28.000 créditos de IA y hasta 5.000 conversaciones al mes.</p></details>
-      <details><summary>¿Tiene costo de implementación?</summary><p>No. Pagas solo la mensualidad. Todos los planes incluyen onboarding con un ejecutivo humano, que migra tus datos y configura la clínica contigo.</p></details>
+      <details><summary>¿Qué incluye Flux?</summary><p>Desde USD 29/mes: 2 profesionales, 1 sucursal, 100 conversaciones, fichas clínicas, WhatsApp y Clinera Intelligence. Los primeros 3 meses tienen 50% de descuento sobre lo que armes en el carrito.</p></details>
+      <details><summary>¿Tiene costo de implementación?</summary><p>No. Pagas solo la mensualidad. El onboarding con un ejecutivo humano va incluido: migra tus datos y configura la clínica contigo.</p></details>
       <details><summary>¿Necesito cambiar mi número de WhatsApp?</summary><p>No. Clinera se conecta con tu número actual usando la API oficial de WhatsApp Business. Tus pacientes siguen escribiendo al mismo número de siempre.</p></details>
-      <details><summary>¿Qué es Clinera Intelligence?</summary><p>Es el agente interno de Vortex. Le preguntas cuánto vendiste, cómo va tu agenda o qué campaña trajo pacientes, y te responde con los datos de tu clínica. Flux y Hex no traen IA.</p></details>
-      <details><summary>¿Puedo cambiar de plan?</summary><p>Sí, cuando quieras. Empiezas con Flux y subes a Hex o Vortex cuando tu clínica crezca, sin permanencia ni costos de cambio.</p></details>
+      <details><summary>¿Qué es Clinera Intelligence?</summary><p>Va incluido en Flux. Le preguntas cuánto vendiste, cómo va tu agenda o qué campaña trajo pacientes, y te responde con los datos de tu clínica. El agente que atiende a tus pacientes por WhatsApp es un adicional.</p></details>
+      <details><summary>¿Puedo agregar funciones después?</summary><p>Sí. En el carrito sumas profesionales, sucursales, conversaciones, Instagram, Facebook y el agente IA. Sin permanencia. Email marketing y Automatizaciones son regalo de noviembre; desde diciembre cuestan USD 9/mes cada uno.</p></details>
       <details><summary>¿Dónde se guardan los datos de mis pacientes?</summary><p>En Google Cloud Platform, región Santiago de Chile (southamerica-west1): los datos clínicos residen en Chile, cifrados en tránsito y en reposo. Cumplimos la Ley N° 19.628 y la Ley N° 21.719 de protección de datos en Chile.</p></details>
     </div>
   </div>
@@ -655,7 +640,7 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
     <div class="cols">
       <div>
         <a class="logo" href="#top" aria-label="Clinera, inicio"><img src="/home-nuevo/clinera-logo.png" alt="Clinera" width="411" height="96" decoding="async"></a>
-        <p>Software para clínicas estéticas y médicas: agenda, WhatsApp, Facebook e Instagram y, en Vortex, una IA que atiende por ti.</p>
+        <p>Software para clínicas estéticas y médicas. Flux desde USD 29/mes, con WhatsApp y Clinera Intelligence. Los adicionales se suman en el carrito.</p>
       </div>
       <div><b>Producto</b><a href="#funciones">Funciones</a><a href="#planes">Planes</a><a href="https://www.clinera.io/funciones">Todas las funciones</a><a href="https://www.clinera.io/demo">Ver demo</a></div>
       <div><b>Recursos</b><a href="https://www.clinera.io/blog">Blog</a><a href="https://www.clinera.io/prensa">Prensa</a><a href="https://www.clinera.io/partners">Programa partner</a></div>
@@ -756,8 +741,8 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
       <button class="wiz-back" type="button" id="wiz-back" hidden>&larr; Volver</button>
 
       <div id="wiz-offer" data-testid="wiz-offer" hidden>
-        <p class="offer-price"><strong>USD 39,50<small>/mes</small></strong> <s>USD 79<span class="sr-only"> antes</span></s></p>
-        <p class="offer-terms">por 3 meses, luego USD 79/mes · sin costo de implementación</p>
+        <p class="offer-price"><strong>USD 14,50<small>/mes</small></strong> <s>USD 29<span class="sr-only"> antes</span></s></p>
+        <p class="offer-terms">Flux por 3 meses, luego USD 29/mes · sin costo de implementación</p>
         <div class="offer-cta">
           <!-- TODO: reemplazar [LINK CHECKOUT FLUX 50%] por el link real de checkout de Flux con 50% de descuento -->
           <a class="btn grad block" id="wiz-offer-link" href="/contrata?plan=flux" data-contrata-link data-cta="oferta-popup" data-plan="Flux">Aprovechar oferta</a>
