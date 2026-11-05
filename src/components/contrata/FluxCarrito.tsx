@@ -29,7 +29,6 @@ const ADICIONALES = ITEM_IDS.filter((id) => id !== "flux_base");
 declare global {
   interface Window {
     clineraStripeRef?: () => string;
-    dataLayer?: Record<string, unknown>[];
   }
 }
 
