@@ -63,8 +63,11 @@ section{scroll-margin-top:72px}
 /* nav */
 header.nav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-.logo{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:1.15rem;letter-spacing:-.03em;text-decoration:none}
-.logo svg{width:24px;height:24px}
+.logo{display:inline-flex;align-items:center;text-decoration:none}
+.logo img{height:28px;width:auto;display:block}
+footer .logo img{height:24px}
+.wiz-logo{position:absolute;top:24px;left:28px;z-index:1}
+.wiz-logo img{height:26px;width:auto;display:block}
 
 /* hero */
 .hero{position:relative;isolation:isolate;overflow:hidden;min-height:calc(100dvh - 64px);display:flex;align-items:center;padding:72px 0;background:#fff}
@@ -211,14 +214,19 @@ html.wiz-lock,html.wiz-lock body{overflow:hidden}
 .wiz-wait .bar{display:block;width:180px;height:4px;border-radius:999px;background:#ECECF1;overflow:hidden}
 .wiz-wait .bar i{display:block;height:100%;width:0;background:var(--accent);animation:fill var(--confirm-ms,1800ms) linear forwards}
 @keyframes fill{to{width:100%}}
-/* pantalla final (solo después del formulario): titular breve, precio chico y dos CTA */
-.wiz-title.offer{font-size:clamp(1.2rem,4.8vw,1.55rem);line-height:1.2}
-#wiz-offer{display:grid;gap:14px;text-align:center}
-#wiz-offer .offer-price{color:var(--muted);font-size:.95rem}
-#wiz-offer .offer-price s{color:var(--muted)}
-#wiz-offer .offer-price strong{color:var(--text);font-weight:700;font-size:1.05rem}
-.offer-cta{display:grid;gap:8px;margin-top:4px}
+/* pantalla final (solo después del formulario): eyebrow en acento, titular corto, precio grande y dos CTA */
+.wiz-stepl.ok{color:var(--accent);text-transform:none;letter-spacing:0;font-size:.86rem}
+.wiz-title.offer{font-size:clamp(1.55rem,6.4vw,2rem);line-height:1.12;margin-bottom:8px}
+#wiz-offer{display:grid;gap:12px;text-align:center}
+#wiz-offer .offer-price{display:flex;justify-content:center;align-items:baseline;gap:10px;line-height:1;margin-top:2px}
+#wiz-offer .offer-price strong{font-size:2.4rem;font-weight:800;letter-spacing:-.03em}
+#wiz-offer .offer-price strong small{font-size:1rem;font-weight:600;color:var(--muted);letter-spacing:0;margin-left:2px}
+#wiz-offer .offer-price s{color:var(--muted);font-size:1.05rem;font-weight:500}
+#wiz-offer .offer-terms{color:var(--muted);font-size:.88rem;margin-top:-4px}
+.offer-cta{display:grid;gap:8px;margin-top:6px}
 .offer-cta .btn{width:100%;padding:15px 20px}
+#wiz-offer .offer-ventas{margin-top:-2px}
+#wiz-offer .offer-ventas[hidden]{display:none}
 /* embed de agenda de app.clinera.io (el mismo de /agenda) */
 #wiz-agenda{display:grid;gap:10px}
 #wiz-agenda[hidden],#wiz-booked[hidden]{display:none}
@@ -301,6 +309,7 @@ footer a.ext{color:var(--text);font-weight:500}
   .plans{grid-template-columns:1fr}
   .phone{grid-template-columns:112px 1fr}
   .wiz-content{padding:60px 20px 28px}
+  .wiz-sub{margin-bottom:14px}
   .wrap{padding:0 18px}
 }
 </style>
@@ -326,9 +335,8 @@ footer a.ext{color:var(--text);font-weight:500}
 
 <header class="nav">
   <div class="wrap">
-    <a class="logo" href="#top" aria-label="clinera.io, inicio">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#0A0A0A"/><path d="M15.5 8.6A5 5 0 1 0 15.5 15.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
-      <span>clinera.io</span>
+    <a class="logo" href="#top" aria-label="Clinera, inicio">
+      <img src="/kimi/clinera-logo.png" alt="Clinera" width="411" height="96" decoding="async">
     </a>
     <div class="nav-cta">
       <button class="btn sm outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
@@ -483,9 +491,8 @@ footer a.ext{color:var(--text);font-weight:500}
 
 <footer>
   <div class="wrap">
-    <a class="logo" href="#top" aria-label="clinera.io, inicio">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#0A0A0A"/><path d="M15.5 8.6A5 5 0 1 0 15.5 15.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
-      <span>clinera.io</span>
+    <a class="logo" href="#top" aria-label="Clinera, inicio">
+      <img src="/kimi/clinera-logo.png" alt="Clinera" width="411" height="96" decoding="async">
     </a>
     <nav aria-label="Legal">
       <!-- TODO: reemplazar por las URL reales de Términos y Privacidad -->
@@ -507,6 +514,7 @@ footer a.ext{color:var(--text);font-weight:500}
 <div class="wiz" id="wizard" data-testid="wizard" role="dialog" aria-modal="true" aria-labelledby="wiz-title" hidden>
   <aside class="wiz-panel">
     <span class="glow g1" aria-hidden="true"></span>
+    <span class="wiz-logo"><img src="/kimi/clinera-logo-blanco.png" alt="Clinera" width="411" height="96" decoding="async"></span>
     <div class="wiz-mock" aria-hidden="true">
       <div class="top"><i></i> WhatsApp conectado a tu agenda</div>
       <div class="b p">Hola, quiero pedir una hora.</div>
@@ -584,12 +592,14 @@ footer a.ext{color:var(--text);font-weight:500}
       <button class="wiz-back" type="button" id="wiz-back" hidden>&larr; Volver</button>
 
       <div id="wiz-offer" data-testid="wiz-offer" hidden>
-        <p class="offer-price"><s>USD 79<span class="sr-only"> antes</span></s> &rarr; <strong>USD 39,50/mes</strong> x 3 meses, luego USD 79/mes</p>
+        <p class="offer-price"><strong>USD 39,50<small>/mes</small></strong> <s>USD 79<span class="sr-only"> antes</span></s></p>
+        <p class="offer-terms">por 3 meses, luego USD 79/mes · sin costo de implementación</p>
         <div class="offer-cta">
           <!-- TODO: reemplazar [LINK CHECKOUT FLUX 50%] por el link real de checkout de Flux con 50% de descuento -->
           <a class="btn grad block" id="wiz-offer-link" href="[LINK CHECKOUT FLUX 50%]" target="_blank" rel="noopener">Aprovechar oferta</a>
           <button class="btn outline block" type="button" id="wiz-agendar" data-testid="wiz-agendar">Agendar reunión</button>
         </div>
+        <p class="offer-ventas micro" id="wiz-offer-ventas" hidden>Igual un especialista te contactará pronto.</p>
       </div>
 
       <!-- Agenda: el mismo embed de app.clinera.io que usa /agenda (StepClineraEmbed en VentasLanding.tsx). El src se arma al apretar «Agendar reunión». -->
@@ -657,7 +667,9 @@ footer a.ext{color:var(--text);font-weight:500}
   var bodies=form.querySelectorAll('.wiz-body');
   var confirmBox=document.getElementById('wiz-confirm');
   var waitEl=document.getElementById('wiz-wait');
-  var OFFER_TITLE='Aprovecha un 50% de descuento en Flux y atiende tus pacientes integrando tu WhatsApp a tu agenda';
+  var OFFER_TITLE='Flux a mitad de precio por 3 meses';
+  var OFFER_SUB='Conecta tu WhatsApp a tu agenda y deja que tus pacientes agenden solos.';
+  var offerVentas=document.getElementById('wiz-offer-ventas');
   var AGENDA_TITLE='Agenda tu reunión';
   var AGENDA_SUB='Elige profesional, día y hora. Te llega la confirmación por correo.';
   var BOOKED_TITLE='Reunión agendada';
@@ -692,9 +704,9 @@ footer a.ext{color:var(--text);font-weight:500}
     'w-correo':[function(){return form.correo.value},function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())?'':'Ingresa un correo válido.'}]
   };
   // cta: qué botón abrió el wizard («oferta» = Contratar, «ventas» = Hablar con ventas). Viaja en el webhook.
-  // offerSub: la línea chica bajo el título de la oferta (no repite el título de la confirmación).
+  // leadNombre: primer nombre del lead para el eyebrow «Datos recibidos, X» de la pantalla final.
   // view: pantalla final → 'offer' (titular + 2 CTA), 'agenda' (embed) o 'booked' (el embed avisó que creó el turno).
-  var cur=1,done=false,confirming=false,confirmTimer=null,cta='oferta',offerSub='',view='offer',saving=false,lastFocus=null,inertEls=[];
+  var cur=1,done=false,confirming=false,confirmTimer=null,cta='oferta',leadNombre='',view='offer',saving=false,lastFocus=null,inertEls=[];
 
   function check(id){
     var r=rules[id],m=r[1](r[0]()),f=document.getElementById(id),e=document.getElementById('e-'+id);
@@ -749,6 +761,8 @@ footer a.ext{color:var(--text);font-weight:500}
     agenda.hidden=!(done&&view==='agenda');
     booked.hidden=!(done&&view==='booked');
     title.classList.toggle('offer',done&&view==='offer');
+    stepl.classList.toggle('ok',done&&view==='offer');
+    offerVentas.hidden=!(done&&view==='offer'&&cta==='ventas');
     confirmBox.hidden=!confirming;
     waitEl.hidden=!confirming;
     sub.hidden=false;
@@ -767,9 +781,9 @@ footer a.ext{color:var(--text);font-weight:500}
       title.textContent=BOOKED_TITLE;
       sub.textContent=BOOKED_SUB;
     }else if(done){
-      stepl.textContent='Completado';
+      stepl.textContent='\u2713 Datos recibidos'+(leadNombre?', '+leadNombre:'');
       title.textContent=OFFER_TITLE;
-      sub.textContent=offerSub;
+      sub.textContent=OFFER_SUB;
     }else{
       stepl.textContent='Paso '+cur+' de '+TOTAL+' · '+s.label;
       title.textContent=s.title;
@@ -782,7 +796,7 @@ footer a.ext{color:var(--text);font-weight:500}
     form.reset();
     form.querySelectorAll('[aria-invalid]').forEach(function(x){x.removeAttribute('aria-invalid');});
     form.querySelectorAll('.err').forEach(function(x){x.textContent='';});
-    cur=1;done=false;saving=false;offerSub='';view='offer';
+    cur=1;done=false;saving=false;leadNombre='';view='offer';
     agendaFrame.removeAttribute('src');agendaBox.classList.remove('loaded');
     clearConfirm();
     next.removeAttribute('aria-disabled');next.removeAttribute('aria-busy');
@@ -912,7 +926,7 @@ footer a.ext{color:var(--text);font-weight:500}
       confirmTimer=null;
       confirming=false;
       done=true;
-      offerSub=cta==='ventas'?CONFIRM_SUB+' Mientras tanto:':'Listo, '+nombre+'. Tus datos ya están guardados.';
+      leadNombre=nombre;
       if(wiz.hidden)return;
       render();
       title.focus();
