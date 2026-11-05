@@ -125,20 +125,25 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).not.toMatch(/AgendaPro|Reservo|Medilink|Bambi/i);
   });
 
-  test("planes: Vortex y Ecosistema con tres líneas cada uno", () => {
+  test("planes: Flux, Hex, Vortex y Ecosistema con tres líneas cada uno", () => {
     const c = slide("planes");
     const card = (name: string) => {
       const i = c.indexOf(`<h3 class="px-name">${name}</h3>`);
       return c.slice(i, c.indexOf("</article>", i));
     };
-    const vortex = card("Vortex"), eco = card("Ecosistema");
+    const flux = card("Flux"), hex = card("Hex"), vortex = card("Vortex"), eco = card("Ecosistema");
+    expect(flux).toContain("<strong>$79</strong>");
+    expect(hex).toContain("<strong>$179</strong>");
     expect(vortex).toContain("<strong>$279</strong>");
     expect(eco).toContain("<strong>$379</strong>");
     expect(eco).toContain("<s>$529</s> · precio hasta el 26 de noviembre");
-    for (const k of [vortex, eco]) {
+    expect(flux).toContain("#ch-wa");
+    expect(flux).not.toContain("#ch-ig");
+    for (const k of [hex, vortex, eco]) {
       for (const logo of ["#ch-wa", "#ch-ig", "#ch-fb"]) expect(k).toContain(logo);
-      expect(k.match(/<li>/g)).toHaveLength(3);
     }
+    for (const k of [flux, hex, vortex, eco]) expect(k.match(/<li>/g)).toHaveLength(3);
+    expect(vortex).toContain("Todo lo de Hex");
     expect(vortex).toContain("secretaria con IA");
     expect(eco).toContain("Todo lo de Vortex");
     expect(eco).toContain("hace tus anuncios");

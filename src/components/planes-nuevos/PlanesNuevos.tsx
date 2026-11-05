@@ -1,7 +1,7 @@
 "use client";
 
-// /planes2 (Ricardo, 29-oct-2026): Hex · Flux · Vortex · Ecosistema. Vista previa sin
-// indexar; /planes no cambia hasta que él la apruebe. Contenido en `planes-nuevos.ts`.
+// /planes y /planes2: Flux · Hex · Vortex · Ecosistema (Ricardo, 5-nov-2026). Contenido en
+// `planes-nuevos.ts`; Flux es el plan recomendado y su CTA es la prueba gratis.
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
@@ -10,9 +10,8 @@ import PriceModalitySwitch from "@/components/pricing/PriceModalitySwitch";
 import { usePriceModality } from "@/components/pricing/PriceModalityProvider";
 import { CHANNEL_LABEL, ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import { track, trackPixel } from "@/lib/tracking";
-import AhorroEcosistema from "@/components/pricing/AhorroEcosistema";
 import PmfcSection from "@/components/pmfc/PmfcSection";
-import { PLANES, PLANES_BAJADA } from "@/content/planes";
+import { checkoutUrl, type PlanCheckoutId } from "@/content/checkout";
 // Hoja normal, no styled-jsx: la grilla tiene que venir en el HTML del servidor; con
 // styled-jsx las tarjetas se veían apiladas hasta que cargaba el JavaScript.
 import "./planes-nuevos.css";
@@ -28,14 +27,13 @@ import {
   PLANES2_TITULO,
   PLANES2_TITULO_ACENTO,
   PLANES_NUEVOS,
+  PLANES_PUBLICOS,
   PRUEBA_LABEL,
   PRUEBA_LINEA,
   PRUEBA_URL,
   VENTAS_LABEL,
-  HEX_PAGO_LABEL,
   RECOMENDADO_LABEL,
   conPlan,
-  conUtm,
   faqPublica,
   ofertaVigente,
   precioOferta,
@@ -43,7 +41,6 @@ import {
 } from "@/content/planes-nuevos";
 
 const MONO = "'JetBrains Mono', ui-monospace, monospace";
-const HEX = PLANES_NUEVOS.find((p) => p.id === "hex")!;
 const noop = () => () => {};
 const readSearch = () => window.location.search;
 const readSearchServer = () => "";
@@ -80,18 +77,17 @@ export default function PlanesNuevos({ publico = false }: { publico?: boolean })
             <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>{PLANES2_TITULO_ACENTO}</span>
           </h1>
           <p style={{ fontFamily: "Inter", fontSize: 18, color: "#4B5563", lineHeight: 1.55, margin: "0 auto 20px", maxWidth: 620 }}>{PLANES2_BAJADA}</p>
-          {/* «Parte con Hex» (Ricardo, 4-nov-2026): el botón del encabezado es el Payment Link de Hex,
-              pelado (Analytics.tsx cuenta el clic y le pone client_reference_id) y con los utm. */}
+          {/* El clic a buy.stripe.com lo cuenta solo Analytics.tsx: el enlace va pelado. */}
           <a
-            href={conUtm(HEX.pagoUrl!, search)}
+            href={checkoutUrl("flux", { search })}
             suppressHydrationWarning
             data-cta-encabezado
-            data-plan={HEX.id}
-            data-plan-name={HEX.name}
-            data-plan-value={HEX.monthlyUsd}
+            data-plan="flux"
+            data-plan-name="Flux"
+            data-plan-value="79"
             style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 48, padding: "12px 26px", borderRadius: 999, background: GRAD, color: "#fff", fontFamily: "Inter", fontWeight: 700, fontSize: 16, textDecoration: "none", margin: "0 auto 18px" }}
           >
-            {HEX_PAGO_LABEL} · US$ {HEX.monthlyUsd}/mes
+            Contratar Flux · US$ 79/mes
           </a>
           <PriceModalitySwitch size="compact" align="center" />
         </div>
@@ -99,8 +95,8 @@ export default function PlanesNuevos({ publico = false }: { publico?: boolean })
 
       <section id="planes" className="p2-section" style={{ paddingTop: 16, background: "#FAFAFA" }}>
         <div style={{ maxWidth: 1240, margin: "0 auto" }}>
-          <div className="p2-grid">
-            {PLANES_NUEVOS.map((p) => (
+          <div className={publico ? "p2-grid p2-grid--3" : "p2-grid"}>
+            {(publico ? PLANES_PUBLICOS : PLANES_NUEVOS).map((p) => (
               <Tarjeta key={p.id} plan={p} search={search} oferta={oferta} publico={publico} />
             ))}
           </div>
@@ -108,12 +104,6 @@ export default function PlanesNuevos({ publico = false }: { publico?: boolean })
           <p data-cliente-actual style={{ fontFamily: "Inter", fontSize: 14, color: "#4B5563", textAlign: "center", margin: 0 }}>
             {CLIENTE_ACTUAL_LINEA} {!publico && <span style={{ color: "#B45309" }}>{CLIENTE_ACTUAL_PENDIENTE}</span>}
           </p>
-          {publico && (
-            <p data-planes-pmfc style={{ fontFamily: "Inter", fontSize: 15, color: "#374151", textAlign: "center", margin: "18px auto 0", maxWidth: 720, lineHeight: 1.55 }}>
-              {PLANES_BAJADA}
-            </p>
-          )}
-          {publico && <AhorroEcosistema />}
         </div>
       </section>
 
@@ -136,7 +126,7 @@ export default function PlanesNuevos({ publico = false }: { publico?: boolean })
 
       <section className="p2-section" style={{ background: "#FAFAFA", borderTop: "1px solid #F0F0F0" }}>
         <div style={{ maxWidth: 1240, margin: "0 auto" }}>
-          <Titulo eyebrow="Cómo funciona" titulo="Parte con Hex, sube cuando crezcas." />
+          <Titulo eyebrow="Cómo funciona" titulo="Parte con Flux, sube cuando crezcas." />
           <div className="p2-steps">
             {COMO_FUNCIONA.map((s) => (
               <div key={s.n} style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 22, background: "#fff" }}>
@@ -150,7 +140,7 @@ export default function PlanesNuevos({ publico = false }: { publico?: boolean })
       </section>
 
       <Faq items={publico ? faqPublica() : PLANES2_FAQ} />
-      <AgendaDemo search={search} />
+      <AgendaDemo search={search} publico={publico} />
     </>
   );
 }
@@ -165,23 +155,19 @@ function Titulo({ eyebrow, titulo }: { eyebrow: string; titulo: string }) {
 }
 
 function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: string; oferta: boolean; publico: boolean }) {
-  // Link de pago de Stripe: el de `planes.ts`, solo en /planes. Lleva escrito lo que cobra, porque
-  // en noviembre la tarjeta de Vortex muestra el precio con el 20% y el link cobra el precio normal.
-  const pago = publico ? PLANES.find((x) => x.id === plan.id) : undefined;
   const { amount, meta } = usePriceModality();
-  const conOferta = oferta && (OFERTA_LANZAMIENTO.planes as readonly string[]).includes(plan.id);
+  // En /planes nunca se muestra el 20% del Ecosistema: esa tarjeta no está y el resto va a precio de lista.
+  const conOferta = !publico && oferta && (OFERTA_LANZAMIENTO.planes as readonly string[]).includes(plan.id);
   const fmt = (usd: number) => {
     const v = amount(usd);
     const dec = meta.currency === "USD" && !Number.isInteger(v) ? 2 : 0;
     return `${meta.currency === "USD" ? "US$" : "MX$"} ${v.toLocaleString("es-CL", { minimumFractionDigits: dec, maximumFractionDigits: dec })}`;
   };
   const href =
-    plan.cta === "pago" && plan.pagoUrl
-      ? conUtm(plan.pagoUrl, search)
-      : plan.cta === "prueba"
-        ? conPlan(PRUEBA_URL, plan.id, search)
-        : conPlan("/agenda", plan.id, search);
-  const recomendado = plan.cta === "pago";
+    plan.cta === "pago"
+      ? checkoutUrl(plan.id as PlanCheckoutId, { search })
+      : conPlan("/agenda", plan.id, search);
+  const recomendado = plan.destacado === true;
   const onClick = () => {
     if (plan.cta === "prueba") {
       track("start_trial_click", { plan: plan.id });
@@ -226,7 +212,7 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
             ))}
           </span>
         )}
-        {(plan.cta === "prueba" || conOferta || recomendado) && (
+        {(conOferta || recomendado) && (
           <span
             data-insignia
             style={{
@@ -245,7 +231,7 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
               ...(conOferta || recomendado ? { background: GRAD, color: "#fff" } : { background: "#ECFDF5", color: "#047857", border: "1px solid #A7F3D0" }),
             }}
           >
-            {recomendado ? RECOMENDADO_LABEL : conOferta ? `${OFERTA_LANZAMIENTO.porcentaje}% OFF` : "Prueba gratis"}
+            {recomendado ? RECOMENDADO_LABEL : `${OFERTA_LANZAMIENTO.porcentaje}% OFF`}
           </span>
         )}
       </div>
@@ -271,7 +257,7 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
       </div>
 
       <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", color: "#4B5563" }}>
-        {plan.profesionales} · {plan.sucursales}
+        {plan.profesionales}{plan.sucursales ? ` · ${plan.sucursales}` : ""}
       </div>
 
       <div style={{ display: "grid", gap: 10 }}>
@@ -294,40 +280,38 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
           textDecoration: "none",
           minHeight: 44,
           boxSizing: "border-box",
-          // Hex es el único CTA principal (Ricardo, 4-nov-2026): Flux, Vortex y Ecosistema, secundarios.
-          ...(plan.cta === "pago"
+          ...(recomendado
             ? { background: GRAD, color: "#fff" }
             : { background: "#fff", color: "#0A0A0A", border: "1px solid #E5E7EB" }),
         }}
       >
-        {plan.cta === "pago" ? HEX_PAGO_LABEL : plan.cta === "prueba" ? PRUEBA_LABEL : VENTAS_LABEL}
+        {plan.cta === "pago" ? `Contratar ${plan.name}` : VENTAS_LABEL}
       </a>
-      {pago?.pagoUrl ? (
-        // Enlace pelado: el clic lo cuenta Analytics.tsx (InitiateCheckout + client_reference_id).
+      {plan.cta === "pago" && plan.id === "flux" && (
         <a
-          className="p2-pago"
-          href={pago.pagoUrl}
+          href={conPlan(PRUEBA_URL, "flux", search)}
           suppressHydrationWarning
-          data-plan={pago.id}
-          data-plan-name={pago.name}
-          data-plan-value={pago.monthlyUsd}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: 44,
-            textAlign: "center",
-            fontFamily: "Inter",
-            fontSize: 14,
-            fontWeight: 600,
-            color: "#5B21B6",
-            textDecoration: "underline",
-            textUnderlineOffset: 3,
+          data-cta="prueba"
+          onClick={() => {
+            track("start_trial_click", { plan: "flux" });
+            trackPixel("StartTrial", { content_name: "Flux", value: 0, currency: "USD" });
           }}
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 44, textAlign: "center", fontFamily: "Inter", fontSize: 14, fontWeight: 600, color: "#5B21B6", textDecoration: "underline", textUnderlineOffset: 3 }}
         >
-          Contratar {pago.name} ahora · US$ {pago.monthlyUsd}/mes
+          {PRUEBA_LABEL}
         </a>
-      ) : null}
+      )}
+      {plan.cta === "pago" && plan.id !== "flux" && (
+        <a
+          href={conPlan("/agenda", plan.id, search)}
+          suppressHydrationWarning
+          data-cta="ventas"
+          onClick={() => track("contact_sales_click", { plan: plan.id })}
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 44, textAlign: "center", fontFamily: "Inter", fontSize: 14, fontWeight: 600, color: "#5B21B6", textDecoration: "underline", textUnderlineOffset: 3 }}
+        >
+          {VENTAS_LABEL}
+        </a>
+      )}
       </div>
 
       <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 8, fontFamily: "Inter", fontSize: 14.5 }}>
@@ -380,17 +364,19 @@ function Faq({ items }: { items: readonly { q: string; a: string }[] }) {
   );
 }
 
-function AgendaDemo({ search }: { search: string }) {
+function AgendaDemo({ search, publico }: { search: string; publico: boolean }) {
   const q = new URLSearchParams(search).toString();
   return (
     <section className="p2-section" id="demo" style={{ background: "#fff" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", borderRadius: 20, padding: "48px 32px", background: "#0E1014", color: "#fff", textAlign: "center" }}>
         <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.09em", color: "#C4B5FD" }}>AGENDA TU DEMO</div>
         <h2 style={{ fontFamily: "Inter", fontSize: 36, fontWeight: 800, letterSpacing: "-0.03em", margin: "12px 0 10px" }}>
-          ¿Vortex o Ecosistema? Hablemos de tu clínica.
+          {publico ? "¿Flux, Hex o Vortex? Hablemos de tu clínica." : "¿Hex, Vortex o Ecosistema? Hablemos de tu clínica."}
         </h2>
         <p style={{ fontFamily: "Inter", fontSize: 16, color: "#D1D5DB", margin: "0 auto 24px", maxWidth: 560 }}>
-          Te mostramos el agente IA y el marketing funcionando, y te decimos qué plan te conviene.
+          {publico
+            ? "Te mostramos las redes conectadas y el agente IA funcionando, y te decimos qué plan te conviene."
+            : "Te mostramos las redes conectadas, el agente IA y el marketing funcionando, y te decimos qué plan te conviene."}
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <a href={q ? `/agenda?${q}` : "/agenda"} suppressHydrationWarning style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.45)", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>

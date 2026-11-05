@@ -4667,15 +4667,19 @@
 
     #planes .px-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
       margin-top: 18px;
+    }
+
+    @media (max-width: 1100px) {
+      #planes .px-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     #planes .px-card {
       border: 1px solid var(--line);
       border-radius: 16px;
-      padding: 16px 16px 14px;
+      padding: 14px 14px 12px;
       background: #fafafa;
     }
 
@@ -5260,13 +5264,35 @@
         <div class="slide-inner">
           <div class="px-top">
             <div>
-              <h2 class="blk-h2">Dos formas de trabajar con Clinera</h2>
+              <h2 class="blk-h2">Cuatro planes para tu clínica</h2>
             </div>
           </div>
 
           <div class="px-grid">
+            <article class="px-card" data-plan="flux">
+              <div class="px-kicker">Para partir</div>
+              <h3 class="px-name">Flux</h3>
+              <div class="px-monthly"><div class="px-kicker">Al mes</div><div><strong>$79</strong><div class="px-unit">USD/mes</div></div></div>
+              <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span></div>
+              <ul class="px-feats">
+                <li>Tu agenda online y las fichas de tus pacientes</li>
+                <li>Tu WhatsApp conectado a tu agenda</li>
+                <li>Recordatorios automáticos a tus pacientes</li>
+              </ul>
+            </article>
+            <article class="px-card" data-plan="hex">
+              <div class="px-kicker">Todas tus redes</div>
+              <h3 class="px-name">Hex</h3>
+              <div class="px-monthly"><div class="px-kicker">Al mes</div><div><strong>$179</strong><div class="px-unit">USD/mes</div></div></div>
+              <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-ig"/></svg>Instagram</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-fb"/></svg>Facebook</span></div>
+              <ul class="px-feats">
+                <li>Todo lo de Flux</li>
+                <li>WhatsApp, Instagram y Facebook en un solo lugar</li>
+                <li>Para clínicas de hasta 10 profesionales</li>
+              </ul>
+            </article>
             <article class="px-card" data-plan="vortex">
-              <div class="px-kicker">Solo el software</div>
+              <div class="px-kicker">Software con IA</div>
               <h3 class="px-name">Vortex</h3>
               <div class="px-monthly">
                 <div class="px-kicker">Al mes</div>
@@ -5278,7 +5304,7 @@
               <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-ig"/></svg>Instagram</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-fb"/></svg>Facebook</span></div>
               <ul class="px-feats">
                 <li>Una secretaria con IA que contesta WhatsApp y agenda</li>
-                <li>Tu agenda y las fichas de tus pacientes</li>
+                <li>Todo lo de Hex</li>
                 <li>Te enseñamos a usarlo</li>
               </ul>
             </article>

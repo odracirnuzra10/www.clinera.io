@@ -1380,6 +1380,8 @@ de `/agenda`. **Desde el 4-nov todos los planes traen WhatsApp**: Hex ya no va �
 
 # `/planes` publica Hex · Flux · Vortex · Ecosistema (Ricardo, 4-nov-2026)
 
+Superado el 5-nov-2026, ver más abajo.
+
 `/planes` renderiza `PlanesNuevos publico` (catálogo `planes-nuevos.ts`, todos los planes con WhatsApp: Hex 50
 conversaciones, Flux 200). `PlanesV3`, `PlanesVigentes` y `planes.ts` **no cambiaron**: los siguen usando `/promo`,
 el home, `/agenda` y las landings. El modo `publico`:
@@ -1401,6 +1403,8 @@ el home, `/agenda` y las landings. El modo `publico`:
 
 # Hex es el plan a vender: CTA principal al checkout de Stripe (Ricardo, 4-nov-2026)
 
+Superado el 5-nov-2026, ver más abajo.
+
 En `/contrata`, `/planes` y `/planes2`, Hex va primero, con la insignia «Recomendado», y su botón principal es el
 Payment Link `HEX_PAGO_URL` (`planes-nuevos.ts`, `cta: "pago"`). Flux sigue con «Prueba gratis» como botón
 secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
@@ -1416,11 +1420,23 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
   Vortex, Ecosistema y el «Hablar con ventas» del cierre van con botón secundario, sin degradado. Lo vigila
   `tests/planes-vigentes.spec.ts`.
 
+# `/planes`: Flux 79 · Hex 179 · Vortex 279, sin Ecosistema (Ricardo, 5-nov-2026)
+
+- `/planes` muestra `PLANES_PUBLICOS` (`planes-nuevos.ts`); `/planes2` conserva el Ecosistema con su 20% de noviembre. Flux recomendado.
+- Cada tarjeta y el encabezado van al Payment Link de `src/content/checkout.ts` (`CHECKOUT_URL`), **sin código de promoción**, pelado con `data-plan*` (Analytics.tsx).
+- Se quitaron de `/planes` la boleta de ahorro y `PLANES_BAJADA`; queda `PmfcSection compacto`.
+- `/presentacion` muestra los cuatro (Flux, Hex, Vortex, Ecosistema), escritos a mano. `/presentacion-tecnica` sigue con dos planes.
+- Flux y Hex no tienen IA: «Clinera Intelligence» va solo en Vortex.
+- Esto deja obsoletas las secciones del 4-nov «/planes publica Hex · Flux…» y «Hex es el plan a vender».
+- `PROMO_CODE` es `CLINERA50X3` (cupón `FPxQMFcc`, Ricardo, 5-nov-2026). `/planes` llama `checkoutUrl` sin `promo` y cobra el precio de lista. El 50% de `/contrata` no usa ese Payment Link: va en la Checkout Session del carrito (sección de abajo).
+- El Payment Link de Hex (`14AdRbdBnfD49wTgwz1441M`) cobra US$ 179 (confirmado por Ricardo el 5-nov-2026).
+- Guardianes: `planes-vigentes.spec.ts`, `planes2.spec.ts`, `checkout.spec.ts`, `presentacion-planes.spec.ts`.
+
 # `/contrata` es el carrito de Flux modular (Ricardo, 5-nov-2026)
 
 El wizard de 3 planes se borró. La página es una ficha de producto (gesto de Mercado Libre, colores de Clinera): Flux arriba con «Agregar al carrito», los adicionales en «También puedes agregar», y el icono del carrito abre un cajón. **Activar**, dentro del cajón (y en la barra fija del celular), abre el pago. El correo lo pide Stripe en el Checkout, no un formulario antes. Catálogo y totales en `src/content/carrito-flux.ts`. Flux a US$ 29 de esta página es otro producto que el Flux de `/planes`. En la pantalla Flux puede estar en 0 hasta que se agrega; `sanear()` del checkout igual lo deja en 1.
 
-El tono (Ricardo, 5-nov) es de dueño y de apuro, en tú de Chile, sin perder el carrito: «Haz que sea tu clínica» en el titular, «Depende de ti elegir lo adicional» sobre los adicionales y «No pierdas más tu tiempo» junto a «Comienza ya». La frase de Mercado Libre se queda en el hero porque la página se arma como una compra; no se copian el logo ni el amarillo.
+El tono (Ricardo, 5-nov) es de dueño y de apuro, en tú de Chile, sin perder el carrito: «Haz que sea tu clínica» en el titular, «Depende de ti elegir lo adicional» sobre los adicionales y «No pierdas más tu tiempo» junto a Activar. La frase de Mercado Libre se queda en el hero porque la página se arma como una compra; no se copian el logo ni el amarillo.
 
 - **Regalo de noviembre.** Email marketing y Automatizaciones se muestran como «Regalo de noviembre» y no se cobran mientras `regaloVigente()` (hasta el 30-nov-2026 inclusive, hora de Chile, `GIFT_UNTIL`). Desde el 1-dic-2026 son adicionales normales de US$ 9 (`clinera_email_marketing_usd_m`, `clinera_automatizaciones_usd_m`). Si quien contrató en noviembre los conserva sin cobro **no está decidido**: el copy dice «Regalo de noviembre» y no promete que sigan gratis. `sanear()` los deja en 0 mientras el regalo está vigente, así el checkout no arma esas líneas.
 - El 50% × 3 meses es el código `CLINERA50X3` (cupón `FPxQMFcc`, sin `applies_to`: el 5-nov-2026 se confirmó por API que cubre todo el carrito) en la Checkout Session (`POST /api/contrata/checkout`). Si Stripe rechaza el código, se reintenta la sesión sin descuento y la respuesta trae `promo: false` junto con la URL: el navegador igual abre Checkout. La página quita el 50% solo cuando llega `promo: false`. Sin URL (503, sin llave o sin Prices), el botón ofrece «Agendar reunión». Esta ruta no crea Products ni Prices.
