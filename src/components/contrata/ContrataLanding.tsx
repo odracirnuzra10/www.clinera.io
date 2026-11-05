@@ -12,8 +12,8 @@
 import { useEffect, useSyncExternalStore } from "react";
 import { CHANNEL_LABEL, ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import { track, trackPixel } from "@/lib/tracking";
+import { checkoutUrl, type PlanCheckoutId } from "@/content/checkout";
 import {
-  HEX_PAGO_LABEL,
   PLANES_NUEVOS,
   RECOMENDADO_LABEL,
   PRUEBA_LABEL,
@@ -21,7 +21,6 @@ import {
   PRUEBA_URL,
   VENTAS_LABEL,
   conPlan,
-  conUtm,
   type PlanNuevo,
 } from "@/content/planes-nuevos";
 import styles from "./ContrataLanding.module.css";
@@ -82,7 +81,7 @@ function Ticket({ plan, search }: { plan: PlanNuevo; search: string }) {
   // El Payment Link («pago») queda soportado por si vuelve un plan con checkout.
   const pago = plan.cta === "pago" && plan.pagoUrl;
   const recomendado = plan.destacado === true;
-  const href = pago ? conUtm(plan.pagoUrl!, search) : plan.cta === "ventas" ? conPlan("/agenda", plan.id, search) : conPlan(PRUEBA_URL, plan.id, search);
+  const href = pago ? checkoutUrl(plan.id as PlanCheckoutId, { search }) : plan.cta === "ventas" ? conPlan("/agenda", plan.id, search) : conPlan(PRUEBA_URL, plan.id, search);
   const lineas = [...BASE_COMUN, ...plan.incluye.filter((f) => f.includes(" con "))];
   return (
     <article className={`${styles.ticket} ${recomendado ? styles.recomendado : ""}`} data-contrata-plan={plan.id}>
@@ -153,7 +152,7 @@ function Ticket({ plan, search }: { plan: PlanNuevo; search: string }) {
             data-plan-value={plan.monthlyUsd}
             className={styles.cta}
           >
-            {HEX_PAGO_LABEL} · US$ {plan.monthlyUsd}/mes
+            Contratar {plan.name} · US$ {plan.monthlyUsd}/mes
           </a>
         ) : plan.cta === "ventas" ? (
           <a

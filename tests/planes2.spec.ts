@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { CHECKOUT_URL } from "../src/content/checkout";
 import { OFERTA_LANZAMIENTO, ofertaVigente, precioOferta } from "../src/content/planes-nuevos";
 
 // /planes2 (Ricardo, 5-nov-2026): Flux · Hex · Vortex · Ecosistema, sin indexar.
@@ -22,17 +23,19 @@ test.describe("/planes2", () => {
     await expect(cards.nth(2)).toHaveAttribute("data-plan-card", "vortex");
     await expect(cards.nth(3)).toHaveAttribute("data-plan-card", "ecosistema");
 
-    // Flux es el plan a vender (Ricardo, 5-nov-2026): recomendado, su CTA es la prueba gratis con la
-    // query de la visita. Hex, Vortex y Ecosistema van a ventas.
-    const flux = page.locator('[data-plan-card="flux"] a[data-cta]');
-    await expect(flux).toHaveText("Prueba gratis");
-    await expect(flux).toHaveAttribute("href", /^https:\/\/app\.clinera\.io\?.*plan=flux/);
-    await expect(flux).toHaveAttribute("href", /utm_source=test/);
-    for (const id of ["hex", "vortex", "ecosistema"]) {
-      const cta = page.locator(`[data-plan-card="${id}"] a[data-cta]`);
-      await expect(cta).toHaveText("Hablar con ventas");
-      await expect(cta).toHaveAttribute("href", new RegExp(`^/agenda\\?.*plan=${id}`));
+    // Flux, Hex y Vortex van al Payment Link (con los utm). Ecosistema sigue en ventas.
+    // La prueba gratis de Flux queda como enlace secundario.
+    for (const id of ["flux", "hex", "vortex"] as const) {
+      const cta = page.locator(`[data-plan-card="${id}"] a[data-cta="pago"]`);
+      const base = CHECKOUT_URL[id].replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      await expect(cta).toHaveAttribute("href", new RegExp(`^${base}\\?utm_source=test$`));
     }
+    await expect(page.locator('[data-plan-card="flux"] a[data-cta="prueba"]')).toHaveAttribute("href", /plan=flux/);
+    await expect(page.locator('[data-plan-card="flux"]')).not.toContainText("Clinera Intelligence");
+    await expect(page.locator('[data-plan-card="vortex"]')).toContainText("Clinera Intelligence");
+    const eco = page.locator('[data-plan-card="ecosistema"] a[data-cta="ventas"]');
+    await expect(eco).toHaveText("Hablar con ventas");
+    await expect(eco).toHaveAttribute("href", /^\/agenda\?.*plan=ecosistema/);
 
     await expect(page.locator('[data-plan-card="flux"] [data-precio]')).toContainText("US$ 79");
     await expect(page.locator('[data-plan-card="hex"] [data-precio]')).toContainText("US$ 179");
@@ -81,7 +84,7 @@ test.describe("/planes2", () => {
     await page.clock.setFixedTime(new Date("2026-11-15T12:00:00-03:00"));
     await page.goto("/planes2", { waitUntil: "domcontentloaded" });
     await expect(page.locator('[data-plan-card="ecosistema"] [data-oferta]')).toBeVisible();
-    const tops = await page.locator("[data-plan-card] a[data-cta]").evaluateAll((els) =>
+    const tops = await page.locator("[data-plan-card] a[data-cta='pago'], [data-plan-card='ecosistema'] a[data-cta='ventas']").evaluateAll((els) =>
       els.map((e) => Math.round(e.getBoundingClientRect().top)),
     );
     expect(tops).toHaveLength(4);

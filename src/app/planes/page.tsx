@@ -6,20 +6,19 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { PageUpdated } from "@/components/seo/PageUpdated";
 import { faqSchema, orgSchema, webPageSchema } from "@/components/seo/schemas";
 import { SITE_URL } from "@/content/entidad";
-import { PLANES_NUEVOS, faqPublica } from "@/content/planes-nuevos";
+import { PLANES_PUBLICOS, faqPublica } from "@/content/planes-nuevos";
 
-// /planes (Ricardo, 5-nov-2026): Flux · Hex · Vortex · Ecosistema, todos con WhatsApp. El catálogo es
-// `planes-nuevos.ts`; los links de pago de Stripe siguen saliendo de `planes.ts` (ver
-// `PlanesNuevos publico`). `/promo` y el home siguen con `planes.ts`.
-const DESDE = Math.min(...PLANES_NUEVOS.map((p) => p.monthlyUsd));
-const TITLE = `Planes: Flux, Hex, Vortex y Ecosistema, desde US$ ${DESDE}/mes`;
-const DESCRIPTION = `${PLANES_NUEVOS.map((p) => `${p.name} US$ ${p.monthlyUsd}/mes`).join(" · ")}. Todos con WhatsApp. Parte con Flux; Hex suma Facebook e Instagram, Vortex el agente IA y el Ecosistema el marketing.`;
+// /planes (Ricardo, 5-nov-2026): Flux · Hex · Vortex, sin Ecosistema. Los Payment Links salen de
+// `checkout.ts`. `/planes2` conserva el Ecosistema. `/promo` y el home siguen con `planes.ts`.
+const DESDE = Math.min(...PLANES_PUBLICOS.map((p) => p.monthlyUsd));
+const TITLE = `Planes: Flux, Hex y Vortex, desde US$ ${DESDE}/mes`;
+const DESCRIPTION = "Flux US$ 79/mes · Hex US$ 179/mes · Vortex US$ 279/mes. Todos con WhatsApp. Parte con Flux; Hex suma Facebook e Instagram y Vortex el agente IA.";
 
 const planesSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "@id": `${SITE_URL}/#software`,
-  offers: PLANES_NUEVOS.map((p) => ({
+  offers: PLANES_PUBLICOS.map((p) => ({
     "@type": "Offer",
     name: p.name,
     price: String(p.monthlyUsd),

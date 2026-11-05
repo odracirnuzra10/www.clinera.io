@@ -1,19 +1,15 @@
 // ============================================================================
-// Catálogo de /planes (y /planes2, /contrata): Flux · Hex · Vortex · Ecosistema
+// Catálogo de planes: Flux · Hex · Vortex · Ecosistema
 // ----------------------------------------------------------------------------
-// 5-nov-2026 (Ricardo): la estructura de /kimi y /home-nuevo pasa a /planes. Flux US$ 79
-// (solo WhatsApp, hasta 500 conversaciones, 5 profesionales, 2 sucursales, sin IA,
-// «Recomendado»), Hex US$ 179 (WhatsApp + Facebook + Instagram, hasta 2.500
-// conversaciones, 10 profesionales, sin IA) y Vortex US$ 279 (las tres redes + agente IA con
-// 28.000 créditos, hasta 5.000 conversaciones, 15 profesionales). El Ecosistema no cambia.
-// Sin descuento en Flux, Hex y Vortex. Solo clientes nuevos.
-// CTA: «Prueba gratis» (Flux) → app.clinera.io y «Hablar con ventas» (Hex, Vortex,
-// Ecosistema) → /agenda?plan=…. El Payment Link de Hex a US$ 35 (modelo del 4-nov) ya no se usa.
-// Historial: 29-oct Hex 35 · Flux 55 · Vortex 279 · Ecosistema 379; 4-nov todos con WhatsApp
-// y Hex como CTA principal al checkout. Lo que falta decidir va como `[PENDIENTE: …]` visible.
+// /planes publica Flux · Hex · Vortex (sin Ecosistema, 5-nov-2026); /planes2 conserva
+// el Ecosistema. Flux US$ 79 (solo WhatsApp, 500 conversaciones, sin IA, recomendado),
+// Hex US$ 179 (tres redes, 2.500, sin IA) y Vortex US$ 279 (tres redes + agente IA,
+// 5.000 conversaciones, 28.000 créditos, Clinera Intelligence). Los tres van al
+// Payment Link de `checkout.ts`, sin código de promoción. El 50% × 3 meses vive en
+// /contrata. Lo que falta decidir va como `[PENDIENTE: …]` y solo lo ve /planes2.
 // ============================================================================
 
-import { PLANES_FAQ } from "@/content/planes-faq";
+import { CHECKOUT_URL } from "./checkout";
 
 export type PlanNuevoId = "hex" | "flux" | "vortex" | "ecosistema";
 
@@ -28,7 +24,7 @@ export type PlanNuevo = {
   incluye: readonly string[];
   /** Lo que NO trae, en gris: muestra qué se desbloquea al subir. */
   noIncluye: readonly string[];
-  /** «pago»: Payment Link de Stripe (sin uso desde el 5-nov-2026). «prueba»: app.clinera.io. «ventas»: /agenda. */
+  /** «pago»: Payment Link de Stripe. «prueba»: app.clinera.io. «ventas»: /agenda. */
   cta: "pago" | "prueba" | "ventas";
   /** Payment Link de Stripe cuando `cta` es «pago». */
   pagoUrl?: string;
@@ -38,10 +34,6 @@ export type PlanNuevo = {
 };
 
 export const PRUEBA_URL = "https://app.clinera.io";
-// Payment Link del Hex a US$ 35 (modelo del 4-nov-2026). Desde el 5-nov Hex vale US$ 179 y este
-// link cobraría el precio viejo: no se usa en ningún plan hasta que exista uno nuevo en Stripe.
-export const HEX_PAGO_URL = "https://buy.stripe.com/14AdRbdBnfD49wTgwz1441M";
-export const HEX_PAGO_LABEL = "Contratar Hex";
 export const RECOMENDADO_LABEL = "Recomendado";
 export const PRUEBA_LABEL = "Prueba gratis";
 export const VENTAS_LABEL = "Hablar con ventas";
@@ -58,13 +50,13 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
     sucursales: "Hasta 2 sucursales",
     incluye: [
       ...BASE,
-      "Clinera Intelligence",
       "Recordatorios y confirmaciones",
       "Fichas clínicas personalizadas",
       "WhatsApp con 500 conversaciones",
     ],
     noIncluye: ["Instagram y Facebook", "Agente IA", "Automatizaciones", "Difusiones"],
-    cta: "prueba",
+    cta: "pago",
+    pagoUrl: CHECKOUT_URL.flux,
     canales: ["whatsapp"],
     destacado: true,
   },
@@ -76,7 +68,8 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
     profesionales: "Hasta 10 profesionales",
     incluye: ["Todo lo de Flux", "WhatsApp, Facebook e Instagram con 2.500 conversaciones"],
     noIncluye: ["Agente IA", "Automatizaciones", "Difusiones"],
-    cta: "ventas",
+    cta: "pago",
+    pagoUrl: CHECKOUT_URL.hex,
     canales: ["whatsapp", "facebook", "instagram"],
   },
   {
@@ -89,6 +82,7 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
     incluye: [
       ...BASE,
       "Agente IA con 28.000 créditos",
+      "Clinera Intelligence",
       "Hasta 5.000 conversaciones",
       "Mensajería WhatsApp, Facebook e Instagram",
       "Automatizaciones",
@@ -96,7 +90,8 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
       "Onboarding dedicado con un ejecutivo humano",
     ],
     noIncluye: [],
-    cta: "ventas",
+    cta: "pago",
+    pagoUrl: CHECKOUT_URL.vortex,
     canales: ["whatsapp", "facebook", "instagram"],
   },
   {
@@ -118,6 +113,9 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
     canales: ["whatsapp", "facebook", "instagram"],
   },
 ];
+
+/** /planes no publica el Ecosistema (5-nov-2026). /planes2 sí. */
+export const PLANES_PUBLICOS = PLANES_NUEVOS.filter((p) => p.id !== "ecosistema");
 
 export const EXTRAS_NUEVOS = [
   { label: "Profesional extra", precio: "US$ 9/mes" },
@@ -151,7 +149,7 @@ export function precioOferta(usd: number): number {
 export const PLANES2_TITULO = "Elige tu plan.";
 // Ricardo, 5-nov-2026: el cliente parte con Flux (el 4-nov era Hex a US$ 35).
 export const PLANES2_TITULO_ACENTO = "Parte con Flux.";
-export const PLANES2_BAJADA = "Agenda y WhatsApp desde US$ 79 al mes. Redes, IA y marketing cuando tu clínica esté lista.";
+export const PLANES2_BAJADA = "Agenda y WhatsApp desde US$ 79 al mes. Redes e IA cuando tu clínica esté lista.";
 
 export const PRUEBA_LINEA =
   "¿Prefieres probar antes? Flux tiene prueba gratis: 7 días o 50 conversaciones de WhatsApp, lo que ocurra primero.";
@@ -166,13 +164,13 @@ export const COMO_FUNCIONA = [
     titulo: "Suma tus redes",
     texto: "Con Hex se conectan también Facebook e Instagram y llegas a 2.500 conversaciones al mes.",
   },
-  { n: "3", titulo: "Sube cuando crezcas", texto: "Vortex agrega el agente IA con 28.000 créditos y 5.000 conversaciones; el Ecosistema suma marketing." },
+  { n: "3", titulo: "Sube cuando crezcas", texto: "Vortex agrega el agente IA con 28.000 créditos y hasta 5.000 conversaciones." },
 ] as const;
 
 export const PLANES2_FAQ: readonly { q: string; a: string }[] = [
   {
     q: "¿Qué incluye cada plan?",
-    a: "Flux: agendamiento, presupuestos y planes, panel de ventas, Clinera Intelligence, recordatorios, fichas clínicas y WhatsApp con hasta 500 conversaciones al mes, hasta 5 profesionales y 2 sucursales; sin agente IA. Hex: lo de Flux más Facebook e Instagram conectados, hasta 2.500 conversaciones y 10 profesionales; sin agente IA. Vortex: agente IA con 28.000 créditos de IA, hasta 5.000 conversaciones, WhatsApp, Facebook e Instagram, automatizaciones y difusiones, hasta 15 profesionales y 3 sucursales. Ecosistema: todo Vortex más marketing (campañas, propuesta de valor, framework comercial y reunión semanal).",
+    a: "Flux: agendamiento, presupuestos y planes de tratamiento, panel de ventas, recordatorios y confirmaciones, fichas clínicas personalizadas y WhatsApp con hasta 500 conversaciones al mes, hasta 5 profesionales y 2 sucursales; sin IA. Hex: todo lo de Flux más Facebook e Instagram conectados, hasta 2.500 conversaciones al mes y hasta 10 profesionales; sin IA. Vortex: todo lo de Hex más el agente IA con 28.000 créditos de IA, Clinera Intelligence, hasta 5.000 conversaciones, automatizaciones y difusiones, hasta 15 profesionales y 3 sucursales. Ecosistema: todo Vortex más marketing (campañas, propuesta de valor, framework comercial y reunión semanal).",
   },
   {
     q: "¿Cuánto dura la prueba gratis?",
@@ -191,8 +189,8 @@ export const PLANES2_FAQ: readonly { q: string; a: string }[] = [
     a: "Desde la prueba o tu cuenta eliges el plan nuevo. Para Hex, Vortex o Ecosistema hablas con ventas y te ayudamos con el onboarding.",
   },
   {
-    q: "¿Cómo funciona el 20% de descuento?",
-    a: "Si eres cliente nuevo y contratas el Ecosistema en noviembre, pagas 20% menos durante 6 meses (US$ 303,20). Desde el mes 7 se cobra el precio normal. Flux, Hex y Vortex no tienen descuento. [PENDIENTE: confirmar si es acumulable]",
+    q: "¿Hay descuentos?",
+    a: "Sí, para clientes nuevos. Flux, Hex y Vortex: 50% durante los primeros 3 meses si contratas desde clinera.io/contrata (Flux US$ 39,50, Hex US$ 89,50 y Vortex US$ 139,50 al mes); desde el mes 4, precio normal. Ecosistema: 20% durante 6 meses si lo contratas en noviembre (US$ 303,20); desde el mes 7, precio normal. [PENDIENTE: confirmar si son acumulables]",
   },
   {
     q: "¿Puedo comprar conversaciones extra?",
@@ -220,12 +218,17 @@ export function sinPendientes(texto: string): string {
   return texto.replace(/\s*\[PENDIENTE:[^\]]*\]/g, "").trim();
 }
 
-/** FAQ de /planes: la de /planes2 sin notas internas (se cae la que queda vacía) + la de publicidad. */
-export function faqPublica(): { q: string; a: string }[] {
-  const propias = PLANES2_FAQ.map((f) => ({ q: f.q, a: sinPendientes(f.a) })).filter((f) => f.a.length > 0);
-  const publicidad = PLANES_FAQ.filter((f) => /publicidad/i.test(f.q));
-  return [...propias, ...publicidad];
-}
+/** FAQ de /planes: sin Ecosistema, sin notas internas y sin la de publicidad (es del marketing). */
+export const PLANES_FAQ_PUBLICA: readonly { q: string; a: string }[] = [
+  { q: "¿Qué incluye cada plan?", a: "Flux: agendamiento, presupuestos y planes de tratamiento, panel de ventas, recordatorios y confirmaciones, fichas clínicas personalizadas y WhatsApp con hasta 500 conversaciones al mes, hasta 5 profesionales y 2 sucursales; sin IA. Hex: todo lo de Flux más Facebook e Instagram conectados, hasta 2.500 conversaciones al mes y hasta 10 profesionales; sin IA. Vortex: todo lo de Hex más el agente IA con 28.000 créditos de IA, Clinera Intelligence, hasta 5.000 conversaciones, automatizaciones y difusiones, hasta 15 profesionales y 3 sucursales." },
+  { q: "¿Cuánto dura la prueba gratis?", a: "La prueba gratis es de Flux: 7 días o 50 conversaciones de WhatsApp, lo que ocurra primero." },
+  { q: "¿Con qué plan parto?", a: "Con Flux: US$ 79 al mes con agenda y WhatsApp, hasta 500 conversaciones. Cuando quieras sumar Facebook e Instagram pasas a Hex, y para el agente IA, a Vortex." },
+  { q: "¿Hay descuento?", a: "Sí. Si eres cliente nuevo y contratas Flux, Hex o Vortex desde clinera.io/contrata, pagas 50% durante los primeros 3 meses: Flux US$ 39,50, Hex US$ 89,50 y Vortex US$ 139,50 al mes. Desde el mes 4 pagas el precio normal. Los botones de esta página cobran el precio normal." },
+  { q: "¿Cómo subo de plan?", a: "Desde tu cuenta eliges el plan nuevo. Si tienes dudas, hablas con ventas y te ayudamos con el onboarding." },
+  { q: "¿Puedo comprar conversaciones extra?", a: "Sí, en todos los planes: 1.000 conversaciones por US$ 98 o 5.000 por US$ 198." },
+  { q: "¿Ya soy cliente, puedo cambiarme?", a: "Tu plan y tu precio actuales se mantienen. Si quieres revisarlo, escríbenos." },
+];
+export function faqPublica() { return [...PLANES_FAQ_PUBLICA]; }
 
 /** Payment Link con los utm de la visita (Stripe los guarda en la sesión de Checkout). */
 export function conUtm(url: string, search = ""): string {

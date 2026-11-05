@@ -1378,6 +1378,8 @@ de `/agenda`. **Desde el 4-nov todos los planes traen WhatsApp**: Hex ya no va �
 
 # `/planes` publica Hex · Flux · Vortex · Ecosistema (Ricardo, 4-nov-2026)
 
+Superado el 5-nov-2026, ver más abajo.
+
 `/planes` renderiza `PlanesNuevos publico` (catálogo `planes-nuevos.ts`, todos los planes con WhatsApp: Hex 50
 conversaciones, Flux 200). `PlanesV3`, `PlanesVigentes` y `planes.ts` **no cambiaron**: los siguen usando `/promo`,
 el home, `/agenda` y las landings. El modo `publico`:
@@ -1399,6 +1401,8 @@ el home, `/agenda` y las landings. El modo `publico`:
 
 # Hex es el plan a vender: CTA principal al checkout de Stripe (Ricardo, 4-nov-2026)
 
+Superado el 5-nov-2026, ver más abajo.
+
 En `/contrata`, `/planes` y `/planes2`, Hex va primero, con la insignia «Recomendado», y su botón principal es el
 Payment Link `HEX_PAGO_URL` (`planes-nuevos.ts`, `cta: "pago"`). Flux sigue con «Prueba gratis» como botón
 secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
@@ -1414,11 +1418,12 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
   Vortex, Ecosistema y el «Hablar con ventas» del cierre van con botón secundario, sin degradado. Lo vigila
   `tests/planes-vigentes.spec.ts`.
 
-# `/planes`: Flux 79 · Hex 179 · Vortex 279, y el Ecosistema igual (Ricardo, 5-nov-2026)
+# `/planes`: Flux 79 · Hex 179 · Vortex 279, sin Ecosistema (Ricardo, 5-nov-2026)
 
-`planes-nuevos.ts` (lo leen `/planes`, `/planes2` y la boleta de `/contrata`) quedó alineado con `/kimi` y
-`/home-nuevo`: **Flux US$ 79** (solo WhatsApp, 500 conversaciones, recomendado, «Prueba gratis»), **Hex US$ 179**
-(WhatsApp + Facebook + Instagram, 2.500, sin IA, «Hablar con ventas»), **Vortex US$ 279** (las tres redes + agente
-IA, 5.000 conversaciones y 28.000 créditos). El **Ecosistema no se tocó** (379, con el 20 % de noviembre solo para
-él). El Payment Link de Hex a US$ 35 (`HEX_PAGO_URL`) no se muestra: cobraría el precio viejo. `/promo`, el home y
-`/agenda` siguen en `planes.ts`. Guardianes: `tests/planes2.spec.ts`, `tests/planes-vigentes.spec.ts`.
+- `/planes` muestra `PLANES_PUBLICOS` (`planes-nuevos.ts`); `/planes2` conserva el Ecosistema con su 20% de noviembre. Flux recomendado.
+- Cada tarjeta y el encabezado van al Payment Link de `src/content/checkout.ts` (`CHECKOUT_URL`), **sin código de promoción**, pelado con `data-plan*` (Analytics.tsx). El 50% × 3 meses vive solo en `/contrata` y la FAQ lo dice.
+- Se quitaron de `/planes` la boleta de ahorro y `PLANES_BAJADA`; queda `PmfcSection compacto`.
+- `/presentacion` muestra los cuatro (Flux, Hex, Vortex, Ecosistema), escritos a mano. `/presentacion-tecnica` sigue con dos planes.
+- Flux y Hex no tienen IA: «Clinera Intelligence» va solo en Vortex.
+- Esto deja obsoletas las secciones del 4-nov «/planes publica Hex · Flux…» y «Hex es el plan a vender».
+- Guardianes: `planes-vigentes.spec.ts`, `planes2.spec.ts`, `checkout.spec.ts`, `presentacion-planes.spec.ts`.

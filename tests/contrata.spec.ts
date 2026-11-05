@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { CHECKOUT_URL } from "../src/content/checkout";
 
 // /contrata (Ricardo, 4-nov-2026; planes del 5-nov): landing L2 «Software». Flux US$ 79 con
 // WhatsApp y 500 conversaciones (recomendado, alta = «Prueba gratis» → app.clinera.io con la query
@@ -29,18 +30,17 @@ test.describe("/contrata", () => {
     await expect(flux.locator("[data-canales]")).toHaveText("WhatsApp");
     await expect(hex.locator("[data-canales]")).toHaveText("WhatsAppFacebookInstagram");
 
-    // Flux primero y recomendado, con «Prueba gratis» y la query de la visita; Hex va a ventas.
+    // Flux y Hex van al Payment Link. El gclid no viaja como query (sería un gclid falso en otro campo):
+    // queda saneado en client_reference_id. Los utm sí.
     await expect(flux.locator("[data-insignia]")).toHaveText("Recomendado");
     await expect(hex.locator("[data-insignia]")).toHaveCount(0);
-    const prueba = flux.locator("a[data-cta]");
-    await expect(prueba).toHaveAttribute("data-cta", "prueba");
-    await expect(prueba).toHaveAttribute("href", /^https:\/\/app\.clinera\.io\?.*plan=flux/);
-    await expect(prueba).toHaveAttribute("href", /utm_source=test/);
-    await expect(prueba).toHaveAttribute("href", /gclid=abc/);
-    const ventas = hex.locator("a[data-cta]");
-    await expect(ventas).toHaveAttribute("data-cta", "ventas");
-    await expect(ventas).toHaveAttribute("href", /^\/agenda\?.*utm_source=test.*plan=hex/);
-    await expect(page.locator("main")).not.toContainText(/US\$\s?(35|55)\b|buy\.stripe\.com/);
+    const pagoFlux = flux.locator("a[data-cta='pago']");
+    await expect(pagoFlux).toHaveAttribute("href", new RegExp("^" + CHECKOUT_URL.flux.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    await expect(pagoFlux).toHaveAttribute("href", /utm_source=test/);
+    await expect(pagoFlux).toHaveAttribute("href", /client_reference_id=abc/);
+    const pagoHex = hex.locator("a[data-cta='pago']");
+    await expect(pagoHex).toHaveAttribute("href", new RegExp("^" + CHECKOUT_URL.hex.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    await expect(page.locator("main")).not.toContainText(/US\$\s?(35|55)\b/);
     await expect(page.locator("[data-contrata-ventas]")).toHaveAttribute("href", /^\/agenda\?.*utm_source=test/);
     const texto = await page.locator("main").innerText();
     expect(texto).not.toMatch(/no trae WhatsApp|implementaci|permanencia/i);
