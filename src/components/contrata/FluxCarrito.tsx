@@ -239,18 +239,18 @@ export default function FluxCarrito({
 
       <div className={styles.grid}>
         <div className={styles.tienda}>
+          <h1 className={styles.h1}>Haz que sea tu clínica</h1>
           <p className={styles.heroMl}>
-            Activa la IA de tu clínica como cuando compras en Mercado Libre: elige qué funciones quieres y comienza.
+            Hacer crecer tu clínica es como comprar en Mercado Libre: elige qué funciones quieres, agrégalas al carrito y comienza.
           </p>
-          <h1 className={styles.h1}>Crece a tu medida</h1>
-          <p className={styles.bajada}>Parte con Flux por US$ 29/mes y suma solo lo que necesitas.</p>
+          <p className={styles.bajada}>Parte con Flux por US$ 29/mes.</p>
 
           <article className={styles.card} data-flux-base>
             <div className={styles.cardTop}>
               <div>
                 <p className={styles.kicker}>En tu carrito</p>
                 <h2 className={styles.cardTitulo}>Clinera Flux</h2>
-                <p className={styles.cardSub}>La base de tu clínica. Siempre va en el pedido.</p>
+                <p className={styles.cardSub}>La base de tu clínica. Siempre va en tu carrito.</p>
               </div>
               <Precio usd={29} promo={!promoOff} />
             </div>
@@ -263,7 +263,7 @@ export default function FluxCarrito({
 
           <section data-adicionales>
             <h2 className={styles.seccion}>Adicionales</h2>
-            <p className={styles.seccionSub}>Elige tus adicionales</p>
+            <p className={styles.seccionSub}>Depende de ti elegir lo adicional</p>
             <div className={styles.cards}>
               {ADICIONALES.filter((id) => !esRegaloNoviembre(id) || regalo === false).map((id) => (
                 <Addon
@@ -362,6 +362,7 @@ export default function FluxCarrito({
                 {!promoOff ? <s>{monto(lista)}</s> : null}
               </span>
             </p>
+            <p className={styles.apuro}>No pierdas más tu tiempo</p>
             <button
               type="button"
               className={styles.cta}

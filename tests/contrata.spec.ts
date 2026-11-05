@@ -13,9 +13,11 @@ test.describe("/contrata", () => {
     expect(new URL(page.url()).pathname).toBe("/contrata");
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
     await expect(page.locator("[data-carrito]")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Crece a tu medida" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Haz que sea tu clínica" })).toBeVisible();
+    await expect(page.getByText(/como comprar en Mercado Libre/)).toBeVisible();
+    await expect(page.getByText("No pierdas más tu tiempo")).toBeVisible();
     await expect(page.getByRole("heading", { name: "Adicionales" })).toBeVisible();
-    await expect(page.getByText("Elige tus adicionales")).toBeVisible();
+    await expect(page.getByText("Depende de ti elegir lo adicional")).toBeVisible();
     await expect(page.getByRole("button", { name: "Comienza ya" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Tu carrito" })).toBeVisible();
     await expect(page.locator("[data-flux-base]")).toContainText("Clinera Intelligence");
