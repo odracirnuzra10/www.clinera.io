@@ -70,16 +70,28 @@ export default function FluxCarrito({
   const [promoOff, setPromoOff] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
+  const [aviso, setAviso] = useState("");
   const debounce = useRef<number | null>(null);
+  const foco = useRef<ItemId | null>(null);
   const regalo = useRegalo();
+  const search = useSyncExternalStore(
+    () => () => {},
+    () => window.location.search,
+    () => "",
+  );
 
   useEffect(() => {
-    let inicial: Carrito = preseleccion(planInicial);
-    try {
-      const raw = sessionStorage.getItem(STORAGE);
-      if (raw) inicial = JSON.parse(raw) as Carrito;
-    } catch {
+    // ?plan= es la intención de esta visita y gana al carrito guardado.
+    let inicial: Carrito = {};
+    if (planInicial) {
       inicial = preseleccion(planInicial);
+    } else {
+      try {
+        const raw = sessionStorage.getItem(STORAGE);
+        if (raw) inicial = JSON.parse(raw) as Carrito;
+      } catch {
+        inicial = {};
+      }
     }
     setCarrito(sanear(inicial));
     setListo(true);
@@ -93,6 +105,20 @@ export default function FluxCarrito({
       /* el carrito sigue en memoria */
     }
   }, [carrito, listo]);
+
+  useEffect(() => {
+    const id = foco.current;
+    if (!id) return;
+    foco.current = null;
+    const boton = document.querySelector(`[data-addon="${id}"] button[aria-label^="Sumar"]`);
+    if (boton instanceof HTMLElement) boton.focus();
+  }, [carrito]);
+
+  useEffect(() => {
+    if (!aviso) return;
+    const t = window.setTimeout(() => setAviso(""), 2400);
+    return () => window.clearTimeout(t);
+  }, [aviso]);
 
   if (pago === "ok") return <Exito sessionId={sessionId} />;
 
@@ -120,6 +146,10 @@ export default function FluxCarrito({
   }
 
   function fijar(id: ItemId, delta: number, accion: "agregar" | "quitar") {
+    if (accion === "agregar") {
+      foco.current = id;
+      setAviso(`${CARRITO[id].nombre} en el carrito`);
+    }
     setCarrito((prev) => {
       const next = sanear({ ...prev, [id]: prev[id] + delta });
       emitir(id, accion, next[id], next);
@@ -168,7 +198,7 @@ export default function FluxCarrito({
       });
       const json = (await res.json()) as { ok?: boolean; url?: string; promo?: boolean };
       if (json.promo === false) setPromoOff(true);
-      if (json.ok && json.url && json.promo !== false) {
+      if (json.ok && json.url) {
         window.location.assign(json.url);
         return;
       }
@@ -181,12 +211,8 @@ export default function FluxCarrito({
     }
   }
 
-  const search = useSyncExternalStore(
-    () => () => {},
-    () => window.location.search,
-    () => "",
-  );
   const agenda = `/agenda${search}`;
+  const pulso = aviso ? styles.badgePulso : "";
 
   return (
     <div className={styles.pagina} data-carrito>
@@ -200,9 +226,14 @@ export default function FluxCarrito({
           onClick={() => document.getElementById("tu-carrito")?.scrollIntoView({ behavior: "smooth", block: "start" })}
         >
           <Bolsa />
-          <span className={styles.badge} data-carrito-count>{unidades}</span>
+          <span className={`${styles.badge} ${pulso}`} data-carrito-count>{unidades}</span>
         </button>
       </header>
+      {aviso ? (
+        <div className={styles.toast} role="status" data-toast>
+          {aviso}
+        </div>
+      ) : null}
 
       {!promoOff ? <UrgenciaPromo className={styles.urgencia} /> : null}
 
@@ -316,11 +347,11 @@ export default function FluxCarrito({
             </p>
             {!promoOff ? <p className={styles.luego}>Luego {monto(lista)}/mes</p> : <p className={styles.luego}>{monto(lista)}/mes</p>}
           </div>
-          {!promoOff ? <p className={styles.urgenciaChica}><UrgenciaPromo /></p> : null}
+          {!promoOff ? <div className={styles.urgenciaChica}><UrgenciaPromo /></div> : null}
           <ul className={styles.confianza}>
             <li>Pago seguro con Stripe</li>
             <li>Cancela cuando quieras</li>
-            <li>Activación inmediata</li>
+            <li>Activación rápida</li>
           </ul>
           {error ? <p className={styles.error} role="alert" data-pago-error>{error}</p> : null}
           <div className={styles.accion}>
@@ -357,7 +388,10 @@ function Precio({ usd, promo }: { usd: number; promo: boolean }) {
   return (
     <p className={styles.precio}>
       {promo ? <s>{monto(usd)}</s> : null}
-      <b>{promo ? monto(mitad) : monto(usd)}</b>
+      <b>
+        {promo ? monto(mitad) : monto(usd)}
+        {promo ? <span className={styles.pill}>−50%</span> : null}
+      </b>
       <span>/mes</span>
     </p>
   );
@@ -390,13 +424,13 @@ function Addon({
         <Precio usd={spec.usd} promo={promo} />
       </div>
       {enCarrito ? (
-        <div className={styles.stepper}>
+        <div className={styles.stepper} role="group" aria-label={`Cantidad de ${nombre}`}>
           <button type="button" aria-label={`Quitar ${nombre}`} onClick={onSub} disabled={qty <= spec.min}>−</button>
           <output aria-live="polite">{qty}</output>
           <button type="button" aria-label={`Sumar ${nombre}`} onClick={onAdd} disabled={qty >= spec.max}>+</button>
         </div>
       ) : (
-        <button type="button" className={styles.agregar} onClick={onAdd}>
+        <button type="button" className={styles.agregar} aria-label={`Agregar al carrito: ${spec.nombre}`} onClick={onAdd}>
           Agregar al carrito
         </button>
       )}

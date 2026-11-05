@@ -49,7 +49,7 @@ export interface StripeContrata {
     list: (params: { code: string; active: boolean; limit: number }) => Promise<{ data: { id: string }[] }>;
   };
   customers: {
-    list: (params: { email: string; limit: number }) => Promise<{ data: { id: string }[] }>;
+    list: (params: { email: string; limit: number }) => Promise<{ data: { id: string; metadata?: Record<string, string> | null }[] }>;
     update: (id: string, params: Record<string, unknown>) => Promise<{ id: string }>;
     create: (params: Record<string, unknown>) => Promise<{ id: string }>;
   };
@@ -163,10 +163,12 @@ export async function ejecutarCheckout(input: {
   let customerId = "";
   if (email) {
     const previos = await input.stripe.customers.list({ email, limit: 1 });
-    const meta = { metadata: { fuente: "contrata_carrito" } };
-    const cliente = previos.data[0]
-      ? await input.stripe.customers.update(previos.data[0].id, meta)
-      : await input.stripe.customers.create({ email, ...meta });
+    const previo = previos.data[0];
+    // Stripe reemplaza el objeto metadata que se manda: hay que reenviar las claves que ya tenía.
+    const metadata = { ...(previo?.metadata ?? {}), fuente: "contrata_carrito" };
+    const cliente = previo
+      ? await input.stripe.customers.update(previo.id, { metadata })
+      : await input.stripe.customers.create({ email, metadata });
     customerId = cliente.id;
   }
 
@@ -209,22 +211,74 @@ export async function ejecutarCheckout(input: {
   if (clientRef) params.client_reference_id = clientRef;
 
   try {
-    let session: { url: string | null };
-    try {
-      session = await input.stripe.checkout.sessions.create(params);
-    } catch (e) {
-      if (!/adaptive_pricing/i.test(e instanceof Error ? e.message : "")) throw e;
-      const sin = { ...params };
-      delete sin.adaptive_pricing;
-      session = await input.stripe.checkout.sessions.create(sin);
-    }
-    if (!session.url) return { status: 502, body: { ok: false, error: "no_url" } };
+    const sesion = await abrirSesion(input.stripe, params);
+    if (!sesion.url) return { status: 502, body: { ok: false, error: "no_url" } };
     return {
       status: 200,
-      body: { ok: true, url: session.url, lista_usd: lista, promo_usd: promoUsd, promo: Boolean(codigo), regalo },
+      body: {
+        ok: true,
+        url: sesion.url,
+        lista_usd: lista,
+        promo_usd: sesion.promo ? promoUsd : lista,
+        promo: sesion.promo,
+        regalo,
+      },
     };
   } catch (e) {
     console.error("[contrata/checkout] Stripe rechazó la sesión", e instanceof Error ? e.message : e);
     return { status: 502, body: { ok: false, error: "stripe" } };
   }
+}
+
+function textoError(e: unknown): string {
+  return e instanceof Error ? e.message : String(e);
+}
+
+/** Copia superficial y saca una clave, sin mutar el objeto que ya se le pasó a Stripe. */
+function sinClave(params: Record<string, unknown>, clave: string): Record<string, unknown> {
+  const copia = { ...params };
+  delete copia[clave];
+  return copia;
+}
+
+function sinDescuento(params: Record<string, unknown>, lista: number): Record<string, unknown> {
+  const metadata = { ...((params.metadata as Record<string, string> | undefined) ?? {}), promo: "none", promo_usd: String(lista) };
+  const sub = params.subscription_data as { metadata?: Record<string, string> } | undefined;
+  return {
+    ...sinClave(params, "discounts"),
+    metadata,
+    subscription_data: { ...(sub ?? {}), metadata },
+  };
+}
+
+/**
+ * El cupón FPxQMFcc no restringe productos (sin applies_to): el 50% cubre todo
+ * el carrito. Si Stripe igual rechaza el código, se reintenta sin descuento.
+ */
+async function abrirSesion(
+  stripe: StripeContrata,
+  params: Record<string, unknown>,
+): Promise<{ url: string | null; promo: boolean }> {
+  let actual = params;
+  let promo = Boolean(actual.discounts);
+  const lista = Number((params.metadata as Record<string, string> | undefined)?.lista_usd ?? 0);
+  for (let i = 0; i < 4; i++) {
+    try {
+      const session = await stripe.checkout.sessions.create(actual);
+      return { url: session.url, promo };
+    } catch (e) {
+      const msg = textoError(e);
+      if (actual.adaptive_pricing && /adaptive_pricing/i.test(msg)) {
+        actual = sinClave(actual, "adaptive_pricing");
+        continue;
+      }
+      if (promo && /promotion|coupon|discount/i.test(msg)) {
+        actual = sinDescuento(actual, lista);
+        promo = false;
+        continue;
+      }
+      throw e;
+    }
+  }
+  throw new Error("checkout");
 }

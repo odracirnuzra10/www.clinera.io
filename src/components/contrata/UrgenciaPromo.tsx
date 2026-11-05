@@ -12,7 +12,7 @@ const sub = (cb: () => void) => {
 export default function UrgenciaPromo({ className }: { className?: string }) {
   const texto = useSyncExternalStore(sub, () => textoUrgencia(), () => null);
   return (
-    <p className={className} data-urgencia aria-live="polite">
+    <div className={className} data-urgencia aria-live="polite">
       {texto ? (
         <>
           <b>50% por 3 meses.</b> {texto}.
@@ -20,6 +20,6 @@ export default function UrgenciaPromo({ className }: { className?: string }) {
       ) : (
         "\u00A0"
       )}
-    </p>
+    </div>
   );
 }

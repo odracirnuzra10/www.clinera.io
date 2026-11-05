@@ -69,11 +69,15 @@ test.describe("/contrata", () => {
     expect(html).not.toContain("data-addon=\"email_marketing\"");
   });
 
-  test("?plan=hex deja Instagram y Facebook en el carrito", async ({ page }) => {
+  test("?plan=hex deja Instagram y Facebook en el carrito y gana al guardado", async ({ page }) => {
+    await page.addInitScript(() => {
+      sessionStorage.setItem("contrata_carrito", JSON.stringify({ profesional_extra: 4 }));
+    });
     await ir(page, "/contrata?plan=hex", "2026-11-05T12:00:00-03:00");
     await expect(page.locator("[data-addon=instagram] output")).toHaveText("1");
     await expect(page.locator("[data-addon=facebook] output")).toHaveText("1");
-    await expect(page.locator("[data-addon=agente_ia]").getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
+    await expect(page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
+    await expect(page.locator("[data-carrito-count]")).toHaveText("3");
   });
 
   test("?pago=cancelado restaura el carrito guardado", async ({ page }) => {
@@ -90,8 +94,13 @@ test.describe("/contrata", () => {
     const cta = page.getByRole("button", { name: "Comienza ya" });
     await expect(cta).toHaveAttribute("data-plan", "flux_modular");
     await expect(cta).toHaveAttribute("data-plan-value", "14.5");
+    await expect(page.locator("[data-carrito-count]")).toHaveText("1");
+    await expect(page.locator("[data-flux-base]")).toContainText("−50%");
     await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" }).click();
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("1");
+    await expect(page.locator("[data-toast]")).toHaveText("Profesional extra en el carrito");
+    await expect(page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Sumar profesional extra" })).toBeFocused();
+    await expect(page.locator("[data-carrito-count]")).toHaveText("2");
     await expect(cta).toHaveAttribute("data-plan-value", "19");
     await expect(page.locator("[data-total-hoy]")).toContainText("19");
     await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Sumar profesional extra" }).click();
@@ -119,7 +128,7 @@ test.describe("/contrata", () => {
     await page.waitForURL(/checkout\.stripe\.com/);
   });
 
-  test("si el código no está activo, la página deja de prometer el 50%", async ({ page }) => {
+  test("con url abre Stripe aunque la promo no se haya aplicado", async ({ page }) => {
     await ir(page, "/contrata", "2026-11-05T12:00:00-03:00");
     await page.route("**/api/contrata/checkout", (route) =>
       route.fulfill({
@@ -129,6 +138,20 @@ test.describe("/contrata", () => {
       }),
     );
     await page.getByRole("button", { name: "Comienza ya" }).click();
+    await page.waitForURL(/checkout\.stripe\.com/);
+  });
+
+  test("sin url, promo false quita el 50% y ofrece reunión", async ({ page }) => {
+    await ir(page, "/contrata", "2026-11-05T12:00:00-03:00");
+    await page.route("**/api/contrata/checkout", (route) =>
+      route.fulfill({
+        status: 503,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: false, error: "prices_missing", promo: false }),
+      }),
+    );
+    await page.getByRole("button", { name: "Comienza ya" }).click();
+    await expect(page.locator("[data-pago-error]")).toBeVisible();
     await expect(page.locator("[data-urgencia]")).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveAttribute("data-promo", "no");
     await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveAttribute("data-plan-value", "29");
@@ -139,6 +162,7 @@ test.describe("/contrata", () => {
     await ir(page, "/contrata?utm_source=ads", "2026-11-05T12:00:00-03:00");
     await page.getByRole("button", { name: "Comienza ya" }).click();
     await expect(page.locator("[data-pago-error]")).toBeVisible();
+    await expect(page.locator("[data-urgencia]").first()).toContainText("50%");
     const link = page.locator("[data-cta=agendar-reunion]");
     await expect(link).toHaveAttribute("href", /\/agenda\?/);
     await expect(link).toHaveAttribute("href", /utm_source=ads/);

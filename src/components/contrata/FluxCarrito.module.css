@@ -54,6 +54,33 @@
   text-align: center;
 }
 
+.badgePulso {
+  animation: pulsoBadge 420ms ease;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  z-index: 40;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #111827;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+@keyframes pulsoBadge {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
 .urgencia,
 .urgenciaChica {
   margin: 0;
@@ -167,6 +194,19 @@
   color: #111827;
   font-size: 22px;
   letter-spacing: -0.03em;
+}
+
+.pill {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #f5f3ff;
+  color: #6d28d9;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  vertical-align: 3px;
 }
 
 .precio span {
@@ -440,6 +480,7 @@
     background: #fff;
     border-top: 1px solid #e5e7eb;
   }
+  .toast { bottom: 136px; }
   .accion .cta { min-height: 48px; margin-top: 8px; }
   .accion .secundario { margin-top: 2px; padding: 4px; }
   .urgenciaChica { display: none; }
@@ -467,4 +508,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .num { transition: none; }
+  .badgePulso { animation: none; }
 }

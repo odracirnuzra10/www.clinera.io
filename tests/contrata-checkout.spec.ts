@@ -134,4 +134,49 @@ test.describe("POST /api/contrata/checkout", () => {
     expect(creadas[0]).toHaveProperty("adaptive_pricing");
     expect(creadas[1]).not.toHaveProperty("adaptive_pricing");
   });
+
+  test("si Stripe rechaza el código, reintenta sin descuento y responde promo false", async () => {
+    const { stripe, creadas } = stripeFalso();
+    stripe.checkout.sessions.create = async (params) => {
+      creadas.push(params);
+      if (params.discounts) throw new Error("No such promotion code: promo_fp");
+      return { url: "https://checkout.stripe.com/c/pay/cs_test_ok" };
+    };
+    const r = await ejecutarCheckout({
+      body: { carrito: { flux_base: 1 } },
+      origin: "https://www.clinera.io",
+      stripe,
+      now: new Date("2026-12-01T12:00:00-03:00"),
+    });
+    expect(r.status).toBe(200);
+    expect(r.body.ok).toBe(true);
+    expect(r.body.promo).toBe(false);
+    expect(r.body.url).toContain("checkout.stripe.com");
+    expect(creadas[0]).toHaveProperty("discounts");
+    expect(creadas[1]).not.toHaveProperty("discounts");
+    expect((creadas[1].metadata as Record<string, string>).promo).toBe("none");
+    expect(creadas[1]).not.toHaveProperty("allow_promotion_codes");
+  });
+
+  test("al actualizar el cliente conserva la metadata que ya tenía", async () => {
+    const { stripe } = stripeFalso();
+    const updates: Record<string, unknown>[] = [];
+    stripe.customers.list = async () => ({ data: [{ id: "cus_old", metadata: { campana: "hebe", fuente: "wizard" } }] });
+    stripe.customers.update = async (id, params) => {
+      updates.push({ id, ...params });
+      return { id };
+    };
+    stripe.checkout.sessions.create = async () => ({ url: "https://checkout.stripe.com/c/pay/cs_test_ok" });
+    const r = await ejecutarCheckout({
+      body: { carrito: { flux_base: 1 }, email: "ana@clinica.cl" },
+      origin: "https://www.clinera.io",
+      stripe,
+      now: new Date("2026-12-01T12:00:00-03:00"),
+    });
+    expect(r.status).toBe(200);
+    expect(updates[0]).toMatchObject({
+      id: "cus_old",
+      metadata: { campana: "hebe", fuente: "contrata_carrito" },
+    });
+  });
 });
