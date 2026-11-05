@@ -1418,7 +1418,7 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
 
 # `/contrata` es el wizard de contratación (Ricardo, 5-nov-2026)
 
-- El cascarón de `/agenda` en **3 pasos**: tus datos, tu clínica (con confirmación) y tu oferta. El plan se elige **solo en el último paso**, con el 50% × 3 meses animado (respeta `prefers-reduced-motion`). `?plan=` solo lo preselecciona.
+- El cascarón de `/agenda` en **3 pasos**: tus datos, tu clínica (con confirmación) y tu oferta. El plan se elige **solo en el último paso**, con el 50% × 3 meses en violeta sólido `#6D28D9` (un `background-clip: text` lo dejaba lavado) y una entrada que termina en opacidad 1 (respeta `prefers-reduced-motion`). `?plan=` solo lo preselecciona.
 - «Contratar» en `/kimi` y `/home-nuevo` lleva a `/contrata?plan=…` con la atribución de la visita (utm, gclid, gbraid, wbraid, fbclid).
 - El CTA va a `checkoutUrl(plan, { promo: true })` de `src/content/checkout.ts`: utm, `prefilled_email`, gclid saneado como `client_reference_id` base (Analytics.tsx lo reemplaza al hacer clic por el de 7 segmentos; el wizard dispara `clinera:routechange` para que se enganche al link montado tarde).
 - **`PROMO_CODE` es `CLINERA50X3`** (cupón `FPxQMFcc`, Ricardo, 5-nov-2026): el CTA del 50% manda `prefilled_promo_code`. `/planes` llama a `checkoutUrl` sin `promo` y sigue cobrando el precio de lista. El Payment Link de Hex cobra US$ 179 (lo confirmó Ricardo el mismo día).

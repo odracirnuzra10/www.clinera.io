@@ -87,15 +87,39 @@ test.describe("/contrata", () => {
   });
 
   test("el 50% se anima y se apaga con movimiento reducido", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/contrata", { waitUntil: "domcontentloaded" });
     await hastaLaOferta(page);
-    const nombre = await page.locator("[data-oferta-destacada]").evaluate((el) => getComputedStyle(el).animationName);
-    expect(nombre).not.toBe("none");
+    const frase = page.locator("[data-oferta-destacada]");
+    await page.waitForTimeout(700);
+    const estilo = await frase.evaluate((el) => {
+      const s = getComputedStyle(el);
+      const h = el.parentElement!;
+      const lh = parseFloat(getComputedStyle(h).lineHeight);
+      return {
+        nombre: s.animationName,
+        color: s.color,
+        opacity: s.opacity,
+        clip: s.backgroundClip,
+        lineas: Math.round(h.getBoundingClientRect().height / lh),
+      };
+    });
+    expect(estilo.nombre).not.toBe("none");
+    expect(estilo.color).toBe("rgb(109, 40, 217)");
+    expect(estilo.opacity).toBe("1");
+    expect(estilo.clip).not.toBe("text");
+    expect(estilo.lineas).toBe(1);
+
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/contrata", { waitUntil: "domcontentloaded" });
     await hastaLaOferta(page);
-    const quieto = await page.locator("[data-oferta-destacada]").evaluate((el) => getComputedStyle(el).animationName);
-    expect(quieto).toBe("none");
+    const quieto = await frase.evaluate((el) => {
+      const s = getComputedStyle(el);
+      return { nombre: s.animationName, color: s.color, opacity: s.opacity };
+    });
+    expect(quieto.nombre).toBe("none");
+    expect(quieto.color).toBe("rgb(109, 40, 217)");
+    expect(quieto.opacity).toBe("1");
   });
 
   test("Agendar reunión mide 16 px y el embed abre en el próximo día hábil", async ({ page }) => {
@@ -119,6 +143,16 @@ test.describe("/contrata", () => {
       const font = await page.locator("#ct-nombre").evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
       expect(font).toBeGreaterThanOrEqual(16);
       await hastaLaOferta(page);
+      await page.waitForTimeout(700);
+      const frase = await page.locator("[data-oferta-destacada]").evaluate((el) => {
+        const s = getComputedStyle(el);
+        return { color: s.color, opacity: s.opacity, ancho: el.scrollWidth };
+      });
+      expect(frase.color).toBe("rgb(109, 40, 217)");
+      expect(frase.opacity).toBe("1");
+      expect(frase.ancho).toBeLessThanOrEqual(w);
+      const anchoOferta = await page.evaluate(() => document.documentElement.scrollWidth);
+      expect(anchoOferta).toBeLessThanOrEqual(w);
       const cta = page.locator("[data-cta='oferta-50']");
       const box = await cta.boundingBox();
       expect(box).not.toBeNull();

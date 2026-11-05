@@ -351,7 +351,7 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
             {paso === 3 && vista === "oferta" && (
               <div data-contrata-paso="3" data-oferta>
                 <span className={styles.paso}>Paso 3 de 3 · Tu oferta</span>
-                <h2 className={styles.titulo}>
+                <h2 className={`${styles.titulo} ${extra.ofertaTitulo}`}>
                   Tu plan con <span className={extra.destacado} data-oferta-destacada>50% por 3 meses</span>
                 </h2>
                 <p className={styles.sub}>Elige el plan de tu clínica. Los 3 primeros meses pagas la mitad.</p>
