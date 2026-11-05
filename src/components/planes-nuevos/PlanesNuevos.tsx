@@ -1,7 +1,7 @@
 "use client";
 
-// /planes2 (Ricardo, 29-oct-2026): Hex · Flux · Vortex · Ecosistema. Vista previa sin
-// indexar; /planes no cambia hasta que él la apruebe. Contenido en `planes-nuevos.ts`.
+// /planes y /planes2: Flux · Hex · Vortex · Ecosistema (Ricardo, 5-nov-2026). Contenido en
+// `planes-nuevos.ts`; Flux es el plan recomendado y su CTA es la prueba gratis.
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
@@ -43,7 +43,7 @@ import {
 } from "@/content/planes-nuevos";
 
 const MONO = "'JetBrains Mono', ui-monospace, monospace";
-const HEX = PLANES_NUEVOS.find((p) => p.id === "hex")!;
+const DESTACADO = PLANES_NUEVOS.find((p) => p.destacado)!;
 const noop = () => () => {};
 const readSearch = () => window.location.search;
 const readSearchServer = () => "";
@@ -80,18 +80,19 @@ export default function PlanesNuevos({ publico = false }: { publico?: boolean })
             <span style={{ background: GRAD, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>{PLANES2_TITULO_ACENTO}</span>
           </h1>
           <p style={{ fontFamily: "Inter", fontSize: 18, color: "#4B5563", lineHeight: 1.55, margin: "0 auto 20px", maxWidth: 620 }}>{PLANES2_BAJADA}</p>
-          {/* «Parte con Hex» (Ricardo, 4-nov-2026): el botón del encabezado es el Payment Link de Hex,
-              pelado (Analytics.tsx cuenta el clic y le pone client_reference_id) y con los utm. */}
+          {/* «Parte con Flux» (Ricardo, 5-nov-2026): el botón del encabezado es la prueba gratis del plan
+              recomendado, con la query de la visita (el 4-nov era el Payment Link de Hex a US$ 35). */}
           <a
-            href={conUtm(HEX.pagoUrl!, search)}
+            href={conPlan(PRUEBA_URL, DESTACADO.id, search)}
             suppressHydrationWarning
             data-cta-encabezado
-            data-plan={HEX.id}
-            data-plan-name={HEX.name}
-            data-plan-value={HEX.monthlyUsd}
+            onClick={() => {
+              track("start_trial_click", { plan: DESTACADO.id, source: "encabezado" });
+              trackPixel("StartTrial", { content_name: DESTACADO.name, value: 0, currency: "USD" });
+            }}
             style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 48, padding: "12px 26px", borderRadius: 999, background: GRAD, color: "#fff", fontFamily: "Inter", fontWeight: 700, fontSize: 16, textDecoration: "none", margin: "0 auto 18px" }}
           >
-            {HEX_PAGO_LABEL} · US$ {HEX.monthlyUsd}/mes
+            {PRUEBA_LABEL} con {DESTACADO.name} · desde US$ {DESTACADO.monthlyUsd}/mes
           </a>
           <PriceModalitySwitch size="compact" align="center" />
         </div>
@@ -136,7 +137,7 @@ export default function PlanesNuevos({ publico = false }: { publico?: boolean })
 
       <section className="p2-section" style={{ background: "#FAFAFA", borderTop: "1px solid #F0F0F0" }}>
         <div style={{ maxWidth: 1240, margin: "0 auto" }}>
-          <Titulo eyebrow="Cómo funciona" titulo="Parte con Hex, sube cuando crezcas." />
+          <Titulo eyebrow="Cómo funciona" titulo="Parte con Flux, sube cuando crezcas." />
           <div className="p2-steps">
             {COMO_FUNCIONA.map((s) => (
               <div key={s.n} style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 22, background: "#fff" }}>
@@ -165,8 +166,8 @@ function Titulo({ eyebrow, titulo }: { eyebrow: string; titulo: string }) {
 }
 
 function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: string; oferta: boolean; publico: boolean }) {
-  // Link de pago de Stripe: el de `planes.ts`, solo en /planes. Lleva escrito lo que cobra, porque
-  // en noviembre la tarjeta de Vortex muestra el precio con el 20% y el link cobra el precio normal.
+  // Link de pago de Stripe: el de `planes.ts`, solo en /planes. El texto dice lo que cobra el link
+  // (el catálogo de planes.ts), que puede no coincidir con la tarjeta si hay promo.
   const pago = publico ? PLANES.find((x) => x.id === plan.id) : undefined;
   const { amount, meta } = usePriceModality();
   const conOferta = oferta && (OFERTA_LANZAMIENTO.planes as readonly string[]).includes(plan.id);
@@ -181,7 +182,7 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
       : plan.cta === "prueba"
         ? conPlan(PRUEBA_URL, plan.id, search)
         : conPlan("/agenda", plan.id, search);
-  const recomendado = plan.cta === "pago";
+  const recomendado = plan.destacado === true;
   const onClick = () => {
     if (plan.cta === "prueba") {
       track("start_trial_click", { plan: plan.id });
@@ -271,7 +272,7 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
       </div>
 
       <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", color: "#4B5563" }}>
-        {plan.profesionales} · {plan.sucursales}
+        {plan.profesionales}{plan.sucursales ? ` · ${plan.sucursales}` : ""}
       </div>
 
       <div style={{ display: "grid", gap: 10 }}>
@@ -294,8 +295,8 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
           textDecoration: "none",
           minHeight: 44,
           boxSizing: "border-box",
-          // Hex es el único CTA principal (Ricardo, 4-nov-2026): Flux, Vortex y Ecosistema, secundarios.
-          ...(plan.cta === "pago"
+          // Flux es el único CTA principal (Ricardo, 5-nov-2026): Hex, Vortex y Ecosistema, secundarios.
+          ...(recomendado
             ? { background: GRAD, color: "#fff" }
             : { background: "#fff", color: "#0A0A0A", border: "1px solid #E5E7EB" }),
         }}
@@ -387,10 +388,10 @@ function AgendaDemo({ search }: { search: string }) {
       <div style={{ maxWidth: 1100, margin: "0 auto", borderRadius: 20, padding: "48px 32px", background: "#0E1014", color: "#fff", textAlign: "center" }}>
         <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.09em", color: "#C4B5FD" }}>AGENDA TU DEMO</div>
         <h2 style={{ fontFamily: "Inter", fontSize: 36, fontWeight: 800, letterSpacing: "-0.03em", margin: "12px 0 10px" }}>
-          ¿Vortex o Ecosistema? Hablemos de tu clínica.
+          ¿Hex, Vortex o Ecosistema? Hablemos de tu clínica.
         </h2>
         <p style={{ fontFamily: "Inter", fontSize: 16, color: "#D1D5DB", margin: "0 auto 24px", maxWidth: 560 }}>
-          Te mostramos el agente IA y el marketing funcionando, y te decimos qué plan te conviene.
+          Te mostramos las redes conectadas, el agente IA y el marketing funcionando, y te decimos qué plan te conviene.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <a href={q ? `/agenda?${q}` : "/agenda"} suppressHydrationWarning style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.45)", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>

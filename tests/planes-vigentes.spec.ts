@@ -21,38 +21,46 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
   });
 
-  // Ricardo, 4-nov-2026: /planes publica el modelo de /planes2 (Hex · Flux · Vortex · Ecosistema,
-  // todos con WhatsApp). Los links de pago de Stripe siguen saliendo de `planes.ts`.
+  // Ricardo, 5-nov-2026: /planes publica Flux · Hex · Vortex · Ecosistema (todos con WhatsApp; Flux
+  // recomendado con su prueba gratis). Los links de pago de Stripe siguen saliendo de `planes.ts`.
   test("/planes: cuatro planes, todos con WhatsApp, y los links de pago de planes.ts", async ({ page }) => {
     await page.goto("/planes?utm_source=google", { waitUntil: "domcontentloaded" });
-    await expect(page.locator("[data-plan-card]")).toHaveCount(4);
-    for (const id of ["hex", "flux", "vortex", "ecosistema"]) {
+    const cards = page.locator("[data-plan-card]");
+    await expect(cards).toHaveCount(4);
+    for (const [i, id] of ["flux", "hex", "vortex", "ecosistema"].entries()) {
+      await expect(cards.nth(i)).toHaveAttribute("data-plan-card", id);
       await expect(page.locator(`[data-plan-card="${id}"] [data-canales]`)).toContainText("WhatsApp");
     }
-    await expect(page.locator('[data-plan-card="hex"]')).toContainText("WhatsApp con 50 conversaciones");
-    await expect(page.locator('[data-plan-card="flux"]')).toContainText("WhatsApp con 200 conversaciones");
-    for (const id of ["vortex", "ecosistema"]) {
+    await expect(page.locator('[data-plan-card="flux"] [data-precio]')).toContainText("US$ 79");
+    await expect(page.locator('[data-plan-card="hex"] [data-precio]')).toContainText("US$ 179");
+    await expect(page.locator('[data-plan-card="vortex"] [data-precio]')).toContainText("US$ 279");
+    await expect(page.locator('[data-plan-card="flux"]')).toContainText("WhatsApp con 500 conversaciones");
+    await expect(page.locator('[data-plan-card="hex"]')).toContainText("WhatsApp, Facebook e Instagram con 2.500 conversaciones");
+    await expect(page.locator('[data-plan-card="vortex"]')).toContainText("Agente IA con 28.000 créditos");
+    for (const id of ["flux", "hex"]) await expect(page.locator(`[data-plan-card="${id}"] [data-no-incluye]`)).toContainText(["Agente IA"]);
+    for (const id of ["flux", "hex", "vortex"]) await expect(page.locator(`[data-plan-card="${id}"] [data-oferta]`)).toHaveCount(0);
+    for (const id of ["hex", "vortex", "ecosistema"]) {
       await expect(page.locator(`[data-plan-card="${id}"] a[data-cta]`)).toHaveAttribute(
         "href",
         new RegExp(`^/agenda\\?.*utm_source=google.*plan=${id}`),
       );
     }
     // Analytics.tsx lee data-plan* (InitiateCheckout + client_reference_id). Durante la promo del
-    // Ecosistema su link (que cobra 529) no se muestra, igual que antes.
+    // Ecosistema su link (que cobra 529) no se muestra, igual que antes. El link de Hex a US$ 35 ya no va.
     const conLink = PLANES.filter((p) => p.pagoUrl);
-    // + los dos de Hex (encabezado «Parte con Hex» y su tarjeta), desde el 4-nov-2026.
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length + 2);
-    await expect(page.locator("h1")).toContainText("Parte con Hex");
-    await expect(page.locator("a[data-cta-encabezado]")).toHaveAttribute("href", /buy\.stripe\.com\/14AdRbdBnfD49wTgwz1441M\?utm_source=google/);
-    await expect(page.locator("main")).not.toContainText(/Parte gratis|prueba parte con Flux/);
-    // Hex es el único CTA principal: Vortex y Ecosistema van con botón secundario (fondo blanco).
-    for (const id of ["vortex", "ecosistema", "flux"]) {
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(conLink.length);
+    await expect(page.locator("h1")).toContainText("Parte con Flux");
+    await expect(page.locator("a[data-cta-encabezado]")).toHaveAttribute("href", /^https:\/\/app\.clinera\.io\?.*utm_source=google.*plan=flux/);
+    await expect(page.locator("main")).not.toContainText(/Parte gratis|Parte con Hex|US\$\s?(35|55)\b/);
+    // Flux es el único CTA principal: Hex, Vortex y Ecosistema van con botón secundario (fondo blanco).
+    for (const id of ["hex", "vortex", "ecosistema"]) {
       const fondo = await page.locator(`[data-plan-card="${id}"] a[data-cta]`).evaluate((e) => getComputedStyle(e).backgroundImage);
       expect(fondo).toBe("none");
     }
-    const fondoHex = await page.locator('[data-plan-card="hex"] a[data-cta]').evaluate((e) => getComputedStyle(e).backgroundImage);
-    expect(fondoHex).toContain("gradient");
-    await expect(page.locator('[data-plan-card="hex"] a[data-cta="pago"]')).toHaveAttribute("data-plan", "hex");
+    const fondoFlux = await page.locator('[data-plan-card="flux"] a[data-cta]').evaluate((e) => getComputedStyle(e).backgroundImage);
+    expect(fondoFlux).toContain("gradient");
+    await expect(page.locator('[data-plan-card="flux"] a[data-cta="prueba"]')).toHaveAttribute("href", /plan=flux/);
+    await expect(page.locator('[data-plan-card="flux"] [data-insignia]')).toHaveText("Recomendado");
     for (const p of conLink) {
       const pago = page.locator(`[data-plan-card="${p.id}"] a[href*="buy.stripe.com"]`);
       await expect(pago).toHaveAttribute("href", new RegExp("^" + p.pagoUrl.replace(/[.?]/g, "\\$&")));

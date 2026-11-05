@@ -1413,3 +1413,12 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
   gratis sigue existiendo, pero es de Flux y ya no es el punto de partida. **Hex es el único CTA principal**: Flux,
   Vortex, Ecosistema y el «Hablar con ventas» del cierre van con botón secundario, sin degradado. Lo vigila
   `tests/planes-vigentes.spec.ts`.
+
+# `/planes`: Flux 79 · Hex 179 · Vortex 279, y el Ecosistema igual (Ricardo, 5-nov-2026)
+
+`planes-nuevos.ts` (lo leen `/planes`, `/planes2` y la boleta de `/contrata`) quedó alineado con `/kimi` y
+`/home-nuevo`: **Flux US$ 79** (solo WhatsApp, 500 conversaciones, recomendado, «Prueba gratis»), **Hex US$ 179**
+(WhatsApp + Facebook + Instagram, 2.500, sin IA, «Hablar con ventas»), **Vortex US$ 279** (las tres redes + agente
+IA, 5.000 conversaciones y 28.000 créditos). El **Ecosistema no se tocó** (379, con el 20 % de noviembre solo para
+él). El Payment Link de Hex a US$ 35 (`HEX_PAGO_URL`) no se muestra: cobraría el precio viejo. `/promo`, el home y
+`/agenda` siguen en `planes.ts`. Guardianes: `tests/planes2.spec.ts`, `tests/planes-vigentes.spec.ts`.
