@@ -95,31 +95,32 @@ header.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);-we
 .sec h2{font-size:clamp(1.9rem,3.8vw,2.7rem);max-width:16em;margin-bottom:14px}
 .sec .lead{color:var(--muted);font-size:1.05rem;max-width:38em;margin-bottom:56px}
 
-/* bento */
-.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
-.card{border:1px solid var(--border);border-radius:16px;background:#fff;padding:28px}
-.card h3{font-size:1.15rem;margin-bottom:8px;letter-spacing:-.015em}
-.card p{color:var(--muted);font-size:.95rem}
-.b1{grid-column:span 4;grid-row:span 2;background:var(--text);color:#fff;border-color:var(--text);display:flex;flex-direction:column;justify-content:flex-end;min-height:300px}
-.b1 p{color:#D1D5DB;max-width:30em}
-.b1 .ic-box{background:transparent;border-color:rgba(255,255,255,.22);color:#fff}
-.b2{grid-column:span 2}
-.b3{grid-column:span 2}
-.b4{grid-column:span 3}
-.b5{grid-column:span 3}
+/* 3 funciones clave */
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feat{border:1px solid var(--border);border-radius:16px;background:#fff;padding:32px 28px}
+.feat .n{display:block;font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
+.feat h3{font-size:1.25rem;margin-bottom:10px;letter-spacing:-.02em}
+.feat p{color:var(--muted);font-size:.95rem;max-width:26em}
+.feat .ic-box{margin-bottom:22px}
+.feat .chs{display:flex;gap:10px;margin-bottom:22px;height:40px;align-items:center}
+.feat .chs .ch{width:30px;height:30px}
 
-/* plans: Flux destacado en neutro (borde negro + sombra); Vortex y Ecosistema en gris */
+/* logos de canales (colores oficiales, solo en estos íconos chicos) */
+.ch{width:18px;height:18px;flex:none;display:block}
+.chs{display:inline-flex;gap:5px;align-items:center;vertical-align:middle}
+
+/* plans: Flux destacado en neutro (borde negro + sombra); Hex y Vortex en gris */
 .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .plan{border:1px solid var(--border);border-radius:16px;padding:26px;background:#fff;display:flex;flex-direction:column;gap:14px}
 .plan.entry{border:1.5px solid var(--text);box-shadow:0 30px 70px -40px rgba(10,10,10,.35)}
 .tag{align-self:flex-start;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--text);color:#fff}
 .tag.soft{background:#fff;color:var(--muted);border:1px solid var(--border)}
-.plan h3{font-size:1.3rem}
+.plan h3{font-size:1.3rem;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .price{font-size:1.6rem;font-weight:700;letter-spacing:-.02em}
 .price small{font-size:.9rem;color:var(--muted);font-weight:500}
 .plan:not(.entry) .price{font-size:1.35rem;font-weight:600}
 .plan .size{font-size:.88rem;color:var(--muted);margin:-6px 0 0}
-.plan ul{list-style:none;margin:0 0 8px;padding:0;display:grid;gap:10px;font-size:.93rem;flex:1}
+.plan ul{list-style:none;margin:0 0 8px;padding:0;display:grid;gap:10px;align-content:start;font-size:.93rem;flex:1}
 .plan li{display:flex;gap:10px;align-items:flex-start}
 .plan li .ic{width:18px;height:18px;color:var(--text);margin-top:3px}
 .plan:not(.entry) li{color:#374151}
@@ -262,9 +263,7 @@ footer a.ext{color:var(--text);font-weight:500}
   .glow{filter:blur(80px)}
   .glow.g1{width:360px;height:360px}
   .glow.g2{width:280px;height:280px}
-  .bento{grid-template-columns:1fr}
-  .bento .card{grid-column:auto!important;grid-row:auto!important}
-  .b1{min-height:0}
+  .feats{grid-template-columns:1fr}
   .sec{padding:72px 0}
 }
 @media (max-width:600px){
@@ -282,9 +281,12 @@ footer a.ext{color:var(--text);font-weight:500}
   <defs>
     <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12Z"/><path d="M9 11h6M9 14h3"/></symbol>
     <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
-    <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h3"/></symbol>
-    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 1.5h-15Z"/><path d="M10 21h4"/></symbol>
-    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 4v16h16"/><path d="M8 15l3-4 3 2 5-6"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8Z"/></symbol>
+    <!-- Logos de canales: los mismos trazos que src/components/pricing/PlanChannelLogos.tsx (/planes). -->
+    <linearGradient id="ig-grad" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#FEDA75"/><stop offset=".35" stop-color="#FA7E1E"/><stop offset=".6" stop-color="#D62976"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient>
+    <symbol id="ch-wa" viewBox="0 0 24 24"><path fill="#25D366" d="M12 2C6.5 2 2 6.3 2 11.6c0 1.9.5 3.7 1.5 5.3L2 22l5.3-1.4c1.5.8 3.2 1.3 4.7 1.3 5.5 0 10-4.3 10-9.6S17.5 2 12 2zm5.7 13.6c-.2.7-1.2 1.2-1.9 1.4-.5.1-1.1.2-3.6-.8-3.1-1.3-5.1-4.5-5.2-4.7-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .8 2.1.1.2.1.3 0 .5-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.8-.1 1.5z"/></symbol>
+    <symbol id="ch-fb" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#1877F2"/><path fill="#fff" d="M13.4 21v-7.6h2.5l.4-3h-2.9V8.5c0-.9.3-1.4 1.5-1.4h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.1H8v3h2.5V21z"/></symbol>
+    <symbol id="ch-ig" viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="url(#ig-grad)" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="url(#ig-grad)" stroke-width="2.2"/><circle cx="17.3" cy="6.7" r="1.3" fill="#D62976"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
   </defs>
@@ -310,7 +312,7 @@ footer a.ext{color:var(--text);font-weight:500}
     <div>
       <p class="eyebrow rv">AURA, tu secretaria con IA</p>
       <h1 class="rv" style="--i:1">Agenda pacientes prepagados con IA con el <span class="serif">ecosistema Clinera</span></h1>
-      <p class="sub rv" style="--i:2">Comienza con Flux a <strong>USD 79/mes</strong>. Si tu clínica necesita escalar, puede pasar a Vortex o Ecosistema.</p>
+      <p class="sub rv" style="--i:2">Comienza con Flux a <strong>USD 79/mes</strong>. Si tu clínica necesita escalar, puede pasar a Vortex.</p>
       <div class="cta rv" style="--i:3">
         <button class="btn grad" type="button" data-open-wizard data-plan="Flux" data-cta="oferta">Contratar Flux <svg class="ic" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></button>
         <button class="btn outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
@@ -336,36 +338,33 @@ footer a.ext{color:var(--text);font-weight:500}
   </div>
 </section>
 
-<section class="sec alt" id="ecosistema" aria-labelledby="t-eco">
+<section class="sec" id="funciones" aria-labelledby="t-fun">
   <div class="wrap">
-    <p class="eyebrow rv">El ecosistema</p>
-    <h2 id="t-eco" class="rv" style="--i:1">Todo lo que tu clínica necesita, en un solo lugar</h2>
+    <p class="eyebrow rv">Lo esencial</p>
+    <h2 id="t-fun" class="rv" style="--i:1">Tres cosas que tu clínica necesita, en un solo lugar</h2>
     <p class="lead rv" style="--i:2">Desde que la paciente escribe hasta que llega a su cita, Clinera se encarga del camino.</p>
-    <div class="bento">
-      <article class="card b1 rv">
-        <div class="ic-box"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg></div>
-        <h3>AURA en WhatsApp, 24/7</h3>
-        <p>Una secretaria con IA que responde y agenda por WhatsApp, y también por Instagram y Facebook, a cualquier hora. Tú atiendes pacientes, AURA atiende los mensajes.</p>
-      </article>
-      <article class="card b2 rv" style="--i:1">
+    <div class="feats">
+      <article class="feat rv" data-testid="feat-agenda">
+        <span class="n">01 · Agenda</span>
         <div class="ic-box"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></div>
         <h3>Agenda online</h3>
-        <p>La agenda de tu clínica ordenada y siempre al día.</p>
+        <p>La agenda de tu clínica ordenada y siempre al día: horas, profesionales y sucursales en un solo lugar, con confirmaciones y recordatorios automáticos.</p>
       </article>
-      <article class="card b3 rv" style="--i:2">
-        <div class="ic-box"><svg class="ic" aria-hidden="true"><use href="#i-card"/></svg></div>
-        <h3>Cobro al agendar</h3>
-        <p>La paciente paga su evaluación antes de llegar.</p>
+      <article class="feat rv" style="--i:1" data-testid="feat-redes">
+        <span class="n">02 · Redes sociales</span>
+        <div class="chs" role="img" aria-label="WhatsApp, Facebook e Instagram">
+          <svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg>
+          <svg class="ch" aria-hidden="true"><use href="#ch-fb"/></svg>
+          <svg class="ch" aria-hidden="true"><use href="#ch-ig"/></svg>
+        </div>
+        <h3>WhatsApp, Facebook e Instagram conectados a tu agenda</h3>
+        <p>Tus pacientes te escriben donde ya están. Cada conversación termina en una hora agendada, sin copiar datos de un lado a otro.</p>
       </article>
-      <article class="card b4 rv" style="--i:3">
-        <div class="ic-box"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></div>
-        <h3>Recordatorios y confirmaciones</h3>
-        <p>Confirmación, recordatorio y reagendamiento por WhatsApp, sin que tengas que escribir uno por uno.</p>
-      </article>
-      <article class="card b5 rv" style="--i:4">
-        <div class="ic-box"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg></div>
-        <h3>Ficha clínica y panel</h3>
-        <p>Fichas clínicas en la misma plataforma. Con Clinera Intelligence, un agente interno te dice cuánto vendiste y cómo va tu agenda.</p>
+      <article class="feat rv" style="--i:2" data-testid="feat-ia">
+        <span class="n">03 · IA</span>
+        <div class="ic-box"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg></div>
+        <h3>IA que conoce tu clínica</h3>
+        <p>AURA sabe tus tratamientos, tus precios y tus horas disponibles. Responde a cualquier hora, cobra la evaluación al agendar y confirma por ti.</p>
       </article>
     </div>
   </div>
@@ -377,9 +376,27 @@ footer a.ext{color:var(--text);font-weight:500}
     <h2 id="t-planes" class="rv" style="--i:1">Empiezas simple y creces a tu ritmo</h2>
     <p class="lead rv" style="--i:2">Empiezas con Flux y escalas de plan cuando tu clínica crezca.</p>
     <div class="plans">
-      <article class="plan entry rv" data-testid="plan-flux">
+      <!-- Hex y Vortex: precio de lista y features de src/content/planes-nuevos.ts (lo que publica /planes desde el 4-nov-2026). Flux conserva el precio de esta landing. -->
+      <article class="plan rv" data-testid="plan-hex">
+        <span class="tag soft">Para partir</span>
+        <h3><span>Hex</span><span class="chs" role="img" aria-label="WhatsApp"><svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg></span></h3>
+        <p class="price">USD 35<small>/mes</small></p>
+        <p class="size">Hasta 2 profesionales · 1 sucursal</p>
+        <ul>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Agendamiento</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Presupuestos y planes de tratamiento</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Panel de ventas</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Clinera Intelligence con 100 créditos</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>WhatsApp con 50 conversaciones</li>
+        </ul>
+        <div class="plan-cta">
+          <button class="btn outline block" type="button" data-open-wizard data-plan="Hex" data-cta="oferta">Contratar Hex</button>
+          <button class="btn ghost block" type="button" data-open-wizard data-plan="Hex" data-cta="ventas">Hablar con ventas</button>
+        </div>
+      </article>
+      <article class="plan entry rv" style="--i:1" data-testid="plan-flux">
         <span class="tag">Comienza aquí</span>
-        <h3>Flux</h3>
+        <h3><span>Flux</span><span class="chs" role="img" aria-label="WhatsApp"><svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg></span></h3>
         <p class="price">USD 79<small>/mes</small></p>
         <p class="size">Hasta 5 profesionales · 2 sucursales</p>
         <ul>
@@ -395,10 +412,9 @@ footer a.ext{color:var(--text);font-weight:500}
           <button class="btn outline block" type="button" data-open-wizard data-plan="Flux" data-cta="ventas">Hablar con ventas</button>
         </div>
       </article>
-      <!-- Vortex y Ecosistema: precios y features de src/content/planes-nuevos.ts (lo que publica /planes desde el 4-nov-2026). -->
-      <article class="plan rv" style="--i:1" data-testid="plan-vortex">
+      <article class="plan rv" style="--i:2" data-testid="plan-vortex">
         <span class="tag soft">Con IA que atiende a tus pacientes</span>
-        <h3>Vortex</h3>
+        <h3><span>Vortex</span><span class="chs" role="img" aria-label="WhatsApp, Facebook e Instagram"><svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg><svg class="ch" aria-hidden="true"><use href="#ch-fb"/></svg><svg class="ch" aria-hidden="true"><use href="#ch-ig"/></svg></span></h3>
         <p class="price">USD 279<small>/mes</small></p>
         <p class="size">Hasta 10 profesionales · Hasta 3 sucursales</p>
         <ul>
@@ -417,29 +433,12 @@ footer a.ext{color:var(--text);font-weight:500}
           <button class="btn ghost block" type="button" data-open-wizard data-plan="Vortex" data-cta="ventas">Hablar con ventas</button>
         </div>
       </article>
-      <article class="plan rv" style="--i:2" data-testid="plan-ecosistema">
-        <span class="tag soft">Software + marketing</span>
-        <h3>Ecosistema</h3>
-        <p class="price">USD 379<small>/mes</small></p>
-        <p class="size">Hasta 10 profesionales · Hasta 3 sucursales</p>
-        <ul>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Todo lo de Vortex</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Campañas en Facebook, Instagram y Google</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Propuesta de valor</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Framework comercial</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Reunión de marketing cada semana</li>
-        </ul>
-        <div class="plan-cta">
-          <button class="btn outline block" type="button" data-open-wizard data-plan="Ecosistema" data-cta="oferta">Contratar Ecosistema</button>
-          <button class="btn ghost block" type="button" data-open-wizard data-plan="Ecosistema" data-cta="ventas">Hablar con ventas</button>
-        </div>
-      </article>
     </div>
-    <p class="note rv">La inversión en publicidad del Ecosistema se paga aparte. Sin costo de implementación.</p>
+    <p class="note rv">Sin costo de implementación. Puedes cambiar de plan cuando tu clínica crezca.</p>
   </div>
 </section>
 
-<section class="sec alt cta-band" id="comenzar" aria-labelledby="t-act">
+<section class="sec cta-band" id="comenzar" aria-labelledby="t-act">
   <div class="wrap">
     <p class="eyebrow rv">Comenzar</p>
     <h2 id="t-act" class="rv" style="--i:1">Cuéntanos de tu clínica y comienza con AURA</h2>
@@ -563,7 +562,7 @@ footer a.ext{color:var(--text);font-weight:500}
         </ul>
         <!-- TODO: reemplazar [LINK CHECKOUT FLUX 50%] por el link real de checkout de Flux con 50% de descuento -->
         <a class="btn grad block" href="[LINK CHECKOUT FLUX 50%]" target="_blank" rel="noopener">Contratar Flux con 50% de descuento</a>
-        <p class="offer-note">¿Necesitas más? Puedes escalar a Vortex o Ecosistema cuando quieras.</p>
+        <p class="offer-note">¿Necesitas más? Puedes escalar a Vortex cuando quieras.</p>
         <button class="btn ghost block" type="button" data-wiz-close>Ahora no</button>
       </div>
     </div>
