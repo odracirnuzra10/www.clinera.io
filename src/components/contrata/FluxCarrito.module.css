@@ -35,12 +35,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   min-height: 44px;
   padding: 8px 14px;
-  border: 1.5px solid #111;
+  border: 1.5px solid #25D366;
   border-radius: 12px;
-  background: #fff;
-  color: #111;
+  background: #25D366;
+  color: #fff;
   font-family: inherit;
   font-size: 16px;
   font-weight: 700;
@@ -49,6 +50,10 @@
   text-decoration: none;
   white-space: nowrap;
 }
+
+.asistencia:hover { background: #1ebe5a; border-color: #1ebe5a; color: #fff; }
+
+.waIco { width: 18px; height: 18px; flex: none; display: block; fill: currentColor; }
 
 .bolsa {
   position: relative;
@@ -860,14 +865,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   flex: 2 1 0;
   min-height: 52px;
   margin-top: 0;
   padding: 10px 12px;
-  border: 1.5px solid #111;
+  border: 1.5px solid #25D366;
   border-radius: 12px;
-  background: #fff;
-  color: #111;
+  background: #25D366;
+  color: #fff;
   font-family: inherit;
   font-size: 16px;
   font-weight: 700;
@@ -875,6 +881,10 @@
   text-align: center;
   text-decoration: none;
 }
+
+.asistenciaBtn:hover { background: #1ebe5a; border-color: #1ebe5a; color: #fff; }
+
+.asistenciaBtn span { min-width: 0; }
 
 .exito { max-width: 640px; margin: 0 auto; padding: 48px 20px 80px; }
 
@@ -916,7 +926,7 @@
     border-top: 1px solid #EAEAEA;
   }
   .barra { padding-inline: 12px; }
-  .asistencia { padding-inline: 10px; }
+  .asistencia { padding-inline: 8px; gap: 6px; }
   .barraMovil .par { margin-top: 10px; }
   .barraMovil .par .cta,
   .barraMovil .par .asistenciaBtn { min-height: 52px; margin-top: 0; border-radius: 14px; }

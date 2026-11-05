@@ -376,6 +376,7 @@ export default function FluxCarrito({
             rel="noopener noreferrer"
             data-cta="asistencia"
           >
+            <IconoWhatsApp />
             {ASISTENCIA_LABEL}
           </a>
         <button
@@ -506,7 +507,7 @@ export default function FluxCarrito({
             />
           ) : (
             <button type="button" className={styles.cta} onClick={() => fijar("flux_base", 1)}>
-              Clinera Flux · {monto(promoOff ? 29 : 14.5)} → Agregar
+              Agregar al carrito
             </button>
           )}
           <Asistencia />
@@ -624,6 +625,14 @@ export default function FluxCarrito({
   );
 }
 
+function IconoWhatsApp() {
+  return (
+    <svg className={styles.waIco} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2C6.5 2 2 6.3 2 11.6c0 1.9.5 3.7 1.5 5.3L2 22l5.3-1.4c1.5.8 3.2 1.3 4.7 1.3 5.5 0 10-4.3 10-9.6S17.5 2 12 2zm5.7 13.6c-.2.7-1.2 1.2-1.9 1.4-.5.1-1.1.2-3.6-.8-3.1-1.3-5.1-4.5-5.2-4.7-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .8 2.1.1.2.1.3 0 .5-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.8-.1 1.5z" />
+    </svg>
+  );
+}
+
 function Asistencia() {
   return (
     <a
@@ -633,7 +642,8 @@ function Asistencia() {
       rel="noopener noreferrer"
       data-cta="asistencia"
     >
-      {ASISTENCIA_LABEL}
+      <IconoWhatsApp />
+      <span>{ASISTENCIA_LABEL}</span>
     </a>
   );
 }

@@ -162,9 +162,10 @@ test("en el celular la barra vacía ofrece Flux a USD 14,50", async ({ page }) =
   const barra = page.locator("#mobile-cta");
   await expect(barra).toContainText("Clinera Flux");
   await expect(barra).toContainText("USD 14,50");
-  await expect(barra.getByRole("button", { name: "Agregar" })).toBeVisible();
+  await expect(barra.getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
   await expect(barra.getByRole("button", { name: "Activar" })).toHaveCount(0);
-  await barra.getByRole("button", { name: "Agregar" }).click();
+  await expect(barra.getByRole("button", { name: "→ Agregar" })).toHaveCount(0);
+  await barra.getByRole("button", { name: "Agregar al carrito" }).click();
   await expect(barra.getByRole("button", { name: "Activar" })).toBeVisible();
   await expect(barra).toContainText("Hoy pagas");
   await expect(barra).not.toContainText("USD 0");
