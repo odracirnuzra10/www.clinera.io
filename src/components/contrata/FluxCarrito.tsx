@@ -331,8 +331,8 @@ export default function FluxCarrito({
         <h1 className={styles.h1}>Activa tu clínica</h1>
 
         <article className={styles.producto} data-flux-base>
-          <div className={styles.foto} aria-hidden="true">
-            <Icono id="flux_base" grande />
+          <div className={styles.foto}>
+            <Foto id="flux_base" />
           </div>
           <div className={styles.productoCompra}>
             <h2 className={styles.cardTitulo}>Clinera Flux</h2>
@@ -581,8 +581,8 @@ function Addon({
   return (
     <article className={`${styles.card} ${enCarrito ? styles.cardOn : ""}`} data-addon={id}>
       <div className={styles.addonTop}>
-        <div className={styles.icono} aria-hidden="true">
-          <Icono id={id} />
+        <div className={styles.icono}>
+          <Foto id={id} />
         </div>
         <div>
           <h3 className={styles.cardTitulo}>{spec.nombre}</h3>
@@ -629,6 +629,26 @@ function Stepper({
       <output aria-live="polite">{qty}</output>
       <button type="button" aria-label={`Sumar ${nombre}${sufijo}`} onClick={onAdd} disabled={qty >= spec.max}>+</button>
     </div>
+  );
+}
+
+const FOTOS: Partial<Record<ItemId, string>> = {
+  flux_base: "/kimi/productos/flux.jpg",
+  profesional_extra: "/kimi/productos/profesional.jpg",
+  sucursal_extra: "/kimi/productos/sucursal.jpg",
+  conversaciones_1000: "/kimi/productos/conversaciones.jpg",
+  instagram: "/kimi/productos/instagram.jpg",
+  facebook: "/kimi/productos/facebook.jpg",
+  agente_ia: "/kimi/productos/agente-ia.jpg",
+  onboarding_humano: "/kimi/productos/onboarding.jpg",
+};
+
+function Foto({ id }: { id: ItemId }) {
+  const src = FOTOS[id];
+  if (!src) return <Icono id={id} />;
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={CARRITO[id].nombre} width={1024} height={1024} />
   );
 }
 

@@ -118,7 +118,7 @@
 
 .producto {
   display: grid;
-  grid-template-columns: 72px minmax(0, 1fr);
+  grid-template-columns: 112px minmax(0, 1fr);
   gap: 12px 14px;
   margin-top: 18px;
   padding: 16px;
@@ -130,11 +130,21 @@
 .foto {
   display: grid;
   place-items: center;
-  width: 72px;
-  height: 72px;
+  align-self: start;
+  width: 112px;
+  height: 112px;
+  overflow: hidden;
   border-radius: 18px;
   background: #f5f3ff;
   color: #6d28d9;
+}
+
+.foto img,
+.icono img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .producto .cardTitulo {
@@ -338,7 +348,7 @@
 
 .addonTop {
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr);
+  grid-template-columns: 88px minmax(0, 1fr);
   gap: 8px 12px;
   align-items: start;
 }
@@ -351,8 +361,9 @@
 .icono {
   display: grid;
   place-items: center;
-  width: 56px;
-  height: 56px;
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
   border-radius: 14px;
   background: #f5f3ff;
   color: #6d28d9;

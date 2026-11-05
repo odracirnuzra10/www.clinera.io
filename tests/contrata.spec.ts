@@ -125,6 +125,9 @@ test.describe("/contrata", () => {
   test("el onboarding humano es cobro único de US$ 190 y no lleva el 50%", async ({ page }) => {
     await ir(page, "/contrata", "2026-11-05T12:00:00-03:00");
     const card = page.locator("[data-addon=onboarding_humano]");
+    await expect(page.locator("[data-flux-base] img")).toHaveAttribute("src", "/kimi/productos/flux.jpg");
+    await expect(card.locator("img")).toHaveAttribute("src", "/kimi/productos/onboarding.jpg");
+    await expect(page.locator("[data-addon=agente_ia] img")).toHaveAttribute("src", "/kimi/productos/agente-ia.jpg");
     await expect(card).toContainText("Onboarding humano");
     await expect(card).toContainText("US$ 190");
     await expect(card).toContainText("cobro único");

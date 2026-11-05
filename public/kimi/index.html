@@ -265,9 +265,10 @@ footer a.ext{color:var(--text);font-weight:500}
 .tienda{padding:28px 0 12px}
 .tienda h2{font-size:clamp(1.7rem,4vw,2.4rem);margin-bottom:14px}
 .producto{display:grid;grid-template-columns:112px minmax(0,1fr);gap:16px;border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:22px}
-.producto-foto,.afoto{background:#F5F3FF;border-radius:12px;display:grid;place-items:center}
-.producto-foto{min-height:112px}
+.producto-foto,.afoto{background:#F5F3FF;border-radius:12px;display:grid;place-items:center;overflow:hidden}
+.producto-foto{align-self:start;aspect-ratio:1;min-height:0}
 .producto-foto svg{width:64px;height:64px;fill:#6D28D9}
+.producto-foto img,img.afoto{width:100%;object-fit:cover;display:block}
 .producto h3{font-size:1.45rem;margin-bottom:4px}
 .producto-sub{color:var(--muted);font-size:.95rem;margin-bottom:8px}
 .precio{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin:0 0 12px}
@@ -282,7 +283,7 @@ footer a.ext{color:var(--text);font-weight:500}
 .carril-nav button{width:36px;height:36px;border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--accent);font-size:1.3rem;line-height:1;cursor:pointer}
 .carril{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 14px;min-width:0}
 .acard{flex:0 0 196px;scroll-snap-align:start;border:1px solid var(--border);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px;background:#fff;scroll-margin-bottom:96px}
-.afoto{height:104px}
+.afoto{height:148px}
 .afoto svg{width:36px;height:36px;fill:none;stroke:#6D28D9;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .acard h4{font-size:.95rem;line-height:1.25}
 .acard>p{color:var(--muted);font-size:.8rem;line-height:1.35;min-height:2.6em}
@@ -528,8 +529,8 @@ footer a.ext{color:var(--text);font-weight:500}
     <p class="eyebrow">Activa tu clínica</p>
     <h2 id="t-planes">Configura tu clínica</h2>
     <article class="producto" data-testid="plan-flux" data-flux-base>
-      <div class="producto-foto" aria-hidden="true">
-        <svg viewBox="0 0 64 64"><path d="M10 28 L32 10 L54 28 V54 H40 V38 H24 V54 H10 Z"/></svg>
+      <div class="producto-foto">
+        <img src="/kimi/productos/flux.jpg" alt="Clinera Flux" width="1024" height="1024">
       </div>
       <div>
         <h3>Clinera Flux</h3>
@@ -556,7 +557,7 @@ footer a.ext{color:var(--text);font-weight:500}
     </div>
     <div class="carril" data-testid="plan-addons" tabindex="0">
       <article class="acard" data-addon="profesional_extra">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 19c1.2-3 3.2-4.5 6-4.5S16.8 16 18 19"/></svg></div>
+        <img class="afoto" src="/kimi/productos/profesional.jpg" alt="Profesional extra" width="1024" height="1024">
         <h4>Profesional extra</h4>
         <p>Otro profesional en la agenda de tu clínica.</p>
         <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
@@ -564,7 +565,7 @@ footer a.ext{color:var(--text);font-weight:500}
         <button class="btn grad" type="button" data-agregar="profesional_extra" disabled>Primero agrega Clinera Flux</button>
       </article>
       <article class="acard" data-addon="sucursal_extra">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11"/><path d="M10 20v-6h4v6"/></svg></div>
+        <img class="afoto" src="/kimi/productos/sucursal.jpg" alt="Sucursal extra" width="1024" height="1024">
         <h4>Sucursal extra</h4>
         <p>Otra sucursal con su propia agenda.</p>
         <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
@@ -572,7 +573,7 @@ footer a.ext{color:var(--text);font-weight:500}
         <button class="btn grad" type="button" data-agregar="sucursal_extra" disabled>Primero agrega Clinera Flux</button>
       </article>
       <article class="acard" data-addon="conversaciones_1000">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6h14v9H8l-3 3V6z"/></svg></div>
+        <img class="afoto" src="/kimi/productos/conversaciones.jpg" alt="1.000 conversaciones extra" width="1024" height="1024">
         <h4>1.000 conversaciones extra</h4>
         <p>Cada pack suma 1.000 conversaciones al mes.</p>
         <p class="precio"><s>USD 25</s><b>USD 12,50</b><span class="off">50% por 3 meses</span></p>
@@ -580,7 +581,7 @@ footer a.ext{color:var(--text);font-weight:500}
         <button class="btn grad" type="button" data-agregar="conversaciones_1000" disabled>Primero agrega Clinera Flux</button>
       </article>
       <article class="acard" data-addon="instagram">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="4"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <img class="afoto" src="/kimi/productos/instagram.jpg" alt="Conexión Instagram" width="1024" height="1024">
         <h4>Conexión Instagram</h4>
         <p>Los mensajes de Instagram llegan a tu agenda.</p>
         <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
@@ -588,7 +589,7 @@ footer a.ext{color:var(--text);font-weight:500}
         <button class="btn grad" type="button" data-agregar="instagram" disabled>Primero agrega Clinera Flux</button>
       </article>
       <article class="acard" data-addon="facebook">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 20v-6h2.5l.5-3H14V9.2c0-.8.3-1.2 1.3-1.2H17V5.2c-.4 0-1.4-.2-2.2-.2-2.2 0-3.6 1.3-3.6 3.6V11H9v3h2.2V20z"/></svg></div>
+        <img class="afoto" src="/kimi/productos/facebook.jpg" alt="Conexión Facebook" width="1024" height="1024">
         <h4>Conexión Facebook</h4>
         <p>Los mensajes de Facebook llegan a tu agenda.</p>
         <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
@@ -596,7 +597,7 @@ footer a.ext{color:var(--text);font-weight:500}
         <button class="btn grad" type="button" data-agregar="facebook" disabled>Primero agrega Clinera Flux</button>
       </article>
       <article class="acard" data-addon="agente_ia">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l1.4 4.2L18 10l-4.6 1.4L12 16l-1.4-4.6L6 10l4.6-1.8z"/></svg></div>
+        <img class="afoto" src="/kimi/productos/agente-ia.jpg" alt="Agente IA" width="1024" height="1024">
         <h4>Agente IA</h4>
         <p>Incluye 7.000 créditos de IA. Atiende por ti.</p>
         <p class="precio"><s>USD 79</s><b>USD 39,50</b><span class="off">50% por 3 meses</span></p>
@@ -604,7 +605,7 @@ footer a.ext{color:var(--text);font-weight:500}
         <button class="btn grad" type="button" data-agregar="agente_ia" disabled>Primero agrega Clinera Flux</button>
       </article>
       <article class="acard" data-addon="onboarding_humano">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 19c1.2-3 3.2-4.5 6-4.5S16.8 16 18 19"/></svg></div>
+        <img class="afoto" src="/kimi/productos/onboarding.jpg" alt="Onboarding humano" width="1024" height="1024">
         <h4>Onboarding humano</h4>
         <p>Una persona te deja la clínica andando. Se cobra una sola vez.</p>
         <p class="precio"><b>USD 190</b><span class="off">cobro único</span></p>

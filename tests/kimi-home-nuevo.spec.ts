@@ -69,6 +69,7 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
   const flux = page.locator("[data-testid=plan-flux]");
+  await expect(flux.locator("img")).toHaveAttribute("src", "/kimi/productos/flux.jpg");
   await expect(flux.getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveCount(0);
   const orden = await page.evaluate(() => {
@@ -79,11 +80,18 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   expect(orden.planes).toBeGreaterThan(orden.funciones);
   const carril = page.locator("[data-testid=plan-addons]");
   const prof = carril.locator("[data-addon=profesional_extra]");
+  await expect(prof.locator("img")).toHaveAttribute("src", "/kimi/productos/profesional.jpg");
+  await expect(carril.locator("[data-addon=sucursal_extra] img")).toHaveAttribute("src", "/kimi/productos/sucursal.jpg");
+  await expect(carril.locator("[data-addon=conversaciones_1000] img")).toHaveAttribute("src", "/kimi/productos/conversaciones.jpg");
+  await expect(carril.locator("[data-addon=instagram] img")).toHaveAttribute("src", "/kimi/productos/instagram.jpg");
+  await expect(carril.locator("[data-addon=facebook] img")).toHaveAttribute("src", "/kimi/productos/facebook.jpg");
+  await expect(carril.locator("[data-addon=agente_ia] img")).toHaveAttribute("src", "/kimi/productos/agente-ia.jpg");
   await expect(prof.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
   await expect(carril.locator("[data-addon=agente_ia] s")).toContainText("79");
   await expect(carril.locator("[data-addon=agente_ia]")).toContainText("50% por 3 meses");
   await expect(carril.locator("[data-addon=agente_ia]")).toContainText("USD 39,50 por 3 meses, luego precio normal");
   const onboarding = carril.locator("[data-addon=onboarding_humano]");
+  await expect(onboarding.locator("img")).toHaveAttribute("src", "/kimi/productos/onboarding.jpg");
   await expect(onboarding).toContainText("USD 190");
   await expect(onboarding).toContainText("cobro único");
   await expect(onboarding).not.toContainText("50% por 3 meses");
