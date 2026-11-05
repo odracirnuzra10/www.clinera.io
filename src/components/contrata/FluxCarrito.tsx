@@ -423,9 +423,12 @@ export default function FluxCarrito({
                 Quitar
               </button>
             ) : (
-              <button type="button" className={styles.agregar} aria-label="Agregar al carrito: Clinera Flux" onClick={() => fijar("flux_base", 1)}>
-                {promoOff ? "Agregar al carrito" : `Activa Flux a ${monto(14.5)}/mes`}
-              </button>
+              <div className={styles.par}>
+                <button type="button" className={styles.agregar} aria-label="Agregar al carrito: Clinera Flux" onClick={() => fijar("flux_base", 1)}>
+                  {promoOff ? "Agregar al carrito" : `Activa Flux a ${monto(14.5)}/mes`}
+                </button>
+                <Asistencia />
+              </div>
             )}
           </div>
           <ul className={styles.incluye}>
@@ -486,11 +489,13 @@ export default function FluxCarrito({
 
       <div className={styles.barraMovil} hidden={abierto} data-testid="mobile-cta">
         {fluxEnCarrito ? (
-          <>
-            <p className={styles.hoyMovil}>
-              <span>Hoy pagas</span>
-              <span className={styles.num}>{monto(hoy)}</span>
-            </p>
+          <p className={styles.hoyMovil}>
+            <span>Hoy pagas</span>
+            <span className={styles.num}>{monto(hoy)}</span>
+          </p>
+        ) : null}
+        <div className={styles.par}>
+          {fluxEnCarrito ? (
             <Checkout
               hoy={hoy}
               lista={lista}
@@ -499,12 +504,13 @@ export default function FluxCarrito({
               listo={fluxEnCarrito}
               onClick={pagar}
             />
-          </>
-        ) : (
-          <button type="button" className={styles.cta} onClick={() => fijar("flux_base", 1)}>
-            Clinera Flux · {monto(promoOff ? 29 : 14.5)} → Agregar
-          </button>
-        )}
+          ) : (
+            <button type="button" className={styles.cta} onClick={() => fijar("flux_base", 1)}>
+              Clinera Flux · {monto(promoOff ? 29 : 14.5)} → Agregar
+            </button>
+          )}
+          <Asistencia />
+        </div>
       </div>
 
       {abierto ? (
@@ -579,23 +585,17 @@ export default function FluxCarrito({
         </div>
         <div className={styles.drawerPie}>
           <p className={styles.apuro}>No pierdas más tu tiempo</p>
-          <Checkout
-            hoy={hoy}
-            lista={lista}
-            promoOff={promoOff}
-            enviando={enviando}
-            listo={fluxEnCarrito}
-            onClick={pagar}
-          />
-          <a
-            className={styles.asistenciaBtn}
-            href={ASISTENCIA_WHATSAPP}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-cta="asistencia"
-          >
-            {ASISTENCIA_LABEL}
-          </a>
+          <div className={styles.par}>
+            <Checkout
+              hoy={hoy}
+              lista={lista}
+              promoOff={promoOff}
+              enviando={enviando}
+              listo={fluxEnCarrito}
+              onClick={pagar}
+            />
+            <Asistencia />
+          </div>
         </div>
       </aside>
       {salida ? (
@@ -621,6 +621,20 @@ export default function FluxCarrito({
         </div>
       ) : null}
     </div>
+  );
+}
+
+function Asistencia() {
+  return (
+    <a
+      className={styles.asistenciaBtn}
+      href={ASISTENCIA_WHATSAPP}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-cta="asistencia"
+    >
+      {ASISTENCIA_LABEL}
+    </a>
   );
 }
 

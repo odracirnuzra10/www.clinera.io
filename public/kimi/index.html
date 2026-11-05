@@ -52,6 +52,16 @@ section{scroll-margin-top:72px}
 .btn.grad{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 8px 24px -8px rgba(109,40,217,.45)}
 .btn.grad:hover{background:var(--accent-h);border-color:var(--accent-h)}
 .nav-cta{display:flex;align-items:center;gap:8px}
+.nav-cta .btn{min-height:44px;font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.15}
+.nav-cta .btn.grad{font-weight:700;padding:8px 18px}
+.nav-cta .btn.outline{font-weight:600;padding:8px 12px}
+/* Par 60/40: el carrito ocupa 3 partes, WhatsApp 2. Mismo alto. */
+.par{display:flex;flex-wrap:nowrap;align-items:stretch;gap:10px;width:min(100%,560px)}
+.par .btn{flex:2 1 0;align-self:stretch;min-height:52px;padding:10px 12px;font-family:Inter,system-ui,sans-serif;font-size:16px;font-weight:600;line-height:1.15;white-space:normal;text-align:center}
+.par .btn.grad{flex:3 1 0;font-weight:700}
+.cta-band .par{margin-inline:auto}
+.drawer footer .par{width:100%;max-width:none}
+.drawer footer .par .btn{min-height:52px}
 /* botón con aspecto de enlace («Volver a la oferta» del wizard) */
 .btn-link{display:inline-block;background:none;border:0;padding:8px 4px;font:600 .92rem/1.3 Inter,sans-serif;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .btn-link:hover{color:var(--text)}
@@ -80,6 +90,7 @@ footer .logo img{height:24px}
 .hero .sub strong{color:var(--text);font-weight:700}
 .hero .micro{margin-top:12px}
 .cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.cta.par{align-items:stretch;flex-wrap:nowrap;gap:10px}
 /* neón lila: el único color ambiental de la página */
 .glow{position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(110px)}
 .glow.g1{width:560px;height:560px;left:-160px;top:-120px;background:rgba(196,181,253,.55)}
@@ -467,7 +478,7 @@ footer a.ext{color:var(--text);font-weight:500}
       <p class="eyebrow rv">Software para clínicas estéticas y médicas</p>
       <h1 class="rv" style="--i:1">La plataforma médica con IA que transforma leads en pacientes con <span class="serif">evaluaciones pagadas</span></h1>
       <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. <strong>Activa Flux a USD 14,50/mes</strong> por 3 meses. Después, USD 29/mes.</p>
-      <div class="cta rv" style="--i:3" id="hero-cta">
+      <div class="cta par rv" style="--i:3" id="hero-cta">
         <button class="btn grad" type="button" data-flujo="principal" data-vacio="Activa Flux a USD 14,50/mes"><span data-etiqueta>Activa Flux a USD 14,50/mes</span></button>
         <a class="btn outline" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia">Solicita asistencia</a>
       </div>
@@ -645,7 +656,7 @@ footer a.ext{color:var(--text);font-weight:500}
     <p class="eyebrow rv">Comenzar</p>
     <h2 id="t-act" class="rv" style="--i:1">Activa tu clínica con el carrito</h2>
     <p class="lead rv" style="--i:2">Agrega Clinera Flux y elige lo que tu clínica necesita.</p>
-    <div class="cta rv" style="--i:3">
+    <div class="cta par rv" style="--i:3">
       <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Agregar al carrito</span></button>
       <a class="btn outline light" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia">Solicita asistencia</a>
     </div>
@@ -681,9 +692,11 @@ footer a.ext{color:var(--text);font-weight:500}
   <footer>
     <div class="totales" data-totales></div>
     <p class="apuro">No pierdas más tu tiempo</p>
-    <button class="btn grad block" type="button" data-cta="carrito-checkout" data-plan="flux_modular" data-plan-value="0">Activar</button>
+    <div class="par">
+      <button class="btn grad" type="button" data-cta="carrito-checkout" data-plan="flux_modular" data-plan-value="0">Activar</button>
+      <a class="btn outline" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia">Solicita asistencia</a>
+    </div>
     <p class="err" data-error hidden></p>
-    <p hidden data-agenda><a href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia">Solicita asistencia</a></p>
   </footer>
 </aside>
 <div class="toast" data-toast hidden>Agregado al carrito</div>
@@ -1065,12 +1078,12 @@ footer a.ext{color:var(--text);font-weight:500}
       abierto=true;
       errorEl.hidden=false;
       errorEl.textContent="Agrega Clinera Flux para activar tu clínica.";
-      agenda.hidden=true;
+      if(agenda)agenda.hidden=true;
       pintar();
       return;
     }
     enviando=true; pintar();
-    errorEl.hidden=true; agenda.hidden=true;
+    errorEl.hidden=true; if(agenda)agenda.hidden=true;
     var limpio={};
     IDS.forEach(function(id){limpio[id]=cart[id];});
     limpio.flux_base=1;
@@ -1092,13 +1105,13 @@ footer a.ext{color:var(--text);font-weight:500}
         abierto=true;
         errorEl.hidden=false;
         errorEl.textContent="Pago online pronto — agenda con ventas";
-        agenda.hidden=false;
+        if(agenda)agenda.hidden=false;
       })
       .catch(function(){
         abierto=true;
         errorEl.hidden=false;
         errorEl.textContent="Pago online pronto — agenda con ventas";
-        agenda.hidden=false;
+        if(agenda)agenda.hidden=false;
       })
       .then(function(){enviando=false;pintar();});
   }

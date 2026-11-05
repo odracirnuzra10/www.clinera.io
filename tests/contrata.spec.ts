@@ -257,8 +257,14 @@ test.describe("/contrata", () => {
 
     body = {};
     await page.goto("/contrata?plan=flux&email=no-es-correo", { waitUntil: "domcontentloaded" });
-    await page.locator("[data-carrito-icon]").click();
-    await page.getByRole("button", { name: "Activar" }).click();
+    // El clic de arriba puede caer antes de hidratar: reintenta hasta que el cajón abra.
+    await expect(async () => {
+      if (!(await page.locator("[data-drawer]").isVisible())) {
+        await page.locator("[data-carrito-icon]").click();
+      }
+      await expect(page.locator("[data-drawer]")).toBeVisible();
+    }).toPass();
+    await page.locator("[data-drawer]").getByRole("button", { name: "Activar" }).click();
     await expect.poll(() => body.carrito?.flux_base).toBe(1);
     expect(body.email).toBeUndefined();
   });
