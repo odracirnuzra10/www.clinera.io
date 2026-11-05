@@ -13,13 +13,13 @@ test.describe("/contrata", () => {
     expect(new URL(page.url()).pathname).toBe("/contrata");
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
     await expect(page.locator("[data-carrito]")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Haz que sea tu clínica" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Activa tu clínica" })).toBeVisible();
+    await expect(page.getByText("Haz que sea tu clínica")).toBeVisible();
     await expect(page.getByText(/como comprar en Mercado Libre/)).toBeVisible();
-    await expect(page.getByText("No pierdas más tu tiempo")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Adicionales" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "También puedes agregar" })).toBeVisible();
     await expect(page.getByText("Depende de ti elegir lo adicional")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Comienza ya" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Tu carrito" })).toBeVisible();
+    await expect(page.locator("[data-flux-base]").getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveCount(0);
     await expect(page.locator("[data-flux-base]")).toContainText("Clinera Intelligence");
     await expect(page.locator("[data-flux-base]")).toContainText("WhatsApp");
     await expect(page.getByRole("link", { name: "Términos" })).toHaveAttribute("href", "/terminos");
@@ -27,6 +27,10 @@ test.describe("/contrata", () => {
     await expect(page.getByRole("link", { name: "Cookies" })).toHaveAttribute("href", "/cookies");
     await expect(page.getByRole("link", { name: "Ley 21.719 de datos personales" })).toHaveAttribute("href", "/seguridad");
     await expect(page.getByRole("link", { name: "Ficha clínica y Ley 20.584" })).toHaveAttribute("href", "/ley20584");
+    await page.locator("[data-carrito-icon]").click();
+    await expect(page.getByRole("heading", { name: "Tu carrito" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Activar" })).toBeVisible();
+    await expect(page.getByText("No pierdas más tu tiempo")).toBeVisible();
     await expect(page.locator(".ver-demo-float")).toHaveCount(0);
     const texto = await page.locator("[data-carrito]").innerText();
     expect(texto).not.toMatch(/USD 39,50|USD 89,50|USD 139,50|gratis para siempre/);
@@ -55,8 +59,10 @@ test.describe("/contrata", () => {
     await expect(email).toContainText("US$ 9");
     await expect(auto).toContainText("US$ 9");
     await expect(page.locator("[data-carrito]")).not.toContainText("gratis para siempre");
+    await page.locator("[data-flux-base]").getByRole("button", { name: "Agregar al carrito" }).click();
     await email.getByRole("button", { name: "Agregar al carrito" }).click();
     await auto.getByRole("button", { name: "Agregar al carrito" }).click();
+    await page.locator("[data-carrito-icon]").click();
     await expect(page.locator("[data-total-hoy]")).toContainText("23,50");
     await expect(page.locator("[data-total-hoy] s")).toContainText("47");
     await expect(page.locator("[data-carrito-count]")).toHaveText("3");
@@ -93,25 +99,33 @@ test.describe("/contrata", () => {
 
   test("sumar un adicional mueve el total y el valor del CTA", async ({ page }) => {
     await ir(page, "/contrata", "2026-11-05T12:00:00-03:00");
-    const cta = page.getByRole("button", { name: "Comienza ya" });
-    await expect(cta).toHaveAttribute("data-plan", "flux_modular");
-    await expect(cta).toHaveAttribute("data-plan-value", "14.5");
+    await page.locator("[data-flux-base]").getByRole("button", { name: "Agregar al carrito" }).click();
+    await expect(page.locator("[data-toast]")).toHaveText("Agregado al carrito");
     await expect(page.locator("[data-carrito-count]")).toHaveText("1");
     await expect(page.locator("[data-flux-base]")).toContainText("−50%");
+    await page.locator("[data-carrito-icon]").click();
+    const cta = page.getByRole("button", { name: "Activar" });
+    await expect(cta).toHaveAttribute("data-plan", "flux_modular");
+    await expect(cta).toHaveAttribute("data-plan-value", "14.5");
+    await page.getByRole("button", { name: "Cerrar carrito" }).click();
     await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" }).click();
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("1");
-    await expect(page.locator("[data-toast]")).toHaveText("Profesional extra en el carrito");
+    await expect(page.locator("[data-toast]")).toHaveText("Agregado al carrito");
     await expect(page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Sumar profesional extra" })).toBeFocused();
     await expect(page.locator("[data-carrito-count]")).toHaveText("2");
+    await page.locator("[data-carrito-icon]").click();
     await expect(cta).toHaveAttribute("data-plan-value", "19");
     await expect(page.locator("[data-total-hoy]")).toContainText("19");
+    await page.getByRole("button", { name: "Cerrar carrito" }).click();
     await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Sumar profesional extra" }).click();
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("2");
   });
 
   test("Comienza ya manda el carrito saneado y abre el pago", async ({ page }) => {
     await ir(page, "/contrata?utm_source=ads&gclid=GCLID123", "2026-11-05T12:00:00-03:00");
+    await page.locator("[data-flux-base]").getByRole("button", { name: "Agregar al carrito" }).click();
     await page.locator("[data-addon=instagram]").getByRole("button", { name: "Agregar al carrito" }).click();
+    await page.locator("[data-carrito-icon]").click();
     let body: { carrito?: Record<string, number>; price?: unknown; utm?: Record<string, string> } = {};
     await page.route("**/api/contrata/checkout", async (route) => {
       body = route.request().postDataJSON();
@@ -121,7 +135,7 @@ test.describe("/contrata", () => {
         body: JSON.stringify({ ok: true, url: "https://checkout.stripe.com/c/pay/cs_test_ok", promo: true, lista_usd: 38, promo_usd: 19 }),
       });
     });
-    await page.getByRole("button", { name: "Comienza ya" }).click();
+    await page.getByRole("button", { name: "Activar" }).click();
     await expect.poll(() => body.carrito?.instagram).toBe(1);
     expect(body.carrito?.flux_base).toBe(1);
     expect(body.carrito?.email_marketing ?? 0).toBe(0);
@@ -139,12 +153,16 @@ test.describe("/contrata", () => {
         body: JSON.stringify({ ok: true, url: "https://checkout.stripe.com/c/pay/cs_test_ok", promo: false }),
       }),
     );
-    await page.getByRole("button", { name: "Comienza ya" }).click();
+    await page.locator("[data-flux-base]").getByRole("button", { name: "Agregar al carrito" }).click();
+    await page.locator("[data-carrito-icon]").click();
+    await page.getByRole("button", { name: "Activar" }).click();
     await page.waitForURL(/checkout\.stripe\.com/);
   });
 
   test("sin url, promo false quita el 50% y ofrece reunión", async ({ page }) => {
     await ir(page, "/contrata", "2026-11-05T12:00:00-03:00");
+    await page.locator("[data-flux-base]").getByRole("button", { name: "Agregar al carrito" }).click();
+    await page.locator("[data-carrito-icon]").click();
     await page.route("**/api/contrata/checkout", (route) =>
       route.fulfill({
         status: 503,
@@ -152,17 +170,19 @@ test.describe("/contrata", () => {
         body: JSON.stringify({ ok: false, error: "prices_missing", promo: false }),
       }),
     );
-    await page.getByRole("button", { name: "Comienza ya" }).click();
+    await page.getByRole("button", { name: "Activar" }).click();
     await expect(page.locator("[data-pago-error]")).toBeVisible();
     await expect(page.locator("[data-urgencia]")).toHaveCount(0);
-    await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveAttribute("data-promo", "no");
-    await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveAttribute("data-plan-value", "29");
+    await expect(page.getByRole("button", { name: "Activar" })).toHaveAttribute("data-promo", "no");
+    await expect(page.getByRole("button", { name: "Activar" })).toHaveAttribute("data-plan-value", "29");
     expect(page.url()).toContain("/contrata");
   });
 
   test("sin Stripe el botón ofrece agendar una reunión", async ({ page }) => {
     await ir(page, "/contrata?utm_source=ads", "2026-11-05T12:00:00-03:00");
-    await page.getByRole("button", { name: "Comienza ya" }).click();
+    await page.locator("[data-flux-base]").getByRole("button", { name: "Agregar al carrito" }).click();
+    await page.locator("[data-carrito-icon]").click();
+    await page.getByRole("button", { name: "Activar" }).click();
     await expect(page.locator("[data-pago-error]")).toBeVisible();
     await expect(page.locator("[data-urgencia]").first()).toContainText("50%");
     const link = page.locator("[data-cta=agendar-reunion]");
@@ -181,7 +201,7 @@ test.describe("/contrata", () => {
       await page.goto("/contrata", { waitUntil: "load" });
       const desborde = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       expect(desborde, `${w}x${h}`).toBeLessThanOrEqual(1);
-      const cta = page.locator("[data-cta=carrito-checkout]");
+      const cta = page.locator("[data-cta=carrito-checkout]:visible");
       await expect(cta).toBeVisible();
       const caja = await cta.boundingBox();
       expect(caja?.height ?? 0, `${w} alto`).toBeGreaterThanOrEqual(48);
@@ -193,10 +213,11 @@ test.describe("/contrata", () => {
       expect(pasoCaja?.height ?? 0, `${w} agregar`).toBeGreaterThanOrEqual(44);
     }
     await page.setViewportSize({ width: 1440, height: 900 });
-    await ir(page, "/contrata", "2026-11-05T12:00:00-03:00");
-    await page.locator("[data-adicionales]").scrollIntoViewIfNeeded();
-    const resumen = await page.locator("[data-resumen]").boundingBox();
-    expect(resumen?.y ?? 999).toBeLessThan(200);
-    expect(await page.locator("[data-resumen]").isVisible()).toBe(true);
+    await page.goto("/contrata", { waitUntil: "load" });
+    await page.locator("[data-carrito-icon]").click();
+    const drawer = await page.locator("[data-drawer]").boundingBox();
+    expect(drawer?.y ?? 999).toBeLessThan(200);
+    expect(await page.locator("[data-drawer]").isVisible()).toBe(true);
+    await expect(page.getByRole("button", { name: "Activar" })).toBeVisible();
   });
 });

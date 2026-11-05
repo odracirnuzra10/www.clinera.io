@@ -1418,7 +1418,7 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
 
 # `/contrata` es el carrito de Flux modular (Ricardo, 5-nov-2026)
 
-El wizard de 3 planes se borró. La página es una tienda (gesto de Mercado Libre, colores de Clinera): tarjetas con «Agregar al carrito», carrito con badge y resumen «Tu carrito». Catálogo y totales en `src/content/carrito-flux.ts`. Flux a US$ 29 de esta página es otro producto que el Flux de `/planes`.
+El wizard de 3 planes se borró. La página es una ficha de producto (gesto de Mercado Libre, colores de Clinera): Flux arriba con «Agregar al carrito», los adicionales en «También puedes agregar», y el icono del carrito abre un cajón. **Activar**, dentro del cajón (y en la barra fija del celular), abre el pago. El correo lo pide Stripe en el Checkout, no un formulario antes. Catálogo y totales en `src/content/carrito-flux.ts`. Flux a US$ 29 de esta página es otro producto que el Flux de `/planes`. En la pantalla Flux puede estar en 0 hasta que se agrega; `sanear()` del checkout igual lo deja en 1.
 
 El tono (Ricardo, 5-nov) es de dueño y de apuro, en tú de Chile, sin perder el carrito: «Haz que sea tu clínica» en el titular, «Depende de ti elegir lo adicional» sobre los adicionales y «No pierdas más tu tiempo» junto a «Comienza ya». La frase de Mercado Libre se queda en el hero porque la página se arma como una compra; no se copian el logo ni el amarillo.
 

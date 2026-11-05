@@ -104,9 +104,75 @@
 }
 
 .grid {
-  max-width: 1120px;
+  max-width: 880px;
   margin: 0 auto;
-  padding: 20px 16px 200px;
+  padding: 20px 16px 32px;
+}
+
+.frase {
+  margin: 0;
+  color: #6d28d9;
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.producto {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 12px 14px;
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.foto {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: #f5f3ff;
+  color: #6d28d9;
+}
+
+.producto .cardTitulo {
+  font-size: 26px;
+  letter-spacing: -0.03em;
+}
+
+.producto .incluye,
+.producto .confianza {
+  grid-column: 1 / -1;
+}
+
+.producto .incluye {
+  grid-template-columns: 1fr 1fr;
+}
+
+.producto .confianza {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 12px;
+}
+
+.quitar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 14px;
+  border: 1px solid #6d28d9;
+  border-radius: 12px;
+  background: #fff;
+  color: #6d28d9;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .heroMl {
@@ -178,10 +244,17 @@
 }
 
 .precio {
-  margin: 0;
-  text-align: right;
+  margin: 8px 0 0;
+  text-align: left;
   font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+}
+
+.precio .desde {
+  display: block;
+  margin-bottom: 2px;
+  color: #4b5563;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .precio s {
@@ -244,6 +317,34 @@
   color: #374151;
 }
 
+.cards {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.addonTop {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 8px 12px;
+  align-items: start;
+}
+
+.addonTop .precio {
+  grid-column: 1 / -1;
+  margin-top: 0;
+}
+
+.icono {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: #f5f3ff;
+  color: #6d28d9;
+}
+
 .agregar,
 .stepper button,
 .cta,
@@ -257,7 +358,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 44px;
+  min-height: 48px;
   margin-top: 14px;
   border: 0;
   border-radius: 12px;
@@ -332,9 +433,98 @@
   color: #374151;
 }
 
-.resumen {
-  margin-top: 22px;
+.cortina {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  border: 0;
+  background: rgba(17, 24, 39, 0.45);
+  cursor: pointer;
 }
+
+.drawer {
+  position: fixed;
+  z-index: 60;
+  background: #fff;
+  color: #111827;
+}
+
+.drawer:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawerCabeza,
+.drawerCuerpo,
+.drawerPie {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.drawerCabeza {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  padding-bottom: 8px;
+}
+
+.cerrar {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: #f5f3ff;
+  color: #6d28d9;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.drawerCuerpo {
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+  padding-bottom: 12px;
+}
+
+.drawerPie {
+  padding-top: 8px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  border-top: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+.drawer .lineas li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.drawer .stepper {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+}
+
+.drawer .urgenciaChica { display: none; }
+
+.vacio {
+  margin: 8px 0 0;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #374151;
+}
+
+.regaloLinea {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #065f46;
+}
+
+.barraMovil { display: none; }
 
 .resumenTitulo {
   margin: 0;
@@ -457,15 +647,8 @@
 .exito { max-width: 640px; margin: 0 auto; padding: 48px 20px 80px; }
 
 @media (max-width: 959px) {
-  .grid { padding-bottom: 24px; }
-  .card, .faq, .regalo { scroll-margin-bottom: 160px; }
-  .resumen {
-    position: static;
-    margin-top: 22px;
-    padding: 0;
-    border: 0;
-    box-shadow: none;
-  }
+  .grid { padding-bottom: 8px; }
+  .card, .faq, .regalo, .producto { scroll-margin-bottom: 140px; }
   .hoyMovil {
     display: flex;
     justify-content: space-between;
@@ -481,7 +664,8 @@
     font-weight: 500;
     text-align: right;
   }
-  .accion {
+  .barraMovil:not([hidden]) {
+    display: block;
     position: fixed;
     left: 0;
     right: 0;
@@ -491,31 +675,55 @@
     background: #fff;
     border-top: 1px solid #e5e7eb;
   }
-  .toast { bottom: 168px; }
-  .apuro { margin-bottom: 4px; }
-  .accion .cta { min-height: 48px; margin-top: 6px; }
-  .accion .secundario { margin-top: 2px; padding: 4px; }
-  .urgenciaChica { display: none; }
+  .barraMovil .cta { min-height: 48px; margin-top: 8px; }
+  .drawer {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: min(92dvh, 760px);
+    border-radius: 18px 18px 0 0;
+  }
+  .toast { bottom: 120px; }
   :global(body:has([data-carrito])) {
-    padding-bottom: calc(178px + env(safe-area-inset-bottom));
+    padding-bottom: calc(112px + env(safe-area-inset-bottom));
   }
 }
 
-@media (min-width: 960px) {
-  .grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 360px;
-    gap: 28px;
+@media (min-width: 720px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: 800px) {
+  .producto {
+    grid-template-columns: 240px minmax(0, 1fr);
     align-items: start;
-    padding-bottom: 48px;
+    padding: 20px;
   }
-  .resumen {
-    position: sticky;
-    top: 84px;
-    padding: 18px;
-    border: 1px solid #e5e7eb;
-    border-radius: 18px;
+  .foto {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
   }
+  .foto svg { width: 112px; height: 112px; }
+}
+
+@media (min-width: 960px) {
+  .drawer {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(420px, 100%);
+    border-left: 1px solid #e5e7eb;
+  }
+  .toast { bottom: 24px; }
+}
+
+@media (max-width: 959px) and (max-height: 740px) {
+  .barra { padding: 8px 16px; }
+  .heroMl { font-size: 16px; line-height: 1.3; }
+  .h1 { margin-top: 4px; font-size: 28px; }
+  .producto { margin-top: 10px; padding: 12px; }
+  .agregar, .quitar { margin-top: 8px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
