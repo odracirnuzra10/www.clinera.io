@@ -162,9 +162,14 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
     return `${EMBED_BASE}?${params.toString()}`;
   }, [nombre, email, prefix, digitos]);
 
+  const href = checkoutUrl(plan, { search, email, promo: true });
+
+  // El link de Stripe se monta tarde y cambia de href al elegir otro plan. Analytics.tsx
+  // solo engancha client_reference_id en clinera:routechange; sin el href en las deps,
+  // el clic se queda con el id del plan anterior.
   useEffect(() => {
     if (paso === 3 && vista === "oferta") window.dispatchEvent(new Event("clinera:routechange"));
-  }, [paso, vista]);
+  }, [paso, vista, href]);
 
   useEffect(() => {
     if (vista !== "agenda") return;
@@ -176,8 +181,6 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
   }, [vista]);
-
-  const href = checkoutUrl(plan, { search, email, promo: true });
 
   return (
     <div
@@ -352,7 +355,8 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
               <div data-contrata-paso="3" data-oferta>
                 <span className={styles.paso}>Paso 3 de 3 · Tu oferta</span>
                 <h2 className={`${styles.titulo} ${extra.ofertaTitulo}`}>
-                  Tu plan con <span className={extra.destacado} data-oferta-destacada>50% por 3 meses</span>
+                  Tu plan con <br className={extra.saltoMovil} />
+                  <span className={extra.destacado} data-oferta-destacada>50% por 3 meses</span>
                 </h2>
                 <p className={styles.sub}>Elige el plan de tu clínica. Los 3 primeros meses pagas la mitad.</p>
                 <Opciones plan={plan} onChange={setPlan} />
@@ -396,7 +400,7 @@ function Opciones({ plan, onChange }: { plan: PlanId; onChange: (id: PlanId) => 
             {monto(p.ofertaUsd)}
             <s>{monto(p.listaUsd)}</s>
           </span>
-          <p className={extra.detalle}>{p.detalle}</p>
+          <span className={extra.detalle}>{p.detalle}</span>
         </label>
       ))}
     </div>

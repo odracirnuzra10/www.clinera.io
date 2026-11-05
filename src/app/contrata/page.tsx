@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import FooterV3 from "@/components/brand-v3/Footer";
 import ContrataWizard from "@/components/contrata/ContrataWizard";
 
 export const dynamic = "force-dynamic";
@@ -20,5 +21,10 @@ export default async function ContrataPage({
 }) {
   const { plan } = await searchParams;
   const raw = (Array.isArray(plan) ? plan[0] : plan ?? "").toLowerCase();
-  return <ContrataWizard planInicial={raw} />;
+  return (
+    <>
+      <ContrataWizard planInicial={raw} />
+      <FooterV3 />
+    </>
+  );
 }

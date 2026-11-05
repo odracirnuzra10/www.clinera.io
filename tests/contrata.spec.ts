@@ -20,6 +20,11 @@ test.describe("/contrata", () => {
     expect(new URL(page.url()).pathname).toBe("/contrata");
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
     await expect(page.locator("[data-contrata-wizard]")).toHaveAttribute("data-paso", "1");
+    await expect(page.getByRole("link", { name: "Términos" })).toHaveAttribute("href", "/terminos");
+    await expect(page.getByRole("link", { name: "Privacidad" })).toHaveAttribute("href", "/privacidad");
+    await expect(page.getByRole("link", { name: "Cookies" })).toHaveAttribute("href", "/cookies");
+    await expect(page.getByRole("link", { name: "Ley 21.719 de datos personales" })).toHaveAttribute("href", "/seguridad");
+    await expect(page.getByRole("link", { name: "Ficha clínica y Ley 20.584" })).toHaveAttribute("href", "/ley20584");
   });
 
   test("el paso 1 pide los datos y no nombra planes ni el 50%", async ({ page }) => {
@@ -66,6 +71,25 @@ test.describe("/contrata", () => {
 
     await oferta.locator("[data-plan-opcion='vortex']").click();
     await expect(cta).toHaveAttribute("href", new RegExp("^" + CHECKOUT_URL.vortex.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  });
+
+  test("el parche de analytics conserva el código y el correo al cambiar de plan", async ({ page }) => {
+    await page.goto("/contrata?gclid=GCLID123", { waitUntil: "domcontentloaded" });
+    await hastaLaOferta(page);
+    const cta = page.locator("[data-cta='oferta-50']");
+    await expect.poll(async () => cta.evaluate((el) => (el as HTMLElement).dataset.stripeRefPatched || "")).toBe("1");
+    await page.locator("[data-plan-opcion='hex']").click();
+    await expect(cta).toHaveAttribute("href", /14AdRbdBnfD49wTgwz1441M/);
+    await expect.poll(async () => cta.evaluate((el) => (el as HTMLElement).dataset.stripeRefPatched || "")).toBe("1");
+    await cta.evaluate((el) => {
+      el.addEventListener("click", (e) => e.preventDefault());
+    });
+    await cta.click();
+    const href = await cta.getAttribute("href");
+    expect(href).toContain("prefilled_promo_code=CLINERA50X3");
+    expect(href).toContain("prefilled_email=ana%40clinica.cl");
+    const ref = new URL(href || "").searchParams.get("client_reference_id") || "";
+    expect(ref.startsWith("GCLID123::")).toBe(true);
   });
 
   test("el webhook marcador avisa y no corta el paso", async ({ page }) => {
@@ -146,11 +170,24 @@ test.describe("/contrata", () => {
       await page.waitForTimeout(700);
       const frase = await page.locator("[data-oferta-destacada]").evaluate((el) => {
         const s = getComputedStyle(el);
-        return { color: s.color, opacity: s.opacity, ancho: el.scrollWidth };
+        const h = el.parentElement!;
+        const cont = h.closest("main")!;
+        const r = el.getBoundingClientRect();
+        const cr = cont.getBoundingClientRect();
+        const lh = parseFloat(getComputedStyle(h).lineHeight);
+        return {
+          color: s.color,
+          opacity: s.opacity,
+          lineas: Math.round(h.getBoundingClientRect().height / lh),
+          dentro: r.left >= cr.left - 1 && r.right <= cr.right + 1,
+          cabe: h.scrollWidth <= h.clientWidth + 1,
+        };
       });
       expect(frase.color).toBe("rgb(109, 40, 217)");
       expect(frase.opacity).toBe("1");
-      expect(frase.ancho).toBeLessThanOrEqual(w);
+      expect(frase.lineas).toBe(2);
+      expect(frase.dentro).toBe(true);
+      expect(frase.cabe).toBe(true);
       const anchoOferta = await page.evaluate(() => document.documentElement.scrollWidth);
       expect(anchoOferta).toBeLessThanOrEqual(w);
       const cta = page.locator("[data-cta='oferta-50']");
