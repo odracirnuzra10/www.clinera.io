@@ -1,23 +1,24 @@
 import type { Metadata } from "next";
-import FooterV3 from "@/components/brand-v3/Footer";
-import ContrataLanding from "@/components/contrata/ContrataLanding";
+import ContrataWizard from "@/components/contrata/ContrataWizard";
 
-// /contrata (Ricardo, 4-nov-2026): landing L2 «Software», Hex y Flux con WhatsApp. Es una
-// landing de anuncios, como /oferta-clinicas-esteticas: no se indexa ni va al sitemap, y
-// /planes sigue siendo la página pública de precios hasta que Ricardo apruebe el modelo nuevo.
+export const dynamic = "force-dynamic";
+
+// /contrata (Ricardo, 5-nov-2026): wizard de contratación con el cascarón de /agenda.
+// noindex: es el destino de «Contratar» en /kimi y /home-nuevo, no una página de precios.
 export const metadata: Metadata = {
-  title: "Contrata Clinera: software para tu clínica con WhatsApp",
+  title: "Contrata Clinera",
   description:
-    "Agenda, presupuestos, panel de ventas y WhatsApp para tu clínica. Hex US$ 35 al mes con 50 conversaciones, Flux US$ 55 con 200. Prueba gratis.",
+    "Elige Flux, Hex o Vortex y contrata Clinera. El 50% por 3 meses aparece después de tus datos.",
   robots: { index: false, follow: false },
-  alternates: { canonical: "https://www.clinera.io/planes" },
+  alternates: { canonical: "https://www.clinera.io/contrata" },
 };
 
-export default function ContrataPage() {
-  return (
-    <>
-      <ContrataLanding />
-      <FooterV3 />
-    </>
-  );
+export default async function ContrataPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ plan?: string | string[] }>;
+}) {
+  const { plan } = await searchParams;
+  const raw = (Array.isArray(plan) ? plan[0] : plan ?? "").toLowerCase();
+  return <ContrataWizard planInicial={raw} />;
 }

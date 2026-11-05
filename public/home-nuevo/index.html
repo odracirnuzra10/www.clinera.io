@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Clinera | Software para clínicas estéticas y médicas: agenda, WhatsApp e IA</title>
-<meta name="description" content="Software para clínicas estéticas y médicas: agenda online, WhatsApp, Facebook e Instagram conectados y, en Vortex, una IA que atiende por ti. Flux desde USD 79/mes.">
+<title>Clinera | La plataforma con IA que agenda a tus pacientes en evaluaciones pagadas</title>
+<meta name="description" content="La plataforma con IA que agenda a tus pacientes en evaluaciones pagadas. Flux desde USD 79/mes; el agente que atiende por ti está en Vortex.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,7 +75,7 @@ footer .logo img{height:24px}
 .hero .copy{grid-area:copy;align-self:end}
 .hero .chat{grid-area:chat}
 .hero .testi{grid-area:testi;align-self:center}
-.hero h1{font-size:clamp(2.3rem,5.2vw,3.8rem);font-weight:800;margin-bottom:22px;max-width:12em}
+.hero h1{font-size:clamp(2.3rem,5.2vw,3.8rem);font-weight:800;margin-bottom:22px;max-width:18em}
 .hero .sub{font-size:1.1rem;color:var(--muted);max-width:30em;margin-bottom:30px}
 .hero .sub strong{color:var(--text);font-weight:700}
 .hero .micro{margin-top:12px}
@@ -364,6 +364,23 @@ footer .cols a:hover{color:var(--text)}
 footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:center}
 @media (max-width:820px){footer .cols{grid-template-columns:1fr 1fr}}
 @media (max-width:480px){footer .cols{grid-template-columns:1fr}}
+
+/* banner de dolor + testimonio Método Hebe (foto pendiente) */
+.pain{background:#0A0A0A;color:#fff;padding:48px 0}
+.pain .wrap{display:flex;align-items:center;justify-content:space-between;gap:28px}
+.pain p{font-size:clamp(1.55rem,3.2vw,2.35rem);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin:0;max-width:16em}
+.pain .btn{flex:none}
+.hebe{padding-top:8px}
+.hebe-card{margin:0;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:8px 28px;align-items:center;background:#F3F4F6;border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.hebe-card img{width:100%;height:100%;max-height:420px;object-fit:cover;background:#E5E7EB;display:block}
+.hebe-card figcaption{font-size:clamp(1.35rem,2.4vw,1.9rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;padding:8px 28px 8px 4px;margin:0}
+@media (max-width:720px){
+  .pain{padding:32px 0}
+  .pain .wrap{flex-direction:column;align-items:stretch}
+  .pain .btn{width:100%}
+  .hebe-card{grid-template-columns:1fr}
+  .hebe-card figcaption{padding:4px 18px 22px}
+}
 </style>
 </head>
 <body>
@@ -397,7 +414,7 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
     </nav>
     <div class="nav-cta">
       <button class="btn sm outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
-      <button class="btn sm grad" type="button" data-open-wizard data-plan="Flux" data-cta="oferta">Contratar Flux</button>
+      <a class="btn sm grad" href="/contrata?plan=flux">Contratar Flux</a>
     </div>
   </div>
 </header>
@@ -408,10 +425,10 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
   <div class="wrap">
     <div class="copy">
       <p class="eyebrow rv">Software para clínicas estéticas y médicas</p>
-      <h1 class="rv" style="--i:1">La agenda de tu clínica, <span class="serif">conectada a WhatsApp</span></h1>
-      <p class="sub rv" style="--i:2">Agenda online, WhatsApp, Facebook e Instagram en un solo lugar: tus pacientes reservan y pagan su evaluación sin llamadas. Flux desde <strong>USD 79/mes</strong>. ¿Una IA que atienda por ti? Está en Vortex.</p>
+      <h1 class="rv" style="--i:1">La plataforma con IA que agenda a tus pacientes en <span class="serif">evaluaciones pagadas</span></h1>
+      <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. Flux desde <strong>USD 79/mes</strong>. El agente de IA que atiende por ti está en Vortex.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
-        <button class="btn grad" type="button" data-open-wizard data-plan="Flux" data-cta="oferta">Contratar Flux <svg class="ic" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <a class="btn grad" href="/contrata?plan=flux">Contratar Flux <svg class="ic" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         <button class="btn outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
       </div>
       <p class="micro rv" style="--i:3">Sin costo de implementación · Onboarding con un ejecutivo humano.</p>
@@ -433,6 +450,24 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
     </div>
   </div>
 </section>
+
+<section class="pain" id="dolor" data-testid="banner-dolor" aria-labelledby="t-dolor">
+  <div class="wrap">
+    <p id="t-dolor">Deja de perder plata con softwares caros y obsoletos que no te dejan competir</p>
+    <a class="btn grad" href="/contrata?plan=flux">Quiero contratar</a>
+  </div>
+</section>
+
+<section class="sec hebe" id="hebe" data-testid="hebe-testimonio">
+  <div class="wrap">
+    <figure class="hebe-card">
+      <img src="/kimi/hebe-testimonio.jpg" width="1200" height="800" alt="Espacio para la foto: una mujer sostiene una bolsa de Método Hebe. Reemplazar public/kimi/hebe-testimonio.jpg.">
+      <figcaption>Método Hebe, la red de clínicas que sigue creciendo en Chile con la IA de Clinera</figcaption>
+    </figure>
+  </div>
+</section>
+
+
 
 <!-- Logos reales: misma lista que src/content/clinicas-logos.ts (no volver a los nombres inventados del home viejo). -->
 <section class="logos" aria-label="Clínicas que usan Clinera">
@@ -525,7 +560,7 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
           <li class="no"><svg class="ic" aria-hidden="true"><use href="#i-minus"/></svg><span>Sin agente IA<small>Disponible en Vortex</small></span></li>
         </ul>
         <div class="plan-cta">
-          <button class="btn grad block" type="button" data-open-wizard data-plan="Flux" data-cta="oferta">Contratar Flux</button>
+          <a class="btn grad block" href="/contrata?plan=flux">Contratar Flux</a>
           <button class="btn outline block" type="button" data-open-wizard data-plan="Flux" data-cta="ventas">Hablar con ventas</button>
         </div>
       </article>
@@ -541,7 +576,7 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
           <li class="no"><svg class="ic" aria-hidden="true"><use href="#i-minus"/></svg><span>Sin agente IA<small>Disponible en Vortex</small></span></li>
         </ul>
         <div class="plan-cta">
-          <button class="btn outline block" type="button" data-open-wizard data-plan="Hex" data-cta="oferta">Contratar Hex</button>
+          <a class="btn outline block" href="/contrata?plan=hex">Contratar Hex</a>
           <button class="btn-link" type="button" data-open-wizard data-plan="Hex" data-cta="ventas">Hablar con ventas</button>
         </div>
       </article>
@@ -560,7 +595,7 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
           <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Onboarding dedicado con un ejecutivo humano</li>
         </ul>
         <div class="plan-cta">
-          <button class="btn outline block" type="button" data-open-wizard data-plan="Vortex" data-cta="oferta">Contratar Vortex</button>
+          <a class="btn outline block" href="/contrata?plan=vortex">Contratar Vortex</a>
           <button class="btn-link" type="button" data-open-wizard data-plan="Vortex" data-cta="ventas">Hablar con ventas</button>
         </div>
       </article>
@@ -607,7 +642,7 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
     <h2 id="t-act" class="rv" style="--i:1">Cuéntanos de tu clínica y comienza con Clinera</h2>
     <p class="lead rv" style="--i:2">Responde cuatro preguntas rápidas y te mostramos cómo activar tu cuenta.</p>
     <div class="cta rv" style="--i:3">
-      <button class="btn grad" type="button" data-open-wizard data-plan="Flux" data-cta="oferta">Contratar Flux</button>
+      <a class="btn grad" href="/contrata?plan=flux">Contratar Flux</a>
       <button class="btn outline light" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
     </div>
     <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
@@ -635,7 +670,7 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
 
 <div class="mcta" id="mobile-cta" data-testid="mobile-cta">
   <div class="mcta-row">
-    <button class="btn grad" type="button" data-open-wizard data-plan="Flux" data-cta="oferta">Contratar Flux</button>
+    <a class="btn grad" href="/contrata?plan=flux">Contratar Flux</a>
     <button class="btn outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
   </div>
 </div>

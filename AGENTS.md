@@ -1413,3 +1413,7 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
   gratis sigue existiendo, pero es de Flux y ya no es el punto de partida. **Hex es el único CTA principal**: Flux,
   Vortex, Ecosistema y el «Hablar con ventas» del cierre van con botón secundario, sin degradado. Lo vigila
   `tests/planes-vigentes.spec.ts`.
+
+# `/contrata` es el wizard de contratación (Ricardo, 5-nov-2026)
+
+Dejó de ser la boleta de Hex/Flux. Ahora usa el cascarón de `/agenda` (`ContrataWizard`: pantalla partida, 4 pasos) con contenido de contratación. «Contratar» en `/kimi` y `/home-nuevo` navega a `/contrata?plan=…` y ya no abre el popup. El 50% por 3 meses (Flux 39,50 · Hex 89,50 · Vortex 139,50) aparece solo en el paso 4. Checkout y webhook siguen como marcadores en `ContrataWizard.tsx` (`CHECKOUT`, `WEBHOOK_URL`). La foto de Método Hebe es un placeholder: `public/kimi/hebe-testimonio.jpg`. Guardián: `tests/contrata.spec.ts`.
