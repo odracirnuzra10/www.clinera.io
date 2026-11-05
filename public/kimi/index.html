@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Clinera | La plataforma con IA que agenda a tus pacientes en evaluaciones pagadas</title>
-<meta name="description" content="La plataforma con IA que agenda a tus pacientes en evaluaciones pagadas. Flux desde USD 79/mes; el agente que atiende por ti está en Vortex.">
+<title>Clinera | La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas</title>
+<meta name="description" content="La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas. Flux desde USD 79/mes; el agente de IA que atiende por ti está en Vortex.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,7 +75,7 @@ footer .logo img{height:24px}
 .hero .copy{grid-area:copy;align-self:end}
 .hero .chat{grid-area:chat}
 .hero .testi{grid-area:testi;align-self:center}
-.hero h1{font-size:clamp(2.3rem,5.2vw,3.8rem);font-weight:800;margin-bottom:22px;max-width:18em}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.8rem);font-weight:800;margin-bottom:22px;max-width:20em}
 .hero .sub{font-size:1.1rem;color:var(--muted);max-width:30em;margin-bottom:30px}
 .hero .sub strong{color:var(--text);font-weight:700}
 .hero .micro{margin-top:12px}
@@ -361,7 +361,7 @@ footer a.ext{color:var(--text);font-weight:500}
     </a>
     <div class="nav-cta">
       <button class="btn sm outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
-      <a class="btn sm grad" href="/contrata?plan=flux">Contratar Flux</a>
+      <a class="btn sm grad" href="/contrata?plan=flux" data-contrata-link data-cta="oferta" data-plan="Flux">Contratar Flux</a>
     </div>
   </div>
 </header>
@@ -372,10 +372,10 @@ footer a.ext{color:var(--text);font-weight:500}
   <div class="wrap">
     <div class="copy">
       <p class="eyebrow rv">Software para clínicas estéticas y médicas</p>
-      <h1 class="rv" style="--i:1">La plataforma con IA que agenda a tus pacientes en <span class="serif">evaluaciones pagadas</span></h1>
+      <h1 class="rv" style="--i:1">La plataforma médica con IA que transforma leads en pacientes con <span class="serif">evaluaciones pagadas</span></h1>
       <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. Flux desde <strong>USD 79/mes</strong>. El agente de IA que atiende por ti está en Vortex.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
-        <a class="btn grad" href="/contrata?plan=flux">Contratar Flux <svg class="ic" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="btn grad" href="/contrata?plan=flux" data-contrata-link data-cta="oferta" data-plan="Flux">Contratar Flux <svg class="ic" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         <button class="btn outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
       </div>
       <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
@@ -401,20 +401,19 @@ footer a.ext{color:var(--text);font-weight:500}
 <section class="pain" id="dolor" data-testid="banner-dolor" aria-labelledby="t-dolor">
   <div class="wrap">
     <p id="t-dolor">Deja de perder plata con softwares caros y obsoletos que no te dejan competir</p>
-    <a class="btn grad" href="/contrata?plan=flux">Quiero contratar</a>
+    <a class="btn grad" href="/contrata?plan=flux" data-contrata-link data-cta="oferta" data-plan="Flux">Quiero contratar</a>
   </div>
 </section>
 
 <section class="sec hebe" id="hebe" data-testid="hebe-testimonio">
   <div class="wrap">
+    <!-- Foto pendiente: reemplazar public/kimi/hebe-testimonio.jpg (1200×800). -->
     <figure class="hebe-card">
-      <img src="/kimi/hebe-testimonio.jpg" width="1200" height="800" alt="Espacio para la foto: una mujer sostiene una bolsa de Método Hebe. Reemplazar public/kimi/hebe-testimonio.jpg.">
+      <img src="/kimi/hebe-testimonio.jpg" width="1200" height="800" alt="Clienta de Método Hebe sosteniendo una bolsa de la clínica">
       <figcaption>Método Hebe, la red de clínicas que sigue creciendo en Chile con la IA de Clinera</figcaption>
     </figure>
   </div>
 </section>
-
-
 
 <section class="sec" id="funciones" aria-labelledby="t-fun">
   <div class="wrap">
@@ -453,7 +452,7 @@ footer a.ext{color:var(--text);font-weight:500}
     <h2 id="t-planes" class="rv" style="--i:1">Empiezas simple y creces a tu ritmo</h2>
     <p class="lead rv" style="--i:2">Empiezas con Flux y subes a Hex o Vortex cuando tu clínica crezca.</p>
     <div class="plans">
-      <!-- Estructura de planes de esta landing (Ricardo, 5-nov-2026): Flux 79 · Hex 179 · Vortex 279. No es la de /planes (planes-nuevos.ts). -->
+      <!-- Flux 79 · Hex 179 · Vortex 279: la misma estructura que /planes (src/content/planes-nuevos.ts). -->
       <article class="plan entry rv" data-testid="plan-flux">
         <span class="tag">Recomendado</span>
         <h3><span>Flux</span><span class="chs" role="img" aria-label="WhatsApp"><svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg></span></h3>
@@ -463,14 +462,13 @@ footer a.ext{color:var(--text);font-weight:500}
           <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Agenda online</li>
           <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>WhatsApp conectado a tu agenda: hasta 500 conversaciones/mes</li>
           <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Recordatorios y confirmaciones</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Clinera Intelligence</li>
           <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Panel de ventas</li>
           <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Presupuestos</li>
           <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Fichas clínicas personalizadas</li>
           <li class="no"><svg class="ic" aria-hidden="true"><use href="#i-minus"/></svg><span>Sin agente IA<small>Disponible en Vortex</small></span></li>
         </ul>
         <div class="plan-cta">
-          <a class="btn grad block" href="/contrata?plan=flux">Contratar Flux</a>
+          <a class="btn grad block" href="/contrata?plan=flux" data-contrata-link data-cta="oferta" data-plan="Flux">Contratar Flux</a>
           <button class="btn outline block" type="button" data-open-wizard data-plan="Flux" data-cta="ventas">Hablar con ventas</button>
         </div>
       </article>
@@ -486,7 +484,7 @@ footer a.ext{color:var(--text);font-weight:500}
           <li class="no"><svg class="ic" aria-hidden="true"><use href="#i-minus"/></svg><span>Sin agente IA<small>Disponible en Vortex</small></span></li>
         </ul>
         <div class="plan-cta">
-          <a class="btn outline block" href="/contrata?plan=hex">Contratar Hex</a>
+          <a class="btn outline block" href="/contrata?plan=hex" data-contrata-link data-cta="oferta" data-plan="Hex">Contratar Hex</a>
           <button class="btn-link" type="button" data-open-wizard data-plan="Hex" data-cta="ventas">Hablar con ventas</button>
         </div>
       </article>
@@ -505,7 +503,7 @@ footer a.ext{color:var(--text);font-weight:500}
           <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Onboarding dedicado con un ejecutivo humano</li>
         </ul>
         <div class="plan-cta">
-          <a class="btn outline block" href="/contrata?plan=vortex">Contratar Vortex</a>
+          <a class="btn outline block" href="/contrata?plan=vortex" data-contrata-link data-cta="oferta" data-plan="Vortex">Contratar Vortex</a>
           <button class="btn-link" type="button" data-open-wizard data-plan="Vortex" data-cta="ventas">Hablar con ventas</button>
         </div>
       </article>
@@ -520,7 +518,7 @@ footer a.ext{color:var(--text);font-weight:500}
     <h2 id="t-act" class="rv" style="--i:1">Cuéntanos de tu clínica y comienza con Clinera</h2>
     <p class="lead rv" style="--i:2">Responde cuatro preguntas rápidas y te mostramos cómo activar tu cuenta.</p>
     <div class="cta rv" style="--i:3">
-      <a class="btn grad" href="/contrata?plan=flux">Contratar Flux</a>
+      <a class="btn grad" href="/contrata?plan=flux" data-contrata-link data-cta="oferta" data-plan="Flux">Contratar Flux</a>
       <button class="btn outline light" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
     </div>
     <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
@@ -534,9 +532,8 @@ footer a.ext{color:var(--text);font-weight:500}
       <img src="/kimi/clinera-logo.png" alt="Clinera" width="411" height="96" decoding="async">
     </a>
     <nav aria-label="Legal">
-      <!-- TODO: reemplazar por las URL reales de Términos y Privacidad -->
-      <a href="#" data-placeholder="terminos">Términos</a>
-      <a href="#" data-placeholder="privacidad">Privacidad</a>
+      <a href="/terminos">Términos</a>
+      <a href="/privacidad">Privacidad</a>
     </nav>
     <span>© 2026 Clinera</span>
     <a class="ext" href="https://www.clinera.io">www.clinera.io</a>
@@ -545,7 +542,7 @@ footer a.ext{color:var(--text);font-weight:500}
 
 <div class="mcta" id="mobile-cta" data-testid="mobile-cta">
   <div class="mcta-row">
-    <a class="btn grad" href="/contrata?plan=flux">Contratar Flux</a>
+    <a class="btn grad" href="/contrata?plan=flux" data-contrata-link data-cta="oferta" data-plan="Flux">Contratar Flux</a>
     <button class="btn outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
   </div>
 </div>
@@ -640,7 +637,7 @@ footer a.ext{color:var(--text);font-weight:500}
         </ul>
         <div class="offer-cta">
           <!-- TODO: reemplazar [LINK CHECKOUT FLUX 50%] por el link real de checkout de Flux con 50% de descuento -->
-          <a class="btn grad block" id="wiz-offer-link" href="[LINK CHECKOUT FLUX 50%]" target="_blank" rel="noopener">Aprovechar oferta</a>
+          <a class="btn grad block" id="wiz-offer-link" href="/contrata?plan=flux" data-contrata-link data-cta="oferta-popup" data-plan="Flux">Aprovechar oferta</a>
           <button class="btn outline block" type="button" id="wiz-agendar" data-testid="wiz-agendar">Agendar reunión</button>
         </div>
         <p class="offer-ventas micro" id="wiz-offer-ventas" hidden>Igual un especialista te contactará pronto.</p>
@@ -665,6 +662,19 @@ footer a.ext{color:var(--text);font-weight:500}
 
 <script>
 (function(){
+
+  // Pasa la atribución de la visita a /contrata (utm, gclid, fbclid…). No pisa ?plan=.
+  var TRACK=['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','gbraid','wbraid','fbclid'];
+  function propagarContrata(a){
+    var v=new URLSearchParams(location.search),extra=[];
+    TRACK.forEach(function(k){var x=v.get(k);if(x)extra.push([k,x]);});
+    if(!extra.length)return;
+    try{var u=new URL(a.getAttribute('href'),location.origin);
+      extra.forEach(function(p){if(!u.searchParams.has(p[0]))u.searchParams.set(p[0],p[1]);});
+      a.setAttribute('href',u.pathname+'?'+u.searchParams.toString());}catch(e){}
+  }
+  document.querySelectorAll('a[data-contrata-link]').forEach(propagarContrata);
+
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var hasIO='IntersectionObserver' in window;
 
@@ -909,12 +919,25 @@ footer a.ext{color:var(--text);font-weight:500}
   });
 
   // «Agendar reunión»: carga el embed con los datos del lead (una sola vez por lead).
+
+  // Espejo de src/lib/dia-habil.ts: próximo día hábil (lun–vie) en Chile, saltando el día UTC en curso.
+  function proximoDiaHabil(now){
+    now=now||new Date();
+    function ymdEnZona(tz,d){var p={};new Intl.DateTimeFormat('en-US',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d).forEach(function(x){p[x.type]=x.value;});return p.year+'-'+p.month+'-'+p.day;}
+    function sumarDias(ymd,n){var a=ymd.split('-').map(Number);return new Date(Date.UTC(a[0],a[1]-1,a[2]+n)).toISOString().slice(0,10);}
+    function diaSemana(ymd){var a=ymd.split('-').map(Number);return new Date(Date.UTC(a[0],a[1]-1,a[2])).getUTCDay();}
+    var hoy=ymdEnZona('America/Santiago',now),hoyUtc=now.toISOString().slice(0,10);
+    for(var i=1;i<10;i++){var d=sumarDias(hoy,i),w=diaSemana(d);if(w!==0&&w!==6&&d!==hoyUtc)return d;}
+    return sumarDias(hoy,1);
+  }
+
   function embedSrc(){
     var q=new URLSearchParams(EMBED_PRESET);
     var nombre=form.nombre.value.trim(),email=form.correo.value.trim(),digits=form.celular.value.replace(/\D/g,'');
     if(nombre)q.set('nombre',nombre);
     if(email)q.set('email',email);
     if(digits)q.set('telefono',form.prefijo.value+digits);
+    var f=proximoDiaHabil();q.set('fecha',f);q.set('date',f);
     return EMBED_BASE+'?'+q.toString();
   }
   agendarBtn.addEventListener('click',function(){
@@ -934,18 +957,19 @@ footer a.ext{color:var(--text);font-weight:500}
   });
 
   function warn(err){console.warn('[Clinera] no se pudo enviar el lead al webhook:',err);}
+  function webhookOk(u){try{var x=new URL(u);return x.protocol==='https:'&&!/[\[\]]/.test(u);}catch(e){return false;}}
   function send(payload){
-    if(WEBHOOK_URL.indexOf('https')===0){
-      var req;
-      try{
-        req=fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),keepalive:true})
-          .then(function(r){if(!r.ok)warn('HTTP '+r.status);})
-          .catch(warn);
-      }catch(e){warn(e);req=Promise.resolve();}
-      return Promise.race([req,new Promise(function(r){setTimeout(r,5000);})]);
+    if(!webhookOk(WEBHOOK_URL)){
+      console.warn('[Clinera] WEBHOOK_URL sin configurar; lead no enviado:',payload);
+      return Promise.resolve();
     }
-    console.info('[Clinera] lead (webhook pendiente):',payload);
-    return new Promise(function(r){setTimeout(r,reduce?0:500);});
+    var req;
+    try{
+      req=fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),keepalive:true})
+        .then(function(r){if(!r.ok)warn('HTTP '+r.status);})
+        .catch(warn);
+    }catch(e){warn(e);req=Promise.resolve();}
+    return Promise.race([req,new Promise(function(r){setTimeout(r,5000);})]);
   }
 
   function finish(){
@@ -967,6 +991,8 @@ footer a.ext{color:var(--text);font-weight:500}
     };
     var nombre=payload.nombre.split(/\s+/)[0]||'';
     function showOffer(){
+      var offerLink=document.getElementById('wiz-offer-link');
+      if(offerLink)propagarContrata(offerLink);
       confirmTimer=null;
       confirming=false;
       done=true;

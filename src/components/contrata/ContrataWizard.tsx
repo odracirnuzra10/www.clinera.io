@@ -1,14 +1,14 @@
 "use client";
 
-// /contrata (Ricardo, 5-nov-2026): el mismo cascarón de /agenda (pantalla partida,
-// «Paso N de 4», datos y confirmación de la clínica) con contenido de contratación.
-// El 50% por 3 meses aparece solo en el paso 4. Checkout y webhook siguen como
-// marcadores: CHECKOUT y WEBHOOK_URL.
+// /contrata (Ricardo, 5-nov-2026): el cascarón de /agenda en 3 pasos. El plan y el 50%
+// aparecen solo en el último. El checkout sale de checkout.ts. WEBHOOK_URL sigue de marcador.
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import styles from "@/components/agenda/AgendaWizard.module.css";
 import base from "@/components/estetica/EsteticaAdsLanding.module.css";
 import { ECOSISTEMA_SLIDES } from "@/content/agenda-oferta";
+import { PROMO_CODE, checkoutUrl, soloTracking } from "@/content/checkout";
+import { proximoDiaHabil } from "@/lib/dia-habil";
 import {
   RESERVA_PHONE_PREFIXES,
   aE164,
@@ -20,12 +20,7 @@ import {
 import extra from "./ContrataWizard.module.css";
 
 type PlanId = "flux" | "hex" | "vortex";
-
-const CHECKOUT: Record<PlanId, string> = {
-  flux: "[LINK CHECKOUT FLUX 50%]",
-  hex: "[LINK CHECKOUT HEX 50%]",
-  vortex: "[LINK CHECKOUT VORTEX 50%]",
-};
+type Paso = 1 | 2 | 3;
 
 const WEBHOOK_URL = "[WEBHOOK_URL_N8N]";
 
@@ -35,21 +30,19 @@ const EMBED_ORIGIN = "https://app.clinera.io";
 const PLANES: readonly {
   id: PlanId;
   name: string;
-  lista: string;
-  oferta: string;
-  canales: string;
+  listaUsd: number;
+  ofertaUsd: number;
   detalle: string;
 }[] = [
-  { id: "flux", name: "Flux", lista: "USD 79", oferta: "USD 39,50", canales: "WhatsApp", detalle: "WhatsApp · 500 conversaciones · sin IA" },
-  { id: "hex", name: "Hex", lista: "USD 179", oferta: "USD 89,50", canales: "WhatsApp, Facebook e Instagram", detalle: "3 redes · 2.500 conversaciones · sin IA" },
-  { id: "vortex", name: "Vortex", lista: "USD 279", oferta: "USD 139,50", canales: "Redes + IA", detalle: "Redes + IA · 5.000 conversaciones · 28.000 créditos" },
+  { id: "flux", name: "Flux", listaUsd: 79, ofertaUsd: 39.5, detalle: "WhatsApp · 500 conversaciones · sin IA" },
+  { id: "hex", name: "Hex", listaUsd: 179, ofertaUsd: 89.5, detalle: "3 redes · 2.500 conversaciones · sin IA" },
+  { id: "vortex", name: "Vortex", listaUsd: 279, ofertaUsd: 139.5, detalle: "Redes + IA · 5.000 conversaciones · 28.000 créditos" },
 ];
 
-const TITULOS = ["Tu plan", "Tus datos", "Tu clínica", "Tu oferta"] as const;
+const TITULOS = ["Tus datos", "Tu clínica", "Tu oferta"] as const;
 const EMAIL_OK = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const CAPTIONS = [
-  "Elige el plan de tu clínica. El descuento aparece al final.",
-  "Nombre, WhatsApp y correo para activar la cuenta.",
+  "Nombre, WhatsApp y correo para activar tu cuenta.",
   "Confirmamos el nombre y la ubicación de tu clínica.",
   "50% por 3 meses en el plan que elijas.",
 ];
@@ -58,24 +51,50 @@ function esPlan(v: string): v is PlanId {
   return v === "flux" || v === "hex" || v === "vortex";
 }
 
-async function enviarLead(payload: Record<string, string>) {
-  if (!WEBHOOK_URL.startsWith("https://")) {
-    console.info("[contrata] webhook pendiente", payload);
-    return;
-  }
+function monto(usd: number): string {
+  const texto = usd.toLocaleString("es-CL", {
+    minimumFractionDigits: Number.isInteger(usd) ? 0 : 2,
+    maximumFractionDigits: 2,
+  });
+  return `USD ${texto}`;
+}
+
+function webhookValido(u: string) {
   try {
-    await fetch(WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-  } catch (e) {
-    console.error("[contrata] webhook", e);
+    const x = new URL(u);
+    return x.protocol === "https:" && !/[[\]]/.test(u);
+  } catch {
+    return false;
   }
 }
 
+async function enviarLead(p: Record<string, string>) {
+  if (!webhookValido(WEBHOOK_URL)) {
+    console.warn("[contrata] WEBHOOK_URL sin configurar; lead no enviado", p);
+    return;
+  }
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), 5000);
+  try {
+    const r = await fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(p),
+      keepalive: true,
+      signal: ctrl.signal,
+    });
+    if (!r.ok) console.warn("[contrata] webhook HTTP", r.status);
+  } catch (e) {
+    console.warn("[contrata] webhook", e);
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+const noop = () => () => {};
+
 export default function ContrataWizard({ planInicial = "flux" }: { planInicial?: string }) {
-  const [paso, setPaso] = useState<1 | 2 | 3 | 4>(1);
+  const [paso, setPaso] = useState<Paso>(1);
   const [plan, setPlan] = useState<PlanId>(esPlan(planInicial) ? planInicial : "flux");
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
@@ -86,6 +105,8 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
   const [intentado, setIntentado] = useState(false);
   const [confirmando, setConfirmando] = useState(false);
   const [vista, setVista] = useState<"oferta" | "agenda" | "listo">("oferta");
+  const search = useSyncExternalStore(noop, () => window.location.search, () => "");
+  const tracking = useMemo(() => Object.fromEntries(soloTracking(search)), [search]);
 
   const rule = reglaTelefono(prefix);
   const digitos = digitosTelefono(phone);
@@ -98,7 +119,7 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
 
   const slide = ECOSISTEMA_SLIDES[Math.min(paso - 1, ECOSISTEMA_SLIDES.length - 1)];
 
-  function irA(n: 1 | 2 | 3 | 4) {
+  function irA(n: Paso) {
     setIntentado(false);
     setConfirmando(false);
     setPaso(n);
@@ -119,9 +140,14 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
       fecha: new Date().toISOString(),
       lead_stage: "contact",
       booking_status: "pending",
+      ...tracking,
+      source_path: "/contrata",
+      plan_interes: planInicial || "flux",
     };
   }
 
+  // Best effort: no hay evidencia en el repo de que el embed lea la fecha; si no la lee,
+  // hay que agregarlo en app.clinera.io (repo aparte).
   const embedSrc = useMemo(() => {
     const params = new URLSearchParams({
       sucursalId: "cmoqinfoi007dso3d7fhnwdyb",
@@ -130,8 +156,15 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
     if (nombre.trim()) params.set("nombre", nombre.trim());
     if (email.trim()) params.set("email", email.trim());
     if (digitos) params.set("telefono", aE164(prefix, digitos));
+    const fecha = proximoDiaHabil();
+    params.set("fecha", fecha);
+    params.set("date", fecha);
     return `${EMBED_BASE}?${params.toString()}`;
   }, [nombre, email, prefix, digitos]);
+
+  useEffect(() => {
+    if (paso === 3 && vista === "oferta") window.dispatchEvent(new Event("clinera:routechange"));
+  }, [paso, vista]);
 
   useEffect(() => {
     if (vista !== "agenda") return;
@@ -144,15 +177,17 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
     return () => window.removeEventListener("message", onMessage);
   }, [vista]);
 
+  const href = checkoutUrl(plan, { search, email, promo: true });
+
   return (
     <div
-      className={`${base.page} ${styles.pagina} ${paso > 1 ? styles.avanzado : ""} ${paso === 1 ? styles.inicio : ""} ${paso === 3 ? styles.clinicaVista : ""} ${paso === 4 ? styles.calendario : ""}`}
+      className={`${base.page} ${styles.pagina} ${paso > 1 ? styles.avanzado : ""} ${paso === 1 ? styles.inicio : ""} ${paso === 2 ? styles.clinicaVista : ""} ${paso === 3 ? styles.calendario : ""}`}
       data-contrata-wizard
       data-paso={paso}
     >
       <aside className={styles.panel}>
         <div className={styles.marco}>
-          {ECOSISTEMA_SLIDES.map((sl, i) => (
+          {ECOSISTEMA_SLIDES.map((sl) => (
             <figure key={sl.n} className={`${styles.slide} ${sl.n === slide.n ? styles.slideOn : ""}`} aria-hidden={sl.n !== slide.n}>
               <div className={styles.slideImg} style={{ backgroundImage: `url(${sl.img})` }} />
             </figure>
@@ -163,7 +198,7 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
         </p>
         <h1 className={styles.chip}>
           <span className={styles.chipTitulo}>Contrata Clinera</span>
-          <span className={styles.chipSub}>Elige tu plan y actívalo</span>
+          <span className={styles.chipSub}>Actívala en 3 pasos</span>
         </h1>
       </aside>
 
@@ -175,23 +210,14 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
                 <span key={TITULOS[i]} className={`${styles.seg} ${i < paso ? styles.segOn : ""}`} />
               ))}
             </div>
-            <span className={styles.paso}>
-              Paso {paso} de 4 · {TITULOS[paso - 1]}
-            </span>
+            {paso !== 3 || vista !== "oferta" ? (
+              <span className={styles.paso}>
+                Paso {paso} de 3 · {TITULOS[paso - 1]}
+              </span>
+            ) : null}
 
             {paso === 1 && (
               <div data-contrata-paso="1">
-                <h2 className={styles.titulo}>Elige tu plan</h2>
-                <p className={styles.sub}>Agenda y WhatsApp desde USD 79 al mes. Sin costo de implementación.</p>
-                <Opciones plan={plan} onChange={setPlan} oferta={false} />
-                <button type="button" className={base.cta} onClick={() => irA(2)}>
-                  Continuar →
-                </button>
-              </div>
-            )}
-
-            {paso === 2 && (
-              <div data-contrata-paso="2">
                 <h2 className={styles.titulo}>¿Dónde te confirmamos?</h2>
                 <label className={base.label} htmlFor="ct-nombre">Nombre</label>
                 <input id="ct-nombre" className={base.input} value={nombre} onChange={(e) => setNombre(e.target.value)} autoComplete="name" placeholder="Nombre y apellido" aria-invalid={intentado && !nombreOk} />
@@ -239,19 +265,16 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
                       setIntentado(true);
                       return;
                     }
-                    irA(3);
+                    irA(2);
                   }}
                 >
                   Continuar →
                 </button>
-                <button type="button" className={styles.volver} onClick={() => irA(1)}>
-                  ← Volver
-                </button>
               </div>
             )}
 
-            {paso === 3 && (
-              <div data-contrata-paso="3">
+            {paso === 2 && (
+              <div data-contrata-paso="2">
                 <h2 className={styles.titulo}>Cuéntanos de tu clínica</h2>
                 <label className={base.label} htmlFor="ct-clinica">Nombre de tu clínica</label>
                 <input id="ct-clinica" className={base.input} value={clinica} onChange={(e) => setClinica(e.target.value)} autoComplete="organization" placeholder="Clínica Vela" aria-invalid={intentado && !clinicaOk} />
@@ -272,7 +295,7 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
                         type="button"
                         className={base.cta}
                         onClick={() => {
-                          setPaso(4);
+                          irA(3);
                           setVista("oferta");
                           void enviarLead(payload("clinica"));
                         }}
@@ -299,7 +322,7 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
                     >
                       Ver mi oferta →
                     </button>
-                    <button type="button" className={styles.volver} onClick={() => irA(2)}>
+                    <button type="button" className={styles.volver} onClick={() => irA(1)}>
                       ← Volver
                     </button>
                   </>
@@ -307,15 +330,15 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
               </div>
             )}
 
-            {paso === 4 && vista === "listo" && (
-              <div data-contrata-paso="4" data-agenda-listo>
+            {paso === 3 && vista === "listo" && (
+              <div data-contrata-paso="3" data-agenda-listo>
                 <h2 className={styles.titulo}>Reunión agendada</h2>
                 <p className={styles.sub}>Te llega la confirmación por correo. Nos vemos.</p>
               </div>
             )}
 
-            {paso === 4 && vista === "agenda" && (
-              <div data-contrata-paso="4" data-agenda-embed>
+            {paso === 3 && vista === "agenda" && (
+              <div data-contrata-paso="3" data-agenda-embed>
                 <h2 className={styles.titulo}>Agenda tu reunión</h2>
                 <p className={styles.sub}>Elige profesional, día y hora. Te llega la confirmación por correo.</p>
                 <iframe className={extra.embed} src={embedSrc} title="Agenda tu reunión con Clinera" />
@@ -325,18 +348,32 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
               </div>
             )}
 
-            {paso === 4 && vista === "oferta" && (
-              <div data-contrata-paso="4" data-oferta>
-                <h2 className={styles.titulo}>50% por 3 meses</h2>
-                <Opciones plan={plan} onChange={setPlan} oferta />
-                <p className={extra.terminos}>por 3 meses, luego precio normal · sin costo de implementación</p>
-                <a className={base.cta} style={{ display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none" }} href={CHECKOUT[plan]} data-checkout={plan} data-cta="oferta-50">
+            {paso === 3 && vista === "oferta" && (
+              <div data-contrata-paso="3" data-oferta>
+                <span className={styles.paso}>Paso 3 de 3 · Tu oferta</span>
+                <h2 className={styles.titulo}>
+                  Tu plan con <span className={extra.destacado} data-oferta-destacada>50% por 3 meses</span>
+                </h2>
+                <p className={styles.sub}>Elige el plan de tu clínica. Los 3 primeros meses pagas la mitad.</p>
+                <Opciones plan={plan} onChange={setPlan} />
+                <p className={extra.terminos}>Precio normal desde el mes 4 · sin costo de implementación</p>
+                <a
+                  className={`${base.cta} ${extra.ctaPago}`}
+                  href={href}
+                  suppressHydrationWarning
+                  data-cta="oferta-50"
+                  data-checkout={plan}
+                  data-plan={plan}
+                  data-plan-name={elegido.name}
+                  data-plan-value={String(elegido.ofertaUsd)}
+                  data-promo={PROMO_CODE ? "si" : "pendiente"}
+                >
                   Aprovechar {elegido.name} al 50%
                 </a>
                 <button type="button" className={extra.secundario} data-agendar onClick={() => setVista("agenda")}>
                   Agendar reunión
                 </button>
-                <button type="button" className={styles.volver} onClick={() => irA(3)}>
+                <button type="button" className={styles.volver} onClick={() => irA(2)}>
                   ← Volver
                 </button>
               </div>
@@ -348,16 +385,16 @@ export default function ContrataWizard({ planInicial = "flux" }: { planInicial?:
   );
 }
 
-function Opciones({ plan, onChange, oferta }: { plan: PlanId; onChange: (id: PlanId) => void; oferta: boolean }) {
+function Opciones({ plan, onChange }: { plan: PlanId; onChange: (id: PlanId) => void }) {
   return (
-    <div className={extra.opciones} role="radiogroup" aria-label={oferta ? "Plan con 50% por 3 meses" : "Plan"}>
+    <div className={extra.opciones} role="radiogroup" aria-label="Plan con 50% por 3 meses">
       {PLANES.map((p) => (
         <label key={p.id} className={`${extra.opcion} ${plan === p.id ? extra.opcionOn : ""}`} data-plan-opcion={p.id}>
-          <input type="radio" name={oferta ? "oferta" : "plan"} value={p.id} checked={plan === p.id} onChange={() => onChange(p.id)} />
+          <input type="radio" name="oferta" value={p.id} checked={plan === p.id} onChange={() => onChange(p.id)} />
           <span className={extra.nombre}>{p.name}</span>
-          <span className={extra.precio} data-precio>
-            {oferta ? p.oferta : p.lista}
-            {oferta ? <s>{p.lista}</s> : null}
+          <span key={plan === p.id ? `sel-${plan}` : p.id} className={`${extra.precio} ${plan === p.id ? extra.tick : ""}`} data-precio>
+            {monto(p.ofertaUsd)}
+            <s>{monto(p.listaUsd)}</s>
           </span>
           <p className={extra.detalle}>{p.detalle}</p>
         </label>

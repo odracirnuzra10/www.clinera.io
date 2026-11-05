@@ -1,4 +1,4 @@
-/* Paso 1 y paso 4 de /contrata: filas compactas para que quepan en 375×667. */
+/* Paso final de /contrata: filas compactas para que quepan en 375×667. */
 
 .opciones {
   display: grid;
@@ -86,10 +86,32 @@
   background: transparent;
   border: 0;
   color: #0a0a0a;
-  font: 600 16px/1.2 inherit;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
+}
+
+.ctaPago { display: flex; align-items: center; justify-content: center; text-decoration: none; }
+
+.destacado { position: relative; display: inline-block; white-space: nowrap;
+  background: linear-gradient(90deg, #3b82f6, #7c3aed, #3b82f6); background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: entrada .5s cubic-bezier(.16,1,.3,1) both, brillo 2.4s ease-in-out .5s 2; }
+.destacado::after { content: ""; position: absolute; left: 0; right: 0; bottom: -.06em; height: .12em;
+  border-radius: 2px; background: linear-gradient(90deg, #3b82f6, #7c3aed);
+  transform: scaleX(0); transform-origin: left; animation: subrayado .6s cubic-bezier(.16,1,.3,1) .35s forwards; }
+.tick { display: inline-block; animation: tick .35s ease-out; }
+@keyframes entrada { from { opacity: 0; transform: translateY(6px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes brillo { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes subrayado { to { transform: scaleX(1); } }
+@keyframes tick { from { opacity: .4; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .destacado, .tick { animation: none; }
+  .destacado::after { animation: none; transform: scaleX(1); }
 }
 
 .embed {

@@ -1364,6 +1364,8 @@ aprobar, `/planes` pasa a ser esta página (y `/planes2` vuelve a redirigir).
 
 # `/contrata`: landing L2 «Software» con Hex y Flux (Ricardo, 4-nov-2026)
 
+Superado el 5-nov-2026: ahora es el wizard (ver abajo). La trampa `/contrata/:path+` sigue vigente.
+
 `/contrata` era una redirección 308 a `/planes`; ahora es la landing L2 (la L1, el Ecosistema, es `/agenda`).
 Boletas de Hex (US$ 35, WhatsApp con 50 conversaciones) y Flux (US$ 55, WhatsApp con 200), con la identidad
 de `/agenda`. **Desde el 4-nov todos los planes traen WhatsApp**: Hex ya no va «sin WhatsApp» en
@@ -1416,4 +1418,12 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
 
 # `/contrata` es el wizard de contratación (Ricardo, 5-nov-2026)
 
-Dejó de ser la boleta de Hex/Flux. Ahora usa el cascarón de `/agenda` (`ContrataWizard`: pantalla partida, 4 pasos) con contenido de contratación. «Contratar» en `/kimi` y `/home-nuevo` navega a `/contrata?plan=…` y ya no abre el popup. El 50% por 3 meses (Flux 39,50 · Hex 89,50 · Vortex 139,50) aparece solo en el paso 4. Checkout y webhook siguen como marcadores en `ContrataWizard.tsx` (`CHECKOUT`, `WEBHOOK_URL`). La foto de Método Hebe es un placeholder: `public/kimi/hebe-testimonio.jpg`. Guardián: `tests/contrata.spec.ts`.
+- El cascarón de `/agenda` en **3 pasos**: tus datos, tu clínica (con confirmación) y tu oferta. El plan se elige **solo en el último paso**, con el 50% × 3 meses animado (respeta `prefers-reduced-motion`). `?plan=` solo lo preselecciona.
+- «Contratar» en `/kimi` y `/home-nuevo` lleva a `/contrata?plan=…` con la atribución de la visita (utm, gclid, gbraid, wbraid, fbclid).
+- El CTA va a `checkoutUrl(plan, { promo: true })` de `src/content/checkout.ts`: utm, `prefilled_email`, gclid saneado como `client_reference_id` base (Analytics.tsx lo reemplaza al hacer clic por el de 7 segmentos; el wizard dispara `clinera:routechange` para que se enganche al link montado tarde).
+- **`PROMO_CODE` está vacío**: el cupón `FPxQMFcc` no tiene promotion code; hasta que Ricardo lo cree, el link cobra precio lleno.
+- `WEBHOOK_URL` sigue de marcador: si no es https válido no se envía y se avisa por consola, sin frenar el paso.
+- El embed recibe `fecha`/`date` = `proximoDiaHabil()` (`src/lib/dia-habil.ts`; las landings estáticas llevan una copia). No hay evidencia de que app.clinera.io lo lea: puede requerir cambio allá.
+- La foto de Método Hebe es un placeholder (`public/kimi/hebe-testimonio.jpg`).
+- `ContrataLanding` se borró.
+- Guardianes: `contrata.spec.ts`, `kimi-home-nuevo.spec.ts`, `dia-habil.spec.ts`.
