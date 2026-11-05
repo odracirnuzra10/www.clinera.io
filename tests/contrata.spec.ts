@@ -132,11 +132,15 @@ test.describe("/contrata", () => {
     await expect(card).toContainText("US$ 190");
     await expect(card).toContainText("cobro único");
     await expect(card).not.toContainText("50% por 3 meses");
+    await expect(card).toHaveAttribute("data-espera", "si");
     await expect(card.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
     await page.locator("[data-flux-base]").getByRole("button", { name: "Agregar al carrito" }).click();
+    await expect(card).toHaveAttribute("data-espera", "no");
     await card.getByRole("button", { name: "Agregar al carrito" }).click();
     await page.locator("[data-carrito-icon]").click();
     const drawer = page.locator("[data-drawer]");
+    await expect(drawer.getByRole("button", { name: "Quitar Clinera Flux" })).toBeVisible();
+    await expect(drawer.getByRole("button", { name: "Sumar Clinera Flux" })).toHaveCount(0);
     await expect(drawer).toContainText("cobro único");
     await expect(drawer).toContainText("50% por 3 meses");
     await expect(drawer.locator("[data-total-hoy]")).toContainText("204,50");

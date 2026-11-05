@@ -80,6 +80,7 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   expect(orden.planes).toBeGreaterThan(orden.funciones);
   const carril = page.locator("[data-testid=plan-addons]");
   const prof = carril.locator("[data-addon=profesional_extra]");
+  await expect(prof).toHaveClass(/espera/);
   await expect(prof.locator("img")).toHaveAttribute("src", "/kimi/productos/profesional.jpg");
   await expect(carril.locator("[data-addon=sucursal_extra] img")).toHaveAttribute("src", "/kimi/productos/sucursal.jpg");
   await expect(carril.locator("[data-addon=conversaciones_1000] img")).toHaveAttribute("src", "/kimi/productos/conversaciones.jpg");
@@ -99,12 +100,15 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await flux.getByRole("button", { name: "Agregar al carrito" }).click();
   await expect(page.locator("[data-toast]")).toHaveText("Agregado al carrito");
   await expect(page.locator("[data-carrito-count]")).toHaveText("1");
+  await expect(prof).not.toHaveClass(/espera/);
   await expect(prof.getByRole("button", { name: "Agregar al carrito" })).toBeEnabled();
   await carril.locator("[data-addon=instagram]").getByRole("button", { name: "Agregar al carrito" }).click();
   await onboarding.getByRole("button", { name: "Agregar al carrito" }).click();
   await page.locator("[data-carrito-icon]").click();
   const drawer = page.locator("[data-drawer]");
   await expect(drawer).toBeVisible();
+  await expect(drawer.getByRole("button", { name: "Quitar Clinera Flux" })).toBeVisible();
+  await expect(drawer.getByRole("button", { name: "Sumar Clinera Flux" })).toHaveCount(0);
   await expect(drawer.getByRole("button", { name: "Activar" })).toBeVisible();
   await expect(drawer).toContainText("50% por 3 meses");
   await expect(drawer).toContainText("cobro único");

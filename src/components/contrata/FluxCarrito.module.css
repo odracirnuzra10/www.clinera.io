@@ -122,9 +122,9 @@
   gap: 12px 14px;
   margin-top: 18px;
   padding: 16px;
-  border: 1px solid #e5e7eb;
+  border: 2px solid #6d28d9;
   border-radius: 18px;
-  background: #fff;
+  background: #f5f3ff;
 }
 
 .foto {
@@ -220,6 +220,12 @@
 .cardOn {
   border-color: #6d28d9;
   background: #f5f3ff;
+}
+
+.espera {
+  filter: grayscale(1);
+  background: #f3f4f6;
+  border-color: #e5e7eb;
 }
 
 .cardTop {
@@ -560,9 +566,23 @@
   align-items: center;
 }
 
-.drawer .stepper {
+.drawer .stepper,
+.quitarLinea {
   grid-column: 1 / -1;
   margin-top: 4px;
+}
+
+.quitarLinea {
+  justify-self: start;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid #6d28d9;
+  border-radius: 10px;
+  background: #fff;
+  color: #6d28d9;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .drawer .urgenciaChica { display: none; }

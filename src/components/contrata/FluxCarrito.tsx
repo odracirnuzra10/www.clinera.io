@@ -506,7 +506,13 @@ export default function FluxCarrito({
                     {carrito[id] > 1 ? ` × ${carrito[id]}` : ""}
                   </span>
                   <span className={styles.num}>{monto(CARRITO[id].usd * carrito[id])}</span>
-                  <Stepper id={id} qty={carrito[id]} donde="drawer" onAdd={() => fijar(id, 1)} onSub={() => fijar(id, -1)} />
+                  {id === "flux_base" ? (
+                    <button type="button" className={styles.quitarLinea} aria-label="Quitar Clinera Flux" onClick={() => fijar("flux_base", -1)}>
+                      Quitar
+                    </button>
+                  ) : (
+                    <Stepper id={id} qty={carrito[id]} donde="drawer" onAdd={() => fijar(id, 1)} onSub={() => fijar(id, -1)} />
+                  )}
                 </li>
               ))}
             </ul>
@@ -654,7 +660,7 @@ function Addon({
   const enCarrito = qty > 0;
   const esperaFlux = bloqueado && !enCarrito;
   return (
-    <article className={`${styles.card} ${enCarrito ? styles.cardOn : ""}`} data-addon={id}>
+    <article className={`${styles.card} ${enCarrito ? styles.cardOn : ""} ${bloqueado ? styles.espera : ""}`} data-addon={id} data-espera={bloqueado ? "si" : "no"}>
       <div className={styles.addonTop}>
         <div className={styles.icono}>
           <Foto id={id} />
