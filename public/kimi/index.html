@@ -223,6 +223,10 @@ html.wiz-lock,html.wiz-lock body{overflow:hidden}
 #wiz-offer .offer-price strong small{font-size:1rem;font-weight:600;color:var(--muted);letter-spacing:0;margin-left:2px}
 #wiz-offer .offer-price s{color:var(--muted);font-size:1.05rem;font-weight:500}
 #wiz-offer .offer-terms{color:var(--muted);font-size:.88rem;margin-top:-4px}
+#wiz-offer .offer-incl{list-style:none;margin:2px 0 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+#wiz-offer .offer-incl li{display:inline-flex;align-items:center;gap:5px;font-size:.82rem;font-weight:600;color:var(--text);border:1px solid var(--border);border-radius:999px;padding:4px 9px 4px 7px;background:#fff;white-space:nowrap}
+#wiz-offer .offer-incl .ic{width:16px;height:16px;color:var(--accent);stroke-width:1.8}
+#wiz-offer .offer-incl .ch{width:16px;height:16px}
 .offer-cta{display:grid;gap:8px;margin-top:6px}
 .offer-cta .btn{width:100%;padding:15px 20px}
 #wiz-offer .offer-ventas{margin-top:-2px}
@@ -594,6 +598,11 @@ footer a.ext{color:var(--text);font-weight:500}
       <div id="wiz-offer" data-testid="wiz-offer" hidden>
         <p class="offer-price"><strong>USD 39,50<small>/mes</small></strong> <s>USD 79<span class="sr-only"> antes</span></s></p>
         <p class="offer-terms">por 3 meses, luego USD 79/mes · sin costo de implementación</p>
+        <ul class="offer-incl" aria-label="Incluye" data-testid="offer-incl">
+          <li><svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg>Conexión a WhatsApp</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>Agenda online</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>500 conversaciones al mes</li>
+        </ul>
         <div class="offer-cta">
           <!-- TODO: reemplazar [LINK CHECKOUT FLUX 50%] por el link real de checkout de Flux con 50% de descuento -->
           <a class="btn grad block" id="wiz-offer-link" href="[LINK CHECKOUT FLUX 50%]" target="_blank" rel="noopener">Aprovechar oferta</a>
