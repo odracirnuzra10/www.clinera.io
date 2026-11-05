@@ -496,10 +496,36 @@
 
 .drawerCabeza {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   padding-top: 14px;
   padding-bottom: 8px;
+}
+
+.estado {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 4px;
+  color: #6d28d9;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.chk {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  border-radius: 999px;
+  background: #6d28d9;
+  color: #fff;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .cerrar {
@@ -561,8 +587,54 @@
 
 .resumenTitulo {
   margin: 0;
-  font-size: 22px;
+  font-size: 26px;
+  line-height: 1.1;
   letter-spacing: -0.03em;
+  max-width: 16ch;
+}
+
+.salida {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.salidaCard {
+  position: relative;
+  z-index: 1;
+  width: min(420px, 100%);
+  padding: 22px 20px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgba(17, 24, 39, 0.2);
+}
+
+.salidaCard h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.salidaCard p {
+  margin: 0 0 16px;
+  color: #374151;
+}
+
+.salidaNo {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 8px;
+  border: 0;
+  background: transparent;
+  color: #374151;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
 }
 
 .lineas,

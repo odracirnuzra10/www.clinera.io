@@ -172,6 +172,49 @@ export default function FluxCarrito({
     return () => window.clearTimeout(t);
   }, [aviso]);
 
+  const [salida, setSalida] = useState(false);
+  const salirRef = useRef({ flux: false, pagar: () => {}, agregar: () => {} });
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("pago") === "ok") return;
+    let armado = false;
+    const t = window.setTimeout(() => { armado = true; }, 4000);
+    const visto = () => {
+      try { return sessionStorage.getItem("clinera_oferta_salida") === "1"; } catch { return true; }
+    };
+    const abrir = () => {
+      if (!armado || visto()) return;
+      try { sessionStorage.setItem("clinera_oferta_salida", "1"); } catch { /* la sesión igual sigue */ }
+      setSalida(true);
+    };
+    const onOut = (e: MouseEvent) => {
+      if (e.clientY > 8 || e.relatedTarget) return;
+      abrir();
+    };
+    let oculto = false;
+    const onVis = () => {
+      if (document.visibilityState === "hidden") { oculto = true; return; }
+      if (oculto) { oculto = false; abrir(); }
+    };
+    document.addEventListener("mouseout", onOut);
+    document.addEventListener("visibilitychange", onVis);
+    let onBack: (() => void) | null = null;
+    if (window.matchMedia("(max-width: 800px)").matches) {
+      history.pushState({ clineraSalida: 1 }, "");
+      onBack = () => {
+        if (visto()) return;
+        abrir();
+        history.pushState({ clineraSalida: 1 }, "");
+      };
+      window.addEventListener("popstate", onBack);
+    }
+    return () => {
+      window.clearTimeout(t);
+      document.removeEventListener("mouseout", onOut);
+      document.removeEventListener("visibilitychange", onVis);
+      if (onBack) window.removeEventListener("popstate", onBack);
+    };
+  }, []);
+
   useEffect(() => {
     if (!abierto) return;
     const previo = document.body.style.overflow;
@@ -187,6 +230,12 @@ export default function FluxCarrito({
   }, [abierto]);
 
   if (pago === "ok") return <Exito sessionId={sessionId} />;
+
+  salirRef.current = {
+    flux: carrito.flux_base > 0,
+    pagar: () => { void pagar(); },
+    agregar: () => fijar("flux_base", 1),
+  };
 
   const partes = desglose(carrito);
   const lista = partes.lista;
@@ -435,7 +484,10 @@ export default function FluxCarrito({
         aria-labelledby="titulo-carrito"
       >
         <div className={styles.drawerCabeza}>
-          <h2 id="titulo-carrito" className={styles.resumenTitulo}>Tu carrito</h2>
+          <div>
+            <p className={styles.estado}><span className={styles.chk} aria-hidden="true">✓</span> Tu clínica</p>
+            <h2 id="titulo-carrito" className={styles.resumenTitulo}>Tu clínica está a punto de crecer</h2>
+          </div>
           <button type="button" className={styles.cerrar} aria-label="Cerrar" onClick={() => setAbierto(false)}>
             ×
           </button>
@@ -448,6 +500,7 @@ export default function FluxCarrito({
               {lineas.map((id) => (
                 <li key={id}>
                   <span>
+                    <i className={styles.chk} aria-hidden="true">✓</i>
                     {CARRITO[id].nombre}
                     {CARRITO[id].cobro === "unico" ? " · cobro único" : ""}
                     {carrito[id] > 1 ? ` × ${carrito[id]}` : ""}
@@ -500,6 +553,28 @@ export default function FluxCarrito({
           <a className={styles.secundario} href={agenda} data-cta="agendar-reunion">Agendar reunión</a>
         </div>
       </aside>
+      {salida ? (
+        <div className={styles.salida} role="dialog" aria-modal="true" aria-labelledby="salida-titulo" data-salida>
+          <button type="button" className={styles.cortina} aria-label="Cerrar oferta" onClick={() => setSalida(false)} />
+          <div className={styles.salidaCard}>
+            <p className={styles.estado}><span className={styles.chk} aria-hidden="true">✓</span> 50% por 3 meses</p>
+            <h2 id="salida-titulo">No te vayas sin tu 50%</h2>
+            <p>Clinera Flux queda en US$ 14,50 por 3 meses. Después vuelve al precio normal.</p>
+            <button
+              type="button"
+              className={styles.cta}
+              onClick={() => {
+                setSalida(false);
+                if (salirRef.current.flux) salirRef.current.pagar();
+                else salirRef.current.agregar();
+              }}
+            >
+              {salirRef.current.flux ? "Activar" : "Agregar Flux"}
+            </button>
+            <button type="button" className={styles.salidaNo} onClick={() => setSalida(false)}>Ahora no</button>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

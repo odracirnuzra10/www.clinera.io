@@ -33,7 +33,7 @@ for (const ruta of ["/kimi", "/home-nuevo"]) {
       await page.goto(ruta, { waitUntil: "domcontentloaded" });
       await expect(page.locator("[data-testid=hebe-testimonio] img")).toHaveAttribute(
         "alt",
-        "Clienta de Método Hebe sosteniendo una bolsa de la clínica",
+        "Clínicas de Método Hebe en Vitacura, Concón y Los Ángeles",
       );
     });
 

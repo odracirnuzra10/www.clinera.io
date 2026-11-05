@@ -307,7 +307,20 @@ footer a.ext{color:var(--text);font-weight:500}
 .drawer{position:fixed;z-index:80;background:#fff;display:flex;flex-direction:column;box-shadow:0 12px 40px rgba(17,24,39,.18)}
 .drawer header,.drawer footer{padding:14px 16px}
 .drawer header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.drawer header h2{font-size:1.2rem}
+.drawer header{align-items:flex-start}
+.drawer header h2{font-size:1.55rem;line-height:1.15;letter-spacing:-.03em;max-width:16ch}
+.estado{display:flex;align-items:center;gap:8px;margin:0 0 4px;color:#6D28D9;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.chk{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:999px;background:#6D28D9;color:#fff;font-style:normal;font-size:11px;font-weight:700;flex:none}
+.linea .chk{margin-right:6px}
+.salida{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:16px}
+.salida[hidden]{display:none}
+.salida-fondo{position:absolute;inset:0;background:rgba(17,24,39,.45);border:0}
+.salida-card{position:relative;width:min(420px,100%);background:#fff;color:#111827;border-radius:20px;padding:22px 20px;box-shadow:0 18px 50px rgba(17,24,39,.2)}
+.salida-card h2{font-size:1.7rem;line-height:1.1;letter-spacing:-.03em;margin:0 0 8px}
+.salida-card p{margin:0 0 16px;color:#374151}
+.salida-card .estado{color:#6D28D9}
+.salida-card .btn{width:100%}
+.salida-no{display:block;width:100%;margin-top:8px;background:transparent;border:0;color:#374151;font:inherit;font-weight:650;min-height:44px;cursor:pointer}
 .drawer header button{width:36px;height:36px;border-radius:999px;border:0;background:#F5F3FF;color:#5B21B6;font-size:1.3rem;cursor:pointer}
 .drawer-cuerpo{overflow:auto;padding:8px 16px;min-height:0;flex:1}
 .linea{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:.95rem}
@@ -485,9 +498,8 @@ footer a.ext{color:var(--text);font-weight:500}
 
 <section class="sec hebe" id="hebe" data-testid="hebe-testimonio">
   <div class="wrap">
-    <!-- Foto pendiente: reemplazar public/kimi/hebe-testimonio.jpg (1200×800). -->
     <figure class="hebe-card">
-      <img src="/kimi/hebe-testimonio.jpg" width="1200" height="800" alt="Clienta de Método Hebe sosteniendo una bolsa de la clínica">
+      <img src="/kimi/hebe-testimonio.jpg" width="1200" height="900" alt="Clínicas de Método Hebe en Vitacura, Concón y Los Ángeles">
       <figcaption>Método Hebe, la red de clínicas que sigue creciendo en Chile con la IA de Clinera</figcaption>
     </figure>
   </div>
@@ -657,7 +669,10 @@ footer a.ext{color:var(--text);font-weight:500}
 <div class="velo" data-velo hidden></div>
 <aside class="drawer" id="tu-carrito" data-drawer hidden role="dialog" aria-labelledby="t-carrito">
   <header>
-    <h2 id="t-carrito">Tu carrito</h2>
+    <div>
+      <p class="estado"><span class="chk" aria-hidden="true">✓</span> Tu clínica</p>
+      <h2 id="t-carrito">Tu clínica está a punto de crecer</h2>
+    </div>
     <button type="button" data-cerrar aria-label="Cerrar carrito">×</button>
   </header>
   <div class="drawer-cuerpo" data-lineas></div>
@@ -670,6 +685,17 @@ footer a.ext{color:var(--text);font-weight:500}
   </footer>
 </aside>
 <div class="toast" data-toast hidden>Agregado al carrito</div>
+
+<div class="salida" data-salida hidden role="dialog" aria-modal="true" aria-labelledby="salida-titulo">
+  <button class="salida-fondo" type="button" data-salida-cerrar aria-label="Cerrar oferta"></button>
+  <div class="salida-card">
+    <p class="estado"><span class="chk" aria-hidden="true">✓</span> 50% por 3 meses</p>
+    <h2 id="salida-titulo">No te vayas sin tu 50%</h2>
+    <p>Clinera Flux queda en USD 14,50 por 3 meses. Después vuelve al precio normal.</p>
+    <button class="btn grad" type="button" data-salida-cta>Agregar Flux</button>
+    <button class="salida-no" type="button" data-salida-cerrar>Ahora no</button>
+  </div>
+</div>
 
 <div class="mcta" id="mobile-cta" data-testid="mobile-cta">
   <div class="mcta-row">
@@ -898,7 +924,7 @@ footer a.ext{color:var(--text);font-weight:500}
       var spec=SPEC[id];
       var mas=cart[id]>=spec.max?" disabled":"";
       var menos=spec.max===1?"":"";
-      html+='<div class="linea"><span>'+spec.nombre+(spec.once?" · cobro único":"")+'</span><b>'+money(spec.usd*cart[id])+'</b>'+
+      html+='<div class="linea"><span><i class="chk" aria-hidden="true">✓</i>'+spec.nombre+(spec.once?" · cobro único":"")+'</span><b>'+money(spec.usd*cart[id])+'</b>'+
         '<div class="stepper"><button type="button" data-id="'+id+'" data-delta="-1" aria-label="Quitar '+spec.nombre+' en el carrito">−</button>'+
         '<output>'+cart[id]+'</output>'+
         '<button type="button" data-id="'+id+'" data-delta="1" aria-label="Sumar '+spec.nombre+' en el carrito"'+mas+'>+</button></div></div>';
@@ -938,6 +964,42 @@ footer a.ext{color:var(--text);font-weight:500}
     pintar();
   }
 
+  var salidaEl=document.querySelector("[data-salida]");
+  var salidaLista=false;
+  setTimeout(function(){salidaLista=true;},4000);
+  function salidaVista(){ try{return sessionStorage.getItem("clinera_oferta_salida")==="1";}catch(e){return true;} }
+  function abrirSalida(){
+    if(!salidaLista||!salidaEl||!salidaEl.hidden||salidaVista())return;
+    var wiz=document.getElementById("wizard");
+    if(wiz&&!wiz.hidden)return;
+    try{sessionStorage.setItem("clinera_oferta_salida","1");}catch(e){}
+    var cta=salidaEl.querySelector("[data-salida-cta]");
+    if(cart.flux_base>0){cta.textContent="Activar";cta.setAttribute("data-salida-accion","activar");}
+    else{cta.textContent="Agregar Flux";cta.removeAttribute("data-salida-accion");}
+    salidaEl.hidden=false;
+  }
+  function cerrarSalida(){ if(salidaEl)salidaEl.hidden=true; }
+  document.addEventListener("mouseout",function(e){
+    if(e.clientY>8||e.relatedTarget)return;
+    abrirSalida();
+  });
+  var oculto=false;
+  document.addEventListener("visibilitychange",function(){
+    if(document.visibilityState==="hidden"){oculto=true;return;}
+    if(oculto){oculto=false;abrirSalida();}
+  });
+  if(window.matchMedia("(max-width: 800px)").matches){
+    history.pushState({clineraSalida:1},"");
+    window.addEventListener("popstate",function(){
+      if(salidaVista())return;
+      abrirSalida();
+      history.pushState({clineraSalida:1},"");
+    });
+  }
+  document.addEventListener("keydown",function(e){
+    if(e.key==="Escape"&&salidaEl&&!salidaEl.hidden)cerrarSalida();
+  });
+
   document.addEventListener("click",function(ev){
     var add=ev.target.closest("[data-agregar]");
     if(add){ev.preventDefault();fijar(add.getAttribute("data-agregar"), cart[add.getAttribute("data-agregar")]>0 && SPEC[add.getAttribute("data-agregar")].max===1 ? -1 : 1);return;}
@@ -950,6 +1012,14 @@ footer a.ext{color:var(--text);font-weight:500}
     }
     if(ev.target.closest("[data-carrito-icon]")){abierto=!abierto;pintar();return;}
     if(ev.target.closest("[data-cerrar]")||ev.target.closest("[data-velo]")){abierto=false;pintar();return;}
+    if(ev.target.closest("[data-salida-cerrar]")){cerrarSalida();return;}
+    var salidaCta=ev.target.closest("[data-salida-cta]");
+    if(salidaCta){
+      cerrarSalida();
+      if(salidaCta.getAttribute("data-salida-accion")==="activar") pagar();
+      else fijar("flux_base",1);
+      return;
+    }
     if(ev.target.closest('[data-carril="next"]')){document.querySelector(".carril").scrollBy({left:220,behavior:"smooth"});return;}
     if(ev.target.closest('[data-carril="prev"]')){document.querySelector(".carril").scrollBy({left:-220,behavior:"smooth"});return;}
     var pay=ev.target.closest('[data-cta="carrito-checkout"]');

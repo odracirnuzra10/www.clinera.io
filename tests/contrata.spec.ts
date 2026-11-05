@@ -28,7 +28,7 @@ test.describe("/contrata", () => {
     await expect(page.getByRole("link", { name: "Ley 21.719 de datos personales" })).toHaveAttribute("href", "/seguridad");
     await expect(page.getByRole("link", { name: "Ficha clínica y Ley 20.584" })).toHaveAttribute("href", "/ley20584");
     await page.locator("[data-carrito-icon]").click();
-    await expect(page.getByRole("heading", { name: "Tu carrito" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Tu clínica está a punto de crecer" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Activar" })).toBeVisible();
     await expect(page.getByText("No pierdas más tu tiempo")).toBeVisible();
     await expect(page.locator(".ver-demo-float")).toHaveCount(0);
