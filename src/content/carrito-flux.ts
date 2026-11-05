@@ -1,8 +1,9 @@
 // Carrito de /contrata (Ricardo, 5-nov-2026). Flux modular a US$ 29 es un producto
 // distinto del Flux de /planes. Los precios de Stripe todavía no existen: la ruta
-// los busca por lookup_key y, si no están, el carrito ofrece agendar una reunión.
+// los busca por lookup_key y, si no están, el carrito ofrece «Solicita asistencia».
 // No crear Products ni Prices desde este repo.
 
+import { emailValido } from "@/app/api/wizard/validation";
 import { fechaChileISO } from "@/lib/urgencia-dias";
 
 export const FLUX_BASE_INCLUYE = [
@@ -130,4 +131,69 @@ export function preseleccion(plan: string): Carrito {
   if (plan === "hex") return { instagram: 1, facebook: 1 };
   if (plan === "vortex") return { instagram: 1, facebook: 1, agente_ia: 1 };
   return {};
+}
+
+/** CTA de asistencia. El texto del mensaje es la atribución: WhatsApp no conserva la URL. */
+export const ASISTENCIA_LABEL = "Solicita asistencia";
+export const ASISTENCIA_WHATSAPP = "https://wa.me/56985581524?text=necesito%20asistencia";
+
+/**
+ * Claves cortas que AURA pone en el link de /contrata. `oh` (onboarding) no
+ * se lee: ese adicional no se prearma desde WhatsApp.
+ */
+const QUERY_A_ID = {
+  pe: "profesional_extra",
+  se: "sucursal_extra",
+  c1k: "conversaciones_1000",
+  ig: "instagram",
+  fb: "facebook",
+  ia: "agente_ia",
+  em: "email_marketing",
+  au: "automatizaciones",
+} as const satisfies Record<string, Exclude<ItemId, "flux_base" | "onboarding_humano">>;
+
+const PLANES_QUERY = new Set(["flux", "hex", "vortex"]);
+
+export type CarritoQuery = {
+  /** Hay plan o una cantidad: esta visita manda sobre el carrito guardado. */
+  aplica: boolean;
+  carrito: Record<ItemId, number>;
+  /** Vacío si no vino o no pasa `emailValido`. Ya va en minúsculas. */
+  email: string;
+};
+
+function paramsDe(raw: string | URLSearchParams): URLSearchParams {
+  if (typeof raw !== "string") return raw;
+  const q = raw.includes("?") ? raw.slice(raw.indexOf("?") + 1) : raw.replace(/^\?/, "");
+  return new URLSearchParams(q);
+}
+
+/**
+ * Arma el carrito de una visita de AURA: `?plan=` (preselección) y las
+ * cantidades cortas se pisan entre sí, y `sanear` recorta. En noviembre el
+ * regalo deja `em` y `au` en 0 aunque el link diga 1. Sin plan ni cantidad
+ * no aplica, para no borrar el carrito de `?pago=cancelado`.
+ */
+export function carritoDesdeQuery(raw: string | URLSearchParams, now: Date = new Date()): CarritoQuery {
+  const params = paramsDe(raw);
+  const plan = (params.get("plan") ?? "").trim().toLowerCase();
+  const overlay: Carrito = {};
+  let tieneQty = false;
+  for (const corto of Object.keys(QUERY_A_ID) as (keyof typeof QUERY_A_ID)[]) {
+    const v = params.get(corto);
+    if (v == null) continue;
+    const t = v.trim();
+    if (!/^-?\d+$/.test(t)) continue;
+    overlay[QUERY_A_ID[corto]] = Number(t);
+    tieneQty = true;
+  }
+  const planOk = PLANES_QUERY.has(plan);
+  const aplica = planOk || tieneQty;
+  const emailRaw = (params.get("email") ?? "").trim().toLowerCase().slice(0, 200);
+  const email = emailRaw && emailValido(emailRaw) ? emailRaw : "";
+  const carrito = sanear(
+    aplica ? { flux_base: 1, ...preseleccion(planOk ? plan : ""), ...overlay } : {},
+    now,
+  );
+  return { aplica, carrito, email };
 }

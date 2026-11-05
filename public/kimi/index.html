@@ -449,6 +449,7 @@ footer a.ext{color:var(--text);font-weight:500}
       <img src="/kimi/clinera-logo.png" alt="Clinera" width="411" height="96" decoding="async">
     </a>
     <div class="nav-cta">
+      <a class="btn sm outline" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia">Solicita asistencia</a>
       <button class="btn sm grad" type="button" data-flujo="principal"><span data-etiqueta>Agregar al carrito</span></button>
     </div>
     <button class="bolsa" type="button" data-carrito-icon aria-expanded="false" aria-controls="tu-carrito" aria-label="Tu carrito, 0 ítems">
@@ -468,6 +469,7 @@ footer a.ext{color:var(--text);font-weight:500}
       <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. <strong>Activa Flux a USD 14,50/mes</strong> por 3 meses. Después, USD 29/mes.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
         <button class="btn grad" type="button" data-flujo="principal" data-vacio="Activa Flux a USD 14,50/mes"><span data-etiqueta>Activa Flux a USD 14,50/mes</span></button>
+        <a class="btn outline" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia">Solicita asistencia</a>
       </div>
       <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
     </div>
@@ -645,6 +647,7 @@ footer a.ext{color:var(--text);font-weight:500}
     <p class="lead rv" style="--i:2">Agrega Clinera Flux y elige lo que tu clínica necesita.</p>
     <div class="cta rv" style="--i:3">
       <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Agregar al carrito</span></button>
+      <a class="btn outline light" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia">Solicita asistencia</a>
     </div>
     <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
   </div>
@@ -680,7 +683,7 @@ footer a.ext{color:var(--text);font-weight:500}
     <p class="apuro">No pierdas más tu tiempo</p>
     <button class="btn grad block" type="button" data-cta="carrito-checkout" data-plan="flux_modular" data-plan-value="0">Activar</button>
     <p class="err" data-error hidden></p>
-    <p hidden data-agenda><a href="/agenda" data-cta="agendar-reunion">Agendar reunión</a></p>
+    <p hidden data-agenda><a href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia">Solicita asistencia</a></p>
   </footer>
 </aside>
 <div class="toast" data-toast hidden>Agregado al carrito</div>
@@ -794,7 +797,7 @@ footer a.ext{color:var(--text);font-weight:500}
         <div class="offer-cta">
           <!-- TODO: reemplazar [LINK CHECKOUT FLUX 50%] por el link real de checkout de Flux con 50% de descuento -->
           <a class="btn grad block" id="wiz-offer-link" href="/contrata?plan=flux" data-contrata-link data-cta="oferta-popup" data-plan="Flux">Aprovechar oferta</a>
-          <button class="btn outline block" type="button" id="wiz-agendar" data-testid="wiz-agendar">Agendar reunión</button>
+          <a class="btn outline block" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia">Solicita asistencia</a>
         </div>
         <p class="offer-ventas micro" id="wiz-offer-ventas" hidden>Igual un especialista te contactará pronto.</p>
       </div>
@@ -1380,7 +1383,7 @@ footer a.ext{color:var(--text);font-weight:500}
     var f=proximoDiaHabil();q.set('fecha',f);q.set('date',f);
     return EMBED_BASE+'?'+q.toString();
   }
-  agendarBtn.addEventListener('click',function(){
+  if(agendarBtn)agendarBtn.addEventListener('click',function(){
     if(!done)return;
     view='agenda';
     if(!agendaFrame.getAttribute('src'))agendaFrame.src=embedSrc();

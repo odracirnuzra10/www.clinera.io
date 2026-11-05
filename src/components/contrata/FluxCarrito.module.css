@@ -25,6 +25,22 @@
   text-decoration: none;
 }
 
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.asistencia {
+  color: #111;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
 .bolsa {
   position: relative;
   display: grid;
@@ -798,6 +814,22 @@
   text-align: center;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.asistenciaBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-top: 8px;
+  border: 1.5px solid #111;
+  border-radius: 12px;
+  background: #fff;
+  color: #111;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
 }
 
 .exito { max-width: 640px; margin: 0 auto; padding: 48px 20px 80px; }

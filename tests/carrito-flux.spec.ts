@@ -3,6 +3,7 @@ import {
   CARRITO,
   FLUX_BASE_INCLUYE,
   carritoCorto,
+  carritoDesdeQuery,
   regaloVigente,
   sanear,
   totalLista,
@@ -72,5 +73,54 @@ test.describe("catálogo del carrito Flux", () => {
     expect(totalLista(pedido, dic)).toBe(47);
     expect(totalPromo(pedido, dic)).toBe(23.5);
     expect(carritoCorto(pedido, dic)).toBe('{"em":1,"au":1}');
+  });
+
+  test("la query de AURA arma el carrito y en noviembre apaga em y au", () => {
+    const q = carritoDesdeQuery("?plan=flux&pe=3&ig=1&fb=1&em=1&au=1", nov);
+    expect(q.aplica).toBe(true);
+    expect(q.carrito.flux_base).toBe(1);
+    expect(q.carrito.profesional_extra).toBe(3);
+    expect(q.carrito.instagram).toBe(1);
+    expect(q.carrito.facebook).toBe(1);
+    expect(q.carrito.email_marketing).toBe(0);
+    expect(q.carrito.automatizaciones).toBe(0);
+    expect(q.carrito.onboarding_humano).toBe(0);
+  });
+
+  test("en diciembre em y au de la query sí entran", () => {
+    const q = carritoDesdeQuery("plan=flux&em=1&au=1", dic);
+    expect(q.carrito.email_marketing).toBe(1);
+    expect(q.carrito.automatizaciones).toBe(1);
+  });
+
+  test("la query pisa la preselección, ignora lo que no es entero y recorta", () => {
+    const q = carritoDesdeQuery("?plan=hex&ig=0&pe=99&c1k=no&se=-2&oh=1", nov);
+    expect(q.carrito.instagram).toBe(0);
+    expect(q.carrito.facebook).toBe(1);
+    expect(q.carrito.profesional_extra).toBe(50);
+    expect(q.carrito.sucursal_extra).toBe(0);
+    expect(q.carrito.conversaciones_1000).toBe(0);
+    expect(q.carrito.onboarding_humano).toBe(0);
+    expect(q.carrito.agente_ia).toBe(0);
+  });
+
+  test("vortex suma el agente y ia=0 lo apaga", () => {
+    const q = carritoDesdeQuery("?plan=vortex&ia=0&ig=2", nov);
+    expect(q.carrito.agente_ia).toBe(0);
+    expect(q.carrito.instagram).toBe(1);
+    expect(q.carrito.facebook).toBe(1);
+  });
+
+  test("sin plan ni cantidades no pisa el carrito guardado", () => {
+    const q = carritoDesdeQuery("?pago=cancelado&utm_source=ads", nov);
+    expect(q.aplica).toBe(false);
+    expect(q.email).toBe("");
+  });
+
+  test("el email válido se normaliza y el inválido se descarta", () => {
+    expect(carritoDesdeQuery("?email=Ana@Clinica.cl", nov).email).toBe("ana@clinica.cl");
+    expect(carritoDesdeQuery("?email=Ana@Clinica.cl", nov).aplica).toBe(false);
+    expect(carritoDesdeQuery("?email=no-es-correo", nov).email).toBe("");
+    expect(carritoDesdeQuery("?plan=flux&email=ana@", nov).email).toBe("");
   });
 });

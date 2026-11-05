@@ -78,6 +78,10 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await expect(page.locator("#comenzar").getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Hablar con ventas" })).toHaveCount(0);
   await expect(page.getByRole("link", { name: "Hablar con ventas" })).toHaveCount(0);
+  await expect(page.locator("#comenzar").getByRole("link", { name: "Solicita asistencia" })).toHaveAttribute(
+    "href",
+    "https://wa.me/56985581524?text=necesito%20asistencia",
+  );
   await expect(flux.getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveCount(0);
   const orden = await page.evaluate(() => {
@@ -181,12 +185,19 @@ test("el pie de /home-nuevo también enlaza Términos y Privacidad", async ({ pa
   await expect(legal.locator("a", { hasText: "Privacidad" })).toHaveAttribute("href", "/privacidad");
 });
 
-test("/kimi no muestra Hablar con ventas: menú, hero y cierre son el carrito", async ({ page }) => {
+test("/kimi ofrece Solicita asistencia y no muestra Hablar con ventas ni Agendar reunión", async ({ page }) => {
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
+  const wa = "https://wa.me/56985581524?text=necesito%20asistencia";
   await expect(page.getByText("Hablar con ventas")).toHaveCount(0);
-  await expect(page.locator("header").getByRole("button")).toHaveCount(2);
+  await expect(page.getByText("Agendar reunión")).toHaveCount(0);
+  await expect(page.locator("header.nav").getByRole("button")).toHaveCount(2);
   await expect(page.locator("#hero-cta").getByRole("button")).toHaveCount(1);
   await expect(page.locator("#comenzar").getByRole("button")).toHaveCount(1);
+  for (const sel of ["header.nav", "#hero-cta", "#comenzar"]) {
+    const link = page.locator(sel).getByRole("link", { name: "Solicita asistencia", exact: true });
+    await expect(link).toHaveAttribute("href", wa);
+    await expect(link).toHaveAttribute("target", "_blank");
+  }
 });
 
 test("/home-nuevo: el popup llega a la oferta y el embed lleva fecha", async ({ page }) => {

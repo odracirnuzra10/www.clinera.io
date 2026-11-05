@@ -2,7 +2,7 @@
 
 // /contrata: ficha de producto al estilo de una tienda (Mercado Libre), con los
 // colores de Clinera. Flux se agrega al carrito. Activar, dentro del carrito,
-// abre el pago. El correo lo pide Stripe, no esta página.
+// abre el pago. El correo lo pide Stripe; si la URL trae uno válido, viaja en el POST.
 
 import { Outfit } from "next/font/google";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
@@ -15,6 +15,8 @@ const outfit = Outfit({
 });
 import UrgenciaPromo from "@/components/contrata/UrgenciaPromo";
 import {
+  ASISTENCIA_LABEL,
+  ASISTENCIA_WHATSAPP,
   CARRITO,
   FLUX_BASE_INCLUYE,
   ITEM_IDS,
@@ -22,8 +24,8 @@ import {
   type Carrito,
   type ItemId,
   PROMO_PCT,
+  carritoDesdeQuery,
   esRegaloNoviembre,
-  preseleccion,
   regaloVigente,
   sanear,
   totalLista,
@@ -119,17 +121,19 @@ function useRegalo(): boolean | null {
 }
 
 export default function FluxCarrito({
-  planInicial = "",
+  query = "",
   pago = "",
   sessionId = "",
 }: {
-  planInicial?: string;
+  /** Query de esta visita, sin el `?`. La arma el servidor para que un link de AURA no dependa del reloj del efecto. */
+  query?: string;
   pago?: string;
   sessionId?: string;
 }) {
   const [carrito, setCarrito] = useState(() => vista({}));
   const [listo, setListo] = useState(false);
   const [promoOff, setPromoOff] = useState(false);
+  const [emailPrefill, setEmailPrefill] = useState("");
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
   const [aviso, setAviso] = useState("");
@@ -137,18 +141,13 @@ export default function FluxCarrito({
   const debounce = useRef<number | null>(null);
   const foco = useRef<ItemId | null>(null);
   const regalo = useRegalo();
-  const search = useSyncExternalStore(
-    () => () => {},
-    () => window.location.search,
-    () => "",
-  );
-
   useEffect(() => {
-    // ?plan= es la intención de esta visita y gana al carrito guardado.
-    // Con un plan, Flux ya entra: es la base de esa configuración.
+    // La query (?plan= y pe, ig, fb…) es la intención de esta visita y gana
+    // al carrito guardado. Sin eso, vuelve lo de sessionStorage (?pago=cancelado).
+    const desde = carritoDesdeQuery(query);
     let inicial: Carrito = {};
-    if (planInicial) {
-      inicial = { flux_base: 1, ...preseleccion(planInicial) };
+    if (desde.aplica) {
+      inicial = desde.carrito;
     } else {
       try {
         const raw = sessionStorage.getItem(STORAGE);
@@ -157,9 +156,10 @@ export default function FluxCarrito({
         inicial = {};
       }
     }
+    setEmailPrefill(desde.email);
     setCarrito(vista(inicial));
     setListo(true);
-  }, [planInicial]);
+  }, [query]);
 
   useEffect(() => {
     if (!listo) return;
@@ -337,7 +337,12 @@ export default function FluxCarrito({
       const res = await fetch("/api/contrata/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ carrito: limpio, clientRef: ref, utm }),
+        body: JSON.stringify({
+          carrito: limpio,
+          clientRef: ref,
+          utm,
+          ...(emailPrefill ? { email: emailPrefill } : {}),
+        }),
       });
       const json = (await res.json()) as { ok?: boolean; url?: string; promo?: boolean };
       if (json.promo === false) setPromoOff(true);
@@ -356,7 +361,6 @@ export default function FluxCarrito({
     }
   }
 
-  const agenda = `/agenda${search}`;
   const pulso = aviso ? styles.badgePulso : "";
   const lineas = ITEM_IDS.filter((id) => carrito[id] > 0);
 
@@ -364,6 +368,16 @@ export default function FluxCarrito({
     <div className={`${styles.pagina} ${outfit.variable}`} data-carrito>
       <header className={styles.barra}>
         <a className={styles.marca} href="/">clinera</a>
+        <div className={styles.acciones}>
+          <a
+            className={styles.asistencia}
+            href={ASISTENCIA_WHATSAPP}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cta="asistencia"
+          >
+            {ASISTENCIA_LABEL}
+          </a>
         <button
           type="button"
           className={styles.bolsa}
@@ -376,6 +390,7 @@ export default function FluxCarrito({
           <Bolsa />
           {unidades > 0 ? <span className={`${styles.badge} ${pulso}`} data-carrito-count>{unidades}</span> : null}
         </button>
+        </div>
       </header>
       {aviso ? (
         <div className={styles.toast} role="status" data-toast>
@@ -572,7 +587,15 @@ export default function FluxCarrito({
             listo={fluxEnCarrito}
             onClick={pagar}
           />
-          <a className={styles.secundario} href={agenda} data-cta="agendar-reunion">Agendar reunión</a>
+          <a
+            className={styles.asistenciaBtn}
+            href={ASISTENCIA_WHATSAPP}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cta="asistencia"
+          >
+            {ASISTENCIA_LABEL}
+          </a>
         </div>
       </aside>
       {salida ? (
