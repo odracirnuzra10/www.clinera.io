@@ -9,9 +9,10 @@ export const CHECKOUT_URL: Record<PlanCheckoutId, string> = {
 };
 
 // Código de promoción del cupón FPxQMFcc «50% OFF - 3 meses» (percent_off 50, repeating 3).
-// VACÍO A PROPÓSITO: el cupón existe pero no tiene ningún promotion code. Ricardo debe crearlo
-// en Stripe (código previsto: "CLINERA50X3") y pegarlo aquí. Vacío = el link cobra precio lleno.
-export const PROMO_CODE = "";
+// Ricardo lo creó el 5-nov-2026. Solo viaja si checkoutUrl recibe promo: true (/contrata).
+// /planes llama sin promo y cobra el precio de lista. El link de Hex cobra US$ 179
+// (confirmado por Ricardo el mismo día).
+export const PROMO_CODE = "CLINERA50X3";
 
 export const UTM_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"] as const;
 export const TRACKING_PARAMS = [...UTM_PARAMS, "gclid", "gbraid", "wbraid", "fbclid"] as const;

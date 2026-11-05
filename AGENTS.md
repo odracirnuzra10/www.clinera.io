@@ -1426,4 +1426,6 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
 - `/presentacion` muestra los cuatro (Flux, Hex, Vortex, Ecosistema), escritos a mano. `/presentacion-tecnica` sigue con dos planes.
 - Flux y Hex no tienen IA: «Clinera Intelligence» va solo en Vortex.
 - Esto deja obsoletas las secciones del 4-nov «/planes publica Hex · Flux…» y «Hex es el plan a vender».
+- `PROMO_CODE` es `CLINERA50X3` (cupón `FPxQMFcc`, Ricardo, 5-nov-2026). Solo viaja con `checkoutUrl(..., { promo: true })`, que es el 50% de `/contrata`. `/planes` llama sin `promo` y cobra el precio de lista.
+- El Payment Link de Hex (`14AdRbdBnfD49wTgwz1441M`) cobra US$ 179 (confirmado por Ricardo el 5-nov-2026).
 - Guardianes: `planes-vigentes.spec.ts`, `planes2.spec.ts`, `checkout.spec.ts`, `presentacion-planes.spec.ts`.

@@ -6,9 +6,10 @@ test.describe("checkoutUrl", () => {
     expect(checkoutUrl("flux")).toBe(CHECKOUT_URL.flux);
   });
 
-  test("con promo y PROMO_CODE vacío no prellena el código", () => {
-    expect(PROMO_CODE).toBe("");
-    expect(checkoutUrl("flux", { promo: true })).not.toContain("prefilled_promo_code");
+  test("con promo prellena CLINERA50X3 y sin promo no", () => {
+    expect(PROMO_CODE).toBe("CLINERA50X3");
+    expect(new URL(checkoutUrl("flux", { promo: true })).searchParams.get("prefilled_promo_code")).toBe("CLINERA50X3");
+    expect(checkoutUrl("flux")).not.toContain("prefilled_promo_code");
   });
 
   test("un código explícito sí viaja", () => {
