@@ -4,19 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Clinera | Agenda pacientes prepagados con IA</title>
-<meta name="description" content="AURA, la secretaria con IA de Clinera, responde y agenda por WhatsApp, cobra al agendar y confirma por ti. Comienza con Flux a USD 39,50/mes los primeros 3 meses.">
+<meta name="description" content="AURA, la secretaria con IA de Clinera, responde y agenda por WhatsApp, cobra al agendar y confirma por ti. Comienza con Flux a USD 79/mes.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* Paleta (Ricardo, 5-nov-2026): blanco, casi negro y gris. El violeta / degradé de marca solo en el CTA
+   principal y en un único destaque (la oferta del wizard). El hero conserva un neón lila difuminado. */
 :root{
-  --text:#0A0A0A;--muted:#6B7280;--border:#E5E7EB;--soft:#FAFAFA;--soft2:#F3F4F6;--dark:#111318;
-  --accent:#7C3AED;--accent-h:#6D28D9;--amber:#B45309;
+  --text:#0A0A0A;--muted:#6B7280;--border:#E5E7EB;--soft:#FAFAFA;--soft2:#F3F4F6;
+  --grad:linear-gradient(90deg,#2563EB 0%,#7C3AED 55%,#C026D3 100%);
   --maxw:1120px;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html,body{overflow-x:hidden}
+@supports (overflow:clip){html,body{overflow-x:clip}}
 body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);background:#fff;line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
@@ -24,91 +28,111 @@ h1,h2,h3{margin:0;line-height:1.1;letter-spacing:-.025em;font-weight:700}
 p{margin:0}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 section{scroll-margin-top:72px}
-.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
-.serif{font-family:"IBM Plex Serif",Georgia,serif;font-style:italic;font-weight:400;color:var(--accent);letter-spacing:-.01em}
+.eyebrow{font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.serif{font-family:"IBM Plex Serif",Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-.01em}
 
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+:focus-visible{outline:2px solid var(--text);outline-offset:3px;border-radius:6px}
 .skip{position:absolute;left:12px;top:-60px;background:var(--text);color:#fff;padding:10px 16px;border-radius:8px;z-index:100;text-decoration:none;font-weight:600}
 .skip:focus{top:12px}
 
 /* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--text);color:#fff;border:1px solid var(--text);border-radius:10px;padding:12px 20px;font:600 .95rem/1 Inter,sans-serif;text-decoration:none;cursor:pointer;transition:background .2s,transform .15s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--text);color:#fff;border:1.5px solid var(--text);border-radius:10px;padding:12px 20px;font:600 .95rem/1 Inter,sans-serif;text-decoration:none;cursor:pointer;transition:background .2s,transform .15s,filter .2s}
 .btn:hover{background:#262626}
 .btn:active{transform:scale(.98)}
 .btn.sm{padding:9px 14px;font-size:.88rem}
 .btn.block{width:100%}
 .btn.ghost{background:transparent;color:var(--text);border-color:var(--border)}
 .btn.ghost:hover{background:var(--soft2)}
-.link{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--text);display:inline-flex;gap:6px;align-items:center;padding:12px 4px}
-.link:hover{color:var(--accent-h)}
+.btn.outline{background:transparent;color:var(--text);border-color:var(--text)}
+.btn.outline:hover{background:var(--soft2)}
+/* el único uso del degradé de marca fuera de la oferta: el CTA principal */
+.btn.grad{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 8px 28px rgba(124,58,237,.28)}
+.btn.grad:hover{background:var(--grad);filter:brightness(1.08);box-shadow:0 10px 34px rgba(124,58,237,.36)}
+.nav-cta{display:flex;align-items:center;gap:8px}
+.link{font-weight:600;font-size:.95rem;text-decoration:none;color:var(--muted);display:inline-flex;gap:6px;align-items:center;padding:12px 4px}
+.link:hover{color:var(--text)}
 
 /* icons */
 .ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.ic-box{width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:#fff;color:var(--accent);display:grid;place-items:center;margin-bottom:18px}
+.ic-box{width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:#fff;color:var(--text);display:grid;place-items:center;margin-bottom:18px}
 
 /* nav */
-header.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.78);-webkit-backdrop-filter:saturate(180%) blur(14px);backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--border)}
+header.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);-webkit-backdrop-filter:saturate(180%) blur(14px);backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--border)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
 .logo{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:1.15rem;letter-spacing:-.03em;text-decoration:none}
 .logo svg{width:24px;height:24px}
 
 /* hero */
-.hero{min-height:calc(100dvh - 64px);display:flex;align-items:center;padding:64px 0}
-.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;width:100%}
-.hero h1{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;margin-bottom:22px}
-.hero .sub{font-size:1.15rem;color:var(--muted);max-width:30em;margin-bottom:32px}
+.hero{position:relative;overflow:hidden;min-height:calc(100dvh - 64px);display:flex;align-items:center;padding:72px 0;background:#fff}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center;width:100%}
+.hero h1{font-size:clamp(2.3rem,5.2vw,3.8rem);font-weight:800;margin-bottom:22px;max-width:12em}
+.hero .sub{font-size:1.1rem;color:var(--muted);max-width:30em;margin-bottom:34px}
+.hero .sub strong{color:var(--text);font-weight:700}
 .cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.frame{border:1px solid var(--border);border-radius:16px;padding:8px;background:var(--soft);position:relative}
-.frame img{border-radius:10px;width:100%}
-.chat{margin-top:28px;max-width:360px;border:1px solid var(--border);border-radius:14px;background:var(--soft);padding:14px;display:flex;flex-direction:column;gap:8px;font-size:.88rem}
+/* neón lila: el único color ambiental de la página */
+.glow{position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(110px)}
+.glow.g1{width:560px;height:560px;left:-160px;top:-120px;background:rgba(196,181,253,.55)}
+.glow.g2{width:420px;height:420px;right:-120px;bottom:-180px;background:rgba(196,181,253,.35)}
+/* testimonio: foto + texto en HTML, neutro */
+.testi{margin:0;border:1px solid var(--border);border-radius:18px;padding:10px;background:#fff;box-shadow:0 30px 80px -40px rgba(10,10,10,.25);max-width:440px;justify-self:end;width:100%}
+.testi img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px}
+.testi figcaption{padding:20px 12px 10px}
+.testi blockquote{margin:0 0 16px}
+.testi blockquote p{font-family:"IBM Plex Serif",Georgia,serif;font-style:italic;font-size:1.12rem;line-height:1.4;letter-spacing:-.01em;color:var(--text)}
+.testi-name{font-weight:700;font-size:.98rem}
+.testi-handle{color:var(--muted);font-size:.86rem}
+.testi-meta{color:var(--muted);font-size:.86rem;margin-top:8px;line-height:1.5}
+.chat{margin-top:32px;max-width:360px;border:1px solid var(--border);border-radius:14px;background:#fff;padding:14px;display:flex;flex-direction:column;gap:8px;font-size:.88rem}
 .chat .who{font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
 .msg{padding:9px 12px;border-radius:12px;max-width:88%;line-height:1.45}
-.msg.p{background:#fff;border:1px solid var(--border);align-self:flex-start}
-.msg.a{background:var(--dark);color:#fff;align-self:flex-end}
-.msg.a u{color:#C4B5FD}
+.msg.p{background:var(--soft2);align-self:flex-start}
+.msg.a{background:var(--text);color:#fff;align-self:flex-end}
+.msg.a u{text-underline-offset:2px}
 
 /* generic section */
-.sec{padding:96px 0}
-.sec.alt{background:var(--soft);border-block:1px solid var(--border)}
-.sec h2{font-size:clamp(1.8rem,3.6vw,2.6rem);max-width:16em;margin-bottom:14px}
-.sec .lead{color:var(--muted);max-width:38em;margin-bottom:48px}
+.sec{padding:112px 0}
+.sec+.sec{border-top:1px solid var(--border)}
+.sec h2{font-size:clamp(1.9rem,3.8vw,2.7rem);max-width:16em;margin-bottom:14px}
+.sec .lead{color:var(--muted);font-size:1.05rem;max-width:38em;margin-bottom:56px}
 
 /* bento */
 .bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
 .card{border:1px solid var(--border);border-radius:16px;background:#fff;padding:28px}
 .card h3{font-size:1.15rem;margin-bottom:8px;letter-spacing:-.015em}
 .card p{color:var(--muted);font-size:.95rem}
-.b1{grid-column:span 4;grid-row:span 2;background:var(--dark);color:#fff;border-color:var(--dark);display:flex;flex-direction:column;justify-content:flex-end;min-height:300px}
+.b1{grid-column:span 4;grid-row:span 2;background:var(--text);color:#fff;border-color:var(--text);display:flex;flex-direction:column;justify-content:flex-end;min-height:300px}
 .b1 p{color:#D1D5DB;max-width:30em}
-.b1 .ic-box{background:transparent;border-color:#2B2F38;color:#C4B5FD}
+.b1 .ic-box{background:transparent;border-color:rgba(255,255,255,.22);color:#fff}
 .b2{grid-column:span 2}
 .b3{grid-column:span 2}
 .b4{grid-column:span 3}
 .b5{grid-column:span 3}
 
-/* plans */
+/* plans: Flux destacado en neutro (borde negro + sombra); Vortex y Ecosistema en gris */
 .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .plan{border:1px solid var(--border);border-radius:16px;padding:26px;background:#fff;display:flex;flex-direction:column;gap:14px}
-.plan.entry{border-color:var(--text)}
-.plan.ph{border:2px dashed #D97706;background:#FFFBEB}
-.tag{align-self:flex-start;font-size:.7rem;font-weight:700;letter-spacing:.06em;padding:4px 9px;border-radius:999px}
-.tag.badge{background:var(--accent);color:#fff}
-.tag.phtag{background:#FEF3C7;color:var(--amber);border:1px solid #D97706}
+.plan.entry{border:1.5px solid var(--text);box-shadow:0 30px 70px -40px rgba(10,10,10,.35)}
+.tag{align-self:flex-start;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--text);color:#fff}
+.tag.soft{background:#fff;color:var(--muted);border:1px solid var(--border)}
 .plan h3{font-size:1.3rem}
-.price{font-size:1.5rem;font-weight:700;letter-spacing:-.02em}
+.price{font-size:1.6rem;font-weight:700;letter-spacing:-.02em}
 .price small{font-size:.9rem;color:var(--muted);font-weight:500}
+.plan:not(.entry) .price{font-size:1.35rem;font-weight:600}
+.plan .size{font-size:.88rem;color:var(--muted);margin:-6px 0 0}
 .plan ul{list-style:none;margin:0 0 8px;padding:0;display:grid;gap:10px;font-size:.93rem;flex:1}
 .plan li{display:flex;gap:10px;align-items:flex-start}
-.plan li .ic{width:18px;height:18px;color:var(--accent);margin-top:3px}
-.plan.ph h3,.plan.ph .price,.plan.ph li{color:var(--amber)}
-.note{margin-top:28px;color:var(--muted);font-size:.95rem}
+.plan li .ic{width:18px;height:18px;color:var(--text);margin-top:3px}
+.plan:not(.entry) li{color:#374151}
+.plan:not(.entry) li .ic{color:var(--muted)}
+.plan-cta{display:grid;gap:8px}
+.note{margin-top:28px;color:var(--muted);font-size:.9rem}
 
 /* wizard */
 .field{margin-bottom:20px}
 label,.lbl{display:block;font-weight:600;font-size:.88rem;margin-bottom:6px}
 input,select{width:100%;font:inherit;font-size:1rem;color:var(--text);background:#fff;border:1px solid #D1D5DB;border-radius:10px;padding:12px 14px;min-height:46px}
 input:hover,select:hover{border-color:#9CA3AF}
-input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+input:focus-visible,select:focus-visible{outline:2px solid var(--text);outline-offset:1px;border-color:var(--text)}
 [aria-invalid="true"]{border-color:#B91C1C}
 .err{color:#B91C1C;font-size:.83rem;margin-top:6px;min-height:0}
 .phone{display:grid;grid-template-columns:128px 1fr;gap:8px}
@@ -118,28 +142,33 @@ html.wiz-lock,html.wiz-lock body{overflow:hidden}
 .wiz{position:fixed;inset:0;z-index:200;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);height:100dvh;background:#fff;color:var(--text);overflow:hidden;animation:wizin .25s ease}
 .wiz[hidden]{display:none}
 @keyframes wizin{from{opacity:0}to{opacity:1}}
-.wiz-panel{background:linear-gradient(135deg,#0A0A0A 0%,#2a1240 100%);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:28px 32px;text-align:center;min-height:0}
+.wiz-panel{position:relative;overflow:hidden;background:var(--text);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:28px 32px;text-align:center;min-height:0}
+.wiz-panel>*:not(.glow){position:relative;z-index:1}
+.wiz-panel .glow{filter:blur(100px)}
+.wiz-panel .g1{width:380px;height:380px;left:-120px;top:-100px;background:rgba(196,181,253,.28)}
+.wiz-panel .g2{display:none}
 .wiz-mock{width:min(420px,100%);border:1px solid rgba(255,255,255,.16);border-radius:18px;background:rgba(255,255,255,.06);padding:16px;display:flex;flex-direction:column;gap:8px;text-align:left;font-size:.86rem;box-shadow:0 30px 70px -30px rgba(0,0,0,.8)}
 .wiz-mock .top{display:flex;align-items:center;gap:8px;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:4px}
-.wiz-mock .top i{width:8px;height:8px;border-radius:50%;background:linear-gradient(90deg,#3B82F6,#7C3AED)}
+.wiz-mock .top i{width:8px;height:8px;border-radius:50%;background:#fff}
 .wiz-mock .b{padding:8px 12px;border-radius:12px;max-width:86%;line-height:1.4}
 .wiz-mock .p{background:rgba(255,255,255,.1);align-self:flex-start}
-.wiz-mock .a{background:linear-gradient(90deg,#3B82F6,#7C3AED);align-self:flex-end}
+.wiz-mock .a{background:#fff;color:var(--text);align-self:flex-end}
 .wiz-mock .ok{display:flex;align-items:center;gap:8px;margin-top:4px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);font-weight:600}
-.wiz-mock .ok .ic{width:16px;height:16px;color:#C4B5FD}
+.wiz-mock .ok .ic{width:16px;height:16px;color:#fff}
 .wiz-msg{max-width:440px;font-size:1.05rem;font-weight:600;line-height:1.45;color:rgba(255,255,255,.9)}
 .wiz-side{position:relative;display:flex;overflow-y:auto;overscroll-behavior:contain;background:#fff;min-width:0;min-height:0}
-.wiz-content{width:100%;max-width:520px;margin:auto;padding:64px 24px 32px}
-.wiz-close{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--text);display:grid;place-items:center;cursor:pointer}
+.wiz-content{position:relative;z-index:1;width:100%;max-width:520px;margin:auto;padding:64px 24px 32px}
+.wiz-close{position:absolute;top:16px;right:16px;z-index:2;width:40px;height:40px;border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--text);display:grid;place-items:center;cursor:pointer}
 .wiz-close:hover{background:var(--soft2)}
 .wiz-close .ic{width:18px;height:18px}
 .wiz-progress{display:flex;gap:8px;margin-bottom:14px}
 .wiz-progress span{flex:1 1 0;height:4px;border-radius:999px;background:#ECECF1;transition:background .3s}
-.wiz-progress span.on{background:linear-gradient(90deg,#3B82F6,#7C3AED)}
-.wiz-stepl{display:block;text-align:center;letter-spacing:.16em;text-transform:uppercase;font-size:.75rem;font-weight:700}
+.wiz-progress span.on{background:var(--text)}
+.wiz-stepl{display:block;text-align:center;letter-spacing:.16em;text-transform:uppercase;font-size:.75rem;font-weight:700;color:var(--muted)}
 .wiz-title{text-align:center;letter-spacing:-.03em;font-size:clamp(1.4rem,6vw,1.9rem);font-weight:800;line-height:1.1;margin:10px 0 6px;outline:none}
 .wiz-sub{text-align:center;color:var(--muted);font-size:.95rem;margin-bottom:18px}
-.wiz-chip{display:table;margin:0 auto 14px;font-size:.78rem;font-weight:600;color:#5B21B6;background:#F8F5FF;border:1px solid #C4B5FD;border-radius:999px;padding:4px 12px}
+.wiz-chip{display:table;margin:0 auto 14px;font-size:.78rem;font-weight:600;color:var(--muted);background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:4px 12px}
+.wiz-chip strong{color:var(--text)}
 .wiz-chip[hidden]{display:none}
 .wiz-opts{display:grid;gap:10px;margin-top:8px}
 .wiz-opt{position:relative;display:block;margin:0;cursor:pointer;font-weight:inherit;font-size:inherit}
@@ -149,33 +178,43 @@ html.wiz-lock,html.wiz-lock body{overflow:hidden}
 .wiz-opt .box small{display:block;color:var(--muted);font-size:.84rem;margin-top:2px}
 .wiz-opt .mark{position:absolute;right:16px;top:50%;margin-top:-12px;width:24px;height:24px;border:1.5px solid #C4C9D4;border-radius:999px;display:grid;place-items:center;color:#fff}
 .wiz-opt .mark .ic{width:14px;height:14px;opacity:0;stroke-width:2.4}
-.wiz-opt input:hover + .box{border-color:#C4B5FD}
-.wiz-opt input:checked + .box{background:#F8F5FF;border-color:#7C3AED;box-shadow:0 0 0 3px rgba(124,58,237,.14)}
-.wiz-opt input:checked + .box .mark{background:linear-gradient(90deg,#3B82F6,#7C3AED);border-color:#7C3AED}
+.wiz-opt input:hover + .box{border-color:#9CA3AF}
+.wiz-opt input:checked + .box{background:var(--soft);border-color:var(--text);box-shadow:0 0 0 3px rgba(10,10,10,.08)}
+.wiz-opt input:checked + .box .mark{background:var(--text);border-color:var(--text)}
 .wiz-opt input:checked + .box .mark .ic{opacity:1}
-.wiz-opt input:focus-visible + .box{outline:2px solid var(--accent);outline-offset:2px}
+.wiz-opt input:focus-visible + .box{outline:2px solid var(--text);outline-offset:2px}
 .wiz-next{margin-top:10px;padding:15px 20px}
 .wiz-next[aria-disabled="true"]{opacity:.7;cursor:progress}
 .wiz-back{display:block;margin:14px auto 0;background:none;border:0;font:inherit;font-size:.95rem;color:var(--muted);cursor:pointer;padding:8px 12px}
 .wiz-back:hover{color:var(--text)}
 .wiz-back[hidden]{display:none}
-.wiz-ok{display:flex;align-items:center;justify-content:center;gap:8px;font-size:.92rem;font-weight:600;margin-bottom:4px}
-.wiz-ok[hidden],.wiz-sub[hidden],#wiz-form[hidden],#wiz-offer[hidden]{display:none}
-.wiz-ok .chk{width:22px;height:22px;border-radius:999px;background:linear-gradient(90deg,#3B82F6,#7C3AED);color:#fff;display:grid;place-items:center;flex:none}
+.wiz-ok{display:flex;align-items:flex-start;justify-content:center;gap:8px;font-size:.92rem;font-weight:600;margin-bottom:4px;text-align:left;line-height:1.4}
+.wiz-ok[hidden],.wiz-sub[hidden],#wiz-form[hidden],#wiz-offer[hidden],.wiz-confirm[hidden],.wiz-wait[hidden]{display:none}
+.wiz-ok .chk{width:22px;height:22px;border-radius:999px;background:var(--text);color:#fff;display:grid;place-items:center;flex:none;margin-top:1px}
 .wiz-ok .chk .ic{width:13px;height:13px;stroke-width:2.6}
+/* confirmación de «Hablar con ventas» */
+.wiz-confirm{display:grid;justify-items:center;padding:14px 0 2px}
+.wiz-confirm .bigchk{width:68px;height:68px;border-radius:999px;background:var(--text);color:#fff;display:grid;place-items:center;box-shadow:0 14px 40px -10px rgba(10,10,10,.4);animation:pop .45s cubic-bezier(.2,.9,.3,1.3)}
+.wiz-confirm .bigchk .ic{width:32px;height:32px;stroke-width:2.6}
+@keyframes pop{from{transform:scale(.5);opacity:0}to{transform:none;opacity:1}}
+.wiz-wait{display:grid;justify-items:center;gap:8px;color:var(--muted);font-size:.88rem;margin-top:6px;text-align:center}
+.wiz-wait .bar{display:block;width:180px;height:4px;border-radius:999px;background:#ECECF1;overflow:hidden}
+.wiz-wait .bar i{display:block;height:100%;width:0;background:var(--text);animation:fill var(--confirm-ms,1800ms) linear forwards}
+@keyframes fill{to{width:100%}}
+/* oferta (solo después del formulario) */
 #wiz-offer{display:grid;gap:10px;text-align:center}
 #wiz-offer p{color:var(--muted);margin-bottom:8px}
-#wiz-offer .offer-title{font-size:1.25rem;line-height:1.25}
-#wiz-offer .offer-price{color:inherit}
+#wiz-offer .offer-price{font-size:1rem;margin-top:4px}
+#wiz-offer .offer-price strong{color:var(--text);font-size:1.25rem;letter-spacing:-.02em}
 #wiz-offer .offer-list{list-style:disc;text-align:left;margin:0 auto 8px;padding-left:20px;display:grid;gap:4px}
 #wiz-offer .offer-note{font-size:.85rem}
+#wiz-offer .btn{width:100%}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.plan .was{color:var(--muted);margin:0 0 -8px}
-.plan .promo{font-size:.9rem;color:var(--muted);margin:-6px 0 0}
 
 .cta-band{text-align:center}
 .cta-band h2{margin-inline:auto}
 .cta-band .lead{margin-inline:auto;margin-bottom:28px}
+.cta-band .cta{justify-content:center}
 
 footer{border-top:1px solid var(--border);padding:32px 0;font-size:.88rem;color:var(--muted)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
@@ -187,17 +226,28 @@ footer a.ext{color:var(--text);font-weight:500}
 .mcta{display:none}
 @media (max-width:768px){
   body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
-  .mcta{display:block;position:fixed;left:0;right:0;bottom:0;z-index:50;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.85);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid #E5E7EB}
+  .mcta{display:block;position:fixed;left:0;right:0;bottom:0;z-index:50;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid #E5E7EB}
   .mcta[hidden]{display:none}
-  .mcta .btn{width:100%;padding:14px 20px}
+  .mcta-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:stretch}
+  .mcta .btn{width:100%;padding:14px 16px}
+  .mcta .btn.outline{padding:14px 14px;font-size:.9rem;white-space:nowrap}
+}
+@media (max-width:400px){
+  body{padding-bottom:calc(124px + env(safe-area-inset-bottom))}
+  .mcta-row{grid-template-columns:1fr}
+  .mcta .btn.outline{padding:12px 14px;font-size:.88rem}
+}
+@media (max-width:640px){
+  .nav-cta .outline{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .mcta .btn{transition:none}
   .rv{opacity:1;transform:none;transition:none}
-  .btn{transition:none}
+  .btn,.mcta .btn{transition:none}
   .wiz{animation:none}
   .wiz *{transition:none!important}
+  .wiz-confirm .bigchk{animation:none}
+  .wiz-wait .bar i{animation:none;width:100%}
 }
 
 @media (max-width:900px){
@@ -206,12 +256,16 @@ footer a.ext{color:var(--text);font-weight:500}
 @media (max-width:820px){
   .wiz{grid-template-columns:1fr}
   .wiz-panel{display:none}
-  .hero{min-height:auto;padding:40px 0 56px}
-  .hero .wrap{grid-template-columns:1fr;gap:36px}
+  .hero{min-height:auto;padding:48px 0 64px}
+  .hero .wrap{grid-template-columns:1fr;gap:40px}
+  .testi{justify-self:start;max-width:420px}
+  .glow{filter:blur(80px)}
+  .glow.g1{width:360px;height:360px}
+  .glow.g2{width:280px;height:280px}
   .bento{grid-template-columns:1fr}
   .bento .card{grid-column:auto!important;grid-row:auto!important}
   .b1{min-height:0}
-  .sec{padding:64px 0}
+  .sec{padding:72px 0}
 }
 @media (max-width:600px){
   .plans{grid-template-columns:1fr}
@@ -219,36 +273,6 @@ footer a.ext{color:var(--text);font-weight:500}
   .wiz-content{padding:60px 20px 28px}
   .wrap{padding:0 18px}
 }
-
-/* ===== glow layer ===== */
-:root{--grad:linear-gradient(90deg,#2563EB 0%,#7C3AED 55%,#C026D3 100%)}
-html,body{overflow-x:hidden}
-@supports (overflow:clip){html,body{overflow-x:clip}}
-.nav .btn,.hero .btn,.cta-band .btn,.mcta .btn,.plan.entry .btn,#wiz-offer a.btn{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 8px 30px rgba(124,58,237,.35)}
-.nav .btn:hover,.hero .btn:hover,.cta-band .btn:hover,.mcta .btn:hover,.plan.entry .btn:hover,#wiz-offer a.btn:hover{background:var(--grad);filter:brightness(1.08);box-shadow:0 10px 36px rgba(124,58,237,.45)}
-.hero{position:relative;overflow:hidden;background:radial-gradient(85% 55% at 50% -5%,#DBEAFE 0%,#E9D5FF 30%,#FBE8F0 55%,#FFFFFF 80%)}
-.hero .wrap{position:relative;z-index:1}
-.glow{position:absolute;border-radius:50%;pointer-events:none;z-index:0}
-.hero .glow{filter:blur(100px)}
-.glow.g1{width:520px;height:520px;left:-140px;top:-80px;background:rgba(124,58,237,.28)}
-.glow.g2{width:460px;height:460px;right:-120px;top:20%;background:rgba(217,70,239,.20)}
-.glow.g3{width:420px;height:420px;left:35%;bottom:-160px;background:rgba(59,130,246,.18)}
-.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 70% 30%,rgba(217,70,239,.14),transparent 60%)}
-.hero .serif{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#7C3AED;padding-right:.08em}
-.hero .frame{box-shadow:0 30px 80px -30px rgba(124,58,237,.35)}
-.plan.entry{position:relative;isolation:isolate;border:1px solid transparent;background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box}
-.plan.entry::before{content:"";position:absolute;inset:-6px;z-index:-1;border-radius:22px;background:var(--grad);filter:blur(28px);opacity:.35;pointer-events:none}
-.wiz-panel{position:relative;overflow:hidden}
-.wiz-panel>*:not(.glow){position:relative;z-index:1}
-.wiz-panel .glow{filter:blur(90px)}
-.wiz-panel .g1{width:360px;height:360px;left:-100px;top:-80px;background:rgba(124,58,237,.55)}
-.wiz-panel .g2{width:320px;height:320px;right:-90px;bottom:-60px;background:rgba(217,70,239,.40)}
-.wiz-side::before{content:"";position:absolute;left:0;right:0;top:0;height:320px;pointer-events:none;background:radial-gradient(60% 100% at 50% 0%,rgba(196,181,253,.38),transparent 70%)}
-.wiz-content{position:relative;z-index:1}.wiz-close{z-index:2}
-#wiz-offer .offer-price{position:relative;isolation:isolate}
-#wiz-offer .offer-price::before{content:"";position:absolute;inset:-10px 5%;z-index:-1;border-radius:50%;background:radial-gradient(closest-side,rgba(124,58,237,.22),transparent);filter:blur(14px);pointer-events:none}
-@media (max-width:820px){.hero .glow{filter:blur(80px)}.glow.g1{width:340px;height:340px}.glow.g2{width:300px;height:300px}.glow.g3{width:280px;height:280px}}
-@media (prefers-reduced-motion:reduce){.glow,.btn{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -269,23 +293,27 @@ html,body{overflow-x:hidden}
 <header class="nav">
   <div class="wrap">
     <a class="logo" href="#top" aria-label="clinera.io, inicio">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#7C3AED"/><path d="M15.5 8.6A5 5 0 1 0 15.5 15.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#0A0A0A"/><path d="M15.5 8.6A5 5 0 1 0 15.5 15.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
       <span>clinera.io</span>
     </a>
-    <button class="btn sm" type="button" data-open-wizard>Quiero comenzar</button>
+    <div class="nav-cta">
+      <button class="btn sm outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
+      <button class="btn sm grad" type="button" data-open-wizard data-plan="Flux" data-cta="oferta">Contratar Flux</button>
+    </div>
   </div>
 </header>
 
 <main id="main">
 <section class="hero" id="top">
-  <span class="glow g1" aria-hidden="true"></span><span class="glow g2" aria-hidden="true"></span><span class="glow g3" aria-hidden="true"></span>
+  <span class="glow g1" aria-hidden="true"></span><span class="glow g2" aria-hidden="true"></span>
   <div class="wrap">
     <div>
       <p class="eyebrow rv">AURA, tu secretaria con IA</p>
       <h1 class="rv" style="--i:1">Agenda pacientes prepagados con IA con el <span class="serif">ecosistema Clinera</span></h1>
-      <p class="sub rv" style="--i:2">Comienza con Flux a USD 39,50/mes los primeros 3 meses <s>USD 79<span class="sr-only"> antes</span></s>. Si tu clínica necesita escalar, puede pasar a Vortex o Ecosistema.</p>
+      <p class="sub rv" style="--i:2">Comienza con Flux a <strong>USD 79/mes</strong>. Si tu clínica necesita escalar, puede pasar a Vortex o Ecosistema.</p>
       <div class="cta rv" style="--i:3">
-        <button class="btn" type="button" data-open-wizard>Quiero comenzar <svg class="ic" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <button class="btn grad" type="button" data-open-wizard data-plan="Flux" data-cta="oferta">Contratar Flux <svg class="ic" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <button class="btn outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
         <a class="link" href="#planes">Ver planes</a>
       </div>
       <div class="chat rv" style="--i:4" role="img" aria-label="Ejemplo de conversación: la paciente pide hora, AURA ofrece horarios y envía un link de pago.">
@@ -296,9 +324,15 @@ html,body{overflow-x:hidden}
         <div class="msg a">Listo. Para reservar, paga tu evaluación aquí: <u>link de pago</u></div>
       </div>
     </div>
-    <div class="frame rv" style="--i:2">
-      <img src="/kimi/testimonio-maria-del-valle.png" fetchpriority="high" width="1080" height="1080" alt="Testimonio de la Dra. María del Valle, especialista en estética: creció de 1 a 3 sucursales sin pagar de más gracias al ecosistema Clinera. Atiende en Concepción, Los Ángeles y Chillán.">
-    </div>
+    <figure class="testi rv" style="--i:2" data-testid="testimonio">
+      <img src="/kimi/maria-del-valle.webp" fetchpriority="high" width="460" height="575" alt="Dra. María del Valle, de pie y sonriendo, con abrigo fucsia y lentes.">
+      <figcaption>
+        <blockquote><p>«Crecí de 1 a 3 sucursales sin pagar de más gracias al ecosistema Clinera»</p></blockquote>
+        <p class="testi-name">Dra. María del Valle</p>
+        <p class="testi-handle">@dramariadelvalle_cirujana</p>
+        <p class="testi-meta">Especialista en Estética<br>Atiende en Concepción, Los Ángeles y Chillán</p>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
@@ -343,15 +377,12 @@ html,body{overflow-x:hidden}
     <h2 id="t-planes" class="rv" style="--i:1">Empiezas simple y creces a tu ritmo</h2>
     <p class="lead rv" style="--i:2">Empiezas con Flux y escalas de plan cuando tu clínica crezca.</p>
     <div class="plans">
-      <article class="plan entry rv">
-        <span class="tag badge">50% x 3 meses</span>
+      <article class="plan entry rv" data-testid="plan-flux">
+        <span class="tag">Comienza aquí</span>
         <h3>Flux</h3>
-        <p class="was"><s>USD 79/mes<span class="sr-only"> antes</span></s></p>
-        <p class="price">USD 39,50<small>/mes</small></p>
-        <p class="promo">x 3 meses (50% de descuento), luego USD 79/mes</p>
+        <p class="price">USD 79<small>/mes</small></p>
+        <p class="size">Hasta 5 profesionales · 2 sucursales</p>
         <ul>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Hasta 5 profesionales</li>
-          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>2 sucursales</li>
           <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>500 conversaciones/mes</li>
           <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Clinera Intelligence</li>
           <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Panel de ventas</li>
@@ -359,23 +390,52 @@ html,body{overflow-x:hidden}
           <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Fichas clínicas personalizadas</li>
           <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Y más: agenda online, AURA en WhatsApp, recordatorios</li>
         </ul>
-        <button class="btn block" type="button" data-open-wizard data-plan="Flux">Activar cuenta</button>
+        <div class="plan-cta">
+          <button class="btn grad block" type="button" data-open-wizard data-plan="Flux" data-cta="oferta">Contratar Flux</button>
+          <button class="btn outline block" type="button" data-open-wizard data-plan="Flux" data-cta="ventas">Hablar con ventas</button>
+        </div>
       </article>
-      <article class="plan ph rv" style="--i:1">
-        <span class="tag phtag">PLACEHOLDER</span>
+      <!-- Vortex y Ecosistema: precios y features de src/content/planes-nuevos.ts (lo que publica /planes desde el 4-nov-2026). -->
+      <article class="plan rv" style="--i:1" data-testid="plan-vortex">
+        <span class="tag soft">Con IA que atiende a tus pacientes</span>
         <h3>Vortex</h3>
-        <p class="price">[PRECIO]</p>
-        <ul><li>[FEATURES]</li></ul>
-        <button class="btn block" type="button" data-open-wizard data-plan="Vortex">Activar cuenta</button>
+        <p class="price">USD 279<small>/mes</small></p>
+        <p class="size">Hasta 10 profesionales · Hasta 3 sucursales</p>
+        <ul>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Agendamiento</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Presupuestos y planes de tratamiento</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Panel de ventas</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Agente IA con 28.000 créditos</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>5.000 conversaciones</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Mensajería WhatsApp, Facebook e Instagram</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Automatizaciones</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Difusiones</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Onboarding dedicado con un ejecutivo humano</li>
+        </ul>
+        <div class="plan-cta">
+          <button class="btn outline block" type="button" data-open-wizard data-plan="Vortex" data-cta="oferta">Contratar Vortex</button>
+          <button class="btn ghost block" type="button" data-open-wizard data-plan="Vortex" data-cta="ventas">Hablar con ventas</button>
+        </div>
       </article>
-      <article class="plan ph rv" style="--i:2">
-        <span class="tag phtag">PLACEHOLDER</span>
+      <article class="plan rv" style="--i:2" data-testid="plan-ecosistema">
+        <span class="tag soft">Software + marketing</span>
         <h3>Ecosistema</h3>
-        <p class="price">[PRECIO]</p>
-        <ul><li>[FEATURES]</li></ul>
-        <button class="btn block" type="button" data-open-wizard data-plan="Ecosistema">Activar cuenta</button>
+        <p class="price">USD 379<small>/mes</small></p>
+        <p class="size">Hasta 10 profesionales · Hasta 3 sucursales</p>
+        <ul>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Todo lo de Vortex</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Campañas en Facebook, Instagram y Google</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Propuesta de valor</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Framework comercial</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Reunión de marketing cada semana</li>
+        </ul>
+        <div class="plan-cta">
+          <button class="btn outline block" type="button" data-open-wizard data-plan="Ecosistema" data-cta="oferta">Contratar Ecosistema</button>
+          <button class="btn ghost block" type="button" data-open-wizard data-plan="Ecosistema" data-cta="ventas">Hablar con ventas</button>
+        </div>
       </article>
     </div>
+    <p class="note rv">La inversión en publicidad del Ecosistema se paga aparte. Sin costo de implementación.</p>
   </div>
 </section>
 
@@ -384,7 +444,10 @@ html,body{overflow-x:hidden}
     <p class="eyebrow rv">Comenzar</p>
     <h2 id="t-act" class="rv" style="--i:1">Cuéntanos de tu clínica y comienza con AURA</h2>
     <p class="lead rv" style="--i:2">Responde cuatro preguntas rápidas y te mostramos cómo activar tu cuenta.</p>
-    <div class="rv" style="--i:3"><button class="btn" type="button" data-open-wizard>Quiero comenzar</button></div>
+    <div class="cta rv" style="--i:3">
+      <button class="btn grad" type="button" data-open-wizard data-plan="Flux" data-cta="oferta">Contratar Flux</button>
+      <button class="btn outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
+    </div>
   </div>
 </section>
 </main>
@@ -392,7 +455,7 @@ html,body{overflow-x:hidden}
 <footer>
   <div class="wrap">
     <a class="logo" href="#top" aria-label="clinera.io, inicio">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#7C3AED"/><path d="M15.5 8.6A5 5 0 1 0 15.5 15.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#0A0A0A"/><path d="M15.5 8.6A5 5 0 1 0 15.5 15.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
       <span>clinera.io</span>
     </a>
     <span>© 2026 Clinera</span>
@@ -401,7 +464,10 @@ html,body{overflow-x:hidden}
 </footer>
 
 <div class="mcta" id="mobile-cta" data-testid="mobile-cta">
-  <button class="btn" type="button" data-open-wizard>Quiero comenzar</button>
+  <div class="mcta-row">
+    <button class="btn grad" type="button" data-open-wizard data-plan="Flux" data-cta="oferta">Contratar Flux</button>
+    <button class="btn outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
+  </div>
 </div>
 
 <div class="wiz" id="wizard" data-testid="wizard" role="dialog" aria-modal="true" aria-labelledby="wiz-title" hidden>
@@ -422,8 +488,10 @@ html,body{overflow-x:hidden}
       <div class="wiz-progress" id="wiz-progress" role="progressbar" aria-label="Progreso" aria-valuemin="0" aria-valuemax="4" aria-valuenow="1"><span></span><span></span><span></span><span></span></div>
       <span class="wiz-stepl mono" id="wiz-stepl"></span>
       <p class="wiz-ok" id="wiz-ok" role="status" hidden><span class="chk"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span id="wiz-oktxt"></span></p>
+      <div class="wiz-confirm" id="wiz-confirm" data-testid="wiz-confirm" hidden aria-hidden="true"><span class="bigchk"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span></div>
       <h2 class="wiz-title" id="wiz-title" tabindex="-1"></h2>
       <p class="wiz-sub" id="wiz-sub"></p>
+      <p class="wiz-wait" id="wiz-wait" hidden><span>Preparando tu oferta…</span><span class="bar" aria-hidden="true"><i></i></span></p>
       <span class="wiz-chip" id="wiz-chip" hidden>Plan elegido: <strong id="wiz-chipname"></strong></span>
 
       <form id="wiz-form" novalidate>
@@ -482,7 +550,7 @@ html,body{overflow-x:hidden}
       <button class="wiz-back" type="button" id="wiz-back" hidden>&larr; Volver</button>
 
       <div id="wiz-offer" data-testid="wiz-offer" hidden>
-        <p class="offer-price"><s>USD 79<span class="sr-only"> antes</span></s> &rarr; <strong>USD 39,50/mes los primeros 3 meses, luego USD 79/mes</strong></p>
+        <p class="offer-price"><s>USD 79<span class="sr-only"> antes</span></s> &rarr; <strong>USD 39,50/mes</strong> los primeros 3 meses, luego USD 79/mes</p>
         <ul class="offer-list">
           <li>Hasta 5 profesionales</li>
           <li>2 sucursales</li>
@@ -494,7 +562,7 @@ html,body{overflow-x:hidden}
           <li>Y más: agenda online, AURA en WhatsApp, recordatorios</li>
         </ul>
         <!-- TODO: reemplazar [LINK CHECKOUT FLUX 50%] por el link real de checkout de Flux con 50% de descuento -->
-        <a class="btn block" href="[LINK CHECKOUT FLUX 50%]" target="_blank" rel="noopener">Suscribirme a Flux</a>
+        <a class="btn grad block" href="[LINK CHECKOUT FLUX 50%]" target="_blank" rel="noopener">Contratar Flux con 50% de descuento</a>
         <p class="offer-note">¿Necesitas más? Puedes escalar a Vortex o Ecosistema cuando quieras.</p>
         <button class="btn ghost block" type="button" data-wiz-close>Ahora no</button>
       </div>
@@ -535,7 +603,14 @@ html,body{overflow-x:hidden}
   var back=document.getElementById('wiz-back');
   var planInput=document.getElementById('w-plan');
   var bodies=form.querySelectorAll('.wiz-body');
+  var confirmBox=document.getElementById('wiz-confirm');
+  var waitEl=document.getElementById('wiz-wait');
   var OFFER_TITLE='Aprovecha tu oferta: Flux con 50% de descuento por 3 meses';
+  var CONFIRM_TITLE='Perfecto, tus datos ya fueron guardados.';
+  var CONFIRM_SUB='Un especialista te contactará pronto.';
+  // «Hablar con ventas»: la confirmación se ve sola este tiempo y después entra la oferta (la barra de espera dura lo mismo).
+  var CONFIRM_MS=1800;
+  waitEl.style.setProperty('--confirm-ms',CONFIRM_MS+'ms');
   var steps=[
     {label:'Tus datos',title:'¿Cómo te llamas?',sub:'Así te saludamos como corresponde.'},
     {label:'Tu clínica',title:'¿Cómo se llama tu clínica?',sub:'El nombre con el que te conocen tus pacientes.'},
@@ -550,7 +625,8 @@ html,body{overflow-x:hidden}
     'w-celular':[function(){return form.celular.value},function(v){var d=v.replace(/\D/g,'');return d.length>=7&&d.length<=12?'':'Ingresa un celular válido, solo números.'}],
     'w-correo':[function(){return form.correo.value},function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())?'':'Ingresa un correo válido.'}]
   };
-  var cur=1,done=false,saving=false,lastFocus=null,inertEls=[];
+  // cta: qué botón abrió el wizard («oferta» = Contratar, «ventas» = Hablar con ventas). Viaja en el webhook.
+  var cur=1,done=false,confirming=false,confirmTimer=null,cta='oferta',saving=false,lastFocus=null,inertEls=[];
 
   function check(id){
     var r=rules[id],m=r[1](r[0]()),f=document.getElementById(id),e=document.getElementById('e-'+id);
@@ -594,18 +670,25 @@ html,body{overflow-x:hidden}
 
   function render(){
     var s=steps[cur-1];
+    var finished=done||confirming;
     bodies.forEach(function(b){b.hidden=(+b.dataset.step!==cur);});
-    var shown=done?TOTAL:cur;
+    var shown=finished?TOTAL:cur;
     segs.forEach(function(g,i){g.classList.toggle('on',i<shown);});
     prog.setAttribute('aria-valuenow',shown);
-    prog.setAttribute('aria-valuetext',done?'Completado':'Paso '+cur+' de '+TOTAL);
-    form.hidden=done;
+    prog.setAttribute('aria-valuetext',finished?'Completado':'Paso '+cur+' de '+TOTAL);
+    form.hidden=finished;
     offer.hidden=!done;
     okLine.hidden=!done;
+    confirmBox.hidden=!confirming;
+    waitEl.hidden=!confirming;
     sub.hidden=done;
-    chip.hidden=done||!planInput.value;
-    back.hidden=done||cur===1;
-    if(done){
+    chip.hidden=finished||!planInput.value;
+    back.hidden=finished||cur===1;
+    if(confirming){
+      stepl.textContent='Listo';
+      title.textContent=CONFIRM_TITLE;
+      sub.textContent=CONFIRM_SUB;
+    }else if(done){
       stepl.textContent='Completado';
       title.textContent=OFFER_TITLE;
     }else{
@@ -621,7 +704,12 @@ html,body{overflow-x:hidden}
     form.querySelectorAll('[aria-invalid]').forEach(function(x){x.removeAttribute('aria-invalid');});
     form.querySelectorAll('.err').forEach(function(x){x.textContent='';});
     cur=1;done=false;saving=false;
+    clearConfirm();
     next.removeAttribute('aria-disabled');next.removeAttribute('aria-busy');
+  }
+  function clearConfirm(){
+    if(confirmTimer){clearTimeout(confirmTimer);confirmTimer=null;}
+    confirming=false;
   }
 
   var mcta=document.getElementById('mobile-cta');
@@ -639,6 +727,7 @@ html,body{overflow-x:hidden}
   function openWizard(opener){
     lastFocus=document.activeElement;
     if(done)reset();
+    cta=opener&&opener.dataset.cta==='ventas'?'ventas':'oferta';
     setPlan(opener&&opener.dataset.plan?opener.dataset.plan:'');
     wiz.hidden=false;
     document.documentElement.classList.add('wiz-lock');
@@ -648,6 +737,8 @@ html,body{overflow-x:hidden}
   }
   function closeWizard(){
     if(wiz.hidden)return;
+    // Si cierran durante la confirmación, el lead ya se envió: al reabrir parte de cero.
+    if(confirming){clearConfirm();done=true;}
     wiz.hidden=true;
     document.documentElement.classList.remove('wiz-lock');
     setBackground(false);
@@ -708,23 +799,37 @@ html,body{overflow-x:hidden}
       celular:form.prefijo.value+digits,
       correo:form.correo.value.trim(),
       plan:planInput.value,
+      cta:cta,
       origen:'landing-flux-50',
       fecha:new Date().toISOString()
     };
-    send(payload).then(function(){
-      saving=false;
-      next.removeAttribute('aria-disabled');next.removeAttribute('aria-busy');
+    var nombre=payload.nombre.split(/\s+/)[0]||'';
+    function showOffer(){
+      confirmTimer=null;
+      confirming=false;
       done=true;
-      okTxt.textContent='Listo, '+(payload.nombre.split(/\s+/)[0]||'')+'. Ya guardamos tus datos.';
+      okTxt.textContent=cta==='ventas'?CONFIRM_TITLE+' '+CONFIRM_SUB:'Listo, '+nombre+'. Ya guardamos tus datos.';
       if(wiz.hidden)return;
       render();
       title.focus();
+    }
+    send(payload).then(function(){
+      saving=false;
+      next.removeAttribute('aria-disabled');next.removeAttribute('aria-busy');
+      if(cta==='ventas'&&!wiz.hidden){
+        confirming=true;
+        render();
+        title.focus();
+        confirmTimer=setTimeout(showOffer,CONFIRM_MS);
+      }else{
+        showOffer();
+      }
     });
   }
 
   form.addEventListener('submit',function(ev){
     ev.preventDefault();
-    if(saving||done)return;
+    if(saving||done||confirming)return;
     if(!validate(cur))return;
     if(cur<TOTAL){cur++;render();focusStep();}
     else{finish();}
