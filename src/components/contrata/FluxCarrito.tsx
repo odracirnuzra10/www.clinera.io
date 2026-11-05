@@ -1,0 +1,682 @@
+"use client";
+
+// /contrata: ficha de producto al estilo de una tienda (Mercado Libre), con los
+// colores de Clinera. Flux se agrega al carrito. Activar, dentro del carrito,
+// abre el pago. El correo lo pide Stripe, no esta página.
+
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import UrgenciaPromo from "@/components/contrata/UrgenciaPromo";
+import {
+  CARRITO,
+  FLUX_BASE_INCLUYE,
+  ITEM_IDS,
+  REGALOS,
+  type Carrito,
+  type ItemId,
+  esRegaloNoviembre,
+  preseleccion,
+  regaloVigente,
+  sanear,
+  totalLista,
+  totalPromo,
+} from "@/content/carrito-flux";
+import { sanitizarRef, soloTracking } from "@/content/checkout";
+import { track, trackPixel } from "@/lib/tracking";
+import styles from "./FluxCarrito.module.css";
+
+const STORAGE = "contrata_carrito";
+const ADICIONALES = ITEM_IDS.filter((id) => id !== "flux_base");
+
+const TEXTO: Record<Exclude<ItemId, "flux_base">, string> = {
+  profesional_extra: "Otro profesional en la agenda de tu clínica.",
+  sucursal_extra: "Otra sucursal con su propia agenda.",
+  conversaciones_1000: "Cada pack suma 1.000 conversaciones al mes.",
+  instagram: "Los mensajes de Instagram llegan a tu agenda.",
+  facebook: "Los mensajes de Facebook llegan a tu agenda.",
+  agente_ia: "Incluye 7.000 créditos de IA. Atiende por ti.",
+  email_marketing: "Correos a tus pacientes desde Clinera.",
+  automatizaciones: "Avisos y tareas que se disparan solas.",
+};
+
+declare global {
+  interface Window {
+    clineraStripeRef?: () => string;
+  }
+}
+
+type Cantidades = Record<ItemId, number>;
+
+/**
+ * El carrito de la pantalla puede traer Flux en 0: el visitante lo agrega.
+ * `sanear()` (el checkout) sigue forzando la base en 1. Acá solo se recortan
+ * los adicionales y se apagan los regalos de noviembre.
+ */
+function vista(c: Carrito, now = new Date()): Cantidades {
+  const clamped = sanear({ ...c, flux_base: 1 }, now);
+  const raw = c.flux_base;
+  const n = typeof raw === "number" && Number.isFinite(raw) ? Math.trunc(raw) : 0;
+  clamped.flux_base = n >= 1 ? 1 : 0;
+  return clamped;
+}
+
+function totalVisible(c: Cantidades): number {
+  const suma = ITEM_IDS.reduce((acc, id) => acc + CARRITO[id].usd * c[id], 0);
+  return Math.round(suma * 100) / 100;
+}
+
+function monto(usd: number): string {
+  const texto = usd.toLocaleString("es-CL", {
+    minimumFractionDigits: Number.isInteger(usd) ? 0 : 2,
+    maximumFractionDigits: 2,
+  });
+  return `US$ ${texto}`;
+}
+
+function etiqueta(nombre: string): string {
+  return nombre.charAt(0).toLowerCase() + nombre.slice(1);
+}
+
+/** null hasta hidratar: el servidor no decide el regalo (el reloj del build no es el del visitante). */
+function useRegalo(): boolean | null {
+  return useSyncExternalStore(
+    (cb) => {
+      const t = setInterval(cb, 60_000);
+      return () => clearInterval(t);
+    },
+    () => regaloVigente(),
+    () => null,
+  );
+}
+
+export default function FluxCarrito({
+  planInicial = "",
+  pago = "",
+  sessionId = "",
+}: {
+  planInicial?: string;
+  pago?: string;
+  sessionId?: string;
+}) {
+  const [carrito, setCarrito] = useState(() => vista({}));
+  const [listo, setListo] = useState(false);
+  const [promoOff, setPromoOff] = useState(false);
+  const [enviando, setEnviando] = useState(false);
+  const [error, setError] = useState("");
+  const [aviso, setAviso] = useState("");
+  const [abierto, setAbierto] = useState(false);
+  const debounce = useRef<number | null>(null);
+  const foco = useRef<ItemId | null>(null);
+  const regalo = useRegalo();
+  const search = useSyncExternalStore(
+    () => () => {},
+    () => window.location.search,
+    () => "",
+  );
+
+  useEffect(() => {
+    // ?plan= es la intención de esta visita y gana al carrito guardado.
+    // Con un plan, Flux ya entra: es la base de esa configuración.
+    let inicial: Carrito = {};
+    if (planInicial) {
+      inicial = { flux_base: 1, ...preseleccion(planInicial) };
+    } else {
+      try {
+        const raw = sessionStorage.getItem(STORAGE);
+        if (raw) inicial = JSON.parse(raw) as Carrito;
+      } catch {
+        inicial = {};
+      }
+    }
+    setCarrito(vista(inicial));
+    setListo(true);
+  }, [planInicial]);
+
+  useEffect(() => {
+    if (!listo) return;
+    try {
+      sessionStorage.setItem(STORAGE, JSON.stringify(carrito));
+    } catch {
+      /* el carrito sigue en memoria */
+    }
+  }, [carrito, listo]);
+
+  useEffect(() => {
+    const id = foco.current;
+    if (!id) return;
+    foco.current = null;
+    const root = document.querySelector(id === "flux_base" ? "[data-flux-base]" : `[data-addon="${id}"]`);
+    const buscar = CARRITO[id].max > 1 ? "Sumar" : "Quitar";
+    const boton = root?.querySelector(`button[aria-label^="${buscar}"]`);
+    if (boton instanceof HTMLElement) boton.focus();
+  }, [carrito]);
+
+  useEffect(() => {
+    if (!aviso) return;
+    const t = window.setTimeout(() => setAviso(""), 2400);
+    return () => window.clearTimeout(t);
+  }, [aviso]);
+
+  useEffect(() => {
+    if (!abierto) return;
+    const previo = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setAbierto(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previo;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [abierto]);
+
+  if (pago === "ok") return <Exito sessionId={sessionId} />;
+
+  const lista = totalVisible(carrito);
+  const promo = Math.round(lista * 50) / 100;
+  const hoy = promoOff ? lista : promo;
+  const unidades = ITEM_IDS.reduce((n, id) => n + carrito[id], 0);
+  const ahorro = Math.round((lista - promo) * 100) / 100;
+  const fluxEnCarrito = carrito.flux_base >= 1;
+
+  function emitir(id: ItemId, accion: "agregar" | "quitar", qty: number, next: Cantidades) {
+    if (debounce.current) window.clearTimeout(debounce.current);
+    debounce.current = window.setTimeout(() => {
+      try {
+        const total = totalVisible(next);
+        track("carrito_addon", {
+          item_id: id,
+          accion,
+          quantity: qty,
+          total_lista: total,
+          total_promo: Math.round(total * 50) / 100,
+        });
+      } catch (e) {
+        console.error("[contrata] addon", e);
+      }
+    }, 300);
+  }
+
+  function fijar(id: ItemId, delta: number) {
+    if (delta > 0) {
+      foco.current = id;
+      setAviso("Agregado al carrito");
+    }
+    setCarrito((prev) => {
+      const next = vista({ ...prev, [id]: prev[id] + delta });
+      emitir(id, delta > 0 ? "agregar" : "quitar", next[id], next);
+      return next;
+    });
+  }
+
+  async function pagar() {
+    if (enviando) return;
+    if (carrito.flux_base < 1) {
+      setAbierto(true);
+      setError("Agrega Clinera Flux para activar tu clínica.");
+      return;
+    }
+    setEnviando(true);
+    setError("");
+    const limpio = sanear(carrito);
+    const value = promoOff ? totalLista(limpio) : totalPromo(limpio);
+    try {
+      const search = window.location.search;
+      const ref = window.clineraStripeRef?.() || sanitizarRef(new URLSearchParams(search).get("gclid") || "");
+      const utm = Object.fromEntries(soloTracking(search));
+      try {
+        track("initiate_checkout", {
+          plan: "flux_modular",
+          content_name: "Clinera Flux modular",
+          value,
+          value_lista: totalLista(limpio),
+          currency: "USD",
+          items: ITEM_IDS.filter((id) => limpio[id] > 0).map((id) => ({
+            item_id: id,
+            quantity: limpio[id],
+            price: CARRITO[id].usd,
+          })),
+          promo: promoOff ? "none" : "CLINERA50X3",
+          regalo,
+        });
+        trackPixel("InitiateCheckout", {
+          value,
+          currency: "USD",
+          content_name: "Clinera Flux modular",
+          contents: ITEM_IDS.filter((id) => limpio[id] > 0).map((id) => ({ id, quantity: limpio[id] })),
+        });
+      } catch (e) {
+        console.error("[contrata] checkout", e);
+      }
+      const res = await fetch("/api/contrata/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ carrito: limpio, clientRef: ref, utm }),
+      });
+      const json = (await res.json()) as { ok?: boolean; url?: string; promo?: boolean };
+      if (json.promo === false) setPromoOff(true);
+      if (json.ok && json.url) {
+        window.location.assign(json.url);
+        return;
+      }
+      setAbierto(true);
+      setError("El pago en línea no está disponible todavía. Agenda una reunión y lo activamos contigo.");
+    } catch (e) {
+      console.error("[contrata] checkout", e);
+      setAbierto(true);
+      setError("El pago en línea no está disponible todavía. Agenda una reunión y lo activamos contigo.");
+    } finally {
+      setEnviando(false);
+    }
+  }
+
+  const agenda = `/agenda${search}`;
+  const pulso = aviso ? styles.badgePulso : "";
+  const lineas = ITEM_IDS.filter((id) => carrito[id] > 0);
+
+  return (
+    <div className={styles.pagina} data-carrito>
+      <header className={styles.barra}>
+        <a className={styles.marca} href="/">clinera</a>
+        <button
+          type="button"
+          className={styles.bolsa}
+          data-carrito-icon
+          aria-expanded={abierto}
+          aria-controls="tu-carrito"
+          aria-label={`Tu carrito, ${unidades} ítems`}
+          onClick={() => setAbierto((v) => !v)}
+        >
+          <Bolsa />
+          {unidades > 0 ? <span className={`${styles.badge} ${pulso}`} data-carrito-count>{unidades}</span> : null}
+        </button>
+      </header>
+      {aviso ? (
+        <div className={styles.toast} role="status" data-toast>
+          {aviso}
+        </div>
+      ) : null}
+
+      {!promoOff ? <UrgenciaPromo className={styles.urgencia} /> : null}
+
+      <div className={styles.grid}>
+        <p className={styles.frase}>Haz que sea tu clínica</p>
+        <p className={styles.heroMl}>
+          Hacer crecer tu clínica es como comprar en Mercado Libre: elige qué funciones quieres, agrégalas al carrito y comienza.
+        </p>
+        <h1 className={styles.h1}>Activa tu clínica</h1>
+
+        <article className={styles.producto} data-flux-base>
+          <div className={styles.foto} aria-hidden="true">
+            <Icono id="flux_base" grande />
+          </div>
+          <div className={styles.productoCompra}>
+            <h2 className={styles.cardTitulo}>Clinera Flux</h2>
+            <p className={styles.cardSub}>Configura tu clínica y agrégala al carrito.</p>
+            <Precio usd={29} promo={!promoOff} desde />
+            {fluxEnCarrito ? (
+              <button type="button" className={styles.quitar} aria-label="Quitar Clinera Flux" onClick={() => fijar("flux_base", -1)}>
+                Quitar
+              </button>
+            ) : (
+              <button type="button" className={styles.agregar} aria-label="Agregar al carrito: Clinera Flux" onClick={() => fijar("flux_base", 1)}>
+                Agregar al carrito
+              </button>
+            )}
+          </div>
+          <ul className={styles.incluye}>
+            {FLUX_BASE_INCLUYE.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <ul className={styles.confianza}>
+            <li>Pago seguro con Stripe</li>
+            <li>Cancela cuando quieras</li>
+            <li>Activación rápida</li>
+          </ul>
+        </article>
+
+        <section data-adicionales>
+          <h2 className={styles.seccion}>También puedes agregar</h2>
+          <p className={styles.seccionSub}>Depende de ti elegir lo adicional</p>
+          <div className={styles.cards}>
+            {ADICIONALES.filter((id) => !esRegaloNoviembre(id) || regalo === false).map((id) => (
+              <Addon
+                key={id}
+                id={id}
+                qty={carrito[id]}
+                promo={!promoOff}
+                onAdd={() => fijar(id, 1)}
+                onSub={() => fijar(id, -1)}
+              />
+            ))}
+          </div>
+        </section>
+
+        {regalo ? (
+          <section className={styles.regalo} data-regalo>
+            <h2 className={styles.cardTitulo}>Regalo de noviembre</h2>
+            <ul className={styles.incluye}>
+              {REGALOS.map((r) => (
+                <li key={r.id}>{r.nombre}</li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
+        <section className={styles.faq}>
+          <h2 className={styles.seccion}>Preguntas</h2>
+          <details>
+            <summary>¿Hay permanencia?</summary>
+            <p>No. Cancelas cuando quieras y el mes en curso sigue activo hasta que termina.</p>
+          </details>
+          {!promoOff ? (
+            <details>
+              <summary>¿Cómo se aplica el 50%?</summary>
+              <p>Los 3 primeros meses pagas la mitad de todo el carrito. Desde el mes 4 rige el precio de lista.</p>
+            </details>
+          ) : null}
+        </section>
+      </div>
+
+      <div className={styles.barraMovil} hidden={abierto}>
+        <p className={styles.hoyMovil}>
+          <span>Total hoy</span>
+          <span className={styles.num}>
+            {monto(hoy)}
+            {!promoOff && lista > 0 ? <s>{monto(lista)}</s> : null}
+          </span>
+        </p>
+        <Checkout
+          hoy={hoy}
+          lista={lista}
+          promoOff={promoOff}
+          enviando={enviando}
+          listo={fluxEnCarrito}
+          onClick={pagar}
+        />
+      </div>
+
+      {abierto ? (
+        <button type="button" className={styles.cortina} aria-label="Cerrar carrito" onClick={() => setAbierto(false)} />
+      ) : null}
+      <aside
+        id="tu-carrito"
+        className={styles.drawer}
+        data-drawer
+        hidden={!abierto}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="titulo-carrito"
+      >
+        <div className={styles.drawerCabeza}>
+          <h2 id="titulo-carrito" className={styles.resumenTitulo}>Tu carrito</h2>
+          <button type="button" className={styles.cerrar} aria-label="Cerrar" onClick={() => setAbierto(false)}>
+            ×
+          </button>
+        </div>
+        <div className={styles.drawerCuerpo}>
+          {lineas.length === 0 ? (
+            <p className={styles.vacio}>Tu carrito está vacío. Agrega Clinera Flux para armar tu clínica.</p>
+          ) : (
+            <ul className={styles.lineas}>
+              {lineas.map((id) => (
+                <li key={id}>
+                  <span>
+                    {CARRITO[id].nombre}
+                    {carrito[id] > 1 ? ` × ${carrito[id]}` : ""}
+                  </span>
+                  <span className={styles.num}>{monto(CARRITO[id].usd * carrito[id])}</span>
+                  <Stepper id={id} qty={carrito[id]} donde="drawer" onAdd={() => fijar(id, 1)} onSub={() => fijar(id, -1)} />
+                </li>
+              ))}
+            </ul>
+          )}
+          {regalo ? (
+            <p className={styles.regaloLinea}>
+              <span>Regalo de noviembre</span>
+              <span>US$ 0</span>
+            </p>
+          ) : null}
+          <div className={styles.totales}>
+            <p>
+              <span>Subtotal</span>
+              <span className={styles.num}>{monto(lista)}</span>
+            </p>
+            {!promoOff ? (
+              <p className={styles.descuento}>
+                <span>50% × 3 meses</span>
+                <span className={styles.num}>−{monto(ahorro)}</span>
+              </p>
+            ) : null}
+            <p className={styles.hoy}>
+              <span>Total hoy</span>
+              <span className={styles.num} data-total-hoy>
+                {monto(hoy)}
+                {!promoOff && lista > 0 ? <s>{monto(lista)}</s> : null}
+              </span>
+            </p>
+            {!promoOff && lista > 0 ? <p className={styles.luego}>Luego {monto(lista)}/mes</p> : null}
+          </div>
+          {!promoOff ? <div className={styles.urgenciaChica}><UrgenciaPromo /></div> : null}
+          {error ? <p className={styles.error} role="alert" data-pago-error>{error}</p> : null}
+        </div>
+        <div className={styles.drawerPie}>
+          <p className={styles.apuro}>No pierdas más tu tiempo</p>
+          <Checkout
+            hoy={hoy}
+            lista={lista}
+            promoOff={promoOff}
+            enviando={enviando}
+            listo={fluxEnCarrito}
+            onClick={pagar}
+          />
+          <a className={styles.secundario} href={agenda} data-cta="agendar-reunion">Agendar reunión</a>
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+function Checkout({
+  hoy,
+  lista,
+  promoOff,
+  enviando,
+  listo,
+  onClick,
+}: {
+  hoy: number;
+  lista: number;
+  promoOff: boolean;
+  enviando: boolean;
+  listo: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      className={styles.cta}
+      data-cta="carrito-checkout"
+      data-plan="flux_modular"
+      data-plan-value={String(hoy)}
+      data-plan-lista={String(lista)}
+      data-promo={promoOff ? "no" : "si"}
+      disabled={enviando || !listo}
+      onClick={onClick}
+    >
+      {enviando ? "Abriendo pago…" : "Activar"}
+    </button>
+  );
+}
+
+function Precio({ usd, promo, desde = false }: { usd: number; promo: boolean; desde?: boolean }) {
+  const mitad = Math.round(usd * 50) / 100;
+  return (
+    <p className={styles.precio}>
+      {desde ? <span className={styles.desde}>Desde {monto(usd)}/mes</span> : null}
+      {promo ? <s>{monto(usd)}</s> : null}
+      <b>
+        {promo ? monto(mitad) : monto(usd)}
+        {promo ? <span className={styles.pill}>−50%</span> : null}
+      </b>
+      <span>/mes</span>
+    </p>
+  );
+}
+
+function Addon({
+  id,
+  qty,
+  promo,
+  onAdd,
+  onSub,
+}: {
+  id: Exclude<ItemId, "flux_base">;
+  qty: number;
+  promo: boolean;
+  onAdd: () => void;
+  onSub: () => void;
+}) {
+  const spec = CARRITO[id];
+  const enCarrito = qty > 0;
+  return (
+    <article className={`${styles.card} ${enCarrito ? styles.cardOn : ""}`} data-addon={id}>
+      <div className={styles.addonTop}>
+        <div className={styles.icono} aria-hidden="true">
+          <Icono id={id} />
+        </div>
+        <div>
+          <h3 className={styles.cardTitulo}>{spec.nombre}</h3>
+          <p className={styles.cardSub}>{TEXTO[id]}</p>
+        </div>
+        <Precio usd={spec.usd} promo={promo} />
+      </div>
+      {enCarrito ? (
+        <Stepper id={id} qty={qty} donde="card" onAdd={onAdd} onSub={onSub} />
+      ) : (
+        <button type="button" className={styles.agregar} aria-label={`Agregar al carrito: ${spec.nombre}`} onClick={onAdd}>
+          Agregar al carrito
+        </button>
+      )}
+    </article>
+  );
+}
+
+function Stepper({
+  id,
+  qty,
+  donde,
+  onAdd,
+  onSub,
+}: {
+  id: ItemId;
+  qty: number;
+  donde: "card" | "drawer";
+  onAdd: () => void;
+  onSub: () => void;
+}) {
+  const spec = CARRITO[id];
+  const nombre = etiqueta(spec.nombre);
+  const sufijo = donde === "drawer" ? " en el carrito" : "";
+  return (
+    <div className={styles.stepper} role="group" aria-label={`Cantidad de ${nombre}${sufijo}`}>
+      <button type="button" aria-label={`Quitar ${nombre}${sufijo}`} onClick={onSub} disabled={qty <= 0}>−</button>
+      <output aria-live="polite">{qty}</output>
+      <button type="button" aria-label={`Sumar ${nombre}${sufijo}`} onClick={onAdd} disabled={qty >= spec.max}>+</button>
+    </div>
+  );
+}
+
+function Icono({ id, grande = false }: { id: ItemId; grande?: boolean }) {
+  const s = grande ? 72 : 28;
+  return (
+    <svg viewBox="0 0 24 24" width={s} height={s} aria-hidden="true">
+      {id === "flux_base" ? (
+        <path fill="currentColor" d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5z" />
+      ) : null}
+      {id === "profesional_extra" ? (
+        <path fill="currentColor" d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm-7 8a7 7 0 0 1 14 0H5z" />
+      ) : null}
+      {id === "sucursal_extra" ? (
+        <path fill="currentColor" d="M3 20V9l6-4 6 4v11H3zm8-2h2v-3h-2v3zm6 2V8l4-2v14h-4z" />
+      ) : null}
+      {id === "conversaciones_1000" ? (
+        <path fill="currentColor" d="M4 4h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H8l-4 4V5a1 1 0 0 1 1-1z" />
+      ) : null}
+      {id === "instagram" ? (
+        <path fill="currentColor" d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5zm4 5a4 4 0 1 0 4 4 4 4 0 0 0-4-4zm5.2-.9a1 1 0 1 0 1 1 1 1 0 0 0-1-1z" />
+      ) : null}
+      {id === "facebook" ? (
+        <path fill="currentColor" d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h2.6l.4-3H13v-2c0-.6.4-1 1-1z" />
+      ) : null}
+      {id === "agente_ia" ? (
+        <path fill="currentColor" d="M12 2l1.6 5.2L19 9l-5.4 1.8L12 16l-1.6-5.2L5 9l5.4-1.8L12 2zM18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8L18 14z" />
+      ) : null}
+      {id === "email_marketing" ? (
+        <path fill="currentColor" d="M3 6h18v12H3V6zm9 6L4.5 7.5h15L12 12z" />
+      ) : null}
+      {id === "automatizaciones" ? (
+        <path fill="currentColor" d="M12 2a2 2 0 0 1 2 2 2 2 0 0 1-.2.9l2.1 1.2a2 2 0 1 1 0 2.2l-2.1 1.2a2 2 0 0 1 0 1.8l2.1 1.2a2 2 0 1 1-1 1.7l-2.1-1.2a2 2 0 0 1-1.8.9 2 2 0 0 1-1.8-.9l-2.1 1.2a2 2 0 1 1-1-1.7l2.1-1.2a2 2 0 0 1 0-1.8L4.2 8.3a2 2 0 1 1 1-1.7l2.1 1.2A2 2 0 0 1 12 2z" />
+      ) : null}
+    </svg>
+  );
+}
+
+function Bolsa() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <path fill="none" stroke="currentColor" strokeWidth="1.8" d="M6.5 8h11l-.8 12h-9.4L6.5 8z" />
+      <path fill="none" stroke="currentColor" strokeWidth="1.8" d="M9 8V7a3 3 0 0 1 6 0v1" />
+    </svg>
+  );
+}
+
+function Exito({ sessionId }: { sessionId: string }) {
+  const [regalo, setRegalo] = useState("");
+  useEffect(() => {
+    if (!sessionId) return;
+    let vivo = true;
+    (async () => {
+      try {
+        const res = await fetch(`/api/contrata/session?session_id=${encodeURIComponent(sessionId)}`);
+        const json = (await res.json()) as { ok?: boolean; lista_usd?: string; regalo?: string; email?: string };
+        if (!vivo || !json.ok) return;
+        setRegalo(json.regalo || "");
+        const value = Number(json.lista_usd);
+        try {
+          track("purchase", {
+            transaction_id: sessionId,
+            value: Number.isFinite(value) ? value : undefined,
+            currency: "USD",
+            plan: "flux_modular",
+          });
+          trackPixel(
+            "Purchase",
+            { value: Number.isFinite(value) ? value : 0, currency: "USD", content_name: "Clinera Flux modular" },
+            `purchase_${sessionId}`,
+          );
+        } catch (e) {
+          console.error("[contrata] purchase", e);
+        }
+      } catch {
+        /* la confirmación se muestra igual */
+      }
+    })();
+    return () => {
+      vivo = false;
+    };
+  }, [sessionId]);
+
+  return (
+    <div className={styles.pagina} data-carrito data-pago="ok">
+      <div className={styles.exito}>
+        <p className={styles.kicker}>Listo</p>
+        <h1 className={styles.h1}>Listo, revisa tu correo</h1>
+        <p className={styles.bajada}>Stripe te manda el recibo y activamos Flux en tu clínica.</p>
+        {regalo ? <p className={styles.regaloKicker}>Regalo de noviembre incluido: {regalo.split("_").join(" ")}</p> : null}
+        <a className={styles.cta} href="/">Volver a Clinera</a>
+      </div>
+    </div>
+  );
+}

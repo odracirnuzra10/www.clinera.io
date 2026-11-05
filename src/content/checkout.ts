@@ -9,9 +9,10 @@ export const CHECKOUT_URL: Record<PlanCheckoutId, string> = {
 };
 
 // Código de promoción del cupón FPxQMFcc «50% OFF - 3 meses» (percent_off 50, repeating 3).
-// Ricardo lo creó el 5-nov-2026. Solo viaja si checkoutUrl recibe promo: true (/contrata).
-// /planes llama sin promo y cobra el precio de lista. El link de Hex cobra US$ 179
-// (confirmado por Ricardo el mismo día).
+// Ricardo lo creó el 5-nov-2026. checkoutUrl lo manda solo con promo: true.
+// /contrata ya no usa estos Payment Links: el carrito cobra por POST /api/contrata/checkout
+// (el mismo código, en carrito-flux.ts). /planes llama sin promo y cobra el precio de lista.
+// El link de Hex cobra US$ 179 (confirmado por Ricardo el mismo día).
 export const PROMO_CODE = "CLINERA50X3";
 
 export const UTM_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"] as const;

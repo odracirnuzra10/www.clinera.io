@@ -1,22 +1,28 @@
 import type { Metadata } from "next";
 import FooterV3 from "@/components/brand-v3/Footer";
-import ContrataLanding from "@/components/contrata/ContrataLanding";
+import FluxCarrito from "@/components/contrata/FluxCarrito";
 
-// /contrata (Ricardo, 4-nov-2026): landing L2 «Software», Hex y Flux con WhatsApp. Es una
-// landing de anuncios, como /oferta-clinicas-esteticas: no se indexa ni va al sitemap, y
-// /planes sigue siendo la página pública de precios hasta que Ricardo apruebe el modelo nuevo.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
-  title: "Contrata Clinera: software para tu clínica con WhatsApp",
+  title: "Contrata Clinera",
   description:
-    "Agenda, presupuestos, panel de ventas y WhatsApp para tu clínica. Hex US$ 35 al mes con 50 conversaciones, Flux US$ 55 con 200. Prueba gratis.",
+    "Arma tu Flux: US$ 29 al mes con profesionales, sucursal, conversaciones y los adicionales que elijas. 50% por 3 meses.",
   robots: { index: false, follow: false },
-  alternates: { canonical: "https://www.clinera.io/planes" },
+  alternates: { canonical: "https://www.clinera.io/contrata" },
 };
 
-export default function ContrataPage() {
+export default async function ContrataPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ plan?: string | string[]; pago?: string | string[]; session_id?: string | string[] }>;
+}) {
+  const sp = await searchParams;
+  const uno = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v ?? "").toLowerCase();
+  const sessionId = Array.isArray(sp.session_id) ? sp.session_id[0] : sp.session_id ?? "";
   return (
     <>
-      <ContrataLanding />
+      <FluxCarrito planInicial={uno(sp.plan)} pago={uno(sp.pago)} sessionId={sessionId} />
       <FooterV3 />
     </>
   );

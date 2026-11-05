@@ -77,6 +77,7 @@ var fbp=(ck("_fbp")||"").replace("fb.1.","");
 var ua=encodeURIComponent(navigator.userAgent||"");
 return [gclid,gaCid,fbc,sid,fbp,"",ua].join("::");
 }
+window.clineraStripeRef=build;
 function patch(){
 document.querySelectorAll('a[href*="buy.stripe.com"]').forEach(function(a){
 if(a.dataset.stripeRefPatched)return;
