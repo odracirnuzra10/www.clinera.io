@@ -104,9 +104,9 @@
 }
 
 .grid {
-  max-width: 880px;
+  max-width: 1152px;
   margin: 0 auto;
-  padding: 20px 16px 32px;
+  padding: 28px 32px 40px;
 }
 
 .frase {
@@ -187,19 +187,21 @@
 
 .heroMl {
   margin: 10px 0 0;
-  max-width: 38rem;
+  max-width: 46rem;
   font-size: clamp(17px, 2.2vw, 20px);
   font-weight: 650;
   line-height: 1.4;
-  color: #111827;
+  color: #111;
 }
 
 .h1 {
   margin: 8px 0 0;
+  font-family: var(--font-outfit), Outfit, sans-serif;
   font-size: clamp(32px, 8vw, 48px);
+  font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.04em;
-  color: #111827;
+  color: #111;
 }
 
 .ofertaHero {
@@ -255,9 +257,11 @@
 
 .cardTitulo {
   margin: 2px 0 0;
+  font-family: var(--font-outfit), Outfit, sans-serif;
   font-size: 20px;
+  font-weight: 700;
   line-height: 1.2;
-  color: #111827;
+  color: #111;
 }
 
 .cardSub {
@@ -268,62 +272,70 @@
 }
 
 .precio {
-  margin: 8px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 12px;
+  margin: 10px 0 0;
+  font-family: var(--font-outfit), Outfit, sans-serif;
   text-align: left;
   font-variant-numeric: tabular-nums;
 }
 
 .precio .desde {
-  display: block;
+  flex-basis: 100%;
   margin-bottom: 2px;
-  color: #4b5563;
-  font-size: 15px;
+  color: #6b6b6b;
+  font-size: 16px;
   font-weight: 700;
 }
 
 .precio s {
-  display: block;
-  color: #6b7280;
-  font-size: 14px;
-  font-weight: 500;
+  flex-basis: 100%;
+  color: #6b6b6b;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .precio b {
-  display: block;
-  color: #111827;
-  font-size: 22px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  color: #111;
+  font-size: 28px;
+  font-weight: 800;
   letter-spacing: -0.03em;
 }
 
+.producto .precio b { font-size: 40px; }
+
+.periodo {
+  color: #6b6b6b;
+  font-size: 0.42em;
+  font-weight: 600;
+}
+
 .pill {
-  display: inline-block;
-  margin-left: 6px;
-  padding: 1px 6px;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
   border-radius: 999px;
-  background: #f5f3ff;
+  background: #ede9fe;
   color: #6d28d9;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0;
-  vertical-align: 3px;
-}
-
-.precio span {
-  color: #4b5563;
-  font-size: 13px;
-}
-
-.precio .pill {
-  color: #6d28d9;
+  font-family: var(--font-outfit), Outfit, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1;
 }
 
 .luegoPrecio,
 .cobro {
-  display: block;
-  margin-top: 4px;
-  color: #374151;
-  font-size: 13px;
-  font-weight: 650;
+  flex-basis: 100%;
+  margin-top: 2px;
+  color: #6b6b6b;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .incluye {
@@ -342,10 +354,12 @@
 }
 
 .seccion {
-  margin: 28px 0 0;
-  font-size: 24px;
+  margin: 36px 0 0;
+  font-family: var(--font-outfit), Outfit, sans-serif;
+  font-size: 28px;
+  font-weight: 800;
   letter-spacing: -0.03em;
-  color: #111827;
+  color: #111;
 }
 
 .seccionSub {
@@ -460,24 +474,26 @@
 .regalo .cardSub,
 .regalo .incluye li { color: #065f46; }
 
-.faq { margin-top: 8px; }
+.faq { margin-top: 20px; }
 
 .faq details {
   border-top: 1px solid #e5e7eb;
-  padding: 12px 0;
+  padding: 16px 0;
 }
 
 .faq summary {
-  font-size: 16px;
+  font-family: var(--font-outfit), Outfit, sans-serif;
+  font-size: 18px;
   font-weight: 700;
+  color: #111;
   cursor: pointer;
 }
 
 .faq p {
-  margin: 8px 0 0;
-  font-size: 15px;
-  line-height: 1.45;
-  color: #374151;
+  margin: 10px 0 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #6b6b6b;
 }
 
 .cortina {
@@ -504,8 +520,8 @@
 .drawerCabeza,
 .drawerCuerpo,
 .drawerPie {
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 .drawerCabeza {
@@ -562,8 +578,8 @@
 }
 
 .drawerPie {
-  padding-top: 8px;
-  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  padding-top: 20px;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
   border-top: 1px solid #e5e7eb;
   background: #fff;
 }
@@ -615,10 +631,12 @@
 
 .resumenTitulo {
   margin: 0;
-  font-size: 26px;
-  line-height: 1.1;
+  font-family: var(--font-outfit), Outfit, sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.12;
   letter-spacing: -0.03em;
-  max-width: 16ch;
+  color: #111;
 }
 
 .salida {
@@ -758,13 +776,16 @@
 .cta:disabled { opacity: 0.7; cursor: wait; }
 
 .apuro {
-  margin: 0 0 8px;
-  font-size: 16px;
-  font-weight: 750;
+  margin: 4px 0 14px;
+  font-family: var(--font-outfit), Outfit, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
   line-height: 1.25;
-  color: #111827;
+  color: #111;
   text-align: center;
 }
+
+.drawerPie .cta { margin-top: 0; min-height: 56px; }
 
 .secundario {
   display: block;
@@ -780,7 +801,7 @@
 .exito { max-width: 640px; margin: 0 auto; padding: 48px 20px 80px; }
 
 @media (max-width: 959px) {
-  .grid { padding-bottom: 8px; }
+  .grid { padding: 16px 16px 8px; }
   .card, .faq, .regalo, .producto { scroll-margin-bottom: 140px; }
   .hoyMovil {
     display: flex;
@@ -824,6 +845,11 @@
 
 @media (min-width: 720px) {
   .cards { grid-template-columns: 1fr 1fr; }
+  .cards > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    width: calc(50% - 6px);
+    justify-self: center;
+  }
 }
 
 @media (min-width: 800px) {
@@ -840,18 +866,52 @@
   .foto svg { width: 112px; height: 112px; }
 }
 
+@media (min-width: 1080px) {
+  .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cards > :last-child:nth-child(odd) {
+    grid-column: auto;
+    width: auto;
+    justify-self: stretch;
+  }
+  .cards > :last-child:nth-child(3n + 1) {
+    grid-column: 2;
+  }
+}
+
 @media (min-width: 960px) {
   .drawer {
     top: 0;
     right: 0;
     bottom: 0;
-    width: min(420px, 100%);
+    width: min(640px, 100%);
     border-left: 1px solid #e5e7eb;
   }
   .toast { top: 72px; }
 }
 
+/* El pie de FooterV3 es del sitio. Acá solo se aprieta el de esta página. */
+.sitio :global(footer) {
+  padding: 36px 40px 20px !important;
+}
+.sitio :global(footer > div:last-of-type) {
+  margin-top: 28px !important;
+  font-size: 14px !important;
+  color: #6b6b6b !important;
+}
+.sitio :global(.footer-v3-grid) {
+  gap: 28px 24px !important;
+}
+.sitio :global(.footer-v3-grid a) {
+  font-size: 15px !important;
+  line-height: 1.45;
+}
+.sitio :global(.footer-v3-grid > div:not(:first-child) > div:first-child) {
+  font-size: 12px !important;
+  color: #6b6b6b !important;
+}
+
 @media (max-width: 959px) and (max-height: 740px) {
+  .grid { padding: 16px 16px 28px; }
   .barra { padding: 8px 16px; }
   .heroMl { font-size: 16px; line-height: 1.3; }
   .h1 { margin-top: 4px; font-size: 28px; }

@@ -109,7 +109,7 @@ test.describe("/contrata", () => {
     const cta = page.getByRole("button", { name: "Activar" });
     await expect(cta).toHaveAttribute("data-plan", "flux_modular");
     await expect(cta).toHaveAttribute("data-plan-value", "14.5");
-    await page.getByRole("button", { name: "Cerrar carrito" }).click();
+    await page.getByRole("button", { name: "Cerrar", exact: true }).click();
     await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" }).click();
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("1");
     await expect(page.locator("[data-toast]")).toHaveText("Agregado al carrito");
@@ -118,7 +118,7 @@ test.describe("/contrata", () => {
     await page.locator("[data-carrito-icon]").click();
     await expect(cta).toHaveAttribute("data-plan-value", "19");
     await expect(page.locator("[data-total-hoy]")).toContainText("19");
-    await page.getByRole("button", { name: "Cerrar carrito" }).click();
+    await page.getByRole("button", { name: "Cerrar", exact: true }).click();
     await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Sumar profesional extra" }).click();
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("2");
   });

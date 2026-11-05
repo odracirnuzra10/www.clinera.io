@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import FooterV3 from "@/components/brand-v3/Footer";
 import FluxCarrito from "@/components/contrata/FluxCarrito";
+import styles from "@/components/contrata/FluxCarrito.module.css";
 
 export const dynamic = "force-dynamic";
 
@@ -21,9 +22,9 @@ export default async function ContrataPage({
   const uno = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v ?? "").toLowerCase();
   const sessionId = Array.isArray(sp.session_id) ? sp.session_id[0] : sp.session_id ?? "";
   return (
-    <>
+    <div className={styles.sitio}>
       <FluxCarrito planInicial={uno(sp.plan)} pago={uno(sp.pago)} sessionId={sessionId} />
       <FooterV3 />
-    </>
+    </div>
   );
 }

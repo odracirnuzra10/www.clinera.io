@@ -4,7 +4,15 @@
 // colores de Clinera. Flux se agrega al carrito. Activar, dentro del carrito,
 // abre el pago. El correo lo pide Stripe, no esta página.
 
+import { Outfit } from "next/font/google";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+
+const outfit = Outfit({
+  subsets: ["latin", "latin-ext"],
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-outfit",
+  display: "swap",
+});
 import UrgenciaPromo from "@/components/contrata/UrgenciaPromo";
 import {
   CARRITO,
@@ -353,7 +361,7 @@ export default function FluxCarrito({
   const lineas = ITEM_IDS.filter((id) => carrito[id] > 0);
 
   return (
-    <div className={styles.pagina} data-carrito>
+    <div className={`${styles.pagina} ${outfit.variable}`} data-carrito>
       <header className={styles.barra}>
         <a className={styles.marca} href="/">clinera</a>
         <button
@@ -499,7 +507,9 @@ export default function FluxCarrito({
         <div className={styles.drawerCabeza}>
           <div>
             <p className={styles.estado}><span className={styles.chk} aria-hidden="true">✓</span> Tu clínica</p>
-            <h2 id="titulo-carrito" className={styles.resumenTitulo}>Tu clínica está a punto de crecer</h2>
+            <h2 id="titulo-carrito" className={styles.resumenTitulo}>
+              Tu clínica está<br />a punto de crecer
+            </h2>
           </div>
           <button type="button" className={styles.cerrar} aria-label="Cerrar" onClick={() => setAbierto(false)}>
             ×
@@ -640,8 +650,8 @@ function Precio({ usd, promo, desde = false, unico = false }: { usd: number; pro
       <b>
         {promo ? monto(mitad) : monto(usd)}
         <span className={styles.periodo}>/mes</span>
-        {promo ? <span className={styles.pill}>50% por 3 meses</span> : null}
       </b>
+      {promo ? <span className={styles.pill}>50% por 3 meses</span> : null}
       {promo ? <span className={styles.luegoPrecio}>{monto(mitad)} por 3 meses, luego precio normal</span> : null}
     </p>
   );
@@ -827,7 +837,7 @@ function Exito({ sessionId }: { sessionId: string }) {
   }, [sessionId]);
 
   return (
-    <div className={styles.pagina} data-carrito data-pago="ok">
+    <div className={`${styles.pagina} ${outfit.variable}`} data-carrito data-pago="ok">
       <div className={styles.exito}>
         <p className={styles.kicker}>Listo</p>
         <h1 className={styles.h1}>Listo, revisa tu correo</h1>
