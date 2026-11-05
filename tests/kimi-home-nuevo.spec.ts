@@ -74,7 +74,10 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await expect(page.locator("#comenzar")).toContainText("Agrega Clinera Flux y elige lo que tu clínica necesita.");
   await expect(page.locator("#comenzar")).toContainText("Sin costo de implementación");
   await expect(page.locator("#comenzar")).not.toContainText("cuatro preguntas");
-  await expect(page.locator("#comenzar").getByRole("button")).toHaveCount(2);
+  await expect(page.locator("#comenzar").getByRole("button")).toHaveCount(1);
+  await expect(page.locator("#comenzar").getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Hablar con ventas" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Hablar con ventas" })).toHaveCount(0);
   await expect(flux.getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveCount(0);
   const orden = await page.evaluate(() => {
@@ -178,14 +181,21 @@ test("el pie de /home-nuevo también enlaza Términos y Privacidad", async ({ pa
   await expect(legal.locator("a", { hasText: "Privacidad" })).toHaveAttribute("href", "/privacidad");
 });
 
-for (const ruta of ["/kimi", "/home-nuevo"]) {
-  test(`${ruta}: el popup llega a la oferta y el embed lleva fecha`, async ({ page }) => {
-    const errores: string[] = [];
-    page.on("pageerror", (err) => errores.push(String(err)));
-    await page.route(/clarity\.ms|facebook\.net|facebook\.com|googletagmanager|google-analytics|hotjar/, (route) => route.abort());
-    await page.clock.setFixedTime(new Date("2026-11-06T10:00:00-03:00"));
-    await page.goto(ruta, { waitUntil: "domcontentloaded" });
-    await page.getByRole("button", { name: "Hablar con ventas" }).first().click();
+test("/kimi no muestra Hablar con ventas: menú, hero y cierre son el carrito", async ({ page }) => {
+  await page.goto("/kimi", { waitUntil: "domcontentloaded" });
+  await expect(page.getByText("Hablar con ventas")).toHaveCount(0);
+  await expect(page.locator("header").getByRole("button")).toHaveCount(2);
+  await expect(page.locator("#hero-cta").getByRole("button")).toHaveCount(1);
+  await expect(page.locator("#comenzar").getByRole("button")).toHaveCount(1);
+});
+
+test("/home-nuevo: el popup llega a la oferta y el embed lleva fecha", async ({ page }) => {
+  const errores: string[] = [];
+  page.on("pageerror", (err) => errores.push(String(err)));
+  await page.route(/clarity\.ms|facebook\.net|facebook\.com|googletagmanager|google-analytics|hotjar/, (route) => route.abort());
+  await page.clock.setFixedTime(new Date("2026-11-06T10:00:00-03:00"));
+  await page.goto("/home-nuevo", { waitUntil: "domcontentloaded" });
+  await page.getByRole("button", { name: "Hablar con ventas" }).first().click();
     await page.locator("#w-nombre").fill("Ana Soto");
     await page.locator("#wiz-next").click();
     await page.locator("#w-clinica").fill("Clínica Vela");
@@ -201,5 +211,4 @@ for (const ruta of ["/kimi", "/home-nuevo"]) {
     expect(errores).toEqual([]);
     await page.locator("#wiz-agendar").click();
     await expect(page.locator("#wiz-agenda-frame")).toHaveAttribute("src", /fecha=/);
-  });
-}
+});
