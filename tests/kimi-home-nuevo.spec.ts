@@ -12,6 +12,7 @@ for (const ruta of ["/kimi", "/home-nuevo"]) {
     });
 
     test("Contratar lleva a /contrata con la atribución de la visita", async ({ page }) => {
+      test.skip(ruta === "/kimi", "en /kimi el carrito vive en la misma página");
       await page.goto(`${ruta}?utm_source=t&gclid=g`, { waitUntil: "domcontentloaded" });
       const links = page.locator("a[data-contrata-link]");
       const n = await links.count();
@@ -63,6 +64,30 @@ for (const ruta of ["/kimi", "/home-nuevo"]) {
     });
   });
 }
+
+test("/kimi agrega Flux y los adicionales en la misma página", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/kimi", { waitUntil: "domcontentloaded" });
+  const flux = page.locator("[data-testid=plan-flux]");
+  await expect(flux.getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveCount(0);
+  const carril = page.locator("[data-testid=plan-addons]");
+  await expect(carril.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
+  await expect(carril.locator("[data-addon=agente_ia] s")).toContainText("79");
+  await expect(carril.locator("[data-addon=agente_ia]")).toContainText("−50%");
+  await flux.getByRole("button", { name: "Agregar al carrito" }).click();
+  await expect(page.locator("[data-toast]")).toHaveText("Agregado al carrito");
+  await expect(page.locator("[data-carrito-count]")).toHaveText("1");
+  await carril.locator("[data-addon=instagram]").getByRole("button", { name: "Agregar al carrito" }).click();
+  await page.locator("[data-carrito-icon]").click();
+  const drawer = page.locator("[data-drawer]");
+  await expect(drawer).toBeVisible();
+  await expect(drawer.getByRole("button", { name: "Activar" })).toBeVisible();
+  await expect(drawer).toContainText("50% × 3 meses");
+  await expect(drawer.locator("[data-total-hoy]")).toContainText("19");
+  const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
+  expect(ancho).toBeLessThanOrEqual(1280);
+});
 
 test("el pie de /kimi enlaza Términos y Privacidad", async ({ page, request }) => {
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
