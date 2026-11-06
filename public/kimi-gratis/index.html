@@ -723,6 +723,41 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
 @media (max-width:640px){
   .nav-cta .btn.grad{font-size:14px;padding:8px 12px}
 }
+
+/* Ajustes de diseño (6-nov-2026): aire, contraste, celular y modal. No cambian colores de botones ni textos. */
+@media (max-width:768px){
+  /* La barra fija aparece cuando el botón del hero ya salió de la pantalla: antes tapaba el hero. */
+  .mcta{transition:transform .25s ease,opacity .25s ease}
+  .mcta.mcta-arriba{transform:translateY(110%);opacity:0;pointer-events:none}
+}
+@media (prefers-reduced-motion:reduce){.mcta{transition:none}}
+/* Cierre: el texto gris sobre el fondo oscuro no se leía. */
+.cta-band .lead{color:rgba(255,255,255,.86)}
+.cta-band .micro{color:rgba(255,255,255,.72)}
+.cta-band .eyebrow{color:rgba(255,255,255,.72)}
+/* Panel «Agente IA · en vivo»: las filas apagadas quedaban casi invisibles. */
+.flujo-log li{opacity:.62}
+.flujo-log em{color:#D1D5DB}
+/* En el celular los dos botones van uno bajo el otro, a todo el ancho. */
+@media (max-width:640px){
+  .cta.par{flex-direction:column;flex-wrap:nowrap}
+  .cta.par .btn{width:100%;min-height:52px;white-space:normal}
+}
+/* Modal de registro */
+.cuenta-card [data-cuenta-resumen]{font-size:.92rem;line-height:1.45;color:#4B5563;background:#F7F5FF;border:1px solid #EDE9FE;border-radius:12px;padding:10px 12px;margin:4px 0 18px}
+.cuenta-card label{margin-bottom:14px}
+.cuenta-card input::placeholder{color:#9CA3AF}
+.cuenta-sig{display:flex;align-items:center;justify-content:center;gap:6px;margin:12px 0 0!important;font-size:.85rem;color:#6B7280!important;text-align:center}
+.cuenta-listo[hidden]~.cuenta-sig{display:none}
+.cuenta-sig svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;flex:none}
+@media (max-width:719px){
+  /* En el celular el modal sube desde abajo, como una hoja, y deja el pulgar cerca del botón. */
+  .cuenta{place-items:end center;padding:0}
+  .cuenta-card{width:100%;max-height:92dvh;border-radius:22px 22px 0 0;padding:24px 18px calc(18px + env(safe-area-inset-bottom));animation:hoja .28s ease}
+  .cuenta-card::before{content:"";display:block;width:40px;height:4px;border-radius:4px;background:#E5E7EB;margin:-12px auto 14px}
+}
+@keyframes hoja{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.cuenta-card{animation:none}}
 </style>
 </head>
 <body>
@@ -1122,14 +1157,15 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
     <button class="cuenta-x" type="button" data-cuenta-cerrar aria-label="Cerrar cuenta">×</button>
     <h2 id="cuenta-titulo">Crea tu cuenta gratis</h2>
     <p data-cuenta-resumen>Xcale · recomendado · $149. Demo de 7 días. Incluye Clinera Intelligence con 5000 créditos y onboarding humano.</p>
-    <label>Nombre<input name="nombre" autocomplete="name" required maxlength="80"></label>
+    <label>Nombre<input name="nombre" autocomplete="name" required maxlength="80" placeholder="Tu nombre"></label>
     <label>Celular<span class="phone"><select name="prefijo" aria-label="Prefijo del país"><option value="+56" selected>+56</option><option value="+52">+52</option><option value="+57">+57</option><option value="+51">+51</option><option value="+54">+54</option><option value="+593">+593</option><option value="+598">+598</option><option value="+1">+1</option></select><input name="celular" type="tel" inputmode="tel" autocomplete="tel-national" required maxlength="15" placeholder="9 1234 5678"></span></label>
-    <label>Correo<input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120"></label>
-    <label>Nombre de la clínica<input name="clinica" autocomplete="organization" required maxlength="120"></label>
+    <label>Correo<input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120" placeholder="tu@correo.com"></label>
+    <label>Nombre de la clínica<input name="clinica" autocomplete="organization" required maxlength="120" placeholder="Ej.: Clínica Aurora"></label>
     <p class="cuenta-error" data-cuenta-error hidden>Completa nombre, celular, correo y el nombre de la clínica.</p>
     <p class="cuenta-ok" data-cuenta-ok hidden>Listo. Guardamos tu plan.</p>
     <a class="btn grad" href="#planes" data-cuenta-pagar data-plan="flux" data-plan-name="Clinera Flux" data-plan-value="49" hidden>Pagar</a>
     <button class="btn grad cuenta-listo" type="button" data-cuenta-listo>Registra y activa tu clínica</button>
+    <p class="cuenta-sig" data-cuenta-sig><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Después terminas tu registro en app.clinera.io.</p>
     <button class="btn wa" type="button" data-asistencia-enviar hidden><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Abrir WhatsApp</span></button>
   </form>
 </div>
@@ -2139,6 +2175,17 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
     else{finish();}
   });
 })();
+
+  // La barra fija del celular espera a que el botón del hero salga de la pantalla.
+  (function(){
+    var barra=document.getElementById('mobile-cta');
+    var heroCta=document.getElementById('hero-cta');
+    if(!barra||!heroCta||!('IntersectionObserver' in window)) return;
+    barra.classList.add('mcta-arriba');
+    new IntersectionObserver(function(en){
+      barra.classList.toggle('mcta-arriba', en.some(function(e){return e.isIntersecting||e.boundingClientRect.top>0;}));
+    }).observe(heroCta);
+  })();
 </script>
 </body>
 </html>
