@@ -5,7 +5,7 @@
 // Mercado Pago cobra ese monto. Después, $78.990. El agente IA no se vende acá.
 
 import { Outfit } from "next/font/google";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const outfit = Outfit({
   subsets: ["latin", "latin-ext"],
@@ -25,23 +25,21 @@ import {
   ITEM_IDS,
   MP_FLUX_PROMO_URL,
   MP_NOTA_CLP,
+  NOTA_PLAN_CLP,
   PREGUNTA_ADICIONALES,
-  REGALOS,
   type Carrito,
   type ItemId,
   PROMO_PCT,
   clpLinea,
   formatoClp,
   carritoDesdeQuery,
-  esRegaloNoviembre,
-  regaloVigente,
   sanear,
 } from "@/content/carrito-flux";
 import { track, trackPixel } from "@/lib/tracking";
 import styles from "./FluxCarrito.module.css";
 
 const STORAGE = "contrata_carrito";
-const ADICIONALES = ITEM_IDS.filter((id) => id !== "flux_base");
+const ADICIONALES = ADICIONALES_AL_ACTIVAR;
 
 const TEXTO: Record<Exclude<ItemId, "flux_base">, string> = {
   profesional_extra: "Otro profesional en la agenda de tu clínica.",
@@ -67,6 +65,9 @@ function vista(c: Carrito, now = new Date()): Cantidades {
   const raw = c.flux_base;
   const n = typeof raw === "number" && Number.isFinite(raw) ? Math.trunc(raw) : 0;
   clamped.flux_base = n >= 1 ? 1 : 0;
+  for (const id of ITEM_IDS) {
+    if (id !== "flux_base" && !(ADICIONALES as readonly string[]).includes(id)) clamped[id] = 0;
+  }
   return clamped;
 }
 
@@ -93,18 +94,6 @@ function etiqueta(nombre: string): string {
   return nombre.charAt(0).toLowerCase() + nombre.slice(1);
 }
 
-/** null hasta hidratar: el servidor no decide el regalo (el reloj del build no es el del visitante). */
-function useRegalo(): boolean | null {
-  return useSyncExternalStore(
-    (cb) => {
-      const t = setInterval(cb, 60_000);
-      return () => clearInterval(t);
-    },
-    () => regaloVigente(),
-    () => null,
-  );
-}
-
 export default function FluxCarrito({
   query = "",
   pago = "",
@@ -122,7 +111,6 @@ export default function FluxCarrito({
   const [abierto, setAbierto] = useState(false);
   const debounce = useRef<number | null>(null);
   const foco = useRef<ItemId | null>(null);
-  const regalo = useRegalo();
   useEffect(() => {
     // La query (?plan= y pe, ig, fb…) es la intención de esta visita y gana
     // al carrito guardado. Sin eso, vuelve lo de sessionStorage (?pago=cancelado).
@@ -362,7 +350,7 @@ export default function FluxCarrito({
       <div className={styles.grid}>
         <p className={styles.frase}>Haz que sea tu clínica</p>
         <p className={styles.heroMl}>
-          Hacer crecer tu clínica es como comprar en Mercado Libre: elige qué funciones quieres, agrégalas al carrito y comienza.
+          {NOTA_PLAN_CLP}
         </p>
         <h1 className={styles.h1}>Activa tu clínica</h1>
         {!promoOff ? (
@@ -400,9 +388,9 @@ export default function FluxCarrito({
 
         <section data-adicionales>
           <h2 className={styles.seccion}>También puedes agregar</h2>
-          <p className={styles.seccionSub}>Depende de ti elegir lo adicional</p>
+          <p className={styles.seccionSub}>Profesionales y conversaciones. Los créditos de IA se activan después de la prueba.</p>
           <div className={styles.cards}>
-            {ADICIONALES.filter((id) => id !== "agente_ia" && (!esRegaloNoviembre(id) || regalo === false)).map((id) => (
+            {ADICIONALES.map((id) => (
               <Addon
                 key={id}
                 id={id}
@@ -416,17 +404,6 @@ export default function FluxCarrito({
             ))}
           </div>
         </section>
-
-        {regalo ? (
-          <section className={styles.regalo} data-regalo>
-            <h2 className={styles.cardTitulo}>Regalo de noviembre</h2>
-            <ul className={styles.incluye}>
-              {REGALOS.map((r) => (
-                <li key={r.id}>{r.nombre}</li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
 
         <section className={styles.faq}>
           <h2 className={styles.seccion}>Preguntas</h2>
@@ -521,12 +498,6 @@ export default function FluxCarrito({
               ))}
             </ul>
           )}
-          {regalo ? (
-            <p className={styles.regaloLinea}>
-              <span>Regalo de noviembre</span>
-              <span>$0</span>
-            </p>
-          ) : null}
           <div className={styles.totales}>
             <p className={styles.hoy}>
               <span>Hoy pagas</span>
@@ -577,7 +548,7 @@ export default function FluxCarrito({
             <p className={styles.extrasBajada}>La prueba es $14.495 por 30 días. Después, $78.990.</p>
             <p className={styles.mpNota} data-mp-nota>{MP_NOTA_CLP}</p>
             <div className={styles.chips}>
-              {ADICIONALES_AL_ACTIVAR.filter((id) => id !== "agente_ia").map((id) => (
+              {ADICIONALES.map((id) => (
                 <button
                   key={id}
                   type="button"
@@ -826,16 +797,14 @@ function Bolsa() {
 }
 
 function Exito({ sessionId }: { sessionId: string }) {
-  const [regalo, setRegalo] = useState("");
   useEffect(() => {
     if (!sessionId) return;
     let vivo = true;
     (async () => {
       try {
         const res = await fetch(`/api/contrata/session?session_id=${encodeURIComponent(sessionId)}`);
-        const json = (await res.json()) as { ok?: boolean; lista_usd?: string; regalo?: string; email?: string };
+        const json = (await res.json()) as { ok?: boolean; lista_usd?: string; email?: string };
         if (!vivo || !json.ok) return;
-        setRegalo(json.regalo || "");
         const value = Number(json.lista_usd);
         try {
           track("purchase", {
@@ -867,7 +836,9 @@ function Exito({ sessionId }: { sessionId: string }) {
         <p className={styles.kicker}>Listo</p>
         <h1 className={styles.h1}>Listo, revisa tu correo</h1>
         <p className={styles.bajada}>Te llega el recibo y activamos Flux en tu clínica.</p>
-        {regalo ? <p className={styles.regaloKicker}>Regalo de noviembre incluido: {regalo.split("_").join(" ")}</p> : null}
+        <p className={styles.bajada} data-despues-pago>
+          Vortex es Flux más IA: 17.000 créditos, 3.000 conversaciones, 20 profesionales y sucursales ilimitadas. Ese paso queda en $178.990.
+        </p>
         <a className={styles.cta} href="/">Volver a Clinera</a>
       </div>
     </div>

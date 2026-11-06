@@ -9,7 +9,9 @@ import {
   CTA_ACTIVAR_CLP,
   CTA_PRUEBA_CLP,
   MP_FLUX_PROMO_URL,
+  EXTRAS_VISIBLES,
   MP_NOTA_CLP,
+  NOTA_PLAN_CLP,
   PRECIO_DESPUES_CLP,
   PRECIO_FLUX_CLP,
   PRECIO_PRUEBA_CLP,
@@ -35,6 +37,10 @@ test.describe("catálogo del carrito Flux", () => {
     expect(MP_FLUX_PROMO_URL).toBe("https://mpago.la/22dyhQr");
     expect(MP_NOTA_CLP).toContain("$14.495");
     expect(MP_NOTA_CLP).toContain("$78.990");
+    expect(EXTRAS_VISIBLES).toEqual(["profesional_extra", "conversaciones_1000"]);
+    expect(NOTA_PLAN_CLP).toContain("créditos de IA");
+    expect(NOTA_PLAN_CLP).not.toContain("Vortex");
+    expect(NOTA_PLAN_CLP).not.toContain("178.990");
     expect(clpDesdeUsd(29)).toBe(28000);
     expect(clpDesdeUsd(9)).toBe(8690);
     expect(clpDesdeUsd(25)).toBe(24140);

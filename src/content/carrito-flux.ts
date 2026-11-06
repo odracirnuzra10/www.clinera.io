@@ -6,6 +6,18 @@
 import { emailValido } from "@/app/api/wizard/validation";
 import { fechaChileISO } from "@/lib/urgencia-dias";
 
+/**
+ * Vortex es Flux + IA (Ricardo, 6-nov-2026): 17.000 créditos de IA,
+ * 3.000 conversaciones, 20 profesionales y sucursales ilimitadas.
+ * Ese upgrade se explica después de pagar y no sale en el checkout.
+ * Los únicos adicionales con precio en pantalla son profesionales y
+ * conversaciones. Sucursal, canales, email y automatizaciones no se
+ * venden aparte: van en los dos planes.
+ */
+export const EXTRAS_VISIBLES = ["profesional_extra", "conversaciones_1000"] as const;
+export const NOTA_PLAN_CLP =
+  "Canales, fichas, email y automatizaciones van en el plan. Los adicionales son profesionales, conversaciones y créditos de IA.";
+
 /** Lo que entra en la prueba Chile de 30 días (Ricardo, 6-nov-2026). */
 export const FLUX_BASE_INCLUYE = [
   "WhatsApp, Instagram y Facebook",
@@ -175,15 +187,8 @@ export function clpLinea(usd: number, promo: boolean, unico = false): { lista: n
 }
 export const PREGUNTA_ADICIONALES = "¿Quieres adicionales o con esto partes?";
 
-/** Chips de la pregunta al activar. pe, se, c1k, ig, fb, ia. Sin regalo ni onboarding. */
-export const ADICIONALES_AL_ACTIVAR = [
-  "profesional_extra",
-  "sucursal_extra",
-  "conversaciones_1000",
-  "instagram",
-  "facebook",
-  "agente_ia",
-] as const satisfies readonly Exclude<ItemId, "flux_base" | "email_marketing" | "automatizaciones" | "onboarding_humano">[];
+/** Chips al activar: solo lo que se puede sumar. El resto del catálogo no se ofrece. */
+export const ADICIONALES_AL_ACTIVAR = EXTRAS_VISIBLES;
 
 /**
  * Claves cortas que AURA pone en el link de /contrata. `oh` (onboarding) no

@@ -26,9 +26,14 @@ test.describe("/contrata", () => {
     await expect(page.locator("[data-carrito]")).toBeVisible();
     await expect(page.getByRole("heading", { name: "Activa tu clínica" })).toBeVisible();
     await expect(page.getByText("Haz que sea tu clínica")).toBeVisible();
-    await expect(page.getByText(/como comprar en Mercado Libre/)).toBeVisible();
+    await expect(page.getByText(/Los adicionales son profesionales, conversaciones y créditos de IA/)).toBeVisible();
     await expect(page.getByRole("heading", { name: "También puedes agregar" })).toBeVisible();
-    await expect(page.getByText("Depende de ti elegir lo adicional")).toBeVisible();
+    await expect(page.getByText("Profesionales y conversaciones. Los créditos de IA se activan después de la prueba.")).toBeVisible();
+    await expect(page.locator("[data-addon=sucursal_extra]")).toHaveCount(0);
+    await expect(page.locator("[data-addon=instagram]")).toHaveCount(0);
+    await expect(page.locator("[data-addon=agente_ia]")).toHaveCount(0);
+    await expect(page.locator("[data-carrito]").getByText("Vortex")).toHaveCount(0);
+    await expect(page.locator("[data-carrito]").getByText("$178.990")).toHaveCount(0);
     await expect(page.locator("[data-flux-base]").getByRole("button", { name: "Activar por $14.495" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveCount(0);
     await expect(page.locator("[data-flux-base]")).toContainText("WhatsApp, Instagram y Facebook");
@@ -49,39 +54,25 @@ test.describe("/contrata", () => {
     expect(texto).not.toMatch(/USD 39,50|USD 89,50|USD 139,50|gratis para siempre/);
   });
 
-  test("en noviembre Email marketing y Automatizaciones son el regalo, no un adicional", async ({ page }) => {
+  test("email y automatizaciones van en el plan, no como regalo ni adicional", async ({ page }) => {
     await ir(page, "/contrata", "2026-11-05T12:00:00-03:00");
-    await expect(page.locator("[data-regalo]")).toBeVisible();
-    await expect(page.locator("[data-regalo]")).toContainText("Regalo de noviembre");
-    await expect(page.locator("[data-regalo]")).toContainText("Email marketing");
-    await expect(page.locator("[data-regalo]")).toContainText("Automatizaciones");
+    await expect(page.locator("[data-regalo]")).toHaveCount(0);
+    await expect(page.locator("[data-flux-base]")).toContainText("Email marketing");
+    await expect(page.locator("[data-flux-base]")).toContainText("Automatizaciones avanzadas");
     await expect(page.locator("[data-addon=email_marketing]")).toHaveCount(0);
     await expect(page.locator("[data-addon=automatizaciones]")).toHaveCount(0);
-    await expect(page.locator("[data-carrito]")).not.toContainText("gratis para siempre");
+    await expect(page.locator("[data-carrito]")).not.toContainText("Regalo de noviembre");
     await expect(page.locator("[data-urgencia]").first()).toContainText("Solo por hoy 05 y mañana 06 de noviembre");
   });
 
-  test("el 1 de diciembre pasan a adicionales de US$ 9 con Agregar al carrito", async ({ page }) => {
+  test("el 1 de diciembre email y automatizaciones siguen dentro del plan", async ({ page }) => {
     await ir(page, "/contrata", "2026-12-01T12:00:00-03:00");
     await expect(page.locator("[data-regalo]")).toHaveCount(0);
-    const email = page.locator("[data-addon=email_marketing]");
-    const auto = page.locator("[data-addon=automatizaciones]");
-    await expect(email).toBeVisible();
-    await expect(auto).toBeVisible();
-    await expect(email.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
-    await expect(email).toContainText("$8.690");
-    await expect(auto).toContainText("$8.690");
-    await expect(email.locator("img")).toHaveAttribute("src", "/kimi/productos/email-marketing.jpg");
-    await expect(auto.locator("img")).toHaveAttribute("src", "/kimi/productos/automatizaciones.jpg");
-    await expect(page.locator("[data-carrito]")).not.toContainText("gratis para siempre");
-    await sumarFlux(page);
-    await email.getByRole("button", { name: "Agregar al carrito" }).click();
-    await auto.getByRole("button", { name: "Agregar al carrito" }).click();
-    await page.locator("[data-carrito-icon]").click();
-    await expect(page.locator("[data-total-hoy]")).toContainText("$14.495");
-    await expect(page.locator("[data-drawer]")).toContainText("Hoy pagas");
-    await expect(page.locator("[data-total-hoy] s")).toHaveCount(0);
-    await expect(page.locator("[data-carrito-count]")).toHaveText("3");
+    await expect(page.locator("[data-addon=email_marketing]")).toHaveCount(0);
+    await expect(page.locator("[data-addon=automatizaciones]")).toHaveCount(0);
+    await expect(page.locator("[data-flux-base]")).toContainText("Email marketing");
+    await expect(page.locator("[data-addon=profesional_extra]")).toBeVisible();
+    await expect(page.locator("[data-addon=conversaciones_1000]")).toBeVisible();
   });
 
   test("el HTML del servidor no trae la fecha del banner", async ({ page }) => {
@@ -91,17 +82,20 @@ test.describe("/contrata", () => {
     expect(html).not.toContain("Solo por hoy");
     expect(html).not.toContain("data-regalo");
     expect(html).not.toContain("data-addon=\"email_marketing\"");
+    expect(html).not.toContain("data-addon=\"sucursal_extra\"");
+    expect(html).toContain("créditos de IA");
   });
 
-  test("?plan=hex deja Instagram y Facebook en el carrito y gana al guardado", async ({ page }) => {
+  test("?plan=hex no vende Instagram ni Facebook aparte", async ({ page }) => {
     await page.addInitScript(() => {
       sessionStorage.setItem("contrata_carrito", JSON.stringify({ profesional_extra: 4 }));
     });
     await ir(page, "/contrata?plan=hex", "2026-11-05T12:00:00-03:00");
-    await expect(page.locator("[data-addon=instagram]").getByRole("button", { name: "Quitar" })).toBeVisible();
-    await expect(page.locator("[data-addon=facebook]").getByRole("button", { name: "Quitar" })).toBeVisible();
+    await expect(page.locator("[data-addon=instagram]")).toHaveCount(0);
+    await expect(page.locator("[data-addon=facebook]")).toHaveCount(0);
+    await expect(page.locator("[data-flux-base]")).toContainText("WhatsApp, Instagram y Facebook");
     await expect(page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
-    await expect(page.locator("[data-carrito-count]")).toHaveText("3");
+    await expect(page.locator("[data-carrito-count]")).toHaveText("1");
   });
 
   test("?pago=cancelado restaura el carrito guardado", async ({ page }) => {
@@ -110,7 +104,7 @@ test.describe("/contrata", () => {
     });
     await ir(page, "/contrata?pago=cancelado", "2026-11-05T12:00:00-03:00");
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("2");
-    await expect(page.locator("[data-addon=instagram]").getByRole("button", { name: "Quitar" })).toBeVisible();
+    await expect(page.locator("[data-addon=instagram]")).toHaveCount(0);
   });
 
   test("sumar un adicional mueve el total y el valor del CTA", async ({ page }) => {
@@ -139,39 +133,29 @@ test.describe("/contrata", () => {
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("2");
   });
 
-  test("el onboarding humano es cobro único de US$ 190 y no lleva el 50%", async ({ page }) => {
+  test("el cajón cobra la prueba y no ofrece onboarding ni el agente", async ({ page }) => {
     await ir(page, "/contrata", "2026-11-05T12:00:00-03:00");
-    const card = page.locator("[data-addon=onboarding_humano]");
     await expect(page.locator("[data-flux-base] img")).toHaveAttribute("src", "/kimi/productos/flux.jpg");
-    await expect(card.locator("img")).toHaveAttribute("src", "/kimi/productos/onboarding.jpg");
+    await expect(page.locator("[data-addon=onboarding_humano]")).toHaveCount(0);
     await expect(page.locator("[data-addon=agente_ia]")).toHaveCount(0);
-    await expect(card).toContainText("Onboarding humano");
-    await expect(card).toContainText("$183.450");
-    await expect(card).toContainText("cobro único");
-    await expect(card).not.toContainText("50% por 3 meses");
-    await expect(card).toHaveAttribute("data-espera", "si");
-    await expect(card.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
     await sumarFlux(page);
-    await expect(card).toHaveAttribute("data-espera", "no");
-    await card.getByRole("button", { name: "Agregar al carrito" }).click();
+    await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" }).click();
     await page.locator("[data-carrito-icon]").click();
     const drawer = page.locator("[data-drawer]");
     await expect(drawer.getByRole("button", { name: "Quitar Clinera Flux" })).toBeVisible();
-    await expect(drawer.getByRole("button", { name: "Sumar Clinera Flux" })).toHaveCount(0);
-    await expect(drawer.getByRole("button", { name: "Quitar Onboarding humano" })).toBeVisible();
-    await expect(drawer.getByRole("button", { name: "Sumar Onboarding humano" })).toHaveCount(0);
-    await expect(drawer).toContainText("cobro único");
+    await expect(drawer.getByRole("button", { name: "Quitar Profesional extra", exact: true })).toBeVisible();
     await expect(drawer).toContainText("Hoy pagas");
     await expect(drawer.locator("[data-total-hoy]")).toContainText("$14.495");
     await expect(drawer).toContainText("Después, $78.990");
     await expect(drawer.getByRole("link", { name: "Activar por $14.495" })).toHaveAttribute("href", "https://mpago.la/22dyhQr");
-    await expect(drawer).not.toContainText("$28.000");
+    await expect(drawer).not.toContainText("Vortex");
+    await expect(drawer).not.toContainText("$178.990");
   });
 
   test("Comienza ya manda el carrito saneado y abre el pago", async ({ page }) => {
     await ir(page, "/contrata?utm_source=ads&gclid=GCLID123", "2026-11-05T12:00:00-03:00");
     await sumarFlux(page);
-    await page.locator("[data-addon=instagram]").getByRole("button", { name: "Agregar al carrito" }).click();
+    await page.locator("[data-addon=conversaciones_1000]").getByRole("button", { name: "Agregar al carrito" }).click();
     await page.locator("[data-carrito-icon]").click();
     let body: { carrito?: Record<string, number>; price?: unknown; utm?: Record<string, string> } = {};
     await page.route("**/api/contrata/checkout", async (route) => {
@@ -250,11 +234,12 @@ test.describe("/contrata", () => {
     await page.locator("[data-flux-base]").getByRole("button", { name: "Activar por $14.495" }).click();
     const hoja = page.locator("[data-extras]");
     await expect(hoja.getByRole("heading", { name: "¿Quieres adicionales o con esto partes?" })).toBeVisible();
-    for (const id of ["profesional_extra", "sucursal_extra", "conversaciones_1000", "instagram", "facebook"]) {
+    for (const id of ["profesional_extra", "conversaciones_1000"]) {
       await expect(hoja.locator(`[data-chip=${id}]`)).toBeVisible();
     }
+    await expect(hoja.locator("[data-chip=sucursal_extra]")).toHaveCount(0);
     await expect(hoja.locator("[data-chip=agente_ia]")).toHaveCount(0);
-    await hoja.locator("[data-chip=instagram]").click();
+    await hoja.locator("[data-chip=profesional_extra]").click();
     await expect(hoja.getByRole("link", { name: "Activar por $14.495" })).toHaveAttribute("href", "https://mpago.la/22dyhQr");
     expect(body.carrito).toBeUndefined();
   });
@@ -262,9 +247,9 @@ test.describe("/contrata", () => {
   test("?plan=flux&pe=3&ig=1&fb=1 abre el carrito con esas cantidades", async ({ page }) => {
     await ir(page, "/contrata?plan=flux&pe=3&ig=1&fb=1&em=1", "2026-11-05T12:00:00-03:00");
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("3");
-    await expect(page.locator("[data-addon=instagram]").getByRole("button", { name: "Quitar" })).toBeVisible();
-    await expect(page.locator("[data-addon=facebook]").getByRole("button", { name: "Quitar" })).toBeVisible();
-    await expect(page.locator("[data-carrito-count]")).toHaveText("6");
+    await expect(page.locator("[data-addon=instagram]")).toHaveCount(0);
+    await expect(page.locator("[data-addon=facebook]")).toHaveCount(0);
+    await expect(page.locator("[data-carrito-count]")).toHaveText("4");
     await expect(page.locator("[data-addon=email_marketing]")).toHaveCount(0);
     await expect(page.locator("[data-flux-base]").getByRole("button", { name: "Quitar" })).toBeVisible();
   });
