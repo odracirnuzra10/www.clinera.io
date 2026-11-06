@@ -122,6 +122,22 @@ test("/kimi-gratis pide los cuatro datos antes de registrar y antes de WhatsApp"
   await modal.locator("[data-cuenta-listo]").click();
   await expect(modal.locator("[data-cuenta-error]")).toBeVisible();
 
+  // Celular chileno (7-nov-2026): exactamente 9 dígitos que empiezan con 9, sin números de relleno.
+  const cel = modal.locator("input[name=celular]");
+  await modal.locator("input[name=nombre]").fill("Ana");
+  await modal.locator("input[name=email]").fill("ana@clinica.cl");
+  await modal.locator("input[name=clinica]").fill("Clínica Ana");
+  for (const malo of ["91234567", "812345678", "999999999", "912345678", "987654321"]) {
+    await cel.fill(malo);
+    await modal.locator("[data-cuenta-listo]").click();
+    await expect(modal.locator("[data-cuenta-error]"), malo).toContainText("9 dígitos");
+    await expect(cel, malo).toHaveAttribute("aria-invalid", "true");
+  }
+  await cel.fill("96503121999");
+  await expect(cel).toHaveValue("965031219");
+  await cel.fill("+56 9 6503 1219");
+  await expect(cel).toHaveValue("965031219");
+
   await page.route("https://app.clinera.io/**", (route) => route.fulfill({ status: 200, contentType: "text/html", body: "alta" }));
   const lead = page.waitForRequest((req) => req.url().includes("/api/wizard") && req.method() === "POST");
   // Lead del pixel (6-nov-2026): sale por CAPI con el mismo event_id que viaja al CRM.

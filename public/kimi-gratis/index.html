@@ -1202,7 +1202,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     <h2 id="cuenta-titulo">Crea tu cuenta gratis</h2>
     <p data-cuenta-resumen>Xcale · recomendado · $149. Demo de 7 días. Incluye Clinera Intelligence con 5000 créditos y onboarding humano.</p>
     <label>Nombre<input name="nombre" autocomplete="name" required maxlength="80" placeholder="Tu nombre"></label>
-    <label>Celular<span class="phone"><select name="prefijo" aria-label="Prefijo del país"><option value="+56" selected>+56</option><option value="+52">+52</option><option value="+57">+57</option><option value="+51">+51</option><option value="+54">+54</option><option value="+593">+593</option><option value="+598">+598</option><option value="+1">+1</option></select><input name="celular" type="tel" inputmode="tel" autocomplete="tel-national" required maxlength="15" placeholder="9 1234 5678"></span></label>
+    <label>Celular<span class="phone"><select name="prefijo" aria-label="Prefijo del país"><option value="+56" selected>+56</option><option value="+52">+52</option><option value="+57">+57</option><option value="+51">+51</option><option value="+54">+54</option><option value="+593">+593</option><option value="+598">+598</option><option value="+1">+1</option></select><input name="celular" type="tel" inputmode="numeric" autocomplete="tel-national" required placeholder="9 1234 5678"></span></label>
     <label>Correo<input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120" placeholder="tu@correo.com"></label>
     <label>Nombre de la clínica<input name="clinica" autocomplete="organization" required maxlength="120" placeholder="Ej.: Clínica Aurora"></label>
     <p class="cuenta-error" data-cuenta-error hidden>Completa nombre, celular, correo y el nombre de la clínica.</p>
@@ -1577,6 +1577,11 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   var cuenta=document.querySelector("[data-cuenta]");
   var cuentaForm=document.querySelector("[data-cuenta-form]");
   var cuentaError=document.querySelector("[data-cuenta-error]");
+  (function(){
+    var f=document.querySelector("[data-cuenta-form]"); if(!f) return;
+    f.addEventListener("input",function(ev){ if(ev.target&&ev.target.name==="celular") limitarFono(f); });
+    f.addEventListener("change",function(ev){ if(ev.target&&ev.target.name==="prefijo") limitarFono(f); });
+  })();
   try{
     var guardada=JSON.parse(sessionStorage.getItem("clinera_cuenta")||"null");
     if(guardada&&cuentaForm){
@@ -1599,10 +1604,35 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     var digits=String(raw||"").replace(/\D/g,"");
     if(cc&&digits.indexOf(cc)===0&&digits.length>regla[0]) digits=digits.slice(cc.length);
     if(prefijo==="+52"&&digits.length===regla[0]+1&&digits.charAt(0)==="1") digits=digits.slice(1);
-    digits=digits.slice(0,regla[0]);
+    // Largo exacto: ni uno menos ni uno más (antes se cortaba lo que sobraba y un número de 10 dígitos pasaba en Chile).
     if(digits.length!==regla[0]) return "";
     if(regla[1]&&!regla[1].test(digits)) return "";
+    if(fonoFalso(digits)) return "";
     return digits;
+  }
+  // Números de relleno que deja quien no quiere dar su celular (999999999, 912345678, 987654321…).
+  function fonoFalso(d){
+    var resto=d.slice(1);
+    if(/^(\d)\1+$/.test(resto)) return true;
+    if("0123456789".indexOf(resto)>=0||"9876543210".indexOf(resto)>=0) return true;
+    if("1234567890".indexOf(resto)>=0) return true;
+    return false;
+  }
+  var FONO_EJEMPLO={"+56":"9 1234 5678","+52":"55 1234 5678","+54":"11 1234 5678","+57":"300 123 4567","+51":"912 345 678","+593":"99 123 4567","+598":"9123 4567","+1":"787 123 4567"};
+  var FONO_AYUDA={"+56":"En Chile el celular tiene 9 dígitos y empieza con 9.","+51":"En Perú el celular tiene 9 dígitos y empieza con 9.","+593":"En Ecuador el celular tiene 9 dígitos y empieza con 9.","+52":"En México el celular tiene 10 dígitos.","+57":"En Colombia el celular tiene 10 dígitos y empieza con 3.","+54":"En Argentina el celular tiene 10 dígitos.","+598":"En Uruguay el celular tiene 8 dígitos.","+1":"El número tiene 10 dígitos (787 o 939)."};
+  // Mientras escribe: solo dígitos y nunca más del largo del país. Si pegan el +56, se saca.
+  // Sin maxlength en el HTML: cortaría «+56 9 1234 5678» al pegarlo, antes de poder sacarle el +56.
+  function limitarFono(form){
+    if(!form) return;
+    var sel=form.querySelector("[name='prefijo']"), inp=form.querySelector("[name='celular']");
+    if(!sel||!inp) return;
+    var regla=FONO[sel.value]; if(!regla) return;
+    var cc=sel.value.replace(/\D/g,"");
+    var d=inp.value.replace(/\D/g,"");
+    if(cc&&d.indexOf(cc)===0&&d.length>regla[0]) d=d.slice(cc.length);
+    if(d.length>regla[0]) d=d.slice(0,regla[0]);
+    if(inp.value!==d) inp.value=d;
+    inp.setAttribute("placeholder",FONO_EJEMPLO[sel.value]||"");
   }
   function cuentaDatos(form){
     if(!form) return null;
@@ -1618,8 +1648,15 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     if(emailEl) emailEl.value=email;
     if(clinicaEl) clinicaEl.value=clinica;
     var correoOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    var celEl=form.querySelector("[name='celular']");
+    if(celEl){ if(digits) celEl.removeAttribute("aria-invalid"); else celEl.setAttribute("aria-invalid","true"); }
     if(!nombre||!correoOk||!clinica||!digits){
-      if(cuentaError) cuentaError.hidden=false;
+      if(cuentaError){
+        cuentaError.textContent=(nombre&&correoOk&&clinica&&!digits)
+          ? "Revisa el celular. "+(FONO_AYUDA[prefijo]||"")
+          : "Completa nombre, celular, correo y el nombre de la clínica.";
+        cuentaError.hidden=false;
+      }
       return null;
     }
     if(cuentaError) cuentaError.hidden=true;
@@ -1674,8 +1711,8 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
         celular_prefix:datos.prefijo,
         celular_digits:datos.celular,
         lead_source:lead,
-        fuente:asistencia?"Landing "+location.pathname+" — asistencia":"Landing "+location.pathname+" — "+plan.nombre,
-        source_path:location.pathname,
+        fuente:asistencia?"Landing "+(location.pathname.replace(/\/+$/,"")||"/")+" — asistencia":"Landing "+(location.pathname.replace(/\/+$/,"")||"/")+" — "+plan.nombre,
+        source_path:(location.pathname.replace(/\/+$/,"")||"/"),
         landing_url:location.href,
         plan:planElegido,
         servicio_interes_label:asistencia?"Solicita asistencia":plan.nombre+" "+plan.precio+" demo 7 días",
