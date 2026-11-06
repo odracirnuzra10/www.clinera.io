@@ -143,12 +143,14 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await expect(drawer.getByRole("button", { name: "Sumar Onboarding humano" })).toHaveCount(0);
   await expect(drawer.locator("s")).toHaveCount(0);
   await expect(drawer).toContainText("Hoy pagas");
-  await expect(drawer).toContainText("USD 19 mensual + USD 190 de onboarding");
-  await expect(drawer.getByRole("button", { name: "Activar" })).toBeVisible();
+  await expect(drawer.locator(".linea", { hasText: "Clinera Flux" })).toContainText("$14.990");
+  await expect(drawer.locator("[data-total-hoy]")).toContainText("$14.990");
+  await expect(drawer.locator("[data-total-hoy]")).not.toContainText("USD");
+  await expect(drawer).toContainText("más USD 4,50 mensual + USD 190 de onboarding");
+  await expect(drawer.getByRole("button", { name: "Activar", exact: true })).toBeVisible();
   await expect(drawer).toContainText("50% por 3 meses");
   await expect(drawer).toContainText("cobro único");
   await expect(drawer).toContainText("190");
-  await expect(drawer.locator("[data-total-hoy]")).toContainText("209");
   await page.locator("[data-cerrar]").click();
   await flux.getByRole("button", { name: "Quitar" }).click();
   await page.locator("#comenzar").scrollIntoViewIfNeeded();
@@ -172,9 +174,11 @@ test("en el celular la barra ofrece Activar por $14.990 y la asistencia aparece 
   await page.setViewportSize({ width: 375, height: 700 });
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
   const barra = page.locator("#mobile-cta");
-  await expect(barra).toContainText("Clinera Flux");
-  await expect(barra).toContainText("$14.990");
+  await expect(barra.locator("[data-bar-label]")).toHaveText("Clinera Flux");
+  await expect(barra.locator("[data-total-bar]")).toBeHidden();
   await expect(barra.getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+  const veces = ((await barra.innerText()).match(/\$14\.990/g) ?? []).length;
+  expect(veces).toBe(1);
   await expect(barra.getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
   await expect(barra.getByRole("button", { name: "→ Agregar" })).toHaveCount(0);
   await page.locator("#comenzar").scrollIntoViewIfNeeded();
@@ -184,6 +188,43 @@ test("en el celular la barra ofrece Activar por $14.990 y la asistencia aparece 
   await expect(page.locator("[data-chip=instagram]")).toBeVisible();
   await expect(page.locator("[data-chip=agente_ia]")).toBeVisible();
   await expect(barra).not.toContainText("USD 0");
+});
+
+test("en el celular el cajón muestra Flux a $14.990 y deja el total quieto", async ({ page }) => {
+  for (const ancho of [320, 390, 430]) {
+    await page.setViewportSize({ width: ancho, height: 700 });
+    await page.goto("/kimi", { waitUntil: "domcontentloaded" });
+    const barra = page.locator("#mobile-cta");
+    expect(((await barra.innerText()).match(/\$14\.990/g) ?? []).length).toBe(1);
+    await page.locator("[data-testid=plan-flux]").getByRole("button", { name: "Agregar al carrito" }).click();
+    await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" }).click();
+    await page.locator("[data-addon=sucursal_extra]").getByRole("button", { name: "Agregar al carrito" }).click();
+    await page.locator("[data-addon=conversaciones_1000]").getByRole("button", { name: "Agregar al carrito" }).click();
+    await page.locator("[data-carrito-icon]").click();
+    const drawer = page.locator("[data-drawer]");
+    await expect(drawer).toBeVisible();
+    await expect(drawer.locator(".linea", { hasText: "Clinera Flux" })).toContainText("$14.990");
+    await expect(drawer.locator(".linea", { hasText: "Profesional extra" })).toContainText("USD 4,50");
+    await expect(drawer.locator(".linea", { hasText: "1.000 conversaciones extra" })).toContainText("USD 12,50");
+    await expect(drawer.locator("[data-total-hoy]")).toContainText("$14.990");
+    await expect(drawer).toContainText("más USD 21,50 mensual");
+    await expect(drawer.getByRole("button", { name: "Activar", exact: true })).toBeVisible();
+    await expect(drawer).not.toContainText("No pierdas más tu tiempo");
+    const enVista = await drawer.getByRole("button", { name: "Activar", exact: true }).evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      return r.top >= 0 && r.bottom <= window.innerHeight + 1;
+    });
+    expect(enVista).toBe(true);
+    const paso = await drawer.locator(".stepper button").first().boundingBox();
+    expect(paso?.width ?? 0).toBeGreaterThanOrEqual(44);
+    expect(paso?.height ?? 0).toBeGreaterThanOrEqual(44);
+    const cerrar = await drawer.locator("[data-cerrar]").boundingBox();
+    expect(cerrar?.width ?? 0).toBeGreaterThanOrEqual(44);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    expect(overflow).toBeLessThanOrEqual(1);
+    const fondoQuieto = await page.evaluate(() => document.body.dataset.lock === "1");
+    expect(fondoQuieto).toBe(true);
+  }
 });
 
 test("el pie de /kimi enlaza Términos y Privacidad", async ({ page, request }) => {

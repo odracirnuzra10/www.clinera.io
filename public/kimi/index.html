@@ -323,11 +323,10 @@ footer a.ext{color:var(--text);font-weight:500}
 .badge[hidden]{display:none}
 .velo{position:fixed;inset:0;background:rgba(17,24,39,.45);z-index:70}
 .velo[hidden],.drawer[hidden],.toast[hidden]{display:none}
-.drawer{position:fixed;z-index:80;background:#fff;display:flex;flex-direction:column;box-shadow:0 12px 40px rgba(17,24,39,.18)}
-.drawer header,.drawer footer{padding:14px 16px}
-.drawer header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.drawer header{align-items:flex-start}
-.drawer header h2{font-size:1.55rem;line-height:1.15;letter-spacing:-.03em;max-width:16ch}
+.drawer{position:fixed;z-index:80;background:#fff;display:flex;flex-direction:column;max-height:100dvh;overflow:hidden;box-shadow:0 12px 40px rgba(17,24,39,.18)}
+.drawer header,.drawer footer{padding:14px 16px;flex:none}
+.drawer header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border)}
+.drawer header h2{font-size:1.35rem;line-height:1.15;letter-spacing:-.03em;max-width:18ch}
 .estado{display:flex;align-items:center;gap:8px;margin:0 0 4px;color:#6D28D9;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
 .chk{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:999px;background:#6D28D9;color:#fff;font-style:normal;font-size:11px;font-weight:700;flex:none}
 .linea .chk{margin-right:6px}
@@ -340,16 +339,21 @@ footer a.ext{color:var(--text);font-weight:500}
 .salida-card .estado{color:#6D28D9}
 .salida-card .btn{width:100%}
 .salida-no{display:block;width:100%;margin-top:8px;background:transparent;border:0;color:#374151;font:inherit;font-weight:650;min-height:44px;cursor:pointer}
-.drawer header button{width:36px;height:36px;border-radius:999px;border:0;background:#F5F3FF;color:#5B21B6;font-size:1.3rem;cursor:pointer}
-.drawer-cuerpo{overflow:auto;padding:8px 16px;min-height:0;flex:1}
-.linea{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:.95rem}
+.drawer header button{width:44px;height:44px;border-radius:999px;border:0;background:#F5F3FF;color:#5B21B6;font-size:1.5rem;line-height:1;cursor:pointer;flex:none;touch-action:manipulation}
+.drawer-cuerpo{overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:4px 16px 8px;min-height:0;flex:1}
+.linea{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:1rem}
+.linea b{white-space:nowrap;font-size:1rem;letter-spacing:-.02em}
 .linea .stepper{grid-column:1 / -1}
-.totales{display:grid;gap:6px;margin:0 0 10px;font-size:.92rem}
-.totales div{display:flex;justify-content:space-between;gap:12px}
-.totales .hoy{font-weight:800;font-size:1.05rem;border-top:1px solid var(--border);padding-top:8px}
-.totales .desglose{color:var(--muted);font-size:.85rem}
-.apuro{text-align:center;font-weight:700;margin:0 0 8px}
-.err{color:#991B1B;font-size:.88rem;margin:8px 0 0}
+.drawer .stepper{min-height:48px}
+.drawer .stepper button{width:44px;height:44px;font-size:1.45rem;touch-action:manipulation}
+.drawer .quitar-linea{min-height:44px;touch-action:manipulation}
+.totales{display:grid;gap:4px;margin:0 0 12px;font-size:1rem}
+.totales div{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.totales .hoy{font-weight:800;font-size:1.05rem}
+.totales .hoy span:last-child{font-size:1.35rem;letter-spacing:-.03em}
+.totales .desglose{color:#374151;font-size:1rem;line-height:1.35}
+.drawer footer{background:#fff;border-top:1px solid var(--border)}
+.err{color:#991B1B;font-size:1rem;line-height:1.35;margin:10px 0 0}
 .toast{position:fixed;top:76px;left:16px;background:#111827;color:#fff;border-radius:999px;padding:10px 16px;z-index:60;width:max-content;max-width:calc(100% - 32px);pointer-events:none}
 @media (min-width:960px){
   .drawer{top:0;right:0;bottom:0;width:min(420px,100%)}
@@ -357,12 +361,20 @@ footer a.ext{color:var(--text);font-weight:500}
   .producto-foto svg{width:96px;height:96px}
 }
 @media (max-width:959px){
-  .drawer{left:0;right:0;bottom:0;max-height:min(92dvh,760px);border-radius:18px 18px 0 0}
+  .drawer{left:0;right:0;bottom:0;top:auto;max-height:100dvh;border-radius:20px 20px 0 0}
+  .drawer header{padding:12px 16px 10px}
+  .drawer footer{padding:12px 16px calc(12px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(17,24,39,.06)}
   .toast{top:68px}
-  .mcta-row{grid-template-columns:1fr auto}
+  .mcta-row{grid-template-columns:auto minmax(0,1fr)}
 }
-.mcta-total{display:flex;flex-direction:column;justify-content:center;font-size:.75rem;color:var(--muted);line-height:1.2}
+@media (max-width:959px) and (max-height:700px){
+  .drawer header h2{font-size:1.15rem}
+  .linea{padding:8px 0}
+}
+.mcta-total{display:flex;flex-direction:column;justify-content:center;min-width:0;font-size:.95rem;font-weight:700;color:var(--text);line-height:1.15;letter-spacing:-.02em}
+.mcta-total span{white-space:nowrap}
 .mcta-total b{color:var(--text);font-size:1rem}
+.mcta-total b[hidden]{display:none}
 .mcta-asistencia{width:100%;margin-top:8px}
 .mcta-asistencia[hidden]{display:none}
 .extras{position:fixed;inset:0;z-index:80;display:grid;align-items:end;justify-items:center;padding:0}
@@ -735,7 +747,6 @@ footer a.ext{color:var(--text);font-weight:500}
   <div class="drawer-cuerpo" data-lineas></div>
   <footer>
     <div class="totales" data-totales></div>
-    <p class="apuro">No pierdas más tu tiempo</p>
     <button class="btn grad" type="button" data-cta="carrito-checkout" data-plan="flux_modular" data-plan-value="0">Activar</button>
     <p class="err" data-error hidden></p>
   </footer>
@@ -772,7 +783,7 @@ footer a.ext{color:var(--text);font-weight:500}
 
 <div class="mcta" id="mobile-cta" data-testid="mobile-cta">
   <div class="mcta-row">
-    <div class="mcta-total"><span data-bar-label>Clinera Flux</span><b data-total-bar>$14.990</b></div>
+    <div class="mcta-total"><span data-bar-label>Clinera Flux</span><b data-total-bar hidden></b></div>
     <button class="btn grad" type="button" data-bar-accion data-plan="flux_modular">Activar por $14.990</button>
   </div>
   <a class="btn wa mcta-asistencia" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia" data-asistencia-fin hidden><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
@@ -944,6 +955,35 @@ footer a.ext{color:var(--text);font-weight:500}
     if(SPEC[id].once||promoOff)return bruto;
     return Math.round(bruto*50)/100;
   }
+  // Flux en Chile se muestra a $14.990. Los adicionales no tienen mapa a pesos:
+  // siguen en USD, que es el catálogo. No convertirlos con un tipo inventado.
+  function textoPrecio(id){
+    if(id==="flux_base"&&!promoOff) return "$14.990";
+    return money(precioLinea(id));
+  }
+  function scrollLock(){
+    var on=abierto||(extras&&!extras.hidden)||(salidaEl&&!salidaEl.hidden);
+    var b=document.body;
+    if(on){
+      if(b.dataset.lock==="1") return;
+      b.dataset.lock="1";
+      b.dataset.y=String(window.scrollY||0);
+      b.style.position="fixed";
+      b.style.top="-"+b.dataset.y+"px";
+      b.style.left="0";
+      b.style.right="0";
+      b.style.width="100%";
+    }else if(b.dataset.lock==="1"){
+      var y=Number(b.dataset.y||0);
+      b.dataset.lock="0";
+      b.style.position="";
+      b.style.top="";
+      b.style.left="";
+      b.style.right="";
+      b.style.width="";
+      window.scrollTo(0,y);
+    }
+  }
   function unidades(){return IDS.reduce(function(a,id){return a+cart[id];},0);}
 
   function pintarControles(){
@@ -997,7 +1037,10 @@ footer a.ext{color:var(--text);font-weight:500}
     var etiqueta=document.querySelector("[data-bar-label]");
     var barBtn=document.querySelector("[data-bar-accion]");
     if(etiqueta)etiqueta.textContent="Clinera Flux";
-    if(barra)barra.textContent=promoOff?"USD 29":"$14.990";
+    if(barra){
+      barra.hidden=!promoOff;
+      barra.textContent=promoOff?"USD 29":"";
+    }
     if(barBtn){ barBtn.textContent=promoOff?"Activar":"Activar por $14.990"; barBtn.removeAttribute("data-cta"); }
     pintarChips();
     pintarControles();
@@ -1013,15 +1056,31 @@ footer a.ext{color:var(--text);font-weight:500}
         : '<div class="stepper"><button type="button" data-id="'+id+'" data-delta="-1" aria-label="Quitar '+spec.nombre+' en el carrito">−</button>'+
           '<output>'+cart[id]+'</output>'+
           '<button type="button" data-id="'+id+'" data-delta="1" aria-label="Sumar '+spec.nombre+' en el carrito"'+mas+'>+</button></div>';
-      html+='<div class="linea"><span><i class="chk" aria-hidden="true">✓</i>'+spec.nombre+(spec.once?" · cobro único":"")+'</span><b>'+money(precioLinea(id))+'</b>'+control+'</div>';
+      html+='<div class="linea"><span><i class="chk" aria-hidden="true">✓</i>'+spec.nombre+(spec.once?" · cobro único":"")+'</span><b>'+textoPrecio(id)+'</b>'+control+'</div>';
     });
     if(!html)html='<p>Tu carrito está vacío. Agrega Clinera Flux para armar tu clínica.</p>';
     lineas.innerHTML=html;
     var pnow=partes();
-    var mensualHoy=promoOff?pnow.mes:Math.round(pnow.mes*50)/100;
-    totales.innerHTML='<div class="hoy" data-total-hoy><span>Hoy pagas</span><span>'+money(H)+'</span></div>'+
-      (pnow.unico>0?'<div class="desglose"><span>'+money(mensualHoy)+' mensual + '+money(pnow.unico)+' de onboarding</span></div>':'')+
-      (promoOff||pnow.mes<=0?'':'<div class="desglose"><span>50% por 3 meses</span></div>');
+    var exMes=0, exUnico=0;
+    IDS.forEach(function(id){
+      if(id==="flux_base"||cart[id]<1) return;
+      var v=precioLinea(id);
+      if(SPEC[id].once) exUnico+=v; else exMes+=v;
+    });
+    var fluxClp=!promoOff&&cart.flux_base>0;
+    if(fluxClp){
+      var pedazos=[];
+      if(exMes>0) pedazos.push(money(exMes)+" mensual");
+      if(exUnico>0) pedazos.push(money(exUnico)+" de onboarding");
+      totales.innerHTML='<div class="hoy" data-total-hoy><span>Hoy pagas</span><span>$14.990</span></div>'+
+        (pedazos.length?'<div class="desglose"><span>más '+pedazos.join(" + ")+'</span></div>':'')+
+        '<div class="desglose"><span>50% por 3 meses</span></div>';
+    }else{
+      var mensualHoy=promoOff?pnow.mes:Math.round(pnow.mes*50)/100;
+      totales.innerHTML='<div class="hoy" data-total-hoy><span>Hoy pagas</span><span>'+money(H)+'</span></div>'+
+        (pnow.unico>0?'<div class="desglose"><span>'+money(mensualHoy)+' mensual + '+money(pnow.unico)+' de onboarding</span></div>':'')+
+        (promoOff||pnow.mes<=0?'':'<div class="desglose"><span>50% por 3 meses</span></div>');
+    }
     document.querySelectorAll('[data-cta="carrito-checkout"]').forEach(function(b){
       b.setAttribute("data-plan-value",String(H));
       b.setAttribute("data-plan-lista",String(L));
@@ -1031,6 +1090,7 @@ footer a.ext{color:var(--text);font-weight:500}
     if(velo)velo.hidden=!abierto;
     if(icono)icono.setAttribute("aria-expanded",abierto?"true":"false");
     if(mcta){ if(abierto)mcta.setAttribute("hidden",""); else mcta.removeAttribute("hidden"); }
+    scrollLock();
   }
 
   function fijar(id,delta){
@@ -1066,8 +1126,9 @@ footer a.ext{color:var(--text);font-weight:500}
   function abrirExtras(){
     if(cart.flux_base<1) fijar("flux_base",1);
     if(extras){ extras.hidden=false; pintarChips(); }
+    scrollLock();
   }
-  function cerrarExtras(){ if(extras) extras.hidden=true; }
+  function cerrarExtras(){ if(extras) extras.hidden=true; scrollLock(); }
 
   var salidaEl=document.querySelector("[data-salida]");
   var salidaLista=false;
@@ -1082,8 +1143,9 @@ footer a.ext{color:var(--text);font-weight:500}
     if(cart.flux_base>0){cta.textContent="Activar";cta.setAttribute("data-salida-accion","activar");}
     else{cta.textContent="Agregar Flux";cta.removeAttribute("data-salida-accion");}
     salidaEl.hidden=false;
+    scrollLock();
   }
-  function cerrarSalida(){ if(salidaEl)salidaEl.hidden=true; }
+  function cerrarSalida(){ if(salidaEl)salidaEl.hidden=true; scrollLock(); }
   document.addEventListener("mouseout",function(e){
     if(e.clientY>8||e.relatedTarget)return;
     abrirSalida();
@@ -1191,7 +1253,6 @@ footer a.ext{color:var(--text);font-weight:500}
     fetch("/api/contrata/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({carrito:limpio,clientRef:ref,utm:utm})})
       .then(function(r){return r.json();})
       .then(function(json){
-        if(json&&json.promo===false)promoOff=true;
         if(json&&json.ok&&json.url){location.assign(json.url);return;}
         abierto=true;
         errorEl.hidden=false;
