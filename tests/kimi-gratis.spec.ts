@@ -124,6 +124,8 @@ test("/kimi-gratis pide los cuatro datos antes de registrar y antes de WhatsApp"
 
   await page.route("https://app.clinera.io/**", (route) => route.fulfill({ status: 200, contentType: "text/html", body: "alta" }));
   const lead = page.waitForRequest((req) => req.url().includes("/api/wizard") && req.method() === "POST");
+  // Lead del pixel (6-nov-2026): sale por CAPI con el mismo event_id que viaja al CRM.
+  const capi = page.waitForRequest((req) => req.url().includes("/api/meta/capi") && req.method() === "POST");
   const alta = page.waitForRequest((req) => req.url().startsWith("https://app.clinera.io/auth/register"));
   await modal.locator("input[name=nombre]").fill("Ricardo");
   await modal.locator("input[name=celular]").fill("9650312199");
@@ -143,6 +145,13 @@ test("/kimi-gratis pide los cuatro datos antes de registrar y antes de WhatsApp"
   expect(body.source_path).toBe("/kimi-gratis");
   expect(body.servicio_interes_label).toBe("Xcale $149 demo 7 días");
   expect(body.telefono).toBe("+56965031219");
+  const capiBody = (await capi).postDataJSON();
+  expect(capiBody.event_name).toBe("Lead");
+  expect(capiBody.custom_data).toMatchObject({ value: 3, currency: "USD" });
+  expect(capiBody.event_id).toMatch(/^lead_kg_/);
+  expect(capiBody.event_id).toBe(body.event_id);
+  expect(capiBody.user_data.em).toMatch(/^[0-9a-f]{64}$/);
+  expect(capiBody.user_data.ph).toMatch(/^[0-9a-f]{64}$/);
 
   await page.goto("/kimi-gratis", { waitUntil: "domcontentloaded" });
   await page.locator("#comenzar").getByRole("link", { name: "Solicita asistencia" }).click();
