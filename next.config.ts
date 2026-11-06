@@ -293,6 +293,11 @@ const nextConfig: NextConfig = {
         source: '/kimi2',
         destination: '/kimi2/index.html',
       },
+      // Prueba de la demo de 7 días. No reemplaza /kimi ni /kimi2.
+      {
+        source: '/kimi-gratis',
+        destination: '/kimi-gratis/index.html',
+      },
       // Home renovado (vista previa sin indexar, noviembre 2026): HTML estático con el sistema visual de /kimi.
       {
         source: '/home-nuevo',

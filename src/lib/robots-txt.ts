@@ -81,6 +81,7 @@ const STAR_DISALLOW = [
   "/home2",
   "/home-nuevo",
   "/kimi2",
+  "/kimi-gratis",
   "/go$",
   "/go/",
   "/*?utm_*",
