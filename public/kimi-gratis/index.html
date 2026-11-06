@@ -478,6 +478,7 @@ footer a.ext{color:var(--text);font-weight:500}
 .cuenta-card .phone input,.cuenta-card .phone select{margin-top:0}
 .cuenta-card input:focus,.cuenta-card select:focus{outline:2px solid var(--accent);outline-offset:2px}
 .cuenta-error{color:#B91C1C;font-weight:650}
+.cuenta-error[hidden]{display:none}
 .cuenta-card .btn{width:100%;min-height:52px;font-size:16px}
 @media (min-width:720px){
   .extras{align-items:center;padding:16px}
@@ -1120,7 +1121,7 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
   <form class="cuenta-card" data-cuenta-form novalidate>
     <button class="cuenta-x" type="button" data-cuenta-cerrar aria-label="Cerrar cuenta">×</button>
     <h2 id="cuenta-titulo">Crea tu cuenta gratis</h2>
-    <p data-cuenta-resumen>Xcale · recomendado · $149. Demo de 7 días. El plan se elige después, dentro de la plataforma.</p>
+    <p data-cuenta-resumen>Xcale · recomendado · $149. Demo de 7 días. Incluye Clinera Intelligence con 5000 créditos y onboarding humano.</p>
     <label>Nombre<input name="nombre" autocomplete="name" required maxlength="80"></label>
     <label>Celular<span class="phone"><select name="prefijo" aria-label="Prefijo del país"><option value="+56" selected>+56</option><option value="+52">+52</option><option value="+57">+57</option><option value="+51">+51</option><option value="+54">+54</option><option value="+593">+593</option><option value="+598">+598</option><option value="+1">+1</option></select><input name="celular" type="tel" inputmode="tel" autocomplete="tel-national" required maxlength="15" placeholder="9 1234 5678"></span></label>
     <label>Correo<input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120"></label>
@@ -1269,10 +1270,11 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
   var cart={};
   IDS.forEach(function(id){cart[id]=0;});
   var abierto=false, enviando=false, promoOff=false, toastT=0, cuentaModo="cuenta";
+  var XCALE_PAGO="https://buy.stripe.com/8x29AV7cZ9eG9wTgwz1441O";
   var PLANES={
     flux:{nombre:"Flux",precio:"$49",nota:"Flux · $49. Demo de 7 días. El plan se elige después, dentro de la plataforma.",mp:false},
     hex:{nombre:"Hex",precio:"$129",nota:"Hex · $129. Demo de 7 días. El plan se elige después, dentro de la plataforma.",mp:false},
-    vortex:{nombre:"Xcale",precio:"$149",nota:"Xcale · recomendado · $149. Demo de 7 días. Incluye Clinera Intelligence con 5000 créditos y onboarding humano.",mp:false}
+    vortex:{nombre:"Xcale",precio:"$149",nota:"Xcale · recomendado · $149. Demo de 7 días. Incluye Clinera Intelligence con 5000 créditos y onboarding humano.",mp:false,pago:XCALE_PAGO}
   };
   var planElegido="vortex";
   var drawer=document.querySelector("[data-drawer]");
@@ -1506,22 +1508,35 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
     }
   }catch(e){}
   var FONO={"+56":[9,/^9\d{8}$/],"+52":[10,/^[2-9]\d{9}$/],"+54":[10,/^\d{10}$/],"+57":[10,null],"+51":[9,/^9\d{8}$/],"+593":[9,/^9\d{8}$/],"+598":[8,null],"+1":[10,/^(787|939)\d{7}$/]};
+  function campo(form, nombre){
+    var el=form.querySelector("[name='"+nombre+"']");
+    return el?String(el.value||""):"";
+  }
   function fonoOk(prefijo,raw){
-    var regla=FONO[prefijo], digits=String(raw||"").replace(/\D/g,"");
-    if(!regla||digits.length!==regla[0]) return "";
+    var regla=FONO[prefijo];
+    if(!regla) return "";
+    var cc=String(prefijo||"").replace(/\D/g,"");
+    var digits=String(raw||"").replace(/\D/g,"");
+    if(cc&&digits.indexOf(cc)===0&&digits.length>regla[0]) digits=digits.slice(cc.length);
+    if(prefijo==="+52"&&digits.length===regla[0]+1&&digits.charAt(0)==="1") digits=digits.slice(1);
+    digits=digits.slice(0,regla[0]);
+    if(digits.length!==regla[0]) return "";
     if(regla[1]&&!regla[1].test(digits)) return "";
     return digits;
   }
   function cuentaDatos(form){
     if(!form) return null;
-    var nombre=(form.elements.nombre.value||"").trim();
-    var email=(form.elements.email.value||"").trim();
-    var clinica=(form.elements.clinica.value||"").trim();
-    var prefijo=form.elements.prefijo?form.elements.prefijo.value:"+56";
-    var digits=fonoOk(prefijo,form.elements.celular&&form.elements.celular.value);
-    form.elements.nombre.value=nombre;
-    form.elements.email.value=email;
-    form.elements.clinica.value=clinica;
+    var nombre=campo(form,"nombre").trim();
+    var email=campo(form,"email").trim();
+    var clinica=campo(form,"clinica").trim();
+    var prefijo=(campo(form,"prefijo")||"+56").trim();
+    var digits=fonoOk(prefijo,campo(form,"celular"));
+    var nombreEl=form.querySelector("[name='nombre']");
+    var emailEl=form.querySelector("[name='email']");
+    var clinicaEl=form.querySelector("[name='clinica']");
+    if(nombreEl) nombreEl.value=nombre;
+    if(emailEl) emailEl.value=email;
+    if(clinicaEl) clinicaEl.value=clinica;
     var correoOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if(!nombre||!correoOk||!clinica||!digits){
       if(cuentaError) cuentaError.hidden=false;
@@ -1531,13 +1546,14 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
     return {nombre:nombre,email:email,clinica:clinica,prefijo:prefijo,celular:digits,telefono:prefijo+digits};
   }
   function guardarCuenta(datos, origen){
-    try{ sessionStorage.setItem("clinera_cuenta", JSON.stringify(datos)); }catch(e){}
+    var plan=PLANES[planElegido]||PLANES.vortex;
+    var guardado={nombre:datos.nombre,email:datos.email,clinica:datos.clinica,prefijo:datos.prefijo,celular:datos.celular,telefono:datos.telefono,plan:plan.nombre};
+    try{ sessionStorage.setItem("clinera_cuenta", JSON.stringify(guardado)); }catch(e){}
     var q=new URLSearchParams(location.search);
     var lead="organico";
     if(q.get("gclid")||q.get("gbraid")||q.get("wbraid")) lead="google-ads";
     else if(q.get("fbclid")) lead="meta-ads";
     var asistencia=origen==="asistencia";
-    var plan=PLANES[planElegido]||PLANES.vortex;
     fetch("/api/wizard",{
       method:"POST",
       keepalive:true,
@@ -1562,6 +1578,16 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
         servicio_interes:"ambas"
       })
     }).catch(function(){});
+  }
+  function urlAlta(datos){
+    var plan=PLANES[planElegido]||PLANES.vortex;
+    var u=new URL("https://app.clinera.io/auth/register");
+    u.searchParams.set("nombre",datos.nombre);
+    u.searchParams.set("email",datos.email);
+    u.searchParams.set("telefono",datos.telefono);
+    u.searchParams.set("clinica",datos.clinica);
+    u.searchParams.set("plan",plan.nombre.toLowerCase());
+    return u.toString();
   }
   function abrirWhatsApp(){
     var url="https://wa.me/56985581524?text=necesito%20asistencia";
@@ -1663,9 +1689,7 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
       var listoDatos=cuentaDatos(cuentaForm);
       if(!listoDatos) return;
       guardarCuenta(listoDatos);
-      var ok=document.querySelector("[data-cuenta-ok]");
-      if(ok){ ok.hidden=false; ok.textContent="Listo. Tu demo de 7 días quedó registrada con "+(PLANES[planElegido]||PLANES.vortex).nombre+". El plan se elige después, dentro de la plataforma."; }
-      listo.hidden=true;
+      location.assign(urlAlta(listoDatos));
       return;
     }
     var elegir=ev.target.closest("[data-elegir]");
