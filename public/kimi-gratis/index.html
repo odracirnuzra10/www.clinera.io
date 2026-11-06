@@ -8,9 +8,9 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@1,400&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* Gusto Clinera en esta landing: Outfit, fondo cálido, CTA negro. Un acento cyan.
+/* Gusto Clinera en esta landing: "Plus Jakarta Sans", fondo cálido, CTA negro. Un acento cyan.
    El violeta queda en el badge de Xcale y en el wash de su botón. */
 :root{
   --text:#111;--muted:#6B6B6B;--border:#EAEAEA;--soft:#F7F6F3;--soft2:#F3F1EC;
@@ -21,7 +21,7 @@
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 html,body{overflow-x:hidden}
 @supports (overflow:clip){html,body{overflow-x:clip}}
-body{margin:0;font-family:Outfit,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);background:#F7F6F3;line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
+body{margin:0;font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);background:#F7F6F3;line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
 h1,h2,h3{margin:0;line-height:1.1;letter-spacing:-.025em;font-weight:700}
@@ -37,7 +37,7 @@ section{scroll-margin-top:72px}
 .skip:focus{top:12px}
 
 /* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--text);color:#fff;border:1.5px solid var(--text);border-radius:10px;padding:12px 20px;font:600 .95rem/1 Outfit,sans-serif;text-decoration:none;cursor:pointer;transition:background .2s,transform .15s,border-color .2s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--text);color:#fff;border:1.5px solid var(--text);border-radius:10px;padding:12px 20px;font:600 .95rem/1 "Plus Jakarta Sans",sans-serif;text-decoration:none;cursor:pointer;transition:background .2s,transform .15s,border-color .2s}
 .btn[hidden]{display:none}
 .btn:hover{background:#262626}
 .btn:active{transform:scale(.98)}
@@ -56,12 +56,12 @@ section{scroll-margin-top:72px}
 .btn.wa:hover{background:#1ebe5a;border-color:#1ebe5a}
 .wa-ico{width:18px;height:18px;flex:none;display:block;fill:currentColor}
 .nav-cta{display:flex;align-items:center;gap:8px}
-.nav-cta .btn{min-height:44px;font-family:Outfit,system-ui,sans-serif;font-size:16px;line-height:1.15}
+.nav-cta .btn{min-height:44px;font-family:"Plus Jakarta Sans",system-ui,sans-serif;font-size:16px;line-height:1.15}
 .nav-cta .btn.grad{font-weight:700;padding:8px 18px}
 .nav-cta .btn.wa{font-weight:700;padding:8px 12px}
 /* Par 60/40: el carrito ocupa 3 partes, WhatsApp 2. Mismo alto. */
 .par{display:flex;flex-wrap:nowrap;align-items:stretch;gap:10px;width:min(100%,560px)}
-.par .btn{flex:2 1 0;align-self:stretch;min-height:52px;padding:10px 12px;font-family:Outfit,system-ui,sans-serif;font-size:16px;font-weight:600;line-height:1.15;white-space:normal;text-align:center}
+.par .btn{flex:2 1 0;align-self:stretch;min-height:52px;padding:10px 12px;font-family:"Plus Jakarta Sans",system-ui,sans-serif;font-size:16px;font-weight:600;line-height:1.15;white-space:normal;text-align:center}
 .par .btn.grad{flex:3 1 0;font-weight:700}
 .par .btn.wa{font-weight:700}
 .par .btn.wa span{min-width:0}
@@ -71,7 +71,7 @@ section{scroll-margin-top:72px}
 .drawer footer > .btn{width:100%;min-height:52px}
 .hero .cta .btn{min-height:52px;font-size:16px;padding:12px 22px}
 /* botón con aspecto de enlace («Volver a la oferta» del wizard) */
-.btn-link{display:inline-block;background:none;border:0;padding:8px 4px;font:600 .92rem/1.3 Outfit,sans-serif;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.btn-link{display:inline-block;background:none;border:0;padding:8px 4px;font:600 .92rem/1.3 "Plus Jakarta Sans",sans-serif;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .btn-link:hover{color:var(--text)}
 
 /* icons */
@@ -392,7 +392,7 @@ footer a.ext{color:var(--text);font-weight:500}
 .linea-acciones{grid-column:1 / -1;display:flex;align-items:center;gap:8px;margin-top:8px}
 .linea-acciones .stepper{margin:0}
 .linea-acciones .quitar-linea{margin:0}
-.quitar-linea{grid-column:1 / -1;justify-self:start;min-height:48px;min-width:44px;margin-top:4px;padding:0 16px;border:1px solid #6D28D9;border-radius:10px;background:#fff;color:#6D28D9;font:700 16px/1 Outfit,sans-serif;cursor:pointer}
+.quitar-linea{grid-column:1 / -1;justify-self:start;min-height:48px;min-width:44px;margin-top:4px;padding:0 16px;border:1px solid #6D28D9;border-radius:10px;background:#fff;color:#6D28D9;font:700 16px/1 "Plus Jakarta Sans",sans-serif;cursor:pointer}
 .bolsa{position:relative;width:44px;height:44px;border:1px solid var(--border);border-radius:999px;background:#fff;display:grid;place-items:center;cursor:pointer;flex:none}
 .bolsa[hidden]{display:none}
 .bolsa svg{width:22px;height:22px;fill:none;stroke:#6D28D9;stroke-width:1.7}
@@ -462,7 +462,7 @@ footer a.ext{color:var(--text);font-weight:500}
 .extras-card h2{font-size:1.45rem;line-height:1.15;letter-spacing:-.03em;margin:0 0 8px}
 .extras-card p{margin:0 0 4px;color:#374151}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 16px}
-.chip{min-height:44px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--border);background:#fff;color:var(--text);font:600 16px/1.15 Outfit,system-ui,sans-serif;cursor:pointer}
+.chip{min-height:44px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--border);background:#fff;color:var(--text);font:600 16px/1.15 "Plus Jakarta Sans",system-ui,sans-serif;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:#5B21B6}
 .extras-card .btn{width:100%;min-height:52px;font-size:16px}
 .cuenta{position:fixed;inset:0;z-index:210;display:grid;place-items:center;padding:16px}
@@ -473,7 +473,7 @@ footer a.ext{color:var(--text);font-weight:500}
 .cuenta-card h2{font-size:1.7rem;line-height:1.1;letter-spacing:-.03em;margin:0 0 8px;padding-right:40px}
 .cuenta-card p{margin:0 0 14px;color:#374151}
 .cuenta-card label{display:block;margin:0 0 12px;font-weight:650;font-size:.92rem}
-.cuenta-card input,.cuenta-card select{display:block;width:100%;margin-top:6px;min-height:48px;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font:400 16px/1.3 Outfit,system-ui,sans-serif;color:var(--text);background:#fff}
+.cuenta-card input,.cuenta-card select{display:block;width:100%;margin-top:6px;min-height:48px;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font:400 16px/1.3 "Plus Jakarta Sans",system-ui,sans-serif;color:var(--text);background:#fff}
 .cuenta-card .phone{display:grid;grid-template-columns:96px 1fr;gap:8px;margin-top:6px;width:100%}
 .cuenta-card .phone input,.cuenta-card .phone select{margin-top:0}
 .cuenta-card input:focus,.cuenta-card select:focus{outline:2px solid var(--accent);outline-offset:2px}
@@ -610,7 +610,7 @@ footer a.ext{color:var(--text);font-weight:500}
 
 /* Gusto de esta landing: aire editorial, sin glow ni sombra grande. */
 h1,h2,h3{font-weight:600;letter-spacing:-.035em;line-height:1.12}
-.btn,.chip,.cuenta-card input,.cuenta-card select{font-family:Outfit,system-ui,sans-serif}
+.btn,.chip,.cuenta-card input,.cuenta-card select{font-family:"Plus Jakarta Sans",system-ui,sans-serif}
 .btn{border-radius:8px;border-width:1px;box-shadow:none;text-shadow:none}
 .btn.grad,.btn.grad:hover,.nav-cta .btn.grad{
   background:#111;border-color:#111;color:#fff;
@@ -758,6 +758,50 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
 }
 @keyframes hoja{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.cuenta-card{animation:none}}
+
+/* Fusión home Clinera + Nexor (6-nov-2026): fondo claro, Plus Jakarta Sans, metadatos en mono,
+   franja de cifras, lista numerada y cierre como tarjeta. Colores de botones sin cambios. */
+:root{--mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;--grad:linear-gradient(90deg,#2563EB 0%,#7C3AED 55%,#C026D3 100%)}
+body{background:#FAFBFC}
+h1,h2,h3{font-weight:800;letter-spacing:-.035em}
+.grad-txt{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow,.demo-pill,.cifra span,.num,.flujo-vivo,.intel-nota{font-family:var(--mono)}
+.eyebrow{letter-spacing:.12em;font-weight:500}
+.demo-pill{font-weight:500;letter-spacing:.1em}
+.hero .sub strong{display:block;margin-bottom:6px;font-size:1.15rem}
+/* Cifras bajo el hero */
+.cifras{background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.cifras .wrap{display:grid;grid-template-columns:repeat(3,1fr)}
+.cifra{padding:28px 24px;display:grid;gap:6px;border-left:1px solid var(--border)}
+.cifra:first-child{border-left:0;padding-left:0}
+.cifra b{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;line-height:1}
+.cifra span{font-size:.78rem;color:var(--muted);letter-spacing:.02em}
+@media (max-width:700px){.cifras .wrap{grid-template-columns:1fr}.cifra{border-left:0;border-top:1px solid var(--border);padding:18px 0}.cifra:first-child{border-top:0}}
+/* Para el médico: intro a la izquierda, lista numerada a la derecha */
+.medico-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+.medico-intro{position:sticky;top:96px}
+.medico-intro .lead{margin-bottom:22px}
+.medico-intro .chs{display:flex;gap:10px}
+.medico-intro .ch{width:26px;height:26px}
+.medico-lista{list-style:none;margin:0;padding:0;border-top:1px solid var(--border)}
+.medico-lista li{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:26px 0;border-bottom:1px solid var(--border)}
+.medico-lista .num{font-size:.76rem;color:#7C3AED;letter-spacing:.04em;padding-top:4px}
+.medico-lista h3{font-size:1.2rem;line-height:1.25;margin-bottom:8px}
+.medico-lista p{color:var(--muted);font-size:.97rem;max-width:34em}
+@media (max-width:860px){.medico-grid{grid-template-columns:1fr;gap:28px}.medico-intro{position:static}.medico-lista li{grid-template-columns:1fr;gap:8px}}
+/* Botón de WhatsApp secundario: borde, ícono verde. Un solo color fuerte por bloque. */
+.btn.wa.wa-sec{background:#fff;color:var(--text);border-color:#D1D5DB}
+.btn.wa.wa-sec:hover{background:#F3F4F6;border-color:#9CA3AF}
+.btn.wa.wa-sec .wa-ico{color:#25D366}
+.btn.wa.wa-sec.claro{background:transparent;color:#fff;border-color:rgba(255,255,255,.45)}
+.btn.wa.wa-sec.claro:hover{background:rgba(255,255,255,.1);border-color:#fff}
+/* Cierre como tarjeta (Nexor) en escritorio */
+@media (min-width:900px){#comenzar{margin:0 24px 24px;border-radius:24px}}
+/* En el celular, al llegar al cierre la barra fija se va: el cierre ya trae los dos botones. */
+@media (max-width:768px){
+  .mcta.mcta-fin{transform:translateY(110%);opacity:0;pointer-events:none}
+  body:has(#mobile-cta.mcta-fin){padding-bottom:0}
+}
 </style>
 </head>
 <body>
@@ -801,8 +845,8 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
   <div class="wrap">
     <div class="copy">
       <p class="demo-pill rv">Demo de 7 días</p>
-      <h1 class="rv" style="--i:1">Crea tu cuenta gratis</h1>
-      <p class="sub rv" style="--i:2"><strong>Registra y activa tu clínica.</strong> Usas Clinera 7 días. Después, dentro de la plataforma, eliges el plan.</p>
+      <h1 class="rv" style="--i:1">Crea tu cuenta <span class="grad-txt">gratis</span></h1>
+      <p class="sub rv" style="--i:2"><strong>Tú atiendes. Clinera responde el WhatsApp, agenda y cobra la evaluación.</strong> Registra y activa tu clínica: usas Clinera 7 días y después, dentro de la plataforma, eliges el plan.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
         <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Registra y activa tu clínica</button>
       </div>
@@ -823,6 +867,14 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
       <div class="msg a">Tengo mañana 10:00 u 11:30. ¿Cuál te acomoda?</div>
       <div class="msg a">Listo, 11:30 reservada. Paga tu evaluación aquí: <u>link de pago</u></div>
     </div>
+  </div>
+</section>
+
+<section class="cifras" aria-label="Clinera en cifras">
+  <div class="wrap">
+    <div class="cifra"><b>+1.500</b><span>clínicas trabajadas en los últimos 10 años</span></div>
+    <div class="cifra"><b>3 sedes</b><span>propias operan todos los días sobre Clinera</span></div>
+    <div class="cifra"><b>Prepago</b><span>la paciente paga su evaluación antes de llegar</span></div>
   </div>
 </section>
 
@@ -903,6 +955,27 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
   </div>
 </section>
 
+<section class="sec medico" id="funciones" data-testid="kimi-medico" aria-labelledby="t-fun">
+  <div class="wrap medico-grid">
+    <div class="medico-intro">
+      <p class="eyebrow mono rv">Para el médico que atiende y además administra</p>
+      <h2 id="t-fun" class="rv" style="--i:1">Tu consulta, sin la parte que no es medicina</h2>
+      <p class="lead rv" style="--i:2">Estudiaste para atender pacientes, no para contestar mensajes a medianoche ni perseguir pagos. Clinera se queda con eso.</p>
+      <div class="chs rv" style="--i:3" role="img" aria-label="WhatsApp, Facebook e Instagram">
+        <svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg>
+        <svg class="ch" aria-hidden="true"><use href="#ch-fb"/></svg>
+        <svg class="ch" aria-hidden="true"><use href="#ch-ig"/></svg>
+      </div>
+    </div>
+    <ol class="medico-lista">
+      <li class="rv" data-testid="feat-agenda"><span class="num">01 · Mensajes</span><div><h3>Terminas de atender y tienes el WhatsApp lleno.</h3><p>La IA responde al momento por WhatsApp, Instagram y Facebook, también a las 11 de la noche, y deja la hora en tu agenda.</p></div></li>
+      <li class="rv" style="--i:1" data-testid="feat-redes"><span class="num">02 · Inasistencias</span><div><h3>Pacientes que reservan y no llegan.</h3><p>La evaluación se paga al agendar y los recordatorios salen solos. La paciente llega decidida.</p></div></li>
+      <li class="rv" style="--i:2" data-testid="feat-ficha"><span class="num">03 · Ficha clínica</span><div><h3>Fichas repartidas entre papel y tres sistemas.</h3><p>Ficha, agenda y pagos en el mismo lugar. Abres la ficha desde la hora del paciente.</p></div></li>
+      <li class="rv" style="--i:3" data-testid="feat-ia"><span class="num">04 · Números</span><div><h3>No sabes cuánto vendiste este mes.</h3><p>Le preguntas a Clinera Intelligence y te responde con tus ventas, tu agenda y quién te debe.</p></div></li>
+    </ol>
+  </div>
+</section>
+
 <section class="sec hebe" id="hebe" data-testid="hebe-testimonio">
   <div class="wrap">
     <figure class="hebe-card">
@@ -926,35 +999,7 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
   </div>
 </section>
 
-<section class="sec" id="funciones" aria-labelledby="t-fun">
-  <div class="wrap">
-    <p class="eyebrow rv">Lo esencial</p>
-    <h2 id="t-fun" class="rv" style="--i:1">Tres cosas que tu clínica necesita, en un solo lugar</h2>
-    <p class="lead rv" style="--i:2">Desde que la paciente escribe hasta que llega a su cita, Clinera se encarga del camino.</p>
-    <div class="feats">
-      <article class="feat rv" data-testid="feat-agenda">
-        <div class="ic-box"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></div>
-        <h3>Agenda online</h3>
-        <p>La agenda de tu clínica ordenada y siempre al día: horas, profesionales y sucursales en un solo lugar, con confirmaciones y recordatorios automáticos.</p>
-      </article>
-      <article class="feat rv" style="--i:1" data-testid="feat-redes">
-        <div class="ic-box"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg></div>
-        <h3>Redes sociales conectadas</h3>
-        <p>WhatsApp, Facebook e Instagram conectados a tu agenda. Tus pacientes te escriben donde ya están y cada conversación termina en una hora agendada.</p>
-        <div class="chs" role="img" aria-label="WhatsApp, Facebook e Instagram">
-          <svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg>
-          <svg class="ch" aria-hidden="true"><use href="#ch-fb"/></svg>
-          <svg class="ch" aria-hidden="true"><use href="#ch-ig"/></svg>
-        </div>
-      </article>
-      <article class="feat rv" style="--i:2" data-testid="feat-ia">
-        <div class="ic-box"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg></div>
-        <h3>IA que conoce tu clínica</h3>
-        <p>Clinera Intelligence responde con las ventas, las fichas y los mensajes de tu clínica.</p>
-      </article>
-    </div>
-  </div>
-</section>
+
 
 <section class="sec pasos" id="como-funciona" data-testid="kimi-pasos" aria-labelledby="t-pasos">
   <div class="wrap">
@@ -992,7 +1037,7 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
     </ol>
     <div class="cta par rv" style="--i:3" data-testid="kimi-asistencia-media">
       <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Registra y activa tu clínica</button>
-      <a class="btn wa" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
+      <a class="btn wa wa-sec" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
     </div>
   </div>
 </section>
@@ -1083,7 +1128,7 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
     <p class="lead rv" style="--i:2">Registra y activa tu clínica. La demo dura 7 días. Xcale, el recomendado, es $149.</p>
     <div class="cta par rv" style="--i:3">
       <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Registra y activa tu clínica</button>
-      <a class="btn wa" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
+      <a class="btn wa wa-sec claro" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
     </div>
     <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
   </div>
