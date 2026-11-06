@@ -237,6 +237,39 @@ test("/kimi explica cómo funciona en cuatro pasos y ese CTA abre la cuenta", as
   await expect(page.locator("#hero-cta").getByRole("button", { name: "Crea tu cuenta por $14.495" })).toBeVisible();
 });
 
+test("/kimi muestra el flujo y los logos reales del home", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/kimi", { waitUntil: "domcontentloaded" });
+  const flujo = page.locator("[data-testid=kimi-flujo]");
+  await expect(flujo).toContainText("WhatsApp");
+  await expect(flujo).toContainText("Horarios y tratamientos");
+  await expect(flujo).toContainText("Campañas");
+  await expect(flujo).toContainText("El agente agenda por ti");
+  await expect(flujo.locator(".flujo-hub img")).toHaveAttribute("src", "/kimi/clinera-logo-blanco.png");
+  await expect(flujo).not.toContainText(/Nexor|cita/i);
+  const logos = page.locator("[data-testid=kimi-logos] ul").first();
+  const alts = await logos.locator("img").evaluateAll((els) => els.map((el) => el.getAttribute("alt")));
+  expect(alts).toEqual([
+    "Método Hebe",
+    "Protocolo Lumina",
+    "Andes Salud",
+    "Sanatorio Alemán",
+    "Everest Clínicas Dentales",
+    "Sonríe",
+  ]);
+  await expect(logos.locator("img").nth(0)).toHaveAttribute("src", "/presentacion/clientes/hebe.png");
+  await expect(logos.locator("img").nth(3)).toHaveAttribute("src", "/presentacion/clientes/sanatorio.png");
+  await expect(logos.locator("img").nth(4)).toHaveAttribute("src", "/presentacion/clientes/everest-mono.png");
+  const orden = await page.evaluate(() => {
+    const y = (sel: string) => document.querySelector(sel)?.getBoundingClientRect().top ?? 0;
+    return { hero: y("#top"), logos: y("[data-testid=kimi-logos]"), dolor: y("#dolor") };
+  });
+  expect(orden.logos).toBeGreaterThan(orden.hero);
+  expect(orden.dolor).toBeGreaterThan(orden.logos);
+  const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
+  expect(ancho).toBeLessThanOrEqual(390);
+});
+
 test("/kimi explica Clinera Intelligence con un ejemplo, sin video", async ({ page }) => {
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
   const sec = page.locator("[data-testid=kimi-intelligence]");

@@ -133,6 +133,38 @@ footer .logo img{height:24px}
 .pasos-lista span{width:44px;height:44px;border-radius:999px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:1.15rem}
 .pasos-lista p{margin:0;font-size:1.15rem;font-weight:650;letter-spacing:-.02em;line-height:1.25}
 .pasos .cta .btn{width:100%;max-width:28rem;min-height:52px;padding:14px 20px;font-size:16px;line-height:1.25;white-space:normal;text-align:center}
+.flujo{display:grid;justify-items:center;gap:0;margin:6px 0 28px}
+.flujo-fuentes{list-style:none;margin:0;padding:0;display:grid;gap:8px;width:min(100%,280px);position:relative}
+.abanico{display:none}
+.flujo-fuentes li{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:12px 14px;font-weight:650;font-size:.98rem}
+.flujo-fuentes .ic{width:18px;height:18px;color:var(--accent)}
+.conector{position:relative;width:2px;height:36px;justify-self:center;background:repeating-linear-gradient(to bottom,#E5E7EB 0 4px,transparent 4px 9px)}
+.conector i{position:absolute;left:50%;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(109,40,217,.14);animation:fluir-y 1.8s linear infinite;opacity:0}
+.conector i:nth-child(2){animation-delay:.6s}
+.conector i:nth-child(3){animation-delay:1.2s}
+@keyframes fluir-y{0%{top:-4px;opacity:0}14%{opacity:1}86%{opacity:1}100%{top:32px;opacity:0}}
+@keyframes fluir-x{0%{left:-4px;opacity:0}14%{opacity:1}86%{opacity:1}100%{left:calc(100% - 4px);opacity:0}}
+.flujo-hub{display:flex;align-items:center;background:#111;border-radius:999px;padding:8px 16px;box-shadow:0 18px 40px -24px rgba(109,40,217,.85)}
+.flujo-hub img{height:28px;width:auto;max-width:none}
+.flujo-log{width:min(100%,420px);background:#111;color:#fff;border-radius:18px;padding:14px 16px 6px;box-shadow:0 24px 50px -32px rgba(0,0,0,.55)}
+.flujo-vivo{display:flex;align-items:center;gap:8px;margin:0 0 6px;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#A7F3D0}
+.flujo-vivo span{width:7px;height:7px;border-radius:50%;background:#34D399;animation:pulso 1.8s ease infinite}
+@keyframes pulso{70%{box-shadow:0 0 0 6px rgba(52,211,153,0)}}
+.flujo-log ol{list-style:none;margin:0;padding:0}
+.flujo-log li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:9px 0;border-top:1px solid rgba(255,255,255,.08);font-size:.92rem;opacity:.4;animation:fila 6.4s ease-in-out infinite}
+.flujo-log li:nth-child(2){animation-delay:1.6s}
+.flujo-log li:nth-child(3){animation-delay:3.2s}
+.flujo-log li:nth-child(4){animation-delay:4.8s}
+.flujo-log em{font-style:normal;color:#9CA3AF;font-size:.75rem}
+.flujo-log svg{width:14px;height:14px;stroke:#34D399;fill:none;stroke-width:2.4;flex:none}
+@keyframes fila{0%,8%{opacity:.38}18%,34%{opacity:1}48%,100%{opacity:.38}}
+.marcas{padding:8px 0 28px}
+.marcas p{text-align:center;margin-bottom:16px}
+.marcas-mask{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.marcas-pista{display:flex;width:max-content;animation:marcas 32s linear infinite}
+.marcas-pista ul{display:flex;align-items:center;gap:52px;list-style:none;margin:0;padding:0 26px}
+.marcas img{height:40px;width:auto;max-width:none;object-fit:contain;filter:brightness(0);opacity:.55}
+@keyframes marcas{to{transform:translateX(-50%)}}
 .feat{border:1px solid var(--border);border-radius:16px;background:#fff;padding:28px 26px;display:flex;flex-direction:column}
 .feat h3{font-size:1.25rem;margin-bottom:10px;letter-spacing:-.02em}
 .feat p{color:var(--muted);font-size:.95rem;max-width:26em}
@@ -449,11 +481,26 @@ footer a.ext{color:var(--text);font-weight:500}
   .intel-grid{grid-template-columns:1fr 1fr;gap:56px}
   .pasos-lista{grid-template-columns:repeat(4,1fr);gap:16px}
   .pasos-lista li{grid-template-columns:1fr;align-items:start;align-content:start}
+  .flujo{grid-template-columns:minmax(220px,280px) 72px auto 72px minmax(240px,1fr);align-items:center;justify-items:stretch}
+  .flujo-fuentes,.flujo-log{width:100%}
+  .conector{width:100%;height:2px;justify-self:stretch;background:repeating-linear-gradient(to right,#E5E7EB 0 4px,transparent 4px 9px)}
+  .conector i{top:50%;left:0;margin-left:0;margin-top:-4px;animation-name:fluir-x}
+  .conector-in{background:none;overflow:visible}
+  .conector-in i{display:none}
+  .abanico{display:block;position:absolute;left:100%;top:0;width:72px;height:100%;overflow:visible}
+  .abanico path{fill:none;stroke:#D1D5DB;stroke-width:1.5;stroke-dasharray:4 5;vector-effect:non-scaling-stroke;animation:dash 1.1s linear infinite}
 }
+@keyframes dash{to{stroke-dashoffset:-18}}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .rv{opacity:1;transform:none;transition:none}
   .intel-lista li{animation:none;opacity:1}
+  .marcas-pista{animation:none}
+  .marcas-pista ul[aria-hidden="true"]{display:none}
+  .marcas-pista,.marcas-pista ul{width:100%}
+  .marcas-pista ul{flex-wrap:wrap;justify-content:center;gap:20px 28px}
+  .conector i,.flujo-vivo span,.flujo-log li,.flujo-hub,.abanico path{animation:none}
+  .flujo-log li{opacity:1}
   .btn,.mcta .btn{transition:none}
   .wiz{animation:none}
   .wiz *{transition:none!important}
@@ -530,6 +577,7 @@ footer a.ext{color:var(--text);font-weight:500}
     <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12Z"/><path d="M9 11h6M9 14h3"/></symbol>
     <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
     <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8Z"/></symbol>
+    <symbol id="i-mega" viewBox="0 0 24 24"><path d="M4 10v4h3l6 4V6L7 10H4z"/><path d="M16.5 9.5a3.5 3.5 0 0 1 0 5"/><path d="M18.5 7.5a6.5 6.5 0 0 1 0 9"/></symbol>
     <!-- Logos de canales: los mismos trazos que src/components/pricing/PlanChannelLogos.tsx (/planes). -->
     <linearGradient id="ig-grad" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#FEDA75"/><stop offset=".35" stop-color="#FA7E1E"/><stop offset=".6" stop-color="#D62976"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient>
     <symbol id="ch-wa" viewBox="0 0 24 24"><path fill="#25D366" d="M12 2C6.5 2 2 6.3 2 11.6c0 1.9.5 3.7 1.5 5.3L2 22l5.3-1.4c1.5.8 3.2 1.3 4.7 1.3 5.5 0 10-4.3 10-9.6S17.5 2 12 2zm5.7 13.6c-.2.7-1.2 1.2-1.9 1.4-.5.1-1.1.2-3.6-.8-3.1-1.3-5.1-4.5-5.2-4.7-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .8 2.1.1.2.1.3 0 .5-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.8-.1 1.5z"/></symbol>
@@ -586,6 +634,30 @@ footer a.ext{color:var(--text);font-weight:500}
       <div class="msg p">Hola, quiero pedir una hora para evaluación.</div>
       <div class="msg a">Tengo mañana 10:00 u 11:30. ¿Cuál te acomoda?</div>
       <div class="msg a">Listo, 11:30 reservada. Paga tu evaluación aquí: <u>link de pago</u></div>
+    </div>
+  </div>
+</section>
+
+<section class="marcas" data-testid="kimi-logos" aria-label="Usado por clínicas líderes en Chile y LATAM">
+  <p class="eyebrow">Usado por clínicas líderes en Chile y LATAM</p>
+  <div class="marcas-mask">
+    <div class="marcas-pista">
+      <ul>
+        <li><img src="/presentacion/clientes/hebe.png" alt="Método Hebe" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/lumina.png" alt="Protocolo Lumina" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/andes.png" alt="Andes Salud" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/sanatorio.png" alt="Sanatorio Alemán" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/everest-mono.png" alt="Everest Clínicas Dentales" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/sonrie.png" alt="Sonríe" width="160" height="48"></li>
+      </ul>
+      <ul aria-hidden="true">
+        <li><img src="/presentacion/clientes/hebe.png" alt="" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/lumina.png" alt="" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/andes.png" alt="" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/sanatorio.png" alt="" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/everest-mono.png" alt="" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/sonrie.png" alt="" width="160" height="48"></li>
+      </ul>
     </div>
   </div>
 </section>
@@ -654,6 +726,30 @@ footer a.ext{color:var(--text);font-weight:500}
   <div class="wrap">
     <p class="eyebrow rv">Cómo funciona</p>
     <h2 id="t-pasos" class="rv" style="--i:1">Cómo funciona Clinera</h2>
+    <div class="flujo" data-testid="kimi-flujo" aria-hidden="true">
+      <ul class="flujo-fuentes">
+        <li><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg> WhatsApp</li>
+        <li><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg> Horarios y tratamientos</li>
+        <li><svg class="ic" aria-hidden="true"><use href="#i-mega"/></svg> Campañas</li>
+        <svg class="abanico" viewBox="0 0 72 160" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 26C36 26 36 80 72 80"/>
+          <path d="M0 80H72"/>
+          <path d="M0 134C36 134 36 80 72 80"/>
+        </svg>
+      </ul>
+      <div class="conector conector-in"><i></i><i></i><i></i></div>
+      <div class="flujo-hub"><img src="/kimi/clinera-logo-blanco.png" alt="" width="140" height="32"></div>
+      <div class="conector"><i></i><i></i><i></i></div>
+      <div class="flujo-log">
+        <p class="flujo-vivo"><span></span> Agente IA · en vivo</p>
+        <ol>
+          <li><span>WhatsApp conectado</span><em>canal</em></li>
+          <li><span>Horarios publicados</span><em>clínica</em></li>
+          <li><span>Campaña activa</span><em>marketing</em></li>
+          <li><span>El agente agenda por ti</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></li>
+        </ol>
+      </div>
+    </div>
     <ol class="pasos-lista">
       <li class="rv" style="--i:1"><span>1</span><p>Conecta tu WhatsApp</p></li>
       <li class="rv" style="--i:1"><span>2</span><p>Configura tus horarios, profesionales y tratamientos</p></li>
