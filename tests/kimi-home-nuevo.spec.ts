@@ -65,6 +65,17 @@ for (const ruta of ["/kimi", "/home-nuevo"]) {
   });
 }
 
+test("/kimi muestra el plano de CNN con Ricardo y el periodista", async ({ page }) => {
+  await page.goto("/kimi", { waitUntil: "domcontentloaded" });
+  const img = page.locator("[data-testid=kimi-cnn] img");
+  await expect(img).toHaveAttribute("src", "/images/go/cnn-clinera.jpg");
+  await expect(img).toHaveAttribute("alt", /periodista de Agenda Económica/);
+  await expect(img).toHaveAttribute("width", "1280");
+  await expect(img).toHaveAttribute("height", "720");
+  await expect(page.locator("[data-testid=kimi-cnn]")).toContainText("Clinera en CNN Chile");
+  await expect(page.locator("#hero-cta").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+});
+
 test("/kimi agrega Flux y los adicionales en la misma página", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
