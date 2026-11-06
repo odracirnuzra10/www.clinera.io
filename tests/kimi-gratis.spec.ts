@@ -22,8 +22,13 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   expect(mediaBtn.shadow).toBe("none");
   expect(cierreBtn.bg).toBe("rgb(124, 58, 237)");
   expect(cierreBtn.image).toBe("none");
-  expect(cierreBtn.shadow).toBe("none");
+  expect(cierreBtn.shadow).toContain("124, 58, 237");
   expect(cierreBtn.filter).toBe("none");
+  await expect(page.locator("header.nav")).not.toContainText("Crea tu cuenta");
+  await expect(page.locator("header.nav .nav-cta")).toHaveCount(0);
+  await expect(page.locator("#mobile-cta [data-bar-label]")).toHaveCount(0);
+  await expect(page.locator("#mobile-cta [data-bar-accion]")).toHaveText("Crea tu cuenta");
+  await expect(page.locator("#mobile-cta .mcta-row")).not.toContainText("Vortex");
   const media = page.locator("[data-testid=kimi-asistencia-media]");
   await expect(media.getByRole("link", { name: "Solicita asistencia" })).toHaveAttribute(
     "href",

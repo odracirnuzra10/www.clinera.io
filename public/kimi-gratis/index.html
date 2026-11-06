@@ -623,9 +623,14 @@ h1,h2,h3{font-weight:600;letter-spacing:-.035em;line-height:1.12}
 .pain .btn.grad:hover{background:#F4F4F5}
 #comenzar .btn.grad,#comenzar .btn.grad:hover{
   background:#7C3AED;border-color:#7C3AED;color:#fff;
-  box-shadow:none;text-shadow:none;filter:none;
+  text-shadow:none;filter:none;
+  box-shadow:0 10px 24px -8px rgba(124,58,237,.55),0 0 22px rgba(124,58,237,.32);
 }
-#comenzar .btn.grad:hover{background:#6D28D9;border-color:#6D28D9}
+#comenzar .btn.grad:hover{
+  background:#6D28D9;border-color:#6D28D9;
+  box-shadow:0 12px 28px -8px rgba(109,40,217,.6),0 0 26px rgba(124,58,237,.38);
+}
+.mcta-row{grid-template-columns:1fr}
 .btn.outline{background:#fff;color:#111;border-color:#111}
 .btn.outline:hover{background:#F7F6F3}
 header.nav{background:#fff;border-bottom-color:#EAEAEA}
@@ -723,9 +728,6 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
       <img src="/kimi/clinera-logo.png" alt="Clinera" width="411" height="96" decoding="async">
     </a>
     <div class="nav-acciones">
-      <div class="nav-cta">
-        <button class="btn sm grad" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta gratis</button>
-      </div>
       <button class="bolsa" type="button" data-carrito-icon aria-expanded="false" aria-controls="tu-carrito" aria-label="Tu carrito, 0 ítems" hidden>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
         <span class="badge" data-carrito-count hidden>0</span>
@@ -1108,8 +1110,7 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
 
 <div class="mcta" id="mobile-cta" data-testid="mobile-cta">
   <div class="mcta-row">
-    <div class="mcta-total"><span data-bar-label>Vortex</span><b data-total-bar hidden></b></div>
-    <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex" data-bar-accion>Crea tu cuenta gratis</button>
+    <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex" data-bar-accion>Crea tu cuenta</button>
   </div>
   <a class="btn wa mcta-asistencia" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia" data-asistencia-fin hidden><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
 </div>
@@ -1378,14 +1379,12 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
       badge.hidden=u<1;
     }
     if(icono)icono.setAttribute("aria-label","Tu carrito, "+u+" ítems");
-    var etiqueta=document.querySelector("[data-bar-label]");
     var barBtn=document.querySelector("[data-bar-accion]");
-    if(etiqueta)etiqueta.textContent=(PLANES[planElegido]||PLANES.vortex).nombre;
     if(barra){
       barra.hidden=true;
       barra.textContent="";
     }
-    if(barBtn){ barBtn.textContent="Crea tu cuenta gratis"; barBtn.removeAttribute("data-cta"); }
+    if(barBtn){ barBtn.textContent="Crea tu cuenta"; barBtn.removeAttribute("data-cta"); }
     pintarChips();
     pintarControles();
     if(!lineas)return;
@@ -1744,13 +1743,13 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
   document.querySelectorAll('a[data-contrata-link]').forEach(propagarContrata);
 
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var hasIO='OutfitsectionObserver' in window;
+  var hasIO='IntersectionObserver' in window;
 
   // Reveal on scroll
   var els=document.querySelectorAll('.rv');
   if(reduce||!hasIO){els.forEach(function(e){e.classList.add('in')});}
   else{
-    var io=new OutfitsectionObserver(function(en){en.forEach(function(x){if(x.isOutfitsecting){x.target.classList.add('in');io.unobserve(x.target);}})},{threshold:.12});
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}})},{threshold:.12});
     els.forEach(function(e){io.observe(e)});
   }
 
@@ -1763,8 +1762,8 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
     if(waFin) waFin.hidden=!on;
   }
   if(cierre && hasIO){
-    new OutfitsectionObserver(function(en){
-      mostrarAsistencia(en.some(function(e){return e.isOutfitsecting;}));
+    new IntersectionObserver(function(en){
+      mostrarAsistencia(en.some(function(e){return e.isIntersecting;}));
     },{threshold:0.15}).observe(cierre);
   }
 
