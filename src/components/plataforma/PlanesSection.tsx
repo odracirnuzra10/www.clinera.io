@@ -29,16 +29,18 @@ export default function PlanesSection() {
           ¿Varias sedes, migración desde otro sistema o facturación a empresa? Lo vemos antes de
           contratar.
         </p>
-        <Link
-          href="/agenda"
+        <a
+          href="https://wa.me/56985581524?text=necesito%20asistencia"
+          target="_blank"
+          rel="noopener noreferrer"
           className={styles.ghostCta}
           data-cta="planes-ventas"
           onClick={() =>
             track("cta_click", { cta_id: "planes-ventas", cta_location: "precios", page: "plataforma" })
           }
         >
-          Agendar reunión
-        </Link>
+          Solicita asistencia
+        </a>
       </div>
     </>
   );

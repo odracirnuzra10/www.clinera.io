@@ -17,10 +17,10 @@
 // con JavaScript (lección de /go con el navegador de Meta).
 // ============================================================================
 
-import { useSyncExternalStore } from "react";
 import { ChannelLogo } from "@/components/pricing/PlanChannelLogos";
 import type { PlanChannel } from "@/content/pricing";
 import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH, PLANES } from "@/content/planes";
+import CtaPar from "@/components/cta/CtaPar";
 import styles from "./AgenteIABanda.module.css";
 
 const CANALES: PlanChannel[] = ["whatsapp", "facebook", "instagram", "llamadas"];
@@ -56,12 +56,7 @@ function Calendario() {
   );
 }
 
-// Ricardo, 18-oct-2026: el CTA es «Agendar videollamada» (`CTA_VENTAS_PATH`), ya no /go.
 const DEFAULT_HREF = CTA_VENTAS_PATH;
-
-const noop = () => () => {};
-const readSearch = () => window.location.search;
-const readSearchServer = () => "";
 
 export default function AgenteIABanda({
   href = DEFAULT_HREF,
@@ -74,10 +69,9 @@ export default function AgenteIABanda({
   /** Dentro de una columna angosta (artículo del blog): sin el margen de página. */
   enColumna?: boolean;
 }) {
-  // Al ir a /agenda se conserva la query de la visita (utm, gclid, fbclid): sin ella
-  // el lead pierde su origen. Las anclas (#…) no la necesitan.
-  const search = useSyncExternalStore(noop, readSearch, readSearchServer);
-  const destino = href.startsWith("/") ? `${href}${search}` : href;
+  // href y ctaLabel quedaron de antes del 4-nov-2026: la banda lleva siempre el par de CTA.
+  void href;
+  void ctaLabel;
   const [vortex, ecosistema] = PLANES;
 
   return (
@@ -132,9 +126,8 @@ export default function AgenteIABanda({
         </ul>
 
         <div className={styles.foot}>
-          <a href={destino} className={styles.cta}>
-            {ctaLabel} <span aria-hidden>→</span>
-          </a>
+          {/* Ricardo, 4-nov-2026: los dos CTA del sitio (panel oscuro: secundario con borde blanco). */}
+          <CtaPar oscuro />
           <span className={styles.note}>
             {vortex.name} (US$ {vortex.monthlyUsd}/mes) trae el software con agente IA; {ecosistema.name} (US$ {ecosistema.monthlyUsd}/mes) suma el marketing.
           </span>

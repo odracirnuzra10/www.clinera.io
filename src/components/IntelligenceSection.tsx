@@ -1,3 +1,4 @@
+import CtaPar, { CtaRegistro, CtaAsistencia } from "@/components/cta/CtaPar";
 import Link from "next/link";
 import styles from "./IntelligenceSection.module.css";
 import { ChatAnimado } from "./IntelligenceChat";
@@ -89,12 +90,9 @@ export function IntelligenceHomeSection() {
             ))}
           </ul>
           <div className={styles.homeActions}>
-            <Link className={styles.primaryCta} href="/demo">
-              Ver una demo <ArrowIcon />
-            </Link>
-            <Link className={styles.secondaryCta} href="/agenda">
-              Agendar reunión
-            </Link>
+            {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+            <CtaRegistro className={styles.primaryCta} />
+            <CtaAsistencia className={styles.secondaryCta} />
           </div>
         </div>
         <div className={`${styles.homeMockup} reveal`}>
@@ -178,9 +176,7 @@ export function IntelligencePlataformaSection({
                 </li>
               ))}
             </ul>
-            <Link className={styles.primaryCta} href={ctaHref}>
-              {ctaLabel} <ArrowIcon />
-            </Link>
+            <CtaPar />
           </div>
           <div className={styles.platMockup}>
             <ChatAnimado inicial="citas" conHistorial />

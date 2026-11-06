@@ -14,14 +14,14 @@
 // ============================================================================
 
 export const HOME2_HERO = {
-  eyebrow: "Clinera Ecosistema · Software + Marketing",
-  titulo: "El ecosistema que hace que tu clínica médica o estética",
-  tituloAcento: "venda, sea rentable y cobre la evaluación por adelantado.",
+  // Ricardo, 7-nov-2026: el home vende la prueba gratis del software (antes, el Ecosistema software + marketing).
+  eyebrow: "Software médico con IA · Demo de 7 días",
+  titulo: "Tú atiendes pacientes. Clinera responde el WhatsApp,",
+  tituloAcento: "agenda y cobra la evaluación.",
   bajada:
-    "Software con IA, marketing de performance y un método comercial probado primero en nuestra red de clínicas.",
-  // Ricardo, 27-oct-2026: que se vea de una que se compra un ecosistema (software + marketing).
-  formula: ["Software con IA", "Marketing de performance"],
-  formulaResultado: "un solo ecosistema para tu clínica",
+    "Regístrate gratis y usa Clinera 7 días. Después, dentro de la plataforma, eliges el plan. Es el software que usamos todos los días en nuestra red de clínicas.",
+  formula: ["IA que responde y agenda", "Agenda por profesional"],
+  formulaResultado: "tu clínica en un solo lugar",
 } as const;
 
 export const HOME2_CIFRAS = [

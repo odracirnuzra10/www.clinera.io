@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import ClinicasLogos from "@/components/clinicas/ClinicasLogos";
-import EcosistemaIncluye from "@/components/ecosistema/EcosistemaIncluye";
 import DemoEnVivo from "@/components/home-v3/DemoEnVivo";
 import { Faq, Testimonios } from "@/components/home-v3/sections";
-import PlanesVigentes from "@/components/pricing/PlanesVigentes";
-import { CTA_VENTAS_LABEL } from "@/content/planes";
+import PlanesTrial from "@/components/planes-trial/PlanesTrial";
+import { CtaRegistro, CtaAsistencia } from "@/components/cta/CtaPar";
 import {
   HOME2_ALTA_QUALITA,
   HOME2_CASOS,
@@ -133,11 +132,14 @@ function VisualPmfc({ letra }: { letra: string }) {
   return <AgendaEnVivo />;
 }
 
+// Ricardo, 7-nov-2026: los dos CTA del sitio. Principal «Regístrate gratis» (/contrata) y secundario
+// «Solicita asistencia» (WhatsApp). `data-home2-cta` queda en el secundario.
 function Cta({ donde }: { donde: string }) {
   return (
-    <Link href="/agenda" className={s.cta} data-home2-cta={donde}>
-      {CTA_VENTAS_LABEL}
-    </Link>
+    <div className={s.ctas} data-home2-ctas={donde}>
+      <CtaRegistro className={s.cta} style={{ marginTop: 0, borderRadius: 12 }} datos={{ "data-home2-registro": donde }} />
+      <CtaAsistencia className={s.ctaSec} style={{ borderRadius: 12 }} datos={{ "data-home2-cta": donde }} />
+    </div>
   );
 }
 
@@ -163,12 +165,7 @@ export default function Home2() {
             </span>
             <span className={s.formulaResultado}>{HOME2_HERO.formulaResultado}</span>
           </p>
-          <div className={s.ctas}>
-            <Cta donde="hero" />
-            <a href="#casos" className={s.ctaSec}>
-              Ver casos
-            </a>
-          </div>
+          <Cta donde="hero" />
           <ul className={s.cifras} data-home2="cifras">
             {HOME2_CIFRAS.map((c) => (
               <li key={c.valor}>
@@ -182,7 +179,6 @@ export default function Home2() {
 
       <ClinicasLogos />
 
-      <EcosistemaIncluye />
 
       <section className={s.bloque} id="pmfc" data-home2="pmfc">
         <p className={s.eyebrow}>{HOME2_PMFC.eyebrow}</p>
@@ -278,12 +274,8 @@ export default function Home2() {
 
       <div className={s.importado}>
         <Testimonios />
-        <PlanesVigentes
-          titulo="Dos formas de trabajar"
-          tituloAcento="con Clinera."
-          bajada="El Ecosistema son las dos piezas: el software con IA y el equipo de marketing que te trae pacientes. Si solo quieres el software, está Vortex."
-        />
       </div>
+      <PlanesTrial />
 
       <section className={s.bloque} id="alta-qualita" data-home2="alta-qualita">
         <div className={s.convenio}>

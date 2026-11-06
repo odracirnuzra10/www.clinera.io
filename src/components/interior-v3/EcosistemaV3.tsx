@@ -6,19 +6,15 @@
 // performance, con la metodología PMFC. La publicidad la paga la clínica aparte.
 // ============================================================================
 
-import Link from "next/link";
-import { useSyncExternalStore } from "react";
-import { CtaPrimary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
+import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
+import CtaPar from "@/components/cta/CtaPar";
 import { FinalCTA, useReveal } from "@/components/home-v3/sections";
 import MarketingPerformance from "@/components/marketing/MarketingPerformance";
 import EcosistemaIncluye from "@/components/ecosistema/EcosistemaIncluye";
 import PmfcSection from "@/components/pmfc/PmfcSection";
 import PlanesVigentes from "@/components/pricing/PlanesVigentes";
-import { CTA_VENTAS_LABEL, PLANES, agendaHref } from "@/content/planes";
+import { PLANES } from "@/content/planes";
 
-const noop = () => () => {};
-const readSearch = () => window.location.search;
-const readSearchServer = () => "";
 
 const ECOSISTEMA = PLANES.find((p) => p.id === "ecosistema")!;
 
@@ -45,7 +41,6 @@ export default function EcosistemaV3() {
 }
 
 function EcosistemaHero() {
-  const search = useSyncExternalStore(noop, readSearch, readSearchServer);
   return (
     <section data-ecosistema-hero style={{ padding: "72px 80px 24px", background: "linear-gradient(180deg,#FFFFFF 0%,#FAFAFA 100%)" }}>
       <div className="reveal" style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
@@ -64,9 +59,8 @@ function EcosistemaHero() {
           metodología PMFC: propuesta de valor, marketing, framework comercial y Clinera. US$ {ECOSISTEMA.monthlyUsd} al
           mes, sin costo de implementación. La inversión en publicidad se paga aparte.
         </p>
-        <CtaPrimary as={Link} href={agendaHref("ambas", search)} style={{ padding: "15px 26px", fontSize: 16 }}>
-          {CTA_VENTAS_LABEL} <span>→</span>
-        </CtaPrimary>
+        {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+        <CtaPar centrado />
       </div>
       <style jsx>{`
         @media (max-width: 720px) {

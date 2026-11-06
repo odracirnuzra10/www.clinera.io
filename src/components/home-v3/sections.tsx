@@ -1,11 +1,12 @@
 "use client";
 
+import CtaPar from "@/components/cta/CtaPar";
+
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState, ReactNode } from "react";
-import { CtaPrimary, CtaSecondary, Eyebrow, Mono, GRAD, CnnLogo } from "@/components/brand-v3/Brand";
+import { Eyebrow, Mono, GRAD, CnnLogo } from "@/components/brand-v3/Brand";
 import { HOME_FAQ } from "@/content/home-faq";
-import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH } from "@/content/planes";
 import { VERTEX_IA_MODELS } from "@/content/ia-stack";
 import ClinicasLogos from "@/components/clinicas/ClinicasLogos";
 import AvisoNoReemplaza from "@/components/empleado-digital/AvisoNoReemplaza";
@@ -148,26 +149,8 @@ export function Hero() {
               Para clínicas estéticas y médicas que quieren más <b style={{ color: "#0A0A0A" }}>rentabilidad</b>, no solo más pacientes: propuesta de valor, <b style={{ color: "#0A0A0A" }}>marketing de performance</b>, framework comercial y <b style={{ color: "#0A0A0A" }}>software con IA</b> en un solo ecosistema.
             </p>
 
-            <div style={{ display: "flex", gap: 12, marginTop: 30, flexWrap: "wrap" }}>
-              <CtaPrimary as={Link} href={CTA_VENTAS_PATH} style={{ padding: "15px 26px", fontSize: 16 }}>
-                {CTA_VENTAS_LABEL} <span>→</span>
-              </CtaPrimary>
-              <CtaSecondary as={Link} href="#demo-3-min" style={{ padding: "15px 26px", fontSize: 16 }}>
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#0A0A0A"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polygon points="5 3 19 12 5 21 5 3" />
-                </svg>
-                Ver demo 3 min
-              </CtaSecondary>
-            </div>
+            {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+            <CtaPar style={{ marginTop: 30 }} />
 
             <div
               style={{
@@ -4072,50 +4055,7 @@ export function FinalCTA() {
             >
               En 30 minutos revisamos tu clínica y te decimos qué te conviene: Vortex, el software con IA, o el Ecosistema, que además trae pacientes con marketing.
             </p>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <Link
-                href={CTA_VENTAS_PATH}
-                style={{
-                  background: GRAD,
-                  color: "#fff",
-                  border: 0,
-                  padding: "15px 26px",
-                  borderRadius: 10,
-                  fontWeight: 600,
-                  fontSize: 16,
-                  fontFamily: "Inter",
-                  textDecoration: "none",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  boxShadow: "0 12px 32px -8px rgba(217,70,239,.5)",
-                }}
-              >
-                {CTA_VENTAS_LABEL} <span>→</span>
-              </Link>
-              <Link
-                href="#demo-3-min"
-                style={{
-                  background: "rgba(255,255,255,.08)",
-                  color: "#fff",
-                  border: "1px solid rgba(255,255,255,.18)",
-                  padding: "15px 26px",
-                  borderRadius: 10,
-                  fontWeight: 600,
-                  fontSize: 16,
-                  fontFamily: "Inter",
-                  textDecoration: "none",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                }}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="5 3 19 12 5 21 5 3" />
-                </svg>
-                Ver demo 3 min
-              </Link>
-            </div>
+            <CtaPar oscuro />
             <div
               style={{
                 marginTop: 22,

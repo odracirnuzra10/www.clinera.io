@@ -2,8 +2,8 @@
 // «Agendar reunión» → /agenda?servicio=…, sin cupón ni compra en la web.
 
 import { expect, test } from "@playwright/test";
-import { CHECKOUT_URL } from "../src/content/checkout";
-import { AHORRO, MARKETING_BLOQUES, PLANES, promoEcosistemaVigente } from "../src/content/planes";
+import { PLANES_TRIAL, XCALE_PAGO_URL } from "../src/content/planes-trial";
+import { MARKETING_BLOQUES, PLANES, promoEcosistemaVigente } from "../src/content/planes";
 import { CLINICAS_LOGOS } from "../src/content/clinicas-logos";
 
 test.describe("planes vigentes: Vortex · Ecosistema", () => {
@@ -17,74 +17,38 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     expect(PLANES[1].features).toEqual(expect.arrayContaining(MARKETING_BLOQUES.map((b) => b.titulo)));
   });
 
-  test("el home no lleva links de pago (solo /planes)", async ({ page }) => {
+  // Ricardo, 7-nov-2026: el home y /planes muestran la prueba gratis con Flux, Hex y Xcale. El único
+  // link de pago es «o paga Xcale ahora» (US$ 149), pelado y con data-plan* para Analytics.tsx.
+  test("el home solo lleva el link de pago de Xcale", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
+    const pagos = page.locator('main a[href*="buy.stripe.com"]');
+    await expect(pagos).toHaveCount(1);
+    await expect(pagos).toHaveAttribute("href", XCALE_PAGO_URL);
+    await expect(pagos).toHaveAttribute("data-plan", "xcale");
+    await expect(pagos).toHaveAttribute("data-plan-value", "149");
   });
 
-  // Ricardo, 5-nov-2026: /planes publica Flux · Hex · Vortex (sin Ecosistema). Cada tarjeta y el
-  // encabezado van al Payment Link de checkout.ts, sin código de promoción.
-  test("/planes: Flux, Hex y Vortex, con sus links de Stripe", async ({ page }) => {
-    await page.goto("/planes?utm_source=google", { waitUntil: "domcontentloaded" });
-    const cards = page.locator("[data-plan-card]");
+  test("/planes: prueba gratis y Flux, Hex y Xcale", async ({ page }) => {
+    await page.goto("/planes?utm_source=google&plan=flux", { waitUntil: "domcontentloaded" });
+    const cards = page.locator("[data-planes-trial] [data-plan-card]");
     await expect(cards).toHaveCount(3);
-    for (const [i, id] of ["flux", "hex", "vortex"].entries()) {
-      await expect(cards.nth(i)).toHaveAttribute("data-plan-card", id);
-      await expect(page.locator(`[data-plan-card="${id}"] [data-canales]`)).toContainText("WhatsApp");
+    await expect(page.locator("h1")).toContainText("Regístrate gratis");
+    for (const p of PLANES_TRIAL) {
+      const card = page.locator(`[data-plan-card="${p.id}"]`);
+      await expect(card).toContainText(`US$ ${p.monthlyUsd}`);
+      await expect(card.locator("[data-canales]")).toHaveAttribute("aria-label", /WhatsApp/);
+      // «Regístrate gratis» va a /contrata con la query de la visita, sin `plan` (abriría el carrito).
+      await expect(card.locator("a[data-cta-registro]")).toHaveAttribute("href", "/contrata?utm_source=google");
     }
-    await expect(page.locator('[data-plan-card="ecosistema"]')).toHaveCount(0);
-    await expect(page.locator("[data-ahorro]")).toHaveCount(0);
-    await expect(page.locator('[data-plan-card="flux"] [data-precio]')).toContainText("US$ 79");
-    await expect(page.locator('[data-plan-card="hex"] [data-precio]')).toContainText("US$ 179");
-    await expect(page.locator('[data-plan-card="vortex"] [data-precio]')).toContainText("US$ 279");
-    await expect(page.locator('[data-plan-card="flux"]')).toContainText("WhatsApp con 500 conversaciones");
-    await expect(page.locator('[data-plan-card="flux"]')).not.toContainText("Clinera Intelligence");
-    await expect(page.locator('[data-plan-card="vortex"]')).toContainText("Clinera Intelligence");
-    const precios = { flux: "79", hex: "179", vortex: "279" } as const;
-    for (const id of ["flux", "hex", "vortex"] as const) {
-      const pago = page.locator(`[data-plan-card="${id}"] a[data-cta="pago"]`);
-      const base = CHECKOUT_URL[id].replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      await expect(pago).toHaveAttribute("href", new RegExp(`^${base}\\?utm_source=google$`));
-      await expect(pago).toHaveAttribute("data-plan", id);
-      await expect(pago).toHaveAttribute("data-plan-value", precios[id]);
-      expect(await pago.getAttribute("href")).not.toContain("prefilled_promo_code");
-    }
-    await expect(page.locator("a[data-cta-encabezado]")).toHaveAttribute("href", new RegExp("^" + CHECKOUT_URL.flux.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(4);
-    await expect(page.locator("h1")).toContainText("Parte con Flux");
-    await page.getByRole("button", { name: "¿Hay descuento?" }).click();
-    await expect(page.locator("main")).toContainText("50% durante los primeros 3 meses");
-    await expect(page.locator("main")).not.toContainText(/no tienen descuento|20% de descuento/);
-    for (const id of ["hex", "vortex"]) {
-      const fondo = await page.locator(`[data-plan-card="${id}"] a[data-cta="pago"]`).evaluate((e) => getComputedStyle(e).backgroundImage);
-      expect(fondo).toBe("none");
-    }
-    const fondoFlux = await page.locator('[data-plan-card="flux"] a[data-cta="pago"]').evaluate((e) => getComputedStyle(e).backgroundImage);
-    expect(fondoFlux).toContain("gradient");
-    await expect(page.locator('[data-plan-card="flux"] [data-insignia]')).toHaveText("Recomendado");
+    await expect(page.locator('[data-plan-card="xcale"]')).toContainText("Recomendado");
+    await expect(page.locator('[data-plan-card="xcale"]')).toContainText("Onboarding humano");
+    await expect(page.locator("[data-adicionales]")).toContainText("1000 conversaciones");
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(1);
     const texto = await page.locator("main").innerText();
-    for (const viejo of ["Hurricane", "Nexus", "Summit", "Atlas", "CU" + "KI", "permanencia", "PENDIENTE", "no trae WhatsApp"]) {
+    for (const viejo of ["Vortex", "Ecosistema", "Hurricane", "Nexus", "Summit", "Atlas", "CU" + "KI", "PENDIENTE", "US$ 79", "US$ 179", "US$ 279"]) {
       expect(texto).not.toContain(viejo);
     }
   });
-});
-
-test.describe("ahorro del Ecosistema (Ricardo, 19-oct-2026)", () => {
-  for (const ruta of ["/"]) {
-    test(`${ruta} explica lo que se ahorra con el Ecosistema`, async ({ page }) => {
-      await page.goto(ruta, { waitUntil: "domcontentloaded" });
-      const bloque = page.locator("[data-ahorro]");
-      await expect(bloque).toHaveCount(1);
-      await expect(bloque.locator("[data-ahorro-item]")).toHaveCount(3);
-      await expect(bloque).toContainText("US$ 600–800/mes");
-      await expect(bloque).toContainText("US$ 1.000–1.700/mes");
-      await expect(bloque.locator("[data-ahorro-conclusion]")).toContainText(`US$ ${PLANES[1].monthlyUsd}`);
-      await expect(bloque).toContainText(AHORRO.ahorro);
-      // Valores estimados y sin nombrar competidores.
-      await expect(bloque).toContainText("estimados");
-      await expect(bloque).not.toContainText(/AgendaPro|Reservo|Medilink|Bambi/i);
-    });
-  }
 });
 
 test.describe("home: logos reales", () => {
@@ -118,9 +82,9 @@ test.describe("reuniones de marketing y onboarding dedicado", () => {
 
   test("/planes y la presentación lo muestran", async ({ page }) => {
     await page.goto("/planes", { waitUntil: "domcontentloaded" });
-    // El Ecosistema salió de /planes: la reunión semanal ya no está en esta página.
+    // El Ecosistema salió de /planes: la reunión semanal ya no está en esta página (7-nov-2026: Xcale trae onboarding humano).
     await expect(page.getByText("Reunión de marketing cada semana")).toHaveCount(0);
-    await expect(page.getByText("Onboarding dedicado con un ejecutivo humano").first()).toBeVisible();
+    await expect(page.getByText("Onboarding humano").first()).toBeVisible();
     await page.goto("/presentacion/index.html#planes", { waitUntil: "domcontentloaded" });
     const html = await page.content();
     expect(html).toContain("Reunión de marketing cada semana");

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import CtaPar from "@/components/cta/CtaPar";
 import { PLAN_DESDE_USD } from "@/content/planes";
 
 const COMPETITOR_LABELS: Record<string, string> = {
@@ -62,71 +62,8 @@ export default function PostCTA({ relatedComparativa }: Props) {
         {subhead}
       </p>
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-        {compLabel ? (
-          <>
-            <Link
-              href={`/comparativas/${relatedComparativa}`}
-              style={{
-                background: "#fff",
-                color: "#0A0A0A",
-                padding: "13px 22px",
-                borderRadius: 10,
-                textDecoration: "none",
-                fontWeight: 600,
-                fontSize: 14.5,
-              }}
-            >
-              Ver Clinera vs {compLabel} →
-            </Link>
-            <Link
-              href="/agenda"
-              style={{
-                background: "rgba(255,255,255,0.08)",
-                color: "#fff",
-                border: "1px solid rgba(255,255,255,0.18)",
-                padding: "13px 22px",
-                borderRadius: 10,
-                textDecoration: "none",
-                fontWeight: 600,
-                fontSize: 14.5,
-              }}
-            >
-              Agendar reunión
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link
-              href="/agenda"
-              style={{
-                background: "#fff",
-                color: "#0A0A0A",
-                padding: "13px 22px",
-                borderRadius: 10,
-                textDecoration: "none",
-                fontWeight: 600,
-                fontSize: 14.5,
-              }}
-            >
-              Agendar reunión →
-            </Link>
-            <Link
-              href="/planes"
-              style={{
-                background: "rgba(255,255,255,0.08)",
-                color: "#fff",
-                border: "1px solid rgba(255,255,255,0.18)",
-                padding: "13px 22px",
-                borderRadius: 10,
-                textDecoration: "none",
-                fontWeight: 600,
-                fontSize: 14.5,
-              }}
-            >
-              Ver planes
-            </Link>
-          </>
-        )}
+        {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+        <CtaPar oscuro />
       </div>
     </section>
   );

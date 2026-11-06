@@ -8,8 +8,9 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const PAGINAS = [
-  { path: "/software-estetica", cta: /^\/agenda/ },
-  { path: "/blog/mejores-software-clinicas-esteticas", cta: /^\/agenda/ },
+  // Ricardo, 7-nov-2026: la banda cierra con los dos CTA del sitio (el primero es «Regístrate gratis»).
+  { path: "/software-estetica", cta: /^\/contrata/ },
+  { path: "/blog/mejores-software-clinicas-esteticas", cta: /^\/contrata/ },
 ];
 
 test.describe("banda «Activa tu ecosistema»", () => {
@@ -29,12 +30,12 @@ test.describe("banda «Activa tu ecosistema»", () => {
     });
   }
 
-  test("al ir a /agenda conserva la query del anuncio", async ({ page }) => {
+  test("«Regístrate gratis» conserva la query del anuncio", async ({ page }) => {
     await page.goto("/software-estetica?utm_source=google&gclid=abc", { waitUntil: "domcontentloaded" });
     // Tras hidratar: el servidor no conoce la query.
-    await expect(page.locator("[data-agente-ia-banda] a").first()).toHaveAttribute(
+    await expect(page.locator("[data-agente-ia-banda] a[data-cta-registro]")).toHaveAttribute(
       "href",
-      "/agenda?utm_source=google&gclid=abc",
+      "/contrata?utm_source=google&gclid=abc",
     );
   });
 

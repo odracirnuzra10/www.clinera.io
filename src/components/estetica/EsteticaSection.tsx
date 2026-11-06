@@ -1,3 +1,4 @@
+import { CtaRegistro, CtaAsistencia } from "@/components/cta/CtaPar";
 import Image from "next/image";
 import ClinicasLogos from "@/components/clinicas/ClinicasLogos";
 import {
@@ -113,7 +114,7 @@ function TarjetaTratamientos() {
   );
 }
 
-function Modelo({ id, ctaHref, ctaLabel }: { id: ModeloEsteticaId; ctaHref: string; ctaLabel: string }) {
+function Modelo({ id }: { id: ModeloEsteticaId; ctaHref: string; ctaLabel: string }) {
   const m = MODELOS_ESTETICA[id];
   return (
     <figure className={styles.modelo} data-modelo-estetica={id}>
@@ -130,9 +131,11 @@ function Modelo({ id, ctaHref, ctaLabel }: { id: ModeloEsteticaId; ctaHref: stri
           {m.titulo} <span className={styles.grad}>{m.acento}</span>
         </p>
         <p className={styles.text}>{m.texto}</p>
-        <a className={styles.modeloCta} href={ctaHref} data-cta-ventas={`modelo-${id}`}>
-          {ctaLabel}
-        </a>
+        {/* Ricardo, 4-nov-2026: los dos CTA del sitio (sobre la foto: secundario con borde blanco). */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+          <CtaRegistro tam="sm" />
+          <CtaAsistencia tam="sm" oscuro datos={{ "data-cta-asistencia": `modelo-${id}` }} />
+        </div>
       </div>
     </figure>
   );

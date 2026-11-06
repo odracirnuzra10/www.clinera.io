@@ -132,7 +132,7 @@ test.describe("Meta Pixel & dataLayer events", () => {
   // Desde el 18-oct-2026 /planes tiene un solo CTA: «Activar cuenta» → la landing (ahí se paga).
   test("4) Plan cards on /planes: «Activar cuenta» → landing con el plan", async ({ page }) => {
     await page.goto("/planes", { waitUntil: "domcontentloaded" });
-    const cta = page.locator('[data-plan-card="hurricane"] a[data-cta-ventas="hurricane"]');
+    const cta = page.locator('[data-plan-card="hurricane"] a[data-cta-asistencia="hurricane"]');
     await expect(cta).toBeVisible({ timeout: 10_000 });
     await expect(cta).toContainText(/Activar cuenta/i);
     await expect(cta).toHaveAttribute("href", /^\/clinica-estetica\/activar-cuenta\?(.*&)?plan=hurricane/);

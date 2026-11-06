@@ -50,7 +50,7 @@ export default function Footer() {
           <div className={styles.footerLinks}>
             <h4>Soporte</h4>
             <Link href="/ayuda">Centro de ayuda</Link>
-            <Link href="/agenda">Agendar reunión</Link>
+            <a href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer">Solicita asistencia</a>
           </div>
 
           {/* Comparativas */}

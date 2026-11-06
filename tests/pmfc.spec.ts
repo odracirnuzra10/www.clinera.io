@@ -24,10 +24,8 @@ test.describe("Metodología PMFC", () => {
     expect(body).not.toMatch(/patentad|implementación de USD|\b(hacé|pegás|agendá)\b/i);
   });
 
-  test("/planes habla PMFC y el deck sigue sus 4 pasos", async ({ page, request }) => {
-    await page.goto("/planes");
-    await expect(page.locator("[data-pmfc]")).toBeVisible();
-    await expect(page.locator("[data-pmfc-caso]")).toHaveCount(0);
+  // Ricardo, 7-nov-2026: /planes es la prueba gratis del software y ya no lleva PMFC (sigue en el home y /ecosistema).
+  test("el deck sigue los 4 pasos de PMFC", async ({ request }) => {
     const html = await (await request.get("/presentacion/index.html")).text();
     // Ricardo, 22-oct-2026: el deck para doctores no muestra la sigla; los 4 pasos siguen el orden P-M-F-C.
     for (const id of ["pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c"]) expect(html).toContain(`id="${id}"`);

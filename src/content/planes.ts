@@ -210,7 +210,8 @@ export const AHORRO = {
 export const NECESIDADES_LINEA = `Extras del software: profesional extra US$ ${EXTRAS[0].precioUsd}/mes · 1.000 conversaciones extra US$ ${EXTRAS[1].precioUsd} · 5.000 conversaciones extra US$ ${EXTRAS[2].precioUsd} · 5.000 créditos de IA extra US$ ${EXTRAS[3].precioUsd}.`;
 
 /** CTA único: lleva a /agenda, que termina en una videollamada con el equipo. */
-export const CTA_VENTAS_LABEL = "Agendar reunión";
+// Ricardo, 4-nov-2026: el secundario de todo el sitio es «Hablar con ventas» (antes «Agendar reunión»).
+export const CTA_VENTAS_LABEL = "Hablar con ventas";
 export const CTA_VENTAS_PATH = "/agenda";
 
 /** `/agenda?servicio=ambas` + la query de la visita (utm, gclid, fbclid). */

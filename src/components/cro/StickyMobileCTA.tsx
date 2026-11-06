@@ -1,21 +1,11 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 import { useScrollPastPercent } from "@/components/cro/useScrollPastPercent";
-import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH } from "@/content/planes";
+import { CTA_VENTAS_PATH } from "@/content/planes";
+import { CtaAsistencia, CtaRegistro } from "@/components/cta/CtaPar";
 
-function subscribeLocation() {
-  return () => {};
-}
-// Ricardo, 18-oct-2026: el flotante dice «Agendar videollamada» y va a /agenda.
-function getAgendaHref() {
-  return CTA_VENTAS_PATH + window.location.search;
-}
-function getAgendaHrefServer() {
-  return CTA_VENTAS_PATH;
-}
 
 const SCROLL_REVEAL_PERCENT = 30;
 
@@ -48,11 +38,6 @@ export default function StickyMobileCTA() {
   const enabled = !isHiddenPath(pathname);
   const [dismissed, setDismissed] = useState(false);
   const scrolledPast = useScrollPastPercent(SCROLL_REVEAL_PERCENT, enabled && !dismissed);
-  const agendaHref = useSyncExternalStore(
-    subscribeLocation,
-    getAgendaHref,
-    getAgendaHrefServer,
-  );
 
   useEffect(() => {
     if (!enabled) return;
@@ -63,13 +48,6 @@ export default function StickyMobileCTA() {
 
   if (!enabled || dismissed || !scrolledPast) return null;
 
-  const trackClick = () => {
-    if (typeof window === "undefined") return;
-    type DL = { push: (e: Record<string, unknown>) => void };
-    const dl = (window as unknown as { dataLayer?: DL }).dataLayer;
-    if (dl) dl.push({ event: "sticky_cta_click", cta: "agendar_videollamada", page_path: pathname });
-  };
-
   const dismiss = () => {
     sessionStorage.setItem("sticky-cta-dismissed", "1");
     setDismissed(true);
@@ -77,14 +55,11 @@ export default function StickyMobileCTA() {
 
   return (
     <>
-      <div className="sticky-agenda-cta" role="region" aria-label="Agendar reunión con Clinera">
-        <Link href={agendaHref} onClick={trackClick} className="sticky-agenda-primary">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="16" rx="2" />
-            <path d="M16 3v4M8 3v4M3 10h18" />
-          </svg>
-          {CTA_VENTAS_LABEL}
-        </Link>
+      {/* Ricardo, 7-nov-2026: los dos CTA del sitio. «Regístrate gratis» va a /contrata con la query
+          de la visita; «Solicita asistencia» abre WhatsApp de ventas. */}
+      <div className="sticky-agenda-cta" role="region" aria-label="Contratar Clinera">
+        <CtaRegistro tam="sm" corto className="sticky-agenda-primary" style={{ flex: "1 1 0", minWidth: 0 }} />
+        <CtaAsistencia tam="sm" className="sticky-agenda-ventas" datos={{ "data-sticky": "asistencia" }} />
         <button type="button" onClick={dismiss} aria-label="Cerrar" className="sticky-agenda-dismiss">
           ×
         </button>
@@ -128,6 +103,19 @@ export default function StickyMobileCTA() {
           box-shadow: 0 10px 26px -8px rgba(124, 58, 237, 0.55);
           transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
+        .sticky-agenda-ventas {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 44px;
+          text-decoration: none;
+          font-family: Inter, system-ui, sans-serif;
+          font-weight: 600;
+          font-size: 14px;
+          color: #fff;
+          border: 1.5px solid rgba(255, 255, 255, 0.55);
+          white-space: nowrap;
+        }
         .sticky-agenda-primary:active {
           transform: scale(0.97);
         }
@@ -166,7 +154,13 @@ export default function StickyMobileCTA() {
           .sticky-agenda-primary {
             flex: 1 1 0;
             min-width: 0;
-            padding: 14px 12px;
+            padding: 12px 10px !important;
+            border-radius: 12px !important;
+          }
+          .sticky-agenda-ventas {
+            flex: 1 1 0;
+            min-width: 0;
+            padding: 12px 10px;
             border-radius: 12px;
           }
         }
@@ -181,9 +175,13 @@ export default function StickyMobileCTA() {
             box-shadow: none;
           }
           .sticky-agenda-primary {
-            padding: 14px 20px;
+            padding: 14px 20px !important;
             border-radius: 999px;
             white-space: nowrap;
+          }
+          /* En escritorio el menú ya lleva «Solicita asistencia»: la barra queda con el principal (!important: el botón trae display en línea). */
+          .sticky-agenda-ventas {
+            display: none !important;
           }
         }
         @media (prefers-reduced-motion: reduce) {

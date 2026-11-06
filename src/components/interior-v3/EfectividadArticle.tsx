@@ -1,5 +1,7 @@
 "use client";
 
+import CtaPar from "@/components/cta/CtaPar";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
@@ -649,45 +651,8 @@ function ArticleFinalCta() {
             Te mostramos el sistema sobre un clon de tu base de datos con tus servicios y sucursales cargados. 30
             minutos, sin compromiso.
           </p>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <Link
-              href="/agenda"
-              style={{
-                background: GRAD,
-                color: "#fff",
-                padding: "14px 24px",
-                borderRadius: 10,
-                fontFamily: "Inter",
-                fontWeight: 600,
-                fontSize: 15,
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              Agendar reunión <span>→</span>
-            </Link>
-            <Link
-              href="/efectividad"
-              style={{
-                background: "rgba(255,255,255,.08)",
-                color: "#fff",
-                border: "1px solid rgba(255,255,255,.18)",
-                padding: "14px 24px",
-                borderRadius: 10,
-                fontFamily: "Inter",
-                fontWeight: 600,
-                fontSize: 15,
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              Ver versión corta
-            </Link>
-          </div>
+          {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+          <CtaPar oscuro />
         </div>
       </div>
     </section>

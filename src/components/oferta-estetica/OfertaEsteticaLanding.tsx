@@ -63,7 +63,7 @@ function BotonWhatsApp({ donde }: { donde: "hero" | "cierre" }) {
       href={OFERTA_WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
-      data-cta-ventas={`oferta-whatsapp-${donde}`}
+      data-cta-asistencia={`oferta-whatsapp-${donde}`}
       data-oferta-whatsapp={donde}
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -181,7 +181,7 @@ export default function OfertaEsteticaLanding({ tzIp = "" }: { tzIp?: string }) 
                 Precio regular <s>US$ {OFERTA_ESTETICA.precioRegularUsd}/mes</s>
               </p>
               <div className={styles.ctas}>
-                <CtaPrimary as="a" href={AL_FORMULARIO} data-cta-ventas="oferta-cierre" style={{ padding: "16px 28px", fontSize: 16 }}>
+                <CtaPrimary as="a" href={AL_FORMULARIO} data-cta-asistencia="oferta-cierre" style={{ padding: "16px 28px", fontSize: 16 }}>
                   {CTA_VENTAS_LABEL} <span>→</span>
                 </CtaPrimary>
                 <BotonWhatsApp donde="cierre" />

@@ -32,8 +32,11 @@ test.describe("sitio de dos productos", () => {
     await expect(body).not.toContainText("+52 clínicas activas");
     await expect(body).not.toContainText("+500 profesionales");
     await expect(body).not.toContainText("Coordina todo tu equipo");
-    await expect(body).not.toContainText(/Hablar con ventas|Agendar videollamada|Agendar demo/);
-    await expect(page.locator("#faq")).toContainText("¿La publicidad está incluida en el Ecosistema?");
+    // Ricardo, 7-nov-2026: dos acciones en todo el sitio, «Regístrate gratis» y «Solicita asistencia».
+    await expect(body).toContainText("Regístrate gratis");
+    await expect(body).toContainText("Solicita asistencia");
+    await expect(body).not.toContainText(/Contratar Hex|Hablar con ventas|Agendar reunión|Agendar videollamada|Agendar demo|Ver demo 3 min/);
+    await expect(page.locator("#faq")).toContainText("¿Cómo funciona la prueba gratis?");
   });
 
   test("Vortex incluye Clinera Intelligence, el agente interno", () => {
