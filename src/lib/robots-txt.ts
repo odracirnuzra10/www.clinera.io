@@ -76,6 +76,7 @@ const STAR_DISALLOW = [
   "/promo",
   "/planes2",
   "/contrata",
+  "/kimi-gratis",
   "/oferta-clinicas-esteticas",
   "/super-promo",
   "/home2",
