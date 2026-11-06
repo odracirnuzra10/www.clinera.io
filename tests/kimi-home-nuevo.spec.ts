@@ -303,6 +303,13 @@ test("/kimi muestra el flujo y los logos reales del home", async ({ page }) => {
   await expect(logos.locator("img").nth(0)).toHaveAttribute("src", "/presentacion/clientes/hebe.png");
   await expect(logos.locator("img").nth(3)).toHaveAttribute("src", "/presentacion/clientes/sanatorio.png");
   await expect(logos.locator("img").nth(4)).toHaveAttribute("src", "/presentacion/clientes/everest-mono.png");
+  const cinta = page.locator("[data-testid=kimi-logos]");
+  await expect(cinta.locator(".marcas-pista")).toHaveCount(2);
+  for (const nombre of ["Beauty Esthetics", "Clínica Terra", "Dermalife", "Aura Dental", "Clínica Nova", "Dermacenter"]) {
+    await expect(cinta).toContainText(nombre);
+  }
+  const pista = await cinta.locator(".marcas-pista").first().evaluate((el) => el.scrollWidth);
+  expect(pista).toBeGreaterThan(1400);
   const orden = await page.evaluate(() => {
     const y = (sel: string) => document.querySelector(sel)?.getBoundingClientRect().top ?? 0;
     return { hero: y("#top"), logos: y("[data-testid=kimi-logos]"), dolor: y("#dolor") };

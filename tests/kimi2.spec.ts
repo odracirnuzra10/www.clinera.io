@@ -120,3 +120,28 @@ test("/kimi2 pide los cuatro datos antes de abrir WhatsApp", async ({ page }) =>
   expect(abierto).toContain("56985581524");
   expect(abierto).toContain("necesito");
 });
+
+test("/kimi2 usa la misma cinta densa de clínicas que /kimi", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/kimi2", { waitUntil: "domcontentloaded" });
+  const cinta = page.locator("[data-testid=kimi-logos]");
+  const alts = await cinta.locator("ul").first().locator("img").evaluateAll((els) =>
+    els.map((el) => el.getAttribute("alt")),
+  );
+  expect(alts).toEqual([
+    "Método Hebe",
+    "Protocolo Lumina",
+    "Andes Salud",
+    "Sanatorio Alemán",
+    "Everest Clínicas Dentales",
+    "Sonríe",
+  ]);
+  await expect(cinta.locator(".marcas-pista")).toHaveCount(2);
+  for (const nombre of ["Beauty Esthetics", "Clínica Terra", "Dermalife", "Aura Dental", "Dermacenter"]) {
+    await expect(cinta).toContainText(nombre);
+  }
+  const pista = await cinta.locator(".marcas-pista").first().evaluate((el) => el.scrollWidth);
+  expect(pista).toBeGreaterThan(1400);
+  const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
+  expect(ancho).toBeLessThanOrEqual(390);
+});
