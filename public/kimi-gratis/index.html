@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Clinera | Crea tu cuenta gratis</title>
+<title>Clinera | Software médico con IA: crea tu cuenta gratis</title>
 <meta name="description" content="Crea tu cuenta gratis y registra tu clínica. Demo de 7 días. Después, dentro de la plataforma, eliges Flux, Hex o Xcale.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -803,6 +803,34 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   .mcta.mcta-fin{transform:translateY(110%);opacity:0;pointer-events:none}
   body:has(#mobile-cta.mcta-fin){padding-bottom:0}
 }
+
+/* Logos (6-nov, Ricardo): frase a la izquierda y caja cuadrada con 3 filas que se mueven. */
+.marcas{padding:88px 0;border-top:1px solid var(--border)}
+.marcas-grid{display:grid;grid-template-columns:1fr minmax(0,460px);gap:56px;align-items:center}
+.marcas .marcas-copy p{text-align:left;margin-bottom:14px}
+.marcas-copy h2{font-size:clamp(1.8rem,3.4vw,2.6rem);max-width:13em}
+.marcas-caja{aspect-ratio:1/1;display:flex;flex-direction:column;justify-content:center;gap:40px;background:#fff;border:1px solid var(--border);border-radius:24px;padding:24px 0;overflow:hidden}
+.marcas-pista.lenta{animation-duration:56s}
+.marcas-caja .marcas-mask{-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+@media (max-width:860px){
+  .marcas{padding:56px 0}
+  .marcas-grid{grid-template-columns:1fr;gap:24px}
+  .marcas-caja{aspect-ratio:auto;padding:28px 0;gap:26px}
+}
+@media (prefers-reduced-motion:reduce){.marcas-caja{aspect-ratio:auto}}
+/* La franja de debajo del hero respira un poco más */
+.cifra{padding:32px 24px}
+.cifra span{margin-top:4px}
+
+.marcas-caja{justify-content:space-evenly;gap:0;padding:12px 0}
+.marcas-caja li{height:56px}
+.marcas-caja img{height:44px;max-width:170px}
+.marcas-caja .marca-txt{font-size:20px;height:44px;gap:9px}
+.marcas-caja .marca-txt svg{width:24px;height:24px}
+.marcas-caja .marca-txt.caps{font-size:15px}
+.marcas-caja .marca-txt.serif{font-size:22px}
+.marcas-caja .marcas-pista ul{gap:36px;padding:0 18px}
+@media (max-width:860px){.marcas-caja{padding:26px 0;gap:22px}.marcas-caja li{height:44px}.marcas-caja img{height:34px}.marcas-caja .marca-txt{font-size:17px}}
 </style>
 </head>
 <body>
@@ -845,9 +873,9 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   <span class="glow g1" aria-hidden="true"></span><span class="glow g2" aria-hidden="true"></span>
   <div class="wrap">
     <div class="copy">
-      <p class="demo-pill rv">Demo de 7 días</p>
+      <p class="demo-pill rv">Demo de 7 días · Para médicos y clínicas</p>
       <h1 class="rv" style="--i:1">Crea tu cuenta <span class="grad-txt">gratis</span></h1>
-      <p class="sub rv" style="--i:2"><strong>Tú atiendes. Clinera responde el WhatsApp, agenda y cobra la evaluación.</strong> Registra y activa tu clínica: usas Clinera 7 días y después, dentro de la plataforma, eliges el plan.</p>
+      <p class="sub rv" style="--i:2"><strong>Tú atiendes pacientes. Clinera responde el WhatsApp, agenda y cobra la evaluación.</strong> Registra y activa tu clínica: usas Clinera 7 días y después, dentro de la plataforma, eliges el plan.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
         <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Registra y activa tu clínica</button>
       </div>
@@ -879,83 +907,6 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   </div>
 </section>
 
-<section class="marcas" data-testid="kimi-logos" aria-label="Usado por clínicas líderes en Chile y LATAM">
-  <p class="eyebrow">Usado por clínicas líderes en Chile y LATAM</p>
-  <div class="marcas-filas">
-    <div class="marcas-mask">
-      <div class="marcas-pista">
-        <ul>
-          <li><img src="/presentacion/clientes/hebe.png" alt="Método Hebe" width="160" height="48"></li>
-          <li><span class="marca-txt" role="img" aria-label="Beauty Esthetics"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/></svg><span>Beauty Esthetics</span></span></li>
-          <li><img src="/presentacion/clientes/lumina.png" alt="Protocolo Lumina" width="160" height="48"></li>
-          <li><span class="marca-txt serif" role="img" aria-label="Clínica Terra"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.2 16.8C6.2 10.6 10.4 6 17.6 5.6 16.2 12.2 12.4 17 6.2 17.8c.2-1.6 1.6-2.8 3.2-3.4-1.2.2-2.4.8-3.2 2.4z"/></svg><span>Clínica Terra</span></span></li>
-          <li><img src="/presentacion/clientes/andes.png" alt="Andes Salud" width="160" height="48"></li>
-          <li><span class="marca-txt caps" role="img" aria-label="Aura Dental"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M5.5 16.2V12a6.5 6.5 0 0 1 13 0v4.2"/><path fill="currentColor" d="M8 16.4h2.1v-3.2H8zm5.9 0H16v-3.2h-2.1z"/></svg><span>Aura Dental</span></span></li>
-          <li><img src="/presentacion/clientes/sanatorio.png" alt="Sanatorio Alemán" width="160" height="48"></li>
-          <li><span class="marca-txt" role="img" aria-label="Dermacenter"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.2" y="4.2" width="15.6" height="15.6" rx="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path stroke="currentColor" stroke-width="1.7" d="M12 8v8M8 12h8"/></svg><span>Dermacenter</span></span></li>
-          <li><img src="/presentacion/clientes/everest-mono.png" alt="Everest Clínicas Dentales" width="160" height="48"></li>
-          <li><span class="marca-txt" role="img" aria-label="Clínica Nova"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.4l1.9 5.1 5.4.4-4.1 3.5 1.3 5.3L12 15.2 7.5 17.7 8.8 12.4 4.7 8.9l5.4-.4L12 3.4z"/></svg><span>Clínica Nova</span></span></li>
-          <li><img src="/presentacion/clientes/sonrie.png" alt="Sonríe" width="160" height="48"></li>
-          <li><span class="marca-txt caps" role="img" aria-label="Dermalife"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.2c3.6 4.4 5.8 7.3 5.8 10.1a5.8 5.8 0 1 1-11.6 0c0-2.8 2.2-5.7 5.8-10.1z"/></svg><span>Dermalife</span></span></li>
-        </ul>
-        <ul aria-hidden="true">
-          <li><img src="/presentacion/clientes/hebe.png" alt="" width="160" height="48"></li>
-          <li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/></svg><span>Beauty Esthetics</span></span></li>
-          <li><img src="/presentacion/clientes/lumina.png" alt="" width="160" height="48"></li>
-          <li><span class="marca-txt serif"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.2 16.8C6.2 10.6 10.4 6 17.6 5.6 16.2 12.2 12.4 17 6.2 17.8c.2-1.6 1.6-2.8 3.2-3.4-1.2.2-2.4.8-3.2 2.4z"/></svg><span>Clínica Terra</span></span></li>
-          <li><img src="/presentacion/clientes/andes.png" alt="" width="160" height="48"></li>
-          <li><span class="marca-txt caps"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M5.5 16.2V12a6.5 6.5 0 0 1 13 0v4.2"/><path fill="currentColor" d="M8 16.4h2.1v-3.2H8zm5.9 0H16v-3.2h-2.1z"/></svg><span>Aura Dental</span></span></li>
-          <li><img src="/presentacion/clientes/sanatorio.png" alt="" width="160" height="48"></li>
-          <li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.2" y="4.2" width="15.6" height="15.6" rx="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path stroke="currentColor" stroke-width="1.7" d="M12 8v8M8 12h8"/></svg><span>Dermacenter</span></span></li>
-          <li><img src="/presentacion/clientes/everest-mono.png" alt="" width="160" height="48"></li>
-          <li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.4l1.9 5.1 5.4.4-4.1 3.5 1.3 5.3L12 15.2 7.5 17.7 8.8 12.4 4.7 8.9l5.4-.4L12 3.4z"/></svg><span>Clínica Nova</span></span></li>
-          <li><img src="/presentacion/clientes/sonrie.png" alt="" width="160" height="48"></li>
-          <li><span class="marca-txt caps"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.2c3.6 4.4 5.8 7.3 5.8 10.1a5.8 5.8 0 1 1-11.6 0c0-2.8 2.2-5.7 5.8-10.1z"/></svg><span>Dermalife</span></span></li>
-        </ul>
-      </div>
-    </div>
-    <div class="marcas-mask">
-      <div class="marcas-pista vuelta">
-        <ul>
-          <li><span class="marca-txt" role="img" aria-label="Clínica Lumen"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="currentColor"/><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M12 4.2v2.1M12 17.7v2.1M4.2 12h2.1M17.7 12h2.1M6.6 6.6l1.5 1.5M15.9 15.9l1.5 1.5M17.4 6.6l-1.5 1.5M8.1 15.9l-1.5 1.5"/></svg><span>Clínica Lumen</span></span></li>
-          <li><span class="marca-txt" role="img" aria-label="Vitalis Médica"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.2 4h3.6v6.2H20v3.6h-6.2V20h-3.6v-6.2H4v-3.6h6.2V4z"/></svg><span>Vitalis Médica</span></span></li>
-          <li><span class="marca-txt caps" role="img" aria-label="Dentalia"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 4.4h8c1.1 0 2 .8 2 2.1 0 2.3-.4 4.4-1.2 6.2-.6 1.3-1.5 3.2-2.3 4.9-.4.8-1.4.7-1.6-.2-.3-1.3-.7-2-1.7-2s-1.4.7-1.7 2c-.2.9-1.2 1-1.6.2-.8-1.7-1.7-3.6-2.3-4.9C6.4 10.9 6 8.8 6 6.5c0-1.3.8-2.1 2-2.1z"/></svg><span>Dentalia</span></span></li>
-          <li><span class="marca-txt serif" role="img" aria-label="Clínica Olivo"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 19.5v-8.2M7.2 14.2c.2-3.6 2.6-6.4 7.4-6.6-1.2 4.2-3.6 6.8-7.4 6.6zm9.6 0c-.2-3.6-2.6-6.4-7.4-6.6 1.2 4.2 3.6 6.8 7.4 6.6z"/></svg><span>Clínica Olivo</span></span></li>
-          <li><span class="marca-txt" role="img" aria-label="Centro Alba"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 16.2h16V18H4zm2.4-1.6a5.6 5.6 0 0 1 11.2 0H6.4z"/><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M12 4.4v2.2M6.4 7.2l1.5 1.5M17.6 7.2l-1.5 1.5"/></svg><span>Centro Alba</span></span></li>
-          <li><span class="marca-txt caps" role="img" aria-label="Pielar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.2 18.6 12 12 20.8 5.4 12 12 3.2z"/></svg><span>Pielar</span></span></li>
-          <li><span class="marca-txt" role="img" aria-label="Clínica Marea"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M3 9.2c1.8 0 1.8 2 3.6 2s1.8-2 3.6-2 1.8 2 3.6 2 1.8-2 3.6-2 1.8 2 3.6 2M3 14.4c1.8 0 1.8 2 3.6 2s1.8-2 3.6-2 1.8 2 3.6 2 1.8-2 3.6-2 1.8 2 3.6 2"/></svg><span>Clínica Marea</span></span></li>
-          <li><span class="marca-txt" role="img" aria-label="Odontología Prisma"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.6 19.4 18H4.6L12 3.6z"/></svg><span>Odontología Prisma</span></span></li>
-          <li><span class="marca-txt serif" role="img" aria-label="Clínica Serena"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.2 4.4a6.8 6.8 0 1 0 4.6 11.6 5.6 5.6 0 1 1-4.6-11.6z"/></svg><span>Clínica Serena</span></span></li>
-          <li><span class="marca-txt" role="img" aria-label="Clínica Bruma"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.2 16.2h10.4a3.4 3.4 0 0 0 .4-6.8 4.6 4.6 0 0 0-8.8-1.2 3.2 3.2 0 0 0-2 8z"/></svg><span>Clínica Bruma</span></span></li>
-          <li><span class="marca-txt" role="img" aria-label="Médica Litoral"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 15.2c2.2-2.4 4.2-2.4 6.2 0s4 2.4 6.2 0 3.6-2.4 5.6 0v2.2H4v-2.2zM4 10.2c2.2-2.4 4.2-2.4 6.2 0s4 2.4 6.2 0 3.6-2.4 5.6 0v1.6c-2-.9-3.6-.2-5.2 1.2-2.2 1.8-4.4 1.8-6.6 0S6.2 11.2 4 11.8v-1.6z"/></svg><span>Médica Litoral</span></span></li>
-          <li><span class="marca-txt caps" role="img" aria-label="Centro Navia"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="currentColor" d="M12 6.2 13.1 11h4.7l-3.8 2.8 1.5 4.6L12 15.6 8.5 18.4l1.5-4.6L6.2 11h4.7L12 6.2z"/></svg><span>Centro Navia</span></span></li>
-        </ul>
-        <ul aria-hidden="true">
-          <li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="currentColor"/><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M12 4.2v2.1M12 17.7v2.1M4.2 12h2.1M17.7 12h2.1M6.6 6.6l1.5 1.5M15.9 15.9l1.5 1.5M17.4 6.6l-1.5 1.5M8.1 15.9l-1.5 1.5"/></svg><span>Clínica Lumen</span></span></li>
-          <li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.2 4h3.6v6.2H20v3.6h-6.2V20h-3.6v-6.2H4v-3.6h6.2V4z"/></svg><span>Vitalis Médica</span></span></li>
-          <li><span class="marca-txt caps"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 4.4h8c1.1 0 2 .8 2 2.1 0 2.3-.4 4.4-1.2 6.2-.6 1.3-1.5 3.2-2.3 4.9-.4.8-1.4.7-1.6-.2-.3-1.3-.7-2-1.7-2s-1.4.7-1.7 2c-.2.9-1.2 1-1.6.2-.8-1.7-1.7-3.6-2.3-4.9C6.4 10.9 6 8.8 6 6.5c0-1.3.8-2.1 2-2.1z"/></svg><span>Dentalia</span></span></li>
-          <li><span class="marca-txt serif"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 19.5v-8.2M7.2 14.2c.2-3.6 2.6-6.4 7.4-6.6-1.2 4.2-3.6 6.8-7.4 6.6zm9.6 0c-.2-3.6-2.6-6.4-7.4-6.6 1.2 4.2 3.6 6.8 7.4 6.6z"/></svg><span>Clínica Olivo</span></span></li>
-          <li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 16.2h16V18H4zm2.4-1.6a5.6 5.6 0 0 1 11.2 0H6.4z"/><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M12 4.4v2.2M6.4 7.2l1.5 1.5M17.6 7.2l-1.5 1.5"/></svg><span>Centro Alba</span></span></li>
-          <li><span class="marca-txt caps"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.2 18.6 12 12 20.8 5.4 12 12 3.2z"/></svg><span>Pielar</span></span></li>
-          <li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M3 9.2c1.8 0 1.8 2 3.6 2s1.8-2 3.6-2 1.8 2 3.6 2 1.8-2 3.6-2 1.8 2 3.6 2M3 14.4c1.8 0 1.8 2 3.6 2s1.8-2 3.6-2 1.8 2 3.6 2 1.8-2 3.6-2 1.8 2 3.6 2"/></svg><span>Clínica Marea</span></span></li>
-          <li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.6 19.4 18H4.6L12 3.6z"/></svg><span>Odontología Prisma</span></span></li>
-          <li><span class="marca-txt serif"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.2 4.4a6.8 6.8 0 1 0 4.6 11.6 5.6 5.6 0 1 1-4.6-11.6z"/></svg><span>Clínica Serena</span></span></li>
-          <li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.2 16.2h10.4a3.4 3.4 0 0 0 .4-6.8 4.6 4.6 0 0 0-8.8-1.2 3.2 3.2 0 0 0-2 8z"/></svg><span>Clínica Bruma</span></span></li>
-          <li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 15.2c2.2-2.4 4.2-2.4 6.2 0s4 2.4 6.2 0 3.6-2.4 5.6 0v2.2H4v-2.2zM4 10.2c2.2-2.4 4.2-2.4 6.2 0s4 2.4 6.2 0 3.6-2.4 5.6 0v1.6c-2-.9-3.6-.2-5.2 1.2-2.2 1.8-4.4 1.8-6.6 0S6.2 11.2 4 11.8v-1.6z"/></svg><span>Médica Litoral</span></span></li>
-          <li><span class="marca-txt caps"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="currentColor" d="M12 6.2 13.1 11h4.7l-3.8 2.8 1.5 4.6L12 15.6 8.5 18.4l1.5-4.6L6.2 11h4.7L12 6.2z"/></svg><span>Centro Navia</span></span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pain" id="dolor" data-testid="banner-dolor" aria-labelledby="t-dolor">
-  <div class="wrap">
-    <p id="t-dolor">Deja de perder plata con softwares caros y obsoletos que no te dejan competir</p>
-    <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Registra y activa tu clínica</button>
-  </div>
-</section>
-
 <section class="sec medico" id="funciones" data-testid="kimi-medico" aria-labelledby="t-fun">
   <div class="wrap medico-grid">
     <div class="medico-intro">
@@ -976,6 +927,44 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     </ol>
   </div>
 </section>
+
+<section class="marcas" data-testid="kimi-logos" aria-label="Usado por clínicas líderes en Chile y LATAM">
+  <div class="wrap marcas-grid">
+    <div class="marcas-copy">
+      <p class="eyebrow">Usado por clínicas líderes en Chile y LATAM</p>
+      <h2>El sistema que ocupan las grandes redes de clínicas del país</h2>
+    </div>
+    <div class="marcas-caja marcas-filas">
+      <div class="marcas-mask">
+        <div class="marcas-pista ">
+          <ul><li><img src="/presentacion/clientes/hebe.png" alt="Método Hebe" width="160" height="48"></li><li><span class="marca-txt" role="img" aria-label="Beauty Esthetics"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/></svg><span>Beauty Esthetics</span></span></li><li><img src="/presentacion/clientes/lumina.png" alt="Protocolo Lumina" width="160" height="48"></li><li><span class="marca-txt serif" role="img" aria-label="Clínica Terra"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.2 16.8C6.2 10.6 10.4 6 17.6 5.6 16.2 12.2 12.4 17 6.2 17.8c.2-1.6 1.6-2.8 3.2-3.4-1.2.2-2.4.8-3.2 2.4z"/></svg><span>Clínica Terra</span></span></li><li><img src="/presentacion/clientes/andes.png" alt="Andes Salud" width="160" height="48"></li><li><span class="marca-txt caps" role="img" aria-label="Aura Dental"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M5.5 16.2V12a6.5 6.5 0 0 1 13 0v4.2"/><path fill="currentColor" d="M8 16.4h2.1v-3.2H8zm5.9 0H16v-3.2h-2.1z"/></svg><span>Aura Dental</span></span></li><li><img src="/presentacion/clientes/sanatorio.png" alt="Sanatorio Alemán" width="160" height="48"></li><li><span class="marca-txt" role="img" aria-label="Dermacenter"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.2" y="4.2" width="15.6" height="15.6" rx="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path stroke="currentColor" stroke-width="1.7" d="M12 8v8M8 12h8"/></svg><span>Dermacenter</span></span></li></ul>
+          <ul aria-hidden="true"><li><img src="/presentacion/clientes/hebe.png" alt="" width="160" height="48"></li><li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/></svg><span>Beauty Esthetics</span></span></li><li><img src="/presentacion/clientes/lumina.png" alt="" width="160" height="48"></li><li><span class="marca-txt serif"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.2 16.8C6.2 10.6 10.4 6 17.6 5.6 16.2 12.2 12.4 17 6.2 17.8c.2-1.6 1.6-2.8 3.2-3.4-1.2.2-2.4.8-3.2 2.4z"/></svg><span>Clínica Terra</span></span></li><li><img src="/presentacion/clientes/andes.png" alt="" width="160" height="48"></li><li><span class="marca-txt caps"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M5.5 16.2V12a6.5 6.5 0 0 1 13 0v4.2"/><path fill="currentColor" d="M8 16.4h2.1v-3.2H8zm5.9 0H16v-3.2h-2.1z"/></svg><span>Aura Dental</span></span></li><li><img src="/presentacion/clientes/sanatorio.png" alt="" width="160" height="48"></li><li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.2" y="4.2" width="15.6" height="15.6" rx="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path stroke="currentColor" stroke-width="1.7" d="M12 8v8M8 12h8"/></svg><span>Dermacenter</span></span></li></ul>
+        </div>
+      </div>
+      <div class="marcas-mask">
+        <div class="marcas-pista vuelta">
+          <ul><li><img src="/presentacion/clientes/everest-mono.png" alt="Everest Clínicas Dentales" width="160" height="48"></li><li><span class="marca-txt" role="img" aria-label="Clínica Nova"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.4l1.9 5.1 5.4.4-4.1 3.5 1.3 5.3L12 15.2 7.5 17.7 8.8 12.4 4.7 8.9l5.4-.4L12 3.4z"/></svg><span>Clínica Nova</span></span></li><li><img src="/presentacion/clientes/sonrie.png" alt="Sonríe" width="160" height="48"></li><li><span class="marca-txt caps" role="img" aria-label="Dermalife"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.2c3.6 4.4 5.8 7.3 5.8 10.1a5.8 5.8 0 1 1-11.6 0c0-2.8 2.2-5.7 5.8-10.1z"/></svg><span>Dermalife</span></span></li><li><span class="marca-txt" role="img" aria-label="Clínica Lumen"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="currentColor"/><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M12 4.2v2.1M12 17.7v2.1M4.2 12h2.1M17.7 12h2.1M6.6 6.6l1.5 1.5M15.9 15.9l1.5 1.5M17.4 6.6l-1.5 1.5M8.1 15.9l-1.5 1.5"/></svg><span>Clínica Lumen</span></span></li><li><span class="marca-txt" role="img" aria-label="Vitalis Médica"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.2 4h3.6v6.2H20v3.6h-6.2V20h-3.6v-6.2H4v-3.6h6.2V4z"/></svg><span>Vitalis Médica</span></span></li><li><span class="marca-txt caps" role="img" aria-label="Dentalia"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 4.4h8c1.1 0 2 .8 2 2.1 0 2.3-.4 4.4-1.2 6.2-.6 1.3-1.5 3.2-2.3 4.9-.4.8-1.4.7-1.6-.2-.3-1.3-.7-2-1.7-2s-1.4.7-1.7 2c-.2.9-1.2 1-1.6.2-.8-1.7-1.7-3.6-2.3-4.9C6.4 10.9 6 8.8 6 6.5c0-1.3.8-2.1 2-2.1z"/></svg><span>Dentalia</span></span></li><li><span class="marca-txt serif" role="img" aria-label="Clínica Olivo"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 19.5v-8.2M7.2 14.2c.2-3.6 2.6-6.4 7.4-6.6-1.2 4.2-3.6 6.8-7.4 6.6zm9.6 0c-.2-3.6-2.6-6.4-7.4-6.6 1.2 4.2 3.6 6.8 7.4 6.6z"/></svg><span>Clínica Olivo</span></span></li></ul>
+          <ul aria-hidden="true"><li><img src="/presentacion/clientes/everest-mono.png" alt="" width="160" height="48"></li><li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.4l1.9 5.1 5.4.4-4.1 3.5 1.3 5.3L12 15.2 7.5 17.7 8.8 12.4 4.7 8.9l5.4-.4L12 3.4z"/></svg><span>Clínica Nova</span></span></li><li><img src="/presentacion/clientes/sonrie.png" alt="" width="160" height="48"></li><li><span class="marca-txt caps"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.2c3.6 4.4 5.8 7.3 5.8 10.1a5.8 5.8 0 1 1-11.6 0c0-2.8 2.2-5.7 5.8-10.1z"/></svg><span>Dermalife</span></span></li><li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="currentColor"/><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M12 4.2v2.1M12 17.7v2.1M4.2 12h2.1M17.7 12h2.1M6.6 6.6l1.5 1.5M15.9 15.9l1.5 1.5M17.4 6.6l-1.5 1.5M8.1 15.9l-1.5 1.5"/></svg><span>Clínica Lumen</span></span></li><li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.2 4h3.6v6.2H20v3.6h-6.2V20h-3.6v-6.2H4v-3.6h6.2V4z"/></svg><span>Vitalis Médica</span></span></li><li><span class="marca-txt caps"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 4.4h8c1.1 0 2 .8 2 2.1 0 2.3-.4 4.4-1.2 6.2-.6 1.3-1.5 3.2-2.3 4.9-.4.8-1.4.7-1.6-.2-.3-1.3-.7-2-1.7-2s-1.4.7-1.7 2c-.2.9-1.2 1-1.6.2-.8-1.7-1.7-3.6-2.3-4.9C6.4 10.9 6 8.8 6 6.5c0-1.3.8-2.1 2-2.1z"/></svg><span>Dentalia</span></span></li><li><span class="marca-txt serif"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 19.5v-8.2M7.2 14.2c.2-3.6 2.6-6.4 7.4-6.6-1.2 4.2-3.6 6.8-7.4 6.6zm9.6 0c-.2-3.6-2.6-6.4-7.4-6.6 1.2 4.2 3.6 6.8 7.4 6.6z"/></svg><span>Clínica Olivo</span></span></li></ul>
+        </div>
+      </div>
+      <div class="marcas-mask">
+        <div class="marcas-pista lenta">
+          <ul><li><span class="marca-txt" role="img" aria-label="Centro Alba"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 16.2h16V18H4zm2.4-1.6a5.6 5.6 0 0 1 11.2 0H6.4z"/><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M12 4.4v2.2M6.4 7.2l1.5 1.5M17.6 7.2l-1.5 1.5"/></svg><span>Centro Alba</span></span></li><li><span class="marca-txt caps" role="img" aria-label="Pielar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.2 18.6 12 12 20.8 5.4 12 12 3.2z"/></svg><span>Pielar</span></span></li><li><span class="marca-txt" role="img" aria-label="Clínica Marea"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M3 9.2c1.8 0 1.8 2 3.6 2s1.8-2 3.6-2 1.8 2 3.6 2 1.8-2 3.6-2 1.8 2 3.6 2M3 14.4c1.8 0 1.8 2 3.6 2s1.8-2 3.6-2 1.8 2 3.6 2 1.8-2 3.6-2 1.8 2 3.6 2"/></svg><span>Clínica Marea</span></span></li><li><span class="marca-txt" role="img" aria-label="Odontología Prisma"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.6 19.4 18H4.6L12 3.6z"/></svg><span>Odontología Prisma</span></span></li><li><span class="marca-txt serif" role="img" aria-label="Clínica Serena"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.2 4.4a6.8 6.8 0 1 0 4.6 11.6 5.6 5.6 0 1 1-4.6-11.6z"/></svg><span>Clínica Serena</span></span></li><li><span class="marca-txt" role="img" aria-label="Clínica Bruma"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.2 16.2h10.4a3.4 3.4 0 0 0 .4-6.8 4.6 4.6 0 0 0-8.8-1.2 3.2 3.2 0 0 0-2 8z"/></svg><span>Clínica Bruma</span></span></li><li><span class="marca-txt" role="img" aria-label="Médica Litoral"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 15.2c2.2-2.4 4.2-2.4 6.2 0s4 2.4 6.2 0 3.6-2.4 5.6 0v2.2H4v-2.2zM4 10.2c2.2-2.4 4.2-2.4 6.2 0s4 2.4 6.2 0 3.6-2.4 5.6 0v1.6c-2-.9-3.6-.2-5.2 1.2-2.2 1.8-4.4 1.8-6.6 0S6.2 11.2 4 11.8v-1.6z"/></svg><span>Médica Litoral</span></span></li><li><span class="marca-txt caps" role="img" aria-label="Centro Navia"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="currentColor" d="M12 6.2 13.1 11h4.7l-3.8 2.8 1.5 4.6L12 15.6 8.5 18.4l1.5-4.6L6.2 11h4.7L12 6.2z"/></svg><span>Centro Navia</span></span></li></ul>
+          <ul aria-hidden="true"><li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 16.2h16V18H4zm2.4-1.6a5.6 5.6 0 0 1 11.2 0H6.4z"/><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M12 4.4v2.2M6.4 7.2l1.5 1.5M17.6 7.2l-1.5 1.5"/></svg><span>Centro Alba</span></span></li><li><span class="marca-txt caps"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.2 18.6 12 12 20.8 5.4 12 12 3.2z"/></svg><span>Pielar</span></span></li><li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M3 9.2c1.8 0 1.8 2 3.6 2s1.8-2 3.6-2 1.8 2 3.6 2 1.8-2 3.6-2 1.8 2 3.6 2M3 14.4c1.8 0 1.8 2 3.6 2s1.8-2 3.6-2 1.8 2 3.6 2 1.8-2 3.6-2 1.8 2 3.6 2"/></svg><span>Clínica Marea</span></span></li><li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.6 19.4 18H4.6L12 3.6z"/></svg><span>Odontología Prisma</span></span></li><li><span class="marca-txt serif"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.2 4.4a6.8 6.8 0 1 0 4.6 11.6 5.6 5.6 0 1 1-4.6-11.6z"/></svg><span>Clínica Serena</span></span></li><li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.2 16.2h10.4a3.4 3.4 0 0 0 .4-6.8 4.6 4.6 0 0 0-8.8-1.2 3.2 3.2 0 0 0-2 8z"/></svg><span>Clínica Bruma</span></span></li><li><span class="marca-txt"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 15.2c2.2-2.4 4.2-2.4 6.2 0s4 2.4 6.2 0 3.6-2.4 5.6 0v2.2H4v-2.2zM4 10.2c2.2-2.4 4.2-2.4 6.2 0s4 2.4 6.2 0 3.6-2.4 5.6 0v1.6c-2-.9-3.6-.2-5.2 1.2-2.2 1.8-4.4 1.8-6.6 0S6.2 11.2 4 11.8v-1.6z"/></svg><span>Médica Litoral</span></span></li><li><span class="marca-txt caps"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path fill="currentColor" d="M12 6.2 13.1 11h4.7l-3.8 2.8 1.5 4.6L12 15.6 8.5 18.4l1.5-4.6L6.2 11h4.7L12 6.2z"/></svg><span>Centro Navia</span></span></li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pain" id="dolor" data-testid="banner-dolor" aria-labelledby="t-dolor">
+  <div class="wrap">
+    <p id="t-dolor">Más tiempo con tus pacientes. Menos tiempo en el WhatsApp.</p>
+    <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Registra y activa tu clínica</button>
+  </div>
+</section>
+
+
 
 <section class="sec hebe" id="hebe" data-testid="hebe-testimonio">
   <div class="wrap">
