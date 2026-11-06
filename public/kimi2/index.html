@@ -443,7 +443,7 @@ footer a.ext{color:var(--text);font-weight:500}
 .chip{min-height:44px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--border);background:#fff;color:var(--text);font:600 16px/1.15 Inter,system-ui,sans-serif;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:#5B21B6}
 .extras-card .btn{width:100%;min-height:52px;font-size:16px}
-.cuenta{position:fixed;inset:0;z-index:110;display:grid;place-items:center;padding:16px}
+.cuenta{position:fixed;inset:0;z-index:210;display:grid;place-items:center;padding:16px}
 .cuenta[hidden]{display:none}
 .cuenta-fondo{position:absolute;inset:0;background:rgba(17,24,39,.45);border:0}
 .cuenta-card{position:relative;width:min(440px,100%);max-height:min(92dvh,640px);overflow:auto;background:#fff;color:#111827;border-radius:20px;padding:22px 20px;box-shadow:0 18px 50px rgba(17,24,39,.2)}
@@ -451,8 +451,10 @@ footer a.ext{color:var(--text);font-weight:500}
 .cuenta-card h2{font-size:1.7rem;line-height:1.1;letter-spacing:-.03em;margin:0 0 8px;padding-right:40px}
 .cuenta-card p{margin:0 0 14px;color:#374151}
 .cuenta-card label{display:block;margin:0 0 12px;font-weight:650;font-size:.92rem}
-.cuenta-card input{display:block;width:100%;margin-top:6px;min-height:48px;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font:400 16px/1.3 Inter,system-ui,sans-serif;color:var(--text);background:#fff}
-.cuenta-card input:focus{outline:2px solid var(--accent);outline-offset:2px}
+.cuenta-card input,.cuenta-card select{display:block;width:100%;margin-top:6px;min-height:48px;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font:400 16px/1.3 Inter,system-ui,sans-serif;color:var(--text);background:#fff}
+.cuenta-card .phone{display:grid;grid-template-columns:96px 1fr;gap:8px;margin-top:6px;width:100%}
+.cuenta-card .phone input,.cuenta-card .phone select{margin-top:0}
+.cuenta-card input:focus,.cuenta-card select:focus{outline:2px solid var(--accent);outline-offset:2px}
 .cuenta-error{color:#B91C1C;font-weight:650}
 .cuenta-card .btn{width:100%;min-height:52px;font-size:16px}
 @media (min-width:720px){
@@ -922,12 +924,14 @@ footer a.ext{color:var(--text);font-weight:500}
     <h2 id="cuenta-titulo">Crea tu cuenta</h2>
     <p data-cuenta-resumen>Vortex · promoción · $89.</p>
     <label>Nombre<input name="nombre" autocomplete="name" required maxlength="80"></label>
+    <label>Celular<span class="phone"><select name="prefijo" aria-label="Prefijo del país"><option value="+56" selected>+56</option><option value="+52">+52</option><option value="+57">+57</option><option value="+51">+51</option><option value="+54">+54</option><option value="+593">+593</option><option value="+598">+598</option><option value="+1">+1</option></select><input name="celular" type="tel" inputmode="tel" autocomplete="tel-national" required maxlength="15" placeholder="9 1234 5678"></span></label>
     <label>Correo<input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120"></label>
     <label>Nombre de la clínica<input name="clinica" autocomplete="organization" required maxlength="120"></label>
-    <p class="cuenta-error" data-cuenta-error hidden>Completa nombre, correo y el nombre de la clínica.</p>
+    <p class="cuenta-error" data-cuenta-error hidden>Completa nombre, celular, correo y el nombre de la clínica.</p>
     <p class="cuenta-ok" data-cuenta-ok hidden>Listo. Guardamos tu plan.</p>
     <a class="btn grad" href="https://mpago.la/22dyhQr" data-cuenta-pagar data-plan="flux" data-plan-name="Clinera Flux" data-plan-value="14.5" hidden>Pagar $14.495</a>
     <button class="btn grad cuenta-listo" type="button" data-cuenta-listo>Crea tu cuenta</button>
+    <button class="btn wa" type="button" data-asistencia-enviar hidden><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Abrir WhatsApp</span></button>
   </form>
 </div>
 
@@ -1067,7 +1071,7 @@ footer a.ext{color:var(--text);font-weight:500}
   var IDS=Object.keys(SPEC);
   var cart={};
   IDS.forEach(function(id){cart[id]=0;});
-  var abierto=false, enviando=false, promoOff=false, toastT=0;
+  var abierto=false, enviando=false, promoOff=false, toastT=0, cuentaModo="cuenta";
   var PLANES={
     flux:{nombre:"Flux",precio:"$29",nota:"Flux · $29. En Chile, hoy pagas $14.495 por 30 días.",mp:true},
     hex:{nombre:"Hex",precio:"$79",nota:"Hex · $79. Guardamos este plan en tu cuenta.",mp:false},
@@ -1246,17 +1250,29 @@ footer a.ext{color:var(--text);font-weight:500}
     var pagar=document.querySelector("[data-cuenta-pagar]");
     var listo=document.querySelector("[data-cuenta-listo]");
     var resumen=document.querySelector("[data-cuenta-resumen]");
-    if(resumen) resumen.textContent=spec.nota;
-    if(pagar){
-      pagar.hidden=!spec.mp;
-      if(spec.mp){
-        pagar.setAttribute("href","https://mpago.la/22dyhQr");
-        pagar.setAttribute("data-plan","flux");
-        pagar.setAttribute("data-plan-name","Clinera Flux");
-        pagar.setAttribute("data-plan-value","14.5");
+    var enviarWa=document.querySelector("[data-asistencia-enviar]");
+    var tituloCuenta=document.getElementById("cuenta-titulo");
+    if(cuentaModo==="asistencia"){
+      if(resumen) resumen.textContent="Deja tus datos y te abrimos WhatsApp.";
+      if(pagar) pagar.hidden=true;
+      if(listo) listo.hidden=true;
+      if(enviarWa) enviarWa.hidden=false;
+      if(tituloCuenta) tituloCuenta.textContent="Solicita asistencia";
+    }else{
+      if(resumen) resumen.textContent=spec.nota;
+      if(pagar){
+        pagar.hidden=!spec.mp;
+        if(spec.mp){
+          pagar.setAttribute("href","https://mpago.la/22dyhQr");
+          pagar.setAttribute("data-plan","flux");
+          pagar.setAttribute("data-plan-name","Clinera Flux");
+          pagar.setAttribute("data-plan-value","14.5");
+        }
       }
+      if(listo) listo.hidden=!!spec.mp;
+      if(enviarWa) enviarWa.hidden=true;
+      if(tituloCuenta) tituloCuenta.textContent="Crea tu cuenta";
     }
-    if(listo) listo.hidden=!!spec.mp;
     if(drawer)drawer.hidden=!abierto;
     if(velo)velo.hidden=!abierto;
     if(icono)icono.setAttribute("aria-expanded",abierto?"true":"false");
@@ -1291,30 +1307,43 @@ footer a.ext{color:var(--text);font-weight:500}
       if(guardada.nombre) cuentaForm.elements.nombre.value=guardada.nombre;
       if(guardada.email) cuentaForm.elements.email.value=guardada.email;
       if(guardada.clinica) cuentaForm.elements.clinica.value=guardada.clinica;
+      if(guardada.prefijo&&cuentaForm.elements.prefijo) cuentaForm.elements.prefijo.value=guardada.prefijo;
+      if(guardada.celular&&cuentaForm.elements.celular) cuentaForm.elements.celular.value=guardada.celular;
     }
   }catch(e){}
+  var FONO={"+56":[9,/^9\d{8}$/],"+52":[10,/^[2-9]\d{9}$/],"+54":[10,/^\d{10}$/],"+57":[10,null],"+51":[9,/^9\d{8}$/],"+593":[9,/^9\d{8}$/],"+598":[8,null],"+1":[10,/^(787|939)\d{7}$/]};
+  function fonoOk(prefijo,raw){
+    var regla=FONO[prefijo], digits=String(raw||"").replace(/\D/g,"");
+    if(!regla||digits.length!==regla[0]) return "";
+    if(regla[1]&&!regla[1].test(digits)) return "";
+    return digits;
+  }
   function cuentaDatos(form){
     if(!form) return null;
     var nombre=(form.elements.nombre.value||"").trim();
     var email=(form.elements.email.value||"").trim();
     var clinica=(form.elements.clinica.value||"").trim();
+    var prefijo=form.elements.prefijo?form.elements.prefijo.value:"+56";
+    var digits=fonoOk(prefijo,form.elements.celular&&form.elements.celular.value);
     form.elements.nombre.value=nombre;
     form.elements.email.value=email;
     form.elements.clinica.value=clinica;
     var correoOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if(!nombre||!correoOk||!clinica){
+    if(!nombre||!correoOk||!clinica||!digits){
       if(cuentaError) cuentaError.hidden=false;
       return null;
     }
     if(cuentaError) cuentaError.hidden=true;
-    return {nombre:nombre,email:email,clinica:clinica};
+    return {nombre:nombre,email:email,clinica:clinica,prefijo:prefijo,celular:digits,telefono:prefijo+digits};
   }
-  function guardarCuenta(datos){
+  function guardarCuenta(datos, origen){
     try{ sessionStorage.setItem("clinera_cuenta", JSON.stringify(datos)); }catch(e){}
     var q=new URLSearchParams(location.search);
     var lead="organico";
     if(q.get("gclid")||q.get("gbraid")||q.get("wbraid")) lead="google-ads";
     else if(q.get("fbclid")) lead="meta-ads";
+    var asistencia=origen==="asistencia";
+    var plan=PLANES[planElegido]||PLANES.vortex;
     fetch("/api/wizard",{
       method:"POST",
       keepalive:true,
@@ -1326,17 +1355,27 @@ footer a.ext{color:var(--text);font-weight:500}
         email:datos.email,
         nombre_clinica:datos.clinica,
         clinica:datos.clinica,
+        telefono:datos.telefono,
+        celular:datos.telefono,
+        celular_prefix:datos.prefijo,
+        celular_digits:datos.celular,
         lead_source:lead,
-        fuente:"Landing /kimi2 — "+(PLANES[planElegido]||PLANES.vortex).nombre,
+        fuente:asistencia?"Landing /kimi2 — asistencia":"Landing /kimi2 — "+plan.nombre,
         source_path:"/kimi2",
         landing_url:location.href,
         plan:planElegido,
-        servicio_interes_label:(PLANES[planElegido]||PLANES.vortex).nombre+" "+(PLANES[planElegido]||PLANES.vortex).precio,
+        servicio_interes_label:asistencia?"Solicita asistencia":plan.nombre+" "+plan.precio,
         servicio_interes:"ambas"
       })
     }).catch(function(){});
   }
-  function abrirCuenta(){
+  function abrirWhatsApp(){
+    var url="https://wa.me/56985581524?text=necesito%20asistencia";
+    var ventana=window.open(url,"_blank","noopener,noreferrer");
+    if(!ventana) location.href=url;
+  }
+  function abrirCuenta(modo){
+    cuentaModo=modo==="asistencia"?"asistencia":"cuenta";
     abierto=false;
     var ok=document.querySelector("[data-cuenta-ok]");
     if(ok) ok.hidden=true;
@@ -1406,6 +1445,17 @@ footer a.ext{color:var(--text);font-weight:500}
 
   document.addEventListener("click",function(ev){
     if(ev.target.closest("[data-cuenta-cerrar]")){cerrarCuenta();return;}
+    var enviarWa=ev.target.closest("[data-asistencia-enviar]");
+    if(enviarWa){
+      ev.preventDefault();
+      var datosWa=cuentaDatos(cuentaForm);
+      if(!datosWa) return;
+      guardarCuenta(datosWa,"asistencia");
+      cerrarCuenta();
+      abrirWhatsApp();
+      return;
+    }
+    if(ev.target.closest("[data-cta=asistencia]")){ev.preventDefault();abrirCuenta("asistencia");return;}
     var pagarCuenta=ev.target.closest("[data-cuenta-pagar]");
     if(pagarCuenta){
       var datos=cuentaDatos(cuentaForm);

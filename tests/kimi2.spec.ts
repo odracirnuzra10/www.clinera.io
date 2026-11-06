@@ -55,6 +55,7 @@ test("Vortex guarda el plan y Flux es el único que cobra en Mercado Pago", asyn
 
   const lead = page.waitForRequest((req) => req.url().includes("/api/wizard") && req.method() === "POST");
   await modal.locator("input[name=nombre]").fill("Ana Ruiz");
+  await modal.locator("input[name=celular]").fill("912345678");
   await modal.locator("input[name=email]").fill("ana@clinica.test");
   await modal.locator("input[name=clinica]").fill("Clínica Norte");
   await listo.click();
@@ -62,6 +63,8 @@ test("Vortex guarda el plan y Flux es el único que cobra en Mercado Pago", asyn
   expect(body.plan).toBe("vortex");
   expect(body.source_path).toBe("/kimi2");
   expect(body.servicio_interes_label).toBe("Vortex $89");
+  expect(body.celular_digits).toBe("912345678");
+  expect(body.telefono).toBe("+56912345678");
   await expect(modal.locator("[data-cuenta-ok]")).toContainText("Vortex");
 
   await page.getByRole("button", { name: "Cerrar cuenta" }).click();
@@ -72,4 +75,38 @@ test("Vortex guarda el plan y Flux es el único que cobra en Mercado Pago", asyn
   await expect(pagar).toBeVisible();
   await expect(pagar).toHaveAttribute("href", "https://mpago.la/22dyhQr");
   await expect(modal.locator("[data-cuenta-listo]")).toBeHidden();
+  await expect(modal.locator("[data-asistencia-enviar]")).toBeHidden();
+});
+
+test("/kimi2 pide los cuatro datos antes de abrir WhatsApp", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/kimi2", { waitUntil: "domcontentloaded" });
+  await page.locator("#comenzar").scrollIntoViewIfNeeded();
+  await page.locator("#comenzar").getByRole("link", { name: "Solicita asistencia" }).click();
+  const modal = page.locator("[data-cuenta]");
+  await expect(modal).toBeVisible();
+  await expect(modal.locator("#cuenta-titulo")).toHaveText("Solicita asistencia");
+  await expect(modal.locator("[data-asistencia-enviar]")).toBeVisible();
+  await expect(modal.locator("[data-cuenta-pagar]")).toBeHidden();
+  await expect(modal.locator("[data-cuenta-listo]")).toBeHidden();
+  await modal.locator("[data-asistencia-enviar]").click();
+  await expect(modal.locator("[data-cuenta-error]")).toBeVisible();
+  let lead: { fuente?: string; telefono?: string; servicio_interes_label?: string } | null = null;
+  await page.route("**/api/wizard", async (route) => {
+    lead = route.request().postDataJSON();
+    await route.abort();
+  });
+  await page.route("https://wa.me/**", (route) => route.abort());
+  await modal.locator("input[name=nombre]").fill("Ana Ruiz");
+  await modal.locator("input[name=celular]").fill("912345678");
+  await modal.locator("input[name=email]").fill("ana@clinica.test");
+  await modal.locator("input[name=clinica]").fill("Clínica Norte");
+  const popup = page.waitForEvent("popup");
+  await modal.locator("[data-asistencia-enviar]").click();
+  await expect.poll(() => lead?.telefono).toBe("+56912345678");
+  expect(lead?.fuente).toBe("Landing /kimi2 — asistencia");
+  expect(lead?.servicio_interes_label).toBe("Solicita asistencia");
+  const abierto = (await popup).url();
+  expect(abierto).toContain("56985581524");
+  expect(abierto).toContain("necesito");
 });

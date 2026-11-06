@@ -131,7 +131,7 @@ test("/kimi vende la prueba de $14.495 y Crea tu cuenta abre el modal", async ({
   await expect(drawer).not.toContainText("$28.000");
   const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
   expect(ancho).toBeLessThanOrEqual(1280);
-  let lead: { nombre?: string; email?: string; clinica?: string } | null = null;
+  let lead: { nombre?: string; email?: string; clinica?: string; celular_digits?: string; telefono?: string } | null = null;
   await page.route("**/api/wizard", async (route) => {
     lead = route.request().postDataJSON();
     await route.fulfill({ status: 503, contentType: "application/json", body: "{}" });
@@ -141,9 +141,52 @@ test("/kimi vende la prueba de $14.495 y Crea tu cuenta abre el modal", async ({
   await modal.locator("input[name=email]").fill("ana@clinica.cl");
   await modal.locator("input[name=clinica]").fill("Clínica Vela");
   await modal.locator("[data-cuenta-pagar]").click();
+  await expect(modal.locator("[data-cuenta-error]")).toBeVisible();
+  expect(lead).toBeNull();
+  await modal.locator("input[name=celular]").fill("912345678");
+  await modal.locator("[data-cuenta-pagar]").click();
   await expect.poll(() => lead?.email).toBe("ana@clinica.cl");
   expect(lead?.nombre).toBe("Ana Soto");
   expect(lead?.clinica).toBe("Clínica Vela");
+  expect(lead?.celular_digits).toBe("912345678");
+  expect(lead?.telefono).toBe("+56912345678");
+});
+
+test("/kimi pide los cuatro datos antes de abrir WhatsApp", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/kimi", { waitUntil: "domcontentloaded" });
+  const popups: string[] = [];
+  page.on("popup", (popup) => {
+    popups.push(popup.url());
+  });
+  await page.locator("#comenzar").getByRole("link", { name: "Solicita asistencia" }).click();
+  const modal = page.locator("[data-cuenta]");
+  await expect(modal).toBeVisible();
+  await expect(modal.locator("#cuenta-titulo")).toHaveText("Solicita asistencia");
+  await expect(modal.locator("[data-asistencia-enviar]")).toBeVisible();
+  await expect(modal.locator("[data-cuenta-pagar]")).toBeHidden();
+  await expect(modal.locator("input[name=nombre]")).toHaveValue("");
+  await modal.locator("[data-asistencia-enviar]").click();
+  await expect(modal.locator("[data-cuenta-error]")).toBeVisible();
+  expect(popups).toEqual([]);
+  let lead: { fuente?: string; celular_digits?: string; servicio_interes_label?: string } | null = null;
+  await page.route("**/api/wizard", async (route) => {
+    lead = route.request().postDataJSON();
+    await route.fulfill({ status: 503, contentType: "application/json", body: "{}" });
+  });
+  await page.route("https://wa.me/**", (route) => route.abort());
+  await modal.locator("input[name=nombre]").fill("Ana Soto");
+  await modal.locator("input[name=celular]").fill("912345678");
+  await modal.locator("input[name=email]").fill("ana@clinica.cl");
+  await modal.locator("input[name=clinica]").fill("Clínica Vela");
+  const popup = page.waitForEvent("popup");
+  await modal.locator("[data-asistencia-enviar]").click();
+  await expect.poll(() => lead?.celular_digits).toBe("912345678");
+  expect(lead?.fuente).toBe("Landing /kimi — asistencia");
+  expect(lead?.servicio_interes_label).toBe("Solicita asistencia");
+  const abierto = (await popup).url();
+  expect(abierto).toContain("56985581524");
+  expect(abierto).toContain("necesito");
 });
 
 test("en el celular la barra ofrece Crea tu cuenta por $14.495 y la asistencia aparece al final", async ({ page }) => {
