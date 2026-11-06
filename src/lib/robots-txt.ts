@@ -80,6 +80,7 @@ const STAR_DISALLOW = [
   "/super-promo",
   "/home2",
   "/home-nuevo",
+  "/kimi2",
   "/go$",
   "/go/",
   "/*?utm_*",

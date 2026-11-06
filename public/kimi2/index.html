@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clinera | Flux $29, Hex $79 y Vortex $89</title>
+<meta name="description" content="Tres planes: Flux $29, Hex $79 y Vortex $89 en promoción. Crea tu cuenta y elige el plan de tu clínica.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Paleta (Ricardo, 5-nov-2026): blanco, casi negro y gris. Un solo acento violeta sólido (--accent) para el CTA
+   principal, el plan recomendado y el wizard. El hero conserva un neón lila difuminado. */
+:root{
+  --text:#0A0A0A;--muted:#6B7280;--border:#E5E7EB;--soft:#FAFAFA;--soft2:#F3F4F6;
+  --accent:#6D28D9;--accent-h:#5B21B6;--accent-soft:#F5F3FF;
+  --maxw:1120px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html,body{overflow-x:hidden}
+@supports (overflow:clip){html,body{overflow-x:clip}}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);background:#fff;line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+h1,h2,h3{margin:0;line-height:1.1;letter-spacing:-.025em;font-weight:700}
+p{margin:0}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+section{scroll-margin-top:72px}
+.eyebrow{font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.serif{font-family:"IBM Plex Serif",Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-.01em}
+.micro{font-size:.82rem;color:var(--muted)}
+
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:12px;top:-60px;background:var(--text);color:#fff;padding:10px 16px;border-radius:8px;z-index:100;text-decoration:none;font-weight:600}
+.skip:focus{top:12px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--text);color:#fff;border:1.5px solid var(--text);border-radius:10px;padding:12px 20px;font:600 .95rem/1 Inter,sans-serif;text-decoration:none;cursor:pointer;transition:background .2s,transform .15s,border-color .2s}
+.btn[hidden]{display:none}
+.btn:hover{background:#262626}
+.btn:active{transform:scale(.98)}
+.btn.sm{padding:9px 14px;font-size:.88rem}
+.btn.block{width:100%}
+.btn.ghost{background:transparent;color:var(--text);border-color:var(--border)}
+.btn.ghost:hover{background:var(--soft2)}
+.btn.outline{background:transparent;color:var(--text);border-color:var(--text)}
+.btn.outline:hover{background:var(--soft2)}
+.btn.outline.light{color:#fff;border-color:#fff}
+.btn.outline.light:hover{background:rgba(255,255,255,.12)}
+/* CTA principal: violeta sólido */
+.btn.grad{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 8px 24px -8px rgba(109,40,217,.45)}
+.btn.grad:hover{background:var(--accent-h);border-color:var(--accent-h)}
+.btn.wa{background:#25D366;border-color:#25D366;color:#fff;font-weight:700}
+.btn.wa:hover{background:#1ebe5a;border-color:#1ebe5a}
+.wa-ico{width:18px;height:18px;flex:none;display:block;fill:currentColor}
+.nav-cta{display:flex;align-items:center;gap:8px}
+.nav-cta .btn{min-height:44px;font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.15}
+.nav-cta .btn.grad{font-weight:700;padding:8px 18px}
+.nav-cta .btn.wa{font-weight:700;padding:8px 12px}
+/* Par 60/40: el carrito ocupa 3 partes, WhatsApp 2. Mismo alto. */
+.par{display:flex;flex-wrap:nowrap;align-items:stretch;gap:10px;width:min(100%,560px)}
+.par .btn{flex:2 1 0;align-self:stretch;min-height:52px;padding:10px 12px;font-family:Inter,system-ui,sans-serif;font-size:16px;font-weight:600;line-height:1.15;white-space:normal;text-align:center}
+.par .btn.grad{flex:3 1 0;font-weight:700}
+.par .btn.wa{font-weight:700}
+.par .btn.wa span{min-width:0}
+.cta-band .par{margin-inline:auto}
+.drawer footer .par{width:100%;max-width:none}
+.drawer footer .par .btn{min-height:52px}
+.drawer footer > .btn{width:100%;min-height:52px}
+.hero .cta .btn{min-height:52px;font-size:16px;padding:12px 22px}
+/* botón con aspecto de enlace («Volver a la oferta» del wizard) */
+.btn-link{display:inline-block;background:none;border:0;padding:8px 4px;font:600 .92rem/1.3 Inter,sans-serif;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.btn-link:hover{color:var(--text)}
+
+/* icons */
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ic-box{width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:#fff;color:var(--text);display:grid;place-items:center;margin-bottom:18px}
+
+/* nav */
+header.nav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.nav-acciones{display:flex;align-items:center;gap:8px;margin-left:auto}
+.logo{display:inline-flex;align-items:center;text-decoration:none}
+.logo img{height:28px;width:auto;display:block}
+footer .logo img{height:24px}
+.wiz-logo{position:absolute;top:24px;left:28px;z-index:1}
+.wiz-logo img{height:26px;width:auto;display:block}
+
+/* hero */
+.hero{position:relative;isolation:isolate;overflow:hidden;min-height:calc(100dvh - 64px);display:flex;align-items:center;padding:72px 0;background:#fff}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;grid-template-areas:"copy testi" "chat testi";gap:24px 64px;align-items:start;width:100%}
+.hero .copy{grid-area:copy;align-self:end}
+.hero .chat{grid-area:chat}
+.hero .testi{grid-area:testi;align-self:center}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.8rem);font-weight:800;margin-bottom:22px;max-width:20em}
+.hero .sub{font-size:1.1rem;color:var(--muted);max-width:30em;margin-bottom:30px}
+.hero .sub strong{color:var(--text);font-weight:700}
+.hero .micro{margin-top:12px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.cta.par{align-items:stretch;flex-wrap:nowrap;gap:10px}
+/* neón lila: el único color ambiental de la página */
+.glow{position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(110px)}
+.glow.g1{width:560px;height:560px;left:-160px;top:-120px;background:rgba(196,181,253,.55)}
+.glow.g2{width:420px;height:420px;right:-120px;bottom:-180px;background:rgba(196,181,253,.35)}
+/* testimonio: foto + texto en HTML, neutro */
+.testi{margin:0;border:1px solid var(--border);border-radius:18px;padding:10px;background:#fff;box-shadow:0 30px 80px -40px rgba(10,10,10,.25);max-width:440px;justify-self:end;width:100%}
+.testi img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px}
+.testi figcaption{padding:20px 12px 10px}
+.testi blockquote{margin:0 0 16px}
+.testi blockquote p{font-family:"IBM Plex Serif",Georgia,serif;font-style:italic;font-size:1.12rem;line-height:1.4;letter-spacing:-.01em;color:var(--text)}
+.testi-name{font-weight:700;font-size:.98rem}
+.testi-handle{color:var(--muted);font-size:.86rem}
+.testi-meta{color:var(--muted);font-size:.86rem;margin-top:8px;line-height:1.5}
+.chat{margin-top:24px;max-width:360px;border:1px solid var(--border);border-radius:14px;background:#fff;padding:14px;display:flex;flex-direction:column;gap:8px;font-size:.88rem}
+.chat .who{font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.msg{padding:9px 12px;border-radius:12px;max-width:88%;line-height:1.45}
+.msg.p{background:var(--soft2);align-self:flex-start}
+.msg.a{background:var(--text);color:#fff;align-self:flex-end}
+.msg.a u{text-underline-offset:2px}
+
+/* generic section */
+.sec{padding:96px 0}
+.sec+.sec{border-top:1px solid var(--border)}
+.sec h2{font-size:clamp(1.9rem,3.8vw,2.7rem);max-width:16em;margin-bottom:14px}
+.sec .lead{color:var(--muted);font-size:1.05rem;max-width:38em;margin-bottom:56px}
+
+/* 3 funciones clave */
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pasos-lista{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:12px}
+.pasos-lista li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:center;border:1px solid var(--border);border-radius:16px;padding:16px 18px;background:#fff}
+.pasos-lista span{width:44px;height:44px;border-radius:999px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:1.15rem}
+.pasos-lista p{margin:0;font-size:1.15rem;font-weight:650;letter-spacing:-.02em;line-height:1.25}
+.pasos .cta .btn{width:100%;max-width:28rem;min-height:52px;padding:14px 20px;font-size:16px;line-height:1.25;white-space:normal;text-align:center}
+.planes3{display:grid;grid-template-columns:1fr;gap:12px;align-items:stretch}
+.pcard{order:1;border:1px solid var(--border);border-radius:16px;padding:18px 16px 16px;background:#fff;display:flex;flex-direction:column;gap:10px}
+.pcard.recom{order:0;border:2px solid var(--accent);background:var(--accent-soft);box-shadow:0 24px 50px -36px rgba(109,40,217,.75)}
+.pcard h3{font-size:1.4rem;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.badge-plan{flex:none;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:var(--accent);color:#fff;border-radius:999px;padding:4px 8px}
+.pcard .precio{margin:0}
+.pcard .precio b{font-size:2rem}
+.pcard .precio small{color:var(--muted);font-weight:600;font-size:.85rem}
+.pcard ul{list-style:none;margin:0;padding:8px 0 0;display:grid;gap:6px;font-size:.98rem}
+.pcard .btn{width:100%;min-height:48px;font-size:16px;margin-top:auto}
+.cuenta-listo[hidden],.cuenta [data-cuenta-pagar][hidden]{display:none}
+.flujo{display:grid;justify-items:center;gap:0;margin:6px 0 28px}
+.flujo-fuentes{list-style:none;margin:0;padding:0;display:grid;gap:8px;width:min(100%,280px);position:relative}
+.abanico{display:none}
+.flujo-fuentes li{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:12px 14px;font-weight:650;font-size:.98rem}
+.flujo-fuentes .ic{width:18px;height:18px;color:var(--accent)}
+.conector{position:relative;width:2px;height:36px;justify-self:center;background:repeating-linear-gradient(to bottom,#E5E7EB 0 4px,transparent 4px 9px)}
+.conector i{position:absolute;left:50%;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(109,40,217,.14);animation:fluir-y 1.8s linear infinite;opacity:0}
+.conector i:nth-child(2){animation-delay:.6s}
+.conector i:nth-child(3){animation-delay:1.2s}
+@keyframes fluir-y{0%{top:-4px;opacity:0}14%{opacity:1}86%{opacity:1}100%{top:32px;opacity:0}}
+@keyframes fluir-x{0%{left:-4px;opacity:0}14%{opacity:1}86%{opacity:1}100%{left:calc(100% - 4px);opacity:0}}
+.flujo-hub{display:flex;align-items:center;background:#111;border-radius:999px;padding:8px 16px;box-shadow:0 18px 40px -24px rgba(109,40,217,.85)}
+.flujo-hub img{height:28px;width:auto;max-width:none}
+.flujo-log{width:min(100%,420px);background:#111;color:#fff;border-radius:18px;padding:14px 16px 6px;box-shadow:0 24px 50px -32px rgba(0,0,0,.55)}
+.flujo-vivo{display:flex;align-items:center;gap:8px;margin:0 0 6px;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#A7F3D0}
+.flujo-vivo span{width:7px;height:7px;border-radius:50%;background:#34D399;animation:pulso 1.8s ease infinite}
+@keyframes pulso{70%{box-shadow:0 0 0 6px rgba(52,211,153,0)}}
+.flujo-log ol{list-style:none;margin:0;padding:0}
+.flujo-log li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:9px 0;border-top:1px solid rgba(255,255,255,.08);font-size:.92rem;opacity:.4;animation:fila 6.4s ease-in-out infinite}
+.flujo-log li:nth-child(2){animation-delay:1.6s}
+.flujo-log li:nth-child(3){animation-delay:3.2s}
+.flujo-log li:nth-child(4){animation-delay:4.8s}
+.flujo-log em{font-style:normal;color:#9CA3AF;font-size:.75rem}
+.flujo-log svg{width:14px;height:14px;stroke:#34D399;fill:none;stroke-width:2.4;flex:none}
+@keyframes fila{0%,8%{opacity:.38}18%,34%{opacity:1}48%,100%{opacity:.38}}
+.marcas{padding:8px 0 28px}
+.marcas p{text-align:center;margin-bottom:16px}
+.marcas-mask{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.marcas-pista{display:flex;width:max-content;animation:marcas 32s linear infinite}
+.marcas-pista ul{display:flex;align-items:center;gap:52px;list-style:none;margin:0;padding:0 26px}
+.marcas img{height:40px;width:auto;max-width:none;object-fit:contain;filter:brightness(0);opacity:.55}
+@keyframes marcas{to{transform:translateX(-50%)}}
+.feat{border:1px solid var(--border);border-radius:16px;background:#fff;padding:28px 26px;display:flex;flex-direction:column}
+.feat h3{font-size:1.25rem;margin-bottom:10px;letter-spacing:-.02em}
+.feat p{color:var(--muted);font-size:.95rem;max-width:26em}
+.feat .ic-box{margin-bottom:22px}
+.feat .feat-tag{margin:-8px 0 12px}
+.feat .chs{margin-top:18px;gap:8px}
+.feat .chs .ch{width:24px;height:24px}
+
+/* logos de canales (colores oficiales, solo en estos íconos chicos) */
+.ch{width:18px;height:18px;flex:none;display:block}
+.chs{display:inline-flex;gap:5px;align-items:center;vertical-align:middle}
+
+/* Un solo plan: prueba de $14.495 por 30 días. Después, $78.990. */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.plan{border:1px solid var(--border);border-radius:16px;padding:26px;background:#fff;display:flex;flex-direction:column;gap:14px}
+.plan.entry{border:2px solid var(--accent);box-shadow:0 30px 70px -40px rgba(109,40,217,.45)}
+.tag{align-self:flex-start;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--accent);color:#fff}
+.tag.soft{background:#fff;color:var(--muted);border:1px solid var(--border)}
+.plan h3{font-size:1.3rem;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.price{font-size:2.4rem;font-weight:700;letter-spacing:-.03em;line-height:1;display:flex;align-items:baseline;gap:6px}
+.price .cur{font-size:.95rem;font-weight:600;color:var(--muted);letter-spacing:0}
+.price small{font-size:.95rem;color:var(--muted);font-weight:500;letter-spacing:0}
+.plan .size{font-size:.88rem;color:var(--muted);margin:-4px 0 0}
+.plan ul{list-style:none;margin:0 0 8px;padding:0;display:grid;gap:10px;align-content:start;font-size:.93rem;flex:1}
+.plan li{display:flex;gap:10px;align-items:flex-start}
+.plan li .ic{width:18px;height:18px;color:var(--muted);margin-top:3px}
+.plan.entry li .ic{color:var(--accent)}
+.plan:not(.entry) li{color:#374151}
+.plan li.no{color:var(--muted)}
+.plan li.no .ic{color:#9CA3AF}
+.plan li.no small{display:block;font-size:.82rem}
+.plan-cta{display:grid;gap:8px;justify-items:stretch}
+.plan-cta .btn-link{justify-self:center}
+.addons{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.addons li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:.93rem}
+.addons small{display:block;color:var(--muted);font-size:.8rem;font-weight:500;margin-top:2px}
+.addons b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.note{margin-top:28px;color:var(--muted);font-size:.9rem}
+
+/* wizard */
+.field{margin-bottom:20px}
+label,.lbl{display:block;font-weight:600;font-size:.88rem;margin-bottom:6px}
+input,select{width:100%;font:inherit;font-size:1rem;color:var(--text);background:#fff;border:1px solid #D1D5DB;border-radius:10px;padding:12px 14px;min-height:46px}
+input:hover,select:hover{border-color:#9CA3AF}
+input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+[aria-invalid="true"]{border-color:#B91C1C}
+.err{color:#B91C1C;font-size:.83rem;margin-top:6px;min-height:0}
+.phone{display:grid;grid-template-columns:128px 1fr;gap:8px}
+.wiz-privacy{margin-top:-6px;margin-bottom:6px}
+
+html.wiz-lock,html.wiz-lock body{overflow:hidden}
+.wiz{position:fixed;inset:0;z-index:200;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);height:100dvh;background:#fff;color:var(--text);overflow:hidden;animation:wizin .25s ease}
+.wiz[hidden]{display:none}
+@keyframes wizin{from{opacity:0}to{opacity:1}}
+.wiz-panel{position:relative;overflow:hidden;background:var(--text);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:28px 32px;text-align:center;min-height:0}
+.wiz-panel>*:not(.glow){position:relative;z-index:1}
+.wiz-panel .glow{filter:blur(100px)}
+.wiz-panel .g1{width:380px;height:380px;left:-120px;top:-100px;background:rgba(196,181,253,.28)}
+.wiz-mock{width:min(420px,100%);border:1px solid rgba(255,255,255,.16);border-radius:18px;background:rgba(255,255,255,.06);padding:16px;display:flex;flex-direction:column;gap:8px;text-align:left;font-size:.86rem;box-shadow:0 30px 70px -30px rgba(0,0,0,.8)}
+.wiz-mock .top{display:flex;align-items:center;gap:8px;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:4px}
+.wiz-mock .top i{width:8px;height:8px;border-radius:50%;background:#fff}
+.wiz-mock .b{padding:8px 12px;border-radius:12px;max-width:86%;line-height:1.4}
+.wiz-mock .p{background:rgba(255,255,255,.1);align-self:flex-start}
+.wiz-mock .a{background:#fff;color:var(--text);align-self:flex-end}
+.wiz-mock .ok{display:flex;align-items:center;gap:8px;margin-top:4px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);font-weight:600}
+.wiz-mock .ok .ic{width:16px;height:16px;color:#fff}
+.wiz-msg{max-width:440px;font-size:1.05rem;font-weight:600;line-height:1.45;color:rgba(255,255,255,.9)}
+.wiz-side{position:relative;display:flex;overflow-y:auto;overscroll-behavior:contain;background:#fff;min-width:0;min-height:0}
+.wiz-content{position:relative;z-index:1;width:100%;max-width:520px;margin:auto;padding:64px 24px 32px}
+.wiz-close{position:absolute;top:16px;right:16px;z-index:2;width:40px;height:40px;border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--text);display:grid;place-items:center;cursor:pointer}
+.wiz-close:hover{background:var(--soft2)}
+.wiz-close .ic{width:18px;height:18px}
+.wiz-progress{display:flex;gap:8px;margin-bottom:14px}
+.wiz-progress span{flex:1 1 0;height:4px;border-radius:999px;background:#ECECF1;transition:background .3s}
+.wiz-progress span.on{background:var(--accent)}
+.wiz-stepl{display:block;text-align:center;letter-spacing:.12em;text-transform:uppercase;font-size:.74rem;font-weight:700;color:var(--muted)}
+.wiz-title{text-align:center;letter-spacing:-.03em;font-size:clamp(1.4rem,6vw,1.9rem);font-weight:800;line-height:1.1;margin:10px 0 6px;outline:none}
+.wiz-sub{text-align:center;color:var(--muted);font-size:.95rem;margin-bottom:18px}
+.wiz-chip{display:table;margin:0 auto 14px;font-size:.78rem;font-weight:600;color:var(--muted);background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:4px 12px}
+.wiz-chip strong{color:var(--text)}
+.wiz-chip[hidden]{display:none}
+.wiz-opts{display:grid;gap:10px;margin-top:8px}
+.wiz-opt{position:relative;display:block;margin:0;cursor:pointer;font-weight:inherit;font-size:inherit}
+.wiz-opt input{position:absolute;inset:0;width:100%;height:100%;min-height:0;margin:0;padding:0;opacity:0;cursor:pointer}
+.wiz-opt .box{display:block;position:relative;background:#fff;border:1.5px solid #E5E7EB;border-radius:16px;padding:14px 56px 14px 16px}
+.wiz-opt .box b{display:block;font-size:1.02rem;font-weight:700}
+.wiz-opt .box small{display:block;color:var(--muted);font-size:.84rem;margin-top:2px}
+.wiz-opt .mark{position:absolute;right:16px;top:50%;margin-top:-12px;width:24px;height:24px;border:1.5px solid #C4C9D4;border-radius:999px;display:grid;place-items:center;color:#fff}
+.wiz-opt .mark .ic{width:14px;height:14px;opacity:0;stroke-width:2.4}
+.wiz-opt input:hover + .box{border-color:#9CA3AF}
+.wiz-opt input:checked + .box{background:var(--accent-soft);border-color:var(--accent);box-shadow:0 0 0 3px rgba(109,40,217,.12)}
+.wiz-opt input:checked + .box .mark{background:var(--accent);border-color:var(--accent)}
+.wiz-opt input:checked + .box .mark .ic{opacity:1}
+.wiz-opt input:focus-visible + .box{outline:2px solid var(--accent);outline-offset:2px}
+.wiz-next{margin-top:10px;padding:15px 20px;background:var(--accent);border-color:var(--accent)}
+.wiz-next:hover{background:var(--accent-h);border-color:var(--accent-h)}
+.wiz-next[aria-disabled="true"]{opacity:.7;cursor:progress}
+.wiz-back{display:block;margin:14px auto 0;background:none;border:0;font:inherit;font-size:.95rem;color:var(--muted);cursor:pointer;padding:8px 12px}
+.wiz-back:hover{color:var(--text)}
+.wiz-back[hidden]{display:none}
+.wiz-sub[hidden],#wiz-form[hidden],#wiz-offer[hidden],.wiz-confirm[hidden],.wiz-wait[hidden]{display:none}
+/* confirmación de «Hablar con ventas» */
+.wiz-confirm{display:grid;justify-items:center;padding:14px 0 2px}
+.wiz-confirm .bigchk{width:68px;height:68px;border-radius:999px;background:var(--accent);color:#fff;display:grid;place-items:center;box-shadow:0 14px 40px -10px rgba(109,40,217,.5);animation:pop .45s cubic-bezier(.2,.9,.3,1.3)}
+.wiz-confirm .bigchk .ic{width:32px;height:32px;stroke-width:2.6}
+@keyframes pop{from{transform:scale(.5);opacity:0}to{transform:none;opacity:1}}
+.wiz-wait{display:grid;justify-items:center;gap:8px;color:var(--muted);font-size:.88rem;margin-top:6px;text-align:center}
+.wiz-wait .bar{display:block;width:180px;height:4px;border-radius:999px;background:#ECECF1;overflow:hidden}
+.wiz-wait .bar i{display:block;height:100%;width:0;background:var(--accent);animation:fill var(--confirm-ms,1800ms) linear forwards}
+@keyframes fill{to{width:100%}}
+/* pantalla final (solo después del formulario): eyebrow en acento, titular corto, precio grande y dos CTA */
+.wiz-stepl.ok{color:var(--accent);text-transform:none;letter-spacing:0;font-size:.86rem}
+.wiz-title.offer{font-size:clamp(1.55rem,6.4vw,2rem);line-height:1.12;margin-bottom:8px}
+#wiz-offer{display:grid;gap:12px;text-align:center}
+#wiz-offer .offer-price{display:flex;justify-content:center;align-items:baseline;gap:10px;line-height:1;margin-top:2px}
+#wiz-offer .offer-price strong{font-size:2.4rem;font-weight:800;letter-spacing:-.03em}
+#wiz-offer .offer-price strong small{font-size:1rem;font-weight:600;color:var(--muted);letter-spacing:0;margin-left:2px}
+#wiz-offer .offer-price s{color:var(--muted);font-size:1.05rem;font-weight:500}
+#wiz-offer .offer-terms{color:var(--muted);font-size:.88rem;margin-top:-4px}
+#wiz-offer .offer-incl{list-style:none;margin:2px 0 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+#wiz-offer .offer-incl li{display:inline-flex;align-items:center;gap:5px;font-size:.82rem;font-weight:600;color:var(--text);border:1px solid var(--border);border-radius:999px;padding:4px 9px 4px 7px;background:#fff;white-space:nowrap}
+#wiz-offer .offer-incl .ic{width:16px;height:16px;color:var(--accent);stroke-width:1.8}
+#wiz-offer .offer-incl .ch{width:16px;height:16px}
+.offer-cta{display:grid;gap:8px;margin-top:6px}
+.offer-cta .btn{width:100%;padding:15px 20px}
+#wiz-offer .offer-ventas{margin-top:-2px}
+#wiz-offer .offer-ventas[hidden]{display:none}
+/* embed de agenda de app.clinera.io (el mismo de /agenda) */
+#wiz-agenda{display:grid;gap:10px}
+#wiz-agenda[hidden],#wiz-booked[hidden]{display:none}
+.wiz-frame{position:relative;width:100%;min-height:520px;height:min(700px,calc(100dvh - 230px));border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--soft)}
+.wiz-frame iframe{border:0;width:100%;height:100%;display:block;background:transparent}
+.wiz-frame .loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:.9rem;pointer-events:none}
+.wiz-frame.loaded .loading{display:none}
+#wiz-agenda .btn-link,#wiz-booked .btn-link{justify-self:center}
+#wiz-booked{display:grid;gap:10px;text-align:center}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* cierre: banda casi negra */
+.cta-band{background:var(--text);color:#fff;text-align:center;border-top:0}
+.cta-band .eyebrow{color:rgba(255,255,255,.6)}
+.cta-band h2{margin-inline:auto;color:#fff}
+.cta-band .lead{margin-inline:auto;margin-bottom:28px;color:rgba(255,255,255,.7)}
+.cta-band .cta{justify-content:center}
+.cta-band .micro{color:rgba(255,255,255,.6);margin-top:14px}
+
+footer{border-top:1px solid var(--border);padding:32px 0;font-size:.88rem;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 24px;justify-content:space-between;align-items:center}
+footer nav{display:flex;flex-wrap:wrap;gap:16px}
+footer nav a{color:var(--muted);text-decoration:none}
+footer nav a:hover{color:var(--text)}
+footer a.ext{color:var(--text);font-weight:500}
+
+/* ficha + carril de adicionales + cajón (colores de Clinera) */
+.tienda{padding:28px 0 12px}
+.tienda h2{font-size:clamp(1.7rem,4vw,2.4rem);margin-bottom:14px}
+.producto{display:grid;grid-template-columns:112px minmax(0,1fr);gap:16px;border:2px solid #6D28D9;border-radius:16px;padding:14px;margin-bottom:22px;background:#F5F3FF}
+.producto-foto,.afoto{background:#F5F3FF;border-radius:12px;display:grid;place-items:center;overflow:hidden}
+.producto-foto{align-self:start;aspect-ratio:1;min-height:0}
+.producto-foto svg{width:64px;height:64px;fill:#6D28D9}
+.producto-foto img,img.afoto{width:100%;object-fit:cover;display:block}
+.producto h3{font-size:1.45rem;margin-bottom:4px}
+.producto-sub{color:var(--muted);font-size:.95rem;margin-bottom:8px}
+.precio{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin:0 0 12px}
+.precio s{color:#9CA3AF;font-size:.88rem}
+.precio b{font-size:1.45rem;letter-spacing:-.03em}
+.precio small{color:var(--muted);font-weight:500}
+.off{background:#F5F3FF;color:#5B21B6;border-radius:999px;padding:2px 8px;font-size:.72rem;font-weight:700}
+.incluye{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;list-style:none;padding:12px 0 0;margin:12px 0 0;border-top:1px solid var(--border);font-size:.9rem}
+.carril-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.carril-head h3{font-size:1.15rem}
+.carril-nav{display:flex;gap:8px}
+.carril-nav button{width:36px;height:36px;border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--accent);font-size:1.3rem;line-height:1;cursor:pointer}
+.carril{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 14px;min-width:0}
+.acard{flex:0 0 196px;scroll-snap-align:start;border:1px solid var(--border);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px;background:#fff;scroll-margin-bottom:96px}
+.afoto{height:148px}
+.afoto svg{width:36px;height:36px;fill:none;stroke:#6D28D9;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.acard h4{font-size:.95rem;line-height:1.25}
+.acard>p{color:var(--muted);font-size:.8rem;line-height:1.35;min-height:2.6em}
+.acard .precio{margin:0}
+.acard .precio b{font-size:1.05rem}
+.acard .btn,.producto .btn,.drawer footer .btn,.mcta .btn{min-height:48px}
+.acard .btn{width:100%;font-size:.85rem;margin-top:auto;white-space:normal;line-height:1.2;padding:8px 10px}
+.luego{color:var(--muted);font-size:.78rem;margin:-6px 0 10px;line-height:1.3}
+.acard .luego{margin:0 0 8px}
+.btn:disabled,.btn.grad:disabled{background:#E5E7EB;border-color:#E5E7EB;color:#374151;box-shadow:none;cursor:not-allowed;opacity:1}
+.acard.espera{filter:grayscale(1);background:#F3F4F6}
+.acard.regalo .afoto{background:#F5F3FF}
+.stepper{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border);border-radius:10px;min-height:44px;padding:0 6px}
+.stepper button{width:44px;height:44px;border:1px solid #E5E7EB;border-radius:10px;background:#fff;color:var(--accent);font-size:1.3rem;cursor:pointer}
+.acard .stepper{min-height:48px}
+.linea-acciones{grid-column:1 / -1;display:flex;align-items:center;gap:8px;margin-top:8px}
+.linea-acciones .stepper{margin:0}
+.linea-acciones .quitar-linea{margin:0}
+.quitar-linea{grid-column:1 / -1;justify-self:start;min-height:48px;min-width:44px;margin-top:4px;padding:0 16px;border:1px solid #6D28D9;border-radius:10px;background:#fff;color:#6D28D9;font:700 16px/1 Inter,sans-serif;cursor:pointer}
+.bolsa{position:relative;width:44px;height:44px;border:1px solid var(--border);border-radius:999px;background:#fff;display:grid;place-items:center;cursor:pointer;flex:none}
+.bolsa[hidden]{display:none}
+.bolsa svg{width:22px;height:22px;fill:none;stroke:#6D28D9;stroke-width:1.7}
+.badge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#6D28D9;color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+.badge[hidden]{display:none}
+.velo{position:fixed;inset:0;background:rgba(17,24,39,.45);z-index:70}
+.velo[hidden],.drawer[hidden],.toast[hidden]{display:none}
+.drawer{position:fixed;z-index:80;background:#fff;display:flex;flex-direction:column;max-height:100dvh;overflow:hidden;box-shadow:0 12px 40px rgba(17,24,39,.18)}
+.drawer header,.drawer footer{padding:14px 16px;flex:none}
+.drawer header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border)}
+.drawer header h2{font-size:1.35rem;line-height:1.15;letter-spacing:-.03em;max-width:18ch}
+.estado{display:flex;align-items:center;gap:8px;margin:0 0 4px;color:#6D28D9;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.chk{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:999px;background:#6D28D9;color:#fff;font-style:normal;font-size:11px;font-weight:700;flex:none}
+.linea .chk{margin-right:6px}
+.salida{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:16px}
+.salida[hidden]{display:none}
+.salida-fondo{position:absolute;inset:0;background:rgba(17,24,39,.45);border:0}
+.salida-card{position:relative;width:min(420px,100%);background:#fff;color:#111827;border-radius:20px;padding:22px 20px;box-shadow:0 18px 50px rgba(17,24,39,.2)}
+.salida-card h2{font-size:1.7rem;line-height:1.1;letter-spacing:-.03em;margin:0 0 8px}
+.salida-card p{margin:0 0 16px;color:#374151}
+.salida-card .estado{color:#6D28D9}
+.salida-card .btn{width:100%}
+.salida-no{display:block;width:100%;margin-top:8px;background:transparent;border:0;color:#374151;font:inherit;font-weight:650;min-height:44px;cursor:pointer}
+.drawer header button{width:44px;height:44px;border-radius:999px;border:0;background:#F5F3FF;color:#5B21B6;font-size:1.5rem;line-height:1;cursor:pointer;flex:none;touch-action:manipulation}
+.drawer-cuerpo{overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:4px 16px 8px;min-height:0;flex:1}
+.linea{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:1rem}
+.linea b{white-space:nowrap;font-size:1rem;letter-spacing:-.02em}
+.linea .stepper{grid-column:1 / -1}
+.drawer .stepper{min-height:48px}
+.drawer .stepper button{width:44px;height:44px;font-size:1.45rem;touch-action:manipulation}
+.drawer .quitar-linea{min-height:44px;touch-action:manipulation}
+.totales{display:grid;gap:4px;margin:0 0 12px;font-size:1rem}
+.totales div{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.totales .hoy{font-weight:800;font-size:1.05rem}
+.totales .hoy span:last-child{font-size:1.35rem;letter-spacing:-.03em}
+.totales .desglose{color:#374151;font-size:1rem;line-height:1.35}
+.drawer footer{background:#fff;border-top:1px solid var(--border)}
+.err{color:#991B1B;font-size:1rem;line-height:1.35;margin:10px 0 0}
+.mp-nota{margin:0 0 10px;color:#374151;font-size:.92rem;line-height:1.35}
+.toast{position:fixed;top:76px;left:16px;background:#111827;color:#fff;border-radius:999px;padding:10px 16px;z-index:60;width:max-content;max-width:calc(100% - 32px);pointer-events:none}
+@media (min-width:960px){
+  .drawer{top:0;right:0;bottom:0;width:min(420px,100%)}
+  .producto{grid-template-columns:200px minmax(0,1fr);padding:20px}
+  .producto-foto svg{width:96px;height:96px}
+}
+@media (max-width:959px){
+  .drawer{left:0;right:0;bottom:0;top:auto;max-height:100dvh;border-radius:20px 20px 0 0}
+  .drawer header{padding:12px 16px 10px}
+  .drawer footer{padding:12px 16px calc(12px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(17,24,39,.06)}
+  .toast{top:68px}
+  .mcta-row{grid-template-columns:auto minmax(0,1fr)}
+}
+@media (max-width:959px) and (max-height:700px){
+  .drawer header h2{font-size:1.15rem}
+  .linea{padding:8px 0}
+}
+.mcta-total{display:flex;flex-direction:column;justify-content:center;min-width:0;font-size:.95rem;font-weight:700;color:var(--text);line-height:1.15;letter-spacing:-.02em}
+.mcta-total span{white-space:nowrap}
+.mcta-total b{color:var(--text);font-size:1rem}
+.mcta-total b[hidden]{display:none}
+.mcta-asistencia{width:100%;margin-top:8px}
+.mcta-asistencia[hidden]{display:none}
+.extras{position:fixed;inset:0;z-index:80;display:grid;align-items:end;justify-items:center;padding:0}
+.extras[hidden]{display:none}
+.extras-fondo{position:absolute;inset:0;background:rgba(17,24,39,.45);border:0}
+.extras-card{position:relative;width:min(520px,100%);max-height:min(86dvh,640px);overflow:auto;background:#fff;color:#111827;border-radius:20px 20px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom))}
+.extras-card h2{font-size:1.45rem;line-height:1.15;letter-spacing:-.03em;margin:0 0 8px}
+.extras-card p{margin:0 0 4px;color:#374151}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 16px}
+.chip{min-height:44px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--border);background:#fff;color:var(--text);font:600 16px/1.15 Inter,system-ui,sans-serif;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:#5B21B6}
+.extras-card .btn{width:100%;min-height:52px;font-size:16px}
+.cuenta{position:fixed;inset:0;z-index:110;display:grid;place-items:center;padding:16px}
+.cuenta[hidden]{display:none}
+.cuenta-fondo{position:absolute;inset:0;background:rgba(17,24,39,.45);border:0}
+.cuenta-card{position:relative;width:min(440px,100%);max-height:min(92dvh,640px);overflow:auto;background:#fff;color:#111827;border-radius:20px;padding:22px 20px;box-shadow:0 18px 50px rgba(17,24,39,.2)}
+.cuenta-x{position:absolute;top:12px;right:12px;width:44px;height:44px;border:0;border-radius:999px;background:#F5F3FF;color:#5B21B6;font-size:1.5rem;line-height:1;cursor:pointer}
+.cuenta-card h2{font-size:1.7rem;line-height:1.1;letter-spacing:-.03em;margin:0 0 8px;padding-right:40px}
+.cuenta-card p{margin:0 0 14px;color:#374151}
+.cuenta-card label{display:block;margin:0 0 12px;font-weight:650;font-size:.92rem}
+.cuenta-card input{display:block;width:100%;margin-top:6px;min-height:48px;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font:400 16px/1.3 Inter,system-ui,sans-serif;color:var(--text);background:#fff}
+.cuenta-card input:focus{outline:2px solid var(--accent);outline-offset:2px}
+.cuenta-error{color:#B91C1C;font-weight:650}
+.cuenta-card .btn{width:100%;min-height:52px;font-size:16px}
+@media (min-width:720px){
+  .extras{align-items:center;padding:16px}
+  .extras-card{border-radius:20px;padding:22px 20px}
+}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;transition-delay:calc(var(--i,0)*60ms)}
+.rv.in{opacity:1;transform:none}
+/* barra móvil: aparece sólo cuando los CTA del hero salen de pantalla (ver script) */
+.mcta{display:none}
+@media (max-width:768px){
+  body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  body:has(#mobile-cta.mcta-fin){padding-bottom:calc(156px + env(safe-area-inset-bottom))}
+  .mcta{display:block;position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #E5E7EB}
+  .mcta[hidden]{display:none}
+  .mcta-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:stretch}
+  .mcta .btn{width:100%;min-height:52px;padding:10px 12px;font-size:16px;font-weight:700;line-height:1.15;white-space:normal}
+}
+@media (max-width:640px){
+  .nav .wrap{padding:0 12px}
+  .logo img{height:22px}
+  .nav-cta .btn.grad{padding:8px 10px;font-size:13px;white-space:nowrap}
+}
+.intel-grid{display:grid;gap:28px;align-items:center}
+.intel-panel{background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px 20px;box-shadow:0 16px 40px rgba(124,58,237,.08)}
+.intel-nota{margin:0 0 12px;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#6B6B6B}
+.intel-lista{list-style:none;margin:0;padding:0;display:grid;gap:18px}
+.intel-lista li{animation:intel-ciclo 8s ease infinite}
+.intel-lista li:nth-child(2){animation-delay:-4s}
+.burbuja{margin:0;padding:12px 14px;border-radius:16px;font-size:16px;line-height:1.4}
+.burbuja.tu{background:#F4F4F5;color:#111;margin-left:12%}
+.burbuja.ia{background:#F5F3FF;color:#111;margin-top:8px;margin-right:6%}
+.burbuja .quien{display:block;margin-bottom:2px;font-size:12px;font-weight:700;color:#6D28D9}
+@keyframes intel-ciclo{0%,8%{opacity:.42}16%,46%{opacity:1}54%,100%{opacity:.42}}
+@media (min-width:900px){
+  .intel-grid{grid-template-columns:1fr 1fr;gap:56px}
+  .planes3{grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+  .pcard,.pcard.recom{order:0}
+  .pcard.recom{transform:translateY(-8px)}
+  .pasos-lista{grid-template-columns:repeat(4,1fr);gap:16px}
+  .pasos-lista li{grid-template-columns:1fr;align-items:start;align-content:start}
+  .flujo{grid-template-columns:minmax(220px,280px) 72px auto 72px minmax(240px,1fr);align-items:center;justify-items:stretch}
+  .flujo-fuentes,.flujo-log{width:100%}
+  .conector{width:100%;height:2px;justify-self:stretch;background:repeating-linear-gradient(to right,#E5E7EB 0 4px,transparent 4px 9px)}
+  .conector i{top:50%;left:0;margin-left:0;margin-top:-4px;animation-name:fluir-x}
+  .conector-in{background:none;overflow:visible}
+  .conector-in i{display:none}
+  .abanico{display:block;position:absolute;left:100%;top:0;width:72px;height:100%;overflow:visible}
+  .abanico path{fill:none;stroke:#D1D5DB;stroke-width:1.5;stroke-dasharray:4 5;vector-effect:non-scaling-stroke;animation:dash 1.1s linear infinite}
+}
+@keyframes dash{to{stroke-dashoffset:-18}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none;transition:none}
+  .intel-lista li{animation:none;opacity:1}
+  .marcas-pista{animation:none}
+  .marcas-pista ul[aria-hidden="true"]{display:none}
+  .marcas-pista,.marcas-pista ul{width:100%}
+  .marcas-pista ul{flex-wrap:wrap;justify-content:center;gap:20px 28px}
+  .conector i,.flujo-vivo span,.flujo-log li,.flujo-hub,.abanico path{animation:none}
+  .flujo-log li{opacity:1}
+  .btn,.mcta .btn{transition:none}
+  .wiz{animation:none}
+  .wiz *{transition:none!important}
+  .wiz-confirm .bigchk{animation:none}
+  .wiz-wait .bar i{animation:none;width:100%}
+}
+
+@media (min-width:900px){
+  .plan.entry{transform:translateY(-8px)}
+}
+@media (max-width:900px){
+  .plans{grid-template-columns:1fr}
+}
+@media (max-width:820px){
+  .wiz{grid-template-columns:1fr}
+  .wiz-panel{display:none}
+  .hero{min-height:auto;padding:40px 0 56px}
+  .hero .wrap{grid-template-columns:1fr;grid-template-areas:"copy" "testi" "chat";gap:24px}
+  .hero .testi{align-self:start}
+  /* testimonio compacto: foto 96px + texto */
+  .testi{justify-self:start;max-width:none;display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center;padding:10px;border-radius:14px;box-shadow:none}
+  .testi img{width:96px;aspect-ratio:4/5;border-radius:10px}
+  .testi figcaption{padding:0 4px 0 0}
+  .testi blockquote{margin:0 0 8px}
+  .testi blockquote p{font-size:.98rem;line-height:1.35}
+  .testi-name{font-size:.9rem}
+  .testi-handle{font-size:.8rem}
+  .testi-meta{font-size:.78rem;margin-top:4px;line-height:1.4}
+  .glow{filter:blur(80px)}
+  .glow.g1{width:360px;height:360px}
+  .glow.g2{width:280px;height:280px}
+  .feats{grid-template-columns:1fr}
+  .pasos-lista{grid-template-columns:1fr}
+  .sec{padding:72px 0}
+}
+@media (max-width:600px){
+  .plans{grid-template-columns:1fr}
+  .phone{grid-template-columns:112px 1fr}
+  .wiz-content{padding:60px 20px 28px}
+  .wiz-sub{margin-bottom:14px}
+  .wrap{padding:0 18px}
+}
+
+/* banner de dolor + testimonio Método Hebe (foto pendiente) */
+.pain{background:#0A0A0A;color:#fff;padding:48px 0}
+.pain .wrap{display:flex;align-items:center;justify-content:space-between;gap:28px}
+.pain p{font-size:clamp(1.55rem,3.2vw,2.35rem);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin:0;max-width:16em}
+.pain .btn{flex:none}
+.hebe{padding-top:8px}
+.hebe-card{margin:0;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:8px 28px;align-items:center;background:#F3F4F6;border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.hebe-card img{width:100%;height:100%;max-height:420px;object-fit:cover;background:#E5E7EB;display:block}
+.hebe-card figcaption{font-size:clamp(1.35rem,2.4vw,1.9rem);font-weight:800;letter-spacing:-.03em;line-height:1.2;padding:8px 28px 8px 4px;margin:0}
+@media (max-width:720px){
+  .pain{padding:32px 0}
+  .pain .wrap{flex-direction:column;align-items:stretch}
+  .pain .btn{width:100%}
+  .hebe-card{grid-template-columns:1fr}
+  .hebe-card figcaption{padding:4px 18px 22px}
+  .cnn-card figcaption{padding:0 4px}
+}
+.cnn{padding-top:32px}
+.cnn-card{margin:28px 0 0}
+.cnn-card img{width:100%;height:auto;display:block;border-radius:20px;border:1px solid var(--border);background:#111}
+.cnn-card figcaption{margin:14px 0 0;max-width:42rem}
+.cnn-card strong{display:block;font-size:1.15rem;letter-spacing:-.02em}
+.cnn-card span{display:block;margin-top:4px;color:var(--muted);font-size:.95rem}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12Z"/><path d="M9 11h6M9 14h3"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8Z"/></symbol>
+    <symbol id="i-mega" viewBox="0 0 24 24"><path d="M4 10v4h3l6 4V6L7 10H4z"/><path d="M16.5 9.5a3.5 3.5 0 0 1 0 5"/><path d="M18.5 7.5a6.5 6.5 0 0 1 0 9"/></symbol>
+    <!-- Logos de canales: los mismos trazos que src/components/pricing/PlanChannelLogos.tsx (/planes). -->
+    <linearGradient id="ig-grad" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#FEDA75"/><stop offset=".35" stop-color="#FA7E1E"/><stop offset=".6" stop-color="#D62976"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient>
+    <symbol id="ch-wa" viewBox="0 0 24 24"><path fill="#25D366" d="M12 2C6.5 2 2 6.3 2 11.6c0 1.9.5 3.7 1.5 5.3L2 22l5.3-1.4c1.5.8 3.2 1.3 4.7 1.3 5.5 0 10-4.3 10-9.6S17.5 2 12 2zm5.7 13.6c-.2.7-1.2 1.2-1.9 1.4-.5.1-1.1.2-3.6-.8-3.1-1.3-5.1-4.5-5.2-4.7-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .8 2.1.1.2.1.3 0 .5-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.8-.1 1.5z"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.5 2 2 6.3 2 11.6c0 1.9.5 3.7 1.5 5.3L2 22l5.3-1.4c1.5.8 3.2 1.3 4.7 1.3 5.5 0 10-4.3 10-9.6S17.5 2 12 2zm5.7 13.6c-.2.7-1.2 1.2-1.9 1.4-.5.1-1.1.2-3.6-.8-3.1-1.3-5.1-4.5-5.2-4.7-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .8 2.1.1.2.1.3 0 .5-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.8-.1 1.5z"/></symbol>
+    <symbol id="ch-fb" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#1877F2"/><path fill="#fff" d="M13.4 21v-7.6h2.5l.4-3h-2.9V8.5c0-.9.3-1.4 1.5-1.4h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.1H8v3h2.5V21z"/></symbol>
+    <symbol id="ch-ig" viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="url(#ig-grad)" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="url(#ig-grad)" stroke-width="2.2"/><circle cx="17.3" cy="6.7" r="1.3" fill="#D62976"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  </defs>
+</svg>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Clinera, inicio">
+      <img src="/kimi/clinera-logo.png" alt="Clinera" width="411" height="96" decoding="async">
+    </a>
+    <div class="nav-acciones">
+      <div class="nav-cta">
+        <button class="btn sm grad" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta</button>
+      </div>
+      <button class="bolsa" type="button" data-carrito-icon aria-expanded="false" aria-controls="tu-carrito" aria-label="Tu carrito, 0 ítems" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+        <span class="badge" data-carrito-count hidden>0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <span class="glow g1" aria-hidden="true"></span><span class="glow g2" aria-hidden="true"></span>
+  <div class="wrap">
+    <div class="copy">
+      <p class="eyebrow rv">Software para clínicas estéticas y médicas</p>
+      <h1 class="rv" style="--i:1">La plataforma médica con IA que transforma leads en pacientes con <span class="serif">evaluaciones pagadas</span></h1>
+      <p class="sub rv" style="--i:2">Flux $29 · Hex $79 · Vortex $89 en promoción.</p>
+      <div class="cta rv" style="--i:3" id="hero-cta">
+        <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta</button>
+      </div>
+      <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
+    </div>
+    <figure class="testi rv" style="--i:2" data-testid="testimonio">
+      <img src="/kimi/maria-del-valle.webp" fetchpriority="high" width="460" height="575" alt="Dra. María del Valle, de pie y sonriendo, con abrigo fucsia y lentes.">
+      <figcaption>
+        <blockquote><p>«Crecí de 1 a 3 sucursales sin pagar de más gracias al ecosistema Clinera»</p></blockquote>
+        <p class="testi-name">Dra. María del Valle</p>
+        <p class="testi-handle">@dramariadelvalle_cirujana</p>
+        <p class="testi-meta">Especialista en Estética<br>Atiende en Concepción, Los Ángeles y Chillán</p>
+      </figcaption>
+    </figure>
+    <div class="chat rv" style="--i:4" role="img" aria-label="Ejemplo de conversación por WhatsApp: la paciente pide hora, la clínica ofrece horarios desde su agenda y envía un link de pago.">
+      <span class="who"><svg class="ic" width="14" height="14" aria-hidden="true"><use href="#i-chat"/></svg> WhatsApp conectado a tu agenda</span>
+      <div class="msg p">Hola, quiero pedir una hora para evaluación.</div>
+      <div class="msg a">Tengo mañana 10:00 u 11:30. ¿Cuál te acomoda?</div>
+      <div class="msg a">Listo, 11:30 reservada. Paga tu evaluación aquí: <u>link de pago</u></div>
+    </div>
+  </div>
+</section>
+
+<section class="marcas" data-testid="kimi-logos" aria-label="Usado por clínicas líderes en Chile y LATAM">
+  <p class="eyebrow">Usado por clínicas líderes en Chile y LATAM</p>
+  <div class="marcas-mask">
+    <div class="marcas-pista">
+      <ul>
+        <li><img src="/presentacion/clientes/hebe.png" alt="Método Hebe" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/lumina.png" alt="Protocolo Lumina" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/andes.png" alt="Andes Salud" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/sanatorio.png" alt="Sanatorio Alemán" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/everest-mono.png" alt="Everest Clínicas Dentales" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/sonrie.png" alt="Sonríe" width="160" height="48"></li>
+      </ul>
+      <ul aria-hidden="true">
+        <li><img src="/presentacion/clientes/hebe.png" alt="" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/lumina.png" alt="" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/andes.png" alt="" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/sanatorio.png" alt="" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/everest-mono.png" alt="" width="160" height="48"></li>
+        <li><img src="/presentacion/clientes/sonrie.png" alt="" width="160" height="48"></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="pain" id="dolor" data-testid="banner-dolor" aria-labelledby="t-dolor">
+  <div class="wrap">
+    <p id="t-dolor">Deja de perder plata con softwares caros y obsoletos que no te dejan competir</p>
+    <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta</button>
+  </div>
+</section>
+
+<section class="sec hebe" id="hebe" data-testid="hebe-testimonio">
+  <div class="wrap">
+    <figure class="hebe-card">
+      <img src="/kimi/hebe-testimonio.jpg" width="1200" height="900" alt="Clínicas de Método Hebe en Vitacura, Concón y Los Ángeles">
+      <figcaption>Método Hebe, la red de clínicas que sigue creciendo en Chile con la IA de Clinera</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec cnn" id="prensa" data-testid="kimi-cnn" aria-labelledby="t-cnn">
+  <div class="wrap">
+    <p class="eyebrow rv">Prensa</p>
+    <h2 id="t-cnn" class="rv" style="--i:1">Clinera en CNN Chile</h2>
+    <figure class="cnn-card rv" style="--i:2">
+      <img src="/images/go/cnn-clinera.jpg" width="1280" height="720" alt="Ricardo Oyarzún entrevistado en CNN Chile por el periodista de Agenda Económica, sobre el uso de IA para la gestión de sistemas de salud">
+      <figcaption>
+        <strong>Entrevista en Agenda Económica</strong>
+        <span>Ricardo y el periodista, sobre el uso de IA para la gestión de sistemas de salud.</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec" id="funciones" aria-labelledby="t-fun">
+  <div class="wrap">
+    <p class="eyebrow rv">Lo esencial</p>
+    <h2 id="t-fun" class="rv" style="--i:1">Tres cosas que tu clínica necesita, en un solo lugar</h2>
+    <p class="lead rv" style="--i:2">Desde que la paciente escribe hasta que llega a su cita, Clinera se encarga del camino.</p>
+    <div class="feats">
+      <article class="feat rv" data-testid="feat-agenda">
+        <div class="ic-box"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></div>
+        <h3>Agenda online</h3>
+        <p>La agenda de tu clínica ordenada y siempre al día: horas, profesionales y sucursales en un solo lugar, con confirmaciones y recordatorios automáticos.</p>
+      </article>
+      <article class="feat rv" style="--i:1" data-testid="feat-redes">
+        <div class="ic-box"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg></div>
+        <h3>Redes sociales conectadas</h3>
+        <p>WhatsApp, Facebook e Instagram conectados a tu agenda. Tus pacientes te escriben donde ya están y cada conversación termina en una hora agendada.</p>
+        <div class="chs" role="img" aria-label="WhatsApp, Facebook e Instagram">
+          <svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg>
+          <svg class="ch" aria-hidden="true"><use href="#ch-fb"/></svg>
+          <svg class="ch" aria-hidden="true"><use href="#ch-ig"/></svg>
+        </div>
+      </article>
+      <article class="feat rv" style="--i:2" data-testid="feat-ia">
+        <div class="ic-box"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg></div>
+        <h3>IA que conoce tu clínica</h3>
+        <p>Clinera Intelligence responde con las ventas, las fichas y los mensajes de tu clínica.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec pasos" id="como-funciona" data-testid="kimi-pasos" aria-labelledby="t-pasos">
+  <div class="wrap">
+    <p class="eyebrow rv">Cómo funciona</p>
+    <h2 id="t-pasos" class="rv" style="--i:1">Cómo funciona Clinera</h2>
+    <div class="flujo" data-testid="kimi-flujo" aria-hidden="true">
+      <ul class="flujo-fuentes">
+        <li><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg> WhatsApp</li>
+        <li><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg> Horarios y tratamientos</li>
+        <li><svg class="ic" aria-hidden="true"><use href="#i-mega"/></svg> Campañas</li>
+        <svg class="abanico" viewBox="0 0 72 160" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 26C36 26 36 80 72 80"/>
+          <path d="M0 80H72"/>
+          <path d="M0 134C36 134 36 80 72 80"/>
+        </svg>
+      </ul>
+      <div class="conector conector-in"><i></i><i></i><i></i></div>
+      <div class="flujo-hub"><img src="/kimi/clinera-logo-blanco.png" alt="" width="140" height="32"></div>
+      <div class="conector"><i></i><i></i><i></i></div>
+      <div class="flujo-log">
+        <p class="flujo-vivo"><span></span> Agente IA · en vivo</p>
+        <ol>
+          <li><span>WhatsApp conectado</span><em>canal</em></li>
+          <li><span>Horarios publicados</span><em>clínica</em></li>
+          <li><span>Campaña activa</span><em>marketing</em></li>
+          <li><span>El agente agenda por ti</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></li>
+        </ol>
+      </div>
+    </div>
+    <ol class="pasos-lista">
+      <li class="rv" style="--i:1"><span>1</span><p>Conecta tu WhatsApp</p></li>
+      <li class="rv" style="--i:1"><span>2</span><p>Configura tus horarios, profesionales y tratamientos</p></li>
+      <li class="rv" style="--i:2"><span>3</span><p>Activa tus campañas</p></li>
+      <li class="rv" style="--i:2"><span>4</span><p>Tu agente IA agenda por ti</p></li>
+    </ol>
+    <div class="cta rv" style="--i:3">
+      <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta</button>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="intelligence" data-testid="kimi-intelligence" aria-labelledby="t-intel">
+  <div class="wrap intel-grid">
+    <div>
+      <p class="eyebrow rv">Clinera Intelligence</p>
+      <h2 id="t-intel" class="rv" style="--i:1">Pregúntale a tu clínica</h2>
+      <p class="lead rv" style="--i:2">Clinera Intelligence es el agente interno conectado a tus ventas, tus fichas clínicas, tus mensajes y toda la operación de tu clínica.</p>
+    </div>
+    <div class="intel-panel rv" style="--i:2" data-intel>
+      <p class="intel-nota">Ejemplo con datos de una clínica ficticia</p>
+      <ol class="intel-lista">
+        <li>
+          <p class="burbuja tu">¿Cuándo es mi próximo paciente?</p>
+          <p class="burbuja ia"><span class="quien">Intelligence</span>Hoy 16:40 · Camila Rojas · Evaluación facial. Sala 2.</p>
+        </li>
+        <li>
+          <p class="burbuja tu">¿Cuánto vendí la semana pasada?</p>
+          <p class="burbuja ia"><span class="quien">Intelligence</span>$4.280.000 en 37 evaluaciones pagadas. 12 siguen pendientes.</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="tienda" id="planes" aria-labelledby="t-planes" data-testid="kimi2-planes">
+  <div class="wrap">
+    <p class="eyebrow">Elige tu plan</p>
+    <h2 id="t-planes">Tres planes. Vortex en promoción.</h2>
+    <div class="planes3">
+      <article class="pcard" data-testid="plan-flux">
+        <h3>Flux</h3>
+        <p class="precio"><b>$29</b> <small>USD</small></p>
+        <ul>
+          <li>2 profesionales</li>
+          <li>WhatsApp</li>
+          <li>100 conversaciones</li>
+        </ul>
+        <button class="btn outline" type="button" data-abrir-cuenta data-elegir="flux">Crea tu cuenta</button>
+      </article>
+      <article class="pcard" data-testid="plan-hex">
+        <h3>Hex</h3>
+        <p class="precio"><b>$79</b> <small>USD</small></p>
+        <ul>
+          <li>5 profesionales</li>
+          <li>WhatsApp</li>
+          <li>300 conversaciones</li>
+        </ul>
+        <button class="btn outline" type="button" data-abrir-cuenta data-elegir="hex">Crea tu cuenta</button>
+      </article>
+      <article class="pcard recom" data-testid="plan-vortex">
+        <h3>Vortex <span class="badge-plan">Recomendado</span></h3>
+        <p class="precio"><b>$89</b> <small>USD · promoción</small></p>
+        <ul>
+          <li>10 profesionales</li>
+          <li>Instagram</li>
+          <li>Facebook</li>
+          <li>WhatsApp</li>
+          <li>2000 conversaciones</li>
+        </ul>
+        <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta</button>
+      </article>
+    </div>
+  </div>
+</section>
+<section class="sec cta-band" id="comenzar" aria-labelledby="t-act">
+  <div class="wrap">
+    <p class="eyebrow rv">Comenzar</p>
+    <h2 id="t-act" class="rv" style="--i:1">Vortex está en promoción</h2>
+    <p class="lead rv" style="--i:2">10 profesionales, WhatsApp, Instagram y Facebook, y 2000 conversaciones. $89.</p>
+    <div class="cta par rv" style="--i:3">
+      <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta</button>
+      <a class="btn wa" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
+    </div>
+    <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Clinera, inicio">
+      <img src="/kimi/clinera-logo.png" alt="Clinera" width="411" height="96" decoding="async">
+    </a>
+    <nav aria-label="Legal">
+      <a href="/terminos">Términos</a>
+      <a href="/privacidad">Privacidad</a>
+    </nav>
+    <span>© 2026 Clinera</span>
+    <a class="ext" href="https://www.clinera.io">www.clinera.io</a>
+  </div>
+</footer>
+
+<div class="velo" data-velo hidden></div>
+<aside class="drawer" id="tu-carrito" data-drawer hidden role="dialog" aria-labelledby="t-carrito">
+  <header>
+    <div>
+      <p class="estado"><span class="chk" aria-hidden="true">✓</span> Tu clínica</p>
+      <h2 id="t-carrito">Tu clínica está a punto de crecer</h2>
+    </div>
+    <button type="button" data-cerrar aria-label="Cerrar carrito">×</button>
+  </header>
+  <div class="drawer-cuerpo" data-lineas></div>
+  <footer>
+    <div class="totales" data-totales>
+      <div class="hoy" data-total-hoy><span>Hoy pagas</span><span>$14.495</span></div>
+      <div class="desglose"><span>Prueba de 30 días</span></div>
+      <div class="desglose"><span>Después, $78.990</span></div>
+    </div>
+    <p class="mp-nota" data-mp-nota>Mercado Pago cobra la prueba: $14.495 por 30 días. Después, $78.990.</p>
+    <button class="btn grad" type="button" data-abrir-cuenta>Crea tu cuenta por $14.495</button>
+    <p class="err" data-error hidden></p>
+  </footer>
+</aside>
+<div class="toast" data-toast hidden>Agregado al carrito</div>
+
+<div class="salida" data-salida hidden role="dialog" aria-modal="true" aria-labelledby="salida-titulo">
+  <button class="salida-fondo" type="button" data-salida-cerrar aria-label="Cerrar oferta"></button>
+  <div class="salida-card">
+    <p class="estado"><span class="chk" aria-hidden="true">✓</span> Promoción</p>
+    <h2 id="salida-titulo">Vortex a $89</h2>
+    <p>10 profesionales, WhatsApp, Instagram y Facebook, y 2000 conversaciones.</p>
+    <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta</button>
+    <button class="salida-no" type="button" data-salida-cerrar>Ahora no</button>
+  </div>
+</div>
+
+<div class="extras" data-extras hidden role="dialog" aria-modal="true" aria-labelledby="extras-titulo">
+  <button class="extras-fondo" type="button" data-extras-cerrar aria-label="Cerrar adicionales"></button>
+  <div class="extras-card">
+    <h2 id="extras-titulo">¿Quieres adicionales o con esto partes?</h2>
+    <p>La prueba es $14.495 por 30 días. Después, $78.990.</p>
+    <div class="chips">
+      <button class="chip" type="button" data-chip="profesional_extra" aria-pressed="false">Profesional extra</button>
+      <button class="chip" type="button" data-chip="conversaciones_1000" aria-pressed="false">1.000 conversaciones</button>
+    </div>
+    <button class="btn grad" type="button" data-abrir-cuenta>Crea tu cuenta por $14.495</button>
+  </div>
+</div>
+
+<div class="cuenta" data-cuenta hidden role="dialog" aria-modal="true" aria-labelledby="cuenta-titulo">
+  <button class="cuenta-fondo" type="button" data-cuenta-cerrar aria-label="Cerrar"></button>
+  <form class="cuenta-card" data-cuenta-form novalidate>
+    <button class="cuenta-x" type="button" data-cuenta-cerrar aria-label="Cerrar cuenta">×</button>
+    <h2 id="cuenta-titulo">Crea tu cuenta</h2>
+    <p data-cuenta-resumen>Vortex · promoción · $89.</p>
+    <label>Nombre<input name="nombre" autocomplete="name" required maxlength="80"></label>
+    <label>Correo<input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120"></label>
+    <label>Nombre de la clínica<input name="clinica" autocomplete="organization" required maxlength="120"></label>
+    <p class="cuenta-error" data-cuenta-error hidden>Completa nombre, correo y el nombre de la clínica.</p>
+    <p class="cuenta-ok" data-cuenta-ok hidden>Listo. Guardamos tu plan.</p>
+    <a class="btn grad" href="https://mpago.la/22dyhQr" data-cuenta-pagar data-plan="flux" data-plan-name="Clinera Flux" data-plan-value="14.5" hidden>Pagar $14.495</a>
+    <button class="btn grad cuenta-listo" type="button" data-cuenta-listo>Crea tu cuenta</button>
+  </form>
+</div>
+
+<div class="mcta" id="mobile-cta" data-testid="mobile-cta">
+  <div class="mcta-row">
+    <div class="mcta-total"><span data-bar-label>Vortex</span><b data-total-bar hidden></b></div>
+    <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex" data-bar-accion>Crea tu cuenta</button>
+  </div>
+  <a class="btn wa mcta-asistencia" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia" data-asistencia-fin hidden><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
+</div>
+
+<div class="wiz" id="wizard" data-testid="wizard" role="dialog" aria-modal="true" aria-labelledby="wiz-title" hidden>
+  <aside class="wiz-panel">
+    <span class="glow g1" aria-hidden="true"></span>
+    <span class="wiz-logo"><img src="/kimi/clinera-logo-blanco.png" alt="Clinera" width="411" height="96" decoding="async"></span>
+    <div class="wiz-mock" aria-hidden="true">
+      <div class="top"><i></i> WhatsApp conectado a tu agenda</div>
+      <div class="b p">Hola, quiero pedir una hora.</div>
+      <div class="b a">Tengo mañana 10:00 o 11:30. ¿Cuál te acomoda?</div>
+      <div class="b p">A las 11:30, gracias.</div>
+      <div class="ok"><svg class="ic"><use href="#i-check"/></svg>Cita agendada</div>
+    </div>
+    <p class="wiz-msg">Agenda online y WhatsApp conectados para que tus pacientes reserven y paguen solos.</p>
+  </aside>
+  <div class="wiz-side">
+    <button class="wiz-close" type="button" data-wiz-close aria-label="Cerrar"><svg class="ic" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="wiz-content">
+      <div class="wiz-progress" id="wiz-progress" role="progressbar" aria-label="Progreso" aria-valuemin="0" aria-valuemax="4" aria-valuenow="1"><span></span><span></span><span></span><span></span></div>
+      <span class="wiz-stepl" id="wiz-stepl"></span>
+      <div class="wiz-confirm" id="wiz-confirm" data-testid="wiz-confirm" hidden aria-hidden="true"><span class="bigchk"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span></div>
+      <h2 class="wiz-title" id="wiz-title" tabindex="-1"></h2>
+      <p class="wiz-sub" id="wiz-sub" role="status"></p>
+      <p class="wiz-wait" id="wiz-wait" hidden><span>Preparando tu oferta…</span><span class="bar" aria-hidden="true"><i></i></span></p>
+      <span class="wiz-chip" id="wiz-chip" hidden>Plan elegido: <strong id="wiz-chipname"></strong></span>
+
+      <form id="wiz-form" novalidate>
+        <input type="hidden" id="w-plan" name="plan" value="">
+        <div class="wiz-body" data-step="1">
+          <div class="field">
+            <label for="w-nombre">Nombre</label>
+            <input id="w-nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="e-w-nombre">
+            <p class="err" id="e-w-nombre" aria-live="polite"></p>
+          </div>
+        </div>
+        <div class="wiz-body" data-step="2" hidden>
+          <div class="field">
+            <label for="w-clinica">Clínica</label>
+            <input id="w-clinica" name="clinica" type="text" autocomplete="organization" required aria-describedby="e-w-clinica">
+            <p class="err" id="e-w-clinica" aria-live="polite"></p>
+          </div>
+        </div>
+        <div class="wiz-body" data-step="3" hidden>
+          <div class="field">
+            <div class="wiz-opts" id="g-tamano" role="radiogroup" aria-labelledby="wiz-title" aria-describedby="e-g-tamano">
+              <label class="wiz-opt"><input type="radio" name="tamano" value="1 profesional"><span class="box"><b>1 profesional</b><small>Atiendes tú solo o sola</small><span class="mark"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span></span></label>
+              <label class="wiz-opt"><input type="radio" name="tamano" value="2-5 profesionales"><span class="box"><b>2 a 5 profesionales</b><small>Un equipo pequeño</small><span class="mark"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span></span></label>
+              <label class="wiz-opt"><input type="radio" name="tamano" value="6-15 profesionales"><span class="box"><b>6 a 15 profesionales</b><small>Una clínica en crecimiento</small><span class="mark"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span></span></label>
+              <label class="wiz-opt"><input type="radio" name="tamano" value="16+ profesionales"><span class="box"><b>16 o más profesionales</b><small>Un centro grande</small><span class="mark"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span></span></label>
+            </div>
+            <p class="err" id="e-g-tamano" aria-live="polite"></p>
+          </div>
+        </div>
+        <div class="wiz-body" data-step="4" hidden>
+          <div class="field">
+            <label for="w-celular">Celular</label>
+            <div class="phone">
+              <select id="w-prefijo" name="prefijo" aria-label="Prefijo del país">
+                <option value="+56" selected>+56 Chile</option>
+                <option value="+52">+52 México</option>
+                <option value="+57">+57 Colombia</option>
+                <option value="+51">+51 Perú</option>
+                <option value="+54">+54 Argentina</option>
+                <option value="+593">+593 Ecuador</option>
+                <option value="+598">+598 Uruguay</option>
+                <option value="+1">+1 EE.UU.</option>
+              </select>
+              <input id="w-celular" name="celular" type="tel" inputmode="tel" autocomplete="tel-national" required aria-describedby="e-w-celular" placeholder="9 1234 5678">
+            </div>
+            <p class="err" id="e-w-celular" aria-live="polite"></p>
+          </div>
+          <div class="field">
+            <label for="w-correo">Correo</label>
+            <input id="w-correo" name="correo" type="email" autocomplete="email" required aria-describedby="e-w-correo">
+            <p class="err" id="e-w-correo" aria-live="polite"></p>
+          </div>
+          <p class="micro wiz-privacy">Solo usamos tus datos para contactarte sobre Clinera.</p>
+        </div>
+        <button class="btn block wiz-next" type="submit" id="wiz-next" data-testid="wiz-next">Siguiente</button>
+      </form>
+      <button class="wiz-back" type="button" id="wiz-back" hidden>&larr; Volver</button>
+
+      <div id="wiz-offer" data-testid="wiz-offer" hidden>
+        <p class="offer-price"><strong>$14.495<small>/mes</small></strong> <span class="sr-only">por 30 días</span></p>
+        <p class="offer-terms">Prueba de 30 días. Después, $78.990 · sin costo de implementación</p>
+        <ul class="offer-incl" aria-label="Incluye" data-testid="offer-incl">
+          <li><svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>2 profesionales y 1 sucursal</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>100 conversaciones y Clinera Intelligence</li>
+        </ul>
+        <div class="offer-cta">
+          <!-- TODO: reemplazar [LINK CHECKOUT FLUX 50%] por el link real de checkout de Flux con 50% de descuento -->
+          <a class="btn grad block" id="wiz-offer-link" href="/contrata?plan=flux" data-contrata-link data-cta="oferta-popup" data-plan="Flux">Aprovechar oferta</a>
+          <a class="btn wa block" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
+        </div>
+        <p class="offer-ventas micro" id="wiz-offer-ventas" hidden>Igual un especialista te contactará pronto.</p>
+      </div>
+
+      <!-- Agenda: el mismo embed de app.clinera.io que usa /agenda (StepClineraEmbed en VentasLanding.tsx). El src se arma al apretar «Agendar reunión». -->
+      <div id="wiz-agenda" data-testid="wiz-agenda" hidden>
+        <div class="wiz-frame" id="wiz-frame">
+          <iframe id="wiz-agenda-frame" title="Agenda tu reunión con Clinera" allow="clipboard-write"></iframe>
+          <span class="loading" aria-hidden="true">Cargando la agenda…</span>
+        </div>
+        <button class="btn-link" type="button" id="wiz-agenda-back">&larr; Volver a la oferta</button>
+      </div>
+
+      <div id="wiz-booked" data-testid="wiz-booked" hidden>
+        <button class="btn-link" type="button" data-wiz-close>Cerrar</button>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var SPEC={
+    flux_base:{usd:29,max:1,nombre:"Clinera Flux"},
+    profesional_extra:{usd:9,max:50,nombre:"Profesional extra"},
+    sucursal_extra:{usd:9,max:20,nombre:"Sucursal extra"},
+    conversaciones_1000:{usd:25,max:20,nombre:"1.000 conversaciones extra"},
+    instagram:{usd:9,max:1,nombre:"Conexión Instagram"},
+    facebook:{usd:9,max:1,nombre:"Conexión Facebook"},
+    agente_ia:{usd:79,max:1,nombre:"Agente IA"},
+    onboarding_humano:{usd:190,max:1,nombre:"Onboarding humano",once:true}
+  };
+  var IDS=Object.keys(SPEC);
+  var cart={};
+  IDS.forEach(function(id){cart[id]=0;});
+  var abierto=false, enviando=false, promoOff=false, toastT=0;
+  var PLANES={
+    flux:{nombre:"Flux",precio:"$29",nota:"Flux · $29. En Chile, hoy pagas $14.495 por 30 días.",mp:true},
+    hex:{nombre:"Hex",precio:"$79",nota:"Hex · $79. Guardamos este plan en tu cuenta.",mp:false},
+    vortex:{nombre:"Vortex",precio:"$89",nota:"Vortex · promoción · $89. Guardamos este plan en tu cuenta.",mp:false}
+  };
+  var planElegido="vortex";
+  var drawer=document.querySelector("[data-drawer]");
+  var velo=document.querySelector("[data-velo]");
+  var lineas=document.querySelector("[data-lineas]");
+  var totales=document.querySelector("[data-totales]");
+  var errorEl=document.querySelector("[data-error]");
+  var agenda=document.querySelector("[data-agenda]");
+  var toast=document.querySelector("[data-toast]");
+  var icono=document.querySelector("[data-carrito-icon]");
+  var badge=document.querySelector("[data-carrito-count]");
+  var barra=document.querySelector("[data-total-bar]");
+  var mcta=document.getElementById("mobile-cta");
+
+  function clpDe(usd){
+    if(!usd) return 0;
+    return Math.round(usd*28000/29/10)*10;
+  }
+  function formatoClp(n){
+    return "$"+String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,".");
+  }
+  function clpAhora(id){
+    var lista=clpDe(SPEC[id].usd*cart[id]);
+    if(SPEC[id].once||promoOff) return lista;
+    return Math.round(lista/2);
+  }
+  function partes(){
+    var mes=0,unico=0;
+    IDS.forEach(function(id){
+      var usd=SPEC[id].usd*cart[id];
+      if(SPEC[id].once)unico+=usd;else mes+=usd;
+    });
+    return {mes:mes,unico:unico,lista:mes+unico};
+  }
+  function lista(){return partes().lista;}
+  function hoy(){
+    var p=partes();
+    if(promoOff)return p.lista;
+    return Math.round(p.mes*50)/100+p.unico;
+  }
+  function textoPrecio(id){
+    var lista=clpDe(SPEC[id].usd*cart[id]);
+    var ahora=clpAhora(id);
+    if(!promoOff&&!SPEC[id].once&&lista!==ahora) return "<s>"+formatoClp(lista)+"</s> "+formatoClp(ahora);
+    return formatoClp(ahora);
+  }
+  function scrollLock(){
+    var on=abierto||(extras&&!extras.hidden)||(salidaEl&&!salidaEl.hidden)||(cuenta&&!cuenta.hidden);
+    var b=document.body;
+    if(on){
+      if(b.dataset.lock==="1") return;
+      b.dataset.lock="1";
+      b.dataset.y=String(window.scrollY||0);
+      b.style.position="fixed";
+      b.style.top="-"+b.dataset.y+"px";
+      b.style.left="0";
+      b.style.right="0";
+      b.style.width="100%";
+    }else if(b.dataset.lock==="1"){
+      var y=Number(b.dataset.y||0);
+      b.dataset.lock="0";
+      b.style.position="";
+      b.style.top="";
+      b.style.left="";
+      b.style.right="";
+      b.style.width="";
+      window.scrollTo(0,y);
+    }
+  }
+  function unidades(){return IDS.reduce(function(a,id){return a+cart[id];},0);}
+
+  function pintarControles(){
+    document.querySelectorAll("[data-addon]").forEach(function(card){
+      var id=card.getAttribute("data-addon");
+      var spec=SPEC[id];
+      if(!spec)return;
+      var n=cart[id];
+      card.classList.toggle("espera", cart.flux_base<1);
+      var btn=card.querySelector("[data-agregar]");
+      var step=card.querySelector(".stepper");
+      var en=n>0;
+      if(en&&spec.max>1){
+        if(!step){
+          step=document.createElement("div");
+          step.className="stepper";
+          step.innerHTML='<button type="button" data-id="'+id+'" data-delta="-1" aria-label="Restar '+spec.nombre+'">−</button><output></output><button type="button" data-id="'+id+'" data-delta="1" aria-label="Sumar '+spec.nombre+'">+</button>';
+          btn.before(step);
+        }
+        step.hidden=false;
+        step.querySelector("output").textContent=String(n);
+        step.querySelector('[data-delta="1"]').disabled=n>=spec.max;
+      }else if(step){
+        step.hidden=true;
+      }
+      btn.hidden=false;
+      if(cart.flux_base<1){
+        btn.disabled=true;
+        btn.textContent="Primero agrega Clinera Flux";
+        btn.classList.add("grad");
+        btn.classList.remove("outline");
+      }else if(en){
+        btn.disabled=false;
+        btn.textContent="Quitar";
+        btn.classList.remove("grad");
+        btn.classList.add("outline");
+      }else{
+        btn.disabled=false;
+        btn.textContent="Agregar al carrito";
+        btn.classList.add("grad");
+        btn.classList.remove("outline");
+      }
+    });
+    document.querySelectorAll('[data-agregar="flux_base"]').forEach(function(btn){
+      var en=cart.flux_base>0;
+      btn.textContent=en?"Quitar":"Agregar al carrito";
+      btn.classList.toggle("grad", !en);
+      btn.classList.toggle("outline", en);
+    });
+    document.querySelectorAll("[data-flujo=principal]").forEach(function(btn){
+      var label=btn.querySelector("[data-etiqueta]")||btn;
+      label.textContent="Crea tu cuenta";
+    });
+  }
+
+  function pintar(){
+    var u=unidades(), L=lista(), H=hoy();
+    if(badge){
+      badge.textContent=String(u);
+      badge.hidden=u<1;
+    }
+    if(icono)icono.setAttribute("aria-label","Tu carrito, "+u+" ítems");
+    var etiqueta=document.querySelector("[data-bar-label]");
+    var barBtn=document.querySelector("[data-bar-accion]");
+    if(etiqueta)etiqueta.textContent=(PLANES[planElegido]||PLANES.vortex).nombre;
+    if(barra){
+      barra.hidden=true;
+      barra.textContent="";
+    }
+    if(barBtn){ barBtn.textContent="Crea tu cuenta"; barBtn.removeAttribute("data-cta"); }
+    pintarChips();
+    pintarControles();
+    if(!lineas)return;
+    var html="";
+    IDS.forEach(function(id){
+      if(cart[id]<1)return;
+      var spec=SPEC[id];
+      var mas=cart[id]>=spec.max?" disabled":"";
+      var binario=spec.max===1;
+      var quitar='<button type="button" class="quitar-linea" data-id="'+id+'" data-delta="-'+cart[id]+'" aria-label="Quitar '+spec.nombre+'">Quitar</button>';
+      var control=binario
+        ? quitar
+        : '<div class="linea-acciones"><div class="stepper"><button type="button" data-id="'+id+'" data-delta="-1" aria-label="Restar '+spec.nombre+' en el carrito">−</button>'+
+          '<output>'+cart[id]+'</output>'+
+          '<button type="button" data-id="'+id+'" data-delta="1" aria-label="Sumar '+spec.nombre+' en el carrito"'+mas+'>+</button></div>'+quitar+'</div>';
+      html+='<div class="linea"><span><i class="chk" aria-hidden="true">✓</i>'+spec.nombre+(spec.once?" · cobro único":"")+'</span><b>'+textoPrecio(id)+'</b>'+control+'</div>';
+    });
+    if(!html)html='<p>La prueba es $14.495 por 30 días. Después, $78.990.</p>';
+    lineas.innerHTML=html;
+    var ahoraClp=0, luegoMes=0, unicoClp=0, ahoraMes=0;
+    IDS.forEach(function(id){
+      if(cart[id]<1) return;
+      var listaClp=clpDe(SPEC[id].usd*cart[id]);
+      var a=clpAhora(id);
+      ahoraClp+=a;
+      if(SPEC[id].once) unicoClp+=listaClp;
+      else { luegoMes+=listaClp; ahoraMes+=a; }
+    });
+    totales.innerHTML='<div class="hoy" data-total-hoy><span>Hoy pagas</span><span>$14.495</span></div>'+
+      '<div class="desglose"><span>Prueba de 30 días</span></div>'+
+      '<div class="desglose"><span>Después, $78.990</span></div>';
+    var spec=PLANES[planElegido]||PLANES.vortex;
+    var pagar=document.querySelector("[data-cuenta-pagar]");
+    var listo=document.querySelector("[data-cuenta-listo]");
+    var resumen=document.querySelector("[data-cuenta-resumen]");
+    if(resumen) resumen.textContent=spec.nota;
+    if(pagar){
+      pagar.hidden=!spec.mp;
+      if(spec.mp){
+        pagar.setAttribute("href","https://mpago.la/22dyhQr");
+        pagar.setAttribute("data-plan","flux");
+        pagar.setAttribute("data-plan-name","Clinera Flux");
+        pagar.setAttribute("data-plan-value","14.5");
+      }
+    }
+    if(listo) listo.hidden=!!spec.mp;
+    if(drawer)drawer.hidden=!abierto;
+    if(velo)velo.hidden=!abierto;
+    if(icono)icono.setAttribute("aria-expanded",abierto?"true":"false");
+    if(mcta){ if(abierto)mcta.setAttribute("hidden",""); else mcta.removeAttribute("hidden"); }
+    scrollLock();
+  }
+
+  function fijar(id,delta){
+    var spec=SPEC[id]; if(!spec)return;
+    if(id!=="flux_base"&&delta>0&&cart.flux_base<1)return;
+    var next=Math.max(0,Math.min(spec.max,cart[id]+delta));
+    if(next===cart[id])return;
+    cart[id]=next;
+    if(id==="flux_base"&&cart.flux_base<1){
+      IDS.forEach(function(k){if(k!=="flux_base")cart[k]=0;});
+    }
+    if(delta>0){
+      toast.hidden=false;
+      clearTimeout(toastT);
+      toastT=setTimeout(function(){toast.hidden=true;},1600);
+    }
+    pintar();
+  }
+
+  var extras=document.querySelector("[data-extras]");
+  var cuenta=document.querySelector("[data-cuenta]");
+  var cuentaForm=document.querySelector("[data-cuenta-form]");
+  var cuentaError=document.querySelector("[data-cuenta-error]");
+  try{
+    var guardada=JSON.parse(sessionStorage.getItem("clinera_cuenta")||"null");
+    if(guardada&&cuentaForm){
+      if(guardada.nombre) cuentaForm.elements.nombre.value=guardada.nombre;
+      if(guardada.email) cuentaForm.elements.email.value=guardada.email;
+      if(guardada.clinica) cuentaForm.elements.clinica.value=guardada.clinica;
+    }
+  }catch(e){}
+  function cuentaDatos(form){
+    if(!form) return null;
+    var nombre=(form.elements.nombre.value||"").trim();
+    var email=(form.elements.email.value||"").trim();
+    var clinica=(form.elements.clinica.value||"").trim();
+    form.elements.nombre.value=nombre;
+    form.elements.email.value=email;
+    form.elements.clinica.value=clinica;
+    var correoOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if(!nombre||!correoOk||!clinica){
+      if(cuentaError) cuentaError.hidden=false;
+      return null;
+    }
+    if(cuentaError) cuentaError.hidden=true;
+    return {nombre:nombre,email:email,clinica:clinica};
+  }
+  function guardarCuenta(datos){
+    try{ sessionStorage.setItem("clinera_cuenta", JSON.stringify(datos)); }catch(e){}
+    var q=new URLSearchParams(location.search);
+    var lead="organico";
+    if(q.get("gclid")||q.get("gbraid")||q.get("wbraid")) lead="google-ads";
+    else if(q.get("fbclid")) lead="meta-ads";
+    fetch("/api/wizard",{
+      method:"POST",
+      keepalive:true,
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        lead_stage:"contact",
+        booking_status:"pending",
+        nombre:datos.nombre,
+        email:datos.email,
+        nombre_clinica:datos.clinica,
+        clinica:datos.clinica,
+        lead_source:lead,
+        fuente:"Landing /kimi2 — "+(PLANES[planElegido]||PLANES.vortex).nombre,
+        source_path:"/kimi2",
+        landing_url:location.href,
+        plan:planElegido,
+        servicio_interes_label:(PLANES[planElegido]||PLANES.vortex).nombre+" "+(PLANES[planElegido]||PLANES.vortex).precio,
+        servicio_interes:"ambas"
+      })
+    }).catch(function(){});
+  }
+  function abrirCuenta(){
+    abierto=false;
+    var ok=document.querySelector("[data-cuenta-ok]");
+    if(ok) ok.hidden=true;
+    cerrarExtras();
+    cerrarSalida();
+    if(cuenta) cuenta.hidden=false;
+    if(cuentaError) cuentaError.hidden=true;
+    pintar();
+    var campo=cuentaForm&&cuentaForm.elements.nombre;
+    if(campo) campo.focus();
+  }
+  function cerrarCuenta(){ if(cuenta) cuenta.hidden=true; scrollLock(); }
+  var CHIP_IDS=["profesional_extra","conversaciones_1000"];
+  function pintarChips(){
+    if(!extras)return;
+    extras.querySelectorAll("[data-chip]").forEach(function(b){
+      var id=b.getAttribute("data-chip");
+      b.setAttribute("aria-pressed", cart[id]>0?"true":"false");
+    });
+    var seguir=extras.querySelector("[data-extras-seguir]");
+    if(!seguir)return;
+    seguir.textContent="Crea tu cuenta por $14.495";
+  }
+  function abrirExtras(){
+    if(cart.flux_base<1) fijar("flux_base",1);
+    if(extras){ extras.hidden=false; pintarChips(); }
+    scrollLock();
+  }
+  function cerrarExtras(){ if(extras) extras.hidden=true; scrollLock(); }
+
+  var salidaEl=document.querySelector("[data-salida]");
+  var salidaLista=false;
+  setTimeout(function(){salidaLista=true;},4000);
+  function salidaVista(){ try{return sessionStorage.getItem("clinera_oferta_salida")==="1";}catch(e){return true;} }
+  function abrirSalida(){
+    if(!salidaLista||!salidaEl||!salidaEl.hidden||salidaVista())return;
+    var wiz=document.getElementById("wizard");
+    if(wiz&&!wiz.hidden)return;
+    try{sessionStorage.setItem("clinera_oferta_salida","1");}catch(e){}
+    salidaEl.hidden=false;
+    scrollLock();
+  }
+  function cerrarSalida(){ if(salidaEl)salidaEl.hidden=true; scrollLock(); }
+  document.addEventListener("mouseout",function(e){
+    if(e.clientY>8||e.relatedTarget)return;
+    abrirSalida();
+  });
+  var oculto=false;
+  document.addEventListener("visibilitychange",function(){
+    if(document.visibilityState==="hidden"){oculto=true;return;}
+    if(oculto){oculto=false;abrirSalida();}
+  });
+  if(window.matchMedia("(max-width: 800px)").matches){
+    history.pushState({clineraSalida:1},"");
+    window.addEventListener("popstate",function(){
+      if(salidaVista())return;
+      abrirSalida();
+      history.pushState({clineraSalida:1},"");
+    });
+  }
+  document.addEventListener("keydown",function(e){
+    if(e.key!=="Escape")return;
+    if(cuenta&&!cuenta.hidden){cerrarCuenta();return;}
+    if(extras&&!extras.hidden){cerrarExtras();return;}
+    if(salidaEl&&!salidaEl.hidden)cerrarSalida();
+  });
+
+  document.addEventListener("click",function(ev){
+    if(ev.target.closest("[data-cuenta-cerrar]")){cerrarCuenta();return;}
+    var pagarCuenta=ev.target.closest("[data-cuenta-pagar]");
+    if(pagarCuenta){
+      var datos=cuentaDatos(cuentaForm);
+      if(!datos){ev.preventDefault();return;}
+      guardarCuenta(datos);
+      return;
+    }
+    var listo=ev.target.closest("[data-cuenta-listo]");
+    if(listo){
+      ev.preventDefault();
+      var listoDatos=cuentaDatos(cuentaForm);
+      if(!listoDatos) return;
+      guardarCuenta(listoDatos);
+      var ok=document.querySelector("[data-cuenta-ok]");
+      if(ok){ ok.hidden=false; ok.textContent="Listo. Guardamos tu plan "+(PLANES[planElegido]||PLANES.vortex).nombre+"."; }
+      listo.hidden=true;
+      return;
+    }
+    var elegir=ev.target.closest("[data-elegir]");
+    if(elegir){
+      ev.preventDefault();
+      var elegido=elegir.getAttribute("data-elegir");
+      if(PLANES[elegido]) planElegido=elegido;
+      abrirCuenta();
+      return;
+    }
+    if(ev.target.closest("[data-abrir-cuenta]")){ev.preventDefault();planElegido="vortex";abrirCuenta();return;}
+    if(ev.target.closest("[data-extras-cerrar]")){cerrarExtras();return;}
+    var chip=ev.target.closest("[data-chip]");
+    if(chip){
+      ev.preventDefault();
+      var cid=chip.getAttribute("data-chip");
+      if(cid){
+        if(cart.flux_base<1) cart.flux_base=1;
+        fijar(cid, cart[cid]>0 ? -cart[cid] : 1);
+      }
+      return;
+    }
+    if(ev.target.closest("[data-extras-seguir]")) return;
+    if(ev.target.closest("[data-flujo=principal]")) return;
+    if(ev.target.closest("[data-bar-accion]")) return;
+    var add=ev.target.closest("[data-agregar]");
+    if(add){ev.preventDefault();var aid=add.getAttribute("data-agregar");fijar(aid, cart[aid]>0 ? -cart[aid] : 1);return;}
+    var delta=ev.target.closest("[data-delta]");
+    if(delta){
+      var box=delta.closest("[data-slot], .linea .stepper");
+      var id=delta.getAttribute("data-id")||(box&&box.getAttribute("data-slot"));
+      if(id)fijar(id,Number(delta.getAttribute("data-delta")));
+      return;
+    }
+    if(ev.target.closest("[data-carrito-icon]")){abierto=!abierto;pintar();return;}
+    if(ev.target.closest("[data-cerrar]")||ev.target.closest("[data-velo]")){abierto=false;pintar();return;}
+    if(ev.target.closest("[data-salida-cerrar]")){cerrarSalida();return;}
+    if(ev.target.closest("[data-salida-cta]")) return;
+    if(ev.target.closest('[data-carril="next"]')){document.querySelector(".carril").scrollBy({left:220,behavior:"smooth"});return;}
+    if(ev.target.closest('[data-carril="prev"]')){document.querySelector(".carril").scrollBy({left:-220,behavior:"smooth"});return;}
+    if(ev.target.closest('[data-cta="carrito-checkout"]')) return;
+  });
+
+  function pagar(){
+    if(enviando)return;
+    if(cart.flux_base<1){
+      abierto=true;
+      errorEl.hidden=false;
+      errorEl.textContent="Agrega Clinera Flux para activar tu clínica.";
+      if(agenda)agenda.hidden=true;
+      pintar();
+      return;
+    }
+    enviando=true; pintar();
+    errorEl.hidden=true; if(agenda)agenda.hidden=true;
+    var limpio={};
+    IDS.forEach(function(id){limpio[id]=cart[id];});
+    limpio.flux_base=1;
+    var ref="";
+    try{ if(window.clineraStripeRef) ref=window.clineraStripeRef(); }catch(e){}
+    if(!ref){
+      var g=new URLSearchParams(location.search).get("gclid")||"";
+      ref=g.replace(/[^A-Za-z0-9_-]/g,"").slice(0,200);
+    }
+    var utm={};
+    ["utm_source","utm_medium","utm_campaign","utm_term","utm_content","gclid","gbraid","wbraid","fbclid"].forEach(function(k){
+      var v=new URLSearchParams(location.search).get(k); if(v)utm[k]=v;
+    });
+    fetch("/api/contrata/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({carrito:limpio,clientRef:ref,utm:utm})})
+      .then(function(r){return r.json();})
+      .then(function(json){
+        if(json&&json.ok&&json.url){location.assign(json.url);return;}
+        abierto=true;
+        errorEl.hidden=false;
+        errorEl.textContent="Mercado Pago cobra la prueba: $14.495 por 30 días.";
+        if(agenda)agenda.hidden=false;
+      })
+      .catch(function(){
+        abierto=true;
+        errorEl.hidden=false;
+        errorEl.textContent="Mercado Pago cobra la prueba: $14.495 por 30 días.";
+        if(agenda)agenda.hidden=false;
+      })
+      .then(function(){enviando=false;pintar();});
+  }
+  pintar();
+})();
+(function(){
+
+  // Pasa la atribución de la visita a /contrata (utm, gclid, fbclid…). No pisa ?plan=.
+  var TRACK=['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','gbraid','wbraid','fbclid'];
+  function propagarContrata(a){
+    var v=new URLSearchParams(location.search),extra=[];
+    TRACK.forEach(function(k){var x=v.get(k);if(x)extra.push([k,x]);});
+    if(!extra.length)return;
+    try{var u=new URL(a.getAttribute('href'),location.origin);
+      extra.forEach(function(p){if(!u.searchParams.has(p[0]))u.searchParams.set(p[0],p[1]);});
+      a.setAttribute('href',u.pathname+'?'+u.searchParams.toString());}catch(e){}
+  }
+  document.querySelectorAll('a[data-contrata-link]').forEach(propagarContrata);
+
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO='IntersectionObserver' in window;
+
+  // Reveal on scroll
+  var els=document.querySelectorAll('.rv');
+  if(reduce||!hasIO){els.forEach(function(e){e.classList.add('in')});}
+  else{
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}})},{threshold:.12});
+    els.forEach(function(e){io.observe(e)});
+  }
+
+  // «Solicita asistencia» en la barra: solo cuando el cierre entra en pantalla.
+  var mcta=document.getElementById('mobile-cta');
+  var cierre=document.getElementById('comenzar');
+  var waFin=document.querySelector('[data-asistencia-fin]');
+  function mostrarAsistencia(on){
+    if(mcta) mcta.classList.toggle('mcta-fin', on);
+    if(waFin) waFin.hidden=!on;
+  }
+  if(cierre && hasIO){
+    new IntersectionObserver(function(en){
+      mostrarAsistencia(en.some(function(e){return e.isIntersecting;}));
+    },{threshold:0.15}).observe(cierre);
+  }
+
+  // TODO: reemplazar por el webhook real (n8n)
+  const WEBHOOK_URL = "[WEBHOOK_URL_N8N]";
+
+  // Wizard
+  var TOTAL=4;
+  var wiz=document.getElementById('wizard');
+  var form=document.getElementById('wiz-form');
+  var prog=document.getElementById('wiz-progress');
+  var segs=prog.querySelectorAll('span');
+  var stepl=document.getElementById('wiz-stepl');
+  var title=document.getElementById('wiz-title');
+  var sub=document.getElementById('wiz-sub');
+  var chip=document.getElementById('wiz-chip');
+  var chipName=document.getElementById('wiz-chipname');
+  var offer=document.getElementById('wiz-offer');
+  var next=document.getElementById('wiz-next');
+  var back=document.getElementById('wiz-back');
+  var planInput=document.getElementById('w-plan');
+  var bodies=form.querySelectorAll('.wiz-body');
+  var confirmBox=document.getElementById('wiz-confirm');
+  var waitEl=document.getElementById('wiz-wait');
+  var OFFER_TITLE='Flux a mitad de precio por 3 meses';
+  var OFFER_SUB='Conecta tu WhatsApp a tu agenda y deja que tus pacientes agenden solos.';
+  var offerVentas=document.getElementById('wiz-offer-ventas');
+  var AGENDA_TITLE='Agenda tu reunión';
+  var AGENDA_SUB='Elige profesional, día y hora. Te llega la confirmación por correo.';
+  var BOOKED_TITLE='Reunión agendada';
+  var BOOKED_SUB='Te llega la confirmación por correo. Nos vemos.';
+  // Embed oficial de Clinera, el mismo de /agenda: sucursal y tratamiento preseteados; nombre/email/telefono precargan «Tus datos».
+  var EMBED_BASE='https://app.clinera.io/embed/clinera-software-1769526763629/modal';
+  var EMBED_PRESET={sucursalId:'cmoqinfoi007dso3d7fhnwdyb',tratamientoId:'cmoyoj9sn026xoi3dnedn2kl8'};
+  var EMBED_ORIGIN='https://app.clinera.io';
+  var agenda=document.getElementById('wiz-agenda');
+  var agendaFrame=document.getElementById('wiz-agenda-frame');
+  var agendaBox=document.getElementById('wiz-frame');
+  var agendarBtn=document.getElementById('wiz-agendar');
+  var agendaBack=document.getElementById('wiz-agenda-back');
+  var booked=document.getElementById('wiz-booked');
+  var CONFIRM_TITLE='Perfecto, tus datos ya fueron guardados.';
+  var CONFIRM_SUB='Un especialista te contactará pronto.';
+  // «Hablar con ventas»: la confirmación se ve sola este tiempo y después entra la oferta (la barra de espera dura lo mismo).
+  var CONFIRM_MS=1800;
+  waitEl.style.setProperty('--confirm-ms',CONFIRM_MS+'ms');
+  var steps=[
+    {label:'Tus datos',title:'¿Cómo te llamas?',sub:'Así te saludamos como corresponde.'},
+    {label:'Tu clínica',title:'¿Cómo se llama tu clínica?',sub:'El nombre con el que te conocen tus pacientes.'},
+    {label:'Tu clínica',title:'¿De qué tamaño es tu clínica?',sub:'Elige cuántos profesionales atienden.'},
+    {label:'Contacto',title:'¿Dónde te confirmamos?',sub:'Déjanos tu celular y tu correo.'}
+  ];
+  var fieldsByStep={1:['w-nombre'],2:['w-clinica'],3:['g-tamano'],4:['w-celular','w-correo']};
+  var rules={
+    'w-nombre':[function(){return form.nombre.value},function(v){return v.trim()?'':'Escribe tu nombre.'}],
+    'w-clinica':[function(){return form.clinica.value},function(v){return v.trim()?'':'Escribe el nombre de tu clínica.'}],
+    'g-tamano':[function(){var r=form.querySelector('input[name="tamano"]:checked');return r?r.value:''},function(v){return v?'':'Elige el tamaño de tu clínica.'}],
+    'w-celular':[function(){return form.celular.value},function(v){var d=v.replace(/\D/g,'');return d.length>=7&&d.length<=12?'':'Ingresa un celular válido, solo números.'}],
+    'w-correo':[function(){return form.correo.value},function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())?'':'Ingresa un correo válido.'}]
+  };
+  // cta: qué botón abrió el wizard («oferta» = Contratar, «ventas» = Hablar con ventas). Viaja en el webhook.
+  // leadNombre: primer nombre del lead para el eyebrow «Datos recibidos, X» de la pantalla final.
+  // view: pantalla final → 'offer' (titular + 2 CTA), 'agenda' (embed) o 'booked' (el embed avisó que creó el turno).
+  var cur=1,done=false,confirming=false,confirmTimer=null,cta='oferta',leadNombre='',view='offer',saving=false,lastFocus=null,inertEls=[];
+
+  function check(id){
+    var r=rules[id],m=r[1](r[0]()),f=document.getElementById(id),e=document.getElementById('e-'+id);
+    e.textContent=m;
+    if(m){f.setAttribute('aria-invalid','true');}else{f.removeAttribute('aria-invalid');}
+    return !m;
+  }
+  function validate(step){
+    var first=null;
+    fieldsByStep[step].forEach(function(id){if(!check(id)&&!first)first=id;});
+    if(first){focusField(first);return false;}
+    return true;
+  }
+  function focusField(id){
+    var f=document.getElementById(id);
+    if(id==='g-tamano'){f=form.querySelector('input[name="tamano"]');}
+    if(f)f.focus();
+  }
+  function focusStep(){
+    if(done){title.focus();return;}
+    var id=fieldsByStep[cur][0];
+    if(id==='g-tamano'){(form.querySelector('input[name="tamano"]:checked')||form.querySelector('input[name="tamano"]')).focus();}
+    else{document.getElementById(id).focus();}
+  }
+
+  Object.keys(rules).forEach(function(id){
+    var el=document.getElementById(id);
+    if(id==='g-tamano'){
+      el.addEventListener('change',function(){check(id);});
+    }else{
+      el.addEventListener('blur',function(){if(el.value||el.getAttribute('aria-invalid'))check(id);});
+      el.addEventListener('input',function(){if(el.getAttribute('aria-invalid'))check(id);});
+    }
+  });
+
+  function setPlan(p){
+    planInput.value=p||'';
+    chipName.textContent=p||'';
+    chip.hidden=!p;
+  }
+
+  function render(){
+    var s=steps[cur-1];
+    var finished=done||confirming;
+    bodies.forEach(function(b){b.hidden=(+b.dataset.step!==cur);});
+    var shown=finished?TOTAL:cur;
+    segs.forEach(function(g,i){g.classList.toggle('on',i<shown);});
+    prog.setAttribute('aria-valuenow',shown);
+    prog.setAttribute('aria-valuetext',finished?'Completado':'Paso '+cur+' de '+TOTAL);
+    form.hidden=finished;
+    offer.hidden=!(done&&view==='offer');
+    agenda.hidden=!(done&&view==='agenda');
+    booked.hidden=!(done&&view==='booked');
+    title.classList.toggle('offer',done&&view==='offer');
+    stepl.classList.toggle('ok',done&&view==='offer');
+    offerVentas.hidden=!(done&&view==='offer'&&cta==='ventas');
+    confirmBox.hidden=!confirming;
+    waitEl.hidden=!confirming;
+    sub.hidden=false;
+    chip.hidden=finished||!planInput.value;
+    back.hidden=finished||cur===1;
+    if(confirming){
+      stepl.textContent='Listo';
+      title.textContent=CONFIRM_TITLE;
+      sub.textContent=CONFIRM_SUB;
+    }else if(done&&view==='agenda'){
+      stepl.textContent='Reunión';
+      title.textContent=AGENDA_TITLE;
+      sub.textContent=AGENDA_SUB;
+    }else if(done&&view==='booked'){
+      stepl.textContent='Listo';
+      title.textContent=BOOKED_TITLE;
+      sub.textContent=BOOKED_SUB;
+    }else if(done){
+      stepl.textContent='\u2713 Datos recibidos'+(leadNombre?', '+leadNombre:'');
+      title.textContent=OFFER_TITLE;
+      sub.textContent=OFFER_SUB;
+    }else{
+      stepl.textContent='Paso '+cur+' de '+TOTAL+' · '+s.label;
+      title.textContent=s.title;
+      sub.textContent=s.sub;
+      next.textContent=cur===TOTAL?'Finalizar':'Siguiente';
+    }
+  }
+
+  function reset(){
+    form.reset();
+    form.querySelectorAll('[aria-invalid]').forEach(function(x){x.removeAttribute('aria-invalid');});
+    form.querySelectorAll('.err').forEach(function(x){x.textContent='';});
+    cur=1;done=false;saving=false;leadNombre='';view='offer';
+    agendaFrame.removeAttribute('src');agendaBox.classList.remove('loaded');
+    clearConfirm();
+    next.removeAttribute('aria-disabled');next.removeAttribute('aria-busy');
+  }
+  function clearConfirm(){
+    if(confirmTimer){clearTimeout(confirmTimer);confirmTimer=null;}
+    confirming=false;
+  }
+
+  function setBackground(on){
+    if(mcta){mcta.hidden=on;mcta.setAttribute('aria-hidden',on?'true':'false');}
+    if(on){
+      inertEls=Array.prototype.slice.call(document.querySelectorAll('.skip,header.nav,main,footer'));
+      inertEls.forEach(function(x){x.inert=true;});
+    }else{
+      inertEls.forEach(function(x){x.inert=false;});
+      inertEls=[];
+    }
+  }
+
+  function openWizard(opener){
+    lastFocus=document.activeElement;
+    if(done)reset();
+    cta=opener&&opener.dataset.cta==='ventas'?'ventas':'oferta';
+    setPlan(opener&&opener.dataset.plan?opener.dataset.plan:'');
+    wiz.hidden=false;
+    document.documentElement.classList.add('wiz-lock');
+    setBackground(true);
+    render();
+    focusStep();
+  }
+  function closeWizard(){
+    if(wiz.hidden)return;
+    // Si cierran durante la confirmación, el lead ya se envió: al reabrir parte de cero.
+    if(confirming){clearConfirm();done=true;}
+    wiz.hidden=true;
+    document.documentElement.classList.remove('wiz-lock');
+    setBackground(false);
+    if(lastFocus&&document.contains(lastFocus)&&lastFocus.focus)lastFocus.focus();
+  }
+
+  document.addEventListener('click',function(ev){
+    var o=ev.target.closest('[data-open-wizard]');
+    if(o){ev.preventDefault();openWizard(o);return;}
+    if(ev.target.closest('[data-wiz-close]')){closeWizard();}
+  });
+
+  document.addEventListener('keydown',function(ev){
+    if(wiz.hidden)return;
+    if(ev.key==='Escape'){ev.preventDefault();closeWizard();return;}
+    if(ev.key!=='Tab')return;
+    var list=Array.prototype.filter.call(
+      wiz.querySelectorAll('a[href],button,input,select,textarea,[tabindex]:not([tabindex="-1"])'),
+      function(x){return !x.disabled&&!x.hidden&&x.getClientRects().length>0&&x.tabIndex>=0;}
+    );
+    if(!list.length)return;
+    var a=list[0],z=list[list.length-1],act=document.activeElement;
+    if(!wiz.contains(act)){ev.preventDefault();a.focus();}
+    else if(ev.shiftKey&&(act===a||act===title)){ev.preventDefault();z.focus();}
+    else if(!ev.shiftKey&&act===z){ev.preventDefault();a.focus();}
+  });
+
+  back.addEventListener('click',function(){
+    if(saving||cur===1)return;
+    cur--;render();focusStep();
+  });
+
+  // «Agendar reunión»: carga el embed con los datos del lead (una sola vez por lead).
+
+  // Espejo de src/lib/dia-habil.ts: próximo día hábil (lun–vie) en Chile, saltando el día UTC en curso.
+  function proximoDiaHabil(now){
+    now=now||new Date();
+    function ymdEnZona(tz,d){var p={};new Intl.DateTimeFormat('en-US',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d).forEach(function(x){p[x.type]=x.value;});return p.year+'-'+p.month+'-'+p.day;}
+    function sumarDias(ymd,n){var a=ymd.split('-').map(Number);return new Date(Date.UTC(a[0],a[1]-1,a[2]+n)).toISOString().slice(0,10);}
+    function diaSemana(ymd){var a=ymd.split('-').map(Number);return new Date(Date.UTC(a[0],a[1]-1,a[2])).getUTCDay();}
+    var hoy=ymdEnZona('America/Santiago',now),hoyUtc=now.toISOString().slice(0,10);
+    for(var i=1;i<10;i++){var d=sumarDias(hoy,i),w=diaSemana(d);if(w!==0&&w!==6&&d!==hoyUtc)return d;}
+    return sumarDias(hoy,1);
+  }
+
+  function embedSrc(){
+    var q=new URLSearchParams(EMBED_PRESET);
+    var nombre=form.nombre.value.trim(),email=form.correo.value.trim(),digits=form.celular.value.replace(/\D/g,'');
+    if(nombre)q.set('nombre',nombre);
+    if(email)q.set('email',email);
+    if(digits)q.set('telefono',form.prefijo.value+digits);
+    var f=proximoDiaHabil();q.set('fecha',f);q.set('date',f);
+    return EMBED_BASE+'?'+q.toString();
+  }
+  if(agendarBtn)agendarBtn.addEventListener('click',function(){
+    if(!done)return;
+    view='agenda';
+    if(!agendaFrame.getAttribute('src'))agendaFrame.src=embedSrc();
+    render();title.focus();
+  });
+  agendaFrame.addEventListener('load',function(){if(agendaFrame.getAttribute('src'))agendaBox.classList.add('loaded');});
+  agendaBack.addEventListener('click',function(){view='offer';render();title.focus();});
+  // El embed sólo emite CLOSE_FROM_IFRAME desde su pantalla de éxito: el turno ya existe.
+  window.addEventListener('message',function(ev){
+    if(ev.origin!==EMBED_ORIGIN||!done||view!=='agenda')return;
+    var t=ev.data&&ev.data.type;
+    if(t!=='CLOSE_FROM_IFRAME')return;
+    view='booked';render();title.focus();
+  });
+
+  function warn(err){console.warn('[Clinera] no se pudo enviar el lead al webhook:',err);}
+  function webhookOk(u){try{var x=new URL(u);return x.protocol==='https:'&&!/[\[\]]/.test(u);}catch(e){return false;}}
+  function send(payload){
+    if(!webhookOk(WEBHOOK_URL)){
+      console.warn('[Clinera] WEBHOOK_URL sin configurar; lead no enviado:',payload);
+      return Promise.resolve();
+    }
+    var req;
+    try{
+      req=fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),keepalive:true})
+        .then(function(r){if(!r.ok)warn('HTTP '+r.status);})
+        .catch(warn);
+    }catch(e){warn(e);req=Promise.resolve();}
+    return Promise.race([req,new Promise(function(r){setTimeout(r,5000);})]);
+  }
+
+  function finish(){
+    saving=true;
+    next.setAttribute('aria-disabled','true');
+    next.setAttribute('aria-busy','true');
+    next.textContent='Guardando...';
+    var digits=form.celular.value.replace(/\D/g,'');
+    var payload={
+      nombre:form.nombre.value.trim(),
+      clinica:form.clinica.value.trim(),
+      tamano:rules['g-tamano'][0](),
+      celular:form.prefijo.value+digits,
+      correo:form.correo.value.trim(),
+      plan:planInput.value,
+      cta:cta,
+      origen:'landing-flux-50',
+      fecha:new Date().toISOString()
+    };
+    var nombre=payload.nombre.split(/\s+/)[0]||'';
+    function showOffer(){
+      var offerLink=document.getElementById('wiz-offer-link');
+      if(offerLink)propagarContrata(offerLink);
+      confirmTimer=null;
+      confirming=false;
+      done=true;
+      leadNombre=nombre;
+      if(wiz.hidden)return;
+      render();
+      title.focus();
+    }
+    send(payload).then(function(){
+      saving=false;
+      next.removeAttribute('aria-disabled');next.removeAttribute('aria-busy');
+      if(cta==='ventas'&&!wiz.hidden){
+        confirming=true;
+        render();
+        title.focus();
+        confirmTimer=setTimeout(showOffer,CONFIRM_MS);
+      }else{
+        showOffer();
+      }
+    });
+  }
+
+  form.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    if(saving||done||confirming)return;
+    if(!validate(cur))return;
+    if(cur<TOTAL){cur++;render();focusStep();}
+    else{finish();}
+  });
+})();
+</script>
+</body>
+</html>

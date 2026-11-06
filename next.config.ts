@@ -288,6 +288,11 @@ const nextConfig: NextConfig = {
         source: '/kimi',
         destination: '/kimi/index.html',
       },
+      // Paralela de /kimi con Flux $29, Hex $79 y Vortex $89. No reemplaza /kimi.
+      {
+        source: '/kimi2',
+        destination: '/kimi2/index.html',
+      },
       // Home renovado (vista previa sin indexar, noviembre 2026): HTML estático con el sistema visual de /kimi.
       {
         source: '/home-nuevo',
