@@ -840,6 +840,21 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 .marcas-caja .marca-txt.serif{font-size:22px}
 .marcas-caja .marcas-pista ul{gap:36px;padding:0 18px}
 @media (max-width:860px){.marcas-caja{padding:26px 0;gap:22px}.marcas-caja li{height:44px}.marcas-caja img{height:34px}.marcas-caja .marca-txt{font-size:17px}}
+
+/* Franja bajo el hero como tres tarjetas con el mismo margen (7-nov-2026): la primera llevaba padding-left 0. */
+.cifras{background:transparent;border:0;padding:8px 0 24px}
+.cifras .wrap{gap:16px}
+.cifra,.cifra:first-child{padding:24px;border:1px solid var(--border);border-radius:18px;background:#fff;gap:8px}
+.cifra-ic{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:max-content;min-width:40px;height:40px;padding:0 10px;border-radius:12px;background:#F5F3FF;color:#7C3AED;margin-bottom:6px}
+.cifra-ic .ic{width:20px;height:20px}
+.cifra-ic .ch{width:20px;height:20px}
+.cifra-ic.redes{background:#F9FAFB}
+@media (max-width:700px){.cifra,.cifra:first-child{padding:20px;border-top:1px solid var(--border)}.cifras .wrap{gap:12px}}
+/* Cierre: «gratis» con jerarquía (Ricardo, 7-nov-2026: «no pierde nada»). */
+.gratis-xl{display:inline-block;background:linear-gradient(90deg,#60A5FA,#A78BFA 50%,#F0ABFC);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:1.25em;font-weight:900;letter-spacing:-.04em;text-transform:uppercase}
+.btn-gratis{font-size:1.05rem;gap:10px}
+.gratis-chip{display:inline-block;background:#fff;color:#6D28D9;font-weight:900;letter-spacing:.06em;font-size:1.05em;padding:4px 10px;border-radius:8px;line-height:1}
+#comenzar .micro{font-size:.9rem;color:rgba(255,255,255,.82)}
 </style>
 </head>
 <body>
@@ -910,9 +925,9 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 
 <section class="cifras" aria-label="Qué incluye Clinera">
   <div class="wrap">
-    <div class="cifra"><b>IA</b><span>responde, agenda y cobra la evaluación por ti</span></div>
-    <div class="cifra"><b>Redes sociales</b><span>WhatsApp, Instagram y Facebook en un solo lugar</span></div>
-    <div class="cifra"><b>Agenda por profesional</b><span>cada profesional con sus horarios y tratamientos</span></div>
+    <div class="cifra"><span class="cifra-ic" aria-hidden="true"><svg class="ic"><use href="#i-spark"/></svg></span><b>IA</b><span>responde, agenda y cobra la evaluación por ti</span></div>
+    <div class="cifra"><span class="cifra-ic redes" aria-hidden="true"><svg class="ch"><use href="#ch-wa"/></svg><svg class="ch"><use href="#ch-ig"/></svg><svg class="ch"><use href="#ch-fb"/></svg></span><b>Redes sociales</b><span>WhatsApp, Instagram y Facebook en un solo lugar</span></div>
+    <div class="cifra"><span class="cifra-ic" aria-hidden="true"><svg class="ic"><use href="#i-cal"/></svg></span><b>Agenda por profesional</b><span>cada profesional con sus horarios y tratamientos</span></div>
   </div>
 </section>
 
@@ -1123,13 +1138,13 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 <section class="sec cta-band" id="comenzar" aria-labelledby="t-act">
   <div class="wrap">
     <p class="eyebrow rv">Comenzar</p>
-    <h2 id="t-act" class="rv" style="--i:1">Crea tu cuenta gratis</h2>
-    <p class="lead rv" style="--i:2">Registra y activa tu clínica. La demo dura 7 días. Xcale, el recomendado, es $149.</p>
+    <h2 id="t-act" class="rv" style="--i:1">Crea tu cuenta <span class="gratis-xl">gratis</span></h2>
+    <p class="lead rv" style="--i:2">7 días para hacer crecer tu clínica con IA. No pierdes nada: sin tarjeta de crédito y sin costo de implementación.</p>
     <div class="cta par rv" style="--i:3">
-      <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Registra y activa tu clínica</button>
+      <button class="btn grad btn-gratis" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta <span class="gratis-chip">GRATIS</span></button>
       <a class="btn wa wa-sec claro" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
     </div>
-    <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
+    <p class="micro rv" style="--i:3">✓ 7 días gratis · ✓ Sin tarjeta de crédito · ✓ Sin costo de implementación</p>
   </div>
 </section>
 </main>
