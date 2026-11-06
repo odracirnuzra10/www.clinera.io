@@ -74,6 +74,8 @@ export const HOME2_FUNDADOR = {
   ],
   // Ricardo, 27-oct-2026: dos fotos de prensa y del canal. La miniatura de
   // YouTube se recortó sin la landing de la clínica que salía al lado (red sin marcas).
+  // Ricardo, 6-nov-2026: CNN es el plano de los dos (él y el periodista de
+  // Agenda Económica), no el close-up. El archivo ya estaba en /images/go.
   medios: [
     {
       id: "youtube",
@@ -85,10 +87,10 @@ export const HOME2_FUNDADOR = {
     },
     {
       id: "cnn",
-      src: "/images/home2/clinera-cnn-chile.webp",
-      alt: "Ricardo Oyarzún en el set de CNN Chile conversando sobre IA para clínicas",
+      src: "/images/go/cnn-clinera.jpg",
+      alt: "Ricardo Oyarzún entrevistado en CNN Chile por el periodista de Agenda Económica, sobre el uso de IA para la gestión de sistemas de salud",
       titulo: "Clinera en CNN Chile",
-      texto: "IA para la gestión de clínicas, en Agenda Económica.",
+      texto: "Entrevista con el periodista de Agenda Económica sobre IA para clínicas.",
       href: "/prensa",
     },
   ],

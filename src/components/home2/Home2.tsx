@@ -361,12 +361,12 @@ export default function Home2() {
                   ? { target: "_blank", rel: "noopener" }
                   : {})}
               >
-                <span className={s.medioFoto}>
+                <span className={`${s.medioFoto} ${m.id === "cnn" ? s.medioFotoAncha : ""}`}>
                   <Image
                     src={m.src}
                     alt={m.alt}
                     fill
-                    sizes="(max-width: 900px) 50vw, 20vw"
+                    sizes="(max-width: 720px) 46vw, 320px"
                   />
                 </span>
                 <strong>{m.titulo}</strong>

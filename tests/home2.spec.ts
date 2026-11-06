@@ -59,6 +59,10 @@ test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
   await expect(page.locator('[data-home2-medio="cnn"]')).toContainText(
     "CNN Chile",
   );
+  const cnn = page.locator('[data-home2-medio="cnn"] img');
+  await expect(cnn).toHaveAttribute("alt", /periodista de Agenda Económica/);
+  await expect(cnn).toHaveAttribute("src", /cnn-clinera\.jpg/);
+  await expect(cnn).not.toHaveAttribute("src", /clinera-cnn-chile/);
   await expect(page.locator('[data-home2-medio="youtube"]')).toHaveAttribute(
     "href",
     /youtube\.com/,

@@ -848,8 +848,15 @@
   margin-bottom: 6px;
 }
 
+/* El plano de CNN es 16:9 (los dos en el set y el bajante). 3:2 lo recortaba
+   por los costados y se perdía el logo. YouTube sigue en 3:2, su foto. */
+.medioFotoAncha {
+  aspect-ratio: 16 / 9;
+}
+
 .medioFoto img {
   object-fit: cover;
+  object-position: center;
   transition: transform 0.3s ease;
 }
 
