@@ -155,13 +155,16 @@ export const ASISTENCIA_WHATSAPP = "https://wa.me/56985581524?text=necesito%20as
  * Prueba Chile (Ricardo, 6-nov-2026). El payment link de Mercado Pago
  * (`MP_FLUX_PROMO_URL`) cobra $14.495 al mes, 30 días. Después, $78.990.
  * Vortex y el agente IA ($178.990) se explican después de pagar: no van
- * en el checkout. `PRECIO_FLUX_CLP` sigue siendo el tipo de los adicionales
- * de catálogo (US$ 29 = $28.000); la prueba no usa ese número.
+ * en el checkout. El CTA abre el modal de cuenta (nombre, correo, clínica)
+ * y solo «Pagar» va a Mercado Pago, sin query. El lead sale por
+ * `POST /api/wizard`. `PRECIO_FLUX_CLP` sigue siendo el tipo de los
+ * adicionales de catálogo (US$ 29 = $28.000); la prueba no usa ese número.
  */
 export const PRECIO_FLUX_CLP = 28000;
 export const PRECIO_PRUEBA_CLP = 14495;
 export const PRECIO_DESPUES_CLP = 78990;
-export const CTA_ACTIVAR_CLP = "Activar por $14.495";
+export const CTA_ACTIVAR_CLP = "Crea tu cuenta por $14.495";
+export const CTA_PAGAR_CLP = "Pagar $14.495";
 export const CTA_PRUEBA_CLP = "Prueba Clinera por $14.495 por 30 días y escala tu clínica";
 export const MP_FLUX_PROMO_URL = "https://mpago.la/22dyhQr";
 export const MP_NOTA_CLP =

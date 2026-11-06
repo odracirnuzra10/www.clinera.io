@@ -84,26 +84,26 @@ test("/kimi muestra el plano de CNN con Ricardo y el periodista", async ({ page 
   await expect(img).toHaveAttribute("width", "1280");
   await expect(img).toHaveAttribute("height", "720");
   await expect(page.locator("[data-testid=kimi-cnn]")).toContainText("Clinera en CNN Chile");
-  await expect(page.locator("#hero-cta").getByRole("link", { name: "Activar por $14.495" })).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+  await expect(page.locator("#hero-cta").getByRole("button", { name: "Crea tu cuenta por $14.495" })).toBeVisible();
 });
 
-test("/kimi vende la prueba de $14.495 y Activar abre Mercado Pago", async ({ page }) => {
+test("/kimi vende la prueba de $14.495 y Crea tu cuenta abre el modal", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
   const flux = page.locator("[data-testid=plan-flux]");
   await expect(flux.locator("img")).toHaveAttribute("src", "/kimi/productos/flux.jpg");
-  await expect(page.locator("#hero-cta")).toContainText("Activar por $14.495");
+  await expect(page.locator("#hero-cta")).toContainText("Crea tu cuenta por $14.495");
   await expect(page.locator("h1 + .sub, .hero .sub").first()).toContainText("Prueba Clinera por $14.495 por 30 días");
   await expect(page.locator("#hero-cta").getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
   await expect(page.locator("#comenzar")).toContainText("Sin costo de implementación");
-  await expect(page.locator("#comenzar").getByRole("link", { name: "Activar por $14.495" })).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+  await expect(page.locator("#comenzar").getByRole("button", { name: "Crea tu cuenta por $14.495" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Hablar con ventas" })).toHaveCount(0);
   await expect(page.getByRole("link", { name: "Hablar con ventas" })).toHaveCount(0);
   await expect(page.locator("#comenzar").getByRole("link", { name: "Solicita asistencia" })).toHaveAttribute(
     "href",
     "https://wa.me/56985581524?text=necesito%20asistencia",
   );
-  await expect(flux.getByRole("link", { name: "Activar por $14.495" })).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+  await expect(flux.getByRole("button", { name: "Crea tu cuenta por $14.495" })).toBeVisible();
   await expect(flux.locator("[data-prueba-incluye]")).toContainText("WhatsApp, Instagram y Facebook");
   await expect(flux).toContainText("Después de 30 días, $78.990");
   await expect(page.getByText("Vortex")).toHaveCount(0);
@@ -120,21 +120,40 @@ test("/kimi vende la prueba de $14.495 y Activar abre Mercado Pago", async ({ pa
   await expect(drawer).toBeVisible();
   await expect(drawer.locator("[data-total-hoy]")).toContainText("$14.495");
   await expect(drawer).toContainText("Después, $78.990");
-  await expect(drawer.getByRole("link", { name: "Activar por $14.495" })).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+  await drawer.getByRole("button", { name: "Crea tu cuenta por $14.495" }).click();
+  const modal = page.locator("[data-cuenta]");
+  await expect(modal).toBeVisible();
+  await expect(modal.locator("[data-cuenta-pagar]")).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+  await modal.locator("[data-cuenta-pagar]").click();
+  await expect(modal.locator("[data-cuenta-error]")).toBeVisible();
+  expect(page.url()).toContain("/kimi");
   await expect(drawer).not.toContainText("$14.000");
   await expect(drawer).not.toContainText("$28.000");
   const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
   expect(ancho).toBeLessThanOrEqual(1280);
+  let lead: { nombre?: string; email?: string; clinica?: string } | null = null;
+  await page.route("**/api/wizard", async (route) => {
+    lead = route.request().postDataJSON();
+    await route.fulfill({ status: 503, contentType: "application/json", body: "{}" });
+  });
+  await page.route("https://mpago.la/**", (route) => route.abort());
+  await modal.locator("input[name=nombre]").fill("Ana Soto");
+  await modal.locator("input[name=email]").fill("ana@clinica.cl");
+  await modal.locator("input[name=clinica]").fill("Clínica Vela");
+  await modal.locator("[data-cuenta-pagar]").click();
+  await expect.poll(() => lead?.email).toBe("ana@clinica.cl");
+  expect(lead?.nombre).toBe("Ana Soto");
+  expect(lead?.clinica).toBe("Clínica Vela");
 });
 
-test("en el celular la barra ofrece Activar por $14.495 y la asistencia aparece al final", async ({ page }) => {
+test("en el celular la barra ofrece Crea tu cuenta por $14.495 y la asistencia aparece al final", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 700 });
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
   const barra = page.locator("#mobile-cta");
   await expect(barra.locator("[data-bar-label]")).toHaveText("Clinera Flux");
   await expect(barra.locator("[data-total-bar]")).toBeHidden();
-  const activar = barra.getByRole("link", { name: "Activar por $14.495" });
-  await expect(activar).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+  const activar = barra.getByRole("button", { name: "Crea tu cuenta por $14.495" });
+  await expect(activar).toBeVisible();
   const veces = ((await barra.innerText()).match(/\$14\.495/g) ?? []).length;
   expect(veces).toBe(1);
   await expect(barra.getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
@@ -155,8 +174,8 @@ test("en el celular el cajón cobra la prueba de $14.495 y deja el total quieto"
     await expect(drawer).toBeVisible();
     await expect(drawer.locator("[data-total-hoy]")).toContainText("$14.495");
     await expect(drawer).toContainText("Después, $78.990");
-    const pagar = drawer.getByRole("link", { name: "Activar por $14.495" });
-    await expect(pagar).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    const pagar = drawer.getByRole("button", { name: "Crea tu cuenta por $14.495" });
+    await expect(pagar).toBeVisible();
     await expect(drawer).not.toContainText("No pierdas más tu tiempo");
     const enVista = await pagar.evaluate((el) => {
       const r = el.getBoundingClientRect();
@@ -207,13 +226,13 @@ test("/kimi explica Clinera Intelligence con un ejemplo, sin video", async ({ pa
   expect(orden.planes).toBeGreaterThan(orden.intel);
 });
 
-test("en el celular Activar queda junto al carrito y Quitar saca el adicional", async ({ page }) => {
+test("en el celular Crea tu cuenta queda junto al carrito y Quitar saca el adicional", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 700 });
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
   const grupo = page.locator("header.nav .nav-acciones");
-  const activar = grupo.getByRole("link", { name: "Activar por $14.495" });
+  const activar = grupo.getByRole("button", { name: "Crea tu cuenta por $14.495" });
   const bolsa = grupo.locator("[data-carrito-icon]");
-  await expect(activar).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+  await expect(activar).toBeVisible();
   const a = await activar.boundingBox();
   const b = await bolsa.boundingBox();
   expect(a && b && b.x >= a.x + a.width - 1).toBe(true);
@@ -225,12 +244,12 @@ test("/kimi ofrece Solicita asistencia y no muestra Hablar con ventas ni Agendar
   const wa = "https://wa.me/56985581524?text=necesito%20asistencia";
   await expect(page.getByText("Hablar con ventas")).toHaveCount(0);
   await expect(page.getByText("Agendar reunión")).toHaveCount(0);
-  await expect(page.locator("header.nav").getByRole("button")).toHaveCount(1);
-  await expect(page.locator("header.nav").getByRole("link", { name: "Activar por $14.495" })).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+  await expect(page.locator("header.nav").getByRole("button")).toHaveCount(2);
+  await expect(page.locator("header.nav").getByRole("button", { name: "Crea tu cuenta por $14.495" })).toBeVisible();
   await expect(page.locator("header.nav").getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
   await expect(page.locator("#hero-cta").getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
-  await expect(page.locator("#hero-cta").getByRole("link", { name: "Activar por $14.495" })).toBeVisible();
-  await expect(page.locator("#comenzar").getByRole("link", { name: "Activar por $14.495" })).toBeVisible();
+  await expect(page.locator("#hero-cta").getByRole("button", { name: "Crea tu cuenta por $14.495" })).toBeVisible();
+  await expect(page.locator("#comenzar").getByRole("button", { name: "Crea tu cuenta por $14.495" })).toBeVisible();
   const link = page.locator("#comenzar").getByRole("link", { name: "Solicita asistencia", exact: true });
   await expect(link).toHaveAttribute("href", wa);
   await expect(link).toHaveAttribute("target", "_blank");

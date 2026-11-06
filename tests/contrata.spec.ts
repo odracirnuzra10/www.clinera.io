@@ -7,14 +7,21 @@ async function ir(page: Page, path: string, cuando?: string) {
 }
 
 async function sumarFlux(page: Page) {
-  await page.locator("[data-flux-base]").getByRole("button", { name: /^Activar/ }).click();
-  await expect(page.locator("[data-extras]")).toBeVisible();
-  await page.locator("[data-extras-cerrar]").click({ position: { x: 12, y: 12 } });
-  await expect(page.locator("[data-extras]")).toBeHidden();
+  await page.locator("[data-flux-base]").getByRole("button", { name: /Crea tu cuenta/ }).click();
+  await expect(page.locator("[data-cuenta]")).toBeVisible();
+  await page.getByRole("button", { name: "Cerrar cuenta" }).click();
+  await expect(page.locator("[data-cuenta]")).toBeHidden();
 }
 
 function activarCajon(page: Page) {
-  return page.locator("[data-drawer]").getByRole("link", { name: "Activar por $14.495" });
+  return page.locator("[data-drawer]").getByRole("button", { name: "Crea tu cuenta por $14.495" });
+}
+
+async function linkDePago(page: Page) {
+  await activarCajon(page).click();
+  const pagar = page.locator("[data-cuenta-pagar]");
+  await expect(pagar).toBeVisible();
+  return pagar;
 }
 
 test.describe("/contrata", () => {
@@ -34,7 +41,7 @@ test.describe("/contrata", () => {
     await expect(page.locator("[data-addon=agente_ia]")).toHaveCount(0);
     await expect(page.locator("[data-carrito]").getByText("Vortex")).toHaveCount(0);
     await expect(page.locator("[data-carrito]").getByText("$178.990")).toHaveCount(0);
-    await expect(page.locator("[data-flux-base]").getByRole("button", { name: "Activar por $14.495" })).toBeVisible();
+    await expect(page.locator("[data-flux-base]").getByRole("button", { name: "Crea tu cuenta por $14.495" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveCount(0);
     await expect(page.locator("[data-flux-base]")).toContainText("WhatsApp, Instagram y Facebook");
     await expect(page.locator("[data-flux-base]")).toContainText("$14.495");
@@ -115,18 +122,17 @@ test.describe("/contrata", () => {
     await expect(page.locator("[data-flux-base]")).toContainText("30 días");
     await expect(page.locator("[data-flux-base]")).toContainText("Después de 30 días, $78.990");
     await page.locator("[data-carrito-icon]").click();
-    const cta = activarCajon(page);
+    const cta = await linkDePago(page);
     await expect(cta).toHaveAttribute("href", "https://mpago.la/22dyhQr");
     await expect(cta).toHaveAttribute("data-plan", "flux_modular");
     await expect(cta).toHaveAttribute("data-plan-value", "14.5");
-    await page.getByRole("button", { name: "Cerrar", exact: true }).click();
+    await page.getByRole("button", { name: "Cerrar cuenta" }).click();
     await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" }).click();
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("1");
     await expect(page.locator("[data-toast]")).toHaveText("Agregado al carrito");
     await expect(page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Sumar profesional extra" })).toBeFocused();
     await expect(page.locator("[data-carrito-count]")).toHaveText("2");
     await page.locator("[data-carrito-icon]").click();
-    await expect(cta).toHaveAttribute("data-plan-value", "14.5");
     await expect(page.locator("[data-total-hoy]")).toContainText("$14.495");
     await page.getByRole("button", { name: "Cerrar", exact: true }).click();
     await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Sumar profesional extra" }).click();
@@ -147,7 +153,10 @@ test.describe("/contrata", () => {
     await expect(drawer).toContainText("Hoy pagas");
     await expect(drawer.locator("[data-total-hoy]")).toContainText("$14.495");
     await expect(drawer).toContainText("Después, $78.990");
-    await expect(drawer.getByRole("link", { name: "Activar por $14.495" })).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    await activarCajon(page).click();
+    await expect(page.locator("[data-cuenta-pagar]")).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    await expect(page.locator("[data-cuenta]")).not.toContainText("Vortex");
+    await expect(page.locator("[data-cuenta]")).not.toContainText("$178.990");
     await expect(drawer).not.toContainText("Vortex");
     await expect(drawer).not.toContainText("$178.990");
   });
@@ -166,7 +175,8 @@ test.describe("/contrata", () => {
         body: JSON.stringify({ ok: true, url: "https://checkout.stripe.com/c/pay/cs_test_ok", promo: true, lista_usd: 38, promo_usd: 19 }),
       });
     });
-    await expect(activarCajon(page)).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    const pagar = await linkDePago(page);
+    await expect(pagar).toHaveAttribute("href", "https://mpago.la/22dyhQr");
     expect(body.carrito).toBeUndefined();
     expect(body.price).toBeUndefined();
   });
@@ -182,7 +192,8 @@ test.describe("/contrata", () => {
     );
     await sumarFlux(page);
     await page.locator("[data-carrito-icon]").click();
-    await expect(activarCajon(page)).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    const pagar = await linkDePago(page);
+    await expect(pagar).toHaveAttribute("href", "https://mpago.la/22dyhQr");
     expect(page.url()).toContain("/contrata");
   });
 
@@ -197,9 +208,10 @@ test.describe("/contrata", () => {
         body: JSON.stringify({ ok: false, error: "prices_missing", promo: false }),
       }),
     );
-    await expect(activarCajon(page)).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    const pagar = await linkDePago(page);
+    await expect(pagar).toHaveAttribute("href", "https://mpago.la/22dyhQr");
     await expect(page.locator("[data-pago-error]")).toHaveCount(0);
-    await expect(activarCajon(page)).toHaveAttribute("data-plan-value", "14.5");
+    await expect(pagar).toHaveAttribute("data-plan-value", "14.5");
     expect(page.url()).toContain("/contrata");
   });
 
@@ -207,7 +219,8 @@ test.describe("/contrata", () => {
     await ir(page, "/contrata?utm_source=ads", "2026-11-05T12:00:00-03:00");
     await sumarFlux(page);
     await page.locator("[data-carrito-icon]").click();
-    await expect(activarCajon(page)).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    const pagar = await linkDePago(page);
+    await expect(pagar).toHaveAttribute("href", "https://mpago.la/22dyhQr");
     await expect(page.getByText("Pago online pronto")).toHaveCount(0);
     await expect(page.locator("[data-urgencia]").first()).toContainText("$14.495");
     const wa = "https://wa.me/56985581524?text=necesito%20asistencia";
@@ -220,28 +233,29 @@ test.describe("/contrata", () => {
     await expect(page.locator("[data-cta=agendar-reunion]")).toHaveCount(0);
   });
 
-  test("Activar por $28.000 pregunta adicionales y con esto parto abre el pago", async ({ page }) => {
+  test("Crea tu cuenta pide nombre, correo y clínica y Pagar abre Mercado Pago", async ({ page }) => {
     await ir(page, "/contrata?utm_source=ads", "2026-11-05T12:00:00-03:00");
-    let body: { carrito?: Record<string, number> } = {};
-    await page.route("**/api/contrata/checkout", async (route) => {
-      body = route.request().postDataJSON();
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({ ok: true, url: "https://checkout.stripe.com/c/pay/cs_test_ok", promo: true }),
-      });
+    let lead: { email?: string; nombre_clinica?: string; lead_stage?: string } | null = null;
+    await page.route("**/api/wizard", async (route) => {
+      lead = route.request().postDataJSON();
+      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true }) });
     });
-    await page.locator("[data-flux-base]").getByRole("button", { name: "Activar por $14.495" }).click();
-    const hoja = page.locator("[data-extras]");
-    await expect(hoja.getByRole("heading", { name: "¿Quieres adicionales o con esto partes?" })).toBeVisible();
-    for (const id of ["profesional_extra", "conversaciones_1000"]) {
-      await expect(hoja.locator(`[data-chip=${id}]`)).toBeVisible();
-    }
-    await expect(hoja.locator("[data-chip=sucursal_extra]")).toHaveCount(0);
-    await expect(hoja.locator("[data-chip=agente_ia]")).toHaveCount(0);
-    await hoja.locator("[data-chip=profesional_extra]").click();
-    await expect(hoja.getByRole("link", { name: "Activar por $14.495" })).toHaveAttribute("href", "https://mpago.la/22dyhQr");
-    expect(body.carrito).toBeUndefined();
+    await page.route("https://mpago.la/**", (route) => route.abort());
+    await page.locator("[data-flux-base]").getByRole("button", { name: "Crea tu cuenta por $14.495" }).click();
+    const modal = page.locator("[data-cuenta]");
+    await expect(modal.getByRole("heading", { name: "Crea tu cuenta" })).toBeVisible();
+    await modal.locator("[data-cuenta-pagar]").click();
+    await expect(modal.locator("[data-cuenta-error]")).toBeVisible();
+    expect(page.url()).toContain("/contrata");
+    await modal.locator("input[name=nombre]").fill("Ana Soto");
+    await modal.locator("input[name=email]").fill("ana@clinica.cl");
+    await modal.locator("input[name=clinica]").fill("Clínica Vela");
+    const pagar = modal.locator("[data-cuenta-pagar]");
+    await expect(pagar).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    await pagar.click();
+    await expect.poll(() => lead?.email).toBe("ana@clinica.cl");
+    expect(lead?.nombre_clinica).toBe("Clínica Vela");
+    expect(lead?.lead_stage).toBe("contact");
   });
 
   test("?plan=flux&pe=3&ig=1&fb=1 abre el carrito con esas cantidades", async ({ page }) => {
@@ -266,9 +280,11 @@ test.describe("/contrata", () => {
       });
     });
     await page.locator("[data-carrito-icon]").click();
-    const href = await activarCajon(page).getAttribute("href");
+    await activarCajon(page).click();
+    const href = await page.locator("[data-cuenta-pagar]").getAttribute("href");
     expect(href).toBe("https://mpago.la/22dyhQr");
     expect(href).not.toContain("email");
+    await expect(page.locator("[data-cuenta] input[name=email]")).toHaveValue("Ana@Clinica.cl");
     expect(body.email).toBeUndefined();
   });
 

@@ -394,6 +394,18 @@ footer a.ext{color:var(--text);font-weight:500}
 .chip{min-height:44px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--border);background:#fff;color:var(--text);font:600 16px/1.15 Inter,system-ui,sans-serif;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:#5B21B6}
 .extras-card .btn{width:100%;min-height:52px;font-size:16px}
+.cuenta{position:fixed;inset:0;z-index:110;display:grid;place-items:center;padding:16px}
+.cuenta[hidden]{display:none}
+.cuenta-fondo{position:absolute;inset:0;background:rgba(17,24,39,.45);border:0}
+.cuenta-card{position:relative;width:min(440px,100%);max-height:min(92dvh,640px);overflow:auto;background:#fff;color:#111827;border-radius:20px;padding:22px 20px;box-shadow:0 18px 50px rgba(17,24,39,.2)}
+.cuenta-x{position:absolute;top:12px;right:12px;width:44px;height:44px;border:0;border-radius:999px;background:#F5F3FF;color:#5B21B6;font-size:1.5rem;line-height:1;cursor:pointer}
+.cuenta-card h2{font-size:1.7rem;line-height:1.1;letter-spacing:-.03em;margin:0 0 8px;padding-right:40px}
+.cuenta-card p{margin:0 0 14px;color:#374151}
+.cuenta-card label{display:block;margin:0 0 12px;font-weight:650;font-size:.92rem}
+.cuenta-card input{display:block;width:100%;margin-top:6px;min-height:48px;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font:400 16px/1.3 Inter,system-ui,sans-serif;color:var(--text);background:#fff}
+.cuenta-card input:focus{outline:2px solid var(--accent);outline-offset:2px}
+.cuenta-error{color:#B91C1C;font-weight:650}
+.cuenta-card .btn{width:100%;min-height:52px;font-size:16px}
 @media (min-width:720px){
   .extras{align-items:center;padding:16px}
   .extras-card{border-radius:20px;padding:22px 20px}
@@ -529,7 +541,7 @@ footer a.ext{color:var(--text);font-weight:500}
     </a>
     <div class="nav-acciones">
       <div class="nav-cta">
-        <a class="btn sm grad" href="https://mpago.la/22dyhQr" data-flujo="principal"><span data-etiqueta>Activar por $14.495</span></a>
+        <button class="btn sm grad" type="button" data-abrir-cuenta><span data-etiqueta>Crea tu cuenta por $14.495</span></button>
       </div>
       <button class="bolsa" type="button" data-carrito-icon aria-expanded="false" aria-controls="tu-carrito" aria-label="Tu carrito, 0 ítems">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
@@ -548,7 +560,7 @@ footer a.ext{color:var(--text);font-weight:500}
       <h1 class="rv" style="--i:1">La plataforma médica con IA que transforma leads en pacientes con <span class="serif">evaluaciones pagadas</span></h1>
       <p class="sub rv" style="--i:2">Prueba Clinera por $14.495 por 30 días y escala tu clínica. Después, $78.990.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
-        <a class="btn grad" href="https://mpago.la/22dyhQr" data-flujo="principal"><span data-etiqueta>Activar por $14.495</span></a>
+        <button class="btn grad" type="button" data-abrir-cuenta><span data-etiqueta>Crea tu cuenta por $14.495</span></button>
       </div>
       <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
     </div>
@@ -573,7 +585,7 @@ footer a.ext{color:var(--text);font-weight:500}
 <section class="pain" id="dolor" data-testid="banner-dolor" aria-labelledby="t-dolor">
   <div class="wrap">
     <p id="t-dolor">Deja de perder plata con softwares caros y obsoletos que no te dejan competir</p>
-    <a class="btn grad" href="https://mpago.la/22dyhQr" data-flujo="principal"><span data-etiqueta>Activar por $14.495</span></a>
+    <button class="btn grad" type="button" data-abrir-cuenta><span data-etiqueta>Crea tu cuenta por $14.495</span></button>
   </div>
 </section>
 
@@ -669,7 +681,7 @@ footer a.ext{color:var(--text);font-weight:500}
           <span class="off">por 30 días</span>
         </p>
         <p class="luego">Después de 30 días, $78.990</p>
-        <a class="btn grad" href="https://mpago.la/22dyhQr" data-flujo="principal">Activar por $14.495</a>
+        <button class="btn grad" type="button" data-abrir-cuenta>Crea tu cuenta por $14.495</button>
         <ul class="incluye" data-prueba-incluye>
           <li>WhatsApp, Instagram y Facebook</li>
           <li>500 conversaciones</li>
@@ -715,7 +727,7 @@ footer a.ext{color:var(--text);font-weight:500}
     <h2 id="t-act" class="rv" style="--i:1">Activa tu clínica con el carrito</h2>
     <p class="lead rv" style="--i:2">Canales, fichas, email y automatizaciones van en el plan. Los adicionales son profesionales, conversaciones y créditos de IA.</p>
     <div class="cta par rv" style="--i:3">
-      <a class="btn grad" href="https://mpago.la/22dyhQr" data-flujo="principal"><span data-etiqueta>Activar por $14.495</span></a>
+      <button class="btn grad" type="button" data-abrir-cuenta><span data-etiqueta>Crea tu cuenta por $14.495</span></button>
       <a class="btn wa" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
     </div>
     <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
@@ -754,7 +766,7 @@ footer a.ext{color:var(--text);font-weight:500}
       <div class="desglose"><span>Después, $78.990</span></div>
     </div>
     <p class="mp-nota" data-mp-nota>Mercado Pago cobra la prueba: $14.495 por 30 días. Después, $78.990.</p>
-    <a class="btn grad" href="https://mpago.la/22dyhQr" data-cta="carrito-checkout" data-plan="flux_modular" data-plan-value="14.5">Activar por $14.495</a>
+    <button class="btn grad" type="button" data-abrir-cuenta>Crea tu cuenta por $14.495</button>
     <p class="err" data-error hidden></p>
   </footer>
 </aside>
@@ -766,7 +778,7 @@ footer a.ext{color:var(--text);font-weight:500}
     <p class="estado"><span class="chk" aria-hidden="true">✓</span> 30 días</p>
     <h2 id="salida-titulo">Prueba Clinera por $14.495</h2>
     <p>30 días para escalar tu clínica. Después, $78.990.</p>
-    <a class="btn grad" href="https://mpago.la/22dyhQr" data-salida-cta>Activar por $14.495</a>
+    <button class="btn grad" type="button" data-abrir-cuenta>Crea tu cuenta por $14.495</button>
     <button class="salida-no" type="button" data-salida-cerrar>Ahora no</button>
   </div>
 </div>
@@ -780,14 +792,28 @@ footer a.ext{color:var(--text);font-weight:500}
       <button class="chip" type="button" data-chip="profesional_extra" aria-pressed="false">Profesional extra</button>
       <button class="chip" type="button" data-chip="conversaciones_1000" aria-pressed="false">1.000 conversaciones</button>
     </div>
-    <a class="btn grad" href="https://mpago.la/22dyhQr" data-extras-seguir>Activar por $14.495</a>
+    <button class="btn grad" type="button" data-abrir-cuenta>Crea tu cuenta por $14.495</button>
   </div>
+</div>
+
+<div class="cuenta" data-cuenta hidden role="dialog" aria-modal="true" aria-labelledby="cuenta-titulo">
+  <button class="cuenta-fondo" type="button" data-cuenta-cerrar aria-label="Cerrar"></button>
+  <form class="cuenta-card" data-cuenta-form novalidate>
+    <button class="cuenta-x" type="button" data-cuenta-cerrar aria-label="Cerrar cuenta">×</button>
+    <h2 id="cuenta-titulo">Crea tu cuenta</h2>
+    <p>Prueba de $14.495 por 30 días. Después, $78.990.</p>
+    <label>Nombre<input name="nombre" autocomplete="name" required maxlength="80"></label>
+    <label>Correo<input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120"></label>
+    <label>Nombre de la clínica<input name="clinica" autocomplete="organization" required maxlength="120"></label>
+    <p class="cuenta-error" data-cuenta-error hidden>Completa nombre, correo y el nombre de la clínica.</p>
+    <a class="btn grad" href="https://mpago.la/22dyhQr" data-cuenta-pagar data-plan="flux_modular" data-plan-name="Clinera Flux" data-plan-value="14.5">Pagar $14.495</a>
+  </form>
 </div>
 
 <div class="mcta" id="mobile-cta" data-testid="mobile-cta">
   <div class="mcta-row">
     <div class="mcta-total"><span data-bar-label>Clinera Flux</span><b data-total-bar hidden></b></div>
-    <a class="btn grad" href="https://mpago.la/22dyhQr" data-bar-accion data-plan="flux_modular">Activar por $14.495</a>
+    <button class="btn grad" type="button" data-abrir-cuenta data-bar-accion>Crea tu cuenta por $14.495</button>
   </div>
   <a class="btn wa mcta-asistencia" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia" data-asistencia-fin hidden><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
 </div>
@@ -966,7 +992,7 @@ footer a.ext{color:var(--text);font-weight:500}
     return formatoClp(ahora);
   }
   function scrollLock(){
-    var on=abierto||(extras&&!extras.hidden)||(salidaEl&&!salidaEl.hidden);
+    var on=abierto||(extras&&!extras.hidden)||(salidaEl&&!salidaEl.hidden)||(cuenta&&!cuenta.hidden);
     var b=document.body;
     if(on){
       if(b.dataset.lock==="1") return;
@@ -1039,7 +1065,7 @@ footer a.ext{color:var(--text);font-weight:500}
     });
     document.querySelectorAll("[data-flujo=principal]").forEach(function(btn){
       var label=btn.querySelector("[data-etiqueta]")||btn;
-      label.textContent="Activar por $14.495";
+      label.textContent="Crea tu cuenta por $14.495";
     });
   }
 
@@ -1057,7 +1083,7 @@ footer a.ext{color:var(--text);font-weight:500}
       barra.hidden=true;
       barra.textContent="";
     }
-    if(barBtn){ barBtn.textContent="Activar por $14.495"; barBtn.removeAttribute("data-cta"); }
+    if(barBtn){ barBtn.textContent="Crea tu cuenta por $14.495"; barBtn.removeAttribute("data-cta"); }
     pintarChips();
     pintarControles();
     if(!lineas)return;
@@ -1089,10 +1115,11 @@ footer a.ext{color:var(--text);font-weight:500}
     totales.innerHTML='<div class="hoy" data-total-hoy><span>Hoy pagas</span><span>$14.495</span></div>'+
       '<div class="desglose"><span>Prueba de 30 días</span></div>'+
       '<div class="desglose"><span>Después, $78.990</span></div>';
-    document.querySelectorAll('[data-cta="carrito-checkout"]').forEach(function(b){
-      b.setAttribute("href","https://mpago.la/22dyhQr");
-      b.setAttribute("data-plan-value","14.5");
-    });
+    var pagar=document.querySelector("[data-cuenta-pagar]");
+    if(pagar){
+      pagar.setAttribute("href","https://mpago.la/22dyhQr");
+      pagar.setAttribute("data-plan-value","14.5");
+    }
     if(drawer)drawer.hidden=!abierto;
     if(velo)velo.hidden=!abierto;
     if(icono)icono.setAttribute("aria-expanded",abierto?"true":"false");
@@ -1118,6 +1145,70 @@ footer a.ext{color:var(--text);font-weight:500}
   }
 
   var extras=document.querySelector("[data-extras]");
+  var cuenta=document.querySelector("[data-cuenta]");
+  var cuentaForm=document.querySelector("[data-cuenta-form]");
+  var cuentaError=document.querySelector("[data-cuenta-error]");
+  try{
+    var guardada=JSON.parse(sessionStorage.getItem("clinera_cuenta")||"null");
+    if(guardada&&cuentaForm){
+      if(guardada.nombre) cuentaForm.elements.nombre.value=guardada.nombre;
+      if(guardada.email) cuentaForm.elements.email.value=guardada.email;
+      if(guardada.clinica) cuentaForm.elements.clinica.value=guardada.clinica;
+    }
+  }catch(e){}
+  function cuentaDatos(form){
+    if(!form) return null;
+    var nombre=(form.elements.nombre.value||"").trim();
+    var email=(form.elements.email.value||"").trim();
+    var clinica=(form.elements.clinica.value||"").trim();
+    form.elements.nombre.value=nombre;
+    form.elements.email.value=email;
+    form.elements.clinica.value=clinica;
+    var correoOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if(!nombre||!correoOk||!clinica){
+      if(cuentaError) cuentaError.hidden=false;
+      return null;
+    }
+    if(cuentaError) cuentaError.hidden=true;
+    return {nombre:nombre,email:email,clinica:clinica};
+  }
+  function guardarCuenta(datos){
+    try{ sessionStorage.setItem("clinera_cuenta", JSON.stringify(datos)); }catch(e){}
+    var q=new URLSearchParams(location.search);
+    var lead="organico";
+    if(q.get("gclid")||q.get("gbraid")||q.get("wbraid")) lead="google-ads";
+    else if(q.get("fbclid")) lead="meta-ads";
+    fetch("/api/wizard",{
+      method:"POST",
+      keepalive:true,
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        lead_stage:"contact",
+        booking_status:"pending",
+        nombre:datos.nombre,
+        email:datos.email,
+        nombre_clinica:datos.clinica,
+        clinica:datos.clinica,
+        lead_source:lead,
+        fuente:"Landing /kimi — Clinera",
+        source_path:"/kimi",
+        landing_url:location.href,
+        plan:"flux",
+        servicio_interes:"ambas"
+      })
+    }).catch(function(){});
+  }
+  function abrirCuenta(){
+    abierto=false;
+    cerrarExtras();
+    cerrarSalida();
+    if(cuenta) cuenta.hidden=false;
+    if(cuentaError) cuentaError.hidden=true;
+    pintar();
+    var campo=cuentaForm&&cuentaForm.elements.nombre;
+    if(campo) campo.focus();
+  }
+  function cerrarCuenta(){ if(cuenta) cuenta.hidden=true; scrollLock(); }
   var CHIP_IDS=["profesional_extra","conversaciones_1000"];
   function pintarChips(){
     if(!extras)return;
@@ -1127,7 +1218,7 @@ footer a.ext{color:var(--text);font-weight:500}
     });
     var seguir=extras.querySelector("[data-extras-seguir]");
     if(!seguir)return;
-    seguir.textContent="Activar por $14.495";
+    seguir.textContent="Crea tu cuenta por $14.495";
   }
   function abrirExtras(){
     if(cart.flux_base<1) fijar("flux_base",1);
@@ -1168,11 +1259,21 @@ footer a.ext{color:var(--text);font-weight:500}
   }
   document.addEventListener("keydown",function(e){
     if(e.key!=="Escape")return;
+    if(cuenta&&!cuenta.hidden){cerrarCuenta();return;}
     if(extras&&!extras.hidden){cerrarExtras();return;}
     if(salidaEl&&!salidaEl.hidden)cerrarSalida();
   });
 
   document.addEventListener("click",function(ev){
+    if(ev.target.closest("[data-cuenta-cerrar]")){cerrarCuenta();return;}
+    var pagarCuenta=ev.target.closest("[data-cuenta-pagar]");
+    if(pagarCuenta){
+      var datos=cuentaDatos(cuentaForm);
+      if(!datos){ev.preventDefault();return;}
+      guardarCuenta(datos);
+      return;
+    }
+    if(ev.target.closest("[data-abrir-cuenta]")){ev.preventDefault();abrirCuenta();return;}
     if(ev.target.closest("[data-extras-cerrar]")){cerrarExtras();return;}
     var chip=ev.target.closest("[data-chip]");
     if(chip){

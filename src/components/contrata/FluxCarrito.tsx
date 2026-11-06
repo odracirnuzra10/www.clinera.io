@@ -1,8 +1,8 @@
 "use client";
 
 // /contrata: ficha de producto al estilo de una tienda (Mercado Libre), con los
-// colores de Clinera. «Activar por $14.495» abre la prueba de 30 días.
-// Mercado Pago cobra ese monto. Después, $78.990. El agente IA no se vende acá.
+// colores de Clinera. «Crea tu cuenta por $14.495» abre el modal (nombre,
+// correo, clínica). «Pagar» va a Mercado Pago. Después, $78.990.
 
 import { Outfit } from "next/font/google";
 import { useEffect, useRef, useState } from "react";
@@ -20,6 +20,7 @@ import {
   ASISTENCIA_WHATSAPP,
   CARRITO,
   CTA_ACTIVAR_CLP,
+  CTA_PAGAR_CLP,
   CTA_PRUEBA_CLP,
   FLUX_BASE_INCLUYE,
   ITEM_IDS,
@@ -157,6 +158,9 @@ export default function FluxCarrito({
 
   const [salida, setSalida] = useState(false);
   const [extras, setExtras] = useState(false);
+  const [cuentaAbierta, setCuentaAbierta] = useState(false);
+  const [cuentaError, setCuentaError] = useState(false);
+  const [cuenta, setCuenta] = useState({ nombre: "", email: "", clinica: "" });
   const [finScroll, setFinScroll] = useState(false);
   const cierreRef = useRef<HTMLElement>(null);
   const salirRef = useRef({ flux: false, agregar: () => {} });
@@ -213,13 +217,32 @@ export default function FluxCarrito({
   }, []);
 
   useEffect(() => {
-    if (!extras) return;
+    try {
+      const raw = sessionStorage.getItem("clinera_cuenta");
+      const guardada = raw ? (JSON.parse(raw) as { nombre?: string; email?: string; clinica?: string }) : {};
+      const q = new URLSearchParams(window.location.search).get("email") || "";
+      const emailUrl = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(q.trim()) ? q.trim() : "";
+      setCuenta({
+        nombre: typeof guardada.nombre === "string" ? guardada.nombre : "",
+        email: emailUrl || (typeof guardada.email === "string" ? guardada.email : ""),
+        clinica: typeof guardada.clinica === "string" ? guardada.clinica : "",
+      });
+    } catch {
+      /* el formulario queda vacío */
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!extras && !cuentaAbierta) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setExtras(false);
+      if (e.key === "Escape") {
+        setCuentaAbierta(false);
+        setExtras(false);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [extras]);
+  }, [extras, cuentaAbierta]);
 
   useEffect(() => {
     if (!abierto) return;
@@ -283,10 +306,55 @@ export default function FluxCarrito({
     });
   }
 
-  function activar() {
+  function abrirCuenta() {
     if (carrito.flux_base < 1) fijar("flux_base", 1);
     foco.current = null;
-    setExtras(true);
+    setExtras(false);
+    setAbierto(false);
+    setSalida(false);
+    setCuentaError(false);
+    setCuentaAbierta(true);
+  }
+
+  function pagarCuenta(e: React.MouseEvent<HTMLAnchorElement>) {
+    const nombre = cuenta.nombre.trim();
+    const email = cuenta.email.trim();
+    const clinica = cuenta.clinica.trim();
+    const correoOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!nombre || !correoOk || !clinica) {
+      e.preventDefault();
+      setCuenta({ nombre, email, clinica });
+      setCuentaError(true);
+      return;
+    }
+    setCuentaError(false);
+    try {
+      sessionStorage.setItem("clinera_cuenta", JSON.stringify({ nombre, email, clinica }));
+    } catch {
+      /* seguir al pago igual */
+    }
+    marcarPago();
+    const q = new URLSearchParams(window.location.search);
+    const lead = q.get("gclid") || q.get("gbraid") || q.get("wbraid") ? "google-ads" : q.get("fbclid") ? "meta-ads" : "organico";
+    void fetch("/api/wizard", {
+      method: "POST",
+      keepalive: true,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        lead_stage: "contact",
+        booking_status: "pending",
+        nombre,
+        email,
+        nombre_clinica: clinica,
+        clinica,
+        lead_source: lead,
+        fuente: "Landing /contrata — Clinera",
+        source_path: "/contrata",
+        landing_url: window.location.href,
+        plan: "flux",
+        servicio_interes: "ambas",
+      }),
+    }).catch(() => {});
   }
 
   function toggleExtra(id: (typeof ADICIONALES_AL_ACTIVAR)[number]) {
@@ -365,7 +433,7 @@ export default function FluxCarrito({
             <h2 className={styles.cardTitulo}>Clinera Flux</h2>
             <p className={styles.cardSub}>30 días para escalar tu clínica. Después, $78.990.</p>
             {promoOff ? <Precio usd={29} promo={false} /> : <PrecioFlux />}
-            <button type="button" className={styles.agregar} onClick={activar}>
+            <button type="button" className={styles.agregar} onClick={abrirCuenta}>
               {promoOff ? "Activar" : CTA_ACTIVAR_CLP}
             </button>
             {fluxEnCarrito ? (
@@ -423,7 +491,7 @@ export default function FluxCarrito({
           <h2 className={styles.seccion}>Activa cuando quieras</h2>
           <p className={styles.seccionSub}>Prueba de 30 días. Si prefieres que te ayudemos, escríbenos.</p>
           <div className={styles.par}>
-            <button type="button" className={styles.cta} onClick={activar}>
+            <button type="button" className={styles.cta} onClick={abrirCuenta}>
               {promoOff ? "Activar" : CTA_ACTIVAR_CLP}
             </button>
             <Asistencia />
@@ -432,7 +500,7 @@ export default function FluxCarrito({
       </div>
 
       <div className={styles.barraMovil} hidden={abierto} data-testid="mobile-cta" data-fin={finScroll ? "si" : "no"}>
-        <button type="button" className={styles.cta} onClick={activar}>
+        <button type="button" className={styles.cta} onClick={abrirCuenta}>
           {promoOff ? "Activar" : CTA_ACTIVAR_CLP}
         </button>
         {finScroll ? <Asistencia /> : null}
@@ -510,7 +578,9 @@ export default function FluxCarrito({
         </div>
         <div className={styles.drawerPie}>
           <p className={styles.apuro}>No pierdas más tu tiempo</p>
-          <Checkout onClick={marcarPago} />
+          <button type="button" className={styles.cta} data-abrir-cuenta onClick={abrirCuenta}>
+            {CTA_ACTIVAR_CLP}
+          </button>
         </div>
       </aside>
       {salida ? (
@@ -521,9 +591,9 @@ export default function FluxCarrito({
             <h2 id="salida-titulo">Prueba Clinera por $14.495</h2>
             <p>30 días por $14.495. Después, $78.990.</p>
             {salirRef.current.flux ? (
-              <a className={styles.cta} href={MP_FLUX_PROMO_URL} data-cta="carrito-checkout" onClick={marcarPago}>
-                Activar por $14.495
-              </a>
+              <button type="button" className={styles.cta} data-abrir-cuenta onClick={abrirCuenta}>
+                {CTA_ACTIVAR_CLP}
+              </button>
             ) : (
               <button
                 type="button"
@@ -538,6 +608,40 @@ export default function FluxCarrito({
             )}
             <button type="button" className={styles.salidaNo} onClick={() => setSalida(false)}>Ahora no</button>
           </div>
+        </div>
+      ) : null}
+      {cuentaAbierta ? (
+        <div className={styles.cuenta} role="dialog" aria-modal="true" aria-labelledby="cuenta-titulo" data-cuenta>
+          <button type="button" className={styles.cortina} data-cuenta-cerrar aria-label="Cerrar" onClick={() => setCuentaAbierta(false)} />
+          <form className={styles.cuentaCard} data-cuenta-form noValidate onSubmit={(e) => e.preventDefault()}>
+            <button type="button" className={styles.cuentaX} data-cuenta-cerrar aria-label="Cerrar cuenta" onClick={() => setCuentaAbierta(false)}>×</button>
+            <h2 id="cuenta-titulo">Crea tu cuenta</h2>
+            <p>Prueba de $14.495 por 30 días. Después, $78.990.</p>
+            <label>
+              Nombre
+              <input name="nombre" autoComplete="name" required maxLength={80} value={cuenta.nombre} onChange={(e) => setCuenta((c) => ({ ...c, nombre: e.target.value }))} />
+            </label>
+            <label>
+              Correo
+              <input name="email" type="email" inputMode="email" autoComplete="email" required maxLength={120} value={cuenta.email} onChange={(e) => setCuenta((c) => ({ ...c, email: e.target.value }))} />
+            </label>
+            <label>
+              Nombre de la clínica
+              <input name="clinica" autoComplete="organization" required maxLength={120} value={cuenta.clinica} onChange={(e) => setCuenta((c) => ({ ...c, clinica: e.target.value }))} />
+            </label>
+            {cuentaError ? <p className={styles.cuentaError} data-cuenta-error>Completa nombre, correo y el nombre de la clínica.</p> : null}
+            <a
+              className={styles.cta}
+              href={MP_FLUX_PROMO_URL}
+              data-cuenta-pagar
+              data-plan="flux_modular"
+              data-plan-name="Clinera Flux"
+              data-plan-value="14.5"
+              onClick={pagarCuenta}
+            >
+              {CTA_PAGAR_CLP}
+            </a>
+          </form>
         </div>
       ) : null}
       {extras ? (
@@ -561,9 +665,9 @@ export default function FluxCarrito({
                 </button>
               ))}
             </div>
-            <a className={styles.cta} href={MP_FLUX_PROMO_URL} data-extras-seguir data-cta="carrito-checkout" onClick={marcarPago}>
-              Activar por $14.495
-            </a>
+            <button type="button" className={styles.cta} data-abrir-cuenta onClick={abrirCuenta}>
+              {CTA_ACTIVAR_CLP}
+            </button>
           </div>
         </div>
       ) : null}
@@ -603,23 +707,6 @@ function Asistencia() {
     >
       <IconoWhatsApp />
       <span>{ASISTENCIA_LABEL}</span>
-    </a>
-  );
-}
-
-function Checkout({ onClick }: { onClick: () => void }) {
-  return (
-    <a
-      className={styles.cta}
-      href={MP_FLUX_PROMO_URL}
-      data-cta="carrito-checkout"
-      data-plan="flux_modular"
-      data-plan-value="14.5"
-      data-plan-lista="29"
-      data-promo="si"
-      onClick={onClick}
-    >
-      {CTA_ACTIVAR_CLP}
     </a>
   );
 }

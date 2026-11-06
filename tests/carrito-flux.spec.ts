@@ -7,6 +7,7 @@ import {
   regaloVigente,
   sanear,
   CTA_ACTIVAR_CLP,
+  CTA_PAGAR_CLP,
   CTA_PRUEBA_CLP,
   MP_FLUX_PROMO_URL,
   EXTRAS_VISIBLES,
@@ -30,7 +31,8 @@ const dic = new Date("2026-12-01T00:00:00-03:00");
 test.describe("catálogo del carrito Flux", () => {
   test("la pantalla muestra $28.000 y el mismo tipo para el resto", () => {
     expect(PRECIO_FLUX_CLP).toBe(28000);
-    expect(CTA_ACTIVAR_CLP).toBe("Activar por $14.495");
+    expect(CTA_ACTIVAR_CLP).toBe("Crea tu cuenta por $14.495");
+    expect(CTA_PAGAR_CLP).toBe("Pagar $14.495");
     expect(CTA_PRUEBA_CLP).toBe("Prueba Clinera por $14.495 por 30 días y escala tu clínica");
     expect(PRECIO_PRUEBA_CLP).toBe(14495);
     expect(PRECIO_DESPUES_CLP).toBe(78990);
