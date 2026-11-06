@@ -33,7 +33,7 @@ for (const ruta of ["/kimi", "/home-nuevo"]) {
       await page.goto(ruta, { waitUntil: "domcontentloaded" });
       await expect(page.locator("[data-testid=hebe-testimonio] img")).toHaveAttribute(
         "alt",
-        "Clienta de Método Hebe sosteniendo una bolsa de la clínica",
+        "Clínicas de Método Hebe en Vitacura, Concón y Los Ángeles",
       );
     });
 
@@ -69,24 +69,110 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
   const flux = page.locator("[data-testid=plan-flux]");
+  await expect(flux.locator("img")).toHaveAttribute("src", "/kimi/productos/flux.jpg");
+  await expect(page.locator("#hero-cta")).toContainText("Activar por $14.990");
+  await expect(page.locator("#hero-cta").getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
+  await expect(page.locator("#comenzar")).toContainText("Agrega Clinera Flux y elige lo que tu clínica necesita.");
+  await expect(page.locator("#comenzar")).toContainText("Sin costo de implementación");
+  await expect(page.locator("#comenzar")).not.toContainText("cuatro preguntas");
+  await expect(page.locator("#comenzar").getByRole("button")).toHaveCount(1);
+  await expect(page.locator("#comenzar").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Hablar con ventas" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Hablar con ventas" })).toHaveCount(0);
+  await expect(page.locator("#comenzar").getByRole("link", { name: "Solicita asistencia" })).toHaveAttribute(
+    "href",
+    "https://wa.me/56985581524?text=necesito%20asistencia",
+  );
   await expect(flux.getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveCount(0);
+  const orden = await page.evaluate(() => {
+    const y = (id: string) => document.getElementById(id)?.getBoundingClientRect().top ?? 0;
+    return { hero: y("top"), funciones: y("funciones"), planes: y("planes") };
+  });
+  expect(orden.planes).toBeGreaterThan(orden.hero);
+  expect(orden.planes).toBeGreaterThan(orden.funciones);
   const carril = page.locator("[data-testid=plan-addons]");
-  await expect(carril.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
+  const prof = carril.locator("[data-addon=profesional_extra]");
+  await expect(prof).toHaveClass(/espera/);
+  await expect(prof.locator("img")).toHaveAttribute("src", "/kimi/productos/profesional.jpg");
+  await expect(carril.locator("[data-addon=sucursal_extra] img")).toHaveAttribute("src", "/kimi/productos/sucursal.jpg");
+  await expect(carril.locator("[data-addon=conversaciones_1000] img")).toHaveAttribute("src", "/kimi/productos/conversaciones.jpg");
+  await expect(carril.locator("[data-addon=instagram] img")).toHaveAttribute("src", "/kimi/productos/instagram.jpg");
+  await expect(carril.locator("[data-addon=facebook] img")).toHaveAttribute("src", "/kimi/productos/facebook.jpg");
+  await expect(carril.locator("[data-addon=agente_ia] img")).toHaveAttribute("src", "/kimi/productos/agente-ia.jpg");
+  await expect(carril.locator('[data-regalo="email_marketing"] img')).toHaveAttribute("src", "/kimi/productos/email-marketing.jpg");
+  await expect(carril.locator('[data-regalo="automatizaciones"] img')).toHaveAttribute("src", "/kimi/productos/automatizaciones.jpg");
+  await expect(prof.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
   await expect(carril.locator("[data-addon=agente_ia] s")).toContainText("79");
-  await expect(carril.locator("[data-addon=agente_ia]")).toContainText("−50%");
+  await expect(carril.locator("[data-addon=agente_ia]")).toContainText("50% por 3 meses");
+  await expect(carril.locator("[data-addon=agente_ia]")).toContainText("USD 39,50 por 3 meses, luego precio normal");
+  const onboarding = carril.locator("[data-addon=onboarding_humano]");
+  await expect(onboarding.locator("img")).toHaveAttribute("src", "/kimi/productos/onboarding.jpg");
+  await expect(onboarding).toContainText("USD 190");
+  await expect(onboarding).toContainText("cobro único");
+  await expect(onboarding).not.toContainText("50% por 3 meses");
+  await expect(onboarding.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
   await flux.getByRole("button", { name: "Agregar al carrito" }).click();
   await expect(page.locator("[data-toast]")).toHaveText("Agregado al carrito");
+  await expect(page.locator("header.nav").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+  await expect(page.locator("header.nav").getByRole("button", { name: "Quitar" })).toHaveCount(0);
+  await expect(page.locator("#hero-cta").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+  await expect(page.locator("#comenzar").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
   await expect(page.locator("[data-carrito-count]")).toHaveText("1");
+  await expect(prof).not.toHaveClass(/espera/);
+  await expect(prof.getByRole("button", { name: "Agregar al carrito" })).toBeEnabled();
   await carril.locator("[data-addon=instagram]").getByRole("button", { name: "Agregar al carrito" }).click();
+  await onboarding.getByRole("button", { name: "Agregar al carrito" }).click();
   await page.locator("[data-carrito-icon]").click();
   const drawer = page.locator("[data-drawer]");
   await expect(drawer).toBeVisible();
+  await expect(drawer.getByRole("button", { name: "Quitar Clinera Flux" })).toBeVisible();
+  await expect(drawer.getByRole("button", { name: "Sumar Clinera Flux" })).toHaveCount(0);
+  await expect(drawer.getByRole("button", { name: "Quitar Onboarding humano" })).toBeVisible();
+  await expect(drawer.getByRole("button", { name: "Sumar Onboarding humano" })).toHaveCount(0);
+  await expect(drawer.locator("s")).toHaveCount(0);
+  await expect(drawer).toContainText("Hoy pagas");
+  await expect(drawer).toContainText("USD 19 mensual + USD 190 de onboarding");
   await expect(drawer.getByRole("button", { name: "Activar" })).toBeVisible();
-  await expect(drawer).toContainText("50% × 3 meses");
-  await expect(drawer.locator("[data-total-hoy]")).toContainText("19");
+  await expect(drawer).toContainText("50% por 3 meses");
+  await expect(drawer).toContainText("cobro único");
+  await expect(drawer).toContainText("190");
+  await expect(drawer.locator("[data-total-hoy]")).toContainText("209");
+  await page.locator("[data-cerrar]").click();
+  await flux.getByRole("button", { name: "Quitar" }).click();
+  await page.locator("#comenzar").scrollIntoViewIfNeeded();
+  await page.locator("#comenzar").getByRole("button", { name: "Activar por $14.990" }).click();
+  const cubre = await page.evaluate(() => {
+    const toast = document.querySelector("[data-toast]");
+    const botones = [...document.querySelectorAll("#comenzar button")];
+    if (!toast || (toast as HTMLElement).hidden) return false;
+    const a = toast.getBoundingClientRect();
+    return botones.some((b) => {
+      const r = b.getBoundingClientRect();
+      return a.left < r.right && a.right > r.left && a.top < r.bottom && a.bottom > r.top;
+    });
+  });
+  expect(cubre).toBe(false);
   const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
   expect(ancho).toBeLessThanOrEqual(1280);
+});
+
+test("en el celular la barra ofrece Activar por $14.990 y la asistencia aparece al final", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 700 });
+  await page.goto("/kimi", { waitUntil: "domcontentloaded" });
+  const barra = page.locator("#mobile-cta");
+  await expect(barra).toContainText("Clinera Flux");
+  await expect(barra).toContainText("$14.990");
+  await expect(barra.getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+  await expect(barra.getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
+  await expect(barra.getByRole("button", { name: "→ Agregar" })).toHaveCount(0);
+  await page.locator("#comenzar").scrollIntoViewIfNeeded();
+  await expect(barra.getByRole("link", { name: "Solicita asistencia" })).toBeVisible();
+  await barra.getByRole("button", { name: "Activar por $14.990" }).click();
+  await expect(page.getByRole("heading", { name: "¿Quieres adicionales o con esto partes?" })).toBeVisible();
+  await expect(page.locator("[data-chip=instagram]")).toBeVisible();
+  await expect(page.locator("[data-chip=agente_ia]")).toBeVisible();
+  await expect(barra).not.toContainText("USD 0");
 });
 
 test("el pie de /kimi enlaza Términos y Privacidad", async ({ page, request }) => {
@@ -104,14 +190,28 @@ test("el pie de /home-nuevo también enlaza Términos y Privacidad", async ({ pa
   await expect(legal.locator("a", { hasText: "Privacidad" })).toHaveAttribute("href", "/privacidad");
 });
 
-for (const ruta of ["/kimi", "/home-nuevo"]) {
-  test(`${ruta}: el popup llega a la oferta y el embed lleva fecha`, async ({ page }) => {
-    const errores: string[] = [];
-    page.on("pageerror", (err) => errores.push(String(err)));
-    await page.route(/clarity\.ms|facebook\.net|facebook\.com|googletagmanager|google-analytics|hotjar/, (route) => route.abort());
-    await page.clock.setFixedTime(new Date("2026-11-06T10:00:00-03:00"));
-    await page.goto(ruta, { waitUntil: "domcontentloaded" });
-    await page.getByRole("button", { name: "Hablar con ventas" }).first().click();
+test("/kimi ofrece Solicita asistencia y no muestra Hablar con ventas ni Agendar reunión", async ({ page }) => {
+  await page.goto("/kimi", { waitUntil: "domcontentloaded" });
+  const wa = "https://wa.me/56985581524?text=necesito%20asistencia";
+  await expect(page.getByText("Hablar con ventas")).toHaveCount(0);
+  await expect(page.getByText("Agendar reunión")).toHaveCount(0);
+  await expect(page.locator("header.nav").getByRole("button")).toHaveCount(2);
+  await expect(page.locator("header.nav").getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
+  await expect(page.locator("#hero-cta").getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
+  await expect(page.locator("#hero-cta").getByRole("button")).toHaveCount(1);
+  await expect(page.locator("#comenzar").getByRole("button")).toHaveCount(1);
+  const link = page.locator("#comenzar").getByRole("link", { name: "Solicita asistencia", exact: true });
+  await expect(link).toHaveAttribute("href", wa);
+  await expect(link).toHaveAttribute("target", "_blank");
+});
+
+test("/home-nuevo: el popup llega a la oferta y el embed lleva fecha", async ({ page }) => {
+  const errores: string[] = [];
+  page.on("pageerror", (err) => errores.push(String(err)));
+  await page.route(/clarity\.ms|facebook\.net|facebook\.com|googletagmanager|google-analytics|hotjar/, (route) => route.abort());
+  await page.clock.setFixedTime(new Date("2026-11-06T10:00:00-03:00"));
+  await page.goto("/home-nuevo", { waitUntil: "domcontentloaded" });
+  await page.getByRole("button", { name: "Hablar con ventas" }).first().click();
     await page.locator("#w-nombre").fill("Ana Soto");
     await page.locator("#wiz-next").click();
     await page.locator("#w-clinica").fill("Clínica Vela");
@@ -127,5 +227,4 @@ for (const ruta of ["/kimi", "/home-nuevo"]) {
     expect(errores).toEqual([]);
     await page.locator("#wiz-agendar").click();
     await expect(page.locator("#wiz-agenda-frame")).toHaveAttribute("src", /fecha=/);
-  });
-}
+});

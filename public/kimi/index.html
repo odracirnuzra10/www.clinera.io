@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Clinera | La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas</title>
-<meta name="description" content="La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas. Flux desde USD 29/mes: partes con lo esencial y sumas los adicionales en el carrito.">
+<meta name="description" content="La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas. Activa Flux por $14.990 por 3 meses.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,7 +51,24 @@ section{scroll-margin-top:72px}
 /* CTA principal: violeta sólido */
 .btn.grad{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 8px 24px -8px rgba(109,40,217,.45)}
 .btn.grad:hover{background:var(--accent-h);border-color:var(--accent-h)}
+.btn.wa{background:#25D366;border-color:#25D366;color:#fff;font-weight:700}
+.btn.wa:hover{background:#1ebe5a;border-color:#1ebe5a}
+.wa-ico{width:18px;height:18px;flex:none;display:block;fill:currentColor}
 .nav-cta{display:flex;align-items:center;gap:8px}
+.nav-cta .btn{min-height:44px;font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.15}
+.nav-cta .btn.grad{font-weight:700;padding:8px 18px}
+.nav-cta .btn.wa{font-weight:700;padding:8px 12px}
+/* Par 60/40: el carrito ocupa 3 partes, WhatsApp 2. Mismo alto. */
+.par{display:flex;flex-wrap:nowrap;align-items:stretch;gap:10px;width:min(100%,560px)}
+.par .btn{flex:2 1 0;align-self:stretch;min-height:52px;padding:10px 12px;font-family:Inter,system-ui,sans-serif;font-size:16px;font-weight:600;line-height:1.15;white-space:normal;text-align:center}
+.par .btn.grad{flex:3 1 0;font-weight:700}
+.par .btn.wa{font-weight:700}
+.par .btn.wa span{min-width:0}
+.cta-band .par{margin-inline:auto}
+.drawer footer .par{width:100%;max-width:none}
+.drawer footer .par .btn{min-height:52px}
+.drawer footer > .btn{width:100%;min-height:52px}
+.hero .cta .btn{min-height:52px;font-size:16px;padding:12px 22px}
 /* botón con aspecto de enlace («Volver a la oferta» del wizard) */
 .btn-link{display:inline-block;background:none;border:0;padding:8px 4px;font:600 .92rem/1.3 Inter,sans-serif;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .btn-link:hover{color:var(--text)}
@@ -80,6 +97,7 @@ footer .logo img{height:24px}
 .hero .sub strong{color:var(--text);font-weight:700}
 .hero .micro{margin-top:12px}
 .cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.cta.par{align-items:stretch;flex-wrap:nowrap;gap:10px}
 /* neón lila: el único color ambiental de la página */
 .glow{position:absolute;border-radius:50%;pointer-events:none;z-index:0;filter:blur(110px)}
 .glow.g1{width:560px;height:560px;left:-160px;top:-120px;background:rgba(196,181,253,.55)}
@@ -264,10 +282,11 @@ footer a.ext{color:var(--text);font-weight:500}
 /* ficha + carril de adicionales + cajón (colores de Clinera) */
 .tienda{padding:28px 0 12px}
 .tienda h2{font-size:clamp(1.7rem,4vw,2.4rem);margin-bottom:14px}
-.producto{display:grid;grid-template-columns:112px minmax(0,1fr);gap:16px;border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:22px}
-.producto-foto,.afoto{background:#F5F3FF;border-radius:12px;display:grid;place-items:center}
-.producto-foto{min-height:112px}
+.producto{display:grid;grid-template-columns:112px minmax(0,1fr);gap:16px;border:2px solid #6D28D9;border-radius:16px;padding:14px;margin-bottom:22px;background:#F5F3FF}
+.producto-foto,.afoto{background:#F5F3FF;border-radius:12px;display:grid;place-items:center;overflow:hidden}
+.producto-foto{align-self:start;aspect-ratio:1;min-height:0}
 .producto-foto svg{width:64px;height:64px;fill:#6D28D9}
+.producto-foto img,img.afoto{width:100%;object-fit:cover;display:block}
 .producto h3{font-size:1.45rem;margin-bottom:4px}
 .producto-sub{color:var(--muted);font-size:.95rem;margin-bottom:8px}
 .precio{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin:0 0 12px}
@@ -282,18 +301,22 @@ footer a.ext{color:var(--text);font-weight:500}
 .carril-nav button{width:36px;height:36px;border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--accent);font-size:1.3rem;line-height:1;cursor:pointer}
 .carril{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 14px;min-width:0}
 .acard{flex:0 0 196px;scroll-snap-align:start;border:1px solid var(--border);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px;background:#fff;scroll-margin-bottom:96px}
-.afoto{height:104px}
+.afoto{height:148px}
 .afoto svg{width:36px;height:36px;fill:none;stroke:#6D28D9;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .acard h4{font-size:.95rem;line-height:1.25}
 .acard>p{color:var(--muted);font-size:.8rem;line-height:1.35;min-height:2.6em}
 .acard .precio{margin:0}
 .acard .precio b{font-size:1.05rem}
 .acard .btn,.producto .btn,.drawer footer .btn,.mcta .btn{min-height:48px}
-.acard .btn{width:100%;font-size:.85rem;margin-top:auto}
-.acard.regalo .afoto{background:#ECFDF5}
-.acard.regalo .afoto svg{stroke:#065F46}
+.acard .btn{width:100%;font-size:.85rem;margin-top:auto;white-space:normal;line-height:1.2;padding:8px 10px}
+.luego{color:var(--muted);font-size:.78rem;margin:-6px 0 10px;line-height:1.3}
+.acard .luego{margin:0 0 8px}
+.btn:disabled,.btn.grad:disabled{background:#E5E7EB;border-color:#E5E7EB;color:#374151;box-shadow:none;cursor:not-allowed;opacity:1}
+.acard.espera{filter:grayscale(1);background:#F3F4F6}
+.acard.regalo .afoto{background:#F5F3FF}
 .stepper{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border);border-radius:10px;min-height:44px;padding:0 6px}
 .stepper button{width:36px;height:36px;border:0;background:transparent;color:var(--accent);font-size:1.3rem;cursor:pointer}
+.quitar-linea{grid-column:1 / -1;justify-self:start;min-height:36px;margin-top:4px;padding:0 12px;border:1px solid #6D28D9;border-radius:10px;background:#fff;color:#6D28D9;font:inherit;font-weight:700;cursor:pointer}
 .bolsa{position:relative;width:44px;height:44px;border:1px solid var(--border);border-radius:999px;background:#fff;display:grid;place-items:center;cursor:pointer;flex:none}
 .bolsa svg{width:22px;height:22px;fill:none;stroke:#6D28D9;stroke-width:1.7}
 .badge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#6D28D9;color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
@@ -303,7 +326,20 @@ footer a.ext{color:var(--text);font-weight:500}
 .drawer{position:fixed;z-index:80;background:#fff;display:flex;flex-direction:column;box-shadow:0 12px 40px rgba(17,24,39,.18)}
 .drawer header,.drawer footer{padding:14px 16px}
 .drawer header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.drawer header h2{font-size:1.2rem}
+.drawer header{align-items:flex-start}
+.drawer header h2{font-size:1.55rem;line-height:1.15;letter-spacing:-.03em;max-width:16ch}
+.estado{display:flex;align-items:center;gap:8px;margin:0 0 4px;color:#6D28D9;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.chk{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:999px;background:#6D28D9;color:#fff;font-style:normal;font-size:11px;font-weight:700;flex:none}
+.linea .chk{margin-right:6px}
+.salida{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:16px}
+.salida[hidden]{display:none}
+.salida-fondo{position:absolute;inset:0;background:rgba(17,24,39,.45);border:0}
+.salida-card{position:relative;width:min(420px,100%);background:#fff;color:#111827;border-radius:20px;padding:22px 20px;box-shadow:0 18px 50px rgba(17,24,39,.2)}
+.salida-card h2{font-size:1.7rem;line-height:1.1;letter-spacing:-.03em;margin:0 0 8px}
+.salida-card p{margin:0 0 16px;color:#374151}
+.salida-card .estado{color:#6D28D9}
+.salida-card .btn{width:100%}
+.salida-no{display:block;width:100%;margin-top:8px;background:transparent;border:0;color:#374151;font:inherit;font-weight:650;min-height:44px;cursor:pointer}
 .drawer header button{width:36px;height:36px;border-radius:999px;border:0;background:#F5F3FF;color:#5B21B6;font-size:1.3rem;cursor:pointer}
 .drawer-cuerpo{overflow:auto;padding:8px 16px;min-height:0;flex:1}
 .linea{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:.95rem}
@@ -311,9 +347,10 @@ footer a.ext{color:var(--text);font-weight:500}
 .totales{display:grid;gap:6px;margin:0 0 10px;font-size:.92rem}
 .totales div{display:flex;justify-content:space-between;gap:12px}
 .totales .hoy{font-weight:800;font-size:1.05rem;border-top:1px solid var(--border);padding-top:8px}
+.totales .desglose{color:var(--muted);font-size:.85rem}
 .apuro{text-align:center;font-weight:700;margin:0 0 8px}
 .err{color:#991B1B;font-size:.88rem;margin:8px 0 0}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#111827;color:#fff;border-radius:999px;padding:10px 16px;z-index:40;width:max-content;max-width:calc(100% - 32px)}
+.toast{position:fixed;top:76px;left:16px;background:#111827;color:#fff;border-radius:999px;padding:10px 16px;z-index:60;width:max-content;max-width:calc(100% - 32px);pointer-events:none}
 @media (min-width:960px){
   .drawer{top:0;right:0;bottom:0;width:min(420px,100%)}
   .producto{grid-template-columns:200px minmax(0,1fr);padding:20px}
@@ -321,11 +358,27 @@ footer a.ext{color:var(--text);font-weight:500}
 }
 @media (max-width:959px){
   .drawer{left:0;right:0;bottom:0;max-height:min(92dvh,760px);border-radius:18px 18px 0 0}
-  .toast{bottom:96px}
+  .toast{top:68px}
   .mcta-row{grid-template-columns:1fr auto}
 }
 .mcta-total{display:flex;flex-direction:column;justify-content:center;font-size:.75rem;color:var(--muted);line-height:1.2}
 .mcta-total b{color:var(--text);font-size:1rem}
+.mcta-asistencia{width:100%;margin-top:8px}
+.mcta-asistencia[hidden]{display:none}
+.extras{position:fixed;inset:0;z-index:80;display:grid;align-items:end;justify-items:center;padding:0}
+.extras[hidden]{display:none}
+.extras-fondo{position:absolute;inset:0;background:rgba(17,24,39,.45);border:0}
+.extras-card{position:relative;width:min(520px,100%);max-height:min(86dvh,640px);overflow:auto;background:#fff;color:#111827;border-radius:20px 20px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom))}
+.extras-card h2{font-size:1.45rem;line-height:1.15;letter-spacing:-.03em;margin:0 0 8px}
+.extras-card p{margin:0 0 4px;color:#374151}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 16px}
+.chip{min-height:44px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--border);background:#fff;color:var(--text);font:600 16px/1.15 Inter,system-ui,sans-serif;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:#5B21B6}
+.extras-card .btn{width:100%;min-height:52px;font-size:16px}
+@media (min-width:720px){
+  .extras{align-items:center;padding:16px}
+  .extras-card{border-radius:20px;padding:22px 20px}
+}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;transition-delay:calc(var(--i,0)*60ms)}
@@ -333,11 +386,12 @@ footer a.ext{color:var(--text);font-weight:500}
 /* barra móvil: aparece sólo cuando los CTA del hero salen de pantalla (ver script) */
 .mcta{display:none}
 @media (max-width:768px){
-  body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+  body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  body:has(#mobile-cta.mcta-fin){padding-bottom:calc(156px + env(safe-area-inset-bottom))}
   .mcta{display:block;position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #E5E7EB}
   .mcta[hidden]{display:none}
-  .mcta-row{display:grid;grid-template-columns:1.2fr 1fr;gap:8px;align-items:stretch}
-  .mcta .btn{width:100%;padding:13px 10px;font-size:.88rem;white-space:nowrap}
+  .mcta-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:stretch}
+  .mcta .btn{width:100%;min-height:52px;padding:10px 12px;font-size:16px;font-weight:700;line-height:1.15;white-space:normal}
 }
 @media (max-width:640px){
   .nav-cta{display:none}
@@ -416,6 +470,7 @@ footer a.ext{color:var(--text);font-weight:500}
     <!-- Logos de canales: los mismos trazos que src/components/pricing/PlanChannelLogos.tsx (/planes). -->
     <linearGradient id="ig-grad" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#FEDA75"/><stop offset=".35" stop-color="#FA7E1E"/><stop offset=".6" stop-color="#D62976"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient>
     <symbol id="ch-wa" viewBox="0 0 24 24"><path fill="#25D366" d="M12 2C6.5 2 2 6.3 2 11.6c0 1.9.5 3.7 1.5 5.3L2 22l5.3-1.4c1.5.8 3.2 1.3 4.7 1.3 5.5 0 10-4.3 10-9.6S17.5 2 12 2zm5.7 13.6c-.2.7-1.2 1.2-1.9 1.4-.5.1-1.1.2-3.6-.8-3.1-1.3-5.1-4.5-5.2-4.7-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .8 2.1.1.2.1.3 0 .5-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.8-.1 1.5z"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.5 2 2 6.3 2 11.6c0 1.9.5 3.7 1.5 5.3L2 22l5.3-1.4c1.5.8 3.2 1.3 4.7 1.3 5.5 0 10-4.3 10-9.6S17.5 2 12 2zm5.7 13.6c-.2.7-1.2 1.2-1.9 1.4-.5.1-1.1.2-3.6-.8-3.1-1.3-5.1-4.5-5.2-4.7-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .8 2.1.1.2.1.3 0 .5-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.8-.1 1.5z"/></symbol>
     <symbol id="ch-fb" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#1877F2"/><path fill="#fff" d="M13.4 21v-7.6h2.5l.4-3h-2.9V8.5c0-.9.3-1.4 1.5-1.4h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.1H8v3h2.5V21z"/></symbol>
     <symbol id="ch-ig" viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="url(#ig-grad)" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="url(#ig-grad)" stroke-width="2.2"/><circle cx="17.3" cy="6.7" r="1.3" fill="#D62976"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
@@ -430,8 +485,7 @@ footer a.ext{color:var(--text);font-weight:500}
       <img src="/kimi/clinera-logo.png" alt="Clinera" width="411" height="96" decoding="async">
     </a>
     <div class="nav-cta">
-      <button class="btn sm outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
-      <button class="btn sm grad" type="button" data-agregar="flux_base">Agregar al carrito</button>
+      <button class="btn sm grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $14.990</span></button>
     </div>
     <button class="bolsa" type="button" data-carrito-icon aria-expanded="false" aria-controls="tu-carrito" aria-label="Tu carrito, 0 ítems">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
@@ -441,105 +495,15 @@ footer a.ext{color:var(--text);font-weight:500}
 </header>
 
 <main id="main">
-<section class="tienda" id="planes" aria-labelledby="t-planes" data-carrito>
-  <div class="wrap">
-    <p class="eyebrow">Activa tu clínica</p>
-    <h2 id="t-planes">Configura tu clínica</h2>
-    <article class="producto" data-testid="plan-flux" data-flux-base>
-      <div class="producto-foto" aria-hidden="true">
-        <svg viewBox="0 0 64 64"><path d="M10 28 L32 10 L54 28 V54 H40 V38 H24 V54 H10 Z"/></svg>
-      </div>
-      <div>
-        <h3>Clinera Flux</h3>
-        <p class="producto-sub">Desde USD 29/mes. Partes con lo esencial y lo agregas al carrito.</p>
-        <p class="precio">
-          <s>USD 29</s>
-          <b>USD 14,50</b>
-          <span class="off">−50%</span>
-          <small>/mes</small>
-        </p>
-        <button class="btn grad" type="button" data-agregar="flux_base">Agregar al carrito</button>
-        <ul class="incluye">
-          <li>2 profesionales</li><li>1 sucursal</li><li>100 conversaciones</li>
-          <li>Fichas clínicas</li><li>WhatsApp</li><li>Clinera Intelligence</li>
-        </ul>
-      </div>
-    </article>
-    <div class="carril-head">
-      <h3>También puedes agregar</h3>
-      <div class="carril-nav">
-        <button type="button" data-carril="prev" aria-label="Anteriores">‹</button>
-        <button type="button" data-carril="next" aria-label="Siguientes">›</button>
-      </div>
-    </div>
-    <div class="carril" data-testid="plan-addons" tabindex="0">
-      <article class="acard" data-addon="profesional_extra">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 19c1.2-3 3.2-4.5 6-4.5S16.8 16 18 19"/></svg></div>
-        <h4>Profesional extra</h4>
-        <p>Otro profesional en la agenda de tu clínica.</p>
-        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">−50%</span></p>
-        <button class="btn grad" type="button" data-agregar="profesional_extra">Agregar al carrito</button>
-      </article>
-      <article class="acard" data-addon="sucursal_extra">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11"/><path d="M10 20v-6h4v6"/></svg></div>
-        <h4>Sucursal extra</h4>
-        <p>Otra sucursal con su propia agenda.</p>
-        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">−50%</span></p>
-        <button class="btn grad" type="button" data-agregar="sucursal_extra">Agregar al carrito</button>
-      </article>
-      <article class="acard" data-addon="conversaciones_1000">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6h14v9H8l-3 3V6z"/></svg></div>
-        <h4>1.000 conversaciones extra</h4>
-        <p>Cada pack suma 1.000 conversaciones al mes.</p>
-        <p class="precio"><s>USD 25</s><b>USD 12,50</b><span class="off">−50%</span></p>
-        <button class="btn grad" type="button" data-agregar="conversaciones_1000">Agregar al carrito</button>
-      </article>
-      <article class="acard" data-addon="instagram">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="4"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <h4>Conexión Instagram</h4>
-        <p>Los mensajes de Instagram llegan a tu agenda.</p>
-        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">−50%</span></p>
-        <button class="btn grad" type="button" data-agregar="instagram">Agregar al carrito</button>
-      </article>
-      <article class="acard" data-addon="facebook">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 20v-6h2.5l.5-3H14V9.2c0-.8.3-1.2 1.3-1.2H17V5.2c-.4 0-1.4-.2-2.2-.2-2.2 0-3.6 1.3-3.6 3.6V11H9v3h2.2V20z"/></svg></div>
-        <h4>Conexión Facebook</h4>
-        <p>Los mensajes de Facebook llegan a tu agenda.</p>
-        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">−50%</span></p>
-        <button class="btn grad" type="button" data-agregar="facebook">Agregar al carrito</button>
-      </article>
-      <article class="acard" data-addon="agente_ia">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l1.4 4.2L18 10l-4.6 1.4L12 16l-1.4-4.6L6 10l4.6-1.8z"/></svg></div>
-        <h4>Agente IA</h4>
-        <p>Incluye 7.000 créditos de IA. Atiende por ti.</p>
-        <p class="precio"><s>USD 79</s><b>USD 39,50</b><span class="off">−50%</span></p>
-        <button class="btn grad" type="button" data-agregar="agente_ia">Agregar al carrito</button>
-      </article>
-      <article class="acard regalo" data-regalo>
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="1.5"/><path d="M4 10h16V7H4zM12 7v13M12 7c-2 0-3.5-2-2.2-3.2C11 2.6 12 5 12 7zM12 7c2 0 3.5-2 2.2-3.2C13 2.6 12 5 12 7z"/></svg></div>
-        <h4>Email marketing</h4>
-        <p>Regalo de noviembre, luego USD 9/mes.</p>
-        <p class="precio"><b>USD 0</b></p>
-      </article>
-      <article class="acard regalo">
-        <div class="afoto" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 16l4-4 3 3 7-8"/></svg></div>
-        <h4>Automatizaciones</h4>
-        <p>Regalo de noviembre, luego USD 9/mes.</p>
-        <p class="precio"><b>USD 0</b></p>
-      </article>
-    </div>
-  </div>
-</section>
 <section class="hero" id="top">
   <span class="glow g1" aria-hidden="true"></span><span class="glow g2" aria-hidden="true"></span>
   <div class="wrap">
     <div class="copy">
       <p class="eyebrow rv">Software para clínicas estéticas y médicas</p>
       <h1 class="rv" style="--i:1">La plataforma médica con IA que transforma leads en pacientes con <span class="serif">evaluaciones pagadas</span></h1>
-      <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. Flux desde <strong>USD 29/mes</strong>: partes con lo esencial y sumas solo lo que tu clínica necesita.</p>
+      <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. <strong>Activar por $14.990</strong> por 3 meses. Después, el precio normal.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
-        <button class="btn grad" type="button" data-agregar="flux_base">Agregar al carrito <svg class="ic" width="18" height="18" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-        <button class="btn outline" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
+        <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $14.990</span></button>
       </div>
       <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
     </div>
@@ -564,15 +528,14 @@ footer a.ext{color:var(--text);font-weight:500}
 <section class="pain" id="dolor" data-testid="banner-dolor" aria-labelledby="t-dolor">
   <div class="wrap">
     <p id="t-dolor">Deja de perder plata con softwares caros y obsoletos que no te dejan competir</p>
-    <button class="btn grad" type="button" data-agregar="flux_base">Agregar al carrito</button>
+    <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $14.990</span></button>
   </div>
 </section>
 
 <section class="sec hebe" id="hebe" data-testid="hebe-testimonio">
   <div class="wrap">
-    <!-- Foto pendiente: reemplazar public/kimi/hebe-testimonio.jpg (1200×800). -->
     <figure class="hebe-card">
-      <img src="/kimi/hebe-testimonio.jpg" width="1200" height="800" alt="Clienta de Método Hebe sosteniendo una bolsa de la clínica">
+      <img src="/kimi/hebe-testimonio.jpg" width="1200" height="900" alt="Clínicas de Método Hebe en Vitacura, Concón y Los Ángeles">
       <figcaption>Método Hebe, la red de clínicas que sigue creciendo en Chile con la IA de Clinera</figcaption>
     </figure>
   </div>
@@ -609,14 +572,116 @@ footer a.ext{color:var(--text);font-weight:500}
   </div>
 </section>
 
+<section class="tienda" id="planes" aria-labelledby="t-planes" data-carrito>
+  <div class="wrap">
+    <p class="eyebrow">Activa tu clínica</p>
+    <h2 id="t-planes">Configura tu clínica</h2>
+    <article class="producto" data-testid="plan-flux" data-flux-base>
+      <div class="producto-foto">
+        <img src="/kimi/productos/flux.jpg" alt="Clinera Flux" width="1024" height="1024">
+      </div>
+      <div>
+        <h3>Clinera Flux</h3>
+        <p class="producto-sub">50% por 3 meses. Después vuelve al precio normal.</p>
+        <p class="precio">
+          <s>USD 29</s>
+          <b>$14.990</b>
+          <span class="off">50% por 3 meses</span>
+        </p>
+        <p class="luego">$14.990 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="flux_base">Agregar al carrito</button>
+        <ul class="incluye">
+          <li>2 profesionales</li><li>1 sucursal</li><li>100 conversaciones</li>
+          <li>Fichas clínicas</li><li>WhatsApp</li><li>Clinera Intelligence</li>
+        </ul>
+      </div>
+    </article>
+    <div class="carril-head">
+      <h3>También puedes agregar</h3>
+      <div class="carril-nav">
+        <button type="button" data-carril="prev" aria-label="Anteriores">‹</button>
+        <button type="button" data-carril="next" aria-label="Siguientes">›</button>
+      </div>
+    </div>
+    <div class="carril" data-testid="plan-addons" tabindex="0">
+      <article class="acard espera" data-addon="profesional_extra">
+        <img class="afoto" src="/kimi/productos/profesional.jpg" alt="Profesional extra" width="1024" height="1024">
+        <h4>Profesional extra</h4>
+        <p>Otro profesional en la agenda de tu clínica.</p>
+        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">USD 4,50 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="profesional_extra" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard espera" data-addon="sucursal_extra">
+        <img class="afoto" src="/kimi/productos/sucursal.jpg" alt="Sucursal extra" width="1024" height="1024">
+        <h4>Sucursal extra</h4>
+        <p>Otra sucursal con su propia agenda.</p>
+        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">USD 4,50 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="sucursal_extra" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard espera" data-addon="conversaciones_1000">
+        <img class="afoto" src="/kimi/productos/conversaciones.jpg" alt="1.000 conversaciones extra" width="1024" height="1024">
+        <h4>1.000 conversaciones extra</h4>
+        <p>Cada pack suma 1.000 conversaciones al mes.</p>
+        <p class="precio"><s>USD 25</s><b>USD 12,50</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">USD 12,50 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="conversaciones_1000" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard espera" data-addon="instagram">
+        <img class="afoto" src="/kimi/productos/instagram.jpg" alt="Conexión Instagram" width="1024" height="1024">
+        <h4>Conexión Instagram</h4>
+        <p>Los mensajes de Instagram llegan a tu agenda.</p>
+        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">USD 4,50 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="instagram" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard espera" data-addon="facebook">
+        <img class="afoto" src="/kimi/productos/facebook.jpg" alt="Conexión Facebook" width="1024" height="1024">
+        <h4>Conexión Facebook</h4>
+        <p>Los mensajes de Facebook llegan a tu agenda.</p>
+        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">USD 4,50 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="facebook" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard espera" data-addon="agente_ia">
+        <img class="afoto" src="/kimi/productos/agente-ia.jpg" alt="Agente IA" width="1024" height="1024">
+        <h4>Agente IA</h4>
+        <p>Incluye 7.000 créditos de IA. Atiende por ti.</p>
+        <p class="precio"><s>USD 79</s><b>USD 39,50</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">USD 39,50 por 3 meses, luego precio normal</p>
+        <button class="btn grad" type="button" data-agregar="agente_ia" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard espera" data-addon="onboarding_humano">
+        <img class="afoto" src="/kimi/productos/onboarding.jpg" alt="Onboarding humano" width="1024" height="1024">
+        <h4>Onboarding humano</h4>
+        <p>Una persona te deja la clínica andando. Se cobra una sola vez.</p>
+        <p class="precio"><b>USD 190</b><span class="off">cobro único</span></p>
+        <button class="btn grad" type="button" data-agregar="onboarding_humano" disabled>Primero agrega Clinera Flux</button>
+      </article>
+      <article class="acard regalo" data-regalo="email_marketing">
+        <img class="afoto" src="/kimi/productos/email-marketing.jpg" alt="Email marketing" width="1024" height="1024">
+        <h4>Email marketing</h4>
+        <p>Regalo de noviembre, luego USD 9/mes.</p>
+        <p class="precio"><b>USD 0</b></p>
+      </article>
+      <article class="acard regalo" data-regalo="automatizaciones">
+        <img class="afoto" src="/kimi/productos/automatizaciones.jpg" alt="Automatizaciones" width="1024" height="1024">
+        <h4>Automatizaciones</h4>
+        <p>Regalo de noviembre, luego USD 9/mes.</p>
+        <p class="precio"><b>USD 0</b></p>
+      </article>
+    </div>
+  </div>
+</section>
 <section class="sec cta-band" id="comenzar" aria-labelledby="t-act">
   <div class="wrap">
     <p class="eyebrow rv">Comenzar</p>
-    <h2 id="t-act" class="rv" style="--i:1">Cuéntanos de tu clínica y comienza con Clinera</h2>
-    <p class="lead rv" style="--i:2">Responde cuatro preguntas rápidas y te mostramos cómo activar tu cuenta.</p>
-    <div class="cta rv" style="--i:3">
-      <button class="btn grad" type="button" data-agregar="flux_base">Agregar al carrito</button>
-      <button class="btn outline light" type="button" data-open-wizard data-cta="ventas">Hablar con ventas</button>
+    <h2 id="t-act" class="rv" style="--i:1">Activa tu clínica con el carrito</h2>
+    <p class="lead rv" style="--i:2">Agrega Clinera Flux y elige lo que tu clínica necesita.</p>
+    <div class="cta par rv" style="--i:3">
+      <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $14.990</span></button>
+      <a class="btn wa" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
     </div>
     <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
   </div>
@@ -640,25 +705,56 @@ footer a.ext{color:var(--text);font-weight:500}
 <div class="velo" data-velo hidden></div>
 <aside class="drawer" id="tu-carrito" data-drawer hidden role="dialog" aria-labelledby="t-carrito">
   <header>
-    <h2 id="t-carrito">Tu carrito</h2>
+    <div>
+      <p class="estado"><span class="chk" aria-hidden="true">✓</span> Tu clínica</p>
+      <h2 id="t-carrito">Tu clínica está a punto de crecer</h2>
+    </div>
     <button type="button" data-cerrar aria-label="Cerrar carrito">×</button>
   </header>
   <div class="drawer-cuerpo" data-lineas></div>
   <footer>
     <div class="totales" data-totales></div>
     <p class="apuro">No pierdas más tu tiempo</p>
-    <button class="btn grad block" type="button" data-cta="carrito-checkout" data-plan="flux_modular" data-plan-value="0">Activar</button>
+    <button class="btn grad" type="button" data-cta="carrito-checkout" data-plan="flux_modular" data-plan-value="0">Activar</button>
     <p class="err" data-error hidden></p>
-    <p hidden data-agenda><a href="/agenda" data-cta="agendar-reunion">Agendar reunión</a></p>
   </footer>
 </aside>
 <div class="toast" data-toast hidden>Agregado al carrito</div>
 
+<div class="salida" data-salida hidden role="dialog" aria-modal="true" aria-labelledby="salida-titulo">
+  <button class="salida-fondo" type="button" data-salida-cerrar aria-label="Cerrar oferta"></button>
+  <div class="salida-card">
+    <p class="estado"><span class="chk" aria-hidden="true">✓</span> 50% por 3 meses</p>
+    <h2 id="salida-titulo">No te vayas sin tu 50%</h2>
+    <p>Clinera Flux queda en $14.990 por 3 meses. Después vuelve al precio normal.</p>
+    <button class="btn grad" type="button" data-salida-cta>Agregar Flux</button>
+    <button class="salida-no" type="button" data-salida-cerrar>Ahora no</button>
+  </div>
+</div>
+
+<div class="extras" data-extras hidden role="dialog" aria-modal="true" aria-labelledby="extras-titulo">
+  <button class="extras-fondo" type="button" data-extras-cerrar aria-label="Cerrar adicionales"></button>
+  <div class="extras-card">
+    <h2 id="extras-titulo">¿Quieres adicionales o con esto partes?</h2>
+    <p>Clinera Flux ya está en tu carrito. $14.990 por 3 meses.</p>
+    <div class="chips">
+      <button class="chip" type="button" data-chip="profesional_extra" aria-pressed="false">Profesional extra</button>
+      <button class="chip" type="button" data-chip="sucursal_extra" aria-pressed="false">Sucursal extra</button>
+      <button class="chip" type="button" data-chip="conversaciones_1000" aria-pressed="false">1.000 conversaciones</button>
+      <button class="chip" type="button" data-chip="instagram" aria-pressed="false">Instagram</button>
+      <button class="chip" type="button" data-chip="facebook" aria-pressed="false">Facebook</button>
+      <button class="chip" type="button" data-chip="agente_ia" aria-pressed="false">Agente IA</button>
+    </div>
+    <button class="btn grad" type="button" data-extras-seguir>Con esto parto</button>
+  </div>
+</div>
+
 <div class="mcta" id="mobile-cta" data-testid="mobile-cta">
   <div class="mcta-row">
-    <div class="mcta-total"><span>Total hoy</span><b data-total-bar>USD 0</b></div>
-    <button class="btn grad" type="button" data-cta="carrito-checkout" data-plan="flux_modular">Activar</button>
+    <div class="mcta-total"><span data-bar-label>Clinera Flux</span><b data-total-bar>$14.990</b></div>
+    <button class="btn grad" type="button" data-bar-accion data-plan="flux_modular">Activar por $14.990</button>
   </div>
+  <a class="btn wa mcta-asistencia" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia" data-asistencia-fin hidden><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
 </div>
 
 <div class="wiz" id="wizard" data-testid="wizard" role="dialog" aria-modal="true" aria-labelledby="wiz-title" hidden>
@@ -752,7 +848,7 @@ footer a.ext{color:var(--text);font-weight:500}
         <div class="offer-cta">
           <!-- TODO: reemplazar [LINK CHECKOUT FLUX 50%] por el link real de checkout de Flux con 50% de descuento -->
           <a class="btn grad block" id="wiz-offer-link" href="/contrata?plan=flux" data-contrata-link data-cta="oferta-popup" data-plan="Flux">Aprovechar oferta</a>
-          <button class="btn outline block" type="button" id="wiz-agendar" data-testid="wiz-agendar">Agendar reunión</button>
+          <a class="btn wa block" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
         </div>
         <p class="offer-ventas micro" id="wiz-offer-ventas" hidden>Igual un especialista te contactará pronto.</p>
       </div>
@@ -783,7 +879,8 @@ footer a.ext{color:var(--text);font-weight:500}
     conversaciones_1000:{usd:25,max:20,nombre:"1.000 conversaciones extra"},
     instagram:{usd:9,max:1,nombre:"Conexión Instagram"},
     facebook:{usd:9,max:1,nombre:"Conexión Facebook"},
-    agente_ia:{usd:79,max:1,nombre:"Agente IA"}
+    agente_ia:{usd:79,max:1,nombre:"Agente IA"},
+    onboarding_humano:{usd:190,max:1,nombre:"Onboarding humano",once:true}
   };
   var IDS=Object.keys(SPEC);
   var cart={};
@@ -807,10 +904,25 @@ footer a.ext{color:var(--text);font-weight:500}
     if(s.slice(-3)==",00")s=String(Math.round(x));
     return "USD "+s;
   }
-  function lista(){
-    return IDS.reduce(function(a,id){return a+SPEC[id].usd*cart[id];},0);
+  function partes(){
+    var mes=0,unico=0;
+    IDS.forEach(function(id){
+      var usd=SPEC[id].usd*cart[id];
+      if(SPEC[id].once)unico+=usd;else mes+=usd;
+    });
+    return {mes:mes,unico:unico,lista:mes+unico};
   }
-  function hoy(){return promoOff?lista():Math.round(lista()*50)/100;}
+  function lista(){return partes().lista;}
+  function hoy(){
+    var p=partes();
+    if(promoOff)return p.lista;
+    return Math.round(p.mes*50)/100+p.unico;
+  }
+  function precioLinea(id){
+    var bruto=SPEC[id].usd*cart[id];
+    if(SPEC[id].once||promoOff)return bruto;
+    return Math.round(bruto*50)/100;
+  }
   function unidades(){return IDS.reduce(function(a,id){return a+cart[id];},0);}
 
   function pintarControles(){
@@ -819,6 +931,7 @@ footer a.ext{color:var(--text);font-weight:500}
       var spec=SPEC[id];
       if(!spec)return;
       var n=cart[id];
+      card.classList.toggle("espera", cart.flux_base<1);
       var btn=card.querySelector("[data-agregar]");
       var step=card.querySelector(".stepper");
       if(n>0&&spec.max>1){
@@ -835,11 +948,21 @@ footer a.ext{color:var(--text);font-weight:500}
       }else{
         if(step)step.hidden=true;
         btn.hidden=false;
-        btn.textContent=n>0?"Quitar":"Agregar al carrito";
+        if(cart.flux_base<1){
+          btn.disabled=true;
+          btn.textContent="Primero agrega Clinera Flux";
+        }else{
+          btn.disabled=false;
+          btn.textContent=n>0?"Quitar":"Agregar al carrito";
+        }
       }
     });
     document.querySelectorAll('[data-agregar="flux_base"]').forEach(function(btn){
       btn.textContent=cart.flux_base>0?"Quitar":"Agregar al carrito";
+    });
+    document.querySelectorAll("[data-flujo=principal]").forEach(function(btn){
+      var label=btn.querySelector("[data-etiqueta]")||btn;
+      label.textContent="Activar por $14.990";
     });
   }
 
@@ -850,7 +973,12 @@ footer a.ext{color:var(--text);font-weight:500}
       badge.hidden=u<1;
     }
     if(icono)icono.setAttribute("aria-label","Tu carrito, "+u+" ítems");
-    if(barra)barra.textContent=money(H);
+    var etiqueta=document.querySelector("[data-bar-label]");
+    var barBtn=document.querySelector("[data-bar-accion]");
+    if(etiqueta)etiqueta.textContent="Clinera Flux";
+    if(barra)barra.textContent=promoOff?"USD 29":"$14.990";
+    if(barBtn){ barBtn.textContent=promoOff?"Activar":"Activar por $14.990"; barBtn.removeAttribute("data-cta"); }
+    pintarChips();
     pintarControles();
     if(!lineas)return;
     var html="";
@@ -858,18 +986,21 @@ footer a.ext{color:var(--text);font-weight:500}
       if(cart[id]<1)return;
       var spec=SPEC[id];
       var mas=cart[id]>=spec.max?" disabled":"";
-      var menos=spec.max===1?"":"";
-      html+='<div class="linea"><span>'+spec.nombre+'</span><b>'+money(spec.usd*cart[id])+'</b>'+
-        '<div class="stepper"><button type="button" data-id="'+id+'" data-delta="-1" aria-label="Quitar '+spec.nombre+' en el carrito">−</button>'+
-        '<output>'+cart[id]+'</output>'+
-        '<button type="button" data-id="'+id+'" data-delta="1" aria-label="Sumar '+spec.nombre+' en el carrito"'+mas+'>+</button></div></div>';
+      var binario=id==="flux_base"||id==="onboarding_humano";
+      var control=binario
+        ? '<button type="button" class="quitar-linea" data-id="'+id+'" data-delta="-1" aria-label="Quitar '+spec.nombre+'">Quitar</button>'
+        : '<div class="stepper"><button type="button" data-id="'+id+'" data-delta="-1" aria-label="Quitar '+spec.nombre+' en el carrito">−</button>'+
+          '<output>'+cart[id]+'</output>'+
+          '<button type="button" data-id="'+id+'" data-delta="1" aria-label="Sumar '+spec.nombre+' en el carrito"'+mas+'>+</button></div>';
+      html+='<div class="linea"><span><i class="chk" aria-hidden="true">✓</i>'+spec.nombre+(spec.once?" · cobro único":"")+'</span><b>'+money(precioLinea(id))+'</b>'+control+'</div>';
     });
     if(!html)html='<p>Tu carrito está vacío. Agrega Clinera Flux para armar tu clínica.</p>';
     lineas.innerHTML=html;
-    var desc=promoOff?0:Math.round(L*50)/100;
-    totales.innerHTML='<div><span>Subtotal</span><span>'+money(L)+'</span></div>'+
-      (promoOff?'':'<div><span>50% × 3 meses</span><span>−'+money(desc)+'</span></div>')+
-      '<div class="hoy" data-total-hoy><span>Total hoy</span><span>'+money(H)+(L&&!promoOff?' <s>'+money(L)+'</s>':'')+'</span></div>';
+    var pnow=partes();
+    var mensualHoy=promoOff?pnow.mes:Math.round(pnow.mes*50)/100;
+    totales.innerHTML='<div class="hoy" data-total-hoy><span>Hoy pagas</span><span>'+money(H)+'</span></div>'+
+      (pnow.unico>0?'<div class="desglose"><span>'+money(mensualHoy)+' mensual + '+money(pnow.unico)+' de onboarding</span></div>':'')+
+      (promoOff||pnow.mes<=0?'':'<div class="desglose"><span>50% por 3 meses</span></div>');
     document.querySelectorAll('[data-cta="carrito-checkout"]').forEach(function(b){
       b.setAttribute("data-plan-value",String(H));
       b.setAttribute("data-plan-lista",String(L));
@@ -883,9 +1014,13 @@ footer a.ext{color:var(--text);font-weight:500}
 
   function fijar(id,delta){
     var spec=SPEC[id]; if(!spec)return;
+    if(id!=="flux_base"&&delta>0&&cart.flux_base<1)return;
     var next=Math.max(0,Math.min(spec.max,cart[id]+delta));
     if(next===cart[id])return;
     cart[id]=next;
+    if(id==="flux_base"&&cart.flux_base<1){
+      IDS.forEach(function(k){if(k!=="flux_base")cart[k]=0;});
+    }
     if(delta>0){
       toast.hidden=false;
       clearTimeout(toastT);
@@ -894,7 +1029,94 @@ footer a.ext{color:var(--text);font-weight:500}
     pintar();
   }
 
+  var extras=document.querySelector("[data-extras]");
+  var CHIP_IDS=["profesional_extra","sucursal_extra","conversaciones_1000","instagram","facebook","agente_ia"];
+  function pintarChips(){
+    if(!extras)return;
+    extras.querySelectorAll("[data-chip]").forEach(function(b){
+      var id=b.getAttribute("data-chip");
+      b.setAttribute("aria-pressed", cart[id]>0?"true":"false");
+    });
+    var seguir=extras.querySelector("[data-extras-seguir]");
+    if(!seguir)return;
+    var alguno=CHIP_IDS.some(function(id){return cart[id]>0;});
+    seguir.textContent=alguno?"Continuar":"Con esto parto";
+  }
+  function abrirExtras(){
+    if(cart.flux_base<1) fijar("flux_base",1);
+    if(extras){ extras.hidden=false; pintarChips(); }
+  }
+  function cerrarExtras(){ if(extras) extras.hidden=true; }
+
+  var salidaEl=document.querySelector("[data-salida]");
+  var salidaLista=false;
+  setTimeout(function(){salidaLista=true;},4000);
+  function salidaVista(){ try{return sessionStorage.getItem("clinera_oferta_salida")==="1";}catch(e){return true;} }
+  function abrirSalida(){
+    if(!salidaLista||!salidaEl||!salidaEl.hidden||salidaVista())return;
+    var wiz=document.getElementById("wizard");
+    if(wiz&&!wiz.hidden)return;
+    try{sessionStorage.setItem("clinera_oferta_salida","1");}catch(e){}
+    var cta=salidaEl.querySelector("[data-salida-cta]");
+    if(cart.flux_base>0){cta.textContent="Activar";cta.setAttribute("data-salida-accion","activar");}
+    else{cta.textContent="Agregar Flux";cta.removeAttribute("data-salida-accion");}
+    salidaEl.hidden=false;
+  }
+  function cerrarSalida(){ if(salidaEl)salidaEl.hidden=true; }
+  document.addEventListener("mouseout",function(e){
+    if(e.clientY>8||e.relatedTarget)return;
+    abrirSalida();
+  });
+  var oculto=false;
+  document.addEventListener("visibilitychange",function(){
+    if(document.visibilityState==="hidden"){oculto=true;return;}
+    if(oculto){oculto=false;abrirSalida();}
+  });
+  if(window.matchMedia("(max-width: 800px)").matches){
+    history.pushState({clineraSalida:1},"");
+    window.addEventListener("popstate",function(){
+      if(salidaVista())return;
+      abrirSalida();
+      history.pushState({clineraSalida:1},"");
+    });
+  }
+  document.addEventListener("keydown",function(e){
+    if(e.key!=="Escape")return;
+    if(extras&&!extras.hidden){cerrarExtras();return;}
+    if(salidaEl&&!salidaEl.hidden)cerrarSalida();
+  });
+
   document.addEventListener("click",function(ev){
+    if(ev.target.closest("[data-extras-cerrar]")){cerrarExtras();return;}
+    var chip=ev.target.closest("[data-chip]");
+    if(chip){
+      ev.preventDefault();
+      var cid=chip.getAttribute("data-chip");
+      if(cid){
+        if(cart.flux_base<1) cart.flux_base=1;
+        fijar(cid, cart[cid]>0 ? -cart[cid] : 1);
+      }
+      return;
+    }
+    if(ev.target.closest("[data-extras-seguir]")){
+      ev.preventDefault();
+      cerrarExtras();
+      if(cart.flux_base<1) cart.flux_base=1;
+      pagar();
+      return;
+    }
+    var flujo=ev.target.closest("[data-flujo=principal]");
+    if(flujo){
+      ev.preventDefault();
+      abrirExtras();
+      return;
+    }
+    var barraBtn=ev.target.closest("[data-bar-accion]");
+    if(barraBtn){
+      ev.preventDefault();
+      abrirExtras();
+      return;
+    }
     var add=ev.target.closest("[data-agregar]");
     if(add){ev.preventDefault();fijar(add.getAttribute("data-agregar"), cart[add.getAttribute("data-agregar")]>0 && SPEC[add.getAttribute("data-agregar")].max===1 ? -1 : 1);return;}
     var delta=ev.target.closest("[data-delta]");
@@ -906,6 +1128,14 @@ footer a.ext{color:var(--text);font-weight:500}
     }
     if(ev.target.closest("[data-carrito-icon]")){abierto=!abierto;pintar();return;}
     if(ev.target.closest("[data-cerrar]")||ev.target.closest("[data-velo]")){abierto=false;pintar();return;}
+    if(ev.target.closest("[data-salida-cerrar]")){cerrarSalida();return;}
+    var salidaCta=ev.target.closest("[data-salida-cta]");
+    if(salidaCta){
+      cerrarSalida();
+      if(salidaCta.getAttribute("data-salida-accion")==="activar") pagar();
+      else fijar("flux_base",1);
+      return;
+    }
     if(ev.target.closest('[data-carril="next"]')){document.querySelector(".carril").scrollBy({left:220,behavior:"smooth"});return;}
     if(ev.target.closest('[data-carril="prev"]')){document.querySelector(".carril").scrollBy({left:-220,behavior:"smooth"});return;}
     var pay=ev.target.closest('[data-cta="carrito-checkout"]');
@@ -918,12 +1148,12 @@ footer a.ext{color:var(--text);font-weight:500}
       abierto=true;
       errorEl.hidden=false;
       errorEl.textContent="Agrega Clinera Flux para activar tu clínica.";
-      agenda.hidden=true;
+      if(agenda)agenda.hidden=true;
       pintar();
       return;
     }
     enviando=true; pintar();
-    errorEl.hidden=true; agenda.hidden=true;
+    errorEl.hidden=true; if(agenda)agenda.hidden=true;
     var limpio={};
     IDS.forEach(function(id){limpio[id]=cart[id];});
     limpio.flux_base=1;
@@ -944,14 +1174,14 @@ footer a.ext{color:var(--text);font-weight:500}
         if(json&&json.ok&&json.url){location.assign(json.url);return;}
         abierto=true;
         errorEl.hidden=false;
-        errorEl.textContent="El pago en línea no está disponible todavía. Agenda una reunión y lo activamos contigo.";
-        agenda.hidden=false;
+        errorEl.textContent="Pago online pronto — agenda con ventas";
+        if(agenda)agenda.hidden=false;
       })
       .catch(function(){
         abierto=true;
         errorEl.hidden=false;
-        errorEl.textContent="El pago en línea no está disponible todavía. Agenda una reunión y lo activamos contigo.";
-        agenda.hidden=false;
+        errorEl.textContent="Pago online pronto — agenda con ventas";
+        if(agenda)agenda.hidden=false;
       })
       .then(function(){enviando=false;pintar();});
   }
@@ -982,18 +1212,18 @@ footer a.ext{color:var(--text);font-weight:500}
     els.forEach(function(e){io.observe(e)});
   }
 
-  // Barra móvil: sólo cuando los CTA del hero ya salieron por arriba (si no hay IO, siempre).
+  // «Solicita asistencia» en la barra: solo cuando el cierre entra en pantalla.
   var mcta=document.getElementById('mobile-cta');
-  var heroCta=document.getElementById('hero-cta');
-  if(mcta){
-    if(hasIO&&heroCta){
-      new IntersectionObserver(function(en){
-        var e=en[0];
-        mcta.classList.toggle('is-visible',!e.isIntersecting&&e.boundingClientRect.top<0);
-      },{threshold:0}).observe(heroCta);
-    }else{
-      mcta.classList.add('is-visible');
-    }
+  var cierre=document.getElementById('comenzar');
+  var waFin=document.querySelector('[data-asistencia-fin]');
+  function mostrarAsistencia(on){
+    if(mcta) mcta.classList.toggle('mcta-fin', on);
+    if(waFin) waFin.hidden=!on;
+  }
+  if(cierre && hasIO){
+    new IntersectionObserver(function(en){
+      mostrarAsistencia(en.some(function(e){return e.isIntersecting;}));
+    },{threshold:0.15}).observe(cierre);
   }
 
   // TODO: reemplazar por el webhook real (n8n)
@@ -1236,7 +1466,7 @@ footer a.ext{color:var(--text);font-weight:500}
     var f=proximoDiaHabil();q.set('fecha',f);q.set('date',f);
     return EMBED_BASE+'?'+q.toString();
   }
-  agendarBtn.addEventListener('click',function(){
+  if(agendarBtn)agendarBtn.addEventListener('click',function(){
     if(!done)return;
     view='agenda';
     if(!agendaFrame.getAttribute('src'))agendaFrame.src=embedSrc();
