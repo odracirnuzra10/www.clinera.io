@@ -1,9 +1,8 @@
 "use client";
 
 // /contrata: ficha de producto al estilo de una tienda (Mercado Libre), con los
-// colores de Clinera. «Activar por $28.000» suma Flux y pregunta por adicionales.
-// La pantalla está en pesos. La sesión sigue en USD hasta Mercado Pago.
-// El correo lo pide el checkout; si la URL trae uno válido, viaja en el POST.
+// colores de Clinera. «Activar por $14.495» abre la prueba de 30 días.
+// Mercado Pago cobra ese monto. Después, $78.990. El agente IA no se vende acá.
 
 import { Outfit } from "next/font/google";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
@@ -21,8 +20,11 @@ import {
   ASISTENCIA_WHATSAPP,
   CARRITO,
   CTA_ACTIVAR_CLP,
+  CTA_PRUEBA_CLP,
   FLUX_BASE_INCLUYE,
   ITEM_IDS,
+  MP_FLUX_PROMO_URL,
+  MP_NOTA_CLP,
   PREGUNTA_ADICIONALES,
   REGALOS,
   type Carrito,
@@ -34,10 +36,7 @@ import {
   esRegaloNoviembre,
   regaloVigente,
   sanear,
-  totalLista,
-  totalPromo,
 } from "@/content/carrito-flux";
-import { sanitizarRef, soloTracking } from "@/content/checkout";
 import { track, trackPixel } from "@/lib/tracking";
 import styles from "./FluxCarrito.module.css";
 
@@ -55,12 +54,6 @@ const TEXTO: Record<Exclude<ItemId, "flux_base">, string> = {
   automatizaciones: "Avisos y tareas que se disparan solas.",
   onboarding_humano: "Una persona te deja la clínica andando. Se cobra una sola vez.",
 };
-
-declare global {
-  interface Window {
-    clineraStripeRef?: () => string;
-  }
-}
 
 type Cantidades = Record<ItemId, number>;
 
@@ -96,25 +89,6 @@ function desglose(c: Cantidades): { mensual: number; unico: number; lista: numbe
   return { mensual, unico, lista: redondear(mensual + unico), promo: redondear(promoMes + unico) };
 }
 
-function pesosCarrito(c: Cantidades, promo: boolean) {
-  let ahora = 0;
-  let luegoMes = 0;
-  let unico = 0;
-  let ahoraMes = 0;
-  for (const id of ITEM_IDS) {
-    if (!c[id]) continue;
-    const esUnico = CARRITO[id].cobro === "unico";
-    const linea = clpLinea(CARRITO[id].usd * c[id], promo, esUnico);
-    ahora += linea.ahora;
-    if (esUnico) unico += linea.lista;
-    else {
-      luegoMes += linea.lista;
-      ahoraMes += linea.ahora;
-    }
-  }
-  return { ahora, luegoMes, unico, ahoraMes };
-}
-
 function etiqueta(nombre: string): string {
   return nombre.charAt(0).toLowerCase() + nombre.slice(1);
 }
@@ -143,10 +117,7 @@ export default function FluxCarrito({
 }) {
   const [carrito, setCarrito] = useState(() => vista({}));
   const [listo, setListo] = useState(false);
-  const [promoOff, setPromoOff] = useState(false);
-  const [emailPrefill, setEmailPrefill] = useState("");
-  const [enviando, setEnviando] = useState(false);
-  const [error, setError] = useState("");
+  const [promoOff] = useState(false);
   const [aviso, setAviso] = useState("");
   const [abierto, setAbierto] = useState(false);
   const debounce = useRef<number | null>(null);
@@ -167,7 +138,6 @@ export default function FluxCarrito({
         inicial = {};
       }
     }
-    setEmailPrefill(desde.email);
     setCarrito(vista(inicial));
     setListo(true);
   }, [query]);
@@ -201,7 +171,7 @@ export default function FluxCarrito({
   const [extras, setExtras] = useState(false);
   const [finScroll, setFinScroll] = useState(false);
   const cierreRef = useRef<HTMLElement>(null);
-  const salirRef = useRef({ flux: false, pagar: () => {}, agregar: () => {} });
+  const salirRef = useRef({ flux: false, agregar: () => {} });
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("pago") === "ok") return;
     let armado = false;
@@ -281,14 +251,9 @@ export default function FluxCarrito({
 
   salirRef.current = {
     flux: carrito.flux_base > 0,
-    pagar: () => { void pagar(); },
     agregar: () => fijar("flux_base", 1),
   };
 
-  const partes = desglose(carrito);
-  const lista = partes.lista;
-  const hoy = promoOff ? lista : partes.promo;
-  const pesos = pesosCarrito(carrito, !promoOff);
   const unidades = ITEM_IDS.reduce((n, id) => n + carrito[id], 0);
   const fluxEnCarrito = carrito.flux_base >= 1;
 
@@ -342,70 +307,25 @@ export default function FluxCarrito({
     foco.current = null;
   }
 
-  async function pagar() {
-    // TODO(Mercado Pago): sin keys. La UI está en CLP; esta sesión sigue en USD.
-    if (enviando) return;
-    if (carrito.flux_base < 1) {
-      setAbierto(true);
-      setError("Agrega Clinera Flux para activar tu clínica.");
-      return;
-    }
-    setEnviando(true);
-    setError("");
-    const limpio = sanear(carrito);
-    const value = promoOff ? totalLista(limpio) : totalPromo(limpio);
+  function marcarPago() {
+    // El link cobra la prueba de $14.495. La señal queda en el equivalente
+    // de catálogo (US$ 14,50), no en el total de los adicionales.
     try {
-      const search = window.location.search;
-      const ref = window.clineraStripeRef?.() || sanitizarRef(new URLSearchParams(search).get("gclid") || "");
-      const utm = Object.fromEntries(soloTracking(search));
-      try {
-        track("initiate_checkout", {
-          plan: "flux_modular",
-          content_name: "Clinera Flux modular",
-          value,
-          value_lista: totalLista(limpio),
-          currency: "USD",
-          items: ITEM_IDS.filter((id) => limpio[id] > 0).map((id) => ({
-            item_id: id,
-            quantity: limpio[id],
-            price: CARRITO[id].usd,
-          })),
-          promo: promoOff ? "none" : "CLINERA50X3",
-          regalo,
-        });
-        trackPixel("InitiateCheckout", {
-          value,
-          currency: "USD",
-          content_name: "Clinera Flux modular",
-          contents: ITEM_IDS.filter((id) => limpio[id] > 0).map((id) => ({ id, quantity: limpio[id] })),
-        });
-      } catch (e) {
-        console.error("[contrata] checkout", e);
-      }
-      const res = await fetch("/api/contrata/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          carrito: limpio,
-          clientRef: ref,
-          utm,
-          ...(emailPrefill ? { email: emailPrefill } : {}),
-        }),
+      track("initiate_checkout", {
+        plan: "flux_modular",
+        content_name: "Clinera Flux",
+        value: 14.5,
+        currency: "USD",
+        promo: "CLINERA50X3",
+        pago: "mercadopago",
       });
-      const json = (await res.json()) as { ok?: boolean; url?: string; promo?: boolean };
-      if (json.promo === false) setPromoOff(true);
-      if (json.ok && json.url) {
-        window.location.assign(json.url);
-        return;
-      }
-      setAbierto(true);
-      setError("Pago online pronto — agenda con ventas");
+      trackPixel("InitiateCheckout", {
+        value: 14.5,
+        currency: "USD",
+        content_name: "Clinera Flux",
+      });
     } catch (e) {
       console.error("[contrata] checkout", e);
-      setAbierto(true);
-      setError("Pago online pronto — agenda con ventas");
-    } finally {
-      setEnviando(false);
     }
   }
 
@@ -446,7 +366,7 @@ export default function FluxCarrito({
         </p>
         <h1 className={styles.h1}>Activa tu clínica</h1>
         {!promoOff ? (
-          <p className={styles.ofertaHero}>$14.000 por 3 meses, luego $28.000.</p>
+          <p className={styles.ofertaHero}>{CTA_PRUEBA_CLP}. Después, $78.990.</p>
         ) : null}
 
         <article className={styles.producto} data-flux-base>
@@ -455,7 +375,7 @@ export default function FluxCarrito({
           </div>
           <div className={styles.productoCompra}>
             <h2 className={styles.cardTitulo}>Clinera Flux</h2>
-            <p className={styles.cardSub}>Configura tu clínica y agrégala al carrito.</p>
+            <p className={styles.cardSub}>30 días para escalar tu clínica. Después, $78.990.</p>
             {promoOff ? <Precio usd={29} promo={false} /> : <PrecioFlux />}
             <button type="button" className={styles.agregar} onClick={activar}>
               {promoOff ? "Activar" : CTA_ACTIVAR_CLP}
@@ -482,7 +402,7 @@ export default function FluxCarrito({
           <h2 className={styles.seccion}>También puedes agregar</h2>
           <p className={styles.seccionSub}>Depende de ti elegir lo adicional</p>
           <div className={styles.cards}>
-            {ADICIONALES.filter((id) => !esRegaloNoviembre(id) || regalo === false).map((id) => (
+            {ADICIONALES.filter((id) => id !== "agente_ia" && (!esRegaloNoviembre(id) || regalo === false)).map((id) => (
               <Addon
                 key={id}
                 id={id}
@@ -516,15 +436,15 @@ export default function FluxCarrito({
           </details>
           {!promoOff ? (
             <details>
-              <summary>¿Cómo se aplica el 50%?</summary>
-              <p>Los 3 primeros meses pagas la mitad de lo mensual. El onboarding humano, si lo agregas, se cobra una sola vez y entero. Desde el mes 4 lo mensual vuelve al precio de lista.</p>
+              <summary>¿Qué pasa después de los 30 días?</summary>
+              <p>Los primeros 30 días son $14.495. Después, $78.990. El link de Mercado Pago cobra la prueba.</p>
             </details>
           ) : null}
         </section>
 
         <section className={styles.cierre} id="cierre" data-cierre ref={cierreRef}>
           <h2 className={styles.seccion}>Activa cuando quieras</h2>
-          <p className={styles.seccionSub}>Flux por 3 meses. Si prefieres que te ayudemos, escríbenos.</p>
+          <p className={styles.seccionSub}>Prueba de 30 días. Si prefieres que te ayudemos, escríbenos.</p>
           <div className={styles.par}>
             <button type="button" className={styles.cta} onClick={activar}>
               {promoOff ? "Activar" : CTA_ACTIVAR_CLP}
@@ -566,7 +486,7 @@ export default function FluxCarrito({
         </div>
         <div className={styles.drawerCuerpo}>
           {lineas.length === 0 ? (
-            <p className={styles.vacio}>Tu carrito está vacío. Agrega Clinera Flux para armar tu clínica.</p>
+            <p className={styles.vacio}>La prueba es $14.495 por 30 días. Después, $78.990.</p>
           ) : (
             <ul className={styles.lineas}>
               {lineas.map((id) => (
@@ -578,10 +498,16 @@ export default function FluxCarrito({
                     {carrito[id] > 1 ? ` × ${carrito[id]}` : ""}
                   </span>
                   <span className={styles.num}>
-                    {!promoOff && CARRITO[id].cobro !== "unico" ? (
-                      <s>{formatoClp(clpLinea(CARRITO[id].usd * carrito[id], true).lista)}</s>
-                    ) : null}{" "}
-                    {formatoClp(clpLinea(CARRITO[id].usd * carrito[id], !promoOff, CARRITO[id].cobro === "unico").ahora)}
+                    {id === "flux_base" ? (
+                      "$14.495"
+                    ) : (
+                      <>
+                        {!promoOff && CARRITO[id].cobro !== "unico" ? (
+                          <s>{formatoClp(clpLinea(CARRITO[id].usd * carrito[id], true).lista)}</s>
+                        ) : null}{" "}
+                        {formatoClp(clpLinea(CARRITO[id].usd * carrito[id], !promoOff, CARRITO[id].cobro === "unico").ahora)}
+                      </>
+                    )}
                   </span>
                   <div className={styles.lineaAcciones}>
                     {id !== "flux_base" && id !== "onboarding_humano" && CARRITO[id].max > 1 ? (
@@ -604,49 +530,41 @@ export default function FluxCarrito({
           <div className={styles.totales}>
             <p className={styles.hoy}>
               <span>Hoy pagas</span>
-              <span className={styles.num} data-total-hoy>{formatoClp(pesos.ahora)}</span>
+              <span className={styles.num} data-total-hoy>$14.495</span>
             </p>
-            {pesos.unico > 0 ? (
-              <p className={styles.luego}>
-                {formatoClp(pesos.ahoraMes)} mensual + {formatoClp(pesos.unico)} de onboarding
-              </p>
-            ) : null}
-            {!promoOff && partes.mensual > 0 ? <p className={styles.luego}>50% por 3 meses</p> : null}
-            {!promoOff && partes.mensual > 0 ? <p className={styles.luego}>Luego {formatoClp(pesos.luegoMes)}/mes</p> : null}
+            <p className={styles.luego}>Prueba de 30 días. Después, $78.990</p>
           </div>
           {!promoOff ? <div className={styles.urgenciaChica}><UrgenciaPromo /></div> : null}
-          {error ? <p className={styles.error} role="alert" data-pago-error>{error}</p> : null}
+          <p className={styles.mpNota} data-mp-nota>{MP_NOTA_CLP}</p>
         </div>
         <div className={styles.drawerPie}>
           <p className={styles.apuro}>No pierdas más tu tiempo</p>
-          <Checkout
-            hoy={hoy}
-            lista={lista}
-            promoOff={promoOff}
-            enviando={enviando}
-            listo={fluxEnCarrito}
-            onClick={pagar}
-          />
+          <Checkout onClick={marcarPago} />
         </div>
       </aside>
       {salida ? (
         <div className={styles.salida} role="dialog" aria-modal="true" aria-labelledby="salida-titulo" data-salida>
           <button type="button" className={styles.cortina} aria-label="Cerrar oferta" onClick={() => setSalida(false)} />
           <div className={styles.salidaCard}>
-            <p className={styles.estado}><span className={styles.chk} aria-hidden="true">✓</span> 50% por 3 meses</p>
-            <h2 id="salida-titulo">No te vayas sin tu 50%</h2>
-            <p>Clinera Flux queda en $14.000 por 3 meses. Después, $28.000.</p>
-            <button
-              type="button"
-              className={styles.cta}
-              onClick={() => {
-                setSalida(false);
-                if (salirRef.current.flux) salirRef.current.pagar();
-                else salirRef.current.agregar();
-              }}
-            >
-              {salirRef.current.flux ? "Activar" : "Agregar Flux"}
-            </button>
+            <p className={styles.estado}><span className={styles.chk} aria-hidden="true">✓</span> 30 días</p>
+            <h2 id="salida-titulo">Prueba Clinera por $14.495</h2>
+            <p>30 días por $14.495. Después, $78.990.</p>
+            {salirRef.current.flux ? (
+              <a className={styles.cta} href={MP_FLUX_PROMO_URL} data-cta="carrito-checkout" onClick={marcarPago}>
+                Activar por $14.495
+              </a>
+            ) : (
+              <button
+                type="button"
+                className={styles.cta}
+                onClick={() => {
+                  setSalida(false);
+                  salirRef.current.agregar();
+                }}
+              >
+                Agregar Flux
+              </button>
+            )}
             <button type="button" className={styles.salidaNo} onClick={() => setSalida(false)}>Ahora no</button>
           </div>
         </div>
@@ -656,9 +574,10 @@ export default function FluxCarrito({
           <button type="button" className={styles.cortina} data-extras-cerrar aria-label="Cerrar adicionales" onClick={() => setExtras(false)} />
           <div className={styles.extrasCard}>
             <h2 id="extras-titulo" className={styles.extrasTitulo}>{PREGUNTA_ADICIONALES}</h2>
-            <p className={styles.extrasBajada}>Clinera Flux ya está en tu carrito. $14.000 por 3 meses, luego $28.000.</p>
+            <p className={styles.extrasBajada}>La prueba es $14.495 por 30 días. Después, $78.990.</p>
+            <p className={styles.mpNota} data-mp-nota>{MP_NOTA_CLP}</p>
             <div className={styles.chips}>
-              {ADICIONALES_AL_ACTIVAR.map((id) => (
+              {ADICIONALES_AL_ACTIVAR.filter((id) => id !== "agente_ia").map((id) => (
                 <button
                   key={id}
                   type="button"
@@ -671,16 +590,9 @@ export default function FluxCarrito({
                 </button>
               ))}
             </div>
-            <button
-              type="button"
-              className={styles.cta}
-              onClick={() => {
-                setExtras(false);
-                void pagar();
-              }}
-            >
-              {ADICIONALES_AL_ACTIVAR.some((id) => carrito[id] > 0) ? "Continuar" : "Con esto parto"}
-            </button>
+            <a className={styles.cta} href={MP_FLUX_PROMO_URL} data-extras-seguir data-cta="carrito-checkout" onClick={marcarPago}>
+              Activar por $14.495
+            </a>
           </div>
         </div>
       ) : null}
@@ -689,16 +601,14 @@ export default function FluxCarrito({
 }
 
 function PrecioFlux() {
-  const { lista, ahora } = clpLinea(29, true);
   return (
     <p className={styles.precio}>
-      <s>{formatoClp(lista)}</s>
       <b>
-        {formatoClp(ahora)}
+        $14.495
         <span className={styles.periodo}>/mes</span>
       </b>
-      <span className={styles.pill}>50% por 3 meses</span>
-      <span className={styles.luegoPrecio}>{formatoClp(ahora)} por 3 meses, luego {formatoClp(lista)}</span>
+      <span className={styles.pill}>30 días</span>
+      <span className={styles.luegoPrecio}>Después de 30 días, $78.990</span>
     </p>
   );
 }
@@ -726,35 +636,20 @@ function Asistencia() {
   );
 }
 
-function Checkout({
-  hoy,
-  lista,
-  promoOff,
-  enviando,
-  listo,
-  onClick,
-}: {
-  hoy: number;
-  lista: number;
-  promoOff: boolean;
-  enviando: boolean;
-  listo: boolean;
-  onClick: () => void;
-}) {
+function Checkout({ onClick }: { onClick: () => void }) {
   return (
-    <button
-      type="button"
+    <a
       className={styles.cta}
+      href={MP_FLUX_PROMO_URL}
       data-cta="carrito-checkout"
       data-plan="flux_modular"
-      data-plan-value={String(hoy)}
-      data-plan-lista={String(lista)}
-      data-promo={promoOff ? "no" : "si"}
-      disabled={enviando || !listo}
+      data-plan-value="14.5"
+      data-plan-lista="29"
+      data-promo="si"
       onClick={onClick}
     >
-      {enviando ? "Abriendo pago…" : "Activar"}
-    </button>
+      {CTA_ACTIVAR_CLP}
+    </a>
   );
 }
 

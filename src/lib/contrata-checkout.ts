@@ -1,5 +1,6 @@
-// TODO(Mercado Pago): sin keys. La UI muestra CLP (Flux lista $28.000, 50% en
-// pesos). Esta sesión sigue en USD. No conectar keys ni crear Products/Prices.
+// El Activar de Chile abre el payment link de Mercado Pago (promo Flux
+// $14.495 por 30 días). Esta sesión de Stripe sigue en USD y el botón ya no la llama.
+// No conectar keys ni crear Products/Prices.
 
 // Sesión de Stripe del carrito de /contrata. El navegador manda cantidades;
 // los precios salen de lookup_key y se comparan con el catálogo. Si la llave

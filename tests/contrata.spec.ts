@@ -14,7 +14,7 @@ async function sumarFlux(page: Page) {
 }
 
 function activarCajon(page: Page) {
-  return page.locator("[data-drawer]").getByRole("button", { name: "Activar", exact: true });
+  return page.locator("[data-drawer]").getByRole("link", { name: "Activar por $14.495" });
 }
 
 test.describe("/contrata", () => {
@@ -29,10 +29,12 @@ test.describe("/contrata", () => {
     await expect(page.getByText(/como comprar en Mercado Libre/)).toBeVisible();
     await expect(page.getByRole("heading", { name: "También puedes agregar" })).toBeVisible();
     await expect(page.getByText("Depende de ti elegir lo adicional")).toBeVisible();
-    await expect(page.locator("[data-flux-base]").getByRole("button", { name: "Activar por $28.000" })).toBeVisible();
+    await expect(page.locator("[data-flux-base]").getByRole("button", { name: "Activar por $14.495" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveCount(0);
-    await expect(page.locator("[data-flux-base]")).toContainText("Clinera Intelligence");
-    await expect(page.locator("[data-flux-base]")).toContainText("WhatsApp");
+    await expect(page.locator("[data-flux-base]")).toContainText("WhatsApp, Instagram y Facebook");
+    await expect(page.locator("[data-flux-base]")).toContainText("$14.495");
+    await expect(page.locator("[data-flux-base]")).toContainText("$78.990");
+    await expect(page.locator("[data-carrito]").getByText("Vortex")).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Términos" })).toHaveAttribute("href", "/terminos");
     await expect(page.getByRole("link", { name: "Privacidad" })).toHaveAttribute("href", "/privacidad");
     await expect(page.getByRole("link", { name: "Cookies" })).toHaveAttribute("href", "/cookies");
@@ -76,7 +78,7 @@ test.describe("/contrata", () => {
     await email.getByRole("button", { name: "Agregar al carrito" }).click();
     await auto.getByRole("button", { name: "Agregar al carrito" }).click();
     await page.locator("[data-carrito-icon]").click();
-    await expect(page.locator("[data-total-hoy]")).toContainText("$22.690");
+    await expect(page.locator("[data-total-hoy]")).toContainText("$14.495");
     await expect(page.locator("[data-drawer]")).toContainText("Hoy pagas");
     await expect(page.locator("[data-total-hoy] s")).toHaveCount(0);
     await expect(page.locator("[data-carrito-count]")).toHaveText("3");
@@ -116,10 +118,11 @@ test.describe("/contrata", () => {
     await sumarFlux(page);
     await expect(page.locator("[data-toast]")).toHaveText("Agregado al carrito");
     await expect(page.locator("[data-carrito-count]")).toHaveText("1");
-    await expect(page.locator("[data-flux-base]")).toContainText("50% por 3 meses");
-    await expect(page.locator("[data-flux-base]")).toContainText("por 3 meses, luego $28.000");
+    await expect(page.locator("[data-flux-base]")).toContainText("30 días");
+    await expect(page.locator("[data-flux-base]")).toContainText("Después de 30 días, $78.990");
     await page.locator("[data-carrito-icon]").click();
     const cta = activarCajon(page);
+    await expect(cta).toHaveAttribute("href", "https://mpago.la/22dyhQr");
     await expect(cta).toHaveAttribute("data-plan", "flux_modular");
     await expect(cta).toHaveAttribute("data-plan-value", "14.5");
     await page.getByRole("button", { name: "Cerrar", exact: true }).click();
@@ -129,8 +132,8 @@ test.describe("/contrata", () => {
     await expect(page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Sumar profesional extra" })).toBeFocused();
     await expect(page.locator("[data-carrito-count]")).toHaveText("2");
     await page.locator("[data-carrito-icon]").click();
-    await expect(cta).toHaveAttribute("data-plan-value", "19");
-    await expect(page.locator("[data-total-hoy]")).toContainText("$18.345");
+    await expect(cta).toHaveAttribute("data-plan-value", "14.5");
+    await expect(page.locator("[data-total-hoy]")).toContainText("$14.495");
     await page.getByRole("button", { name: "Cerrar", exact: true }).click();
     await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Sumar profesional extra" }).click();
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("2");
@@ -141,7 +144,7 @@ test.describe("/contrata", () => {
     const card = page.locator("[data-addon=onboarding_humano]");
     await expect(page.locator("[data-flux-base] img")).toHaveAttribute("src", "/kimi/productos/flux.jpg");
     await expect(card.locator("img")).toHaveAttribute("src", "/kimi/productos/onboarding.jpg");
-    await expect(page.locator("[data-addon=agente_ia] img")).toHaveAttribute("src", "/kimi/productos/agente-ia.jpg");
+    await expect(page.locator("[data-addon=agente_ia]")).toHaveCount(0);
     await expect(card).toContainText("Onboarding humano");
     await expect(card).toContainText("$183.450");
     await expect(card).toContainText("cobro único");
@@ -158,12 +161,11 @@ test.describe("/contrata", () => {
     await expect(drawer.getByRole("button", { name: "Quitar Onboarding humano" })).toBeVisible();
     await expect(drawer.getByRole("button", { name: "Sumar Onboarding humano" })).toHaveCount(0);
     await expect(drawer).toContainText("cobro único");
-    await expect(drawer).toContainText("50% por 3 meses");
     await expect(drawer).toContainText("Hoy pagas");
-    await expect(drawer.locator("[data-total-hoy]")).toContainText("$197.450");
-    await expect(drawer.locator("[data-total-hoy] s")).toHaveCount(0);
-    await expect(drawer).toContainText("mensual +");
-    await expect(drawer.getByText("Luego $28.000/mes")).toBeVisible();
+    await expect(drawer.locator("[data-total-hoy]")).toContainText("$14.495");
+    await expect(drawer).toContainText("Después, $78.990");
+    await expect(drawer.getByRole("link", { name: "Activar por $14.495" })).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    await expect(drawer).not.toContainText("$28.000");
   });
 
   test("Comienza ya manda el carrito saneado y abre el pago", async ({ page }) => {
@@ -180,13 +182,9 @@ test.describe("/contrata", () => {
         body: JSON.stringify({ ok: true, url: "https://checkout.stripe.com/c/pay/cs_test_ok", promo: true, lista_usd: 38, promo_usd: 19 }),
       });
     });
-    await activarCajon(page).click();
-    await expect.poll(() => body.carrito?.instagram).toBe(1);
-    expect(body.carrito?.flux_base).toBe(1);
-    expect(body.carrito?.email_marketing ?? 0).toBe(0);
+    await expect(activarCajon(page)).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    expect(body.carrito).toBeUndefined();
     expect(body.price).toBeUndefined();
-    expect(body.utm?.utm_source).toBe("ads");
-    await page.waitForURL(/checkout\.stripe\.com/);
   });
 
   test("con url abre Stripe aunque la promo no se haya aplicado", async ({ page }) => {
@@ -200,8 +198,8 @@ test.describe("/contrata", () => {
     );
     await sumarFlux(page);
     await page.locator("[data-carrito-icon]").click();
-    await activarCajon(page).click();
-    await page.waitForURL(/checkout\.stripe\.com/);
+    await expect(activarCajon(page)).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    expect(page.url()).toContain("/contrata");
   });
 
   test("sin url, promo false quita el 50% y ofrece reunión", async ({ page }) => {
@@ -215,11 +213,9 @@ test.describe("/contrata", () => {
         body: JSON.stringify({ ok: false, error: "prices_missing", promo: false }),
       }),
     );
-    await activarCajon(page).click();
-    await expect(page.locator("[data-pago-error]")).toBeVisible();
-    await expect(page.locator("[data-urgencia]")).toHaveCount(0);
-    await expect(activarCajon(page)).toHaveAttribute("data-promo", "no");
-    await expect(activarCajon(page)).toHaveAttribute("data-plan-value", "29");
+    await expect(activarCajon(page)).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    await expect(page.locator("[data-pago-error]")).toHaveCount(0);
+    await expect(activarCajon(page)).toHaveAttribute("data-plan-value", "14.5");
     expect(page.url()).toContain("/contrata");
   });
 
@@ -227,9 +223,9 @@ test.describe("/contrata", () => {
     await ir(page, "/contrata?utm_source=ads", "2026-11-05T12:00:00-03:00");
     await sumarFlux(page);
     await page.locator("[data-carrito-icon]").click();
-    await activarCajon(page).click();
-    await expect(page.locator("[data-pago-error]")).toHaveText("Pago online pronto — agenda con ventas");
-    await expect(page.locator("[data-urgencia]").first()).toContainText("50%");
+    await expect(activarCajon(page)).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    await expect(page.getByText("Pago online pronto")).toHaveCount(0);
+    await expect(page.locator("[data-urgencia]").first()).toContainText("$14.495");
     const wa = "https://wa.me/56985581524?text=necesito%20asistencia";
     const links = page.getByRole("link", { name: "Solicita asistencia", exact: true });
     await expect(links).toHaveCount(1);
@@ -251,17 +247,16 @@ test.describe("/contrata", () => {
         body: JSON.stringify({ ok: true, url: "https://checkout.stripe.com/c/pay/cs_test_ok", promo: true }),
       });
     });
-    await page.locator("[data-flux-base]").getByRole("button", { name: "Activar por $28.000" }).click();
+    await page.locator("[data-flux-base]").getByRole("button", { name: "Activar por $14.495" }).click();
     const hoja = page.locator("[data-extras]");
     await expect(hoja.getByRole("heading", { name: "¿Quieres adicionales o con esto partes?" })).toBeVisible();
-    for (const id of ["profesional_extra", "sucursal_extra", "conversaciones_1000", "instagram", "facebook", "agente_ia"]) {
+    for (const id of ["profesional_extra", "sucursal_extra", "conversaciones_1000", "instagram", "facebook"]) {
       await expect(hoja.locator(`[data-chip=${id}]`)).toBeVisible();
     }
+    await expect(hoja.locator("[data-chip=agente_ia]")).toHaveCount(0);
     await hoja.locator("[data-chip=instagram]").click();
-    await hoja.getByRole("button", { name: "Continuar" }).click();
-    await expect.poll(() => body.carrito?.instagram).toBe(1);
-    expect(body.carrito?.flux_base).toBe(1);
-    expect(body.carrito?.profesional_extra ?? 0).toBe(0);
+    await expect(hoja.getByRole("link", { name: "Activar por $14.495" })).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+    expect(body.carrito).toBeUndefined();
   });
 
   test("?plan=flux&pe=3&ig=1&fb=1 abre el carrito con esas cantidades", async ({ page }) => {
@@ -286,22 +281,9 @@ test.describe("/contrata", () => {
       });
     });
     await page.locator("[data-carrito-icon]").click();
-    await activarCajon(page).click();
-    await expect.poll(() => body.email).toBe("ana@clinica.cl");
-    expect(body.carrito?.profesional_extra).toBe(1);
-    expect(body.carrito?.flux_base).toBe(1);
-
-    body = {};
-    await page.goto("/contrata?plan=flux&email=no-es-correo", { waitUntil: "domcontentloaded" });
-    // El clic de arriba puede caer antes de hidratar: reintenta hasta que el cajón abra.
-    await expect(async () => {
-      if (!(await page.locator("[data-drawer]").isVisible())) {
-        await page.locator("[data-carrito-icon]").click();
-      }
-      await expect(page.locator("[data-drawer]")).toBeVisible();
-    }).toPass();
-    await activarCajon(page).click();
-    await expect.poll(() => body.carrito?.flux_base).toBe(1);
+    const href = await activarCajon(page).getAttribute("href");
+    expect(href).toBe("https://mpago.la/22dyhQr");
+    expect(href).not.toContain("email");
     expect(body.email).toBeUndefined();
   });
 
@@ -316,7 +298,7 @@ test.describe("/contrata", () => {
       await page.goto("/contrata", { waitUntil: "load" });
       const desborde = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       expect(desborde, `${w}x${h}`).toBeLessThanOrEqual(1);
-      const cta = page.locator("[data-testid=mobile-cta] button:visible");
+      const cta = page.locator("[data-testid=mobile-cta] button:visible, [data-testid=mobile-cta] a:visible");
       await expect(cta).toBeVisible();
       const caja = await cta.boundingBox();
       expect(caja?.height ?? 0, `${w} alto`).toBeGreaterThanOrEqual(48);

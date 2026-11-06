@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Contrata Clinera",
   description:
-    "Arma tu Flux: US$ 29 al mes con profesionales, sucursal, conversaciones y los adicionales que elijas. 50% por 3 meses.",
+    "Prueba Clinera por $14.495 por 30 días. Después, $78.990.",
   robots: { index: false, follow: false },
   alternates: { canonical: "https://www.clinera.io/contrata" },
 };

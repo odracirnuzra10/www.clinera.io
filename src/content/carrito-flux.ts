@@ -6,13 +6,15 @@
 import { emailValido } from "@/app/api/wizard/validation";
 import { fechaChileISO } from "@/lib/urgencia-dias";
 
+/** Lo que entra en la prueba Chile de 30 días (Ricardo, 6-nov-2026). */
 export const FLUX_BASE_INCLUYE = [
-  "2 profesionales",
-  "1 sucursal",
-  "100 conversaciones",
-  "Fichas clínicas",
-  "WhatsApp",
-  "Clinera Intelligence",
+  "WhatsApp, Instagram y Facebook",
+  "500 conversaciones",
+  "Fichas, recetas y consentimientos",
+  "Automatizaciones avanzadas",
+  "Email marketing",
+  "3 sucursales",
+  "10 profesionales",
 ] as const;
 
 export const CARRITO = {
@@ -138,12 +140,20 @@ export const ASISTENCIA_LABEL = "Solicita asistencia";
 export const ASISTENCIA_WHATSAPP = "https://wa.me/56985581524?text=necesito%20asistencia";
 
 /**
- * Lo que se muestra en Chile (Ricardo, 6-nov-2026): Flux lista $28.000.
- * El tipo sale de US$ 29 → $28.000 y el resto de la ficha usa el mismo
- * (a la decena). El 50% se ve en pesos. La sesión de Stripe sigue en USD.
+ * Prueba Chile (Ricardo, 6-nov-2026). El payment link de Mercado Pago
+ * (`MP_FLUX_PROMO_URL`) cobra $14.495 al mes, 30 días. Después, $78.990.
+ * Vortex y el agente IA ($178.990) se explican después de pagar: no van
+ * en el checkout. `PRECIO_FLUX_CLP` sigue siendo el tipo de los adicionales
+ * de catálogo (US$ 29 = $28.000); la prueba no usa ese número.
  */
 export const PRECIO_FLUX_CLP = 28000;
-export const CTA_ACTIVAR_CLP = "Activar por $28.000";
+export const PRECIO_PRUEBA_CLP = 14495;
+export const PRECIO_DESPUES_CLP = 78990;
+export const CTA_ACTIVAR_CLP = "Activar por $14.495";
+export const CTA_PRUEBA_CLP = "Prueba Clinera por $14.495 por 30 días y escala tu clínica";
+export const MP_FLUX_PROMO_URL = "https://mpago.la/22dyhQr";
+export const MP_NOTA_CLP =
+  "Mercado Pago cobra la prueba: $14.495 por 30 días. Después, $78.990.";
 
 /** US$ del catálogo → pesos de pantalla, a la decena. 29 → 28.000. */
 export function clpDesdeUsd(usd: number): number {

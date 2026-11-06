@@ -7,7 +7,12 @@ import {
   regaloVigente,
   sanear,
   CTA_ACTIVAR_CLP,
+  CTA_PRUEBA_CLP,
+  MP_FLUX_PROMO_URL,
+  MP_NOTA_CLP,
+  PRECIO_DESPUES_CLP,
   PRECIO_FLUX_CLP,
+  PRECIO_PRUEBA_CLP,
   clpDesdeUsd,
   clpLinea,
   formatoClp,
@@ -23,7 +28,13 @@ const dic = new Date("2026-12-01T00:00:00-03:00");
 test.describe("catálogo del carrito Flux", () => {
   test("la pantalla muestra $28.000 y el mismo tipo para el resto", () => {
     expect(PRECIO_FLUX_CLP).toBe(28000);
-    expect(CTA_ACTIVAR_CLP).toBe("Activar por $28.000");
+    expect(CTA_ACTIVAR_CLP).toBe("Activar por $14.495");
+    expect(CTA_PRUEBA_CLP).toBe("Prueba Clinera por $14.495 por 30 días y escala tu clínica");
+    expect(PRECIO_PRUEBA_CLP).toBe(14495);
+    expect(PRECIO_DESPUES_CLP).toBe(78990);
+    expect(MP_FLUX_PROMO_URL).toBe("https://mpago.la/22dyhQr");
+    expect(MP_NOTA_CLP).toContain("$14.495");
+    expect(MP_NOTA_CLP).toContain("$78.990");
     expect(clpDesdeUsd(29)).toBe(28000);
     expect(clpDesdeUsd(9)).toBe(8690);
     expect(clpDesdeUsd(25)).toBe(24140);
@@ -38,9 +49,15 @@ test.describe("catálogo del carrito Flux", () => {
   test("la base es US$ 29 y el 50% da 14,50", () => {
     expect(totalLista({})).toBe(29);
     expect(totalPromo({})).toBe(14.5);
-    expect(FLUX_BASE_INCLUYE).toEqual(
-      expect.arrayContaining(["Clinera Intelligence", "WhatsApp", "100 conversaciones", "2 profesionales", "1 sucursal", "Fichas clínicas"]),
-    );
+    expect(FLUX_BASE_INCLUYE).toEqual([
+      "WhatsApp, Instagram y Facebook",
+      "500 conversaciones",
+      "Fichas, recetas y consentimientos",
+      "Automatizaciones avanzadas",
+      "Email marketing",
+      "3 sucursales",
+      "10 profesionales",
+    ]);
   });
 
   test("2 profesionales + 1 pack + Instagram + Agente IA suman 160 / 80", () => {
