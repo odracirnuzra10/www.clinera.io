@@ -6,6 +6,15 @@
 <title>Clinera | Software médico con IA: crea tu cuenta gratis</title>
 <meta name="description" content="Crea tu cuenta gratis y registra tu clínica. Demo de 7 días. Después, dentro de la plataforma, eliges Flux, Hex o Xcale.">
 <meta name="robots" content="noindex">
+<!-- Meta Pixel «Clinera Software». Como el resto del sitio, no carga en localhost ni en *.vercel.app. -->
+<script>
+(function(){var h=location.hostname;if(h==='localhost'||h==='127.0.0.1'||/\.vercel\.app$/.test(h))return;
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2251201709002818');
+fbq('track', 'PageView');})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -1616,7 +1625,30 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     if(cuentaError) cuentaError.hidden=true;
     return {nombre:nombre,email:email,clinica:clinica,prefijo:prefijo,celular:digits,telefono:prefijo+digits};
   }
+  // Lead (US$ 3, igual que /agenda): sale al enviar el modal con los cuatro datos.
+  // Pixel en el navegador + CAPI en el servidor con el MISMO event_id: Meta cuenta uno solo.
+  function cookieMeta(n){var m=document.cookie.match(new RegExp('(?:^|; )'+n+'=([^;]*)'));return m?decodeURIComponent(m[1]):"";}
+  function sha256(t){
+    if(!(window.crypto&&crypto.subtle&&window.TextEncoder)) return Promise.resolve("");
+    return crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)).then(function(b){
+      return Array.prototype.map.call(new Uint8Array(b),function(x){return ("0"+x.toString(16)).slice(-2);}).join("");
+    }).catch(function(){return "";});
+  }
+  function enviarLead(datos, origen){
+    try{ if(sessionStorage.getItem("cl_lead_kimi_gratis")) return null; sessionStorage.setItem("cl_lead_kimi_gratis","1"); }catch(e){}
+    var eventId="lead_kg_"+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+    var custom={value:3,currency:"USD",content_name:origen==="asistencia"?"kimi_gratis_asistencia":"kimi_gratis_registro"};
+    if(typeof window.fbq==="function"){ try{ window.fbq("track","Lead",custom,{eventID:eventId}); }catch(e){} }
+    Promise.all([sha256(datos.email.trim().toLowerCase()),sha256(datos.telefono.replace(/\D/g,""))]).then(function(h){
+      var ud={}; if(h[0])ud.em=h[0]; if(h[1])ud.ph=h[1];
+      return fetch("/api/meta/capi",{method:"POST",keepalive:true,headers:{"Content-Type":"application/json"},body:JSON.stringify({
+        event_name:"Lead",event_id:eventId,event_source_url:location.href,action_source:"website",
+        fbp:cookieMeta("_fbp"),fbc:cookieMeta("_fbc"),user_data:ud,custom_data:custom})});
+    }).catch(function(){});
+    return eventId;
+  }
   function guardarCuenta(datos, origen){
+    var leadEventId=enviarLead(datos, origen);
     var plan=PLANES[planElegido]||PLANES.vortex;
     var guardado={nombre:datos.nombre,email:datos.email,clinica:datos.clinica,prefijo:datos.prefijo,celular:datos.celular,telefono:datos.telefono,plan:plan.nombre};
     try{ sessionStorage.setItem("clinera_cuenta", JSON.stringify(guardado)); }catch(e){}
@@ -1646,7 +1678,8 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
         landing_url:location.href,
         plan:planElegido,
         servicio_interes_label:asistencia?"Solicita asistencia":plan.nombre+" "+plan.precio+" demo 7 días",
-        servicio_interes:"ambas"
+        servicio_interes:"ambas",
+        event_id:leadEventId||undefined
       })
     }).catch(function(){});
   }

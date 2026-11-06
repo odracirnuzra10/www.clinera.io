@@ -61,6 +61,7 @@ test.describe("pixel de producción no arranca en dev/preview", () => {
       "inicia-2/index.html",
       "inicia-ahora/index.html",
       "remarketing/index.html",
+      "kimi-gratis/index.html",
       "js/components.js",
     ]) {
       const src = readFileSync(join(process.cwd(), "public", f), "utf8");
