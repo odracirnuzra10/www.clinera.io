@@ -1,3 +1,6 @@
+// TODO(Mercado Pago): el primer cobro de Chile será Mercado Pago en CLP 14990
+// ($14.990). Stripe queda para después. No conectar keys: todavía no están.
+
 // Sesión de Stripe del carrito de /contrata. El navegador manda cantidades;
 // los precios salen de lookup_key y se comparan con el catálogo. Si la llave
 // o los precios no existen, la ruta responde error y la página ofrece agendar.

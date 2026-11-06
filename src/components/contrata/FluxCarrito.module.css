@@ -888,6 +888,58 @@
 
 .exito { max-width: 640px; margin: 0 auto; padding: 48px 20px 80px; }
 
+.cierre { margin-top: 8px; }
+.cierre .par > .cta { margin-top: 0; }
+
+.extras {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  align-items: end;
+  justify-items: center;
+}
+.extras .cortina { position: absolute; z-index: 0; }
+.extrasCard {
+  position: relative;
+  z-index: 1;
+  width: min(520px, 100%);
+  max-height: min(86dvh, 640px);
+  overflow: auto;
+  padding: 22px 18px calc(18px + env(safe-area-inset-bottom));
+  border-radius: 20px 20px 0 0;
+  background: #fff;
+}
+.extrasTitulo {
+  margin: 0 0 8px;
+  font-size: 26px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+.extrasBajada { margin: 0; color: #6B6B6B; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 16px; }
+.chip {
+  min-height: 44px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1.5px solid #EAEAEA;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.chip[aria-pressed="true"] {
+  background: #F5F3FF;
+  border-color: #7C3AED;
+  color: #5B21B6;
+}
+@media (min-width: 720px) {
+  .extras { align-items: center; padding: 16px; }
+  .extrasCard { border-radius: 20px; padding: 22px 20px; }
+}
+
 @media (max-width: 959px) {
   .grid { padding: 16px 16px 8px; }
   .card, .faq, .regalo, .producto { scroll-margin-bottom: 140px; }
@@ -927,9 +979,8 @@
   }
   .barra { padding-inline: 12px; }
   .asistencia { padding-inline: 8px; gap: 6px; }
-  .barraMovil .par { margin-top: 10px; }
-  .barraMovil .par .cta,
-  .barraMovil .par .asistenciaBtn { min-height: 52px; margin-top: 0; border-radius: 14px; }
+  .barraMovil .cta { margin-top: 0; min-height: 52px; }
+  .barraMovil .asistenciaBtn { width: 100%; flex: none; margin-top: 8px; }
   .drawer {
     left: 0;
     right: 0;
@@ -940,6 +991,9 @@
   .toast { top: 64px; }
   :global(body:has([data-carrito])) {
     padding-bottom: calc(112px + env(safe-area-inset-bottom));
+  }
+  :global(body:has([data-fin="si"])) {
+    padding-bottom: calc(180px + env(safe-area-inset-bottom));
   }
 }
 

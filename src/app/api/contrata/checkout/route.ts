@@ -1,3 +1,7 @@
+// TODO(Mercado Pago): el primer cobro de Chile será Mercado Pago en CLP 14990
+// ($14.990). Stripe queda para después. No conectar keys: todavía no están.
+// Hasta entonces esta ruta sigue armando la Checkout Session de Stripe.
+
 // Carrito de /contrata → Checkout Session. Misma guarda que /api/go/checkout:
 // origen, 8 por minuto por IP, y 503 si no hay STRIPE_SECRET_KEY. Los precios
 // se buscan por lookup_key. No crea Products ni Prices. Con onboarding humano

@@ -1,8 +1,9 @@
 "use client";
 
 // /contrata: ficha de producto al estilo de una tienda (Mercado Libre), con los
-// colores de Clinera. Flux se agrega al carrito. Activar, dentro del carrito,
-// abre el pago. El correo lo pide Stripe; si la URL trae uno válido, viaja en el POST.
+// colores de Clinera. «Activar por $14.990» suma Flux y pregunta por adicionales.
+// El pago sigue en Stripe hasta que Mercado Pago tenga keys (CLP 14990).
+// El correo lo pide el checkout; si la URL trae uno válido, viaja en el POST.
 
 import { Outfit } from "next/font/google";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
@@ -15,11 +16,14 @@ const outfit = Outfit({
 });
 import UrgenciaPromo from "@/components/contrata/UrgenciaPromo";
 import {
+  ADICIONALES_AL_ACTIVAR,
   ASISTENCIA_LABEL,
   ASISTENCIA_WHATSAPP,
   CARRITO,
+  CTA_ACTIVAR_CLP,
   FLUX_BASE_INCLUYE,
   ITEM_IDS,
+  PREGUNTA_ADICIONALES,
   REGALOS,
   type Carrito,
   type ItemId,
@@ -187,6 +191,9 @@ export default function FluxCarrito({
   }, [aviso]);
 
   const [salida, setSalida] = useState(false);
+  const [extras, setExtras] = useState(false);
+  const [finScroll, setFinScroll] = useState(false);
+  const cierreRef = useRef<HTMLElement>(null);
   const salirRef = useRef({ flux: false, pagar: () => {}, agregar: () => {} });
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("pago") === "ok") return;
@@ -228,6 +235,26 @@ export default function FluxCarrito({
       if (onBack) window.removeEventListener("popstate", onBack);
     };
   }, []);
+
+  useEffect(() => {
+    const el = cierreRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      (entries) => setFinScroll(entries.some((e) => e.isIntersecting)),
+      { threshold: 0.15 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!extras) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setExtras(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [extras]);
 
   useEffect(() => {
     if (!abierto) return;
@@ -295,7 +322,20 @@ export default function FluxCarrito({
     });
   }
 
+  function activar() {
+    if (carrito.flux_base < 1) fijar("flux_base", 1);
+    foco.current = null;
+    setExtras(true);
+  }
+
+  function toggleExtra(id: (typeof ADICIONALES_AL_ACTIVAR)[number]) {
+    if (carrito[id] > 0) fijar(id, -carrito[id]);
+    else fijar(id, 1);
+    foco.current = null;
+  }
+
   async function pagar() {
+    // TODO(Mercado Pago): el primer cobro de Chile es CLP 14990. Sigue Stripe hasta tener keys.
     if (enviando) return;
     if (carrito.flux_base < 1) {
       setAbierto(true);
@@ -369,16 +409,6 @@ export default function FluxCarrito({
       <header className={styles.barra}>
         <a className={styles.marca} href="/">clinera</a>
         <div className={styles.acciones}>
-          <a
-            className={styles.asistencia}
-            href={ASISTENCIA_WHATSAPP}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-cta="asistencia"
-          >
-            <IconoWhatsApp />
-            {ASISTENCIA_LABEL}
-          </a>
         <button
           type="button"
           className={styles.bolsa}
@@ -408,7 +438,7 @@ export default function FluxCarrito({
         </p>
         <h1 className={styles.h1}>Activa tu clínica</h1>
         {!promoOff ? (
-          <p className={styles.ofertaHero}>Activa Flux a {monto(14.5)}/mes por 3 meses. Después, {monto(29)}/mes.</p>
+          <p className={styles.ofertaHero}>Activar por $14.990 por 3 meses. Después, el precio normal.</p>
         ) : null}
 
         <article className={styles.producto} data-flux-base>
@@ -418,19 +448,15 @@ export default function FluxCarrito({
           <div className={styles.productoCompra}>
             <h2 className={styles.cardTitulo}>Clinera Flux</h2>
             <p className={styles.cardSub}>Configura tu clínica y agrégala al carrito.</p>
-            <Precio usd={29} promo={!promoOff} />
+            {promoOff ? <Precio usd={29} promo={false} /> : <PrecioFlux />}
+            <button type="button" className={styles.agregar} onClick={activar}>
+              {promoOff ? "Activar" : CTA_ACTIVAR_CLP}
+            </button>
             {fluxEnCarrito ? (
               <button type="button" className={styles.quitar} aria-label="Quitar Clinera Flux" onClick={() => fijar("flux_base", -1)}>
                 Quitar
               </button>
-            ) : (
-              <div className={styles.par}>
-                <button type="button" className={styles.agregar} aria-label="Agregar al carrito: Clinera Flux" onClick={() => fijar("flux_base", 1)}>
-                  {promoOff ? "Agregar al carrito" : `Activa Flux a ${monto(14.5)}/mes`}
-                </button>
-                <Asistencia />
-              </div>
-            )}
+            ) : null}
           </div>
           <ul className={styles.incluye}>
             {FLUX_BASE_INCLUYE.map((item) => (
@@ -438,7 +464,7 @@ export default function FluxCarrito({
             ))}
           </ul>
           <ul className={styles.confianza}>
-            <li>Pago seguro con Stripe</li>
+            <li>Pago seguro</li>
             <li>Cancela cuando quieras</li>
             <li>Activación rápida</li>
           </ul>
@@ -486,32 +512,24 @@ export default function FluxCarrito({
             </details>
           ) : null}
         </section>
+
+        <section className={styles.cierre} id="cierre" data-cierre ref={cierreRef}>
+          <h2 className={styles.seccion}>Activa cuando quieras</h2>
+          <p className={styles.seccionSub}>Flux por 3 meses. Si prefieres que te ayudemos, escríbenos.</p>
+          <div className={styles.par}>
+            <button type="button" className={styles.cta} onClick={activar}>
+              {promoOff ? "Activar" : CTA_ACTIVAR_CLP}
+            </button>
+            <Asistencia />
+          </div>
+        </section>
       </div>
 
-      <div className={styles.barraMovil} hidden={abierto} data-testid="mobile-cta">
-        {fluxEnCarrito ? (
-          <p className={styles.hoyMovil}>
-            <span>Hoy pagas</span>
-            <span className={styles.num}>{monto(hoy)}</span>
-          </p>
-        ) : null}
-        <div className={styles.par}>
-          {fluxEnCarrito ? (
-            <Checkout
-              hoy={hoy}
-              lista={lista}
-              promoOff={promoOff}
-              enviando={enviando}
-              listo={fluxEnCarrito}
-              onClick={pagar}
-            />
-          ) : (
-            <button type="button" className={styles.cta} onClick={() => fijar("flux_base", 1)}>
-              Agregar al carrito
-            </button>
-          )}
-          <Asistencia />
-        </div>
+      <div className={styles.barraMovil} hidden={abierto} data-testid="mobile-cta" data-fin={finScroll ? "si" : "no"}>
+        <button type="button" className={styles.cta} onClick={activar}>
+          {promoOff ? "Activar" : CTA_ACTIVAR_CLP}
+        </button>
+        {finScroll ? <Asistencia /> : null}
       </div>
 
       {abierto ? (
@@ -586,17 +604,14 @@ export default function FluxCarrito({
         </div>
         <div className={styles.drawerPie}>
           <p className={styles.apuro}>No pierdas más tu tiempo</p>
-          <div className={styles.par}>
-            <Checkout
-              hoy={hoy}
-              lista={lista}
-              promoOff={promoOff}
-              enviando={enviando}
-              listo={fluxEnCarrito}
-              onClick={pagar}
-            />
-            <Asistencia />
-          </div>
+          <Checkout
+            hoy={hoy}
+            lista={lista}
+            promoOff={promoOff}
+            enviando={enviando}
+            listo={fluxEnCarrito}
+            onClick={pagar}
+          />
         </div>
       </aside>
       {salida ? (
@@ -605,7 +620,7 @@ export default function FluxCarrito({
           <div className={styles.salidaCard}>
             <p className={styles.estado}><span className={styles.chk} aria-hidden="true">✓</span> 50% por 3 meses</p>
             <h2 id="salida-titulo">No te vayas sin tu 50%</h2>
-            <p>Clinera Flux queda en US$ 14,50 por 3 meses. Después vuelve al precio normal.</p>
+            <p>Clinera Flux queda en $14.990 por 3 meses. Después vuelve al precio normal.</p>
             <button
               type="button"
               className={styles.cta}
@@ -621,7 +636,54 @@ export default function FluxCarrito({
           </div>
         </div>
       ) : null}
+      {extras ? (
+        <div className={styles.extras} role="dialog" aria-modal="true" aria-labelledby="extras-titulo" data-extras>
+          <button type="button" className={styles.cortina} data-extras-cerrar aria-label="Cerrar adicionales" onClick={() => setExtras(false)} />
+          <div className={styles.extrasCard}>
+            <h2 id="extras-titulo" className={styles.extrasTitulo}>{PREGUNTA_ADICIONALES}</h2>
+            <p className={styles.extrasBajada}>Clinera Flux ya está en tu carrito. $14.990 por 3 meses.</p>
+            <div className={styles.chips}>
+              {ADICIONALES_AL_ACTIVAR.map((id) => (
+                <button
+                  key={id}
+                  type="button"
+                  className={styles.chip}
+                  data-chip={id}
+                  aria-pressed={carrito[id] > 0}
+                  onClick={() => toggleExtra(id)}
+                >
+                  {CARRITO[id].nombre}
+                </button>
+              ))}
+            </div>
+            <button
+              type="button"
+              className={styles.cta}
+              onClick={() => {
+                setExtras(false);
+                void pagar();
+              }}
+            >
+              {ADICIONALES_AL_ACTIVAR.some((id) => carrito[id] > 0) ? "Continuar" : "Con esto parto"}
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
+  );
+}
+
+function PrecioFlux() {
+  return (
+    <p className={styles.precio}>
+      <s>{monto(29)}</s>
+      <b>
+        $14.990
+        <span className={styles.periodo}>/mes</span>
+      </b>
+      <span className={styles.pill}>50% por 3 meses</span>
+      <span className={styles.luegoPrecio}>$14.990 por 3 meses, luego precio normal</span>
+    </p>
   );
 }
 
@@ -890,7 +952,7 @@ function Exito({ sessionId }: { sessionId: string }) {
       <div className={styles.exito}>
         <p className={styles.kicker}>Listo</p>
         <h1 className={styles.h1}>Listo, revisa tu correo</h1>
-        <p className={styles.bajada}>Stripe te manda el recibo y activamos Flux en tu clínica.</p>
+        <p className={styles.bajada}>Te llega el recibo y activamos Flux en tu clínica.</p>
         {regalo ? <p className={styles.regaloKicker}>Regalo de noviembre incluido: {regalo.split("_").join(" ")}</p> : null}
         <a className={styles.cta} href="/">Volver a Clinera</a>
       </div>

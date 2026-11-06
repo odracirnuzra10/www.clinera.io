@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Clinera | La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas</title>
-<meta name="description" content="La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas. Activa Flux a USD 14,50/mes por 3 meses. Después, USD 29/mes.">
+<meta name="description" content="La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas. Activa Flux por $14.990 por 3 meses.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,6 +67,8 @@ section{scroll-margin-top:72px}
 .cta-band .par{margin-inline:auto}
 .drawer footer .par{width:100%;max-width:none}
 .drawer footer .par .btn{min-height:52px}
+.drawer footer > .btn{width:100%;min-height:52px}
+.hero .cta .btn{min-height:52px;font-size:16px;padding:12px 22px}
 /* botón con aspecto de enlace («Volver a la oferta» del wizard) */
 .btn-link{display:inline-block;background:none;border:0;padding:8px 4px;font:600 .92rem/1.3 Inter,sans-serif;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .btn-link:hover{color:var(--text)}
@@ -361,6 +363,22 @@ footer a.ext{color:var(--text);font-weight:500}
 }
 .mcta-total{display:flex;flex-direction:column;justify-content:center;font-size:.75rem;color:var(--muted);line-height:1.2}
 .mcta-total b{color:var(--text);font-size:1rem}
+.mcta-asistencia{width:100%;margin-top:8px}
+.mcta-asistencia[hidden]{display:none}
+.extras{position:fixed;inset:0;z-index:80;display:grid;align-items:end;justify-items:center;padding:0}
+.extras[hidden]{display:none}
+.extras-fondo{position:absolute;inset:0;background:rgba(17,24,39,.45);border:0}
+.extras-card{position:relative;width:min(520px,100%);max-height:min(86dvh,640px);overflow:auto;background:#fff;color:#111827;border-radius:20px 20px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom))}
+.extras-card h2{font-size:1.45rem;line-height:1.15;letter-spacing:-.03em;margin:0 0 8px}
+.extras-card p{margin:0 0 4px;color:#374151}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 16px}
+.chip{min-height:44px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--border);background:#fff;color:var(--text);font:600 16px/1.15 Inter,system-ui,sans-serif;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:#5B21B6}
+.extras-card .btn{width:100%;min-height:52px;font-size:16px}
+@media (min-width:720px){
+  .extras{align-items:center;padding:16px}
+  .extras-card{border-radius:20px;padding:22px 20px}
+}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;transition-delay:calc(var(--i,0)*60ms)}
@@ -369,6 +387,7 @@ footer a.ext{color:var(--text);font-weight:500}
 .mcta{display:none}
 @media (max-width:768px){
   body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  body:has(#mobile-cta.mcta-fin){padding-bottom:calc(156px + env(safe-area-inset-bottom))}
   .mcta{display:block;position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #E5E7EB}
   .mcta[hidden]{display:none}
   .mcta-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:stretch}
@@ -466,8 +485,7 @@ footer a.ext{color:var(--text);font-weight:500}
       <img src="/kimi/clinera-logo.png" alt="Clinera" width="411" height="96" decoding="async">
     </a>
     <div class="nav-cta">
-      <a class="btn sm wa" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
-      <button class="btn sm grad" type="button" data-flujo="principal"><span data-etiqueta>Agregar al carrito</span></button>
+      <button class="btn sm grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $14.990</span></button>
     </div>
     <button class="bolsa" type="button" data-carrito-icon aria-expanded="false" aria-controls="tu-carrito" aria-label="Tu carrito, 0 ítems">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
@@ -483,10 +501,9 @@ footer a.ext{color:var(--text);font-weight:500}
     <div class="copy">
       <p class="eyebrow rv">Software para clínicas estéticas y médicas</p>
       <h1 class="rv" style="--i:1">La plataforma médica con IA que transforma leads en pacientes con <span class="serif">evaluaciones pagadas</span></h1>
-      <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. <strong>Activa Flux a USD 14,50/mes</strong> por 3 meses. Después, USD 29/mes.</p>
-      <div class="cta par rv" style="--i:3" id="hero-cta">
-        <button class="btn grad" type="button" data-flujo="principal" data-vacio="Activa Flux a USD 14,50/mes"><span data-etiqueta>Activa Flux a USD 14,50/mes</span></button>
-        <a class="btn wa" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
+      <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. <strong>Activar por $14.990</strong> por 3 meses. Después, el precio normal.</p>
+      <div class="cta rv" style="--i:3" id="hero-cta">
+        <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $14.990</span></button>
       </div>
       <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
     </div>
@@ -511,7 +528,7 @@ footer a.ext{color:var(--text);font-weight:500}
 <section class="pain" id="dolor" data-testid="banner-dolor" aria-labelledby="t-dolor">
   <div class="wrap">
     <p id="t-dolor">Deja de perder plata con softwares caros y obsoletos que no te dejan competir</p>
-    <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Agregar al carrito</span></button>
+    <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $14.990</span></button>
   </div>
 </section>
 
@@ -565,13 +582,13 @@ footer a.ext{color:var(--text);font-weight:500}
       </div>
       <div>
         <h3>Clinera Flux</h3>
-        <p class="producto-sub">50% por 3 meses. Después vuelve a USD 29/mes.</p>
+        <p class="producto-sub">50% por 3 meses. Después vuelve al precio normal.</p>
         <p class="precio">
           <s>USD 29</s>
-          <b>USD 14,50</b>
+          <b>$14.990</b>
           <span class="off">50% por 3 meses</span>
         </p>
-        <p class="luego">USD 14,50 por 3 meses, luego precio normal</p>
+        <p class="luego">$14.990 por 3 meses, luego precio normal</p>
         <button class="btn grad" type="button" data-agregar="flux_base">Agregar al carrito</button>
         <ul class="incluye">
           <li>2 profesionales</li><li>1 sucursal</li><li>100 conversaciones</li>
@@ -663,7 +680,7 @@ footer a.ext{color:var(--text);font-weight:500}
     <h2 id="t-act" class="rv" style="--i:1">Activa tu clínica con el carrito</h2>
     <p class="lead rv" style="--i:2">Agrega Clinera Flux y elige lo que tu clínica necesita.</p>
     <div class="cta par rv" style="--i:3">
-      <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Agregar al carrito</span></button>
+      <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $14.990</span></button>
       <a class="btn wa" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
     </div>
     <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
@@ -698,10 +715,7 @@ footer a.ext{color:var(--text);font-weight:500}
   <footer>
     <div class="totales" data-totales></div>
     <p class="apuro">No pierdas más tu tiempo</p>
-    <div class="par">
-      <button class="btn grad" type="button" data-cta="carrito-checkout" data-plan="flux_modular" data-plan-value="0">Activar</button>
-      <a class="btn wa" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
-    </div>
+    <button class="btn grad" type="button" data-cta="carrito-checkout" data-plan="flux_modular" data-plan-value="0">Activar</button>
     <p class="err" data-error hidden></p>
   </footer>
 </aside>
@@ -712,17 +726,35 @@ footer a.ext{color:var(--text);font-weight:500}
   <div class="salida-card">
     <p class="estado"><span class="chk" aria-hidden="true">✓</span> 50% por 3 meses</p>
     <h2 id="salida-titulo">No te vayas sin tu 50%</h2>
-    <p>Clinera Flux queda en USD 14,50 por 3 meses. Después vuelve al precio normal.</p>
+    <p>Clinera Flux queda en $14.990 por 3 meses. Después vuelve al precio normal.</p>
     <button class="btn grad" type="button" data-salida-cta>Agregar Flux</button>
     <button class="salida-no" type="button" data-salida-cerrar>Ahora no</button>
   </div>
 </div>
 
+<div class="extras" data-extras hidden role="dialog" aria-modal="true" aria-labelledby="extras-titulo">
+  <button class="extras-fondo" type="button" data-extras-cerrar aria-label="Cerrar adicionales"></button>
+  <div class="extras-card">
+    <h2 id="extras-titulo">¿Quieres adicionales o con esto partes?</h2>
+    <p>Clinera Flux ya está en tu carrito. $14.990 por 3 meses.</p>
+    <div class="chips">
+      <button class="chip" type="button" data-chip="profesional_extra" aria-pressed="false">Profesional extra</button>
+      <button class="chip" type="button" data-chip="sucursal_extra" aria-pressed="false">Sucursal extra</button>
+      <button class="chip" type="button" data-chip="conversaciones_1000" aria-pressed="false">1.000 conversaciones</button>
+      <button class="chip" type="button" data-chip="instagram" aria-pressed="false">Instagram</button>
+      <button class="chip" type="button" data-chip="facebook" aria-pressed="false">Facebook</button>
+      <button class="chip" type="button" data-chip="agente_ia" aria-pressed="false">Agente IA</button>
+    </div>
+    <button class="btn grad" type="button" data-extras-seguir>Con esto parto</button>
+  </div>
+</div>
+
 <div class="mcta" id="mobile-cta" data-testid="mobile-cta">
   <div class="mcta-row">
-    <div class="mcta-total"><span data-bar-label>Clinera Flux</span><b data-total-bar>USD 14,50</b></div>
-    <button class="btn grad" type="button" data-bar-accion data-plan="flux_modular">Agregar al carrito</button>
+    <div class="mcta-total"><span data-bar-label>Clinera Flux</span><b data-total-bar>$14.990</b></div>
+    <button class="btn grad" type="button" data-bar-accion data-plan="flux_modular">Activar por $14.990</button>
   </div>
+  <a class="btn wa mcta-asistencia" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia" data-asistencia-fin hidden><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
 </div>
 
 <div class="wiz" id="wizard" data-testid="wizard" role="dialog" aria-modal="true" aria-labelledby="wiz-title" hidden>
@@ -930,7 +962,7 @@ footer a.ext{color:var(--text);font-weight:500}
     });
     document.querySelectorAll("[data-flujo=principal]").forEach(function(btn){
       var label=btn.querySelector("[data-etiqueta]")||btn;
-      label.textContent=cart.flux_base>0?"Ver carrito":(btn.getAttribute("data-vacio")||"Agregar al carrito");
+      label.textContent="Activar por $14.990";
     });
   }
 
@@ -943,15 +975,10 @@ footer a.ext{color:var(--text);font-weight:500}
     if(icono)icono.setAttribute("aria-label","Tu carrito, "+u+" ítems");
     var etiqueta=document.querySelector("[data-bar-label]");
     var barBtn=document.querySelector("[data-bar-accion]");
-    if(cart.flux_base<1){
-      if(etiqueta)etiqueta.textContent="Clinera Flux";
-      if(barra)barra.textContent=promoOff?"USD 29":"USD 14,50";
-      if(barBtn){ barBtn.textContent="Agregar al carrito"; barBtn.removeAttribute("data-cta"); }
-    }else{
-      if(etiqueta)etiqueta.textContent="Hoy pagas";
-      if(barra)barra.textContent=money(H);
-      if(barBtn){ barBtn.textContent="Activar"; barBtn.setAttribute("data-cta","carrito-checkout"); }
-    }
+    if(etiqueta)etiqueta.textContent="Clinera Flux";
+    if(barra)barra.textContent=promoOff?"USD 29":"$14.990";
+    if(barBtn){ barBtn.textContent=promoOff?"Activar":"Activar por $14.990"; barBtn.removeAttribute("data-cta"); }
+    pintarChips();
     pintarControles();
     if(!lineas)return;
     var html="";
@@ -1002,6 +1029,25 @@ footer a.ext{color:var(--text);font-weight:500}
     pintar();
   }
 
+  var extras=document.querySelector("[data-extras]");
+  var CHIP_IDS=["profesional_extra","sucursal_extra","conversaciones_1000","instagram","facebook","agente_ia"];
+  function pintarChips(){
+    if(!extras)return;
+    extras.querySelectorAll("[data-chip]").forEach(function(b){
+      var id=b.getAttribute("data-chip");
+      b.setAttribute("aria-pressed", cart[id]>0?"true":"false");
+    });
+    var seguir=extras.querySelector("[data-extras-seguir]");
+    if(!seguir)return;
+    var alguno=CHIP_IDS.some(function(id){return cart[id]>0;});
+    seguir.textContent=alguno?"Continuar":"Con esto parto";
+  }
+  function abrirExtras(){
+    if(cart.flux_base<1) fijar("flux_base",1);
+    if(extras){ extras.hidden=false; pintarChips(); }
+  }
+  function cerrarExtras(){ if(extras) extras.hidden=true; }
+
   var salidaEl=document.querySelector("[data-salida]");
   var salidaLista=false;
   setTimeout(function(){salidaLista=true;},4000);
@@ -1035,22 +1081,40 @@ footer a.ext{color:var(--text);font-weight:500}
     });
   }
   document.addEventListener("keydown",function(e){
-    if(e.key==="Escape"&&salidaEl&&!salidaEl.hidden)cerrarSalida();
+    if(e.key!=="Escape")return;
+    if(extras&&!extras.hidden){cerrarExtras();return;}
+    if(salidaEl&&!salidaEl.hidden)cerrarSalida();
   });
 
   document.addEventListener("click",function(ev){
+    if(ev.target.closest("[data-extras-cerrar]")){cerrarExtras();return;}
+    var chip=ev.target.closest("[data-chip]");
+    if(chip){
+      ev.preventDefault();
+      var cid=chip.getAttribute("data-chip");
+      if(cid){
+        if(cart.flux_base<1) cart.flux_base=1;
+        fijar(cid, cart[cid]>0 ? -cart[cid] : 1);
+      }
+      return;
+    }
+    if(ev.target.closest("[data-extras-seguir]")){
+      ev.preventDefault();
+      cerrarExtras();
+      if(cart.flux_base<1) cart.flux_base=1;
+      pagar();
+      return;
+    }
     var flujo=ev.target.closest("[data-flujo=principal]");
     if(flujo){
       ev.preventDefault();
-      if(cart.flux_base<1) fijar("flux_base",1);
-      else { abierto=true; pintar(); }
+      abrirExtras();
       return;
     }
     var barraBtn=ev.target.closest("[data-bar-accion]");
     if(barraBtn){
       ev.preventDefault();
-      if(cart.flux_base<1) fijar("flux_base",1);
-      else pagar();
+      abrirExtras();
       return;
     }
     var add=ev.target.closest("[data-agregar]");
@@ -1148,18 +1212,18 @@ footer a.ext{color:var(--text);font-weight:500}
     els.forEach(function(e){io.observe(e)});
   }
 
-  // Barra móvil: sólo cuando los CTA del hero ya salieron por arriba (si no hay IO, siempre).
+  // «Solicita asistencia» en la barra: solo cuando el cierre entra en pantalla.
   var mcta=document.getElementById('mobile-cta');
-  var heroCta=document.getElementById('hero-cta');
-  if(mcta){
-    if(hasIO&&heroCta){
-      new IntersectionObserver(function(en){
-        var e=en[0];
-        mcta.classList.toggle('is-visible',!e.isIntersecting&&e.boundingClientRect.top<0);
-      },{threshold:0}).observe(heroCta);
-    }else{
-      mcta.classList.add('is-visible');
-    }
+  var cierre=document.getElementById('comenzar');
+  var waFin=document.querySelector('[data-asistencia-fin]');
+  function mostrarAsistencia(on){
+    if(mcta) mcta.classList.toggle('mcta-fin', on);
+    if(waFin) waFin.hidden=!on;
+  }
+  if(cierre && hasIO){
+    new IntersectionObserver(function(en){
+      mostrarAsistencia(en.some(function(e){return e.isIntersecting;}));
+    },{threshold:0.15}).observe(cierre);
   }
 
   // TODO: reemplazar por el webhook real (n8n)

@@ -138,6 +138,25 @@ export const ASISTENCIA_LABEL = "Solicita asistencia";
 export const ASISTENCIA_WHATSAPP = "https://wa.me/56985581524?text=necesito%20asistencia";
 
 /**
+ * Primer cobro que se muestra en Chile (Ricardo, 6-nov-2026): CLP 14.990.
+ * Mercado Pago todavía no tiene keys; la sesión sigue en Stripe y el copy
+ * visible no la nombra. No inventar el equivalente en pesos de los adicionales.
+ */
+export const PRECIO_FLUX_CLP = 14990;
+export const CTA_ACTIVAR_CLP = "Activar por $14.990";
+export const PREGUNTA_ADICIONALES = "¿Quieres adicionales o con esto partes?";
+
+/** Chips de la pregunta al activar. pe, se, c1k, ig, fb, ia. Sin regalo ni onboarding. */
+export const ADICIONALES_AL_ACTIVAR = [
+  "profesional_extra",
+  "sucursal_extra",
+  "conversaciones_1000",
+  "instagram",
+  "facebook",
+  "agente_ia",
+] as const satisfies readonly Exclude<ItemId, "flux_base" | "email_marketing" | "automatizaciones" | "onboarding_humano">[];
+
+/**
  * Claves cortas que AURA pone en el link de /contrata. `oh` (onboarding) no
  * se lee: ese adicional no se prearma desde WhatsApp.
  */

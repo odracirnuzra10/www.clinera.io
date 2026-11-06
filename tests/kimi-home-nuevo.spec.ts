@@ -70,12 +70,13 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
   const flux = page.locator("[data-testid=plan-flux]");
   await expect(flux.locator("img")).toHaveAttribute("src", "/kimi/productos/flux.jpg");
-  await expect(page.locator("#hero-cta")).toContainText("Activa Flux a USD 14,50/mes");
+  await expect(page.locator("#hero-cta")).toContainText("Activar por $14.990");
+  await expect(page.locator("#hero-cta").getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
   await expect(page.locator("#comenzar")).toContainText("Agrega Clinera Flux y elige lo que tu clínica necesita.");
   await expect(page.locator("#comenzar")).toContainText("Sin costo de implementación");
   await expect(page.locator("#comenzar")).not.toContainText("cuatro preguntas");
   await expect(page.locator("#comenzar").getByRole("button")).toHaveCount(1);
-  await expect(page.locator("#comenzar").getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
+  await expect(page.locator("#comenzar").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Hablar con ventas" })).toHaveCount(0);
   await expect(page.getByRole("link", { name: "Hablar con ventas" })).toHaveCount(0);
   await expect(page.locator("#comenzar").getByRole("link", { name: "Solicita asistencia" })).toHaveAttribute(
@@ -113,10 +114,10 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await expect(onboarding.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
   await flux.getByRole("button", { name: "Agregar al carrito" }).click();
   await expect(page.locator("[data-toast]")).toHaveText("Agregado al carrito");
-  await expect(page.locator("header").getByRole("button", { name: "Ver carrito" })).toBeVisible();
-  await expect(page.locator("header").getByRole("button", { name: "Quitar" })).toHaveCount(0);
-  await expect(page.locator("#hero-cta").getByRole("button", { name: "Ver carrito" })).toBeVisible();
-  await expect(page.locator("#comenzar").getByRole("button", { name: "Ver carrito" })).toBeVisible();
+  await expect(page.locator("header.nav").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+  await expect(page.locator("header.nav").getByRole("button", { name: "Quitar" })).toHaveCount(0);
+  await expect(page.locator("#hero-cta").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+  await expect(page.locator("#comenzar").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
   await expect(page.locator("[data-carrito-count]")).toHaveText("1");
   await expect(prof).not.toHaveClass(/espera/);
   await expect(prof.getByRole("button", { name: "Agregar al carrito" })).toBeEnabled();
@@ -140,7 +141,7 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await page.locator("[data-cerrar]").click();
   await flux.getByRole("button", { name: "Quitar" }).click();
   await page.locator("#comenzar").scrollIntoViewIfNeeded();
-  await page.locator("#comenzar").getByRole("button", { name: "Agregar al carrito" }).click();
+  await page.locator("#comenzar").getByRole("button", { name: "Activar por $14.990" }).click();
   const cubre = await page.evaluate(() => {
     const toast = document.querySelector("[data-toast]");
     const botones = [...document.querySelectorAll("#comenzar button")];
@@ -156,18 +157,21 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   expect(ancho).toBeLessThanOrEqual(1280);
 });
 
-test("en el celular la barra vacía ofrece Flux a USD 14,50", async ({ page }) => {
+test("en el celular la barra ofrece Activar por $14.990 y la asistencia aparece al final", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 700 });
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
   const barra = page.locator("#mobile-cta");
   await expect(barra).toContainText("Clinera Flux");
-  await expect(barra).toContainText("USD 14,50");
-  await expect(barra.getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
-  await expect(barra.getByRole("button", { name: "Activar" })).toHaveCount(0);
+  await expect(barra).toContainText("$14.990");
+  await expect(barra.getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+  await expect(barra.getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
   await expect(barra.getByRole("button", { name: "→ Agregar" })).toHaveCount(0);
-  await barra.getByRole("button", { name: "Agregar al carrito" }).click();
-  await expect(barra.getByRole("button", { name: "Activar" })).toBeVisible();
-  await expect(barra).toContainText("Hoy pagas");
+  await page.locator("#comenzar").scrollIntoViewIfNeeded();
+  await expect(barra.getByRole("link", { name: "Solicita asistencia" })).toBeVisible();
+  await barra.getByRole("button", { name: "Activar por $14.990" }).click();
+  await expect(page.getByRole("heading", { name: "¿Quieres adicionales o con esto partes?" })).toBeVisible();
+  await expect(page.locator("[data-chip=instagram]")).toBeVisible();
+  await expect(page.locator("[data-chip=agente_ia]")).toBeVisible();
   await expect(barra).not.toContainText("USD 0");
 });
 
@@ -192,13 +196,13 @@ test("/kimi ofrece Solicita asistencia y no muestra Hablar con ventas ni Agendar
   await expect(page.getByText("Hablar con ventas")).toHaveCount(0);
   await expect(page.getByText("Agendar reunión")).toHaveCount(0);
   await expect(page.locator("header.nav").getByRole("button")).toHaveCount(2);
+  await expect(page.locator("header.nav").getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
+  await expect(page.locator("#hero-cta").getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
   await expect(page.locator("#hero-cta").getByRole("button")).toHaveCount(1);
   await expect(page.locator("#comenzar").getByRole("button")).toHaveCount(1);
-  for (const sel of ["header.nav", "#hero-cta", "#comenzar"]) {
-    const link = page.locator(sel).getByRole("link", { name: "Solicita asistencia", exact: true });
-    await expect(link).toHaveAttribute("href", wa);
-    await expect(link).toHaveAttribute("target", "_blank");
-  }
+  const link = page.locator("#comenzar").getByRole("link", { name: "Solicita asistencia", exact: true });
+  await expect(link).toHaveAttribute("href", wa);
+  await expect(link).toHaveAttribute("target", "_blank");
 });
 
 test("/home-nuevo: el popup llega a la oferta y el embed lleva fecha", async ({ page }) => {
