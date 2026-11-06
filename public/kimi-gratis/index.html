@@ -621,15 +621,20 @@ h1,h2,h3{font-weight:600;letter-spacing:-.035em;line-height:1.12}
   box-shadow:none;text-shadow:none;filter:none;
 }
 .pain .btn.grad:hover{background:#F4F4F5}
+/* El cierre copia el wash del home: manchas grandes azul → lila → rosa, no un halo pegado al botón. */
+#comenzar.cta-band{
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(ellipse 80% 90% at 44% 62%, rgba(167,139,250,.62) 0%, rgba(124,58,237,.18) 36%, transparent 72%),
+    radial-gradient(ellipse 58% 72% at 6% 0%, rgba(147,197,253,.46) 0%, transparent 66%),
+    radial-gradient(ellipse 52% 68% at 98% 6%, rgba(244,114,182,.40) 0%, transparent 68%),
+    #111;
+}
 #comenzar .btn.grad,#comenzar .btn.grad:hover{
   background:#7C3AED;border-color:#7C3AED;color:#fff;
-  text-shadow:none;filter:none;
-  box-shadow:0 10px 24px -8px rgba(124,58,237,.55),0 0 22px rgba(124,58,237,.32);
+  box-shadow:none;text-shadow:none;filter:none;
 }
-#comenzar .btn.grad:hover{
-  background:#6D28D9;border-color:#6D28D9;
-  box-shadow:0 12px 28px -8px rgba(109,40,217,.6),0 0 26px rgba(124,58,237,.38);
-}
+#comenzar .btn.grad:hover{background:#6D28D9;border-color:#6D28D9}
 .mcta-row{grid-template-columns:1fr}
 .btn.outline{background:#fff;color:#111;border-color:#111}
 .btn.outline:hover{background:#F7F6F3}

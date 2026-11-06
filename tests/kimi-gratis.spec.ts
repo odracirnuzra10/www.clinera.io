@@ -22,8 +22,11 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   expect(mediaBtn.shadow).toBe("none");
   expect(cierreBtn.bg).toBe("rgb(124, 58, 237)");
   expect(cierreBtn.image).toBe("none");
-  expect(cierreBtn.shadow).toContain("124, 58, 237");
+  expect(cierreBtn.shadow).toBe("none");
   expect(cierreBtn.filter).toBe("none");
+  const wash = await page.locator("#comenzar").evaluate((el) => getComputedStyle(el).backgroundImage);
+  expect(wash).toContain("radial-gradient");
+  expect(wash).toContain("167, 139, 250");
   await expect(page.locator("header.nav")).not.toContainText("Crea tu cuenta");
   await expect(page.locator("header.nav .nav-cta")).toHaveCount(0);
   await expect(page.locator("#mobile-cta [data-bar-label]")).toHaveCount(0);
