@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Clinera | Flux $29, Hex $79 y Vortex $89</title>
-<meta name="description" content="Tres planes: Flux $29, Hex $79 y Vortex $89 en promoción. Crea tu cuenta y elige el plan de tu clínica.">
+<title>Clinera | Vortex recomendado, $62.30 el primer mes</title>
+<meta name="description" content="Vortex es el plan recomendado: $89, 30% el primer mes ($62.30). Flux $49 y Hex $79 tienen 50% el primer mes.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -140,7 +140,13 @@ footer .logo img{height:24px}
 .badge-plan{flex:none;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:var(--accent);color:#fff;border-radius:999px;padding:4px 8px}
 .pcard .precio{margin:0}
 .pcard .precio b{font-size:2rem}
-.pcard .precio small{color:var(--muted);font-weight:600;font-size:.85rem}
+.pcard .precio s{color:var(--muted);font-weight:650;font-size:1rem;margin-right:6px}
+.pcard .precio small,.pcard .luego{color:var(--muted);font-weight:650;font-size:.85rem}
+.pcard .luego{margin:0}
+.pcard.recom{border-width:3px;box-shadow:0 28px 60px -28px rgba(109,40,217,.9)}
+.pcard.recom h3{font-size:1.65rem}
+.pcard.recom .precio b{font-size:2.7rem}
+.pcard.recom .btn{min-height:56px}
 .pcard ul{list-style:none;margin:0;padding:8px 0 0;display:grid;gap:6px;font-size:.98rem}
 .pcard .btn{width:100%;min-height:48px;font-size:16px;margin-top:auto}
 .cuenta-listo[hidden],.cuenta [data-cuenta-pagar][hidden]{display:none}
@@ -495,7 +501,7 @@ footer a.ext{color:var(--text);font-weight:500}
   .intel-grid{grid-template-columns:1fr 1fr;gap:56px}
   .planes3{grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
   .pcard,.pcard.recom{order:0}
-  .pcard.recom{transform:translateY(-8px)}
+  .pcard.recom{transform:translateY(-22px) scale(1.05);z-index:1}
   .pasos-lista{grid-template-columns:repeat(4,1fr);gap:16px}
   .pasos-lista li{grid-template-columns:1fr;align-items:start;align-content:start}
   .flujo{grid-template-columns:minmax(220px,280px) 72px auto 72px minmax(240px,1fr);align-items:center;justify-items:stretch}
@@ -631,7 +637,7 @@ footer a.ext{color:var(--text);font-weight:500}
     <div class="copy">
       <p class="eyebrow rv">Software para clínicas estéticas y médicas</p>
       <h1 class="rv" style="--i:1">La plataforma médica con IA que transforma leads en pacientes con <span class="serif">evaluaciones pagadas</span></h1>
-      <p class="sub rv" style="--i:2">Flux $29 · Hex $79 · Vortex $89 en promoción.</p>
+      <p class="sub rv" style="--i:2">Vortex recomendado: $62.30 el primer mes. Flux y Hex, 50% el primer mes.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
         <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta</button>
       </div>
@@ -805,11 +811,12 @@ footer a.ext{color:var(--text);font-weight:500}
 <section class="tienda" id="planes" aria-labelledby="t-planes" data-testid="kimi2-planes">
   <div class="wrap">
     <p class="eyebrow">Elige tu plan</p>
-    <h2 id="t-planes">Tres planes. Vortex en promoción.</h2>
+    <h2 id="t-planes">Vortex es el plan recomendado.</h2>
     <div class="planes3">
       <article class="pcard" data-testid="plan-flux">
         <h3>Flux</h3>
-        <p class="precio"><b>$29</b> <small>USD</small></p>
+        <p class="precio"><s>$49</s><b>$24.50</b> <small>USD</small></p>
+        <p class="luego">50% el primer mes. Después, $49.</p>
         <ul>
           <li>2 profesionales</li>
           <li>WhatsApp</li>
@@ -819,7 +826,8 @@ footer a.ext{color:var(--text);font-weight:500}
       </article>
       <article class="pcard" data-testid="plan-hex">
         <h3>Hex</h3>
-        <p class="precio"><b>$79</b> <small>USD</small></p>
+        <p class="precio"><s>$79</s><b>$39.50</b> <small>USD</small></p>
+        <p class="luego">50% el primer mes. Después, $79.</p>
         <ul>
           <li>5 profesionales</li>
           <li>WhatsApp</li>
@@ -829,7 +837,8 @@ footer a.ext{color:var(--text);font-weight:500}
       </article>
       <article class="pcard recom" data-testid="plan-vortex">
         <h3>Vortex <span class="badge-plan">Recomendado</span></h3>
-        <p class="precio"><b>$89</b> <small>USD · promoción</small></p>
+        <p class="precio"><s>$89</s><b>$62.30</b> <small>USD</small></p>
+        <p class="luego">30% el primer mes. Después, $89. El plan recomendado.</p>
         <ul>
           <li>10 profesionales</li>
           <li>Instagram</li>
@@ -845,8 +854,8 @@ footer a.ext{color:var(--text);font-weight:500}
 <section class="sec cta-band" id="comenzar" aria-labelledby="t-act">
   <div class="wrap">
     <p class="eyebrow rv">Comenzar</p>
-    <h2 id="t-act" class="rv" style="--i:1">Vortex está en promoción</h2>
-    <p class="lead rv" style="--i:2">10 profesionales, WhatsApp, Instagram y Facebook, y 2000 conversaciones. $89.</p>
+    <h2 id="t-act" class="rv" style="--i:1">Vortex, el plan recomendado</h2>
+    <p class="lead rv" style="--i:2">10 profesionales, WhatsApp, Instagram y Facebook, y 2000 conversaciones. $62.30 el primer mes, después $89.</p>
     <div class="cta par rv" style="--i:3">
       <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta</button>
       <a class="btn wa" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
@@ -897,8 +906,8 @@ footer a.ext{color:var(--text);font-weight:500}
   <button class="salida-fondo" type="button" data-salida-cerrar aria-label="Cerrar oferta"></button>
   <div class="salida-card">
     <p class="estado"><span class="chk" aria-hidden="true">✓</span> Promoción</p>
-    <h2 id="salida-titulo">Vortex a $89</h2>
-    <p>10 profesionales, WhatsApp, Instagram y Facebook, y 2000 conversaciones.</p>
+    <h2 id="salida-titulo">Vortex recomendado: $62.30</h2>
+    <p>30% el primer mes. Después, $89. 10 profesionales, WhatsApp, Instagram y Facebook, y 2000 conversaciones.</p>
     <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta</button>
     <button class="salida-no" type="button" data-salida-cerrar>Ahora no</button>
   </div>
@@ -922,7 +931,7 @@ footer a.ext{color:var(--text);font-weight:500}
   <form class="cuenta-card" data-cuenta-form novalidate>
     <button class="cuenta-x" type="button" data-cuenta-cerrar aria-label="Cerrar cuenta">×</button>
     <h2 id="cuenta-titulo">Crea tu cuenta</h2>
-    <p data-cuenta-resumen>Vortex · promoción · $89.</p>
+    <p data-cuenta-resumen>Vortex · recomendado · 30% el primer mes: $62.30. Después, $89.</p>
     <label>Nombre<input name="nombre" autocomplete="name" required maxlength="80"></label>
     <label>Celular<span class="phone"><select name="prefijo" aria-label="Prefijo del país"><option value="+56" selected>+56</option><option value="+52">+52</option><option value="+57">+57</option><option value="+51">+51</option><option value="+54">+54</option><option value="+593">+593</option><option value="+598">+598</option><option value="+1">+1</option></select><input name="celular" type="tel" inputmode="tel" autocomplete="tel-national" required maxlength="15" placeholder="9 1234 5678"></span></label>
     <label>Correo<input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120"></label>
@@ -1073,9 +1082,9 @@ footer a.ext{color:var(--text);font-weight:500}
   IDS.forEach(function(id){cart[id]=0;});
   var abierto=false, enviando=false, promoOff=false, toastT=0, cuentaModo="cuenta";
   var PLANES={
-    flux:{nombre:"Flux",precio:"$29",nota:"Flux · $29. En Chile, hoy pagas $14.495 por 30 días.",mp:true},
-    hex:{nombre:"Hex",precio:"$79",nota:"Hex · $79. Guardamos este plan en tu cuenta.",mp:false},
-    vortex:{nombre:"Vortex",precio:"$89",nota:"Vortex · promoción · $89. Guardamos este plan en tu cuenta.",mp:false}
+    flux:{nombre:"Flux",precio:"$24.50",lista:"$49",nota:"Flux · $49. 50% el primer mes: $24.50. En Chile, hoy pagas $14.495 por 30 días.",mp:true},
+    hex:{nombre:"Hex",precio:"$39.50",lista:"$79",nota:"Hex · $79. 50% el primer mes: $39.50. Después, $79. Guardamos este plan en tu cuenta.",mp:false},
+    vortex:{nombre:"Vortex",precio:"$62.30",lista:"$89",nota:"Vortex · recomendado. 30% el primer mes: $62.30. Después, $89. Guardamos este plan en tu cuenta.",mp:false}
   };
   var planElegido="vortex";
   var drawer=document.querySelector("[data-drawer]");
@@ -1364,7 +1373,7 @@ footer a.ext{color:var(--text);font-weight:500}
         source_path:"/kimi2",
         landing_url:location.href,
         plan:planElegido,
-        servicio_interes_label:asistencia?"Solicita asistencia":plan.nombre+" "+plan.precio,
+        servicio_interes_label:asistencia?"Solicita asistencia":plan.nombre+" "+plan.precio+" primer mes, luego "+plan.lista,
         servicio_interes:"ambas"
       })
     }).catch(function(){});
