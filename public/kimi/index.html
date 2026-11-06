@@ -128,6 +128,11 @@ footer .logo img{height:24px}
 
 /* 3 funciones clave */
 .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pasos-lista{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:12px}
+.pasos-lista li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:center;border:1px solid var(--border);border-radius:16px;padding:16px 18px;background:#fff}
+.pasos-lista span{width:44px;height:44px;border-radius:999px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:1.15rem}
+.pasos-lista p{margin:0;font-size:1.15rem;font-weight:650;letter-spacing:-.02em;line-height:1.25}
+.pasos .cta .btn{width:100%;max-width:28rem;min-height:52px;padding:14px 20px;font-size:16px;line-height:1.25;white-space:normal;text-align:center}
 .feat{border:1px solid var(--border);border-radius:16px;background:#fff;padding:28px 26px;display:flex;flex-direction:column}
 .feat h3{font-size:1.25rem;margin-bottom:10px;letter-spacing:-.02em}
 .feat p{color:var(--muted);font-size:.95rem;max-width:26em}
@@ -442,6 +447,8 @@ footer a.ext{color:var(--text);font-weight:500}
 @keyframes intel-ciclo{0%,8%{opacity:.42}16%,46%{opacity:1}54%,100%{opacity:.42}}
 @media (min-width:900px){
   .intel-grid{grid-template-columns:1fr 1fr;gap:56px}
+  .pasos-lista{grid-template-columns:repeat(4,1fr);gap:16px}
+  .pasos-lista li{grid-template-columns:1fr;align-items:start;align-content:start}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -479,6 +486,7 @@ footer a.ext{color:var(--text);font-weight:500}
   .glow.g1{width:360px;height:360px}
   .glow.g2{width:280px;height:280px}
   .feats{grid-template-columns:1fr}
+  .pasos-lista{grid-template-columns:1fr}
   .sec{padding:72px 0}
 }
 @media (max-width:600px){
@@ -638,6 +646,22 @@ footer a.ext{color:var(--text);font-weight:500}
         <h3>IA que conoce tu clínica</h3>
         <p>Clinera Intelligence responde con las ventas, las fichas y los mensajes de tu clínica.</p>
       </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec pasos" id="como-funciona" data-testid="kimi-pasos" aria-labelledby="t-pasos">
+  <div class="wrap">
+    <p class="eyebrow rv">Cómo funciona</p>
+    <h2 id="t-pasos" class="rv" style="--i:1">Cómo funciona Clinera</h2>
+    <ol class="pasos-lista">
+      <li class="rv" style="--i:1"><span>1</span><p>Conecta tu WhatsApp</p></li>
+      <li class="rv" style="--i:1"><span>2</span><p>Configura tus horarios, profesionales y tratamientos</p></li>
+      <li class="rv" style="--i:2"><span>3</span><p>Activa tus campañas</p></li>
+      <li class="rv" style="--i:2"><span>4</span><p>Tu agente IA agenda por ti</p></li>
+    </ol>
+    <div class="cta rv" style="--i:3">
+      <button class="btn grad" type="button" data-abrir-cuenta>Activa tu cuenta por $14.495 por 30 días y prueba el poder.</button>
     </div>
   </div>
 </section>

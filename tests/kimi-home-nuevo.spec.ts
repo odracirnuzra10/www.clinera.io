@@ -206,6 +206,37 @@ test("el pie de /home-nuevo también enlaza Términos y Privacidad", async ({ pa
   await expect(legal.locator("a", { hasText: "Privacidad" })).toHaveAttribute("href", "/privacidad");
 });
 
+test("/kimi explica cómo funciona en cuatro pasos y ese CTA abre la cuenta", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/kimi", { waitUntil: "domcontentloaded" });
+  const pasos = page.locator("[data-testid=kimi-pasos]");
+  await expect(pasos.getByRole("heading", { name: "Cómo funciona Clinera" })).toBeVisible();
+  const items = pasos.locator(".pasos-lista p");
+  await expect(items).toHaveText([
+    "Conecta tu WhatsApp",
+    "Configura tus horarios, profesionales y tratamientos",
+    "Activa tus campañas",
+    "Tu agente IA agenda por ti",
+  ]);
+  const orden = await page.evaluate(() => {
+    const y = (id: string) => document.getElementById(id)?.getBoundingClientRect().top ?? 0;
+    return { funciones: y("funciones"), pasos: y("como-funciona"), intel: y("intelligence") };
+  });
+  expect(orden.pasos).toBeGreaterThan(orden.funciones);
+  expect(orden.intel).toBeGreaterThan(orden.pasos);
+  const cta = pasos.getByRole("button", { name: "Activa tu cuenta por $14.495 por 30 días y prueba el poder." });
+  await expect(cta).toBeVisible();
+  const caja = await cta.boundingBox();
+  expect(caja?.height ?? 0).toBeGreaterThanOrEqual(48);
+  const font = await cta.evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+  expect(font).toBeGreaterThanOrEqual(16);
+  await cta.click();
+  const modal = page.locator("[data-cuenta]");
+  await expect(modal).toBeVisible();
+  await expect(modal.locator("[data-cuenta-pagar]")).toHaveAttribute("href", "https://mpago.la/22dyhQr");
+  await expect(page.locator("#hero-cta").getByRole("button", { name: "Crea tu cuenta por $14.495" })).toBeVisible();
+});
+
 test("/kimi explica Clinera Intelligence con un ejemplo, sin video", async ({ page }) => {
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
   const sec = page.locator("[data-testid=kimi-intelligence]");
