@@ -73,6 +73,13 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   expect(xcaleGlow.shadow).toBe("none");
   expect(xcaleGlow.filter).toContain("blur");
   expect(xcaleGlow.image).toContain("radial-gradient");
+  const pago = vortex.locator("a.btn.grad");
+  await expect(pago).toHaveAttribute("href", "https://buy.stripe.com/8x29AV7cZ9eG9wTgwz1441O");
+  await expect(pago).toHaveAttribute("data-plan", "xcale");
+  await expect(pago).toHaveAttribute("data-plan-value", "149");
+  await expect(pago).not.toHaveAttribute("data-abrir-cuenta", /.+/);
+  await expect(flux.locator("a[href*='buy.stripe.com']")).toHaveCount(0);
+  await expect(hex.locator("a[href*='buy.stripe.com']")).toHaveCount(0);
   await expect(vortex).toContainText("$149");
   await expect(vortex).toContainText("Recomendado");
   await expect(vortex).toContainText("10 profesionales");
@@ -106,7 +113,7 @@ test("/kimi-gratis pide los cuatro datos antes de registrar y antes de WhatsApp"
   const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
   expect(ancho).toBeLessThanOrEqual(390);
 
-  await page.locator("[data-testid=plan-xcale]").getByRole("button", { name: "Registra y activa tu clínica" }).click();
+  await page.locator(".hero").getByRole("button", { name: "Registra y activa tu clínica" }).click();
   const modal = page.locator("[data-cuenta]");
   await expect(modal).toBeVisible();
   await expect(modal.locator("[data-cuenta-resumen]")).toContainText("$149");

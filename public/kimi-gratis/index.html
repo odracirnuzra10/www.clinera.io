@@ -635,17 +635,18 @@ h1,h2,h3{font-weight:600;letter-spacing:-.035em;line-height:1.12}
   box-shadow:none;text-shadow:none;filter:none;
 }
 #comenzar .btn.grad:hover{background:#6D28D9;border-color:#6D28D9}
-/* El CTA de Xcale lleva el wash del home detrás del botón negro, no un halo pegado.
-   El pseudo va en la card: un ::before del botón se pinta encima del fondo negro. */
-.pcard.recom{position:relative}
+/* El CTA de Xcale lleva el wash del home: un campo grande azul → lila → rosa
+   que se disuelve, no un halo corto. El pseudo va en la card porque un ::before
+   del botón se pinta encima del fondo negro. */
+.pcard.recom{position:relative;overflow:hidden}
 .pcard.recom h3,.pcard.recom .precio,.pcard.recom ul{position:relative;z-index:1}
 .pcard.recom::after{
-  content:"";position:absolute;z-index:0;left:10px;right:10px;bottom:8px;height:132px;
-  border-radius:28px;pointer-events:none;filter:blur(18px);
+  content:"";position:absolute;z-index:0;left:-28%;right:-28%;top:28%;bottom:-36%;
+  border-radius:50%;pointer-events:none;filter:blur(22px);
   background:
-    radial-gradient(ellipse 55% 80% at 18% 70%, rgba(147,197,253,.95), transparent 70%),
-    radial-gradient(ellipse 70% 90% at 48% 78%, rgba(167,139,250,.9), transparent 68%),
-    radial-gradient(ellipse 50% 80% at 86% 55%, rgba(244,114,182,.85), transparent 70%);
+    radial-gradient(ellipse 48% 62% at 8% 68%, #93c5fd 0%, rgba(219,234,254,0) 72%),
+    radial-gradient(ellipse 72% 78% at 46% 86%, #c4b5fd 0%, #e9d5ff 36%, rgba(233,213,255,0) 76%),
+    radial-gradient(ellipse 46% 58% at 94% 58%, #f9a8d4 0%, rgba(251,207,232,0) 70%);
 }
 .pcard.recom .btn.grad{
   position:relative;z-index:1;
@@ -1024,7 +1025,7 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
           <li>Clinera Intelligence · 5000 créditos</li>
           <li>Onboarding humano</li>
         </ul>
-        <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Registra y activa tu clínica</button>
+        <a class="btn grad" href="https://buy.stripe.com/8x29AV7cZ9eG9wTgwz1441O" data-plan="xcale" data-plan-name="Xcale" data-plan-value="149">Registra y activa tu clínica</a>
       </article>
     </div>
     <div class="sumas" data-testid="kimi-gratis-addons">
