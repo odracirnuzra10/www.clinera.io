@@ -71,7 +71,7 @@ const cols: Col[] = [
   },
 ];
 
-export default function FooterV3() {
+export default function FooterV3({ ocultarAgenda = false }: { ocultarAgenda?: boolean }) {
   const linkEl = (label: string, href: string, highlight = false) => {
     const style = {
       fontFamily: "Inter",
@@ -182,7 +182,9 @@ export default function FooterV3() {
               )}
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {c.l.map(([label, href, highlight]) => linkEl(label, href, !!highlight))}
+              {c.l
+                .filter(([, href]) => !(ocultarAgenda && href === "/agenda"))
+                .map(([label, href, highlight]) => linkEl(label, href, !!highlight))}
             </div>
           </div>
         ))}

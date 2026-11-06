@@ -1,31 +1,46 @@
 "use client";
 
 // /contrata: ficha de producto al estilo de una tienda (Mercado Libre), con los
-// colores de Clinera. Flux se agrega al carrito. Activar, dentro del carrito,
-// abre el pago. El correo lo pide Stripe, no esta página.
+// colores de Clinera. «Crea tu cuenta por $14.495» abre el modal (nombre,
+// correo, clínica). «Pagar» va a Mercado Pago. Después, $78.990.
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { Outfit } from "next/font/google";
+import { useEffect, useRef, useState } from "react";
+
+const outfit = Outfit({
+  subsets: ["latin", "latin-ext"],
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-outfit",
+  display: "swap",
+});
 import UrgenciaPromo from "@/components/contrata/UrgenciaPromo";
 import {
+  ADICIONALES_AL_ACTIVAR,
+  ASISTENCIA_LABEL,
+  ASISTENCIA_WHATSAPP,
   CARRITO,
+  CTA_ACTIVAR_CLP,
+  CTA_PAGAR_CLP,
+  CTA_PRUEBA_CLP,
   FLUX_BASE_INCLUYE,
   ITEM_IDS,
-  REGALOS,
+  MP_FLUX_PROMO_URL,
+  MP_NOTA_CLP,
+  NOTA_PLAN_CLP,
+  PREGUNTA_ADICIONALES,
   type Carrito,
   type ItemId,
-  esRegaloNoviembre,
-  preseleccion,
-  regaloVigente,
+  PROMO_PCT,
+  clpLinea,
+  formatoClp,
+  carritoDesdeQuery,
   sanear,
-  totalLista,
-  totalPromo,
 } from "@/content/carrito-flux";
-import { sanitizarRef, soloTracking } from "@/content/checkout";
 import { track, trackPixel } from "@/lib/tracking";
 import styles from "./FluxCarrito.module.css";
 
 const STORAGE = "contrata_carrito";
-const ADICIONALES = ITEM_IDS.filter((id) => id !== "flux_base");
+const ADICIONALES = ADICIONALES_AL_ACTIVAR;
 
 const TEXTO: Record<Exclude<ItemId, "flux_base">, string> = {
   profesional_extra: "Otro profesional en la agenda de tu clínica.",
@@ -36,13 +51,8 @@ const TEXTO: Record<Exclude<ItemId, "flux_base">, string> = {
   agente_ia: "Incluye 7.000 créditos de IA. Atiende por ti.",
   email_marketing: "Correos a tus pacientes desde Clinera.",
   automatizaciones: "Avisos y tareas que se disparan solas.",
+  onboarding_humano: "Una persona te deja la clínica andando. Se cobra una sola vez.",
 };
-
-declare global {
-  interface Window {
-    clineraStripeRef?: () => string;
-  }
-}
 
 type Cantidades = Record<ItemId, number>;
 
@@ -56,69 +66,59 @@ function vista(c: Carrito, now = new Date()): Cantidades {
   const raw = c.flux_base;
   const n = typeof raw === "number" && Number.isFinite(raw) ? Math.trunc(raw) : 0;
   clamped.flux_base = n >= 1 ? 1 : 0;
+  for (const id of ITEM_IDS) {
+    if (id !== "flux_base" && !(ADICIONALES as readonly string[]).includes(id)) clamped[id] = 0;
+  }
   return clamped;
 }
 
-function totalVisible(c: Cantidades): number {
-  const suma = ITEM_IDS.reduce((acc, id) => acc + CARRITO[id].usd * c[id], 0);
-  return Math.round(suma * 100) / 100;
+function redondear(n: number): number {
+  return Math.round(n * 100) / 100;
 }
 
-function monto(usd: number): string {
-  const texto = usd.toLocaleString("es-CL", {
-    minimumFractionDigits: Number.isInteger(usd) ? 0 : 2,
-    maximumFractionDigits: 2,
-  });
-  return `US$ ${texto}`;
+/** Totales de lo que se ve. No usa `sanear()`: ahí Flux vacío pasaría a 1. */
+function desglose(c: Cantidades): { mensual: number; unico: number; lista: number; promo: number } {
+  let mensual = 0;
+  let unico = 0;
+  for (const id of ITEM_IDS) {
+    const usd = CARRITO[id].usd * c[id];
+    if (CARRITO[id].cobro === "unico") unico += usd;
+    else mensual += usd;
+  }
+  mensual = redondear(mensual);
+  unico = redondear(unico);
+  const promoMes = Math.round(mensual * (100 - PROMO_PCT)) / 100;
+  return { mensual, unico, lista: redondear(mensual + unico), promo: redondear(promoMes + unico) };
 }
 
 function etiqueta(nombre: string): string {
   return nombre.charAt(0).toLowerCase() + nombre.slice(1);
 }
 
-/** null hasta hidratar: el servidor no decide el regalo (el reloj del build no es el del visitante). */
-function useRegalo(): boolean | null {
-  return useSyncExternalStore(
-    (cb) => {
-      const t = setInterval(cb, 60_000);
-      return () => clearInterval(t);
-    },
-    () => regaloVigente(),
-    () => null,
-  );
-}
-
 export default function FluxCarrito({
-  planInicial = "",
+  query = "",
   pago = "",
   sessionId = "",
 }: {
-  planInicial?: string;
+  /** Query de esta visita, sin el `?`. La arma el servidor para que un link de AURA no dependa del reloj del efecto. */
+  query?: string;
   pago?: string;
   sessionId?: string;
 }) {
   const [carrito, setCarrito] = useState(() => vista({}));
   const [listo, setListo] = useState(false);
-  const [promoOff, setPromoOff] = useState(false);
-  const [enviando, setEnviando] = useState(false);
-  const [error, setError] = useState("");
+  const [promoOff] = useState(false);
   const [aviso, setAviso] = useState("");
   const [abierto, setAbierto] = useState(false);
   const debounce = useRef<number | null>(null);
   const foco = useRef<ItemId | null>(null);
-  const regalo = useRegalo();
-  const search = useSyncExternalStore(
-    () => () => {},
-    () => window.location.search,
-    () => "",
-  );
-
   useEffect(() => {
-    // ?plan= es la intención de esta visita y gana al carrito guardado.
-    // Con un plan, Flux ya entra: es la base de esa configuración.
+    // La query (?plan= y pe, ig, fb…) es la intención de esta visita y gana
+    // al carrito guardado. Sin eso, vuelve lo de sessionStorage (?pago=cancelado).
+    const desde = carritoDesdeQuery(query);
     let inicial: Carrito = {};
-    if (planInicial) {
-      inicial = { flux_base: 1, ...preseleccion(planInicial) };
+    if (desde.aplica) {
+      inicial = desde.carrito;
     } else {
       try {
         const raw = sessionStorage.getItem(STORAGE);
@@ -129,7 +129,7 @@ export default function FluxCarrito({
     }
     setCarrito(vista(inicial));
     setListo(true);
-  }, [planInicial]);
+  }, [query]);
 
   useEffect(() => {
     if (!listo) return;
@@ -156,6 +156,94 @@ export default function FluxCarrito({
     return () => window.clearTimeout(t);
   }, [aviso]);
 
+  const [salida, setSalida] = useState(false);
+  const [extras, setExtras] = useState(false);
+  const [cuentaAbierta, setCuentaAbierta] = useState(false);
+  const [cuentaError, setCuentaError] = useState(false);
+  const [cuenta, setCuenta] = useState({ nombre: "", email: "", clinica: "" });
+  const [finScroll, setFinScroll] = useState(false);
+  const cierreRef = useRef<HTMLElement>(null);
+  const salirRef = useRef({ flux: false, agregar: () => {} });
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("pago") === "ok") return;
+    let armado = false;
+    const t = window.setTimeout(() => { armado = true; }, 4000);
+    const visto = () => {
+      try { return sessionStorage.getItem("clinera_oferta_salida") === "1"; } catch { return true; }
+    };
+    const abrir = () => {
+      if (!armado || visto()) return;
+      try { sessionStorage.setItem("clinera_oferta_salida", "1"); } catch { /* la sesión igual sigue */ }
+      setSalida(true);
+    };
+    const onOut = (e: MouseEvent) => {
+      if (e.clientY > 8 || e.relatedTarget) return;
+      abrir();
+    };
+    let oculto = false;
+    const onVis = () => {
+      if (document.visibilityState === "hidden") { oculto = true; return; }
+      if (oculto) { oculto = false; abrir(); }
+    };
+    document.addEventListener("mouseout", onOut);
+    document.addEventListener("visibilitychange", onVis);
+    let onBack: (() => void) | null = null;
+    if (window.matchMedia("(max-width: 800px)").matches) {
+      history.pushState({ clineraSalida: 1 }, "");
+      onBack = () => {
+        if (visto()) return;
+        abrir();
+        history.pushState({ clineraSalida: 1 }, "");
+      };
+      window.addEventListener("popstate", onBack);
+    }
+    return () => {
+      window.clearTimeout(t);
+      document.removeEventListener("mouseout", onOut);
+      document.removeEventListener("visibilitychange", onVis);
+      if (onBack) window.removeEventListener("popstate", onBack);
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = cierreRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      (entries) => setFinScroll(entries.some((e) => e.isIntersecting)),
+      { threshold: 0.15 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem("clinera_cuenta");
+      const guardada = raw ? (JSON.parse(raw) as { nombre?: string; email?: string; clinica?: string }) : {};
+      const q = new URLSearchParams(window.location.search).get("email") || "";
+      const emailUrl = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(q.trim()) ? q.trim() : "";
+      setCuenta({
+        nombre: typeof guardada.nombre === "string" ? guardada.nombre : "",
+        email: emailUrl || (typeof guardada.email === "string" ? guardada.email : ""),
+        clinica: typeof guardada.clinica === "string" ? guardada.clinica : "",
+      });
+    } catch {
+      /* el formulario queda vacío */
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!extras && !cuentaAbierta) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setCuentaAbierta(false);
+        setExtras(false);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [extras, cuentaAbierta]);
+
   useEffect(() => {
     if (!abierto) return;
     const previo = document.body.style.overflow;
@@ -172,24 +260,25 @@ export default function FluxCarrito({
 
   if (pago === "ok") return <Exito sessionId={sessionId} />;
 
-  const lista = totalVisible(carrito);
-  const promo = Math.round(lista * 50) / 100;
-  const hoy = promoOff ? lista : promo;
+  salirRef.current = {
+    flux: carrito.flux_base > 0,
+    agregar: () => fijar("flux_base", 1),
+  };
+
   const unidades = ITEM_IDS.reduce((n, id) => n + carrito[id], 0);
-  const ahorro = Math.round((lista - promo) * 100) / 100;
   const fluxEnCarrito = carrito.flux_base >= 1;
 
   function emitir(id: ItemId, accion: "agregar" | "quitar", qty: number, next: Cantidades) {
     if (debounce.current) window.clearTimeout(debounce.current);
     debounce.current = window.setTimeout(() => {
       try {
-        const total = totalVisible(next);
+        const partes = desglose(next);
         track("carrito_addon", {
           item_id: id,
           accion,
           quantity: qty,
-          total_lista: total,
-          total_promo: Math.round(total * 50) / 100,
+          total_lista: partes.lista,
+          total_promo: partes.promo,
         });
       } catch (e) {
         console.error("[contrata] addon", e);
@@ -198,86 +287,112 @@ export default function FluxCarrito({
   }
 
   function fijar(id: ItemId, delta: number) {
+    if (id !== "flux_base" && delta > 0 && carrito.flux_base < 1) return;
     if (delta > 0) {
       foco.current = id;
       setAviso("Agregado al carrito");
     }
     setCarrito((prev) => {
-      const next = vista({ ...prev, [id]: prev[id] + delta });
+      if (id !== "flux_base" && delta > 0 && prev.flux_base < 1) return prev;
+      const base = { ...prev, [id]: prev[id] + delta };
+      if (id === "flux_base" && base.flux_base < 1) {
+        for (const k of ITEM_IDS) {
+          if (k !== "flux_base") base[k] = 0;
+        }
+      }
+      const next = vista(base);
       emitir(id, delta > 0 ? "agregar" : "quitar", next[id], next);
       return next;
     });
   }
 
-  async function pagar() {
-    if (enviando) return;
-    if (carrito.flux_base < 1) {
-      setAbierto(true);
-      setError("Agrega Clinera Flux para activar tu clínica.");
+  function abrirCuenta() {
+    if (carrito.flux_base < 1) fijar("flux_base", 1);
+    foco.current = null;
+    setExtras(false);
+    setAbierto(false);
+    setSalida(false);
+    setCuentaError(false);
+    setCuentaAbierta(true);
+  }
+
+  function pagarCuenta(e: React.MouseEvent<HTMLAnchorElement>) {
+    const nombre = cuenta.nombre.trim();
+    const email = cuenta.email.trim();
+    const clinica = cuenta.clinica.trim();
+    const correoOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!nombre || !correoOk || !clinica) {
+      e.preventDefault();
+      setCuenta({ nombre, email, clinica });
+      setCuentaError(true);
       return;
     }
-    setEnviando(true);
-    setError("");
-    const limpio = sanear(carrito);
-    const value = promoOff ? totalLista(limpio) : totalPromo(limpio);
+    setCuentaError(false);
     try {
-      const search = window.location.search;
-      const ref = window.clineraStripeRef?.() || sanitizarRef(new URLSearchParams(search).get("gclid") || "");
-      const utm = Object.fromEntries(soloTracking(search));
-      try {
-        track("initiate_checkout", {
-          plan: "flux_modular",
-          content_name: "Clinera Flux modular",
-          value,
-          value_lista: totalLista(limpio),
-          currency: "USD",
-          items: ITEM_IDS.filter((id) => limpio[id] > 0).map((id) => ({
-            item_id: id,
-            quantity: limpio[id],
-            price: CARRITO[id].usd,
-          })),
-          promo: promoOff ? "none" : "CLINERA50X3",
-          regalo,
-        });
-        trackPixel("InitiateCheckout", {
-          value,
-          currency: "USD",
-          content_name: "Clinera Flux modular",
-          contents: ITEM_IDS.filter((id) => limpio[id] > 0).map((id) => ({ id, quantity: limpio[id] })),
-        });
-      } catch (e) {
-        console.error("[contrata] checkout", e);
-      }
-      const res = await fetch("/api/contrata/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ carrito: limpio, clientRef: ref, utm }),
+      sessionStorage.setItem("clinera_cuenta", JSON.stringify({ nombre, email, clinica }));
+    } catch {
+      /* seguir al pago igual */
+    }
+    marcarPago();
+    const q = new URLSearchParams(window.location.search);
+    const lead = q.get("gclid") || q.get("gbraid") || q.get("wbraid") ? "google-ads" : q.get("fbclid") ? "meta-ads" : "organico";
+    void fetch("/api/wizard", {
+      method: "POST",
+      keepalive: true,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        lead_stage: "contact",
+        booking_status: "pending",
+        nombre,
+        email,
+        nombre_clinica: clinica,
+        clinica,
+        lead_source: lead,
+        fuente: "Landing /contrata — Clinera",
+        source_path: "/contrata",
+        landing_url: window.location.href,
+        plan: "flux",
+        servicio_interes: "ambas",
+      }),
+    }).catch(() => {});
+  }
+
+  function toggleExtra(id: (typeof ADICIONALES_AL_ACTIVAR)[number]) {
+    if (carrito[id] > 0) fijar(id, -carrito[id]);
+    else fijar(id, 1);
+    foco.current = null;
+  }
+
+  function marcarPago() {
+    // El link cobra la prueba de $14.495. La señal queda en el equivalente
+    // de catálogo (US$ 14,50), no en el total de los adicionales.
+    try {
+      track("initiate_checkout", {
+        plan: "flux_modular",
+        content_name: "Clinera Flux",
+        value: 14.5,
+        currency: "USD",
+        promo: "CLINERA50X3",
+        pago: "mercadopago",
       });
-      const json = (await res.json()) as { ok?: boolean; url?: string; promo?: boolean };
-      if (json.promo === false) setPromoOff(true);
-      if (json.ok && json.url) {
-        window.location.assign(json.url);
-        return;
-      }
-      setAbierto(true);
-      setError("El pago en línea no está disponible todavía. Agenda una reunión y lo activamos contigo.");
+      trackPixel("InitiateCheckout", {
+        value: 14.5,
+        currency: "USD",
+        content_name: "Clinera Flux",
+      });
     } catch (e) {
       console.error("[contrata] checkout", e);
-      setAbierto(true);
-      setError("El pago en línea no está disponible todavía. Agenda una reunión y lo activamos contigo.");
-    } finally {
-      setEnviando(false);
     }
   }
 
-  const agenda = `/agenda${search}`;
   const pulso = aviso ? styles.badgePulso : "";
   const lineas = ITEM_IDS.filter((id) => carrito[id] > 0);
 
   return (
-    <div className={styles.pagina} data-carrito>
+    <div className={`${styles.pagina} ${outfit.variable}`} data-carrito>
       <header className={styles.barra}>
         <a className={styles.marca} href="/">clinera</a>
+        <div className={styles.acciones}>
         <button
           type="button"
           className={styles.bolsa}
@@ -290,6 +405,7 @@ export default function FluxCarrito({
           <Bolsa />
           {unidades > 0 ? <span className={`${styles.badge} ${pulso}`} data-carrito-count>{unidades}</span> : null}
         </button>
+        </div>
       </header>
       {aviso ? (
         <div className={styles.toast} role="status" data-toast>
@@ -302,27 +418,29 @@ export default function FluxCarrito({
       <div className={styles.grid}>
         <p className={styles.frase}>Haz que sea tu clínica</p>
         <p className={styles.heroMl}>
-          Hacer crecer tu clínica es como comprar en Mercado Libre: elige qué funciones quieres, agrégalas al carrito y comienza.
+          {NOTA_PLAN_CLP}
         </p>
         <h1 className={styles.h1}>Activa tu clínica</h1>
+        {!promoOff ? (
+          <p className={styles.ofertaHero}>{CTA_PRUEBA_CLP}. Después, $78.990.</p>
+        ) : null}
 
         <article className={styles.producto} data-flux-base>
-          <div className={styles.foto} aria-hidden="true">
-            <Icono id="flux_base" grande />
+          <div className={styles.foto}>
+            <Foto id="flux_base" />
           </div>
           <div className={styles.productoCompra}>
             <h2 className={styles.cardTitulo}>Clinera Flux</h2>
-            <p className={styles.cardSub}>Configura tu clínica y agrégala al carrito.</p>
-            <Precio usd={29} promo={!promoOff} desde />
+            <p className={styles.cardSub}>30 días para escalar tu clínica. Después, $78.990.</p>
+            {promoOff ? <Precio usd={29} promo={false} /> : <PrecioFlux />}
+            <button type="button" className={styles.agregar} onClick={abrirCuenta}>
+              {promoOff ? "Activar" : CTA_ACTIVAR_CLP}
+            </button>
             {fluxEnCarrito ? (
               <button type="button" className={styles.quitar} aria-label="Quitar Clinera Flux" onClick={() => fijar("flux_base", -1)}>
                 Quitar
               </button>
-            ) : (
-              <button type="button" className={styles.agregar} aria-label="Agregar al carrito: Clinera Flux" onClick={() => fijar("flux_base", 1)}>
-                Agregar al carrito
-              </button>
-            )}
+            ) : null}
           </div>
           <ul className={styles.incluye}>
             {FLUX_BASE_INCLUYE.map((item) => (
@@ -330,7 +448,7 @@ export default function FluxCarrito({
             ))}
           </ul>
           <ul className={styles.confianza}>
-            <li>Pago seguro con Stripe</li>
+            <li>Pago seguro</li>
             <li>Cancela cuando quieras</li>
             <li>Activación rápida</li>
           </ul>
@@ -338,31 +456,22 @@ export default function FluxCarrito({
 
         <section data-adicionales>
           <h2 className={styles.seccion}>También puedes agregar</h2>
-          <p className={styles.seccionSub}>Depende de ti elegir lo adicional</p>
+          <p className={styles.seccionSub}>Profesionales y conversaciones. Los créditos de IA se activan después de la prueba.</p>
           <div className={styles.cards}>
-            {ADICIONALES.filter((id) => !esRegaloNoviembre(id) || regalo === false).map((id) => (
+            {ADICIONALES.map((id) => (
               <Addon
                 key={id}
                 id={id}
                 qty={carrito[id]}
                 promo={!promoOff}
+                bloqueado={!fluxEnCarrito}
                 onAdd={() => fijar(id, 1)}
                 onSub={() => fijar(id, -1)}
+                onClear={() => fijar(id, -carrito[id])}
               />
             ))}
           </div>
         </section>
-
-        {regalo ? (
-          <section className={styles.regalo} data-regalo>
-            <h2 className={styles.cardTitulo}>Regalo de noviembre</h2>
-            <ul className={styles.incluye}>
-              {REGALOS.map((r) => (
-                <li key={r.id}>{r.nombre}</li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
 
         <section className={styles.faq}>
           <h2 className={styles.seccion}>Preguntas</h2>
@@ -372,29 +481,29 @@ export default function FluxCarrito({
           </details>
           {!promoOff ? (
             <details>
-              <summary>¿Cómo se aplica el 50%?</summary>
-              <p>Los 3 primeros meses pagas la mitad de todo el carrito. Desde el mes 4 rige el precio de lista.</p>
+              <summary>¿Qué pasa después de los 30 días?</summary>
+              <p>Los primeros 30 días son $14.495. Después, $78.990. El link de Mercado Pago cobra la prueba.</p>
             </details>
           ) : null}
         </section>
+
+        <section className={styles.cierre} id="cierre" data-cierre ref={cierreRef}>
+          <h2 className={styles.seccion}>Activa cuando quieras</h2>
+          <p className={styles.seccionSub}>Prueba de 30 días. Si prefieres que te ayudemos, escríbenos.</p>
+          <div className={styles.par}>
+            <button type="button" className={styles.cta} onClick={abrirCuenta}>
+              {promoOff ? "Activar" : CTA_ACTIVAR_CLP}
+            </button>
+            <Asistencia />
+          </div>
+        </section>
       </div>
 
-      <div className={styles.barraMovil} hidden={abierto}>
-        <p className={styles.hoyMovil}>
-          <span>Total hoy</span>
-          <span className={styles.num}>
-            {monto(hoy)}
-            {!promoOff && lista > 0 ? <s>{monto(lista)}</s> : null}
-          </span>
-        </p>
-        <Checkout
-          hoy={hoy}
-          lista={lista}
-          promoOff={promoOff}
-          enviando={enviando}
-          listo={fluxEnCarrito}
-          onClick={pagar}
-        />
+      <div className={styles.barraMovil} hidden={abierto} data-testid="mobile-cta" data-fin={finScroll ? "si" : "no"}>
+        <button type="button" className={styles.cta} onClick={abrirCuenta}>
+          {promoOff ? "Activar" : CTA_ACTIVAR_CLP}
+        </button>
+        {finScroll ? <Asistencia /> : null}
       </div>
 
       {abierto ? (
@@ -410,117 +519,218 @@ export default function FluxCarrito({
         aria-labelledby="titulo-carrito"
       >
         <div className={styles.drawerCabeza}>
-          <h2 id="titulo-carrito" className={styles.resumenTitulo}>Tu carrito</h2>
+          <div>
+            <p className={styles.estado}><span className={styles.chk} aria-hidden="true">✓</span> Tu clínica</p>
+            <h2 id="titulo-carrito" className={styles.resumenTitulo}>
+              Tu clínica está<br />a punto de crecer
+            </h2>
+          </div>
           <button type="button" className={styles.cerrar} aria-label="Cerrar" onClick={() => setAbierto(false)}>
             ×
           </button>
         </div>
         <div className={styles.drawerCuerpo}>
           {lineas.length === 0 ? (
-            <p className={styles.vacio}>Tu carrito está vacío. Agrega Clinera Flux para armar tu clínica.</p>
+            <p className={styles.vacio}>La prueba es $14.495 por 30 días. Después, $78.990.</p>
           ) : (
             <ul className={styles.lineas}>
               {lineas.map((id) => (
                 <li key={id}>
                   <span>
+                    <i className={styles.chk} aria-hidden="true">✓</i>
                     {CARRITO[id].nombre}
+                    {CARRITO[id].cobro === "unico" ? " · cobro único" : ""}
                     {carrito[id] > 1 ? ` × ${carrito[id]}` : ""}
                   </span>
-                  <span className={styles.num}>{monto(CARRITO[id].usd * carrito[id])}</span>
-                  <Stepper id={id} qty={carrito[id]} donde="drawer" onAdd={() => fijar(id, 1)} onSub={() => fijar(id, -1)} />
+                  <span className={styles.num}>
+                    {id === "flux_base" ? (
+                      "$14.495"
+                    ) : (
+                      <>
+                        {!promoOff && CARRITO[id].cobro !== "unico" ? (
+                          <s>{formatoClp(clpLinea(CARRITO[id].usd * carrito[id], true).lista)}</s>
+                        ) : null}{" "}
+                        {formatoClp(clpLinea(CARRITO[id].usd * carrito[id], !promoOff, CARRITO[id].cobro === "unico").ahora)}
+                      </>
+                    )}
+                  </span>
+                  <div className={styles.lineaAcciones}>
+                    {id !== "flux_base" && id !== "onboarding_humano" && CARRITO[id].max > 1 ? (
+                      <Stepper id={id} qty={carrito[id]} donde="drawer" onAdd={() => fijar(id, 1)} onSub={() => fijar(id, -1)} />
+                    ) : null}
+                    <button type="button" className={styles.quitarLinea} aria-label={`Quitar ${CARRITO[id].nombre}`} onClick={() => fijar(id, -carrito[id])}>
+                      Quitar
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
           )}
-          {regalo ? (
-            <p className={styles.regaloLinea}>
-              <span>Regalo de noviembre</span>
-              <span>US$ 0</span>
-            </p>
-          ) : null}
           <div className={styles.totales}>
-            <p>
-              <span>Subtotal</span>
-              <span className={styles.num}>{monto(lista)}</span>
-            </p>
-            {!promoOff ? (
-              <p className={styles.descuento}>
-                <span>50% × 3 meses</span>
-                <span className={styles.num}>−{monto(ahorro)}</span>
-              </p>
-            ) : null}
             <p className={styles.hoy}>
-              <span>Total hoy</span>
-              <span className={styles.num} data-total-hoy>
-                {monto(hoy)}
-                {!promoOff && lista > 0 ? <s>{monto(lista)}</s> : null}
-              </span>
+              <span>Hoy pagas</span>
+              <span className={styles.num} data-total-hoy>$14.495</span>
             </p>
-            {!promoOff && lista > 0 ? <p className={styles.luego}>Luego {monto(lista)}/mes</p> : null}
+            <p className={styles.luego}>Prueba de 30 días. Después, $78.990</p>
           </div>
           {!promoOff ? <div className={styles.urgenciaChica}><UrgenciaPromo /></div> : null}
-          {error ? <p className={styles.error} role="alert" data-pago-error>{error}</p> : null}
+          <p className={styles.mpNota} data-mp-nota>{MP_NOTA_CLP}</p>
         </div>
         <div className={styles.drawerPie}>
           <p className={styles.apuro}>No pierdas más tu tiempo</p>
-          <Checkout
-            hoy={hoy}
-            lista={lista}
-            promoOff={promoOff}
-            enviando={enviando}
-            listo={fluxEnCarrito}
-            onClick={pagar}
-          />
-          <a className={styles.secundario} href={agenda} data-cta="agendar-reunion">Agendar reunión</a>
+          <button type="button" className={styles.cta} data-abrir-cuenta onClick={abrirCuenta}>
+            {CTA_ACTIVAR_CLP}
+          </button>
         </div>
       </aside>
+      {salida ? (
+        <div className={styles.salida} role="dialog" aria-modal="true" aria-labelledby="salida-titulo" data-salida>
+          <button type="button" className={styles.cortina} aria-label="Cerrar oferta" onClick={() => setSalida(false)} />
+          <div className={styles.salidaCard}>
+            <p className={styles.estado}><span className={styles.chk} aria-hidden="true">✓</span> 30 días</p>
+            <h2 id="salida-titulo">Prueba Clinera por $14.495</h2>
+            <p>30 días por $14.495. Después, $78.990.</p>
+            {salirRef.current.flux ? (
+              <button type="button" className={styles.cta} data-abrir-cuenta onClick={abrirCuenta}>
+                {CTA_ACTIVAR_CLP}
+              </button>
+            ) : (
+              <button
+                type="button"
+                className={styles.cta}
+                onClick={() => {
+                  setSalida(false);
+                  salirRef.current.agregar();
+                }}
+              >
+                Agregar Flux
+              </button>
+            )}
+            <button type="button" className={styles.salidaNo} onClick={() => setSalida(false)}>Ahora no</button>
+          </div>
+        </div>
+      ) : null}
+      {cuentaAbierta ? (
+        <div className={styles.cuenta} role="dialog" aria-modal="true" aria-labelledby="cuenta-titulo" data-cuenta>
+          <button type="button" className={styles.cortina} data-cuenta-cerrar aria-label="Cerrar" onClick={() => setCuentaAbierta(false)} />
+          <form className={styles.cuentaCard} data-cuenta-form noValidate onSubmit={(e) => e.preventDefault()}>
+            <button type="button" className={styles.cuentaX} data-cuenta-cerrar aria-label="Cerrar cuenta" onClick={() => setCuentaAbierta(false)}>×</button>
+            <h2 id="cuenta-titulo">Crea tu cuenta</h2>
+            <p>Prueba de $14.495 por 30 días. Después, $78.990.</p>
+            <label>
+              Nombre
+              <input name="nombre" autoComplete="name" required maxLength={80} value={cuenta.nombre} onChange={(e) => setCuenta((c) => ({ ...c, nombre: e.target.value }))} />
+            </label>
+            <label>
+              Correo
+              <input name="email" type="email" inputMode="email" autoComplete="email" required maxLength={120} value={cuenta.email} onChange={(e) => setCuenta((c) => ({ ...c, email: e.target.value }))} />
+            </label>
+            <label>
+              Nombre de la clínica
+              <input name="clinica" autoComplete="organization" required maxLength={120} value={cuenta.clinica} onChange={(e) => setCuenta((c) => ({ ...c, clinica: e.target.value }))} />
+            </label>
+            {cuentaError ? <p className={styles.cuentaError} data-cuenta-error>Completa nombre, correo y el nombre de la clínica.</p> : null}
+            <a
+              className={styles.cta}
+              href={MP_FLUX_PROMO_URL}
+              data-cuenta-pagar
+              data-plan="flux_modular"
+              data-plan-name="Clinera Flux"
+              data-plan-value="14.5"
+              onClick={pagarCuenta}
+            >
+              {CTA_PAGAR_CLP}
+            </a>
+          </form>
+        </div>
+      ) : null}
+      {extras ? (
+        <div className={styles.extras} role="dialog" aria-modal="true" aria-labelledby="extras-titulo" data-extras>
+          <button type="button" className={styles.cortina} data-extras-cerrar aria-label="Cerrar adicionales" onClick={() => setExtras(false)} />
+          <div className={styles.extrasCard}>
+            <h2 id="extras-titulo" className={styles.extrasTitulo}>{PREGUNTA_ADICIONALES}</h2>
+            <p className={styles.extrasBajada}>La prueba es $14.495 por 30 días. Después, $78.990.</p>
+            <p className={styles.mpNota} data-mp-nota>{MP_NOTA_CLP}</p>
+            <div className={styles.chips}>
+              {ADICIONALES.map((id) => (
+                <button
+                  key={id}
+                  type="button"
+                  className={styles.chip}
+                  data-chip={id}
+                  aria-pressed={carrito[id] > 0}
+                  onClick={() => toggleExtra(id)}
+                >
+                  {CARRITO[id].nombre}
+                </button>
+              ))}
+            </div>
+            <button type="button" className={styles.cta} data-abrir-cuenta onClick={abrirCuenta}>
+              {CTA_ACTIVAR_CLP}
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
 
-function Checkout({
-  hoy,
-  lista,
-  promoOff,
-  enviando,
-  listo,
-  onClick,
-}: {
-  hoy: number;
-  lista: number;
-  promoOff: boolean;
-  enviando: boolean;
-  listo: boolean;
-  onClick: () => void;
-}) {
+function PrecioFlux() {
   return (
-    <button
-      type="button"
-      className={styles.cta}
-      data-cta="carrito-checkout"
-      data-plan="flux_modular"
-      data-plan-value={String(hoy)}
-      data-plan-lista={String(lista)}
-      data-promo={promoOff ? "no" : "si"}
-      disabled={enviando || !listo}
-      onClick={onClick}
-    >
-      {enviando ? "Abriendo pago…" : "Activar"}
-    </button>
+    <p className={styles.precio}>
+      <b>
+        $14.495
+        <span className={styles.periodo}>/mes</span>
+      </b>
+      <span className={styles.pill}>30 días</span>
+      <span className={styles.luegoPrecio}>Después de 30 días, $78.990</span>
+    </p>
   );
 }
 
-function Precio({ usd, promo, desde = false }: { usd: number; promo: boolean; desde?: boolean }) {
-  const mitad = Math.round(usd * 50) / 100;
+function IconoWhatsApp() {
+  return (
+    <svg className={styles.waIco} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2C6.5 2 2 6.3 2 11.6c0 1.9.5 3.7 1.5 5.3L2 22l5.3-1.4c1.5.8 3.2 1.3 4.7 1.3 5.5 0 10-4.3 10-9.6S17.5 2 12 2zm5.7 13.6c-.2.7-1.2 1.2-1.9 1.4-.5.1-1.1.2-3.6-.8-3.1-1.3-5.1-4.5-5.2-4.7-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .8 2.1.1.2.1.3 0 .5-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.8-.1 1.5z" />
+    </svg>
+  );
+}
+
+function Asistencia() {
+  return (
+    <a
+      className={styles.asistenciaBtn}
+      href={ASISTENCIA_WHATSAPP}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-cta="asistencia"
+    >
+      <IconoWhatsApp />
+      <span>{ASISTENCIA_LABEL}</span>
+    </a>
+  );
+}
+
+function Precio({ usd, promo, desde = false, unico = false }: { usd: number; promo: boolean; desde?: boolean; unico?: boolean }) {
+  const { lista, ahora } = clpLinea(usd, promo, unico);
+  if (unico) {
+    return (
+      <p className={styles.precio}>
+        <b>{formatoClp(lista)}</b>
+        <span className={styles.cobro}>cobro único</span>
+      </p>
+    );
+  }
   return (
     <p className={styles.precio}>
-      {desde ? <span className={styles.desde}>Desde {monto(usd)}/mes</span> : null}
-      {promo ? <s>{monto(usd)}</s> : null}
+      {desde ? <span className={styles.desde}>Desde {formatoClp(lista)}/mes</span> : null}
+      {promo ? <s>{formatoClp(lista)}</s> : null}
       <b>
-        {promo ? monto(mitad) : monto(usd)}
-        {promo ? <span className={styles.pill}>−50%</span> : null}
+        {formatoClp(ahora)}
+        <span className={styles.periodo}>/mes</span>
       </b>
-      <span>/mes</span>
+      {promo ? <span className={styles.pill}>50% por 3 meses</span> : null}
+      {promo ? <span className={styles.luegoPrecio}>{formatoClp(ahora)} por 3 meses, luego {formatoClp(lista)}</span> : null}
     </p>
   );
 }
@@ -529,34 +739,50 @@ function Addon({
   id,
   qty,
   promo,
+  bloqueado,
   onAdd,
   onSub,
+  onClear,
 }: {
   id: Exclude<ItemId, "flux_base">;
   qty: number;
   promo: boolean;
+  bloqueado: boolean;
   onAdd: () => void;
   onSub: () => void;
+  onClear: () => void;
 }) {
   const spec = CARRITO[id];
   const enCarrito = qty > 0;
+  const esperaFlux = bloqueado && !enCarrito;
   return (
-    <article className={`${styles.card} ${enCarrito ? styles.cardOn : ""}`} data-addon={id}>
+    <article className={`${styles.card} ${enCarrito ? styles.cardOn : ""} ${bloqueado ? styles.espera : ""}`} data-addon={id} data-espera={bloqueado ? "si" : "no"}>
       <div className={styles.addonTop}>
-        <div className={styles.icono} aria-hidden="true">
-          <Icono id={id} />
+        <div className={styles.icono}>
+          <Foto id={id} />
         </div>
         <div>
           <h3 className={styles.cardTitulo}>{spec.nombre}</h3>
           <p className={styles.cardSub}>{TEXTO[id]}</p>
         </div>
-        <Precio usd={spec.usd} promo={promo} />
+        <Precio usd={spec.usd} promo={promo && spec.cobro !== "unico"} unico={spec.cobro === "unico"} />
       </div>
       {enCarrito ? (
-        <Stepper id={id} qty={qty} donde="card" onAdd={onAdd} onSub={onSub} />
+        <div className={styles.enCarrito}>
+          {spec.max > 1 ? <Stepper id={id} qty={qty} donde="card" onAdd={onAdd} onSub={onSub} /> : null}
+          <button type="button" className={styles.quitar} onClick={onClear}>
+            Quitar
+          </button>
+        </div>
       ) : (
-        <button type="button" className={styles.agregar} aria-label={`Agregar al carrito: ${spec.nombre}`} onClick={onAdd}>
-          Agregar al carrito
+        <button
+          type="button"
+          className={styles.agregar}
+          aria-label={esperaFlux ? "Primero agrega Clinera Flux" : `Agregar al carrito: ${spec.nombre}`}
+          disabled={esperaFlux}
+          onClick={onAdd}
+        >
+          {esperaFlux ? "Primero agrega Clinera Flux" : "Agregar al carrito"}
         </button>
       )}
     </article>
@@ -585,6 +811,28 @@ function Stepper({
       <output aria-live="polite">{qty}</output>
       <button type="button" aria-label={`Sumar ${nombre}${sufijo}`} onClick={onAdd} disabled={qty >= spec.max}>+</button>
     </div>
+  );
+}
+
+const FOTOS: Partial<Record<ItemId, string>> = {
+  flux_base: "/kimi/productos/flux.jpg",
+  profesional_extra: "/kimi/productos/profesional.jpg",
+  sucursal_extra: "/kimi/productos/sucursal.jpg",
+  conversaciones_1000: "/kimi/productos/conversaciones.jpg",
+  instagram: "/kimi/productos/instagram.jpg",
+  facebook: "/kimi/productos/facebook.jpg",
+  agente_ia: "/kimi/productos/agente-ia.jpg",
+  email_marketing: "/kimi/productos/email-marketing.jpg",
+  automatizaciones: "/kimi/productos/automatizaciones.jpg",
+  onboarding_humano: "/kimi/productos/onboarding.jpg",
+};
+
+function Foto({ id }: { id: ItemId }) {
+  const src = FOTOS[id];
+  if (!src) return <Icono id={id} />;
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={CARRITO[id].nombre} width={1024} height={1024} />
   );
 }
 
@@ -619,6 +867,9 @@ function Icono({ id, grande = false }: { id: ItemId; grande?: boolean }) {
       {id === "automatizaciones" ? (
         <path fill="currentColor" d="M12 2a2 2 0 0 1 2 2 2 2 0 0 1-.2.9l2.1 1.2a2 2 0 1 1 0 2.2l-2.1 1.2a2 2 0 0 1 0 1.8l2.1 1.2a2 2 0 1 1-1 1.7l-2.1-1.2a2 2 0 0 1-1.8.9 2 2 0 0 1-1.8-.9l-2.1 1.2a2 2 0 1 1-1-1.7l2.1-1.2a2 2 0 0 1 0-1.8L4.2 8.3a2 2 0 1 1 1-1.7l2.1 1.2A2 2 0 0 1 12 2z" />
       ) : null}
+      {id === "onboarding_humano" ? (
+        <path fill="currentColor" d="M12 12a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 12 12zm-6 8a6 6 0 0 1 12 0H6zm9.2-9.8 1.2 1.2 2.6-2.6-1.2-1.2z" />
+      ) : null}
     </svg>
   );
 }
@@ -633,16 +884,14 @@ function Bolsa() {
 }
 
 function Exito({ sessionId }: { sessionId: string }) {
-  const [regalo, setRegalo] = useState("");
   useEffect(() => {
     if (!sessionId) return;
     let vivo = true;
     (async () => {
       try {
         const res = await fetch(`/api/contrata/session?session_id=${encodeURIComponent(sessionId)}`);
-        const json = (await res.json()) as { ok?: boolean; lista_usd?: string; regalo?: string; email?: string };
+        const json = (await res.json()) as { ok?: boolean; lista_usd?: string; email?: string };
         if (!vivo || !json.ok) return;
-        setRegalo(json.regalo || "");
         const value = Number(json.lista_usd);
         try {
           track("purchase", {
@@ -669,12 +918,14 @@ function Exito({ sessionId }: { sessionId: string }) {
   }, [sessionId]);
 
   return (
-    <div className={styles.pagina} data-carrito data-pago="ok">
+    <div className={`${styles.pagina} ${outfit.variable}`} data-carrito data-pago="ok">
       <div className={styles.exito}>
         <p className={styles.kicker}>Listo</p>
         <h1 className={styles.h1}>Listo, revisa tu correo</h1>
-        <p className={styles.bajada}>Stripe te manda el recibo y activamos Flux en tu clínica.</p>
-        {regalo ? <p className={styles.regaloKicker}>Regalo de noviembre incluido: {regalo.split("_").join(" ")}</p> : null}
+        <p className={styles.bajada}>Te llega el recibo y activamos Flux en tu clínica.</p>
+        <p className={styles.bajada} data-despues-pago>
+          Vortex es Flux más IA: 17.000 créditos, 3.000 conversaciones, 20 profesionales y sucursales ilimitadas. Ese paso queda en $178.990.
+        </p>
         <a className={styles.cta} href="/">Volver a Clinera</a>
       </div>
     </div>

@@ -3,17 +3,19 @@ import { CARRITO, type ItemId } from "@/content/carrito-flux";
 import { ejecutarCheckout, vaciarCacheContrata, type PrecioStripe, type StripeContrata } from "@/lib/contrata-checkout";
 
 function precio(id: ItemId, unit = CARRITO[id].usd * 100): PrecioStripe {
+  const unico = CARRITO[id].cobro === "unico";
   return {
     id: `price_${id}`,
     lookup_key: CARRITO[id].lookup,
     unit_amount: unit,
     currency: "usd",
-    recurring: { interval: "month" },
+    recurring: unico ? null : { interval: "month" },
   };
 }
 
 function stripeFalso(opts?: { promo?: boolean; unit?: (id: ItemId) => number; faltan?: ItemId[] }) {
   const creadas: Record<string, unknown>[] = [];
+  const cupones: Record<string, unknown>[] = [];
   const faltan = new Set(opts?.faltan ?? []);
   const stripe: StripeContrata = {
     prices: {
@@ -38,8 +40,14 @@ function stripeFalso(opts?: { promo?: boolean; unit?: (id: ItemId) => number; fa
         },
       },
     },
+    coupons: {
+      create: async (params) => {
+        cupones.push(params);
+        return { id: "coupon_mensual" };
+      },
+    },
   };
-  return { stripe, creadas };
+  return { stripe, creadas, cupones };
 }
 
 test.beforeEach(() => vaciarCacheContrata());
@@ -156,6 +164,60 @@ test.describe("POST /api/contrata/checkout", () => {
     expect(creadas[1]).not.toHaveProperty("discounts");
     expect((creadas[1].metadata as Record<string, string>).promo).toBe("none");
     expect(creadas[1]).not.toHaveProperty("allow_promotion_codes");
+  });
+
+  test("el onboarding entra a US$ 190 y el 50% solo baja lo mensual", async () => {
+    const { stripe, creadas, cupones } = stripeFalso();
+    const r = await ejecutarCheckout({
+      body: { carrito: { flux_base: 1, onboarding_humano: 1, instagram: 1 } },
+      origin: "https://www.clinera.io",
+      stripe,
+      now: new Date("2026-11-05T12:00:00-03:00"),
+    });
+    expect(r.status).toBe(200);
+    expect(r.body.lista_usd).toBe(228);
+    expect(r.body.promo_usd).toBe(209);
+    expect(r.body.promo).toBe(true);
+    expect(cupones).toEqual([
+      expect.objectContaining({
+        amount_off: 1900,
+        currency: "usd",
+        duration: "repeating",
+        duration_in_months: 3,
+        max_redemptions: 1,
+      }),
+    ]);
+    const params = creadas.at(-1)!;
+    const lineas = params.line_items as { price: string; quantity: number }[];
+    expect(lineas).toEqual([
+      { price: "price_flux_base", quantity: 1 },
+      { price: "price_instagram", quantity: 1 },
+      { price: "price_onboarding_humano", quantity: 1 },
+    ]);
+    expect(params.discounts).toEqual([{ coupon: "coupon_mensual" }]);
+    expect(params).not.toHaveProperty("allow_promotion_codes");
+    expect((params.metadata as Record<string, string>).promo_alcance).toBe("mensual");
+    expect((params.metadata as Record<string, string>).promo_usd).toBe("209");
+  });
+
+  test("un Price mensual en el onboarding no se cobra", async () => {
+    const { stripe, cupones } = stripeFalso();
+    stripe.prices.list = async () => ({
+      data: (Object.keys(CARRITO) as ItemId[]).map((id) => {
+        const p = precio(id);
+        if (id === "onboarding_humano") p.recurring = { interval: "month" };
+        return p;
+      }),
+    });
+    const r = await ejecutarCheckout({
+      body: { carrito: { onboarding_humano: 1 } },
+      origin: "https://www.clinera.io",
+      stripe,
+      now: new Date("2026-11-05T12:00:00-03:00"),
+    });
+    expect(r.status).toBe(409);
+    expect(r.body.error).toBe("price_mismatch");
+    expect(cupones).toHaveLength(0);
   });
 
   test("al actualizar el cliente conserva la metadata que ya tenía", async () => {

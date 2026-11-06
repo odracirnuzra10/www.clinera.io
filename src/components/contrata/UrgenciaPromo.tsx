@@ -15,7 +15,7 @@ export default function UrgenciaPromo({ className }: { className?: string }) {
     <div className={className} data-urgencia aria-live="polite">
       {texto ? (
         <>
-          <b>50% por 3 meses.</b> {texto}.
+          <b>$14.495 por 30 días.</b> {texto}.
         </>
       ) : (
         "\u00A0"

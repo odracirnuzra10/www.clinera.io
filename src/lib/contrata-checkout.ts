@@ -1,7 +1,13 @@
+// El Activar de Chile abre el payment link de Mercado Pago (promo Flux
+// $14.495 por 30 días). Esta sesión de Stripe sigue en USD y el botón ya no la llama.
+// No conectar keys ni crear Products/Prices.
+
 // Sesión de Stripe del carrito de /contrata. El navegador manda cantidades;
 // los precios salen de lookup_key y se comparan con el catálogo. Si la llave
 // o los precios no existen, la ruta responde error y la página ofrece agendar.
-// No crea Products ni Prices.
+// No crea Products ni Prices. Si el carrito trae el onboarding (cobro único),
+// crea un cupón de un solo uso: CLINERA50X3 no tiene applies_to y si no, Stripe
+// también le haría el 50% a los US$ 190.
 
 import { emailValido } from "@/app/api/wizard/validation";
 import {
@@ -14,6 +20,9 @@ import {
   sanear,
   totalLista,
   totalPromo,
+  totales,
+  PROMO_MESES,
+  PROMO_PCT,
 } from "@/content/carrito-flux";
 import { UTM_PARAMS } from "@/content/checkout";
 
@@ -57,6 +66,9 @@ export interface StripeContrata {
     sessions: {
       create: (params: Record<string, unknown>) => Promise<{ url: string | null }>;
     };
+  };
+  coupons: {
+    create: (params: Record<string, unknown>) => Promise<{ id: string }>;
   };
 }
 
@@ -149,11 +161,7 @@ export async function ejecutarCheckout(input: {
     const spec = CARRITO[id];
     const precio = precios.get(spec.lookup);
     if (!precio) return { status: 503, body: { ok: false, error: "prices_missing", promo: false } };
-    const ok =
-      precio.unit_amount === spec.usd * 100 &&
-      (precio.currency ?? "").toLowerCase() === "usd" &&
-      precio.recurring?.interval === "month";
-    if (!ok) return { status: 409, body: { ok: false, error: "price_mismatch" } };
+    if (!precioCoincide(precio, spec)) return { status: 409, body: { ok: false, error: "price_mismatch" } };
     lineas.push({ price: precio.id, quantity: qty });
   }
 
@@ -180,6 +188,7 @@ export async function ejecutarCheckout(input: {
     return { status: 502, body: { ok: false, error: "stripe" } };
   }
 
+  const partes = totales(cantidades, now);
   const utm = utmDe(src.utm);
   const clientRef = recortarClientRef(typeof src.clientRef === "string" ? src.clientRef.trim() : "");
   const metadata: Record<string, string> = {
@@ -192,6 +201,32 @@ export async function ejecutarCheckout(input: {
   };
   if (regalo) metadata.regalo_nov = "email_marketing,automatizaciones";
 
+  // CLINERA50X3 no tiene applies_to: en la misma sesión también rebajaría el
+  // cobro único. Con onboarding se crea un cupón de monto fijo (la mitad de lo
+  // mensual, 3 meses, un solo uso) y el Price de US$ 190 entra entero.
+  let descuento: Record<string, string> | null = null;
+  if (codigo && partes.unico > 0) {
+    const amountOff = Math.round(partes.mensual * PROMO_PCT);
+    metadata.promo_alcance = "mensual";
+    try {
+      const cupon = await input.stripe.coupons.create({
+        amount_off: amountOff,
+        currency: "usd",
+        duration: "repeating",
+        duration_in_months: PROMO_MESES,
+        max_redemptions: 1,
+        name: "50% del plan por 3 meses",
+        metadata: { fuente: "contrata_carrito", base: PROMO_CODE_CARRITO, alcance: "mensual" },
+      });
+      descuento = { coupon: cupon.id };
+    } catch (e) {
+      console.error("[contrata/checkout] no se armó el cupón del cobro único", e instanceof Error ? e.message : e);
+      return { status: 502, body: { ok: false, error: "stripe" } };
+    }
+  } else if (codigo) {
+    descuento = { promotion_code: codigo };
+  }
+
   const params: Record<string, unknown> = {
     mode: "subscription",
     line_items: lineas,
@@ -203,7 +238,7 @@ export async function ejecutarCheckout(input: {
     subscription_data: { metadata },
     adaptive_pricing: { enabled: true },
   };
-  if (codigo) params.discounts = [{ promotion_code: codigo }];
+  if (descuento) params.discounts = [descuento];
   if (customerId) {
     params.customer = customerId;
     params.customer_update = { name: "auto" };
@@ -251,9 +286,18 @@ function sinDescuento(params: Record<string, unknown>, lista: number): Record<st
   };
 }
 
+function precioCoincide(precio: PrecioStripe, spec: (typeof CARRITO)[ItemId]): boolean {
+  if (precio.unit_amount !== spec.usd * 100) return false;
+  if ((precio.currency ?? "").toLowerCase() !== "usd") return false;
+  const intervalo = precio.recurring?.interval ?? "";
+  if (spec.cobro === "unico") return intervalo === "";
+  return intervalo === "month";
+}
+
 /**
- * El cupón FPxQMFcc no restringe productos (sin applies_to): el 50% cubre todo
- * el carrito. Si Stripe igual rechaza el código, se reintenta sin descuento.
+ * Si Stripe rechaza el código o el cupón de monto fijo, se reintenta sin
+ * descuento. No se vuelve a CLINERA50X3 cuando hay cobro único: ese cupón
+ * también partiría los US$ 190.
  */
 async function abrirSesion(
   stripe: StripeContrata,
