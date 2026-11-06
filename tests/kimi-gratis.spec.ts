@@ -45,23 +45,41 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   const planes = page.locator("[data-testid=kimi-gratis-planes]");
   const flux = planes.locator("[data-testid=plan-flux]");
   const hex = planes.locator("[data-testid=plan-hex]");
-  const vortex = planes.locator("[data-testid=plan-vortex]");
+  const vortex = planes.locator("[data-testid=plan-xcale]");
   await expect(flux).toContainText("$49");
   await expect(flux).toContainText("2 profesionales");
   await expect(flux).toContainText("1 sucursal");
   await expect(flux).toContainText("WhatsApp");
   await expect(flux).toContainText("300 conversaciones");
+  await expect(flux).toContainText("Clinera Intelligence");
+  await expect(flux).not.toContainText("5000");
   await expect(hex).toContainText("$129");
   await expect(hex).toContainText("5 profesionales");
   await expect(hex).toContainText("2 sucursales");
   await expect(hex).toContainText("600 conversaciones");
+  await expect(hex).toContainText("Clinera Intelligence");
+  await expect(hex).not.toContainText("5000");
   await expect(hex.locator(".badge-plan")).toHaveCount(0);
+  await expect(vortex).toContainText("Xcale");
+  await expect(vortex).not.toContainText("Vortex");
+  await expect(page.locator("main")).not.toContainText("Vortex");
+  const xcaleGlow = await vortex.evaluate((el) => {
+    const wash = getComputedStyle(el, "::after");
+    const btn = el.querySelector(".btn.grad");
+    const cs = getComputedStyle(btn!);
+    return { filter: wash.filter, image: wash.backgroundImage, shadow: cs.boxShadow, bg: cs.backgroundColor };
+  });
+  expect(xcaleGlow.bg).toBe("rgb(17, 17, 17)");
+  expect(xcaleGlow.shadow).toBe("none");
+  expect(xcaleGlow.filter).toContain("blur");
+  expect(xcaleGlow.image).toContain("radial-gradient");
   await expect(vortex).toContainText("$149");
   await expect(vortex).toContainText("Recomendado");
   await expect(vortex).toContainText("10 profesionales");
   await expect(vortex).toContainText("3 sucursales");
   await expect(vortex).toContainText("2000 conversaciones");
-  await expect(vortex).toContainText("Agente IA con 5000 créditos");
+  await expect(vortex).toContainText("Clinera Intelligence · 5000 créditos");
+  await expect(vortex).not.toContainText("Agente IA con 5000 créditos");
   await expect(vortex).toContainText("Onboarding humano");
 
   const extras = page.locator("[data-testid=kimi-gratis-addons]");
@@ -88,7 +106,7 @@ test("/kimi-gratis pide los cuatro datos antes de registrar y antes de WhatsApp"
   const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
   expect(ancho).toBeLessThanOrEqual(390);
 
-  await page.locator("[data-testid=plan-vortex]").getByRole("button", { name: "Registra y activa tu clínica" }).click();
+  await page.locator("[data-testid=plan-xcale]").getByRole("button", { name: "Registra y activa tu clínica" }).click();
   const modal = page.locator("[data-cuenta]");
   await expect(modal).toBeVisible();
   await expect(modal.locator("[data-cuenta-resumen]")).toContainText("$149");
@@ -105,7 +123,7 @@ test("/kimi-gratis pide los cuatro datos antes de registrar y antes de WhatsApp"
   const body = (await lead).postDataJSON();
   expect(body.plan).toBe("vortex");
   expect(body.source_path).toBe("/kimi-gratis");
-  expect(body.servicio_interes_label).toBe("Vortex $149 demo 7 días");
+  expect(body.servicio_interes_label).toBe("Xcale $149 demo 7 días");
   expect(body.telefono).toBe("+56912345678");
   await expect(modal.locator("[data-cuenta-ok]")).toContainText("7 días");
 

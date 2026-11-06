@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Clinera | Crea tu cuenta gratis</title>
-<meta name="description" content="Crea tu cuenta gratis y registra tu clínica. Demo de 7 días. Después, dentro de la plataforma, eliges Flux, Hex o Vortex.">
+<meta name="description" content="Crea tu cuenta gratis y registra tu clínica. Demo de 7 días. Después, dentro de la plataforma, eliges Flux, Hex o Xcale.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@1,400&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* Gusto Clinera en esta landing: Outfit, fondo cálido, CTA negro. Un acento cyan.
-   El violeta queda solo en el badge de Vortex. */
+   El violeta queda en el badge de Xcale y en el wash de su botón. */
 :root{
   --text:#111;--muted:#6B6B6B;--border:#EAEAEA;--soft:#F7F6F3;--soft2:#F3F1EC;
   --accent:#009FE3;--accent-h:#0086C2;--accent-soft:#E7F6FD;
@@ -635,6 +635,23 @@ h1,h2,h3{font-weight:600;letter-spacing:-.035em;line-height:1.12}
   box-shadow:none;text-shadow:none;filter:none;
 }
 #comenzar .btn.grad:hover{background:#6D28D9;border-color:#6D28D9}
+/* El CTA de Xcale lleva el wash del home detrás del botón negro, no un halo pegado.
+   El pseudo va en la card: un ::before del botón se pinta encima del fondo negro. */
+.pcard.recom{position:relative}
+.pcard.recom h3,.pcard.recom .precio,.pcard.recom ul{position:relative;z-index:1}
+.pcard.recom::after{
+  content:"";position:absolute;z-index:0;left:10px;right:10px;bottom:8px;height:132px;
+  border-radius:28px;pointer-events:none;filter:blur(18px);
+  background:
+    radial-gradient(ellipse 55% 80% at 18% 70%, rgba(147,197,253,.95), transparent 70%),
+    radial-gradient(ellipse 70% 90% at 48% 78%, rgba(167,139,250,.9), transparent 68%),
+    radial-gradient(ellipse 50% 80% at 86% 55%, rgba(244,114,182,.85), transparent 70%);
+}
+.pcard.recom .btn.grad{
+  position:relative;z-index:1;
+  background:#111;border-color:#111;color:#fff;
+  box-shadow:none;text-shadow:none;filter:none;
+}
 .mcta-row{grid-template-columns:1fr}
 .btn.outline{background:#fff;color:#111;border-color:#111}
 .btn.outline:hover{background:#F7F6F3}
@@ -980,6 +997,7 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
           <li>1 sucursal</li>
           <li>WhatsApp</li>
           <li>300 conversaciones</li>
+          <li>Clinera Intelligence</li>
         </ul>
         <button class="btn outline" type="button" data-abrir-cuenta data-elegir="flux">Registra y activa tu clínica</button>
       </article>
@@ -991,18 +1009,19 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
           <li>2 sucursales</li>
           <li>WhatsApp, Instagram y Facebook</li>
           <li>600 conversaciones</li>
+          <li>Clinera Intelligence</li>
         </ul>
         <button class="btn outline" type="button" data-abrir-cuenta data-elegir="hex">Registra y activa tu clínica</button>
       </article>
-      <article class="pcard recom" data-testid="plan-vortex">
-        <h3>Vortex <span class="badge-plan">Recomendado</span></h3>
+      <article class="pcard recom" data-testid="plan-xcale">
+        <h3>Xcale <span class="badge-plan">Recomendado</span></h3>
         <p class="precio"><b>$149</b> <small>USD</small></p>
         <ul>
           <li>10 profesionales</li>
           <li>3 sucursales</li>
           <li>WhatsApp, Instagram y Facebook</li>
           <li>2000 conversaciones</li>
-          <li>Agente IA con 5000 créditos</li>
+          <li>Clinera Intelligence · 5000 créditos</li>
           <li>Onboarding humano</li>
         </ul>
         <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Registra y activa tu clínica</button>
@@ -1024,7 +1043,7 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
   <div class="wrap">
     <p class="eyebrow rv">Comenzar</p>
     <h2 id="t-act" class="rv" style="--i:1">Crea tu cuenta gratis</h2>
-    <p class="lead rv" style="--i:2">Registra y activa tu clínica. La demo dura 7 días. Vortex, el recomendado, es $149.</p>
+    <p class="lead rv" style="--i:2">Registra y activa tu clínica. La demo dura 7 días. Xcale, el recomendado, es $149.</p>
     <div class="cta par rv" style="--i:3">
       <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Registra y activa tu clínica</button>
       <a class="btn wa" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
@@ -1100,7 +1119,7 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
   <form class="cuenta-card" data-cuenta-form novalidate>
     <button class="cuenta-x" type="button" data-cuenta-cerrar aria-label="Cerrar cuenta">×</button>
     <h2 id="cuenta-titulo">Crea tu cuenta gratis</h2>
-    <p data-cuenta-resumen>Vortex · recomendado · $149. Demo de 7 días. El plan se elige después, dentro de la plataforma.</p>
+    <p data-cuenta-resumen>Xcale · recomendado · $149. Demo de 7 días. El plan se elige después, dentro de la plataforma.</p>
     <label>Nombre<input name="nombre" autocomplete="name" required maxlength="80"></label>
     <label>Celular<span class="phone"><select name="prefijo" aria-label="Prefijo del país"><option value="+56" selected>+56</option><option value="+52">+52</option><option value="+57">+57</option><option value="+51">+51</option><option value="+54">+54</option><option value="+593">+593</option><option value="+598">+598</option><option value="+1">+1</option></select><input name="celular" type="tel" inputmode="tel" autocomplete="tel-national" required maxlength="15" placeholder="9 1234 5678"></span></label>
     <label>Correo<input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120"></label>
@@ -1252,7 +1271,7 @@ header.nav{background:#fff;border-bottom-color:#EAEAEA}
   var PLANES={
     flux:{nombre:"Flux",precio:"$49",nota:"Flux · $49. Demo de 7 días. El plan se elige después, dentro de la plataforma.",mp:false},
     hex:{nombre:"Hex",precio:"$129",nota:"Hex · $129. Demo de 7 días. El plan se elige después, dentro de la plataforma.",mp:false},
-    vortex:{nombre:"Vortex",precio:"$149",nota:"Vortex · recomendado · $149. Demo de 7 días. Incluye agente IA y onboarding humano.",mp:false}
+    vortex:{nombre:"Xcale",precio:"$149",nota:"Xcale · recomendado · $149. Demo de 7 días. Incluye Clinera Intelligence con 5000 créditos y onboarding humano.",mp:false}
   };
   var planElegido="vortex";
   var drawer=document.querySelector("[data-drawer]");
