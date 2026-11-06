@@ -1,8 +1,8 @@
 "use client";
 
 // /contrata: ficha de producto al estilo de una tienda (Mercado Libre), con los
-// colores de Clinera. «Activar por $14.990» suma Flux y pregunta por adicionales.
-// El pago sigue en Stripe hasta que Mercado Pago tenga keys (CLP 14990).
+// colores de Clinera. «Activar por $28.000» suma Flux y pregunta por adicionales.
+// La pantalla está en pesos. La sesión sigue en USD hasta Mercado Pago.
 // El correo lo pide el checkout; si la URL trae uno válido, viaja en el POST.
 
 import { Outfit } from "next/font/google";
@@ -28,6 +28,8 @@ import {
   type Carrito,
   type ItemId,
   PROMO_PCT,
+  clpLinea,
+  formatoClp,
   carritoDesdeQuery,
   esRegaloNoviembre,
   regaloVigente,
@@ -94,18 +96,23 @@ function desglose(c: Cantidades): { mensual: number; unico: number; lista: numbe
   return { mensual, unico, lista: redondear(mensual + unico), promo: redondear(promoMes + unico) };
 }
 
-function precioLinea(id: ItemId, qty: number, promo: boolean): number {
-  const bruto = CARRITO[id].usd * qty;
-  if (!promo || CARRITO[id].cobro === "unico") return redondear(bruto);
-  return Math.round(bruto * (100 - PROMO_PCT)) / 100;
-}
-
-function monto(usd: number): string {
-  const texto = usd.toLocaleString("es-CL", {
-    minimumFractionDigits: Number.isInteger(usd) ? 0 : 2,
-    maximumFractionDigits: 2,
-  });
-  return `US$ ${texto}`;
+function pesosCarrito(c: Cantidades, promo: boolean) {
+  let ahora = 0;
+  let luegoMes = 0;
+  let unico = 0;
+  let ahoraMes = 0;
+  for (const id of ITEM_IDS) {
+    if (!c[id]) continue;
+    const esUnico = CARRITO[id].cobro === "unico";
+    const linea = clpLinea(CARRITO[id].usd * c[id], promo, esUnico);
+    ahora += linea.ahora;
+    if (esUnico) unico += linea.lista;
+    else {
+      luegoMes += linea.lista;
+      ahoraMes += linea.ahora;
+    }
+  }
+  return { ahora, luegoMes, unico, ahoraMes };
 }
 
 function etiqueta(nombre: string): string {
@@ -281,6 +288,7 @@ export default function FluxCarrito({
   const partes = desglose(carrito);
   const lista = partes.lista;
   const hoy = promoOff ? lista : partes.promo;
+  const pesos = pesosCarrito(carrito, !promoOff);
   const unidades = ITEM_IDS.reduce((n, id) => n + carrito[id], 0);
   const fluxEnCarrito = carrito.flux_base >= 1;
 
@@ -335,7 +343,7 @@ export default function FluxCarrito({
   }
 
   async function pagar() {
-    // TODO(Mercado Pago): el primer cobro de Chile es CLP 14990. Sigue Stripe hasta tener keys.
+    // TODO(Mercado Pago): sin keys. La UI está en CLP; esta sesión sigue en USD.
     if (enviando) return;
     if (carrito.flux_base < 1) {
       setAbierto(true);
@@ -438,7 +446,7 @@ export default function FluxCarrito({
         </p>
         <h1 className={styles.h1}>Activa tu clínica</h1>
         {!promoOff ? (
-          <p className={styles.ofertaHero}>Activar por $14.990 por 3 meses. Después, el precio normal.</p>
+          <p className={styles.ofertaHero}>$14.000 por 3 meses, luego $28.000.</p>
         ) : null}
 
         <article className={styles.producto} data-flux-base>
@@ -483,6 +491,7 @@ export default function FluxCarrito({
                 bloqueado={!fluxEnCarrito}
                 onAdd={() => fijar(id, 1)}
                 onSub={() => fijar(id, -1)}
+                onClear={() => fijar(id, -carrito[id])}
               />
             ))}
           </div>
@@ -568,14 +577,20 @@ export default function FluxCarrito({
                     {CARRITO[id].cobro === "unico" ? " · cobro único" : ""}
                     {carrito[id] > 1 ? ` × ${carrito[id]}` : ""}
                   </span>
-                  <span className={styles.num}>{monto(precioLinea(id, carrito[id], !promoOff))}</span>
-                  {id === "flux_base" || id === "onboarding_humano" ? (
-                    <button type="button" className={styles.quitarLinea} aria-label={`Quitar ${CARRITO[id].nombre}`} onClick={() => fijar(id, -1)}>
+                  <span className={styles.num}>
+                    {!promoOff && CARRITO[id].cobro !== "unico" ? (
+                      <s>{formatoClp(clpLinea(CARRITO[id].usd * carrito[id], true).lista)}</s>
+                    ) : null}{" "}
+                    {formatoClp(clpLinea(CARRITO[id].usd * carrito[id], !promoOff, CARRITO[id].cobro === "unico").ahora)}
+                  </span>
+                  <div className={styles.lineaAcciones}>
+                    {id !== "flux_base" && id !== "onboarding_humano" && CARRITO[id].max > 1 ? (
+                      <Stepper id={id} qty={carrito[id]} donde="drawer" onAdd={() => fijar(id, 1)} onSub={() => fijar(id, -1)} />
+                    ) : null}
+                    <button type="button" className={styles.quitarLinea} aria-label={`Quitar ${CARRITO[id].nombre}`} onClick={() => fijar(id, -carrito[id])}>
                       Quitar
                     </button>
-                  ) : (
-                    <Stepper id={id} qty={carrito[id]} donde="drawer" onAdd={() => fijar(id, 1)} onSub={() => fijar(id, -1)} />
-                  )}
+                  </div>
                 </li>
               ))}
             </ul>
@@ -583,21 +598,21 @@ export default function FluxCarrito({
           {regalo ? (
             <p className={styles.regaloLinea}>
               <span>Regalo de noviembre</span>
-              <span>US$ 0</span>
+              <span>$0</span>
             </p>
           ) : null}
           <div className={styles.totales}>
             <p className={styles.hoy}>
               <span>Hoy pagas</span>
-              <span className={styles.num} data-total-hoy>{monto(hoy)}</span>
+              <span className={styles.num} data-total-hoy>{formatoClp(pesos.ahora)}</span>
             </p>
-            {partes.unico > 0 ? (
+            {pesos.unico > 0 ? (
               <p className={styles.luego}>
-                {monto(promoOff ? partes.mensual : Math.round(partes.mensual * (100 - PROMO_PCT)) / 100)} mensual + {monto(partes.unico)} de onboarding
+                {formatoClp(pesos.ahoraMes)} mensual + {formatoClp(pesos.unico)} de onboarding
               </p>
             ) : null}
             {!promoOff && partes.mensual > 0 ? <p className={styles.luego}>50% por 3 meses</p> : null}
-            {!promoOff && partes.mensual > 0 ? <p className={styles.luego}>Luego {monto(partes.mensual)}/mes</p> : null}
+            {!promoOff && partes.mensual > 0 ? <p className={styles.luego}>Luego {formatoClp(pesos.luegoMes)}/mes</p> : null}
           </div>
           {!promoOff ? <div className={styles.urgenciaChica}><UrgenciaPromo /></div> : null}
           {error ? <p className={styles.error} role="alert" data-pago-error>{error}</p> : null}
@@ -620,7 +635,7 @@ export default function FluxCarrito({
           <div className={styles.salidaCard}>
             <p className={styles.estado}><span className={styles.chk} aria-hidden="true">✓</span> 50% por 3 meses</p>
             <h2 id="salida-titulo">No te vayas sin tu 50%</h2>
-            <p>Clinera Flux queda en $14.990 por 3 meses. Después vuelve al precio normal.</p>
+            <p>Clinera Flux queda en $14.000 por 3 meses. Después, $28.000.</p>
             <button
               type="button"
               className={styles.cta}
@@ -641,7 +656,7 @@ export default function FluxCarrito({
           <button type="button" className={styles.cortina} data-extras-cerrar aria-label="Cerrar adicionales" onClick={() => setExtras(false)} />
           <div className={styles.extrasCard}>
             <h2 id="extras-titulo" className={styles.extrasTitulo}>{PREGUNTA_ADICIONALES}</h2>
-            <p className={styles.extrasBajada}>Clinera Flux ya está en tu carrito. $14.990 por 3 meses.</p>
+            <p className={styles.extrasBajada}>Clinera Flux ya está en tu carrito. $14.000 por 3 meses, luego $28.000.</p>
             <div className={styles.chips}>
               {ADICIONALES_AL_ACTIVAR.map((id) => (
                 <button
@@ -674,15 +689,16 @@ export default function FluxCarrito({
 }
 
 function PrecioFlux() {
+  const { lista, ahora } = clpLinea(29, true);
   return (
     <p className={styles.precio}>
-      <s>{monto(29)}</s>
+      <s>{formatoClp(lista)}</s>
       <b>
-        $14.990
+        {formatoClp(ahora)}
         <span className={styles.periodo}>/mes</span>
       </b>
       <span className={styles.pill}>50% por 3 meses</span>
-      <span className={styles.luegoPrecio}>$14.990 por 3 meses, luego precio normal</span>
+      <span className={styles.luegoPrecio}>{formatoClp(ahora)} por 3 meses, luego {formatoClp(lista)}</span>
     </p>
   );
 }
@@ -743,25 +759,25 @@ function Checkout({
 }
 
 function Precio({ usd, promo, desde = false, unico = false }: { usd: number; promo: boolean; desde?: boolean; unico?: boolean }) {
+  const { lista, ahora } = clpLinea(usd, promo, unico);
   if (unico) {
     return (
       <p className={styles.precio}>
-        <b>{monto(usd)}</b>
+        <b>{formatoClp(lista)}</b>
         <span className={styles.cobro}>cobro único</span>
       </p>
     );
   }
-  const mitad = Math.round(usd * 50) / 100;
   return (
     <p className={styles.precio}>
-      {desde ? <span className={styles.desde}>Desde {monto(usd)}/mes</span> : null}
-      {promo ? <s>{monto(usd)}</s> : null}
+      {desde ? <span className={styles.desde}>Desde {formatoClp(lista)}/mes</span> : null}
+      {promo ? <s>{formatoClp(lista)}</s> : null}
       <b>
-        {promo ? monto(mitad) : monto(usd)}
+        {formatoClp(ahora)}
         <span className={styles.periodo}>/mes</span>
       </b>
       {promo ? <span className={styles.pill}>50% por 3 meses</span> : null}
-      {promo ? <span className={styles.luegoPrecio}>{monto(mitad)} por 3 meses, luego precio normal</span> : null}
+      {promo ? <span className={styles.luegoPrecio}>{formatoClp(ahora)} por 3 meses, luego {formatoClp(lista)}</span> : null}
     </p>
   );
 }
@@ -773,6 +789,7 @@ function Addon({
   bloqueado,
   onAdd,
   onSub,
+  onClear,
 }: {
   id: Exclude<ItemId, "flux_base">;
   qty: number;
@@ -780,6 +797,7 @@ function Addon({
   bloqueado: boolean;
   onAdd: () => void;
   onSub: () => void;
+  onClear: () => void;
 }) {
   const spec = CARRITO[id];
   const enCarrito = qty > 0;
@@ -796,12 +814,13 @@ function Addon({
         </div>
         <Precio usd={spec.usd} promo={promo && spec.cobro !== "unico"} unico={spec.cobro === "unico"} />
       </div>
-      {enCarrito && id === "onboarding_humano" ? (
-        <button type="button" className={styles.quitar} aria-label="Quitar Onboarding humano" onClick={onSub}>
-          Quitar
-        </button>
-      ) : enCarrito ? (
-        <Stepper id={id} qty={qty} donde="card" onAdd={onAdd} onSub={onSub} />
+      {enCarrito ? (
+        <div className={styles.enCarrito}>
+          {spec.max > 1 ? <Stepper id={id} qty={qty} donde="card" onAdd={onAdd} onSub={onSub} /> : null}
+          <button type="button" className={styles.quitar} onClick={onClear}>
+            Quitar
+          </button>
+        </div>
       ) : (
         <button
           type="button"

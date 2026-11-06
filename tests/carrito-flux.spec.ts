@@ -6,6 +6,11 @@ import {
   carritoDesdeQuery,
   regaloVigente,
   sanear,
+  CTA_ACTIVAR_CLP,
+  PRECIO_FLUX_CLP,
+  clpDesdeUsd,
+  clpLinea,
+  formatoClp,
   totalLista,
   totalPromo,
 } from "@/content/carrito-flux";
@@ -16,6 +21,20 @@ const dicUtc = new Date("2026-12-01T02:00:00Z");
 const dic = new Date("2026-12-01T00:00:00-03:00");
 
 test.describe("catálogo del carrito Flux", () => {
+  test("la pantalla muestra $28.000 y el mismo tipo para el resto", () => {
+    expect(PRECIO_FLUX_CLP).toBe(28000);
+    expect(CTA_ACTIVAR_CLP).toBe("Activar por $28.000");
+    expect(clpDesdeUsd(29)).toBe(28000);
+    expect(clpDesdeUsd(9)).toBe(8690);
+    expect(clpDesdeUsd(25)).toBe(24140);
+    expect(clpDesdeUsd(79)).toBe(76280);
+    expect(clpDesdeUsd(190)).toBe(183450);
+    expect(clpLinea(29, true).ahora).toBe(14000);
+    expect(clpLinea(190, true, true).ahora).toBe(183450);
+    expect(formatoClp(28000)).toBe("$28.000");
+    expect(formatoClp(4345)).toBe("$4.345");
+  });
+
   test("la base es US$ 29 y el 50% da 14,50", () => {
     expect(totalLista({})).toBe(29);
     expect(totalPromo({})).toBe(14.5);

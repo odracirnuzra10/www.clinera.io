@@ -138,12 +138,31 @@ export const ASISTENCIA_LABEL = "Solicita asistencia";
 export const ASISTENCIA_WHATSAPP = "https://wa.me/56985581524?text=necesito%20asistencia";
 
 /**
- * Primer cobro que se muestra en Chile (Ricardo, 6-nov-2026): CLP 14.990.
- * Mercado Pago todavía no tiene keys; la sesión sigue en Stripe y el copy
- * visible no la nombra. No inventar el equivalente en pesos de los adicionales.
+ * Lo que se muestra en Chile (Ricardo, 6-nov-2026): Flux lista $28.000.
+ * El tipo sale de US$ 29 → $28.000 y el resto de la ficha usa el mismo
+ * (a la decena). El 50% se ve en pesos. La sesión de Stripe sigue en USD.
  */
-export const PRECIO_FLUX_CLP = 14990;
-export const CTA_ACTIVAR_CLP = "Activar por $14.990";
+export const PRECIO_FLUX_CLP = 28000;
+export const CTA_ACTIVAR_CLP = "Activar por $28.000";
+
+/** US$ del catálogo → pesos de pantalla, a la decena. 29 → 28.000. */
+export function clpDesdeUsd(usd: number): number {
+  if (!Number.isFinite(usd) || usd <= 0) return 0;
+  return Math.round((usd * PRECIO_FLUX_CLP) / CARRITO.flux_base.usd / 10) * 10;
+}
+
+export function formatoClp(pesos: number): string {
+  const n = Math.round(pesos);
+  const cuerpo = String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return (n < 0 ? "-$" : "$") + cuerpo;
+}
+
+/** Precio de una línea en pesos. El cobro único no entra en el 50%. */
+export function clpLinea(usd: number, promo: boolean, unico = false): { lista: number; ahora: number } {
+  const lista = clpDesdeUsd(usd);
+  const ahora = !promo || unico ? lista : Math.round(lista / 2);
+  return { lista, ahora };
+}
 export const PREGUNTA_ADICIONALES = "¿Quieres adicionales o con esto partes?";
 
 /** Chips de la pregunta al activar. pe, se, c1k, ig, fb, ia. Sin regalo ni onboarding. */

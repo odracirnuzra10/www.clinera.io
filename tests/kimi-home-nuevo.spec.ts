@@ -37,11 +37,17 @@ for (const ruta of ["/kimi", "/home-nuevo"]) {
       );
     });
 
-    test("muestra Flux desde USD 29 y los adicionales, sin Hex ni Vortex", async ({ page }) => {
+    test("muestra Flux y los adicionales, sin Hex ni Vortex", async ({ page }) => {
       await page.goto(ruta, { waitUntil: "domcontentloaded" });
       const flux = page.locator("[data-testid=plan-flux]");
-      await expect(flux).toContainText("USD");
-      await expect(flux).toContainText("29");
+      if (ruta === "/kimi") {
+        await expect(flux).toContainText("$28.000");
+        await expect(flux).toContainText("$14.000");
+        await expect(flux).not.toContainText("USD");
+      } else {
+        await expect(flux).toContainText("USD");
+        await expect(flux).toContainText("29");
+      }
       await expect(flux).toContainText("Clinera Intelligence");
       await expect(flux).toContainText("100 conversaciones");
       const extras = page.locator("[data-testid=plan-addons]");
@@ -73,7 +79,7 @@ test("/kimi muestra el plano de CNN con Ricardo y el periodista", async ({ page 
   await expect(img).toHaveAttribute("width", "1280");
   await expect(img).toHaveAttribute("height", "720");
   await expect(page.locator("[data-testid=kimi-cnn]")).toContainText("Clinera en CNN Chile");
-  await expect(page.locator("#hero-cta").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+  await expect(page.locator("#hero-cta").getByRole("button", { name: "Activar por $28.000" })).toBeVisible();
 });
 
 test("/kimi agrega Flux y los adicionales en la misma página", async ({ page }) => {
@@ -81,13 +87,13 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
   const flux = page.locator("[data-testid=plan-flux]");
   await expect(flux.locator("img")).toHaveAttribute("src", "/kimi/productos/flux.jpg");
-  await expect(page.locator("#hero-cta")).toContainText("Activar por $14.990");
+  await expect(page.locator("#hero-cta")).toContainText("Activar por $28.000");
   await expect(page.locator("#hero-cta").getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
   await expect(page.locator("#comenzar")).toContainText("Agrega Clinera Flux y elige lo que tu clínica necesita.");
   await expect(page.locator("#comenzar")).toContainText("Sin costo de implementación");
   await expect(page.locator("#comenzar")).not.toContainText("cuatro preguntas");
   await expect(page.locator("#comenzar").getByRole("button")).toHaveCount(1);
-  await expect(page.locator("#comenzar").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+  await expect(page.locator("#comenzar").getByRole("button", { name: "Activar por $28.000" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Hablar con ventas" })).toHaveCount(0);
   await expect(page.getByRole("link", { name: "Hablar con ventas" })).toHaveCount(0);
   await expect(page.locator("#comenzar").getByRole("link", { name: "Solicita asistencia" })).toHaveAttribute(
@@ -114,21 +120,21 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await expect(carril.locator('[data-regalo="email_marketing"] img')).toHaveAttribute("src", "/kimi/productos/email-marketing.jpg");
   await expect(carril.locator('[data-regalo="automatizaciones"] img')).toHaveAttribute("src", "/kimi/productos/automatizaciones.jpg");
   await expect(prof.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
-  await expect(carril.locator("[data-addon=agente_ia] s")).toContainText("79");
+  await expect(carril.locator("[data-addon=agente_ia] s")).toContainText("$76.280");
   await expect(carril.locator("[data-addon=agente_ia]")).toContainText("50% por 3 meses");
-  await expect(carril.locator("[data-addon=agente_ia]")).toContainText("USD 39,50 por 3 meses, luego precio normal");
+  await expect(carril.locator("[data-addon=agente_ia]")).toContainText("$38.140 por 3 meses, luego $76.280");
   const onboarding = carril.locator("[data-addon=onboarding_humano]");
   await expect(onboarding.locator("img")).toHaveAttribute("src", "/kimi/productos/onboarding.jpg");
-  await expect(onboarding).toContainText("USD 190");
+  await expect(onboarding).toContainText("$183.450");
   await expect(onboarding).toContainText("cobro único");
   await expect(onboarding).not.toContainText("50% por 3 meses");
   await expect(onboarding.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
   await flux.getByRole("button", { name: "Agregar al carrito" }).click();
   await expect(page.locator("[data-toast]")).toHaveText("Agregado al carrito");
-  await expect(page.locator("header.nav").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+  await expect(page.locator("header.nav").getByRole("button", { name: "Activar por $28.000" })).toBeVisible();
   await expect(page.locator("header.nav").getByRole("button", { name: "Quitar" })).toHaveCount(0);
-  await expect(page.locator("#hero-cta").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
-  await expect(page.locator("#comenzar").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+  await expect(page.locator("#hero-cta").getByRole("button", { name: "Activar por $28.000" })).toBeVisible();
+  await expect(page.locator("#comenzar").getByRole("button", { name: "Activar por $28.000" })).toBeVisible();
   await expect(page.locator("[data-carrito-count]")).toHaveText("1");
   await expect(prof).not.toHaveClass(/espera/);
   await expect(prof.getByRole("button", { name: "Agregar al carrito" })).toBeEnabled();
@@ -141,20 +147,20 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   await expect(drawer.getByRole("button", { name: "Sumar Clinera Flux" })).toHaveCount(0);
   await expect(drawer.getByRole("button", { name: "Quitar Onboarding humano" })).toBeVisible();
   await expect(drawer.getByRole("button", { name: "Sumar Onboarding humano" })).toHaveCount(0);
-  await expect(drawer.locator("s")).toHaveCount(0);
   await expect(drawer).toContainText("Hoy pagas");
-  await expect(drawer.locator(".linea", { hasText: "Clinera Flux" })).toContainText("$14.990");
-  await expect(drawer.locator("[data-total-hoy]")).toContainText("$14.990");
+  await expect(drawer.locator(".linea", { hasText: "Clinera Flux" })).toContainText("$28.000");
+  await expect(drawer.locator(".linea", { hasText: "Clinera Flux" })).toContainText("$14.000");
+  await expect(drawer.locator("[data-total-hoy]")).toContainText("$201.795");
   await expect(drawer.locator("[data-total-hoy]")).not.toContainText("USD");
-  await expect(drawer).toContainText("más USD 4,50 mensual + USD 190 de onboarding");
+  await expect(drawer).toContainText("$18.345 mensual + $183.450 de onboarding");
   await expect(drawer.getByRole("button", { name: "Activar", exact: true })).toBeVisible();
   await expect(drawer).toContainText("50% por 3 meses");
   await expect(drawer).toContainText("cobro único");
-  await expect(drawer).toContainText("190");
+  await expect(drawer).toContainText("$183.450");
   await page.locator("[data-cerrar]").click();
   await flux.getByRole("button", { name: "Quitar" }).click();
   await page.locator("#comenzar").scrollIntoViewIfNeeded();
-  await page.locator("#comenzar").getByRole("button", { name: "Activar por $14.990" }).click();
+  await page.locator("#comenzar").getByRole("button", { name: "Activar por $28.000" }).click();
   const cubre = await page.evaluate(() => {
     const toast = document.querySelector("[data-toast]");
     const botones = [...document.querySelectorAll("#comenzar button")];
@@ -170,32 +176,32 @@ test("/kimi agrega Flux y los adicionales en la misma página", async ({ page })
   expect(ancho).toBeLessThanOrEqual(1280);
 });
 
-test("en el celular la barra ofrece Activar por $14.990 y la asistencia aparece al final", async ({ page }) => {
+test("en el celular la barra ofrece Activar por $28.000 y la asistencia aparece al final", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 700 });
   await page.goto("/kimi", { waitUntil: "domcontentloaded" });
   const barra = page.locator("#mobile-cta");
   await expect(barra.locator("[data-bar-label]")).toHaveText("Clinera Flux");
   await expect(barra.locator("[data-total-bar]")).toBeHidden();
-  await expect(barra.getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
-  const veces = ((await barra.innerText()).match(/\$14\.990/g) ?? []).length;
+  await expect(barra.getByRole("button", { name: "Activar por $28.000" })).toBeVisible();
+  const veces = ((await barra.innerText()).match(/\$28\.000/g) ?? []).length;
   expect(veces).toBe(1);
   await expect(barra.getByRole("link", { name: "Solicita asistencia" })).toHaveCount(0);
   await expect(barra.getByRole("button", { name: "→ Agregar" })).toHaveCount(0);
   await page.locator("#comenzar").scrollIntoViewIfNeeded();
   await expect(barra.getByRole("link", { name: "Solicita asistencia" })).toBeVisible();
-  await barra.getByRole("button", { name: "Activar por $14.990" }).click();
+  await barra.getByRole("button", { name: "Activar por $28.000" }).click();
   await expect(page.getByRole("heading", { name: "¿Quieres adicionales o con esto partes?" })).toBeVisible();
   await expect(page.locator("[data-chip=instagram]")).toBeVisible();
   await expect(page.locator("[data-chip=agente_ia]")).toBeVisible();
   await expect(barra).not.toContainText("USD 0");
 });
 
-test("en el celular el cajón muestra Flux a $14.990 y deja el total quieto", async ({ page }) => {
+test("en el celular el cajón muestra Flux a $28.000 y deja el total quieto", async ({ page }) => {
   for (const ancho of [320, 390, 430]) {
     await page.setViewportSize({ width: ancho, height: 700 });
     await page.goto("/kimi", { waitUntil: "domcontentloaded" });
     const barra = page.locator("#mobile-cta");
-    expect(((await barra.innerText()).match(/\$14\.990/g) ?? []).length).toBe(1);
+    expect(((await barra.innerText()).match(/\$28\.000/g) ?? []).length).toBe(1);
     await page.locator("[data-testid=plan-flux]").getByRole("button", { name: "Agregar al carrito" }).click();
     await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" }).click();
     await page.locator("[data-addon=sucursal_extra]").getByRole("button", { name: "Agregar al carrito" }).click();
@@ -203,11 +209,12 @@ test("en el celular el cajón muestra Flux a $14.990 y deja el total quieto", as
     await page.locator("[data-carrito-icon]").click();
     const drawer = page.locator("[data-drawer]");
     await expect(drawer).toBeVisible();
-    await expect(drawer.locator(".linea", { hasText: "Clinera Flux" })).toContainText("$14.990");
-    await expect(drawer.locator(".linea", { hasText: "Profesional extra" })).toContainText("USD 4,50");
-    await expect(drawer.locator(".linea", { hasText: "1.000 conversaciones extra" })).toContainText("USD 12,50");
-    await expect(drawer.locator("[data-total-hoy]")).toContainText("$14.990");
-    await expect(drawer).toContainText("más USD 21,50 mensual");
+    await expect(drawer.locator(".linea", { hasText: "Clinera Flux" })).toContainText("$14.000");
+    await expect(drawer.locator(".linea", { hasText: "Profesional extra" })).toContainText("$4.345");
+    await expect(drawer.locator(".linea", { hasText: "1.000 conversaciones extra" })).toContainText("$12.070");
+    await expect(drawer.locator("[data-total-hoy]")).toContainText("$34.760");
+    await expect(drawer).toContainText("Luego $69.520/mes");
+    await expect(drawer.getByRole("button", { name: "Quitar Profesional extra" })).toBeVisible();
     await expect(drawer.getByRole("button", { name: "Activar", exact: true })).toBeVisible();
     await expect(drawer).not.toContainText("No pierdas más tu tiempo");
     const enVista = await drawer.getByRole("button", { name: "Activar", exact: true }).evaluate((el) => {
@@ -240,6 +247,46 @@ test("el pie de /home-nuevo también enlaza Términos y Privacidad", async ({ pa
   const legal = page.locator("footer").getByText("Legal").locator("xpath=..");
   await expect(legal.locator("a", { hasText: "Términos" })).toHaveAttribute("href", "/terminos");
   await expect(legal.locator("a", { hasText: "Privacidad" })).toHaveAttribute("href", "/privacidad");
+});
+
+test("/kimi explica Clinera Intelligence con un ejemplo, sin video", async ({ page }) => {
+  await page.goto("/kimi", { waitUntil: "domcontentloaded" });
+  const sec = page.locator("[data-testid=kimi-intelligence]");
+  await expect(sec).toContainText("agente interno conectado a tus ventas");
+  await expect(sec).toContainText("fichas clínicas");
+  await expect(sec).toContainText("mensajes");
+  await expect(sec).toContainText("¿Cuándo es mi próximo paciente?");
+  await expect(sec).toContainText("Hoy 16:40 · Camila Rojas · Evaluación facial. Sala 2.");
+  await expect(sec).toContainText("¿Cuánto vendí la semana pasada?");
+  await expect(sec).toContainText("$4.280.000 en 37 evaluaciones pagadas");
+  await expect(sec).toContainText("clínica ficticia");
+  await expect(sec.locator("video")).toHaveCount(0);
+  const orden = await page.evaluate(() => {
+    const y = (id: string) => document.getElementById(id)?.getBoundingClientRect().top ?? 0;
+    return { funciones: y("funciones"), intel: y("intelligence"), planes: y("planes") };
+  });
+  expect(orden.intel).toBeGreaterThan(orden.funciones);
+  expect(orden.planes).toBeGreaterThan(orden.intel);
+});
+
+test("en el celular Activar queda junto al carrito y Quitar saca el adicional", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 700 });
+  await page.goto("/kimi", { waitUntil: "domcontentloaded" });
+  const grupo = page.locator("header.nav .nav-acciones");
+  const activar = grupo.getByRole("button", { name: "Activar por $28.000" });
+  const bolsa = grupo.locator("[data-carrito-icon]");
+  await expect(activar).toBeVisible();
+  const a = await activar.boundingBox();
+  const b = await bolsa.boundingBox();
+  expect(a && b && b.x >= a.x + a.width - 1).toBe(true);
+  expect(a && b && b.x - (a.x + a.width) < 24).toBe(true);
+  await page.locator("[data-testid=plan-flux]").getByRole("button", { name: "Agregar al carrito" }).click();
+  const card = page.locator("[data-addon=profesional_extra]");
+  await card.getByRole("button", { name: "Agregar al carrito" }).click();
+  await expect(card.getByRole("button", { name: "Quitar" })).toBeVisible();
+  await card.getByRole("button", { name: "Quitar" }).click();
+  await expect(card.getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
+  await expect(page.locator("[data-carrito-count]")).toHaveText("1");
 });
 
 test("/kimi ofrece Solicita asistencia y no muestra Hablar con ventas ni Agendar reunión", async ({ page }) => {

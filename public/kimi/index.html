@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Clinera | La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas</title>
-<meta name="description" content="La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas. Activa Flux por $14.990 por 3 meses.">
+<meta name="description" content="La plataforma médica con IA que transforma leads en pacientes con evaluaciones pagadas. Activa Flux por $28.000. Los 3 primeros meses, $14.000.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,6 +38,7 @@ section{scroll-margin-top:72px}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--text);color:#fff;border:1.5px solid var(--text);border-radius:10px;padding:12px 20px;font:600 .95rem/1 Inter,sans-serif;text-decoration:none;cursor:pointer;transition:background .2s,transform .15s,border-color .2s}
+.btn[hidden]{display:none}
 .btn:hover{background:#262626}
 .btn:active{transform:scale(.98)}
 .btn.sm{padding:9px 14px;font-size:.88rem}
@@ -79,7 +80,8 @@ section{scroll-margin-top:72px}
 
 /* nav */
 header.nav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.nav-acciones{display:flex;align-items:center;gap:8px;margin-left:auto}
 .logo{display:inline-flex;align-items:center;text-decoration:none}
 .logo img{height:28px;width:auto;display:block}
 footer .logo img{height:24px}
@@ -138,7 +140,7 @@ footer .logo img{height:24px}
 .ch{width:18px;height:18px;flex:none;display:block}
 .chs{display:inline-flex;gap:5px;align-items:center;vertical-align:middle}
 
-/* Un solo plan: Flux desde USD 29, y al lado los adicionales del carrito. */
+/* Un solo plan: Flux lista $28.000, y al lado los adicionales del carrito. */
 .plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
 .plan{border:1px solid var(--border);border-radius:16px;padding:26px;background:#fff;display:flex;flex-direction:column;gap:14px}
 .plan.entry{border:2px solid var(--accent);box-shadow:0 30px 70px -40px rgba(109,40,217,.45)}
@@ -315,8 +317,12 @@ footer a.ext{color:var(--text);font-weight:500}
 .acard.espera{filter:grayscale(1);background:#F3F4F6}
 .acard.regalo .afoto{background:#F5F3FF}
 .stepper{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border);border-radius:10px;min-height:44px;padding:0 6px}
-.stepper button{width:36px;height:36px;border:0;background:transparent;color:var(--accent);font-size:1.3rem;cursor:pointer}
-.quitar-linea{grid-column:1 / -1;justify-self:start;min-height:36px;margin-top:4px;padding:0 12px;border:1px solid #6D28D9;border-radius:10px;background:#fff;color:#6D28D9;font:inherit;font-weight:700;cursor:pointer}
+.stepper button{width:44px;height:44px;border:1px solid #E5E7EB;border-radius:10px;background:#fff;color:var(--accent);font-size:1.3rem;cursor:pointer}
+.acard .stepper{min-height:48px}
+.linea-acciones{grid-column:1 / -1;display:flex;align-items:center;gap:8px;margin-top:8px}
+.linea-acciones .stepper{margin:0}
+.linea-acciones .quitar-linea{margin:0}
+.quitar-linea{grid-column:1 / -1;justify-self:start;min-height:48px;min-width:44px;margin-top:4px;padding:0 16px;border:1px solid #6D28D9;border-radius:10px;background:#fff;color:#6D28D9;font:700 16px/1 Inter,sans-serif;cursor:pointer}
 .bolsa{position:relative;width:44px;height:44px;border:1px solid var(--border);border-radius:999px;background:#fff;display:grid;place-items:center;cursor:pointer;flex:none}
 .bolsa svg{width:22px;height:22px;fill:none;stroke:#6D28D9;stroke-width:1.7}
 .badge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 4px;border-radius:999px;background:#6D28D9;color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
@@ -406,11 +412,28 @@ footer a.ext{color:var(--text);font-weight:500}
   .mcta .btn{width:100%;min-height:52px;padding:10px 12px;font-size:16px;font-weight:700;line-height:1.15;white-space:normal}
 }
 @media (max-width:640px){
-  .nav-cta{display:none}
+  .nav .wrap{padding:0 12px}
+  .logo img{height:22px}
+  .nav-cta .btn.grad{padding:8px 10px;font-size:13px;white-space:nowrap}
+}
+.intel-grid{display:grid;gap:28px;align-items:center}
+.intel-panel{background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px 20px;box-shadow:0 16px 40px rgba(124,58,237,.08)}
+.intel-nota{margin:0 0 12px;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#6B6B6B}
+.intel-lista{list-style:none;margin:0;padding:0;display:grid;gap:18px}
+.intel-lista li{animation:intel-ciclo 8s ease infinite}
+.intel-lista li:nth-child(2){animation-delay:-4s}
+.burbuja{margin:0;padding:12px 14px;border-radius:16px;font-size:16px;line-height:1.4}
+.burbuja.tu{background:#F4F4F5;color:#111;margin-left:12%}
+.burbuja.ia{background:#F5F3FF;color:#111;margin-top:8px;margin-right:6%}
+.burbuja .quien{display:block;margin-bottom:2px;font-size:12px;font-weight:700;color:#6D28D9}
+@keyframes intel-ciclo{0%,8%{opacity:.42}16%,46%{opacity:1}54%,100%{opacity:.42}}
+@media (min-width:900px){
+  .intel-grid{grid-template-columns:1fr 1fr;gap:56px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .rv{opacity:1;transform:none;transition:none}
+  .intel-lista li{animation:none;opacity:1}
   .btn,.mcta .btn{transition:none}
   .wiz{animation:none}
   .wiz *{transition:none!important}
@@ -503,13 +526,15 @@ footer a.ext{color:var(--text);font-weight:500}
     <a class="logo" href="#top" aria-label="Clinera, inicio">
       <img src="/kimi/clinera-logo.png" alt="Clinera" width="411" height="96" decoding="async">
     </a>
-    <div class="nav-cta">
-      <button class="btn sm grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $14.990</span></button>
+    <div class="nav-acciones">
+      <div class="nav-cta">
+        <button class="btn sm grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $28.000</span></button>
+      </div>
+      <button class="bolsa" type="button" data-carrito-icon aria-expanded="false" aria-controls="tu-carrito" aria-label="Tu carrito, 0 ítems">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+        <span class="badge" data-carrito-count hidden>0</span>
+      </button>
     </div>
-    <button class="bolsa" type="button" data-carrito-icon aria-expanded="false" aria-controls="tu-carrito" aria-label="Tu carrito, 0 ítems">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
-      <span class="badge" data-carrito-count hidden>0</span>
-    </button>
   </div>
 </header>
 
@@ -520,9 +545,9 @@ footer a.ext{color:var(--text);font-weight:500}
     <div class="copy">
       <p class="eyebrow rv">Software para clínicas estéticas y médicas</p>
       <h1 class="rv" style="--i:1">La plataforma médica con IA que transforma leads en pacientes con <span class="serif">evaluaciones pagadas</span></h1>
-      <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. <strong>Activar por $14.990</strong> por 3 meses. Después, el precio normal.</p>
+      <p class="sub rv" style="--i:2">Tus pacientes reservan y pagan su evaluación sin llamadas. <strong>$14.000 por 3 meses</strong>, luego $28.000.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
-        <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $14.990</span></button>
+        <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $28.000</span></button>
       </div>
       <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
     </div>
@@ -547,7 +572,7 @@ footer a.ext{color:var(--text);font-weight:500}
 <section class="pain" id="dolor" data-testid="banner-dolor" aria-labelledby="t-dolor">
   <div class="wrap">
     <p id="t-dolor">Deja de perder plata con softwares caros y obsoletos que no te dejan competir</p>
-    <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $14.990</span></button>
+    <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $28.000</span></button>
   </div>
 </section>
 
@@ -605,6 +630,29 @@ footer a.ext{color:var(--text);font-weight:500}
   </div>
 </section>
 
+<section class="sec" id="intelligence" data-testid="kimi-intelligence" aria-labelledby="t-intel">
+  <div class="wrap intel-grid">
+    <div>
+      <p class="eyebrow rv">Clinera Intelligence</p>
+      <h2 id="t-intel" class="rv" style="--i:1">Pregúntale a tu clínica</h2>
+      <p class="lead rv" style="--i:2">Clinera Intelligence es el agente interno conectado a tus ventas, tus fichas clínicas, tus mensajes y toda la operación de tu clínica.</p>
+    </div>
+    <div class="intel-panel rv" style="--i:2" data-intel>
+      <p class="intel-nota">Ejemplo con datos de una clínica ficticia</p>
+      <ol class="intel-lista">
+        <li>
+          <p class="burbuja tu">¿Cuándo es mi próximo paciente?</p>
+          <p class="burbuja ia"><span class="quien">Intelligence</span>Hoy 16:40 · Camila Rojas · Evaluación facial. Sala 2.</p>
+        </li>
+        <li>
+          <p class="burbuja tu">¿Cuánto vendí la semana pasada?</p>
+          <p class="burbuja ia"><span class="quien">Intelligence</span>$4.280.000 en 37 evaluaciones pagadas. 12 siguen pendientes.</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
 <section class="tienda" id="planes" aria-labelledby="t-planes" data-carrito>
   <div class="wrap">
     <p class="eyebrow">Activa tu clínica</p>
@@ -615,13 +663,13 @@ footer a.ext{color:var(--text);font-weight:500}
       </div>
       <div>
         <h3>Clinera Flux</h3>
-        <p class="producto-sub">50% por 3 meses. Después vuelve al precio normal.</p>
+        <p class="producto-sub">50% por 3 meses. Después vuelve al precio de lista.</p>
         <p class="precio">
-          <s>USD 29</s>
-          <b>$14.990</b>
+          <s>$28.000</s>
+          <b>$14.000</b>
           <span class="off">50% por 3 meses</span>
         </p>
-        <p class="luego">$14.990 por 3 meses, luego precio normal</p>
+        <p class="luego">$14.000 por 3 meses, luego $28.000</p>
         <button class="btn grad" type="button" data-agregar="flux_base">Agregar al carrito</button>
         <ul class="incluye">
           <li>2 profesionales</li><li>1 sucursal</li><li>100 conversaciones</li>
@@ -641,68 +689,68 @@ footer a.ext{color:var(--text);font-weight:500}
         <img class="afoto" src="/kimi/productos/profesional.jpg" alt="Profesional extra" width="1024" height="1024">
         <h4>Profesional extra</h4>
         <p>Otro profesional en la agenda de tu clínica.</p>
-        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
-        <p class="luego">USD 4,50 por 3 meses, luego precio normal</p>
+        <p class="precio"><s>$8.690</s><b>$4.345</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">$4.345 por 3 meses, luego $8.690</p>
         <button class="btn grad" type="button" data-agregar="profesional_extra" disabled>Primero agrega Clinera Flux</button>
       </article>
       <article class="acard espera" data-addon="sucursal_extra">
         <img class="afoto" src="/kimi/productos/sucursal.jpg" alt="Sucursal extra" width="1024" height="1024">
         <h4>Sucursal extra</h4>
         <p>Otra sucursal con su propia agenda.</p>
-        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
-        <p class="luego">USD 4,50 por 3 meses, luego precio normal</p>
+        <p class="precio"><s>$8.690</s><b>$4.345</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">$4.345 por 3 meses, luego $8.690</p>
         <button class="btn grad" type="button" data-agregar="sucursal_extra" disabled>Primero agrega Clinera Flux</button>
       </article>
       <article class="acard espera" data-addon="conversaciones_1000">
         <img class="afoto" src="/kimi/productos/conversaciones.jpg" alt="1.000 conversaciones extra" width="1024" height="1024">
         <h4>1.000 conversaciones extra</h4>
         <p>Cada pack suma 1.000 conversaciones al mes.</p>
-        <p class="precio"><s>USD 25</s><b>USD 12,50</b><span class="off">50% por 3 meses</span></p>
-        <p class="luego">USD 12,50 por 3 meses, luego precio normal</p>
+        <p class="precio"><s>$24.140</s><b>$12.070</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">$12.070 por 3 meses, luego $24.140</p>
         <button class="btn grad" type="button" data-agregar="conversaciones_1000" disabled>Primero agrega Clinera Flux</button>
       </article>
       <article class="acard espera" data-addon="instagram">
         <img class="afoto" src="/kimi/productos/instagram.jpg" alt="Conexión Instagram" width="1024" height="1024">
         <h4>Conexión Instagram</h4>
         <p>Los mensajes de Instagram llegan a tu agenda.</p>
-        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
-        <p class="luego">USD 4,50 por 3 meses, luego precio normal</p>
+        <p class="precio"><s>$8.690</s><b>$4.345</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">$4.345 por 3 meses, luego $8.690</p>
         <button class="btn grad" type="button" data-agregar="instagram" disabled>Primero agrega Clinera Flux</button>
       </article>
       <article class="acard espera" data-addon="facebook">
         <img class="afoto" src="/kimi/productos/facebook.jpg" alt="Conexión Facebook" width="1024" height="1024">
         <h4>Conexión Facebook</h4>
         <p>Los mensajes de Facebook llegan a tu agenda.</p>
-        <p class="precio"><s>USD 9</s><b>USD 4,50</b><span class="off">50% por 3 meses</span></p>
-        <p class="luego">USD 4,50 por 3 meses, luego precio normal</p>
+        <p class="precio"><s>$8.690</s><b>$4.345</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">$4.345 por 3 meses, luego $8.690</p>
         <button class="btn grad" type="button" data-agregar="facebook" disabled>Primero agrega Clinera Flux</button>
       </article>
       <article class="acard espera" data-addon="agente_ia">
         <img class="afoto" src="/kimi/productos/agente-ia.jpg" alt="Agente IA" width="1024" height="1024">
         <h4>Agente IA</h4>
         <p>Incluye 7.000 créditos de IA. Atiende por ti.</p>
-        <p class="precio"><s>USD 79</s><b>USD 39,50</b><span class="off">50% por 3 meses</span></p>
-        <p class="luego">USD 39,50 por 3 meses, luego precio normal</p>
+        <p class="precio"><s>$76.280</s><b>$38.140</b><span class="off">50% por 3 meses</span></p>
+        <p class="luego">$38.140 por 3 meses, luego $76.280</p>
         <button class="btn grad" type="button" data-agregar="agente_ia" disabled>Primero agrega Clinera Flux</button>
       </article>
       <article class="acard espera" data-addon="onboarding_humano">
         <img class="afoto" src="/kimi/productos/onboarding.jpg" alt="Onboarding humano" width="1024" height="1024">
         <h4>Onboarding humano</h4>
         <p>Una persona te deja la clínica andando. Se cobra una sola vez.</p>
-        <p class="precio"><b>USD 190</b><span class="off">cobro único</span></p>
+        <p class="precio"><b>$183.450</b><span class="off">cobro único</span></p>
         <button class="btn grad" type="button" data-agregar="onboarding_humano" disabled>Primero agrega Clinera Flux</button>
       </article>
       <article class="acard regalo" data-regalo="email_marketing">
         <img class="afoto" src="/kimi/productos/email-marketing.jpg" alt="Email marketing" width="1024" height="1024">
         <h4>Email marketing</h4>
-        <p>Regalo de noviembre, luego USD 9/mes.</p>
-        <p class="precio"><b>USD 0</b></p>
+        <p>Regalo de noviembre, luego $8.690/mes.</p>
+        <p class="precio"><b>$0</b></p>
       </article>
       <article class="acard regalo" data-regalo="automatizaciones">
         <img class="afoto" src="/kimi/productos/automatizaciones.jpg" alt="Automatizaciones" width="1024" height="1024">
         <h4>Automatizaciones</h4>
-        <p>Regalo de noviembre, luego USD 9/mes.</p>
-        <p class="precio"><b>USD 0</b></p>
+        <p>Regalo de noviembre, luego $8.690/mes.</p>
+        <p class="precio"><b>$0</b></p>
       </article>
     </div>
   </div>
@@ -713,7 +761,7 @@ footer a.ext{color:var(--text);font-weight:500}
     <h2 id="t-act" class="rv" style="--i:1">Activa tu clínica con el carrito</h2>
     <p class="lead rv" style="--i:2">Agrega Clinera Flux y elige lo que tu clínica necesita.</p>
     <div class="cta par rv" style="--i:3">
-      <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $14.990</span></button>
+      <button class="btn grad" type="button" data-flujo="principal"><span data-etiqueta>Activar por $28.000</span></button>
       <a class="btn wa" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
     </div>
     <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
@@ -758,7 +806,7 @@ footer a.ext{color:var(--text);font-weight:500}
   <div class="salida-card">
     <p class="estado"><span class="chk" aria-hidden="true">✓</span> 50% por 3 meses</p>
     <h2 id="salida-titulo">No te vayas sin tu 50%</h2>
-    <p>Clinera Flux queda en $14.990 por 3 meses. Después vuelve al precio normal.</p>
+    <p>Clinera Flux queda en $14.000 por 3 meses. Después, $28.000.</p>
     <button class="btn grad" type="button" data-salida-cta>Agregar Flux</button>
     <button class="salida-no" type="button" data-salida-cerrar>Ahora no</button>
   </div>
@@ -768,7 +816,7 @@ footer a.ext{color:var(--text);font-weight:500}
   <button class="extras-fondo" type="button" data-extras-cerrar aria-label="Cerrar adicionales"></button>
   <div class="extras-card">
     <h2 id="extras-titulo">¿Quieres adicionales o con esto partes?</h2>
-    <p>Clinera Flux ya está en tu carrito. $14.990 por 3 meses.</p>
+    <p>Clinera Flux ya está en tu carrito. $14.000 por 3 meses, luego $28.000.</p>
     <div class="chips">
       <button class="chip" type="button" data-chip="profesional_extra" aria-pressed="false">Profesional extra</button>
       <button class="chip" type="button" data-chip="sucursal_extra" aria-pressed="false">Sucursal extra</button>
@@ -784,7 +832,7 @@ footer a.ext{color:var(--text);font-weight:500}
 <div class="mcta" id="mobile-cta" data-testid="mobile-cta">
   <div class="mcta-row">
     <div class="mcta-total"><span data-bar-label>Clinera Flux</span><b data-total-bar hidden></b></div>
-    <button class="btn grad" type="button" data-bar-accion data-plan="flux_modular">Activar por $14.990</button>
+    <button class="btn grad" type="button" data-bar-accion data-plan="flux_modular">Activar por $28.000</button>
   </div>
   <a class="btn wa mcta-asistencia" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia" data-asistencia-fin hidden><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
 </div>
@@ -870,8 +918,8 @@ footer a.ext{color:var(--text);font-weight:500}
       <button class="wiz-back" type="button" id="wiz-back" hidden>&larr; Volver</button>
 
       <div id="wiz-offer" data-testid="wiz-offer" hidden>
-        <p class="offer-price"><strong>USD 14,50<small>/mes</small></strong> <s>USD 29<span class="sr-only"> antes</span></s></p>
-        <p class="offer-terms">Flux por 3 meses, luego USD 29/mes · sin costo de implementación</p>
+        <p class="offer-price"><strong>$14.000<small>/mes</small></strong> <s>$28.000<span class="sr-only"> antes</span></s></p>
+        <p class="offer-terms">Flux por 3 meses, luego $28.000/mes · sin costo de implementación</p>
         <ul class="offer-incl" aria-label="Incluye" data-testid="offer-incl">
           <li><svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</li>
           <li><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg>2 profesionales y 1 sucursal</li>
@@ -930,11 +978,17 @@ footer a.ext{color:var(--text);font-weight:500}
   var barra=document.querySelector("[data-total-bar]");
   var mcta=document.getElementById("mobile-cta");
 
-  function money(n){
-    var x=Math.round(n*100)/100;
-    var s=x.toFixed(2).replace(".",",");
-    if(s.slice(-3)==",00")s=String(Math.round(x));
-    return "USD "+s;
+  function clpDe(usd){
+    if(!usd) return 0;
+    return Math.round(usd*28000/29/10)*10;
+  }
+  function formatoClp(n){
+    return "$"+String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,".");
+  }
+  function clpAhora(id){
+    var lista=clpDe(SPEC[id].usd*cart[id]);
+    if(SPEC[id].once||promoOff) return lista;
+    return Math.round(lista/2);
   }
   function partes(){
     var mes=0,unico=0;
@@ -950,16 +1004,11 @@ footer a.ext{color:var(--text);font-weight:500}
     if(promoOff)return p.lista;
     return Math.round(p.mes*50)/100+p.unico;
   }
-  function precioLinea(id){
-    var bruto=SPEC[id].usd*cart[id];
-    if(SPEC[id].once||promoOff)return bruto;
-    return Math.round(bruto*50)/100;
-  }
-  // Flux en Chile se muestra a $14.990. Los adicionales no tienen mapa a pesos:
-  // siguen en USD, que es el catálogo. No convertirlos con un tipo inventado.
   function textoPrecio(id){
-    if(id==="flux_base"&&!promoOff) return "$14.990";
-    return money(precioLinea(id));
+    var lista=clpDe(SPEC[id].usd*cart[id]);
+    var ahora=clpAhora(id);
+    if(!promoOff&&!SPEC[id].once&&lista!==ahora) return "<s>"+formatoClp(lista)+"</s> "+formatoClp(ahora);
+    return formatoClp(ahora);
   }
   function scrollLock(){
     var on=abierto||(extras&&!extras.hidden)||(salidaEl&&!salidaEl.hidden);
@@ -995,35 +1044,47 @@ footer a.ext{color:var(--text);font-weight:500}
       card.classList.toggle("espera", cart.flux_base<1);
       var btn=card.querySelector("[data-agregar]");
       var step=card.querySelector(".stepper");
-      if(n>0&&spec.max>1){
+      var en=n>0;
+      if(en&&spec.max>1){
         if(!step){
           step=document.createElement("div");
           step.className="stepper";
-          step.innerHTML='<button type="button" data-id="'+id+'" data-delta="-1" aria-label="Quitar '+spec.nombre+'">−</button><output></output><button type="button" data-id="'+id+'" data-delta="1" aria-label="Sumar '+spec.nombre+'">+</button>';
-          btn.after(step);
+          step.innerHTML='<button type="button" data-id="'+id+'" data-delta="-1" aria-label="Restar '+spec.nombre+'">−</button><output></output><button type="button" data-id="'+id+'" data-delta="1" aria-label="Sumar '+spec.nombre+'">+</button>';
+          btn.before(step);
         }
-        btn.hidden=true;
         step.hidden=false;
         step.querySelector("output").textContent=String(n);
         step.querySelector('[data-delta="1"]').disabled=n>=spec.max;
+      }else if(step){
+        step.hidden=true;
+      }
+      btn.hidden=false;
+      if(cart.flux_base<1){
+        btn.disabled=true;
+        btn.textContent="Primero agrega Clinera Flux";
+        btn.classList.add("grad");
+        btn.classList.remove("outline");
+      }else if(en){
+        btn.disabled=false;
+        btn.textContent="Quitar";
+        btn.classList.remove("grad");
+        btn.classList.add("outline");
       }else{
-        if(step)step.hidden=true;
-        btn.hidden=false;
-        if(cart.flux_base<1){
-          btn.disabled=true;
-          btn.textContent="Primero agrega Clinera Flux";
-        }else{
-          btn.disabled=false;
-          btn.textContent=n>0?"Quitar":"Agregar al carrito";
-        }
+        btn.disabled=false;
+        btn.textContent="Agregar al carrito";
+        btn.classList.add("grad");
+        btn.classList.remove("outline");
       }
     });
     document.querySelectorAll('[data-agregar="flux_base"]').forEach(function(btn){
-      btn.textContent=cart.flux_base>0?"Quitar":"Agregar al carrito";
+      var en=cart.flux_base>0;
+      btn.textContent=en?"Quitar":"Agregar al carrito";
+      btn.classList.toggle("grad", !en);
+      btn.classList.toggle("outline", en);
     });
     document.querySelectorAll("[data-flujo=principal]").forEach(function(btn){
       var label=btn.querySelector("[data-etiqueta]")||btn;
-      label.textContent="Activar por $14.990";
+      label.textContent="Activar por $28.000";
     });
   }
 
@@ -1038,10 +1099,10 @@ footer a.ext{color:var(--text);font-weight:500}
     var barBtn=document.querySelector("[data-bar-accion]");
     if(etiqueta)etiqueta.textContent="Clinera Flux";
     if(barra){
-      barra.hidden=!promoOff;
-      barra.textContent=promoOff?"USD 29":"";
+      barra.hidden=true;
+      barra.textContent="";
     }
-    if(barBtn){ barBtn.textContent=promoOff?"Activar":"Activar por $14.990"; barBtn.removeAttribute("data-cta"); }
+    if(barBtn){ barBtn.textContent="Activar por $28.000"; barBtn.removeAttribute("data-cta"); }
     pintarChips();
     pintarControles();
     if(!lineas)return;
@@ -1050,37 +1111,29 @@ footer a.ext{color:var(--text);font-weight:500}
       if(cart[id]<1)return;
       var spec=SPEC[id];
       var mas=cart[id]>=spec.max?" disabled":"";
-      var binario=id==="flux_base"||id==="onboarding_humano";
+      var binario=spec.max===1;
+      var quitar='<button type="button" class="quitar-linea" data-id="'+id+'" data-delta="-'+cart[id]+'" aria-label="Quitar '+spec.nombre+'">Quitar</button>';
       var control=binario
-        ? '<button type="button" class="quitar-linea" data-id="'+id+'" data-delta="-1" aria-label="Quitar '+spec.nombre+'">Quitar</button>'
-        : '<div class="stepper"><button type="button" data-id="'+id+'" data-delta="-1" aria-label="Quitar '+spec.nombre+' en el carrito">−</button>'+
+        ? quitar
+        : '<div class="linea-acciones"><div class="stepper"><button type="button" data-id="'+id+'" data-delta="-1" aria-label="Restar '+spec.nombre+' en el carrito">−</button>'+
           '<output>'+cart[id]+'</output>'+
-          '<button type="button" data-id="'+id+'" data-delta="1" aria-label="Sumar '+spec.nombre+' en el carrito"'+mas+'>+</button></div>';
+          '<button type="button" data-id="'+id+'" data-delta="1" aria-label="Sumar '+spec.nombre+' en el carrito"'+mas+'>+</button></div>'+quitar+'</div>';
       html+='<div class="linea"><span><i class="chk" aria-hidden="true">✓</i>'+spec.nombre+(spec.once?" · cobro único":"")+'</span><b>'+textoPrecio(id)+'</b>'+control+'</div>';
     });
     if(!html)html='<p>Tu carrito está vacío. Agrega Clinera Flux para armar tu clínica.</p>';
     lineas.innerHTML=html;
-    var pnow=partes();
-    var exMes=0, exUnico=0;
+    var ahoraClp=0, luegoMes=0, unicoClp=0, ahoraMes=0;
     IDS.forEach(function(id){
-      if(id==="flux_base"||cart[id]<1) return;
-      var v=precioLinea(id);
-      if(SPEC[id].once) exUnico+=v; else exMes+=v;
+      if(cart[id]<1) return;
+      var listaClp=clpDe(SPEC[id].usd*cart[id]);
+      var a=clpAhora(id);
+      ahoraClp+=a;
+      if(SPEC[id].once) unicoClp+=listaClp;
+      else { luegoMes+=listaClp; ahoraMes+=a; }
     });
-    var fluxClp=!promoOff&&cart.flux_base>0;
-    if(fluxClp){
-      var pedazos=[];
-      if(exMes>0) pedazos.push(money(exMes)+" mensual");
-      if(exUnico>0) pedazos.push(money(exUnico)+" de onboarding");
-      totales.innerHTML='<div class="hoy" data-total-hoy><span>Hoy pagas</span><span>$14.990</span></div>'+
-        (pedazos.length?'<div class="desglose"><span>más '+pedazos.join(" + ")+'</span></div>':'')+
-        '<div class="desglose"><span>50% por 3 meses</span></div>';
-    }else{
-      var mensualHoy=promoOff?pnow.mes:Math.round(pnow.mes*50)/100;
-      totales.innerHTML='<div class="hoy" data-total-hoy><span>Hoy pagas</span><span>'+money(H)+'</span></div>'+
-        (pnow.unico>0?'<div class="desglose"><span>'+money(mensualHoy)+' mensual + '+money(pnow.unico)+' de onboarding</span></div>':'')+
-        (promoOff||pnow.mes<=0?'':'<div class="desglose"><span>50% por 3 meses</span></div>');
-    }
+    totales.innerHTML='<div class="hoy" data-total-hoy><span>Hoy pagas</span><span>'+formatoClp(ahoraClp)+'</span></div>'+
+      (unicoClp?'<div class="desglose"><span>'+formatoClp(ahoraMes)+' mensual + '+formatoClp(unicoClp)+' de onboarding</span></div>':'')+
+      (promoOff||luegoMes<=0?'':'<div class="desglose"><span>50% por 3 meses</span></div><div class="desglose"><span>Luego '+formatoClp(luegoMes)+'/mes</span></div>');
     document.querySelectorAll('[data-cta="carrito-checkout"]').forEach(function(b){
       b.setAttribute("data-plan-value",String(H));
       b.setAttribute("data-plan-lista",String(L));
@@ -1201,7 +1254,7 @@ footer a.ext{color:var(--text);font-weight:500}
       return;
     }
     var add=ev.target.closest("[data-agregar]");
-    if(add){ev.preventDefault();fijar(add.getAttribute("data-agregar"), cart[add.getAttribute("data-agregar")]>0 && SPEC[add.getAttribute("data-agregar")].max===1 ? -1 : 1);return;}
+    if(add){ev.preventDefault();var aid=add.getAttribute("data-agregar");fijar(aid, cart[aid]>0 ? -cart[aid] : 1);return;}
     var delta=ev.target.closest("[data-delta]");
     if(delta){
       var box=delta.closest("[data-slot], .linea .stepper");

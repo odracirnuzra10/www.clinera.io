@@ -29,7 +29,7 @@ test.describe("/contrata", () => {
     await expect(page.getByText(/como comprar en Mercado Libre/)).toBeVisible();
     await expect(page.getByRole("heading", { name: "También puedes agregar" })).toBeVisible();
     await expect(page.getByText("Depende de ti elegir lo adicional")).toBeVisible();
-    await expect(page.locator("[data-flux-base]").getByRole("button", { name: "Activar por $14.990" })).toBeVisible();
+    await expect(page.locator("[data-flux-base]").getByRole("button", { name: "Activar por $28.000" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Comienza ya" })).toHaveCount(0);
     await expect(page.locator("[data-flux-base]")).toContainText("Clinera Intelligence");
     await expect(page.locator("[data-flux-base]")).toContainText("WhatsApp");
@@ -67,8 +67,8 @@ test.describe("/contrata", () => {
     await expect(email).toBeVisible();
     await expect(auto).toBeVisible();
     await expect(email.getByRole("button", { name: "Primero agrega Clinera Flux" })).toBeDisabled();
-    await expect(email).toContainText("US$ 9");
-    await expect(auto).toContainText("US$ 9");
+    await expect(email).toContainText("$8.690");
+    await expect(auto).toContainText("$8.690");
     await expect(email.locator("img")).toHaveAttribute("src", "/kimi/productos/email-marketing.jpg");
     await expect(auto.locator("img")).toHaveAttribute("src", "/kimi/productos/automatizaciones.jpg");
     await expect(page.locator("[data-carrito]")).not.toContainText("gratis para siempre");
@@ -76,7 +76,7 @@ test.describe("/contrata", () => {
     await email.getByRole("button", { name: "Agregar al carrito" }).click();
     await auto.getByRole("button", { name: "Agregar al carrito" }).click();
     await page.locator("[data-carrito-icon]").click();
-    await expect(page.locator("[data-total-hoy]")).toContainText("23,50");
+    await expect(page.locator("[data-total-hoy]")).toContainText("$22.690");
     await expect(page.locator("[data-drawer]")).toContainText("Hoy pagas");
     await expect(page.locator("[data-total-hoy] s")).toHaveCount(0);
     await expect(page.locator("[data-carrito-count]")).toHaveText("3");
@@ -96,8 +96,8 @@ test.describe("/contrata", () => {
       sessionStorage.setItem("contrata_carrito", JSON.stringify({ profesional_extra: 4 }));
     });
     await ir(page, "/contrata?plan=hex", "2026-11-05T12:00:00-03:00");
-    await expect(page.locator("[data-addon=instagram] output")).toHaveText("1");
-    await expect(page.locator("[data-addon=facebook] output")).toHaveText("1");
+    await expect(page.locator("[data-addon=instagram]").getByRole("button", { name: "Quitar" })).toBeVisible();
+    await expect(page.locator("[data-addon=facebook]").getByRole("button", { name: "Quitar" })).toBeVisible();
     await expect(page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Agregar al carrito" })).toBeVisible();
     await expect(page.locator("[data-carrito-count]")).toHaveText("3");
   });
@@ -108,7 +108,7 @@ test.describe("/contrata", () => {
     });
     await ir(page, "/contrata?pago=cancelado", "2026-11-05T12:00:00-03:00");
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("2");
-    await expect(page.locator("[data-addon=instagram] output")).toHaveText("1");
+    await expect(page.locator("[data-addon=instagram]").getByRole("button", { name: "Quitar" })).toBeVisible();
   });
 
   test("sumar un adicional mueve el total y el valor del CTA", async ({ page }) => {
@@ -117,7 +117,7 @@ test.describe("/contrata", () => {
     await expect(page.locator("[data-toast]")).toHaveText("Agregado al carrito");
     await expect(page.locator("[data-carrito-count]")).toHaveText("1");
     await expect(page.locator("[data-flux-base]")).toContainText("50% por 3 meses");
-    await expect(page.locator("[data-flux-base]")).toContainText("por 3 meses, luego precio normal");
+    await expect(page.locator("[data-flux-base]")).toContainText("por 3 meses, luego $28.000");
     await page.locator("[data-carrito-icon]").click();
     const cta = activarCajon(page);
     await expect(cta).toHaveAttribute("data-plan", "flux_modular");
@@ -130,7 +130,7 @@ test.describe("/contrata", () => {
     await expect(page.locator("[data-carrito-count]")).toHaveText("2");
     await page.locator("[data-carrito-icon]").click();
     await expect(cta).toHaveAttribute("data-plan-value", "19");
-    await expect(page.locator("[data-total-hoy]")).toContainText("19");
+    await expect(page.locator("[data-total-hoy]")).toContainText("$18.345");
     await page.getByRole("button", { name: "Cerrar", exact: true }).click();
     await page.locator("[data-addon=profesional_extra]").getByRole("button", { name: "Sumar profesional extra" }).click();
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("2");
@@ -143,7 +143,7 @@ test.describe("/contrata", () => {
     await expect(card.locator("img")).toHaveAttribute("src", "/kimi/productos/onboarding.jpg");
     await expect(page.locator("[data-addon=agente_ia] img")).toHaveAttribute("src", "/kimi/productos/agente-ia.jpg");
     await expect(card).toContainText("Onboarding humano");
-    await expect(card).toContainText("US$ 190");
+    await expect(card).toContainText("$183.450");
     await expect(card).toContainText("cobro único");
     await expect(card).not.toContainText("50% por 3 meses");
     await expect(card).toHaveAttribute("data-espera", "si");
@@ -160,10 +160,10 @@ test.describe("/contrata", () => {
     await expect(drawer).toContainText("cobro único");
     await expect(drawer).toContainText("50% por 3 meses");
     await expect(drawer).toContainText("Hoy pagas");
-    await expect(drawer.locator("[data-total-hoy]")).toContainText("204,50");
+    await expect(drawer.locator("[data-total-hoy]")).toContainText("$197.450");
     await expect(drawer.locator("[data-total-hoy] s")).toHaveCount(0);
     await expect(drawer).toContainText("mensual +");
-    await expect(drawer.getByText(/Luego US\$ 29/)).toBeVisible();
+    await expect(drawer.getByText("Luego $28.000/mes")).toBeVisible();
   });
 
   test("Comienza ya manda el carrito saneado y abre el pago", async ({ page }) => {
@@ -240,7 +240,7 @@ test.describe("/contrata", () => {
     await expect(page.locator("[data-cta=agendar-reunion]")).toHaveCount(0);
   });
 
-  test("Activar por $14.990 pregunta adicionales y con esto parto abre el pago", async ({ page }) => {
+  test("Activar por $28.000 pregunta adicionales y con esto parto abre el pago", async ({ page }) => {
     await ir(page, "/contrata?utm_source=ads", "2026-11-05T12:00:00-03:00");
     let body: { carrito?: Record<string, number> } = {};
     await page.route("**/api/contrata/checkout", async (route) => {
@@ -251,7 +251,7 @@ test.describe("/contrata", () => {
         body: JSON.stringify({ ok: true, url: "https://checkout.stripe.com/c/pay/cs_test_ok", promo: true }),
       });
     });
-    await page.locator("[data-flux-base]").getByRole("button", { name: "Activar por $14.990" }).click();
+    await page.locator("[data-flux-base]").getByRole("button", { name: "Activar por $28.000" }).click();
     const hoja = page.locator("[data-extras]");
     await expect(hoja.getByRole("heading", { name: "¿Quieres adicionales o con esto partes?" })).toBeVisible();
     for (const id of ["profesional_extra", "sucursal_extra", "conversaciones_1000", "instagram", "facebook", "agente_ia"]) {
@@ -267,8 +267,8 @@ test.describe("/contrata", () => {
   test("?plan=flux&pe=3&ig=1&fb=1 abre el carrito con esas cantidades", async ({ page }) => {
     await ir(page, "/contrata?plan=flux&pe=3&ig=1&fb=1&em=1", "2026-11-05T12:00:00-03:00");
     await expect(page.locator("[data-addon=profesional_extra] output")).toHaveText("3");
-    await expect(page.locator("[data-addon=instagram] output")).toHaveText("1");
-    await expect(page.locator("[data-addon=facebook] output")).toHaveText("1");
+    await expect(page.locator("[data-addon=instagram]").getByRole("button", { name: "Quitar" })).toBeVisible();
+    await expect(page.locator("[data-addon=facebook]").getByRole("button", { name: "Quitar" })).toBeVisible();
     await expect(page.locator("[data-carrito-count]")).toHaveText("6");
     await expect(page.locator("[data-addon=email_marketing]")).toHaveCount(0);
     await expect(page.locator("[data-flux-base]").getByRole("button", { name: "Quitar" })).toBeVisible();

@@ -621,6 +621,30 @@
   align-items: center;
 }
 
+.enCarrito {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.enCarrito .stepper,
+.enCarrito .quitar {
+  margin-top: 0;
+}
+
+.lineaAcciones {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.lineaAcciones .stepper {
+  margin-top: 0;
+}
+
 .drawer .stepper,
 .quitarLinea {
   grid-column: 1 / -1;
@@ -629,8 +653,10 @@
 
 .quitarLinea {
   justify-self: start;
-  min-height: 40px;
-  padding: 0 14px;
+  min-height: 48px;
+  min-width: 44px;
+  padding: 0 16px;
+  font-size: 16px;
   border: 1px solid rgba(17, 17, 17, 0.16);
   border-radius: 10px;
   background: #fff;

@@ -1,5 +1,5 @@
-// TODO(Mercado Pago): el primer cobro de Chile será Mercado Pago en CLP 14990
-// ($14.990). Stripe queda para después. No conectar keys: todavía no están.
+// TODO(Mercado Pago): sin keys. La UI muestra CLP (Flux lista $28.000, 50% en
+// pesos). Esta sesión sigue en USD. No conectar keys ni crear Products/Prices.
 // Hasta entonces esta ruta sigue armando la Checkout Session de Stripe.
 
 // Carrito de /contrata → Checkout Session. Misma guarda que /api/go/checkout:
