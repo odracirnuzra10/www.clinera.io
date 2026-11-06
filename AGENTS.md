@@ -1461,5 +1461,5 @@ dos condiciones, la confirmación de compra o la entrada al carrito caen en la l
 Embudo de la campaña: **Lead** (landing, pixel + CAPI US$ 3) → **StartTrial** (creó su cuenta en app.clinera.io) →
 **UsoReal** (conectó WhatsApp y tuvo su primera conversación dentro de los 7 días) → **Purchase** (Stripe). Trial y Uso
 real los manda n8n desde el webhook que llama app.clinera.io: `integrations/n8n/clinera-app-eventos/README.md`.
-Hasta que el equipo de Clinera programe ese webhook, StartTrial y UsoReal no salen. Guardianes: `tests/kimi-gratis.spec.ts`,
+La foto de Método Hebe de esta landing es `public/kimi-gratis/hebe-equipo.webp` (el equipo en la recepción, 7-nov-2026); `/kimi/hebe-testimonio.jpg` de `main` es un placeholder de 22 KB y no se usa acá. Hasta que el equipo de Clinera programe ese webhook, StartTrial y UsoReal no salen. Guardianes: `tests/kimi-gratis.spec.ts`,
 `tests/contrata.spec.ts`, `tests/clinera-app-eventos.spec.ts`.
