@@ -161,7 +161,24 @@ const nextConfig: NextConfig = {
     ];
   },
   async rewrites() {
-    return [
+    return {
+      // /contrata muestra la landing de la demo de 7 días (Ricardo, 6-nov-2026). Va antes de las
+      // rutas de la app porque /contrata también es una página de Next: la que recibe la vuelta de
+      // Stripe (?pago=ok|cancelado&session_id=…). Esa vuelta y la entrada con ?plan= siguen en FluxCarrito.
+      beforeFiles: [
+        {
+          source: '/contrata',
+          // ?plan= es la entrada al carrito de Flux desde /kimi y /home-nuevo; ?pago= es la vuelta de Stripe.
+          missing: [
+            { type: 'query', key: 'pago' },
+            { type: 'query', key: 'plan' },
+            // ?carrito=1 abre el carrito vacío (las pruebas y quien quiera armarlo desde cero).
+            { type: 'query', key: 'carrito' },
+          ],
+          destination: '/kimi-gratis/index.html',
+        },
+      ],
+      afterFiles: [
       {
         source: '/support',
         destination: '/support/index.html',
@@ -293,7 +310,13 @@ const nextConfig: NextConfig = {
         source: '/home-nuevo',
         destination: '/home-nuevo/index.html',
       },
-    ];
+      // Prueba de la demo de 7 días. Desde el 6-nov-2026 también se sirve en /contrata.
+      {
+        source: '/kimi-gratis',
+        destination: '/kimi-gratis/index.html',
+      },
+      ],
+    };
   },
   async redirects() {
     return [
