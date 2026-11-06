@@ -49,9 +49,9 @@ section{scroll-margin-top:72px}
 .btn.outline:hover{background:var(--soft2)}
 .btn.outline.light{color:#fff;border-color:#fff}
 .btn.outline.light:hover{background:rgba(255,255,255,.12)}
-/* CTA principal: violeta sólido */
-.btn.grad{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 8px 24px -8px rgba(109,40,217,.45)}
-.btn.grad:hover{background:var(--accent-h);border-color:var(--accent-h)}
+/* Los CTA primarios son negros. El lila de marca vive solo en el cierre. */
+.btn.grad{background:#111;border-color:#111;color:#fff;box-shadow:none;text-shadow:none}
+.btn.grad:hover{background:#000;border-color:#000}
 .btn.wa{background:#25D366;border-color:#25D366;color:#fff;font-weight:700}
 .btn.wa:hover{background:#1ebe5a;border-color:#1ebe5a}
 .wa-ico{width:18px;height:18px;flex:none;display:block;fill:currentColor}
@@ -610,19 +610,22 @@ footer a.ext{color:var(--text);font-weight:500}
 /* Gusto de esta landing: aire editorial, sin glow ni sombra grande. */
 h1,h2,h3{font-weight:600;letter-spacing:-.035em;line-height:1.12}
 .btn,.chip,.cuenta-card input,.cuenta-card select{font-family:Outfit,system-ui,sans-serif}
-.btn{border-radius:8px;border-width:1px;box-shadow:none}
-.btn.grad{
-  background:linear-gradient(180deg,#D8C7FF 0%,#A78BFA 38%,#7C3AED 100%);
-  border-color:#8B5CF6;
-  color:#fff;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 10px 26px -8px rgba(124,58,237,.62),0 0 28px rgba(196,181,253,.55);
+.btn{border-radius:8px;border-width:1px;box-shadow:none;text-shadow:none}
+.btn.grad,.btn.grad:hover,.nav-cta .btn.grad{
+  background:#111;border-color:#111;color:#fff;
+  box-shadow:none;text-shadow:none;filter:none;
 }
-.btn.grad:hover{
-  background:linear-gradient(180deg,#E9DEFF 0%,#C4B5FD 36%,#7C3AED 100%);
-  border-color:#7C3AED;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 12px 30px -8px rgba(124,58,237,.7),0 0 36px rgba(216,199,255,.7);
+.btn.grad:hover{background:#000;border-color:#000}
+.pain .btn.grad,.pain .btn.grad:hover{
+  background:#fff;border-color:#fff;color:#111;
+  box-shadow:none;text-shadow:none;filter:none;
 }
-.nav-cta .btn.grad{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 6px 16px -8px rgba(124,58,237,.55),0 0 16px rgba(196,181,253,.4)}
+.pain .btn.grad:hover{background:#F4F4F5}
+#comenzar .btn.grad,#comenzar .btn.grad:hover{
+  background:#7C3AED;border-color:#7C3AED;color:#fff;
+  box-shadow:none;text-shadow:none;filter:none;
+}
+#comenzar .btn.grad:hover{background:#6D28D9;border-color:#6D28D9}
 .btn.outline{background:#fff;color:#111;border-color:#111}
 .btn.outline:hover{background:#F7F6F3}
 header.nav{background:#fff;border-bottom-color:#EAEAEA}

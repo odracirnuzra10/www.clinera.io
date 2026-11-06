@@ -7,6 +7,23 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
   await expect(page.locator("h1")).toHaveText("Crea tu cuenta gratis");
   await expect(page.locator("#hero-cta")).toContainText("Registra y activa tu clínica");
+  const pintura = (sel: string) =>
+    page.locator(sel).evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { bg: cs.backgroundColor, image: cs.backgroundImage, shadow: cs.boxShadow, filter: cs.filter };
+    });
+  const heroBtn = await pintura("#hero-cta .btn");
+  const mediaBtn = await pintura("[data-testid=kimi-asistencia-media] .btn.grad");
+  const cierreBtn = await pintura("#comenzar .btn.grad");
+  expect(heroBtn.bg).toBe("rgb(17, 17, 17)");
+  expect(heroBtn.image).toBe("none");
+  expect(heroBtn.shadow).toBe("none");
+  expect(mediaBtn.bg).toBe("rgb(17, 17, 17)");
+  expect(mediaBtn.shadow).toBe("none");
+  expect(cierreBtn.bg).toBe("rgb(124, 58, 237)");
+  expect(cierreBtn.image).toBe("none");
+  expect(cierreBtn.shadow).toBe("none");
+  expect(cierreBtn.filter).toBe("none");
   const media = page.locator("[data-testid=kimi-asistencia-media]");
   await expect(media.getByRole("link", { name: "Solicita asistencia" })).toHaveAttribute(
     "href",
