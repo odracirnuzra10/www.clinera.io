@@ -774,7 +774,8 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 .cifras .wrap{display:grid;grid-template-columns:repeat(3,1fr)}
 .cifra{padding:28px 24px;display:grid;gap:6px;border-left:1px solid var(--border)}
 .cifra:first-child{border-left:0;padding-left:0}
-.cifra b{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;line-height:1}
+.cifra{align-content:start}
+.cifra b{white-space:nowrap;font-size:clamp(1.3rem,2.3vw,1.75rem);font-weight:800;letter-spacing:-.03em;line-height:1}
 .cifra span{font-size:.78rem;color:var(--muted);letter-spacing:.02em}
 @media (max-width:700px){.cifras .wrap{grid-template-columns:1fr}.cifra{border-left:0;border-top:1px solid var(--border);padding:18px 0}.cifra:first-child{border-top:0}}
 /* Para el médico: intro a la izquierda, lista numerada a la derecha */
@@ -870,11 +871,11 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   </div>
 </section>
 
-<section class="cifras" aria-label="Clinera en cifras">
+<section class="cifras" aria-label="Qué incluye Clinera">
   <div class="wrap">
-    <div class="cifra"><b>+1.500</b><span>clínicas trabajadas en los últimos 10 años</span></div>
-    <div class="cifra"><b>3 sedes</b><span>propias operan todos los días sobre Clinera</span></div>
-    <div class="cifra"><b>Prepago</b><span>la paciente paga su evaluación antes de llegar</span></div>
+    <div class="cifra"><b>IA</b><span>responde, agenda y cobra la evaluación por ti</span></div>
+    <div class="cifra"><b>Redes sociales</b><span>WhatsApp, Instagram y Facebook en un solo lugar</span></div>
+    <div class="cifra"><b>Agenda por profesional</b><span>cada profesional con sus horarios y tratamientos</span></div>
   </div>
 </section>
 
