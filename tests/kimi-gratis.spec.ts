@@ -7,6 +7,11 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
   await expect(page.locator("h1")).toHaveText("Crea tu cuenta gratis");
   await expect(page.locator("#hero-cta")).toContainText("Registra y activa tu clínica");
+  const media = page.locator("[data-testid=kimi-asistencia-media]");
+  await expect(media.getByRole("link", { name: "Solicita asistencia" })).toHaveAttribute(
+    "href",
+    "https://wa.me/56985581524?text=necesito%20asistencia",
+  );
   await expect(page.locator(".hero")).toContainText("Demo de 7 días");
   await expect(page.locator(".hero")).not.toContainText("Prueba gratis, sin compromiso");
   await expect(page.locator("main")).not.toContainText("$14.495");
