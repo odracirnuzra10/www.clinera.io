@@ -42,6 +42,14 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   await expect(extras).toContainText("$48");
   await expect(extras).toContainText("1000 conversaciones");
   await expect(page.locator("[data-cuenta-pagar]")).toBeHidden();
+
+  const flujo = page.locator("[data-testid=kimi-flujo]");
+  await expect(flujo).toContainText("WhatsApp");
+  await expect(flujo).toContainText("Facebook");
+  await expect(flujo).toContainText("Instagram");
+  await expect(flujo).toContainText("Facebook conectado");
+  await expect(flujo).toContainText("Instagram conectado");
+  await expect(flujo).not.toContainText("Horarios y tratamientos");
 });
 
 test("/kimi-gratis pide los cuatro datos antes de registrar y antes de WhatsApp", async ({ page }) => {
