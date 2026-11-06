@@ -1,5 +1,7 @@
 "use client";
 
+import CtaPar from "@/components/cta/CtaPar";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Eyebrow, GRAD } from "@/components/brand-v3/Brand";
@@ -140,51 +142,8 @@ function Hero() {
           Publicamos los números porque la confianza se construye con evidencia, no con promesas. 42 casos, 14 flujos
           conversacionales, 3 clínicas reales.
         </p>
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
-          <Link
-            href="/agenda"
-            style={{
-              background: GRAD,
-              color: "#fff",
-              border: 0,
-              padding: "15px 26px",
-              borderRadius: 10,
-              fontWeight: 600,
-              fontSize: 16,
-              fontFamily: "Inter",
-              textDecoration: "none",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              boxShadow: "0 12px 32px -8px rgba(217,70,239,.5)",
-            }}
-          >
-            Agendar reunión <span>→</span>
-          </Link>
-          <Link
-            href="/blog/efectividad"
-            style={{
-              background: "#fff",
-              color: "#0A0A0A",
-              border: "1px solid #E5E7EB",
-              padding: "15px 26px",
-              borderRadius: 10,
-              fontWeight: 600,
-              fontSize: 16,
-              fontFamily: "Inter",
-              textDecoration: "none",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-              <polyline points="14 2 14 8 20 8" />
-            </svg>
-            Leer el estudio completo
-          </Link>
-        </div>
+        {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+        <CtaPar centrado />
         <div
           style={{
             marginTop: 22,

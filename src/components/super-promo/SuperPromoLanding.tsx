@@ -51,7 +51,7 @@ function BotonWhatsApp({ donde, texto }: { donde: "hero" | "cierre"; texto: stri
       href={SUPER_PROMO_WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
-      data-cta-ventas={`super-promo-${donde}`}
+      data-cta-asistencia={`super-promo-${donde}`}
       data-super-promo-whatsapp={donde}
     >
       <IconoWhatsApp />

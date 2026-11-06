@@ -89,6 +89,13 @@ try{var u=new URL(this.href);u.searchParams.set("client_reference_id",build());t
 }
 if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",patch)}else{patch()}
 window.addEventListener("clinera:routechange",function(){setTimeout(patch,200)});
+// 4-nov-2026: los links de Stripe también viven en la barra fija del celular y en secciones que se
+// montan tarde; patch() no los alcanza. Un solo listener en captura cubre cualquier link de Stripe,
+// esté o no en el DOM al cargar. searchParams.set es idempotente: no importa si patch() ya lo puso.
+document.addEventListener("click",function(e){
+var t=e.target;var a=t&&t.closest?t.closest('a[href*="buy.stripe.com"]'):null;if(!a)return;
+try{var u=new URL(a.href);u.searchParams.set("client_reference_id",build());a.href=u.toString()}catch(err){}
+},true);
 })();`;
 
 const FBQ_FIX_SRC = `(function(){if(typeof fbq!=="undefined"){var b=fbq,c=function(){

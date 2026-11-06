@@ -1,3 +1,4 @@
+import CtaPar, { CtaRegistro, CtaAsistencia } from "@/components/cta/CtaPar";
 import Link from "next/link";
 import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
@@ -104,12 +105,9 @@ export function CrossComparativa({ data }: { data: Cruzada }) {
               </h1>
               <p className="hero-v2__sub">{data.intro}</p>
               <div className="hero-v2__actions">
-                <Link href="/agenda" className="hero-v2__primary">
-                  Agendar reunión
-                </Link>
-                <a href="#tabla" className="hero-v2__secondary">
-                  Ver tabla comparativa ↓
-                </a>
+                {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+                <CtaRegistro className="hero-v2__primary" />
+                <CtaAsistencia className="hero-v2__secondary" />
               </div>
             </div>
           </div>
@@ -538,35 +536,7 @@ export function CrossComparativa({ data }: { data: Cruzada }) {
                   justifyContent: "center",
                 }}
               >
-                <Link
-                  href="/agenda"
-                  style={{
-                    background: "#fff",
-                    color: "#0A0A0A",
-                    padding: "12px 22px",
-                    borderRadius: 10,
-                    textDecoration: "none",
-                    fontWeight: 600,
-                    fontSize: "0.95rem",
-                  }}
-                >
-                  Agendar reunión →
-                </Link>
-                <Link
-                  href="/planes"
-                  style={{
-                    background: "rgba(255,255,255,0.1)",
-                    color: "#fff",
-                    border: "1px solid rgba(255,255,255,0.2)",
-                    padding: "12px 22px",
-                    borderRadius: 10,
-                    textDecoration: "none",
-                    fontWeight: 600,
-                    fontSize: "0.95rem",
-                  }}
-                >
-                  Ver planes y precios
-                </Link>
+                <CtaPar oscuro centrado />
               </div>
             </div>
 

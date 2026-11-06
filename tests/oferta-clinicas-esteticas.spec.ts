@@ -68,7 +68,7 @@ test("landing: sin menú, hero con el formulario del wizard a la derecha, funcio
   await expect(oferta).toContainText("US$ 529/mes"); // precio regular, tachado
   await expect(oferta).toContainText("La inversión en anuncios se paga aparte");
   await expect(page.locator("main")).not.toContainText(/sincroniza con (AgendaPro|Reservo)/i);
-  const cta = oferta.locator('a[data-cta-ventas="oferta-cierre"]');
+  const cta = oferta.locator('a[data-cta-asistencia="oferta-cierre"]');
   await expect(cta).toHaveAttribute("href", "#formulario");
   await cta.click();
   await expect(page.locator("[data-oferta-wizard]")).toBeInViewport();
@@ -137,7 +137,7 @@ test("móvil: sin scroll horizontal y la oferta se lee completa", async ({ brows
   await expect(page.locator("[data-oferta-wizard]")).toBeInViewport();
   await page.locator("[data-quiero-ahorrar]").scrollIntoViewIfNeeded();
   await expect(page.locator("[data-quiero-ahorrar]")).toBeInViewport();
-  const cta = page.locator('a[data-cta-ventas="oferta-cierre"]');
+  const cta = page.locator('a[data-cta-asistencia="oferta-cierre"]');
   await cta.scrollIntoViewIfNeeded();
   await expect(cta).toBeInViewport();
   await ctx.close();

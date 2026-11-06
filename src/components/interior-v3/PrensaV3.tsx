@@ -1,5 +1,7 @@
 "use client";
 
+import CtaPar from "@/components/cta/CtaPar";
+
 import Link from "next/link";
 import { CnnLogo, CtaPrimary, GRAD } from "@/components/brand-v3/Brand";
 import { useReveal } from "@/components/home-v3/sections";
@@ -488,28 +490,8 @@ function PrensaCta() {
               flexWrap: "wrap",
             }}
           >
-            <CtaPrimary as={Link} href="/demo" style={{ padding: "14px 24px", fontSize: 15 }}>
-              Ver una demo
-            </CtaPrimary>
-            <Link
-              href="/planes"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                fontFamily: "Inter",
-                fontSize: 15,
-                fontWeight: 600,
-                color: "#fff",
-                textDecoration: "none",
-                background: "rgba(255,255,255,.07)",
-                border: "1px solid rgba(255,255,255,.16)",
-                borderRadius: 10,
-                padding: "14px 24px",
-              }}
-            >
-              Ver planes
-            </Link>
+            {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+            <CtaPar oscuro centrado />
           </div>
         </div>
       </div>

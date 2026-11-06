@@ -1463,3 +1463,25 @@ Embudo de la campaña: **Lead** (landing, pixel + CAPI US$ 3) → **StartTrial**
 real los manda n8n desde el webhook que llama app.clinera.io: `integrations/n8n/clinera-app-eventos/README.md`.
 La foto de Método Hebe de esta landing es `public/kimi-gratis/hebe-equipo.webp` (el equipo en la recepción, 7-nov-2026); `/kimi/hebe-testimonio.jpg` de `main` es un placeholder de 22 KB y no se usa acá. **Celular (7-nov-2026, para filtrar leads falsos):** largo exacto por país (Chile 9 dígitos que empiezan con 9), sin cortar en silencio lo que sobra; mientras escribe, el campo solo acepta dígitos hasta ese largo y saca el `+56` si lo pegan (sin `maxlength` en el HTML, que cortaría el pegado); se rechazan números de relleno (todos iguales, 12345678, 87654321 tras el primer dígito) con un mensaje que dice cuántos dígitos van. Hasta que el equipo de Clinera programe ese webhook, StartTrial y UsoReal no salen. Guardianes: `tests/kimi-gratis.spec.ts`,
 `tests/contrata.spec.ts`, `tests/clinera-app-eventos.spec.ts`.
+
+# Dos CTA en todo el sitio: «Regístrate gratis» y «Solicita asistencia» (Ricardo, 7-nov-2026)
+
+Reemplaza «Contratar Hex» + «Hablar con ventas» (4-nov) y «Agendar reunión» (20-oct). Todo sale de
+`src/components/cta/CtaPar.tsx` (`CtaPar`, `CtaRegistro`, `CtaAsistencia`); una sección nueva usa eso.
+- **Principal «Regístrate gratis»** → `/contrata` (la landing de la demo de 7 días) con la query de la visita,
+  **sin** `plan`, `pago`, `carrito` ni `session_id`: con esas claves `/contrata` abre el carrito de Flux.
+- **Secundario «Solicita asistencia»** → `https://wa.me/56985581524?text=necesito%20asistencia`, blanco con borde e ícono verde.
+- Menú, pie, barra fija del celular (en escritorio solo el principal; el `display:none` lleva `!important` porque el
+  botón trae display en línea), home, landings `software-vertical`, blog y secciones que ya usaban el par.
+- Fuera de la regla, igual que antes: formularios (`/agenda`, `/reserva-tu-hora`, `/reunion`), partners, `/oferta-clinicas-esteticas`,
+  `/super-promo`, `/promo`, decks, `/kimi`, `/home-nuevo`, `/go/exito`, `/firma`, `/gracias`.
+
+**Planes con prueba gratis: Flux US$ 49 · Hex US$ 129 · Xcale US$ 149** (Xcale = ex Vortex, recomendado). Fuente única
+`src/content/planes-trial.ts`; los usan `/planes` (`PlanesTrial h1`), la sección de planes del home y el JSON-LD
+(`softwareOffers` de `schemas.ts`). Los mismos números están escritos a mano en `public/kimi-gratis/index.html`. Cada tarjeta
+dice «Regístrate gratis»; Xcale además trae «o paga Xcale ahora» (Payment Link pelado con `data-plan*`, US$ 149). `/planes`
+ya no lleva PMFC ni la boleta del Ecosistema. `/planes2`, `/promo`, el carrito de `/contrata?plan=` y `checkout.ts` no se tocaron.
+El home: hero «Tú atiendes pacientes. Clinera responde el WhatsApp, agenda y cobra la evaluación», sin el bloque «Qué contratas»
+(precios del Ecosistema) y con el FAQ de la prueba gratis (`home-faq.ts`). Siguen PMFC, casos, historia y convenio.
+**Pendiente:** la banda `AgenteIABanda` de landings y blog todavía nombra Vortex y Ecosistema en su texto.
+Guardianes: `home2.spec`, `planes-vigentes.spec`, `clinica-estetica.spec`, `sitio-dos-productos.spec`, `agente-ia-banda.spec`.

@@ -1,4 +1,4 @@
-import { PLANES } from "@/content/planes";
+import { PLANES_TRIAL } from "@/content/planes-trial";
 import { pageDate } from "@/content/page-dates";
 import {
   ADDRESS_COUNTRY,
@@ -96,15 +96,15 @@ export const entityGraph = {
   "@graph": [oacgOrgNode, clineraOrgNode, ricardoPersonNode],
 };
 
-/** Un Offer por plan (mensual), misma fuente que `/planes` (`planes.ts`). */
-export const softwareOffers = PLANES.map((plan) => ({
+/** Un Offer por plan (mensual), misma fuente que `/planes` y el home (`planes-trial.ts`, 7-nov-2026). */
+export const softwareOffers = PLANES_TRIAL.map((plan) => ({
   "@type": "Offer" as const,
   name: plan.name,
   price: String(plan.monthlyUsd),
   priceCurrency: "USD",
   availability: "https://schema.org/InStock",
   url: `${SITE_URL}/planes`,
-  description: `${plan.name}: US$ ${plan.monthlyUsd}/mes, hasta ${plan.professionals} profesionales y ${plan.iaCredits.toLocaleString("es-CL")} créditos de IA. ${plan.resumen}`,
+  description: `${plan.name}: US$ ${plan.monthlyUsd}/mes. ${plan.incluye.join(", ")}. Prueba gratis de 7 días.`,
 }));
 
 export const softwareSchema = {

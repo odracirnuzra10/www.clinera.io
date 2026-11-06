@@ -146,11 +146,13 @@ test.describe("Clinera Podcast: hub + capítulo 1", () => {
       join(process.cwd(), "src/components/home-v3/HomeV3.tsx"),
       "utf8",
     );
-    expect(nav).toContain('href="/demo"');
-    expect(nav).toContain("Ver demo 3 min");
+    // Ricardo, 4-nov-2026: el menú lleva los dos CTA del sitio; se fue «Ver demo 3 min».
+    expect(nav).toContain("<CtaRegistro");
+    expect(nav).toContain("<CtaAsistencia");
+    expect(nav).not.toContain("Ver demo 3 min");
     expect(nav).not.toContain("/podcast");
     expect(footer).toContain('["Clinera Podcast", "/podcast"]');
-    expect(footer).toContain("VerDemoFloat");
+    expect(footer).not.toContain("VerDemoFloat");
     expect(footer).not.toContain("DemoVideoFrame");
     expect(home).toContain("<DemoEnVivo />");
     const plataforma = readFileSync(
@@ -172,13 +174,13 @@ test.describe("Clinera Podcast: hub + capítulo 1", () => {
       .filter({ hasText: "Clinera Podcast" });
     await expect(footerPodcast).toBeVisible();
     await expect(page.locator('header a[href="/podcast"]')).toHaveCount(0);
-    await expect(page.getByRole("link", { name: /ver demo 3 min/i }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: /ver demo 3 min/i })).toHaveCount(0);
     await expect(page.locator("#demo-3-min iframe")).toHaveAttribute(
       "src",
       /player\.vimeo\.com\/video\/1229275734.*speed=1/,
     );
     await expect(page.locator("footer iframe")).toHaveCount(0);
-    await expect(page.getByRole("link", { name: "Ver demo", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Ver demo", exact: true })).toHaveCount(0);
     await footerPodcast.click();
     await page.waitForURL(/\/podcast$/);
     await expect(

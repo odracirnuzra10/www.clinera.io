@@ -1,0 +1,38 @@
+.seccion{padding:88px 20px;background:#fff}
+.wrap{max-width:1120px;margin:0 auto}
+.eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6D28D9;margin:0 0 12px}
+.titulo{font-size:clamp(28px,4vw,44px);line-height:1.08;letter-spacing:-.035em;font-weight:800;margin:0 0 12px;color:#0A0A0A;max-width:18em}
+.bajada{font-size:17px;color:#4B5563;margin:0 0 40px;max-width:40em}
+.planes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+.card{position:relative;display:flex;flex-direction:column;border:1px solid #E5E7EB;border-radius:20px;padding:24px;background:#fff}
+.destacado{border:1.5px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#2563EB,#7C3AED 55%,#C026D3) border-box}
+.cabeza{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.nombre{font-size:20px;font-weight:800;letter-spacing:-.02em;margin:0;color:#0A0A0A}
+.badge{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:linear-gradient(90deg,#7C3AED,#C026D3);border-radius:999px;padding:4px 10px}
+.etiqueta{font-size:14px;color:#6B7280;margin:4px 0 14px}
+.precio{margin:0 0 16px;color:#0A0A0A}
+.precio b{font-size:40px;font-weight:800;letter-spacing:-.04em}
+.precio span{font-size:14px;color:#6B7280}
+.lista{list-style:none;margin:0 0 16px;padding:0;flex:1}
+.lista li{padding:9px 0 9px 22px;border-top:1px solid #F3F4F6;font-size:15px;color:#1F2937;position:relative}
+.lista li::before{content:"";position:absolute;left:4px;top:16px;width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#2563EB,#7C3AED)}
+.canales{display:flex;gap:8px;margin:0 0 16px}
+.cta{width:100%}
+.pago{display:block;text-align:center;margin-top:10px;font-size:14px;color:#4B5563;text-decoration:underline;text-underline-offset:3px}
+.pago:hover{color:#0A0A0A}
+.sumas{margin-top:32px}
+.sumas h3{font-size:18px;font-weight:800;margin:0 0 4px;color:#0A0A0A}
+.sumas p{font-size:14px;color:#6B7280;margin:0 0 14px}
+.sumas ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #E5E7EB;border-radius:16px;overflow:hidden}
+.sumas li{padding:16px 18px;border-left:1px solid #E5E7EB;display:grid;gap:2px}
+.sumas li:first-child{border-left:0}
+.sumas b{font-size:18px;font-weight:800;color:#0A0A0A}
+.sumas span{font-size:14px;color:#4B5563}
+@media (max-width:860px){
+  .seccion{padding:56px 16px}
+  .planes{grid-template-columns:1fr}
+  .destacado{order:-1}
+  .sumas ul{grid-template-columns:1fr 1fr}
+  .sumas li:nth-child(3){border-left:0}
+  .sumas li:nth-child(n+3){border-top:1px solid #E5E7EB}
+}

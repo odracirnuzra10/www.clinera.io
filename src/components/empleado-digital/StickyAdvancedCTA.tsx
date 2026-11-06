@@ -1,5 +1,7 @@
 "use client";
 
+import { CtaRegistro } from "@/components/cta/CtaPar";
+
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useScrollPastPercent } from "@/components/cro/useScrollPastPercent";
@@ -32,9 +34,8 @@ export default function StickyAdvancedCTA() {
   return (
     <>
       <div className="equipo-sticky" role="region" aria-label="Agendar reunión">
-        <a href="/agenda" className="equipo-sticky-primary">
-          Agendar reunión
-        </a>
+        {/* Ricardo, 4-nov-2026: «Contratar Hex» (Payment Link); el listener de captura de Analytics.tsx pone el client_reference_id. */}
+        <CtaRegistro tam="sm" corto className="equipo-sticky-primary" />
         <button
           onClick={dismiss}
           aria-label="Cerrar"

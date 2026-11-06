@@ -1,31 +1,30 @@
 import type { Metadata } from "next";
 import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
-import PlanesNuevos from "@/components/planes-nuevos/PlanesNuevos";
+import PlanesTrial from "@/components/planes-trial/PlanesTrial";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PageUpdated } from "@/components/seo/PageUpdated";
 import { faqSchema, orgSchema, webPageSchema } from "@/components/seo/schemas";
 import { SITE_URL } from "@/content/entidad";
-import { PLANES_PUBLICOS, faqPublica } from "@/content/planes-nuevos";
+import { PLANES_TRIAL, PLANES_TRIAL_DESDE, PLANES_TRIAL_FAQ } from "@/content/planes-trial";
 
-// /planes (Ricardo, 5-nov-2026): Flux · Hex · Vortex, sin Ecosistema. Los Payment Links salen de
-// `checkout.ts`. `/planes2` conserva el Ecosistema. `/promo` y el home siguen con `planes.ts`.
-const DESDE = Math.min(...PLANES_PUBLICOS.map((p) => p.monthlyUsd));
-const TITLE = `Planes: Flux, Hex y Vortex, desde US$ ${DESDE}/mes`;
-const DESCRIPTION = "Flux US$ 79/mes · Hex US$ 179/mes · Vortex US$ 279/mes. Todos con WhatsApp. Parte con Flux; Hex suma Facebook e Instagram y Vortex el agente IA.";
+// /planes (Ricardo, 7-nov-2026): prueba gratis de 7 días y después Flux · Hex · Xcale. La fuente
+// es `planes-trial.ts`, la misma del home. /planes2 conserva el catálogo anterior (planes-nuevos.ts).
+const TITLE = `Planes: prueba gratis y Flux, Hex y Xcale, desde US$ ${PLANES_TRIAL_DESDE}/mes`;
+const DESCRIPTION = "Regístrate gratis y usa Clinera 7 días. Después eliges: Flux US$ 49/mes · Hex US$ 129/mes · Xcale US$ 149/mes. Sin costo de implementación.";
 
 const planesSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "@id": `${SITE_URL}/#software`,
-  offers: PLANES_PUBLICOS.map((p) => ({
+  offers: PLANES_TRIAL.map((p) => ({
     "@type": "Offer",
     name: p.name,
     price: String(p.monthlyUsd),
     priceCurrency: "USD",
     availability: "https://schema.org/InStock",
     url: `${SITE_URL}/planes`,
-    description: `${p.name}: US$ ${p.monthlyUsd}/mes. ${p.profesionales}${p.sucursales ? `, ${p.sucursales.toLowerCase()}` : ""}. ${p.incluye.join(", ")}.`,
+    description: `${p.name}: US$ ${p.monthlyUsd}/mes. ${p.incluye.join(", ")}.`,
   })),
 };
 
@@ -50,11 +49,22 @@ export default function PlanesPage() {
           orgSchema,
           planesSchema,
           webPageSchema({ path: "/planes", name: TITLE, description: DESCRIPTION }),
-          faqSchema(faqPublica()),
+          faqSchema([...PLANES_TRIAL_FAQ]),
         ]}
       />
-      <main>
-        <PlanesNuevos publico />
+      <main style={{ paddingTop: 72 }}>
+        <PlanesTrial h1 />
+        <section style={{ padding: "8px 16px 88px", background: "#fff" }} data-planes-faq>
+          <div style={{ maxWidth: 820, margin: "0 auto" }}>
+            <h2 style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.03em", margin: "0 0 16px" }}>Preguntas frecuentes</h2>
+            {PLANES_TRIAL_FAQ.map((f) => (
+              <details key={f.q} style={{ borderTop: "1px solid #E5E7EB", padding: "16px 0" }}>
+                <summary style={{ fontWeight: 700, fontSize: 17, cursor: "pointer" }}>{f.q}</summary>
+                <p style={{ margin: "10px 0 0", color: "#4B5563", fontSize: 16, lineHeight: 1.6 }}>{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
         <PageUpdated path="/planes" />
       </main>
       <FooterV3 />

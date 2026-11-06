@@ -1,5 +1,7 @@
 "use client";
 
+import CtaPar from "@/components/cta/CtaPar";
+
 import Link from "next/link";
 import { ReactNode, useEffect } from "react";
 import {
@@ -190,25 +192,8 @@ function Hero() {
             justifyContent: "center",
           }}
         >
-          <CtaPrimary as={Link} href="/agenda" style={{ padding: "15px 26px", fontSize: 16 }}>
-            Quiero migrar <span>→</span>
-          </CtaPrimary>
-          <CtaSecondary as={Link} href="/agenda" style={{ padding: "15px 26px", fontSize: 16 }}>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#0A0A0A"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <rect x="3" y="5" width="18" height="16" rx="2" />
-              <path d="M16 3v4M8 3v4M3 10h18" />
-            </svg>
-            Agendar diagnóstico
-          </CtaSecondary>
+          {/* Ricardo, 4-nov-2026: los dos CTA del sitio. */}
+          <CtaPar centrado />
         </div>
 
         <div
@@ -1212,8 +1197,8 @@ function NewFeatureSection() {
             <CtaPrimary as={Link} href="/blog/importacion-masiva-tratamientos">
               Leer el artículo completo →
             </CtaPrimary>
-            <CtaSecondary as={Link} href="/agenda">
-              Hablar con migración
+            <CtaSecondary as="a" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer">
+              Solicita asistencia
             </CtaSecondary>
           </div>
         </div>
@@ -1717,7 +1702,7 @@ function FinalCTA() {
             }}
           >
             <Link
-              href="/agenda"
+              href="/contrata"
               style={{
                 background: GRAD,
                 color: "#fff",
@@ -1734,7 +1719,7 @@ function FinalCTA() {
                 boxShadow: "0 12px 32px -8px rgba(217,70,239,.5)",
               }}
             >
-              Agendar reunión <span>→</span>
+              Regístrate gratis <span>→</span>
             </Link>
             <Link
               href="/agenda"

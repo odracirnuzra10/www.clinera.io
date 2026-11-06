@@ -2,7 +2,6 @@
 // anterior. /home2 redirige al home. Contenido en src/content/home2.ts.
 
 import { expect, test } from "@playwright/test";
-import { PLANES } from "../src/content/planes";
 
 test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
   await page.route(/connect\.facebook\.net|googletagmanager/, (route) =>
@@ -14,8 +13,9 @@ test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
   await expect(
     page.locator('meta[name="robots"][content*="noindex"]'),
   ).toHaveCount(0);
+  // Ricardo, 7-nov-2026: el home vende la prueba gratis del software.
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "cobre la evaluación por adelantado",
+    "agenda y cobra la evaluación",
   );
   await expect(page.locator('[data-home2="cifras"] li')).toHaveCount(3);
   await expect(page.locator('[data-home2="cifras"]')).toContainText("+1.500");
@@ -45,14 +45,15 @@ test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
     "apertura de la sucursal de Vitacura, 2025",
   );
 
-  // Ricardo, 27-oct-2026: se ve de una que se compra un ecosistema (software + marketing).
-  await expect(page.locator('[data-home2="formula"]')).toContainText("Software con IA");
-  await expect(page.locator('[data-home2="formula"]')).toContainText("Marketing de performance");
-  const incluye = page.locator("[data-ecosistema-incluye]");
-  await expect(incluye.locator("[data-ecosistema-pieza]")).toHaveCount(2);
-  await expect(incluye).toContainText("Campañas de performance");
-  await expect(incluye).toContainText("AURA");
-  await expect(incluye.locator("[data-ecosistema-precio]")).toContainText(`US$ ${PLANES[1].monthlyUsd}`);
+  // Ricardo, 7-nov-2026: la fórmula es del software y los planes son los de la prueba gratis.
+  await expect(page.locator('[data-home2="formula"]')).toContainText("IA que responde y agenda");
+  await expect(page.locator('[data-home2="formula"]')).toContainText("Agenda por profesional");
+  await expect(page.locator("[data-ecosistema-incluye]")).toHaveCount(0);
+  const planes = page.locator("[data-planes-trial]");
+  await expect(planes.locator("[data-plan-card]")).toHaveCount(3);
+  await expect(planes).toContainText("US$ 49");
+  await expect(planes).toContainText("US$ 129");
+  await expect(planes).toContainText("US$ 149");
 
   // Ricardo, 27-oct-2026: canal de YouTube y CNN Chile en «Quién está detrás».
   await expect(page.locator("[data-home2-medio]")).toHaveCount(2);
@@ -65,17 +66,13 @@ test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
   );
 
   for (const donde of ["hero", "cierre"]) {
-    await expect(page.locator(`[data-home2-cta="${donde}"]`)).toHaveAttribute(
-      "href",
-      "/agenda",
-    );
-    await expect(page.locator(`[data-home2-cta="${donde}"]`)).toHaveText(
-      "Agendar reunión",
-    );
+    // Ricardo, 7-nov-2026: «Regístrate gratis» (principal) y «Solicita asistencia» (WhatsApp).
+    await expect(page.locator(`[data-home2-cta="${donde}"]`)).toHaveAttribute("href", "https://wa.me/56985581524?text=necesito%20asistencia");
+    await expect(page.locator(`[data-home2-cta="${donde}"]`)).toHaveText("Solicita asistencia");
+    await expect(page.locator(`[data-home2-registro="${donde}"]`)).toHaveAttribute("href", "/contrata");
+    await expect(page.locator(`[data-home2-registro="${donde}"]`)).toHaveText("Regístrate gratis");
   }
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "clínica médica o estética",
-  );
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Tú atiendes pacientes");
   const convenio = page.locator('[data-home2="alta-qualita"]');
   await expect(convenio).toContainText("descuentos especiales");
   await expect(convenio.locator("a")).toHaveAttribute(

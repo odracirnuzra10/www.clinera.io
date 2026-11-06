@@ -1,3 +1,4 @@
+import CtaPar from "@/components/cta/CtaPar";
 import Link from "next/link";
 import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
@@ -665,37 +666,7 @@ export function MejorSoftwarePage({ ranking, pageUrl, breadcrumbLabel, parentLin
               Agenda una reunión con un ingeniero de Clinera. Te mostramos AURA con tu
               flujo real en menos de 30 minutos — sin presentación genérica.
             </p>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <Link
-                href="/agenda"
-                style={{
-                  background: "#fff",
-                  color: "#0A0A0A",
-                  padding: "13px 22px",
-                  borderRadius: 10,
-                  textDecoration: "none",
-                  fontWeight: 600,
-                  fontSize: 14.5,
-                }}
-              >
-                Agendar reunión →
-              </Link>
-              <Link
-                href="/planes"
-                style={{
-                  background: "rgba(255,255,255,0.08)",
-                  color: "#fff",
-                  border: "1px solid rgba(255,255,255,0.18)",
-                  padding: "13px 22px",
-                  borderRadius: 10,
-                  textDecoration: "none",
-                  fontWeight: 600,
-                  fontSize: 14.5,
-                }}
-              >
-                Ver planes desde USD 279/mes
-              </Link>
-            </div>
+            <CtaPar oscuro />
           </section>
 
           {ranking.pais === "latam" && (

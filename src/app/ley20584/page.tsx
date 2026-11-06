@@ -1,3 +1,4 @@
+import CtaPar from "@/components/cta/CtaPar";
 import type { Metadata } from "next";
 import Link from "next/link";
 import NavV3 from "@/components/brand-v3/Nav";
@@ -106,12 +107,8 @@ export default function Ley20584Page() {
             </p>
             <p className={s.answer}>{RESPUESTA_DIRECTA}</p>
             <div className={s.actions}>
-              <Link href="/agenda?lead_source=ley20584" className={s.btnPrimary}>
-                Agenda una demo
-              </Link>
-              <Link href="/novedades/fichas-clinicas" className={s.btnGhost}>
-                Guía de ficha clínica
-              </Link>
+              {/* Ricardo, 4-nov-2026: los dos CTA del sitio; ventas conserva lead_source. */}
+              <CtaPar extra={{ lead_source: "ley20584" }} />
             </div>
             <p className={s.stamp}>Última actualización — {LAST_UPDATED}</p>
           </div>
@@ -176,11 +173,9 @@ export default function Ley20584Page() {
         {/* Bloque 4 — Derivación */}
         <section className={s.cta}>
           <div className={s.wrap}>
-            <p className={s.ctaDemo}>
-              <Link href="/agenda?lead_source=ley20584" className={s.btnPrimary}>
-                Ver la ficha clínica de Clinera en una demo
-              </Link>
-            </p>
+            <div className={s.ctaDemo}>
+              <CtaPar centrado extra={{ lead_source: "ley20584" }} />
+            </div>
             <Link href="/acreditacion" className={s.ctaLink}>
               Ver la normativa de cada país en detalle
               <span className={s.arrow} aria-hidden="true">

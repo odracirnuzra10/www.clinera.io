@@ -2,7 +2,7 @@
 // anteriores redirigen ahí con la query: el gclid del anuncio no se puede perder.
 
 import { expect, test } from "@playwright/test";
-import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH } from "../src/content/planes";
+import { CTA_VENTAS_PATH } from "../src/content/planes";
 
 test.describe("redirects a /agenda", () => {
   for (const vieja of [
@@ -20,27 +20,29 @@ test.describe("redirects a /agenda", () => {
 });
 
 test.describe("home", () => {
-  test("el CTA del Nav es «Agendar reunión» y lleva a /agenda con la query", async ({ page }) => {
-    expect(CTA_VENTAS_PATH).toBe("/agenda");
-    await page.goto("/?gclid=abc", { waitUntil: "domcontentloaded" });
-    const cta = page.locator("header").getByRole("link", { name: CTA_VENTAS_LABEL }).first();
-    await expect(cta).toHaveAttribute("href", `${CTA_VENTAS_PATH}?gclid=abc`);
+  test("el Nav lleva «Regístrate gratis» a /contrata con la query y «Solicita asistencia» a WhatsApp (7-nov-2026)", async ({ page }) => {
+    await page.goto("/?gclid=abc&plan=flux", { waitUntil: "domcontentloaded" });
+    const registro = page.locator("header a[data-cta-registro]").first();
+    // Sin `plan`: con esa clave /contrata abre el carrito de Flux.
+    await expect(registro).toHaveAttribute("href", "/contrata?gclid=abc");
+    await expect(page.locator("header a[data-cta-asistencia]").first()).toHaveAttribute("href", "https://wa.me/56985581524?text=necesito%20asistencia");
   });
 
   test("hero del ecosistema y las dos opciones; el marketing de performance vive en /ecosistema", async ({ page }) => {
-    expect(CTA_VENTAS_LABEL).toBe("Agendar reunión");
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/clínica médica o estética/i);
-    await expect(page.locator("[data-planes-vigentes]")).toContainText("Dos formas de trabajar");
-    await expect(page.locator("[data-plan-card]")).toHaveCount(2);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Tú atiendes pacientes");
+    // Ricardo, 7-nov-2026: el home muestra la prueba gratis con Flux, Hex y Xcale.
+    await expect(page.locator("[data-planes-trial] [data-plan-card]")).toHaveCount(3);
     // Home corto (Ricardo, 20-oct-2026): sin bloque de marketing ni banda redundante.
     await expect(page.locator("[data-marketing-performance]")).toHaveCount(0);
     await expect(page.locator("[data-agente-ia-banda]")).toHaveCount(0);
     await page.goto("/ecosistema", { waitUntil: "domcontentloaded" });
     await expect(page.locator("[data-marketing-performance] [data-marketing-bloque]")).toHaveCount(4);
-    await expect(page.locator("[data-marketing-cta]")).toHaveAttribute("href", "/agenda?servicio=marketing");
+    // Ricardo, 4-nov-2026: el bloque de marketing cierra con los dos CTA del sitio.
+    await expect(page.locator("[data-marketing-performance] [data-cta-registro]")).toHaveAttribute("href", "/contrata");
+    await expect(page.locator("[data-marketing-performance] [data-cta-asistencia]")).toHaveAttribute("href", "https://wa.me/56985581524?text=necesito%20asistencia");
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    for (const viejo of [/Flux/, /Hurricane/, /Atlas/, /Summit/, new RegExp("CU" + "KI")]) {
+    for (const viejo of [/Vortex/, /Hurricane/, /Atlas/, /Summit/, new RegExp("CU" + "KI")]) {
       await expect(page.locator("body")).not.toContainText(viejo);
     }
   });
