@@ -83,16 +83,13 @@ for (const nombre of LISTA) {
     test("se puede rellenar todo el formulario hasta el horario", async ({ page }) => {
       await mockRed(page);
       await page.goto("/agenda", { waitUntil: "domcontentloaded" });
-      await expect(page.locator("[data-ahorro]")).toBeVisible();
+      // Ricardo, 7-nov-2026: sin boleta, parte directo en los datos.
+      await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
 
       const sinOverflowX = () => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
       const sinScrollY = () => page.evaluate(() => document.documentElement.scrollHeight <= window.innerHeight + 1);
 
-      // Paso 1: la boleta y el botón «Quiero ahorrar».
-      expect(await sinOverflowX(), "scroll horizontal en el paso 1").toBe(true);
-      if (!horizontal) expect(await sinScrollY(), "scroll vertical en el paso 1").toBe(true);
-      await nadaTapa(page, "[data-quiero-ahorrar]");
-      await expect(page.locator("[data-quiero-ahorrar]")).toBeInViewport();
+      expect(await sinOverflowX(), "scroll horizontal en los datos").toBe(true);
 
       // Tocar «Quiero ahorrar» (se reintenta por si cae antes de la hidratación).
       await expect(async () => {

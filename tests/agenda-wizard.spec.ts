@@ -1,9 +1,8 @@
-// /agenda — wizard de 4 pasos (Ricardo, 27-oct-2026): boleta → tus datos → tu clínica → horario.
-// El paso 3 manda el lead al CRM y dispara Lead US$ 3 si la web se verifica; el paso 1 ViewContent.
+// /agenda (Ricardo, 7-nov-2026): tus datos → tu clínica → horario, sin la boleta del ahorro.
+// El paso «tu clínica» manda el lead al CRM y dispara Lead US$ 3. La boleta sigue solo con ?oferta=.
 // Sin cupón ni compra desde la web. Red mockeada.
 
 import { expect, test, type Page, type Request } from "@playwright/test";
-import { AHORRO, PLANES } from "../src/content/planes";
 import { enviarClinica, llenarClinica, pasarDatosPersonales } from "./agenda-helpers";
 
 type WizardBody = {
@@ -50,7 +49,7 @@ async function mockRed(page: Page) {
 }
 
 async function pasoBoleta(page: Page) {
-  // Se aprieta «Quiero ahorrar». Si el clic cae antes de que React hidrate, se reintenta.
+  // Desde el 7-nov-2026 /agenda parte en los datos: solo espera el paso 2. Con boleta (oferta) aprieta «Quiero ahorrar».
   await expect(async () => {
     if (!(await page.locator('[data-agenda-paso="2"]').isVisible())) {
       await page.locator("[data-quiero-ahorrar]").click();
@@ -75,19 +74,14 @@ test("wizard: boleta «Quiero ahorrar» → tus datos → tu clínica (CRM + Lea
   await page.goto("/agenda", { waitUntil: "domcontentloaded" });
   await expect(page.getByRole("heading", { level: 1 })).toContainText(/videollamada/i);
 
-  // Paso 1: la boleta de lo que se ahorra, sin elegir servicio.
-  await expect(page.locator('[data-agenda-paso="1"]')).toBeVisible();
+  // Ricardo, 7-nov-2026: /agenda parte directo en los datos, sin la boleta del ahorro.
+  await expect(page.locator('[data-agenda-paso="1"]')).toHaveCount(0);
+  await expect(page.locator("[data-ahorro]")).toHaveCount(0);
+  await expect(page.locator("[data-quiero-ahorrar]")).toHaveCount(0);
   await expect(page.locator("[data-servicio]")).toHaveCount(0);
-  const boleta = page.locator('[data-agenda-paso="1"] [data-ahorro]');
-  await expect(boleta).toBeVisible();
-  await expect(boleta).toContainText("US$ 600–800/mes");
-  await expect(boleta).toContainText("US$ 1.000–1.700/mes");
-  await expect(boleta).toContainText(`US$ ${PLANES[1].monthlyUsd}/mes`);
-  await expect(boleta).toContainText(AHORRO.ahorro);
-  // Ricardo, 26-oct-2026: el deslizador pasó a ser un botón «Quiero ahorrar».
-  await expect(page.locator("[data-quiero-ahorrar]")).toHaveText("Quiero ahorrar");
-  await expect(page.locator("[data-perilla]")).toHaveCount(0);
-  await expect(page.locator('[data-agenda-paso="2"]')).toHaveCount(0);
+  await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
+  await expect(page.getByText("Paso 1 de 3 · Tus datos")).toBeVisible();
+  await expect(page.getByRole("button", { name: /Volver/ })).toHaveCount(0);
   expect(capi).toHaveLength(0);
   await pasoBoleta(page);
 
@@ -152,10 +146,10 @@ test("wizard: boleta «Quiero ahorrar» → tus datos → tu clínica (CRM + Lea
   expect(contactos[0].sitio_web_estado).toBe("manual"); // lo verifica el closer (28-oct-2026)
 });
 
-test("?servicio= ya no cambia el flujo: siempre parte en la boleta", async ({ page }) => {
+test("?servicio= ya no cambia el flujo: siempre parte en los datos", async ({ page }) => {
   await mockRed(page);
   await page.goto("/agenda?servicio=software", { waitUntil: "domcontentloaded" });
-  await expect(page.locator('[data-agenda-paso="1"] [data-ahorro]')).toBeVisible();
+  await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
   await expect(page.locator("[data-servicio]")).toHaveCount(0);
 });
 
@@ -166,10 +160,6 @@ for (const [w, h] of [[390, 844], [360, 740], [375, 667], [1440, 900], [1280, 72
     await page.goto("/agenda", { waitUntil: "domcontentloaded" });
     const sinScroll = () =>
       page.evaluate(() => document.documentElement.scrollHeight <= window.innerHeight && document.documentElement.scrollWidth <= window.innerWidth);
-    expect(await sinScroll(), "paso 1").toBe(true);
-    // La boleta y el botón «Quiero ahorrar» quedan a la vista, sin scrollear.
-    await expect(page.locator("[data-ahorro]")).toBeInViewport();
-    await expect(page.locator("[data-quiero-ahorrar]")).toBeInViewport();
     await pasoBoleta(page);
     expect(await sinScroll(), "paso 2").toBe(true);
     await expect(page.getByRole("button", { name: /Continuar/ })).toBeInViewport();
@@ -191,10 +181,11 @@ test("el panel muestra una imagen por pantalla y no hay cupón ni compra", async
   await mockRed(page);
   await page.goto("/agenda", { waitUntil: "domcontentloaded" });
   const pie = page.locator("[data-agenda-caption]");
-  await expect(pie).toContainText("Nuestro equipo activa tus campañas de marketing digital");
   await pasoBoleta(page);
+  await expect(pie).toContainText("Nuestro equipo activa tus campañas de marketing digital");
+  await pasarDatosPersonales(page);
   await expect(pie).toContainText("Incorporamos el software de Clinera con su agente de inteligencia artificial");
-  await llenarDatos(page);
+  await llenarClinica(page);
   await enviarClinica(page);
   await expect(pie).toContainText("Una reunión de marketing por semana, 4 al mes, para ver los resultados");
   const body = page.locator("body");
@@ -202,7 +193,7 @@ test("el panel muestra una imagen por pantalla y no hay cupón ni compra", async
   await expect(body).not.toContainText(/Crear cuenta/);
 });
 
-test("«Quiero ahorrar» avanza aunque GTM o el pixel tiren error (26-oct-2026)", async ({ page }) => {
+test("el formulario carga aunque GTM o el pixel tiren error (26-oct-2026)", async ({ page }) => {
   await mockRed(page);
   await page.addInitScript(() => {
     const w = window as unknown as { dataLayer: unknown[]; fbq: unknown };
