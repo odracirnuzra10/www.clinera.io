@@ -1,7 +1,9 @@
 "use client";
 
 // Los dos únicos CTA del sitio (Ricardo, 7-nov-2026; reemplaza «Contratar Hex» + «Hablar con ventas» del 4-nov):
-// · Principal «Regístrate gratis» → /prueba-gratis (la landing de la demo de 7 días; /contrata sirve la misma), en degradado.
+// · Principal «Regístrate gratis», en degradado. Al hacer clic abre el modal de registro en la misma página
+//   (src/components/registro/RegistroModal.tsx, Ricardo 7-nov-2026); el href a /prueba-gratis queda solo de respaldo sin JS.
+//   La landing /prueba-gratis es para los anuncios.
 // · Secundario «Solicita asistencia» → WhatsApp de ventas con «necesito asistencia», blanco con borde.
 // El principal conserva la query de la visita (utm, gclid, fbclid) para que el Lead de la landing
 // quede atribuido. Saca `plan`, `pago` y `carrito`: con esas claves /contrata abre el carrito de Flux.
