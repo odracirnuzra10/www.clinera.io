@@ -1485,3 +1485,17 @@ El home: hero «Tú atiendes pacientes. Clinera responde el WhatsApp, agenda y c
 (precios del Ecosistema) y con el FAQ de la prueba gratis (`home-faq.ts`). Siguen PMFC, casos, historia y convenio.
 **Pendiente:** la banda `AgenteIABanda` de landings y blog todavía nombra Vortex y Ecosistema en su texto.
 Guardianes: `home2.spec`, `planes-vigentes.spec`, `clinica-estetica.spec`, `sitio-dos-productos.spec`, `agente-ia-banda.spec`.
+
+# Franja con pulso y tarjeta «Activa tu cuenta gratis» (Ricardo, 7-nov-2026, inspiradas en loops.so)
+
+- **Franja:** cuatro bandas azul → violeta → magenta en el borde derecho que crecen al cargar, con un pulso de
+  electrocardiograma que baja por ellas (software + medicina). En el home es `src/components/franja/FranjaPulso.tsx`;
+  en `/prueba-gratis` (`public/kimi-gratis/index.html`) es la copia en HTML `.franja`. Decorativa (`pointer-events:none`),
+  44 px desde 1280 px de ancho y 10 px sin pulso debajo; quieta con reducir movimiento.
+- **Tarjeta flotante oscura** (escritorio y celular): íconos de WhatsApp, Facebook, Instagram y agenda, «Activa tu cuenta
+  gratis», «7 días · sin tarjeta» y el botón. En el sitio Next reemplaza a la barra de dos botones de `StickyMobileCTA`
+  (mismo componente y mismas rutas escondidas; en el celular suma «Solicita asistencia»). En `/prueba-gratis` es la misma
+  `#mobile-cta` de antes, ahora `.flota`: conserva `[data-bar-accion]` y las clases `mcta-arriba`/`mcta-fin`, que ahora
+  también la esconden en escritorio. La «×» la cierra por la visita (`sessionStorage`).
+- **Sección del médico** de `/prueba-gratis`: cada fila es problema → «Lo que te cuesta» → «Con Clinera». Los
+  `data-testid` `feat-*` se mantienen.

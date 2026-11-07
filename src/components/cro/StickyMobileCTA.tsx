@@ -4,7 +4,13 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useScrollPastPercent } from "@/components/cro/useScrollPastPercent";
 import { CTA_VENTAS_PATH } from "@/content/planes";
-import { CtaAsistencia, CtaRegistro } from "@/components/cta/CtaPar";
+import {
+  ASISTENCIA_URL,
+  CTA_ASISTENCIA_LABEL,
+  CTA_REGISTRO_LABEL,
+  registroHref,
+  useSearch,
+} from "@/components/cta/CtaPar";
 
 
 const SCROLL_REVEAL_PERCENT = 30;
@@ -38,6 +44,7 @@ export default function StickyMobileCTA() {
   const pathname = usePathname();
   const enabled = !isHiddenPath(pathname);
   const [dismissed, setDismissed] = useState(false);
+  const search = useSearch();
   const scrolledPast = useScrollPastPercent(SCROLL_REVEAL_PERCENT, enabled && !dismissed);
 
   useEffect(() => {
@@ -56,144 +63,221 @@ export default function StickyMobileCTA() {
 
   return (
     <>
-      {/* Ricardo, 7-nov-2026: los dos CTA del sitio. «Regístrate gratis» va a /contrata con la query
-          de la visita; «Solicita asistencia» abre WhatsApp de ventas. */}
-      <div className="sticky-agenda-cta" role="region" aria-label="Contratar Clinera">
-        <CtaRegistro tam="sm" corto className="sticky-agenda-primary" style={{ flex: "1 1 0", minWidth: 0 }} />
-        <CtaAsistencia tam="sm" className="sticky-agenda-ventas" datos={{ "data-sticky": "asistencia" }} />
-        <button type="button" onClick={dismiss} aria-label="Cerrar" className="sticky-agenda-dismiss">
-          ×
-        </button>
-      </div>
+      {/* Ricardo, 7-nov-2026: tarjeta flotante oscura (inspirada en loops.so), en escritorio y celular.
+          El principal va a /prueba-gratis con la query de la visita; en el celular suma «Solicita asistencia». */}
+      <aside className="flota-cta" aria-label="Activa tu cuenta gratis">
+        <div className="flota-cab">
+          <button type="button" onClick={dismiss} aria-label="Cerrar" className="flota-x">
+            ×
+          </button>
+          <span className="flota-chs" role="img" aria-label="WhatsApp, Facebook, Instagram y agenda">
+            <IconoWa />
+            <IconoFb />
+            <IconoIg />
+            <IconoAgenda />
+          </span>
+          <p className="flota-tit">Activa tu cuenta gratis</p>
+          <p className="flota-sub">7 días · sin tarjeta</p>
+        </div>
+        <a href={registroHref(search)} suppressHydrationWarning data-cta-registro className="flota-go">
+          <span>{CTA_REGISTRO_LABEL}</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 17 17 7M9 7h8v8" />
+          </svg>
+        </a>
+        <a href={ASISTENCIA_URL} target="_blank" rel="noopener noreferrer" data-cta-asistencia data-sticky="asistencia" className="flota-wa">
+          {CTA_ASISTENCIA_LABEL}
+        </a>
+      </aside>
       <style jsx global>{`
-        .sticky-agenda-cta {
+        .flota-cta {
           position: fixed;
           z-index: 50;
-          display: flex;
-          gap: 8px;
-          align-items: center;
-          animation: stickyAgendaReveal 0.62s cubic-bezier(0.34, 1.35, 0.64, 1) both;
+          right: 24px;
+          bottom: 24px;
+          width: 270px;
+          background: #111318;
+          color: #fff;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 16px;
+          box-shadow: 0 20px 50px rgba(17, 19, 24, 0.35);
+          overflow: hidden;
+          font-family: Inter, system-ui, sans-serif;
+          animation: flotaEntra 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
         }
-        @keyframes stickyAgendaReveal {
-          0% {
-            transform: translateY(calc(100% + 28px)) scale(0.94);
+        @keyframes flotaEntra {
+          from {
+            transform: translateY(24px);
             opacity: 0;
           }
-          55% {
-            transform: translateY(-6px) scale(1.02);
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(0) scale(1);
+          to {
+            transform: none;
             opacity: 1;
           }
         }
-        .sticky-agenda-primary {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 7px;
-          text-decoration: none;
-          font-family: Inter, system-ui, sans-serif;
-          font-weight: 600;
-          font-size: 14.5px;
-          letter-spacing: -0.01em;
-          line-height: 1.2;
+        .flota-cab {
+          position: relative;
+          padding: 18px 18px 16px;
+        }
+        .flota-chs {
+          display: flex;
+          gap: 8px;
+          margin-bottom: 14px;
+        }
+        .flota-chs svg {
+          width: 22px;
+          height: 22px;
+          display: block;
+        }
+        .flota-tit {
+          margin: 0;
+          padding-right: 24px;
+          font-size: 24px;
+          font-weight: 700;
+          line-height: 1.08;
+          letter-spacing: -0.035em;
           color: #fff;
-          background: linear-gradient(135deg, #7c3aed 0%, #d946ef 100%);
-          box-shadow: 0 10px 26px -8px rgba(124, 58, 237, 0.55);
-          transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
-        .sticky-agenda-ventas {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 44px;
-          text-decoration: none;
-          font-family: Inter, system-ui, sans-serif;
-          font-weight: 600;
-          font-size: 14px;
-          color: #fff;
-          border: 1.5px solid rgba(255, 255, 255, 0.55);
-          white-space: nowrap;
+        .flota-sub {
+          margin: 6px 0 0;
+          font-family: "Geist Mono", ui-monospace, Menlo, monospace;
+          font-size: 11.5px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.6);
         }
-        .sticky-agenda-primary:active {
-          transform: scale(0.97);
-        }
-        .sticky-agenda-dismiss {
-          width: 34px;
-          height: 34px;
+        .flota-x {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          width: 36px;
+          height: 36px;
+          border: 0;
           border-radius: 999px;
-          background: rgba(255, 255, 255, 0.92);
-          border: 1px solid rgba(0, 0, 0, 0.08);
-          color: rgba(0, 0, 0, 0.55);
-          font-size: 18px;
+          background: transparent;
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 20px;
           line-height: 1;
           cursor: pointer;
+        }
+        .flota-x:hover {
+          background: rgba(255, 255, 255, 0.08);
+          color: #fff;
+        }
+        .flota-go {
           display: flex;
           align-items: center;
-          justify-content: center;
-          padding: 0;
-          flex-shrink: 0;
-          box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.35);
+          gap: 10px;
+          min-height: 54px;
+          padding: 12px 18px;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          background: #0b0c10;
+          color: #fff;
+          font-size: 16px;
+          font-weight: 600;
+          text-decoration: none;
+        }
+        .flota-go:hover {
+          background: #1b1d24;
+        }
+        .flota-go svg {
+          margin-left: auto;
+          width: 18px;
+          height: 18px;
+          fill: none;
+          stroke: currentColor;
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        .flota-wa {
+          display: none;
         }
         @media (max-width: 768px) {
-          .sticky-agenda-cta {
-            bottom: calc(12px + env(safe-area-inset-bottom));
+          .flota-cta {
             left: 12px;
             right: 12px;
-            padding: 10px;
-            background: rgba(14, 14, 18, 0.92);
-            backdrop-filter: blur(16px) saturate(140%);
-            -webkit-backdrop-filter: blur(16px) saturate(140%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 18px;
-            box-shadow:
-              0 18px 40px -12px rgba(0, 0, 0, 0.6),
-              0 6px 16px -8px rgba(124, 58, 237, 0.35);
+            bottom: calc(12px + env(safe-area-inset-bottom));
+            width: auto;
           }
-          .sticky-agenda-primary {
-            flex: 1 1 0;
-            min-width: 0;
-            padding: 12px 10px !important;
-            border-radius: 12px !important;
+          .flota-cab {
+            padding: 14px 16px 12px;
           }
-          .sticky-agenda-ventas {
-            flex: 1 1 0;
-            min-width: 0;
-            padding: 12px 10px;
-            border-radius: 12px;
+          .flota-chs {
+            gap: 7px;
+            margin: 0 0 8px;
           }
-        }
-        @media (min-width: 769px) {
-          .sticky-agenda-cta {
-            bottom: 24px;
-            right: 24px;
-            left: auto;
-            padding: 0;
-            background: transparent;
-            border: 0;
-            box-shadow: none;
+          .flota-chs svg {
+            width: 18px;
+            height: 18px;
           }
-          .sticky-agenda-primary {
-            padding: 14px 20px !important;
-            border-radius: 999px;
-            white-space: nowrap;
+          .flota-tit {
+            font-size: 19px;
           }
-          /* En escritorio el menú ya lleva «Solicita asistencia»: la barra queda con el principal (!important: el botón trae display en línea). */
-          .sticky-agenda-ventas {
-            display: none !important;
+          .flota-go {
+            min-height: 50px;
+            padding: 10px 16px;
+          }
+          .flota-wa {
+            display: block;
+            padding: 10px 16px 12px;
+            background: #0b0c10;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 14px;
+            text-decoration: underline;
+            text-underline-offset: 3px;
           }
         }
         @media (prefers-reduced-motion: reduce) {
-          .sticky-agenda-cta {
+          .flota-cta {
             animation: none;
-          }
-          .sticky-agenda-primary:active {
-            transform: none;
           }
         }
       `}</style>
     </>
+  );
+}
+
+function IconoWa() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#25D366" d="M12 2C6.5 2 2 6.3 2 11.6c0 1.9.5 3.7 1.5 5.3L2 22l5.3-1.4c1.5.8 3.2 1.3 4.7 1.3 5.5 0 10-4.3 10-9.6S17.5 2 12 2zm5.7 13.6c-.2.7-1.2 1.2-1.9 1.4-.5.1-1.1.2-3.6-.8-3.1-1.3-5.1-4.5-5.2-4.7-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .8 2.1.1.2.1.3 0 .5-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.8-.1 1.5z" />
+    </svg>
+  );
+}
+
+function IconoFb() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="11" fill="#1877F2" />
+      <path fill="#fff" d="M13.4 21v-7.6h2.5l.4-3h-2.9V8.5c0-.9.3-1.4 1.5-1.4h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.1H8v3h2.5V21z" />
+    </svg>
+  );
+}
+
+function IconoIg() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <linearGradient id="flota-ig" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0" stopColor="#FEDA75" />
+          <stop offset=".45" stopColor="#D62976" />
+          <stop offset="1" stopColor="#4F5BD5" />
+        </linearGradient>
+      </defs>
+      <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="url(#flota-ig)" strokeWidth="2.2" />
+      <circle cx="12" cy="12" r="4.2" fill="none" stroke="url(#flota-ig)" strokeWidth="2.2" />
+      <circle cx="17.3" cy="6.7" r="1.3" fill="#D62976" />
+    </svg>
+  );
+}
+
+function IconoAgenda() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="1" y="1" width="22" height="22" rx="6" fill="#7C3AED" />
+      <rect x="5.5" y="7" width="13" height="11.5" rx="2" fill="none" stroke="#fff" strokeWidth="1.8" />
+      <path d="M5.5 11h13M9 5v3.5M15 5v3.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
   );
 }
