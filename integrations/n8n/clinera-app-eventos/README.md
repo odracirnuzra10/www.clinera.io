@@ -22,3 +22,26 @@ Qué manda a Meta (dataset «Clinera Software» `2251201709002818`, credencial �
 - Cambiar la regla de uso real (p. ej. 3 conversaciones) es tocar `decidir.js` y volver a correr el aplicador.
 
 Código: `decidir.js` y `confirmar.js`. Aplicador: `../aplicar_clinera_app_eventos.py` (simulacro por defecto; `--aplicar` crea o actualiza y activa; la credencial solo se crea si no existe). Guardián: `tests/clinera-app-eventos.spec.ts`.
+
+## Trial en Twenty y aviso a Comercial (7-nov-2026)
+
+Con `account_created`, el nodo «Trial en Twenty» (`trial-twenty.js`) busca el negocio en clientes.oacg.cl:
+- primero por correo y después por celular nacional exacto;
+- si existe, lo sube a la etapa **TRIAL** («Trial 🎯»);
+- si no existe, crea la persona y el negocio en TRIAL, con `canalOrigen` según `fbclid`, `gclid` o `utm_source`;
+- nunca toca un negocio en CUSTOMER.
+
+«Avisar a Comercial» publica en [Clinera] Comercial «🎯 Trial nuevo…» con el link al negocio, una vez por cuenta. El webhook de la sala se copia del nodo vivo «Chat Comercial» de `qQZiENSRbmFg307W` y no va en el repo. Un cambio manual a TRIAL en Twenty no avisa.
+
+## Loops: serie de correos de la prueba gratis
+
+«Armar evento Loops» (`loops-evento.js`) manda cada aviso a `POST https://app.loops.so/api/v1/events/send`:
+
+| Aviso de la app | Evento en Loops |
+|---|---|
+| `account_created` | `trial_iniciado` |
+| `whatsapp_connected` | `whatsapp_conectado` |
+| `first_conversation` | `primera_conversacion` |
+| `subscription_started` | `plan_contratado` |
+
+Cada evento lleva las propiedades del contacto. Estos nodos solo se crean si existe en n8n la credencial Header Auth **«Loops API»** (`Authorization: Bearer <API key>`); sin ella, el aplicador los omite y lo dice. La serie y sus filtros están en `docs/loops-serie-prueba-gratis.md`.
