@@ -899,7 +899,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 @media (max-width:860px){.medico-lista li{grid-template-columns:44px 1fr;gap:12px}.medico-lista .num{font-size:1.25rem}}
 
 /* Franja lateral (7-nov-2026, inspirada en loops.so): cuatro bandas de la marca que crecen al cargar. Decorativa: no recibe clics. */
-.franja{position:fixed;top:0;right:0;bottom:0;width:44px;display:grid;grid-template-columns:repeat(4,1fr);z-index:40;pointer-events:none;overflow:hidden}
+.franja{position:fixed;top:0;right:0;bottom:0;width:44px;display:grid;grid-template-columns:repeat(4,1fr);z-index:-1;pointer-events:none;overflow:hidden}
 .franja i{display:block;transform-origin:top;transform:scaleY(0);animation:franja-sube 1s cubic-bezier(.2,.8,.2,1) forwards}
 .franja i:nth-child(1){background:#60A5FA;animation-delay:.05s}
 .franja i:nth-child(2){background:#2563EB;animation-delay:.18s}
