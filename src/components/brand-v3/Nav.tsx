@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import { GRAD, Wordmark } from "./Brand";
 import { CtaRegistro, CtaAsistencia } from "@/components/cta/CtaPar";
 
+// Ricardo, 7-nov-2026: PMFC salió del menú (el sitio vende solo el software). Se deja para volver a usarlo.
+const MENU_PMFC = false;
+
 type NavV3Props = {
   /** Destino del botón principal. Sin esto: `/agenda` («Agendar reunión», Ricardo 20-oct-2026). */
   ctaHref?: string;
@@ -112,11 +115,12 @@ export default function NavV3(_props: NavV3Props) {
             color: "#0A0A0A",
           }}
         >
-          {/* Ricardo, 21-oct-2026: el menú es Software (Vortex) · PMFC (la metodología y el
-              Ecosistema, en /ecosistema) · Planes. */}
+          {/* Ricardo, 7-nov-2026: el menú es Software · Planes · Blog. PMFC (/ecosistema) queda
+              escondido, no borrado: MENU_PMFC = true lo vuelve a mostrar. */}
           <Link href="/funciones" style={{ color: "#0A0A0A", textDecoration: "none" }}>
             Software
           </Link>
+          {MENU_PMFC ? (
           <Link
             href="/ecosistema"
             style={{
@@ -130,8 +134,12 @@ export default function NavV3(_props: NavV3Props) {
           >
             PMFC
           </Link>
+          ) : null}
           <Link href="/planes" style={{ color: "#0A0A0A", textDecoration: "none" }}>
             Planes
+          </Link>
+          <Link href="/novedades" style={{ color: "#0A0A0A", textDecoration: "none" }}>
+            Blog
           </Link>
         </nav>
 
@@ -173,8 +181,9 @@ export default function NavV3(_props: NavV3Props) {
         <div className="nav-v3-mobile">
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             <Link href="/funciones" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Software</Link>
-            <Link href="/ecosistema" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link" style={{ color: "#7C3AED" }}>PMFC</Link>
+            {MENU_PMFC ? <Link href="/ecosistema" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link" style={{ color: "#7C3AED" }}>PMFC</Link> : null}
             <Link href="/planes" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Planes</Link>
+            <Link href="/novedades" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Blog</Link>
             <Link href="/ayuda" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub">Ayuda y soporte</Link>
             <a
               href="https://app.clinera.io/"

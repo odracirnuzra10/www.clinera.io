@@ -10,22 +10,22 @@ import { PLANES_FAQ } from "../src/content/planes-faq";
 import { HOME_FAQ } from "../src/content/home-faq";
 
 test.describe("sitio de dos productos", () => {
-  // Ricardo, 21-oct-2026: Software · PMFC · Planes.
-  test("el menú es Software, PMFC y Planes", async ({ page }) => {
+  // Ricardo, 7-nov-2026: Software · Planes · Blog (PMFC escondido; /ecosistema sigue).
+  test("el menú es Software, Planes y Blog", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/", { waitUntil: "domcontentloaded" });
     const links = page.locator("nav.nav-v3-links a");
     await expect(links).toHaveCount(3);
     await expect(links.nth(0)).toHaveText("Software");
     await expect(links.nth(0)).toHaveAttribute("href", "/funciones");
-    await expect(links.nth(1)).toHaveText("PMFC");
-    await expect(links.nth(1)).toHaveAttribute("href", "/ecosistema");
-    await expect(links.nth(2)).toHaveText("Planes");
-    await expect(links.nth(2)).toHaveAttribute("href", "/planes");
+    await expect(links.nth(1)).toHaveText("Planes");
+    await expect(links.nth(1)).toHaveAttribute("href", "/planes");
+    await expect(links.nth(2)).toHaveText("Blog");
+    await expect(links.nth(2)).toHaveAttribute("href", "/novedades");
     await expect(page.locator("header")).not.toContainText("Clinera O.S.");
   });
 
-  test("el home es corto: hero, logos, las dos opciones, PMFC, demo, testimonios, preguntas y cierre", async ({ page }) => {
+  test("el home del software: hero, logos, prueba gratis, funciones, demo, planes, testimonios, blog, preguntas y cierre", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
     const body = page.locator("body");
     await expect(body).toContainText("+1.500 clínicas");
@@ -37,6 +37,10 @@ test.describe("sitio de dos productos", () => {
     await expect(body).toContainText("Solicita asistencia");
     await expect(body).not.toContainText(/Contratar Hex|Hablar con ventas|Agendar reunión|Agendar videollamada|Agendar demo|Ver demo 3 min/);
     await expect(page.locator("#faq")).toContainText("¿Cómo funciona la prueba gratis?");
+    // Ricardo, 7-nov-2026: sin PMFC ni casos de campañas (escondidos con HOME2_MOSTRAR).
+    await expect(page.locator('[data-home2="pmfc"], [data-home2="casos"]')).toHaveCount(0);
+    await expect(page.locator("[data-home2-paso]")).toHaveCount(3);
+    await expect(page.locator("[data-home2-post]")).toHaveCount(3);
   });
 
   test("Vortex incluye Clinera Intelligence, el agente interno", () => {

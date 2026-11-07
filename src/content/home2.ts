@@ -66,7 +66,7 @@ export const HOME2_FUNDADOR = {
   fotoPie: "Ricardo Oyarzún en la apertura de la sucursal de Vitacura, 2025.",
   parrafos: [
     "Titulado de la Universidad de Concepción. Construyó las cuatro empresas en más de una década, sin socios ni inversionistas externos.",
-    "Clinera no es una idea de software buscando clientes: es la herramienta que usa en sus propias clínicas, todos los días, con su propia plata en los anuncios.",
+    "Clinera no es una idea de software buscando clientes: es la herramienta que usa en sus propias clínicas, todos los días.",
   ],
   credenciales: [
     "+12 años en el canal de YouTube Metricads Marketing",
@@ -250,7 +250,49 @@ export const HOME2_CASOS_TEXTO = {
 } as const;
 
 export const HOME2_CIERRE = {
-  titulo: "¿Tu clínica podría ser la próxima?",
+  titulo: "Pruébalo 7 días gratis",
   texto:
-    "En una reunión revisamos tus números y te decimos con honestidad si el ecosistema le sirve a tu clínica.",
+    "Crea tu cuenta, conecta tu WhatsApp y mira a la IA agendar por ti. Sin tarjeta de crédito y sin costo de implementación.",
+} as const;
+
+// Ricardo, 7-nov-2026: el home vende solo el software (sin marketing). PMFC y los casos de campañas
+// no se borran: quedan escondidos para volver a usarlos. Para mostrarlos, cambia el valor a true.
+export const HOME2_MOSTRAR = { pmfc: false, casos: false } as const;
+
+export const HOME2_PRUEBA = {
+  eyebrow: "Prueba gratis · 7 días",
+  titulo: "Empieza hoy.",
+  tituloAcento: "En 3 pasos.",
+  bajada: "Sin tarjeta de crédito, sin costo de implementación y sin reunión obligatoria.",
+  pasos: [
+    { n: "01", titulo: "Crea tu cuenta gratis", texto: "Nombre, celular, correo y el nombre de tu clínica. Toma un minuto." },
+    { n: "02", titulo: "Conecta WhatsApp, Instagram y Facebook", texto: "Con tu número de siempre. Todos los mensajes llegan a un solo lugar." },
+    { n: "03", titulo: "La IA agenda por ti", texto: "Responde al instante, ofrece horas reales de cada profesional y deja la cita en tu agenda." },
+  ],
+} as const;
+
+export const HOME2_FUNCIONES = {
+  eyebrow: "El software",
+  titulo: "Todo tu día clínico,",
+  tituloAcento: "en un solo lugar.",
+  items: [
+    { titulo: "IA que responde y agenda", texto: "Atiende WhatsApp, Instagram y Facebook a toda hora y deja la hora agendada." },
+    { titulo: "Agenda por profesional", texto: "Cada profesional con sus horarios y tratamientos. La IA solo ofrece horas reales." },
+    { titulo: "Evaluación pagada al agendar", texto: "La paciente paga antes de llegar y los recordatorios salen solos." },
+    { titulo: "Ficha clínica", texto: "Ficha, agenda y pagos juntos. Abres la ficha desde la hora del paciente." },
+    { titulo: "Clinera Intelligence", texto: "Pregúntale cuánto vendiste, cómo va tu agenda y quién te debe." },
+    { titulo: "Datos en Chile", texto: "Tus datos clínicos se guardan en Santiago, conforme a la Ley 21.719." },
+  ],
+} as const;
+
+export const HOME2_BLOG = {
+  eyebrow: "Blog",
+  titulo: "Aprende a hacer crecer",
+  tituloAcento: "tu clínica.",
+  slugs: [
+    "webhooks-venta-nueva-pago-recibido-clinera",
+    "clinera-podcast-2-facturacion-no-es-administrar",
+    "que-es-un-empleado-digital-para-clinicas",
+  ],
+  verTodo: { texto: "Ver todo el blog", href: "/novedades" },
 } as const;

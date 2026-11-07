@@ -1507,3 +1507,14 @@ pasos, beneficios) el título, el precio, la lista, los íconos y sobre todo el 
 aunque una tenga más líneas o un link extra abajo. En `PlanesTrial` (home y `/planes`) se hace con `subgrid`: cada
 `.card` ocupa 7 filas del grid de `.planes` y la fila del link de pago queda vacía en Flux y Hex. En `/prueba-gratis`
 el título y el botón de `.pcard` tienen alto fijo. Una fila de tarjetas nueva sigue la misma regla.
+
+# Home solo software: prueba gratis, planes y blog (Ricardo, 7-nov-2026)
+
+El sitio vende solo el software (sin marketing). Orden del home: hero → logos → «Empieza hoy. En 3 pasos» (prueba
+gratis) → funciones del software → demo → planes (`PlanesTrial`) → testimonios → blog (3 artículos, `HOME2_BLOG.slugs`)
+→ convenio → historia → fundador → preguntas → cierre «Pruébalo 7 días gratis». Contenido en `src/content/home2.ts`.
+- **PMFC y los casos de campañas no se borraron: están escondidos.** `HOME2_MOSTRAR = { pmfc, casos }` en `home2.ts`
+  y `MENU_PMFC` en `src/components/brand-v3/Nav.tsx`; cambiarlos a `true` los vuelve a mostrar. `/ecosistema` y el
+  artículo de PMFC siguen publicados (no están enlazados desde el menú).
+- **Menú: Software · Planes · Blog** (`/novedades`).
+- Los artículos del blog del home no pueden nombrar competidores (prueba de `home2.spec`) ni las clínicas de la red.
