@@ -1530,3 +1530,9 @@ copia de la regla de `public/kimi-gratis/index.html`: si cambia una, cambia la o
 mismo `event_id` (`lead_web_…`, `content_name: web_registro`; el CAPI sale antes de cambiar de página), lead a `/api/wizard`
 (`fuente: "Web <ruta> — registro <plan>"`) y después `app.clinera.io/auth/register` con los datos, el plan (`data-plan-elegido`
 de la tarjeta; por defecto xcale), `lead_event_id`, fbp/fbc y utm. Guardián: `tests/registro-modal.spec.ts`.
+
+**«Solicita asistencia» también abre el modal (Ricardo, 7-nov-2026)**, en modo asistencia: título «Solicita asistencia»,
+pide los mismos datos, manda `Lead` (`content_name: web_asistencia`) y el lead (`fuente: "Web <ruta> — asistencia"`) y
+recién ahí abre WhatsApp de ventas. Solo se intercepta el enlace con `data-cta-asistencia` cuyo href es exactamente
+`https://wa.me/56985581524?text=necesito%20asistencia`: `/oferta-clinicas-esteticas` y `/super-promo` tienen su propio
+mensaje (es su atribución) y siguen directo a WhatsApp.

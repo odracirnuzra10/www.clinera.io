@@ -12,6 +12,13 @@ import { FONO, FONO_AYUDA, FONO_EJEMPLO, fonoOk, limitarFono } from "@/lib/regis
 const PREFIJOS = ["+56", "+52", "+57", "+51", "+54", "+593", "+598", "+1"];
 const PLAN_NOMBRE: Record<string, string> = { flux: "Flux", hex: "Hex", xcale: "Xcale" };
 const RESUMEN = "Conecta WhatsApp, Facebook e Instagram y agenda pacientes con IA. 7 días, sin tarjeta de crédito.";
+const RESUMEN_ASISTENCIA = "Deja tus datos y te abrimos WhatsApp con nuestro equipo.";
+// «Solicita asistencia» del sitio (Ricardo, 7-nov-2026) abre este mismo modal en modo asistencia: pide los datos,
+// manda el lead y después abre WhatsApp. Solo se intercepta el WhatsApp de ventas genérico: las landings de anuncios
+// (/oferta-clinicas-esteticas, /super-promo) llevan su propio mensaje, que es su atribución, y siguen directo.
+const WA_ASISTENCIA = "https://wa.me/56985581524?text=necesito%20asistencia";
+
+type Modo = "registro" | "asistencia";
 
 function cookie(n: string): string {
   const m = document.cookie.match(new RegExp("(?:^|; )" + n + "=([^;]*)"));
@@ -34,9 +41,9 @@ function rutaActual(): string {
 }
 
 // Devuelve el event_id cuando la llamada a CAPI ya salió (keepalive): así no se pierde al cambiar de página.
-async function enviarLead(datos: Datos): Promise<string> {
+async function enviarLead(datos: Datos, modo: Modo): Promise<string> {
   const eventId = "lead_web_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-  const custom = { value: 3, currency: "USD", content_name: "web_registro" };
+  const custom = { value: 3, currency: "USD", content_name: modo === "asistencia" ? "web_asistencia" : "web_registro" };
   try {
     const fbq = (window as unknown as { fbq?: (...a: unknown[]) => void }).fbq;
     if (typeof fbq === "function") fbq("track", "Lead", custom, { eventID: eventId });
@@ -57,7 +64,7 @@ async function enviarLead(datos: Datos): Promise<string> {
   return eventId;
 }
 
-function guardarLead(datos: Datos, plan: string, eventId: string) {
+function guardarLead(datos: Datos, plan: string, eventId: string, modo: Modo) {
   const q = new URLSearchParams(location.search);
   let lead = "organico";
   if (q.get("gclid") || q.get("gbraid") || q.get("wbraid")) lead = "google-ads";
@@ -79,11 +86,11 @@ function guardarLead(datos: Datos, plan: string, eventId: string) {
       celular_prefix: datos.prefijo,
       celular_digits: datos.celular,
       lead_source: lead,
-      fuente: `Web ${rutaActual()} — registro ${nombrePlan}`,
+      fuente: modo === "asistencia" ? `Web ${rutaActual()} — asistencia` : `Web ${rutaActual()} — registro ${nombrePlan}`,
       source_path: rutaActual(),
       landing_url: location.href,
       plan,
-      servicio_interes_label: `${nombrePlan} demo 7 días`,
+      servicio_interes_label: modo === "asistencia" ? "Solicita asistencia" : `${nombrePlan} demo 7 días`,
       servicio_interes: "ambas",
       event_id: eventId,
     }),
@@ -111,6 +118,7 @@ function urlAlta(datos: Datos, plan: string, eventId: string): string {
 
 export default function RegistroModal() {
   const [abierto, setAbierto] = useState(false);
+  const [modo, setModo] = useState<Modo>("registro");
   const [plan, setPlan] = useState("xcale");
   const [prefijo, setPrefijo] = useState("+56");
   const [celular, setCelular] = useState("");
@@ -124,9 +132,21 @@ export default function RegistroModal() {
   useEffect(() => {
     function alClic(e: MouseEvent) {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      const a = (e.target as Element | null)?.closest?.("a[data-cta-registro]");
+      const el = e.target as Element | null;
+      const wa = el?.closest?.(`a[data-cta-asistencia][href="${WA_ASISTENCIA}"]`);
+      if (wa) {
+        e.preventDefault();
+        setModo("asistencia");
+        setError("");
+        setEnviando(false);
+        setAbierto(true);
+        return;
+      }
+      const a = el?.closest?.("a[data-cta-registro]");
       if (!a) return;
       e.preventDefault();
+      setModo("registro");
+      setEnviando(false);
       const elegido = a.getAttribute("data-plan-elegido") || "xcale";
       setPlan(PLAN_NOMBRE[elegido] ? elegido : "xcale");
       setError("");
@@ -169,8 +189,14 @@ export default function RegistroModal() {
     setError("");
     setEnviando(true);
     const datos: Datos = { nombre, email, clinica, prefijo, celular: digits, telefono: prefijo + digits };
-    const eventId = await enviarLead(datos);
-    guardarLead(datos, plan, eventId);
+    const eventId = await enviarLead(datos, modo);
+    guardarLead(datos, plan, eventId, modo);
+    if (modo === "asistencia") {
+      const v = window.open(WA_ASISTENCIA, "_blank", "noopener,noreferrer");
+      if (!v) location.assign(WA_ASISTENCIA);
+      setAbierto(false);
+      return;
+    }
     try {
       sessionStorage.setItem("clinera_cuenta", JSON.stringify({ ...datos, plan: PLAN_NOMBRE[plan] }));
     } catch {}
@@ -187,7 +213,7 @@ export default function RegistroModal() {
         <button type="button" className="reg-x" aria-label="Cerrar registro" onClick={cerrar}>
           ×
         </button>
-        <h2 id="reg-titulo">Crea tu cuenta gratis</h2>
+        <h2 id="reg-titulo">{modo === "asistencia" ? "Solicita asistencia" : "Crea tu cuenta gratis"}</h2>
         <div className="reg-caja">
           <div className="reg-chs" role="img" aria-label="WhatsApp, Facebook, Instagram y agenda">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#25D366" d="M12 2C6.5 2 2 6.3 2 11.6c0 1.9.5 3.7 1.5 5.3L2 22l5.3-1.4c1.5.8 3.2 1.3 4.7 1.3 5.5 0 10-4.3 10-9.6S17.5 2 12 2zm5.7 13.6c-.2.7-1.2 1.2-1.9 1.4-.5.1-1.1.2-3.6-.8-3.1-1.3-5.1-4.5-5.2-4.7-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .8 2.1.1.2.1.3 0 .5-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.8-.1 1.5z" /></svg>
@@ -195,7 +221,7 @@ export default function RegistroModal() {
             <svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="reg-ig" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stopColor="#FEDA75" /><stop offset=".45" stopColor="#D62976" /><stop offset="1" stopColor="#4F5BD5" /></linearGradient></defs><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="url(#reg-ig)" strokeWidth="2.2" /><circle cx="12" cy="12" r="4.2" fill="none" stroke="url(#reg-ig)" strokeWidth="2.2" /><circle cx="17.3" cy="6.7" r="1.3" fill="#D62976" /></svg>
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="6" fill="#7C3AED" /><rect x="5.5" y="7" width="13" height="11.5" rx="2" fill="none" stroke="#fff" strokeWidth="1.8" /><path d="M5.5 11h13M9 5v3.5M15 5v3.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" /></svg>
           </div>
-          <p data-registro-resumen>{RESUMEN}</p>
+          <p data-registro-resumen>{modo === "asistencia" ? RESUMEN_ASISTENCIA : RESUMEN}</p>
         </div>
         <label>
           Nombre
@@ -247,9 +273,13 @@ export default function RegistroModal() {
           </p>
         ) : null}
         <button type="submit" className="reg-enviar" disabled={enviando} data-registro-enviar>
-          {enviando ? "Abriendo tu registro…" : "Registra y activa tu clínica"}
+          {modo === "asistencia"
+            ? enviando ? "Abriendo WhatsApp…" : "Abrir WhatsApp"
+            : enviando ? "Abriendo tu registro…" : "Registra y activa tu clínica"}
         </button>
-        <p className="reg-nota">Después terminas tu registro en app.clinera.io.</p>
+        <p className="reg-nota">
+          {modo === "asistencia" ? "Te responde una persona del equipo." : "Después terminas tu registro en app.clinera.io."}
+        </p>
       </form>
       <style jsx global>{`
         .reg-modal{position:fixed;inset:0;z-index:210;display:grid;place-items:center;padding:16px;font-family:Inter,system-ui,sans-serif}
