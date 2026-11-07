@@ -45,3 +45,12 @@ Con `account_created`, el nodo «Trial en Twenty» (`trial-twenty.js`) busca el 
 | `subscription_started` | `plan_contratado` |
 
 Cada evento lleva las propiedades del contacto. Estos nodos solo se crean si existe en n8n la credencial Header Auth **«Loops API»** (`Authorization: Bearer <API key>`); sin ella, el aplicador los omite y lo dice. La serie y sus filtros están en `docs/loops-serie-prueba-gratis.md`.
+
+## Loops (7-nov-2026)
+
+«Armar evento Loops» → «Enviar a Loops» manda cada aviso como evento (`trial_iniciado`, `whatsapp_conectado`,
+`primera_conversacion`, `plan_contratado`). La llave de Loops no es una credencial con nombre: vive pegada en los nodos
+«Loops - Enviar Evento» del Wizard, Sub A y Suscripción (Stripe). El aplicador copia la cabecera del de Stripe
+(`7jgtp669q8pWJKm6`); si algún día se crea una credencial Header Auth «Loops API», la usa en su lugar. Las propiedades de
+contacto (clinica, telefono, plan, accountId, trialInicio, whatsappConectado, primeraConversacion, planContratado) ya están
+creadas en Loops. La serie de correos se arma en la web de Loops: `docs/loops-serie-prueba-gratis.md`.
