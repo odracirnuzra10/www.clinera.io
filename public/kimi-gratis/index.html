@@ -1265,7 +1265,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   <form class="cuenta-card" data-cuenta-form novalidate>
     <button class="cuenta-x" type="button" data-cuenta-cerrar aria-label="Cerrar cuenta">×</button>
     <h2 id="cuenta-titulo">Crea tu cuenta gratis</h2>
-    <p data-cuenta-resumen>Xcale · recomendado · $149. Demo de 7 días. Incluye Clinera Intelligence con 5000 créditos y onboarding humano.</p>
+    <p data-cuenta-resumen>Crea tu cuenta gratis y conecta tu WhatsApp para que la IA atienda a tus pacientes. 7 días, sin tarjeta de crédito.</p>
     <label>Nombre<input name="nombre" autocomplete="name" required maxlength="80" placeholder="Tu nombre"></label>
     <label>Celular<span class="phone"><select name="prefijo" aria-label="Prefijo del país"><option value="+56" selected>+56</option><option value="+52">+52</option><option value="+57">+57</option><option value="+51">+51</option><option value="+54">+54</option><option value="+593">+593</option><option value="+598">+598</option><option value="+1">+1</option></select><input name="celular" type="tel" inputmode="numeric" autocomplete="tel-national" required placeholder="9 1234 5678"></span></label>
     <label>Correo<input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120" placeholder="tu@correo.com"></label>
@@ -1417,9 +1417,9 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   var abierto=false, enviando=false, promoOff=false, toastT=0, cuentaModo="cuenta";
   var XCALE_PAGO="https://buy.stripe.com/8x29AV7cZ9eG9wTgwz1441O";
   var PLANES={
-    flux:{nombre:"Flux",precio:"$49",nota:"Flux · $49. Demo de 7 días. El plan se elige después, dentro de la plataforma.",mp:false},
-    hex:{nombre:"Hex",precio:"$129",nota:"Hex · $129. Demo de 7 días. El plan se elige después, dentro de la plataforma.",mp:false},
-    vortex:{nombre:"Xcale",precio:"$149",nota:"Xcale · recomendado · $149. Demo de 7 días. Incluye Clinera Intelligence con 5000 créditos y onboarding humano.",mp:false,pago:XCALE_PAGO}
+    flux:{nombre:"Flux",precio:"$49",nota:"Crea tu cuenta gratis y conecta tu WhatsApp para que la IA atienda a tus pacientes. 7 días, sin tarjeta de crédito.",mp:false},
+    hex:{nombre:"Hex",precio:"$129",nota:"Crea tu cuenta gratis y conecta tu WhatsApp para que la IA atienda a tus pacientes. 7 días, sin tarjeta de crédito.",mp:false},
+    vortex:{nombre:"Xcale",precio:"$149",nota:"Crea tu cuenta gratis y conecta tu WhatsApp para que la IA atienda a tus pacientes. 7 días, sin tarjeta de crédito.",mp:false,pago:XCALE_PAGO}
   };
   var planElegido="vortex";
   var drawer=document.querySelector("[data-drawer]");

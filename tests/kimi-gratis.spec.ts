@@ -120,7 +120,9 @@ test("/kimi-gratis pide los cuatro datos antes de registrar y antes de WhatsApp"
   await page.locator(".hero").getByRole("button", { name: "Crea tu cuenta GRATIS" }).click();
   const modal = page.locator("[data-cuenta]");
   await expect(modal).toBeVisible();
-  await expect(modal.locator("[data-cuenta-resumen]")).toHaveText("Xcale · recomendado · $149. Demo de 7 días. Incluye Clinera Intelligence con 5000 créditos y onboarding humano.");
+  await expect(modal.locator("[data-cuenta-resumen]")).toHaveText("Crea tu cuenta gratis y conecta tu WhatsApp para que la IA atienda a tus pacientes. 7 días, sin tarjeta de crédito.");
+  // Ricardo, 7-nov-2026: el modal no recomienda un plan; invita a crear la cuenta y conectar WhatsApp.
+  await expect(modal.locator("[data-cuenta-resumen]")).not.toContainText("$149");
   await expect(modal).not.toContainText("Vortex");
   await expect(modal.locator("[data-cuenta-pagar]")).toBeHidden();
   await modal.locator("[data-cuenta-listo]").click();
