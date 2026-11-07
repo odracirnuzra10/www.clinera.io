@@ -4,7 +4,7 @@
 // clínicas estéticas. Muestra las funciones de Clinera y cierra con la oferta
 // «software + marketing por US$ 379/mes» (`OFERTA_ESTETICA`). Sin menú. El hero lleva el
 // texto a la izquierda y, en vez del carrusel, el formulario del wizard de /agenda como
-// tarjeta (boleta a 379, datos y horario). Los CTA de abajo suben a él.
+// tarjeta (datos, clínica y horario; sin boleta desde el 7-nov-2026). Los CTA de abajo suben a él.
 
 import AgendaWizard from "@/components/agenda/AgendaWizard";
 import { CtaPrimary, CtaSecondary, Eyebrow, GRAD } from "@/components/brand-v3/Brand";
