@@ -6,7 +6,11 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   await page.goto("/kimi-gratis", { waitUntil: "domcontentloaded" });
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
   await expect(page.locator("h1")).toHaveText("Crea tu cuenta gratis");
-  await expect(page.locator("#hero-cta")).toContainText("Registra y activa tu clínica");
+  // Ricardo, 7-nov-2026: «GRATIS» en cada botón principal y «Sin tarjeta de crédito» al lado.
+  await expect(page.locator("#hero-cta")).toContainText("Crea tu cuenta GRATIS");
+  await expect(page.locator(".hero .sin-tarjeta")).toContainText("Sin tarjeta de crédito");
+  await expect(page.locator("[data-testid=kimi-antes-despues] .ad-con li")).toHaveCount(4);
+  await expect(page.locator("[data-urgencia]")).toContainText(/Prueba gratis de noviembre|termina hoy/);
   const pintura = (sel: string) =>
     page.locator(sel).evaluate((el) => {
       const cs = getComputedStyle(el);
@@ -30,7 +34,7 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   await expect(page.locator("header.nav")).not.toContainText("Crea tu cuenta");
   await expect(page.locator("header.nav .nav-cta")).toHaveCount(0);
   await expect(page.locator("#mobile-cta [data-bar-label]")).toHaveCount(0);
-  await expect(page.locator("#mobile-cta [data-bar-accion]")).toHaveText("Crea tu cuenta");
+  await expect(page.locator("#mobile-cta [data-bar-accion]")).toHaveText("Crea tu cuenta GRATIS");
   await expect(page.locator("#mobile-cta .mcta-row")).not.toContainText("Vortex");
   const media = page.locator("[data-testid=kimi-asistencia-media]");
   await expect(media.getByRole("link", { name: "Solicita asistencia" })).toHaveAttribute(
@@ -113,7 +117,7 @@ test("/kimi-gratis pide los cuatro datos antes de registrar y antes de WhatsApp"
   const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
   expect(ancho).toBeLessThanOrEqual(390);
 
-  await page.locator(".hero").getByRole("button", { name: "Registra y activa tu clínica" }).click();
+  await page.locator(".hero").getByRole("button", { name: "Crea tu cuenta GRATIS" }).click();
   const modal = page.locator("[data-cuenta]");
   await expect(modal).toBeVisible();
   await expect(modal.locator("[data-cuenta-resumen]")).toHaveText("Xcale · recomendado · $149. Demo de 7 días. Incluye Clinera Intelligence con 5000 créditos y onboarding humano.");

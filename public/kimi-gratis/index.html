@@ -855,6 +855,37 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 .btn-gratis{font-size:1.05rem;gap:10px}
 .gratis-chip{display:inline-block;background:#fff;color:#6D28D9;font-weight:900;letter-spacing:.06em;font-size:1.05em;padding:4px 10px;border-radius:8px;line-height:1}
 #comenzar .micro{font-size:.9rem;color:rgba(255,255,255,.82)}
+
+/* 7-nov-2026 (Ricardo aplicó 1, 2, 4, 5 y 6): hero animado, urgencia de noviembre, antes/con Clinera,
+   «GRATIS» en cada botón principal y «Sin tarjeta de crédito» junto a ellos. */
+.gratis-chip{display:inline-block;background:#fff;color:#6D28D9;font-weight:900;letter-spacing:.06em;font-size:1.02em;padding:4px 9px;border-radius:7px;line-height:1}
+.gratis-chip.oscuro{background:#111;color:#fff}
+.btn-gratis{gap:9px}
+.sin-tarjeta{display:flex;flex-wrap:wrap;gap:6px 16px;margin:12px 0 0;font-size:.86rem;color:#047857;font-weight:600}
+.sin-tarjeta-min{display:block;margin-top:8px;font-size:.82rem;color:rgba(255,255,255,.75);text-align:center}
+.pain-cta{display:flex;flex-direction:column;align-items:center;flex:none}
+.urgencia{display:flex;width:max-content;max-width:100%;align-items:center;gap:6px;margin:0 0 14px;padding:6px 12px;border-radius:999px;background:#FEF3C7;color:#92400E;font-size:.82rem;font-weight:700}
+.urgencia[hidden]{display:none}
+.ia-tag{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;background:linear-gradient(90deg,#60A5FA,#A78BFA);color:#111;border-radius:5px;padding:1px 5px;margin-right:4px;vertical-align:1px}
+.agenda-cae{display:flex;align-items:center;gap:8px;border:1px solid #D1FAE5;background:#ECFDF5;border-radius:10px;padding:9px 12px;font-size:.84rem;color:#065F46}
+.agenda-dot{width:8px;height:8px;border-radius:50%;background:#10B981;flex:none}
+.pagada{font-weight:800}
+.chat .anim{opacity:0;transform:translateY(6px);animation:chatLoop 12s ease infinite;animation-delay:calc(var(--d) * 1.4s)}
+@keyframes chatLoop{0%{opacity:0;transform:translateY(6px)}5%,82%{opacity:1;transform:none}92%,100%{opacity:0;transform:translateY(-4px)}}
+@media (prefers-reduced-motion:reduce){.chat .anim{animation:none;opacity:1;transform:none}}
+.antes .ad-tabla{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:8px 0 24px}
+.ad-col{border-radius:18px;padding:22px 24px;border:1px solid var(--border);background:#fff}
+.ad-antes{background:#F9FAFB}
+.ad-con{border:1.5px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#2563EB,#7C3AED 55%,#C026D3) border-box}
+.ad-tit{font-family:var(--mono);font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.ad-con .ad-tit{color:#7C3AED}
+.ad-col ul{list-style:none;margin:0;padding:0}
+.ad-col li{padding:10px 0 10px 26px;border-top:1px solid #F3F4F6;position:relative;font-size:.98rem}
+.ad-col li:first-child{border-top:0}
+.ad-antes li{color:#6B7280}
+.ad-antes li::before{content:"✕";position:absolute;left:2px;color:#9CA3AF;font-weight:700}
+.ad-con li::before{content:"✓";position:absolute;left:2px;color:#10B981;font-weight:800}
+@media (max-width:760px){.antes .ad-tabla{grid-template-columns:1fr}.urgencia{margin-left:0}}
 </style>
 </head>
 <body>
@@ -898,12 +929,13 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   <div class="wrap">
     <div class="copy">
       <p class="demo-pill rv">Demo de 7 días · Para médicos y clínicas</p>
+      <p class="urgencia rv" data-urgencia hidden></p>
       <h1 class="rv" style="--i:1">Crea tu cuenta <span class="grad-txt">gratis</span></h1>
       <p class="sub rv" style="--i:2"><strong>Tú atiendes pacientes. Clinera responde el WhatsApp, agenda y cobra la evaluación.</strong> Registra y activa tu clínica: usas Clinera 7 días y después, dentro de la plataforma, eliges el plan.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
-        <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Registra y activa tu clínica</button>
+        <button class="btn grad btn-gratis" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta <span class="gratis-chip">GRATIS</span></button>
       </div>
-      <p class="micro rv" style="--i:3">Sin costo de implementación.</p>
+      <p class="sin-tarjeta"><span>✓ Sin tarjeta de crédito</span><span>✓ Sin costo de implementación</span></p>
     </div>
     <figure class="testi rv" style="--i:2" data-testid="testimonio">
       <img src="/kimi/maria-del-valle.webp" fetchpriority="high" width="460" height="575" alt="Dra. María del Valle, de pie y sonriendo, con abrigo fucsia y lentes.">
@@ -916,9 +948,11 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     </figure>
     <div class="chat rv" style="--i:4" role="img" aria-label="Ejemplo de conversación por WhatsApp: la paciente pide hora, la clínica ofrece horarios desde su agenda y envía un link de pago.">
       <span class="who"><svg class="ic" width="14" height="14" aria-hidden="true"><use href="#i-chat"/></svg> WhatsApp conectado a tu agenda</span>
-      <div class="msg p">Hola, quiero pedir una hora para evaluación.</div>
-      <div class="msg a">Tengo mañana 10:00 u 11:30. ¿Cuál te acomoda?</div>
-      <div class="msg a">Listo, 11:30 reservada. Paga tu evaluación aquí: <u>link de pago</u></div>
+      <div class="msg p anim" style="--d:0">Hola, quiero pedir una hora para evaluación.</div>
+      <div class="msg a anim" style="--d:1"><span class="ia-tag">IA</span> Tengo mañana 10:00 u 11:30. ¿Cuál te acomoda?</div>
+      <div class="msg p anim" style="--d:2">11:30 porfa 🙌</div>
+      <div class="msg a anim" style="--d:3"><span class="ia-tag">IA</span> Listo, 11:30 reservada. Paga tu evaluación aquí: <u>link de pago</u></div>
+      <div class="agenda-cae anim" style="--d:4"><span class="agenda-dot"></span><b>Mañana 11:30</b> · Evaluación · <span class="pagada">Pagada ✓</span></div>
     </div>
   </div>
 </section>
@@ -949,6 +983,21 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
       <li class="rv" style="--i:2" data-testid="feat-ficha"><span class="num">03 · Ficha clínica</span><div><h3>Fichas repartidas entre papel y tres sistemas.</h3><p>Ficha, agenda y pagos en el mismo lugar. Abres la ficha desde la hora del paciente.</p></div></li>
       <li class="rv" style="--i:3" data-testid="feat-ia"><span class="num">04 · Números</span><div><h3>No sabes cuánto vendiste este mes.</h3><p>Le preguntas a Clinera Intelligence y te responde con tus ventas, tu agenda y quién te debe.</p></div></li>
     </ol>
+  </div>
+</section>
+
+<section class="sec antes" id="antes-despues" data-testid="kimi-antes-despues" aria-labelledby="t-antes">
+  <div class="wrap">
+    <p class="eyebrow rv">Antes y con Clinera</p>
+    <h2 id="t-antes" class="rv" style="--i:1">Lo mismo de siempre, <span class="grad-txt">resuelto con IA</span></h2>
+    <div class="ad-tabla rv" style="--i:2">
+      <div class="ad-col ad-antes"><p class="ad-tit">Antes</p>
+        <ul><li>WhatsApp sin responder después de la consulta</li><li>Pacientes que reservan y no llegan</li><li>Agenda en papel o repartida en varias apps</li><li>No sabes cuánto vendiste este mes</li></ul></div>
+      <div class="ad-col ad-con"><p class="ad-tit">Con Clinera</p>
+        <ul><li>Respondido en segundos, a cualquier hora</li><li>Evaluación pagada al agendar y recordatorios automáticos</li><li>Una agenda por profesional, en un solo lugar</li><li>Clinera Intelligence te lo dice cuando le preguntas</li></ul></div>
+    </div>
+    <div class="cta rv" style="--i:3"><button class="btn grad btn-gratis" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta <span class="gratis-chip">GRATIS</span></button></div>
+    <p class="sin-tarjeta"><span>✓ Sin tarjeta de crédito</span><span>✓ Sin costo de implementación</span></p>
   </div>
 </section>
 
@@ -984,7 +1033,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 <section class="pain" id="dolor" data-testid="banner-dolor" aria-labelledby="t-dolor">
   <div class="wrap">
     <p id="t-dolor">Más tiempo con tus pacientes. Menos tiempo en el WhatsApp.</p>
-    <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex">Registra y activa tu clínica</button>
+    <div class="pain-cta"><button class="btn grad btn-gratis" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta <span class="gratis-chip">GRATIS</span></button><span class="sin-tarjeta-min">Sin tarjeta de crédito</span></div>
   </div>
 </section>
 
@@ -1082,8 +1131,9 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 <section class="tienda" id="planes" aria-labelledby="t-planes" data-testid="kimi-gratis-planes">
   <div class="wrap">
     <p class="eyebrow">Demo de 7 días</p>
-    <h2 id="t-planes">Registra y activa tu clínica</h2>
+    <h2 id="t-planes">Pruébalos <span class="grad-txt">GRATIS</span> 7 días</h2>
     <p class="lead">Usas Clinera 7 días. Después, dentro de la plataforma, eliges el plan, sin compromiso.</p>
+    <p class="sin-tarjeta"><span>✓ Sin tarjeta de crédito</span><span>✓ Sin costo de implementación</span></p>
     <div class="planes3">
       <article class="pcard" data-testid="plan-flux">
         <h3>Flux</h3>
@@ -1095,7 +1145,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
           <li>300 conversaciones</li>
           <li>Clinera Intelligence</li>
         </ul>
-        <button class="btn outline" type="button" data-abrir-cuenta data-elegir="flux">Registra y activa tu clínica</button>
+        <button class="btn outline btn-gratis" type="button" data-abrir-cuenta data-elegir="flux">Pruébalo <span class="gratis-chip oscuro">GRATIS</span></button>
       </article>
       <article class="pcard" data-testid="plan-hex">
         <h3>Hex</h3>
@@ -1107,7 +1157,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
           <li>600 conversaciones</li>
           <li>Clinera Intelligence</li>
         </ul>
-        <button class="btn outline" type="button" data-abrir-cuenta data-elegir="hex">Registra y activa tu clínica</button>
+        <button class="btn outline btn-gratis" type="button" data-abrir-cuenta data-elegir="hex">Pruébalo <span class="gratis-chip oscuro">GRATIS</span></button>
       </article>
       <article class="pcard recom" data-testid="plan-xcale">
         <h3>Xcale <span class="badge-plan">Recomendado</span></h3>
@@ -1224,14 +1274,14 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     <p class="cuenta-ok" data-cuenta-ok hidden>Listo. Guardamos tu plan.</p>
     <a class="btn grad" href="#planes" data-cuenta-pagar data-plan="flux" data-plan-name="Clinera Flux" data-plan-value="49" hidden>Pagar</a>
     <button class="btn grad cuenta-listo" type="button" data-cuenta-listo>Registra y activa tu clínica</button>
-    <p class="cuenta-sig" data-cuenta-sig><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Después terminas tu registro en app.clinera.io.</p>
+    <p class="cuenta-sig" data-cuenta-sig><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Después terminas tu registro en app.clinera.io. Sin tarjeta de crédito.</p>
     <button class="btn wa" type="button" data-asistencia-enviar hidden><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Abrir WhatsApp</span></button>
   </form>
 </div>
 
 <div class="mcta" id="mobile-cta" data-testid="mobile-cta">
   <div class="mcta-row">
-    <button class="btn grad" type="button" data-abrir-cuenta data-elegir="vortex" data-bar-accion>Crea tu cuenta</button>
+    <button class="btn grad btn-gratis" type="button" data-abrir-cuenta data-elegir="vortex" data-bar-accion>Crea tu cuenta <span class="gratis-chip">GRATIS</span></button>
   </div>
   <a class="btn wa mcta-asistencia" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia" data-asistencia-fin hidden><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
 </div>
@@ -1506,7 +1556,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
       barra.hidden=true;
       barra.textContent="";
     }
-    if(barBtn){ barBtn.textContent="Crea tu cuenta"; barBtn.removeAttribute("data-cta"); }
+    if(barBtn){ barBtn.innerHTML='Crea tu cuenta <span class="gratis-chip">GRATIS</span>'; barBtn.removeAttribute("data-cta"); }
     pintarChips();
     pintarControles();
     if(!lineas)return;
@@ -2314,6 +2364,16 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     new IntersectionObserver(function(en){
       barra.classList.toggle('mcta-arriba', en.some(function(e){return e.isIntersecting||e.boundingClientRect.top>0;}));
     }).observe(heroCta);
+  })();
+
+  // Urgencia de noviembre (Ricardo, 7-nov-2026): cuenta los días que quedan hasta el 30-nov 23:59 de Chile; después se esconde.
+  (function(){
+    var el=document.querySelector("[data-urgencia]"); if(!el) return;
+    var fin=new Date("2026-11-30T23:59:59-03:00").getTime(), ahora=Date.now();
+    if(ahora>fin) return;
+    var dias=Math.ceil((fin-ahora)/864e5);
+    el.textContent="🔥 Prueba gratis de noviembre · "+(dias<=1?"termina hoy":"quedan "+dias+" días");
+    el.hidden=false;
   })();
 </script>
 </body>
