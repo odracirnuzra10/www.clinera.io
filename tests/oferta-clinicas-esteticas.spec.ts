@@ -20,14 +20,9 @@ async function mockRed(page: Page) {
   await page.route(/connect\.facebook\.net|googletagmanager/, (route) => route.abort());
 }
 
+// Ricardo, 7-nov-2026: sin boleta, el formulario parte en los datos.
 async function deslizar(page: Page) {
-  await page.locator("[data-quiero-ahorrar]").scrollIntoViewIfNeeded();
-  await expect(async () => {
-    if (!(await page.locator('[data-agenda-paso="2"]').isVisible())) {
-      await page.locator("[data-quiero-ahorrar]").click();
-    }
-    await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible({ timeout: 2500 });
-  }).toPass({ timeout: 20000 });
+  await expect(page.locator('[data-agenda-paso="2"]').first()).toBeVisible({ timeout: 20000 });
 }
 
 test("landing: sin menú, hero con el formulario del wizard a la derecha, funciones y la oferta al final", async ({ page }) => {
@@ -40,12 +35,11 @@ test("landing: sin menú, hero con el formulario del wizard a la derecha, funcio
   await expect(page.locator(".ver-demo-float")).toHaveCount(0);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(/clínicas estéticas/i);
 
-  // El hero (primera sección) trae el texto y, a la derecha, el formulario con la boleta de la oferta.
+  // El hero (primera sección) trae el texto y, a la derecha, el formulario: parte en los datos, sin boleta.
   const primero = await page.locator("main > section").first().getAttribute("id");
   expect(primero).toBe("formulario");
-  const boleta = page.locator('[data-oferta-wizard] [data-agenda-paso="1"] [data-ahorro]');
-  await expect(boleta).toContainText("US$ 379/mes");
-  await expect(boleta).not.toContainText("US$ 529/mes");
+  await expect(page.locator('[data-oferta-wizard] [data-agenda-paso="2"]')).toBeVisible();
+  await expect(page.locator("[data-oferta-wizard] [data-ahorro]")).toHaveCount(0);
   await expect(page.locator("#formulario h1 + p")).toContainText("ficha facial y corporal");
   // Escritorio: texto y formulario lado a lado, el formulario a la derecha.
   const texto = (await page.locator("#formulario h1").boundingBox())!;
@@ -92,17 +86,14 @@ test("landing: el lead completa el wizard ahí mismo y el closer ve la oferta", 
   expect(JSON.stringify(contacto)).toContain("/oferta-clinicas-esteticas");
 });
 
-test("/agenda con la oferta: boleta a 379 y el closer lo ve en el CRM", async ({ page }) => {
+test("/agenda con la oferta: sin boleta, y el closer ve la oferta en el CRM", async ({ page }) => {
   await mockRed(page);
   const hits: Record<string, string>[] = [];
   page.on("request", (req: Request) => {
     if (req.url().includes("/api/wizard") && req.method() === "POST") hits.push(JSON.parse(req.postData() || "{}"));
   });
   await page.goto("/agenda?servicio=ambas&oferta=estetica379", { waitUntil: "domcontentloaded" });
-  const boleta = page.locator('[data-agenda-paso="1"] [data-ahorro]');
-  await expect(boleta).toContainText("US$ 379/mes");
-  await expect(boleta).toContainText("Ahorras desde US$ 621 al mes");
-  await expect(boleta).not.toContainText("US$ 529/mes");
+  await expect(page.locator("[data-ahorro]")).toHaveCount(0);
 
   await deslizar(page);
 
@@ -135,8 +126,9 @@ test("móvil: sin scroll horizontal y la oferta se lee completa", async ({ brows
   expect(ancho).toBeLessThanOrEqual(390);
   // Celular: el formulario va bajo el texto y se ve al empezar a bajar.
   await expect(page.locator("[data-oferta-wizard]")).toBeInViewport();
-  await page.locator("[data-quiero-ahorrar]").scrollIntoViewIfNeeded();
-  await expect(page.locator("[data-quiero-ahorrar]")).toBeInViewport();
+  const continuar = page.locator("[data-oferta-wizard]").getByRole("button", { name: /Continuar/ });
+  await continuar.scrollIntoViewIfNeeded();
+  await expect(continuar).toBeInViewport();
   const cta = page.locator('a[data-cta-asistencia="oferta-cierre"]');
   await cta.scrollIntoViewIfNeeded();
   await expect(cta).toBeInViewport();

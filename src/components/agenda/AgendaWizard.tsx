@@ -141,9 +141,10 @@ export default function AgendaWizard({
   };
   const Lado = tarjeta ? "div" : "main";
   const raizRef = useRef<HTMLDivElement>(null);
-  // Ricardo, 7-nov-2026: /agenda (y /agenda-google) parten directo en los datos, sin la boleta del
-  // ahorro. La boleta sigue solo con `oferta` (/oferta-clinicas-esteticas, /agenda?oferta=…).
-  const conBoleta = !!oferta;
+  // Ricardo, 7-nov-2026: el wizard parte directo en los datos, sin la boleta del ahorro, también con
+  // `oferta` (/oferta-clinicas-esteticas). La oferta sigue viajando al CRM en `servicio_interes_label`.
+  // El paso 1 (boleta + «Quiero ahorrar») queda escondido, no borrado: poner `true` lo vuelve a mostrar.
+  const conBoleta = false;
   const PRIMER_PASO: 1 | 2 = conBoleta ? 1 : 2;
   const totalVisible = conBoleta ? TOTAL : TOTAL - 1;
   const [paso, setPaso] = useState<1 | 2 | 3 | 4>(PRIMER_PASO);
