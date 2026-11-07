@@ -17,8 +17,11 @@ test("home: prueba gratis, funciones, blog, historia y fundador", async ({ page 
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "agenda y cobra la evaluación",
   );
-  await expect(page.locator('[data-home2="cifras"] li')).toHaveCount(3);
-  await expect(page.locator('[data-home2="cifras"]')).toContainText("+1.500");
+  // Ricardo, 7-nov-2026: las cifras y la franja de logos se cambiaron por las de /prueba-gratis.
+  await expect(page.locator("[data-home2-incluye]")).toHaveCount(3);
+  await expect(page.locator('[data-home2="marcas"]')).toContainText(
+    "El sistema que ocupan las grandes redes de clínicas del país",
+  );
   await expect(page.locator('[data-home2="fundador"]')).toContainText(
     "Ricardo Oyarzún",
   );

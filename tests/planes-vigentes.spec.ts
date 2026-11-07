@@ -4,7 +4,6 @@
 import { expect, test } from "@playwright/test";
 import { PLANES_TRIAL, XCALE_PAGO_URL } from "../src/content/planes-trial";
 import { MARKETING_BLOQUES, PLANES, promoEcosistemaVigente } from "../src/content/planes";
-import { CLINICAS_LOGOS } from "../src/content/clinicas-logos";
 
 test.describe("planes vigentes: Vortex · Ecosistema", () => {
   test("el catálogo", () => {
@@ -54,9 +53,10 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
 test.describe("home: logos reales", () => {
   test("el home trae los logos reales y no los nombres inventados", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    const logos = page.locator("[data-clinicas-logos]");
+    // Ricardo, 7-nov-2026: la caja de logos es la misma de /prueba-gratis (MARCAS_FILAS).
+    const logos = page.locator('[data-home2="marcas"]');
     await expect(logos).toHaveCount(1);
-    await expect(logos.locator("img")).toHaveCount(CLINICAS_LOGOS.length);
+    await expect(logos.locator('img[alt="Método Hebe"]').first()).toBeAttached();
     const texto = await page.locator("main").innerText();
     for (const falso of ["Hospital del Valle", "Centro Estético Aurora", "Vitaderma", "Nuevo Ser"]) {
       expect(texto).not.toContain(falso);

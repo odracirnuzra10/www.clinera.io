@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import ClinicasLogos from "@/components/clinicas/ClinicasLogos";
+import { IncluyeClinera, MarcasCaja } from "./IncluyeYMarcas";
 import DemoEnVivo from "@/components/home-v3/DemoEnVivo";
 import { Faq, Testimonios } from "@/components/home-v3/sections";
 import PlanesTrial from "@/components/planes-trial/PlanesTrial";
@@ -16,7 +16,6 @@ import {
   HOME2_CASOS,
   HOME2_CASOS_TEXTO,
   HOME2_CIERRE,
-  HOME2_CIFRAS,
   HOME2_FUNDADOR,
   HOME2_HERO,
   HOME2_HISTORIA,
@@ -173,18 +172,11 @@ export default function Home2() {
             <span className={s.formulaResultado}>{HOME2_HERO.formulaResultado}</span>
           </p>
           <Cta donde="hero" />
-          <ul className={s.cifras} data-home2="cifras">
-            {HOME2_CIFRAS.map((c) => (
-              <li key={c.valor}>
-                <strong>{c.valor}</strong>
-                <span>{c.texto}</span>
-              </li>
-            ))}
-          </ul>
         </section>
       </div>
 
-      <ClinicasLogos />
+      <IncluyeClinera />
+      <MarcasCaja />
 
       <section className={s.bloque} id="prueba-gratis" data-home2="prueba">
         <p className={s.eyebrow}>{HOME2_PRUEBA.eyebrow}</p>

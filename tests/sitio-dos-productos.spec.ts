@@ -28,7 +28,8 @@ test.describe("sitio de dos productos", () => {
   test("el home del software: hero, logos, prueba gratis, funciones, demo, planes, testimonios, blog, preguntas y cierre", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
     const body = page.locator("body");
-    await expect(body).toContainText("+1.500 clínicas");
+    // Ricardo, 7-nov-2026: el home ya no muestra cifras (IA · Redes sociales · Agenda por profesional).
+    await expect(page.locator("[data-home2-incluye]")).toHaveCount(3);
     await expect(body).not.toContainText("+52 clínicas activas");
     await expect(body).not.toContainText("+500 profesionales");
     await expect(body).not.toContainText("Coordina todo tu equipo");
