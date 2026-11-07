@@ -23,8 +23,11 @@ CRED_META = {"id": "qAgXLEfHwAonxQ8h", "name": "Meta CAPI Clinera Software"}
 # El aviso de Trial va a [Clinera] Comercial con el webhook del nodo vivo «Chat Comercial» de
 # «Videollamadas del día» (qQZiENSRbmFg307W): la URL trae la llave de la sala y no va en el repo.
 WF_CHAT, NODO_CHAT = "qQZiENSRbmFg307W", "Chat Comercial"
-# Loops: credencial Header Auth que crea Ricardo en n8n (Authorization: Bearer <API key de Loops>).
+# Loops: si existe una credencial Header Auth «Loops API» se usa; si no, se copia la cabecera
+# Authorization del nodo vivo «Loops - Enviar Evento» de Suscripción (Stripe), que es donde vive hoy la
+# llave (pegada en el nodo, como en el Wizard y Sub A). La llave no va en el repo.
 NOMBRE_CRED_LOOPS = "Loops API"
+WF_LOOPS, NODO_LOOPS = "7jgtp669q8pWJKm6", "Loops - Enviar Evento"
 
 
 def api(metodo, ruta, cuerpo=None):
@@ -66,7 +69,14 @@ def url_chat():
 def cred_loops():
     for c in api("GET", "/credentials?limit=250").get("data", []):
         if c["name"] == NOMBRE_CRED_LOOPS and c["type"] == "httpHeaderAuth":
-            return {"id": c["id"], "name": c["name"]}
+            return {"cred": {"id": c["id"], "name": c["name"]}, "origen": c["name"]}
+    wf = api("GET", f"/workflows/{WF_LOOPS}")
+    for n in wf["nodes"]:
+        if n["name"] != NODO_LOOPS:
+            continue
+        for h in n["parameters"].get("headerParameters", {}).get("parameters", []):
+            if h.get("name") == "Authorization" and str(h.get("value", "")).startswith("Bearer "):
+                return {"header": h["value"], "origen": "cabecera de «" + NODO_LOOPS + "» (Stripe)"}
     return None
 
 
@@ -114,12 +124,17 @@ def armar(cred, webhook_id, chat_url="SIMULACRO", loops=None):
              "parameters": {"mode": "runOnceForAllItems", "jsCode": leer("loops-evento.js")}},
             {"name": "Enviar a Loops", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [480, 520], **seguro,
              "parameters": {"method": "POST", "url": "https://app.loops.so/api/v1/events/send",
-                            "authentication": "genericCredentialType", "genericAuthType": "httpHeaderAuth",
                             "sendBody": True, "specifyBody": "json",
                             "jsonBody": "={{ JSON.stringify($json.body) }}",
-                            "options": {"timeout": 15000, "response": {"response": {"neverError": True}}}},
-             "credentials": {"httpHeaderAuth": dict(loops)}},
+                            "options": {"timeout": 15000, "response": {"response": {"neverError": True}}}}},
         ]
+        envio = nodos[-1]
+        if "cred" in loops:
+            envio["parameters"].update({"authentication": "genericCredentialType", "genericAuthType": "httpHeaderAuth"})
+            envio["credentials"] = {"httpHeaderAuth": dict(loops["cred"])}
+        else:
+            envio["parameters"].update({"sendHeaders": True, "headerParameters": {"parameters": [
+                {"name": "Authorization", "value": loops["header"]}]}})
         salidas.append({"node": "Armar evento Loops", "type": "main", "index": 0})
         conexiones["Armar evento Loops"] = {"main": [[{"node": "Enviar a Loops", "type": "main", "index": 0}]]}
     conexiones["Webhook app.clinera.io"] = {"main": [salidas]}
@@ -144,7 +159,7 @@ def main():
         print("credencial:", cred["name"], "(se crearía)" if cred["id"] == "SIMULACRO" else "(existe)")
         print("URL: https://n8n.oacg.cl/webhook/" + PATH)
         print("Twenty + aviso a Comercial: sí")
-        print("Loops:", "sí (" + loops["name"] + ")" if loops else "NO: falta la credencial «Loops API» en n8n")
+        print("Loops:", "sí (" + loops["origen"] + ")" if loops else "NO: no encontré la llave de Loops en n8n")
         return
     if existentes:
         wid = existentes[0]["id"]
