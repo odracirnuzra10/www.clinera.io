@@ -1536,3 +1536,5 @@ pide los mismos datos, manda `Lead` (`content_name: web_asistencia`) y el lead (
 recién ahí abre WhatsApp de ventas. Solo se intercepta el enlace con `data-cta-asistencia` cuyo href es exactamente
 `https://wa.me/56985581524?text=necesito%20asistencia`: `/oferta-clinicas-esteticas` y `/super-promo` tienen su propio
 mensaje (es su atribución) y siguen directo a WhatsApp.
+
+**Home sin cifras: las tarjetas y la caja de logos de /prueba-gratis (Ricardo, 7-nov-2026).** El hero ya no lleva «+1.500 · 3 sedes · Prepago» ni la franja `ClinicasLogos`: van las tres tarjetas IA · Redes sociales · Agenda por profesional (`IncluyeClinera`) y la caja de 3 filas de logos en movimiento junto a «El sistema que ocupan las grandes redes de clínicas del país» (`MarcasCaja`), en `src/components/home2/IncluyeYMarcas.tsx`. Las filas viven en `src/content/marcas-filas.ts`, copiadas de `public/kimi-gratis/index.html`: si cambia un logo en la landing, cambia en los dos. `HOME2_CIFRAS` sigue en `home2.ts` sin uso.

@@ -1,0 +1,40 @@
+/* Copia de .cifras y .marcas de public/kimi-gratis/index.html (Ricardo, 7-nov-2026). */
+.incluye{max-width:1120px;margin:0 auto;padding:8px 24px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.item{display:grid;gap:8px;align-content:start;padding:24px;border:1px solid #e5e7eb;border-radius:18px;background:#fff}
+.icono{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:max-content;min-width:40px;height:40px;padding:0 10px;border-radius:12px;background:#f5f3ff;color:#7c3aed;margin-bottom:6px}
+.iconoRedes{background:#f9fafb}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.ch{width:20px;height:20px;display:block}
+.item b{white-space:nowrap;font-size:clamp(21px,2.3vw,28px);font-weight:800;letter-spacing:-.03em;line-height:1;color:#0b0d12}
+.texto{margin-top:4px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12.5px;color:#5b6472;letter-spacing:.02em;line-height:1.5}
+@media (max-width:700px){.incluye{grid-template-columns:1fr;gap:12px;padding:8px 16px 24px}.item{padding:20px}}
+
+.marcas{max-width:1120px;margin:0 auto;padding:88px 24px;display:grid;grid-template-columns:1fr minmax(0,460px);gap:56px;align-items:center;border-top:1px solid #eef0f3}
+.eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#5b6472;margin:0 0 14px}
+.marcasCopy h2{font-size:clamp(28px,3.4vw,42px);font-weight:800;line-height:1.1;letter-spacing:-.03em;color:#0b0d12;margin:0;max-width:13em}
+.caja{aspect-ratio:1/1;display:flex;flex-direction:column;justify-content:space-evenly;background:#fff;border:1px solid #e5e7eb;border-radius:24px;padding:12px 0;overflow:hidden}
+.mask{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+.pista{display:flex;width:max-content;animation:marcasHome 48s linear infinite}
+.vuelta{animation-duration:62s;animation-direction:reverse}
+.lenta{animation-duration:56s}
+@keyframes marcasHome{to{transform:translateX(-50%)}}
+.pista ul{display:flex;align-items:center;gap:36px;list-style:none;margin:0;padding:0 18px}
+.pista :global(li){display:flex;align-items:center;flex:none;height:56px}
+.pista :global(img){height:44px;width:auto;max-width:170px;object-fit:contain;filter:brightness(0);opacity:.5}
+.pista :global(.marca-txt){display:inline-flex;align-items:center;gap:9px;height:44px;color:#737373;font-weight:700;font-size:20px;letter-spacing:-.03em;white-space:nowrap;line-height:1}
+.pista :global(.marca-txt svg){width:24px;height:24px;flex:none;display:block}
+.pista :global(.marca-txt.caps){font-size:15px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.pista :global(.marca-txt.serif){font-family:"IBM Plex Serif",Georgia,serif;font-style:italic;font-weight:500;font-size:22px;letter-spacing:-.02em}
+@media (max-width:860px){
+  .marcas{grid-template-columns:1fr;gap:24px;padding:56px 16px}
+  .caja{aspect-ratio:auto;padding:26px 0;gap:22px}
+  .pista :global(li){height:44px}
+  .pista :global(img){height:34px}
+  .pista :global(.marca-txt){font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){
+  .caja{aspect-ratio:auto}
+  .pista{animation:none;width:100%}
+  .pista ul[aria-hidden="true"]{display:none}
+  .pista ul{flex-wrap:wrap;justify-content:center;gap:20px 28px;width:100%}
+}
