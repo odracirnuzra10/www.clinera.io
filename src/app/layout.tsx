@@ -3,6 +3,7 @@ import "./fonts.css";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
 import StickyMobileCTA from "@/components/cro/StickyMobileCTA";
+import RegistroModal from "@/components/registro/RegistroModal";
 import GclidCapture from "@/components/GclidCapture";
 import { PriceModalityProvider } from "@/components/pricing/PriceModalityProvider";
 import SkipLink from "@/components/SkipLink";
@@ -98,6 +99,7 @@ export default function RootLayout({
         <PriceModalityProvider>{children}</PriceModalityProvider>
 
         <StickyMobileCTA />
+        <RegistroModal />
 
         <Analytics />
       </body>

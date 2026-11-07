@@ -1519,3 +1519,14 @@ gratis) → funciones del software → demo → planes (`PlanesTrial`) → testi
 - **Menú: Software · Planes · Blog** (`/novedades`).
 - **Metricads y «Meta y Google partner» también escondidos** (`HOME2_MOSTRAR.metricads`): el paso 2017 de la historia, el cargo, las credenciales y la tarjeta del canal de YouTube. Queda CNN Chile.
 - Los artículos del blog del home no pueden nombrar competidores (prueba de `home2.spec`) ni las clínicas de la red.
+
+# «Regístrate gratis» abre el modal de registro; /prueba-gratis es solo para anuncios (Ricardo, 7-nov-2026)
+
+Todo enlace con `data-cta-registro` del sitio Next (menú, home, `/planes`, tarjeta flotante, landings) abre
+`src/components/registro/RegistroModal.tsx`, montado en `layout.tsx`: un listener de clic global lo intercepta, así que
+un CTA nuevo hecho con `CtaRegistro` lo hereda solo. El `href` a `/prueba-gratis` queda de respaldo sin JS. El modal
+copia el contrato del de la landing: celular con largo exacto por país y sin números de relleno (`src/lib/registro-fono.ts`,
+copia de la regla de `public/kimi-gratis/index.html`: si cambia una, cambia la otra), `Lead` US$ 3 al pixel y a CAPI con el
+mismo `event_id` (`lead_web_…`, `content_name: web_registro`; el CAPI sale antes de cambiar de página), lead a `/api/wizard`
+(`fuente: "Web <ruta> — registro <plan>"`) y después `app.clinera.io/auth/register` con los datos, el plan (`data-plan-elegido`
+de la tarjeta; por defecto xcale), `lead_event_id`, fbp/fbc y utm. Guardián: `tests/registro-modal.spec.ts`.
