@@ -1,18 +1,10 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Metodología PMFC", () => {
-  // Desde el 26-oct-2026 el home es el de /home2: PMFC con un visual por letra.
-  test("home: sección PMFC con 4 piezas y link al artículo", async ({ page }) => {
+  // Ricardo, 7-nov-2026: el home vende solo el software. PMFC queda escondido (HOME2_MOSTRAR.pmfc), no borrado.
+  test("home: PMFC escondido", async ({ page }) => {
     await page.goto("/");
-    const sec = page.locator('[data-home2="pmfc"]');
-    await expect(sec).toBeVisible();
-    await expect(sec.locator("[data-home2-pmfc]")).toHaveCount(4);
-    await expect(sec).toContainText(/valores de referencia/i);
-    await expect(sec).not.toContainText(/patentad/i);
-    await expect(sec.locator("[data-pmfc-link]")).toHaveAttribute(
-      "href",
-      "/blog/metodologia-pmfc-rentabilidad-clinicas-esteticas",
-    );
+    await expect(page.locator('[data-home2="pmfc"]')).toHaveCount(0);
   });
 
   test("artículo: renderiza, sin patentado ni voseo, con precios vigentes", async ({ page }) => {

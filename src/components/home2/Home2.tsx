@@ -5,9 +5,14 @@ import DemoEnVivo from "@/components/home-v3/DemoEnVivo";
 import { Faq, Testimonios } from "@/components/home-v3/sections";
 import PlanesTrial from "@/components/planes-trial/PlanesTrial";
 import FranjaPulso from "@/components/franja/FranjaPulso";
+import { allPosts } from "@/content/posts";
 import { CtaRegistro, CtaAsistencia } from "@/components/cta/CtaPar";
 import {
   HOME2_ALTA_QUALITA,
+  HOME2_BLOG,
+  HOME2_FUNCIONES,
+  HOME2_MOSTRAR,
+  HOME2_PRUEBA,
   HOME2_CASOS,
   HOME2_CASOS_TEXTO,
   HOME2_CIERRE,
@@ -181,7 +186,46 @@ export default function Home2() {
 
       <ClinicasLogos />
 
+      <section className={s.bloque} id="prueba-gratis" data-home2="prueba">
+        <p className={s.eyebrow}>{HOME2_PRUEBA.eyebrow}</p>
+        <h2 className={s.h2}>
+          {HOME2_PRUEBA.titulo} <span className={s.grad}>{HOME2_PRUEBA.tituloAcento}</span>
+        </h2>
+        <p className={s.bajada}>{HOME2_PRUEBA.bajada}</p>
+        <ol className={s.pasos}>
+          {HOME2_PRUEBA.pasos.map((p) => (
+            <li key={p.n} className={s.paso} data-home2-paso={p.n}>
+              <span className={s.pasoN}>{p.n}</span>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
+            </li>
+          ))}
+        </ol>
+        <Cta donde="prueba" />
+      </section>
 
+      <section className={s.bloque} id="funciones" data-home2="funciones">
+        <p className={s.eyebrow}>{HOME2_FUNCIONES.eyebrow}</p>
+        <h2 className={s.h2}>
+          {HOME2_FUNCIONES.titulo} <span className={s.grad}>{HOME2_FUNCIONES.tituloAcento}</span>
+        </h2>
+        <ul className={s.funciones}>
+          {HOME2_FUNCIONES.items.map((f) => (
+            <li key={f.titulo} className={s.funcion}>
+              <h3>{f.titulo}</h3>
+              <p>{f.texto}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <div className={s.importado}>
+        <DemoEnVivo />
+      </div>
+
+      <PlanesTrial />
+
+      {HOME2_MOSTRAR.pmfc ? (
       <section className={s.bloque} id="pmfc" data-home2="pmfc">
         <p className={s.eyebrow}>{HOME2_PMFC.eyebrow}</p>
         <h2 className={s.h2}>
@@ -213,11 +257,9 @@ export default function Home2() {
           Lee la metodología completa →
         </Link>
       </section>
+      ) : null}
 
-      <div className={s.importado}>
-        <DemoEnVivo />
-      </div>
-
+      {HOME2_MOSTRAR.casos ? (
       <section className={s.bloque} id="casos" data-home2="casos">
         <p className={s.eyebrow}>{HOME2_CASOS_TEXTO.eyebrow}</p>
         <h2 className={s.h2}>
@@ -274,10 +316,37 @@ export default function Home2() {
         </div>
       </section>
 
+      ) : null}
+
       <div className={s.importado}>
         <Testimonios />
       </div>
-      <PlanesTrial />
+
+      <section className={s.bloque} id="blog" data-home2="blog">
+        <p className={s.eyebrow}>{HOME2_BLOG.eyebrow}</p>
+        <h2 className={s.h2}>
+          {HOME2_BLOG.titulo} <span className={s.grad}>{HOME2_BLOG.tituloAcento}</span>
+        </h2>
+        <div className={s.blog}>
+          {HOME2_BLOG.slugs
+            .map((slug) => allPosts.find((p) => p.slug === slug))
+            .filter((p) => p !== undefined)
+            .map((p) => (
+              <Link key={p.slug} href={`/blog/${p.slug}`} className={s.post} data-home2-post={p.slug}>
+                {p.heroImage ? (
+                  <span className={s.postFoto}>
+                    <Image src={p.heroImage} alt="" fill sizes="(max-width: 860px) 100vw, 33vw" />
+                  </span>
+                ) : null}
+                <strong>{p.title}</strong>
+                <span>{p.description}</span>
+              </Link>
+            ))}
+        </div>
+        <Link href={HOME2_BLOG.verTodo.href} className={s.casoLink} data-home2-blog-todo>
+          {HOME2_BLOG.verTodo.texto} →
+        </Link>
+      </section>
 
       <section className={s.bloque} id="alta-qualita" data-home2="alta-qualita">
         <div className={s.convenio}>

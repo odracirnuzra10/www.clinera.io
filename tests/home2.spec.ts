@@ -3,7 +3,7 @@
 
 import { expect, test } from "@playwright/test";
 
-test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
+test("home: prueba gratis, funciones, blog, historia y fundador", async ({ page }) => {
   await page.route(/connect\.facebook\.net|googletagmanager/, (route) =>
     route.abort(),
   );
@@ -23,17 +23,16 @@ test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
     "Ricardo Oyarzún",
   );
 
-  await expect(page.locator("[data-home2-caso]")).toHaveCount(4);
-  await expect(page.locator('[data-home2-caso="hebe"]')).toContainText("23x");
-  await expect(page.locator('[data-home2-caso="lumina"]')).toContainText("31x");
-  await expect(page.locator('[data-home2-caso="sucursal"]')).toContainText(
-    "US$ 220.000",
-  );
-  await expect(page.locator('[data-home2-caso="sucursal"] h3')).toHaveText(
-    "Una sucursal de nuestra red",
-  );
+  // Ricardo, 7-nov-2026: el home vende solo el software. PMFC y los casos de campañas
+  // quedan escondidos (HOME2_MOSTRAR en src/content/home2.ts), no borrados.
+  await expect(page.locator("[data-home2-caso]")).toHaveCount(0);
+  await expect(page.locator("[data-home2-pmfc]")).toHaveCount(0);
+  await expect(page.locator("[data-home2-paso]")).toHaveCount(3);
+  await expect(page.locator('[data-home2="funciones"]')).toContainText("Agenda por profesional");
+  await expect(page.locator("[data-home2-post]")).toHaveCount(3);
+  await expect(page.locator("[data-home2-blog-todo]")).toHaveAttribute("href", "/novedades");
   // Ricardo, 26-oct-2026: la red propia es «nuestra red de clínicas», sin marcas.
-  for (const zona of ["hero", "historia", "casos", "fundador"]) {
+  for (const zona of ["hero", "historia", "fundador"]) {
     await expect(page.locator(`[data-home2="${zona}"]`)).not.toContainText(
       /Hebe|Lumina/,
     );
@@ -78,23 +77,6 @@ test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
   await expect(convenio.locator("a")).toHaveAttribute(
     "href",
     "https://alta-qualita.cl",
-  );
-  // PMFC con las cuatro letras y la C mostrando cómo agenda.
-  for (const letra of ["P", "M", "F", "C"]) {
-    await expect(page.locator(`[data-home2-pmfc="${letra}"]`)).toBeVisible();
-  }
-  await expect(page.locator('[data-home2-pmfc="M"]')).toContainText(
-    "evaluaciones prepagadas",
-  );
-  await expect(page.locator('[data-home2-pmfc="F"]')).toContainText(
-    "alto valor",
-  );
-  // Un solo ejemplo recorre las cuatro letras (Ricardo, 27-oct-2026).
-  await expect(page.locator('[data-home2-pmfc="P"]')).toContainText("Facial 360");
-  await expect(page.locator('[data-home2-pmfc="M"]')).toContainText("US$ 20");
-  await expect(page.locator('[data-home2-pmfc="F"]')).toContainText("US$ 1.800");
-  await expect(page.locator("[data-home2-slot-nuevo]")).toContainText(
-    "Valentina R.",
   );
   // Lo que viene del home: demo, testimonios, planes y preguntas.
   await expect(page.locator("#demo-3-min")).toHaveCount(1);
