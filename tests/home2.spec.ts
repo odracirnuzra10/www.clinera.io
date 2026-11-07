@@ -54,15 +54,13 @@ test("home: prueba gratis, funciones, blog, historia y fundador", async ({ page 
   await expect(planes).toContainText("US$ 129");
   await expect(planes).toContainText("US$ 149");
 
-  // Ricardo, 27-oct-2026: canal de YouTube y CNN Chile en «Quién está detrás».
-  await expect(page.locator("[data-home2-medio]")).toHaveCount(2);
+  // Ricardo, 7-nov-2026: Metricads y «Meta partner» escondidos del home (HOME2_MOSTRAR.metricads).
+  // Queda CNN Chile en «Quién está detrás».
+  await expect(page.locator("[data-home2-medio]")).toHaveCount(1);
   await expect(page.locator('[data-home2-medio="cnn"]')).toContainText(
     "CNN Chile",
   );
-  await expect(page.locator('[data-home2-medio="youtube"]')).toHaveAttribute(
-    "href",
-    /youtube\.com/,
-  );
+  await expect(page.locator("main")).not.toContainText(/Metricads|Meta y Google partner/);
 
   for (const donde of ["hero", "cierre"]) {
     // Ricardo, 7-nov-2026: «Regístrate gratis» (principal) y «Solicita asistencia» (WhatsApp).
