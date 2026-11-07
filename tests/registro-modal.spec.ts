@@ -51,3 +51,22 @@ test("en /planes cada tarjeta abre el modal con su plan", async ({ page }) => {
   await modal.locator("[data-registro-enviar]").click();
   await expect.poll(() => alta).toContain("plan=flux");
 });
+
+test("«Solicita asistencia» abre el modal en modo asistencia y después WhatsApp", async ({ page, context }) => {
+  const llamadas: string[] = [];
+  await page.route("**/api/wizard", (r) => { llamadas.push(r.request().postDataJSON().fuente); return r.fulfill({ status: 200, body: "{}" }); });
+  await page.route("**/api/meta/capi", (r) => r.fulfill({ status: 200, body: "{}" }));
+  await context.route("https://wa.me/**", (r) => r.fulfill({ status: 200, body: "wa" }));
+  await page.goto("/", { waitUntil: "networkidle" });
+  await page.locator('[data-home2-cta="hero"]').click();
+  const modal = page.locator("[data-registro-modal]");
+  await expect(modal.getByRole("heading")).toHaveText("Solicita asistencia");
+  await modal.locator("input[name=nombre]").fill("Ana");
+  await modal.locator("input[name=celular]").fill("987123456");
+  await modal.locator("input[name=email]").fill("ana@prueba.cl");
+  await modal.locator("input[name=clinica]").fill("Clínica");
+  const [wa] = await Promise.all([context.waitForEvent("page"), modal.locator("[data-registro-enviar]").click()]);
+  expect(wa.url()).toContain("wa.me/56985581524");
+  await expect(modal).toHaveCount(0);
+  expect(llamadas[0]).toContain("asistencia");
+});
