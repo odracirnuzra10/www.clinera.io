@@ -70,18 +70,21 @@ def mjml(asunto: str, preview: str, cuerpo: str) -> str:
     <mj-attributes><mj-all font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" /></mj-attributes>
   </mj-head>
   <mj-body background-color="#F7F7F8" width="560px">
-    <mj-section padding="28px 0 0"><mj-column><mj-divider border-width="6px" border-color="#7C3AED" padding="0" /></mj-column></mj-section>
-    <mj-section background-color="#ffffff" padding="28px 28px 8px">
+    <!-- Franja de la marca en el borde derecho, como en clinera.io (Ricardo, 7-nov-2026). img/franja.png mide 560x8:
+         blanco con las 4 bandas en los últimos 32 px, repetida hacia abajo y anclada a la derecha, así en el celular (más angosto) también se ve. Outlook de escritorio no la muestra. -->
+    <mj-wrapper background-color="#ffffff" background-url="img/franja.png" background-repeat="repeat" background-position="top right" background-size="560px 8px" padding="0" css-class="franja">
+    <mj-section padding="32px 60px 8px 28px">
       <mj-column>
         <mj-text font-size="20px" font-weight="800" color="#111318" padding="0 0 24px">clinera<span style="color:#22C55E">.</span>io</mj-text>
         {cuerpo_mj}
       </mj-column>
     </mj-section>
-    <mj-section background-color="#ffffff" padding="12px 28px 28px">
+    <mj-section padding="12px 60px 28px 28px">
       <mj-column>
         <mj-text font-size="12px" color="#9CA3AF" padding="0">Recibes este correo porque creaste una cuenta gratis en Clinera. <a href="{{unsubscribe_link}}" style="color:#9CA3AF">Darme de baja</a></mj-text>
       </mj-column>
     </mj-section>
+    </mj-wrapper>
   </mj-body>
 </mjml>
 """.replace("{{unsubscribe_link}}", "{unsubscribe_link}")
@@ -99,7 +102,7 @@ def main(salida: str):
         z = os.path.join(salida, f"{n:02d}-{slug}.zip")
         with zipfile.ZipFile(z, "w", zipfile.ZIP_DEFLATED) as f:
             f.writestr("index.mjml", mjml(asunto, PREVIEW[n], cuerpo))
-            f.writestr("img/", "")
+            f.write(os.path.join(AQUI, "img", "franja.png"), "img/franja.png")
         hechos.append(os.path.basename(z))
     print("\n".join(hechos))
 
