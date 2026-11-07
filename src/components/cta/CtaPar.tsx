@@ -1,7 +1,7 @@
 "use client";
 
 // Los dos únicos CTA del sitio (Ricardo, 7-nov-2026; reemplaza «Contratar Hex» + «Hablar con ventas» del 4-nov):
-// · Principal «Regístrate gratis» → /contrata (la landing de la demo de 7 días), en degradado.
+// · Principal «Regístrate gratis» → /prueba-gratis (la landing de la demo de 7 días; /contrata sirve la misma), en degradado.
 // · Secundario «Solicita asistencia» → WhatsApp de ventas con «necesito asistencia», blanco con borde.
 // El principal conserva la query de la visita (utm, gclid, fbclid) para que el Lead de la landing
 // quede atribuido. Saca `plan`, `pago` y `carrito`: con esas claves /contrata abre el carrito de Flux.
@@ -11,7 +11,7 @@ import { GRAD } from "@/components/brand-v3/Brand";
 
 export const CTA_REGISTRO_LABEL = "Regístrate gratis";
 export const CTA_ASISTENCIA_LABEL = "Solicita asistencia";
-export const REGISTRO_PATH = "/contrata";
+export const REGISTRO_PATH = "/prueba-gratis";
 export const ASISTENCIA_URL = "https://wa.me/56985581524?text=necesito%20asistencia";
 
 const noop = () => () => {};

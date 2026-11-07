@@ -16,7 +16,7 @@ export default function VerDemoFloat() {
   // /super-promo: una sola pantalla con el CTA a WhatsApp.
   if (pathname === "/super-promo") return null;
   // /contrata: landing corta con sus propios botones de alta.
-  if (pathname === "/contrata") return null;
+  if (pathname === "/contrata" || pathname === "/prueba-gratis") return null;
 
   return (
     <>

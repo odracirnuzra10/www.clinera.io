@@ -15,14 +15,19 @@ test.describe("/contrata", () => {
     await expect(page.locator("h1")).toHaveText("Crea tu cuenta gratis");
     await expect(page.locator("[data-testid=kimi-gratis-planes]")).toBeVisible();
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+    // Ricardo, 7-nov-2026: /prueba-gratis es la URL principal de la misma landing.
+    await page.goto("/prueba-gratis?utm_source=instagram&plan=flux", { waitUntil: "domcontentloaded" });
+    expect(new URL(page.url()).pathname).toBe("/prueba-gratis");
+    await expect(page.locator("h1")).toHaveText("Crea tu cuenta gratis");
     for (const q of ["?plan=flux", "?carrito=1", "?pago=cancelado"]) {
       await page.goto("/contrata" + q, { waitUntil: "domcontentloaded" });
       await expect(page.locator("[data-carrito]"), q).toBeVisible();
     }
   });
 
-  test("con ?plan= sigue el carrito: no redirige, no se indexa y conserva el pie legal", async ({ page }) => {
-    const res = await page.goto("/contrata?plan=flux", { waitUntil: "domcontentloaded" });
+  // ?carrito=1 abre el carrito vacío (con ?plan= ya parte con Flux adentro y no hay «Agregar al carrito» en Flux).
+  test("con ?carrito= sigue el carrito: no redirige, no se indexa y conserva el pie legal", async ({ page }) => {
+    const res = await page.goto("/contrata?carrito=1", { waitUntil: "domcontentloaded" });
     expect(res?.status()).toBe(200);
     expect(new URL(page.url()).pathname).toBe("/contrata");
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);

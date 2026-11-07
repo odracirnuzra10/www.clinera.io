@@ -1702,7 +1702,7 @@ function FinalCTA() {
             }}
           >
             <Link
-              href="/contrata"
+              href="/prueba-gratis"
               style={{
                 background: GRAD,
                 color: "#fff",

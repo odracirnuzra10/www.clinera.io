@@ -9,8 +9,8 @@ import { join } from "node:path";
 
 const PAGINAS = [
   // Ricardo, 7-nov-2026: la banda cierra con los dos CTA del sitio (el primero es «Regístrate gratis»).
-  { path: "/software-estetica", cta: /^\/contrata/ },
-  { path: "/blog/mejores-software-clinicas-esteticas", cta: /^\/contrata/ },
+  { path: "/software-estetica", cta: /^\/prueba-gratis/ },
+  { path: "/blog/mejores-software-clinicas-esteticas", cta: /^\/prueba-gratis/ },
 ];
 
 test.describe("banda «Activa tu ecosistema»", () => {
@@ -35,7 +35,7 @@ test.describe("banda «Activa tu ecosistema»", () => {
     // Tras hidratar: el servidor no conoce la query.
     await expect(page.locator("[data-agente-ia-banda] a[data-cta-registro]")).toHaveAttribute(
       "href",
-      "/contrata?utm_source=google&gclid=abc",
+      "/prueba-gratis?utm_source=google&gclid=abc",
     );
   });
 
