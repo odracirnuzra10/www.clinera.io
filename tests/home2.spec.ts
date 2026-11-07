@@ -69,7 +69,7 @@ test("home: historia, fundador y cuatro casos con cifra", async ({ page }) => {
     // Ricardo, 7-nov-2026: «Regístrate gratis» (principal) y «Solicita asistencia» (WhatsApp).
     await expect(page.locator(`[data-home2-cta="${donde}"]`)).toHaveAttribute("href", "https://wa.me/56985581524?text=necesito%20asistencia");
     await expect(page.locator(`[data-home2-cta="${donde}"]`)).toHaveText("Solicita asistencia");
-    await expect(page.locator(`[data-home2-registro="${donde}"]`)).toHaveAttribute("href", "/contrata");
+    await expect(page.locator(`[data-home2-registro="${donde}"]`)).toHaveAttribute("href", "/prueba-gratis");
     await expect(page.locator(`[data-home2-registro="${donde}"]`)).toHaveText("Regístrate gratis");
   }
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Tú atiendes pacientes");

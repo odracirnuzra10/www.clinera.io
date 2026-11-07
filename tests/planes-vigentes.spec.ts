@@ -37,8 +37,8 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
       const card = page.locator(`[data-plan-card="${p.id}"]`);
       await expect(card).toContainText(`US$ ${p.monthlyUsd}`);
       await expect(card.locator("[data-canales]")).toHaveAttribute("aria-label", /WhatsApp/);
-      // «Regístrate gratis» va a /contrata con la query de la visita, sin `plan` (abriría el carrito).
-      await expect(card.locator("a[data-cta-registro]")).toHaveAttribute("href", "/contrata?utm_source=google");
+      // «Regístrate gratis» va a /prueba-gratis con la query de la visita, sin `plan`.
+      await expect(card.locator("a[data-cta-registro]")).toHaveAttribute("href", "/prueba-gratis?utm_source=google");
     }
     await expect(page.locator('[data-plan-card="xcale"]')).toContainText("Recomendado");
     await expect(page.locator('[data-plan-card="xcale"]')).toContainText("Onboarding humano");

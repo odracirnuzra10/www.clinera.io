@@ -14,6 +14,7 @@ const HIDDEN_PREFIXES = [
   "/reserva-tu-hora",
   "/gracias",
   "/contrata",
+  "/prueba-gratis",
   "/go",
   "/empleado-digital",
   "/vision-2027",

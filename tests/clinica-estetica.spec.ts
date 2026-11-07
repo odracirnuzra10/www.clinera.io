@@ -20,11 +20,11 @@ test.describe("redirects a /agenda", () => {
 });
 
 test.describe("home", () => {
-  test("el Nav lleva «Regístrate gratis» a /contrata con la query y «Solicita asistencia» a WhatsApp (7-nov-2026)", async ({ page }) => {
+  test("el Nav lleva «Regístrate gratis» a /prueba-gratis con la query y «Solicita asistencia» a WhatsApp (7-nov-2026)", async ({ page }) => {
     await page.goto("/?gclid=abc&plan=flux", { waitUntil: "domcontentloaded" });
     const registro = page.locator("header a[data-cta-registro]").first();
     // Sin `plan`: con esa clave /contrata abre el carrito de Flux.
-    await expect(registro).toHaveAttribute("href", "/contrata?gclid=abc");
+    await expect(registro).toHaveAttribute("href", "/prueba-gratis?gclid=abc");
     await expect(page.locator("header a[data-cta-asistencia]").first()).toHaveAttribute("href", "https://wa.me/56985581524?text=necesito%20asistencia");
   });
 
@@ -39,7 +39,7 @@ test.describe("home", () => {
     await page.goto("/ecosistema", { waitUntil: "domcontentloaded" });
     await expect(page.locator("[data-marketing-performance] [data-marketing-bloque]")).toHaveCount(4);
     // Ricardo, 4-nov-2026: el bloque de marketing cierra con los dos CTA del sitio.
-    await expect(page.locator("[data-marketing-performance] [data-cta-registro]")).toHaveAttribute("href", "/contrata");
+    await expect(page.locator("[data-marketing-performance] [data-cta-registro]")).toHaveAttribute("href", "/prueba-gratis");
     await expect(page.locator("[data-marketing-performance] [data-cta-asistencia]")).toHaveAttribute("href", "https://wa.me/56985581524?text=necesito%20asistencia");
     await page.goto("/", { waitUntil: "domcontentloaded" });
     for (const viejo of [/Vortex/, /Hurricane/, /Atlas/, /Summit/, new RegExp("CU" + "KI")]) {

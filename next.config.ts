@@ -315,6 +315,12 @@ const nextConfig: NextConfig = {
         source: '/kimi-gratis',
         destination: '/kimi-gratis/index.html',
       },
+      // URL principal de la prueba gratis desde el 7-nov-2026 (Ricardo). /contrata sigue sirviéndola
+      // para los anuncios y links que ya circulan.
+      {
+        source: '/prueba-gratis',
+        destination: '/kimi-gratis/index.html',
+      },
       ],
     };
   },
