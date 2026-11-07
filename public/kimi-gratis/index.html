@@ -15,6 +15,16 @@ t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,do
 fbq('init', '2251201709002818');
 fbq('track', 'PageView');})();
 </script>
+<!-- Etiqueta de Google (GA4 + Google Ads), 7-nov-2026: los anuncios de Google llegan acá. Guarda el gclid
+     (conversion linker) y manda generate_lead al registrarse. Mismo corte que el pixel: no en localhost ni *.vercel.app. -->
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+(function(){var h=location.hostname;if(h==='localhost'||h==='127.0.0.1'||/\.vercel\.app$/.test(h))return;
+gtag('js',new Date());
+gtag('config','G-FB5YV66KKJ',{page_title:'Prueba gratis 7 días',content_group:'prueba_gratis'});
+gtag('config','AW-17578193353',{allow_enhanced_conversions:true});
+var gs=document.createElement('script');gs.async=true;gs.src='https://www.googletagmanager.com/gtag/js?id=G-FB5YV66KKJ';document.head.appendChild(gs);})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -1828,6 +1838,11 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     try{ sessionStorage.setItem("cl_lead_kimi_gratis_id",eventId); }catch(e){}
     var custom={value:3,currency:"USD",content_name:origen==="asistencia"?"kimi_gratis_asistencia":"kimi_gratis_registro"};
     if(typeof window.fbq==="function"){ try{ window.fbq("track","Lead",custom,{eventID:eventId}); }catch(e){} }
+    // Google (GA4 + Ads): generate_lead con el mismo id, y correo/celular para las conversiones mejoradas.
+    try{
+      gtag("set","user_data",{email:datos.email.trim().toLowerCase(),phone_number:datos.telefono});
+      gtag("event","generate_lead",{value:3,currency:"USD",transaction_id:eventId,content_name:custom.content_name,transport_type:"beacon"});
+    }catch(e){}
     Promise.all([sha256(datos.email.trim().toLowerCase()),sha256(datos.telefono.replace(/\D/g,""))]).then(function(h){
       var ud={}; if(h[0])ud.em=h[0]; if(h[1])ud.ph=h[1];
       return fetch("/api/meta/capi",{method:"POST",keepalive:true,headers:{"Content-Type":"application/json"},body:JSON.stringify({
