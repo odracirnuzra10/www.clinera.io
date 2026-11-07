@@ -68,3 +68,63 @@ test.describe("webhook app.clinera.io → Meta", () => {
     expect(correr(decidirSrc, st, [ev({ event: "account_created" })])[0].json.omitido).toBe("sin_event_o_account_id");
   });
 });
+
+// Trial en Twenty (7-nov-2026): corre el nodo real contra un Twenty simulado.
+const trialSrc = readFileSync(join(DIR, "trial-twenty.js"), "utf8");
+const loopsSrc = readFileSync(join(DIR, "loops-evento.js"), "utf8");
+type Llamada = { method: string; url: string; body?: any };
+async function trial(items: Item[], st: Record<string, any>, twenty: (c: Llamada) => any) {
+  const llamadas: Llamada[] = [];
+  const ctx = { helpers: { httpRequest: async (o: any) => { const c = { method: o.method, url: o.url, body: o.body }; llamadas.push(c); return twenty(c); } } };
+  const AsyncFn = Object.getPrototypeOf(async function () {}).constructor;
+  const fn = new AsyncFn("$env", "$getWorkflowStaticData", "$input", trialSrc);
+  const out = await fn.call(ctx, { TWENTY_API_KEY: "k" }, () => st, { all: () => items });
+  return { out: out as Item[], llamadas };
+}
+const vacio = { data: { people: [], opportunities: [] } };
+
+test.describe("Trial en Twenty", () => {
+  test("sin persona: crea persona y negocio en TRIAL y avisa una sola vez", async () => {
+    const st: Record<string, any> = {};
+    const twenty = (c: Llamada) =>
+      c.method === "GET" ? vacio : c.url.endsWith("/rest/people") ? { data: { createPerson: { id: "p1" } } } : { data: { createOpportunity: { id: "o1" } } };
+    const r = await trial([ev({ event: "account_created", account_id: "a1", email: "Ana@Clinica.cl", telefono: "+56912345678", nombre: "Ana Pérez", clinica: "Clínica Aurora", fbclid: "x" })], st, twenty);
+    expect(r.out).toHaveLength(1);
+    expect(r.out[0].json.accion).toBe("creado_en_trial");
+    expect(r.out[0].json.text).toContain("Trial nuevo");
+    expect(r.out[0].json.text).toContain("/object/opportunity/o1");
+    const opp = r.llamadas.find((c) => c.method === "POST" && c.url.endsWith("/rest/opportunities"))!;
+    expect(opp.body).toMatchObject({ stage: "TRIAL", pointOfContactId: "p1", canalOrigen: "META_ADS", name: "Clínica Aurora" });
+    const otra = await trial([ev({ event: "account_created", account_id: "a1", email: "ana@clinica.cl" })], st, twenty);
+    expect(otra.out).toHaveLength(0);
+  });
+
+  test("negocio en MQL sube a TRIAL; un cliente no se toca ni se avisa", async () => {
+    const conNegocio = (stage: string) => (c: Llamada) =>
+      c.method === "GET" && c.url.includes("/rest/people") ? { data: { people: [{ id: "p1" }] } }
+      : c.method === "GET" ? { data: { opportunities: [{ id: "o9", stage }] } } : {};
+    const r = await trial([ev({ event: "account_created", account_id: "a2", email: "x@y.cl" })], {}, conNegocio("MQL"));
+    expect(r.llamadas.some((c) => c.method === "PATCH" && c.url.endsWith("/rest/opportunities/o9") && c.body.stage === "TRIAL")).toBe(true);
+    expect(r.out[0].json.accion).toBe("subido_a_trial");
+    const cli = await trial([ev({ event: "account_created", account_id: "a3", email: "x@y.cl" })], {}, conNegocio("CUSTOMER"));
+    expect(cli.llamadas.some((c) => c.method === "PATCH")).toBe(false);
+    expect(cli.out).toHaveLength(0);
+  });
+
+  test("otros eventos no tocan Twenty", async () => {
+    const r = await trial([ev({ event: "whatsapp_connected", account_id: "a4", email: "x@y.cl" })], {}, () => vacio);
+    expect(r.llamadas).toHaveLength(0);
+    expect(r.out).toHaveLength(0);
+  });
+
+  test("Loops recibe cada aviso como evento con las propiedades del contacto", () => {
+    const out = correr(loopsSrc, {}, [
+      ev({ event: "account_created", email: "Ana@Clinica.cl", nombre: "Ana Pérez", clinica: "Aurora", account_id: "a1", occurred_at: ahora }),
+      ev({ event: "whatsapp_connected", email: "ana@clinica.cl" }),
+      ev({ event: "ping", email: "ana@clinica.cl" }),
+    ]);
+    expect(out).toHaveLength(2);
+    expect(out[0].json.body).toMatchObject({ email: "ana@clinica.cl", eventName: "trial_iniciado", firstName: "Ana", clinica: "Aurora" });
+    expect(out[1].json.body).toMatchObject({ eventName: "whatsapp_conectado", whatsappConectado: true });
+  });
+});

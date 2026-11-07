@@ -20,6 +20,11 @@ NOMBRE_CRED = "Clinera app · webhook (X-Clinera-Secret)"
 PATH = "clinera-app-eventos"
 PIXEL = "2251201709002818"
 CRED_META = {"id": "qAgXLEfHwAonxQ8h", "name": "Meta CAPI Clinera Software"}
+# El aviso de Trial va a [Clinera] Comercial con el webhook del nodo vivo «Chat Comercial» de
+# «Videollamadas del día» (qQZiENSRbmFg307W): la URL trae la llave de la sala y no va en el repo.
+WF_CHAT, NODO_CHAT = "qQZiENSRbmFg307W", "Chat Comercial"
+# Loops: credencial Header Auth que crea Ricardo en n8n (Authorization: Bearer <API key de Loops>).
+NOMBRE_CRED_LOOPS = "Loops API"
 
 
 def api(metodo, ruta, cuerpo=None):
@@ -50,7 +55,22 @@ def credencial(aplicar):
     return {"id": c["id"], "name": c["name"]}, valor
 
 
-def armar(cred, webhook_id):
+def url_chat():
+    wf = api("GET", f"/workflows/{WF_CHAT}")
+    xs = [n for n in wf["nodes"] if n["name"] == NODO_CHAT]
+    if len(xs) != 1 or "chat.googleapis.com" not in xs[0]["parameters"].get("url", ""):
+        raise SystemExit("No encontré el webhook de [Clinera] Comercial en «Chat Comercial»")
+    return xs[0]["parameters"]["url"]
+
+
+def cred_loops():
+    for c in api("GET", "/credentials?limit=250").get("data", []):
+        if c["name"] == NOMBRE_CRED_LOOPS and c["type"] == "httpHeaderAuth":
+            return {"id": c["id"], "name": c["name"]}
+    return None
+
+
+def armar(cred, webhook_id, chat_url="SIMULACRO", loops=None):
     seguro = {"onError": "continueRegularOutput"}
     nodos = [
         {"name": "Webhook app.clinera.io", "type": "n8n-nodes-base.webhook", "typeVersion": 2,
@@ -76,6 +96,33 @@ def armar(cred, webhook_id):
     ]
     orden = [n["name"] for n in nodos]
     conexiones = {a: {"main": [[{"node": b, "type": "main", "index": 0}]]} for a, b in zip(orden, orden[1:])}
+    # Rama 2 (7-nov-2026): account_created sube el negocio a TRIAL en Twenty y avisa a Comercial.
+    nodos += [
+        {"name": "Trial en Twenty", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [240, 260], **seguro,
+         "parameters": {"mode": "runOnceForAllItems", "jsCode": leer("trial-twenty.js")}},
+        {"name": "Avisar a Comercial", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [480, 260], **seguro,
+         "parameters": {"method": "POST", "url": chat_url, "sendBody": True, "specifyBody": "json",
+                        "jsonBody": "={{ JSON.stringify({ text: $json.text }) }}", "options": {"timeout": 15000}}},
+    ]
+    salidas = [{"node": "Decidir evento Meta", "type": "main", "index": 0},
+               {"node": "Trial en Twenty", "type": "main", "index": 0}]
+    conexiones["Trial en Twenty"] = {"main": [[{"node": "Avisar a Comercial", "type": "main", "index": 0}]]}
+    # Rama 3: cada aviso va a Loops como evento (la serie de correos de la prueba gratis).
+    if loops:
+        nodos += [
+            {"name": "Armar evento Loops", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [240, 520], **seguro,
+             "parameters": {"mode": "runOnceForAllItems", "jsCode": leer("loops-evento.js")}},
+            {"name": "Enviar a Loops", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [480, 520], **seguro,
+             "parameters": {"method": "POST", "url": "https://app.loops.so/api/v1/events/send",
+                            "authentication": "genericCredentialType", "genericAuthType": "httpHeaderAuth",
+                            "sendBody": True, "specifyBody": "json",
+                            "jsonBody": "={{ JSON.stringify($json.body) }}",
+                            "options": {"timeout": 15000, "response": {"response": {"neverError": True}}}},
+             "credentials": {"httpHeaderAuth": dict(loops)}},
+        ]
+        salidas.append({"node": "Armar evento Loops", "type": "main", "index": 0})
+        conexiones["Armar evento Loops"] = {"main": [[{"node": "Enviar a Loops", "type": "main", "index": 0}]]}
+    conexiones["Webhook app.clinera.io"] = {"main": [salidas]}
     return {"name": NOMBRE_WF, "nodes": nodos, "connections": conexiones,
             "settings": {"executionOrder": "v1", "saveManualExecutions": True}}
 
@@ -90,11 +137,14 @@ def main():
         for n in viejo["nodes"]:
             if n["type"] == "n8n-nodes-base.webhook" and n.get("webhookId"):
                 webhook_id = n["webhookId"]
-    wf = armar(cred, webhook_id)
+    loops = cred_loops()
+    wf = armar(cred, webhook_id, url_chat(), loops)
     if not aplicar:
         print(("ACTUALIZARÍA " + existentes[0]["id"]) if existentes else "CREARÍA el workflow nuevo")
         print("credencial:", cred["name"], "(se crearía)" if cred["id"] == "SIMULACRO" else "(existe)")
         print("URL: https://n8n.oacg.cl/webhook/" + PATH)
+        print("Twenty + aviso a Comercial: sí")
+        print("Loops:", "sí (" + loops["name"] + ")" if loops else "NO: falta la credencial «Loops API» en n8n")
         return
     if existentes:
         wid = existentes[0]["id"]
