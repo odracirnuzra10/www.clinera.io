@@ -4,7 +4,7 @@
 .titulo{font-size:clamp(28px,4vw,44px);line-height:1.08;letter-spacing:-.035em;font-weight:800;margin:0 0 12px;color:#0A0A0A;max-width:18em}
 .bajada{font-size:17px;color:#4B5563;margin:0 0 40px;max-width:40em}
 .planes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
-.card{position:relative;display:flex;flex-direction:column;border:1px solid #E5E7EB;border-radius:20px;padding:24px;background:#fff}
+.card{position:relative;display:grid;grid-row:span 7;grid-template-rows:subgrid;row-gap:0;align-content:start;border:1px solid #E5E7EB;border-radius:20px;padding:24px;background:#fff}
 .destacado{border:1.5px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#2563EB,#7C3AED 55%,#C026D3) border-box}
 .cabeza{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .nombre{font-size:20px;font-weight:800;letter-spacing:-.02em;margin:0;color:#0A0A0A}
@@ -13,10 +13,12 @@
 .precio{margin:0 0 16px;color:#0A0A0A}
 .precio b{font-size:40px;font-weight:800;letter-spacing:-.04em}
 .precio span{font-size:14px;color:#6B7280}
-.lista{list-style:none;margin:0 0 16px;padding:0;flex:1}
+.lista{list-style:none;margin:0 0 16px;padding:0}
 .lista li{padding:9px 0 9px 22px;border-top:1px solid #F3F4F6;font-size:15px;color:#1F2937;position:relative}
 .lista li::before{content:"";position:absolute;left:4px;top:16px;width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#2563EB,#7C3AED)}
-.canales{display:flex;gap:8px;margin:0 0 16px}
+.canales{display:flex;gap:8px;margin:0 0 16px;align-self:end}
+/* Ricardo, 7-nov-2026: los «Regístrate gratis» de las tres tarjetas a la misma altura. Cada tarjeta ocupa 7 filas
+   del grid de .planes (subgrid): una fila por pieza, y la del link de pago queda vacía en Flux y Hex. */
 .cta{width:100%}
 .pago{display:block;text-align:center;margin-top:10px;font-size:14px;color:#4B5563;text-decoration:underline;text-underline-offset:3px}
 .pago:hover{color:#0A0A0A}

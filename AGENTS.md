@@ -1499,3 +1499,11 @@ Guardianes: `home2.spec`, `planes-vigentes.spec`, `clinica-estetica.spec`, `siti
   también la esconden en escritorio. La «×» la cierra por la visita (`sessionStorage`).
 - **Sección del médico** de `/prueba-gratis`: cada fila es problema → «Lo que te cuesta» → «Con Clinera». Los
   `data-testid` `feat-*` se mantienen.
+
+# Tarjetas en fila: todo alineado (Ricardo, 7-nov-2026)
+
+Orden de Ricardo: «así en toda la página web, siempre los elementos alineados». En una fila de tarjetas (planes,
+pasos, beneficios) el título, el precio, la lista, los íconos y sobre todo el botón quedan a la misma altura en todas,
+aunque una tenga más líneas o un link extra abajo. En `PlanesTrial` (home y `/planes`) se hace con `subgrid`: cada
+`.card` ocupa 7 filas del grid de `.planes` y la fila del link de pago queda vacía en Flux y Hex. En `/prueba-gratis`
+el título y el botón de `.pcard` tienen alto fijo. Una fila de tarjetas nueva sigue la misma regla.
