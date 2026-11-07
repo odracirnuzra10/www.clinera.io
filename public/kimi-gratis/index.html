@@ -898,8 +898,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 .medico-lista .sol b{color:#5B21B6}
 @media (max-width:860px){.medico-lista li{grid-template-columns:44px 1fr;gap:12px}.medico-lista .num{font-size:1.25rem}}
 
-/* Franja lateral (7-nov-2026, inspirada en loops.so): cuatro bandas de la marca que crecen al cargar y un
-   pulso de electrocardiograma que las recorre. Decorativa: no recibe clics. */
+/* Franja lateral (7-nov-2026, inspirada en loops.so): cuatro bandas de la marca que crecen al cargar. Decorativa: no recibe clics. */
 .franja{position:fixed;top:0;right:0;bottom:0;width:44px;display:grid;grid-template-columns:repeat(4,1fr);z-index:40;pointer-events:none;overflow:hidden}
 .franja i{display:block;transform-origin:top;transform:scaleY(0);animation:franja-sube 1s cubic-bezier(.2,.8,.2,1) forwards}
 .franja i:nth-child(1){background:#60A5FA;animation-delay:.05s}
@@ -907,11 +906,8 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 .franja i:nth-child(3){background:#7C3AED;animation-delay:.31s}
 .franja i:nth-child(4){background:#C026D3;animation-delay:.44s}
 @keyframes franja-sube{to{transform:scaleY(1)}}
-.franja svg{position:absolute;left:0;width:44px;height:160px;top:-170px;animation:franja-pulso 4.2s linear 1.3s infinite}
-.franja svg path{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 4px rgba(255,255,255,.9))}
-@keyframes franja-pulso{to{transform:translateY(calc(100vh + 180px))}}
-@media (max-width:1279px){.franja{width:10px}.franja svg{display:none}}
-@media (prefers-reduced-motion:reduce){.franja i{animation:none;transform:none}.franja svg{display:none}}
+@media (max-width:1279px){.franja{width:10px}}
+@media (prefers-reduced-motion:reduce){.franja i{animation:none;transform:none}}
 
 /* Tarjeta flotante «Activa tu cuenta gratis» (7-nov-2026, inspirada en loops.so). Es la misma #mobile-cta:
    conserva sus reglas de cuándo aparece (sale el botón del hero) y cuándo se va (llega el cierre). */
@@ -943,6 +939,13 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   body{padding-bottom:calc(150px + env(safe-area-inset-bottom))}
 }
 @media (prefers-reduced-motion:reduce){#mobile-cta.flota{transition:none}}
+
+/* Modal (7-nov-2026, Ricardo): los logos de WhatsApp, Facebook, Instagram y agenda van dentro del recuadro. */
+.cuenta-caja{background:#F7F5FF;border:1px solid #EDE9FE;border-radius:12px;padding:12px 14px;margin:4px 0 18px}
+.cuenta-caja .cuenta-chs{display:flex;gap:8px;margin:0 0 8px}
+.cuenta-caja .cuenta-chs[hidden]{display:none}
+.cuenta-caja .cuenta-chs .ch{width:22px;height:22px}
+.cuenta-card .cuenta-caja [data-cuenta-resumen]{background:none;border:0;padding:0;margin:0;color:#374151;font-weight:600}
 </style>
 </head>
 <body>
@@ -1322,7 +1325,10 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   <form class="cuenta-card" data-cuenta-form novalidate>
     <button class="cuenta-x" type="button" data-cuenta-cerrar aria-label="Cerrar cuenta">×</button>
     <h2 id="cuenta-titulo">Crea tu cuenta gratis</h2>
-    <p data-cuenta-resumen>Crea tu cuenta gratis y conecta tu WhatsApp para que la IA atienda a tus pacientes. 7 días, sin tarjeta de crédito.</p>
+    <div class="cuenta-caja">
+      <div class="cuenta-chs" data-cuenta-chs role="img" aria-label="WhatsApp, Facebook, Instagram y agenda"><svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg><svg class="ch" aria-hidden="true"><use href="#ch-fb"/></svg><svg class="ch" aria-hidden="true"><use href="#ch-ig"/></svg><svg class="ch" aria-hidden="true" viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="6" fill="#7C3AED"/><rect x="5.5" y="7" width="13" height="11.5" rx="2" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M5.5 11h13M9 5v3.5M15 5v3.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+      <p data-cuenta-resumen>Conecta WhatsApp, Facebook e Instagram y agenda pacientes con IA. 7 días, sin tarjeta de crédito.</p>
+    </div>
     <label>Nombre<input name="nombre" autocomplete="name" required maxlength="80" placeholder="Tu nombre"></label>
     <label>Celular<span class="phone"><select name="prefijo" aria-label="Prefijo del país"><option value="+56" selected>+56</option><option value="+52">+52</option><option value="+57">+57</option><option value="+51">+51</option><option value="+54">+54</option><option value="+593">+593</option><option value="+598">+598</option><option value="+1">+1</option></select><input name="celular" type="tel" inputmode="numeric" autocomplete="tel-national" required placeholder="9 1234 5678"></span></label>
     <label>Correo<input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="120" placeholder="tu@correo.com"></label>
@@ -1336,7 +1342,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   </form>
 </div>
 
-<div class="franja" aria-hidden="true"><i></i><i></i><i></i><i></i><svg viewBox="0 0 44 160" preserveAspectRatio="none"><path d="M22 0V58l-9 6 18 10-24 8 20 9-5 5V160"/></svg></div>
+<div class="franja" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
 <div class="mcta flota" id="mobile-cta" data-testid="mobile-cta" role="complementary" aria-label="Activa tu cuenta gratis">
   <div class="flota-cab">
@@ -1487,9 +1493,9 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   var abierto=false, enviando=false, promoOff=false, toastT=0, cuentaModo="cuenta";
   var XCALE_PAGO="https://buy.stripe.com/8x29AV7cZ9eG9wTgwz1441O";
   var PLANES={
-    flux:{nombre:"Flux",precio:"$49",nota:"Crea tu cuenta gratis y conecta tu WhatsApp para que la IA atienda a tus pacientes. 7 días, sin tarjeta de crédito.",mp:false},
-    hex:{nombre:"Hex",precio:"$129",nota:"Crea tu cuenta gratis y conecta tu WhatsApp para que la IA atienda a tus pacientes. 7 días, sin tarjeta de crédito.",mp:false},
-    vortex:{nombre:"Xcale",precio:"$149",nota:"Crea tu cuenta gratis y conecta tu WhatsApp para que la IA atienda a tus pacientes. 7 días, sin tarjeta de crédito.",mp:false,pago:XCALE_PAGO}
+    flux:{nombre:"Flux",precio:"$49",nota:"Conecta WhatsApp, Facebook e Instagram y agenda pacientes con IA. 7 días, sin tarjeta de crédito.",mp:false},
+    hex:{nombre:"Hex",precio:"$129",nota:"Conecta WhatsApp, Facebook e Instagram y agenda pacientes con IA. 7 días, sin tarjeta de crédito.",mp:false},
+    vortex:{nombre:"Xcale",precio:"$149",nota:"Conecta WhatsApp, Facebook e Instagram y agenda pacientes con IA. 7 días, sin tarjeta de crédito.",mp:false,pago:XCALE_PAGO}
   };
   var planElegido="vortex";
   var drawer=document.querySelector("[data-drawer]");
@@ -1665,12 +1671,14 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     var tituloCuenta=document.getElementById("cuenta-titulo");
     if(cuentaModo==="asistencia"){
       if(resumen) resumen.textContent="Deja tus datos y te abrimos WhatsApp.";
+      var chsA=document.querySelector("[data-cuenta-chs]"); if(chsA) chsA.hidden=true;
       if(pagar) pagar.hidden=true;
       if(listo) listo.hidden=true;
       if(enviarWa) enviarWa.hidden=false;
       if(tituloCuenta) tituloCuenta.textContent="Solicita asistencia";
     }else{
       if(resumen) resumen.textContent=spec.nota;
+      var chsB=document.querySelector("[data-cuenta-chs]"); if(chsB) chsB.hidden=false;
       if(pagar){
         pagar.hidden=!spec.mp;
         if(spec.mp){
