@@ -898,8 +898,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 .medico-lista .sol b{color:#5B21B6}
 @media (max-width:860px){.medico-lista li{grid-template-columns:44px 1fr;gap:12px}.medico-lista .num{font-size:1.25rem}}
 
-/* Franja lateral (7-nov-2026, inspirada en loops.so): cuatro bandas de la marca que crecen al cargar y un
-   pulso de electrocardiograma que las recorre. Decorativa: no recibe clics. */
+/* Franja lateral (7-nov-2026, inspirada en loops.so): cuatro bandas de la marca que crecen al cargar. Decorativa: no recibe clics. */
 .franja{position:fixed;top:0;right:0;bottom:0;width:44px;display:grid;grid-template-columns:repeat(4,1fr);z-index:40;pointer-events:none;overflow:hidden}
 .franja i{display:block;transform-origin:top;transform:scaleY(0);animation:franja-sube 1s cubic-bezier(.2,.8,.2,1) forwards}
 .franja i:nth-child(1){background:#60A5FA;animation-delay:.05s}
@@ -907,11 +906,8 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 .franja i:nth-child(3){background:#7C3AED;animation-delay:.31s}
 .franja i:nth-child(4){background:#C026D3;animation-delay:.44s}
 @keyframes franja-sube{to{transform:scaleY(1)}}
-.franja svg{position:absolute;left:0;width:44px;height:160px;top:-170px;animation:franja-pulso 4.2s linear 1.3s infinite}
-.franja svg path{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 4px rgba(255,255,255,.9))}
-@keyframes franja-pulso{to{transform:translateY(calc(100vh + 180px))}}
-@media (max-width:1279px){.franja{width:10px}.franja svg{display:none}}
-@media (prefers-reduced-motion:reduce){.franja i{animation:none;transform:none}.franja svg{display:none}}
+@media (max-width:1279px){.franja{width:10px}}
+@media (prefers-reduced-motion:reduce){.franja i{animation:none;transform:none}}
 
 /* Tarjeta flotante «Activa tu cuenta gratis» (7-nov-2026, inspirada en loops.so). Es la misma #mobile-cta:
    conserva sus reglas de cuándo aparece (sale el botón del hero) y cuándo se va (llega el cierre). */
@@ -1336,7 +1332,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   </form>
 </div>
 
-<div class="franja" aria-hidden="true"><i></i><i></i><i></i><i></i><svg viewBox="0 0 44 160" preserveAspectRatio="none"><path d="M22 0V58l-9 6 18 10-24 8 20 9-5 5V160"/></svg></div>
+<div class="franja" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
 <div class="mcta flota" id="mobile-cta" data-testid="mobile-cta" role="complementary" aria-label="Activa tu cuenta gratis">
   <div class="flota-cab">

@@ -1488,10 +1488,10 @@ Guardianes: `home2.spec`, `planes-vigentes.spec`, `clinica-estetica.spec`, `siti
 
 # Franja con pulso y tarjeta «Activa tu cuenta gratis» (Ricardo, 7-nov-2026, inspiradas en loops.so)
 
-- **Franja:** cuatro bandas azul → violeta → magenta en el borde derecho que crecen al cargar, con un pulso de
-  electrocardiograma que baja por ellas (software + medicina). En el home es `src/components/franja/FranjaPulso.tsx`;
+- **Franja:** cuatro bandas azul → violeta → magenta en el borde derecho que crecen al cargar (el pulso de
+  electrocardiograma se sacó el mismo día, a pedido de Ricardo). En el home es `src/components/franja/FranjaPulso.tsx`;
   en `/prueba-gratis` (`public/kimi-gratis/index.html`) es la copia en HTML `.franja`. Decorativa (`pointer-events:none`),
-  44 px desde 1280 px de ancho y 10 px sin pulso debajo; quieta con reducir movimiento.
+  44 px desde 1280 px de ancho y 10 px debajo; quieta con reducir movimiento.
 - **Tarjeta flotante oscura** (escritorio y celular): íconos de WhatsApp, Facebook, Instagram y agenda, «Activa tu cuenta
   gratis», «7 días · sin tarjeta» y el botón. En el sitio Next reemplaza a la barra de dos botones de `StickyMobileCTA`
   (mismo componente y mismas rutas escondidas; en el celular suma «Solicita asistencia»). En `/prueba-gratis` es la misma
