@@ -1490,7 +1490,7 @@ Guardianes: `home2.spec`, `planes-vigentes.spec`, `clinica-estetica.spec`, `siti
 
 - **Franja:** cuatro bandas azul → violeta → magenta en el borde derecho que crecen al cargar (el pulso de
   electrocardiograma se sacó el mismo día, a pedido de Ricardo). En el home es `src/components/franja/FranjaPulso.tsx`;
-  en `/prueba-gratis` (`public/kimi-gratis/index.html`) es la copia en HTML `.franja`. Decorativa (`pointer-events:none`) y detrás del contenido (`z-index:-1`: la tapan las tarjetas y las secciones con fondo, pedido de Ricardo),
+  en `/prueba-gratis` (`public/kimi-gratis/index.html`) es la copia en HTML `.franja`. Decorativa (`pointer-events:none`), encima del contenido (`z-index:47`; detrás, los bordes de las secciones la cruzaban como líneas blancas) y debajo sólo del cierre y el pie (`z-index:48`) y del menú,
   44 px desde 1280 px de ancho y 10 px debajo; quieta con reducir movimiento.
 - **Tarjeta flotante oscura** (escritorio y celular): íconos de WhatsApp, Facebook, Instagram y agenda, «Activa tu cuenta
   gratis», «7 días · sin tarjeta» y el botón. En el sitio Next reemplaza a la barra de dos botones de `StickyMobileCTA`
