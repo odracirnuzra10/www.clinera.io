@@ -141,7 +141,12 @@ export default function AgendaWizard({
   };
   const Lado = tarjeta ? "div" : "main";
   const raizRef = useRef<HTMLDivElement>(null);
-  const [paso, setPaso] = useState<1 | 2 | 3 | 4>(1);
+  // Ricardo, 7-nov-2026: /agenda (y /agenda-google) parten directo en los datos, sin la boleta del
+  // ahorro. La boleta sigue solo con `oferta` (/oferta-clinicas-esteticas, /agenda?oferta=…).
+  const conBoleta = !!oferta;
+  const PRIMER_PASO: 1 | 2 = conBoleta ? 1 : 2;
+  const totalVisible = conBoleta ? TOTAL : TOTAL - 1;
+  const [paso, setPaso] = useState<1 | 2 | 3 | 4>(PRIMER_PASO);
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [prefix, setPrefix] = useState(() => (MX_TZ.test(tzIp) ? "+52" : "+56"));
@@ -311,7 +316,7 @@ export default function AgendaWizard({
 
   const enCalendario = paso === 4 && booking === null;
   // Panel izquierdo: una imagen por pantalla (campañas → software con IA → reunión semanal).
-  const caso = Math.min(paso - 1, ECOSISTEMA_SLIDES.length - 1);
+  const caso = Math.min(paso - PRIMER_PASO, ECOSISTEMA_SLIDES.length - 1);
   const slide = ECOSISTEMA_SLIDES[caso];
 
   return (
@@ -376,12 +381,12 @@ export default function AgendaWizard({
             ) : (
               <>
                 <div className={styles.progress} aria-hidden>
-                  {Array.from({ length: TOTAL }, (_, i) => (
-                    <span key={i} className={`${styles.seg} ${i + 1 <= paso ? styles.segOn : ""}`} />
+                  {Array.from({ length: totalVisible }, (_, i) => (
+                    <span key={i} className={`${styles.seg} ${i + PRIMER_PASO <= paso ? styles.segOn : ""}`} />
                   ))}
                 </div>
                 <span className={styles.paso}>
-                  Paso {paso} de {TOTAL} · {TITULOS_PASO[paso - 1]}
+                  Paso {paso - PRIMER_PASO + 1} de {totalVisible} · {TITULOS_PASO[paso - 1]}
                 </span>
 
                 {paso === 1 && (
@@ -446,9 +451,11 @@ export default function AgendaWizard({
                     <button type="button" className={base.cta} onClick={enviarPaso2}>
                       Continuar →
                     </button>
-                    <button type="button" className={styles.volver} onClick={() => irA(1)}>
-                      ← Volver
-                    </button>
+                    {conBoleta && (
+                      <button type="button" className={styles.volver} onClick={() => irA(1)}>
+                        ← Volver
+                      </button>
+                    )}
                   </div>
                 )}
 
