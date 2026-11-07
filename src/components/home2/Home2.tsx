@@ -4,6 +4,7 @@ import ClinicasLogos from "@/components/clinicas/ClinicasLogos";
 import DemoEnVivo from "@/components/home-v3/DemoEnVivo";
 import { Faq, Testimonios } from "@/components/home-v3/sections";
 import PlanesTrial from "@/components/planes-trial/PlanesTrial";
+import FranjaPulso from "@/components/franja/FranjaPulso";
 import { CtaRegistro, CtaAsistencia } from "@/components/cta/CtaPar";
 import {
   HOME2_ALTA_QUALITA,
@@ -146,6 +147,7 @@ function Cta({ donde }: { donde: string }) {
 export default function Home2() {
   return (
     <>
+      <FranjaPulso />
       <div className={s.heroFondo}>
         <section className={s.hero} data-home2="hero">
           <p className={s.eyebrow}>{HOME2_HERO.eyebrow}</p>

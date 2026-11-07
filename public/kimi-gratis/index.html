@@ -886,6 +886,63 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 .ad-antes li::before{content:"✕";position:absolute;left:2px;color:#9CA3AF;font-weight:700}
 .ad-con li::before{content:"✓";position:absolute;left:2px;color:#10B981;font-weight:800}
 @media (max-width:760px){.antes .ad-tabla{grid-template-columns:1fr}.urgencia{margin-left:0}}
+
+/* Médico (7-nov-2026): cada fila es un problema del doctor, lo que le cuesta y lo que hace Clinera. */
+.medico-lista li{grid-template-columns:64px 1fr}
+.medico-lista .num{font-size:1.6rem;font-weight:700;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-top:2px}
+.medico-lista h3{font-size:1.28rem;margin-bottom:12px}
+.medico-lista .costo{margin:0 0 10px;color:#374151;font-size:.97rem}
+.medico-lista .costo b{display:block;font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#B91C1C;margin-bottom:2px}
+.medico-lista .sol{display:flex;gap:10px;align-items:flex-start;margin:0;padding:10px 12px;border-radius:10px;background:#F5F3FF;color:#1F2937;font-size:.97rem;max-width:none}
+.medico-lista .sol .ic{flex:0 0 18px;width:18px;height:18px;margin-top:3px;fill:none;stroke:#7C3AED;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.medico-lista .sol b{color:#5B21B6}
+@media (max-width:860px){.medico-lista li{grid-template-columns:44px 1fr;gap:12px}.medico-lista .num{font-size:1.25rem}}
+
+/* Franja lateral (7-nov-2026, inspirada en loops.so): cuatro bandas de la marca que crecen al cargar y un
+   pulso de electrocardiograma que las recorre. Decorativa: no recibe clics. */
+.franja{position:fixed;top:0;right:0;bottom:0;width:44px;display:grid;grid-template-columns:repeat(4,1fr);z-index:40;pointer-events:none;overflow:hidden}
+.franja i{display:block;transform-origin:top;transform:scaleY(0);animation:franja-sube 1s cubic-bezier(.2,.8,.2,1) forwards}
+.franja i:nth-child(1){background:#60A5FA;animation-delay:.05s}
+.franja i:nth-child(2){background:#2563EB;animation-delay:.18s}
+.franja i:nth-child(3){background:#7C3AED;animation-delay:.31s}
+.franja i:nth-child(4){background:#C026D3;animation-delay:.44s}
+@keyframes franja-sube{to{transform:scaleY(1)}}
+.franja svg{position:absolute;left:0;width:44px;height:160px;top:-170px;animation:franja-pulso 4.2s linear 1.3s infinite}
+.franja svg path{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 4px rgba(255,255,255,.9))}
+@keyframes franja-pulso{to{transform:translateY(calc(100vh + 180px))}}
+@media (max-width:1279px){.franja{width:10px}.franja svg{display:none}}
+@media (prefers-reduced-motion:reduce){.franja i{animation:none;transform:none}.franja svg{display:none}}
+
+/* Tarjeta flotante «Activa tu cuenta gratis» (7-nov-2026, inspirada en loops.so). Es la misma #mobile-cta:
+   conserva sus reglas de cuándo aparece (sale el botón del hero) y cuándo se va (llega el cierre). */
+#mobile-cta.flota{display:block;position:fixed;z-index:55;right:64px;left:auto;bottom:24px;width:270px;padding:0;background:#111318;color:#fff;border:1px solid rgba(255,255,255,.1);border-radius:16px;box-shadow:0 20px 50px rgba(17,19,24,.35);overflow:hidden;transition:transform .3s ease,opacity .3s ease}
+#mobile-cta.flota[hidden],#mobile-cta.flota.flota-cerrada{display:none}
+#mobile-cta.flota.mcta-arriba,#mobile-cta.flota.mcta-fin{transform:translateY(24px);opacity:0;pointer-events:none}
+.flota-cab{position:relative;padding:18px 18px 16px}
+.flota-chs{display:flex;gap:8px;margin-bottom:14px}
+.flota-chs .ch{width:22px;height:22px}
+.flota-tit{margin:0;font-size:1.55rem;font-weight:700;line-height:1.08;letter-spacing:-.035em;color:#fff;padding-right:24px}
+.flota-sub{margin:6px 0 0;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.flota-x{position:absolute;top:8px;right:8px;width:36px;height:36px;border:0;border-radius:999px;background:transparent;color:rgba(255,255,255,.7);font-size:1.35rem;line-height:1;cursor:pointer}
+.flota-x:hover{background:rgba(255,255,255,.08);color:#fff}
+#mobile-cta.flota .mcta-row{display:block;border-top:1px solid rgba(255,255,255,.1)}
+#mobile-cta.flota .flota-go{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:54px;margin:0;padding:12px 18px;border:0;border-radius:0;background:#0B0C10;color:#fff;font-size:16px;font-weight:600;text-align:left;cursor:pointer}
+#mobile-cta.flota .flota-go:hover{background:#1B1D24}
+#mobile-cta.flota .flota-go .gratis-chip{margin-left:4px}
+#mobile-cta.flota .flota-go{justify-content:flex-start;white-space:nowrap}
+#mobile-cta.flota .flota-go svg{margin-left:auto;flex:0 0 18px;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#mobile-cta.flota .mcta-asistencia{display:none}
+@media (max-width:1279px){#mobile-cta.flota{right:26px}}
+@media (max-width:768px){
+  #mobile-cta.flota{left:12px;right:22px;bottom:calc(12px + env(safe-area-inset-bottom));width:auto;border-top:1px solid rgba(255,255,255,.1)}
+  .flota-cab{padding:14px 16px 12px}
+  .flota-chs{gap:7px;margin:0 0 8px}
+  .flota-chs .ch{width:18px;height:18px}
+  .flota-tit{font-size:1.2rem}
+  #mobile-cta.flota .flota-go{min-height:50px;padding:10px 16px}
+  body{padding-bottom:calc(150px + env(safe-area-inset-bottom))}
+}
+@media (prefers-reduced-motion:reduce){#mobile-cta.flota{transition:none}}
 </style>
 </head>
 <body>
@@ -968,9 +1025,9 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 <section class="sec medico" id="funciones" data-testid="kimi-medico" aria-labelledby="t-fun">
   <div class="wrap medico-grid">
     <div class="medico-intro">
-      <p class="eyebrow mono rv">Para el médico que atiende y además administra</p>
-      <h2 id="t-fun" class="rv" style="--i:1">Tu consulta, sin la parte que no es medicina</h2>
-      <p class="lead rv" style="--i:2">Estudiaste para atender pacientes, no para contestar mensajes a medianoche ni perseguir pagos. Clinera se queda con eso.</p>
+      <p class="eyebrow mono rv">Lo que vive un médico con consulta propia</p>
+      <h2 id="t-fun" class="rv" style="--i:1">Lo que nadie te enseñó en la universidad</h2>
+      <p class="lead rv" style="--i:2">Estudiaste para atender pacientes. Pero tu día también es contestar mensajes, perseguir pagos y buscar fichas. Eso te quita pacientes, y te quita tiempo con los que ya tienes.</p>
       <div class="chs rv" style="--i:3" role="img" aria-label="WhatsApp, Facebook e Instagram">
         <svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg>
         <svg class="ch" aria-hidden="true"><use href="#ch-fb"/></svg>
@@ -978,10 +1035,10 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
       </div>
     </div>
     <ol class="medico-lista">
-      <li class="rv" data-testid="feat-agenda"><span class="num">01 · Mensajes</span><div><h3>Terminas de atender y tienes el WhatsApp lleno.</h3><p>La IA responde al momento por WhatsApp, Instagram y Facebook, también a las 11 de la noche, y deja la hora en tu agenda.</p></div></li>
-      <li class="rv" style="--i:1" data-testid="feat-redes"><span class="num">02 · Inasistencias</span><div><h3>Pacientes que reservan y no llegan.</h3><p>La evaluación se paga al agendar y los recordatorios salen solos. La paciente llega decidida.</p></div></li>
-      <li class="rv" style="--i:2" data-testid="feat-ficha"><span class="num">03 · Ficha clínica</span><div><h3>Fichas repartidas entre papel y tres sistemas.</h3><p>Ficha, agenda y pagos en el mismo lugar. Abres la ficha desde la hora del paciente.</p></div></li>
-      <li class="rv" style="--i:3" data-testid="feat-ia"><span class="num">04 · Números</span><div><h3>No sabes cuánto vendiste este mes.</h3><p>Le preguntas a Clinera Intelligence y te responde con tus ventas, tu agenda y quién te debe.</p></div></li>
+      <li class="rv" data-testid="feat-agenda"><span class="num">01</span><div><h3>Terminas de atender y tienes 40 WhatsApp sin responder.</h3><p class="costo"><b>Lo que te cuesta</b>El paciente que espera tu respuesta agenda con otra clínica.</p><p class="sol"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span><b>Con Clinera:</b> la IA responde al instante, también a las 11 de la noche, y le deja la hora agendada.</span></p></div></li>
+      <li class="rv" style="--i:1" data-testid="feat-redes"><span class="num">02</span><div><h3>Pacientes que reservan y no llegan.</h3><p class="costo"><b>Lo que te cuesta</b>Una hora vacía en tu agenda que nadie te paga.</p><p class="sol"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span><b>Con Clinera:</b> la evaluación se paga al agendar y el recordatorio sale solo.</span></p></div></li>
+      <li class="rv" style="--i:2" data-testid="feat-ficha"><span class="num">03</span><div><h3>Fichas repartidas entre papel, Excel y otro sistema.</h3><p class="costo"><b>Lo que te cuesta</b>Minutos buscando antecedentes con el paciente sentado al frente.</p><p class="sol"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span><b>Con Clinera:</b> ficha, agenda y pagos en el mismo lugar.</span></p></div></li>
+      <li class="rv" style="--i:3" data-testid="feat-ia"><span class="num">04</span><div><h3>No sabes cuánto ganaste este mes.</h3><p class="costo"><b>Lo que te cuesta</b>Decides a ciegas cuánto invertir, a quién contratar y cuánto cobrar.</p><p class="sol"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span><b>Con Clinera:</b> le preguntas a Clinera y te responde con tus ventas y quién te debe.</span></p></div></li>
     </ol>
   </div>
 </section>
@@ -1279,9 +1336,22 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   </form>
 </div>
 
-<div class="mcta" id="mobile-cta" data-testid="mobile-cta">
+<div class="franja" aria-hidden="true"><i></i><i></i><i></i><i></i><svg viewBox="0 0 44 160" preserveAspectRatio="none"><path d="M22 0V58l-9 6 18 10-24 8 20 9-5 5V160"/></svg></div>
+
+<div class="mcta flota" id="mobile-cta" data-testid="mobile-cta" role="complementary" aria-label="Activa tu cuenta gratis">
+  <div class="flota-cab">
+    <button class="flota-x" type="button" aria-label="Cerrar" data-flota-cerrar>&times;</button>
+    <div class="flota-chs" role="img" aria-label="WhatsApp, Facebook, Instagram y agenda">
+      <svg class="ch" aria-hidden="true"><use href="#ch-wa"/></svg>
+      <svg class="ch" aria-hidden="true"><use href="#ch-fb"/></svg>
+      <svg class="ch" aria-hidden="true"><use href="#ch-ig"/></svg>
+      <svg class="ch" aria-hidden="true" viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="6" fill="#7C3AED"/><rect x="5.5" y="7" width="13" height="11.5" rx="2" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M5.5 11h13M9 5v3.5M15 5v3.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </div>
+    <p class="flota-tit">Activa tu cuenta gratis</p>
+    <p class="flota-sub">7 días · sin tarjeta</p>
+  </div>
   <div class="mcta-row">
-    <button class="btn grad btn-gratis" type="button" data-abrir-cuenta data-elegir="vortex" data-bar-accion>Crea tu cuenta <span class="gratis-chip">GRATIS</span></button>
+    <button class="flota-go" type="button" data-abrir-cuenta data-elegir="vortex" data-bar-accion>Crea tu cuenta <span class="gratis-chip">GRATIS</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></button>
   </div>
   <a class="btn wa mcta-asistencia" href="https://wa.me/56985581524?text=necesito%20asistencia" target="_blank" rel="noopener noreferrer" data-cta="asistencia" data-asistencia-fin hidden><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Solicita asistencia</span></a>
 </div>
@@ -1556,7 +1626,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
       barra.hidden=true;
       barra.textContent="";
     }
-    if(barBtn){ barBtn.innerHTML='Crea tu cuenta <span class="gratis-chip">GRATIS</span>'; barBtn.removeAttribute("data-cta"); }
+    if(barBtn){ barBtn.innerHTML='Crea tu cuenta <span class="gratis-chip">GRATIS</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg>'; barBtn.removeAttribute("data-cta"); }
     pintarChips();
     pintarControles();
     if(!lineas)return;
@@ -2355,6 +2425,14 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   });
 })();
 
+
+  // Tarjeta flotante: la «×» la cierra por esta visita.
+  (function(){
+    var t=document.getElementById('mobile-cta'); if(!t) return;
+    try{ if(sessionStorage.getItem('cl_flota_cerrada')==='1') t.classList.add('flota-cerrada'); }catch(e){}
+    var x=t.querySelector('[data-flota-cerrar]');
+    if(x) x.addEventListener('click',function(){ t.classList.add('flota-cerrada'); try{sessionStorage.setItem('cl_flota_cerrada','1');}catch(e){} });
+  })();
   // La barra fija del celular espera a que el botón del hero salga de la pantalla.
   (function(){
     var barra=document.getElementById('mobile-cta');
