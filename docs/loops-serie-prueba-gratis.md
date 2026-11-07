@@ -19,7 +19,7 @@ sabiendo que puede pedir ayuda o una reunión cuando quiera.
 
 | # | Cuándo | Filtro (además de `planContratado` ≠ true) | Asunto |
 |---|---|---|---|
-| 1 | Al tiro | — | Tu prueba de 7 días ya empezó |
+| 1 | Al tiro | — | Bienvenido a Clinera |
 | 2 | Día 1 | `whatsappConectado` ≠ true | Conecta tu WhatsApp en 3 minutos |
 | 3 | Día 2 | — | Carga a tus profesionales y sus horarios |
 | 4 | Día 3 | — | Suma Instagram y Facebook |
@@ -29,15 +29,21 @@ sabiendo que puede pedir ayuda o una reunión cuando quiera.
 
 ---
 
-## 1 · Al tiro · «Tu prueba de 7 días ya empezó»
+## 1 · Al tiro · «Bienvenido a Clinera»
 
 Hola {firstName},
 
-Ya creaste la cuenta de {clinica} en Clinera. Tienes 7 días gratis con acceso completo.
+Bienvenido a Clinera. Ya creaste la cuenta de {clinica} y tienes 7 días gratis con acceso completo.
 
-> **Tu primer paso:** conecta el WhatsApp de tu clínica. Desde ahí la IA responde, agenda y cobra la evaluación por ti.
+Para que la IA empiece a agendar pacientes, completa tu clínica en app.clinera.io:
 
-[Entrar a Clinera] → https://app.clinera.io
+> **1. Conecta tus activos:** el WhatsApp de tu clínica, Instagram y Facebook. Ahí llegan los mensajes de tus pacientes.
+> **2. Carga tus tratamientos:** nombre, duración y precio de cada uno. La IA solo ofrece lo que tú cargues.
+> **3. Agrega a tus profesionales** con los días y horas en que atienden.
+
+[Completar mi clínica] → https://app.clinera.io
+
+Con eso listo, la IA responde, ofrece horas reales y agenda pacientes por ti.
 
 Si te trabas en algo, escríbeme por WhatsApp y te ayudamos al tiro.
 [Solicita asistencia] → wa.me
