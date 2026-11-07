@@ -1517,4 +1517,5 @@ gratis) → funciones del software → demo → planes (`PlanesTrial`) → testi
   y `MENU_PMFC` en `src/components/brand-v3/Nav.tsx`; cambiarlos a `true` los vuelve a mostrar. `/ecosistema` y el
   artículo de PMFC siguen publicados (no están enlazados desde el menú).
 - **Menú: Software · Planes · Blog** (`/novedades`).
+- **Metricads y «Meta y Google partner» también escondidos** (`HOME2_MOSTRAR.metricads`): el paso 2017 de la historia, el cargo, las credenciales y la tarjeta del canal de YouTube. Queda CNN Chile.
 - Los artículos del blog del home no pueden nombrar competidores (prueba de `home2.spec`) ni las clínicas de la red.

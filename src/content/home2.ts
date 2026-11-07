@@ -36,6 +36,7 @@ export const HOME2_HISTORIA = {
   tituloAcento: "Lo construimos para nuestras clínicas.",
   pasos: [
     {
+      metricads: true,
       marca: "2017",
       titulo: "Metricads",
       texto:
@@ -46,6 +47,9 @@ export const HOME2_HISTORIA = {
       titulo: "Nuestra red de clínicas",
       texto:
         "Clínicas propias de estética corporal y facial. Ahí aprendimos lo que ninguna agencia ve: qué pasa cuando el paciente llega a la consulta.",
+      // Sin Metricads (HOME2_MOSTRAR.metricads = false) no se nombra la agencia.
+      textoSinMetricads:
+        "Clínicas propias de estética corporal y facial. Ahí vimos qué pasa de verdad cuando una paciente escribe, agenda y llega a la consulta.",
     },
     {
       marca: "2025",
@@ -60,6 +64,7 @@ export const HOME2_FUNDADOR = {
   eyebrow: "Quién está detrás",
   nombre: "Ricardo Oyarzún",
   cargo: "Fundador de Clinera, Metricads y una red de clínicas estéticas",
+  cargoSinMetricads: "Fundador de Clinera y de una red de clínicas estéticas",
   foto: "/images/home2/ricardo-obra-concepcion.webp",
   fotoAlt:
     "Ricardo Oyarzún revisando los planos en la apertura de la sucursal de Vitacura, 2025",
@@ -77,6 +82,7 @@ export const HOME2_FUNDADOR = {
   medios: [
     {
       id: "youtube",
+      metricads: true,
       src: "/images/home2/metricads-youtube.webp",
       alt: "Ricardo Oyarzún grabando un video del canal Metricads Marketing en su oficina",
       titulo: "Canal Metricads Marketing",
@@ -257,7 +263,9 @@ export const HOME2_CIERRE = {
 
 // Ricardo, 7-nov-2026: el home vende solo el software (sin marketing). PMFC y los casos de campañas
 // no se borran: quedan escondidos para volver a usarlos. Para mostrarlos, cambia el valor a true.
-export const HOME2_MOSTRAR = { pmfc: false, casos: false } as const;
+export const HOME2_MOSTRAR = { pmfc: false, casos: false, metricads: false } as const;
+// metricads (Ricardo, 7-nov-2026): con false se esconden del home el paso «Metricads» de la historia, el cargo con
+// Metricads, las credenciales (canal de YouTube y «Meta y Google partner») y la tarjeta del canal.
 
 export const HOME2_PRUEBA = {
   eyebrow: "Prueba gratis · 7 días",

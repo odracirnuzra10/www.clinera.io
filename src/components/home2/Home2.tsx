@@ -374,13 +374,17 @@ export default function Home2() {
           <span className={s.grad}>{HOME2_HISTORIA.tituloAcento}</span>
         </h2>
         <ol className={s.linea}>
-          {HOME2_HISTORIA.pasos.map((p) => (
-            <li key={p.titulo}>
-              <span className={s.marca}>{p.marca}</span>
-              <h3>{p.titulo}</h3>
-              <p>{p.texto}</p>
-            </li>
-          ))}
+          {HOME2_HISTORIA.pasos
+            .filter((p) => HOME2_MOSTRAR.metricads || !("metricads" in p))
+            .map((p) => (
+              <li key={p.titulo}>
+                <span className={s.marca}>{p.marca}</span>
+                <h3>{p.titulo}</h3>
+                <p>
+                  {!HOME2_MOSTRAR.metricads && "textoSinMetricads" in p ? p.textoSinMetricads : p.texto}
+                </p>
+              </li>
+            ))}
         </ol>
       </section>
 
@@ -402,19 +406,23 @@ export default function Home2() {
         <div>
           <p className={s.eyebrow}>{HOME2_FUNDADOR.eyebrow}</p>
           <h2 className={s.h2}>{HOME2_FUNDADOR.nombre}</h2>
-          <p className={s.cargo}>{HOME2_FUNDADOR.cargo}</p>
+          <p className={s.cargo}>{HOME2_MOSTRAR.metricads ? HOME2_FUNDADOR.cargo : HOME2_FUNDADOR.cargoSinMetricads}</p>
           {HOME2_FUNDADOR.parrafos.map((t) => (
             <p key={t} className={s.texto}>
               {t}
             </p>
           ))}
-          <ul className={s.chips}>
-            {HOME2_FUNDADOR.credenciales.map((c) => (
-              <li key={c}>{c}</li>
-            ))}
-          </ul>
+          {HOME2_MOSTRAR.metricads ? (
+            <ul className={s.chips}>
+              {HOME2_FUNDADOR.credenciales.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+          ) : null}
           <div className={s.medios} data-home2-medios>
-            {HOME2_FUNDADOR.medios.map((m) => (
+            {HOME2_FUNDADOR.medios
+              .filter((m) => HOME2_MOSTRAR.metricads || !("metricads" in m))
+              .map((m) => (
               <a
                 key={m.id}
                 href={m.href}
