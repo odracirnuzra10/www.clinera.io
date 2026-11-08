@@ -7,6 +7,8 @@ import CtaPar, { CtaRegistro } from "@/components/cta/CtaPar";
 import {
   ADICIONALES_NOTA,
   ADICIONALES_TRIAL,
+  AGENTE_IA,
+  MODELOS_IA,
   PLANES_TRIAL,
   RECOMENDADO,
   TRIAL_BAJADA,
@@ -38,9 +40,21 @@ export default function PlanesTrial({ h1 = false, id = "planes" }: { h1?: boolea
                 <b>US$ {p.monthlyUsd}</b> <span>/mes</span>
               </p>
               <ul className={s.lista}>
-                {p.incluye.map((x) => (
-                  <li key={x}>{x}</li>
-                ))}
+                {p.incluye.map((x) =>
+                  x === AGENTE_IA ? (
+                    <li key={x} className={s.agente}>
+                      <span>{x}</span>
+                      <span className={s.modelos} data-modelos-ia>
+                        {MODELOS_IA.map((m) => (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img key={m.id} src={m.src} alt={m.label} title={m.label} width={18} height={18} />
+                        ))}
+                      </span>
+                    </li>
+                  ) : (
+                    <li key={x}>{x}</li>
+                  ),
+                )}
               </ul>
               <p className={s.canales} data-canales aria-label={p.canales.map((c) => CHANNEL_LABEL[c]).join(", ")}>
                 {p.canales.map((c) => (

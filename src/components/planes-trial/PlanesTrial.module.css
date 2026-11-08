@@ -15,6 +15,9 @@
 .precio span{font-size:14px;color:#6B7280}
 .lista{list-style:none;margin:0 0 16px;padding:0}
 .lista li{padding:9px 0 9px 22px;border-top:1px solid #F3F4F6;font-size:15px;color:#1F2937;position:relative}
+.agente{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.modelos{display:inline-flex;align-items:center;gap:8px}
+.modelos img{width:18px;height:18px;display:block}
 .lista li::before{content:"";position:absolute;left:4px;top:16px;width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#2563EB,#7C3AED)}
 .canales{display:flex;gap:8px;margin:0 0 16px;align-self:end}
 /* Ricardo, 7-nov-2026: los «Regístrate gratis» de las tres tarjetas a la misma altura. Cada tarjeta ocupa 7 filas
