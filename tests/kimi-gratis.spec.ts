@@ -92,6 +92,7 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   // Ricardo, 8-nov-2026: «Clinera Intelligence» a secas y «Agente IA» aparte.
   await expect(vortex).toContainText("Clinera Intelligence");
   await expect(vortex).toContainText("Agente IA");
+  await expect(vortex.locator("[data-modelos-ia] img")).toHaveCount(5);
   await expect(vortex).not.toContainText("Clinera Intelligence · 5000");
   await expect(vortex).toContainText("Onboarding humano");
 
