@@ -89,8 +89,10 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   await expect(vortex).toContainText("10 profesionales");
   await expect(vortex).toContainText("3 sucursales");
   await expect(vortex).toContainText("2000 conversaciones");
-  await expect(vortex).toContainText("Clinera Intelligence · 5000 créditos");
-  await expect(vortex).not.toContainText("Agente IA con 5000 créditos");
+  // Ricardo, 8-nov-2026: «Clinera Intelligence» a secas y «Agente IA» aparte.
+  await expect(vortex).toContainText("Clinera Intelligence");
+  await expect(vortex).toContainText("Agente IA");
+  await expect(vortex).not.toContainText("Clinera Intelligence · 5000");
   await expect(vortex).toContainText("Onboarding humano");
 
   const extras = page.locator("[data-testid=kimi-gratis-addons]");

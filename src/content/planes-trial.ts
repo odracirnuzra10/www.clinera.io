@@ -51,7 +51,8 @@ export const PLANES_TRIAL: readonly PlanTrial[] = [
       "3 sucursales",
       "WhatsApp, Instagram y Facebook",
       "2000 conversaciones",
-      "Clinera Intelligence · 5000 créditos",
+      "Clinera Intelligence",
+      "Agente IA",
       "Onboarding humano",
     ],
     canales: ["whatsapp", "facebook", "instagram"],
@@ -59,6 +60,15 @@ export const PLANES_TRIAL: readonly PlanTrial[] = [
     pagoUrl: XCALE_PAGO_URL,
   },
 ];
+
+/** Ricardo, 8-nov-2026: en la tarjeta de Xcale, junto a «Agente IA», los logos de los modelos. */
+export const AGENTE_IA = "Agente IA";
+export const MODELOS_IA = [
+  { id: "anthropic", label: "Anthropic", src: "/brand/ia/anthropic.svg" },
+  { id: "gemini", label: "Gemini", src: "/brand/ia/gemini-color.svg" },
+  { id: "zai", label: "Z.ai", src: "/brand/ia/zai.svg" },
+  { id: "openai", label: "OpenAI", src: "/brand/ia/openai.svg" },
+] as const;
 
 export const ADICIONALES_TRIAL = [
   { precio: "US$ 25", label: "5000 créditos IA" },
@@ -81,7 +91,7 @@ export const PLANES_TRIAL_FAQ: readonly { q: string; a: string }[] = [
   },
   {
     q: "¿Qué incluye cada plan?",
-    a: "Flux (US$ 49/mes): 2 profesionales, 1 sucursal, WhatsApp, 300 conversaciones y Clinera Intelligence. Hex (US$ 129/mes): 5 profesionales, 2 sucursales, WhatsApp, Instagram y Facebook, 600 conversaciones y Clinera Intelligence. Xcale (US$ 149/mes): 10 profesionales, 3 sucursales, WhatsApp, Instagram y Facebook, 2000 conversaciones, Clinera Intelligence con 5000 créditos y onboarding humano.",
+    a: "Flux (US$ 49/mes): 2 profesionales, 1 sucursal, WhatsApp, 300 conversaciones y Clinera Intelligence. Hex (US$ 129/mes): 5 profesionales, 2 sucursales, WhatsApp, Instagram y Facebook, 600 conversaciones y Clinera Intelligence. Xcale (US$ 149/mes): 10 profesionales, 3 sucursales, WhatsApp, Instagram y Facebook, 2000 conversaciones, Clinera Intelligence, agente IA y onboarding humano.",
   },
   {
     q: "¿Puedo sumar más después?",
