@@ -44,7 +44,7 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     // Ricardo, 8-nov-2026: sin créditos en Clinera Intelligence; «Agente IA» con los logos de los modelos.
     await expect(page.locator("[data-planes-trial]")).not.toContainText("5000 créditos ·");
     await expect(page.locator('[data-plan-card="xcale"]')).not.toContainText("Clinera Intelligence ·");
-    await expect(page.locator('[data-plan-card="xcale"] [data-modelos-ia] img')).toHaveCount(4);
+    await expect(page.locator('[data-plan-card="xcale"] [data-modelos-ia] img')).toHaveCount(5);
     await expect(page.locator("[data-adicionales]")).toContainText("1000 conversaciones");
     await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(1);
     const texto = await page.locator("main").innerText();

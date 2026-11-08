@@ -68,6 +68,7 @@ export const MODELOS_IA = [
   { id: "gemini", label: "Gemini", src: "/brand/ia/gemini-color.svg" },
   { id: "zai", label: "Z.ai", src: "/brand/ia/zai.svg" },
   { id: "openai", label: "OpenAI", src: "/brand/ia/openai.svg" },
+  { id: "moonshot", label: "Moonshot AI (Kimi)", src: "/brand/ia/moonshot.svg" },
 ] as const;
 
 export const ADICIONALES_TRIAL = [
