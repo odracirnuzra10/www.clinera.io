@@ -970,7 +970,8 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 /* Hero «Haz crecer tu clínica con IA» (Ricardo, 9-nov-2026): copy + 3 pasos a la izquierda, chat grande a la derecha; el testimonio baja a una franja. */
 .hero-ia .wrap{grid-template-columns:1.1fr .9fr;grid-template-areas:"copy chat";align-items:center}
 .hero-ia .copy{align-self:center}
-.hero-ia h1{max-width:13em}
+.hero-ia h1{max-width:14em;font-size:clamp(2.2rem,4.3vw,3.5rem);line-height:1.05}
+@media (max-width:700px){.hero-ia h1{font-size:2.15rem}}
 .hero-ia .chat{margin:0;max-width:440px;width:100%;justify-self:end;padding:20px;gap:10px;font-size:1rem;border-radius:18px;box-shadow:0 30px 80px -40px rgba(124,58,237,.45)}
 .chat-canales{display:flex;align-items:center;gap:8px;padding-bottom:10px;margin-bottom:2px;border-bottom:1px solid #EAEAEA;font-size:.9rem;color:#111}
 .chat-canales .ch{width:22px;height:22px;flex:none}
@@ -1065,8 +1066,8 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     <div class="copy">
       <p class="demo-pill rv">Prueba gratis de 7 días · Sin riesgo</p>
       <p class="urgencia rv" data-urgencia hidden></p>
-      <h1 class="rv" style="--i:1">Haz crecer tu clínica con <span class="grad-txt">inteligencia artificial</span></h1>
-      <p class="sub rv" style="--i:2"><strong>Conecta tus canales y empieza a atender con IA hoy.</strong> Clinera responde, agenda y cobra la evaluación por ti.</p>
+      <h1 class="rv" style="--i:1">Mientras atiendes, un paciente te escribió y <span class="grad-txt">nadie le respondió</span></h1>
+      <p class="sub rv" style="--i:2"><strong>Con Clinera, la IA le responde en segundos y le agenda la hora.</strong> Conecta tus canales y empieza a atender con inteligencia artificial hoy.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
         <button class="btn grad btn-gratis" type="button" data-abrir-cuenta data-elegir="vortex">Prueba gratis <span class="gratis-chip">SIN RIESGO</span></button>
       </div>
