@@ -5,9 +5,10 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/kimi-gratis", { waitUntil: "domcontentloaded" });
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
-  await expect(page.locator("h1")).toHaveText("Crea tu cuenta gratis");
+  await expect(page.locator("h1")).toHaveText("Haz crecer tu clínica con inteligencia artificial");
   // Ricardo, 7-nov-2026: «GRATIS» en cada botón principal y «Sin tarjeta de crédito» al lado.
-  await expect(page.locator("#hero-cta")).toContainText("Crea tu cuenta GRATIS");
+  await expect(page.locator("#hero-cta")).toContainText("Prueba gratis SIN RIESGO");
+  await expect(page.locator("[data-testid=pasos-hero] li")).toHaveCount(3);
   await expect(page.locator(".hero .sin-tarjeta")).toContainText("Sin tarjeta de crédito");
   await expect(page.locator("[data-testid=kimi-antes-despues] .ad-con li")).toHaveCount(4);
   await expect(page.locator("[data-urgencia]")).toContainText(/Prueba gratis de noviembre|termina hoy/);
@@ -41,7 +42,7 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
     "href",
     "https://wa.me/56985581524?text=necesito%20asistencia",
   );
-  await expect(page.locator(".hero")).toContainText("Demo de 7 días");
+  await expect(page.locator(".hero")).toContainText("Prueba gratis de 7 días");
   await expect(page.locator(".hero")).not.toContainText("Prueba gratis, sin compromiso");
   await expect(page.locator("main")).not.toContainText("$14.495");
   await expect(page.locator("main")).not.toContainText("primer mes");
@@ -120,7 +121,7 @@ test("/kimi-gratis pide los cuatro datos antes de registrar y antes de WhatsApp"
   const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
   expect(ancho).toBeLessThanOrEqual(390);
 
-  await page.locator(".hero").getByRole("button", { name: "Crea tu cuenta GRATIS" }).click();
+  await page.locator(".hero").getByRole("button", { name: "Prueba gratis SIN RIESGO" }).click();
   const modal = page.locator("[data-cuenta]");
   await expect(modal).toBeVisible();
   await expect(modal.locator("[data-cuenta-resumen]")).toHaveText("Conecta WhatsApp, Facebook e Instagram y agenda pacientes con IA. 7 días, sin tarjeta de crédito.");
