@@ -966,6 +966,38 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
    botón lleno 2 px menos que el de borde: mismos alto en los tres. */
 .pcard h3,.pcard.recom h3{height:24px;min-height:24px;line-height:24px}
 .pcard .btn,.pcard.recom .btn{height:50px;min-height:50px;box-sizing:border-box}
+
+/* Hero «Haz crecer tu clínica con IA» (Ricardo, 9-nov-2026): copy + 3 pasos a la izquierda, chat grande a la derecha; el testimonio baja a una franja. */
+.hero-ia .wrap{grid-template-columns:1.1fr .9fr;grid-template-areas:"copy chat";align-items:center}
+.hero-ia .copy{align-self:center}
+.hero-ia h1{max-width:13em}
+.hero-ia .chat{margin:0;max-width:440px;width:100%;justify-self:end;padding:20px;gap:10px;font-size:1rem;border-radius:18px;box-shadow:0 30px 80px -40px rgba(124,58,237,.45)}
+.chat-canales{display:flex;align-items:center;gap:8px;padding-bottom:10px;margin-bottom:2px;border-bottom:1px solid #EAEAEA;font-size:.9rem;color:#111}
+.chat-canales .ch{width:22px;height:22px;flex:none}
+.chat-canales b{margin-left:4px;font-weight:700}
+.pasos-hero{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:640px}
+.pasos-hero li{display:flex;flex-direction:column;gap:4px;padding:14px;border:1px solid #EAEAEA;border-radius:12px;background:#fff;font-size:.84rem;line-height:1.35;color:#6B6B6B}
+.pasos-hero b{font-size:.92rem;color:#111;font-weight:700}
+.paso-ic{display:flex;align-items:center;gap:4px;height:24px;margin-bottom:4px;color:#7C3AED}
+.paso-ic .ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6}
+.paso-ic .ch{width:20px;height:20px}
+.testi-franja{padding:0 0 40px}
+.testi-franja .testi{max-width:none;justify-self:stretch;display:grid;grid-template-columns:88px 1fr;gap:18px;align-items:center;padding:14px 18px 14px 14px;border-radius:14px}
+.testi-franja .testi img{width:88px;aspect-ratio:1/1;border-radius:12px;object-position:top}
+.testi-franja .testi figcaption{padding:0}
+.testi-franja .testi blockquote{margin:0 0 6px}
+.testi-franja .testi-name .testi-handle{font-weight:400;margin-left:6px}
+.testi-franja .testi-meta{margin-top:2px}
+@media (max-width:900px){
+  .hero-ia .wrap{grid-template-columns:1fr;grid-template-areas:"copy" "chat"}
+  .hero-ia .chat{justify-self:start;max-width:none;font-size:.95rem;padding:16px}
+  .pasos-hero{grid-template-columns:1fr;gap:8px}
+  .pasos-hero li{display:grid;grid-template-columns:72px 1fr;column-gap:10px;align-items:center;padding:10px 12px}
+  .pasos-hero .paso-ic{grid-row:span 2;margin:0}
+  .testi-franja .testi{grid-template-columns:64px 1fr;gap:12px;padding:10px}
+  .testi-franja .testi img{width:64px}
+  .testi-franja .testi-name .testi-handle{display:block;margin:0}
+}
 </style>
 </head>
 <body>
@@ -1004,29 +1036,26 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 </header>
 
 <main id="main">
-<section class="hero" id="top">
+<section class="hero hero-ia" id="top">
   <span class="glow g1" aria-hidden="true"></span><span class="glow g2" aria-hidden="true"></span>
   <div class="wrap">
     <div class="copy">
-      <p class="demo-pill rv">Demo de 7 días · Para médicos y clínicas</p>
+      <p class="demo-pill rv">Prueba gratis de 7 días · Sin riesgo</p>
       <p class="urgencia rv" data-urgencia hidden></p>
-      <h1 class="rv" style="--i:1">Crea tu cuenta <span class="grad-txt">gratis</span></h1>
-      <p class="sub rv" style="--i:2"><strong>Tú atiendes pacientes. Clinera responde el WhatsApp, agenda y cobra la evaluación.</strong> Registra y activa tu clínica: usas Clinera 7 días y después, dentro de la plataforma, eliges el plan.</p>
+      <h1 class="rv" style="--i:1">Haz crecer tu clínica con <span class="grad-txt">inteligencia artificial</span></h1>
+      <p class="sub rv" style="--i:2"><strong>Conecta tus canales y empieza a atender con IA hoy.</strong> Clinera responde, agenda y cobra la evaluación por ti.</p>
       <div class="cta rv" style="--i:3" id="hero-cta">
-        <button class="btn grad btn-gratis" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta <span class="gratis-chip">GRATIS</span></button>
+        <button class="btn grad btn-gratis" type="button" data-abrir-cuenta data-elegir="vortex">Prueba gratis <span class="gratis-chip">SIN RIESGO</span></button>
       </div>
-      <p class="sin-tarjeta"><span>✓ Sin tarjeta de crédito</span><span>✓ Sin costo de implementación</span></p>
+      <p class="sin-tarjeta"><span>✓ Sin tarjeta de crédito</span><span>✓ Sin costo de implementación</span><span>✓ Eliges el plan después</span></p>
+      <ol class="pasos-hero rv" style="--i:4" data-testid="pasos-hero" aria-label="Cómo funciona">
+        <li><span class="paso-ic redes" aria-hidden="true"><svg class="ch"><use href="#ch-wa"/></svg><svg class="ch"><use href="#ch-ig"/></svg><svg class="ch"><use href="#ch-fb"/></svg></span><b>1. Conecta tus canales</b><span>WhatsApp, Instagram y Facebook</span></li>
+        <li><span class="paso-ic" aria-hidden="true"><svg class="ic"><use href="#i-spark"/></svg></span><b>2. La IA atiende y agenda</b><span>responde en segundos, a toda hora</span></li>
+        <li><span class="paso-ic" aria-hidden="true"><svg class="ic"><use href="#i-cal"/></svg></span><b>3. Tú atiendes pacientes</b><span>con la agenda ya llena</span></li>
+      </ol>
     </div>
-    <figure class="testi rv" style="--i:2" data-testid="testimonio">
-      <img src="/kimi/maria-del-valle.webp" fetchpriority="high" width="460" height="575" alt="Dra. María del Valle, de pie y sonriendo, con abrigo fucsia y lentes.">
-      <figcaption>
-        <blockquote><p>«Crecí de 1 a 3 sucursales sin pagar de más gracias al ecosistema Clinera»</p></blockquote>
-        <p class="testi-name">Dra. María del Valle</p>
-        <p class="testi-handle">@dramariadelvalle_cirujana</p>
-        <p class="testi-meta">Especialista en Estética<br>Atiende en Concepción, Los Ángeles y Chillán</p>
-      </figcaption>
-    </figure>
     <div class="chat rv" style="--i:4" role="img" aria-label="Ejemplo de conversación por WhatsApp: la paciente pide hora, la clínica ofrece horarios desde su agenda y envía un link de pago.">
+      <span class="chat-canales" aria-hidden="true"><svg class="ch"><use href="#ch-wa"/></svg><svg class="ch"><use href="#ch-ig"/></svg><svg class="ch"><use href="#ch-fb"/></svg><b>La IA atiende en tus canales</b></span>
       <span class="who"><svg class="ic" width="14" height="14" aria-hidden="true"><use href="#i-chat"/></svg> WhatsApp conectado a tu agenda</span>
       <div class="msg p anim" style="--d:0">Hola, quiero pedir una hora para evaluación.</div>
       <div class="msg a anim" style="--d:1"><span class="ia-tag">IA</span> Tengo mañana 10:00 u 11:30. ¿Cuál te acomoda?</div>
@@ -1034,6 +1063,19 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
       <div class="msg a anim" style="--d:3"><span class="ia-tag">IA</span> Listo, 11:30 reservada. Paga tu evaluación aquí: <u>link de pago</u></div>
       <div class="agenda-cae anim" style="--d:4"><span class="agenda-dot"></span><b>Mañana 11:30</b> · Evaluación · <span class="pagada">Pagada ✓</span></div>
     </div>
+  </div>
+</section>
+
+<section class="testi-franja" aria-label="Testimonio">
+  <div class="wrap">
+    <figure class="testi" data-testid="testimonio">
+      <img src="/kimi/maria-del-valle.webp" loading="lazy" width="460" height="575" alt="Dra. María del Valle, de pie y sonriendo, con abrigo fucsia y lentes.">
+      <figcaption>
+        <blockquote><p>«Crecí de 1 a 3 sucursales sin pagar de más gracias al ecosistema Clinera»</p></blockquote>
+        <p class="testi-name">Dra. María del Valle <span class="testi-handle">@dramariadelvalle_cirujana</span></p>
+        <p class="testi-meta">Especialista en Estética · Atiende en Concepción, Los Ángeles y Chillán</p>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
