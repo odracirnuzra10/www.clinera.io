@@ -998,6 +998,29 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   .testi-franja .testi img{width:64px}
   .testi-franja .testi-name .testi-handle{display:block;margin:0}
 }
+
+/* Demo viva del hero (Ricardo, 9-nov-2026): el doctor escribe el nombre de su clínica y ve a la IA atender «como si ya fuera suya». */
+.demo-form{display:flex;flex-direction:column;gap:10px;padding-bottom:14px;margin-bottom:4px;border-bottom:1px solid #EAEAEA}
+.demo-form label{display:flex;flex-direction:column;gap:2px}
+.demo-form label b{font-size:1.05rem;letter-spacing:-.01em;color:#111}
+.demo-form label span{font-size:.86rem;color:#6B6B6B;line-height:1.4}
+.demo-fila{display:grid;grid-template-columns:1fr auto;gap:8px}
+.demo-form input,.demo-form select{height:48px;border:1px solid #D4D4D8;border-radius:10px;padding:0 12px;font:inherit;font-size:16px;color:#111;background:#fff;min-width:0}
+.demo-form input:focus,.demo-form select:focus{outline:2px solid #7C3AED;outline-offset:1px;border-color:#7C3AED}
+.demo-ver{min-height:48px;justify-content:center;gap:8px;background:linear-gradient(135deg,#3B82F6 0%,#7C3AED 50%,#D946EF 100%);color:#fff;border:0;border-radius:10px;font-weight:700;font-size:1rem;cursor:pointer}
+.demo-ver .ic{stroke:currentColor;fill:none;stroke-width:2}
+.chat-vivo{display:flex;flex-direction:column;gap:10px}
+.chat.en-vivo .anim{animation:none;opacity:0;transform:translateY(6px);transition:opacity .35s ease,transform .35s ease}
+.chat.en-vivo .anim.visto{opacity:1;transform:none}
+.demo-fin{margin-top:4px;padding-top:14px;border-top:1px solid #EAEAEA;display:flex;flex-direction:column;gap:12px}
+.demo-fin[hidden]{display:none}
+.chat-vivo .agenda-cae{flex-wrap:wrap;row-gap:2px}
+.chat-vivo .agenda-cae b,.chat-vivo .agenda-cae span{white-space:nowrap}
+#mobile-cta.mcta-demo,#mobile-cta.flota.mcta-demo{transform:translateY(24px);opacity:0;pointer-events:none}
+.demo-fin p{margin:0;font-size:.95rem;line-height:1.45;color:#3F3F46}
+.demo-fin p b{color:#111}
+.demo-fin .btn{width:100%;justify-content:center;min-height:50px}
+@media (prefers-reduced-motion:reduce){.chat.en-vivo .anim{transition:none}}
 </style>
 </head>
 <body>
@@ -1054,14 +1077,34 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
         <li><span class="paso-ic" aria-hidden="true"><svg class="ic"><use href="#i-cal"/></svg></span><b>3. Tú atiendes pacientes</b><span>con la agenda ya llena</span></li>
       </ol>
     </div>
-    <div class="chat rv" style="--i:4" role="img" aria-label="Ejemplo de conversación por WhatsApp: la paciente pide hora, la clínica ofrece horarios desde su agenda y envía un link de pago.">
-      <span class="chat-canales" aria-hidden="true"><svg class="ch"><use href="#ch-wa"/></svg><svg class="ch"><use href="#ch-ig"/></svg><svg class="ch"><use href="#ch-fb"/></svg><b>La IA atiende en tus canales</b></span>
-      <span class="who"><svg class="ic" width="14" height="14" aria-hidden="true"><use href="#i-chat"/></svg> WhatsApp conectado a tu agenda</span>
-      <div class="msg p anim" style="--d:0">Hola, quiero pedir una hora para evaluación.</div>
-      <div class="msg a anim" style="--d:1"><span class="ia-tag">IA</span> Tengo mañana 10:00 u 11:30. ¿Cuál te acomoda?</div>
-      <div class="msg p anim" style="--d:2">11:30 porfa 🙌</div>
-      <div class="msg a anim" style="--d:3"><span class="ia-tag">IA</span> Listo, 11:30 reservada. Paga tu evaluación aquí: <u>link de pago</u></div>
-      <div class="agenda-cae anim" style="--d:4"><span class="agenda-dot"></span><b>Mañana 11:30</b> · Evaluación · <span class="pagada">Pagada ✓</span></div>
+    <div class="chat rv" style="--i:4" data-demo-viva>
+      <form class="demo-form" data-demo-form novalidate>
+        <label for="demo-clinica"><b>Mira a la IA atender en tu clínica</b><span>Escribe el nombre y mírala responder como si ya fuera tuya.</span></label>
+        <div class="demo-fila">
+          <input id="demo-clinica" name="clinica" maxlength="60" autocomplete="organization" placeholder="Nombre de tu clínica" aria-label="Nombre de tu clínica">
+          <select name="tipo" aria-label="Tipo de clínica">
+            <option value="estetica">Estética</option>
+            <option value="medica">Médica</option>
+            <option value="dental">Dental</option>
+            <option value="kine">Kinesiología</option>
+            <option value="psico">Psicología</option>
+            <option value="otra">Otra</option>
+          </select>
+        </div>
+        <button class="btn demo-ver" type="submit">Ver cómo atiende <svg class="ic" width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      </form>
+      <div class="chat-vivo" data-demo-chat role="img" aria-label="Ejemplo de conversación por WhatsApp: la paciente pide hora, la clínica ofrece horarios desde su agenda y envía un link de pago.">
+        <span class="chat-canales" aria-hidden="true"><svg class="ch"><use href="#ch-wa"/></svg><svg class="ch"><use href="#ch-ig"/></svg><svg class="ch"><use href="#ch-fb"/></svg><b data-demo-titulo>La IA atiende en tus canales</b></span>
+        <div class="msg p anim" style="--d:0" data-demo-m="p1">Hola, quiero pedir una hora para evaluación.</div>
+        <div class="msg a anim" style="--d:1"><span class="ia-tag">IA</span> <span data-demo-m="a1">Tengo mañana 10:00 u 11:30. ¿Cuál te acomoda?</span></div>
+        <div class="msg p anim" style="--d:2">11:30 porfa 🙌</div>
+        <div class="msg a anim" style="--d:3"><span class="ia-tag">IA</span> <span data-demo-m="a2">Listo, 11:30 reservada. Paga tu evaluación aquí:</span> <u>link de pago</u></div>
+        <div class="agenda-cae anim" style="--d:4"><span class="agenda-dot"></span><b>Mañana 11:30</b> · <span data-demo-m="ag">Evaluación</span> · <span class="pagada" data-demo-m="est">Pagada ✓</span></div>
+      </div>
+      <div class="demo-fin" data-demo-fin hidden>
+        <p><b>Así atendería Clinera a los pacientes de <span data-demo-nombre></span>.</b> A toda hora, sin que nadie de tu equipo escriba.</p>
+        <button class="btn grad btn-gratis" type="button" data-abrir-cuenta data-elegir="vortex" data-demo-activar>Actívalo en tu clínica <span class="gratis-chip">GRATIS</span></button>
+      </div>
     </div>
   </div>
 </section>
@@ -2529,6 +2572,63 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     el.textContent="🔥 Prueba gratis de noviembre · "+(dias<=1?"termina hoy":"quedan "+dias+" días");
     el.hidden=false;
   })();
+</script>
+
+<script>
+/* Demo viva: personaliza el chat del hero con el nombre y el tipo de clínica. Todo ocurre en el navegador; no envía nada. */
+(function(){
+  var caja=document.querySelector("[data-demo-viva]"); if(!caja) return;
+  var form=caja.querySelector("[data-demo-form]"), fin=caja.querySelector("[data-demo-fin]");
+  var TIPOS={
+    estetica:{pide:"una evaluación",cita:"Evaluación",pago:"Paga tu evaluación aquí:"},
+    medica:{pide:"una consulta",cita:"Consulta",pago:"Confirma tu hora aquí:"},
+    dental:{pide:"una evaluación dental",cita:"Evaluación dental",pago:"Paga tu evaluación aquí:"},
+    kine:{pide:"una sesión de kinesiología",cita:"Sesión de kinesiología",pago:"Confirma tu hora aquí:"},
+    psico:{pide:"una primera sesión",cita:"Primera sesión",pago:"Confirma tu hora aquí:"},
+    otra:{pide:"una hora",cita:"Atención",pago:"Confirma tu hora aquí:"}
+  };
+  var relojes=[];
+  function poner(k,t){ var el=caja.querySelector('[data-demo-m="'+k+'"]'); if(el) el.textContent=t; }
+  form.addEventListener("submit",function(ev){
+    ev.preventDefault();
+    var campo=form.elements.clinica, nombre=campo.value.replace(/\s+/g," ").trim();
+    if(nombre.length<2){ campo.focus(); campo.setAttribute("aria-invalid","true"); return; }
+    campo.removeAttribute("aria-invalid");
+    var t=TIPOS[form.elements.tipo.value]||TIPOS.otra;
+    caja.querySelector("[data-demo-titulo]").textContent="WhatsApp de "+nombre;
+    caja.querySelector("[data-demo-nombre]").textContent=nombre;
+    poner("p1","Hola, ¿es "+nombre+"? Quiero pedir "+t.pide+".");
+    poner("a1","¡Hola! Sí, soy la asistente de "+nombre+". Tengo mañana 10:00 u 11:30. ¿Cuál te acomoda?");
+    poner("a2","Listo, 11:30 reservada en "+nombre+". "+t.pago);
+    poner("ag",t.cita);
+    poner("est",/Paga/.test(t.pago)?"Pagada ✓":"Confirmada ✓");
+    relojes.forEach(clearTimeout); relojes=[];
+    var pasos=caja.querySelectorAll(".anim");
+    caja.classList.add("en-vivo"); fin.hidden=true;
+    Array.prototype.forEach.call(pasos,function(el){el.classList.remove("visto");});
+    var quieto=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    Array.prototype.forEach.call(pasos,function(el,i){
+      relojes.push(setTimeout(function(){el.classList.add("visto");},quieto?0:350+i*900));
+    });
+    relojes.push(setTimeout(function(){fin.hidden=false;},quieto?0:350+pasos.length*900));
+    try{ sessionStorage.setItem("cl_demo_clinica",nombre); }catch(e){}
+    try{ (window.dataLayer=window.dataLayer||[]).push({event:"demo_viva",tipo_clinica:form.elements.tipo.value}); }catch(e){}
+  });
+  // La tarjeta flotante se esconde mientras la demo está en pantalla: taparía su botón.
+  var barra=document.getElementById("mobile-cta");
+  if(barra&&"IntersectionObserver" in window){
+    new IntersectionObserver(function(en){ barra.classList.toggle("mcta-demo",en[0].isIntersecting); },{threshold:.15}).observe(caja);
+  }
+  // Al abrir el formulario desde la demo, el nombre de la clínica ya va escrito.
+  document.addEventListener("click",function(ev){
+    if(!ev.target.closest("[data-demo-activar]")) return;
+    var nombre=caja.querySelector("[data-demo-nombre]").textContent;
+    setTimeout(function(){
+      var c=document.querySelector("[data-cuenta-form] input[name=clinica]");
+      if(c&&!c.value){ c.value=nombre; c.dispatchEvent(new Event("input",{bubbles:true})); }
+    },60);
+  });
+})();
 </script>
 </body>
 </html>

@@ -191,3 +191,23 @@ test("/kimi-gratis pide los cuatro datos antes de registrar y antes de WhatsApp"
   await modal.locator("[data-asistencia-enviar]").click();
   await expect(modal.locator("[data-cuenta-error]")).toBeVisible();
 });
+
+// Ricardo, 9-nov-2026: demo viva del inicio. El doctor escribe su clínica y ve a la IA atender con ese nombre.
+test("/prueba-gratis: la demo viva personaliza el chat y deja el nombre en el formulario", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/prueba-gratis", { waitUntil: "domcontentloaded" });
+  const demo = page.locator("[data-demo-viva]");
+  await expect(demo.locator("[data-demo-fin]")).toBeHidden();
+  await demo.locator("#demo-clinica").fill("Clínica <b>Navia</b>");
+  await demo.locator("select").selectOption("dental");
+  await demo.getByRole("button", { name: /Ver cómo atiende/ }).click();
+  await expect(demo.locator("[data-demo-titulo]")).toHaveText("WhatsApp de Clínica <b>Navia</b>");
+  await expect(demo.locator('[data-demo-m="p1"]')).toContainText("evaluación dental");
+  await expect(demo.locator("[data-demo-fin]")).toBeVisible({ timeout: 8000 });
+  // Nada tapa el botón final (la tarjeta flotante se esconde con la demo en pantalla).
+  const boton = demo.locator("[data-demo-activar]");
+  await boton.scrollIntoViewIfNeeded();
+  await boton.click();
+  await expect(page.locator("[data-cuenta-form] input[name=clinica]")).toHaveValue("Clínica <b>Navia</b>");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+});
