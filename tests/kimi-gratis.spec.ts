@@ -5,7 +5,7 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/kimi-gratis", { waitUntil: "domcontentloaded" });
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
-  await expect(page.locator("h1")).toHaveText("Mientras atiendes, un paciente te escribió y nadie le respondió");
+  await expect(page.locator("h1")).toHaveText("Prueba gratis sin riesgo y haz crecer tu clínica");
   // Ricardo, 7-nov-2026: «GRATIS» en cada botón principal y «Sin tarjeta de crédito» al lado.
   await expect(page.locator("#hero-cta")).toContainText("Prueba gratis SIN RIESGO");
   await expect(page.locator("[data-testid=pasos-hero] li")).toHaveCount(3);

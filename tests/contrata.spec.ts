@@ -12,13 +12,13 @@ test.describe("/contrata", () => {
   test("a secas muestra la landing de la demo; con ?plan=, ?carrito= o ?pago= sigue el carrito", async ({ page }) => {
     await page.goto("/contrata?utm_source=meta", { waitUntil: "domcontentloaded" });
     expect(new URL(page.url()).pathname).toBe("/contrata");
-    await expect(page.locator("h1")).toHaveText("Mientras atiendes, un paciente te escribió y nadie le respondió");
+    await expect(page.locator("h1")).toHaveText("Prueba gratis sin riesgo y haz crecer tu clínica");
     await expect(page.locator("[data-testid=kimi-gratis-planes]")).toBeVisible();
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
     // Ricardo, 7-nov-2026: /prueba-gratis es la URL principal de la misma landing.
     await page.goto("/prueba-gratis?utm_source=instagram&plan=flux", { waitUntil: "domcontentloaded" });
     expect(new URL(page.url()).pathname).toBe("/prueba-gratis");
-    await expect(page.locator("h1")).toHaveText("Mientras atiendes, un paciente te escribió y nadie le respondió");
+    await expect(page.locator("h1")).toHaveText("Prueba gratis sin riesgo y haz crecer tu clínica");
     for (const q of ["?plan=flux", "?carrito=1", "?pago=cancelado"]) {
       await page.goto("/contrata" + q, { waitUntil: "domcontentloaded" });
       await expect(page.locator("[data-carrito]"), q).toBeVisible();
