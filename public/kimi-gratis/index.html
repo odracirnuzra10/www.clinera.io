@@ -1979,10 +1979,10 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   function urlAlta(datos){
     var plan=PLANES[planElegido]||PLANES.vortex;
     var u=new URL("https://app.clinera.io/auth/register");
-    u.searchParams.set("nombre",datos.nombre);
-    u.searchParams.set("email",datos.email);
-    u.searchParams.set("telefono",datos.telefono);
-    u.searchParams.set("clinica",datos.clinica);
+    // Ricardo, 10-nov-2026: «Prueba gratis» va directo a app.clinera.io, sin el formulario previo.
+    // El lead entra al CRM por el webhook de la plataforma (account_created), no por la landing.
+    datos=datos||{};
+    ["nombre","email","telefono","clinica"].forEach(function(k){ if(datos[k]) u.searchParams.set(k,datos[k]); });
     u.searchParams.set("plan",plan.nombre.toLowerCase());
     // Atribución para el Trial (cuenta creada): app.clinera.io la guarda y la devuelve en su webhook.
     var leadId=""; try{ leadId=sessionStorage.getItem("cl_lead_kimi_gratis_id")||""; }catch(e){}
@@ -1999,7 +1999,16 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     var ventana=window.open(url,"_blank","noopener,noreferrer");
     if(!ventana) location.href=url;
   }
+  function irAlta(){
+    var plan=PLANES[planElegido]||PLANES.vortex;
+    var demo=document.getElementById("demo-clinica");
+    var clinica=demo&&demo.value?demo.value.trim():"";
+    try{ (window.dataLayer=window.dataLayer||[]).push({event:"prueba_gratis_ir_app",plan:plan.nombre,source_path:location.pathname}); }catch(e){}
+    try{ if(typeof fbq==="function") fbq("track","InitiateCheckout",{content_name:plan.nombre+" demo 7 días"}); }catch(e){}
+    location.assign(urlAlta(clinica?{clinica:clinica}:null));
+  }
   function abrirCuenta(modo){
+    if(modo!=="asistencia"){ irAlta(); return; }
     cuentaModo=modo==="asistencia"?"asistencia":"cuenta";
     abierto=false;
     var ok=document.querySelector("[data-cuenta-ok]");

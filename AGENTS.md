@@ -1579,3 +1579,19 @@ mismo formulario. No volver a enlazar `/agenda` desde el sitio: quien haga clic 
   «clinera.io/agenda» hasta que se actualice ese nodo (cosmético).
 - Un anuncio que todavía apunte a `/agenda` lleva a la prueba gratis.
 - El 307 es a propósito: terminada la expo se puede devolver `/agenda` sin que los navegadores recuerden el desvío.
+
+# «Prueba gratis» va directo a app.clinera.io, sin formulario previo (Ricardo, 10-nov-2026)
+
+Con el webhook de la plataforma andando (`account_created` → n8n `mETMBrWPCelwvOuy`: StartTrial a Meta,
+negocio en Trial, aviso a Comercial, Loops), el formulario intermedio sobra. Todo botón de registro
+(`[data-abrir-cuenta]` / `[data-elegir]` en `public/kimi-gratis/index.html`, `a[data-cta-registro]` en el
+sitio) hace `location.assign` a `app.clinera.io/auth/register?plan=…` con utm, fbclid, gclid, fbp y fbc
+(y `clinica` si la escribieron en la demo viva). Reemplaza «Regístrate gratis abre el modal» del 7-nov.
+- **«Solicita asistencia» sigue abriendo el formulario** (landing y `RegistroModal`): ese sí es un lead.
+- **Ya no salen desde el registro:** el `Lead` de Meta (pixel + CAPI), el `generate_lead` de Google ni el
+  POST a `/api/wizard`. El aviso «Registro en la prueba gratis» del Wizard queda sólo para asistencia.
+  Sale `InitiateCheckout` (pixel) y `prueba_gratis_ir_app` / `registro_ir_app` (dataLayer) al hacer clic.
+- **Quien no termina el registro en la plataforma ya no queda en el CRM.**
+- El celular del lead depende de que el webhook mande `telefono` (el 10-nov llegó vacío en la prueba).
+- El código del formulario de registro sigue en los dos archivos, sin uso: volver atrás es quitar el
+  `irAlta()` de `abrirCuenta` y el `location.assign` del listener de `RegistroModal`.

@@ -97,14 +97,16 @@ function guardarLead(datos: Datos, plan: string, eventId: string, modo: Modo) {
   }).catch(() => {});
 }
 
-function urlAlta(datos: Datos, plan: string, eventId: string): string {
+function urlAlta(datos: Datos | null, plan: string, eventId: string): string {
   const u = new URL("https://app.clinera.io/auth/register");
-  u.searchParams.set("nombre", datos.nombre);
-  u.searchParams.set("email", datos.email);
-  u.searchParams.set("telefono", datos.telefono);
-  u.searchParams.set("clinica", datos.clinica);
+  if (datos) {
+    u.searchParams.set("nombre", datos.nombre);
+    u.searchParams.set("email", datos.email);
+    u.searchParams.set("telefono", datos.telefono);
+    u.searchParams.set("clinica", datos.clinica);
+  }
   u.searchParams.set("plan", plan);
-  u.searchParams.set("lead_event_id", eventId);
+  if (eventId) u.searchParams.set("lead_event_id", eventId);
   const fbp = cookie("_fbp"), fbc = cookie("_fbc");
   if (fbp) u.searchParams.set("fbp", fbp);
   if (fbc) u.searchParams.set("fbc", fbc);
@@ -144,13 +146,16 @@ export default function RegistroModal() {
       }
       const a = el?.closest?.("a[data-cta-registro]");
       if (!a) return;
+      // Ricardo, 10-nov-2026: «Regístrate gratis» va directo a app.clinera.io, sin el formulario
+      // previo. El lead entra al CRM por el webhook de la plataforma (account_created).
       e.preventDefault();
-      setModo("registro");
-      setEnviando(false);
       const elegido = a.getAttribute("data-plan-elegido") || "xcale";
-      setPlan(PLAN_NOMBRE[elegido] ? elegido : "xcale");
-      setError("");
-      setAbierto(true);
+      const planFinal = PLAN_NOMBRE[elegido] ? elegido : "xcale";
+      try {
+        const w = window as unknown as { dataLayer?: unknown[] };
+        (w.dataLayer = w.dataLayer || []).push({ event: "registro_ir_app", plan: planFinal, source_path: rutaActual() });
+      } catch {}
+      location.assign(urlAlta(null, planFinal, ""));
     }
     document.addEventListener("click", alClic);
     return () => document.removeEventListener("click", alClic);

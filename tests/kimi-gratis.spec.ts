@@ -115,81 +115,41 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   await expect(flujo).not.toContainText("Horarios y tratamientos");
 });
 
-test("/kimi-gratis pide los cuatro datos antes de registrar y antes de WhatsApp", async ({ page }) => {
+// Ricardo, 10-nov-2026: «Prueba gratis» va directo a app.clinera.io, sin formulario previo. El lead
+// entra al CRM por el webhook de la plataforma. «Solicita asistencia» sí sigue pidiendo los datos.
+test("/kimi-gratis: el botón de prueba gratis va directo a app.clinera.io; asistencia sigue pidiendo datos", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/kimi-gratis", { waitUntil: "domcontentloaded" });
-  const ancho = await page.evaluate(() => document.documentElement.scrollWidth);
-  expect(ancho).toBeLessThanOrEqual(390);
+  const llamadas: string[] = [];
+  await page.route("**/api/wizard", (r) => { llamadas.push("wizard"); return r.fulfill({ status: 200, body: "{}" }); });
+  await page.route("https://app.clinera.io/**", (route) => route.fulfill({ status: 200, contentType: "text/html", body: "alta" }));
+  await page.goto("/kimi-gratis?utm_source=expo&fbclid=abc", { waitUntil: "domcontentloaded" });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
 
   await page.locator(".hero").getByRole("button", { name: "Prueba gratis SIN RIESGO" }).click();
-  const modal = page.locator("[data-cuenta]");
-  await expect(modal).toBeVisible();
-  await expect(modal.locator("[data-cuenta-resumen]")).toHaveText("Conecta WhatsApp, Facebook e Instagram y agenda pacientes con IA. 7 días, sin tarjeta de crédito.");
-  // Ricardo, 7-nov-2026: el modal no recomienda un plan; invita a crear la cuenta y conectar WhatsApp.
-  await expect(modal.locator("[data-cuenta-resumen]")).not.toContainText("$149");
-  await expect(modal).not.toContainText("Vortex");
-  await expect(modal.locator("[data-cuenta-pagar]")).toBeHidden();
-  await modal.locator("[data-cuenta-listo]").click();
-  await expect(modal.locator("[data-cuenta-error]")).toBeVisible();
+  await page.waitForURL(/app\.clinera\.io\/auth\/register/);
+  const alta = new URL(page.url());
+  expect(alta.searchParams.get("plan")).toBe("xcale");
+  expect(alta.searchParams.get("utm_source")).toBe("expo");
+  expect(alta.searchParams.get("fbclid")).toBe("abc");
+  expect(alta.searchParams.get("nombre")).toBeNull();
+  expect(llamadas).toEqual([]);
 
-  // Celular chileno (7-nov-2026): exactamente 9 dígitos que empiezan con 9, sin números de relleno.
-  const cel = modal.locator("input[name=celular]");
-  await modal.locator("input[name=nombre]").fill("Ana");
-  await modal.locator("input[name=email]").fill("ana@clinica.cl");
-  await modal.locator("input[name=clinica]").fill("Clínica Ana");
-  for (const malo of ["91234567", "812345678", "999999999", "912345678", "987654321"]) {
-    await cel.fill(malo);
-    await modal.locator("[data-cuenta-listo]").click();
-    await expect(modal.locator("[data-cuenta-error]"), malo).toContainText("9 dígitos");
-    await expect(cel, malo).toHaveAttribute("aria-invalid", "true");
-  }
-  await cel.fill("96503121999");
-  await expect(cel).toHaveValue("965031219");
-  await cel.fill("+56 9 6503 1219");
-  await expect(cel).toHaveValue("965031219");
-
-  await page.route("https://app.clinera.io/**", (route) => route.fulfill({ status: 200, contentType: "text/html", body: "alta" }));
-  const lead = page.waitForRequest((req) => req.url().includes("/api/wizard") && req.method() === "POST");
-  // Lead del pixel (6-nov-2026): sale por CAPI con el mismo event_id que viaja al CRM.
-  const capi = page.waitForRequest((req) => req.url().includes("/api/meta/capi") && req.method() === "POST");
-  const alta = page.waitForRequest((req) => req.url().startsWith("https://app.clinera.io/auth/register"));
-  await modal.locator("input[name=nombre]").fill("Ricardo");
-  await modal.locator("input[name=celular]").fill("9650312199");
-  await modal.locator("input[name=email]").fill("ricardo@oacg.cl");
-  await modal.locator("input[name=clinica]").fill("metodo hebe");
-  await modal.locator("[data-cuenta-listo]").click();
-  await expect(modal.locator("[data-cuenta-error]")).toBeHidden();
-  const altaUrl = new URL((await alta).url());
-  const body = (await lead).postDataJSON();
-  expect(altaUrl.origin + altaUrl.pathname).toBe("https://app.clinera.io/auth/register");
-  expect(altaUrl.searchParams.get("nombre")).toBe("Ricardo");
-  expect(altaUrl.searchParams.get("email")).toBe("ricardo@oacg.cl");
-  expect(altaUrl.searchParams.get("telefono")).toBe("+56965031219");
-  expect(altaUrl.searchParams.get("clinica")).toBe("metodo hebe");
-  expect(altaUrl.searchParams.get("plan")).toBe("xcale");
-  // Atribución para el webhook del Trial (6-nov-2026): el id del Lead viaja al registro.
-  expect(altaUrl.searchParams.get("lead_event_id")).toMatch(/^lead_kg_/);
-  expect(body.plan).toBe("vortex");
-  expect(body.source_path).toBe("/kimi-gratis");
-  expect(body.servicio_interes_label).toBe("Xcale $149 demo 7 días");
-  expect(body.telefono).toBe("+56965031219");
-  const capiBody = (await capi).postDataJSON();
-  expect(capiBody.event_name).toBe("Lead");
-  expect(capiBody.custom_data).toMatchObject({ value: 3, currency: "USD" });
-  expect(capiBody.event_id).toMatch(/^lead_kg_/);
-  expect(capiBody.event_id).toBe(body.event_id);
-  expect(capiBody.user_data.em).toMatch(/^[0-9a-f]{64}$/);
-  expect(capiBody.user_data.ph).toMatch(/^[0-9a-f]{64}$/);
+  // Flux lleva su plan.
+  await page.goto("/kimi-gratis", { waitUntil: "domcontentloaded" });
+  await page.locator('[data-elegir="flux"]').first().click();
+  await page.waitForURL(/app\.clinera\.io\/auth\/register/);
+  expect(new URL(page.url()).searchParams.get("plan")).toBe("flux");
 
   await page.goto("/kimi-gratis", { waitUntil: "domcontentloaded" });
+  const modal = page.locator("[data-cuenta]");
   await page.locator("#comenzar").getByRole("link", { name: "Solicita asistencia" }).click();
   await expect(modal).toBeVisible();
-  await modal.locator("input[name=nombre]").fill("");
-  await modal.locator("input[name=celular]").fill("");
-  await modal.locator("input[name=email]").fill("");
-  await modal.locator("input[name=clinica]").fill("");
   await modal.locator("[data-asistencia-enviar]").click();
   await expect(modal.locator("[data-cuenta-error]")).toBeVisible();
+  // Celular chileno: 9 dígitos que empiezan con 9; lo que sobra se recorta al escribir.
+  const cel = modal.locator("input[name=celular]");
+  await cel.fill("+56 9 6503 1219");
+  await expect(cel).toHaveValue("965031219");
 });
 
 // Ricardo, 9-nov-2026: demo viva del inicio. El doctor escribe su clínica y ve a la IA atender con ese nombre.
@@ -207,7 +167,10 @@ test("/prueba-gratis: la demo viva personaliza el chat y deja el nombre en el fo
   // Nada tapa el botón final (la tarjeta flotante se esconde con la demo en pantalla).
   const boton = demo.locator("[data-demo-activar]");
   await boton.scrollIntoViewIfNeeded();
-  await boton.click();
-  await expect(page.locator("[data-cuenta-form] input[name=clinica]")).toHaveValue("Clínica <b>Navia</b>");
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  // 10-nov-2026: el botón va directo al registro de la plataforma, con la clínica escrita en la demo.
+  await page.route("https://app.clinera.io/**", (route) => route.fulfill({ status: 200, contentType: "text/html", body: "alta" }));
+  await boton.click();
+  await page.waitForURL(/app\.clinera\.io\/auth\/register/);
+  expect(new URL(page.url()).searchParams.get("clinica")).toBe("Clínica <b>Navia</b>");
 });
