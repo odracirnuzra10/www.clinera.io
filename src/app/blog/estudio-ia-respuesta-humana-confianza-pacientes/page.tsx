@@ -136,7 +136,7 @@ const jsonLd = {
           name: "¿Cómo aplico esto en mi clínica hoy?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Si usas Clinera, el modo de respuesta con timing humano puede activarse desde el panel de configuración de tu agente. Si aún no usas Clinera, agenda una demo en clinera.io/agenda.",
+            text: "Si usas Clinera, el modo de respuesta con timing humano puede activarse desde el panel de configuración de tu agente. Si aún no usas Clinera, agenda una demo en clinera.io/hablar-con-ventas.",
           },
         },
       ],

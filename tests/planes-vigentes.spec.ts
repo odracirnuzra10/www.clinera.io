@@ -1,5 +1,5 @@
 // Planes vigentes: Vortex · Ecosistema (Ricardo, 18-oct-2026). CTA único
-// «Agendar reunión» → /agenda?servicio=…, sin cupón ni compra en la web.
+// «Agendar reunión» → /hablar-con-ventas?servicio=…, sin cupón ni compra en la web.
 
 import { expect, test } from "@playwright/test";
 import { PLANES_TRIAL, XCALE_PAGO_URL } from "../src/content/planes-trial";

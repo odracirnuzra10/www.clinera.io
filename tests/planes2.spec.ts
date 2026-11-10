@@ -4,7 +4,7 @@ import { OFERTA_LANZAMIENTO, ofertaVigente, precioOferta } from "../src/content/
 
 // /planes2 (Ricardo, 5-nov-2026): Flux · Hex · Vortex · Ecosistema, sin indexar.
 // Dos CTA: «Prueba gratis» (Flux, recomendado) → app.clinera.io y «Hablar con ventas»
-// (Hex, Vortex, Ecosistema) → /agenda. 20 % por 6 meses solo en el Ecosistema durante noviembre.
+// (Hex, Vortex, Ecosistema) → /hablar-con-ventas. 20 % por 6 meses solo en el Ecosistema durante noviembre.
 test.describe("/planes2", () => {
   test("oferta: 20 % solo Ecosistema y vigente hasta el 30 de noviembre en Chile", () => {
     expect(precioOferta(379)).toBe(303.2);
@@ -35,7 +35,7 @@ test.describe("/planes2", () => {
     await expect(page.locator('[data-plan-card="vortex"]')).toContainText("Clinera Intelligence");
     const eco = page.locator('[data-plan-card="ecosistema"] a[data-cta="ventas"]');
     await expect(eco).toHaveText("Hablar con ventas");
-    await expect(eco).toHaveAttribute("href", /^\/agenda\?.*plan=ecosistema/);
+    await expect(eco).toHaveAttribute("href", /^\/hablar-con-ventas\?.*plan=ecosistema/);
 
     await expect(page.locator('[data-plan-card="flux"] [data-precio]')).toContainText("US$ 79");
     await expect(page.locator('[data-plan-card="hex"] [data-precio]')).toContainText("US$ 179");

@@ -101,7 +101,7 @@ sitio (https://www.clinera.io/ventas y /efectividad). Cifras a abril 2026:
 ## Planes y precios
 
 Todos los precios en USD, vigentes desde el 18-oct-2026. Hay dos opciones y se
-contratan agendando una videollamada (https://www.clinera.io/agenda); no hay
+contratan agendando una videollamada (https://www.clinera.io/hablar-con-ventas); no hay
 compra directa en la web. El primer cobro es el primer mes del plan. Sin permanencia ni plan anual publicados. Clinera
 opera en un único modo de agendamiento: Agentic (GLM 5.2, Gemini 3.7 Flash,
 Claude Opus 4.8 y Claude Sonnet 5 vía Vertex AI, Google Cloud) — la IA agenda

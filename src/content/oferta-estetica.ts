@@ -6,7 +6,7 @@
 // (Ecosistema US$ 529) y /planes no cambia. Por eso la landing es noindex y no va al
 // sitemap: no compite con /software-estetica ni muestra un precio distinto en Google.
 //
-// El lead sigue a /agenda con `?oferta=estetica379`. Solo ese valor exacto cambia la
+// El lead sigue a /hablar-con-ventas con `?oferta=estetica379`. Solo ese valor exacto cambia la
 // boleta del paso 1 y le avisa al closer en el CRM (`servicio_interes_label`); cualquier
 // otro valor se ignora, así nadie inventa precios por la URL.
 // ============================================================================

@@ -4,7 +4,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { FeatureIcon } from "@/components/plataforma/AuraNetwork";
 import styles from "./WizardAnimations.module.css";
 
-/* Las dos animaciones que acompañan a los pasos 1 y 2 de /agenda.
+/* Las dos animaciones que acompañan a los pasos 1 y 2 de /hablar-con-ventas.
  *
  * Son ilustraciones, no capturas: cuentan qué hace Clinera en el tiempo que el
  * visitante tarda en leer la pregunta de al lado. Por eso son livianas —CSS y,

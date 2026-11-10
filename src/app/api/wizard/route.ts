@@ -1,5 +1,5 @@
 // ============================================================================
-// Wizard — endpoint server-side del wizard de /agenda, /ventas y /demo
+// Wizard — endpoint server-side del wizard de /hablar-con-ventas, /ventas y /demo
 // ----------------------------------------------------------------------------
 // Antes de esto, VentasLanding.tsx, ReunionLanding.tsx y DemoWizard.tsx le
 // hablaban directo a n8n.oacg.cl desde el navegador: cualquiera que abriera

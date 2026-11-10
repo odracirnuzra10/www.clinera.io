@@ -8,7 +8,7 @@
 // Clinera») y /planes. Sin cupón ni extras. Solo /planes (`conPago`) suma, bajo el
 // CTA, el Payment Link de Stripe de cada plan (Ricardo, 20-oct-2026): enlace pelado
 // con data-plan*, el InitiateCheckout y el client_reference_id los pone Analytics.tsx.
-// - CTA único «Agendar videollamada» → /agenda?servicio=… con la query de la visita;
+// - CTA único «Agendar videollamada» → /hablar-con-ventas?servicio=… con la query de la visita;
 // - línea de onboarding dedicado (sin valor de implementación) bajo las tarjetas;
 // - el agente de IA y los tres bloques de marketing van destacados (ícono + negrita).
 // Temas (`planThemes.tsx`): Vortex = violeta claro; Ecosistema = magenta claro
@@ -76,7 +76,7 @@ export default function PlanesVigentes({
   /** /planes muestra el link de pago de Stripe de cada plan bajo el CTA. */
   conPago?: boolean;
 }) {
-  // La query de la visita (utm, gclid, fbclid) viaja a /agenda: sin ella el lead
+  // La query de la visita (utm, gclid, fbclid) viaja a /hablar-con-ventas: sin ella el lead
   // del anuncio llega sin origen.
   const search = useSyncExternalStore(noop, readSearch, readSearchServer);
 

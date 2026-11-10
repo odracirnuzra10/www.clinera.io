@@ -1486,7 +1486,7 @@ function KeepYourSystemSection() {
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             <CtaPrimary
               as={Link}
-              href="/agenda"
+              href="/hablar-con-ventas"
               style={{
                 background: "linear-gradient(135deg,#0E7490 0%,#0891B2 50%,#22D3EE 100%)",
                 boxShadow:
@@ -1722,7 +1722,7 @@ function FinalCTA() {
               Regístrate gratis <span>→</span>
             </Link>
             <Link
-              href="/agenda"
+              href="/hablar-con-ventas"
               style={{
                 background: "rgba(255,255,255,.08)",
                 color: "#fff",

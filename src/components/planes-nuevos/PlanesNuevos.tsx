@@ -166,7 +166,7 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
   const href =
     plan.cta === "pago"
       ? checkoutUrl(plan.id as PlanCheckoutId, { search })
-      : conPlan("/agenda", plan.id, search);
+      : conPlan("/hablar-con-ventas", plan.id, search);
   const recomendado = plan.destacado === true;
   const onClick = () => {
     if (plan.cta === "prueba") {
@@ -303,7 +303,7 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
       )}
       {plan.cta === "pago" && plan.id !== "flux" && (
         <a
-          href={conPlan("/agenda", plan.id, search)}
+          href={conPlan("/hablar-con-ventas", plan.id, search)}
           suppressHydrationWarning
           data-cta="ventas"
           onClick={() => track("contact_sales_click", { plan: plan.id })}
@@ -379,7 +379,7 @@ function AgendaDemo({ search, publico }: { search: string; publico: boolean }) {
             : "Te mostramos las redes conectadas, el agente IA y el marketing funcionando, y te decimos qué plan te conviene."}
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href={q ? `/agenda?${q}` : "/agenda"} suppressHydrationWarning style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.45)", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>
+          <a href={q ? `/hablar-con-ventas?${q}` : "/hablar-con-ventas"} suppressHydrationWarning style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.45)", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>
             {VENTAS_LABEL}
           </a>
           <a href={conPlan(PRUEBA_URL, "flux", search)} suppressHydrationWarning style={{ background: "#fff", color: "#0A0A0A", padding: "13px 22px", borderRadius: 10, fontFamily: "Inter", fontWeight: 600, textDecoration: "none" }}>

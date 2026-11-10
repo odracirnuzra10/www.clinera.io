@@ -158,7 +158,7 @@ export const ULTRA = PLANS_2[2];
 export const GO_LANDING_CTA = "Sí, quiero activarla";
 
 /** Reunión de ventas de Ultra. La query de la visita se le suma al navegar. */
-export const ULTRA_DEMO_URL = "https://www.clinera.io/agenda?plan=ultra";
+export const ULTRA_DEMO_URL = "https://www.clinera.io/hablar-con-ventas?plan=ultra";
 
 /** Extras que se compran dentro de la app (Ricardo, 17-oct-2026). */
 export const EXTRA_PROFESSIONAL_USD = 9;
@@ -219,7 +219,7 @@ export const GO_ACTIVACION_PASOS = [
   "Te dejamos andando el agendamiento. Tú empiezas a agendar.",
 ] as const;
 /** Ruta de la reunión con ventas. Se le suma la query de la visita (UTM, click ids). */
-export const AGENDA_PATH = "/agenda";
+export const AGENDA_PATH = "/hablar-con-ventas";
 
 /** Wizard de /go (Ricardo, 17-oct): textos de las tres pantallas. */
 export const GO_WIZARD = {
@@ -400,5 +400,5 @@ export const PENDIENTES = [
   "Cuenta marcada con plan GO y bloqueada a sus límites (Mauricio López).",
   "Alta del lead/cliente en Twenty con plan GO/FLUX/ULTRA y mapeo del valor de `planClinera` en W1 para Flux (89) y Ultra (179) (n8n, con López).",
   "Logos oficiales de Forbes y Clínica Alemana en «Respaldado por» de /activa: hoy van como texto; confirmar la autorización de uso y pasar los archivos.",
-  "Especialidad «Dental» en la lista del wizard de /go: sigue fuera, como en /agenda, hasta que ventas lo valide.",
+  "Especialidad «Dental» en la lista del wizard de /go: sigue fuera, como en /hablar-con-ventas, hasta que ventas lo valide.",
 ] as const;

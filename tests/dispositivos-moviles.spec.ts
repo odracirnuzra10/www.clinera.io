@@ -1,4 +1,4 @@
-// /agenda en celulares y tabletas (Ricardo, 19-oct-2026): «que todo sea funcional y que no haya
+// /hablar-con-ventas en celulares y tabletas (Ricardo, 19-oct-2026): «que todo sea funcional y que no haya
 // nada roto que impida rellenar el formulario». Emula los dispositivos de Playwright (iPhone de
 // todos los tamaños, Galaxy, Pixel, iPad y tabletas, y en horizontal) con el motor Chromium: el
 // tamaño de pantalla, el táctil y el user agent son los del aparato, pero NO es el Safari real
@@ -82,7 +82,7 @@ for (const nombre of LISTA) {
 
     test("se puede rellenar todo el formulario hasta el horario", async ({ page }) => {
       await mockRed(page);
-      await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+      await page.goto("/hablar-con-ventas", { waitUntil: "domcontentloaded" });
       // Ricardo, 7-nov-2026: sin boleta, parte directo en los datos.
       await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
 

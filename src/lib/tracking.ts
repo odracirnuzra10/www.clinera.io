@@ -20,7 +20,7 @@ export function trackPixel(
   if (typeof window === "undefined") return;
   const send = () => {
     if (!window.fbq) return false;
-    // Un pixel roto no puede cortar el flujo que lo llamó (p. ej. el paso 1 de /agenda).
+    // Un pixel roto no puede cortar el flujo que lo llamó (p. ej. el paso 1 de /hablar-con-ventas).
     try {
       if (eventId) window.fbq("track", event, params, { eventID: eventId });
       else window.fbq("track", event, params);

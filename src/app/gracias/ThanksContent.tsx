@@ -36,7 +36,7 @@ const TEAM: Record<"catalina" | "nohelymar", Ejecutiva> = {
 // /gracias?event_id=x a mano para inflar el Pixel con una conversión falsa.
 //
 // Ojo con el alcance: hoy quien llega acá con un lead real es
-// RoiCalculator.tsx (calculadora de ROI), no el wizard de /agenda ni
+// RoiCalculator.tsx (calculadora de ROI), no el wizard de /hablar-con-ventas ni
 // /ventas — ninguno de los dos redirige a /gracias, confirmado revisando
 // VentasLanding.tsx, ReunionLanding.tsx y DemoWizard.tsx. La protección
 // vive igual acá porque /gracias es la página vulnerable, sea cual sea el

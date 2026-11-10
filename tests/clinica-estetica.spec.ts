@@ -1,10 +1,10 @@
-// Una sola puerta de entrada (Ricardo, 18-oct-2026): /agenda. Las landings y rutas
+// Una sola puerta de entrada (Ricardo, 18-oct-2026): /hablar-con-ventas. Las landings y rutas
 // anteriores redirigen ahí con la query: el gclid del anuncio no se puede perder.
 
 import { expect, test } from "@playwright/test";
 import { CTA_VENTAS_PATH } from "../src/content/planes";
 
-test.describe("redirects a /agenda", () => {
+test.describe("redirects a /hablar-con-ventas", () => {
   for (const vieja of [
     "/clinica-estetica",
     "/clinica-estetica/activar-cuenta",

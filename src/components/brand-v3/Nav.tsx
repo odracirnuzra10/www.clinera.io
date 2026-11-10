@@ -9,18 +9,18 @@ import { CtaRegistro, CtaAsistencia } from "@/components/cta/CtaPar";
 const MENU_PMFC = false;
 
 type NavV3Props = {
-  /** Destino del botón principal. Sin esto: `/agenda` («Agendar reunión», Ricardo 20-oct-2026). */
+  /** Destino del botón principal. Sin esto: `/hablar-con-ventas` («Agendar reunión», Ricardo 20-oct-2026). */
   ctaHref?: string;
   ctaLabel?: string;
   /**
-   * Enlace discreto «Hablar con ventas» (→ /agenda) junto al botón
+   * Enlace discreto «Hablar con ventas» (→ /hablar-con-ventas) junto al botón
    * principal. Apagado por defecto.
    */
   salesLink?: boolean;
 };
 
 // Ricardo, 4-nov-2026: el menú lleva los dos CTA del sitio, «Contratar Hex · US$ 35/mes» (Payment
-// Link de Stripe, degradado) y «Hablar con ventas» (/agenda, secundario). Se fue el atajo a la demo.
+// Link de Stripe, degradado) y «Hablar con ventas» (/hablar-con-ventas, secundario). Se fue el atajo a la demo.
 // Las props viejas (ctaHref, ctaLabel, salesLink) se aceptan y se ignoran: todas las páginas llevan el
 // mismo par.
 export default function NavV3(_props: NavV3Props) {

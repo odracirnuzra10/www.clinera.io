@@ -270,7 +270,7 @@ export default function FluxCarrito({
     }
   }
 
-  const agenda = `/agenda${search}`;
+  const agenda = `/hablar-con-ventas${search}`;
   const pulso = aviso ? styles.badgePulso : "";
   const lineas = ITEM_IDS.filter((id) => carrito[id] > 0);
 

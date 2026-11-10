@@ -338,7 +338,7 @@ export function TeamSection() {
             }}
           >
             <Link
-              href="/agenda"
+              href="/hablar-con-ventas"
               className="team-primary"
               style={{
                 display: "inline-flex",

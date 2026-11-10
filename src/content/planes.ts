@@ -2,7 +2,7 @@
 // Las dos opciones de Clinera: Vortex · Ecosistema (Ricardo, 18-oct-2026)
 // ----------------------------------------------------------------------------
 // Fuente única de lo que el sitio PÚBLICO vende: home, /planes, landings
-// `software-vertical`, /agenda, schema y llms. Clinera pasa de «solo software» a
+// `software-vertical`, /hablar-con-ventas, schema y llms. Clinera pasa de «solo software» a
 // ecosistema: software con IA + marketing de performance, para clínicas estéticas
 // y médicas.
 //
@@ -10,7 +10,7 @@
 //  · Ecosistema            USD 529/mes (379 en promoción hasta el 26-nov-2026: PROMO_ECOSISTEMA)  — software + marketing de performance («Recomendado»).
 //  · Implementación        eliminada (Ricardo, 19-oct): no se cobra ni se publica.
 //
-// No hay compra por la web: todo CTA lleva a /agenda (wizard de 3 pasos que termina
+// No hay compra por la web: todo CTA lleva a /hablar-con-ventas (wizard de 3 pasos que termina
 // en una videollamada). Se acabaron los planes y cupones anteriores y los precios de extras (lo de más profesionales o más IA se conversa).
 //
 // Lo que NO vive acá:
@@ -27,7 +27,7 @@ import type { PlanChannel } from "@/content/pricing";
 
 export type PlanId = "vortex" | "ecosistema";
 
-/** Servicio que la clínica elige en el paso 2 de /agenda (y en `?servicio=`). */
+/** Servicio que la clínica elige en el paso 2 de /hablar-con-ventas (y en `?servicio=`). */
 export type ServicioId = "software" | "marketing" | "ambas";
 
 export type Plan = {
@@ -35,7 +35,7 @@ export type Plan = {
   name: string;
   /** US$ por mes. */
   monthlyUsd: number;
-  /** Servicio de /agenda que le corresponde a la tarjeta. */
+  /** Servicio de /hablar-con-ventas que le corresponde a la tarjeta. */
   servicio: ServicioId;
   professionals: number;
   /** Créditos de IA del agente al mes. */
@@ -209,12 +209,12 @@ export const AHORRO = {
 
 export const NECESIDADES_LINEA = `Extras del software: profesional extra US$ ${EXTRAS[0].precioUsd}/mes · 1.000 conversaciones extra US$ ${EXTRAS[1].precioUsd} · 5.000 conversaciones extra US$ ${EXTRAS[2].precioUsd} · 5.000 créditos de IA extra US$ ${EXTRAS[3].precioUsd}.`;
 
-/** CTA único: lleva a /agenda, que termina en una videollamada con el equipo. */
+/** CTA único: lleva a /hablar-con-ventas, que termina en una videollamada con el equipo. */
 // Ricardo, 4-nov-2026: el secundario de todo el sitio es «Hablar con ventas» (antes «Agendar reunión»).
 export const CTA_VENTAS_LABEL = "Hablar con ventas";
-export const CTA_VENTAS_PATH = "/agenda";
+export const CTA_VENTAS_PATH = "/hablar-con-ventas";
 
-/** `/agenda?servicio=ambas` + la query de la visita (utm, gclid, fbclid). */
+/** `/hablar-con-ventas?servicio=ambas` + la query de la visita (utm, gclid, fbclid). */
 export function agendaHref(servicio: ServicioId | null, search = ""): string {
   const params = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search);
   if (servicio) params.set("servicio", servicio);

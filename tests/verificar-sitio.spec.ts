@@ -1,4 +1,4 @@
-// /api/verificar-sitio: lógica pura de la verificación de sitios. Desde el 28-oct-2026 /agenda ya
+// /api/verificar-sitio: lógica pura de la verificación de sitios. Desde el 28-oct-2026 /hablar-con-ventas ya
 // no pide web ni Instagram (Ricardo: la verificación es manual, la hace el closer), así que el
 // formulario no la llama; la ruta y su lógica quedan para otros usos y se prueban acá.
 

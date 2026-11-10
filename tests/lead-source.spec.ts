@@ -48,8 +48,8 @@ test.describe("identificador de click en la URL", () => {
 });
 
 test.describe("identificador de click guardado — la segunda página", () => {
-  test("el gclid de la visita anterior manda aunque /agenda no traiga query", () => {
-    // Entró por un anuncio a /planes y llegó a /agenda por el menú: la URL ya
+  test("el gclid de la visita anterior manda aunque /hablar-con-ventas no traiga query", () => {
+    // Entró por un anuncio a /planes y llegó a /hablar-con-ventas por el menú: la URL ya
     // no trae nada, pero la cookie de 90 días sí, y ese mismo gclid viaja en el
     // payload del webhook. Antes el lead salía "organico" con su gclid al lado.
     expect(clasificarLeadSource({ search: "", storedGoogleClickId: "Cj0KCQjw" })).toBe(
@@ -91,7 +91,7 @@ test.describe("utm — solo cuando no hay identificador de click", () => {
   });
 
   test("«an» es Audience Network y «msg» es Messenger — los rótulos de Meta", () => {
-    // El caso real: un lead de agosto 2026 llegó a /agenda con
+    // El caso real: un lead de agosto 2026 llegó a /hablar-con-ventas con
     // `utm_medium=paid&utm_source=an`. Traía fbclid, así que no se notó; el que
     // pierde el fbclid por el camino quedaba contado como orgánico.
     expect(solo("?utm_medium=paid&utm_source=an&utm_campaign=120247672764930218")).toBe("meta-ads");
