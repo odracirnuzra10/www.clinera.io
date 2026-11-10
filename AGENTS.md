@@ -1552,3 +1552,15 @@ mensaje (es su atribución) y siguen directo a WhatsApp.
 **`/prueba-gratis`: titular que apunta al dolor (Ricardo, 9-nov-2026).** El h1 pasó de «Haz crecer tu clínica con inteligencia artificial» a «Mientras atiendes, un paciente te escribió y nadie le respondió»; la bajada responde con la solución («Con Clinera, la IA le responde en segundos y le agenda la hora»). El resto del inicio no cambió.
 
 **`/prueba-gratis`: el titular vuelve a la prueba gratis (Ricardo, 9-nov-2026, 3.ª vuelta).** Ricardo pidió enfocarse en la prueba gratis: el h1 es «Prueba gratis sin riesgo y haz crecer tu clínica» y la bajada «Conecta tus canales y empieza a atender con inteligencia artificial» (su frase original). El titular del dolor («…nadie le respondió») duró unas horas y se sacó; la idea quedó en la segunda línea de la bajada.
+
+# Aviso a Comercial por cada registro de la prueba gratis (Ricardo, 10-nov-2026)
+
+Cada registro o «Solicita asistencia» de `/prueba-gratis`, `/contrata` y el modal del sitio publica en
+[Clinera] Comercial «X (clínica) completó el formulario», con celular, correo, plan y origen. Antes sólo
+avisaba el lead que agendaba (`Filtrar agendamiento wizard`), y un registro no agenda. Son dos nodos del
+Wizard (`A3wOPmhQjit8VswM`), al final de «Solo etapa de contacto»: «Filtrar registro landing» →
+«Chat - Registro landing». **El filtro lee `servicio_interes_label`** («… demo 7 días» / «Solicita
+asistencia»): si cambia esa etiqueta en la landing o en `RegistroModal.tsx`, el aviso deja de salir sin
+error. Aplicador: `integrations/n8n/aplicar_wizard_aviso_registro.py` (simulacro; `--aplicar`;
+`--deshacer`); copia la URL de la sala del nodo vivo, no va en el repo. La fuente canónica del Wizard
+vive en `baserow/sales/n8n/`: un aplicador de allá que reemplace el workflow entero borra estos nodos.
