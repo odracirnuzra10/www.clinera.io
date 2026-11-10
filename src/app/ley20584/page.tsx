@@ -194,7 +194,7 @@ export default function Ley20584Page() {
               diligence. Qué exige cada marco normativo y quién lo valida está detallado en{" "}
               <Link href="/acreditacion">normativa y acreditación en LATAM</Link>. Para una
               revisión técnica con nuestro equipo,{" "}
-              <Link href="/agenda">agenda una reunión</Link>.
+              <Link href="/hablar-con-ventas">agenda una reunión</Link>.
             </p>
           </div>
         </section>

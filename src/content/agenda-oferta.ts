@@ -1,5 +1,5 @@
 // ============================================================================
-// /agenda: wizard de 3 pasos que termina en una videollamada (Ricardo, 18-oct-2026)
+// /hablar-con-ventas: wizard de 3 pasos que termina en una videollamada (Ricardo, 18-oct-2026)
 // ----------------------------------------------------------------------------
 // Paso 1 datos (van al CRM) → paso 2 servicio de interés → paso 3 calendario.
 // Reemplaza a la landing «Crea tu cuenta» con cupón: ya no hay cupón, ni
@@ -10,7 +10,7 @@ import type { ServicioId } from "@/content/planes";
 
 export const SERVICIO_PARAM = "servicio";
 
-/** Profesionales (mismos ids que /agenda ya mandaba en `boxes_profesionales`). */
+/** Profesionales (mismos ids que /hablar-con-ventas ya mandaba en `boxes_profesionales`). */
 export const PROFESIONALES = [
   { id: "1_3", label: "1–3" },
   { id: "4_6", label: "4–6" },

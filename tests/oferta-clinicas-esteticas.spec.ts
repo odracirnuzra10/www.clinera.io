@@ -1,6 +1,6 @@
 // /oferta-clinicas-esteticas (Ricardo, 22-oct-2026): landing de anuncios sin menú, con el
-// wizard de /agenda arriba, las funciones de Clinera y cierre «software + marketing por US$ 379». Solo esta landing tiene ese
-// precio: /planes sigue en 529, la página no se indexa y /agenda muestra 379 solo con
+// wizard de /hablar-con-ventas arriba, las funciones de Clinera y cierre «software + marketing por US$ 379». Solo esta landing tiene ese
+// precio: /planes sigue en 529, la página no se indexa y /hablar-con-ventas muestra 379 solo con
 // `?oferta=estetica379`. Red mockeada.
 
 import { expect, test, type Page, type Request } from "@playwright/test";
@@ -86,13 +86,13 @@ test("landing: el lead completa el wizard ahí mismo y el closer ve la oferta", 
   expect(JSON.stringify(contacto)).toContain("/oferta-clinicas-esteticas");
 });
 
-test("/agenda con la oferta: sin boleta, y el closer ve la oferta en el CRM", async ({ page }) => {
+test("/hablar-con-ventas con la oferta: sin boleta, y el closer ve la oferta en el CRM", async ({ page }) => {
   await mockRed(page);
   const hits: Record<string, string>[] = [];
   page.on("request", (req: Request) => {
     if (req.url().includes("/api/wizard") && req.method() === "POST") hits.push(JSON.parse(req.postData() || "{}"));
   });
-  await page.goto("/agenda?servicio=ambas&oferta=estetica379", { waitUntil: "domcontentloaded" });
+  await page.goto("/hablar-con-ventas?servicio=ambas&oferta=estetica379", { waitUntil: "domcontentloaded" });
   await expect(page.locator("[data-ahorro]")).toHaveCount(0);
 
   await deslizar(page);
@@ -107,10 +107,10 @@ test("/agenda con la oferta: sin boleta, y el closer ve la oferta en el CRM", as
   expect(contacto.servicio_interes_label).toContain("oferta US$ 379");
 });
 
-// Ricardo, 7-nov-2026: sin oferta (o con un valor inventado) /agenda parte en los datos, sin boleta.
-test("/agenda sin oferta o con un valor inventado parte en los datos, sin boleta", async ({ page }) => {
+// Ricardo, 7-nov-2026: sin oferta (o con un valor inventado) /hablar-con-ventas parte en los datos, sin boleta.
+test("/hablar-con-ventas sin oferta o con un valor inventado parte en los datos, sin boleta", async ({ page }) => {
   await mockRed(page);
-  for (const url of ["/agenda", "/agenda?oferta=gratis1"]) {
+  for (const url of ["/hablar-con-ventas", "/hablar-con-ventas?oferta=gratis1"]) {
     await page.goto(url, { waitUntil: "domcontentloaded" });
     await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
     await expect(page.locator("[data-ahorro]")).toHaveCount(0);

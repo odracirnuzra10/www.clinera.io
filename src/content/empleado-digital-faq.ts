@@ -14,7 +14,7 @@ export const EMPLEADO_DIGITAL_FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "¿Cómo se contrata?",
-    a: "Agenda una videollamada en /agenda. Incluye onboarding dedicado con un ejecutivo humano.",
+    a: "Agenda una videollamada en /hablar-con-ventas. Incluye onboarding dedicado con un ejecutivo humano.",
   },
   {
     q: "¿Qué pasa si la IA no sabe responder?",

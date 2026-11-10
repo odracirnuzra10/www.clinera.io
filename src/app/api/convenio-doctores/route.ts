@@ -1,7 +1,7 @@
 // ============================================================================
 // Convenio doctores — postulación por correo a Ricardo
 // ----------------------------------------------------------------------------
-// Wizard propio, no el de /agenda. El navegador postea acá (sin SMTP en el
+// Wizard propio, no el de /hablar-con-ventas. El navegador postea acá (sin SMTP en el
 // bundle). El servidor manda nombre, correo y motivo a ricardo@oacg.cl.
 // Reply-To = el correo del doctor, para responderle directo.
 //

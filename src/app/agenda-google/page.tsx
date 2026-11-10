@@ -4,13 +4,13 @@ import { timezoneIpDelRequest } from "@/lib/timezone-ip";
 
 export const dynamic = "force-dynamic";
 
-// Ricardo, 19-oct-2026: versión del wizard de /agenda para los anuncios de Google (escritorio
+// Ricardo, 19-oct-2026: versión del wizard de /hablar-con-ventas para los anuncios de Google (escritorio
 // incluido). Mismo flujo; cambia la atribución (google-ads por defecto) y el `source_path`.
-// `noindex`: es destino de anuncios, no contenido, y no debe competir con /agenda.
+// `noindex`: es destino de anuncios, no contenido, y no debe competir con /hablar-con-ventas.
 export const metadata: Metadata = {
   title: "Agenda una videollamada con Clinera",
   description: "Reserva una videollamada de 30 minutos con el equipo de Clinera.",
-  alternates: { canonical: "https://www.clinera.io/agenda" },
+  alternates: { canonical: "https://www.clinera.io/hablar-con-ventas" },
   robots: { index: false, follow: false },
 };
 

@@ -8,7 +8,7 @@ import styles from "./PlataformaLanding.module.css";
 
 /* En esta página el comprador tiene varias sedes y compra con migración
    gestionada: necesita un carril de ventas. Las dos opciones vigentes (Vortex y
-   Ecosistema) llevan a /agenda, porque el objetivo de /plataforma es la reunión. */
+   Ecosistema) llevan a /hablar-con-ventas, porque el objetivo de /plataforma es la reunión. */
 export default function PlanesSection() {
   useReveal();
   return (

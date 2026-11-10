@@ -107,7 +107,7 @@ test.describe("ficha clínica: demo a mitad de artículo y en /ley20584", () => 
     expect(leer("src/app/blog/[slug]/page.tsx")).toMatch(/components=\{\{[^}]*FichaCTA/);
   });
 
-  test("/ley20584 tiene CTA a /agenda y FAQPage", () => {
+  test("/ley20584 tiene CTA a /hablar-con-ventas y FAQPage", () => {
     const t = leer("src/app/ley20584/page.tsx");
     // Ricardo, 4-nov-2026: el par de CTA; «Hablar con ventas» conserva lead_source=ley20584.
     expect(t).toContain('extra={{ lead_source: "ley20584" }}');

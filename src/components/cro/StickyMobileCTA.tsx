@@ -29,7 +29,7 @@ const HIDDEN_PREFIXES = [
   "/internal",
   // /promo lleva su propia barra fija abajo.
   "/promo",
-  // Lleva el formulario arriba; el flotante mandaría a /agenda.
+  // Lleva el formulario arriba; el flotante mandaría a /hablar-con-ventas.
   "/oferta-clinicas-esteticas",
   // Una pantalla con su propio botón a WhatsApp.
   "/super-promo",

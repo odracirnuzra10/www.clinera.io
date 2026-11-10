@@ -205,7 +205,7 @@ test.describe("/contrata", () => {
     await expect(page.locator("[data-pago-error]")).toBeVisible();
     await expect(page.locator("[data-urgencia]").first()).toContainText("50%");
     const link = page.locator("[data-cta=agendar-reunion]");
-    await expect(link).toHaveAttribute("href", /\/agenda\?/);
+    await expect(link).toHaveAttribute("href", /\/hablar-con-ventas\?/);
     await expect(link).toHaveAttribute("href", /utm_source=ads/);
   });
 

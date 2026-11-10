@@ -3,7 +3,7 @@
 import { AuraFlow, ChatToAgenda } from "./WizardAnimations";
 import styles from "./WizardShowcase.module.css";
 
-/* Columna izquierda de /agenda en los pasos 1–3 (necesidad + clínica).
+/* Columna izquierda de /hablar-con-ventas en los pasos 1–3 (necesidad + clínica).
  * Desde contacto y calendario vuelve el carrusel de doctores (ReunionHero).
  */
 

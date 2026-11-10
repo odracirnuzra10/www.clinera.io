@@ -1,5 +1,5 @@
 // ===========================================================================
-// Paso 4 de /agenda: reparto de profesional y horarios por zona.
+// Paso 4 de /hablar-con-ventas: reparto de profesional y horarios por zona.
 //
 // Funciones puras, sin navegador ni red: el fixture es la respuesta REAL de la
 // API de disponibilidad del 20-ago-2026 — mismos bloques, mismo reparto y la

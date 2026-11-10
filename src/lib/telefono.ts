@@ -2,7 +2,7 @@
 // Teléfono por país — validación, normalización y E.164
 // ----------------------------------------------------------------------------
 // Fuente de las reglas de largo/patrón que usan los formularios de agenda
-// (`/reserva-tu-hora`, wizard de `/agenda`). El servidor tiene su propio
+// (`/reserva-tu-hora`, wizard de `/hablar-con-ventas`). El servidor tiene su propio
 // superset en `src/app/api/wizard/validation.ts` (incluye prefijos de
 // DemoWizard); no importar de acá allá sin unificar primero las tres tablas
 // del cliente — ver el comentario de ese archivo.

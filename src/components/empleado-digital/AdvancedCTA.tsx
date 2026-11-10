@@ -8,7 +8,7 @@ import { VERTEX_IA_MODELS_PROSE } from "@/content/ia-stack";
 import { CTA_VENTAS_LABEL, CTA_VENTAS_PATH, IMPLEMENTACION_LINEA, PLANES, PLAN_IA_DESDE } from "@/content/planes";
 
 // Cierre de /empleado-digital con el modelo vigente (Ricardo, 18-oct-2026): dos
-// opciones, Vortex y Ecosistema, y un solo CTA a /agenda.
+// opciones, Vortex y Ecosistema, y un solo CTA a /hablar-con-ventas.
 const BULLETS = [
   `Hasta ${PLAN_IA_DESDE.professionals} profesionales · ${PLAN_IA_DESDE.iaCredits.toLocaleString("es-CL")} créditos de IA al mes`,
   "Agente AURA: responde por WhatsApp, Instagram y Facebook y agenda sola dentro del chat",

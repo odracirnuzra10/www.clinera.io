@@ -1564,3 +1564,18 @@ asistencia»): si cambia esa etiqueta en la landing o en `RegistroModal.tsx`, el
 error. Aplicador: `integrations/n8n/aplicar_wizard_aviso_registro.py` (simulacro; `--aplicar`;
 `--deshacer`); copia la URL de la sala del nodo vivo, no va en el repo. La fuente canónica del Wizard
 vive en `baserow/sales/n8n/`: un aplicador de allá que reemplace el workflow entero borra estos nodos.
+
+# `/agenda` abre la prueba gratis; ventas vive en `/hablar-con-ventas` (Ricardo, 10-nov-2026)
+
+El QR impreso para la expo apunta a `clinera.io/agenda` y no se puede cambiar. Por eso **`/agenda`
+redirige a `/prueba-gratis`** (307, conserva la query) y el formulario de ventas (`AgendaWizard`) se
+mudó a **`/hablar-con-ventas`**: todos los enlaces, redirecciones (`/reunion`, `/clinica-estetica`…),
+sitemap, `llms*.txt` y pruebas apuntan ahí. Las secciones de arriba que dicen `/agenda` describen ese
+mismo formulario. No volver a enlazar `/agenda` desde el sitio: quien haga clic caería en la prueba gratis.
+- `/agenda-google`, `/oferta-clinicas-esteticas` y `/reserva-tu-hora` no cambiaron.
+- `source_path` de los leads pasa a `/hablar-con-ventas`. En n8n (Wizard) dos nodos reconocían el
+  formulario por la URL «/agenda» («Notify Google Chat» y «Twenty - Crear Lead»): el sitio ahora manda
+  `paso1_pregunta: "necesidad"` para que el aviso siga igual; la nota de origen de Twenty ya no dice
+  «clinera.io/agenda» hasta que se actualice ese nodo (cosmético).
+- Un anuncio que todavía apunte a `/agenda` lleva a la prueba gratis.
+- El 307 es a propósito: terminada la expo se puede devolver `/agenda` sin que los navegadores recuerden el desvío.

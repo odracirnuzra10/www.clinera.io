@@ -1,5 +1,5 @@
 // /agenda-google — versión del wizard para anuncios de Google (Ricardo, 19-oct-2026), escritorio.
-// Mismo flujo que /agenda; cambia la atribución (google-ads aunque la URL no traiga gclid), el
+// Mismo flujo que /hablar-con-ventas; cambia la atribución (google-ads aunque la URL no traiga gclid), el
 // source_path y que no se indexe. Red mockeada.
 
 import { expect, test, type Page } from "@playwright/test";
@@ -51,9 +51,9 @@ test("/agenda-google: escritorio, atribuye a Google Ads sin gclid y reporta su s
   expect(sobra).toBeLessThanOrEqual(1);
 });
 
-test("/agenda sigue atribuyendo organico sin señales", async ({ page }) => {
+test("/hablar-con-ventas sigue atribuyendo organico sin señales", async ({ page }) => {
   await mockRed(page);
-  const cuerpo = await recorrer(page, "/agenda");
+  const cuerpo = await recorrer(page, "/hablar-con-ventas");
   expect(cuerpo).not.toContain("google-ads");
 });
 

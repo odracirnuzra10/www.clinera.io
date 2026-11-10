@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     "Elige el día y la hora para tu demo de Clinera. 45 minutos por videollamada con un ingeniero.",
   alternates: { canonical: "https://www.clinera.io/reserva-tu-hora" },
   // Destino de anuncios, no página de contenido: no compite en buscadores con
-  // /agenda ni debe aparecer suelta en resultados. También va `Disallow` en
+  // /hablar-con-ventas ni debe aparecer suelta en resultados. También va `Disallow` en
   // robots.ts y queda fuera del sitemap.
   robots: { index: false, follow: false },
 };

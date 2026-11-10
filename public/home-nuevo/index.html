@@ -231,7 +231,7 @@ html.wiz-lock,html.wiz-lock body{overflow:hidden}
 .offer-cta .btn{width:100%;padding:15px 20px}
 #wiz-offer .offer-ventas{margin-top:-2px}
 #wiz-offer .offer-ventas[hidden]{display:none}
-/* embed de agenda de app.clinera.io (el mismo de /agenda) */
+/* embed de agenda de app.clinera.io (el mismo de /hablar-con-ventas) */
 #wiz-agenda{display:grid;gap:10px}
 #wiz-agenda[hidden],#wiz-booked[hidden]{display:none}
 .wiz-frame{position:relative;width:100%;min-height:520px;height:min(700px,calc(100dvh - 230px));border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--soft)}
@@ -751,7 +751,7 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
         <p class="offer-ventas micro" id="wiz-offer-ventas" hidden>Igual un especialista te contactará pronto.</p>
       </div>
 
-      <!-- Agenda: el mismo embed de app.clinera.io que usa /agenda (StepClineraEmbed en VentasLanding.tsx). El src se arma al apretar «Agendar reunión». -->
+      <!-- Agenda: el mismo embed de app.clinera.io que usa /hablar-con-ventas (StepClineraEmbed en VentasLanding.tsx). El src se arma al apretar «Agendar reunión». -->
       <div id="wiz-agenda" data-testid="wiz-agenda" hidden>
         <div class="wiz-frame" id="wiz-frame">
           <iframe id="wiz-agenda-frame" title="Agenda tu reunión con Clinera" allow="clipboard-write"></iframe>
@@ -836,7 +836,7 @@ footer .bottom{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-b
   var AGENDA_SUB='Elige profesional, día y hora. Te llega la confirmación por correo.';
   var BOOKED_TITLE='Reunión agendada';
   var BOOKED_SUB='Te llega la confirmación por correo. Nos vemos.';
-  // Embed oficial de Clinera, el mismo de /agenda: sucursal y tratamiento preseteados; nombre/email/telefono precargan «Tus datos».
+  // Embed oficial de Clinera, el mismo de /hablar-con-ventas: sucursal y tratamiento preseteados; nombre/email/telefono precargan «Tus datos».
   var EMBED_BASE='https://app.clinera.io/embed/clinera-software-1769526763629/modal';
   var EMBED_PRESET={sucursalId:'cmoqinfoi007dso3d7fhnwdyb',tratamientoId:'cmoyoj9sn026xoi3dnedn2kl8'};
   var EMBED_ORIGIN='https://app.clinera.io';

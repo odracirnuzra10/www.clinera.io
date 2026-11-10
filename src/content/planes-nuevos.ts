@@ -24,7 +24,7 @@ export type PlanNuevo = {
   incluye: readonly string[];
   /** Lo que NO trae, en gris: muestra qué se desbloquea al subir. */
   noIncluye: readonly string[];
-  /** «pago»: Payment Link de Stripe. «prueba»: app.clinera.io. «ventas»: /agenda. */
+  /** «pago»: Payment Link de Stripe. «prueba»: app.clinera.io. «ventas»: /hablar-con-ventas. */
   cta: "pago" | "prueba" | "ventas";
   /** Payment Link de Stripe cuando `cta` es «pago». */
   pagoUrl?: string;

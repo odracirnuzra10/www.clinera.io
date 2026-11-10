@@ -789,7 +789,7 @@ function Body() {
           </Link>
           . Si querés ver Clinera AURA en acción con tu clínica concreta,{" "}
           <Link href="/funciones">revisá las funciones</Link> o{" "}
-          <Link href="/agenda">agendá una demo</Link>.
+          <Link href="/hablar-con-ventas">agendá una demo</Link>.
         </p>
       </article>
     </section>

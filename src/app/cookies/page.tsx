@@ -254,7 +254,7 @@ export default function CookiesPage() {
                 }}
               >
                 ¿Quieres conocer Clinera sin compromiso?{" "}
-                <Link href="/agenda" style={{ color: "var(--brand-cyan)", fontWeight: 600 }}>
+                <Link href="/hablar-con-ventas" style={{ color: "var(--brand-cyan)", fontWeight: 600 }}>
                   Habla con ventas →
                 </Link>
               </div>

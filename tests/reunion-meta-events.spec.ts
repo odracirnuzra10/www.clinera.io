@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 /**
- * /reunion redirige a /agenda en producción, pero ReunionLanding sigue
+ * /reunion redirige a /hablar-con-ventas en producción, pero ReunionLanding sigue
  * en el repo. El MQL no puede salir al enviar el form (H6).
  */
 const src = readFileSync(

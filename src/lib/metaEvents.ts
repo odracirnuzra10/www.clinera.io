@@ -202,7 +202,7 @@ export async function fireMqlEvent(opts: {
   qual: QualResult;
   customData: QualCustomData;
   contact?: ContactPII; // presente en "contact_submitted"; ausente en "qualified_step2"
-  /** US$ del evento. /agenda usa 10 (agendó); el wizard de /go usa 1 (solo rellenó datos, Ricardo 17-oct). */
+  /** US$ del evento. /hablar-con-ventas usa 10 (agendó); el wizard de /go usa 1 (solo rellenó datos, Ricardo 17-oct). */
   value?: number;
 }): Promise<void> {
   // Consume la regla: si no califica, MQL NO se dispara jamás.

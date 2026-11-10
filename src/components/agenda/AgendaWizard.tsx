@@ -1,7 +1,7 @@
 "use client";
 
 // ============================================================================
-// /agenda — wizard de 4 pasos que termina en una videollamada (Ricardo, 18-oct-2026;
+// /hablar-con-ventas — wizard de 4 pasos que termina en una videollamada (Ricardo, 18-oct-2026;
 // 4 pasos desde el 27-oct-2026: boleta · tus datos · tu clínica · tu horario)
 //
 // Formato de `metodohebe.cl/evaluacion` y `protocololumina.cl/evaluacion` (Ricardo,
@@ -66,7 +66,7 @@ import { zonaMostrada } from "@/lib/timezone";
 import base from "@/components/estetica/EsteticaAdsLanding.module.css";
 import styles from "./AgendaWizard.module.css";
 
-const SOURCE_PATH_BASE = "/agenda";
+const SOURCE_PATH_BASE = "/hablar-con-ventas";
 // Versión para anuncios de Google (/agenda-google): mismo wizard, otro `source_path` para
 // separar el embudo en los reportes, y `lead_source` google-ads aunque la URL llegue sin gclid.
 const SOURCE_PATH_GOOGLE = "/agenda-google";

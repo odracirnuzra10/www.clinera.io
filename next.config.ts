@@ -368,35 +368,35 @@ const nextConfig: NextConfig = {
         destination: '/blog/modo-agentic-agendamiento-ia-clinicas',
         permanent: true,
       },
-      // Comparación local: la estructura Hebe ya es /agenda.
+      // Comparación local: la estructura Hebe ya es /hablar-con-ventas.
       {
         source: '/agenda-hebe',
-        destination: '/agenda',
+        destination: '/hablar-con-ventas',
         permanent: false,
       },
-      // Ricardo, 18-oct-2026: /agenda es la única puerta de entrada (wizard de 3
+      // Ricardo, 18-oct-2026: /hablar-con-ventas es la única puerta de entrada (wizard de 3
       // pasos → videollamada). Las rutas que probamos ese día y los enlaces
       // viejos de anuncios y correos redirigen acá con la query (utm, gclid,
       // fbclid), que Next conserva. /reunion-comercial era el wizard viejo con
       // calendario: el redirect gana sobre su página.
       {
         source: '/activar-cuenta',
-        destination: '/agenda',
+        destination: '/hablar-con-ventas',
         permanent: true,
       },
       {
         source: '/clinica-estetica',
-        destination: '/agenda',
+        destination: '/hablar-con-ventas',
         permanent: true,
       },
       {
         source: '/clinica-estetica/activar-cuenta',
-        destination: '/agenda',
+        destination: '/hablar-con-ventas',
         permanent: true,
       },
       {
         source: '/reunion-comercial',
-        destination: '/agenda',
+        destination: '/hablar-con-ventas',
         permanent: true,
       },
       // Se retiraron los planes viejos (Flux/Hurricane/Atlas/Summit/Go!) y sus
@@ -415,12 +415,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/activa',
-        destination: '/agenda',
+        destination: '/hablar-con-ventas',
         permanent: false,
       },
       {
         source: '/go',
-        destination: '/agenda',
+        destination: '/hablar-con-ventas',
         permanent: false,
       },
       // El constructor de cotizaciones vive en finanzas.oacg.cl/cotizacion
@@ -550,13 +550,16 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/reunion',
-        destination: '/agenda',
+        destination: '/hablar-con-ventas',
         permanent: true,
       },
+      // Ricardo, 10-nov-2026: el QR impreso de la expo apunta a /agenda y no se puede cambiar.
+      // /agenda abre la prueba gratis (temporal, con la query) y el formulario de ventas
+      // vive en /hablar-con-ventas.
       {
-        source: '/hablar-con-ventas',
-        destination: '/agenda',
-        permanent: true,
+        source: '/agenda',
+        destination: '/prueba-gratis',
+        permanent: false,
       },
       // /organigrama es el nombre por el que la gente busca la presentacion de
       // estructura operativa. Redirige en vez de servir el mismo HTML en dos

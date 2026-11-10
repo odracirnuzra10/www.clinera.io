@@ -346,7 +346,7 @@ function CreditsView({ run }: { run: number }) {
 }
 
 /* `only` recorta el carrusel a un subconjunto de vistas, en el orden pedido: el
-   wizard de /agenda muestra sólo las vistas del paso en que va el visitante. Sin
+   wizard de /hablar-con-ventas muestra sólo las vistas del paso en que va el visitante. Sin
    la prop se ven las seis, que es lo que hace /plataforma. */
 export default function HeroCarousel({ only }: { only?: readonly HeroViewId[] } = {}) {
   const views = useMemo(

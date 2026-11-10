@@ -1,4 +1,4 @@
-// /agenda en 4 pasos (Ricardo, 27-oct-2026): boleta · tus datos · tu clínica · tu horario.
+// /hablar-con-ventas en 4 pasos (Ricardo, 27-oct-2026): boleta · tus datos · tu clínica · tu horario.
 // Helpers compartidos por los tests que recorren el wizard (también /agenda-google y la oferta).
 
 import { expect, type Locator, type Page } from "@playwright/test";

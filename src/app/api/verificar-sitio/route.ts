@@ -2,7 +2,7 @@
 // POST /api/verificar-sitio — ¿el sitio que escribió el lead existe y es de una
 // clínica? (Ricardo, 26-oct-2026)
 // ----------------------------------------------------------------------------
-// Lo llama /agenda antes de pasar del paso 2. Bloquea dos cosas:
+// Lo llama /hablar-con-ventas antes de pasar del paso 2. Bloquea dos cosas:
 //   no_existe   el dominio no resuelve, no responde, da 404 o está en venta
 //   no_clinica  la IA leyó la página y no es de salud ni estética
 // Todo lo demás pasa: si el sitio bloquea robots, se dibuja solo con JavaScript

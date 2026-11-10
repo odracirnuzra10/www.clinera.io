@@ -49,7 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     staticEntry('/mejor-software-clinicas/peru', 'monthly', 0.9),
     staticEntry('/demo', 'monthly', 0.9),
     staticEntry('/app', 'monthly', 0.75),
-    staticEntry('/agenda', 'monthly', 0.9),
+    staticEntry('/hablar-con-ventas', 'monthly', 0.9),
     staticEntry('/ventas', 'monthly', 0.6),
     staticEntry('/presentacion', 'monthly', 0.7),
     staticEntry('/presentacion-partners', 'monthly', 0.7),

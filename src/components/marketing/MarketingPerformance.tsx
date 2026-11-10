@@ -6,7 +6,7 @@ import CtaPar from "@/components/cta/CtaPar";
 // «Marketing de performance» (Ricardo, 18-oct-2026): mismo peso visual que la
 // sección de software. Los bloques de `MARKETING_BLOQUES` y el cierre que los
 // une con el software: el lead llega a la bandeja de Clinera y la IA lo agenda.
-// Sin cifras. CTA a /agenda?servicio=marketing con la query de la visita.
+// Sin cifras. CTA a /hablar-con-ventas?servicio=marketing con la query de la visita.
 // ============================================================================
 
 import Link from "next/link";

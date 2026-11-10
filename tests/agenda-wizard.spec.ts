@@ -1,4 +1,4 @@
-// /agenda (Ricardo, 7-nov-2026): tus datos → tu clínica → horario, sin la boleta del ahorro.
+// /hablar-con-ventas (Ricardo, 7-nov-2026): tus datos → tu clínica → horario, sin la boleta del ahorro.
 // El paso «tu clínica» manda el lead al CRM y dispara Lead US$ 3. La boleta sigue solo con ?oferta=.
 // Sin cupón ni compra desde la web. Red mockeada.
 
@@ -49,7 +49,7 @@ async function mockRed(page: Page) {
 }
 
 async function pasoBoleta(page: Page) {
-  // Desde el 7-nov-2026 /agenda parte en los datos: solo espera el paso 2. Con boleta (oferta) aprieta «Quiero ahorrar».
+  // Desde el 7-nov-2026 /hablar-con-ventas parte en los datos: solo espera el paso 2. Con boleta (oferta) aprieta «Quiero ahorrar».
   await expect(async () => {
     if (!(await page.locator('[data-agenda-paso="2"]').isVisible())) {
       await page.locator("[data-quiero-ahorrar]").click();
@@ -71,10 +71,10 @@ test("wizard: boleta «Quiero ahorrar» → tus datos → tu clínica (CRM + Lea
   page.on("request", (req) => {
     if (req.url().includes("/api/meta/capi") && req.method() === "POST") capi.push(JSON.parse(req.postData() || "{}"));
   });
-  await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+  await page.goto("/hablar-con-ventas", { waitUntil: "domcontentloaded" });
   await expect(page.getByRole("heading", { level: 1 })).toContainText(/videollamada/i);
 
-  // Ricardo, 7-nov-2026: /agenda parte directo en los datos, sin la boleta del ahorro.
+  // Ricardo, 7-nov-2026: /hablar-con-ventas parte directo en los datos, sin la boleta del ahorro.
   await expect(page.locator('[data-agenda-paso="1"]')).toHaveCount(0);
   await expect(page.locator("[data-ahorro]")).toHaveCount(0);
   await expect(page.locator("[data-quiero-ahorrar]")).toHaveCount(0);
@@ -142,13 +142,13 @@ test("wizard: boleta «Quiero ahorrar» → tus datos → tu clínica (CRM + Lea
   expect(contactos[0].pacientes_mes).toBe("50_150");
   expect(contactos[0].pacientes_mes_label).toBe("50 a 150");
   expect(contactos[0].necesidad).toBe("[E2E TEST] Llenar la agenda de la tarde");
-  expect(contactos[0].fuente).toContain("/agenda");
+  expect(contactos[0].fuente).toContain("/hablar-con-ventas");
   expect(contactos[0].sitio_web_estado).toBe("manual"); // lo verifica el closer (28-oct-2026)
 });
 
 test("?servicio= ya no cambia el flujo: siempre parte en los datos", async ({ page }) => {
   await mockRed(page);
-  await page.goto("/agenda?servicio=software", { waitUntil: "domcontentloaded" });
+  await page.goto("/hablar-con-ventas?servicio=software", { waitUntil: "domcontentloaded" });
   await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
   await expect(page.locator("[data-servicio]")).toHaveCount(0);
 });
@@ -157,7 +157,7 @@ for (const [w, h] of [[390, 844], [360, 740], [375, 667], [1440, 900], [1280, 72
   test(`la página no hace scroll en ningún paso (${w}x${h})`, async ({ page }) => {
     await mockRed(page);
     await page.setViewportSize({ width: w, height: h });
-    await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+    await page.goto("/hablar-con-ventas", { waitUntil: "domcontentloaded" });
     const sinScroll = () =>
       page.evaluate(() => document.documentElement.scrollHeight <= window.innerHeight && document.documentElement.scrollWidth <= window.innerWidth);
     await pasoBoleta(page);
@@ -179,7 +179,7 @@ for (const [w, h] of [[390, 844], [360, 740], [375, 667], [1440, 900], [1280, 72
 
 test("el panel muestra una imagen por pantalla y no hay cupón ni compra", async ({ page }) => {
   await mockRed(page);
-  await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+  await page.goto("/hablar-con-ventas", { waitUntil: "domcontentloaded" });
   const pie = page.locator("[data-agenda-caption]");
   await pasoBoleta(page);
   await expect(pie).toContainText("Nuestro equipo activa tus campañas de marketing digital");
@@ -205,7 +205,7 @@ test("el formulario carga aunque GTM o el pixel tiren error (26-oct-2026)", asyn
       throw new TypeError("a[c] is not a function");
     };
   });
-  await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+  await page.goto("/hablar-con-ventas", { waitUntil: "domcontentloaded" });
   await pasoBoleta(page);
   await expect(page.locator('[data-agenda-paso="2"]')).toBeVisible();
 });
@@ -228,7 +228,7 @@ test("config de n8n lenta: igual muestra el calendario propio, no el embed con h
       ] } }),
     });
   });
-  await page.goto("/agenda", { waitUntil: "domcontentloaded" });
+  await page.goto("/hablar-con-ventas", { waitUntil: "domcontentloaded" });
   await pasoBoleta(page);
   await llenarDatos(page);
   await enviarClinica(page);

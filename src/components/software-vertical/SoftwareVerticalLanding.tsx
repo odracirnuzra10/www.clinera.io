@@ -30,10 +30,10 @@ function subscribeLocation() {
   return () => {};
 }
 function getAgendaHref() {
-  return window.location.search ? "/agenda" + window.location.search : "/agenda";
+  return window.location.search ? "/hablar-con-ventas" + window.location.search : "/hablar-con-ventas";
 }
 function getAgendaHrefServer() {
-  return "/agenda";
+  return "/hablar-con-ventas";
 }
 
 export default function SoftwareVerticalLanding({

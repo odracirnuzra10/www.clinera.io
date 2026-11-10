@@ -153,7 +153,7 @@ export default function EsteticaSection({
   conLogos?: boolean;
   /** Foto de la modelo (anuncios de Ricardo): `duena` en el home. */
   modelo?: ModeloEsteticaId;
-  /** CTA de la foto (por defecto, /agenda). */
+  /** CTA de la foto (por defecto, /hablar-con-ventas). */
   ctaHref?: string;
   ctaLabel?: string;
 }) {

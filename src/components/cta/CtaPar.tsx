@@ -128,7 +128,7 @@ export function CtaAsistencia({
 }: {
   tam?: Tam;
   oscuro?: boolean;
-  /** Se ignora: venía de cuando el secundario iba a /agenda con lead_source. */
+  /** Se ignora: venía de cuando el secundario iba a /hablar-con-ventas con lead_source. */
   extra?: Record<string, string>;
   style?: CSSProperties;
   className?: string;

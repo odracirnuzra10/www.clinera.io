@@ -3,7 +3,7 @@ import CtaPar from "@/components/cta/CtaPar";
 /**
  * CTA a mitad de los artículos de ficha clínica. El PostCTA del cierre sigue
  * donde estaba: este llega al lector que busca la plantilla o la ley y no
- * baja hasta el final. Va a /agenda con lead_source propio para atribuir.
+ * baja hasta el final. Va a /hablar-con-ventas con lead_source propio para atribuir.
  */
 export default function FichaCTA() {
   return (

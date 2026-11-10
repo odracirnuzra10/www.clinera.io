@@ -34,7 +34,7 @@ const TEST_EVENT_CODE = process.env.META_TEST_EVENT_CODE || "";
 const GRAPH_VERSION = process.env.META_GRAPH_VERSION || "v21.0";
 
 // El wizard ya no emite Waitlist/Contact. Pasan MQL (agendó) y Lead (rellenó el
-// formulario de /agenda, Ricardo 18-oct-2026).
+// formulario de /hablar-con-ventas, Ricardo 18-oct-2026).
 const ALLOWED_EVENTS = new Set(["MQL", "Lead"]);
 
 type HashedUserData = { em?: string; ph?: string };
@@ -154,7 +154,7 @@ async function sendOpenAiLead(body: CapiBody): Promise<void> {
               id: body.event_id,
               type: "lead_created",
               timestamp_ms: Date.now(),
-              source_url: body.event_source_url || "https://www.clinera.io/agenda",
+              source_url: body.event_source_url || "https://www.clinera.io/hablar-con-ventas",
               action_source: "web",
               data: { type: "customer_action" },
             },

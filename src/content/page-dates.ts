@@ -61,7 +61,7 @@ export const PAGE_DATES: Record<
   "/novedades": { published: "2025-06-01", modified: "2026-08-26" },
   "/novedades/fichas-clinicas": { published: "2026-04-01", modified: "2026-08-20" },
   "/migracion": { published: "2026-05-01", modified: "2026-08-01" },
-  "/agenda": { published: "2025-06-01", modified: "2026-10-18" },
+  "/hablar-con-ventas": { published: "2025-06-01", modified: "2026-10-18" },
   "/ventas": { published: "2025-06-01", modified: "2026-08-26" },
   "/presentacion": { published: "2025-06-01", modified: "2026-08-27" },
   "/presentacion-partners": { published: "2026-08-01", modified: "2026-09-06" },

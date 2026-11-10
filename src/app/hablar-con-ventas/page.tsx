@@ -1,42 +1,31 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
-import NavV3 from "@/components/brand-v3/Nav";
-import FooterV3 from "@/components/brand-v3/Footer";
-import VentasLanding from "@/components/ventas/VentasLanding";
+import AgendaWizard from "@/components/agenda/AgendaWizard";
 import { timezoneIpDelRequest } from "@/lib/timezone-ip";
+import { ofertaDeQuery } from "@/content/oferta-estetica";
 
+// `timezoneIpDelRequest()` lee headers de la request: sin esto el build intenta
+// prerenderizar la página y rompe.
 export const dynamic = "force-dynamic";
 
+// Ricardo, 18-oct-2026: /hablar-con-ventas es el wizard de 3 pasos (datos → servicio →
+// videollamada). Es la única puerta de entrada: las rutas anteriores
+// /clinica-estetica, /clinica-estetica/activar-cuenta y /reunion-comercial
+// redirigen acá con la query (utm, gclid, fbclid).
 export const metadata: Metadata = {
   title: "Hablar con ventas",
   description:
-    "30 min con el equipo comercial de Clinera. IA que opera la agenda de todo tu equipo y todas tus sedes por WhatsApp 24/7.",
+    "Cuéntanos de tu clínica, elige entre marketing de performance, software con IA o ambos, y reserva una videollamada de 30 minutos con el equipo.",
   alternates: { canonical: "https://www.clinera.io/hablar-con-ventas" },
   openGraph: { url: "https://www.clinera.io/hablar-con-ventas" },
 };
 
-const srOnly: CSSProperties = {
-  position: "absolute",
-  width: 1,
-  height: 1,
-  padding: 0,
-  margin: -1,
-  overflow: "hidden",
-  clip: "rect(0,0,0,0)",
-  whiteSpace: "nowrap",
-  borderWidth: 0,
-};
-
-export default async function HablarConVentasPage() {
+export default async function AgendaPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ servicio?: string | string[]; oferta?: string | string[] }>;
+}) {
   const tzIp = await timezoneIpDelRequest();
-  return (
-    <>
-      <NavV3 />
-      <main>
-        <h1 style={srOnly}>Hablemos: ¿cómo te puede ayudar Clinera?</h1>
-        <VentasLanding enableMigrationQualification tzIp={tzIp} />
-      </main>
-      <FooterV3 />
-    </>
-  );
+  const { servicio, oferta } = await searchParams;
+  const servicioInicial = Array.isArray(servicio) ? servicio[0] : (servicio ?? null);
+  return <AgendaWizard tzIp={tzIp} servicioInicial={servicioInicial} oferta={ofertaDeQuery(oferta)} />;
 }

@@ -2,7 +2,7 @@
 // Verificación del sitio web de la clínica (Ricardo, 26-oct-2026)
 // ----------------------------------------------------------------------------
 // Clinera apunta a clínicas medianas: una clínica establecida tiene sitio web.
-// /agenda lo exige y, antes de dejar pasar el formulario, comprueba en el
+// /hablar-con-ventas lo exige y, antes de dejar pasar el formulario, comprueba en el
 // servidor (`/api/verificar-sitio`) que el sitio exista y que sea de una
 // clínica. Así Meta no aprende de leads falsos.
 //

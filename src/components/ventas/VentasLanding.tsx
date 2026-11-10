@@ -124,7 +124,7 @@ const SOFTWARE_LABELS: Record<SoftwareId, string> = SOFTWARE_OPTIONS.reduce(
 );
 
 // ============== PASO 1 — VARIANTE "NECESIDAD" ==============
-// /agenda pregunta por el dolor, no por el software actual: abre la puerta a
+// /hablar-con-ventas pregunta por el dolor, no por el software actual: abre la puerta a
 // clínicas sin sistema y le da al equipo comercial el motivo real de la
 // reunión. /ventas sigue preguntando por el software (prop `question1`).
 type NeedId =
@@ -145,7 +145,7 @@ const NEED_OPTIONS: { id: NeedId; label: string }[] = [
 ];
 
 // ============== PASO 1 — VARIANTE "INTERÉS" ==============
-// /agenda pregunta directo si quiere implementar Clinera: un Sí que avanza y un
+// /hablar-con-ventas pregunta directo si quiere implementar Clinera: un Sí que avanza y un
 // No que cierra. Decisión de Ricardo (agosto 2026), sabiendo el costo: esta
 // variante NO captura `necesidad_principal`, así que el equipo comercial llega a
 // la reunión sin el motivo declarado. La contraparte es un paso de un solo tap.
@@ -155,7 +155,7 @@ const INTEREST_LABEL = "Confirmó interés en implementar Clinera";
 /** Qué pregunta el paso 1. El resto del wizard es idéntico en los tres casos. */
 export type Question1 = "software" | "need" | "interest" | "features";
 
-// /agenda v2: chips de producto (multi-select), no el dolor ni el software.
+// /hablar-con-ventas v2: chips de producto (multi-select), no el dolor ni el software.
 export type FeatureId =
   | "voz"
   | "texto"
@@ -332,7 +332,7 @@ const WA_NUMBER = "56985581524";
 // ============== AGENDADOR DEL PASO FINAL ==============
 // "cal"     → embed inline de Cal.com (flujo original de /ventas).
 // "clinera" → widget de reserva del propio producto (app.clinera.io/embed),
-//             usado por /agenda: dogfooding de la agenda real de Clinera.
+//             usado por /hablar-con-ventas: dogfooding de la agenda real de Clinera.
 export type SchedulerId = "cal" | "clinera";
 
 // Embed oficial de Clinera: la clínica "Clinera software" (instancia comercial
@@ -346,7 +346,7 @@ const CLINERA_EMBED_PRESET = {
 };
 const CLINERA_EMBED_ORIGIN = "https://app.clinera.io";
 
-// Reserva nativa vía n8n.oacg.cl: el paso final de /agenda intenta primero el
+// Reserva nativa vía n8n.oacg.cl: el paso final de /hablar-con-ventas intenta primero el
 // flujo sin iframe (datos ya precargados; el cliente solo elige profesional,
 // fecha y hora). n8n hace de puente server-side hacia la API pública de
 // app.clinera.io — el workflow vive en integrations/n8n/. Si el webhook de
@@ -388,24 +388,24 @@ export type Form = {
   phone: string;
   email: string;
   website: string;
-  /** Resultado de /api/verificar-sitio (`verificado`, `sin_leer`, `sin_verificar`, o el motivo del rechazo), o `sin_web`. Sólo /agenda. */
+  /** Resultado de /api/verificar-sitio (`verificado`, `sin_leer`, `sin_verificar`, o el motivo del rechazo), o `sin_web`. Sólo /hablar-con-ventas. */
   sitioEstado?: string;
   city: string;
   cargo: CargoId;
-  /** Boxes/profesionales (`1_3`, `4_6`…). Sólo lo pregunta /agenda; el resto de los wizards lo deja fuera. */
+  /** Boxes/profesionales (`1_3`, `4_6`…). Sólo lo pregunta /hablar-con-ventas; el resto de los wizards lo deja fuera. */
   boxes?: { id: string; label: string } | null;
   /** Perfil exacto (`enfermera_estetica`, `medico_estetico`…). Sólo lo pregunta /clinica-estetica. */
   subtipo?: { id: string; label: string } | null;
-  /** Funciones que marcó en el paso 2 de /agenda (ficha facial, presupuestos…). */
+  /** Funciones que marcó en el paso 2 de /hablar-con-ventas (ficha facial, presupuestos…). */
   funciones?: { id: string; label: string }[] | null;
-  /** Servicio de interés de /agenda: `marketing`, `software` o `ambas` (Ricardo, 18-oct-2026). */
+  /** Servicio de interés de /hablar-con-ventas: `marketing`, `software` o `ambas` (Ricardo, 18-oct-2026). */
   servicio?: { id: string; label: string } | null;
-  /** País de la clínica (nombre, p. ej. «Chile»). Lo pregunta /agenda junto con la ciudad. */
+  /** País de la clínica (nombre, p. ej. «Chile»). Lo pregunta /hablar-con-ventas junto con la ciudad. */
   pais?: string;
-  /** Paso 3 de /agenda (27-oct-2026): rangos de conversaciones y pacientes al mes. */
+  /** Paso 3 de /hablar-con-ventas (27-oct-2026): rangos de conversaciones y pacientes al mes. */
   conversacionesMes?: { id: string; label: string } | null;
   pacientesMes?: { id: string; label: string } | null;
-  /** Qué necesita la clínica, en sus palabras (obligatorio en /agenda). */
+  /** Qué necesita la clínica, en sus palabras (obligatorio en /hablar-con-ventas). */
   necesidad?: string;
 };
 
@@ -454,7 +454,7 @@ function clinicCrmFields(form: Form) {
   };
 }
 
-// Paso 3 de /agenda (27-oct-2026). Van después de sizeAttributes en el payload:
+// Paso 3 de /hablar-con-ventas (27-oct-2026). Van después de sizeAttributes en el payload:
 // `pacientes_mes` pisa el legacy vacío con el rango que eligió la clínica.
 function agendaClinicaFields(form: Form) {
   return {
@@ -462,7 +462,11 @@ function agendaClinicaFields(form: Form) {
       ? { conversaciones_mes: form.conversacionesMes.id, conversaciones_mes_label: form.conversacionesMes.label }
       : {}),
     ...(form.pacientesMes ? { pacientes_mes: form.pacientesMes.id, pacientes_mes_label: form.pacientesMes.label } : {}),
-    ...(form.necesidad ? { necesidad: form.necesidad, necesidad_principal_label: form.necesidad } : {}),
+    // `paso1_pregunta`: el aviso de n8n distinguía este formulario por la URL «/agenda»; desde el
+    // 10-nov-2026 vive en /hablar-con-ventas, así que se lo decimos explícito.
+    ...(form.necesidad
+      ? { necesidad: form.necesidad, necesidad_principal_label: form.necesidad, paso1_pregunta: "necesidad" }
+      : {}),
   };
 }
 
@@ -506,7 +510,7 @@ export type LeadSourceSignals = {
  *   de iOS, donde Google no manda `gclid`. `gclid.ts` los guarda y viajan en el
  *   payload desde siempre; nadie los miraba para decidir el origen.
  * - **La segunda página.** Quien entra por un anuncio a `/planes` y llega a
- *   `/agenda` por el menú ya no trae nada en la URL. El `gclid` sigue en la
+ *   `/hablar-con-ventas` por el menú ya no trae nada en la URL. El `gclid` sigue en la
  *   cookie de 90 días y viaja igual en el payload, así que el lead quedaba
  *   marcado "organico" con su propio `gclid` al lado.
  *
@@ -562,7 +566,7 @@ export function detectLeadSource(): string {
 export function pushDL(event: string, data: Record<string, unknown> = {}) {
   if (typeof window === "undefined" || !window.dataLayer) return;
   // GTM reemplaza dataLayer.push: si una etiqueta falla, el error sale por acá. Nunca puede
-  // cortar el formulario (26-oct-2026: el deslizador de /agenda quedaba pegado al final).
+  // cortar el formulario (26-oct-2026: el deslizador de /hablar-con-ventas quedaba pegado al final).
   try {
     window.dataLayer.push({ event, ...data });
   } catch (e) {
@@ -588,7 +592,7 @@ function sizeAttributes(
   return {
     software_actual: software ?? "",
     software_actual_label: software ? STEP1_LABELS[software] : "",
-    // En /agenda el paso 1 pregunta la necesidad, no el software: se emite
+    // En /hablar-con-ventas el paso 1 pregunta la necesidad, no el software: se emite
     // además con clave propia para que el CRM no lea "necesidad" donde dice
     // "software". Las claves legacy de arriba se conservan igual.
     ...step1Fields(software, features),
@@ -689,7 +693,7 @@ export default function VentasLanding({
    * Clinera sin salir de la página donde agenda. Ver WizardShowcase.
    */
   showcase?: boolean;
-  /** /agenda v2: necesidades en chips, clínica con web, cargo, doctores en móvil. */
+  /** /hablar-con-ventas v2: necesidades en chips, clínica con web, cargo, doctores en móvil. */
   agendaV2?: boolean;
   /** Zona IANA de la IP (`x-vercel-ip-timezone`). Gana sobre el reloj del OS. */
   tzIp?: string;
@@ -731,7 +735,7 @@ export default function VentasLanding({
         @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         @keyframes ventasFadeUp { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
         @media (prefers-reduced-motion: reduce) { * { animation-duration: 0ms !important; transition-duration: 0ms !important; } }
-        /* /agenda ocupa la ventana completa y centra el bloque: es una landing de
+        /* /hablar-con-ventas ocupa la ventana completa y centra el bloque: es una landing de
            un solo golpe de vista, no una página para scrollear. Sólo la variante
            showcase — el resto de las páginas que comparten este hero siguen
            fluyendo con su alto natural. */
@@ -755,14 +759,14 @@ export default function VentasLanding({
             padding: 8px 14px 10px !important;
           }
           /* Envuelve a dos líneas en casi cualquier ancho de móvil y se come
-             ~70-80px que en /agenda hacen falta para que el paso completo entre
+             ~70-80px que en /hablar-con-ventas hacen falta para que el paso completo entre
              sin scroll. La info que da ("solo dueños y gerentes", "45 min") no
              es esencial para decidir — se pierde en mobile, se mantiene en desktop. */
           .ventas-hero-badge { display: none !important; }
           .ventas-testi-desktop { display: none !important; }
           .ventas-testi-mobile { display: flex !important; }
           .ventas-integraciones { display: none !important; }
-          /* Compartido por /ventas, /agenda y /agenda. Un poco más
+          /* Compartido por /ventas, /hablar-con-ventas y /hablar-con-ventas. Un poco más
              generoso que la ronda vacía, sin pasar el techo de ~650px útiles
              de un in-app browser donde viven panel + tarjeta apilados. */
           .ventas-wizard { padding: 12px 14px 10px !important; border-radius: 16px !important; }
@@ -1351,7 +1355,7 @@ function Wizard({
   const [submitted, setSubmitted] = useState(false);
   const [declined, setDeclined] = useState(false);
   // El paso de software (paso 1) queda gateado por la misma prop de antes; ambas
-  // páginas (/ventas y /agenda) lo activan → flujo de 4 pasos.
+  // páginas (/ventas y /hablar-con-ventas) lo activan → flujo de 4 pasos.
   const hasSoftwareStep = enableMigrationQualification;
   const totalSteps = hasSoftwareStep ? (agendaV2 ? 5 : 4) : 3;
   const softwareStep = 1;
@@ -3238,7 +3242,7 @@ function CalendarLoadingOverlay() {
 }
 
 // ============== STEP 4 (alt) — Embed oficial de Clinera ==============
-// El paso final de /agenda: en vez de Cal.com, el widget de reserva del propio
+// El paso final de /hablar-con-ventas: en vez de Cal.com, el widget de reserva del propio
 // producto. sucursalId + tratamientoId van preseteados, así que el widget abre
 // directo en la elección de profesional → fecha/hora. Los datos del paso
 // anterior viajan en la URL con los MISMOS nombres del estado interno del
@@ -3330,7 +3334,7 @@ function StepClineraEmbed({
 // ============== STEP 4 (alt) — Selector de agendador Clinera ==============
 // Prueba el webhook de config de n8n: si responde, reserva nativa (sin iframe,
 // con los datos del paso 3 precargados); si no (workflow inactivo, n8n caído,
-// timeout), cae al embed oficial. /agenda funciona igual aunque n8n no esté.
+// timeout), cae al embed oficial. /hablar-con-ventas funciona igual aunque n8n no esté.
 export function StepClineraScheduler({
   form,
   label,
