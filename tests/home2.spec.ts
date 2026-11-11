@@ -6,7 +6,7 @@ import { expect, test } from "@playwright/test";
 // 11-nov-2026: prueba social del inicio, estilo vita.lat. Números de Ricardo en PRUEBA_SOCIAL (home2.ts).
 test("el home muestra la prueba social sobre el titular", async ({ page }) => {
   await page.goto("/", { waitUntil: "domcontentloaded" });
-  await expect(page.locator('[data-home2="prueba-social"]')).toHaveText("La IA atiende 21.000 conversaciones y agenda 2.100 citas al día");
+  await expect(page.locator('[data-home2="prueba-social"] span').nth(1)).toHaveText("La IA atiende 21.000 conversaciones y agenda 2.100 citas al día");
 });
 
 test("home: prueba gratis, funciones, blog, historia y fundador", async ({ page }) => {

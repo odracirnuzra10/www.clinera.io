@@ -157,9 +157,12 @@ export default function Home2() {
         <section className={s.hero} data-home2="hero">
           <p className={s.pruebaSocial} data-home2="prueba-social">
             <span className={s.pruebaPunto} aria-hidden />
-            <span>
+            <span className={s.pruebaLargo}>
               La IA atiende <b>{PRUEBA_SOCIAL.conversaciones}</b> conversaciones y agenda{" "}
               <b>{PRUEBA_SOCIAL.citas}</b> citas al día
+            </span>
+            <span className={s.pruebaCorto}>
+              IA: <b>{PRUEBA_SOCIAL.conversaciones}</b> conversaciones · <b>{PRUEBA_SOCIAL.citas}</b> citas al día
             </span>
           </p>
           <h1 className={s.h1}>
