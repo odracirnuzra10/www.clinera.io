@@ -80,6 +80,7 @@ const STAR_DISALLOW = [
   "/prueba-gratis",
   "/oferta-clinicas-esteticas",
   "/super-promo",
+  "/voz",
   "/home2",
   "/home-nuevo",
   "/go$",
