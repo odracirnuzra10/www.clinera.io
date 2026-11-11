@@ -1610,3 +1610,12 @@ Guardián: `tests/voz.spec.ts`.
 `[next]/internal/font/google/...`), mientras `clinera-web-preview` compiló el mismo SHA sin problema. Es una falla
 de red de Vercel, no del código: se arregla con otro build (un merge nuevo a `main`). Si un link nuevo da 404 más de
 15 min después del merge, revisa primero `GET api.vercel.com/v6/deployments?target=production`: `state: ERROR` es esto.
+
+# Prueba social del inicio: 21.000 conversaciones y 2.100 citas al día (Ricardo, 11-nov-2026)
+
+Píldora verde con punto que late sobre el titular del home (`data-home2="prueba-social"`, reemplaza el eyebrow
+«Software médico con IA · Demo de 7 días») y de `/prueba-gratis` (`data-testid="prueba-social"`, reemplaza
+«Prueba gratis de 7 días · Sin riesgo»), inspirada en la de vita.lat. Texto: «La IA atiende 21.000
+conversaciones y agenda 2.100 citas al día». Son **promedios diarios que dio Ricardo**, no se calculan:
+`PRUEBA_SOCIAL` en `src/content/home2.ts` y escritos a mano en `public/kimi-gratis/index.html` (si cambian,
+van en los dos). Guardianes: `home2.spec.ts` y `kimi-gratis.spec.ts`.
