@@ -24,6 +24,13 @@ export const HOME2_HERO = {
   formulaResultado: "tu clínica en un solo lugar",
 } as const;
 
+// Prueba social del inicio, como la de vita.lat (Ricardo, 11-nov-2026). Promedios diarios de la IA de
+// Clinera que dio Ricardo. Escrita a mano también en public/kimi-gratis/index.html: si cambia, cambia en los dos.
+export const PRUEBA_SOCIAL = {
+  conversaciones: "21.000",
+  citas: "2.100",
+} as const;
+
 export const HOME2_CIFRAS = [
   { valor: "+1.500", texto: "clínicas trabajadas en los últimos 10 años" },
   { valor: "3 sedes", texto: "propias operan todos los días sobre Clinera" },
