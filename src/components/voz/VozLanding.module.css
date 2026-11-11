@@ -1,0 +1,102 @@
+.main {
+  font-family: Inter, system-ui, sans-serif;
+  color: #0a0a0a;
+  background: #ffffff;
+  min-height: 100vh;
+}
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 16px 24px;
+}
+/* globals.css reserva 112 px arriba de la primera sección para el menú fijo; acá no hay menú. */
+.main > .hero:first-child {
+  padding-top: 40px;
+}
+.glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 55% at 50% -10%, rgba(59, 130, 246, 0.18) 0%, rgba(124, 58, 237, 0.14) 36%, rgba(217, 70, 239, 0.08) 58%, transparent 78%);
+  pointer-events: none;
+}
+.contenido {
+  position: relative;
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+.marca {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+.h1 {
+  margin: 14px 0 0;
+  font-size: clamp(1.9rem, 5.5vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+.bajada {
+  margin: 14px auto 0;
+  max-width: 520px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #4b5563;
+}
+.casos {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px 16px 8px;
+  display: grid;
+  gap: 14px;
+}
+.caso {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 18px;
+  background: #fff;
+}
+.cabeza {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  color: #7c3aed;
+}
+.titulo {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  flex: 1;
+}
+.dur {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  color: #6b7280;
+}
+.resumen {
+  margin: 8px 0 14px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #374151;
+}
+.audio {
+  width: 100%;
+  height: 44px;
+}
+.cierre {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 28px 16px 56px;
+  text-align: center;
+}
+.cierreTexto {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+}
