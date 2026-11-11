@@ -1024,12 +1024,14 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 @media (prefers-reduced-motion:reduce){.chat.en-vivo .anim{transition:none}}
 
 /* Prueba social del inicio (Ricardo, 11-nov-2026, estilo vita.lat). Los números están también en src/content/home2.ts (PRUEBA_SOCIAL). */
-.prueba-social{display:inline-flex;align-items:flex-start;gap:8px;margin:0 0 18px;padding:8px 16px;border-radius:18px;background:#ECFDF5;border:1px solid #D1FAE5;color:#065F46;font-size:14px;font-weight:500;line-height:1.3}
+.prueba-social{display:inline-block;max-width:100%;margin:0 0 18px;padding:8px 16px;border-radius:999px;background:#ECFDF5;border:1px solid #D1FAE5;color:#065F46;font-size:14px;font-weight:500;line-height:1.3;white-space:nowrap}
 .prueba-social b{font-weight:700}
-.prueba-social .ps-punto{width:8px;height:8px;margin-top:6px;border-radius:999px;background:#10B981;flex:none;animation:psLate 2s ease-out infinite}
+.prueba-social .ps-punto{display:inline-block;width:8px;height:8px;margin:0 8px 1px 0;vertical-align:middle;border-radius:999px;background:#10B981;animation:psLate 2s ease-out infinite}
+.prueba-social .ps-corto{display:none}
 @keyframes psLate{0%{box-shadow:0 0 0 0 rgba(16,185,129,.5)}70%{box-shadow:0 0 0 8px rgba(16,185,129,0)}100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}}
 @media (prefers-reduced-motion:reduce){.prueba-social .ps-punto{animation:none}}
-@media (max-width:480px){.prueba-social{font-size:13px;padding:7px 14px}}
+/* Celular (11-nov-2026): versión corta en una sola línea; la frase completa partía en dos y el punto quedaba suelto. */
+@media (max-width:640px){.prueba-social{padding:7px 13px;font-size:clamp(11px,3.4vw,14px)}.prueba-social .ps-largo{display:none}.prueba-social .ps-corto{display:inline}}
 </style>
 </head>
 <body>
@@ -1072,7 +1074,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
   <span class="glow g1" aria-hidden="true"></span><span class="glow g2" aria-hidden="true"></span>
   <div class="wrap">
     <div class="copy">
-      <p class="prueba-social rv" data-testid="prueba-social"><span class="ps-punto" aria-hidden="true"></span><span>La IA atiende <b>21.000</b> conversaciones y agenda <b>2.100</b> citas al día</span></p>
+      <p class="prueba-social rv" data-testid="prueba-social"><span class="ps-punto" aria-hidden="true"></span><span class="ps-largo">La IA atiende <b>21.000</b> conversaciones y agenda <b>2.100</b> citas al día</span><span class="ps-corto">IA: <b>21.000</b> conversaciones · <b>2.100</b> citas al día</span></p>
       <p class="urgencia rv" data-urgencia hidden></p>
       <h1 class="rv" style="--i:1"><span class="grad-txt">Prueba gratis</span> sin riesgo y haz crecer tu clínica</h1>
       <p class="sub rv" style="--i:2"><strong>Conecta tus canales y empieza a atender con inteligencia artificial.</strong> Mientras atiendes, la IA responde a tus pacientes en segundos y les agenda la hora.</p>

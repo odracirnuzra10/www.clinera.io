@@ -1619,3 +1619,6 @@ Píldora verde con punto que late sobre el titular del home (`data-home2="prueba
 conversaciones y agenda 2.100 citas al día». Son **promedios diarios que dio Ricardo**, no se calculan:
 `PRUEBA_SOCIAL` en `src/content/home2.ts` y escritos a mano en `public/kimi-gratis/index.html` (si cambian,
 van en los dos). Guardianes: `home2.spec.ts` y `kimi-gratis.spec.ts`.
+- **Celular (11-nov-2026):** bajo 640 px va la versión corta «IA: 21.000 conversaciones · 2.100 citas al día» en
+  una sola línea (`ps-corto` / `pruebaCorto`, `white-space:nowrap`, letra que baja con el ancho). La frase completa
+  partía en dos y el punto verde quedaba solo arriba. Sin flexbox: el punto es `inline-block` junto al texto.
