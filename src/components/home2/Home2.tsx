@@ -18,7 +18,6 @@ import {
   HOME2_CIERRE,
   HOME2_FUNDADOR,
   HOME2_HERO,
-  PRUEBA_SOCIAL,
   HOME2_HISTORIA,
   HOME2_PMFC,
 } from "@/content/home2";
@@ -155,16 +154,7 @@ export default function Home2() {
       <FranjaPulso />
       <div className={s.heroFondo}>
         <section className={s.hero} data-home2="hero">
-          <p className={s.pruebaSocial} data-home2="prueba-social">
-            <span className={s.pruebaPunto} aria-hidden />
-            <span className={s.pruebaLargo}>
-              La IA atiende <b>{PRUEBA_SOCIAL.conversaciones}</b> conversaciones y agenda{" "}
-              <b>{PRUEBA_SOCIAL.citas}</b> citas al día
-            </span>
-            <span className={s.pruebaCorto}>
-              IA: <b>{PRUEBA_SOCIAL.conversaciones}</b> conversaciones · <b>{PRUEBA_SOCIAL.citas}</b> citas al día
-            </span>
-          </p>
+          <p className={s.eyebrow}>{HOME2_HERO.eyebrow}</p>
           <h1 className={s.h1}>
             {HOME2_HERO.titulo}{" "}
             <span className={s.grad}>{HOME2_HERO.tituloAcento}</span>

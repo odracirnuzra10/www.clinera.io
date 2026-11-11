@@ -42,8 +42,7 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
     "href",
     "https://wa.me/56985581524?text=necesito%20asistencia",
   );
-  // 11-nov-2026: la píldora del inicio es la prueba social (antes «Prueba gratis de 7 días · Sin riesgo»).
-  await expect(page.locator('[data-testid="prueba-social"] .ps-largo')).toHaveText("La IA atiende 21.000 conversaciones y agenda 2.100 citas al día");
+  await expect(page.locator(".hero")).toContainText("Prueba gratis de 7 días");
   await expect(page.locator(".hero")).not.toContainText("Prueba gratis, sin compromiso");
   await expect(page.locator("main")).not.toContainText("$14.495");
   await expect(page.locator("main")).not.toContainText("primer mes");
