@@ -1595,3 +1595,12 @@ sitio) hace `location.assign` a `app.clinera.io/auth/register?plan=…` con utm,
 - El celular del lead depende de que el webhook mande `telefono` (el 10-nov llegó vacío en la prueba).
 - El código del formulario de registro sigue en los dos archivos, sin uso: volver atrás es quitar el
   `irAlta()` de `abrirCuenta` y el `location.assign` del listener de `RegistroModal`.
+
+# `/voz`: tres llamadas reales del agente de voz para la expo (Ricardo, 11-nov-2026)
+
+Tres grabaciones de Sofía (agente de voz de la red) a leads que agendaron, en `public/voz/*.mp3` (64 kbps, mono),
+con la ficha de cada una en `src/content/voz-casos.ts`. **Son pacientes reales** y en el audio se oye su nombre de
+pila y la marca de la clínica: Ricardo confirmó que se publican (11-nov). La página es `noindex`, va en
+`robots-txt.ts` y no entra al sitemap; el texto no nombra pacientes ni clínicas. Las grabaciones salen de la API de
+Vapi (`GET api.vapi.ai/call/<id>` → `artifact.presignedMonoUrl`; el `recordingUrl` sin firmar da 400).
+Guardián: `tests/voz.spec.ts`.
