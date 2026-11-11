@@ -1604,3 +1604,9 @@ pila y la marca de la clínica: Ricardo confirmó que se publican (11-nov). La p
 `robots-txt.ts` y no entra al sitemap; el texto no nombra pacientes ni clínicas. Las grabaciones salen de la API de
 Vapi (`GET api.vapi.ai/call/<id>` → `artifact.presignedMonoUrl`; el `recordingUrl` sin firmar da 400).
 Guardián: `tests/voz.spec.ts`.
+
+**Build de producción caído por Google Fonts (11-nov-2026).** El merge de `/voz` (#465) quedó en `ERROR` en
+`clinera-website` porque el build no pudo bajar JetBrains Mono de Google Fonts (`module-not-found` en
+`[next]/internal/font/google/...`), mientras `clinera-web-preview` compiló el mismo SHA sin problema. Es una falla
+de red de Vercel, no del código: se arregla con otro build (un merge nuevo a `main`). Si un link nuevo da 404 más de
+15 min después del merge, revisa primero `GET api.vercel.com/v6/deployments?target=production`: `state: ERROR` es esto.
