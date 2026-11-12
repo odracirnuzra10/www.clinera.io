@@ -191,6 +191,11 @@ const nextConfig: NextConfig = {
         source: '/presentacion',
         destination: '/presentacion/index.html',
       },
+      // Ricardo, 12-nov-2026: propuesta para Clínica Nace (un número para 4 sucursales). noindex.
+      {
+        source: '/nace',
+        destination: '/nace/index.html',
+      },
       // Ricardo, 22-oct-2026: dos versiones del deck. /presentacion-facil es la misma
       // que /presentacion (para doctores); /presentacion-tecnica trae ROAS, CPA y el detalle.
       {

@@ -1617,3 +1617,14 @@ El mismo día se puso y se sacó una píldora verde «La IA atiende 21.000 conve
 día» (promedios de Ricardo, estilo vita.lat) sobre el titular del home y de `/prueba-gratis`. Ricardo pidió
 quitarla completa; volvieron el eyebrow del home y «Prueba gratis de 7 días · Sin riesgo» en la landing. Si se
 repone: en celular la frase larga parte en dos y el punto queda suelto; usar una versión corta en una línea.
+
+# `/nace`: propuesta para Clínica Nace (Ricardo, 12-nov-2026)
+
+Página estática (`public/nace/index.html`, rewrite en `next.config.ts`) para la reunión con Nace del 19-nov.
+El foco es **un solo número de WhatsApp para las 4 sucursales** (Santiago, San Miguel, La Florida, Providencia):
+AURA consulta las 4 agendas antes de responder, y cada persona del equipo ve en la bandeja solo lo suyo
+(coordinación central, recepción por sucursal, médico). Las animaciones son CSS + un poco de JS, sin librerías.
+Cotización: Xcale + 240 profesionales extra (50 % de descuento) + 1 sucursal + 23.000 conversaciones =
+**US$ 2.342/mes** (lista US$ 3.422). Escrita a mano: si cambian los precios de `planes-trial.ts`, no se actualiza sola.
+Pacientes y médicos de la animación son de ejemplo. `noindex`, en `robots-txt.ts` y fuera del sitemap.
+Guardián: `tests/nace.spec.ts`.
