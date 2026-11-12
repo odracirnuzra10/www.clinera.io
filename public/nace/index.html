@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clinera × Clínica Nace</title>
+<meta name="description" content="Propuesta de Clinera para Clínica Nace: un solo número de WhatsApp para las 4 sucursales y una IA que agenda en cualquiera de ellas.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A0A0A; --body:#4B5563; --soft:#6B7280; --mute:#A0A6B2;
+  --s0:#FFFFFF; --s1:#FAFAFA; --cream:#F7F6F3; --cream2:#F3F2F0;
+  --line:#EEECEA;
+  --grad:linear-gradient(135deg,#3B82F6 0%,#7C3AED 50%,#D946EF 100%);
+  --stgo:#3B82F6; --smig:#7C3AED; --flor:#D946EF; --prov:#0891B2;
+  --ok:#10B981;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-snap-type:y proximity;scroll-behavior:smooth;background:var(--s0)}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--s0);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;text-transform:uppercase;letter-spacing:.13em;font-size:12px;font-weight:600;color:var(--soft)}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1,h2,h3{letter-spacing:-.03em;line-height:1.05;font-weight:700}
+h2{font-size:clamp(32px,4.4vw,60px)}
+p.lead{font-size:clamp(17px,1.6vw,21px);line-height:1.5;color:var(--body);letter-spacing:-.01em}
+
+/* ---------- Deck shell ---------- */
+.slide{min-height:100vh;min-height:100svh;scroll-snap-align:start;position:relative;display:flex;flex-direction:column;justify-content:center;padding:96px clamp(20px,6vw,96px) 80px;overflow:hidden}
+.wrap{width:100%;max-width:1200px;margin:0 auto}
+.slide.cream{background:var(--cream)}
+.slide.dark{background:#0E1014;color:#fff}
+.slide.dark .mono{color:#A0A6B2}
+.slide.dark p.lead{color:#C9CDD4}
+
+.topbar{position:fixed;inset:0 0 auto 0;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,4vw,40px);z-index:20;background:rgba(255,255,255,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(238,236,234,.8)}
+.wordmark{font-weight:700;font-size:20px;letter-spacing:-.03em}
+.wordmark i{font-style:normal;display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--grad);margin:0 1px 2px}
+.topbar .mono{font-size:11px}
+.dots{position:fixed;right:clamp(10px,2vw,28px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:20}
+.dots button{width:10px;height:10px;border-radius:50%;border:0;background:#D6D3CE;cursor:pointer;transition:all .25s var(--ease);padding:0}
+.dots button.on{background:#7C3AED;height:26px;border-radius:6px}
+.hint{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);display:flex;align-items:center;gap:8px}
+.hint span{display:block;width:1px;height:28px;background:linear-gradient(#A0A6B2,transparent);animation:hint 1.8s ease-in-out infinite}
+@keyframes hint{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* reveal on enter */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.slide.in .rv{opacity:1;transform:none}
+.slide.in .rv.d1{transition-delay:.08s}.slide.in .rv.d2{transition-delay:.18s}.slide.in .rv.d3{transition-delay:.3s}.slide.in .rv.d4{transition-delay:.42s}.slide.in .rv.d5{transition-delay:.55s}
+
+/* ---------- 1. Hero ---------- */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,5vw,72px);align-items:center}
+.hero h1{font-size:clamp(42px,6.2vw,92px);letter-spacing:-.04em}
+.hero .lead{margin-top:24px;max-width:520px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:14px;font-weight:500;color:var(--body)}
+.chip b{width:8px;height:8px;border-radius:50%;display:inline-block}
+.orbit{position:relative;width:100%;max-width:520px;aspect-ratio:1;margin:0 auto}
+.orbit svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.wire{stroke:#E4E1DC;stroke-width:.5;fill:none}
+.flow{fill:none;stroke-width:.8;stroke-linecap:round;stroke-dasharray:3 9;animation:flow 1.6s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-24}}
+.core{position:absolute;left:50%;top:50%;width:30%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:var(--grad);display:grid;place-items:center;color:#fff;text-align:center;box-shadow:0 18px 48px -12px rgba(124,58,237,.55)}
+.core::before,.core::after{content:"";position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(124,58,237,.35);animation:ring 3s var(--ease) infinite}
+.core::after{animation-delay:1.5s}
+@keyframes ring{from{transform:scale(1);opacity:.9}to{transform:scale(1.9);opacity:0}}
+.core svg{position:static;width:34%;height:auto}
+.core small{display:block;font-size:clamp(10px,1.1vw,13px);font-weight:600;margin-top:2px;letter-spacing:-.01em}
+.node{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px}
+.node .pin{width:clamp(44px,5vw,58px);aspect-ratio:1;border-radius:16px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.node .pin i{width:12px;height:12px;border-radius:50%;animation:blink 2.4s ease-in-out infinite}
+.node span{font-size:clamp(12px,1.2vw,14px);font-weight:600;white-space:nowrap}
+@keyframes blink{50%{transform:scale(1.45);opacity:.7}}
+
+/* ---------- 2. Hoy ---------- */
+.before{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+.bcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px;min-height:180px}
+.bcard .who{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px}
+.bcard .who b{width:9px;height:9px;border-radius:50%}
+.bcard .num{font-size:13px;color:var(--soft)}
+.ring{display:flex;align-items:center;gap:10px;margin-top:auto;font-size:14px;font-weight:600}
+.ring .ph{width:34px;height:34px;border-radius:10px;background:var(--cream2);display:grid;place-items:center}
+.slide.in .ring .ph{animation:shake 1.4s ease-in-out infinite}
+@keyframes shake{0%,60%,100%{transform:rotate(0)}65%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}85%{transform:rotate(-8deg)}}
+.state{color:#B45309}
+.arrow-down{display:flex;justify-content:center;margin:36px 0 0}
+.verdict{margin-top:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.verdict .pill{padding:12px 20px;border-radius:999px;background:var(--ink);color:#fff;font-weight:600;font-size:16px}
+
+/* ---------- 3. Escena principal ---------- */
+.scene{display:grid;grid-template-columns:minmax(280px,360px) 1fr;gap:clamp(24px,4vw,56px);align-items:center;margin-top:40px}
+.phone{background:#0E1014;border-radius:34px;padding:10px;box-shadow:0 30px 60px -24px rgba(14,16,20,.45)}
+.screen{background:#ECE5DD;border-radius:26px;overflow:hidden;display:flex;flex-direction:column;height:520px}
+.wa-head{background:#075E54;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px}
+.wa-head .av{width:34px;height:34px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:700;font-size:13px}
+.wa-head b{display:block;font-size:15px}
+.wa-head small{font-size:12px;opacity:.85}
+.chat{flex:1;padding:14px 12px;display:flex;flex-direction:column;gap:8px;overflow:hidden;justify-content:flex-end}
+.msg{max-width:84%;padding:9px 12px 18px;border-radius:12px;font-size:14px;line-height:1.4;position:relative;box-shadow:0 1px 1px rgba(0,0,0,.08);animation:pop .35s var(--ease) both}
+.msg time{position:absolute;right:9px;bottom:4px;font-size:10px;color:#667781}
+.msg.in{background:#fff;align-self:flex-start;border-top-left-radius:4px}
+.msg.out{background:#D9FDD3;align-self:flex-end;border-top-right-radius:4px}
+.msg.ai{background:#fff;align-self:flex-start;border-top-left-radius:4px}
+.msg.ai::before{content:"AURA";display:block;font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.12em;font-weight:600;color:#7C3AED;margin-bottom:3px}
+.typing{align-self:flex-start;background:#fff;border-radius:12px;padding:12px 14px;display:flex;gap:4px;animation:pop .3s var(--ease) both}
+.typing i{width:6px;height:6px;border-radius:50%;background:#A0A6B2;animation:tp 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes tp{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+
+.stage{position:relative;width:100%;max-width:640px;aspect-ratio:1/0.86;margin:0 auto}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.stage .wire{stroke-width:.35}
+.stage .flow{stroke-width:.6;opacity:0;transition:opacity .3s}
+.stage.scan .flow{opacity:1;animation-duration:.9s}
+.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:23%;aspect-ratio:1;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;text-align:center;font-weight:700;font-size:clamp(12px,1.3vw,16px);box-shadow:0 14px 36px -10px rgba(124,58,237,.55);z-index:2}
+.hub small{display:block;font-weight:500;font-size:.72em;opacity:.9;margin-top:2px}
+.stage.scan .hub{animation:breathe 1s ease-in-out infinite}
+@keyframes breathe{50%{transform:translate(-50%,-50%) scale(1.06)}}
+.suc{position:absolute;width:40%;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:0 1px 2px rgba(0,0,0,.03);transition:border-color .3s,box-shadow .3s,transform .3s,opacity .3s;z-index:2}
+.suc.tl{left:0;top:0}.suc.tr{right:0;top:0}.suc.bl{left:0;bottom:0}.suc.br{right:0;bottom:0}
+.suc header{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;margin-bottom:8px}
+.suc header b{width:9px;height:9px;border-radius:50%}
+.slots{display:flex;flex-direction:column;gap:5px}
+.slot{height:20px;border-radius:6px;background:var(--cream2);position:relative;overflow:hidden;font-size:11.5px;line-height:20px;padding:0 8px;color:var(--soft)}
+.slot.busy{background:#EEECEA;color:#A0A6B2}
+.stage.scan .slot::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(124,58,237,.18),transparent);transform:translateX(-100%);animation:sheen 1s linear infinite}
+@keyframes sheen{to{transform:translateX(100%)}}
+.first{margin-top:8px;font-size:12.5px;color:var(--body);opacity:0;transform:translateY(4px);transition:all .35s var(--ease)}
+.first strong{color:var(--ink)}
+.stage.res .first{opacity:1;transform:none}
+.stage.res .suc.dim>*{opacity:.5}
+.suc.pick{border-color:#7C3AED;box-shadow:0 0 0 3px rgba(124,58,237,.14),0 8px 24px -10px rgba(124,58,237,.4);transform:scale(1.03)}
+.slot.new{background:#ECFDF5;color:#047857;font-weight:600;border:1px solid #A7F3D0;animation:pop .45s var(--ease) both}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;justify-content:center;font-size:13px;color:var(--soft)}
+.legend b{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.replay{margin-top:16px;display:flex;justify-content:center}
+.btn-ghost{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 16px;font:500 14px Inter,sans-serif;color:var(--ink);cursor:pointer;transition:all .15s ease-out}
+.btn-ghost:hover{border-color:#D6D3CE;transform:translateY(-1px)}
+
+/* ---------- 4. Accesos ---------- */
+.access{display:grid;grid-template-columns:300px 1fr;gap:clamp(20px,4vw,48px);margin-top:40px;align-items:start}
+.roles{display:flex;flex-direction:column;gap:10px}
+.role{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;font:inherit;color:inherit;transition:all .25s var(--ease);position:relative;overflow:hidden}
+.role .ic{width:34px;height:34px;flex:none;border-radius:10px;background:var(--cream2);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--body)}
+.role strong{display:block;font-size:15px}
+.role small{font-size:13px;color:var(--soft)}
+.role.on{border-color:#7C3AED;box-shadow:0 0 0 3px rgba(124,58,237,.12)}
+.role.on .ic{background:var(--grad);color:#fff}
+.role.on::after{content:"";position:absolute;left:0;bottom:0;height:2px;background:var(--grad);animation:bar 3.2s linear forwards}
+.role.manual::after{display:none}
+@keyframes bar{from{width:0}to{width:100%}}
+.inbox{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.inbox-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);background:var(--s1)}
+.inbox-head strong{font-size:15px}
+.count{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--soft)}
+.conv{display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;padding:12px 18px;border-bottom:1px solid #F3F2F0;max-height:70px;transition:all .45s var(--ease)}
+.conv .a{width:36px;height:36px;border-radius:50%;background:var(--cream2);display:grid;place-items:center;font-weight:600;font-size:13px;color:var(--body)}
+.conv b{display:block;font-size:14px}
+.conv span{font-size:13px;color:var(--soft);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.conv.hide{max-height:0;padding-top:0;padding-bottom:0;opacity:0;border-color:transparent}
+.access-note{margin-top:14px;font-size:13px;color:var(--soft)}
+
+/* ---------- 5. Incluye ---------- */
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.feat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,box-shadow .2s}
+.feat:hover{border-color:#D6D3CE;box-shadow:0 2px 8px rgba(0,0,0,.05),0 1px 2px rgba(0,0,0,.04)}
+.feat svg{width:24px;height:24px;stroke:#7C3AED;stroke-width:1.5;fill:none}
+.feat h3{font-size:19px;letter-spacing:-.015em;line-height:1.25}
+.feat p{font-size:15px;line-height:1.5;color:var(--body)}
+.feat.big{grid-column:span 2;background:var(--ink);color:#fff;border-color:var(--ink)}
+.feat.big p{color:#C9CDD4}.feat.big svg{stroke:#D946EF}
+
+/* ---------- 6. Cotización ---------- */
+.quote{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(20px,4vw,48px);margin-top:40px;align-items:stretch}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;font-size:15px}
+th,td{padding:14px 18px;text-align:right;border-bottom:1px solid #F3F2F0;font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+td:not(:first-child),th:not(:first-child){white-space:nowrap}
+th{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);font-weight:600;background:var(--s1)}
+td small{display:block;color:var(--soft);font-size:12.5px;margin-top:2px}
+td s{color:var(--mute)}
+tr.total td{font-weight:700;border-bottom:0;background:var(--cream)}
+.price{background:#0E1014;color:#fff;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden}
+.price::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 10%,rgba(217,70,239,.35),transparent 60%),radial-gradient(ellipse 50% 60% at 10% 110%,rgba(34,211,238,.18),transparent 60%)}
+.price>*{position:relative}
+.price .big{font-size:clamp(46px,5vw,68px);font-weight:800;letter-spacing:-.04em;line-height:1}
+.price .big small{font-size:.32em;font-weight:500;letter-spacing:0;color:#C9CDD4}
+.price ul{list-style:none;display:flex;flex-direction:column;gap:9px;font-size:15px;color:#E5E7EB}
+.price li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--grad);margin-right:10px;vertical-align:2px}
+.save{align-self:flex-start;padding:7px 12px;border-radius:999px;background:var(--grad);font-weight:600;font-size:13px}
+
+/* ---------- 7. Cierre ---------- */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px}
+.step{border-top:2px solid rgba(255,255,255,.15);padding-top:18px;position:relative}
+.step::before{content:"";position:absolute;left:0;top:-2px;height:2px;width:0;background:var(--grad);transition:width 1s var(--ease)}
+.slide.in .step::before{width:100%}
+.slide.in .step:nth-child(2)::before{transition-delay:.25s}.slide.in .step:nth-child(3)::before{transition-delay:.5s}.slide.in .step:nth-child(4)::before{transition-delay:.75s}
+.step .mono{color:#D946EF}
+.step p{margin-top:8px;font-size:16px;line-height:1.5;color:#E5E7EB}
+.meet{margin-top:48px;display:inline-flex;align-items:center;gap:14px;padding:16px 22px;border:1px solid rgba(255,255,255,.14);border-radius:14px;background:rgba(255,255,255,.04)}
+.meet b{font-size:18px}
+.glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(217,70,239,.35),transparent 60%),radial-gradient(ellipse 50% 60% at 10% 110%,rgba(34,211,238,.18),transparent 60%)}
+.foot{margin-top:56px;font-size:13px;color:#8B919C}
+
+/* ---------- Responsive ---------- */
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr}
+  .orbit{max-width:420px}
+  .before{grid-template-columns:repeat(2,1fr)}
+  .scene{grid-template-columns:1fr}
+  .phone{max-width:360px;width:100%;margin:0 auto}
+  .access{grid-template-columns:1fr}
+  .roles{display:grid;grid-template-columns:repeat(2,1fr)}
+  .feats{grid-template-columns:repeat(2,1fr)}
+  .quote{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .dots{display:none}
+}
+@media (max-width:600px){
+  .slide{padding:88px 18px 64px}
+  .screen{height:360px}
+  .stage{aspect-ratio:1/1.05}
+  .suc{width:44%;padding:9px 10px;border-radius:12px}
+  .suc header{font-size:12.5px;margin-bottom:6px}
+  .slot{height:17px;line-height:17px;font-size:10.5px;padding:0 6px}
+  .first{font-size:11.5px}
+  .hub{width:26%;font-size:11px}
+  .roles{grid-template-columns:1fr}
+  .role small{display:none}
+  .feats{grid-template-columns:1fr}
+  .feat.big{grid-column:auto}
+  th,td{padding:11px 12px;font-size:14px}
+  .steps{grid-template-columns:1fr}
+  .before{gap:10px}
+  .bcard{padding:14px;min-height:150px}
+  .topbar .mono{display:none}
+  .hint{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wordmark">clinera<i></i>io</div>
+  <div class="mono">Propuesta · Clínica Nace · Nov 2026</div>
+</header>
+<nav class="dots" aria-label="Diapositivas"></nav>
+
+<!-- 1. HERO -->
+<section class="slide" id="inicio" data-title="Inicio">
+  <div class="wrap hero">
+    <div>
+      <p class="mono rv">Clinera × Clínica Nace</p>
+      <h1 class="rv d1" style="margin-top:18px">Un número.<br>Cuatro sucursales.<br><span class="grad-text">Una IA que agenda.</span></h1>
+      <p class="lead rv d2">Tus pacientes escriben a un solo WhatsApp. AURA revisa la agenda de Santiago, San Miguel, La Florida y Providencia y les da la mejor hora disponible, en la sucursal que les sirve.</p>
+      <div class="chips rv d3">
+        <span class="chip"><b style="background:var(--stgo)"></b>Santiago</span>
+        <span class="chip"><b style="background:var(--smig)"></b>San Miguel</span>
+        <span class="chip"><b style="background:var(--flor)"></b>La Florida</span>
+        <span class="chip"><b style="background:var(--prov)"></b>Providencia</span>
+      </div>
+    </div>
+    <div class="orbit rv d2" aria-hidden="true">
+      <svg viewBox="0 0 100 100">
+        <path class="wire" d="M50 50 L18 18 M50 50 L82 18 M50 50 L18 82 M50 50 L82 82"/>
+        <path class="flow" stroke="#3B82F6" d="M50 50 L18 18"/>
+        <path class="flow" stroke="#7C3AED" d="M50 50 L82 18" style="animation-delay:-.4s"/>
+        <path class="flow" stroke="#D946EF" d="M50 50 L18 82" style="animation-delay:-.8s"/>
+        <path class="flow" stroke="#0891B2" d="M50 50 L82 82" style="animation-delay:-1.2s"/>
+      </svg>
+      <div class="core">
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5z"/></svg>
+          <small>1 número</small>
+        </div>
+      </div>
+      <div class="node" style="left:18%;top:18%"><div class="pin"><i style="background:var(--stgo)"></i></div><span>Santiago</span></div>
+      <div class="node" style="left:82%;top:18%"><div class="pin"><i style="background:var(--smig);animation-delay:.6s"></i></div><span>San Miguel</span></div>
+      <div class="node" style="left:18%;top:82%"><div class="pin"><i style="background:var(--flor);animation-delay:1.2s"></i></div><span>La Florida</span></div>
+      <div class="node" style="left:82%;top:82%"><div class="pin"><i style="background:var(--prov);animation-delay:1.8s"></i></div><span>Providencia</span></div>
+    </div>
+  </div>
+  <div class="hint"><span></span></div>
+</section>
+
+<!-- 2. HOY -->
+<section class="slide cream" id="hoy" data-title="Hoy">
+  <div class="wrap">
+    <p class="mono rv">Cómo funciona hoy en muchas redes</p>
+    <h2 class="rv d1" style="margin-top:14px;max-width:900px">Cuatro números, cuatro recepciones.<br>El paciente tiene que adivinar a cuál escribir.</h2>
+    <div class="before">
+      <div class="bcard rv d2"><div class="who"><b style="background:var(--stgo)"></b>Santiago</div><div class="num">WhatsApp de la sucursal</div><div class="ring"><div class="ph">☎</div><span class="state">Ocupado</span></div></div>
+      <div class="bcard rv d3"><div class="who"><b style="background:var(--smig)"></b>San Miguel</div><div class="num">WhatsApp de la sucursal</div><div class="ring"><div class="ph">☎</div><span class="state">Fuera de horario</span></div></div>
+      <div class="bcard rv d4"><div class="who"><b style="background:var(--flor)"></b>La Florida</div><div class="num">WhatsApp de la sucursal</div><div class="ring"><div class="ph">☎</div><span class="state">Sin hora aquí</span></div></div>
+      <div class="bcard rv d5"><div class="who"><b style="background:var(--prov)"></b>Providencia</div><div class="num">WhatsApp de la sucursal</div><div class="ring"><div class="ph">☎</div><span class="state">Sin respuesta</span></div></div>
+    </div>
+    <div class="verdict rv d5">
+      <span class="pill">Resultado</span>
+      <p class="lead" style="max-width:760px">Había hora en otra sucursal, pero nadie se la ofreció. El paciente agenda en otra clínica.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. ESCENA -->
+<section class="slide" id="como" data-title="Cómo funciona">
+  <div class="wrap">
+    <p class="mono rv">Con Clinera</p>
+    <h2 class="rv d1" style="margin-top:14px;max-width:960px">Un solo WhatsApp. AURA mira <span class="grad-text">las 4 agendas</span> antes de responder.</h2>
+    <div class="scene">
+      <div class="phone rv d2">
+        <div class="screen">
+          <div class="wa-head"><div class="av">N</div><div><b>Clínica Nace</b><small>Un número para las 4 sucursales</small></div></div>
+          <div class="chat" id="chat" aria-live="polite"></div>
+        </div>
+      </div>
+      <div class="rv d3">
+        <div class="stage" id="stage">
+          <svg viewBox="0 0 100 86" aria-hidden="true">
+            <path class="wire" d="M50 43 L20 14 M50 43 L80 14 M50 43 L20 72 M50 43 L80 72"/>
+            <path class="flow" stroke="#3B82F6" d="M50 43 L20 14"/>
+            <path class="flow" stroke="#7C3AED" d="M50 43 L80 14" style="animation-delay:-.2s"/>
+            <path class="flow" stroke="#D946EF" d="M50 43 L20 72" style="animation-delay:-.4s"/>
+            <path class="flow" stroke="#0891B2" d="M50 43 L80 72" style="animation-delay:-.6s"/>
+          </svg>
+          <div class="hub"><div>AURA<small id="hubTxt">esperando</small></div></div>
+          <div class="suc tl" data-s="stgo"><header><b style="background:var(--stgo)"></b>Santiago</header><div class="slots"><div class="slot busy">09:00 ocupado</div><div class="slot busy">10:30 ocupado</div><div class="slot">18:00 libre</div></div><div class="first">Primera hora: <strong>hoy 18:00</strong></div></div>
+          <div class="suc tr" data-s="smig"><header><b style="background:var(--smig)"></b>San Miguel</header><div class="slots"><div class="slot busy">09:00 ocupado</div><div class="slot" data-free>10:30 libre</div><div class="slot busy">12:00 ocupado</div></div><div class="first">Primera hora: <strong>mañana 10:30</strong></div></div>
+          <div class="suc bl" data-s="flor"><header><b style="background:var(--flor)"></b>La Florida</header><div class="slots"><div class="slot busy">Mañana completo</div><div class="slot busy">Viernes completo</div><div class="slot">Lunes 09:00 libre</div></div><div class="first">Primera hora: <strong>lunes 09:00</strong></div></div>
+          <div class="suc br" data-s="prov"><header><b style="background:var(--prov)"></b>Providencia</header><div class="slots"><div class="slot busy">Mañana completo</div><div class="slot busy">Viernes completo</div><div class="slot">Jueves 12:15 libre</div></div><div class="first">Primera hora: <strong>jueves 12:15</strong></div></div>
+        </div>
+        <div class="legend"><span><b style="background:#EEECEA"></b>Ocupado</span><span><b style="background:#F3F2F0;border:1px solid #D6D3CE"></b>Libre</span><span><b style="background:#10B981"></b>Agendado por AURA</span></div>
+        <div class="replay"><button class="btn-ghost" id="replay" type="button">↻ Ver de nuevo</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ACCESOS -->
+<section class="slide cream" id="accesos" data-title="Accesos">
+  <div class="wrap">
+    <p class="mono rv">Una bandeja, cada uno ve lo suyo</p>
+    <h2 class="rv d1" style="margin-top:14px;max-width:960px">Todo entra por el mismo número.<br>Cada persona ve <span class="grad-text">lo que le corresponde</span>.</h2>
+    <div class="access">
+      <div class="roles rv d2" id="roles">
+        <button class="role" data-role="all" type="button"><span class="ic">C</span><span><strong>Coordinación central</strong><small>Las 4 sucursales</small></span></button>
+        <button class="role" data-role="prov" type="button"><span class="ic">R</span><span><strong>Recepción Providencia</strong><small>Solo Providencia</small></span></button>
+        <button class="role" data-role="smig" type="button"><span class="ic">R</span><span><strong>Recepción San Miguel</strong><small>Solo San Miguel</small></span></button>
+        <button class="role" data-role="doc" type="button"><span class="ic">M</span><span><strong>Médico</strong><small>Solo sus pacientes</small></span></button>
+      </div>
+      <div class="rv d3">
+        <div class="inbox">
+          <div class="inbox-head"><strong id="inboxTitle">Bandeja · Coordinación central</strong><span class="count" id="inboxCount">6 conversaciones</span></div>
+          <div id="convs">
+            <div class="conv" data-s="stgo"><span class="a">CM</span><div><b>C. Muñoz</b><span>Agendada pediatría, mañana 09:30</span></div><span class="tag" style="background:#EFF6FF;color:#1D4ED8">Santiago</span></div>
+            <div class="conv" data-s="prov" data-doc><span class="a">FR</span><div><b>F. Rojas</b><span>Consulta por resultados de laboratorio</span></div><span class="tag" style="background:#ECFEFF;color:#0E7490">Providencia</span></div>
+            <div class="conv" data-s="smig" data-doc><span class="a">VP</span><div><b>V. Pizarro</b><span>Agendada traumatología, mañana 10:30</span></div><span class="tag" style="background:#F5F3FF;color:#6D28D9">San Miguel</span></div>
+            <div class="conv" data-s="flor"><span class="a">JS</span><div><b>J. Silva</b><span>Reagendó endoscopía al lunes</span></div><span class="tag" style="background:#FDF4FF;color:#A21CAF">La Florida</span></div>
+            <div class="conv" data-s="prov"><span class="a">AG</span><div><b>A. González</b><span>Pregunta por convenio Fonasa</span></div><span class="tag" style="background:#ECFEFF;color:#0E7490">Providencia</span></div>
+            <div class="conv" data-s="smig"><span class="a">LT</span><div><b>L. Torres</b><span>Confirmó hora de mañana</span></div><span class="tag" style="background:#F5F3FF;color:#6D28D9">San Miguel</span></div>
+          </div>
+        </div>
+        <p class="access-note">Los permisos se definen por persona: sucursal, profesional o red completa. Nombres de ejemplo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. INCLUYE -->
+<section class="slide" id="incluye" data-title="Qué incluye">
+  <div class="wrap">
+    <p class="mono rv">Qué incluye</p>
+    <h2 class="rv d1" style="margin-top:14px;max-width:900px">Una plataforma para las 4 sedes y los 250 profesionales.</h2>
+    <div class="feats">
+      <div class="feat big rv d2"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5z"/></svg><h3>AURA en WhatsApp, Instagram y Facebook</h3><p>Responde a toda hora, consulta las 4 agendas y deja la cita creada en la sucursal y con el profesional que corresponde.</p></div>
+      <div class="feat rv d2"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg><h3>Agenda centralizada</h3><p>250 profesionales y 4 sucursales en un solo sistema.</p></div>
+      <div class="feat rv d3"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg><h3>Accesos por rol</h3><p>Recepción, coordinación y médicos ven solo lo suyo.</p></div>
+      <div class="feat rv d3"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><h3>Confirmaciones y recordatorios</h3><p>El paciente confirma por WhatsApp antes de su cita.</p></div>
+      <div class="feat rv d4"><svg viewBox="0 0 24 24"><path d="M3 3v18h18M7 15l4-4 3 3 5-6"/></svg><h3>Clinera Intelligence</h3><p>Pregunta cuánto se vendió y cómo va la agenda de cada sucursal.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. COTIZACIÓN -->
+<section class="slide cream" id="cotizacion" data-title="Cotización">
+  <div class="wrap">
+    <p class="mono rv">Cotización mensual · Plan Xcale</p>
+    <h2 class="rv d1" style="margin-top:14px">Dimensionado para Nace.</h2>
+    <div class="quote">
+      <div class="rv d2">
+        <table>
+          <thead><tr><th>Concepto</th><th>Lista</th><th>Nace</th></tr></thead>
+          <tbody>
+            <tr><td>Plan Xcale<small>10 profesionales · 3 sucursales · 2.000 conversaciones</small></td><td>US$ 149</td><td>US$ 149</td></tr>
+            <tr><td>240 profesionales extra<small>US$ 9 c/u en lista</small></td><td><s>US$ 2.160</s></td><td>US$ 1.080</td></tr>
+            <tr><td>1 sucursal extra</td><td>US$ 9</td><td>US$ 9</td></tr>
+            <tr><td>23.000 conversaciones extra<small>23 × US$ 48</small></td><td>US$ 1.104</td><td>US$ 1.104</td></tr>
+            <tr class="total"><td>Total mensual</td><td><s>US$ 3.422</s></td><td>US$ 2.342</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="price rv d3">
+        <p class="mono" style="color:#C9CDD4">Precio Nace</p>
+        <div class="big"><span data-count="2342">US$ 2.342</span> <small>/ mes</small></div>
+        <span class="save">Ahorras US$ 1.080 al mes · −32 %</span>
+        <ul>
+          <li>250 profesionales · 4 sucursales</li>
+          <li>25.000 conversaciones al mes</li>
+          <li>Un solo número para toda la red</li>
+          <li>Sin costo de implementación</li>
+          <li>Onboarding con un ejecutivo</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. CIERRE -->
+<section class="slide dark" id="pasos" data-title="Próximos pasos">
+  <div class="glow"></div>
+  <div class="wrap" style="position:relative">
+    <p class="mono rv">Próximos pasos</p>
+    <h2 class="rv d1" style="margin-top:14px;max-width:960px">De cuatro números a <span class="grad-text">uno solo</span>, sucursal por sucursal.</h2>
+    <div class="steps">
+      <div class="step rv d2"><p class="mono">01</p><p>Validar volumen, profesionales y accesos con el equipo de Nace.</p></div>
+      <div class="step rv d3"><p class="mono">02</p><p>Firmar la propuesta y agendar el onboarding.</p></div>
+      <div class="step rv d4"><p class="mono">03</p><p>Migrar agendas y fichas, y configurar AURA y los permisos.</p></div>
+      <div class="step rv d5"><p class="mono">04</p><p>Salir en vivo sucursal por sucursal, con el número único.</p></div>
+    </div>
+    <div class="meet rv d5"><span class="mono" style="color:#A0A6B2">Reunión</span><b>Jueves 19 de noviembre · 14:30</b></div>
+    <p class="foot">Precios en dólares, mensuales, sobre la lista de clinera.io/planes. Clinera opera con su propia agenda: los datos actuales se migran en el onboarding.</p>
+  </div>
+</section>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var dots=document.querySelector('.dots');
+  slides.forEach(function(s,i){
+    var b=document.createElement('button');b.type='button';b.setAttribute('aria-label',s.dataset.title);
+    b.onclick=function(){s.scrollIntoView({behavior:'smooth'})};dots.appendChild(b);
+  });
+  var cur=0;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting&&e.intersectionRatio>=.35){
+        e.target.classList.add('in');
+        cur=slides.indexOf(e.target);
+        [].forEach.call(dots.children,function(d,j){d.classList.toggle('on',j===cur)});
+        if(e.target.id==='como')scene.start();
+        if(e.target.id==='accesos')roles.start();
+      }else if(!e.isIntersecting){
+        if(e.target.id==='como')scene.stop();
+        if(e.target.id==='accesos')roles.stop();
+      }
+    });
+  },{threshold:[0,.35]});
+  slides.forEach(function(s){io.observe(s)});
+  document.addEventListener('keydown',function(e){
+    var k=e.key;
+    if(['ArrowDown','ArrowRight','PageDown',' '].indexOf(k)>-1){e.preventDefault();var n=slides[Math.min(cur+1,slides.length-1)];n.scrollIntoView({behavior:'smooth'})}
+    if(['ArrowUp','ArrowLeft','PageUp'].indexOf(k)>-1){e.preventDefault();slides[Math.max(cur-1,0)].scrollIntoView({behavior:'smooth'})}
+  });
+
+  /* ---- Escena: chat + 4 agendas ---- */
+  var chat=document.getElementById('chat'),stage=document.getElementById('stage'),hubTxt=document.getElementById('hubTxt');
+  var sucs={};[].forEach.call(stage.querySelectorAll('.suc'),function(el){sucs[el.dataset.s]=el});
+  function add(cls,txt,t){var d=document.createElement('div');d.className='msg '+cls;d.textContent=txt;var tm=document.createElement('time');tm.textContent=t;d.appendChild(tm);chat.appendChild(d);trim()}
+  function typing(){var d=document.createElement('div');d.className='typing';d.innerHTML='<i></i><i></i><i></i>';chat.appendChild(d);trim();return d}
+  function trim(){while(chat.children.length>6)chat.removeChild(chat.firstChild)}
+  function reset(){
+    chat.innerHTML='';stage.className='stage';hubTxt.textContent='esperando';
+    Object.keys(sucs).forEach(function(k){sucs[k].classList.remove('pick','dim')});
+    var n=stage.querySelector('.slot.new');if(n){n.className='slot';n.textContent='10:30 libre'}
+  }
+  var steps=[
+    [400,function(){add('in','Hola, necesito hora con traumatología. Vivo en La Florida.','20:41')}],
+    [1500,function(){this.t=typing();hubTxt.textContent='consultando'}],
+    [1900,function(){stage.classList.add('scan')}],
+    [4300,function(){stage.classList.remove('scan');stage.classList.add('res');hubTxt.textContent='4 agendas'}],
+    [5000,function(){sucs.stgo.classList.add('dim');sucs.prov.classList.add('dim')}],
+    [5600,function(){if(this.t)this.t.remove();add('ai','Revisé las 4 sucursales. En La Florida la primera hora es el lunes 09:00. En San Miguel tengo mañana a las 10:30. ¿Cuál prefieres?','20:41')}],
+    [8000,function(){add('out','Mañana en San Miguel, perfecto.','20:42')}],
+    [8700,function(){this.t=typing();sucs.flor.classList.add('dim');sucs.smig.classList.add('pick');hubTxt.textContent='agendando'}],
+    [9800,function(){var s=sucs.smig.querySelector('[data-free]');s.className='slot new';s.textContent='10:30 V. Pizarro ✓'}],
+    [10300,function(){if(this.t)this.t.remove();add('ai','Listo, quedaste agendada mañana a las 10:30 en San Miguel. Te mando un recordatorio el día antes.','20:42');hubTxt.textContent='cita creada'}]
+  ];
+  var timers=[],running=false;
+  var scene={
+    start:function(){if(running)return;running=true;run()},
+    stop:function(){running=false;timers.forEach(clearTimeout);timers=[]}
+  };
+  function run(){
+    timers.forEach(clearTimeout);timers=[];reset();var ctx={};
+    steps.forEach(function(s){timers.push(setTimeout(function(){s[1].call(ctx)},s[0]))});
+    timers.push(setTimeout(function(){if(running)run()},15500));
+  }
+  document.getElementById('replay').onclick=function(){running=true;run()};
+
+  /* ---- Roles ---- */
+  var rbtns=[].slice.call(document.querySelectorAll('.role')),convs=[].slice.call(document.querySelectorAll('.conv'));
+  var title=document.getElementById('inboxTitle'),count=document.getElementById('inboxCount');
+  var ri=0,rt=null,manual=false;
+  function show(i){
+    ri=i;var b=rbtns[i],r=b.dataset.role;
+    rbtns.forEach(function(x){x.classList.remove('on');x.classList.toggle('manual',manual)});
+    void b.offsetWidth;b.classList.add('on');
+    var n=0;convs.forEach(function(c){var ok=r==='all'||(r==='doc'?c.hasAttribute('data-doc'):c.dataset.s===r);c.classList.toggle('hide',!ok);if(ok)n++});
+    title.textContent='Bandeja · '+b.querySelector('strong').textContent;
+    count.textContent=n+(n===1?' conversación':' conversaciones');
+  }
+  var roles={
+    start:function(){if(rt)return;show(manual?ri:0);if(!manual)rt=setInterval(function(){show((ri+1)%rbtns.length)},3200)},
+    stop:function(){clearInterval(rt);rt=null}
+  };
+  rbtns.forEach(function(b,i){b.onclick=function(){manual=true;roles.stop();show(i)}});
+  show(0);
+})();
+</script>
+</body>
+</html>
