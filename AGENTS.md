@@ -1625,7 +1625,10 @@ El foco es **un solo número de WhatsApp para las 4 sucursales** (Santiago, San 
 AURA consulta las 4 agendas antes de responder, y cada persona del equipo ve en la bandeja solo lo suyo
 (coordinación central, recepción por sucursal, médico). Las animaciones son CSS + un poco de JS, sin librerías.
 Cotización: Xcale + 240 profesionales extra (50 % de descuento) + 1 sucursal + 23.000 conversaciones =
-**US$ 2.342/mes** (lista US$ 3.422). Escrita a mano: si cambian los precios de `planes-trial.ts`, no se actualiza sola.
+**US$ 2.342/mes** (lista US$ 3.422), y encima un **descuento adicional de 50 % los primeros 6 meses: US$ 1.171/mes**,
+desde el mes 7 US$ 2.342 (Ricardo, 12-nov: «nuestro objetivo es trabajar con ellos»). Escrita a mano: si cambian los
+precios de `planes-trial.ts`, no se actualiza sola. La portada (`#dolor`) muestra el logo de Nace y una foto de su propio
+sitio (`public/nace/assets/`) en formato de publicación: Instagram y Facebook piden iniciar sesión y no dejan bajar fotos.
 Pacientes y médicos de la animación son de ejemplo. `noindex`, en `robots-txt.ts` y fuera del sitemap.
 Guardián: `tests/nace.spec.ts`.
 
