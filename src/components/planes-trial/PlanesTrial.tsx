@@ -18,7 +18,16 @@ import {
 } from "@/content/planes-trial";
 import s from "./PlanesTrial.module.css";
 
-export default function PlanesTrial({ h1 = false, id = "planes" }: { h1?: boolean; id?: string }) {
+export default function PlanesTrial({
+  h1 = false,
+  id = "planes",
+  ctaTexto,
+}: {
+  h1?: boolean;
+  id?: string;
+  /** Texto del botón de cada tarjeta. El home usa «Pruébalo gratis 7 días» (12-nov-2026). */
+  ctaTexto?: string;
+}) {
   const Titulo = h1 ? "h1" : "h2";
   return (
     <section className={s.seccion} id={id} data-planes-trial aria-labelledby={`${id}-titulo`}>
@@ -61,7 +70,7 @@ export default function PlanesTrial({ h1 = false, id = "planes" }: { h1?: boolea
                   <ChannelLogo key={c} channel={c} size={20} />
                 ))}
               </p>
-              <CtaRegistro className={s.cta} datos={{ "data-cta": "registro", "data-plan-elegido": p.id }} />
+              <CtaRegistro className={s.cta} texto={ctaTexto} datos={{ "data-cta": "registro", "data-plan-elegido": p.id }} />
               {p.pagoUrl ? (
                 <a
                   className={s.pago}

@@ -54,7 +54,17 @@ export default function StickyMobileCTA() {
     }
   }, [enabled]);
 
-  if (!enabled || dismissed || !scrolledPast) return null;
+  // La demo viva del home tiene su propio botón: la tarjeta no puede taparlo (12-nov-2026).
+  const [demoALaVista, setDemoALaVista] = useState(false);
+  useEffect(() => {
+    const demo = document.querySelector("[data-demo-viva]");
+    if (!demo || !("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver((en) => setDemoALaVista(en[0].isIntersecting), { threshold: 0.15 });
+    io.observe(demo);
+    return () => io.disconnect();
+  }, [pathname]);
+
+  if (!enabled || dismissed || !scrolledPast || demoALaVista) return null;
 
   const dismiss = () => {
     sessionStorage.setItem("sticky-cta-dismissed", "1");

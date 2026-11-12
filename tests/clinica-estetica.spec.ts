@@ -30,7 +30,7 @@ test.describe("home", () => {
 
   test("hero del ecosistema y las dos opciones; el marketing de performance vive en /ecosistema", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("Tú atiendes pacientes");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Prueba gratis sin riesgo");
     // Ricardo, 7-nov-2026: el home muestra la prueba gratis con Flux, Hex y Xcale.
     await expect(page.locator("[data-planes-trial] [data-plan-card]")).toHaveCount(3);
     // Home corto (Ricardo, 20-oct-2026): sin bloque de marketing ni banda redundante.
