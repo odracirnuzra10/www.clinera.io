@@ -1628,3 +1628,19 @@ Cotización: Xcale + 240 profesionales extra (50 % de descuento) + 1 sucursal + 
 **US$ 2.342/mes** (lista US$ 3.422). Escrita a mano: si cambian los precios de `planes-trial.ts`, no se actualiza sola.
 Pacientes y médicos de la animación son de ejemplo. `noindex`, en `robots-txt.ts` y fuera del sitemap.
 Guardián: `tests/nace.spec.ts`.
+
+# Home enfocado en la prueba gratis (Ricardo, 12-nov-2026)
+
+El inicio del home es el de `/prueba-gratis`: «Prueba gratis sin riesgo y haz crecer tu clínica», un botón grande
+«Crea tu cuenta GRATIS» (directo a `app.clinera.io/auth/register`), la línea «7 días gratis · Sin tarjeta de crédito ·
+Sin costo de implementación» y «Solicita asistencia» como link chico. A la derecha va la **demo viva**
+(`src/components/home2/DemoViva.tsx`, copia de la caja `[data-demo-viva]` de `public/kimi-gratis/index.html`: si cambia
+el guion en una, cambia en la otra). Su botón final lleva `data-clinica` y `RegistroModal` lo agrega a la URL de alta.
+- **Orden:** hero → 3 pasos → tarjetas IA/redes/agenda → logos → funciones → video → planes → testimonios → preguntas →
+  blog → historia → fundador → convenio → cierre. Historia, fundador y convenio bajaron; no se borró nada.
+- **El texto global «Regístrate gratis» no cambió** (menú, landings, blog). `CtaRegistro` tiene la prop `texto` y
+  `PlanesTrial` la prop `ctaTexto`: solo el home dice «Crea tu cuenta GRATIS» y «Pruébalo gratis 7 días». `/planes` sigue igual.
+- La tarjeta flotante se esconde mientras la demo está en pantalla (`StickyMobileCTA`).
+- `HOME2_HERO.formula` quedó en `home2.ts` sin uso.
+- `tests/analytics.spec.ts` 1) ya fallaba antes: busca `#meta-pixel`, que salió cuando el pixel pasó a GTM (16-oct).
+- Guardián: `tests/home2.spec.ts` (orden, textos y la demo viva hasta el alta).

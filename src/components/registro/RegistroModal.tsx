@@ -97,7 +97,7 @@ function guardarLead(datos: Datos, plan: string, eventId: string, modo: Modo) {
   }).catch(() => {});
 }
 
-function urlAlta(datos: Datos | null, plan: string, eventId: string): string {
+function urlAlta(datos: Datos | null, plan: string, eventId: string, clinicaDemo = ""): string {
   const u = new URL("https://app.clinera.io/auth/register");
   if (datos) {
     u.searchParams.set("nombre", datos.nombre);
@@ -105,6 +105,8 @@ function urlAlta(datos: Datos | null, plan: string, eventId: string): string {
     u.searchParams.set("telefono", datos.telefono);
     u.searchParams.set("clinica", datos.clinica);
   }
+  // Demo viva del home (12-nov-2026): el nombre de la clínica que escribieron viaja al alta.
+  if (!datos && clinicaDemo) u.searchParams.set("clinica", clinicaDemo);
   u.searchParams.set("plan", plan);
   if (eventId) u.searchParams.set("lead_event_id", eventId);
   const fbp = cookie("_fbp"), fbc = cookie("_fbc");
@@ -155,7 +157,7 @@ export default function RegistroModal() {
         const w = window as unknown as { dataLayer?: unknown[] };
         (w.dataLayer = w.dataLayer || []).push({ event: "registro_ir_app", plan: planFinal, source_path: rutaActual() });
       } catch {}
-      location.assign(urlAlta(null, planFinal, ""));
+      location.assign(urlAlta(null, planFinal, "", (a.getAttribute("data-clinica") || "").slice(0, 120)));
     }
     document.addEventListener("click", alClic);
     return () => document.removeEventListener("click", alClic);

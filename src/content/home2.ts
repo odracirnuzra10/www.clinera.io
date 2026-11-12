@@ -15,11 +15,15 @@
 
 export const HOME2_HERO = {
   // Ricardo, 7-nov-2026: el home vende la prueba gratis del software (antes, el Ecosistema software + marketing).
-  eyebrow: "Software médico con IA · Demo de 7 días",
-  titulo: "Tú atiendes pacientes. Clinera responde el WhatsApp,",
-  tituloAcento: "agenda y cobra la evaluación.",
+  // Ricardo, 12-nov-2026: el inicio es el de /prueba-gratis (mismo titular) con la demo viva al lado.
+  eyebrow: "Prueba gratis de 7 días · Sin riesgo",
+  titulo: "Prueba gratis sin riesgo y",
+  tituloAcento: "haz crecer tu clínica.",
   bajada:
-    "Regístrate gratis y usa Clinera 7 días. Después, dentro de la plataforma, eliges el plan. Es el software que usamos todos los días en nuestra red de clínicas.",
+    "Conecta tus canales y empieza a atender con inteligencia artificial. Es el software que usamos todos los días en nuestra red de clínicas.",
+  cta: "Crea tu cuenta GRATIS",
+  confianza: ["7 días gratis", "Sin tarjeta de crédito", "Sin costo de implementación"],
+  planesCta: "Pruébalo gratis 7 días",
   formula: ["IA que responde y agenda", "Agenda por profesional"],
   formulaResultado: "tu clínica en un solo lugar",
 } as const;

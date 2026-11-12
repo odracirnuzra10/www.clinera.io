@@ -5,6 +5,7 @@ import DemoEnVivo from "@/components/home-v3/DemoEnVivo";
 import { Faq, Testimonios } from "@/components/home-v3/sections";
 import PlanesTrial from "@/components/planes-trial/PlanesTrial";
 import FranjaPulso from "@/components/franja/FranjaPulso";
+import DemoViva from "./DemoViva";
 import { allPosts } from "@/content/posts";
 import { CtaRegistro, CtaAsistencia } from "@/components/cta/CtaPar";
 import {
@@ -137,13 +138,27 @@ function VisualPmfc({ letra }: { letra: string }) {
   return <AgendaEnVivo />;
 }
 
-// Ricardo, 7-nov-2026: los dos CTA del sitio. Principal «Regístrate gratis» (/contrata) y secundario
-// «Solicita asistencia» (WhatsApp). `data-home2-cta` queda en el secundario.
+// Ricardo, 12-nov-2026: el home se enfoca en la prueba gratis. Un botón grande «Crea tu cuenta GRATIS»
+// (directo a app.clinera.io), la línea de confianza y «Solicita asistencia» chico (`data-home2-cta`).
 function Cta({ donde }: { donde: string }) {
   return (
-    <div className={s.ctas} data-home2-ctas={donde}>
-      <CtaRegistro className={s.cta} style={{ marginTop: 0, borderRadius: 12 }} datos={{ "data-home2-registro": donde }} />
-      <CtaAsistencia className={s.ctaSec} style={{ borderRadius: 12 }} datos={{ "data-home2-cta": donde }} />
+    <div className={s.ctaBloque} data-home2-ctas={donde}>
+      <CtaRegistro
+        className={s.cta}
+        texto={HOME2_HERO.cta}
+        style={{ marginTop: 0, borderRadius: 14, minHeight: 58, padding: "0 30px", fontSize: 18 }}
+        datos={{ "data-home2-registro": donde }}
+      />
+      <p className={s.confianza} data-home2-confianza={donde}>
+        {HOME2_HERO.confianza.map((c) => (
+          <span key={c}>{c}</span>
+        ))}
+      </p>
+      <CtaAsistencia
+        className={s.ctaChico}
+        style={{ border: 0, background: "transparent", padding: 0, minHeight: 44, fontSize: 15, fontWeight: 600 }}
+        datos={{ "data-home2-cta": donde }}
+      />
     </div>
   );
 }
@@ -154,29 +169,20 @@ export default function Home2() {
       <FranjaPulso />
       <div className={s.heroFondo}>
         <section className={s.hero} data-home2="hero">
-          <p className={s.eyebrow}>{HOME2_HERO.eyebrow}</p>
-          <h1 className={s.h1}>
-            {HOME2_HERO.titulo}{" "}
-            <span className={s.grad}>{HOME2_HERO.tituloAcento}</span>
-          </h1>
-          <p className={s.bajada}>{HOME2_HERO.bajada}</p>
-          <p className={s.formula} data-home2="formula">
-            <span className={s.formulaPieza}>{HOME2_HERO.formula[0]}</span>
-            <span className={s.formulaSigno} aria-hidden>
-              +
-            </span>
-            <span className={s.formulaPieza}>{HOME2_HERO.formula[1]}</span>
-            <span className={s.formulaSigno} aria-hidden>
-              =
-            </span>
-            <span className={s.formulaResultado}>{HOME2_HERO.formulaResultado}</span>
-          </p>
-          <Cta donde="hero" />
+          <div className={s.heroTexto}>
+            <p className={s.eyebrow}>{HOME2_HERO.eyebrow}</p>
+            <h1 className={s.h1}>
+              {HOME2_HERO.titulo}{" "}
+              <span className={s.grad}>{HOME2_HERO.tituloAcento}</span>
+            </h1>
+            <p className={s.bajada}>{HOME2_HERO.bajada}</p>
+            <Cta donde="hero" />
+          </div>
+          <div className={s.heroDemo}>
+            <DemoViva />
+          </div>
         </section>
       </div>
-
-      <IncluyeClinera />
-      <MarcasCaja />
 
       <section className={s.bloque} id="prueba-gratis" data-home2="prueba">
         <p className={s.eyebrow}>{HOME2_PRUEBA.eyebrow}</p>
@@ -195,6 +201,9 @@ export default function Home2() {
         </ol>
         <Cta donde="prueba" />
       </section>
+
+      <IncluyeClinera />
+      <MarcasCaja />
 
       <section className={s.bloque} id="funciones" data-home2="funciones">
         <p className={s.eyebrow}>{HOME2_FUNCIONES.eyebrow}</p>
@@ -215,7 +224,7 @@ export default function Home2() {
         <DemoEnVivo />
       </div>
 
-      <PlanesTrial />
+      <PlanesTrial ctaTexto={HOME2_HERO.planesCta} />
 
       {HOME2_MOSTRAR.pmfc ? (
       <section className={s.bloque} id="pmfc" data-home2="pmfc">
@@ -314,6 +323,10 @@ export default function Home2() {
         <Testimonios />
       </div>
 
+      <div className={s.importado}>
+        <Faq />
+      </div>
+
       <section className={s.bloque} id="blog" data-home2="blog">
         <p className={s.eyebrow}>{HOME2_BLOG.eyebrow}</p>
         <h2 className={s.h2}>
@@ -338,25 +351,6 @@ export default function Home2() {
         <Link href={HOME2_BLOG.verTodo.href} className={s.casoLink} data-home2-blog-todo>
           {HOME2_BLOG.verTodo.texto} →
         </Link>
-      </section>
-
-      <section className={s.bloque} id="alta-qualita" data-home2="alta-qualita">
-        <div className={s.convenio}>
-          <p className={s.eyebrow}>{HOME2_ALTA_QUALITA.eyebrow}</p>
-          <h2 className={s.h2}>
-            {HOME2_ALTA_QUALITA.titulo}{" "}
-            <span className={s.grad}>{HOME2_ALTA_QUALITA.tituloAcento}</span>
-          </h2>
-          <p className={s.texto}>{HOME2_ALTA_QUALITA.texto}</p>
-          <a
-            href={HOME2_ALTA_QUALITA.href}
-            target="_blank"
-            rel="noopener"
-            className={s.casoLink}
-          >
-            {HOME2_ALTA_QUALITA.link} →
-          </a>
-        </div>
       </section>
 
       <section className={s.bloque} id="historia" data-home2="historia">
@@ -440,9 +434,24 @@ export default function Home2() {
         </div>
       </section>
 
-      <div className={s.importado}>
-        <Faq />
-      </div>
+      <section className={s.bloque} id="alta-qualita" data-home2="alta-qualita">
+        <div className={s.convenio}>
+          <p className={s.eyebrow}>{HOME2_ALTA_QUALITA.eyebrow}</p>
+          <h2 className={s.h2}>
+            {HOME2_ALTA_QUALITA.titulo}{" "}
+            <span className={s.grad}>{HOME2_ALTA_QUALITA.tituloAcento}</span>
+          </h2>
+          <p className={s.texto}>{HOME2_ALTA_QUALITA.texto}</p>
+          <a
+            href={HOME2_ALTA_QUALITA.href}
+            target="_blank"
+            rel="noopener"
+            className={s.casoLink}
+          >
+            {HOME2_ALTA_QUALITA.link} →
+          </a>
+        </div>
+      </section>
 
       <section className={`${s.bloque} ${s.cierre}`} data-home2="cierre">
         <h2 className={s.h2}>{HOME2_CIERRE.titulo}</h2>

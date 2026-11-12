@@ -93,8 +93,11 @@ export function CtaRegistro({
   style,
   className,
   datos,
+  texto,
 }: {
   tam?: Tam;
+  /** Texto propio del botón (el home dice «Crea tu cuenta GRATIS»). Por defecto, «Regístrate gratis». */
+  texto?: string;
   /** Se conserva por compatibilidad: el texto ya es corto. */
   corto?: boolean;
   style?: CSSProperties;
@@ -113,7 +116,7 @@ export function CtaRegistro({
       className={className}
       style={{ ...estiloPrincipal(tam), ...style }}
     >
-      {CTA_REGISTRO_LABEL}
+      {texto ?? CTA_REGISTRO_LABEL}
     </a>
   );
 }

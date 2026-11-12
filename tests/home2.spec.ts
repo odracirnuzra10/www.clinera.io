@@ -14,8 +14,9 @@ test("home: prueba gratis, funciones, blog, historia y fundador", async ({ page 
     page.locator('meta[name="robots"][content*="noindex"]'),
   ).toHaveCount(0);
   // Ricardo, 7-nov-2026: el home vende la prueba gratis del software.
+  // Ricardo, 12-nov-2026: el inicio es el de /prueba-gratis, con la demo viva al lado.
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "agenda y cobra la evaluación",
+    "Prueba gratis sin riesgo y haz crecer tu clínica",
   );
   // Ricardo, 7-nov-2026: las cifras y la franja de logos se cambiaron por las de /prueba-gratis.
   await expect(page.locator("[data-home2-incluye]")).toHaveCount(3);
@@ -48,8 +49,8 @@ test("home: prueba gratis, funciones, blog, historia y fundador", async ({ page 
   );
 
   // Ricardo, 7-nov-2026: la fórmula es del software y los planes son los de la prueba gratis.
-  await expect(page.locator('[data-home2="formula"]')).toContainText("IA que responde y agenda");
-  await expect(page.locator('[data-home2="formula"]')).toContainText("Agenda por profesional");
+  await expect(page.locator('[data-home2="formula"]')).toHaveCount(0);
+  await expect(page.locator('[data-home2-confianza="hero"]')).toContainText("Sin tarjeta de crédito");
   await expect(page.locator("[data-ecosistema-incluye]")).toHaveCount(0);
   const planes = page.locator("[data-planes-trial]");
   await expect(planes.locator("[data-plan-card]")).toHaveCount(3);
@@ -70,9 +71,15 @@ test("home: prueba gratis, funciones, blog, historia y fundador", async ({ page 
     await expect(page.locator(`[data-home2-cta="${donde}"]`)).toHaveAttribute("href", "https://wa.me/56985581524?text=necesito%20asistencia");
     await expect(page.locator(`[data-home2-cta="${donde}"]`)).toHaveText("Solicita asistencia");
     await expect(page.locator(`[data-home2-registro="${donde}"]`)).toHaveAttribute("href", "/prueba-gratis");
-    await expect(page.locator(`[data-home2-registro="${donde}"]`)).toHaveText("Regístrate gratis");
+    await expect(page.locator(`[data-home2-registro="${donde}"]`)).toHaveText("Crea tu cuenta GRATIS");
   }
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("Tú atiendes pacientes");
+  // Las tres tarjetas de planes invitan a la prueba gratis; el pago de Xcale sigue como link secundario.
+  await expect(planes.locator('[data-cta="registro"]')).toHaveText(["Pruébalo gratis 7 días", "Pruébalo gratis 7 días", "Pruébalo gratis 7 días"]);
+  // Orden: los 3 pasos van justo después del inicio; historia, fundador y convenio, después de las preguntas.
+  const y = (sel: string) => page.locator(sel).first().evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
+  expect(await y('[data-home2="prueba"]')).toBeLessThan(await y('[data-home2="marcas"]'));
+  expect(await y("#faq")).toBeLessThan(await y('[data-home2="historia"]'));
+  expect(await y('[data-home2="fundador"]')).toBeLessThan(await y('[data-home2="alta-qualita"]'));
   const convenio = page.locator('[data-home2="alta-qualita"]');
   await expect(convenio).toContainText("descuentos especiales");
   await expect(convenio.locator("a")).toHaveAttribute(
@@ -115,4 +122,30 @@ test("ecosistema: /ecosistema explica las dos piezas y /funciones apunta al Ecos
   const franja = page.locator("[data-ecosistema-franja]");
   await expect(franja).toContainText("Vortex es la pieza de software del Ecosistema");
   await expect(franja.locator("a")).toHaveAttribute("href", "/ecosistema#que-incluye");
+});
+
+test("home: la demo viva responde con el nombre de la clínica y lo lleva al registro", async ({ page }) => {
+  await page.route(/connect\.facebook\.net|googletagmanager/, (route) => route.abort());
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  const demo = page.locator("[data-demo-viva]");
+  await demo.getByLabel("Nombre de tu clínica").fill("Clínica Aurora");
+  await demo.getByLabel("Tipo de clínica").selectOption("medica");
+  await demo.locator("[data-demo-probar]").click();
+  await expect(demo.locator("[data-demo-titulo]")).toContainText("WhatsApp de Clínica Aurora");
+  const activar = demo.locator("[data-demo-activar]");
+  await expect(activar).toBeVisible({ timeout: 8000 });
+  await expect(demo).toContainText("Confirmada ✓");
+  await expect(activar).toHaveAttribute("data-clinica", "Clínica Aurora");
+  // El campo mide 16 px o más (si no, iOS hace zoom).
+  const px = await demo.getByLabel("Nombre de tu clínica").evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+  expect(px).toBeGreaterThanOrEqual(16);
+  // El clic va directo al alta de la plataforma con la clínica escrita.
+  let destino = "";
+  await page.route("https://app.clinera.io/**", (route) => {
+    destino = route.request().url();
+    return route.fulfill({ status: 200, contentType: "text/html", body: "ok" });
+  });
+  await activar.click();
+  await page.waitForURL(/app\.clinera\.io/);
+  expect(new URL(destino).searchParams.get("clinica")).toBe("Clínica Aurora");
 });
