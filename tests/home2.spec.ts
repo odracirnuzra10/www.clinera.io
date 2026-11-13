@@ -33,6 +33,14 @@ test("home: prueba gratis, funciones, blog, historia y fundador", async ({ page 
   await expect(page.locator("[data-home2-pmfc]")).toHaveCount(0);
   await expect(page.locator("[data-home2-paso]")).toHaveCount(3);
   await expect(page.locator('[data-home2="funciones"]')).toContainText("Agenda por profesional");
+  // Prueba social: video de la Dra. María del Valle con su Instagram (14-nov-2026).
+  const testimonio = page.locator('[data-home2="testimonio-video"]');
+  await expect(testimonio.locator("iframe")).toHaveAttribute("src", /player\.vimeo\.com\/video\/1246716129/);
+  await expect(testimonio.locator("[data-home2-instagram]")).toHaveAttribute(
+    "href",
+    "https://www.instagram.com/dramariadelvalle_cirujana/",
+  );
+  await expect(testimonio).toContainText("Dra. María del Valle");
   await expect(page.locator("[data-home2-post]")).toHaveCount(3);
   await expect(page.locator("[data-home2-blog-todo]")).toHaveAttribute("href", "/novedades");
   // Ricardo, 26-oct-2026: la red propia es «nuestra red de clínicas», sin marcas.
@@ -78,6 +86,8 @@ test("home: prueba gratis, funciones, blog, historia y fundador", async ({ page 
   // Orden: los 3 pasos van justo después del inicio; historia, fundador y convenio, después de las preguntas.
   const y = (sel: string) => page.locator(sel).first().evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
   expect(await y('[data-home2="prueba"]')).toBeLessThan(await y('[data-home2="marcas"]'));
+  expect(await y('[data-home2="marcas"]')).toBeLessThan(await y('[data-home2="testimonio-video"]'));
+  expect(await y('[data-home2="testimonio-video"]')).toBeLessThan(await y('[data-home2="funciones"]'));
   expect(await y("#faq")).toBeLessThan(await y('[data-home2="historia"]'));
   expect(await y('[data-home2="fundador"]')).toBeLessThan(await y('[data-home2="alta-qualita"]'));
   const convenio = page.locator('[data-home2="alta-qualita"]');

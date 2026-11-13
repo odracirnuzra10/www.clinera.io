@@ -1,3 +1,4 @@
+import TestimonioVideo from "./TestimonioVideo";
 import Image from "next/image";
 import Link from "next/link";
 import { IncluyeClinera, MarcasCaja } from "./IncluyeYMarcas";
@@ -204,6 +205,7 @@ export default function Home2() {
 
       <IncluyeClinera />
       <MarcasCaja />
+      <TestimonioVideo />
 
       <section className={s.bloque} id="funciones" data-home2="funciones">
         <p className={s.eyebrow}>{HOME2_FUNCIONES.eyebrow}</p>

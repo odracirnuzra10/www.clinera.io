@@ -1662,3 +1662,12 @@ hosts que el pixel. Los dos primeros son eventos propios (`trackCustom`); Contac
   «Navegación profunda - 30 dias», que el «Remarketing» usa para optimizar la prueba gratis. La regla de escalado
   `2944517402572367` quedó **pausada** (medía MQL de la campaña Frío). Ids y estado: `baserow/CLAUDE.md`.
 - Guardián: `tests/eventos-valor.spec.ts`.
+
+# Testimonio en video de la Dra. María del Valle en el home (Ricardo, 14-nov-2026)
+
+Prueba social justo después de la caja de logos: video vertical de Vimeo `1246716129` (9:16), su cita, su foto
+(`/kimi/maria-del-valle.webp`) y su Instagram `@dramariadelvalle_cirujana` con enlace. Contenido en
+`HOME2_TESTIMONIO_VIDEO` (`src/content/home2.ts`), sección en `src/components/home2/TestimonioVideo.tsx`.
+No hay logo de su clínica en el repo ni en la web: si Ricardo lo manda, va junto al nombre. Desde el entorno de
+Claude el reproductor de Vimeo responde 401 a todo (también al de CNN): se verifica en un navegador real.
+Guardián: `tests/home2.spec.ts`.
