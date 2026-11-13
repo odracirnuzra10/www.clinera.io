@@ -1,0 +1,107 @@
+.bloque {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 112px) 24px 0;
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 360px);
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+
+.eyebrow {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #5b6472;
+  margin: 0 0 16px;
+}
+
+.cita {
+  margin: 0;
+}
+
+.cita p {
+  font-size: clamp(26px, 3.6vw, 40px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: #0b0d12;
+  margin: 0;
+}
+
+.firma {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 20%;
+  flex-shrink: 0;
+}
+
+.nombre {
+  font-weight: 700;
+  color: #0b0d12;
+  margin: 0;
+}
+
+.ig {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #7c3aed;
+  text-decoration: none;
+  margin-top: 2px;
+}
+
+.ig:hover {
+  text-decoration: underline;
+}
+
+.igIcono {
+  width: 18px;
+  height: 18px;
+}
+
+.meta {
+  font-size: 14px;
+  color: #5b6472;
+  margin: 4px 0 0;
+}
+
+.video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #0b0d12;
+  border: 1px solid #e5e7eb;
+}
+
+.video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (max-width: 760px) {
+  .bloque {
+    grid-template-columns: 1fr;
+  }
+  .video {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+}

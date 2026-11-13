@@ -308,3 +308,14 @@ export const HOME2_BLOG = {
   ],
   verTodo: { texto: "Ver todo el blog", href: "/novedades" },
 } as const;
+
+/** Testimonio en video de la Dra. María del Valle (Ricardo, 14-nov-2026). Prueba social en el home. */
+export const HOME2_TESTIMONIO_VIDEO = {
+  eyebrow: "Lo cuentan nuestros clientes",
+  cita: "Crecí de 1 a 3 sucursales sin pagar de más gracias al ecosistema Clinera",
+  nombre: "Dra. María del Valle",
+  instagram: "dramariadelvalle_cirujana",
+  meta: "Especialista en Estética · Concepción, Los Ángeles y Chillán",
+  foto: "/kimi/maria-del-valle.webp",
+  vimeoId: "1246716129",
+} as const;
