@@ -1647,3 +1647,18 @@ el guion en una, cambia en la otra). Su botón final lleva `data-clinica` y `Reg
 - `HOME2_HERO.formula` quedó en `home2.ts` sin uso.
 - `tests/analytics.spec.ts` 1) ya fallaba antes: busca `#meta-pixel`, que salió cuando el pixel pasó a GTM (16-oct).
 - Guardián: `tests/home2.spec.ts` (orden, textos y la demo viva hasta el alta).
+
+# Eventos con valor y campaña de tráfico en Chile (Ricardo, 13-nov-2026)
+
+Ricardo quiere hacerse conocido en Chile y que la venta sea automática (prueba gratis → pago). El sitio manda
+tres eventos con valor al dataset `2251201709002818`, por pixel y por `/api/meta/capi` con el mismo `event_id`:
+**`VisitaWeb` US$ 1** (primera página de la sesión), **`NavegacionProfunda` US$ 5** (3 páginas distintas, o pasó
+por `/planes`, o 60 s activos; una vez cada 30 días por navegador) y **`Contact` US$ 7** (clic a WhatsApp, una vez
+por sesión; incluye «Solicita asistencia», que abre el modal y después WhatsApp). Reglas puras en
+`src/lib/eventosValor.ts`, disparo en `src/components/EventosValor.tsx` (montado en `layout.tsx`), mismo corte de
+hosts que el pixel. Los dos primeros son eventos propios (`trackCustom`); Contact es estándar.
+- La prueba gratis (`StartTrial`) y el MQL/SQL no salen del sitio: los manda n8n (repo `baserow`).
+- Campañas: «Tráfico · Chile» (`OUTCOME_TRAFFIC`, $30.000/día, visitas a la página, sólo Chile) llena el público
+  «Navegación profunda - 30 dias», que el «Remarketing» usa para optimizar la prueba gratis. La regla de escalado
+  `2944517402572367` quedó **pausada** (medía MQL de la campaña Frío). Ids y estado: `baserow/CLAUDE.md`.
+- Guardián: `tests/eventos-valor.spec.ts`.
