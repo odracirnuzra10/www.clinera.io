@@ -9,6 +9,9 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   // Ricardo, 7-nov-2026: «GRATIS» en cada botón principal y «Sin tarjeta de crédito» al lado.
   await expect(page.locator("#hero-cta")).toContainText("Prueba gratis SIN RIESGO");
   await expect(page.locator("[data-testid=pasos-hero] li")).toHaveCount(3);
+  // Testimonio en video de la Dra. María del Valle con su Instagram (14-nov-2026).
+  await expect(page.locator("[data-testid=testimonio] iframe")).toHaveAttribute("src", /player\.vimeo\.com\/video\/1246716129/);
+  await expect(page.locator("[data-testid=testimonio-instagram]")).toHaveAttribute("href", "https://www.instagram.com/dramariadelvalle_cirujana/");
   await expect(page.locator(".hero .sin-tarjeta")).toContainText("Sin tarjeta de crédito");
   await expect(page.locator("[data-testid=kimi-antes-despues] .ad-con li")).toHaveCount(4);
   await expect(page.locator("[data-urgencia]")).toContainText(/Prueba gratis de noviembre|termina hoy/);

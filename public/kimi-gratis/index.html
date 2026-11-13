@@ -1023,6 +1023,20 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 .demo-fin .btn{width:100%;justify-content:center;min-height:50px}
 @media (prefers-reduced-motion:reduce){.chat.en-vivo .anim{transition:none}}
 
+
+/* Testimonio en video de la Dra. María del Valle (14-nov-2026), igual que en el home. */
+.testi-video{margin:0;display:grid;grid-template-columns:1fr minmax(0,320px);gap:clamp(24px,5vw,64px);align-items:center;border:1px solid #EAEAEA;border-radius:16px;background:#fff;padding:clamp(18px,3vw,32px)}
+.testi-video .tv-eyebrow{font-family:"Geist Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+.testi-video blockquote{margin:0}
+.testi-video blockquote p{font-weight:800;font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.15;letter-spacing:-.02em;color:var(--text)}
+.tv-firma{display:flex;align-items:center;gap:14px;margin-top:22px}
+.tv-firma img{width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:50% 20%;flex-shrink:0}
+.tv-ig{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:.95rem;color:#7C3AED;text-decoration:none}
+.tv-ig:hover{text-decoration:underline}
+.tv-ig svg{width:18px;height:18px}
+.tv-video{position:relative;width:100%;aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:#0B0D12}
+.tv-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+@media (max-width:760px){.testi-video{grid-template-columns:1fr}.tv-video{max-width:280px;margin:0 auto}}
 </style>
 </head>
 <body>
@@ -1113,13 +1127,22 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 
 <section class="testi-franja" aria-label="Testimonio">
   <div class="wrap">
-    <figure class="testi" data-testid="testimonio">
-      <img src="/kimi/maria-del-valle.webp" loading="lazy" width="460" height="575" alt="Dra. María del Valle, de pie y sonriendo, con abrigo fucsia y lentes.">
+    <figure class="testi-video" data-testid="testimonio">
       <figcaption>
+        <p class="tv-eyebrow">Lo cuentan nuestros clientes</p>
         <blockquote><p>«Crecí de 1 a 3 sucursales sin pagar de más gracias al ecosistema Clinera»</p></blockquote>
-        <p class="testi-name">Dra. María del Valle <span class="testi-handle">@dramariadelvalle_cirujana</span></p>
-        <p class="testi-meta">Especialista en Estética · Atiende en Concepción, Los Ángeles y Chillán</p>
+        <div class="tv-firma">
+          <img src="/kimi/maria-del-valle.webp" loading="lazy" width="56" height="56" alt="Dra. María del Valle">
+          <div>
+            <p class="testi-name">Dra. María del Valle</p>
+            <a class="tv-ig" href="https://www.instagram.com/dramariadelvalle_cirujana/" target="_blank" rel="noopener noreferrer" data-testid="testimonio-instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg>@dramariadelvalle_cirujana</a>
+            <p class="testi-meta">Especialista en Estética · Atiende en Concepción, Los Ángeles y Chillán</p>
+          </div>
+        </div>
       </figcaption>
+      <div class="tv-video">
+        <iframe src="https://player.vimeo.com/video/1246716129?autopause=0&amp;title=0&amp;byline=0&amp;portrait=0" title="Testimonio en video de la Dra. María del Valle" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
     </figure>
   </div>
 </section>
