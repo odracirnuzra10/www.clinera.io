@@ -1670,4 +1670,5 @@ Prueba social justo después de la caja de logos: video vertical de Vimeo `12467
 `HOME2_TESTIMONIO_VIDEO` (`src/content/home2.ts`), sección en `src/components/home2/TestimonioVideo.tsx`.
 No hay logo de su clínica en el repo ni en la web: si Ricardo lo manda, va junto al nombre. Desde el entorno de
 Claude el reproductor de Vimeo responde 401 a todo (también al de CNN): se verifica en un navegador real.
-Guardián: `tests/home2.spec.ts`.
+El mismo bloque está en `/prueba-gratis` (`public/kimi-gratis/index.html`, `.testi-video`, en la franja del testimonio), escrito a mano: si cambia la cita o el video, cambia en los dos.
+Guardianes: `tests/home2.spec.ts` y `tests/kimi-gratis.spec.ts`.
