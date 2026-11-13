@@ -126,8 +126,8 @@ function readSignals(): MetaSignals {
 // ---------------------------------------------------------------------------
 // Núcleo: dispara Pixel + (opcional) CAPI con el MISMO event_id.
 // ---------------------------------------------------------------------------
-async function sendMetaEvent(opts: {
-  eventName: "MQL" | "Lead";
+export async function sendMetaEvent(opts: {
+  eventName: "MQL" | "Lead" | "VisitaWeb" | "NavegacionProfunda" | "Contact";
   eventId: string;
   customData: Record<string, unknown>;
   userData?: { em?: string; ph?: string }; // hasheado; omitir si no hay PII
@@ -137,8 +137,10 @@ async function sendMetaEvent(opts: {
   const signals = readSignals();
 
   // 1) Pixel (navegador) — con eventID para que deduplique con el server.
+  // Eventos estándar con track; los propios (VisitaWeb, NavegacionProfunda) con trackCustom.
   if (typeof window !== "undefined" && typeof window.fbq === "function") {
-    window.fbq("track", eventName, customData, { eventID: eventId });
+    const modo = eventName === "VisitaWeb" || eventName === "NavegacionProfunda" ? "trackCustom" : "track";
+    window.fbq(modo, eventName, customData, { eventID: eventId });
   }
 
   if (!capi) return;

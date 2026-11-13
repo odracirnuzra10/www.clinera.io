@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./fonts.css";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
+import EventosValor from "@/components/EventosValor";
 import StickyMobileCTA from "@/components/cro/StickyMobileCTA";
 import RegistroModal from "@/components/registro/RegistroModal";
 import GclidCapture from "@/components/GclidCapture";
@@ -102,6 +103,7 @@ export default function RootLayout({
         <RegistroModal />
 
         <Analytics />
+        <EventosValor />
       </body>
     </html>
   );

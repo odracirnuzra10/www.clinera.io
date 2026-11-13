@@ -35,7 +35,9 @@ const GRAPH_VERSION = process.env.META_GRAPH_VERSION || "v21.0";
 
 // El wizard ya no emite Waitlist/Contact. Pasan MQL (agendó) y Lead (rellenó el
 // formulario de /hablar-con-ventas, Ricardo 18-oct-2026).
-const ALLOWED_EVENTS = new Set(["MQL", "Lead"]);
+// Desde el 13-nov-2026 también los eventos con valor de la campaña de tráfico
+// (src/lib/eventosValor.ts): VisitaWeb, NavegacionProfunda y Contact.
+const ALLOWED_EVENTS = new Set(["MQL", "Lead", "VisitaWeb", "NavegacionProfunda", "Contact"]);
 
 type HashedUserData = { em?: string; ph?: string };
 
