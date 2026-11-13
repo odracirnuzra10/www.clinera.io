@@ -2,7 +2,7 @@
 // Recibe los avisos de app.clinera.io (account_created, whatsapp_connected,
 // first_conversation, subscription_started) y decide qué mandar al dataset
 // «Clinera Software» (2251201709002818):
-//   account_created                         → StartTrial (una vez por cuenta)
+//   account_created                         → StartTrial US$ 30 (una vez por cuenta; valor de Ricardo, 13-nov-2026)
 //   whatsapp_connected + first_conversation → UsoReal (una vez, solo dentro de los 7 días de la prueba)
 //   subscription_started                    → nada: el Purchase ya lo manda Stripe
 // Lo enviado se marca en «Confirmar envío», recién cuando Meta dice events_received ≥ 1.
@@ -12,6 +12,8 @@ st.cuentas = st.cuentas || {};
 st.enviados = st.enviados || {};
 
 const DIAS7 = 7 * 864e5;
+// Valores de la escalera de la campaña de tráfico (Ricardo, 13-nov-2026).
+const VALOR_USD = { StartTrial: 30 };
 const PRUEBA = 30 * 864e5;
 const sha = (v) => crypto.createHash("sha256").update(v).digest("hex");
 const hEmail = (v) => (v ? sha(String(v).trim().toLowerCase()) : undefined);
@@ -67,6 +69,7 @@ for (const it of $input.all()) {
     if (c.fbp) ud.fbp = c.fbp;
     if (fbc) ud.fbc = fbc;
     const cd = {};
+    if (VALOR_USD[nombre]) { cd.value = VALOR_USD[nombre]; cd.currency = "USD"; }
     for (const k of ["plan", "lead_event_id", "utm_source", "utm_medium", "utm_campaign", "utm_content"]) if (c[k]) cd[k] = c[k];
     out.push({
       json: {
