@@ -53,6 +53,7 @@ test.describe("webhook app.clinera.io → Meta", () => {
     expect(wa[0].json.enviar).toBe(false);
     const conv = correr(decidirSrc, st, [ev({ event: "first_conversation", account_id: "a3", occurred_at: new Date(t0 + 2 * 864e5).toISOString() })]);
     const uso = conv.find((i) => i.json.evento === "UsoReal");
+    expect(uso?.json.payload.data[0].custom_data.value).toBe(60);
     expect(uso?.json.payload.data[0].event_id).toBe("uso_real_a3");
 
     const st2: Record<string, any> = {};
