@@ -9,8 +9,8 @@ import {
 // Eventos con valor de la campaña de tráfico (Ricardo, 13-nov-2026).
 
 test.describe("eventos con valor: reglas", () => {
-  test("valores pedidos por Ricardo", () => {
-    expect(VALOR_USD).toEqual({ VisitaWeb: 1, NavegacionProfunda: 5, Contact: 7 });
+  test("señales sin valor (Ricardo, 15-nov): Meta solo aprende del embudo", () => {
+    expect(VALOR_USD).toEqual({ VisitaWeb: 0, NavegacionProfunda: 0, Contact: 0 });
   });
 
   test("navegación profunda: 3 páginas, /planes o 60 s", () => {
@@ -50,7 +50,7 @@ async function preparar(page: Page): Promise<Evento[]> {
     const b = route.request().postDataJSON() as {
       event_name: string; event_id: string; custom_data: { value: number };
     };
-    eventos.push({ via: "capi", nombre: b.event_name, id: b.event_id, valor: b.custom_data.value });
+    eventos.push({ via: "capi", nombre: b.event_name, id: b.event_id, valor: b.custom_data.value ?? 0 });
     await route.fulfill({ json: { ok: true } });
   });
   return eventos;
@@ -66,7 +66,7 @@ async function pixel(page: Page): Promise<Evento[]> {
       via: "pixel" as const,
       nombre: a[1] as string,
       id: (a[3] as { eventID: string }).eventID,
-      valor: (a[2] as { value: number }).value,
+      valor: (a[2] as { value?: number }).value ?? 0,
     }));
 }
 
@@ -80,17 +80,17 @@ test("VisitaWeb sale una vez, con el mismo event_id en pixel y CAPI", async ({ p
   await page.waitForTimeout(1500);
   const visitas = capi.filter((e) => e.nombre === "VisitaWeb");
   expect(visitas).toHaveLength(1);
-  expect(visitas[0].valor).toBe(1);
+  expect(visitas[0].valor).toBe(0);
 });
 
-test("pasar por /planes cuenta NavegacionProfunda US$ 5, una sola vez", async ({ page }) => {
+test("pasar por /planes cuenta NavegacionProfunda (sin valor), una sola vez", async ({ page }) => {
   const capi = await preparar(page);
   await page.goto("/planes");
   await expect.poll(() => capi.filter((e) => e.nombre === "NavegacionProfunda").length).toBe(1);
   const p = (await pixel(page)).filter((e) => e.nombre === "NavegacionProfunda");
   expect(p).toHaveLength(1);
   const c = capi.find((e) => e.nombre === "NavegacionProfunda")!;
-  expect(c.valor).toBe(5);
+  expect(c.valor).toBe(0);
   expect(p[0].id).toBe(c.id);
   // Otra visita el mismo día (localStorage) no la repite.
   await page.goto("/");
@@ -98,7 +98,7 @@ test("pasar por /planes cuenta NavegacionProfunda US$ 5, una sola vez", async ({
   expect(capi.filter((e) => e.nombre === "NavegacionProfunda")).toHaveLength(1);
 });
 
-test("clic a WhatsApp cuenta Contact US$ 7", async ({ page }) => {
+test("clic a WhatsApp cuenta Contact (sin valor)", async ({ page }) => {
   const capi = await preparar(page);
   await page.goto("/funciones");
   await page.evaluate(() => {
@@ -111,5 +111,5 @@ test("clic a WhatsApp cuenta Contact US$ 7", async ({ page }) => {
   });
   await page.click("#wa-prueba");
   await expect.poll(() => capi.filter((e) => e.nombre === "Contact").length).toBe(1);
-  expect(capi.find((e) => e.nombre === "Contact")!.valor).toBe(7);
+  expect(capi.find((e) => e.nombre === "Contact")!.valor).toBe(0);
 });

@@ -23,7 +23,7 @@ test.describe("webhook app.clinera.io → Meta", () => {
     expect(out).toHaveLength(1);
     const d = out[0].json.payload.data[0];
     expect(d.event_name).toBe("StartTrial");
-    expect(d.custom_data.value).toBe(30);
+    expect(d.custom_data.value).toBe(10);
     expect(d.custom_data.currency).toBe("USD");
     expect(d.event_id).toBe("trial_a1");
     expect(d.user_data.em[0]).toMatch(/^[0-9a-f]{64}$/);
@@ -45,22 +45,22 @@ test.describe("webhook app.clinera.io → Meta", () => {
     expect(otra[0].json.enviar).toBe(true);
   });
 
-  test("UsoReal exige WhatsApp conectado y conversación dentro de los 7 días", () => {
+  test("UsoReal sale al conectar WhatsApp (US$ 20), sin esperar conversación, dentro de los 7 días", () => {
     const st: Record<string, any> = {};
     const t0 = Date.now() - 3 * 864e5;
     correr(decidirSrc, st, [ev({ event: "account_created", account_id: "a3", occurred_at: new Date(t0).toISOString() })]);
     const wa = correr(decidirSrc, st, [ev({ event: "whatsapp_connected", account_id: "a3", occurred_at: new Date(t0 + 864e5).toISOString() })]);
-    expect(wa[0].json.enviar).toBe(false);
-    const conv = correr(decidirSrc, st, [ev({ event: "first_conversation", account_id: "a3", occurred_at: new Date(t0 + 2 * 864e5).toISOString() })]);
-    const uso = conv.find((i) => i.json.evento === "UsoReal");
-    expect(uso?.json.payload.data[0].custom_data.value).toBe(60);
+    const uso = wa.find((i) => i.json.evento === "UsoReal");
+    expect(uso?.json.payload.data[0].custom_data.value).toBe(20);
     expect(uso?.json.payload.data[0].event_id).toBe("uso_real_a3");
+    // La primera conversación ya no dispara nada nuevo: Uso real ya salió.
+    const conv = correr(decidirSrc, st, [ev({ event: "first_conversation", account_id: "a3", occurred_at: new Date(t0 + 2 * 864e5).toISOString() })]);
+    expect(conv.filter((i) => i.json.enviar && i.json.evento !== "UsoReal")).toHaveLength(0);
 
     const st2: Record<string, any> = {};
     const v0 = Date.now() - 10 * 864e5;
     correr(decidirSrc, st2, [ev({ event: "account_created", account_id: "a4", occurred_at: new Date(v0).toISOString() })]);
-    correr(decidirSrc, st2, [ev({ event: "whatsapp_connected", account_id: "a4", occurred_at: new Date(v0 + 864e5).toISOString() })]);
-    const tarde = correr(decidirSrc, st2, [ev({ event: "first_conversation", account_id: "a4", occurred_at: new Date(v0 + 9 * 864e5).toISOString() })]);
+    const tarde = correr(decidirSrc, st2, [ev({ event: "whatsapp_connected", account_id: "a4", occurred_at: new Date(v0 + 9 * 864e5).toISOString() })]);
     expect(tarde.some((i) => i.json.evento === "UsoReal")).toBe(false);
   });
 
@@ -127,7 +127,7 @@ test.describe("Trial en Twenty", () => {
       ev({ event: "ping", email: "ana@clinica.cl" }),
     ]);
     expect(out).toHaveLength(2);
-    expect(out[0].json.body).toMatchObject({ email: "ana@clinica.cl", eventName: "trial_iniciado", firstName: "Ana", clinica: "Aurora" });
-    expect(out[1].json.body).toMatchObject({ eventName: "whatsapp_conectado", whatsappConectado: true });
+    expect(out[0].json.body).toMatchObject({ email: "ana@clinica.cl", eventName: "trial", userGroup: "trial", firstName: "Ana", clinica: "Aurora" });
+    expect(out[1].json.body).toMatchObject({ eventName: "uso_real", userGroup: "uso_real", whatsappConectado: true });
   });
 });

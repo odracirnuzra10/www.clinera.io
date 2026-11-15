@@ -13,7 +13,9 @@
 
 import { sendMetaEvent } from "@/lib/metaEvents";
 
-export const VALOR_USD = { VisitaWeb: 1, NavegacionProfunda: 5, Contact: 7 } as const;
+// Desde el 15-nov-2026 son SEÑALES sin valor (Ricardo): arman públicos de remarketing, pero Meta
+// solo aprende de los 5 eventos del embudo (Lead, Videollamada, Trial, Uso real, Contrata).
+export const VALOR_USD = { VisitaWeb: 0, NavegacionProfunda: 0, Contact: 0 } as const;
 export type EventoValor = keyof typeof VALOR_USD;
 
 /** Días que tarda en volver a contar una navegación profunda del mismo navegador. */
@@ -63,7 +65,11 @@ export async function dispararEventoValor(evento: EventoValor, extra: Record<str
     await sendMetaEvent({
       eventName: evento,
       eventId: nuevoId(evento),
-      customData: { ...extra, value: VALOR_USD[evento], currency: "USD", page_path: location.pathname },
+      customData: {
+        ...extra,
+        ...(VALOR_USD[evento] ? { value: VALOR_USD[evento], currency: "USD" } : {}),
+        page_path: location.pathname,
+      },
       capi: true,
     });
   } catch (e) {
