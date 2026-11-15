@@ -181,13 +181,14 @@ test.describe("/reserva-tu-hora — destino del Instant Form", () => {
 
     // --- Desde el 2026-10-26 agendar NO es MQL (mql-verificado-por-closer) ---
     // Llegaban leads falsos que agendaban y Meta aprendía de ellos. El MQL lo
-    // marca el closer en el CRM. Al agendar sólo sale Schedule.
+    // marca el closer en el CRM. Desde el 15-nov-2026 tampoco sale Schedule del navegador: la
+    // «Videollamada» (Schedule US$ 5) la manda n8n desde el flujo de Meet, para no contarla dos veces.
     expect(capi.filter((c) => c.event_name === "MQL")).toHaveLength(0);
     const fbq = await page.evaluate(
       () => (window as unknown as { __fbqCalls: { name: string; eventId?: string }[] }).__fbqCalls,
     );
     expect(fbq.filter((c) => c.name === "MQL")).toHaveLength(0);
-    expect(fbq.filter((c) => c.name === "Schedule")).toHaveLength(1);
+    expect(fbq.filter((c) => c.name === "Schedule")).toHaveLength(0);
 
     // --- El CRM ---
     const confirmaciones = wizard.filter((w) => w.lead_stage === "booking_confirmed");

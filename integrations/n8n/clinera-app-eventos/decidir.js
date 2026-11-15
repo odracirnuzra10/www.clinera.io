@@ -2,8 +2,9 @@
 // Recibe los avisos de app.clinera.io (account_created, whatsapp_connected,
 // first_conversation, subscription_started) y decide qué mandar al dataset
 // «Clinera Software» (2251201709002818):
-//   account_created                         → StartTrial US$ 30 (una vez por cuenta; valor de Ricardo, 13-nov-2026)
-//   whatsapp_connected + first_conversation → UsoReal US$ 60 (una vez, solo dentro de los 7 días de la prueba)
+//   account_created                         → StartTrial («Trial») US$ 10 (una vez por cuenta)
+//   whatsapp_connected                      → UsoReal («Uso real») US$ 20 (una vez; si se conoce el alta, dentro de los 7 días)
+//   first_conversation                      → sólo se anota (desde el 15-nov ya no hace falta para Uso real)
 //   subscription_started                    → nada: el Purchase ya lo manda Stripe
 // Lo enviado se marca en «Confirmar envío», recién cuando Meta dice events_received ≥ 1.
 const crypto = require("crypto");
@@ -12,8 +13,8 @@ st.cuentas = st.cuentas || {};
 st.enviados = st.enviados || {};
 
 const DIAS7 = 7 * 864e5;
-// Valores de la escalera de la campaña de tráfico (Ricardo, 13-nov-2026).
-const VALOR_USD = { StartTrial: 30, UsoReal: 60 };
+// Embudo de 5 eventos (Ricardo, 15-nov-2026): Lead 3 · Videollamada 5 · Trial 10 · Uso real 20 · Contrata.
+const VALOR_USD = { StartTrial: 10, UsoReal: 20 };
 const PRUEBA = 30 * 864e5;
 const sha = (v) => crypto.createHash("sha256").update(v).digest("hex");
 const hEmail = (v) => (v ? sha(String(v).trim().toLowerCase()) : undefined);
@@ -55,8 +56,9 @@ for (const it of $input.all()) {
     out.push({ json: { enviar: false, omitido: "evento_desconocido", ev, acc } });
     continue;
   }
-  if (c.creada && c.wa && c.conv && Math.max(c.wa, c.conv) - c.creada <= DIAS7) {
-    eventos.push(["UsoReal", "uso_real_" + acc, Math.max(c.wa, c.conv)]);
+  // Uso real = conectó la API de WhatsApp (Ricardo, 15-nov-2026). Ya no exige la primera conversación.
+  if (c.wa && (!c.creada || c.wa - c.creada <= DIAS7)) {
+    eventos.push(["UsoReal", "uso_real_" + acc, c.wa]);
   }
   if (!eventos.length) { out.push({ json: { enviar: false, omitido: "esperando_mas_datos", ev, acc } }); continue; }
 

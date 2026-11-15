@@ -1851,21 +1851,10 @@ export async function submitBookingConfirmation({
     confirmEventIdProp ??
     "ventas_confirm_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
 
-  // Disparar Schedule pixel — funnel step posterior al Lead.
-  if (typeof window !== "undefined" && typeof window.fbq === "function") {
-    window.fbq(
-      "track",
-      "Schedule",
-      {
-        content_name: "Clinera Ventas",
-        content_category: "booking",
-        lead_source: leadCtx?.leadSource,
-        cal_booking_uid: booking?.booking?.uid,
-        ...sizeAttributes(software, size, qual),
-      },
-      { eventID: confirmEventId },
-    );
-  }
+  // Agendar ya no sale del navegador (Ricardo, 15-nov-2026): el evento «Videollamada» (Schedule,
+  // US$ 5) lo manda n8n desde el flujo de Meet, que también cubre lo que agenda la IA. Si el
+  // navegador lo mandara además, se contaría dos veces. confirmEventId sigue viajando al webhook.
+  void confirmEventId;
 
   // MQL: desde el 2026-10-26 agendar NO es MQL (MQL_TRIGGER = "crm_closer"):
   // el closer lo marca en Twenty tras verificar el lead. Esta rama queda por si

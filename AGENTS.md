@@ -1672,3 +1672,18 @@ No hay logo de su clínica en el repo ni en la web: si Ricardo lo manda, va junt
 Claude el reproductor de Vimeo responde 401 a todo (también al de CNN): se verifica en un navegador real.
 El mismo bloque está en `/prueba-gratis` (`public/kimi-gratis/index.html`, `.testi-video`, en la franja del testimonio), escrito a mano: si cambia la cita o el video, cambia en los dos.
 Guardianes: `tests/home2.spec.ts` y `tests/kimi-gratis.spec.ts`.
+
+# Embudo de 5 eventos, mismo nombre en Meta y Loops (Ricardo, 15-nov-2026)
+
+Reemplaza los valores de «Eventos con valor y campaña de tráfico» (13-nov). Meta (dataset `2251201709002818`)
+aprende solo de: **Lead US$ 3** (sitio: asistencia y formulario de ventas) · **Videollamada = `Schedule` US$ 5**
+(n8n, flujo de Meet) · **Trial = `StartTrial` US$ 10** y **Uso real US$ 20** (n8n, aviso de app.clinera.io; Uso real
+= conectó WhatsApp, ya no exige la primera conversación) · **Contrata = `Purchase`** (Stripe). Tabla completa y
+quién manda qué: `baserow/CLAUDE.md`, «Embudo de Clinera: 5 eventos».
+- `VisitaWeb`, `NavegacionProfunda` y `Contact` siguen saliendo de `eventosValor.ts`, **sin valor** (`VALOR_USD` en 0):
+  son señales para públicos, no conversiones.
+- **El sitio ya no manda `Schedule` al confirmar la hora** (`VentasLanding.tsx`): la Videollamada sale de n8n, que también
+  ve lo que agenda la IA. Si el navegador la mandara, contaría doble.
+- En Loops los nombres son `lead`, `videollamada`, `trial`, `uso_real` y `contrata` (`integrations/n8n/clinera-app-eventos/loops-evento.js`
+  manda solo `trial` y `uso_real`).
+- Guardianes: `tests/eventos-valor.spec.ts`, `tests/reserva-tu-hora.spec.ts`, `tests/clinera-app-eventos.spec.ts`.
