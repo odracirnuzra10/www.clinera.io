@@ -130,4 +130,18 @@ test.describe("Trial en Twenty", () => {
     expect(out[0].json.body).toMatchObject({ email: "ana@clinica.cl", eventName: "trial", userGroup: "trial", firstName: "Ana", clinica: "Aurora" });
     expect(out[1].json.body).toMatchObject({ eventName: "uso_real", userGroup: "uso_real", whatsappConectado: true });
   });
+
+  test("Festejo de Uso real en Team 2027: una vez por cuenta y solo al conectar WhatsApp", () => {
+    const festejoSrc = readFileSync(join(DIR, "festejo-uso-real.js"), "utf8");
+    const st: Record<string, any> = { cuentas: { a9: { creada: Date.now() - 2 * 864e5, plan: "xcale" } } };
+    expect(correr(festejoSrc, st, [ev({ event: "account_created", account_id: "a9" })])).toHaveLength(0);
+    const f = correr(festejoSrc, st, [ev({ event: "whatsapp_connected", account_id: "a9", nombre: "Ana Pérez", clinica: "Aurora", telefono: "+56911112222" })]);
+    expect(f).toHaveLength(1);
+    expect(f[0].json.text).toContain("USO REAL");
+    expect(f[0].json.text).toContain("Ana Pérez");
+    expect(f[0].json.text).toContain("Aurora");
+    expect(f[0].json.text).toContain("2 días después");
+    expect(f[0].json.text).toContain("Plan xcale");
+    expect(correr(festejoSrc, st, [ev({ event: "whatsapp_connected", account_id: "a9" })])).toHaveLength(0);
+  });
 });
