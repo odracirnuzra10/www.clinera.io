@@ -1697,3 +1697,11 @@ solo guarda en producción). Código: `integrations/n8n/clinera-app-eventos/fest
 **Hasta el 16-nov-2026 app.clinera.io solo había mandado `account_created`** (11 StartTrial y 0 UsoReal en Meta desde el
 1-nov): si nunca llega `whatsapp_connected`, el festejo y el Uso real de Meta no salen. Lo programa el equipo de Clinera.
 Guardián: última prueba de `tests/clinera-app-eventos.spec.ts`.
+
+# Tutorial de la maqueta del trial: Meta US$ 15 y Loops (Ricardo, 16-nov-2026)
+
+La prueba gratis va a abrir con una maqueta con datos de ejemplo (Linear OACG-1111). Cuando la clínica termina su tutorial,
+app.clinera.io manda `tutorial_completed` al webhook `clinera-app-eventos`. n8n (`mETMBrWPCelwvOuy`) envía a Meta el evento
+`Tutorial` US$ 15, una vez por cuenta, entre Trial (10) y Uso real (20). A Loops lo manda como `tutorial`, con
+`tutorialCompletado: true`. Sigue la misma regla que Uso real: hasta que la app mande el aviso no sale nada. Aplicado al vivo el 16-nov.
+Guardián: `tests/clinera-app-eventos.spec.ts`.

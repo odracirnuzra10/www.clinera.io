@@ -3,10 +3,11 @@
 // (whatsappConectado, primeraConversacion), así un correo de «conecta tu WhatsApp» no le llega a
 // quien ya lo conectó. Loops crea el contacto si no existe.
 // Embudo de 5 eventos (Ricardo, 15-nov-2026): lead · videollamada · trial · uso_real · contrata.
-// Desde la app salen sólo «trial» y «uso_real». «contrata» lo manda Stripe (7jgtp669q8pWJKm6) y
+// Desde la app salen «trial», «tutorial» (terminó el tutorial de la maqueta, 16-nov-2026) y «uso_real». «contrata» lo manda Stripe (7jgtp669q8pWJKm6) y
 // first_conversation ya no es un evento: si se mandara, Loops contaría pasos que el embudo no tiene.
 const NOMBRES = {
   account_created: "trial",
+  tutorial_completed: "tutorial",
   whatsapp_connected: "uso_real",
 };
 const out = [];
@@ -24,6 +25,7 @@ for (const it of $input.all()) {
   if (b.plan) props.plan = String(b.plan);
   if (b.account_id) props.accountId = String(b.account_id);
   if (ev === "trial") props.trialInicio = new Date(Date.parse(b.occurred_at) || Date.now()).toISOString();
+  if (ev === "tutorial") props.tutorialCompletado = true;
   if (ev === "uso_real") props.whatsappConectado = true;
   out.push({ json: { body: { email, eventName: ev, ...props } } });
 }

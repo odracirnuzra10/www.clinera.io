@@ -13,6 +13,7 @@ Qué manda a Meta (dataset «Clinera Software» `2251201709002818`, credencial �
 |---|---|---|
 | Lead | `Lead` | lo manda la landing (pixel + `/api/meta/capi`) |
 | Trial | `StartTrial` | `account_created`, una vez por cuenta (`trial_<account_id>`) |
+| Tutorial | `Tutorial` US$ 15 | `tutorial_completed` (terminó el tutorial de la maqueta del trial), una vez por cuenta (`tutorial_<account_id>`). Loops: `tutorial` + `tutorialCompletado` (16-nov-2026) |
 | Uso real | `UsoReal` | `whatsapp_connected` + `first_conversation`, ambos dentro de 7 días desde `account_created` (`uso_real_<account_id>`) |
 | Purchase | — | lo manda Stripe (`/api/stripe/meta-purchase`); `subscription_started` no envía nada para no contar doble |
 

@@ -37,6 +37,19 @@ test.describe("webhook app.clinera.io → Meta", () => {
     expect(otra[0].json.omitido).toBe("ya_enviado");
   });
 
+  test("tutorial_completed manda Tutorial US$ 15, una sola vez por cuenta", () => {
+    const st: Record<string, any> = {};
+    const out = correr(decidirSrc, st, [ev({ event: "tutorial_completed", account_id: "t1", email: "a@b.cl", occurred_at: ahora })]);
+    expect(out).toHaveLength(1);
+    const d = out[0].json.payload.data[0];
+    expect(d.event_name).toBe("Tutorial");
+    expect(d.event_id).toBe("tutorial_t1");
+    expect(d.custom_data).toMatchObject({ value: 15, currency: "USD" });
+    correr(confirmarSrc, st, [{ json: { events_received: 1 } }], { "Hay que enviar?": out });
+    const otra = correr(decidirSrc, st, [ev({ event: "tutorial_completed", account_id: "t1", occurred_at: ahora })]);
+    expect(otra[0].json.omitido).toBe("ya_enviado");
+  });
+
   test("si Meta no confirma, se vuelve a intentar con el siguiente aviso", () => {
     const st: Record<string, any> = {};
     const out = correr(decidirSrc, st, [ev({ event: "account_created", account_id: "a2", occurred_at: ahora })]);
@@ -125,8 +138,10 @@ test.describe("Trial en Twenty", () => {
       ev({ event: "account_created", email: "Ana@Clinica.cl", nombre: "Ana Pérez", clinica: "Aurora", account_id: "a1", occurred_at: ahora }),
       ev({ event: "whatsapp_connected", email: "ana@clinica.cl" }),
       ev({ event: "ping", email: "ana@clinica.cl" }),
+      ev({ event: "tutorial_completed", email: "ana@clinica.cl" }),
     ]);
-    expect(out).toHaveLength(2);
+    expect(out).toHaveLength(3);
+    expect(out[2].json.body).toMatchObject({ eventName: "tutorial", userGroup: "tutorial", tutorialCompletado: true });
     expect(out[0].json.body).toMatchObject({ email: "ana@clinica.cl", eventName: "trial", userGroup: "trial", firstName: "Ana", clinica: "Aurora" });
     expect(out[1].json.body).toMatchObject({ eventName: "uso_real", userGroup: "uso_real", whatsappConectado: true });
   });

@@ -3,6 +3,7 @@
 // first_conversation, subscription_started) y decide qué mandar al dataset
 // «Clinera Software» (2251201709002818):
 //   account_created                         → StartTrial («Trial») US$ 10 (una vez por cuenta)
+//   tutorial_completed                      → Tutorial («Tutorial») US$ 15 (una vez por cuenta; Ricardo, 16-nov-2026)
 //   whatsapp_connected                      → UsoReal («Uso real») US$ 20 (una vez; si se conoce el alta, dentro de los 7 días)
 //   first_conversation                      → sólo se anota (desde el 15-nov ya no hace falta para Uso real)
 //   subscription_started                    → nada: el Purchase ya lo manda Stripe
@@ -14,7 +15,8 @@ st.enviados = st.enviados || {};
 
 const DIAS7 = 7 * 864e5;
 // Embudo de 5 eventos (Ricardo, 15-nov-2026): Lead 3 · Videollamada 5 · Trial 10 · Uso real 20 · Contrata.
-const VALOR_USD = { StartTrial: 10, UsoReal: 20 };
+// Tutorial de la maqueta del trial US$ 15 (Ricardo, 16-nov-2026), entre Trial y Uso real.
+const VALOR_USD = { StartTrial: 10, Tutorial: 15, UsoReal: 20 };
 const PRUEBA = 30 * 864e5;
 const sha = (v) => crypto.createHash("sha256").update(v).digest("hex");
 const hEmail = (v) => (v ? sha(String(v).trim().toLowerCase()) : undefined);
@@ -44,6 +46,9 @@ for (const it of $input.all()) {
   if (ev === "account_created") {
     if (!c.creada) c.creada = t;
     eventos.push(["StartTrial", "trial_" + acc, c.creada]);
+  } else if (ev === "tutorial_completed") {
+    if (!c.tutorial) c.tutorial = t;
+    eventos.push(["Tutorial", "tutorial_" + acc, c.tutorial]);
   } else if (ev === "whatsapp_connected") {
     if (!c.wa) c.wa = t;
   } else if (ev === "first_conversation") {
