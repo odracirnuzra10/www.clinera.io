@@ -62,7 +62,7 @@ test("home: prueba gratis, funciones, blog, historia y fundador", async ({ page 
   await expect(page.locator("[data-ecosistema-incluye]")).toHaveCount(0);
   const planes = page.locator("[data-planes-trial]");
   await expect(planes.locator("[data-plan-card]")).toHaveCount(3);
-  await expect(planes).toContainText("US$ 49");
+  await expect(planes).toContainText("US$ 79");
   await expect(planes).toContainText("US$ 129");
   await expect(planes).toContainText("US$ 149");
 

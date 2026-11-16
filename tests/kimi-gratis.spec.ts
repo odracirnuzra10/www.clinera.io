@@ -54,8 +54,8 @@ test("/kimi-gratis vende la demo de 7 días y los tres planes de lista", async (
   const flux = planes.locator("[data-testid=plan-flux]");
   const hex = planes.locator("[data-testid=plan-hex]");
   const vortex = planes.locator("[data-testid=plan-xcale]");
-  await expect(flux).toContainText("$49");
-  await expect(flux).toContainText("2 profesionales");
+  await expect(flux).toContainText("$79");
+  await expect(flux).toContainText("3 profesionales");
   await expect(flux).toContainText("1 sucursal");
   await expect(flux).toContainText("WhatsApp");
   await expect(flux).toContainText("300 conversaciones");

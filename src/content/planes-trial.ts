@@ -5,6 +5,7 @@
 // usa Clinera 7 días y elige el plan después, dentro de la plataforma. Los mismos números
 // están escritos a mano en `public/kimi-gratis/index.html` (la landing de /contrata, HTML
 // estático que no importa TS): si cambia un precio o un tope, se cambia en los dos.
+// Flux pasó de US$ 49 / 2 profesionales a US$ 79 / 3 profesionales (Ricardo, 16-nov-2026).
 // Xcale es el ex Vortex. /planes2 y /promo siguen con sus catálogos (planes-nuevos.ts, planes.ts).
 // ============================================================================
 
@@ -28,9 +29,9 @@ export const PLANES_TRIAL: readonly PlanTrial[] = [
   {
     id: "flux",
     name: "Flux",
-    monthlyUsd: 49,
+    monthlyUsd: 79,
     etiqueta: "Para partir",
-    incluye: ["2 profesionales", "1 sucursal", "WhatsApp", "300 conversaciones", "Clinera Intelligence"],
+    incluye: ["3 profesionales", "1 sucursal", "WhatsApp", "300 conversaciones", "Clinera Intelligence"],
     canales: ["whatsapp"],
   },
   {
