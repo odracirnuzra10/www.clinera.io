@@ -11,7 +11,7 @@ import { PLANES_TRIAL, PLANES_TRIAL_DESDE, PLANES_TRIAL_FAQ } from "@/content/pl
 // /planes (Ricardo, 7-nov-2026): prueba gratis de 7 días y después Flux · Hex · Xcale. La fuente
 // es `planes-trial.ts`, la misma del home. /planes2 conserva el catálogo anterior (planes-nuevos.ts).
 const TITLE = `Planes: prueba gratis y Flux, Hex y Xcale, desde US$ ${PLANES_TRIAL_DESDE}/mes`;
-const DESCRIPTION = "Regístrate gratis y usa Clinera 7 días. Después eliges: Flux US$ 49/mes · Hex US$ 129/mes · Xcale US$ 149/mes. Sin costo de implementación.";
+const DESCRIPTION = "Regístrate gratis y usa Clinera 7 días. Después eliges: Flux US$ 79/mes · Hex US$ 129/mes · Xcale US$ 149/mes. Sin costo de implementación.";
 
 const planesSchema = {
   "@context": "https://schema.org",
