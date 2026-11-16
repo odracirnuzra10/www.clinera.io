@@ -1687,3 +1687,13 @@ quién manda qué: `baserow/CLAUDE.md`, «Embudo de Clinera: 5 eventos».
 - En Loops los nombres son `lead`, `videollamada`, `trial`, `uso_real` y `contrata` (`integrations/n8n/clinera-app-eventos/loops-evento.js`
   manda solo `trial` y `uso_real`).
 - Guardianes: `tests/eventos-valor.spec.ts`, `tests/reserva-tu-hora.spec.ts`, `tests/clinera-app-eventos.spec.ts`.
+
+# Festejo en Team 2027 cuando un cliente logra Uso real (Ricardo, 16-nov-2026)
+
+Cuando app.clinera.io avisa `whatsapp_connected`, el flujo `mETMBrWPCelwvOuy` publica en Team 2027 «🎉 ¡USO REAL!» con
+nombre, clínica, plan, celular y cuántos días pasaron desde el alta. Una vez por cuenta (`festejados` en staticData, que n8n
+solo guarda en producción). Código: `integrations/n8n/clinera-app-eventos/festejo-uso-real.js`; nodos «Festejo uso real» →
+«Festejar en Team 2027» (la URL del webhook se copia del nodo «Avisar a Comercial», no va en el repo).
+**Hasta el 16-nov-2026 app.clinera.io solo había mandado `account_created`** (11 StartTrial y 0 UsoReal en Meta desde el
+1-nov): si nunca llega `whatsapp_connected`, el festejo y el Uso real de Meta no salen. Lo programa el equipo de Clinera.
+Guardián: última prueba de `tests/clinera-app-eventos.spec.ts`.
