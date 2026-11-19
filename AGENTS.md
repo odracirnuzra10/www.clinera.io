@@ -1715,3 +1715,15 @@ canales y modelos de IA flotando, relato con scroll (pasos a la izquierda, una p
 que cambia: chat → agenda → pago → ficha → Intelligence) con cursores con nombre («AURA · IA», «Dra. Paz») y
 tarjetas oscuras con la pregunta que se escribe sola. También se ve en `/home2` (rewrite al mismo archivo, 19-nov-2026; antes `/home2` redirigía a `/` con un 308, que algunos navegadores recuerdan: si alguien ve el home, que abra `/home2` en una ventana privada). Cifras y pacientes de las pantallas son de ejemplo. No reemplaza
 `/` hasta que Ricardo apruebe; los precios están escritos a mano (Flux 79 · Hex 129 · Xcale 149).
+
+# Formato de diseño Clinera × heymark: el formato de referencia (Ricardo, 19-nov-2026)
+
+Ricardo aprobó el diseño de `/home2` y pidió guardarlo como formato: **fondo blanco y degradado de marca + trazos a mano que
+se dibujan solos, íconos flotando, relato con scroll con pantalla fija de Clinera, cursores con nombre y tarjetas oscuras
+que se escriben solas.** Todo nuevo diseño de Clinera (páginas, landings, piezas de redes) parte de ahí. Detalle y reglas:
+`docs/formato-diseno-clinera.md`; código fuente: `public/home-mix/index.html`.
+
+`/prueba-gratis` (`public/kimi-gratis/index.html`) ya lo lleva (19-nov): círculo a mano en «Prueba gratis», «GRATIS» de los
+planes y «gratis» del cierre, flecha al botón del hero y el relato con scroll (`#relato`, clases con prefijo `r-` para no
+chocar con las de la landing) después de las tarjetas IA / redes / agenda, cerrando con «Actívalo en tu clínica GRATIS».
+En el celular la tarjeta flotante se esconde mientras se ven los pasos (`mcta-relato`). Todo lo demás de la landing no cambió.

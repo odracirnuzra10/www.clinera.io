@@ -1017,7 +1017,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 .demo-fin[hidden]{display:none}
 .chat-vivo .agenda-cae{flex-wrap:wrap;row-gap:2px}
 .chat-vivo .agenda-cae b,.chat-vivo .agenda-cae span{white-space:nowrap}
-#mobile-cta.mcta-demo,#mobile-cta.flota.mcta-demo{transform:translateY(24px);opacity:0;pointer-events:none}
+#mobile-cta.mcta-demo,#mobile-cta.flota.mcta-demo,#mobile-cta.flota.mcta-relato{transform:translateY(24px);opacity:0;pointer-events:none}
 .demo-fin p{margin:0;font-size:.95rem;line-height:1.45;color:#3F3F46}
 .demo-fin p b{color:#111}
 .demo-fin .btn{width:100%;justify-content:center;min-height:50px}
@@ -1037,6 +1037,124 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 .tv-video{position:relative;width:100%;aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:#0B0D12}
 .tv-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 @media (max-width:760px){.testi-video{grid-template-columns:1fr}.tv-video{max-width:280px;margin:0 auto}}
+/* Relato con scroll */
+.r-relato{padding:40px 0 60px}
+.r-relato-tit{max-width:760px;margin-bottom:70px}
+h2{font-size:clamp(34px,5vw,60px);line-height:1.02;letter-spacing:-.04em;font-weight:800}
+.r-relato-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;align-items:start}
+.r-pasos{padding:10vh 0 30vh}
+.r-paso{min-height:62vh;display:flex;gap:18px;align-items:flex-start;padding-top:8vh;opacity:.22;transition:opacity .45s}
+.r-paso.r-on{opacity:1}
+.r-paso .r-gota{flex:none;width:34px;height:34px;margin-top:4px}
+.r-paso h3{font-size:clamp(26px,2.6vw,36px);line-height:1.08;letter-spacing:-.03em;font-weight:800}
+.r-paso p{margin-top:14px;font-size:18px;line-height:1.55;color:var(--ink2);max-width:420px}
+.r-escena{position:sticky;top:96px;height:calc(100vh - 130px);min-height:560px;display:flex;align-items:center}
+.r-lienzo{position:relative;width:100%;height:100%;max-height:640px;border-radius:28px;overflow:hidden;
+  background:radial-gradient(60% 60% at 20% 10%,rgba(59,130,246,.18),transparent 70%),radial-gradient(60% 60% at 90% 90%,rgba(217,70,239,.18),transparent 70%),linear-gradient(160deg,#F5F3FF,#FDF4FF 60%,#EFF6FF)}
+.r-lienzo::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(124,58,237,.10) 1px,transparent 1px);background-size:22px 22px;pointer-events:none}
+.r-ventana{position:absolute;inset:7% 6%;background:#fff;border-radius:18px;box-shadow:0 30px 60px -30px rgba(40,20,90,.35),0 0 0 1px rgba(16,16,40,.05);overflow:hidden;display:flex;transition:transform .8s cubic-bezier(.65,0,.35,1)}
+.r-lado{width:58px;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:16px;padding-top:18px}
+.r-lado i{width:22px;height:22px;border-radius:7px;background:#F1F1F6;display:block}
+.r-lado i.r-act{background:var(--grad)}
+.r-cuerpo{flex:1;position:relative}
+.r-barra{height:52px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 20px;gap:12px;font-weight:700;font-size:14px}
+.r-barra .r-mono{margin-left:auto;font-size:10.5px}
+.r-pant{position:absolute;inset:52px 0 0;padding:20px;opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s;pointer-events:none}
+.r-pant.r-on{opacity:1;transform:none}
+
+/* Pantalla: chat */
+.r-chat{display:flex;flex-direction:column;gap:10px;max-width:440px}
+.r-msg{max-width:78%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.45;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
+.r-msg.r-ver{opacity:1;transform:none}
+.r-msg.r-pac{background:#F1F1F6;border-bottom-left-radius:4px;align-self:flex-start}
+.r-msg.r-ia{background:var(--grad);color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+.r-horas{display:flex;gap:8px;flex-wrap:wrap;align-self:flex-end;opacity:0;transition:opacity .4s}
+.r-horas.r-ver{opacity:1}
+.r-horas span{border:1.5px solid #DDD6FE;color:var(--b);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;background:#fff}
+.r-horas span.r-sel{background:var(--b);color:#fff;border-color:var(--b)}
+.r-escribe{align-self:flex-end;display:none;gap:4px;padding:12px 14px;background:#F5F3FF;border-radius:14px}
+.r-escribe.r-ver{display:flex}
+.r-escribe b{width:6px;height:6px;border-radius:50%;background:var(--b);animation:bote 1s infinite}
+.r-escribe b:nth-child(2){animation-delay:.15s}.r-escribe b:nth-child(3){animation-delay:.3s}
+@keyframes bote{50%{transform:translateY(-4px);opacity:.5}}
+.r-canal{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink3);margin-bottom:6px}
+.r-canal svg{width:16px;height:16px}
+
+/* Pantalla: agenda */
+.r-agenda{display:grid;grid-template-columns:54px repeat(5,1fr);gap:0;font-size:12px}
+.r-agenda .r-h{padding:6px;color:var(--ink3);font-weight:600;border-bottom:1px solid var(--line)}
+.r-agenda .r-t{padding:10px 6px;color:var(--ink3);font-family:"Geist Mono",monospace;font-size:10.5px}
+.r-agenda .r-c{border-left:1px solid var(--line);border-bottom:1px solid #F4F4F8;min-height:46px;position:relative;padding:3px}
+.r-cita{border-radius:8px;padding:5px 7px;font-size:11px;font-weight:700;line-height:1.25}
+.r-cita small{display:block;font-weight:500;opacity:.8}
+.r-cita.r-a{background:#EFF6FF;color:#1D4ED8}.r-cita.r-b{background:#FDF4FF;color:#A21CAF}.r-cita.r-c{background:#F5F3FF;color:#6D28D9}
+.r-cita.r-nueva{background:var(--grad);color:#fff;box-shadow:0 8px 20px -8px rgba(124,58,237,.6);transform:scale(.6);opacity:0;transition:transform .5s cubic-bezier(.2,.9,.3,1.4),opacity .3s}
+.r-pant.r-on .r-cita.r-nueva{transform:none;opacity:1;transition-delay:.6s}
+
+/* Pantalla: pago */
+.r-tarjeta{max-width:380px;margin:20px auto;border:1px solid var(--line);border-radius:16px;padding:22px}
+.r-tarjeta .r-fila{display:flex;justify-content:space-between;font-size:14px;padding:9px 0;border-bottom:1px solid #F4F4F8}
+.r-tarjeta .r-fila:last-of-type{border:0}
+.r-estado{margin-top:16px;display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+.r-check{width:30px;height:30px;border-radius:50%;background:#22C55E;color:#fff;display:grid;place-items:center;transform:scale(0);transition:transform .5s cubic-bezier(.2,.9,.3,1.5) .5s}
+.r-pant.r-on .r-check{transform:scale(1)}
+
+/* Pantalla: ficha */
+.r-ficha{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.r-ficha .r-bloque{border:1px solid var(--line);border-radius:12px;padding:12px}
+.r-ficha .r-bloque b{display:block;font-size:13px;margin-bottom:6px}
+.r-ficha .r-bloque span{display:block;font-size:12px;color:var(--ink2);line-height:1.5}
+.r-ficha .r-ancho{grid-column:1/-1}
+
+/* Pantalla: métricas */
+.r-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.r-kpi{border:1px solid var(--line);border-radius:14px;padding:14px}
+.r-kpi b{display:block;font-size:26px;letter-spacing:-.03em}
+.r-kpi em{font-style:normal;font-size:12px;font-weight:700;color:#16A34A}
+.r-kpi span{display:block;font-size:12px;color:var(--ink3);margin-top:2px}
+.r-resumen{position:relative;margin-top:16px;border-radius:14px;padding:16px;background:var(--soft);font-size:14px;line-height:1.55}
+.r-resumen svg{position:absolute;inset:-8px -6px;width:calc(100% + 12px);height:calc(100% + 16px);overflow:visible}
+.r-barras{display:flex;align-items:flex-end;gap:10px;height:90px;margin-top:16px}
+.r-barras i{flex:1;border-radius:6px 6px 0 0;background:linear-gradient(180deg,#A78BFA,#DDD6FE);height:0;transition:height .8s cubic-bezier(.2,.8,.2,1)}
+.r-pant.r-on .r-barras i{height:var(--h)}
+
+/* Cursores con nombre */
+.r-cursor{position:absolute;left:0;top:0;z-index:5;transition:transform .9s cubic-bezier(.65,0,.35,1),opacity .3s;pointer-events:none}
+.r-cursor svg{width:18px;height:18px;display:block}
+.r-cursor span{position:absolute;left:14px;top:14px;white-space:nowrap;font-size:11.5px;font-weight:700;color:#fff;padding:3px 9px;border-radius:999px}
+.r-cursor.r-aura span{background:var(--b)}.r-cursor.r-aura svg{fill:var(--b)}
+.r-cursor.r-dra span{background:#0EA5E9}.r-cursor.r-dra svg{fill:#0EA5E9}
+
+#relato{--ink:#0B0B12;--ink2:#3F4351;--ink3:#6B7080;--line:#ECEDF2;--soft:#F7F7FA;--b:#7C3AED;--grad:linear-gradient(100deg,#3B82F6 0%,#7C3AED 50%,#D946EF 100%);padding:70px 0 20px}
+#relato .r-mono{font-family:"Geist Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+#relato h2{font-size:clamp(32px,4.6vw,56px);line-height:1.03;letter-spacing:-.04em;font-weight:800}
+.r-trazo{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:var(--len,1400);stroke-dashoffset:var(--len,1400)}
+.r-dibujado .r-trazo{animation:r-dibujar 1.4s cubic-bezier(.65,0,.35,1) forwards}
+@keyframes r-dibujar{to{stroke-dashoffset:0}}
+.r-aparece{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.r-aparece.r-ver{opacity:1;transform:none}
+.r-fin{margin-top:-10vh;padding-bottom:40px;text-align:center}
+.r-fin p{color:var(--ink2);font-size:17px;margin-bottom:18px}
+@media (max-width:900px){
+  #relato .r-relato-grid{grid-template-columns:1fr}
+  #relato .r-escena{position:sticky;top:64px;height:56vh;min-height:380px;order:-1;z-index:2;background:#fff}
+  #relato .r-pasos{padding:0 0 20vh}
+  #relato .r-paso{min-height:46vh;padding-top:4vh}
+  #relato .r-ventana{inset:5% 4%}
+  #relato .r-lado{display:none}
+  #relato .r-agenda{grid-template-columns:40px repeat(3,1fr)}
+  #relato .r-agenda .r-x{display:none}
+  #relato .r-kpis{grid-template-columns:repeat(3,1fr);gap:8px}
+  #relato .r-kpi b{font-size:18px}
+  #relato .r-cursor span{left:auto;right:10px;top:16px}
+}
+@media (prefers-reduced-motion:reduce){#relato *{animation:none!important;transition:none!important}.r-trazo{stroke-dashoffset:0}}
+
+/* Formato Clinera × heymark (19-nov-2026): trazo a mano que se dibuja solo alrededor de una palabra. */
+.marca-mano{position:relative;display:inline-block;white-space:nowrap}
+.marca-mano>svg{position:absolute;left:-6%;top:-18%;width:112%;height:140%;overflow:visible;pointer-events:none}
+.flecha-cta{position:absolute;left:300px;top:-46px;width:90px;height:70px;overflow:visible;pointer-events:none}
+@media (max-width:900px){.flecha-cta{display:none}}
 </style>
 </head>
 <body>
@@ -1044,6 +1162,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
+    <linearGradient id="gtrazo" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3B82F6"/><stop offset=".5" stop-color="#7C3AED"/><stop offset="1" stop-color="#D946EF"/></linearGradient>
     <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12Z"/><path d="M9 11h6M9 14h3"/></symbol>
     <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
     <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8Z"/></symbol>
@@ -1081,9 +1200,10 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     <div class="copy">
       <p class="demo-pill rv">Prueba gratis de 7 días · Sin riesgo</p>
       <p class="urgencia rv" data-urgencia hidden></p>
-      <h1 class="rv" style="--i:1"><span class="grad-txt">Prueba gratis</span> sin riesgo y haz crecer tu clínica</h1>
+      <h1 class="rv" style="--i:1"><span class="marca-mano" id="marca-hero"><span class="grad-txt">Prueba gratis</span><svg viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><path class="r-trazo" style="--len:1100" stroke="url(#gtrazo)" d="M40 26 C 140 4, 330 6, 380 36 C 410 62, 380 104, 270 112 C 170 120, 40 112, 14 84 C -6 60, 20 30, 110 18"/></svg></span> sin riesgo y haz crecer tu clínica</h1>
       <p class="sub rv" style="--i:2"><strong>Conecta tus canales y empieza a atender con inteligencia artificial.</strong> Mientras atiendes, la IA responde a tus pacientes en segundos y les agenda la hora.</p>
-      <div class="cta rv" style="--i:3" id="hero-cta">
+      <div class="cta rv" style="--i:3;position:relative" id="hero-cta">
+        <svg class="flecha-cta" viewBox="0 0 90 70" aria-hidden="true"><path class="r-trazo" style="--len:200" stroke="url(#gtrazo)" d="M84 6 C 70 30, 46 50, 10 56 M22 44 L8 56 L24 66"/></svg>
         <button class="btn grad btn-gratis" type="button" data-abrir-cuenta data-elegir="vortex">Prueba gratis <span class="gratis-chip">SIN RIESGO</span></button>
       </div>
       <p class="sin-tarjeta"><span>✓ Sin tarjeta de crédito</span><span>✓ Sin costo de implementación</span><span>✓ Eliges el plan después</span></p>
@@ -1154,6 +1274,96 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
     <div class="cifra"><span class="cifra-ic" aria-hidden="true"><svg class="ic"><use href="#i-cal"/></svg></span><b>Agenda por profesional</b><span>cada profesional con sus horarios y tratamientos</span></div>
   </div>
 </section>
+
+<section class="r-relato" id="relato" aria-labelledby="t-relato">
+  <div class="wrap">
+    <div class="r-relato-tit r-aparece">
+      <p class="r-mono">Así trabaja Clinera</p>
+      <h2 id="t-relato" style="margin-top:14px">Este es tu equipo de recepción. <span class="grad-txt">Trabaja 24/7.</span></h2>
+    </div>
+    <div class="r-relato-grid">
+      <div class="r-pasos" id="r-pasos">
+        <div class="r-paso" data-paso="0"><svg class="r-gota" viewBox="0 0 34 34"><path fill="#3B82F6" d="M17 3c8 0 14 5 14 13s-6 15-14 15S3 25 3 17 9 3 17 3z" opacity=".9"/></svg><div><h3>Todo parte con un mensaje.</h3><p>Un paciente escribe por WhatsApp, Instagram o Facebook a las 23:40. Llega a una sola bandeja.</p></div></div>
+        <div class="r-paso" data-paso="1"><svg class="r-gota" viewBox="0 0 34 34"><path fill="#7C3AED" d="M16 3c9 1 15 6 15 14s-7 14-15 14S3 24 4 16 8 2 16 3z"/></svg><div><h3>La IA le responde al tiro.</h3><p>Con tus tratamientos, precios y horarios. Como lo haría tu mejor recepcionista.</p></div></div>
+        <div class="r-paso" data-paso="2"><svg class="r-gota" viewBox="0 0 34 34"><path fill="#D946EF" d="M17 4c8 0 13 6 13 13s-5 14-13 14S4 25 4 17 9 4 17 4z"/></svg><div><h3>Le ofrece horas reales.</h3><p>Mira la agenda de cada profesional y sólo propone lo que está libre.</p></div></div>
+        <div class="r-paso" data-paso="3"><svg class="r-gota" viewBox="0 0 34 34"><path fill="#3B82F6" d="M15 3c9 0 16 6 16 14s-6 14-15 14S3 25 3 17 7 3 15 3z"/></svg><div><h3>Y la cita cae en tu agenda.</h3><p>Con el profesional, el box y el tratamiento. Sin que nadie toque el teclado.</p></div></div>
+        <div class="r-paso" data-paso="4"><svg class="r-gota" viewBox="0 0 34 34"><path fill="#7C3AED" d="M18 3c7 1 13 7 13 14s-6 14-14 14S3 25 3 17 10 2 18 3z"/></svg><div><h3>Cobra la evaluación por adelantado.</h3><p>El paciente paga con un link. El que paga, llega.</p></div></div>
+        <div class="r-paso" data-paso="5"><svg class="r-gota" viewBox="0 0 34 34"><path fill="#D946EF" d="M17 3c8 0 14 6 14 14s-6 14-14 14S3 24 3 16 9 3 17 3z"/></svg><div><h3>Tú atiendes. La ficha ya está lista.</h3><p>Historial, consentimiento y evolución del paciente en un solo lugar.</p></div></div>
+        <div class="r-paso" data-paso="6"><svg class="r-gota" viewBox="0 0 34 34"><path fill="#3B82F6" d="M16 4c9 0 15 5 15 13s-6 14-14 14S3 25 3 17 8 4 16 4z"/></svg><div><h3>Y al final del día, los números.</h3><p>Clinera Intelligence te dice cuánto vendiste, quién no llegó y qué funcionó.</p></div></div>
+      </div>
+
+      <div class="r-escena">
+        <div class="r-lienzo">
+          <div class="r-ventana" id="r-ventana">
+            <div class="r-lado"><i class="r-act"></i><i></i><i></i><i></i><i></i></div>
+            <div class="r-cuerpo">
+              <div class="r-barra" id="r-barraTit">Conversaciones <span class="r-mono" id="r-barraMeta">Bandeja · 3 canales</span></div>
+
+              <div class="r-pant" data-pant="chat">
+                <div class="r-canal"><svg><use href="#ch-wa"/></svg> Valentina R. · WhatsApp · 23:40</div>
+                <div class="r-chat">
+                  <div class="r-msg r-pac" data-m="0">Hola! ¿Cuánto vale el Facial 360 y tienen hora esta semana?</div>
+                  <div class="r-escribe" data-m="1"><b></b><b></b><b></b></div>
+                  <div class="r-msg r-ia" data-m="2">¡Hola Valentina! El Facial 360 parte con una evaluación de $20.000. Te reviso la agenda 😊</div>
+                  <div class="r-msg r-ia" data-m="3">Tengo estas horas con la Dra. Paz:</div>
+                  <div class="r-horas" data-m="4"><span>Jue 10:00</span><span class="r-sel">Jue 16:30</span><span>Vie 11:00</span></div>
+                  <div class="r-msg r-pac" data-m="5">Jueves 16:30 porfa 🙌</div>
+                </div>
+              </div>
+
+              <div class="r-pant" data-pant="agenda">
+                <div class="r-agenda">
+                  <div></div><div class="r-h">Lun</div><div class="r-h r-x">Mar</div><div class="r-h">Mié</div><div class="r-h">Jue</div><div class="r-h r-x">Vie</div>
+                  <div class="r-t">10:00</div><div class="r-c"><div class="r-cita r-a">Botox<small>Dra. Paz</small></div></div><div class="r-c r-x"></div><div class="r-c"><div class="r-cita r-b">HIFU<small>Box 2</small></div></div><div class="r-c"><div class="r-cita r-c">Control<small>Dr. Ruiz</small></div></div><div class="r-c r-x"></div>
+                  <div class="r-t">12:00</div><div class="r-c"></div><div class="r-c r-x"><div class="r-cita r-c">Peeling<small>Box 1</small></div></div><div class="r-c"></div><div class="r-c"></div><div class="r-c r-x"><div class="r-cita r-a">Evaluación<small>Dra. Paz</small></div></div>
+                  <div class="r-t">14:30</div><div class="r-c"><div class="r-cita r-b">Rellenos<small>Dra. Paz</small></div></div><div class="r-c r-x"></div><div class="r-c"><div class="r-cita r-a">Masaje<small>Box 3</small></div></div><div class="r-c"></div><div class="r-c r-x"></div>
+                  <div class="r-t">16:30</div><div class="r-c"></div><div class="r-c r-x"><div class="r-cita r-b">Láser<small>Box 2</small></div></div><div class="r-c"></div><div class="r-c" id="r-celdaNueva"><div class="r-cita r-nueva">Valentina R.<small>Evaluación · Facial 360</small></div></div><div class="r-c r-x"></div>
+                </div>
+              </div>
+
+              <div class="r-pant" data-pant="pago">
+                <div class="r-tarjeta">
+                  <p class="r-mono" style="margin-bottom:10px">Link de pago · Evaluación</p>
+                  <div class="r-fila"><span>Paciente</span><b>Valentina R.</b></div>
+                  <div class="r-fila"><span>Cita</span><b>Jueves 16:30</b></div>
+                  <div class="r-fila"><span>Monto</span><b>$20.000</b></div>
+                  <div class="r-estado"><span class="r-check">✓</span> Pagada</div>
+                </div>
+              </div>
+
+              <div class="r-pant" data-pant="ficha">
+                <div class="r-ficha">
+                  <div class="r-bloque r-ancho"><b>Valentina R. · 34 años</b><span>Evaluación Facial 360 · Dra. Paz · Jueves 16:30 · Pagada</span></div>
+                  <div class="r-bloque"><b>Antecedentes</b><span>Sin alergias. Botox hace 8 meses.</span></div>
+                  <div class="r-bloque"><b>Consentimiento</b><span>Firmado por WhatsApp ✓</span></div>
+                  <div class="r-bloque r-ancho"><b>Plan propuesto</b><span>Facial 360: botox, vitaminas, HIFU y masaje. 3 sesiones.</span></div>
+                </div>
+              </div>
+
+              <div class="r-pant" data-pant="metricas">
+                <div class="r-kpis">
+                  <div class="r-kpi"><b>$4,8M</b><em>+18%</em><span>Vendido esta semana</span></div>
+                  <div class="r-kpi"><b>126</b><em>+32%</em><span>Citas agendadas</span></div>
+                  <div class="r-kpi"><b>4%</b><em>−6 pts</em><span>Inasistencias</span></div>
+                </div>
+                <div class="r-barras"><i style="--h:40%"></i><i style="--h:55%"></i><i style="--h:48%"></i><i style="--h:70%"></i><i style="--h:62%"></i><i style="--h:88%"></i><i style="--h:100%"></i></div>
+                <div class="r-resumen"><svg viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true"><path class="r-trazo" id="r-trazoRes" style="--len:1000" stroke="url(#gtrazo)" d="M20 8 C 140 0, 300 2, 388 10 C 400 40, 398 80, 384 94 C 260 102, 120 100, 14 92 C 2 70, 4 30, 30 6"/></svg><b>Clinera Intelligence:</b> El Facial 360 fue tu tratamiento más vendido. Los pacientes que pagaron la evaluación asistieron 9 de cada 10 veces.</div>
+              </div>
+
+              <div class="r-cursor r-aura" id="r-curAura"><svg viewBox="0 0 24 24"><path d="M4 2l16 9-7 2-3 7z"/></svg><span>AURA · IA</span></div>
+              <div class="r-cursor r-dra" id="r-curDra" style="opacity:0"><svg viewBox="0 0 24 24"><path d="M4 2l16 9-7 2-3 7z"/></svg><span>Dra. Paz</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap r-fin">
+    <p>Esto mismo, con tus pacientes. Pruébalo 7 días sin tarjeta.</p>
+    <button class="btn grad btn-gratis" type="button" data-abrir-cuenta data-elegir="vortex">Actívalo en tu clínica <span class="gratis-chip">GRATIS</span></button>
+  </div>
+</section>
+
 
 <section class="sec medico" id="funciones" data-testid="kimi-medico" aria-labelledby="t-fun">
   <div class="wrap medico-grid">
@@ -1321,7 +1531,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 <section class="tienda" id="planes" aria-labelledby="t-planes" data-testid="kimi-gratis-planes">
   <div class="wrap">
     <p class="eyebrow">Demo de 7 días</p>
-    <h2 id="t-planes">Pruébalos <span class="grad-txt">GRATIS</span> 7 días</h2>
+    <h2 id="t-planes">Pruébalos <span class="marca-mano"><span class="grad-txt">GRATIS</span><svg viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><path class="r-trazo" style="--len:1100" stroke="url(#gtrazo)" d="M40 26 C 140 4, 330 6, 380 36 C 410 62, 380 104, 270 112 C 170 120, 40 112, 14 84 C -6 60, 20 30, 110 18"/></svg></span> 7 días</h2>
     <p class="lead">Usas Clinera 7 días. Después, dentro de la plataforma, eliges el plan, sin compromiso.</p>
     <p class="sin-tarjeta"><span>✓ Sin tarjeta de crédito</span><span>✓ Sin costo de implementación</span></p>
     <div class="planes3">
@@ -1379,7 +1589,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
 <section class="sec cta-band" id="comenzar" aria-labelledby="t-act">
   <div class="wrap">
     <p class="eyebrow rv">Comenzar</p>
-    <h2 id="t-act" class="rv" style="--i:1">Crea tu cuenta <span class="gratis-xl">gratis</span></h2>
+    <h2 id="t-act" class="rv" style="--i:1">Crea tu cuenta <span class="marca-mano"><span class="gratis-xl">gratis</span><svg viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><path class="r-trazo" style="--len:1100" stroke="url(#gtrazo)" d="M40 26 C 140 4, 330 6, 380 36 C 410 62, 380 104, 270 112 C 170 120, 40 112, 14 84 C -6 60, 20 30, 110 18"/></svg></span></h2>
     <p class="lead rv" style="--i:2">7 días para hacer crecer tu clínica con IA. No pierdes nada: sin tarjeta de crédito y sin costo de implementación.</p>
     <div class="cta par rv" style="--i:3">
       <button class="btn grad btn-gratis" type="button" data-abrir-cuenta data-elegir="vortex">Crea tu cuenta <span class="gratis-chip">GRATIS</span></button>
@@ -2662,6 +2872,58 @@ h1,h2,h3{font-weight:800;letter-spacing:-.035em}
       if(c&&!c.value){ c.value=nombre; c.dispatchEvent(new Event("input",{bubbles:true})); }
     },60);
   });
+})();
+</script>
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('r-ver','r-dibujado');io.unobserve(e.target)}})},{threshold:.25});
+  document.querySelectorAll('.r-aparece,.marca-mano').forEach(function(el){io.observe(el)});
+  setTimeout(function(){var h=document.getElementById('marca-hero');if(h)h.classList.add('r-dibujado');var c=document.getElementById('hero-cta');if(c)c.classList.add('r-dibujado')},700);
+  // En el celular la tarjeta flotante tapa los pasos del relato: se esconde mientras se ve.
+  var barraR=document.getElementById('mobile-cta'),relR=document.getElementById('r-pasos');
+  if(barraR&&relR&&matchMedia('(max-width:900px)').matches){new IntersectionObserver(function(en){barraR.classList.toggle('mcta-relato',en[0].isIntersecting)},{threshold:0}).observe(relR)}
+  // Relato con scroll
+  var pantallas={0:'chat',1:'chat',2:'chat',3:'agenda',4:'pago',5:'ficha',6:'metricas'};
+  var titulos={chat:['Conversaciones','Bandeja · 3 canales'],agenda:['Agenda','Semana · 3 profesionales'],pago:['Pagos','Mercado Pago · Stripe'],ficha:['Ficha clínica','Valentina R.'],metricas:['Clinera Intelligence','Esta semana']};
+  var chatHasta={0:0,1:3,2:5};
+  var curAura=document.getElementById('r-curAura'),curDra=document.getElementById('r-curDra'),ven=document.getElementById('r-ventana');
+  var timers=[];
+  function limpiar(){timers.forEach(clearTimeout);timers=[]}
+  function mover(cur,x,y,vis){cur.style.transform='translate('+x+'px,'+y+'px)';cur.style.opacity=vis?1:0}
+  function posDe(sel,dx,dy){var el=ven.querySelector(sel);if(!el)return[40,40];var r=el.getBoundingClientRect(),b=ven.querySelector('.r-cuerpo').getBoundingClientRect();return[r.left-b.left+(dx||r.width*.6),r.top-b.top+(dy||r.height*.6)]}
+  function chat(hasta){
+    var ms=ven.querySelectorAll('#relato [data-m]');
+    ms.forEach(function(m){var i=+m.dataset.m;m.classList.remove('r-ver')});
+    var t=0;
+    ms.forEach(function(m){var i=+m.dataset.m;if(i>hasta)return;
+      if(m.classList.contains('r-escribe')){timers.push(setTimeout(function(){m.classList.add('r-ver')},t));t+=reduce?0:900;timers.push(setTimeout(function(){m.classList.remove('r-ver')},t));return}
+      timers.push(setTimeout(function(){m.classList.add('r-ver')},t));t+=reduce?0:550});
+  }
+  var actual=-1;
+  function ir(n){
+    if(n===actual)return;actual=n;limpiar();
+    document.querySelectorAll('#relato .r-paso').forEach(function(p){p.classList.toggle('r-on',+p.dataset.paso===n)});
+    var p=pantallas[n];
+    ven.querySelectorAll('#relato .r-pant').forEach(function(el){el.classList.toggle('r-on',el.dataset.pant===p)});
+    document.getElementById('r-barraTit').firstChild.nodeValue=titulos[p][0]+' ';
+    document.getElementById('r-barraMeta').textContent=titulos[p][1];
+    ven.style.transform=n===3||n===6?'scale(1.03)':'none';
+    document.getElementById('r-trazoRes').parentNode.parentNode.classList.toggle('r-dibujado',p==='metricas');
+    if(p==='metricas'){var tr=document.getElementById('r-trazoRes');tr.style.animation='none';void tr.offsetWidth;tr.style.animation=''}
+    timers.push(setTimeout(function(){
+      if(p==='chat'){chat(chatHasta[n]);var s=n===0?'[data-m="0"]':n===1?'[data-m="2"]':'.r-horas .r-sel';timers.push(setTimeout(function(){var q=posDe(s);mover(curAura,q[0],q[1],n>0);mover(curDra,0,0,false)},n===0?200:1400))}
+      if(p==='agenda'){var q=posDe('#r-celdaNueva');mover(curAura,q[0],q[1],true);mover(curDra,30,200,false)}
+      if(p==='pago'){var q=posDe('.r-check',16,16);mover(curAura,q[0],q[1],true)}
+      if(p==='ficha'){var q=posDe('.r-ficha .r-ancho:last-child',120,30);mover(curAura,q[0]+80,q[1]-90,false);mover(curDra,q[0],q[1],true)}
+      if(p==='metricas'){var q=posDe('.r-resumen',200,40);mover(curAura,q[0],q[1],true);mover(curDra,0,0,false)}
+    },120));
+  }
+  var pasos=document.querySelectorAll('#relato .r-paso');
+  var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)ir(+e.target.dataset.paso)})},{rootMargin:'-45% 0px -45% 0px'});
+  pasos.forEach(function(p){io2.observe(p)});
+  ir(0);
+
 })();
 </script>
 </body>
