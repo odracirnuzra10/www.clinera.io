@@ -64,7 +64,17 @@ export default function StickyMobileCTA() {
     return () => io.disconnect();
   }, [pathname]);
 
-  if (!enabled || dismissed || !scrolledPast || demoALaVista) return null;
+  // En el celular tampoco puede tapar los pasos del relato con scroll del home (19-nov-2026).
+  const [relatoALaVista, setRelatoALaVista] = useState(false);
+  useEffect(() => {
+    const pasos = document.querySelector("#r-pasos");
+    if (!pasos || !("IntersectionObserver" in window) || !window.matchMedia("(max-width: 900px)").matches) return;
+    const io = new IntersectionObserver((en) => setRelatoALaVista(en[0].isIntersecting), { threshold: 0 });
+    io.observe(pasos);
+    return () => io.disconnect();
+  }, [pathname]);
+
+  if (!enabled || dismissed || !scrolledPast || demoALaVista || relatoALaVista) return null;
 
   const dismiss = () => {
     sessionStorage.setItem("sticky-cta-dismissed", "1");
