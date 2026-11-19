@@ -28,8 +28,8 @@ test.describe("sitio de dos productos", () => {
   test("el home del software: hero, logos, prueba gratis, funciones, demo, planes, testimonios, blog, preguntas y cierre", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
     const body = page.locator("body");
-    // Ricardo, 7-nov-2026: el home ya no muestra cifras (IA · Redes sociales · Agenda por profesional).
-    await expect(page.locator("[data-home2-incluye]")).toHaveCount(3);
+    // Ricardo, 19-nov-2026: el home es «La nueva forma de atender tu clínica», con la caja de logos reales.
+    await expect(page.locator('[data-home2="marcas"]')).toHaveCount(1);
     await expect(body).not.toContainText("+52 clínicas activas");
     await expect(body).not.toContainText("+500 profesionales");
     await expect(body).not.toContainText("Coordina todo tu equipo");
@@ -40,8 +40,7 @@ test.describe("sitio de dos productos", () => {
     await expect(page.locator("#faq")).toContainText("¿Cómo funciona la prueba gratis?");
     // Ricardo, 7-nov-2026: sin PMFC ni casos de campañas (escondidos con HOME2_MOSTRAR).
     await expect(page.locator('[data-home2="pmfc"], [data-home2="casos"]')).toHaveCount(0);
-    await expect(page.locator("[data-home2-paso]")).toHaveCount(3);
-    await expect(page.locator("[data-home2-post]")).toHaveCount(3);
+    await expect(page.locator('[data-home2="relato"] .paso')).toHaveCount(7);
   });
 
   test("Vortex incluye Clinera Intelligence, el agente interno", () => {
