@@ -18,13 +18,13 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
 
   // Ricardo, 7-nov-2026: el home y /planes muestran la prueba gratis con Flux, Hex y Xcale. El único
   // link de pago es «o paga Xcale ahora» (US$ 149), pelado y con data-plan* para Analytics.tsx.
-  test("el home solo lleva el link de pago de Xcale", async ({ page }) => {
+  // Ricardo, 19-nov-2026: el home nuevo («La nueva forma…») no lleva link de pago: todo va a la prueba gratis.
+  // El «o paga Xcale ahora» sigue en /planes.
+  test("el home no lleva link de pago, solo la prueba gratis", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    const pagos = page.locator('main a[href*="buy.stripe.com"]');
-    await expect(pagos).toHaveCount(1);
-    await expect(pagos).toHaveAttribute("href", XCALE_PAGO_URL);
-    await expect(pagos).toHaveAttribute("data-plan", "xcale");
-    await expect(pagos).toHaveAttribute("data-plan-value", "149");
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(0);
+    await expect(page.locator("main a[data-cta-registro]").first()).toBeAttached();
+    expect(XCALE_PAGO_URL).toContain("buy.stripe.com");
   });
 
   test("/planes: prueba gratis y Flux, Hex y Xcale", async ({ page }) => {

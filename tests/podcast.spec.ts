@@ -175,12 +175,16 @@ test.describe("Clinera Podcast: hub + capítulo 1", () => {
     await expect(footerPodcast).toBeVisible();
     await expect(page.locator('header a[href="/podcast"]')).toHaveCount(0);
     await expect(page.getByRole("link", { name: /ver demo 3 min/i })).toHaveCount(0);
+    // Ricardo, 19-nov-2026: el home nuevo no trae el video de la demo; sigue en /plataforma.
+    await expect(page.locator("#demo-3-min")).toHaveCount(0);
+    await expect(page.locator("footer iframe")).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "Ver demo", exact: true })).toHaveCount(0);
+    await page.goto("/plataforma");
     await expect(page.locator("#demo-3-min iframe")).toHaveAttribute(
       "src",
       /player\.vimeo\.com\/video\/1229275734.*speed=1/,
     );
-    await expect(page.locator("footer iframe")).toHaveCount(0);
-    await expect(page.getByRole("link", { name: "Ver demo", exact: true })).toHaveCount(0);
+    await page.goto("/");
     await footerPodcast.click();
     await page.waitForURL(/\/podcast$/);
     await expect(
