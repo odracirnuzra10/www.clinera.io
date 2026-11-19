@@ -1727,3 +1727,13 @@ que se escriben solas.** Todo nuevo diseño de Clinera (páginas, landings, piez
 planes y «gratis» del cierre, flecha al botón del hero y el relato con scroll (`#relato`, clases con prefijo `r-` para no
 chocar con las de la landing) después de las tarjetas IA / redes / agenda, cerrando con «Actívalo en tu clínica GRATIS».
 En el celular la tarjeta flotante se esconde mientras se ven los pasos (`mcta-relato`). Todo lo demás de la landing no cambió.
+
+# El home (`/`) lleva el formato Clinera × heymark (Ricardo, 19-nov-2026)
+
+Al ver `/home2` Ricardo pidió el diseño nuevo en el home. Se hizo sin perder lo que el home tenía (JSON-LD, FAQ, blog,
+video, historia, fundador, convenio y el menú del sitio): `Home2.tsx` suma el círculo dibujado en «Prueba gratis» del
+titular y en «gratis» del cierre (`src/components/formato/MarcaMano.tsx`) y, después del testimonio en video, el relato
+con scroll (`src/components/formato/Relato.tsx`). `Relato.tsx` es el mismo bloque `#relato` de `/prueba-gratis` (clases
+`r-`), generado como HTML + un script que corre una vez; su botón final es un enlace `data-cta-registro` que intercepta
+`RegistroModal` (va directo a app.clinera.io). En el celular `StickyMobileCTA` se esconde mientras se ven los pasos
+(`#r-pasos`). `/home2` sigue siendo la página estática de vista previa.

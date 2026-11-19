@@ -7,6 +7,8 @@ import { Faq, Testimonios } from "@/components/home-v3/sections";
 import PlanesTrial from "@/components/planes-trial/PlanesTrial";
 import FranjaPulso from "@/components/franja/FranjaPulso";
 import DemoViva from "./DemoViva";
+import MarcaMano from "@/components/formato/MarcaMano";
+import Relato from "@/components/formato/Relato";
 import { allPosts } from "@/content/posts";
 import { CtaRegistro, CtaAsistencia } from "@/components/cta/CtaPar";
 import {
@@ -173,7 +175,14 @@ export default function Home2() {
           <div className={s.heroTexto}>
             <p className={s.eyebrow}>{HOME2_HERO.eyebrow}</p>
             <h1 className={s.h1}>
-              {HOME2_HERO.titulo}{" "}
+              {HOME2_HERO.titulo.startsWith("Prueba gratis") ? (
+                <>
+                  <MarcaMano>Prueba gratis</MarcaMano>
+                  {HOME2_HERO.titulo.slice("Prueba gratis".length)}
+                </>
+              ) : (
+                HOME2_HERO.titulo
+              )}{" "}
               <span className={s.grad}>{HOME2_HERO.tituloAcento}</span>
             </h1>
             <p className={s.bajada}>{HOME2_HERO.bajada}</p>
@@ -206,6 +215,8 @@ export default function Home2() {
       <IncluyeClinera />
       <MarcasCaja />
       <TestimonioVideo />
+      {/* Formato Clinera × heymark (19-nov-2026): relato con scroll, igual que /home2 y /prueba-gratis. */}
+      <Relato />
 
       <section className={s.bloque} id="funciones" data-home2="funciones">
         <p className={s.eyebrow}>{HOME2_FUNCIONES.eyebrow}</p>
@@ -456,7 +467,16 @@ export default function Home2() {
       </section>
 
       <section className={`${s.bloque} ${s.cierre}`} data-home2="cierre">
-        <h2 className={s.h2}>{HOME2_CIERRE.titulo}</h2>
+        <h2 className={s.h2}>
+          {HOME2_CIERRE.titulo.endsWith("gratis") ? (
+            <>
+              {HOME2_CIERRE.titulo.slice(0, -"gratis".length)}
+              <MarcaMano>gratis</MarcaMano>
+            </>
+          ) : (
+            HOME2_CIERRE.titulo
+          )}
+        </h2>
         <p className={s.bajada}>{HOME2_CIERRE.texto}</p>
         <Cta donde="cierre" />
       </section>
