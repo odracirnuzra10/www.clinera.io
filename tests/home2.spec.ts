@@ -1,5 +1,5 @@
 // Home (Ricardo, 26-oct-2026): el borrador /home2 pasó a ser `/`, con el degradé del hero
-// anterior. /home2 redirige al home. Contenido en src/content/home2.ts.
+// anterior. /home2 muestra la vista previa /home-mix (19-nov-2026). Contenido en src/content/home2.ts.
 
 import { expect, test } from "@playwright/test";
 
@@ -106,12 +106,11 @@ test("home: prueba gratis, funciones, blog, historia y fundador", async ({ page 
   );
 });
 
-test("home: /home2 redirige al home", async ({ page }) => {
-  await page.route(/connect\.facebook\.net|googletagmanager/, (route) =>
-    route.abort(),
-  );
+test("home: /home2 muestra la vista previa del home mezclado (19-nov-2026)", async ({ page }) => {
   await page.goto("/home2", { waitUntil: "domcontentloaded" });
-  expect(new URL(page.url()).pathname).toBe("/");
+  expect(new URL(page.url()).pathname).toBe("/home2");
+  await expect(page.locator("h1")).toContainText("La nueva forma de");
+  await expect(page.locator(".paso")).toHaveCount(7);
 });
 
 test("home: en el celular no hay scroll horizontal", async ({ page }) => {

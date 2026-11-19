@@ -1713,5 +1713,5 @@ sitemap). Mezcla nuestra marca (blanco, degradado azul → violeta → magenta, 
 recursos de heymark.ai: trazos a mano que se dibujan solos (círculo en el titular y en «7 días gratis»), íconos de
 canales y modelos de IA flotando, relato con scroll (pasos a la izquierda, una pantalla fija de Clinera a la derecha
 que cambia: chat → agenda → pago → ficha → Intelligence) con cursores con nombre («AURA · IA», «Dra. Paz») y
-tarjetas oscuras con la pregunta que se escribe sola. Cifras y pacientes de las pantallas son de ejemplo. No reemplaza
+tarjetas oscuras con la pregunta que se escribe sola. También se ve en `/home2` (rewrite al mismo archivo, 19-nov-2026; antes `/home2` redirigía a `/` con un 308, que algunos navegadores recuerdan: si alguien ve el home, que abra `/home2` en una ventana privada). Cifras y pacientes de las pantallas son de ejemplo. No reemplaza
 `/` hasta que Ricardo apruebe; los precios están escritos a mano (Flux 79 · Hex 129 · Xcale 149).

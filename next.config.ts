@@ -320,6 +320,11 @@ const nextConfig: NextConfig = {
         source: '/home-mix',
         destination: '/home-mix/index.html',
       },
+      // /home2 muestra la misma vista previa (Ricardo, 19-nov-2026). Antes redirigía a /.
+      {
+        source: '/home2',
+        destination: '/home-mix/index.html',
+      },
       // Prueba de la demo de 7 días. Desde el 6-nov-2026 también se sirve en /contrata.
       {
         source: '/kimi-gratis',
