@@ -1705,3 +1705,13 @@ app.clinera.io manda `tutorial_completed` al webhook `clinera-app-eventos`. n8n 
 `Tutorial` US$ 15, una vez por cuenta, entre Trial (10) y Uso real (20). A Loops lo manda como `tutorial`, con
 `tutorialCompletado: true`. Sigue la misma regla que Uso real: hasta que la app mande el aviso no sale nada. Aplicado al vivo el 16-nov.
 Guardián: `tests/clinera-app-eventos.spec.ts`.
+
+# `/home-mix`: vista previa del home con recursos de heymark.ai (Ricardo, 19-nov-2026)
+
+Página estática `public/home-mix/index.html` (rewrite en `next.config.ts`, `noindex`, en `robots-txt.ts`, fuera del
+sitemap). Mezcla nuestra marca (blanco, degradado azul → violeta → magenta, Plus Jakarta Sans + Geist Mono) con
+recursos de heymark.ai: trazos a mano que se dibujan solos (círculo en el titular y en «7 días gratis»), íconos de
+canales y modelos de IA flotando, relato con scroll (pasos a la izquierda, una pantalla fija de Clinera a la derecha
+que cambia: chat → agenda → pago → ficha → Intelligence) con cursores con nombre («AURA · IA», «Dra. Paz») y
+tarjetas oscuras con la pregunta que se escribe sola. Cifras y pacientes de las pantallas son de ejemplo. No reemplaza
+`/` hasta que Ricardo apruebe; los precios están escritos a mano (Flux 79 · Hex 129 · Xcale 149).

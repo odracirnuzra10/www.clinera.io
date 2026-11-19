@@ -84,6 +84,7 @@ const STAR_DISALLOW = [
   "/nace",
   "/home2",
   "/home-nuevo",
+  "/home-mix",
   "/go$",
   "/go/",
   "/*?utm_*",

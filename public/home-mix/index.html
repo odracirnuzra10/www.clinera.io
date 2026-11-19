@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clinera · vista previa del home</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Geist+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Vista previa (Ricardo, 19-nov-2026): home de Clinera mezclado con recursos de heymark.ai.
+   Nuestro: blanco, degradado azul → violeta → magenta, display pesada + mono en metadata.
+   De ellos: trazos a mano que se dibujan solos, iconos flotando alrededor del titular,
+   relato con scroll (texto a la izquierda, pantalla fija a la derecha que cambia),
+   cursores con nombre y tarjetas oscuras con texto que se escribe solo. */
+:root{
+  --ink:#0B0B12;--ink2:#3F4351;--ink3:#6B7080;--line:#ECEDF2;--soft:#F7F7FA;
+  --a:#3B82F6;--b:#7C3AED;--c:#D946EF;
+  --grad:linear-gradient(100deg,#3B82F6 0%,#7C3AED 50%,#D946EF 100%);
+  --r:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.mono{font-family:"Geist Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.grad-txt{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;border-radius:999px;font-weight:700;font-size:16px;border:0;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn-grad{background:var(--grad);color:#fff;box-shadow:0 10px 30px -10px rgba(124,58,237,.55)}
+.btn-grad:hover{transform:translateY(-2px);box-shadow:0 16px 36px -12px rgba(124,58,237,.65)}
+.btn-line{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.btn-line:hover{border-color:#D9DAE3}
+.btn-sm{height:40px;padding:0 18px;font-size:14px}
+.chip-gratis{font-family:"Geist Mono",monospace;font-size:11px;letter-spacing:.06em;background:rgba(255,255,255,.22);padding:4px 8px;border-radius:999px}
+
+/* Nav */
+nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
+nav.scrolled{border-bottom-color:var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
+.nav-l{display:flex;align-items:center;gap:36px}
+.nav-l img{height:26px;display:block}
+.nav-links{display:flex;gap:26px;font-size:15px;color:var(--ink2);font-weight:500}
+.nav-links a:hover{color:var(--ink)}
+.nav-r{display:flex;align-items:center;gap:18px;font-size:15px;font-weight:500;color:var(--ink2)}
+
+/* Hero */
+.hero{position:relative;text-align:center;padding:110px 0 70px}
+.hero::before{content:"";position:absolute;inset:-120px 0 auto;height:620px;z-index:-1;
+  background:radial-gradient(40% 50% at 30% 30%,rgba(59,130,246,.13),transparent 70%),radial-gradient(40% 50% at 70% 25%,rgba(217,70,239,.12),transparent 70%),radial-gradient(35% 45% at 50% 60%,rgba(124,58,237,.10),transparent 70%)}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;margin-bottom:28px}
+.eyebrow .dot{width:8px;height:8px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 4px rgba(34,197,94,.15);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(34,197,94,0)}}
+h1{text-wrap:balance;font-size:clamp(38px,7.4vw,96px);line-height:.98;letter-spacing:-.045em;font-weight:800;max-width:1000px;margin:0 auto}
+.marca{position:relative;display:inline-block;white-space:nowrap}
+.marca svg{position:absolute;left:-4%;top:-14%;width:108%;height:132%;overflow:visible;pointer-events:none}
+.trazo{fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:var(--len,1400);stroke-dashoffset:var(--len,1400)}
+.dibujado .trazo{animation:dibujar 1.4s cubic-bezier(.65,0,.35,1) forwards}
+@keyframes dibujar{to{stroke-dashoffset:0}}
+.sub{max-width:620px;margin:30px auto 36px;font-size:20px;line-height:1.55;color:var(--ink2)}
+.ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.nota{margin-top:18px;font-size:14px;color:var(--ink3);display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+
+/* Iconos flotando (canales + modelos de IA) */
+.flota{position:absolute;right:-70px;top:-96px;width:250px;height:150px}
+.flota .ic{position:absolute;width:48px;height:48px;border-radius:50%;background:#fff;border:1px solid var(--line);box-shadow:0 8px 20px -10px rgba(16,16,40,.25);display:grid;place-items:center;opacity:0;transform:translateY(12px) scale(.8)}
+.flota .ic svg,.flota .ic img{width:24px;height:24px}
+.flota.ver .ic{animation:entra .55s cubic-bezier(.2,.9,.3,1.3) forwards,flotar 5s ease-in-out infinite}
+@keyframes entra{to{opacity:1;transform:none}}
+@keyframes flotar{50%{translate:0 -6px}}
+.flota .mas{position:absolute;left:118px;top:58px;font-weight:600;color:var(--ink3)}
+.flecha-hero{position:absolute;left:-30px;top:120px;width:120px;height:110px;overflow:visible}
+.flecha-baja{display:block;margin:60px auto 0;width:28px;height:70px;overflow:visible}
+@media (max-width:1360px){.flota{position:relative;right:auto;top:auto;margin:0 auto 26px;width:250px}.flecha-hero{display:none}}
+
+/* Logos */
+.logos{padding:30px 0 80px;text-align:center}
+.logos .fila{display:flex;gap:56px;justify-content:center;flex-wrap:wrap;margin-top:22px;font-weight:700;font-size:20px;color:#B6B9C6;letter-spacing:-.02em}
+
+/* Relato con scroll */
+.relato{padding:40px 0 60px}
+.relato-tit{max-width:760px;margin-bottom:70px}
+h2{font-size:clamp(34px,5vw,60px);line-height:1.02;letter-spacing:-.04em;font-weight:800}
+.relato-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;align-items:start}
+.pasos{padding:10vh 0 30vh}
+.paso{min-height:62vh;display:flex;gap:18px;align-items:flex-start;padding-top:8vh;opacity:.22;transition:opacity .45s}
+.paso.on{opacity:1}
+.paso .gota{flex:none;width:34px;height:34px;margin-top:4px}
+.paso h3{font-size:clamp(26px,2.6vw,36px);line-height:1.08;letter-spacing:-.03em;font-weight:800}
+.paso p{margin-top:14px;font-size:18px;line-height:1.55;color:var(--ink2);max-width:420px}
+.escena{position:sticky;top:96px;height:calc(100vh - 130px);min-height:560px;display:flex;align-items:center}
+.lienzo{position:relative;width:100%;height:100%;max-height:640px;border-radius:28px;overflow:hidden;
+  background:radial-gradient(60% 60% at 20% 10%,rgba(59,130,246,.18),transparent 70%),radial-gradient(60% 60% at 90% 90%,rgba(217,70,239,.18),transparent 70%),linear-gradient(160deg,#F5F3FF,#FDF4FF 60%,#EFF6FF)}
+.lienzo::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(124,58,237,.10) 1px,transparent 1px);background-size:22px 22px;pointer-events:none}
+.ventana{position:absolute;inset:7% 6%;background:#fff;border-radius:18px;box-shadow:0 30px 60px -30px rgba(40,20,90,.35),0 0 0 1px rgba(16,16,40,.05);overflow:hidden;display:flex;transition:transform .8s cubic-bezier(.65,0,.35,1)}
+.lado{width:58px;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:16px;padding-top:18px}
+.lado i{width:22px;height:22px;border-radius:7px;background:#F1F1F6;display:block}
+.lado i.act{background:var(--grad)}
+.cuerpo{flex:1;position:relative}
+.barra{height:52px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 20px;gap:12px;font-weight:700;font-size:14px}
+.barra .mono{margin-left:auto;font-size:10.5px}
+.pant{position:absolute;inset:52px 0 0;padding:20px;opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s;pointer-events:none}
+.pant.on{opacity:1;transform:none}
+
+/* Pantalla: chat */
+.chat{display:flex;flex-direction:column;gap:10px;max-width:440px}
+.msg{max-width:78%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.45;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
+.msg.ver{opacity:1;transform:none}
+.msg.pac{background:#F1F1F6;border-bottom-left-radius:4px;align-self:flex-start}
+.msg.ia{background:var(--grad);color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+.horas{display:flex;gap:8px;flex-wrap:wrap;align-self:flex-end;opacity:0;transition:opacity .4s}
+.horas.ver{opacity:1}
+.horas span{border:1.5px solid #DDD6FE;color:var(--b);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;background:#fff}
+.horas span.sel{background:var(--b);color:#fff;border-color:var(--b)}
+.escribe{align-self:flex-end;display:none;gap:4px;padding:12px 14px;background:#F5F3FF;border-radius:14px}
+.escribe.ver{display:flex}
+.escribe b{width:6px;height:6px;border-radius:50%;background:var(--b);animation:bote 1s infinite}
+.escribe b:nth-child(2){animation-delay:.15s}.escribe b:nth-child(3){animation-delay:.3s}
+@keyframes bote{50%{transform:translateY(-4px);opacity:.5}}
+.canal{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink3);margin-bottom:6px}
+.canal svg{width:16px;height:16px}
+
+/* Pantalla: agenda */
+.agenda{display:grid;grid-template-columns:54px repeat(5,1fr);gap:0;font-size:12px}
+.agenda .h{padding:6px;color:var(--ink3);font-weight:600;border-bottom:1px solid var(--line)}
+.agenda .t{padding:10px 6px;color:var(--ink3);font-family:"Geist Mono",monospace;font-size:10.5px}
+.agenda .c{border-left:1px solid var(--line);border-bottom:1px solid #F4F4F8;min-height:46px;position:relative;padding:3px}
+.cita{border-radius:8px;padding:5px 7px;font-size:11px;font-weight:700;line-height:1.25}
+.cita small{display:block;font-weight:500;opacity:.8}
+.cita.a{background:#EFF6FF;color:#1D4ED8}.cita.b{background:#FDF4FF;color:#A21CAF}.cita.c{background:#F5F3FF;color:#6D28D9}
+.cita.nueva{background:var(--grad);color:#fff;box-shadow:0 8px 20px -8px rgba(124,58,237,.6);transform:scale(.6);opacity:0;transition:transform .5s cubic-bezier(.2,.9,.3,1.4),opacity .3s}
+.pant.on .cita.nueva{transform:none;opacity:1;transition-delay:.6s}
+
+/* Pantalla: pago */
+.tarjeta{max-width:380px;margin:20px auto;border:1px solid var(--line);border-radius:16px;padding:22px}
+.tarjeta .fila{display:flex;justify-content:space-between;font-size:14px;padding:9px 0;border-bottom:1px solid #F4F4F8}
+.tarjeta .fila:last-of-type{border:0}
+.estado{margin-top:16px;display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+.check{width:30px;height:30px;border-radius:50%;background:#22C55E;color:#fff;display:grid;place-items:center;transform:scale(0);transition:transform .5s cubic-bezier(.2,.9,.3,1.5) .5s}
+.pant.on .check{transform:scale(1)}
+
+/* Pantalla: ficha */
+.ficha{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ficha .bloque{border:1px solid var(--line);border-radius:12px;padding:12px}
+.ficha .bloque b{display:block;font-size:13px;margin-bottom:6px}
+.ficha .bloque span{display:block;font-size:12px;color:var(--ink2);line-height:1.5}
+.ficha .ancho{grid-column:1/-1}
+
+/* Pantalla: métricas */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.kpi{border:1px solid var(--line);border-radius:14px;padding:14px}
+.kpi b{display:block;font-size:26px;letter-spacing:-.03em}
+.kpi em{font-style:normal;font-size:12px;font-weight:700;color:#16A34A}
+.kpi span{display:block;font-size:12px;color:var(--ink3);margin-top:2px}
+.resumen{position:relative;margin-top:16px;border-radius:14px;padding:16px;background:var(--soft);font-size:14px;line-height:1.55}
+.resumen svg{position:absolute;inset:-8px -6px;width:calc(100% + 12px);height:calc(100% + 16px);overflow:visible}
+.barras{display:flex;align-items:flex-end;gap:10px;height:90px;margin-top:16px}
+.barras i{flex:1;border-radius:6px 6px 0 0;background:linear-gradient(180deg,#A78BFA,#DDD6FE);height:0;transition:height .8s cubic-bezier(.2,.8,.2,1)}
+.pant.on .barras i{height:var(--h)}
+
+/* Cursores con nombre */
+.cursor{position:absolute;left:0;top:0;z-index:5;transition:transform .9s cubic-bezier(.65,0,.35,1),opacity .3s;pointer-events:none}
+.cursor svg{width:18px;height:18px;display:block}
+.cursor span{position:absolute;left:14px;top:14px;white-space:nowrap;font-size:11.5px;font-weight:700;color:#fff;padding:3px 9px;border-radius:999px}
+.cursor.aura span{background:var(--b)}.cursor.aura svg{fill:var(--b)}
+.cursor.dra span{background:#0EA5E9}.cursor.dra svg{fill:#0EA5E9}
+
+/* Tarjetas oscuras */
+.preg{padding:100px 0}
+.preg .intro{max-width:720px;margin-bottom:48px}
+.preg .intro p{margin-top:18px;font-size:19px;line-height:1.55;color:var(--ink2)}
+.oscuras{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.oscura{border-radius:24px;padding:46px 36px;min-height:330px;color:#fff;position:relative;overflow:hidden}
+.oscura.uno{background:#13111C}
+.oscura.dos{background:#0B0B12}
+.oscura.uno::before{content:"";position:absolute;inset:auto -20% -60% -20%;height:80%;background:radial-gradient(50% 50% at 50% 50%,rgba(124,58,237,.35),transparent 70%)}
+.oscura h4{position:relative;text-align:center;font-size:28px;font-weight:600;letter-spacing:-.02em}
+.caja-prompt{position:relative;margin-top:28px;background:#22202C;border:1px solid #2F2C3B;border-radius:18px;padding:18px 18px 54px;font-size:16px;min-height:110px}
+.caja-prompt .cursorcito{display:inline-block;width:2px;height:18px;background:#fff;vertical-align:-3px;animation:parpadeo 1s steps(1) infinite}
+@keyframes parpadeo{50%{opacity:0}}
+.caja-prompt .env{position:absolute;right:14px;bottom:12px;width:32px;height:32px;border-radius:50%;background:var(--grad);display:grid;place-items:center}
+.respuesta{position:relative;margin-top:16px;font-size:15px;line-height:1.55;color:#C9C6D6;opacity:0;transition:opacity .5s}
+.respuesta.ver{opacity:1}
+.respuesta b{color:#fff}
+.modelos{position:relative;display:flex;gap:8px;justify-content:center;align-items:center;margin-top:22px;font-size:13px;color:#8E8AA0}
+.modelos img{width:22px;height:22px;background:#fff;border-radius:50%;padding:3px}
+
+/* Testimonio */
+.testi{padding:40px 0 100px}
+.testi-card{display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;background:var(--soft);border-radius:28px;padding:40px}
+.testi-card img{width:150px;height:150px;border-radius:50%;object-fit:cover}
+.testi-card blockquote{font-size:clamp(24px,2.6vw,34px);line-height:1.2;letter-spacing:-.03em;font-weight:800}
+.testi-card .quien{margin-top:16px;font-size:15px;color:var(--ink2)}
+
+/* Planes */
+.planes{padding:60px 0 110px;text-align:center}
+.planes h2{max-width:800px;margin:0 auto}
+.planes .marca svg{top:-22%;height:150%}
+.planes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px;text-align:left}
+.plan{border:1.5px solid var(--line);border-radius:24px;padding:30px;display:flex;flex-direction:column;background:#fff;transition:transform .25s,box-shadow .25s}
+.plan:hover{transform:translateY(-4px);box-shadow:0 24px 50px -30px rgba(40,20,90,.3)}
+.plan.dest{border:2px solid transparent;background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box}
+.plan h3{font-size:24px;font-weight:800;display:flex;justify-content:space-between;align-items:center}
+.plan .rec{font-family:"Geist Mono",monospace;font-size:10.5px;letter-spacing:.08em;color:#fff;background:var(--grad);padding:5px 10px;border-radius:999px}
+.plan .et{color:var(--ink3);font-size:14px;margin-top:4px}
+.plan .precio{font-size:48px;font-weight:800;letter-spacing:-.04em;margin:22px 0 8px}
+.plan .precio small{font-size:15px;color:var(--ink3);font-weight:500;letter-spacing:0}
+.plan ul{list-style:none;margin:16px 0 26px;flex:1}
+.plan li{padding:9px 0;border-top:1px solid #F4F4F8;font-size:15px;display:flex;gap:10px}
+.plan li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--grad);margin-top:8px;flex:none}
+.plan .btn{justify-content:center}
+
+/* Cierre */
+.cierre{padding:40px 0 120px;text-align:center}
+.cierre h2{max-width:860px;margin:0 auto}
+.cierre p{max-width:560px;margin:22px auto 34px;font-size:19px;color:var(--ink2);line-height:1.55}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink3);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+footer img{height:22px;display:block}
+
+.aparece{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.aparece.ver{opacity:1;transform:none}
+
+@media (max-width:900px){
+  .nav-links,.nav-r .login{display:none}
+  .relato-grid{grid-template-columns:1fr}
+  .escena{position:sticky;top:70px;height:56vh;min-height:380px;order:-1;z-index:2;background:#fff}
+  .pasos{padding:0 0 20vh}
+  .paso{min-height:46vh;padding-top:4vh}
+  .oscuras,.planes-grid{grid-template-columns:1fr}
+  .testi-card{grid-template-columns:1fr;text-align:center;justify-items:center}
+  .ventana{inset:5% 4%}
+  .lado{display:none}
+  .agenda{grid-template-columns:40px repeat(3,1fr)}
+  .agenda .x{display:none}
+  .kpis{grid-template-columns:repeat(3,1fr);gap:8px}.kpi b{font-size:18px}
+  .cursor span{left:auto;right:10px;top:16px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.trazo{stroke-dashoffset:0}.flota .ic{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gtrazo" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3B82F6"/><stop offset=".5" stop-color="#7C3AED"/><stop offset="1" stop-color="#D946EF"/></linearGradient>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12Z"/><path d="M9 11h6M9 14h3"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8Z"/></symbol>
+    <symbol id="i-mega" viewBox="0 0 24 24"><path d="M4 10v4h3l6 4V6L7 10H4z"/><path d="M16.5 9.5a3.5 3.5 0 0 1 0 5"/><path d="M18.5 7.5a6.5 6.5 0 0 1 0 9"/></symbol>
+    <!-- Logos de canales: los mismos trazos que src/components/pricing/PlanChannelLogos.tsx (/planes). -->
+    <linearGradient id="ig-grad" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#FEDA75"/><stop offset=".35" stop-color="#FA7E1E"/><stop offset=".6" stop-color="#D62976"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient>
+    <symbol id="ch-wa" viewBox="0 0 24 24"><path fill="#25D366" d="M12 2C6.5 2 2 6.3 2 11.6c0 1.9.5 3.7 1.5 5.3L2 22l5.3-1.4c1.5.8 3.2 1.3 4.7 1.3 5.5 0 10-4.3 10-9.6S17.5 2 12 2zm5.7 13.6c-.2.7-1.2 1.2-1.9 1.4-.5.1-1.1.2-3.6-.8-3.1-1.3-5.1-4.5-5.2-4.7-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .8 2.1.1.2.1.3 0 .5-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.8-.1 1.5z"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.5 2 2 6.3 2 11.6c0 1.9.5 3.7 1.5 5.3L2 22l5.3-1.4c1.5.8 3.2 1.3 4.7 1.3 5.5 0 10-4.3 10-9.6S17.5 2 12 2zm5.7 13.6c-.2.7-1.2 1.2-1.9 1.4-.5.1-1.1.2-3.6-.8-3.1-1.3-5.1-4.5-5.2-4.7-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.6.8 2 .8 2.1.1.2.1.3 0 .5-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.8-.1 1.5z"/></symbol>
+    <symbol id="ch-fb" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#1877F2"/><path fill="#fff" d="M13.4 21v-7.6h2.5l.4-3h-2.9V8.5c0-.9.3-1.4 1.5-1.4h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.1H8v3h2.5V21z"/></symbol>
+    <symbol id="ch-ig" viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="url(#ig-grad)" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="url(#ig-grad)" stroke-width="2.2"/><circle cx="17.3" cy="6.7" r="1.3" fill="#D62976"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  </defs>
+</svg>
+
+
+<nav id="nav">
+  <div class="wrap nav-in">
+    <div class="nav-l">
+      <a href="/" aria-label="Clinera"><img src="/kimi/clinera-logo.png" alt="Clinera"></a>
+      <div class="nav-links"><a href="/funciones">Software</a><a href="#planes">Planes</a><a href="/novedades">Blog</a></div>
+    </div>
+    <div class="nav-r">
+      <a class="login" href="https://app.clinera.io">Iniciar sesión</a>
+      <a class="btn btn-grad btn-sm" href="https://app.clinera.io/auth/register?plan=xcale" data-registro>Crea tu cuenta gratis</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap" style="position:relative">
+    <div class="flota" id="flota" aria-hidden="true">
+      <svg class="flecha-hero" viewBox="0 0 120 110"><path class="trazo" style="--len:220" stroke="url(#gtrazo)" d="M70 4 C 60 40, 40 70, 14 100 M10 84 L12 102 L30 98"/></svg>
+      <span class="ic" style="left:0;top:78px;animation-delay:.9s,1.4s"><svg><use href="#ch-wa"/></svg></span>
+      <span class="ic" style="left:56px;top:84px;animation-delay:1s,1.6s"><svg><use href="#ch-ig"/></svg></span>
+      <span class="ic" style="left:112px;top:88px;animation-delay:1.1s,1.8s"><svg><use href="#ch-fb"/></svg></span>
+      <span class="ic" style="left:168px;top:84px;animation-delay:1.2s,2s"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span>
+      <span class="mas">+</span>
+      <span class="ic" style="left:70px;top:8px;animation-delay:1.3s,2.2s"><img src="/brand/ia/anthropic.svg" alt=""></span>
+      <span class="ic" style="left:126px;top:4px;animation-delay:1.4s,2.4s"><img src="/brand/ia/gemini-color.svg" alt=""></span>
+      <span class="ic" style="left:182px;top:12px;animation-delay:1.5s,2.6s"><img src="/brand/ia/openai.svg" alt=""></span>
+    </div>
+    <p class="eyebrow mono"><span class="dot"></span> Prueba gratis de 7 días · Sin tarjeta</p>
+    <h1>La nueva forma de <span class="marca" id="marcaHero">atender tu clínica.<svg viewBox="0 0 600 140" preserveAspectRatio="none" aria-hidden="true"><path class="trazo" style="--len:1500" stroke="url(#gtrazo)" d="M70 30 C 200 6, 470 4, 570 40 C 610 60, 590 108, 470 124 C 330 142, 120 136, 40 108 C -10 90, 10 46, 120 28 C 160 22, 210 18, 250 17"/></svg></span></h1>
+    <p class="sub">Clinera responde el WhatsApp, agenda y cobra la evaluación mientras tú atiendes. Lo haces tú, tu equipo o la inteligencia artificial.</p>
+    <div class="ctas">
+      <a class="btn btn-grad" href="https://app.clinera.io/auth/register?plan=xcale" data-registro>Crea tu cuenta <span class="chip-gratis">GRATIS</span></a>
+      <a class="btn btn-line" href="https://wa.me/56985581524?text=necesito%20asistencia"><svg width="18" height="18"><use href="#ch-wa"/></svg> Solicita asistencia</a>
+    </div>
+    <p class="nota"><span>✓ 7 días gratis</span><span>✓ Sin tarjeta de crédito</span><span>✓ Sin costo de implementación</span></p>
+    <svg class="flecha-baja" viewBox="0 0 28 70" aria-hidden="true"><path class="trazo" style="--len:120" stroke="url(#gtrazo)" d="M14 2 C 10 22, 18 40, 14 62 M5 52 L14 66 L23 52"/></svg>
+  </div>
+</header>
+
+<section class="logos">
+  <p class="mono">El sistema que ocupan clínicas en Chile, México y toda LATAM</p>
+  <div class="fila"><span>Método&nbsp;Hebe</span><span>Lumina</span><span>KM&nbsp;Estética</span><span>Everest</span><span>CLC</span><span>Dra.&nbsp;del&nbsp;Valle</span></div>
+</section>
+
+<section class="relato" id="como">
+  <div class="wrap">
+    <div class="relato-tit aparece">
+      <p class="mono">Así trabaja Clinera</p>
+      <h2 style="margin-top:14px">Este es tu equipo de recepción. <span class="grad-txt">Trabaja 24/7.</span></h2>
+    </div>
+    <div class="relato-grid">
+      <div class="pasos" id="pasos">
+        <div class="paso" data-paso="0"><svg class="gota" viewBox="0 0 34 34"><path fill="#3B82F6" d="M17 3c8 0 14 5 14 13s-6 15-14 15S3 25 3 17 9 3 17 3z" opacity=".9"/></svg><div><h3>Todo parte con un mensaje.</h3><p>Un paciente escribe por WhatsApp, Instagram o Facebook a las 23:40. Llega a una sola bandeja.</p></div></div>
+        <div class="paso" data-paso="1"><svg class="gota" viewBox="0 0 34 34"><path fill="#7C3AED" d="M16 3c9 1 15 6 15 14s-7 14-15 14S3 24 4 16 8 2 16 3z"/></svg><div><h3>La IA le responde al tiro.</h3><p>Con tus tratamientos, precios y horarios. Como lo haría tu mejor recepcionista.</p></div></div>
+        <div class="paso" data-paso="2"><svg class="gota" viewBox="0 0 34 34"><path fill="#D946EF" d="M17 4c8 0 13 6 13 13s-5 14-13 14S4 25 4 17 9 4 17 4z"/></svg><div><h3>Le ofrece horas reales.</h3><p>Mira la agenda de cada profesional y sólo propone lo que está libre.</p></div></div>
+        <div class="paso" data-paso="3"><svg class="gota" viewBox="0 0 34 34"><path fill="#3B82F6" d="M15 3c9 0 16 6 16 14s-6 14-15 14S3 25 3 17 7 3 15 3z"/></svg><div><h3>Y la cita cae en tu agenda.</h3><p>Con el profesional, el box y el tratamiento. Sin que nadie toque el teclado.</p></div></div>
+        <div class="paso" data-paso="4"><svg class="gota" viewBox="0 0 34 34"><path fill="#7C3AED" d="M18 3c7 1 13 7 13 14s-6 14-14 14S3 25 3 17 10 2 18 3z"/></svg><div><h3>Cobra la evaluación por adelantado.</h3><p>El paciente paga con un link. El que paga, llega.</p></div></div>
+        <div class="paso" data-paso="5"><svg class="gota" viewBox="0 0 34 34"><path fill="#D946EF" d="M17 3c8 0 14 6 14 14s-6 14-14 14S3 24 3 16 9 3 17 3z"/></svg><div><h3>Tú atiendes. La ficha ya está lista.</h3><p>Historial, consentimiento y evolución del paciente en un solo lugar.</p></div></div>
+        <div class="paso" data-paso="6"><svg class="gota" viewBox="0 0 34 34"><path fill="#3B82F6" d="M16 4c9 0 15 5 15 13s-6 14-14 14S3 25 3 17 8 4 16 4z"/></svg><div><h3>Y al final del día, los números.</h3><p>Clinera Intelligence te dice cuánto vendiste, quién no llegó y qué funcionó.</p></div></div>
+      </div>
+
+      <div class="escena">
+        <div class="lienzo">
+          <div class="ventana" id="ventana">
+            <div class="lado"><i class="act"></i><i></i><i></i><i></i><i></i></div>
+            <div class="cuerpo">
+              <div class="barra" id="barraTit">Conversaciones <span class="mono" id="barraMeta">Bandeja · 3 canales</span></div>
+
+              <div class="pant" data-pant="chat">
+                <div class="canal"><svg><use href="#ch-wa"/></svg> Valentina R. · WhatsApp · 23:40</div>
+                <div class="chat">
+                  <div class="msg pac" data-m="0">Hola! ¿Cuánto vale el Facial 360 y tienen hora esta semana?</div>
+                  <div class="escribe" data-m="1"><b></b><b></b><b></b></div>
+                  <div class="msg ia" data-m="2">¡Hola Valentina! El Facial 360 parte con una evaluación de $20.000. Te reviso la agenda 😊</div>
+                  <div class="msg ia" data-m="3">Tengo estas horas con la Dra. Paz:</div>
+                  <div class="horas" data-m="4"><span>Jue 10:00</span><span class="sel">Jue 16:30</span><span>Vie 11:00</span></div>
+                  <div class="msg pac" data-m="5">Jueves 16:30 porfa 🙌</div>
+                </div>
+              </div>
+
+              <div class="pant" data-pant="agenda">
+                <div class="agenda">
+                  <div></div><div class="h">Lun</div><div class="h x">Mar</div><div class="h">Mié</div><div class="h">Jue</div><div class="h x">Vie</div>
+                  <div class="t">10:00</div><div class="c"><div class="cita a">Botox<small>Dra. Paz</small></div></div><div class="c x"></div><div class="c"><div class="cita b">HIFU<small>Box 2</small></div></div><div class="c"><div class="cita c">Control<small>Dr. Ruiz</small></div></div><div class="c x"></div>
+                  <div class="t">12:00</div><div class="c"></div><div class="c x"><div class="cita c">Peeling<small>Box 1</small></div></div><div class="c"></div><div class="c"></div><div class="c x"><div class="cita a">Evaluación<small>Dra. Paz</small></div></div>
+                  <div class="t">14:30</div><div class="c"><div class="cita b">Rellenos<small>Dra. Paz</small></div></div><div class="c x"></div><div class="c"><div class="cita a">Masaje<small>Box 3</small></div></div><div class="c"></div><div class="c x"></div>
+                  <div class="t">16:30</div><div class="c"></div><div class="c x"><div class="cita b">Láser<small>Box 2</small></div></div><div class="c"></div><div class="c" id="celdaNueva"><div class="cita nueva">Valentina R.<small>Evaluación · Facial 360</small></div></div><div class="c x"></div>
+                </div>
+              </div>
+
+              <div class="pant" data-pant="pago">
+                <div class="tarjeta">
+                  <p class="mono" style="margin-bottom:10px">Link de pago · Evaluación</p>
+                  <div class="fila"><span>Paciente</span><b>Valentina R.</b></div>
+                  <div class="fila"><span>Cita</span><b>Jueves 16:30</b></div>
+                  <div class="fila"><span>Monto</span><b>$20.000</b></div>
+                  <div class="estado"><span class="check">✓</span> Pagada</div>
+                </div>
+              </div>
+
+              <div class="pant" data-pant="ficha">
+                <div class="ficha">
+                  <div class="bloque ancho"><b>Valentina R. · 34 años</b><span>Evaluación Facial 360 · Dra. Paz · Jueves 16:30 · Pagada</span></div>
+                  <div class="bloque"><b>Antecedentes</b><span>Sin alergias. Botox hace 8 meses.</span></div>
+                  <div class="bloque"><b>Consentimiento</b><span>Firmado por WhatsApp ✓</span></div>
+                  <div class="bloque ancho"><b>Plan propuesto</b><span>Facial 360: botox, vitaminas, HIFU y masaje. 3 sesiones.</span></div>
+                </div>
+              </div>
+
+              <div class="pant" data-pant="metricas">
+                <div class="kpis">
+                  <div class="kpi"><b>$4,8M</b><em>+18%</em><span>Vendido esta semana</span></div>
+                  <div class="kpi"><b>126</b><em>+32%</em><span>Citas agendadas</span></div>
+                  <div class="kpi"><b>4%</b><em>−6 pts</em><span>Inasistencias</span></div>
+                </div>
+                <div class="barras"><i style="--h:40%"></i><i style="--h:55%"></i><i style="--h:48%"></i><i style="--h:70%"></i><i style="--h:62%"></i><i style="--h:88%"></i><i style="--h:100%"></i></div>
+                <div class="resumen"><svg viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true"><path class="trazo" id="trazoRes" style="--len:1000" stroke="url(#gtrazo)" d="M20 8 C 140 0, 300 2, 388 10 C 400 40, 398 80, 384 94 C 260 102, 120 100, 14 92 C 2 70, 4 30, 30 6"/></svg><b>Clinera Intelligence:</b> El Facial 360 fue tu tratamiento más vendido. Los pacientes que pagaron la evaluación asistieron 9 de cada 10 veces.</div>
+              </div>
+
+              <div class="cursor aura" id="curAura"><svg viewBox="0 0 24 24"><path d="M4 2l16 9-7 2-3 7z"/></svg><span>AURA · IA</span></div>
+              <div class="cursor dra" id="curDra" style="opacity:0"><svg viewBox="0 0 24 24"><path d="M4 2l16 9-7 2-3 7z"/></svg><span>Dra. Paz</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="preg">
+  <div class="wrap">
+    <div class="intro aparece">
+      <p class="mono">Clinera Intelligence</p>
+      <h2 style="margin-top:14px">Pregúntale a tu clínica. <span class="grad-txt">Te responde con tus datos.</span></h2>
+      <p>Cuánto vendiste, quién no llegó, qué tratamiento deja más. Con los modelos de IA más avanzados, sobre la información real de tu clínica.</p>
+    </div>
+    <div class="oscuras">
+      <div class="oscura uno aparece">
+        <h4>Buenas tardes, Dra. Paz</h4>
+        <div class="caja-prompt"><span class="tipeo" data-texto="¿Cuánto vendí esta semana y qué tratamiento funcionó mejor?"></span><span class="cursorcito"></span><span class="env"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span></div>
+        <p class="respuesta">Vendiste <b>$4,8 millones</b>, un 18% más que la semana pasada. El <b>Facial 360</b> fue el más vendido: 14 sesiones.</p>
+      </div>
+      <div class="oscura dos aparece">
+        <h4>¿Por dónde partimos hoy?</h4>
+        <div class="caja-prompt"><span class="tipeo" data-texto="¿Qué pacientes no llegaron y cuáles reagendo esta semana?"></span><span class="cursorcito"></span><span class="env"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span></div>
+        <p class="respuesta"><b>3 pacientes</b> no llegaron. AURA ya les escribió para reagendar: 2 confirmaron para el viernes.</p>
+        <div class="modelos">Agente IA con <img src="/brand/ia/anthropic.svg" alt="Anthropic"><img src="/brand/ia/gemini-color.svg" alt="Gemini"><img src="/brand/ia/openai.svg" alt="OpenAI"><img src="/brand/ia/moonshot.svg" alt="Kimi"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testi">
+  <div class="wrap">
+    <div class="testi-card aparece">
+      <img src="/kimi/maria-del-valle.webp" alt="Dra. María del Valle">
+      <div>
+        <p class="mono">Lo cuentan nuestros clientes</p>
+        <blockquote style="margin-top:12px">«Crecí de 1 a 3 sucursales sin pagar de más gracias al ecosistema Clinera»</blockquote>
+        <p class="quien"><b>Dra. María del Valle</b> · Especialista en Estética · Concepción, Los Ángeles y Chillán · <a href="https://instagram.com/dramariadelvalle_cirujana" style="color:var(--b)">@dramariadelvalle_cirujana</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="planes" id="planes">
+  <div class="wrap">
+    <p class="mono">Planes</p>
+    <h2 style="margin-top:14px">Pruébalo <span class="marca" id="marcaPlanes">7 días gratis.<svg viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><path class="trazo" style="--len:1100" stroke="url(#gtrazo)" d="M40 26 C 140 4, 330 6, 380 36 C 410 62, 380 104, 270 112 C 170 120, 40 112, 14 84 C -6 60, 20 30, 110 18"/></svg></span> Después eliges.</h2>
+    <div class="planes-grid">
+      <div class="plan aparece"><h3>Flux</h3><p class="et">Para partir</p><p class="precio">US$ 79<small> /mes</small></p><ul><li>3 profesionales</li><li>1 sucursal</li><li>WhatsApp</li><li>300 conversaciones</li><li>Clinera Intelligence</li></ul><a class="btn btn-line" href="https://app.clinera.io/auth/register?plan=flux" data-registro>Pruébalo gratis</a></div>
+      <div class="plan aparece"><h3>Hex</h3><p class="et">Todas tus redes</p><p class="precio">US$ 129<small> /mes</small></p><ul><li>5 profesionales</li><li>2 sucursales</li><li>WhatsApp, Instagram y Facebook</li><li>600 conversaciones</li><li>Clinera Intelligence</li></ul><a class="btn btn-line" href="https://app.clinera.io/auth/register?plan=hex" data-registro>Pruébalo gratis</a></div>
+      <div class="plan dest aparece"><h3>Xcale <span class="rec">RECOMENDADO</span></h3><p class="et">Para clínicas que crecen</p><p class="precio">US$ 149<small> /mes</small></p><ul><li>10 profesionales</li><li>3 sucursales</li><li>WhatsApp, Instagram y Facebook</li><li>2000 conversaciones</li><li>Clinera Intelligence</li><li>Agente IA</li><li>Onboarding humano</li></ul><a class="btn btn-grad" href="https://app.clinera.io/auth/register?plan=xcale" data-registro>Pruébalo gratis</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="cierre">
+  <div class="wrap aparece">
+    <h2>¿Qué le vas a pedir <span class="grad-txt">primero</span> a tu clínica?</h2>
+    <p>Crea tu cuenta y mira Clinera funcionando con una clínica de ejemplo, antes de conectar nada.</p>
+    <a class="btn btn-grad" href="https://app.clinera.io/auth/register?plan=xcale" data-registro>Crea tu cuenta <span class="chip-gratis">GRATIS</span></a>
+  </div>
+</section>
+
+<footer><div class="wrap"><img src="/kimi/clinera-logo.png" alt="Clinera"><span>© 2026 Clinera · Vista previa del nuevo home</span></div></footer>
+
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var nav=document.getElementById('nav');
+  addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>10)},{passive:true});
+
+  // Trazos del hero y la flota de iconos
+  setTimeout(function(){document.getElementById('marcaHero').classList.add('dibujado');document.querySelector('.flecha-baja').parentNode.classList.add('dibujado');document.getElementById('flota').classList.add('ver','dibujado')},350);
+
+  // Aparecer al entrar en pantalla + dibujar trazos de planes
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('ver','dibujado');io.unobserve(e.target)}})},{threshold:.25});
+  document.querySelectorAll('.aparece,#marcaPlanes').forEach(function(el){io.observe(el)});
+
+  // Relato con scroll
+  var pantallas={0:'chat',1:'chat',2:'chat',3:'agenda',4:'pago',5:'ficha',6:'metricas'};
+  var titulos={chat:['Conversaciones','Bandeja · 3 canales'],agenda:['Agenda','Semana · 3 profesionales'],pago:['Pagos','Mercado Pago · Stripe'],ficha:['Ficha clínica','Valentina R.'],metricas:['Clinera Intelligence','Esta semana']};
+  var chatHasta={0:0,1:3,2:5};
+  var curAura=document.getElementById('curAura'),curDra=document.getElementById('curDra'),ven=document.getElementById('ventana');
+  var timers=[];
+  function limpiar(){timers.forEach(clearTimeout);timers=[]}
+  function mover(cur,x,y,vis){cur.style.transform='translate('+x+'px,'+y+'px)';cur.style.opacity=vis?1:0}
+  function posDe(sel,dx,dy){var el=ven.querySelector(sel);if(!el)return[40,40];var r=el.getBoundingClientRect(),b=ven.querySelector('.cuerpo').getBoundingClientRect();return[r.left-b.left+(dx||r.width*.6),r.top-b.top+(dy||r.height*.6)]}
+  function chat(hasta){
+    var ms=ven.querySelectorAll('[data-m]');
+    ms.forEach(function(m){var i=+m.dataset.m;m.classList.remove('ver')});
+    var t=0;
+    ms.forEach(function(m){var i=+m.dataset.m;if(i>hasta)return;
+      if(m.classList.contains('escribe')){timers.push(setTimeout(function(){m.classList.add('ver')},t));t+=reduce?0:900;timers.push(setTimeout(function(){m.classList.remove('ver')},t));return}
+      timers.push(setTimeout(function(){m.classList.add('ver')},t));t+=reduce?0:550});
+  }
+  var actual=-1;
+  function ir(n){
+    if(n===actual)return;actual=n;limpiar();
+    document.querySelectorAll('.paso').forEach(function(p){p.classList.toggle('on',+p.dataset.paso===n)});
+    var p=pantallas[n];
+    ven.querySelectorAll('.pant').forEach(function(el){el.classList.toggle('on',el.dataset.pant===p)});
+    document.getElementById('barraTit').firstChild.nodeValue=titulos[p][0]+' ';
+    document.getElementById('barraMeta').textContent=titulos[p][1];
+    ven.style.transform=n===3||n===6?'scale(1.03)':'none';
+    document.getElementById('trazoRes').parentNode.parentNode.classList.toggle('dibujado',p==='metricas');
+    if(p==='metricas'){var tr=document.getElementById('trazoRes');tr.style.animation='none';void tr.offsetWidth;tr.style.animation=''}
+    timers.push(setTimeout(function(){
+      if(p==='chat'){chat(chatHasta[n]);var s=n===0?'[data-m="0"]':n===1?'[data-m="2"]':'.horas .sel';timers.push(setTimeout(function(){var q=posDe(s);mover(curAura,q[0],q[1],n>0);mover(curDra,0,0,false)},n===0?200:1400))}
+      if(p==='agenda'){var q=posDe('#celdaNueva');mover(curAura,q[0],q[1],true);mover(curDra,30,200,false)}
+      if(p==='pago'){var q=posDe('.check',16,16);mover(curAura,q[0],q[1],true)}
+      if(p==='ficha'){var q=posDe('.ficha .ancho:last-child',120,30);mover(curAura,q[0]+80,q[1]-90,false);mover(curDra,q[0],q[1],true)}
+      if(p==='metricas'){var q=posDe('.resumen',200,40);mover(curAura,q[0],q[1],true);mover(curDra,0,0,false)}
+    },120));
+  }
+  var pasos=document.querySelectorAll('.paso');
+  var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)ir(+e.target.dataset.paso)})},{rootMargin:'-45% 0px -45% 0px'});
+  pasos.forEach(function(p){io2.observe(p)});
+  ir(0);
+
+  // Texto que se escribe solo en las tarjetas oscuras
+  var io3=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(!e.isIntersecting)return;io3.unobserve(e.target);
+    var span=e.target.querySelector('.tipeo'),txt=span.dataset.texto,i=0,resp=e.target.querySelector('.respuesta');
+    if(reduce){span.textContent=txt;resp.classList.add('ver');return}
+    (function paso(){span.textContent=txt.slice(0,++i);if(i<txt.length)setTimeout(paso,38);else setTimeout(function(){resp.classList.add('ver')},500)})();
+  })},{threshold:.5});
+  document.querySelectorAll('.oscura').forEach(function(o){io3.observe(o)});
+
+  // Registro: conserva utm, fbclid, gclid, fbp y fbc (igual que el sitio)
+  function cookie(n){var m=document.cookie.match('(?:^|; )'+n+'=([^;]*)');return m?decodeURIComponent(m[1]):''}
+  document.querySelectorAll('[data-registro]').forEach(function(a){a.addEventListener('click',function(){
+    var u=new URL(a.href),q=new URLSearchParams(location.search);
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach(function(k){if(q.get(k))u.searchParams.set(k,q.get(k))});
+    if(cookie('_fbp'))u.searchParams.set('fbp',cookie('_fbp'));if(cookie('_fbc'))u.searchParams.set('fbc',cookie('_fbc'));
+    a.href=u.toString();
+  })});
+})();
+</script>
+</body>
+</html>

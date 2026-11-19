@@ -315,6 +315,11 @@ const nextConfig: NextConfig = {
         source: '/home-nuevo',
         destination: '/home-nuevo/index.html',
       },
+      // Vista previa del home mezclado con recursos de heymark.ai (Ricardo, 19-nov-2026).
+      {
+        source: '/home-mix',
+        destination: '/home-mix/index.html',
+      },
       // Prueba de la demo de 7 días. Desde el 6-nov-2026 también se sirve en /contrata.
       {
         source: '/kimi-gratis',
