@@ -23,7 +23,7 @@ test.describe("webhook app.clinera.io → Meta", () => {
     expect(out).toHaveLength(1);
     const d = out[0].json.payload.data[0];
     expect(d.event_name).toBe("StartTrial");
-    expect(d.custom_data.value).toBe(10);
+    expect(d.custom_data.value).toBe(12);
     expect(d.custom_data.currency).toBe("USD");
     expect(d.event_id).toBe("trial_a1");
     expect(d.user_data.em[0]).toMatch(/^[0-9a-f]{64}$/);
