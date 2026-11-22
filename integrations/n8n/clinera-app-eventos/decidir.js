@@ -2,7 +2,7 @@
 // Recibe los avisos de app.clinera.io (account_created, whatsapp_connected,
 // first_conversation, subscription_started) y decide qué mandar al dataset
 // «Clinera Software» (2251201709002818):
-//   account_created                         → StartTrial («Trial») US$ 10 (una vez por cuenta)
+//   account_created                         → StartTrial («Trial») US$ 12 (una vez por cuenta)
 //   tutorial_completed                      → Tutorial («Tutorial») US$ 15 (una vez por cuenta; Ricardo, 16-nov-2026)
 //   whatsapp_connected                      → UsoReal («Uso real») US$ 20 (una vez; si se conoce el alta, dentro de los 7 días)
 //   first_conversation                      → sólo se anota (desde el 15-nov ya no hace falta para Uso real)
@@ -16,7 +16,7 @@ st.enviados = st.enviados || {};
 const DIAS7 = 7 * 864e5;
 // Embudo de 5 eventos (Ricardo, 15-nov-2026): Lead 3 · Videollamada 5 · Trial 10 · Uso real 20 · Contrata.
 // Tutorial de la maqueta del trial US$ 15 (Ricardo, 16-nov-2026), entre Trial y Uso real.
-const VALOR_USD = { StartTrial: 10, Tutorial: 15, UsoReal: 20 };
+const VALOR_USD = { StartTrial: 12, Tutorial: 15, UsoReal: 20 }; // Trial 12 (Ricardo, 2026-11-22; antes 10)
 const PRUEBA = 30 * 864e5;
 const sha = (v) => crypto.createHash("sha256").update(v).digest("hex");
 const hEmail = (v) => (v ? sha(String(v).trim().toLowerCase()) : undefined);
