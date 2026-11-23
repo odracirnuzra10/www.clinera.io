@@ -1479,7 +1479,7 @@ Reemplaza «Contratar Hex» + «Hablar con ventas» (4-nov) y «Agendar reunión
 **Planes con prueba gratis: Flux US$ 79 · Hex US$ 129 · Xcale US$ 149** (Flux era US$ 49 con 2 profesionales hasta el 16-nov-2026; ahora 3 profesionales) (Xcale = ex Vortex, recomendado). Fuente única
 `src/content/planes-trial.ts`; los usan `/planes` (`PlanesTrial h1`), la sección de planes del home y el JSON-LD
 (`softwareOffers` de `schemas.ts`). Los mismos números están escritos a mano en `public/kimi-gratis/index.html`. Cada tarjeta
-dice «Regístrate gratis»; Xcale además trae «o paga Xcale ahora» (Payment Link pelado con `data-plan*`, US$ 149). `/planes`
+dice «Regístrate gratis»; cada tarjeta trae además «o paga <plan> ahora» con su Payment Link, pelado con `data-plan*` (Xcale desde el 7-nov; Flux y Hex desde el 23-nov-2026, URLs en `planes-trial.ts`; lo que cobra cada link no está verificado: la llave de Stripe no lee Payment Links). `/planes`
 ya no lleva PMFC ni la boleta del Ecosistema. `/planes2`, `/promo`, el carrito de `/contrata?plan=` y `checkout.ts` no se tocaron.
 El home: hero «Tú atiendes pacientes. Clinera responde el WhatsApp, agenda y cobra la evaluación», sin el bloque «Qué contratas»
 (precios del Ecosistema) y con el FAQ de la prueba gratis (`home-faq.ts`). Siguen PMFC, casos, historia y convenio.

@@ -19,11 +19,13 @@ export type PlanTrial = {
   incluye: readonly string[];
   canales: readonly ("whatsapp" | "facebook" | "instagram")[];
   destacado?: boolean;
-  /** Payment Link de Stripe, solo Xcale (cobra US$ 149). */
+  /** Payment Link de Stripe del plan (Ricardo, 23-nov-2026: los tres tienen el suyo). */
   pagoUrl?: string;
 };
 
 export const XCALE_PAGO_URL = "https://buy.stripe.com/8x29AV7cZ9eG9wTgwz1441O";
+export const HEX_PAGO_URL = "https://buy.stripe.com/14AdRbdBnfD49wTgwz1441M";
+export const FLUX_PAGO_URL = "https://buy.stripe.com/14A28tgNz1MegZl9471441J";
 
 export const PLANES_TRIAL: readonly PlanTrial[] = [
   {
@@ -33,6 +35,7 @@ export const PLANES_TRIAL: readonly PlanTrial[] = [
     etiqueta: "Para partir",
     incluye: ["3 profesionales", "1 sucursal", "WhatsApp", "300 conversaciones", "Clinera Intelligence"],
     canales: ["whatsapp"],
+    pagoUrl: FLUX_PAGO_URL,
   },
   {
     id: "hex",
@@ -41,6 +44,7 @@ export const PLANES_TRIAL: readonly PlanTrial[] = [
     etiqueta: "Todas tus redes",
     incluye: ["5 profesionales", "2 sucursales", "WhatsApp, Instagram y Facebook", "600 conversaciones", "Clinera Intelligence"],
     canales: ["whatsapp", "facebook", "instagram"],
+    pagoUrl: HEX_PAGO_URL,
   },
   {
     id: "xcale",
@@ -85,6 +89,8 @@ export const TRIAL_BAJADA = "Usas Clinera 7 días. Después, dentro de la plataf
 export const RECOMENDADO = "Recomendado";
 export const ADICIONALES_NOTA = "Los adicionales se eligen después, dentro de la plataforma.";
 export const XCALE_PAGO_LABEL = "o paga Xcale ahora";
+/** Texto del link de pago de cada tarjeta: «o paga Flux ahora», etc. */
+export const pagoLabel = (nombre: string) => `o paga ${nombre} ahora`;
 
 export const PLANES_TRIAL_FAQ: readonly { q: string; a: string }[] = [
   {

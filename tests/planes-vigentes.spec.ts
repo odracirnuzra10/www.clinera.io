@@ -46,7 +46,14 @@ test.describe("planes vigentes: Vortex · Ecosistema", () => {
     await expect(page.locator('[data-plan-card="xcale"]')).not.toContainText("Clinera Intelligence ·");
     await expect(page.locator('[data-plan-card="xcale"] [data-modelos-ia] img')).toHaveCount(5);
     await expect(page.locator("[data-adicionales]")).toContainText("1000 conversaciones");
-    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(1);
+    // Ricardo, 23-nov-2026: cada plan trae su Payment Link («o paga <plan> ahora»).
+    await expect(page.locator('main a[href*="buy.stripe.com"]')).toHaveCount(3);
+    for (const p of PLANES_TRIAL) {
+      const pago = page.locator(`[data-plan-card="${p.id}"] a[href*="buy.stripe.com"]`);
+      await expect(pago).toHaveAttribute("href", p.pagoUrl!);
+      await expect(pago).toHaveAttribute("data-plan", p.id);
+      await expect(pago).toContainText(`o paga ${p.name} ahora`);
+    }
     const texto = await page.locator("main").innerText();
     for (const viejo of ["Vortex", "Ecosistema", "Hurricane", "Nexus", "Summit", "Atlas", "CU" + "KI", "PENDIENTE", "US$ 79", "US$ 179", "US$ 279"]) {
       expect(texto).not.toContain(viejo);
