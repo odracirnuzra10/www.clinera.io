@@ -14,7 +14,7 @@ import {
   TRIAL_BAJADA,
   TRIAL_EYEBROW,
   TRIAL_TITULO,
-  XCALE_PAGO_LABEL,
+  pagoLabel,
 } from "@/content/planes-trial";
 import s from "./PlanesTrial.module.css";
 
@@ -80,7 +80,7 @@ export default function PlanesTrial({
                   data-plan-value={p.monthlyUsd}
                   suppressHydrationWarning
                 >
-                  {XCALE_PAGO_LABEL} · US$ {p.monthlyUsd}/mes
+                  {pagoLabel(p.name)} · US$ {p.monthlyUsd}/mes
                 </a>
               ) : null}
             </article>
