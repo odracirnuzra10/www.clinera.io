@@ -1746,3 +1746,13 @@ Ricardo vio el primer intento (círculo y relato encima del home anterior) y pid
   y «/planes y la presentación lo muestran».
 - Guardianes: `tests/home2.spec.ts`, `sitio-dos-productos.spec.ts`, `clinica-estetica.spec.ts`, `planes-vigentes.spec.ts`,
   `podcast.spec.ts`, `dispositivos-moviles.spec.ts`.
+
+# app.clinera.io: cuatro eventos y avisos repetidos (Ricardo, 24-nov-2026)
+
+Jorge Quispe (equipo de Clinera, 20-nov) confirmó los eventos que manda la app al webhook `clinera-app-eventos`:
+`account_created`, `tutorial_completed`, `whatsapp_connected` y `whatsapp_first_message_received` (el nombre real de lo
+que el código llamaba `first_conversation`; se aceptan los dos). Todos traen `account_id`, nombre, plan y la atribución
+(utm, fbclid, gclid, fbp, fbc, lead_event_id); solo `account_created` trae correo y teléfono.
+El primer nodo después del webhook es «Filtrar repetidos» (`integrations/n8n/clinera-app-eventos/filtrar-repetidos.js`):
+un aviso con un `event_id` ya visto (o, sin `event_id`, el mismo evento de la misma cuenta) no sigue a Meta, Twenty, Loops
+ni al contacto de Clinera. Antes, Loops y el contacto de Clinera se procesaban de nuevo con cada reenvío.

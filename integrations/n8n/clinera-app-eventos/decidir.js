@@ -5,7 +5,7 @@
 //   account_created                         → StartTrial («Trial») US$ 12 (una vez por cuenta)
 //   tutorial_completed                      → Tutorial («Tutorial») US$ 15 (una vez por cuenta; Ricardo, 16-nov-2026)
 //   whatsapp_connected                      → UsoReal («Uso real») US$ 20 (una vez; si se conoce el alta, dentro de los 7 días)
-//   first_conversation                      → sólo se anota (desde el 15-nov ya no hace falta para Uso real)
+//   first_conversation / whatsapp_first_message_received → sólo se anota (desde el 15-nov ya no hace falta para Uso real)
 //   subscription_started                    → nada: el Purchase ya lo manda Stripe
 // Lo enviado se marca en «Confirmar envío», recién cuando Meta dice events_received ≥ 1.
 const crypto = require("crypto");
@@ -51,7 +51,7 @@ for (const it of $input.all()) {
     eventos.push(["Tutorial", "tutorial_" + acc, c.tutorial]);
   } else if (ev === "whatsapp_connected") {
     if (!c.wa) c.wa = t;
-  } else if (ev === "first_conversation") {
+  } else if (ev === "first_conversation" || ev === "whatsapp_first_message_received") {
     if (!c.conv) c.conv = t;
   } else if (ev === "subscription_started") {
     c.suscrita = t;
