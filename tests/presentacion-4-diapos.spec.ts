@@ -23,9 +23,9 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(ids).toEqual(["quienes-somos", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "planes"]);
   });
 
-  test("quiénes somos: el ecosistema, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
+  test("quiénes somos: la plataforma, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
     const c = slide("quienes-somos");
-    expect(c).toContain("ecosistema");
+    expect(c).toContain("plataforma");
     expect(c).toContain("marketing digital y software");
     expect(c).toContain("clínicas estéticas y médicas");
     expect(c).toContain("más de 12 años");

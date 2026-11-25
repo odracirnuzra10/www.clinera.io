@@ -16,7 +16,7 @@ const slide = (id: string) => {
 test.describe("/presentacion-tecnica y /presentacion-facil", () => {
   test("la técnica tiene las 8 diapos, sin Exposalud", () => {
     const ids = [...tecnica.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "beneficios", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "planes"]);
     expect(tecnica).not.toMatch(/xposalud/);
     expect(tecnica).toContain('href="https://www.clinera.io/presentacion-tecnica"');
     expect(tecnica).toContain('content="noindex,nofollow"');
