@@ -46,12 +46,10 @@ test("home: en el celular no hay scroll horizontal", async ({ page }) => {
   expect(ancho).toBeLessThanOrEqual(390);
 });
 
-test("ecosistema: /ecosistema explica las dos piezas y /funciones apunta al Ecosistema", async ({ page }) => {
+test("ecosistema: /ecosistema redirige a /planes y /funciones ya no nombra el Ecosistema", async ({ page }) => {
   await page.route(/connect\.facebook\.net|googletagmanager/, (route) => route.abort());
   await page.goto("/ecosistema", { waitUntil: "domcontentloaded" });
-  await expect(page.locator("[data-ecosistema-incluye] [data-ecosistema-pieza]")).toHaveCount(2);
+  await expect(page).toHaveURL(/\/planes/);
   await page.goto("/funciones", { waitUntil: "domcontentloaded" });
-  const franja = page.locator("[data-ecosistema-franja]");
-  await expect(franja).toContainText("Vortex es la pieza de software del Ecosistema");
-  await expect(franja.locator("a")).toHaveAttribute("href", "/ecosistema#que-incluye");
+  await expect(page.locator("main")).not.toContainText("Ecosistema");
 });
