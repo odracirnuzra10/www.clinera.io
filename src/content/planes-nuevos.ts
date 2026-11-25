@@ -38,7 +38,7 @@ export const RECOMENDADO_LABEL = "Recomendado";
 export const PRUEBA_LABEL = "Prueba gratis";
 export const VENTAS_LABEL = "Hablar con ventas";
 
-const BASE = ["Agendamiento", "Presupuestos y planes de tratamiento", "Panel de ventas"] as const;
+const BASE = ["Presupuestos y planes de tratamiento", "Panel de ventas"] as const;
 
 export const PLANES_NUEVOS: readonly PlanNuevo[] = [
   {
@@ -51,7 +51,6 @@ export const PLANES_NUEVOS: readonly PlanNuevo[] = [
     incluye: [
       ...BASE,
       "Recordatorios y confirmaciones",
-      "Fichas clínicas personalizadas",
       "WhatsApp con 500 conversaciones",
     ],
     noIncluye: ["Instagram y Facebook", "Agente IA", "Automatizaciones", "Difusiones"],
