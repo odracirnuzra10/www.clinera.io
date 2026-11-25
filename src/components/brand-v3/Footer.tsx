@@ -16,7 +16,6 @@ const cols: Col[] = [
       ["Software para clínicas", "/software-para-clinicas"],
       ["Agendamiento por WhatsApp", "/agendamiento-whatsapp-ia"],
       ["Software", "/funciones"],
-      ["Ecosistema", "/ecosistema"],
       ["Planes", "/planes"],
       ["App móvil", "/app"],
       ["Partners", "/partners"],

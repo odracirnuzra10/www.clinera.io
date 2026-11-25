@@ -8,7 +8,6 @@ import {
   Mono,
 } from "@/components/brand-v3/Brand";
 import ModosAgendamiento from "@/components/empleado-digital/ModosAgendamiento";
-import { EcosistemaFranja } from "@/components/ecosistema/EcosistemaIncluye";
 
 /* ============================================================
    /funciones — rediseño v3 con el lenguaje del home nuevo
@@ -65,7 +64,6 @@ export default function FuncionesV3() {
       `}</style>
 
       <Hero />
-      <EcosistemaFranja />
       <FeatureIndex />
       <FeaturesList />
       <ModosAgendamiento />
