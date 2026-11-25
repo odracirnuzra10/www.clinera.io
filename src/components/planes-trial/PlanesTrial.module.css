@@ -33,11 +33,24 @@
 .sumas li:first-child{border-left:0}
 .sumas b{font-size:18px;font-weight:800;color:#0A0A0A}
 .sumas span{font-size:14px;color:#4B5563}
+/* Incluido en todos los planes: azul médico (Ricardo, 25-nov-2026). */
+.incluido{margin-top:32px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:20px;padding:24px 24px 22px}
+.incluido h3{margin:0 0 16px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#1D4ED8}
+.incluido ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.incluido li{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid #DBEAFE;border-radius:14px;padding:14px}
+.incluido svg{flex:none;width:36px;height:36px;padding:7px;border-radius:10px;background:#DBEAFE;fill:none;stroke:#1D4ED8;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.incluido b{display:block;font-size:15px;font-weight:700;color:#0B2A5B;line-height:1.3}
+.incluido span{display:block;margin-top:3px;font-size:13.5px;color:#334E7A;line-height:1.45}
 @media (max-width:860px){
+  .incluido{padding:20px 16px}
+  .incluido ul{grid-template-columns:1fr 1fr}
   .seccion{padding:56px 16px}
   .planes{grid-template-columns:1fr}
   .destacado{order:-1}
   .sumas ul{grid-template-columns:1fr 1fr}
   .sumas li:nth-child(3){border-left:0}
   .sumas li:nth-child(n+3){border-top:1px solid #E5E7EB}
+}
+@media (max-width:520px){
+  .incluido ul{grid-template-columns:1fr}
 }
