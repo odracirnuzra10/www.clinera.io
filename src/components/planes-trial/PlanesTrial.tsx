@@ -79,6 +79,16 @@ export default function PlanesTrial({
               <p className={s.precio}>
                 <b>US$ {p.monthlyUsd}</b> <span>/mes</span>
               </p>
+              <ul className={s.base} data-incluido-card aria-label={INCLUIDO_TITULO}>
+                {INCLUIDO_TODOS.map((f) => (
+                  <li key={f.id}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      {ICONOS[f.id]}
+                    </svg>
+                    {f.titulo}
+                  </li>
+                ))}
+              </ul>
               <ul className={s.lista}>
                 {p.incluye.map((x) =>
                   x === AGENTE_IA ? (

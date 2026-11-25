@@ -4,7 +4,7 @@
 .titulo{font-size:clamp(28px,4vw,44px);line-height:1.08;letter-spacing:-.035em;font-weight:800;margin:0 0 12px;color:#0A0A0A;max-width:18em}
 .bajada{font-size:17px;color:#4B5563;margin:0 0 40px;max-width:40em}
 .planes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
-.card{position:relative;display:grid;grid-row:span 7;grid-template-rows:subgrid;row-gap:0;align-content:start;border:1px solid #E5E7EB;border-radius:20px;padding:24px;background:#fff}
+.card{position:relative;display:grid;grid-row:span 8;grid-template-rows:subgrid;row-gap:0;align-content:start;border:1px solid #E5E7EB;border-radius:20px;padding:24px;background:#fff}
 .destacado{border:1.5px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#2563EB,#7C3AED 55%,#C026D3) border-box}
 .cabeza{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .nombre{font-size:20px;font-weight:800;letter-spacing:-.02em;margin:0;color:#0A0A0A}
@@ -13,6 +13,9 @@
 .precio{margin:0 0 16px;color:#0A0A0A}
 .precio b{font-size:40px;font-weight:800;letter-spacing:-.04em}
 .precio span{font-size:14px;color:#6B7280}
+.base{list-style:none;margin:0 0 14px;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px}
+.base li{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#0B2A5B;line-height:1.25}
+.base svg{flex:none;width:22px;height:22px;padding:3px;border-radius:6px;background:#DBEAFE;fill:none;stroke:#1D4ED8;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .lista{list-style:none;margin:0 0 16px;padding:0}
 .lista li{padding:9px 0 9px 22px;border-top:1px solid #F3F4F6;font-size:15px;color:#1F2937;position:relative}
 .agente{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
