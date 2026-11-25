@@ -15,6 +15,7 @@ import { checkoutUrl, type PlanCheckoutId } from "@/content/checkout";
 // Hoja normal, no styled-jsx: la grilla tiene que venir en el HTML del servidor; con
 // styled-jsx las tarjetas se veían apiladas hasta que cargaba el JavaScript.
 import "./planes-nuevos.css";
+import IncluidoBase from "@/components/planes-trial/IncluidoBase";
 import {
   CLIENTE_ACTUAL_LINEA,
   CLIENTE_ACTUAL_PENDIENTE,
@@ -190,11 +191,11 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
         backgroundImage: plan.destacado ? `linear-gradient(#fff,#fff), ${GRAD}` : undefined,
         backgroundOrigin: "border-box",
         backgroundClip: plan.destacado ? "padding-box, border-box" : undefined,
-        // Subgrid: las 6 filas (etiqueta, nombre, precio, cupos, botón, lista) se alinean entre
+        // Subgrid: las 7 filas (etiqueta, nombre, precio, cupos, botón, incluido, lista) se alinean entre
         // tarjetas, así los botones quedan a la misma altura aunque un precio traiga oferta.
         display: "grid",
         gridTemplateRows: "subgrid",
-        gridRow: "span 6",
+        gridRow: "span 7",
         rowGap: 14,
         alignContent: "start",
       }}
@@ -313,6 +314,8 @@ function Tarjeta({ plan, search, oferta, publico }: { plan: PlanNuevo; search: s
         </a>
       )}
       </div>
+
+      <IncluidoBase />
 
       <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 8, fontFamily: "Inter", fontSize: 14.5 }}>
         {plan.incluye.map((f) => (
