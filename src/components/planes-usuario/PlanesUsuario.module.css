@@ -1,0 +1,40 @@
+.page{max-width:1160px;margin:0 auto;padding:56px 16px 96px;color:#0F172A;background:#fff;font-family:inherit}
+.hero{text-align:center;max-width:720px;margin:0 auto 40px}
+.kicker{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.12em;color:#1E5BD8;margin:0 0 14px}
+.titulo{font-size:clamp(30px,5vw,48px);line-height:1.08;font-weight:700;letter-spacing:-.02em;margin:0 0 14px}
+.bajada{font-size:17px;line-height:1.5;color:#475569;margin:0 0 28px}
+.toggle{display:inline-flex;gap:4px;padding:4px;border:1px solid #E2E8F0;border-radius:999px;background:#F8FAFC}
+.toggle button{font:inherit;font-size:15px;min-height:40px;padding:0 18px;border:0;border-radius:999px;background:transparent;color:#475569;cursor:pointer}
+.toggle button.on{background:#fff;color:#0F172A;box-shadow:0 1px 2px rgba(15,23,42,.08),0 0 0 1px #E2E8F0}
+.ahorro{color:#1E5BD8;font-weight:600;margin-left:4px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media (max-width:1024px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.grid{grid-template-columns:1fr}}
+.card{display:flex;flex-direction:column;border:1px solid #E2E8F0;border-radius:14px;padding:24px 20px;background:#fff;min-width:0}
+.recomendado{border-color:#1E5BD8;box-shadow:0 0 0 1px #1E5BD8}
+.cardHead{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:28px}
+.nombre{font-size:18px;font-weight:650;margin:0}
+.badge{font-size:12px;font-weight:600;color:#1E5BD8;background:#EEF3FD;border-radius:999px;padding:4px 10px}
+.cardBajada{font-size:14px;color:#64748B;line-height:1.45;margin:8px 0 18px;min-height:40px}
+.precio{display:flex;flex-direction:column;gap:2px;min-height:64px}
+.monto{font-size:32px;font-weight:700;letter-spacing:-.02em}
+.unidad{font-size:13px;color:#64748B}
+.nota{font-size:13px;color:#64748B;margin:6px 0 18px}
+.sumaTit{font-size:13px;font-weight:600;color:#334155;margin:22px 0 10px}
+.lista,.incluyeLista{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.lista li,.incluyeLista li{display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:1.4;color:#334155}
+.check{flex:0 0 16px;margin-top:2px}
+.secTit{font-size:20px;font-weight:650;margin:0 0 18px;letter-spacing:-.01em}
+.incluye{margin-top:48px;border:1px solid #E2E8F0;border-radius:14px;padding:28px 24px}
+.incluyeLista{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 24px}
+@media (max-width:640px){.incluyeLista{grid-template-columns:1fr}}
+.calc{margin-top:24px;border:1px solid #E2E8F0;border-radius:14px;padding:28px 24px}
+.calcLabel{display:block;font-size:16px;color:#334155;margin-bottom:12px}
+.rango{width:100%;accent-color:#1E5BD8;height:32px;font-size:16px}
+.calcRes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.calcRes>div{display:flex;flex-direction:column;gap:2px;background:#F8FAFC;border-radius:10px;padding:14px 16px}
+.calcPlan{font-size:13px;color:#64748B}
+.calcMonto{font-size:26px;font-weight:700}
+.faq{margin-top:48px;max-width:760px}
+.faq dt{font-weight:600;font-size:16px;margin-top:18px}
+.faq dd{margin:6px 0 0;color:#475569;font-size:15px;line-height:1.5}
