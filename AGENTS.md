@@ -1756,3 +1756,11 @@ que el código llamaba `first_conversation`; se aceptan los dos). Todos traen `a
 El primer nodo después del webhook es «Filtrar repetidos» (`integrations/n8n/clinera-app-eventos/filtrar-repetidos.js`):
 un aviso con un `event_id` ya visto (o, sin `event_id`, el mismo evento de la misma cuenta) no sigue a Meta, Twenty, Loops
 ni al contacto de Clinera. Antes, Loops y el contacto de Clinera se procesaban de nuevo con cada reenvío.
+
+# `/planes-usuario`: vista previa de planes por profesional, estilo Notion (Ricardo, 25-nov-2026)
+
+Propuesta de precio por profesional con agenda (Gratis 0 · Esencial 15 · Pro 29 · Clínicas grandes a medida; anual −20 %).
+**No reemplaza `/planes`** hasta que Ricardo apruebe. `noindex`, en `robots-txt.ts` y fuera del sitemap.
+**Supuesto pendiente de confirmar:** sólo cobran los profesionales con agenda; recepción, administración y gerencia no pagan.
+Agenda, fichas, recetas y consentimientos van una sola vez («Todos los planes incluyen»), no en cada tarjeta.
+Fuente: `src/content/planes-usuario.ts`. Guardián: `tests/planes-usuario.spec.ts`.
