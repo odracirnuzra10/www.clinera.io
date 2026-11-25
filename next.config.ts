@@ -346,6 +346,12 @@ const nextConfig: NextConfig = {
       { source: '/ecosistema/:path+', destination: '/planes', permanent: true },
       // Programa partner: la URL pública es /partners. /agencias queda
       // como redirect permanente para no romper links, OG y menús viejos.
+      // Ricardo, 25-nov-2026: los planes por profesional viven en /planes2.
+      {
+        source: '/planes-usuario',
+        destination: '/planes2',
+        permanent: false,
+      },
       {
         source: '/agencias',
         destination: '/partners',

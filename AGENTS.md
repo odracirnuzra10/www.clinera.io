@@ -1345,6 +1345,8 @@ Guardianes: `tests/agenda-wizard.spec.ts` (confirmación, «Corregir», `manual`
 
 # `/planes2`: Hex · Flux · Vortex · Ecosistema (Ricardo, 29-oct-2026)
 
+Superado el 25-nov-2026: `/planes2` ahora muestra los planes por profesional (ver la última sección).
+
 Vista previa sin indexar del modelo de planes nuevo. **`/planes` no cambia** hasta que Ricardo apruebe; al
 aprobar, `/planes` pasa a ser esta página (y `/planes2` vuelve a redirigir).
 **Aprobado el 4-nov-2026: `/planes` ya muestra este modelo** (ver «`/planes` publica Hex · Flux · Vortex · Ecosistema» al final). Fuente única:
@@ -1422,7 +1424,7 @@ secundario, y Vortex y Ecosistema siguen con «Hablar con ventas».
 
 # `/planes`: Flux 79 · Hex 179 · Vortex 279, sin Ecosistema (Ricardo, 5-nov-2026)
 
-- `/planes` muestra `PLANES_PUBLICOS` (`planes-nuevos.ts`); `/planes2` conserva el Ecosistema con su 20% de noviembre. Flux recomendado.
+- `/planes` muestra `PLANES_PUBLICOS` (`planes-nuevos.ts`); `/planes2` conservaba el Ecosistema hasta el 25-nov (ahora son los planes por profesional). Flux recomendado.
 - Cada tarjeta y el encabezado van al Payment Link de `src/content/checkout.ts` (`CHECKOUT_URL`), **sin código de promoción**, pelado con `data-plan*` (Analytics.tsx).
 - Se quitaron de `/planes` la boleta de ahorro y `PLANES_BAJADA`; queda `PmfcSection compacto`.
 - `/presentacion` muestra los cuatro (Flux, Hex, Vortex, Ecosistema), escritos a mano. `/presentacion-tecnica` sigue con dos planes.
@@ -1756,3 +1758,13 @@ que el código llamaba `first_conversation`; se aceptan los dos). Todos traen `a
 El primer nodo después del webhook es «Filtrar repetidos» (`integrations/n8n/clinera-app-eventos/filtrar-repetidos.js`):
 un aviso con un `event_id` ya visto (o, sin `event_id`, el mismo evento de la misma cuenta) no sigue a Meta, Twenty, Loops
 ni al contacto de Clinera. Antes, Loops y el contacto de Clinera se procesaban de nuevo con cada reenvío.
+
+# `/planes2`: planes por profesional, estilo Notion (Ricardo, 25-nov-2026)
+
+Gratis 0 · Esencial 15 · Pro 29 · Clínicas grandes a medida, por profesional con agenda; anual −20 %.
+Reemplaza en `/planes2` a Hex · Flux · Vortex · Ecosistema. **`/planes` no cambia.** `/planes-usuario` (donde nació
+la propuesta) redirige a `/planes2` (307). `noindex`, en `robots-txt.ts` y fuera del sitemap.
+**Confirmado por Ricardo (25-nov):** sólo cobran los profesionales con agenda; recepción, administración y gerencia no pagan.
+Agenda, fichas, recetas y consentimientos van una sola vez («Todos los planes incluyen»), no en cada tarjeta.
+`planes-nuevos.ts` y `PlanesNuevos` siguen: los usan `/planes`, `/contrata` y otros.
+Fuente: `src/content/planes-usuario.ts`. Guardián: `tests/planes2.spec.ts`.
