@@ -8,7 +8,6 @@ import {
   Mono,
 } from "@/components/brand-v3/Brand";
 import ModosAgendamiento from "@/components/empleado-digital/ModosAgendamiento";
-import { EcosistemaFranja } from "@/components/ecosistema/EcosistemaIncluye";
 
 /* ============================================================
    /funciones — rediseño v3 con el lenguaje del home nuevo
@@ -65,7 +64,6 @@ export default function FuncionesV3() {
       `}</style>
 
       <Hero />
-      <EcosistemaFranja />
       <FeatureIndex />
       <FeaturesList />
       <ModosAgendamiento />
@@ -1286,8 +1284,8 @@ function FinalCTA() {
               maxWidth: 640,
             }}
           >
-            En 30 minutos te mostramos cómo quedaría tu clínica en Vortex, con tu agenda y tus
-            precios. Y si quieres que además te traigamos pacientes, te contamos del Ecosistema.
+            En 30 minutos te mostramos cómo quedaría tu clínica en Clinera, con tu agenda y tus
+            precios.
           </p>
           <div style={{ display: "flex", gap: 12, marginTop: 12, flexWrap: "wrap", justifyContent: "center" }}>
             <CtaPar centrado oscuro />

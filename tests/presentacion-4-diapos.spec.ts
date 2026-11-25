@@ -18,14 +18,14 @@ const slide = (id: string) => {
 };
 
 test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () => {
-  test("solo existen quiénes somos, problema, las 4 letras de PMFC, beneficios y planes, en ese orden", () => {
+  test("solo existen quiénes somos, problema, las 4 letras de PMFC y planes, en ese orden", () => {
     const ids = [...html.matchAll(/<section\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["quienes-somos", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "beneficios", "planes"]);
+    expect(ids).toEqual(["quienes-somos", "problema", "pmfc-p", "pmfc-m", "pmfc-f", "pmfc-c", "planes"]);
   });
 
-  test("quiénes somos: el ecosistema, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
+  test("quiénes somos: la plataforma, 12 años en YouTube y partner de Meta y Google, con el pantallazo del canal", () => {
     const c = slide("quienes-somos");
-    expect(c).toContain("ecosistema");
+    expect(c).toContain("plataforma");
     expect(c).toContain("marketing digital y software");
     expect(c).toContain("clínicas estéticas y médicas");
     expect(c).toContain("más de 12 años");
@@ -110,44 +110,30 @@ test.describe("/presentacion: 4 diapositivas más la del ecosistema PMFC", () =>
     expect(c).not.toMatch(/open\s*factura/i);
   });
 
-  test("beneficios: el ahorro en números y frases cortas", () => {
-    const c = slide("beneficios");
-    for (const b of ["costo", "unificado", "especializado"]) expect(c).toContain(`data-beneficio="${b}"`);
-    expect(c).toContain("Ecosistema");
-    // Promoción del Ecosistema hasta el 26-nov-2026 (Ricardo, 27-oct-2026): 379 y ahorro desde 621.
-    expect(c).toContain("Te ahorras desde US$ 621 al mes");
-    expect(c).toContain("clínicas estéticas y médicas");
-    expect(c).toContain("US$ 600–800/mes");
-    expect(c).toContain("US$ 1.000–1.700/mes");
-    expect(c).toContain("Ahorras desde US$ 621 al mes");
-    expect(c).toContain("US$ 379");
-    expect(c).toContain("estimados");
-    expect(c).not.toMatch(/AgendaPro|Reservo|Medilink|Bambi/i);
-  });
-
-  test("planes: Flux, Hex, Vortex y Ecosistema con tres líneas cada uno", () => {
+  test("planes: Flux, Hex y Xcale (recomendado) con tres líneas cada uno, más lo que incluyen todos", () => {
     const c = slide("planes");
     const card = (name: string) => {
       const i = c.indexOf(`<h3 class="px-name">${name}</h3>`);
       return c.slice(i, c.indexOf("</article>", i));
     };
-    const flux = card("Flux"), hex = card("Hex"), vortex = card("Vortex"), eco = card("Ecosistema");
+    const flux = card("Flux"), hex = card("Hex"), xcale = card("Xcale");
     expect(flux).toContain("<strong>$79</strong>");
-    expect(hex).toContain("<strong>$179</strong>");
-    expect(vortex).toContain("<strong>$279</strong>");
-    expect(eco).toContain("<strong>$379</strong>");
-    expect(eco).toContain("<s>$529</s> · precio hasta el 26 de noviembre");
+    expect(hex).toContain("<strong>$129</strong>");
+    expect(xcale).toContain("<strong>$149</strong>");
     expect(flux).toContain("#ch-wa");
     expect(flux).not.toContain("#ch-ig");
-    for (const k of [hex, vortex, eco]) {
+    for (const k of [hex, xcale]) {
       for (const logo of ["#ch-wa", "#ch-ig", "#ch-fb"]) expect(k).toContain(logo);
     }
-    for (const k of [flux, hex, vortex, eco]) expect(k.match(/<li>/g)).toHaveLength(3);
-    expect(vortex).toContain("Todo lo de Hex");
-    expect(vortex).toContain("secretaria con IA");
-    expect(eco).toContain("Todo lo de Vortex");
-    expect(eco).toContain("hace tus anuncios");
-    expect(eco).toContain("reunión cada semana");
+    for (const k of [flux, hex, xcale]) expect(k.match(/<li>/g)).toHaveLength(3);
+    expect(xcale).toContain("Todo lo de Hex");
+    expect(xcale).toContain("secretaria con IA");
+    expect(c.slice(c.lastIndexOf("<article", c.indexOf('<h3 class="px-name">Xcale</h3>')), c.indexOf('<h3 class="px-name">Xcale</h3>'))).toContain("Recomendado");
+    expect(c).not.toContain("Ecosistema");
+    expect(c).not.toContain("Vortex");
+    // Ricardo, 25-nov-2026: agenda, fichas, recetas y consentimientos, en azul médico.
+    expect(c).toContain("data-incluido-todos");
+    for (const f of ["Agenda", "Fichas clínicas", "Recetas", "Consentimientos informados"]) expect(c).toContain(f);
     expect(texto(c)).not.toMatch(/créditos|conversaciones|PMFC|onboarding|implementación|Promoción/i);
     // Convenio Alta Qualità (Ricardo, 26-oct-2026): sin porcentaje publicado.
     expect(c).toContain("data-convenio");

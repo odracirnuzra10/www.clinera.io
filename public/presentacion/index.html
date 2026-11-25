@@ -4667,7 +4667,7 @@
 
     #planes .px-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
       margin-top: 18px;
     }
@@ -4951,7 +4951,13 @@
       .qs-agents { grid-template-columns: 1fr; }
     }
 
-  </style>
+        #planes .px-incluido { margin-top: 18px; padding: 14px 18px; border-radius: 14px; background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E3A8A; }
+      #planes .px-incluido-titulo { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #1D4ED8; margin-bottom: 8px; }
+      #planes .px-incluido ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px 16px; font-size: 15px; line-height: 1.35; }
+      #planes .px-incluido li { padding-left: 22px; position: relative; }
+      #planes .px-incluido li::before { content: "✓"; position: absolute; left: 0; color: #1D4ED8; font-weight: 700; }
+      @media (max-width: 900px) { #planes .px-incluido ul { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    </style>
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -5002,7 +5008,7 @@
           <header class="hr-head">
             <div class="blk-eyebrow">QUIÉNES SOMOS</div>
             <h2 class="blk-h2">
-              Somos el <span class="blk-grad-text">ecosistema</span> que unifica marketing digital y software, enfocados en clínicas estéticas y médicas.
+              Somos la <span class="blk-grad-text">plataforma</span> que unifica marketing digital y software, enfocados en clínicas estéticas y médicas.
             </h2>
           </header>
 
@@ -5155,7 +5161,7 @@
             <div>
               <div class="blk-eyebrow">PASO 4 DE 4</div>
               <h2 class="blk-h2">Clinera agenda por ti: <span class="blk-grad-text">una secretaria con IA.</span></h2>
-              <p class="pl-lead">Clinera es el ecosistema con IA que sostiene toda la operación: contesta WhatsApp y agenda a cualquier hora, también de noche, y la cita queda con la ficha y el cobro del paciente.</p>
+              <p class="pl-lead">Clinera es la plataforma con IA que sostiene toda la operación: contesta WhatsApp y agenda a cualquier hora, también de noche, y la cita queda con la ficha y el cobro del paciente.</p>
             </div>
           </header>
 
@@ -5208,55 +5214,6 @@
 
       <section
         class="slide blk"
-        id="beneficios"
-        data-name="Beneficios"
-        aria-hidden="true"
-      >
-        <div class="slide-inner">
-          <header class="hr-head">
-            <div class="blk-eyebrow">LO QUE GANAS</div>
-            <h2 class="blk-h2">¿Por qué el <span class="blk-grad-text">Ecosistema</span>?</h2>
-          </header>
-
-          <div class="bn-wrap reveal">
-            <div class="bn-grid" aria-label="Beneficios de contratar el Ecosistema">
-              <article class="bn-card" data-beneficio="costo">
-                <strong>Te ahorras desde US$ 621 al mes</strong>
-                <span>Pagas US$ 379 (precio promocional hasta el 26 de noviembre) por lo que por separado cuesta entre US$ 1.000 y 1.700.</span>
-              </article>
-              <article class="bn-card" data-beneficio="unificado">
-                <strong>Todo en un solo lugar</strong>
-                <span>Anuncios, secretaria con IA, agenda y fichas.</span>
-              </article>
-              <article class="bn-card" data-beneficio="especializado">
-                <strong>Hecho para clínicas estéticas y médicas</strong>
-                <span>Nació en nuestras propias clínicas.</span>
-              </article>
-            </div>
-
-            <div class="bol" data-ahorro role="group" aria-label="Lo que te ahorras con el Ecosistema">
-              <img class="bol-img" src="/images/agenda/boleta-arriba.webp" alt="" aria-hidden="true" width="600" height="96" />
-              <div class="bol-cuerpo">
-              <div class="bol-titulo">Lo que te ahorras</div>
-              <ul class="bol-lineas">
-                <li class="bol-linea"><span>Agencia de marketing<small>sin especialización en clínicas estéticas y médicas</small></span><span class="bol-guia" aria-hidden="true"></span><span class="bol-precio">US$ 600–800/mes</span></li>
-                <li class="bol-linea"><span>Software de agendamientos</span><span class="bol-guia" aria-hidden="true"></span><span class="bol-precio">US$ 100–300/mes</span></li>
-                <li class="bol-linea"><span>Asistente con IA para WhatsApp</span><span class="bol-guia" aria-hidden="true"></span><span class="bol-precio">US$ 300–600/mes</span></li>
-              </ul>
-              <hr class="bol-corte" />
-              <div class="bol-linea bol-sep"><span>Todo por separado</span><span class="bol-guia" aria-hidden="true"></span><span class="bol-precio">US$ 1.000–1.700/mes</span></div>
-              <div class="bol-linea bol-eco"><span>Clinera Ecosistema</span><span class="bol-guia" aria-hidden="true"></span><span class="bol-precio">US$ 379/mes</span></div>
-              <p class="bol-ahorro">Ahorras desde US$ 621 al mes</p>
-              <p class="bol-nota">Valores de referencia estimados del mercado.</p>
-              </div>
-              <img class="bol-img" src="/images/agenda/boleta-abajo.webp" alt="" aria-hidden="true" width="600" height="70" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section
-        class="slide blk"
         id="planes"
         data-name="Planes"
         aria-hidden="true"
@@ -5264,7 +5221,7 @@
         <div class="slide-inner">
           <div class="px-top">
             <div>
-              <h2 class="blk-h2">Cuatro planes para tu clínica</h2>
+              <h2 class="blk-h2">Tres planes para tu clínica</h2>
             </div>
           </div>
 
@@ -5275,7 +5232,7 @@
               <div class="px-monthly"><div class="px-kicker">Al mes</div><div><strong>$79</strong><div class="px-unit">USD/mes</div></div></div>
               <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span></div>
               <ul class="px-feats">
-                <li>Tu agenda online y las fichas de tus pacientes</li>
+                <li>Hasta 3 profesionales y 1 sucursal</li>
                 <li>Tu WhatsApp conectado a tu agenda</li>
                 <li>Recordatorios automáticos a tus pacientes</li>
               </ul>
@@ -5283,50 +5240,34 @@
             <article class="px-card" data-plan="hex">
               <div class="px-kicker">Todas tus redes</div>
               <h3 class="px-name">Hex</h3>
-              <div class="px-monthly"><div class="px-kicker">Al mes</div><div><strong>$179</strong><div class="px-unit">USD/mes</div></div></div>
+              <div class="px-monthly"><div class="px-kicker">Al mes</div><div><strong>$129</strong><div class="px-unit">USD/mes</div></div></div>
               <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-ig"/></svg>Instagram</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-fb"/></svg>Facebook</span></div>
               <ul class="px-feats">
                 <li>Todo lo de Flux</li>
                 <li>WhatsApp, Instagram y Facebook en un solo lugar</li>
-                <li>Para clínicas de hasta 10 profesionales</li>
+                <li>Hasta 5 profesionales y 2 sucursales</li>
               </ul>
             </article>
-            <article class="px-card" data-plan="vortex">
-              <div class="px-kicker">Software con IA</div>
-              <h3 class="px-name">Vortex</h3>
-              <div class="px-monthly">
-                <div class="px-kicker">Al mes</div>
-                <div>
-                  <strong>$279</strong>
-                  <div class="px-unit">USD/mes</div>
-                </div>
-              </div>
+            <article class="px-card is-featured" data-plan="xcale">
+              <div class="px-kicker">Para clínicas que crecen · Recomendado</div>
+              <h3 class="px-name">Xcale</h3>
+              <div class="px-monthly"><div class="px-kicker">Al mes</div><div><strong>$149</strong><div class="px-unit">USD/mes</div></div></div>
               <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-ig"/></svg>Instagram</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-fb"/></svg>Facebook</span></div>
               <ul class="px-feats">
-                <li>Una secretaria con IA que contesta WhatsApp y agenda</li>
                 <li>Todo lo de Hex</li>
+                <li>Una secretaria con IA que contesta y agenda</li>
                 <li>Te enseñamos a usarlo</li>
               </ul>
             </article>
-
-            <article class="px-card is-featured" data-plan="ecosistema">
-              <div class="px-kicker">Software + anuncios · Recomendado</div>
-              <h3 class="px-name">Ecosistema</h3>
-              <div class="px-monthly">
-                <div class="px-kicker">Al mes</div>
-                <div>
-                  <strong>$379</strong>
-                  <div class="px-unit">USD/mes</div>
-                  <div class="px-unit" data-promo><s>$529</s> · precio hasta el 26 de noviembre</div>
-                </div>
-              </div>
-              <div class="qs-chs px-chs"><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-wa"/></svg>WhatsApp</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-ig"/></svg>Instagram</span><span class="qs-ch"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ch-fb"/></svg>Facebook</span></div>
-              <ul class="px-feats">
-                <li>Todo lo de Vortex</li>
-                <li>Un equipo que hace tus anuncios</li>
-                <li>Una reunión cada semana contigo</li>
-              </ul>
-            </article>
+          </div>
+          <div class="px-incluido" data-incluido-todos role="group" aria-label="Incluido en todos los planes">
+            <div class="px-incluido-titulo">Incluido en todos los planes</div>
+            <ul>
+              <li><strong>Agenda</strong> por profesional y sucursal</li>
+              <li><strong>Fichas clínicas</strong> personalizadas</li>
+              <li><strong>Recetas</strong> desde la ficha</li>
+              <li><strong>Consentimientos informados</strong> firmados</li>
+            </ul>
           </div>
           <p class="px-note">Sin costo de instalación</p>
           <p class="px-convenio" data-convenio>Con cualquier plan: <strong>descuentos especiales en máquinas de estética</strong> de Alta Qualità.</p>

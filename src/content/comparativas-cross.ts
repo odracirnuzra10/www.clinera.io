@@ -109,7 +109,7 @@ export const cruzadas: Record<string, Cruzada> = {
       {
         title: "Precio y transparencia",
         body:
-          "AgendaPro publica USD 19/usuario/mes (te puede subir rápido si tienes 5+ profesionales). Reservo no publica precios — atiende por formulario o teléfono. Clinera tiene VORTEX USD 279/mes y ECOSISTEMA USD 529/mes.",
+          "AgendaPro publica USD 19/usuario/mes (te puede subir rápido si tienes 5+ profesionales). Reservo no publica precios — atiende por formulario o teléfono. Clinera tiene Flux USD 79, Hex USD 129 y Xcale USD 149 al mes.",
       },
     ],
     faqs: [
@@ -195,7 +195,7 @@ export const cruzadas: Record<string, Cruzada> = {
       {
         title: "Precio y transparencia",
         body:
-          "AgendaPro publica USD 19/usuario/mes. Medilink no publica precios — atiende por demo/cotización. Clinera publica VORTEX USD 279/mes y ECOSISTEMA USD 529/mes; con onboarding dedicado con un ejecutivo humano — operando el mismo día.",
+          "AgendaPro publica USD 19/usuario/mes. Medilink no publica precios — atiende por demo/cotización. Clinera publica Flux USD 79, Hex USD 129 y Xcale USD 149 al mes; con onboarding dedicado con un ejecutivo humano — operando el mismo día.",
       },
     ],
     faqs: [
@@ -286,7 +286,7 @@ export const cruzadas: Record<string, Cruzada> = {
       {
         title: "Precio",
         body:
-          "Ni Reservo ni Medilink publican precios — atienden por cotización. Clinera tiene VORTEX USD 279/mes y ECOSISTEMA USD 529/mes.",
+          "Ni Reservo ni Medilink publican precios — atienden por cotización. Clinera tiene Flux USD 79, Hex USD 129 y Xcale USD 149 al mes.",
       },
     ],
     faqs: [
@@ -376,7 +376,7 @@ export const cruzadas: Record<string, Cruzada> = {
       {
         title: "Precio",
         body:
-          "AgendaPro USD 19/usuario/mes (escala con el equipo). Doctocliq desde USD 25/profesional/mes. Clinera VORTEX USD 279/mes y ECOSISTEMA USD 529/mes.",
+          "AgendaPro USD 19/usuario/mes (escala con el equipo). Doctocliq desde USD 25/profesional/mes. Clinera Flux USD 79, Hex USD 129 y Xcale USD 149 al mes.",
       },
     ],
     faqs: [
@@ -466,7 +466,7 @@ export const cruzadas: Record<string, Cruzada> = {
       {
         title: "Precio y transparencia",
         body:
-          "Reservo no publica precios — atiende por cotización. Doctocliq publica desde USD 25/profesional. Clinera publica VORTEX USD 279/mes y ECOSISTEMA USD 529/mes.",
+          "Reservo no publica precios — atiende por cotización. Doctocliq publica desde USD 25/profesional. Clinera publica Flux USD 79, Hex USD 129 y Xcale USD 149 al mes.",
       },
     ],
     faqs: [
@@ -556,7 +556,7 @@ export const cruzadas: Record<string, Cruzada> = {
       {
         title: "Precio y transparencia",
         body:
-          "Medilink no publica precios. Doctocliq desde USD 25/profesional. Clinera VORTEX USD 279/mes y ECOSISTEMA USD 529/mes.",
+          "Medilink no publica precios. Doctocliq desde USD 25/profesional. Clinera Flux USD 79, Hex USD 129 y Xcale USD 149 al mes.",
       },
     ],
     faqs: [

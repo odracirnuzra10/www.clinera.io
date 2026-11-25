@@ -341,6 +341,9 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Ricardo, 25-nov-2026: el Ecosistema se retiró del sitio.
+      { source: '/ecosistema', destination: '/planes', permanent: true },
+      { source: '/ecosistema/:path+', destination: '/planes', permanent: true },
       // Programa partner: la URL pública es /partners. /agencias queda
       // como redirect permanente para no romper links, OG y menús viejos.
       {

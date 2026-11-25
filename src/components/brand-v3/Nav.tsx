@@ -115,14 +115,14 @@ export default function NavV3(_props: NavV3Props) {
             color: "#0A0A0A",
           }}
         >
-          {/* Ricardo, 7-nov-2026: el menú es Software · Planes · Blog. PMFC (/ecosistema) queda
+          {/* Ricardo, 7-nov-2026: el menú es Software · Planes · Blog. PMFC (artículo del blog) queda
               escondido, no borrado: MENU_PMFC = true lo vuelve a mostrar. */}
           <Link href="/funciones" style={{ color: "#0A0A0A", textDecoration: "none" }}>
             Software
           </Link>
           {MENU_PMFC ? (
           <Link
-            href="/ecosistema"
+            href="/blog/metodologia-pmfc-rentabilidad-clinicas-esteticas"
             style={{
               background: GRAD,
               WebkitBackgroundClip: "text",
@@ -181,7 +181,7 @@ export default function NavV3(_props: NavV3Props) {
         <div className="nav-v3-mobile">
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             <Link href="/funciones" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Software</Link>
-            {MENU_PMFC ? <Link href="/ecosistema" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link" style={{ color: "#7C3AED" }}>PMFC</Link> : null}
+            {MENU_PMFC ? <Link href="/blog/metodologia-pmfc-rentabilidad-clinicas-esteticas" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link" style={{ color: "#7C3AED" }}>PMFC</Link> : null}
             <Link href="/planes" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Planes</Link>
             <Link href="/novedades" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link">Blog</Link>
             <Link href="/ayuda" onClick={() => setMobileOpen(false)} className="nav-v3-mobile-link-sub">Ayuda y soporte</Link>

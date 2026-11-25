@@ -10,7 +10,7 @@ export const EMPLEADO_DIGITAL_FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "¿Qué plan incluye a AURA?",
-    a: "AURA viene incluida en las dos opciones: Vortex (USD 279 al mes) y Ecosistema (USD 529 al mes), que suma marketing de performance para traerte pacientes. Para CAMILA y LIA, consulta la disponibilidad con el equipo.",
+    a: "AURA viene en Xcale (USD 149 al mes), el plan con Clinera Intelligence y el agente IA. Flux (USD 79) y Hex (USD 129) traen la agenda, las fichas y WhatsApp. Para CAMILA y LIA, consulta la disponibilidad con el equipo.",
   },
   {
     q: "¿Cómo se contrata?",

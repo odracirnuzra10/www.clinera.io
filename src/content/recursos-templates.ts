@@ -140,7 +140,7 @@ function mejorSoftwareTemplate(r: Recurso): RecursoContent {
           "No es marketplace de pacientes (no genera demanda nueva por sí solo).",
           "Odontograma dental básico — para clínicas 100% odontológicas con necesidades profundas conviene Dentalink.",
         ],
-        precioMensual: "USD 279/mes (Vortex, hasta 10 profesionales) o USD 529/mes (Ecosistema, con marketing de performance).",
+        precioMensual: "Desde USD 79/mes (Flux), USD 129/mes (Hex) o USD 149/mes (Xcale, con IA). Prueba gratis de 7 días.",
         idealPara: `Clínicas en ${ciudad} que reciben WhatsApps fuera de horario o pierden pacientes por no contestar a tiempo. Clínicas con inversión en publicidad digital que necesitan saber qué anuncio trae pacientes reales.`,
         ctaPrimaryHref: "/planes",
         ctaPrimaryLabel: "Ver planes desde USD 279/mes",
@@ -600,7 +600,7 @@ function getFaqs(
       },
       {
         q: `¿Hay versión gratuita?`,
-        a: `Doctocliq tiene plan gratis permanente. Clinera no tiene plan gratis; el onboarding lo hace un ejecutivo humano dedicado y operas el mismo día. Dos opciones: Vortex USD 279/mes (software con IA) o Ecosistema USD 529/mes (suma marketing de performance).`,
+        a: `Doctocliq tiene plan gratis permanente. Clinera no tiene plan gratis; el onboarding lo hace un ejecutivo humano dedicado y operas el mismo día. Tres planes: Flux USD 79/mes, Hex USD 129/mes y Xcale USD 149/mes, con prueba gratis de 7 días.`,
       },
       {
         q: `¿Migrar de un software a otro pierde datos?`,
@@ -628,7 +628,7 @@ function getFaqs(
       },
       {
         q: `¿Hay versión gratuita?`,
-        a: `Ninguno de los softwares colombianos del listado ofrece plan gratuito permanente. Clinera incluye onboarding dedicado con un ejecutivo humano y operas el mismo día. Dos opciones: Vortex USD 279/mes (software con IA) o Ecosistema USD 529/mes (suma marketing de performance).`,
+        a: `Ninguno de los softwares colombianos del listado ofrece plan gratuito permanente. Clinera incluye onboarding dedicado con un ejecutivo humano y operas el mismo día. Tres planes: Flux USD 79/mes, Hex USD 129/mes y Xcale USD 149/mes, con prueba gratis de 7 días.`,
       },
       {
         q: `¿Migrar de un software a otro pierde datos?`,
@@ -652,7 +652,7 @@ function getFaqs(
     },
     {
       q: `¿Hay versión gratuita?`,
-      a: `Ninguno de los softwares de esta lista ofrece plan gratuito permanente. Clinera incluye onboarding dedicado con un ejecutivo humano. Dos opciones: Vortex USD 279/mes (software con IA) o Ecosistema USD 529/mes (suma marketing de performance).`,
+      a: `Ninguno de los softwares de esta lista ofrece plan gratuito permanente. Clinera incluye onboarding dedicado con un ejecutivo humano. Tres planes: Flux USD 79/mes, Hex USD 129/mes y Xcale USD 149/mes, con prueba gratis de 7 días.`,
     },
     {
       q: `¿Migrar de un software a otro pierde datos?`,

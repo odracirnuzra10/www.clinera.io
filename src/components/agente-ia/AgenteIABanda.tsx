@@ -80,7 +80,7 @@ export default function AgenteIABanda({
         <div className={styles.glow} aria-hidden />
         <span className={styles.meta}>
           <span className={styles.live} aria-hidden />
-          Ecosistema · marketing + IA · 24/7
+          Clinera · IA · 24/7
         </span>
 
         <h2 className={styles.h2}>

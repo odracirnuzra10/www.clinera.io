@@ -63,12 +63,10 @@ test.describe("sitio de dos productos", () => {
     await expect(page.locator("main")).toContainText("Clinera Intelligence");
   });
 
-  test("/ecosistema existe, explica PMFC y dice que la publicidad va aparte", async ({ page }) => {
+  test("/ecosistema ya no existe: redirige a /planes", async ({ page }) => {
     await page.goto("/ecosistema", { waitUntil: "domcontentloaded" });
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("Crece con un equipo detrás");
-    await expect(page.locator("[data-ecosistema-hero]")).toContainText("La inversión en publicidad se paga aparte");
-    await expect(page.locator("[data-pmfc]")).toBeVisible();
-    await expect(page.locator("[data-plan-card]")).toHaveCount(2);
+    await expect(page).toHaveURL(/\/planes/);
+    await expect(page.locator("main")).not.toContainText("Ecosistema");
   });
 
   test("pie de página: links legales bien rotulados", () => {

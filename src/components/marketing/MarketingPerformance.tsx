@@ -47,7 +47,7 @@ export default function MarketingPerformance() {
             </span>
           </h2>
           <p style={{ fontSize: 17, lineHeight: 1.6, color: "#4B5563", margin: 0 }}>
-            El marketing es lo que cambia el resultado: en el plan Ecosistema un equipo se encarga de las campañas, de tu propuesta de valor y de enseñarle a tu equipo a cerrar, y se reúne contigo cada semana.
+            El marketing es lo que cambia el resultado: un equipo se encarga de las campañas, de tu propuesta de valor y de enseñarle a tu equipo a cerrar, y se reúne contigo cada semana.
           </p>
         </div>
 

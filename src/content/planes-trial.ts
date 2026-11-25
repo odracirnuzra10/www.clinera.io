@@ -117,3 +117,14 @@ export const PLANES_TRIAL_FAQ: readonly { q: string; a: string }[] = [
 
 /** Desde cuánto se publica, para títulos y JSON-LD. */
 export const PLANES_TRIAL_DESDE = Math.min(...PLANES_TRIAL.map((p) => p.monthlyUsd));
+
+// Lo que traen los tres planes, sin importar cuál (Ricardo, 25-nov-2026: «si o si» en /planes,
+// en azul médico). La misma lista va escrita a mano en public/home-mix/index.html y en
+// public/presentacion/index.html: si cambia, se cambia en los tres.
+export const INCLUIDO_TITULO = "Incluido en todos los planes";
+export const INCLUIDO_TODOS = [
+  { id: "agenda", titulo: "Agenda", texto: "Por profesional y sucursal, con recordatorios por WhatsApp." },
+  { id: "fichas", titulo: "Fichas clínicas personalizadas", texto: "Arma la ficha a la medida de tu especialidad." },
+  { id: "recetas", titulo: "Recetas", texto: "Emite y guarda recetas desde la ficha del paciente." },
+  { id: "consentimientos", titulo: "Consentimientos informados", texto: "Firmados por el paciente y archivados en su ficha." },
+] as const;
