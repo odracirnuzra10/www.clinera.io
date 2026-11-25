@@ -265,7 +265,7 @@ function FinalCta() {
         <p>En 30 minutos, con tus sedes, tu equipo y tus procesos reales.</p>
         <CtaPar centrado oscuro />
         <div className={styles.finalMeta}>
-          <span>Vortex USD 279/mes · Ecosistema USD 529/mes</span>
+          <span>Flux USD 79 · Hex USD 129 · Xcale USD 149 al mes</span>
           <i />
           <span>Onboarding dedicado con un ejecutivo humano</span>
           <i />

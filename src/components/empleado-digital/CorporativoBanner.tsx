@@ -91,7 +91,7 @@ export default function CorporativoBanner() {
               maxWidth: 500,
             }}
           >
-            Todo de Ecosistema + onboarding white-glove + SLA personalizado + integraciones a
+            Todo de Xcale + onboarding white-glove + SLA personalizado + integraciones a
             medida + soporte dedicado + facturación adaptada. Capacidad a medida según tu volumen.
           </p>
         </div>
@@ -114,7 +114,7 @@ export default function CorporativoBanner() {
                 color: "rgba(255,255,255,.55)",
               }}
             >
-              Sobre Ecosistema
+              Sobre Xcale
             </span>
             <span
               style={{

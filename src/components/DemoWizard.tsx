@@ -37,27 +37,38 @@ const PLANS: Plan[] = [
     undecided: true,
   },
   {
-    id: "p-vortex",
-    value: "Vortex",
-    name: "Vortex",
+    id: "p-flux",
+    value: "Flux",
+    name: "Flux",
     desc: (
       <>
-        El software con IA. Incluye hasta <strong>10 profesionales</strong> y <strong>28.000 créditos de IA al mes</strong>, con AURA por WhatsApp, Instagram y Facebook.
+        Agenda, fichas y <strong>WhatsApp</strong> para empezar.
       </>
     ),
-    price: { amount: "US$279", per: "/mes" },
+    price: { amount: "US$79", per: "/mes" },
   },
   {
-    id: "p-ecosistema",
-    value: "Ecosistema",
-    name: "Ecosistema",
+    id: "p-hex",
+    value: "Hex",
+    name: "Hex",
     desc: (
       <>
-        Todo Vortex más <strong>marketing de performance</strong>: campañas, propuesta de valor y framework comercial para traerte pacientes.
+        Más profesionales y canales: <strong>WhatsApp, Instagram y Facebook</strong>.
+      </>
+    ),
+    price: { amount: "US$129", per: "/mes" },
+  },
+  {
+    id: "p-xcale",
+    value: "Xcale",
+    name: "Xcale",
+    desc: (
+      <>
+        Todo Hex más <strong>Clinera Intelligence</strong> y el agente IA.
       </>
     ),
     tag: { label: "Recomendado" },
-    price: { amount: "US$529", per: "/mes" },
+    price: { amount: "US$149", per: "/mes" },
   },
 ];
 
