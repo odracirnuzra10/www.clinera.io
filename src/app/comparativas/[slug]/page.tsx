@@ -209,7 +209,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y planes",
         body:
-          "Clinera publica sus precios: VORTEX USD 279/mes y ECOSISTEMA USD 529/mes. Reservo no publica precios — atiende por formulario o teléfono con un plan único ajustado al tamaño del centro. Si valoras saber cuánto pagas antes de llamar, Clinera tiene la transparencia.",
+          "Clinera publica sus precios: Flux USD 79, Hex USD 129 y Xcale USD 149 al mes. Reservo no publica precios — atiende por formulario o teléfono con un plan único ajustado al tamaño del centro. Si valoras saber cuánto pagas antes de llamar, Clinera tiene la transparencia.",
       },
       {
         title: "Soporte y onboarding",
@@ -232,7 +232,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Cuánto cuesta Reservo vs Clinera?",
-        a: "Reservo no publica precios (cotización por tamaño de clínica). Clinera publica VORTEX USD 279/mes y ECOSISTEMA USD 529/mes.",
+        a: "Reservo no publica precios (cotización por tamaño de clínica). Clinera publica Flux USD 79, Hex USD 129 y Xcale USD 149 al mes.",
       },
       {
         q: "¿Reservo cubre dental?",
@@ -321,7 +321,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y planes",
         body:
-          "AgendaPro arranca en USD 19/usuario/mes (plus add-ons de pagos y recepcionista). Clinera publica VORTEX USD 279/mes y ECOSISTEMA USD 529/mes. AgendaPro cobra por usuario y escala con el tamaño del equipo; Clinera es precio plano con IA conversacional incluida — la comparación depende de cuántos profesionales tengas y de cuánto valoras tener la IA en el mismo panel.",
+          "AgendaPro arranca en USD 19/usuario/mes (plus add-ons de pagos y recepcionista). Clinera publica Flux USD 79, Hex USD 129 y Xcale USD 149 al mes. AgendaPro cobra por usuario y escala con el tamaño del equipo; Clinera es precio plano con IA conversacional incluida — la comparación depende de cuántos profesionales tengas y de cuánto valoras tener la IA en el mismo panel.",
       },
       {
         title: "Soporte y onboarding",
@@ -370,7 +370,7 @@ const competitors: Record<Slug, Competitor> = {
       clinera:
         "Clinera es mejor si quieres IA conversacional que YA está operando en producción, con coexistencia con WhatsApp Business, difusiones masivas, landing pages de conversión y atribución de ventas — todo en un mismo panel. Precios desde USD 279/mes.",
       them:
-        "Medilink es mejor si necesitas ecosistema profundo en Chile (integraciones con BSale, Nubox, Kame, DTE completo) y llamadas telefónicas con IA, y no te importa esperar a que su agente WhatsApp entre en producción general.",
+        "Medilink es mejor si necesitas integraciones profundas en Chile (integraciones con BSale, Nubox, Kame, DTE completo) y llamadas telefónicas con IA, y no te importa esperar a que su agente WhatsApp entre en producción general.",
     },
     clineraWins: [
       "IA conversacional WhatsApp activa en producción hoy — Medilink lo anunció pero no está disponible generalizado.",
@@ -380,7 +380,7 @@ const competitors: Record<Slug, Competitor> = {
       "Atribución de ventas a campañas de marketing.",
       "Memoria contextual LangChain documentada y operativa.",
       "Webhooks y API pública (n8n, Make, Zapier) para conectar tus otras herramientas.",
-      "Precios públicos: VORTEX $279 y ECOSISTEMA $529 USD/mes.",
+      "Precios públicos: Flux USD 79, Hex USD 129 y Xcale USD 149 al mes.",
       "Contratación self-service sin cotización telefónica.",
       "Setup en menos de 1 hora.",
       "Derivación automática a humano con trazabilidad completa.",
@@ -438,7 +438,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y planes",
         body:
-          "Medilink no publica precios (cotización por clínica). Clinera publica VORTEX USD 279/mes y ECOSISTEMA USD 529/mes. Si valoras transparencia total y precio predecible, Clinera tiene ventaja clara.",
+          "Medilink no publica precios (cotización por clínica). Clinera publica Flux USD 79, Hex USD 129 y Xcale USD 149 al mes. Si valoras transparencia total y precio predecible, Clinera tiene ventaja clara.",
       },
       {
         title: "Soporte y onboarding",
@@ -465,7 +465,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿Cuánto cuesta Medilink vs Clinera?",
-        a: "Medilink no publica precios — cotización telefónica. Clinera publica VORTEX USD 279/mes y ECOSISTEMA USD 529/mes.",
+        a: "Medilink no publica precios — cotización telefónica. Clinera publica Flux USD 79, Hex USD 129 y Xcale USD 149 al mes.",
       },
       {
         q: "¿Clinera tiene telemedicina?",
@@ -555,7 +555,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Crecimiento",
         body:
-          "Manual no escala linealmente — cada 50% más de pacientes exige contratar más recepción. Clinera sí: el agente IA responde y agenda sin sumar recepción, y pasar de VORTEX a ECOSISTEMA (USD 100/mes más) agrega marketing de performance para traer más pacientes.",
+          "Manual no escala linealmente — cada 50% más de pacientes exige contratar más recepción. Clinera sí: el agente IA responde y agenda sin sumar recepción, y subir de plan (Flux, Hex o Xcale) no exige cambiar de sistema.",
       },
     ],
     faqs: [
@@ -658,7 +658,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y transparencia",
         body:
-          "Dentalink no publica precios — atiende por demo o cotización. Clinera publica VORTEX USD 279/mes y ECOSISTEMA USD 529/mes; con onboarding dedicado con un ejecutivo humano — operando el mismo día.",
+          "Dentalink no publica precios — atiende por demo o cotización. Clinera publica Flux USD 79, Hex USD 129 y Xcale USD 149 al mes; con onboarding dedicado con un ejecutivo humano — operando el mismo día.",
       },
     ],
     faqs: [
@@ -759,7 +759,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y transparencia",
         body:
-          "Sacmed publica desde $26.000 CLP/mes (~USD 27) en plan Starter. Clinera publica VORTEX USD 279/mes y ECOSISTEMA USD 529/mes. En precio bajo nominal, Sacmed gana; en valor por dólar para clínicas que invierten en marketing digital, Clinera tiene atribución que justifica el delta.",
+          "Sacmed publica desde $26.000 CLP/mes (~USD 27) en plan Starter. Clinera publica Flux USD 79, Hex USD 129 y Xcale USD 149 al mes. En precio bajo nominal, Sacmed gana; en valor por dólar para clínicas que invierten en marketing digital, Clinera tiene atribución que justifica el delta.",
       },
     ],
     faqs: [
@@ -840,7 +840,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y modelo comercial",
         body:
-          "Medifolios publica precios en COP con modelo anual decreciente: año 1 más caro (incluye onboarding), año 2+ baja considerablemente. Consultorio: $1.670.000 año 1 / $840.000 año 2+ (~USD 35/USD 17/mes). Clinera publica precios en USD con modelo mensual: VORTEX USD 279/mes y ECOSISTEMA USD 529/mes. Incluye onboarding dedicado con un ejecutivo humano — operando el mismo día. Para clínicas que recién arrancan en digital, Medifolios año 1 es más caro upfront pero año 2+ se vuelve más barato. Clinera es predecible mes a mes sin compromiso.",
+          "Medifolios publica precios en COP con modelo anual decreciente: año 1 más caro (incluye onboarding), año 2+ baja considerablemente. Consultorio: $1.670.000 año 1 / $840.000 año 2+ (~USD 35/USD 17/mes). Clinera publica precios en USD con modelo mensual: Flux USD 79, Hex USD 129 y Xcale USD 149 al mes. Incluye onboarding dedicado con un ejecutivo humano — operando el mismo día. Para clínicas que recién arrancan en digital, Medifolios año 1 es más caro upfront pero año 2+ se vuelve más barato. Clinera es predecible mes a mes sin compromiso.",
       },
       {
         title: "Cómo decidir entre Medifolios y Clinera",
@@ -921,7 +921,7 @@ const competitors: Record<Slug, Competitor> = {
       {
         title: "Precio y modelo comercial",
         body:
-          "Saludtools tiene 3 planes (Estándar/Plus/Premium) sin precios visibles en home (hay que ir a /precios o contactar comercial). La IA está reservada al plan Premium, que es el más caro. Clinera tiene 2 opciones con precios públicos en USD: VORTEX USD 279/mes y ECOSISTEMA USD 529/mes. La IA conversacional viene en las dos, no escalonada por tier. Incluye onboarding dedicado con un ejecutivo humano en ambas; Saludtools no especifica setup en home.",
+          "Saludtools tiene 3 planes (Estándar/Plus/Premium) sin precios visibles en home (hay que ir a /precios o contactar comercial). La IA está reservada al plan Premium, que es el más caro. Clinera tiene 2 opciones con precios públicos en USD: Flux USD 79, Hex USD 129 y Xcale USD 149 al mes. La IA conversacional viene en las dos, no escalonada por tier. Incluye onboarding dedicado con un ejecutivo humano en ambas; Saludtools no especifica setup en home.",
       },
       {
         title: "Cómo decidir entre Saludtools y Clinera",
@@ -944,7 +944,7 @@ const competitors: Record<Slug, Competitor> = {
       },
       {
         q: "¿En qué planes de Clinera está la IA?",
-        a: "En las dos opciones. AURA (agente IA WhatsApp 24/7) viene en las dos opciones: VORTEX (USD 279/mes) y ECOSISTEMA (USD 529/mes). No es feature de tier alto: es el core del producto.",
+        a: "En todos los planes. AURA (agente IA WhatsApp 24/7) viene en Flux (USD 79/mes), Hex (USD 129/mes) y Xcale (USD 149/mes). No es feature de tier alto: es el core del producto.",
       },
     ],
   },
