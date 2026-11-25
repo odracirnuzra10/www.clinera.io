@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import NavV3 from "@/components/brand-v3/Nav";
 import FooterV3 from "@/components/brand-v3/Footer";
-import PlanesNuevos from "@/components/planes-nuevos/PlanesNuevos";
+import PlanesUsuario from "@/components/planes-usuario/PlanesUsuario";
 
-// /planes2 (Ricardo, 29-oct-2026): vista previa de Hex · Flux · Vortex · Ecosistema.
-// No se indexa ni va al sitemap hasta que reemplace a /planes.
+// /planes2 (Ricardo, 25-nov-2026): planes por profesional, al estilo Notion. Reemplaza a Hex · Flux · Vortex · Ecosistema.
+// Vista previa: /planes no cambia; no se indexa ni va al sitemap. Fuente: src/content/planes-usuario.ts.
 export const metadata: Metadata = {
-  title: "Planes: Hex, Flux, Vortex y Ecosistema",
-  description: "Parte con Hex desde US$ 35 al mes. Vortex suma el agente IA; el Ecosistema suma marketing.",
+  title: "Planes por profesional",
+  description: "Paga por cada profesional que atiende. La recepción no paga. Gratis para 1 profesional.",
   robots: { index: false, follow: false },
   alternates: { canonical: "https://www.clinera.io/planes" },
 };
@@ -16,8 +16,8 @@ export default function Planes2Page() {
   return (
     <>
       <NavV3 />
-      <main>
-        <PlanesNuevos />
+      <main style={{ paddingTop: 72, background: "#fff" }}>
+        <PlanesUsuario />
       </main>
       <FooterV3 />
     </>
