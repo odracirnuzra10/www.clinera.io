@@ -127,22 +127,6 @@ export default function PlanesTrial({
             </article>
           ))}
         </div>
-        <div className={s.incluido} data-incluido-todos>
-          <h3>{INCLUIDO_TITULO}</h3>
-          <ul>
-            {INCLUIDO_TODOS.map((f) => (
-              <li key={f.id} data-incluido={f.id}>
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  {ICONOS[f.id]}
-                </svg>
-                <div>
-                  <b>{f.titulo}</b>
-                  <span>{f.texto}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
         <div className={s.sumas} data-adicionales>
           <h3>Puedes sumar</h3>
           <p>{ADICIONALES_NOTA}</p>

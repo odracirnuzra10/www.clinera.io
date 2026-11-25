@@ -13,9 +13,10 @@
 .precio{margin:0 0 16px;color:#0A0A0A}
 .precio b{font-size:40px;font-weight:800;letter-spacing:-.04em}
 .precio span{font-size:14px;color:#6B7280}
-.base{list-style:none;margin:0 0 14px;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px}
-.base li{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#0B2A5B;line-height:1.25}
-.base svg{flex:none;width:22px;height:22px;padding:3px;border-radius:6px;background:#DBEAFE;fill:none;stroke:#1D4ED8;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.base{list-style:none;margin:0 0 18px;padding:14px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;border-top:1px solid #EEF2F7;border-bottom:1px solid #EEF2F7}
+.base::before{content:"Incluido";grid-column:1/-1;font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#2563EB}
+.base li{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;color:#0F172A;line-height:1.3}
+.base svg{flex:none;width:16px;height:16px;fill:none;stroke:#2563EB;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .lista{list-style:none;margin:0 0 16px;padding:0}
 .lista li{padding:9px 0 9px 22px;border-top:1px solid #F3F4F6;font-size:15px;color:#1F2937;position:relative}
 .agente{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -36,24 +37,11 @@
 .sumas li:first-child{border-left:0}
 .sumas b{font-size:18px;font-weight:800;color:#0A0A0A}
 .sumas span{font-size:14px;color:#4B5563}
-/* Incluido en todos los planes: azul médico (Ricardo, 25-nov-2026). */
-.incluido{margin-top:32px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:20px;padding:24px 24px 22px}
-.incluido h3{margin:0 0 16px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#1D4ED8}
-.incluido ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.incluido li{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid #DBEAFE;border-radius:14px;padding:14px}
-.incluido svg{flex:none;width:36px;height:36px;padding:7px;border-radius:10px;background:#DBEAFE;fill:none;stroke:#1D4ED8;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.incluido b{display:block;font-size:15px;font-weight:700;color:#0B2A5B;line-height:1.3}
-.incluido span{display:block;margin-top:3px;font-size:13.5px;color:#334E7A;line-height:1.45}
 @media (max-width:860px){
-  .incluido{padding:20px 16px}
-  .incluido ul{grid-template-columns:1fr 1fr}
   .seccion{padding:56px 16px}
   .planes{grid-template-columns:1fr}
   .destacado{order:-1}
   .sumas ul{grid-template-columns:1fr 1fr}
   .sumas li:nth-child(3){border-left:0}
   .sumas li:nth-child(n+3){border-top:1px solid #E5E7EB}
-}
-@media (max-width:520px){
-  .incluido ul{grid-template-columns:1fr}
 }
