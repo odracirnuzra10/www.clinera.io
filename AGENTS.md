@@ -1314,6 +1314,8 @@ costos ni ganancia del Facial 360 porque no los dio. `/presentacion-tecnica` no 
 
 # Ecosistema a US$ 379 en promoción hasta el 26-nov-2026 (Ricardo, 27-oct-2026)
 
+**Terminó (27-nov-2026).** El deck y `llms*.txt` ya no nombraban el Ecosistema a 379, y las pruebas ya calculaban el precio según la fecha: sólo hacía falta reconstruir el sitio. Este cierre fue un despliegue sin cambio de código; `/promo` y las landings que leen `planes.ts` vuelven a 529 con el link de Stripe.
+
 `PROMO_ECOSISTEMA` en `src/content/planes.ts`: mientras `promoEcosistemaVigente()` (hasta el 26-nov 23:59 Chile),
 `PLANES[1].monthlyUsd` = 379, `precioNormalUsd` = 529 (tachado en la tarjeta), `AHORRO.ahorro` = «desde US$ 621»
 y **`pagoUrl` vacío**: el Payment Link de Stripe cobra 529, así que no se muestra y el 379 se cierra en la reunión.
